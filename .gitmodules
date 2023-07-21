@@ -7,3 +7,6 @@
 [submodule "aws-encryption-sdk-net-formally-verified/TestVectors/resources/aws-encryption-sdk-test-vectors"]
 	path = aws-encryption-sdk-net/TestVectors/resources/aws-encryption-sdk-test-vectors
 	url = https://github.com/awslabs/aws-encryption-sdk-test-vectors.git
+[submodule "mpl-x/net"]
+	path = mpl-x/net
+	url = https://github.com/aws/aws-cryptographic-material-providers-library-net.git
