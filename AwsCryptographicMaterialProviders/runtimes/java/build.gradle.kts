@@ -74,7 +74,7 @@ dependencies {
     implementation("org.bouncycastle:bcprov-jdk18on:1.75")
 
     // https://mvnrepository.com/artifact/org.testng/testng
-    testImplementation("org.testng:testng:7.5")
+    testImplementation("org.testng:testng:7.8.0")
 }
 
 publishing {
