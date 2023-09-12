@@ -32,8 +32,8 @@ Resources:
               "Principal": { "Federated": "arn:aws:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com" },
               "Action": "sts:AssumeRoleWithWebIdentity",
               "Condition": {
+                "StringEquals": { "token.actions.githubusercontent.com:aud": "sts.amazonaws.com" },
                 "StringEquals": {
-                  "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
                   "token.actions.githubusercontent.com:sub": [
                     "repo:aws/aws-cryptographic-material-providers-library-java:*",
                     "repo:aws/aws-cryptographic-material-providers-library-dafny:*"
