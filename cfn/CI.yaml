@@ -35,8 +35,11 @@ Resources:
                 "StringEquals": {
                   "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
                 },
-                "StringLike": {
-                  "token.actions.githubusercontent.com:sub": "repo:${GitHubRepo}:*"
+                "StringEquals": {
+                  "token.actions.githubusercontent.com:sub": [ 
+                    "repo:aws/aws-cryptographic-material-providers-library-java:*",
+                    "repo:aws/aws-cryptographic-material-providers-library-dafny:*" 
+                  ]
                 }
               }
             },
