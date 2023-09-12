@@ -34,7 +34,9 @@ Resources:
               "Condition": {
                 "StringEquals": {
                   "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
-                  "token.actions.githubusercontent.com:sub": "repo:aws/aws-cryptographic-material-providers-library-java:*",
+                  "token.actions.githubusercontent.com:sub": "repo:aws/aws-cryptographic-material-providers-library-java:*"
+                },
+                "StringEquals": {
                   "token.actions.githubusercontent.com:sub": "repo:aws/aws-cryptographic-material-providers-library-dafny:*"
                 }
               }
