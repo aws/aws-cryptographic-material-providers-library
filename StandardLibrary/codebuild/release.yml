@@ -4,7 +4,7 @@ batch:
   fast-fail: true
   build-graph:
     - identifier: sign
-      buildspec: StandardLibrary/codebuild/release/sign.yml
+      buildspec: StandardLibrary/codebuild/sign.yml
       env:
         type: LINUX_CONTAINER
         image: aws/codebuild/standard:6.0
