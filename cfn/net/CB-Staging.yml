@@ -108,7 +108,7 @@ Resources:
             {
               "Effect": "Allow",
               "Resource": [
-                "arn:aws:iam::395857916204:role/MplNetSigning-ArtifactAccessRole"
+                "arn:aws:iam::395857916204:role/MPLNetCodeSigning-ArtifactAccessRole"
               ],
               "Action": [
                 "sts:AssumeRole"
