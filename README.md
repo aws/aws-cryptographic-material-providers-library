@@ -1,4 +1,4 @@
-# AWS Cryptographic Material Providers Library for Java
+# AWS Cryptographic Material Providers Library
 
 The AWS Cryptographic Material Providers Library abstracts lower level cryptographic materials management of encryption and decryption materials.
 It uses cryptographic best practices to protect the data keys that protect your data.
@@ -12,7 +12,7 @@ You can use AWS KMS keys in [AWS Key Management Service](https://aws.amazon.com/
 The AWS Cryptographic Material Providers Library
 also provides APIs to define and use wrapping keys from other key providers. 
 
-The AWS Cryptographic Material Providers Library for Java provides methods for encrypting and decrypting cryptographic materials used in higher level client side encryption libraries. 
+The AWS Cryptographic Material Providers Library provides methods for encrypting and decrypting cryptographic materials used in higher level client side encryption libraries. 
 
 [Security issue notifications](./CONTRIBUTING.md#security-issue-notifications)
 
@@ -23,6 +23,13 @@ we ask that you notify AWS/Amazon Security via our
 Please **do not** create a public GitHub issue.
 
 ## Getting Started
+
+### Repository structure
+This repository is a top level repository which houses all source code in order to compile this library into
+different runtimes.
+
+This library is written in Dafny, a formally verifiable programming language that can be compiled into
+different runtimes. This library is currently **ONLY** supported in Java and .NET 
 
 ### Required Prerequisites
 To use the AWS Cryptographic Material Providers Library for Java you must have:
@@ -46,37 +53,22 @@ To use the AWS Cryptographic Material Providers Library for Java you must have:
 ### Optional Prerequisites
 
 #### AWS Integration
-You don't need an Amazon Web Services (AWS) account to use the AWS Cryptographic Material Providers Library, but some APIs require an AWS account, an AWS KMS key, an AWS DynamoDB Table, and the AWS SDK for Java V2. Note that the `KmsAsyncClient` and `DynamoDBAsyncClient` are not supported, only the synchronous clients.
+You don't need an Amazon Web Services (AWS) account to use the AWS Cryptographic Material Providers Library, but some APIs require an AWS account, an AWS KMS key, an AWS DynamoDB Table. 
+If you are using the AWS Cryptographic Material Providers Library for Java you will need the AWS SDK for Java V2.
+If you are using the AWS Cryptographic Material Providers Library for .NET you will need the AWS SDK for .NET V3.
+
+**NOTE**: The `KmsAsyncClient` and `DynamoDBAsyncClient` are not supported, only the synchronous clients.
 
 * **To create an AWS account**, go to [Sign In or Create an AWS Account](https://portal.aws.amazon.com/gp/aws/developer/registration/index.html) and then choose **I am a new user.** Follow the instructions to create an AWS account.
 
 * **To create a symmetric encryption KMS key in AWS KMS**, see [Creating Keys](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html).
 
 * **To download and install the AWS SDK for Java 2.x**, see [Installing the AWS SDK for Java 2.x](https://docs.aws.amazon.com/sdk-for-java/v2/developer-guide/getting-started.html).
+* **To download and install the AWS SDK for .Net 3.x** see [Installing the AWS SDK for .Net v3](https://docs.aws.amazon.com/sdk-for-net/v3/developer-guide/welcome.html)
 
 #### Amazon Corretto Crypto Provider
 Many users find that the Amazon Corretto Crypto Provider (ACCP) significantly improves the performance of the AWS Encryption SDK.
 For help installing and using ACCP, see the [amazon-corretto-crypto-provider repository](https://github.com/corretto/amazon-corretto-crypto-provider).
-
-### Download the AWS Cryptographic Material Providers Library for Java
-You can get the latest release from Maven or Gradle:
-
-#### Maven:
-
-```xml
-<dependency>
-  <groupId>software.amazon.cryptography</groupId>
-  <artifactId>aws-cryptographic-material-providers</artifactId>
-  <version>1.0.1</version>
-</dependency>
-```
-
-#### Gradle:
-```
-dependencies {
-    implementation("software.amazon.cryptography:aws-cryptographic-material-providers:1.0.1")
-}
-```
 
 ## Public API
 
