@@ -91,7 +91,6 @@ Resources:
         - !Ref CodeBuildBasePolicy
         - !Ref AssumeArtifactRolePolicy
         - !Ref MplNugetAPIKeyPolicy
-        - !Ref AssumeExampleRolesPolicy
         - "arn:aws:iam::aws:policy/AWSCodeArtifactAdminAccess"
 
   AssumeArtifactRolePolicy:
