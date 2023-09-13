@@ -13,7 +13,7 @@
     <Description>The StandarLibrary is a library written to supply helpful Dafny functionality.</Description>
     <Authors>Amazon Web Services</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/aws/aws-encryption-sdk-dafny</RepositoryUrl>
+    <RepositoryUrl>https://github.com/aws/aws-cryptographic-material-providers-library-net</RepositoryUrl>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>AWS;Amazon;KMS;Encryption;Cryptography</PackageTags>
