@@ -89,7 +89,6 @@ Resources:
       ManagedPolicyArns:
         - !Ref CodeBuildBatchPolicyRelease
         - !Ref CodeBuildBasePolicy
-        - !Ref SecretsManagerPolicyRelease
         - !Ref AssumeArtifactRolePolicy
         - !Ref MplNugetAPIKeyPolicy
         - !Ref AssumeExampleRolesPolicy
