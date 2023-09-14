@@ -21,7 +21,7 @@ batch:
         type: LINUX_CONTAINER
         image: aws/codebuild/standard:6.0
       depend-on:
-        - sign
+        - verify
           # - identifier: release_prod
           #   buildspec: aws-encryption-sdk-net/codebuild/release/release-prod.yml
           #   env:
