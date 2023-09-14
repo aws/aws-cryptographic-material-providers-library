@@ -13,7 +13,7 @@ REGION = "us-west-2"
 # Variables to make it easier to reference our S3 objects
 UNSIGNED_BUCKET = "mpl-395857916204-unsigned-bucket"
 SIGNED_BUCKET = "mpl-395857916204-signed-bucket"
-KEY_PREFIX = "aws_cryptographic_material_providers_library/AuthenticodeSigner-SHA256-RSA"
+KEY_PREFIX = "aws_cryptographic_material_providers_library_net/AuthenticodeSigner-SHA256-RSA"
 
 CONFIG = Config(region_name = REGION)
 
