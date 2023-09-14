@@ -44,12 +44,13 @@ phases:
       - dotnet nuget push build/AWS.Cryptography.Internal.StandardLibrary.$UNIQUE_VERSION.nupkg --source crypto-tools-internal/mpl-net-staging
       # Now validate we can run the tests
       - sed -i.backup '/runtimes\/net\/STD.csproj/d' runtimes/net/tests/Test-STD.csproj
+      - sed  "/\<ProjectReference Include=\"..\/STD.csproj\" \/>/d" runtimes/net/tests/Test-STD.csproj
       - dotnet add runtimes/net/tests/Test-STD.csproj package AWS.Cryptography.Internal.StandardLibrary --version $UNIQUE_VERSION
       # Run examples for just one supported version.
       # Since all frameworks and OS's are tested on commit, we mainly want to
       # run this as a smoke test and the confirm we can find the dependency,
       # rather than a comprehensive test suite.
-      - dotnet test runtimes/net/tests -f net6.0
+      - make test_net
 
       ## test we can get our publishing creds
       - export API_ACCESS_KEY=$(python $BASE/retrieve_api_access_key.py)
