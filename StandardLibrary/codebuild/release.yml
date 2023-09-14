@@ -8,20 +8,20 @@ batch:
       env:
         type: LINUX_CONTAINER
         image: aws/codebuild/standard:6.0
-          # - identifier: verify
-          #   buildspec: aws-encryption-sdk-net/codebuild/release/verify.yml
-          #   env:
-          #     type: WINDOWS_SERVER_2019_CONTAINER
-          #     image: aws/codebuild/windows-base:2019-2.0
-          #   depend-on:
-          #     - sign
-          # - identifier: release_staging
-          #   buildspec: aws-encryption-sdk-net/codebuild/release/release-staging.yml
-          #   env:
-          #     type: LINUX_CONTAINER
-          #     image: aws/codebuild/standard:6.0
-          #   depend-on:
-          #     - sign
+    - identifier: verify
+      buildspec: StandardLibrary/codebuild/verify.yml
+      env:
+        type: WINDOWS_SERVER_2019_CONTAINER
+        image: aws/codebuild/windows-base:2019-2.0
+      depend-on:
+        - sign
+    - identifier: release_staging
+      buildspec: StandardLibrary/codebuild/release-staging.yml
+      env:
+        type: LINUX_CONTAINER
+        image: aws/codebuild/standard:6.0
+      depend-on:
+        - sign
           # - identifier: release_prod
           #   buildspec: aws-encryption-sdk-net/codebuild/release/release-prod.yml
           #   env:
