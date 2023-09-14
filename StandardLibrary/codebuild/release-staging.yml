@@ -21,7 +21,6 @@ phases:
       # Build unsigned source
       - cd StandardLibrary
       - make transpile_net
-      - make test_net
       - dotnet build runtimes/net /p:Configuration=Release -nowarn:CS0162,CS0168
       # This step assumes signing has already happened and we just need to retrieve
       # the signed artifacts

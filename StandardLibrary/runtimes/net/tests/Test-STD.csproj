@@ -19,7 +19,6 @@
     <!-- Work around for dafny-lang/dafny/issues/1951; remove once resolved -->
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
 
-    <ProjectReference Include="../STD.csproj" />
     <Compile Include="TestsFromDafny.cs" />
   </ItemGroup>
 
