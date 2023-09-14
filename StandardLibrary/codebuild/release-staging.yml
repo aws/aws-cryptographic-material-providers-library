@@ -20,6 +20,8 @@ phases:
       - echo "Using unique id for flow $UNIQUE_ID"
       # Build unsigned source
       - cd StandardLibrary
+      - make transpile_net
+      - make test_net
       - dotnet build runtimes/net /p:Configuration=Release -nowarn:CS0162,CS0168
       # This step assumes signing has already happened and we just need to retrieve
       # the signed artifacts
@@ -49,3 +51,6 @@ phases:
       # run this as a smoke test and the confirm we can find the dependency,
       # rather than a comprehensive test suite.
       - dotnet test runtimes/net/tests -f net6.0
+
+      ## test we can get our publishing creds
+      - export API_ACCESS_KEY=$(python $BASE/retrieve_api_access_key.py)
