@@ -42,8 +42,7 @@ phases:
       - export VERSION=`grep '<Version>' runtimes/net/STD.csproj | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
       - export UNIQUE_VERSION=$VERSION-`git rev-parse --short HEAD`
       - dotnet pack runtimes/net/STD.csproj --no-build /p:Configuration=Release,Version=$UNIQUE_VERSION --output build
-      - dotnet nuget add source "https://crypto-tools-internal-587316601012.d.codeartifact.us-east-1.amazonaws.com/nuget/mpl-net-staging/v3/index.json" -n "crypto-tools-internal/mpl-net-staging"
-      - dotnet nuget push build/AWS.EncryptionSDK.$UNIQUE_VERSION.nupkg --source crypto-tools-internal/mp-net-staging
+      - dotnet nuget push build/AWS.EncryptionSDK.$UNIQUE_VERSION.nupkg --source crypto-tools-internal/mpl-net-staging
       # Now validate we can run the tests
       - sed -i.backup '/runtimes\/net\/STD.csproj/d' runtimes/net/tests/Test-STD.csproj
       - dotnet add runtimes/net/tests/Test-STD.csproj package AWS.Cryptography.Internal.StandardLibrary --version $UNIQUE_VERSION
