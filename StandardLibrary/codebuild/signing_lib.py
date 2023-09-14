@@ -62,7 +62,7 @@ def assume_artifact_access_role():
     creds = sts.assume_role(
         RoleArn=ARTIFACT_ACCESS_ROLE_ARN,
         RoleSessionName="CodeBuildRelease",
-        ExternalId="MplStandardLibrarySigning",
+        ExternalId="MPLNetCodeSigning",
     )
 
     return creds
