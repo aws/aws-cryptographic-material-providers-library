@@ -143,6 +143,7 @@ def get_job_id(args, s3=None):
                 Bucket=UNSIGNED_BUCKET,
                 Key=s3_key,
             )['TagSet']
+            print(tags)
             return next(item for item in tags if item['Key'] == 'signer-job-id')['Value']
         except Exception as e:
             print(f"Failed to get job id due to exception: {e}")
