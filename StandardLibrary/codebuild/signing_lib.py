@@ -137,7 +137,7 @@ def get_job_id(args, s3=None):
     print(f"Searching for key {s3_key}")
 
     retry_count = 0
-    while retry_count < 3:
+    while retry_count < 5:
         try:
             tags = s3.get_object_tagging(
                 Bucket=UNSIGNED_BUCKET,
