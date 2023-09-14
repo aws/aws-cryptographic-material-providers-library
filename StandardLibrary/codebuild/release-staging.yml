@@ -43,8 +43,7 @@ phases:
       - dotnet pack runtimes/net/STD.csproj --no-build /p:Configuration=Release,Version=$UNIQUE_VERSION --output build
       - dotnet nuget push build/AWS.Cryptography.Internal.StandardLibrary.$UNIQUE_VERSION.nupkg --source crypto-tools-internal/mpl-net-staging
       # Now validate we can run the tests
-      - sed -i.backup '/runtimes\/net\/STD.csproj/d' runtimes/net/tests/Test-STD.csproj
-      - sed  "/\<ProjectReference Include=\"..\/STD.csproj\" \/>/d" runtimes/net/tests/Test-STD.csproj
+      - sed -i.backup  "/\<ProjectReference Include=\"..\/STD.csproj\" \/>/d" runtimes/net/tests/Test-STD.csproj
       - dotnet add runtimes/net/tests/Test-STD.csproj package AWS.Cryptography.Internal.StandardLibrary --version $UNIQUE_VERSION
       # Run examples for just one supported version.
       # Since all frameworks and OS's are tested on commit, we mainly want to
