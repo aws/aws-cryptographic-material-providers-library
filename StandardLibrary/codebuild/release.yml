@@ -20,8 +20,8 @@ batch:
       env:
         type: LINUX_CONTAINER
         image: aws/codebuild/standard:6.0
-          # depend-on:
-          #   - verify
+       depend-on:
+         - verify
           #- identifier: release_prod
           #  buildspec: StandardLibrary/codebuild/release-prod.yml
           #  env:
