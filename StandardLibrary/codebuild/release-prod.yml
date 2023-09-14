@@ -14,7 +14,7 @@ phases:
       # Switch back to the main directory
       - cd aws-cryptographic-material-providers-library-dafny
   pre_build:
-    commands:                                                                                                                                                
+    commands:
       # UNIQUE_ID should be passed in as an environment variable. It is used to tie
       # the different parts of the asynchronous signing process together
       - echo "Using unique id for flow $UNIQUE_ID"
@@ -29,25 +29,15 @@ phases:
   build:
     commands:
       - mkdir build
-      - >-
-        aws codeartifact login \
-          --tool dotnet \
-          --repository mpl-net-staging \
-          --domain crypto-tools-internal \
-          --domain-owner 587316601012 \
-          --region us-east-1
-      # Set a unique version for releasing to staging, because this may fail and we don't
-      # want to collide with previous runs
-      - export VERSION=`grep '<Version>' runtimes/net/STD.csproj | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
-      - export UNIQUE_VERSION=$VERSION-`git rev-parse --short HEAD`
-      - dotnet pack runtimes/net/STD.csproj --no-build /p:Configuration=Release,Version=$UNIQUE_VERSION --output build
-      - dotnet nuget push build/AWS.Cryptography.Internal.StandardLibrary.$UNIQUE_VERSION.nupkg --source crypto-tools-internal/mpl-net-staging
-      # Now validate we can run the tests
-      - sed -i.backup  "/\<ProjectReference Include=\"..\/STD.csproj\" \/>/d" runtimes/net/tests/Test-STD.csproj
-      - dotnet add runtimes/net/tests/Test-STD.csproj package AWS.Cryptography.Internal.StandardLibrary --version $UNIQUE_VERSION
+      - export VERSION=`grep '<Version>' Source/AWSEncryptionSDK.csproj | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
+      - dotnet pack runtimes/net/STD.csproj --no-build /p:Configuration=Release --output build
+      - export API_ACCESS_KEY=$(python $BASE/retrieve_api_access_key.py)
+      - dotnet nuget push build/AWS.Cryptography.Internal.StandardLibrary.$VERSION.nupkg --api-key "$API_ACCESS_KEY" --source https://api.nuget.org/v3/index.json
+      # Now validate we can run examples
+      - sed -i.backup "/\<ProjectReference Include=\"..\/STD.csproj\" \/>/d" runtimes/net/tests/Test-STD.csproj
+      - dotnet add runtimes/net/tests/Test-STD.csproj package AWS.Cryptography.Internal.StandardLibrary --version $VERSION
       # Run examples for just one supported version.
       # Since all frameworks and OS's are tested on commit, we mainly want to
       # run this as a smoke test and the confirm we can find the dependency,
       # rather than a comprehensive test suite.
       - make test_net
-
