@@ -44,7 +44,7 @@ phases:
       - dotnet nuget push build/AWS.Cryptography.Internal.ComAmazonAwsKms.$UNIQUE_VERSION.nupkg --source crypto-tools-internal/mpl-net-staging
       # Now validate we can run the tests
       - sed -i.backup  "/\<ProjectReference Include=\"..\/AWS-KMS.csproj\" \/>/d" runtimes/net/tests/Test-AWS-KMS.csproj
-      - dotnet add runtimes/net/tests/Test-AWS-KMS.csproj package AWS.Cryptography.Internal.ComAmazonawsKms--version $UNIQUE_VERSION
+      - dotnet add runtimes/net/tests/Test-AWS-KMS.csproj package AWS.Cryptography.Internal.ComAmazonawsKms --version $UNIQUE_VERSION
       # Run examples for just one supported version.
       # Since all frameworks and OS's are tested on commit, we mainly want to
       # run this as a smoke test and the confirm we can find the dependency,
