@@ -45,9 +45,13 @@ phases:
       # Now validate we can run the tests
       - sed -i.backup  "/\<ProjectReference Include=\"..\/AWS-KMS.csproj\" \/>/d" runtimes/net/tests/Test-AWS-KMS.csproj
       - dotnet add runtimes/net/tests/Test-AWS-KMS.csproj package AWS.Cryptography.Internal.ComAmazonawsKms --version $UNIQUE_VERSION
-      # Run examples for just one supported version.
-      # Since all frameworks and OS's are tested on commit, we mainly want to
-      # run this as a smoke test and the confirm we can find the dependency,
-      # rather than a comprehensive test suite.
+      
+        # run tests
+      - TMP_ROLE=$(aws sts assume-role --role-arn "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2" --role-session-name "CB-TestVectorResources")
+      - export TMP_ROLE                                                                                                                                          
+      - export AWS_ACCESS_KEY_ID=$(echo "${TMP_ROLE}" | jq -r '.Credentials.AccessKeyId')                                                                        
+      - export AWS_SECRET_ACCESS_KEY=$(echo "${TMP_ROLE}" | jq -r '.Credentials.SecretAccessKey')                                                                
+      - export AWS_SESSION_TOKEN=$(echo "${TMP_ROLE}" | jq -r '.Credentials.SessionToken')                                                                       
+      - aws sts get-caller-identity
       - make test_net
 
