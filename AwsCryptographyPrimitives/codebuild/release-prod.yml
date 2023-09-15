@@ -19,7 +19,7 @@ phases:
       # the different parts of the asynchronous signing process together
       - echo "Using unique id for flow $UNIQUE_ID"
       # Build unsigned source
-      - cd ComAmazonawsDynamodb 
+      - cd AwsCryptographyPrimitives 
       - make transpile_net
       - dotnet build runtimes/net /p:Configuration=Release -nowarn:CS0162,CS0168
       # This step assumes signing has already happened and we just need to retrieve
@@ -29,13 +29,13 @@ phases:
   build:
     commands:
       - mkdir build
-      - export VERSION=`grep '<Version>' runtimes/net/ComAmazonawsDynamodb.csproj.csproj | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
-      - dotnet pack runtimes/net/ComAmazonawsDynamodb.csproj.csproj --no-build /p:Configuration=Release --output build
+      - export VERSION=`grep '<Version>' runtimes/net/Crypto.csproj | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
+      - dotnet pack runtimes/net/Crypto.csproj --no-build /p:Configuration=Release --output build
       - export API_ACCESS_KEY=$(python $BASE/retrieve_api_access_key.py)
-      - dotnet nuget push build/AWS.Cryptography.Internal.ComAmazonawsDynamodb.$VERSION.nupkg --api-key "$API_ACCESS_KEY" --source https://api.nuget.org/v3/index.json
+      - dotnet nuget push build/AWS.Cryptography.Internal.AwsCryptographyPrimitives.$VERSION.nupkg --api-key "$API_ACCESS_KEY" --source https://api.nuget.org/v3/index.json
       # Now validate we can run examples
-      - sed -i.backup  "/\<ProjectReference Include=\"..\/ComAmazonawsDynamodb.csproj.csproj\" \/>/d" runtimes/net/tests/TestComAmazonawsDynamodb.csproj.csproj
-      - dotnet add runtimes/net/tests/TestComAmazonawsDynamodb.csproj.csproj package AWS.Cryptography.Internal.ComAmazonawsDynamodb --version $VERSION
+      - sed -i.backup  "/\<ProjectReference Include=\"..\/Crypto.csproj\" \/>/d" runtimes/net/tests/Test-Crypto.csproj
+      - dotnet add runtimes/net/tests/Test-Crypto.csproj package AWS.Cryptography.Internal.AwsCryptographyPrimitives --version $VERSION
       
        # run tests
       - TMP_ROLE=$(aws sts assume-role --role-arn "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2" --role-session-name "CB-TestVectorResources")

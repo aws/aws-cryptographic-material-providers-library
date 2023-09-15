@@ -18,26 +18,11 @@ phases:
       # UNIQUE_ID should be passed in as an environment variable. It is used to tie
       # the different parts of the asynchronous signing process together
       - echo "Using unique id for flow $UNIQUE_ID"
-      # Build unsigned source
-      - cd ComAmazonawsDynamodb 
-      - make transpile_net
-      - dotnet build runtimes/net /p:Configuration=Release -nowarn:CS0162,CS0168
-      # This step assumes signing has already happened and we just need to retrieve
-      # the signed artifacts
-      - export BASE=codebuild
-      - python $BASE/retrieve_signed_assembly.py --target net6.0 --unique-id $UNIQUE_ID
   build:
     commands:
-      - mkdir build
-      - export VERSION=`grep '<Version>' runtimes/net/ComAmazonawsDynamodb.csproj.csproj | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
-      - dotnet pack runtimes/net/ComAmazonawsDynamodb.csproj.csproj --no-build /p:Configuration=Release --output build
-      - export API_ACCESS_KEY=$(python $BASE/retrieve_api_access_key.py)
-      - dotnet nuget push build/AWS.Cryptography.Internal.ComAmazonawsDynamodb.$VERSION.nupkg --api-key "$API_ACCESS_KEY" --source https://api.nuget.org/v3/index.json
-      # Now validate we can run examples
-      - sed -i.backup  "/\<ProjectReference Include=\"..\/ComAmazonawsDynamodb.csproj.csproj\" \/>/d" runtimes/net/tests/TestComAmazonawsDynamodb.csproj.csproj
-      - dotnet add runtimes/net/tests/TestComAmazonawsDynamodb.csproj.csproj package AWS.Cryptography.Internal.ComAmazonawsDynamodb --version $VERSION
-      
-       # run tests
+      ## Build Library from Source
+      - cd AwsCryptographyPrimitives
+      - make transpile_net
       - TMP_ROLE=$(aws sts assume-role --role-arn "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2" --role-session-name "CB-TestVectorResources")
       - export TMP_ROLE                                                                                                                                          
       - export AWS_ACCESS_KEY_ID=$(echo "${TMP_ROLE}" | jq -r '.Credentials.AccessKeyId')                                                                        
@@ -45,3 +30,13 @@ phases:
       - export AWS_SESSION_TOKEN=$(echo "${TMP_ROLE}" | jq -r '.Credentials.SessionToken')                                                                       
       - aws sts get-caller-identity
       - make test_net
+
+      ## Unset temp creds so that we get dropped back into the aws codebuild service role
+      - unset AWS_ACCESS_KEY_ID; unset AWS_SECRET_ACCESS_KEY; unset AWS_SESSION_TOKEN; 
+
+      - dotnet build runtimes/net /p:Configuration=Release -nowarn:CS0162,CS0168
+      - export BASE=codebuild
+      - python $BASE/upload_assembly.py --target net6.0 --unique-id $UNIQUE_ID
+      ## Retrieve the signed assembly. We're not going to use it, but this
+      ## ensures that the signing process is complete
+      - python $BASE/retrieve_signed_assembly.py --target net6.0 --unique-id $UNIQUE_ID
