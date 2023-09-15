@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     FILE_NAME: "AWS.Cryptography.Internal.ComAmazonawsDynamodb.dll"
-    ASSEMBLY_NAME: FILE_NAME
+    ASSEMBLY_NAME: "AWS.Cryptography.Internal.ComAmazonawsDynamodb.dll"
 
 
 phases:
