@@ -7,7 +7,7 @@ import boto3
 from botocore.config import Config
 
 RELEASE_FOLDER = "runtimes/net/bin/Release"
-ASSEMBLY_NAME = "AWS.Cryptography.Internal.ComAmazonawsDynamodb.dll"
+ASSEMBLY_NAME = os.getenv("ASSEMBLY_NAME")
 REGION = "us-west-2"
 
 # Variables to make it easier to reference our S3 objects

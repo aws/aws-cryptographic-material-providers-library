@@ -14,6 +14,7 @@ phases:
     commands:
       # Check signature on net6.0 dll
       - mkdir net6.0
-      - python ComAmazonawsDynamodb/codebuild/retrieve_signed_assembly.py --target net6.0 --unique-id $Env:UNIQUE_ID --output net6.0
+      - export ASSEMBLY_NAME="AWS.Cryptography.Internal.ComAmazonawsDynamodb.dll"
+      - python codebuild/net/retrieve_signed_assembly.py --target net6.0 --unique-id $Env:UNIQUE_ID --output net6.0
       - $sig = Get-AuthenticodeSignature -FilePath net6.0/$Env:FILE_NAME
       - $sig | Format-List -Property *
