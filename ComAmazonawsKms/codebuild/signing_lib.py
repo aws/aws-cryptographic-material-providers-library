@@ -7,7 +7,7 @@ import boto3
 from botocore.config import Config
 
 RELEASE_FOLDER = "runtimes/net/bin/Release"
-ASSEMBLY_NAME = "AWS.Cryptography.Internal.ComAmazonAwsKms.dll"
+ASSEMBLY_NAME = "AWS.Cryptography.Internal.ComAmazonawsKms.dll"
 REGION = "us-west-2"
 
 # Variables to make it easier to reference our S3 objects
