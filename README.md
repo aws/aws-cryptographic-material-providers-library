@@ -2,7 +2,7 @@
 
 The AWS Cryptographic Material Providers Library abstracts lower level cryptographic materials management of encryption and decryption materials.
 It uses cryptographic best practices to protect the data keys that protect your data.
-The data key is protected with a key encryption key called a *wrapping key* or *master key*.
+The data key is protected with a key encryption key called a *wrapping key*.
 The encryption method returns the data key and one or more encrypted data keys.
 Supported libraries use this information to perform envelope encryption.
 The data key is used to protect your data,
