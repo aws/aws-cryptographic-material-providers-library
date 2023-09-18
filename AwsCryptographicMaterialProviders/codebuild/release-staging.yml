@@ -47,7 +47,7 @@ phases:
       - sed -i.backup  "/\<ProjectReference Include=\"..\/MPL.csproj\" \/>/d" runtimes/net/tests/Test-MPL.csproj
       - dotnet add runtimes/net/tests/Test-MPL.csproj package AWS.Cryptography.MaterialProviders --version $UNIQUE_VERSION
       
-        # run tests
+      # run tests
       - TMP_ROLE=$(aws sts assume-role --role-arn "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2" --role-session-name "CB-TestVectorResources")
       - export TMP_ROLE                                                                                                                                          
       - export AWS_ACCESS_KEY_ID=$(echo "${TMP_ROLE}" | jq -r '.Credentials.AccessKeyId')                                                                        
@@ -55,4 +55,10 @@ phases:
       - export AWS_SESSION_TOKEN=$(echo "${TMP_ROLE}" | jq -r '.Credentials.SessionToken')                                                                       
       - aws sts get-caller-identity
       - make test_net
-
+      
+      # run test vectors
+      - cd ../TestVectorsAwsCryptographicMaterialProviders
+      - sed -i.backup  "/\<ProjectReference Include=\"..\/..\/..\/AwsCryptographicMaterialProviders\/runtimes\/net\/MPL.csproj\" \/>/d" runtimes/net/TestVectors.csproj
+      - dotnet add runtimes/net/TestVectors.csproj package AWS.Cryptography.MaterialProviders --version $UNIQUE_VERSION
+      - make transpile_net
+      - make test_net
