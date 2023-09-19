@@ -30,3 +30,10 @@ batch:
       depend-on:
         - verify
         - release_staging
+    - identifier: test_prod
+      buildspec: StandardLibrary/codebuild/test-prod.yml
+      env:
+        type: LINUX_CONTAINER
+        image: aws/codebuild/standard:6.0
+      depend-on:
+        - release_prod
