@@ -365,17 +365,17 @@ module MultiKeyring {
     (mod: set<object>)
   {
     (
-      set m: object, k: Types.IKeyring
-        |
-        && k in childKeyrings
-        && m in k.Modifies
-        :: m
+    set m: object, k: Types.IKeyring
+    |
+    && k in childKeyrings
+    && m in k.Modifies
+      :: m
     )
     + (
-      if generatorKeyring.Some? then
-        generatorKeyring.value.Modifies
-      else
-        {}
+    if generatorKeyring.Some? then
+    generatorKeyring.value.Modifies
+    else
+    {}
     )
   }
 }

@@ -119,7 +119,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
       grantTokens := grantTokens.value,
       kmsClient := kmsClient,
       ddbClient := ddbClient
-      )
+    )
     );
     return Success(client);
   }
