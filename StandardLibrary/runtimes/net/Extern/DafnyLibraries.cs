@@ -71,7 +71,7 @@ namespace DafnyLibraries
             if (HasKey(k))
             {
                 var keypair = new KeyValuePair<K, V>(k, m[k]);
-                m.TryRemove(keypair);
+                m.TryRemove(keypair.Key, out _);
             }
         }
 
