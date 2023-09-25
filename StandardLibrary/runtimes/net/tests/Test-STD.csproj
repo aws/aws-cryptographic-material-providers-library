@@ -4,8 +4,10 @@
     <RootNamespace>TEST_STD</RootNamespace>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
-    <TargetFrameworks>net6.0</TargetFrameworks>
+
     <LangVersion>10</LangVersion>
+    <TargetFrameworks>netstandard2.1;net461</TargetFrameworks>
+    
     <OutputType>Exe</OutputType>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
