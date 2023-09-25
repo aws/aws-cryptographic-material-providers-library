@@ -16,3 +16,13 @@ LIBRARIES :=
 transpile_implementation: STD_LIBRARY=
 transpile_test: STD_LIBRARY=
 transpile_dependencies: STD_LIBRARY=
+
+_python_underscore_extern_names:
+	find src -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/module {:extern \".*\"/s/\./_/g' {} \;
+	echo "Skipping Model modification for StandardLibrary"
+	find test -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/module {:extern \".*\"/s/\./_/g' {} \;
+
+_python_revert_underscore_extern_names:
+	find src -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/module {:extern \".*\"/s/_/\./g' {} \;
+	echo "Skipping Model modification for StandardLibrary"
+	find test -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/module {:extern \".*\"/s/_/\./g' {} \;

@@ -7,7 +7,7 @@ include "../src/Signature.dfy"
 module TestSignature {
   import Aws.Cryptography.Primitives
   import opened StandardLibrary.UInt
-  import Types = Aws.Cryptography.Primitives.Types
+  import Types = Primitives.Types
   import UTF8
   import opened Wrappers
   import Signature

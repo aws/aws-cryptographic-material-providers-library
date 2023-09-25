@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "aws-cryptography-primitives"
+version = "0.1.0"
+description = ""
+authors = ["AWS <aws-arg-dafny@amazon.com>"]
+packages = [
+    { include = "aws_cryptography_primitives", from = "src" }
+]
+# Include all of the following .gitignored files in package distributions,
+# even though it is not included in version control
+include = ["**/smithygenerated/*.py", "**/internal_generated_dafny/*.py"]
+
+[tool.poetry.dependencies]
+python = "^3.11.0"
+aws-cryptography-primitives-externs = { path = "src/aws_cryptography_primitives/extern", develop = false}
+# TODO: Depend on PyPi once Smithy-Python publishes their Python package there
+smithy-python = { path = "../../../../../../polymorph/submodules/smithy-python/python-packages/smithy-python", develop = false}
+standard-library = {path = "../../../StandardLibrary/runtimes/python", develop = false}
+cryptography = "^41.0.3"
+chardet = "^5.2.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.0"
+aws-cryptography-primitives-test-internaldafny = { path = "test/internal_generated_dafny", develop = false}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
