@@ -6,7 +6,7 @@
     <Nullable>disable</Nullable>
 
     <LangVersion>10</LangVersion>
-    <TargetFrameworks>netstandard2.1;net461;net6.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net461;net6.0</TargetFrameworks>
     
     <OutputType>Exe</OutputType>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>

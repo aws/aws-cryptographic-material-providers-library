@@ -22,6 +22,7 @@ jobs:
           TestVectorsAwsCryptographicMaterialProviders,
         ]
         dotnet-version: [ '6.0.x' ]
+        # dotnet-framework: ['netcoreapp3.1', 'net461', 'net6.0']
         os: [
           windows-latest,
           ubuntu-latest,
@@ -73,12 +74,43 @@ jobs:
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_net CORES=$CORES
 
-      - name: Test ${{ matrix.library }}
+      - name: Test ${{ matrix.library }} netcoreapp3.1
         working-directory: ./${{ matrix.library }}
         shell: bash
         run: |
           if [ "$RUNNER_OS" == "macOS" ]; then
-            make test_net_mac_intel
+            DYLD_LIBRARY_PATH="/usr/local/opt/openssl@1.1/lib" dotnet run \
+                --project runtimes/net/tests/ \
+                --framework netcoreapp3.1
           else
-            make test_net
+            dotnet run \
+                --project runtimes/net/tests/ \
+                --framework netcoreapp3.1
           fi
+      - name: Test ${{ matrix.library }} net461
+        working-directory: ./${{ matrix.library }}
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" == "macOS" ]; then
+            DYLD_LIBRARY_PATH="/usr/local/opt/openssl@1.1/lib" dotnet run \
+                --project runtimes/net/tests/ \
+                --framework net461
+          else
+            dotnet run \
+                --project runtimes/net/tests/ \
+                --framework net461
+          fi
+
+      - name: Test ${{ matrix.library }} net6.0
+        working-directory: ./${{ matrix.library }}
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" == "macOS" ]; then
+            DYLD_LIBRARY_PATH="/usr/local/opt/openssl@1.1/lib" dotnet run \
+                --project runtimes/net/tests/ \
+                --framework net6.0
+          else
+            dotnet run \
+                --project runtimes/net/tests/ \
+                --framework net6.0
+          fi          
