@@ -471,7 +471,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
         creationTime' := input.creationTime,
         expiryTime' := input.expiryTime,
         messagesUsed' := input.messagesUsed.UnwrapOr(0),
-                                                     bytesUsed' := input.bytesUsed.UnwrapOr(0)
+        bytesUsed' := input.bytesUsed.UnwrapOr(0)
       );
 
       if cell in cache.Values() {
