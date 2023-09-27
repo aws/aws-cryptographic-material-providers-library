@@ -65,8 +65,8 @@ COMPILE_SUFFIX_OPTION := -compileSuffix:1
 
 # Verify the entire project
 verify:
-	dafny \
-		-vcsCores:$(CORES) \
+	find . -name '*.dfy' | xargs -n 1 -P $(CORES) -I % dafny \
+		-vcsCores:2 \
 		-compile:0 \
 		-definiteAssignment:3 \
 		-quantifierSyntax:3 \
@@ -75,7 +75,7 @@ verify:
 		-verificationLogger:csv \
 		-timeLimit:100 \
 		-trace \
-		`find . -name *.dfy`
+		%
 
 # Verify single file FILE with text logger.
 # This is useful for debugging resource count usage within a file.
