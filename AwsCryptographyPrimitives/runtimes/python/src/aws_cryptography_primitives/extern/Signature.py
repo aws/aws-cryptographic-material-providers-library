@@ -1,10 +1,332 @@
 import aws_cryptography_primitives
 from aws_cryptography_primitives.internal_generated_dafny.Signature import *
+from enum import Enum
+from software_amazon_cryptography_primitives_internaldafny_types import (
+  DigestAlgorithm_SHA__256,
+  DigestAlgorithm_SHA__384,
+  Error_AwsCryptographicPrimitivesError
+)
+from cryptography.exceptions import (
+  InvalidSignature
+)
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.serialization import (
+  NoEncryption,
+  Encoding,
+  PrivateFormat,
+  PublicFormat,
+  load_pem_private_key,
+  load_pem_public_key,
+  load_der_public_key
+)
+import Wrappers
+import cryptography.hazmat.primitives.asymmetric.ec as ec
+from cryptography.hazmat.primitives.asymmetric.ec import (
+  SECP256R1,
+  SECP384R1,
+  EllipticCurve
+)
+import _dafny
+from collections import namedtuple
+import ExternDigest
+import six
+from cryptography.hazmat.primitives.asymmetric.utils import Prehashed, decode_dss_signature, encode_dss_signature
+
+def to_bytes(data):
+  """Takes an input str or bytes object and returns an equivalent bytes object.
+
+  :param data: Input data
+  :type data: str or bytes
+  :returns: Data normalized to bytes
+  :rtype: bytes
+  """
+  if isinstance(data, six.string_types) and not isinstance(data, bytes):
+    return codecs.encode(data, aws_encryption_sdk.internal.defaults.ENCODING)
+  return data
+
+def int_to_bytes(integer, length = None):
+  return integer.to_bytes(
+      length or (integer.bit_length() + 7) // 8 or 1, "big"
+  )
+
+_ECCCurveParameters = namedtuple("_ECCCurveParameters", ["p", "a", "b", "order"])
+_ECC_CURVE_PARAMETERS = {
+  "secp256r1": _ECCCurveParameters(
+      p=0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF,
+      a=0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFC,
+      b=0x5AC635D8AA3A93E7B3EBBD55769886BC651D06B0CC53B0F63BCE3C3E27D2604B,
+      order=0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551,
+  ),
+  "secp384r1": _ECCCurveParameters(
+      p=0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFF0000000000000000FFFFFFFF,
+      a=0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFF0000000000000000FFFFFFFC,
+      b=0xB3312FA7E23EE7E4988E056BE3F82D19181D9C6EFE8141120314088F5013875AC656398D8A2ED19D2A85C8EDD3EC2AEF,
+      order=0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC7634D81F4372DDF581A0DB248B0A77AECEC196ACCC52973,
+  ),
+  "secp521r1": _ECCCurveParameters(
+      p=0x01FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF, # noqa pylint: disable=line-too-long
+      a=0x01FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC, # noqa pylint: disable=line-too-long
+      b=0x0051953EB9618E1C9A1F929A21A0B68540EEA2DA725B99B315F3B8B489918EF109E156193951EC7E937B1652C0BD3BB1BF073573DF883D2C34F1EF451FD46B503F00, # noqa pylint: disable=line-too-long
+      order=0x01FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFA51868783BF2F966B7FCC0148F709A5D03BB5C9B8899C47AEBB6FB71E91386409, # noqa pylint: disable=line-too-long
+  ),
+}
 
 class ECDSA:
+
   @staticmethod
-  def ExternKeyGen(t):
-    # TODO
-    pass
+  def ExternKeyGen(signature_algorithm):
+    maybe_signature_algorithm = SignatureAlgorithms.signatureAlgorithm(signature_algorithm)
+    if maybe_signature_algorithm.is_Failure:
+      return Wrappers.Result_Failure(maybe_signature_algorithm.error)
+    private_key = ec.generate_private_key(
+      maybe_signature_algorithm.value.value.curve
+    )
+    private_key_pem_bytes = private_key.private_bytes(Encoding.PEM, PrivateFormat.PKCS8, NoEncryption())
+    public_key_pem_bytes = ECDSA._ecc_encode_compressed_point(private_key)
+    return Wrappers.Result_Success(SignatureKeyPair_SignatureKeyPair(
+        verificationKey=_dafny.Seq(public_key_pem_bytes),
+        signingKey=_dafny.Seq(private_key_pem_bytes)
+    ))
+
+  @staticmethod
+  def Sign(signature_algorithm, signing_key, message):
+    maybe_signature_algorithm = SignatureAlgorithms.signatureAlgorithm(signature_algorithm)
+    if maybe_signature_algorithm.is_Failure:
+      return Wrappers.Result_Failure(maybe_signature_algorithm.error)
+    private_key = load_pem_private_key(bytes(signing_key), None)
+    maybe_digest = ExternDigest.default__.internal_digest(
+        maybe_signature_algorithm.value.value.message_digest_algorithm,
+        message
+    )
+    if maybe_digest.is_Failure:
+      return Wrappers.Result_Failure(maybe_digest.error)
+    digest = maybe_digest.value
+    algo = maybe_signature_algorithm.value.value
+    out = ECDSA._ecc_static_length_signature(private_key, algo, digest)
+    algo2 = maybe_signature_algorithm.value.value.message_digest_algorithm
+    if algo2.is_SHA__256:
+      sign_algo = ec.ECDSA(hashes.SHA256())
+    elif algo2.is_SHA__384:
+      sign_algo = ec.ECDSA(hashes.SHA384())
+    private_key.public_key().verify(out,
+                      digest,
+                      sign_algo)
+    return Wrappers.Result_Success(_dafny.Seq(out))
+
+
+    # private_key_pem_bytes = private_key.private_bytes(Encoding.PEM, PrivateFormat.PKCS8, NoEncryption())
+    # public_key_pem_bytes = ECDSA._ecc_encode_compressed_point(private_key)
+    # return Wrappers.Result_Success(SignatureKeyPair_SignatureKeyPair(
+    #     verificationKey=_dafny.Seq(public_key_pem_bytes),
+    #     signingKey=_dafny.Seq(private_key_pem_bytes)
+    # ))
+
+  @staticmethod
+  def Verify(signature_algorithm, verification_key, message, signature):
+    maybe_signature_algorithm = SignatureAlgorithms.signatureAlgorithm(signature_algorithm)
+    if maybe_signature_algorithm.is_Failure:
+      return Wrappers.Result_Failure(maybe_signature_algorithm.error)
+    algo = maybe_signature_algorithm.value.value.message_digest_algorithm
+    if algo.is_SHA__256:
+      sign_algo = ec.ECDSA(hashes.SHA256())
+    elif algo.is_SHA__384:
+      sign_algo = ec.ECDSA(hashes.SHA384())
+    curve = maybe_signature_algorithm.value.value.curve()
+    public_key = ECDSA._ecc_public_numbers_from_compressed_point(curve, verification_key).public_key()
+
+    maybe_digest = ExternDigest.default__.internal_digest(
+        maybe_signature_algorithm.value.value.message_digest_algorithm,
+        message
+    )
+    if maybe_digest.is_Failure:
+      return Wrappers.Result_Failure(maybe_digest.error)
+    digest = maybe_digest.value
+
+    try:
+      public_key.verify(bytes(signature),
+                        digest,
+                        sign_algo)
+    except InvalidSignature as e:
+      return Wrappers.Result_Success(False)
+
+
+    return Wrappers.Result_Success(True)
+
+  @staticmethod
+  def _ecc_static_length_signature(key, algorithm, digest):
+    """Calculates an elliptic curve signature with a static length using pre-calculated hash.
+
+    :param key: Elliptic curve private key
+    :type key: cryptography.hazmat.primitives.asymmetric.ec.EllipticCurvePrivateKey
+    :param algorithm: Master algorithm to use
+    :type algorithm: aws_encryption_sdk.identifiers.Algorithm
+    :param bytes digest: Pre-calculated hash digest
+    :returns: Signature with required length
+    :rtype: bytes
+    """
+    if algorithm.message_digest_algorithm.is_SHA__256:
+      sign_algo = ec.ECDSA(hashes.SHA256())
+    elif algorithm.message_digest_algorithm.is_SHA__384:
+      sign_algo = ec.ECDSA(hashes.SHA384())
+    pre_hashed_algorithm = sign_algo
+    signature = b""
+    while len(signature) != algorithm.expected_signature_length:
+      # _LOGGER.debug(
+      #     "Signature length %d is not desired length %d.  Recalculating.", len(signature), algorithm.expected_signature_length
+      # )
+      signature = key.sign(digest, pre_hashed_algorithm)
+      if len(signature) != algorithm.expected_signature_length:
+        # Most of the time, a signature of the wrong length can be fixed
+        # by negating s in the signature relative to the group order.
+        # _LOGGER.debug(
+        #     "Signature length %d is not desired length %d.  Negating s.", len(signature), algorithm.expected_signature_length
+        # )
+        r, s = decode_dss_signature(signature)
+        s = _ECC_CURVE_PARAMETERS[algorithm.curve.name].order - s
+        signature = encode_dss_signature(r, s)
+    return signature
+
+  @staticmethod
+  def _ecc_encode_compressed_point(private_key):
+    """Encodes a compressed elliptic curve point
+        as described in SEC-1 v2 section 2.3.3
+        http://www.secg.org/sec1-v2.pdf
+
+    :param private_key: Private key from which to extract point data
+    :type private_key: cryptography.hazmat.primitives.asymmetric.ec.EllipticCurvePrivateKey
+    :returns: Encoded compressed elliptic curve point
+    :rtype: bytes
+    :raises NotSupportedError: for non-prime curves
+    """
+    # key_size is in bits. Convert to bytes and round up
+    byte_length = (private_key.curve.key_size + 7) // 8
+    public_numbers = private_key.public_key().public_numbers()
+    y_map = [b"\x02", b"\x03"]
+    # If curve in prime field.
+    if private_key.curve.name.startswith("secp"):
+      y_order = public_numbers.y % 2
+      y = y_map[y_order]
+    else:
+      raise NotSupportedError("Non-prime curves are not supported at this time")
+    return y + int_to_bytes(public_numbers.x, byte_length)
+
+  @staticmethod
+  def _ecc_decode_compressed_point(curve, compressed_point):
+    """Decodes a compressed elliptic curve point
+        as described in SEC-1 v2 section 2.3.4
+        http://www.secg.org/sec1-v2.pdf
+
+    :param curve: Elliptic curve type to generate
+    :type curve: cryptography.hazmat.primitives.asymmetric.ec.EllipticCurve
+    :param bytes compressed_point: Encoded compressed elliptic curve point
+    :returns: X and Y coordinates from compressed point
+    :rtype: tuple of longs
+    :raises NotSupportedError: for non-prime curves, unsupported prime curves, and points at infinity
+    """
+    if not compressed_point:
+      raise NotSupportedError("Points at infinity are not allowed")
+    y_order_map = {b"\x02": 0, b"\x03": 1}
+    raw_x = compressed_point[1:]
+    raw_x = to_bytes(raw_x)
+    x = int.from_bytes(raw_x, "big")
+    raw_y = compressed_point[0]
+    # In Python3, bytes index calls return int values rather than strings
+    if isinstance(raw_y, six.integer_types):
+      raw_y = six.b(chr(raw_y))
+    elif isinstance(raw_y, six.string_types):
+      raw_y = six.b(raw_y)
+    y_order = y_order_map[raw_y]
+    # If curve in prime field.
+    if curve.name.startswith("secp"):
+      try:
+        params = _ECC_CURVE_PARAMETERS[curve.name]
+      except KeyError:
+        raise NotSupportedError("Curve {name} is not supported at this time".format(name=curve.name))
+      alpha = (pow(x, 3, params.p) + (params.a * x % params.p) + params.b) % params.p
+      # Only works for p % 4 == 3 at this time.
+      # This is the case for all currently supported algorithms.
+      # This will need to be expanded if curves which do not match this are added.
+      #  Python-ecdsa has these algorithms implemented.  Copy or reference?
+      #  https://en.wikipedia.org/wiki/Tonelli%E2%80%93Shanks_algorithm
+      #  Handbook of Applied Cryptography, algorithms 3.34 - 3.39
+      if params.p % 4 == 3:
+        beta = pow(alpha, (params.p + 1) // 4, params.p)
+      else:
+        raise NotSupportedError("S not 1 :: Curve not supported at this time")
+      if beta % 2 == y_order:
+        y = beta
+      else:
+        y = params.p - beta
+    else:
+      raise NotSupportedError("Non-prime curves are not supported at this time")
+    return x, y
+
+  @staticmethod
+  def _ecc_public_numbers_from_compressed_point(curve, compressed_point):
+    """Decodes a compressed elliptic curve point
+        as described in SEC-1 v2 section 2.3.3
+        and returns a PublicNumbers instance
+        based on the decoded point.
+        http://www.secg.org/sec1-v2.pdf
+
+    :param curve: Elliptic curve type to generate
+    :type curve: cryptography.hazmat.primitives.asymmetric.ec.EllipticCurve
+    :param bytes compressed_point: Encoded compressed elliptic curve point
+    :returns: EllipticCurvePublicNumbers instance generated from compressed point and curve
+    :rtype: cryptography.hazmat.primitives.asymmetric.ec.EllipticCurvePublicNumbers
+    """
+    x, y = ECDSA._ecc_decode_compressed_point(curve, compressed_point)
+    return ec.EllipticCurvePublicNumbers(x=x, y=y, curve=curve)
+
+  @staticmethod
+  def generate_ecc_signing_key(algorithm):
+    """Returns an ECC signing key.
+
+    :param algorithm: Algorithm object which determines what signature to generate
+    :type algorithm: aws_encryption_sdk.identifiers.Algorithm
+    :returns: Generated signing key
+    :raises NotSupportedError: if signing algorithm is not supported on this platform
+    """
+    if not isinstance(algorithm.signing_algorithm_info, type(ec.EllipticCurve)):
+      raise NotSupportedError("Unsupported signing algorithm info")
+    return ec.generate_private_key(curve=algorithm.signing_algorithm_info(), backend=default_backend())
+
+class SignatureAlgorithm:
+  def __init__(self, curve, message_digest_algorithm, raw_signature_algorithm, expected_signature_length):
+    self.curve = curve
+    self.message_digest_algorithm = message_digest_algorithm
+    self.raw_signature_algorithm = raw_signature_algorithm
+    self.expected_signature_length = expected_signature_length
+
+class SignatureAlgorithms(Enum):
+  P256 = SignatureAlgorithm(
+            SECP256R1,
+            DigestAlgorithm_SHA__256(),
+            "NONEwithECDSA",
+            71
+          )
+  P384 = SignatureAlgorithm(
+            SECP384R1,
+            DigestAlgorithm_SHA__384(),
+            "NONEwithECDSA",
+            103
+          )
+
+  @classmethod
+  def signatureAlgorithm(self, sig_alg):
+    #= aws-encryption-sdk-specification/framework/transitive-requirements.md#ecdsa
+    ## If specified to use ECDSA, the AWS Encryption SDK MUST use ECDSA with the following specifics:
+    ## - The elliptic curve is specified by the algorithm suite.
+    ##   The specific curves are defined in
+    ##   [Digital Signature Standard (DSS) (FIPS PUB 186-4)](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf).
+    if sig_alg.is_ECDSA__P256:
+      signature_algorithm = SignatureAlgorithms.P256
+    elif sig_alg.is_ECDSA__P384:
+      signature_algorithm = SignatureAlgorithms.P384
+    else:
+      return Wrappers.Result_Failure(
+          "TODO: Error msg"
+      )
+    return Wrappers.Result_Success(signature_algorithm)
 
 aws_cryptography_primitives.internal_generated_dafny.Signature.ECDSA = ECDSA

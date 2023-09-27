@@ -14,7 +14,7 @@ from cryptography.hazmat.primitives.serialization import (
   load_pem_private_key,
 )
 from cryptography.hazmat.primitives import hashes
-import chardet
+
 class RSAEncryption:
 
   class RSA:
@@ -34,9 +34,6 @@ class RSAEncryption:
       private_key_pem_bytes = private_key.private_bytes(Encoding.PEM, PrivateFormat.PKCS8, NoEncryption())
       public_key = private_key.public_key()
       public_key_pem_bytes = public_key.public_bytes(Encoding.PEM, PublicFormat.SubjectPublicKeyInfo)
-      print("RETURNING")
-      print(private_key_pem_bytes)
-      print(public_key_pem_bytes)
       return _dafny.Seq(public_key_pem_bytes), _dafny.Seq(private_key_pem_bytes)
 
     @staticmethod

@@ -17,7 +17,7 @@ aws-cryptography-primitives-externs = { path = "src/aws_cryptography_primitives/
 smithy-python = { path = "../../../../../../polymorph/submodules/smithy-python/python-packages/smithy-python", develop = false}
 standard-library = {path = "../../../StandardLibrary/runtimes/python", develop = false}
 cryptography = "^41.0.3"
-chardet = "^5.2.0"
+six = "^1.16.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.0"
