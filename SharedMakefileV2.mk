@@ -66,7 +66,7 @@ COMPILE_SUFFIX_OPTION := -compileSuffix:1
 # Verify the entire project
 verify:
 	find . -name '*.dfy' | xargs -n 1 -P $(CORES) -I % dafny \
-		-vcsCores:2 \
+		-vcsCores:1 \
 		-compile:0 \
 		-definiteAssignment:3 \
 		-quantifierSyntax:3 \
