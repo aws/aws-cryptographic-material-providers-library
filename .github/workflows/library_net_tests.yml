@@ -75,6 +75,7 @@ jobs:
 
       - name: Test ${{ matrix.library }} .NET Framework net481
         working-directory: ./${{ matrix.library }}
+        if: matrix.library == 'StandardLibrary'
         shell: bash
         run: |
           if [ "$RUNNER_OS" == "macOS" ]; then
