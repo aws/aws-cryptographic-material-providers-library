@@ -45,10 +45,24 @@ public class LocalCMCTests
   [Fact]
   public void TestLotsOfAdding()
   {
-    ThreadPool.SetMaxThreads(10, 10);
-    for (int i = 0; i < 300000; i++)
+    int threadCount = 10;
+    int numTasks = 300000; 
+    int toProcess = 300000;
+    
+    ThreadPool.SetMaxThreads(threadCount, threadCount);
+    using (ManualResetEvent resetEvent = new ManualResetEvent(false))
     {
-      ThreadPool.QueueUserWorkItem(WorkForThread);
+        for (int i = 0; i < numTasks; i++)
+      {
+        ThreadPool.QueueUserWorkItem(
+          new WaitCallback(x =>
+          {
+            if (Interlocked.Decrement(ref toProcess) == 0)
+              resetEvent.Set();
+          }), WorkForThread);
+      }
+      resetEvent.WaitOne();
+      Console.WriteLine($"Finished {toProcess} requests");
     }
   }
 
