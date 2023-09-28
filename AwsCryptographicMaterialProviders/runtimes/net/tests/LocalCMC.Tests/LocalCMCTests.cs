@@ -46,28 +46,18 @@ public class LocalCMCTests
   public void TestLotsOfAdding()
   {
     int threadCount = 10;
-    int numTasks = 300000; 
-    int toProcess = 300000;
+    int numTasks = 300000;
     
     ThreadPool.SetMaxThreads(threadCount, threadCount);
-    using (ManualResetEvent resetEvent = new ManualResetEvent(false))
+    for (int i = 0; i < numTasks; i++)
     {
-        for (int i = 0; i < numTasks; i++)
-      {
-        ThreadPool.QueueUserWorkItem(
-          new WaitCallback(x =>
-          {
-            if (Interlocked.Decrement(ref toProcess) == 0)
-              resetEvent.Set();
-          }), WorkForThread);
-      }
-      resetEvent.WaitOne();
-      Console.WriteLine($"Finished {toProcess} requests");
+      ThreadPool.QueueUserWorkItem(WorkForThread);
     }
   }
 
-  static void WorkForThread(Object stateInfo)
+  private static void WorkForThread(object? state)
   {
+    Console.WriteLine("TestLotsOfAdd");
     Random random = ThreadSafeRandom.getSecureRandom();
     var beaconKeyIdentifier = identifiers[random.Next(ID_SIZE)];
 
