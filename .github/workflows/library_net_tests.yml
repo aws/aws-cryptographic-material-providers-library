@@ -75,7 +75,6 @@ jobs:
 
       - name: Test ${{ matrix.library }} .NET Framework net48
         working-directory: ./${{ matrix.library }}
-        if: matrix.library == 'StandardLibrary' || matrix.library == 'ComAmazonawsKms' || matrix.library == 'ComAmazonawsDynamodb' || matrix.libary == 'AwsCryptographyPrimitives'
         shell: bash
         run: |
           if [ "$RUNNER_OS" == "macOS" ]; then
