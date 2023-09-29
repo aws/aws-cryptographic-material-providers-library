@@ -70,8 +70,7 @@ namespace DafnyLibraries
         {
             if (HasKey(k))
             {
-                var keyValue = m[k];
-                m.TryRemove(k, out keyValue);
+                m.TryRemove(k, out _);
             }
         }
 
