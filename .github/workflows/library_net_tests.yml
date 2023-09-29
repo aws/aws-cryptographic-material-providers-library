@@ -106,9 +106,7 @@ jobs:
         run: |
           dotnet restore runtimes/net/tests/LocalCMC.Tests/
           dotnet build runtimes/net/tests/LocalCMC.Tests/
-          dotnet run \
-              --project runtimes/net/tests/LocalCMC.Tests/ \
+          dotnet test runtimes/net/tests/LocalCMC.Tests/ \
               --framework net6.0
-          dotnet run \
-              --project runtimes/net/tests/LocalCMC.Tests/ \
+          dotnet test runtimes/net/tests/LocalCMC.Tests/ \
               --framework net48
