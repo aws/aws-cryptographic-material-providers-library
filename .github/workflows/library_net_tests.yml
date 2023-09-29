@@ -104,8 +104,8 @@ jobs:
         shell: bash
         ## Run .NET 6.0 and .NET Framework net48
         run: |
-          dotnet restore
-          dotnet build
+          dotnet restore runtimes/net/tests/LocalCMC.Tests/
+          dotnet build runtimes/net/tests/LocalCMC.Tests/
           dotnet run \
               --project runtimes/net/tests/LocalCMC.Tests/ \
               --framework net6.0
