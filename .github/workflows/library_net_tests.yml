@@ -73,7 +73,7 @@ jobs:
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_net CORES=$CORES
 
-      - name: Test ${{ matrix.library }} .NET Framework net481
+      - name: Test ${{ matrix.library }} .NET Framework net48
         working-directory: ./${{ matrix.library }}
         if: matrix.library == 'StandardLibrary' || matrix.library == 'ComAmazonawsKms'
         shell: bash
@@ -82,11 +82,11 @@ jobs:
               DYLD_LIBRARY_PATH="/usr/local/opt/openssl@1.1/lib" 
               dotnet run \
                   --project runtimes/net/tests/ \
-                  --framework net481
+                  --framework net48
             else
               dotnet run \
                   --project runtimes/net/tests/ \
-                  --framework net481
+                  --framework net48
             fi
 
       - name: Test ${{ matrix.library }}
