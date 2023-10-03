@@ -99,7 +99,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     ghost var ValidateCommitmentPolicyOnDecrypt: seq<DafnyCallEvent<ValidateCommitmentPolicyOnDecryptInput, Result<(), Error>>>
   }
   trait {:termination false} IAwsCryptographicMaterialProvidersClient
-  {
+    {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
     // add it in your constructor function:
@@ -607,7 +607,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     ghost var GetBranchKeyId: seq<DafnyCallEvent<GetBranchKeyIdInput, Result<GetBranchKeyIdOutput, Error>>>
   }
   trait {:termination false} IBranchKeyIdSupplier
-  {
+    {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
     // add it in your constructor function:
@@ -678,7 +678,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     ghost var GetClient: seq<DafnyCallEvent<GetClientInput, Result<ComAmazonawsKmsTypes.IKMSClient, Error>>>
   }
   trait {:termination false} IClientSupplier
-  {
+    {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
     // add it in your constructor function:
@@ -812,6 +812,15 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly kmsClient: Option<ComAmazonawsKmsTypes.IKMSClient> ,
     nameonly grantTokens: Option<GrantTokenList>
   )
+  datatype CreateCachingCMMInput = | CreateCachingCMMInput (
+    nameonly underlyingCMC: ICryptographicMaterialsCache ,
+    nameonly cacheLimitTtlSeconds: PositiveLong ,
+    nameonly underlyingCMM: Option<ICryptographicMaterialsManager> ,
+    nameonly keyring: Option<IKeyring> ,
+    nameonly partitionKey: Option<string> ,
+    nameonly limitBytes: Option<PositiveLong> ,
+    nameonly limitMessages: Option<PositiveInteger>
+  )
   datatype CreateCryptographicMaterialsCacheInput = | CreateCryptographicMaterialsCacheInput (
     nameonly cache: CacheType
   )
@@ -856,7 +865,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     ghost var DeleteCacheEntry: seq<DafnyCallEvent<DeleteCacheEntryInput, Result<(), Error>>>
   }
   trait {:termination false} ICryptographicMaterialsCache
-  {
+    {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
     // add it in your constructor function:
@@ -1029,7 +1038,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     ghost var DecryptMaterials: seq<DafnyCallEvent<DecryptMaterialsInput, Result<DecryptMaterialsOutput, Error>>>
   }
   trait {:termination false} ICryptographicMaterialsManager
-  {
+    {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
     // add it in your constructor function:
@@ -1208,14 +1217,14 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
   )
   datatype GetCacheEntryInput = | GetCacheEntryInput (
     nameonly identifier: seq<uint8> ,
-    nameonly bytesUsed: Option<int64>
+    nameonly bytesUsed: Option<PositiveLong>
   )
   datatype GetCacheEntryOutput = | GetCacheEntryOutput (
     nameonly materials: Materials ,
     nameonly creationTime: PositiveLong ,
     nameonly expiryTime: PositiveLong ,
     nameonly messagesUsed: PositiveInteger ,
-    nameonly bytesUsed: PositiveInteger
+    nameonly bytesUsed: PositiveLong
   )
   datatype GetClientInput = | GetClientInput (
     nameonly region: Region
@@ -1267,7 +1276,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     ghost var OnDecrypt: seq<DafnyCallEvent<OnDecryptInput, Result<OnDecryptOutput, Error>>>
   }
   trait {:termination false} IKeyring
-  {
+    {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
     // add it in your constructor function:
@@ -1409,7 +1418,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly creationTime: PositiveLong ,
     nameonly expiryTime: PositiveLong ,
     nameonly messagesUsed: Option<PositiveInteger> ,
-    nameonly bytesUsed: Option<PositiveInteger>
+    nameonly bytesUsed: Option<PositiveLong>
   )
   type Region = string
   type RegionList = seq<Region>
@@ -1436,7 +1445,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
   type SymmetricSigningKeyList = seq<Secret>
   datatype UpdateUsageMetadataInput = | UpdateUsageMetadataInput (
     nameonly identifier: seq<uint8> ,
-    nameonly bytesUsed: PositiveInteger
+    nameonly bytesUsed: PositiveLong
   )
   type Utf8Bytes = ValidUTF8Bytes
   datatype ValidateCommitmentPolicyOnDecryptInput = | ValidateCommitmentPolicyOnDecryptInput (
@@ -1537,7 +1546,7 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
               && res.value.ValidState()
 
   class MaterialProvidersClient extends IAwsCryptographicMaterialProvidersClient
-  {
+    {
     constructor(config: Operations.InternalConfig)
       requires Operations.ValidInternalConfig?(config)
       ensures
