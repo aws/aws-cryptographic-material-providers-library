@@ -49,6 +49,7 @@ service AwsCryptographicMaterialProviders {
     // CMMs
     CreateDefaultCryptographicMaterialsManager,
     CreateRequiredEncryptionContextCMM,
+    CreateCachingCMM,
 
     // CMCs
     CreateCryptographicMaterialsCache,

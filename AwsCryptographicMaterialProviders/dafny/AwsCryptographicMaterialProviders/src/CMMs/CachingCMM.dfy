@@ -28,7 +28,7 @@ module {:options "/functionSyntax:4" } CachingCMM  {
 
   class CachingCMM
     extends CMM.VerifiableInterface
-    {
+  {
     const underlyingCMM: Types.ICryptographicMaterialsManager
     const cache: Types.ICryptographicMaterialsCache
     const cryptoPrimitives: Primitives.AtomicPrimitivesClient
@@ -905,7 +905,7 @@ module {:options "/functionSyntax:4" } CachingCMM  {
                + PADDING_OF_512_ZERO_BITS
                + ecDigestRequest.output.value
         && outputRequest.output.Success?
-        && output.value == outputRequest.output.value //.MapFailure(e => Types.AwsCryptographyPrimitives(e))
+        && output.value == outputRequest.output.value
   {
     ghost var oldDigest := cryptoPrimitives.History.Digest;
 
@@ -1011,9 +1011,10 @@ module {:options "/functionSyntax:4" } CachingCMM  {
               && old(cryptoPrimitives.History.Digest) <= cryptoPrimitives.History.Digest
               && var digestRequests := cryptoPrimitives.History.Digest[|old(cryptoPrimitives.History.Digest)|..];
               && (forall r <- digestRequests :: r.output.Success?)
-              && (forall
-                    k | 0 <= k < |encryptedDataKeys|,
-                    request | request == digestRequests[k]
+              && (forall k, request
+                    |
+                    && 0 <= k < |encryptedDataKeys|
+                    && request == digestRequests[k]
                     ::
                       && request.input
                          == Primitives.Types.DigestInput(
@@ -1042,8 +1043,10 @@ module {:options "/functionSyntax:4" } CachingCMM  {
         digests
         == PluckDigestValue(cryptoPrimitives.History.Digest[|old(cryptoPrimitives.History.Digest)|..])
       invariant forall
-          k | 0 <= k < i,
-          request | request == cryptoPrimitives.History.Digest[|old(cryptoPrimitives.History.Digest)| + k]
+          k, request
+          |
+          && 0 <= k < i
+          && request == cryptoPrimitives.History.Digest[|old(cryptoPrimitives.History.Digest)| + k]
           ::
             && request.input
                == Primitives.Types.DigestInput(
