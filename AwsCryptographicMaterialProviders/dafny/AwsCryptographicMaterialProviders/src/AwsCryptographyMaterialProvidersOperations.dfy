@@ -514,6 +514,55 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
 
   method CreateCachingCMM ( config: InternalConfig , input: CreateCachingCMMInput )
     returns (output: Result<ICryptographicMaterialsManager, Error>)
+
+    //= aws-encryption-sdk-specification/framework/caching-cmm.md#initialization
+    //= type=implication
+    //# If the caller provides a keyring,
+    //# then the caching CMM MUST set its underlying CMM
+    //# to a [default CMM](default-cmm.md) initialized with the keyring.
+    ensures
+      && output.Success?
+      && input.keyring.Some?
+      ==>
+        var cmm: CachingCMM.CachingCMM := output.value;
+        && cmm.underlyingCMM is DefaultCMM
+
+    //= aws-encryption-sdk-specification/framework/caching-cmm.md#partition-id
+    //= type=implication
+    //# If this parameter is not set, the caching CMM MUST set a partition ID
+    //# that uniquely identifies the respective caching CMM.
+    ensures
+      && output.Success?
+      && input.partitionKey.None?
+      ==>
+        var cmm: CachingCMM.CachingCMM := output.value;
+        && |cmm.cryptoPrimitives.History.GenerateRandomBytes| == |old(cmm.cryptoPrimitives.History.GenerateRandomBytes)| + 1
+        && |cmm.cryptoPrimitives.History.Digest| == |old(cmm.cryptoPrimitives.History.Digest)| + 1
+        && Seq.Last(cmm.cryptoPrimitives.History.Digest).output.Success?
+        && Seq.Last(cmm.cryptoPrimitives.History.GenerateRandomBytes).output.Success?
+        && Seq.Last(cmm.cryptoPrimitives.History.Digest).input.message
+           == Seq.Last(cmm.cryptoPrimitives.History.GenerateRandomBytes).output.value
+        && cmm.partitionKeyDigest == Seq.Last(cmm.cryptoPrimitives.History.Digest).output.value
+
+    //= aws-encryption-sdk-specification/framework/caching-cmm.md#limit-bytes
+    //= type=implication
+    //# If this parameter is not set, the caching CMM MUST set it to a value no more than 2^63-1.
+    ensures
+      && output.Success?
+      && input.limitBytes.None?
+      ==>
+        var cmm: CachingCMM.CachingCMM := output.value;
+        && cmm.limitBytes == INT64_MAX_LIMIT as PositiveLong
+
+    //= aws-encryption-sdk-specification/framework/caching-cmm.md#limit-messages
+    //= type=implication
+    //# If this parameter is not set, the caching CMM MUST set it to 2^32.
+    ensures
+      && output.Success?
+      && input.limitMessages.None?
+      ==>
+        var cmm: CachingCMM.CachingCMM := output.value;
+        && cmm.limitMessages == INT32_MAX_LIMIT as BoundedInts.uint32
   {
 
     :- Need(
