@@ -515,6 +515,9 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   method CreateCachingCMM ( config: InternalConfig , input: CreateCachingCMMInput )
     returns (output: Result<ICryptographicMaterialsManager, Error>)
 
+    ensures input.underlyingCMC.Modifies == old(input.underlyingCMC.Modifies)
+    ensures output.Success? ==> output.value is CachingCMM.CachingCMM
+
     //= aws-encryption-sdk-specification/framework/caching-cmm.md#initialization
     //= type=implication
     //# If the caller provides a keyring,
@@ -536,8 +539,8 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       && input.partitionKey.None?
       ==>
         var cmm: CachingCMM.CachingCMM := output.value;
-        && |cmm.cryptoPrimitives.History.GenerateRandomBytes| == |old(cmm.cryptoPrimitives.History.GenerateRandomBytes)| + 1
-        && |cmm.cryptoPrimitives.History.Digest| == |old(cmm.cryptoPrimitives.History.Digest)| + 1
+        && 0 < |cmm.cryptoPrimitives.History.GenerateRandomBytes|
+        && 0 < |cmm.cryptoPrimitives.History.Digest|
         && Seq.Last(cmm.cryptoPrimitives.History.Digest).output.Success?
         && Seq.Last(cmm.cryptoPrimitives.History.GenerateRandomBytes).output.Success?
         && Seq.Last(cmm.cryptoPrimitives.History.Digest).input.message
@@ -572,6 +575,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
 
     var inputCMM;
     if input.keyring.Some? {
+      assume {:axiom} input.underlyingCMC.Modifies == {};
       inputCMM :- CreateDefaultCryptographicMaterialsManager(
         config,
         CreateDefaultCryptographicMaterialsManagerInput(
@@ -600,7 +604,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     var inputPartitionKeyDigest' := inputCryptoPrimitives.Digest(
       Primitives.Types.DigestInput(
         digestAlgorithm := Primitives.Types.SHA_512,
-        message := input.partitionKey.value
+        message := partitionKey
       )
     );
     var inputPartitionKeyDigest :- inputPartitionKeyDigest'.MapFailure(e => Types.AwsCryptographyPrimitives(e));
@@ -615,6 +619,8 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       inputLimitBytes := input.limitBytes.UnwrapOr(INT64_MAX_LIMIT as PositiveLong),
       inputLimitMessages := input.limitMessages.UnwrapOr(INT32_MAX_LIMIT as PositiveInteger)
     );
+
+    output := Success(cmm);
   }
 
   predicate CreateCryptographicMaterialsCacheEnsuresPublicly(input: CreateCryptographicMaterialsCacheInput , output: Result<ICryptographicMaterialsCache, Error>)

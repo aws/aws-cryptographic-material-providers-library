@@ -76,9 +76,8 @@ module {:options "/functionSyntax:4" } CachingCMM  {
     )
       requires inputCMM.ValidState()
       requires inputCryptoPrimitives.ValidState()
-      requires inputCache.ValidState()
       requires inputCMM.Modifies !! inputCryptoPrimitives.Modifies
-      requires inputLimitBytes <=  0x10000000_00000000 - 1
+      requires inputLimitBytes <=  (0x8000_0000_0000_0000 - 1) as int64
 
       // This is an optimization.
       // Here we prove that the value we store in partitionKeyDigest
@@ -465,7 +464,7 @@ module {:options "/functionSyntax:4" } CachingCMM  {
       var now: int64 := Time.GetCurrent();
       // This is true for any correct implementation for any reasonable timescale.
       // We control the time implementation but Dafny knows that it is still possible.
-      expect (now as int + ttlSeconds as int) < UInt.INT64_MAX_LIMIT;
+      expect now  < UInt.INT64_MAX_LIMIT as int64 - ttlSeconds as int64;
       var expiryTime := now + ttlSeconds as int64;
       var algorithmSuite := match cacheEntryMartials
         case Decryption(m) => m.algorithmSuite

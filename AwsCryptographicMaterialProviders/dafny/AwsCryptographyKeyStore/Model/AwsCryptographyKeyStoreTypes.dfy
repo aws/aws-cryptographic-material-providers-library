@@ -89,7 +89,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     ghost var GetBeaconKey: seq<DafnyCallEvent<GetBeaconKeyInput, Result<GetBeaconKeyOutput, Error>>>
   }
   trait {:termination false} IKeyStoreClient
-  {
+    {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
     // add it in your constructor function:
@@ -314,7 +314,7 @@ abstract module AbstractAwsCryptographyKeyStoreService
               config.kmsClient.value.ValidState()
 
   class KeyStoreClient extends IKeyStoreClient
-  {
+    {
     constructor(config: Operations.InternalConfig)
       requires Operations.ValidInternalConfig?(config)
       ensures

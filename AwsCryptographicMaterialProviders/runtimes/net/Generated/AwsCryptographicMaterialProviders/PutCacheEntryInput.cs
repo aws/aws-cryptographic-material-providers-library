@@ -12,7 +12,7 @@ namespace AWS.Cryptography.MaterialProviders
     private long? _creationTime;
     private long? _expiryTime;
     private int? _messagesUsed;
-    private int? _bytesUsed;
+    private long? _bytesUsed;
     public System.IO.MemoryStream Identifier
     {
       get { return this._identifier; }
@@ -58,7 +58,7 @@ namespace AWS.Cryptography.MaterialProviders
     {
       return this._messagesUsed.HasValue;
     }
-    public int BytesUsed
+    public long BytesUsed
     {
       get { return this._bytesUsed.GetValueOrDefault(); }
       set { this._bytesUsed = value; }
