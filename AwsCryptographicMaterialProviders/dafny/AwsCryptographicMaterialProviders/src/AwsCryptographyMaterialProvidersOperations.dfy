@@ -28,6 +28,7 @@ include "Commitment.dfy"
 include "AwsArnParsing.dfy"
 include "AlgorithmSuites.dfy"
 include "CMMs/RequiredEncryptionContextCMM.dfy"
+include "CMMs/CachingCMM.dfy"
 
 module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptographyMaterialProvidersOperations {
 
@@ -60,6 +61,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   import Kms = Com.Amazonaws.Kms
   import Ddb = ComAmazonawsDynamodbTypes
   import RequiredEncryptionContextCMM
+  import CachingCMM
 
   datatype Config = Config(
     nameonly crypto: Primitives.AtomicPrimitivesClient
@@ -479,18 +481,92 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
 
   method CreateRequiredEncryptionContextCMM(config: InternalConfig, input: CreateRequiredEncryptionContextCMMInput)
     returns (output: Result<ICryptographicMaterialsManager, Error>)
-    ensures output.Success? ==> output.value.ValidState()
   {
-    :- Need(input.underlyingCMM.Some? && input.keyring.None?, CmpError("CreateRequiredEncryptionContextCMM currently only supports cmm."));
+
+    :- Need(
+      && (input.underlyingCMM.Some? || input.keyring.Some?)
+      && (input.underlyingCMM.None? || input.keyring.None?),
+      CmpError("Either an underlyingCMM or a keyring is required."));
+
+    var underlyingCMM;
+    if input.keyring.Some? {
+      underlyingCMM :- CreateDefaultCryptographicMaterialsManager(
+        config,
+        CreateDefaultCryptographicMaterialsManagerInput(
+          keyring := input.keyring.value
+        )
+      );
+    } else {
+      underlyingCMM := input.underlyingCMM.value;
+    }
+
     var keySet : set<UTF8.ValidUTF8Bytes> := set k <- input.requiredEncryptionContextKeys;
     :- Need(0 < |keySet|, CmpError("RequiredEncryptionContextCMM needs at least one requiredEncryptionContextKey."));
     var cmm := new RequiredEncryptionContextCMM.RequiredEncryptionContextCMM(
-      input.underlyingCMM.value,
+      underlyingCMM,
       keySet);
 
     return Success(cmm);
   }
 
+  predicate CreateCachingCMMEnsuresPublicly(input: CreateCachingCMMInput , output: Result<ICryptographicMaterialsManager, Error>)
+  {true}
+
+  method CreateCachingCMM ( config: InternalConfig , input: CreateCachingCMMInput )
+    returns (output: Result<ICryptographicMaterialsManager, Error>)
+  {
+
+    :- Need(
+      && (input.underlyingCMM.Some? || input.keyring.Some?)
+      && (input.underlyingCMM.None? || input.keyring.None?),
+      CmpError("Either an underlyingCMM or a keyring is required."));
+
+    var inputCMM;
+    if input.keyring.Some? {
+      inputCMM :- CreateDefaultCryptographicMaterialsManager(
+        config,
+        CreateDefaultCryptographicMaterialsManagerInput(
+          keyring := input.keyring.value
+        )
+      );
+    } else {
+      inputCMM := input.underlyingCMM.value;
+    }
+
+    var inputCryptoPrimitives' := Primitives.AtomicPrimitives();
+    var inputCryptoPrimitives :- inputCryptoPrimitives'.MapFailure(e => Types.AwsCryptographyPrimitives(e));
+
+    var partitionKey;
+    if input.partitionKey.None? {
+      var partitionKey' := inputCryptoPrimitives.GenerateRandomBytes(
+        Crypto.GenerateRandomBytesInput(
+          length := 16
+        )
+      );
+      partitionKey :- partitionKey'.MapFailure(e => Types.AwsCryptographyPrimitives(e));
+    } else {
+      partitionKey := input.partitionKey.value;
+    }
+
+    var inputPartitionKeyDigest' := inputCryptoPrimitives.Digest(
+      Primitives.Types.DigestInput(
+        digestAlgorithm := Primitives.Types.SHA_512,
+        message := input.partitionKey.value
+      )
+    );
+    var inputPartitionKeyDigest :- inputPartitionKeyDigest'.MapFailure(e => Types.AwsCryptographyPrimitives(e));
+
+    var cmm := new CachingCMM.CachingCMM(
+      inputCMM := inputCMM,
+      inputCryptoPrimitives := inputCryptoPrimitives,
+      inputCache := input.underlyingCMC,
+      inputPartitionKeyDigest := inputPartitionKeyDigest,
+      inputPartitionKey := partitionKey,
+      inputTtlSeconds := input.cacheLimitTtlSeconds,
+      inputLimitBytes := input.limitBytes.UnwrapOr(INT64_MAX_LIMIT as PositiveLong),
+      inputLimitMessages := input.limitMessages.UnwrapOr(INT32_MAX_LIMIT as PositiveInteger)
+    );
+  }
 
   predicate CreateCryptographicMaterialsCacheEnsuresPublicly(input: CreateCryptographicMaterialsCacheInput , output: Result<ICryptographicMaterialsCache, Error>)
   {true}

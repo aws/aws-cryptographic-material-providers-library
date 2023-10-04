@@ -209,7 +209,7 @@ structure CreateCachingCMMInput {
   //# - [Limit Bytes](#limit-bytes)
   //# - [Limit Messages](#limit-messages)
   @javadoc("Sets the partition ID for this CMM. By default, two CMMs will never use each other's cache entries. This helps ensure that CMMs with different delegates won't incorrectly use each other's encrypt and decrypt results. However, in certain special circumstances it can be useful to share entries between different CMMs - for example, if the backing CMM is constructed based on some parameters that depend on the operation, you may wish for delegates constructed with the same parameters to share the same partition. To accomplish this, set the same partition ID and backing cache on both CMMs; entries cached from one of these CMMs can then be used by the other. This should only be done with careful consideration and verification that the CMM delegates are equivalent for your application's purposes. By default, the partition ID is set to a random UUID to avoid any collisions.")
-  partitionKey: String,
+  partitionKey: Utf8Bytes,
   @javadoc("Sets the maximum number of plaintext bytes that can be encrypted under the same a cached data key. This does not affect decrypt operations. Specifying this limit is optional; by default, the limit is set to 2^63 - 1. While this limit can be set to zero, in this case keys can only be cached if they are used for zero-length messages.")
   limitBytes: PositiveLong,
   @javadoc("Sets the maximum number of individual messages that can be encrypted under the same a cached data key. This does not affect decrypt operations. Specifying this limit is optional; by default, the limit is set to 2^32. This is also the maximum accepted value.")

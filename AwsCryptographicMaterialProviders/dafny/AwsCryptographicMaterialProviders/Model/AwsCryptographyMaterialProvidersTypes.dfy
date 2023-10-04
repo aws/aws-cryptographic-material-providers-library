@@ -853,7 +853,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly cacheLimitTtlSeconds: PositiveInteger ,
     nameonly underlyingCMM: Option<ICryptographicMaterialsManager> ,
     nameonly keyring: Option<IKeyring> ,
-    nameonly partitionKey: Option<string> ,
+    nameonly partitionKey: Option<Utf8Bytes> ,
     nameonly limitBytes: Option<PositiveLong> ,
     nameonly limitMessages: Option<PositiveInteger>
   )
