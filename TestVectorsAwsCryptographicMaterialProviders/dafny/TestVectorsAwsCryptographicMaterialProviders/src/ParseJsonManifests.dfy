@@ -56,42 +56,36 @@ module {:options "-functionSyntax:4"} ParseJsonManifests {
 
     // TODO change this to use AlgorithmSuiteInfoByHexString
     var algorithmSuiteHex :- GetString("algorithmSuiteId", obj);
-    :- Need(HexStrings.IsLooseHexString(algorithmSuiteHex), "Not hex encoded binnary");
+    :- Need(HexStrings.IsLooseHexString(algorithmSuiteHex), "Not hex encoded binary");
     var binaryId := HexStrings.FromHexString(algorithmSuiteHex);
     var algorithmSuite :- AlgorithmSuites
                           .GetAlgorithmSuiteInfo(binaryId)
                           .MapFailure(e => "Invalid Suite:" + algorithmSuiteHex);
 
     var keysAsStrings := GetArrayString("requiredEncryptionContextKeys", obj).ToOption();
-    var requiredEncryptionContextKeys :- if keysAsStrings.Some? then
-                                           var result := utf8EncodeSeq(keysAsStrings.value);
-                                           if result.Success? then Success(Some(result.value)) else Failure(result.error)
-                                         else Success(None);
+    var requiredEncryptionContextKeys :- match keysAsStrings
+    case Some(s) =>
+      var k :- utf8EncodeSeq(keysAsStrings.value);
+      Success(Some(k))
+    case None() => Success(None());
+                                         
+    var reproducedEncryptionContextStrings :- GetOptionalSmallObjectToStringStringMap("reproducedEncryptionContext", obj);
+    var reproducedEncryptionContext :- match reproducedEncryptionContextStrings
+      case Some(r) =>
+        var e :- utf8EncodeMap(r);
+        Success(Some(e))
+      case None() => Success(None());
 
     // TODO fix me
-    var commitmentPolicy := CompleteVectors.GetCompatableCommitmentPolicy(algorithmSuite);
-    var maxPlaintextLength := None; // GetString("maxPlaintextLength", obj);
+    var commitmentPolicy := CompleteVectors.AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite);
+    // This MAY be too flexible. If the length is say a string, this will return None
+    var maxPlaintextLength := GetPositiveLong("maxPlaintextLength", obj).ToOption();
 
     match typ
     case "positive-keyring" =>
-      var encryptKeyDescriptionObject :- Get("encryptKeyDescription", obj);
-      var decryptKeyDescriptionObject :- Get("decryptKeyDescription", obj);
+      var encryptKeyDescription :- GetKeyDescription(keys, "encryptKeyDescription", obj);
+      var decryptKeyDescription :- GetKeyDescription(keys, "decryptKeyDescription", obj);
 
-      // Be nice if `document` mapped to `JSON.Values.JSON`
-      var encryptStr :- API.Serialize(encryptKeyDescriptionObject).MapFailure((e: Errors.SerializationError) => e.ToString());
-      var decryptStr :- API.Serialize(decryptKeyDescriptionObject).MapFailure((e: Errors.SerializationError) => e.ToString());
-
-      var encryptKeyDescription :- keys
-                                   .GetKeyDescription(KeyVectorsTypes.GetKeyDescriptionInput(
-                                                        json := encryptStr
-                                                      ))
-                                   .MapFailure(ErrorToString);
-
-      var decryptKeyDescription :- keys
-                                   .GetKeyDescription(KeyVectorsTypes.GetKeyDescriptionInput(
-                                                        json := decryptStr
-                                                      ))
-                                   .MapFailure(ErrorToString);
       Success(PositiveEncryptKeyringVector(
                 name := name,
                 description := description,
@@ -100,19 +94,14 @@ module {:options "-functionSyntax:4"} ParseJsonManifests {
                 algorithmSuite := algorithmSuite,
                 maxPlaintextLength := maxPlaintextLength,
                 requiredEncryptionContextKeys := requiredEncryptionContextKeys,
-                encryptDescription := encryptKeyDescription.keyDescription,
-                decryptDescription := decryptKeyDescription.keyDescription
+                encryptDescription := encryptKeyDescription,
+                decryptDescription := decryptKeyDescription,
+                reproducedEncryptionContext := reproducedEncryptionContext
               ))
-    case "negative-keyring" =>
-      var keyDescriptionObject :- Get("keyDescription", obj);
-      var keyStr :- API.Serialize(keyDescriptionObject).MapFailure((e: Errors.SerializationError) => e.ToString());
-      var keyDescription :- keys
-                            .GetKeyDescription(KeyVectorsTypes.GetKeyDescriptionInput(
-                                                 json := keyStr
-                                               ))
-                            .MapFailure(ErrorToString);
-
+    case "negative-encrypt-keyring" =>
+      var keyDescription :- GetKeyDescription(keys, "keyDescription", obj);
       var errorDescription :- GetString("errorDescription", obj);
+
       Success(NegativeEncryptKeyringVector(
                 name := name,
                 description := description,
@@ -122,18 +111,61 @@ module {:options "-functionSyntax:4"} ParseJsonManifests {
                 maxPlaintextLength := maxPlaintextLength,
                 requiredEncryptionContextKeys := requiredEncryptionContextKeys,
                 errorDescription := errorDescription,
-                keyDescription := keyDescription.keyDescription
+                keyDescription := keyDescription
               ))
+
+    case "negative-decrypt-keyring" =>
+      var encryptKeyDescription :- GetKeyDescription(keys, "encryptKeyDescription", obj);
+      var decryptKeyDescription :- GetKeyDescription(keys, "decryptKeyDescription", obj);
+      var decryptErrorDescription :- GetString("decryptErrorDescription", obj);
+
+      Success(PositiveEncryptNegativeDecryptKeyringVector(
+                name := name,
+                description := description,
+                decryptErrorDescription := decryptErrorDescription,
+                encryptionContext := encryptionContext,
+                commitmentPolicy := commitmentPolicy,
+                algorithmSuite := algorithmSuite,
+                maxPlaintextLength := maxPlaintextLength,
+                requiredEncryptionContextKeys := requiredEncryptionContextKeys,
+                encryptDescription := encryptKeyDescription,
+                decryptDescription := decryptKeyDescription,
+                reproducedEncryptionContext := reproducedEncryptionContext
+              ))
+
     case _ => Failure("Unsupported EncryptTestVector type:" + typ)
+  }
+
+  function GetKeyDescription(
+    keyVectorClient: KeyVectors.KeyVectorsClient,
+    key: string,
+    obj: seq<(string, JSON)>
+  )
+    : Result<KeyVectorsTypes.KeyDescription, string>
+  {
+    var keyDescriptionObject :- Get(key, obj);
+
+    // Be nice if `document` mapped to `JSON.Values.JSON`
+    var descriptionStr :- API.Serialize(keyDescriptionObject)
+                          .MapFailure((e: Errors.SerializationError) => e.ToString());
+
+    var keyDescriptionOutput :- keyVectorClient
+                                .GetKeyDescription(KeyVectorsTypes.GetKeyDescriptionInput(
+                                                     json := descriptionStr
+                                                   ))
+                                .MapFailure(ErrorToString);
+
+    Success(keyDescriptionOutput.keyDescription)
   }
 
   function ErrorToString(e: KeyVectorsTypes.Error): string
   {
     match e
     case KeyVectorException(message) => message
-    case AwsCryptographyMaterialProviders(mplError) => ( match mplError
-                                                         case AwsCryptographicMaterialProvidersException(message) => message
-                                                         case _ => "Umapped AwsCryptographyMaterialProviders" )
-    case _ => "Umapped KeyVectorException"
+    case AwsCryptographyMaterialProviders(mplError) => (
+      match mplError
+      case AwsCryptographicMaterialProvidersException(message) => message
+      case _ => "Unmapped AwsCryptographyMaterialProviders" )
+    case _ => "Unmapped KeyVectorException"
   }
 }

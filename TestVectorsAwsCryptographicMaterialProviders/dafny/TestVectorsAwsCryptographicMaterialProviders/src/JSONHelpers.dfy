@@ -58,6 +58,23 @@ module {:options "-functionSyntax:4"} JSONHelpers {
     Success(obj.num.n)
   }
 
+  function GetPositiveLong(key: string, obj: seq<(string, JSON)>)
+    : Result<BoundedInts.int64, string>
+  {
+    var n :- GetNat(key, obj);
+    :- Need(n < BoundedInts.INT64_MAX as nat, "Int64 Overflow");
+    Success(n as BoundedInts.int64)
+  }
+
+  function GetPositiveInteger(key: string, obj: seq<(string, JSON)>)
+    : Result<BoundedInts.int32, string>
+  {
+    var n :- GetNat(key, obj);
+    :- Need(n < BoundedInts.INT32_MAX as nat, "Int64 Overflow");
+    Success(n as BoundedInts.int32)
+  }
+
+
   function GetOptionalString(key: string, obj: seq<(string, JSON)>)
     : Result<Option<string>, string>
   {
@@ -107,6 +124,25 @@ module {:options "-functionSyntax:4"} JSONHelpers {
     : Result<map<string, string>, string>
   {
     var item :- Get(key, obj);
+    JsonObjectToStringStringMap(item)
+  }
+
+  function GetOptionalSmallObjectToStringStringMap(key: string, obj: seq<(string, JSON)>)
+    : Result<Option<map<string, string>>, string>
+  {
+    var item := Get(key, obj).ToOption();
+    if item.Some? then
+      var m :- JsonObjectToStringStringMap(item.value);
+      Success(Some(m))
+    else
+      Success(None)
+  }
+
+  function printJson(j: JSON) : (){()} by method {print j, "\n", "\n"; return ();}
+
+  function JsonObjectToStringStringMap(item: JSON)
+    : Result<map<string, string>, string>
+  {
     :- Need(item.Object?, "Not an object");
     var obj := item.obj;
     :- Need(forall t <- obj :: t.1.String?, "Not a string string object");
@@ -146,5 +182,91 @@ module {:options "-functionSyntax:4"} JSONHelpers {
     var encodedResults := seq(|seqOfStrings|, i requires 0 <= i < |seqOfStrings| => UTF8.Encode(seqOfStrings[i]));
     :- Need(forall r <- encodedResults :: r.Success?, "String can not be UTF8 Encoded?");
     Success(seq(|encodedResults|, i requires 0 <= i < |encodedResults| => encodedResults[i].value))
+  }
+
+  lemma GotInParent(key: string, obj: seq<(string, JSON)>)
+    ensures Get(key, obj).Success? ==> (key, Get(key, obj).value) in obj
+  {}
+
+  lemma GetWillDecreaseSize(key: string, got: JSON, j: JSON)
+    requires
+      && j.Object?
+      && Get(key, j.obj).Success?
+      && Get(key, j.obj).value == got
+    ensures Size(got) < Size(j)
+  {
+    GotInParent(key, j.obj);
+    var i :| 0 <= i < |j.obj| && (key, got) == j.obj[i];
+
+    calc {
+      Size(j);
+    ==
+      Size(Object(j.obj));
+    == {assert j.obj == j.obj[..i] + j.obj[i..];}
+      Size(Object(j.obj[..i] + j.obj[i..]));
+    ==
+      SizeObject(j.obj[..i] + j.obj[i..]);
+    == {SizeObjectIsAssociative(j.obj[..i], j.obj[i..]);}
+      SizeObject(j.obj[..i]) + SizeObject(j.obj[i..]) - 1;
+    ==
+      SizeObject(j.obj[..i]) + Size(got) + SizeObject(j.obj[i..][1..]) - 1;
+    ==
+      Size(got) + SizeObject(j.obj[..i]) + SizeObject(j.obj[i..][1..]) - 1;
+    == {SizeObjectIsAssociative(j.obj[..i], j.obj[i..][1..]);}
+      Size(got) + SizeObject(j.obj[..i] + j.obj[i..][1..]);
+    >
+      Size(got);
+    }
+  }
+
+  lemma SizeObjectIsAssociative(o1: seq<(string, JSON)>, o2: seq<(string, JSON)>)
+    ensures SizeObject(o1) + SizeObject(o2) - 1 == SizeObject(o1 + o2)
+  {
+    if |o1| == 0 {
+      calc {
+        SizeObject(o1) + SizeObject(o2) - 1;
+      == {assert SizeObject(o1) == 1;}
+        SizeObject(o2);
+      == {assert o1 + o2 == o2;}
+        SizeObject(o1 + o2);
+      }
+    } else {
+      calc {
+        SizeObject(o1 + o2);
+      == // () help Dafny combine and split things
+        SizeObject((o1 + o2));
+      ==
+        Size((o1 + o2)[0].1) + SizeObject((o1 + o2)[1..]);
+      == {assert o1[0] == (o1 + o2)[0];}
+        Size(o1[0].1) + SizeObject((o1 + o2)[1..]);
+      == {assert (o1 + o2)[1..] == o1[1..] + o2;}
+        Size(o1[0].1) + SizeObject(o1[1..] + o2);
+      }
+    }
+  }
+
+  ghost function Size(j: JSON): nat
+    ensures 0 < Size(j)
+  {
+    match j
+    case Array(a) => SizeArray(a)
+    case Object(o) => SizeObject(o)
+    case _ => 1
+  }
+
+  ghost function SizeArray(a: seq<JSON>): nat
+  {
+    if |a| == 0 then
+      1
+    else
+      Size(a[0]) + SizeArray(a[1..])
+  }
+
+  ghost function SizeObject(o: seq<(string,JSON)>): nat
+  {
+    if |o| == 0 then
+      1
+    else
+      Size(o[0].1) + SizeObject(o[1..])
   }
 }

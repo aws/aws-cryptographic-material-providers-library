@@ -9,6 +9,7 @@ include "../../TestVectorsAwsCryptographicMaterialProviders/src/JSONHelpers.dfy"
 include "KeyDescription.dfy"
 include "KeyMaterial.dfy"
 include "KeyringFromKeyDescription.dfy"
+include "CmmFromKeyDescription.dfy"
 
 module {:options "-functionSyntax:4"} KeysVectorOperations refines AbstractAwsCryptographyMaterialProvidersTestVectorKeysOperations {
   import JSON.API
@@ -18,6 +19,7 @@ module {:options "-functionSyntax:4"} KeysVectorOperations refines AbstractAwsCr
   import MPL = AwsCryptographyMaterialProvidersTypes
   import KeyMaterial
   import KeyringFromKeyDescription
+  import CmmFromKeyDescription
   import WrappedMaterialProviders
   import MaterialProviders
 
@@ -43,16 +45,13 @@ module {:options "-functionSyntax:4"} KeysVectorOperations refines AbstractAwsCr
     returns (output: Result<AwsCryptographyMaterialProvidersTypes.IKeyring, Error>)
   {
 
-    var keyDescription := input.keyDescription;
-    var keyId := GetKeyId(keyDescription);
-
-    var info := KeyringFromKeyDescription.KeyringInfo(
-      keyDescription,
-      if keyId in config.keys then
-        Some(config.keys[keyId])
-      else
-        None
+    :- Need(
+      && !input.keyDescription.RequiredEncryptionContext?
+      && !input.keyDescription.Caching?,
+      KeyVectorException( message := "CMM key descriptions are not supported ")
     );
+
+    var info := ToKeyringInfo(config, input.keyDescription);
 
     var maybeMpl := MaterialProviders.MaterialProviders();
     var mpl :- maybeMpl.MapFailure(e => AwsCryptographyMaterialProviders(e));
@@ -66,21 +65,34 @@ module {:options "-functionSyntax:4"} KeysVectorOperations refines AbstractAwsCr
   method CreateWappedTestVectorKeyring ( config: InternalConfig , input: TestVectorKeyringInput )
     returns (output: Result<AwsCryptographyMaterialProvidersTypes.IKeyring, Error>)
   {
-    var keyDescription := input.keyDescription;
-    var keyId := GetKeyId(keyDescription);
 
-    var info := KeyringFromKeyDescription.KeyringInfo(
-      keyDescription,
-      if keyId in config.keys then
-        Some(config.keys[keyId])
-      else
-        None
+    :- Need(
+      && !input.keyDescription.RequiredEncryptionContext?
+      && !input.keyDescription.Caching?,
+      KeyVectorException( message := "CMM key descriptions are not supported ")
     );
+
+    var info := ToKeyringInfo(config, input.keyDescription);
 
     var maybeMpl := WrappedMaterialProviders.WrappedMaterialProviders();
     var wrappedMPL :- maybeMpl.MapFailure(e => AwsCryptographyMaterialProviders(e));
 
     output := KeyringFromKeyDescription.ToKeyring(wrappedMPL, info);
+  }
+
+  predicate CreateWrappedTestVectorCmmEnsuresPublicly(
+    input: TestVectorCmmInput ,
+    output: Result<AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager, Error>)
+  {true}
+
+  method CreateWrappedTestVectorCmm ( config: InternalConfig , input: TestVectorCmmInput )
+    returns (output: Result<AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager, Error>)
+  {
+    var info := ToKeyringInfo(config, input.keyDescription);
+    var maybeMpl := WrappedMaterialProviders.WrappedMaterialProviders();
+    var wrappedMPL :- maybeMpl.MapFailure(e => AwsCryptographyMaterialProviders(e));
+
+    output := CmmFromKeyDescription.ToCmm(wrappedMPL, info, input.forOperation);
   }
 
   function GetKeyDescription ( config: InternalConfig , input: GetKeyDescriptionInput )
@@ -119,6 +131,25 @@ module {:options "-functionSyntax:4"} KeysVectorOperations refines AbstractAwsCr
     case Static(i) => i.keyId
     case Hierarchy(i) => i.keyId
     case KmsRsa(i) => i.keyId
+    case RequiredEncryptionContext(i) => GetKeyId(i.underlying)
+    case Caching(i) => GetKeyId(i.underlying)
+  }
+
+  function ToKeyringInfo(
+    config: InternalConfig,
+    keyDescription: Types.KeyDescription
+  )
+    : KeyringFromKeyDescription.KeyringInfo
+  {
+    var keyId := GetKeyId(keyDescription);
+
+    KeyringFromKeyDescription.KeyringInfo(
+      keyDescription,
+      if keyId in config.keys then
+        Some(config.keys[keyId])
+      else
+        None
+    )
   }
 
 }

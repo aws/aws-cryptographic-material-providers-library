@@ -47,7 +47,7 @@ module {:options "-functionSyntax:4"} KeyMaterial {
     match typ
     case "static-material" =>
       var algorithmSuiteHex :- GetString("algorithmSuiteId", obj);
-      :- Need(HexStrings.IsLooseHexString(algorithmSuiteHex), "Not hex encoded binnary");
+      :- Need(HexStrings.IsLooseHexString(algorithmSuiteHex), "Not hex encoded binary");
       var binaryId := HexStrings.FromHexString(algorithmSuiteHex);
       var algorithmSuite :- mpl.GetAlgorithmSuiteInfo(binaryId)
                             .MapFailure(e => "Invalid Suite:" + algorithmSuiteHex);

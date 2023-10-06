@@ -17,7 +17,7 @@ module TestWrappedMaterialProvidersMain {
   // }
 
   // This MUST go before the test vectors
-  method {:test} ASDF() {
+  method {:test} WriteTestVectors() {
     CompleteVectors.WriteStuff();
   }
 

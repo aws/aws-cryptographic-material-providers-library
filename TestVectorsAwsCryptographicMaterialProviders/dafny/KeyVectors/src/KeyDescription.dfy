@@ -13,15 +13,18 @@ module {:options "-functionSyntax:4"} KeyDescription {
   import opened Types = AwsCryptographyMaterialProvidersTestVectorKeysTypes
   import opened JSONHelpers
   import ComAmazonawsKmsTypes
-
+  import Seq
+  import Base64
 
   function printErr(e: string) : (){()} by method {print e, "\n", "\n"; return ();}
   function printJSON(e: seq<(string, JSON)>) : (){()} by method {print e, "\n", "\n"; return ();}
 
-  function ToKeyDescription(obj: JSON): Result<KeyDescription, string>
+  function  ToKeyDescription(json: JSON)
+    : Result<KeyDescription, string>
+    decreases Size(json)
   {
-    :- Need(obj.Object?, "KeyDescription not an object");
-    var obj := obj.obj;
+    :- Need(json.Object?, "KeyDescription not an object");
+    var obj := json.obj;
     var typString := "type";
     var typ :- GetString(typString, obj);
 
@@ -32,11 +35,58 @@ module {:options "-functionSyntax:4"} KeyDescription {
       var defaultMrkRegion :- GetString("default-mrk-region", obj);
       var filter := GetObject("aws-kms-discovery-filter", obj);
       var awsKmsDiscoveryFilter := ToDiscoveryFilter(obj);
-      Success(KmsMrkDiscovery(KmsMrkAwareDiscovery(
-                                keyId := "aws-kms-mrk-aware-discovery",
-                                defaultMrkRegion := defaultMrkRegion,
-                                awsKmsDiscoveryFilter := awsKmsDiscoveryFilter
-                              )))
+      Success(KmsMrkDiscovery(
+                KmsMrkAwareDiscovery(
+                  keyId := "aws-kms-mrk-aware-discovery",
+                  defaultMrkRegion := defaultMrkRegion,
+                  awsKmsDiscoveryFilter := awsKmsDiscoveryFilter
+                )))
+    case "caching-cmm" =>
+      var u :- Get("underlying", obj);
+      GetWillDecreaseSize("underlying", u, json);
+      var underlying :- ToKeyDescription(u);
+      var cacheLimitTtlSeconds :- GetPositiveInteger("cacheLimitTtlSeconds", obj);
+      var limitBytes := GetPositiveLong("limitBytes", obj).ToOption();
+      var limitMessages := GetPositiveInteger("limitMessages", obj).ToOption();
+
+      var getEntryIdentifierEncoded :- GetOptionalString("getEntryIdentifier", obj);
+      var getEntryIdentifier
+        :- if getEntryIdentifierEncoded.Some? then
+             var result := Base64.Decode(getEntryIdentifierEncoded.value);
+             if result.Success? then Success(Some(result.value)) else Failure(result.error)
+           else Success(None);
+
+      var putEntryIdentifierEncoded :- GetOptionalString("putEntryIdentifier", obj);
+      var putEntryIdentifier
+        :- if putEntryIdentifierEncoded.Some? then
+             var result := Base64.Decode(putEntryIdentifierEncoded.value);
+             if result.Success? then Success(Some(result.value)) else Failure(result.error)
+           else Success(None);
+
+      Success(Caching(
+                CachingCMM(
+                  underlying := underlying,
+                  cacheLimitTtlSeconds := cacheLimitTtlSeconds,
+                  limitBytes := limitBytes,
+                  limitMessages := limitMessages,
+                  getEntryIdentifier := getEntryIdentifier,
+                  putEntryIdentifier := putEntryIdentifier
+                )))
+    case "required-encryption-context-cmm" =>
+      var u :- Get("underlying", obj);
+      GetWillDecreaseSize("underlying", u, json);
+      var underlying :- ToKeyDescription(u);
+      var requiredEncryptionContextStrings
+        := GetArrayString("requiredEncryptionContextKeys", obj)
+           .ToOption()
+           .UnwrapOr([]);
+      var requiredEncryptionContextKeys :- utf8EncodeSeq(requiredEncryptionContextStrings);
+
+      Success(RequiredEncryptionContext(
+                RequiredEncryptionContextCMM(
+                  underlying := underlying,
+                  requiredEncryptionContextKeys := requiredEncryptionContextKeys
+                )))
     case _ =>
       var key :- GetString("key", obj);
       match typ
@@ -100,6 +150,8 @@ module {:options "-functionSyntax:4"} KeyDescription {
     || s == "raw"
     || s == "aws-kms-hierarchy"
     || s == "aws-kms-rsa"
+    || s == "caching-cmm"
+    || s == "required-encryption-context-cmm"
   }
 
   predicate RawAlgorithmString?(s: string)

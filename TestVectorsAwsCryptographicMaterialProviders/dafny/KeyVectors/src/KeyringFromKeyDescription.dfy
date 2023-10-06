@@ -31,9 +31,15 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
     requires mpl.ValidState()
     modifies mpl.Modifies
     ensures mpl.ValidState()
+
+    requires
+      && !info.description.RequiredEncryptionContext?
+      && !info.description.Caching?
+
     ensures output.Success? ==>
               && output.value.ValidState()
               && fresh(output.value.Modifies - mpl.Modifies - {mpl.History})
+              && output.value.Modifies !! {mpl.History}
   {
     var KeyringInfo(description, material) := info;
 
