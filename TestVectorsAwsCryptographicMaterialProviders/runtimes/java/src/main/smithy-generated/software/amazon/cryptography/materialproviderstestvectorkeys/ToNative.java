@@ -3,12 +3,15 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.materialproviderstestvectorkeys;
 
+import java.lang.IllegalArgumentException;
 import java.lang.RuntimeException;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.Error;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.Error_CollectionOfErrors;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.Error_KeyVectorException;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.Error_Opaque;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.IKeyVectorsClient;
+import software.amazon.cryptography.materialproviderstestvectorkeys.model.CachingCMM;
+import software.amazon.cryptography.materialproviderstestvectorkeys.model.CmmOperation;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.CollectionOfErrors;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.GetKeyDescriptionInput;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.GetKeyDescriptionOutput;
@@ -23,9 +26,11 @@ import software.amazon.cryptography.materialproviderstestvectorkeys.model.KmsRsa
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.OpaqueError;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.RawAES;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.RawRSA;
+import software.amazon.cryptography.materialproviderstestvectorkeys.model.RequiredEncryptionContextCMM;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.SerializeKeyDescriptionInput;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.SerializeKeyDescriptionOutput;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.StaticKeyring;
+import software.amazon.cryptography.materialproviderstestvectorkeys.model.TestVectorCmmInput;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.TestVectorKeyringInput;
 
 public class ToNative {
@@ -63,6 +68,26 @@ public class ToNative {
     }
     OpaqueError.Builder nativeBuilder = OpaqueError.builder();
     nativeBuilder.obj(dafnyValue);
+    return nativeBuilder.build();
+  }
+
+  public static CachingCMM CachingCMM(
+      software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.CachingCMM dafnyValue) {
+    CachingCMM.Builder nativeBuilder = CachingCMM.builder();
+    nativeBuilder.underlying(ToNative.KeyDescription(dafnyValue.dtor_underlying()));
+    nativeBuilder.cacheLimitTtlSeconds((dafnyValue.dtor_cacheLimitTtlSeconds()));
+    if (dafnyValue.dtor_limitBytes().is_Some()) {
+      nativeBuilder.limitBytes((dafnyValue.dtor_limitBytes().dtor_value()));
+    }
+    if (dafnyValue.dtor_limitMessages().is_Some()) {
+      nativeBuilder.limitMessages((dafnyValue.dtor_limitMessages().dtor_value()));
+    }
+    if (dafnyValue.dtor_getEntryIdentifier().is_Some()) {
+      nativeBuilder.getEntryIdentifier(software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(dafnyValue.dtor_getEntryIdentifier().dtor_value()));
+    }
+    if (dafnyValue.dtor_putEntryIdentifier().is_Some()) {
+      nativeBuilder.putEntryIdentifier(software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(dafnyValue.dtor_putEntryIdentifier().dtor_value()));
+    }
     return nativeBuilder.build();
   }
 
@@ -144,6 +169,14 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static RequiredEncryptionContextCMM RequiredEncryptionContextCMM(
+      software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.RequiredEncryptionContextCMM dafnyValue) {
+    RequiredEncryptionContextCMM.Builder nativeBuilder = RequiredEncryptionContextCMM.builder();
+    nativeBuilder.underlying(ToNative.KeyDescription(dafnyValue.dtor_underlying()));
+    nativeBuilder.requiredEncryptionContextKeys(software.amazon.cryptography.materialproviders.ToNative.EncryptionContextKeys(dafnyValue.dtor_requiredEncryptionContextKeys()));
+    return nativeBuilder.build();
+  }
+
   public static SerializeKeyDescriptionInput SerializeKeyDescriptionInput(
       software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.SerializeKeyDescriptionInput dafnyValue) {
     SerializeKeyDescriptionInput.Builder nativeBuilder = SerializeKeyDescriptionInput.builder();
@@ -165,11 +198,30 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static TestVectorCmmInput TestVectorCmmInput(
+      software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.TestVectorCmmInput dafnyValue) {
+    TestVectorCmmInput.Builder nativeBuilder = TestVectorCmmInput.builder();
+    nativeBuilder.keyDescription(ToNative.KeyDescription(dafnyValue.dtor_keyDescription()));
+    nativeBuilder.forOperation(ToNative.CmmOperation(dafnyValue.dtor_forOperation()));
+    return nativeBuilder.build();
+  }
+
   public static TestVectorKeyringInput TestVectorKeyringInput(
       software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.TestVectorKeyringInput dafnyValue) {
     TestVectorKeyringInput.Builder nativeBuilder = TestVectorKeyringInput.builder();
     nativeBuilder.keyDescription(ToNative.KeyDescription(dafnyValue.dtor_keyDescription()));
     return nativeBuilder.build();
+  }
+
+  public static CmmOperation CmmOperation(
+      software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.CmmOperation dafnyValue) {
+    if (dafnyValue.is_ENCRYPT()) {
+      return CmmOperation.ENCRYPT;
+    }
+    if (dafnyValue.is_DECRYPT()) {
+      return CmmOperation.DECRYPT;
+    }
+    throw new IllegalArgumentException("No entry of software.amazon.cryptography.materialproviderstestvectorkeys.model.CmmOperation matches the input : " + dafnyValue);
   }
 
   public static KeyDescription KeyDescription(
@@ -198,6 +250,12 @@ public class ToNative {
     }
     if (dafnyValue.is_Hierarchy()) {
       nativeBuilder.Hierarchy(ToNative.HierarchyKeyring(dafnyValue.dtor_Hierarchy()));
+    }
+    if (dafnyValue.is_RequiredEncryptionContext()) {
+      nativeBuilder.RequiredEncryptionContext(ToNative.RequiredEncryptionContextCMM(dafnyValue.dtor_RequiredEncryptionContext()));
+    }
+    if (dafnyValue.is_Caching()) {
+      nativeBuilder.Caching(ToNative.CachingCMM(dafnyValue.dtor_Caching()));
     }
     return nativeBuilder.build();
   }

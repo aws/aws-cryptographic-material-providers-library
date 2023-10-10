@@ -25,6 +25,7 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.Create
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsMrkMultiKeyringInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsMultiKeyringInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsRsaKeyringInput;
+import software.amazon.cryptography.materialproviders.internaldafny.types.CreateCachingCMMInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateCryptographicMaterialsCacheInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateDefaultClientSupplierInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateDefaultCryptographicMaterialsManagerInput;
@@ -169,6 +170,18 @@ public class TestMaterialProviders implements IAwsCryptographicMaterialProviders
     try {
       software.amazon.cryptography.materialproviders.IKeyring nativeOutput = this._impl.CreateAwsKmsRsaKeyring(nativeInput);
       IKeyring dafnyOutput = ToDafny.Keyring(nativeOutput);
+      return Result.create_Success(dafnyOutput);
+    } catch (RuntimeException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    }
+  }
+
+  public Result<ICryptographicMaterialsManager, Error> CreateCachingCMM(
+      CreateCachingCMMInput dafnyInput) {
+    software.amazon.cryptography.materialproviders.model.CreateCachingCMMInput nativeInput = ToNative.CreateCachingCMMInput(dafnyInput);
+    try {
+      software.amazon.cryptography.materialproviders.ICryptographicMaterialsManager nativeOutput = this._impl.CreateCachingCMM(nativeInput);
+      ICryptographicMaterialsManager dafnyOutput = ToDafny.CryptographicMaterialsManager(nativeOutput);
       return Result.create_Success(dafnyOutput);
     } catch (RuntimeException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
