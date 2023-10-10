@@ -101,7 +101,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     ghost var ValidateCommitmentPolicyOnDecrypt: seq<DafnyCallEvent<ValidateCommitmentPolicyOnDecryptInput, Result<(), Error>>>
   }
   trait {:termination false} IAwsCryptographicMaterialProvidersClient
-    {
+  {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
     // add it in your constructor function:
@@ -644,7 +644,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     ghost var GetBranchKeyId: seq<DafnyCallEvent<GetBranchKeyIdInput, Result<GetBranchKeyIdOutput, Error>>>
   }
   trait {:termination false} IBranchKeyIdSupplier
-    {
+  {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
     // add it in your constructor function:
@@ -715,7 +715,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     ghost var GetClient: seq<DafnyCallEvent<GetClientInput, Result<ComAmazonawsKmsTypes.IKMSClient, Error>>>
   }
   trait {:termination false} IClientSupplier
-    {
+  {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
     // add it in your constructor function:
@@ -902,7 +902,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     ghost var DeleteCacheEntry: seq<DafnyCallEvent<DeleteCacheEntryInput, Result<(), Error>>>
   }
   trait {:termination false} ICryptographicMaterialsCache
-    {
+  {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
     // add it in your constructor function:
@@ -1075,7 +1075,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     ghost var DecryptMaterials: seq<DafnyCallEvent<DecryptMaterialsInput, Result<DecryptMaterialsOutput, Error>>>
   }
   trait {:termination false} ICryptographicMaterialsManager
-    {
+  {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
     // add it in your constructor function:
@@ -1313,7 +1313,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     ghost var OnDecrypt: seq<DafnyCallEvent<OnDecryptInput, Result<OnDecryptOutput, Error>>>
   }
   trait {:termination false} IKeyring
-    {
+  {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
     // add it in your constructor function:
@@ -1583,7 +1583,7 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
               && res.value.ValidState()
 
   class MaterialProvidersClient extends IAwsCryptographicMaterialProvidersClient
-    {
+  {
     constructor(config: Operations.InternalConfig)
       requires Operations.ValidInternalConfig?(config)
       ensures

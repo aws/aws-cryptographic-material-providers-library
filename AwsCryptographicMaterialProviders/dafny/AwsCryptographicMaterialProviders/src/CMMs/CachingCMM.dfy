@@ -197,6 +197,12 @@ module {:options "/functionSyntax:4" } CachingCMM  {
                   digestAlgorithm := Primitives.Types.SHA_512,
                   message := CanonicalEncryptionContext.EncryptionContextToAAD(input.encryptionContext).value
                 )
+
+          //= aws-encryption-sdk-specification/framework/caching-cmm.md#appendix-a-cache-entry-identifier-formulas
+          //= type=implication
+          //# When accessing the underlying CMC,
+          //# the caching CMM MUST use the formulas specified in this appendix
+          //# in order to compute the [cache entry identifier](cryptographic-materials-cache.md#cache-identifier).
           && (if input.algorithmSuiteId.Some? then
                 //= aws-encryption-sdk-specification/framework/caching-cmm.md#encryption-materials-with-algorithm-suite
                 //= type=implication
@@ -251,6 +257,10 @@ module {:options "/functionSyntax:4" } CachingCMM  {
           && Seq.Last(cache.History.GetCacheEntry).input
              == Types.GetCacheEntryInput(
                   identifier := cacheEntryIdentifier,
+                  //= aws-encryption-sdk-specification/framework/caching-cmm.md#usage-stats
+                  //= type=implication
+                  //# When the caching CMM obtains encryption materials from the cryptographic materials cache,
+                  //# the caching CMM MUST update the usage stats for the cache entry retrieved.
                   bytesUsed := Some(input.maxPlaintextLength.value)
                 )
 
@@ -319,6 +329,10 @@ module {:options "/functionSyntax:4" } CachingCMM  {
                      && var PutCacheEntryInput := Seq.Last(cache.History.PutCacheEntry).input;
                      && PutCacheEntryInput.materials == Types.Encryption(output.value.encryptionMaterials)
                      && PutCacheEntryInput.identifier == Seq.Last(cache.History.GetCacheEntry).input.identifier
+                        //= aws-encryption-sdk-specification/framework/caching-cmm.md#usage-stats
+                        //= type=implication
+                        //# When the caching CMM stores encryption materials into the cryptographic materials cache,
+                        //# the caching CMM MUST set the initial usage stats for the cache entry.
                      && PutCacheEntryInput.bytesUsed == input.maxPlaintextLength
                  )
                  //= aws-encryption-sdk-specification/framework/caching-cmm.md#get-encryption-materials
@@ -551,6 +565,12 @@ module {:options "/functionSyntax:4" } CachingCMM  {
           && ecDigestRequest.input.digestAlgorithm == Primitives.Types.SHA_512
           && ecDigestRequest.input.message == CanonicalEncryptionContext.EncryptionContextToAAD(input.encryptionContext).value
 
+          //= aws-encryption-sdk-specification/framework/caching-cmm.md#appendix-a-cache-entry-identifier-formulas
+          //= type=implication
+          //# When accessing the underlying CMC,
+          //# the caching CMM MUST use the formulas specified in this appendix
+          //# in order to compute the [cache entry identifier](cryptographic-materials-cache.md#cache-identifier).
+
           //= aws-encryption-sdk-specification/framework/caching-cmm.md#decryption-materials
           //= type=implication
           //# When the caching CMM receives a Decrypt Materials request,
@@ -587,7 +607,6 @@ module {:options "/functionSyntax:4" } CachingCMM  {
                   identifier := cacheEntryIdentifier,
                   bytesUsed := None()
                 )
-
 
           //= aws-encryption-sdk-specification/framework/caching-cmm.md#decrypt-materials
           //= type=implication

@@ -538,6 +538,12 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       && output.Success?
       && input.partitionKey.None?
       ==>
+        // The `partitionKeyDigest` on the CMM is used in the calculation of cache identifiers.
+        // Letting the `partitionKey` be set or random is expected to satisfy this requirement.
+        //= aws-encryption-sdk-specification/framework/caching-cmm.md#underlying-cryptographic-materials-cache
+        //= type=implication
+        //# Multiple caching CMMs MAY share the same cryptographic materials cache,
+        //# but by default MUST NOT use each other's cache entries.
         var cmm: CachingCMM.CachingCMM := output.value;
         && 0 < |cmm.cryptoPrimitives.History.GenerateRandomBytes|
         && 0 < |cmm.cryptoPrimitives.History.Digest|

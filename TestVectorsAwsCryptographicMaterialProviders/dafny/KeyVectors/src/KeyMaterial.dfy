@@ -3,7 +3,7 @@
 
 include "../Model/AwsCryptographyMaterialProvidersTestVectorKeysTypes.dfy"
   // Yes, this is reaching across.
-  // idealy all these functions would exist in the STD Library.
+  // ideally all these functions would exist in the STD Library.
 include "../../TestVectorsAwsCryptographicMaterialProviders/src/JSONHelpers.dfy"
 
 module {:options "-functionSyntax:4"} KeyMaterial {
