@@ -163,7 +163,7 @@ structure CreateRequiredEncryptionContextCMMInput {
 }
 
 @positional
-@javadoc("Outputs for creating an a Caching Cryptographic Materials Manager.")
+@javadoc("Outputs for creating a Caching Cryptographic Materials Manager.")
 structure CreateCachingCMMOutput {
   @required
   @javadoc("The created Caching Cryptographic Materials Manager.")
