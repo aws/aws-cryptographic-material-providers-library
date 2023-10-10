@@ -35,10 +35,38 @@ module {:options "-functionSyntax:4"} ParseJsonManifests {
     if |obj| == 0 then
       Success([])
     else
-      var name := obj[0].0;
-      var encryptVector :- ToEncryptTestVector(keys, name, obj[0].1);
       var tail :- BuildEncryptTestVector(keys, obj[1..]);
+      var encryptVector :- ToEncryptTestVector(keys, obj[0].0, obj[0].1);
       Success([ encryptVector ] + tail)
+  }
+  by method {
+    // This function ideally would be`{:tailrecursion}`
+    // but it is not simple to here is a method
+    // so that it does not explode with huge numbers of tests.
+    var i: nat := |obj|;
+    var vectors := [];
+
+    while i != 0
+      decreases i
+      invariant Success(vectors) == BuildEncryptTestVector(keys, obj[i..])
+    {
+      i := i - 1;
+      var test := ToEncryptTestVector(keys, obj[i].0, obj[i].1);
+      if test.Failure? {
+        ghost var j := i;
+        while j != 0
+          decreases j
+          invariant Failure(test.error) == BuildEncryptTestVector(keys, obj[j..])
+        {
+          j := j - 1;
+        }
+        return Failure(test.error);
+      }
+
+      vectors := [test.value] + vectors;
+    }
+
+    return Success(vectors);
   }
 
   function ToEncryptTestVector(keys: KeyVectors.KeyVectorsClient, name: string, obj: JSON)
