@@ -31,7 +31,7 @@ module {:options "-functionSyntax:4"} TestManifests {
     expect encryptManifestJSON.Object?;
 
     var keys :- expect KeyVectors.KeyVectors(KeyVectorsTypes.KeyVectorsConfig(
-                                               keyManifiestPath := keysManifestPath
+                                               keyManifestPath := keysManifestPath
                                              ));
 
     var jsonTests :- expect GetObject("tests", encryptManifestJSON.obj);
@@ -57,7 +57,7 @@ module {:options "-functionSyntax:4"} TestManifests {
   {
     var hasFailure := false;
 
-    print "\n=================== Starting Encrypt Tests =================== \n\n";
+    print "\n=================== Starting ", |tests|, " Encrypt Tests =================== \n\n";
 
     var decryptableTests: seq<(TestVectors.EncryptTest, Types.EncryptionMaterials)> := [];
 
@@ -74,7 +74,7 @@ module {:options "-functionSyntax:4"} TestManifests {
       }
     }
 
-    print "\n=================== Completed Encrypt Tests =================== \n\n";
+    print "\n=================== Completed ", |tests|, " Encrypt Tests =================== \n\n";
 
     expect !hasFailure;
     output :- expect ToDecryptTests(keys, decryptableTests);
@@ -87,7 +87,7 @@ module {:options "-functionSyntax:4"} TestManifests {
     ensures forall t <- tests :: t.cmm.ValidState()
   {
 
-    print "\n=================== Starting Decrypt Tests =================== \n\n";
+    print "\n=================== Starting ", |tests|, " Decrypt Tests =================== \n\n";
 
     var hasFailure := false;
 
@@ -99,7 +99,7 @@ module {:options "-functionSyntax:4"} TestManifests {
         hasFailure := true;
       }
     }
-    print "\n=================== Completed Decrypt Tests =================== \n\n";
+    print "\n=================== Completed ", |tests|, " Decrypt Tests =================== \n\n";
 
     expect !hasFailure;
 

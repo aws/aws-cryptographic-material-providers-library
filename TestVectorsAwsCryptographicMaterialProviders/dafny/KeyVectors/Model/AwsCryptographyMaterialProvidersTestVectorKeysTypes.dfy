@@ -162,7 +162,7 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
 
   }
   datatype KeyVectorsConfig = | KeyVectorsConfig (
-    nameonly keyManifiestPath: string
+    nameonly keyManifestPath: string
   )
   datatype KMSInfo = | KMSInfo (
     nameonly keyId: string
