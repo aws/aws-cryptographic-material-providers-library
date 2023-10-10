@@ -344,7 +344,7 @@ module {:options "/functionSyntax:4" } CachingCMM  {
       if BypassCache(input, limitBytes) {
         output := underlyingCMM.GetEncryptionMaterials(input);
       } else {
-        var cacheEntryIdentifier :- EncryptMaterialsCacheKey(partitionKeyDigest, input, cryptoPrimitives);
+        var cacheEntryIdentifier :- GetEncryptMaterialsCacheIdentifier(partitionKeyDigest, input, cryptoPrimitives);
         verifyValidStateCache(cache);
         var entry := getEntry(
           cache,
@@ -690,7 +690,7 @@ module {:options "/functionSyntax:4" } CachingCMM  {
       {
         output := underlyingCMM.DecryptMaterials(input);
       } else {
-        var identifier :- DecryptMaterialsCacheKey(partitionKeyDigest, input, cryptoPrimitives);
+        var identifier :- GetDecryptMaterialsCacheIdentifier(partitionKeyDigest, input, cryptoPrimitives);
         verifyValidStateCache(cache);
         var entry := getEntry(
           cache,
@@ -780,7 +780,7 @@ module {:options "/functionSyntax:4" } CachingCMM  {
     output := cache.PutCacheEntry(input);
   }
 
-  method EncryptMaterialsCacheKey (
+  method GetEncryptMaterialsCacheIdentifier (
     partitionKeyDigest: seq<uint8>,
     input: Types.GetEncryptionMaterialsInput,
     cryptoPrimitives: Primitives.AtomicPrimitivesClient
@@ -870,7 +870,7 @@ module {:options "/functionSyntax:4" } CachingCMM  {
     ensures forall b <- PADDING_OF_512_ZERO_BITS :: b == 0
   {}
 
-  method {:vcs_split_on_every_assert} DecryptMaterialsCacheKey(
+  method {:vcs_split_on_every_assert} GetDecryptMaterialsCacheIdentifier(
     partitionKeyDigest: seq<uint8>,
     input: Types.DecryptMaterialsInput,
     cryptoPrimitives: Primitives.AtomicPrimitivesClient
