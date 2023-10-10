@@ -59,7 +59,7 @@ module {:options "-functionSyntax:4"} KeysVectorOperations refines AbstractAwsCr
   }
 
   predicate CreateWrappedTestVectorKeyringEnsuresPublicly(input: TestVectorKeyringInput ,
-                                                         output: Result<AwsCryptographyMaterialProvidersTypes.IKeyring, Error>)
+                                                          output: Result<AwsCryptographyMaterialProvidersTypes.IKeyring, Error>)
   {true}
 
   method CreateWrappedTestVectorKeyring ( config: InternalConfig , input: TestVectorKeyringInput )
