@@ -19,7 +19,7 @@ jobs:
           ComAmazonawsKms,
           ComAmazonawsDynamodb,
           AwsCryptographicMaterialProviders,
-          # TestVectorsAwsCryptographicMaterialProviders,
+          TestVectorsAwsCryptographicMaterialProviders,
         ]
         dotnet-version: [ '6.0.x' ]
         os: [

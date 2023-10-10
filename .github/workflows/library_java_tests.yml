@@ -18,7 +18,7 @@ jobs:
           ComAmazonawsKms,
           ComAmazonawsDynamodb,
           AwsCryptographicMaterialProviders,
-          # TestVectorsAwsCryptographicMaterialProviders,
+          TestVectorsAwsCryptographicMaterialProviders,
           StandardLibrary,
         ]
         os: [
