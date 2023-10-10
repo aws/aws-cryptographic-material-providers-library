@@ -9,7 +9,7 @@ import java.util.Objects;
 public class GetCacheEntryInput {
   private final ByteBuffer identifier;
 
-  private final Long bytesUsed;
+  private final long bytesUsed;
 
   protected GetCacheEntryInput(BuilderImpl builder) {
     this.identifier = builder.identifier();
@@ -20,7 +20,7 @@ public class GetCacheEntryInput {
     return this.identifier;
   }
 
-  public Long bytesUsed() {
+  public long bytesUsed() {
     return this.bytesUsed;
   }
 
@@ -37,9 +37,9 @@ public class GetCacheEntryInput {
 
     ByteBuffer identifier();
 
-    Builder bytesUsed(Long bytesUsed);
+    Builder bytesUsed(long bytesUsed);
 
-    Long bytesUsed();
+    long bytesUsed();
 
     GetCacheEntryInput build();
   }
@@ -47,7 +47,9 @@ public class GetCacheEntryInput {
   static class BuilderImpl implements Builder {
     protected ByteBuffer identifier;
 
-    protected Long bytesUsed;
+    protected long bytesUsed;
+
+    private boolean _bytesUsedSet = false;
 
     protected BuilderImpl() {
     }
@@ -55,6 +57,7 @@ public class GetCacheEntryInput {
     protected BuilderImpl(GetCacheEntryInput model) {
       this.identifier = model.identifier();
       this.bytesUsed = model.bytesUsed();
+      this._bytesUsedSet = true;
     }
 
     public Builder identifier(ByteBuffer identifier) {
@@ -66,18 +69,22 @@ public class GetCacheEntryInput {
       return this.identifier;
     }
 
-    public Builder bytesUsed(Long bytesUsed) {
+    public Builder bytesUsed(long bytesUsed) {
       this.bytesUsed = bytesUsed;
+      this._bytesUsedSet = true;
       return this;
     }
 
-    public Long bytesUsed() {
+    public long bytesUsed() {
       return this.bytesUsed;
     }
 
     public GetCacheEntryInput build() {
       if (Objects.isNull(this.identifier()))  {
         throw new IllegalArgumentException("Missing value for required field `identifier`");
+      }
+      if (this._bytesUsedSet && this.bytesUsed() < 0) {
+        throw new IllegalArgumentException("`bytesUsed` must be greater than or equal to 0");
       }
       return new GetCacheEntryInput(this);
     }

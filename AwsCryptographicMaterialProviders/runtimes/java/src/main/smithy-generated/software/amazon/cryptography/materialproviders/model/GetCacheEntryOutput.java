@@ -14,7 +14,7 @@ public class GetCacheEntryOutput {
 
   private final int messagesUsed;
 
-  private final int bytesUsed;
+  private final long bytesUsed;
 
   protected GetCacheEntryOutput(BuilderImpl builder) {
     this.materials = builder.materials();
@@ -40,7 +40,7 @@ public class GetCacheEntryOutput {
     return this.messagesUsed;
   }
 
-  public int bytesUsed() {
+  public long bytesUsed() {
     return this.bytesUsed;
   }
 
@@ -69,9 +69,9 @@ public class GetCacheEntryOutput {
 
     int messagesUsed();
 
-    Builder bytesUsed(int bytesUsed);
+    Builder bytesUsed(long bytesUsed);
 
-    int bytesUsed();
+    long bytesUsed();
 
     GetCacheEntryOutput build();
   }
@@ -91,7 +91,7 @@ public class GetCacheEntryOutput {
 
     private boolean _messagesUsedSet = false;
 
-    protected int bytesUsed;
+    protected long bytesUsed;
 
     private boolean _bytesUsedSet = false;
 
@@ -149,13 +149,13 @@ public class GetCacheEntryOutput {
       return this.messagesUsed;
     }
 
-    public Builder bytesUsed(int bytesUsed) {
+    public Builder bytesUsed(long bytesUsed) {
       this.bytesUsed = bytesUsed;
       this._bytesUsedSet = true;
       return this;
     }
 
-    public int bytesUsed() {
+    public long bytesUsed() {
       return this.bytesUsed;
     }
 
