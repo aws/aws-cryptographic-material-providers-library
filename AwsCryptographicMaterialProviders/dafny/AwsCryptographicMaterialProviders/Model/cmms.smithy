@@ -176,7 +176,7 @@ operation CreateCachingCMM {
   output: CreateCachingCMMOutput,
 }
 
-@javadoc("Inputs for creating an Caching Cryptographic Materials Manager.")
+@javadoc("Inputs for creating a Caching Cryptographic Materials Manager.")
 structure CreateCachingCMMInput {
 
   //= aws-encryption-sdk-specification/framework/caching-cmm.md#initialization
