@@ -115,7 +115,7 @@ public class ToNative {
   public static KeyVectorsConfig KeyVectorsConfig(
       software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KeyVectorsConfig dafnyValue) {
     KeyVectorsConfig.Builder nativeBuilder = KeyVectorsConfig.builder();
-    nativeBuilder.keyManifiestPath(software.amazon.smithy.dafny.conversion.ToNative.Simple.String(dafnyValue.dtor_keyManifiestPath()));
+    nativeBuilder.keyManifestPath(software.amazon.smithy.dafny.conversion.ToNative.Simple.String(dafnyValue.dtor_keyManifestPath()));
     return nativeBuilder.build();
   }
 

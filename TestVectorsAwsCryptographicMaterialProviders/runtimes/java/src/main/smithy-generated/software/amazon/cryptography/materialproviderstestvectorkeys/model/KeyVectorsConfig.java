@@ -6,14 +6,14 @@ package software.amazon.cryptography.materialproviderstestvectorkeys.model;
 import java.util.Objects;
 
 public class KeyVectorsConfig {
-  private final String keyManifiestPath;
+  private final String keyManifestPath;
 
   protected KeyVectorsConfig(BuilderImpl builder) {
-    this.keyManifiestPath = builder.keyManifiestPath();
+    this.keyManifestPath = builder.keyManifestPath();
   }
 
-  public String keyManifiestPath() {
-    return this.keyManifiestPath;
+  public String keyManifestPath() {
+    return this.keyManifestPath;
   }
 
   public Builder toBuilder() {
@@ -25,35 +25,35 @@ public class KeyVectorsConfig {
   }
 
   public interface Builder {
-    Builder keyManifiestPath(String keyManifiestPath);
+    Builder keyManifestPath(String keyManifestPath);
 
-    String keyManifiestPath();
+    String keyManifestPath();
 
     KeyVectorsConfig build();
   }
 
   static class BuilderImpl implements Builder {
-    protected String keyManifiestPath;
+    protected String keyManifestPath;
 
     protected BuilderImpl() {
     }
 
     protected BuilderImpl(KeyVectorsConfig model) {
-      this.keyManifiestPath = model.keyManifiestPath();
+      this.keyManifestPath = model.keyManifestPath();
     }
 
-    public Builder keyManifiestPath(String keyManifiestPath) {
-      this.keyManifiestPath = keyManifiestPath;
+    public Builder keyManifestPath(String keyManifestPath) {
+      this.keyManifestPath = keyManifestPath;
       return this;
     }
 
-    public String keyManifiestPath() {
-      return this.keyManifiestPath;
+    public String keyManifestPath() {
+      return this.keyManifestPath;
     }
 
     public KeyVectorsConfig build() {
-      if (Objects.isNull(this.keyManifiestPath()))  {
-        throw new IllegalArgumentException("Missing value for required field `keyManifiestPath`");
+      if (Objects.isNull(this.keyManifestPath()))  {
+        throw new IllegalArgumentException("Missing value for required field `keyManifestPath`");
       }
       return new KeyVectorsConfig(this);
     }

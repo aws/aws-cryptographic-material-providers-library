@@ -11,7 +11,7 @@ service KeyVectors {
   resources: [],
   operations: [
     CreateTestVectorKeyring,
-    CreateWappedTestVectorKeyring,
+    CreateWrappedTestVectorKeyring,
     CreateWrappedTestVectorCmm,
     GetKeyDescription,
     SerializeKeyDescription,
@@ -20,7 +20,7 @@ service KeyVectors {
 
 structure KeyVectorsConfig {
   @required
-  keyManifiestPath: String
+  keyManifestPath: String
 }
 
 operation CreateTestVectorKeyring {
@@ -28,7 +28,7 @@ operation CreateTestVectorKeyring {
   output: aws.cryptography.materialProviders#CreateKeyringOutput,
 }
 
-operation CreateWappedTestVectorKeyring {
+operation CreateWrappedTestVectorKeyring {
   input: TestVectorKeyringInput,
   output: aws.cryptography.materialProviders#CreateKeyringOutput,
 }

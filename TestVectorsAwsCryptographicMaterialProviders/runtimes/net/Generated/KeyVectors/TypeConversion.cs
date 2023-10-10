@@ -167,12 +167,12 @@ namespace AWS.Cryptography.MaterialProvidersTestVectorKeys
     }
     internal static AWS.Cryptography.MaterialProvidersTestVectorKeys.KeyVectorsConfig FromDafny_N3_aws__N12_cryptography__N31_materialProvidersTestVectorKeys__S16_KeyVectorsConfig(software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types._IKeyVectorsConfig value)
     {
-      software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KeyVectorsConfig concrete = (software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KeyVectorsConfig)value; AWS.Cryptography.MaterialProvidersTestVectorKeys.KeyVectorsConfig converted = new AWS.Cryptography.MaterialProvidersTestVectorKeys.KeyVectorsConfig(); converted.KeyManifiestPath = (string)FromDafny_N3_aws__N12_cryptography__N31_materialProvidersTestVectorKeys__S16_KeyVectorsConfig__M16_keyManifiestPath(concrete._keyManifiestPath); return converted;
+      software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KeyVectorsConfig concrete = (software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KeyVectorsConfig)value; AWS.Cryptography.MaterialProvidersTestVectorKeys.KeyVectorsConfig converted = new AWS.Cryptography.MaterialProvidersTestVectorKeys.KeyVectorsConfig(); converted.KeyManifestPath = (string)FromDafny_N3_aws__N12_cryptography__N31_materialProvidersTestVectorKeys__S16_KeyVectorsConfig__M15_keyManifestPath(concrete._keyManifestPath); return converted;
     }
     internal static software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types._IKeyVectorsConfig ToDafny_N3_aws__N12_cryptography__N31_materialProvidersTestVectorKeys__S16_KeyVectorsConfig(AWS.Cryptography.MaterialProvidersTestVectorKeys.KeyVectorsConfig value)
     {
 
-      return new software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KeyVectorsConfig(ToDafny_N3_aws__N12_cryptography__N31_materialProvidersTestVectorKeys__S16_KeyVectorsConfig__M16_keyManifiestPath(value.KeyManifiestPath));
+      return new software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KeyVectorsConfig(ToDafny_N3_aws__N12_cryptography__N31_materialProvidersTestVectorKeys__S16_KeyVectorsConfig__M15_keyManifestPath(value.KeyManifestPath));
     }
     internal static AWS.Cryptography.MaterialProvidersTestVectorKeys.SerializeKeyDescriptionInput FromDafny_N3_aws__N12_cryptography__N31_materialProvidersTestVectorKeys__S28_SerializeKeyDescriptionInput(software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types._ISerializeKeyDescriptionInput value)
     {
@@ -331,11 +331,11 @@ namespace AWS.Cryptography.MaterialProvidersTestVectorKeys
     {
       return ToDafny_N6_smithy__N3_api__S6_String(value);
     }
-    internal static string FromDafny_N3_aws__N12_cryptography__N31_materialProvidersTestVectorKeys__S16_KeyVectorsConfig__M16_keyManifiestPath(Dafny.ISequence<char> value)
+    internal static string FromDafny_N3_aws__N12_cryptography__N31_materialProvidersTestVectorKeys__S16_KeyVectorsConfig__M15_keyManifestPath(Dafny.ISequence<char> value)
     {
       return FromDafny_N6_smithy__N3_api__S6_String(value);
     }
-    internal static Dafny.ISequence<char> ToDafny_N3_aws__N12_cryptography__N31_materialProvidersTestVectorKeys__S16_KeyVectorsConfig__M16_keyManifiestPath(string value)
+    internal static Dafny.ISequence<char> ToDafny_N3_aws__N12_cryptography__N31_materialProvidersTestVectorKeys__S16_KeyVectorsConfig__M15_keyManifestPath(string value)
     {
       return ToDafny_N6_smithy__N3_api__S6_String(value);
     }

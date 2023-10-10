@@ -55,18 +55,6 @@ public class KeyVectors {
     return Keyring.wrap(result.dtor_value());
   }
 
-  /**
-   * @return Outputs for creating a Keyring.
-   */
-  public IKeyring CreateWappedTestVectorKeyring(TestVectorKeyringInput input) {
-    software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.TestVectorKeyringInput dafnyValue = ToDafny.TestVectorKeyringInput(input);
-    Result<software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring, Error> result = this._impl.CreateWappedTestVectorKeyring(dafnyValue);
-    if (result.is_Failure()) {
-      throw ToNative.Error(result.dtor_error());
-    }
-    return Keyring.wrap(result.dtor_value());
-  }
-
   public ICryptographicMaterialsManager CreateWrappedTestVectorCmm(TestVectorCmmInput input) {
     software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.TestVectorCmmInput dafnyValue = ToDafny.TestVectorCmmInput(input);
     Result<software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsManager, Error> result = this._impl.CreateWrappedTestVectorCmm(dafnyValue);
@@ -74,6 +62,18 @@ public class KeyVectors {
       throw ToNative.Error(result.dtor_error());
     }
     return CryptographicMaterialsManager.wrap(result.dtor_value());
+  }
+
+  /**
+   * @return Outputs for creating a Keyring.
+   */
+  public IKeyring CreateWrappedTestVectorKeyring(TestVectorKeyringInput input) {
+    software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.TestVectorKeyringInput dafnyValue = ToDafny.TestVectorKeyringInput(input);
+    Result<software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring, Error> result = this._impl.CreateWrappedTestVectorKeyring(dafnyValue);
+    if (result.is_Failure()) {
+      throw ToNative.Error(result.dtor_error());
+    }
+    return Keyring.wrap(result.dtor_value());
   }
 
   public GetKeyDescriptionOutput GetKeyDescription(GetKeyDescriptionInput input) {

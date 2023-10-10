@@ -33,10 +33,10 @@ namespace AWS.Cryptography.MaterialProvidersTestVectorKeys
       if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
       return TypeConversion.FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_CreateKeyringOutput(result.dtor_value);
     }
-    public AWS.Cryptography.MaterialProviders.IKeyring CreateWappedTestVectorKeyring(AWS.Cryptography.MaterialProvidersTestVectorKeys.TestVectorKeyringInput input)
+    public AWS.Cryptography.MaterialProviders.IKeyring CreateWrappedTestVectorKeyring(AWS.Cryptography.MaterialProvidersTestVectorKeys.TestVectorKeyringInput input)
     {
       software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types._ITestVectorKeyringInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N31_materialProvidersTestVectorKeys__S22_TestVectorKeyringInput(input);
-      Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring, software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types._IError> result = _impl.CreateWappedTestVectorKeyring(internalInput);
+      Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring, software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types._IError> result = _impl.CreateWrappedTestVectorKeyring(internalInput);
       if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
       return TypeConversion.FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_CreateKeyringOutput(result.dtor_value);
     }

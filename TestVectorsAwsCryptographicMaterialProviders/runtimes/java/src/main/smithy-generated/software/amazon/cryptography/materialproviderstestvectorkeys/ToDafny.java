@@ -116,9 +116,9 @@ public class ToDafny {
 
   public static KeyVectorsConfig KeyVectorsConfig(
       software.amazon.cryptography.materialproviderstestvectorkeys.model.KeyVectorsConfig nativeValue) {
-    DafnySequence<? extends Character> keyManifiestPath;
-    keyManifiestPath = software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(nativeValue.keyManifiestPath());
-    return new KeyVectorsConfig(keyManifiestPath);
+    DafnySequence<? extends Character> keyManifestPath;
+    keyManifestPath = software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(nativeValue.keyManifestPath());
+    return new KeyVectorsConfig(keyManifestPath);
   }
 
   public static KMSInfo KMSInfo(
