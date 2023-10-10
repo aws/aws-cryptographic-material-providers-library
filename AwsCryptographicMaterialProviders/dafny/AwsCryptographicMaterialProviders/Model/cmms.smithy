@@ -212,7 +212,7 @@ structure CreateCachingCMMInput {
   partitionKey: Utf8Bytes,
   @javadoc("Sets the maximum number of plaintext bytes that can be encrypted under the same cached data key. This does not affect decrypt operations. Specifying this limit is optional; by default, the limit is set to 2^63 - 1. If this limit is set to zero, keys can only be cached if they are used for zero-length messages.")
   limitBytes: PositiveLong,
-  @javadoc("Sets the maximum number of individual messages that can be encrypted under the same a cached data key. This does not affect decrypt operations. Specifying this limit is optional; by default, the limit is set to 2^32. This is also the maximum accepted value.")
+  @javadoc("Sets the maximum number of individual messages that can be encrypted under the same cached data key. This does not affect decrypt operations. Specifying this limit is optional; by default, the limit is set to 2^32. This is also the maximum accepted value.")
   limitMessages: PositiveInteger,
 
 }
