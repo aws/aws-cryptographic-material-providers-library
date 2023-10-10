@@ -48,16 +48,16 @@ module {:options "-functionSyntax:4"} CompleteVectors {
   // TODO serialize maxPlaintextLength
 
   const AllPositiveKeyringTests
-    := {}
-    + AllKms.Tests
-    + AllKmsMrkAware.Tests
-    + AllKmsMrkAwareDiscovery.Tests
-    + AllRawAES.Tests
-    + AllRawRSA.Tests
-    + AllHierarchy.Tests
-    + AllKmsRsa.Tests
-    + AllDefaultCmm.Tests
-    + AllCachingCmm.Tests
+  := {}
+  + AllKms.Tests
+  + AllKmsMrkAware.Tests
+  + AllKmsMrkAwareDiscovery.Tests
+  + AllRawAES.Tests
+  + AllRawRSA.Tests
+  + AllHierarchy.Tests
+  + AllKmsRsa.Tests
+  + AllDefaultCmm.Tests
+  + AllCachingCmm.Tests
 
   method WriteStuff() {
 

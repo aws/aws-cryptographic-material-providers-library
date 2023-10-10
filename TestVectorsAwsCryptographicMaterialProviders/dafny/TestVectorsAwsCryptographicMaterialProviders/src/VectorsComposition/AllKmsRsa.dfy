@@ -40,6 +40,8 @@ module {:options "-functionSyntax:4"} AllKmsRsa {
     set
       keyDescription <- AllKmsRsa,
       algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites
+                        // AwsKmsRsaKeyring cannot be used with an Algorithm Suite with asymmetric signing
+      | !algorithmSuite.signature.ECDSA?
       :: ToJson(
            keyDescription := keyDescription,
            algorithmSuite := algorithmSuite

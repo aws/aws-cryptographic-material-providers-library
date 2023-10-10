@@ -62,7 +62,7 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
     ghost var SerializeKeyDescription: seq<DafnyCallEvent<SerializeKeyDescriptionInput, Result<SerializeKeyDescriptionOutput, Error>>>
   }
   trait {:termination false} IKeyVectorsClient
-    {
+  {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
     // add it in your constructor function:
@@ -261,7 +261,7 @@ abstract module AbstractAwsCryptographyMaterialProvidersTestVectorKeysService
               && res.value.ValidState()
 
   class KeyVectorsClient extends IKeyVectorsClient
-    {
+  {
     constructor(config: Operations.InternalConfig)
       requires Operations.ValidInternalConfig?(config)
       ensures

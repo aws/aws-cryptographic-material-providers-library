@@ -144,7 +144,7 @@ module {:options "-functionSyntax:4"} TestVectors {
 
     var mpl :- expect WrappedMaterialProviders.WrappedMaterialProviders();
 
-     var cmm' := keys.CreateWrappedTestVectorCmm(
+    var cmm' := keys.CreateWrappedTestVectorCmm(
       KeyVectorsTypes.TestVectorCmmInput(
         keyDescription := if vector.PositiveEncryptKeyringVector? then
           vector.encryptDescription

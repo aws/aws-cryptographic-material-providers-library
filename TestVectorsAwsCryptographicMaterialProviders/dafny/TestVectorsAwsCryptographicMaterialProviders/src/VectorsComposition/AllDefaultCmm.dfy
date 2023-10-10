@@ -68,7 +68,7 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
            :: s
       ::
         ToJson(
-        keyDescription := PositiveKeyDescriptionJSON(
+          keyDescription := PositiveKeyDescriptionJSON(
             description := "Success testing requiredEncryptionContextKeys/reproducedEncryptionContext",
             encrypt := RawAesKeyring,
             decrypt := RawAesKeyring
@@ -103,7 +103,7 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
            :: s + incorrectEncryptionContext
       ::
         ToJson(
-        keyDescription := NegativeDecryptKeyDescriptionJSON(
+          keyDescription := NegativeDecryptKeyDescriptionJSON(
             description := "Failure of reproducedEncryptionContext",
             decryptErrorDescription := "The reproducedEncryptionContext is never correct",
             encrypt := RawAesKeyring,
@@ -118,7 +118,7 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
   const Tests :=
     {
       ToJson(
-      keyDescription := PositiveKeyDescriptionJSON(
+        keyDescription := PositiveKeyDescriptionJSON(
           description := "Simplest possible happy path",
           encrypt := StaticPlaintextDataKey,
           decrypt := StaticPlaintextDataKey
@@ -126,7 +126,7 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
         algorithmSuite := StaticAlgorithmSuite
       ),
       ToJson(
-      keyDescription := NegativeEncryptKeyDescriptionJSON(
+        keyDescription := NegativeEncryptKeyDescriptionJSON(
           description := "Missing plaintext data key on encrypt",
           errorDescription := "No plaintext data key on encrypt fails",
           encrypt := StaticNotPlaintextDataKey
@@ -134,7 +134,7 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
         algorithmSuite := StaticAlgorithmSuite
       ),
       ToJson(
-      keyDescription := NegativeDecryptKeyDescriptionJSON(
+        keyDescription := NegativeDecryptKeyDescriptionJSON(
           description := "Missing plaintext data key on decrypt",
           decryptErrorDescription := "No plaintext data key on encrypt fails",
           encrypt := StaticPlaintextDataKey,
@@ -143,7 +143,7 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
         algorithmSuite := StaticAlgorithmSuite
       ),
       ToJson(
-      keyDescription := NegativeEncryptKeyDescriptionJSON(
+        keyDescription := NegativeEncryptKeyDescriptionJSON(
           description := "Missing plaintext data key on encrypt",
           errorDescription := "No plaintext data key on encrypt fails",
           encrypt := StaticPlaintextDataKey

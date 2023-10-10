@@ -43,7 +43,7 @@ module {:options "-functionSyntax:4"} CreateStaticCMCs {
   }
 
   class StaticCMC extends ICryptographicMaterialsCache
-    {
+  {
     constructor( entry : Option<StaticCMCEntry>)
       ensures
         && ValidState()

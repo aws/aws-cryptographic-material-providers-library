@@ -64,11 +64,11 @@ module {:options "-functionSyntax:4"} ParseJsonManifests {
 
     var keysAsStrings := GetArrayString("requiredEncryptionContextKeys", obj).ToOption();
     var requiredEncryptionContextKeys :- match keysAsStrings
-    case Some(s) =>
-      var k :- utf8EncodeSeq(keysAsStrings.value);
-      Success(Some(k))
-    case None() => Success(None());
-                                         
+      case Some(s) =>
+        var k :- utf8EncodeSeq(keysAsStrings.value);
+        Success(Some(k))
+      case None() => Success(None());
+
     var reproducedEncryptionContextStrings :- GetOptionalSmallObjectToStringStringMap("reproducedEncryptionContext", obj);
     var reproducedEncryptionContext :- match reproducedEncryptionContextStrings
       case Some(r) =>

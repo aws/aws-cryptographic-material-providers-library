@@ -60,7 +60,7 @@ module {:options "-functionSyntax:4"} AllCachingCmm {
                      ])
        ::
          ToJson(
-         keyDescription := PositiveKeyDescriptionJSON(
+           keyDescription := PositiveKeyDescriptionJSON(
              description := "Successful caching test.",
              encrypt := encrypt,
              decrypt := decrypt
@@ -72,7 +72,7 @@ module {:options "-functionSyntax:4"} AllCachingCmm {
          encryptIdentifier <- {"", StaticEncryptIdentifier}
          ::
            ToJson(
-           keyDescription := NegativeEncryptKeyDescriptionJSON(
+             keyDescription := NegativeEncryptKeyDescriptionJSON(
                description := "Encrypt caching failure",
                errorDescription := "The get or put will fail because the identifier is wrong.",
                encrypt := Object([
@@ -90,7 +90,7 @@ module {:options "-functionSyntax:4"} AllCachingCmm {
          decryptIdentifier <- {"", StaticDecryptIdentifier}
          ::
            ToJson(
-           keyDescription := NegativeDecryptKeyDescriptionJSON(
+             keyDescription := NegativeDecryptKeyDescriptionJSON(
                description := "Decrypt caching failure",
                decryptErrorDescription := "The get or put will fail because the identifier is wrong.",
                encrypt := Object([
