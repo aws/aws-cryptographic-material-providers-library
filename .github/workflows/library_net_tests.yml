@@ -22,6 +22,7 @@ jobs:
           TestVectorsAwsCryptographicMaterialProviders,
         ]
         dotnet-version: [ '6.0.x' ]
+        # framework: [ 'net6.0', 'net48' ]
         os: [
           windows-latest,
           ubuntu-latest,
