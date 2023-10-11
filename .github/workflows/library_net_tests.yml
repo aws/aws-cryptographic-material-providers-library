@@ -73,7 +73,7 @@ jobs:
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_net CORES=$CORES
 
-      // .NET Framework is only supported in Windows
+      # .NET Framework is only supported in Windows
       - name: Test ${{ matrix.library }} .NET Framework net48
         if: matrix.os == 'windows-latest'
         working-directory: ./${{ matrix.library }}
