@@ -40,6 +40,13 @@ jobs:
         with:
           dafny-version: ${{ inputs.dafny }}
 
+      # dafny-reportgenerator requires next6
+      # but only 7.0 is installed on macos-latest-large
+      - name: Setup .NET Core SDK '6.0.x'
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x'
+
       - name: Verify ${{ matrix.library }} Dafny code
         shell: bash
         working-directory: ./${{ matrix.library }}
@@ -48,12 +55,8 @@ jobs:
           CORES=$(node -e 'console.log(os.cpus().length)')
           make verify CORES=$CORES
 
-      - name: Setup .NET Core SDK '6.0.x'
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '6.0.x'
-
       - name: Check solver resource use
+        if: success() || failure()
         shell: bash
         working-directory: ./${{ matrix.library }}
         run: |
