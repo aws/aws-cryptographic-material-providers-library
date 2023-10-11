@@ -75,7 +75,7 @@ jobs:
           make transpile_net CORES=$CORES
 
       # .NET Framework is only supported in Windows
-      - name: Test ${{ matrix.library }} NET Framework net48
+      - name: Test ${{ matrix.library }} .NET Framework net48
         if: matrix.os == 'windows-latest'
         working-directory: ./${{ matrix.library }}
         shell: bash
