@@ -68,15 +68,15 @@ COMPILE_SUFFIX_OPTION := -compileSuffix:1
 # { if cpus >= 3 then 2 else 1 }
 
 # function DAFNY_PROCESSES(cpus: nat): nat
-# { (cpus + 1)/Z3_PROCESSES(cpus) }
+# { (cpus )/Z3_PROCESSES(cpus) }
 
 # lemma Correct(cpus:nat)
-#   ensures DAFNY_PROCESSES(cpus) * Z3_PROCESSES(cpus) <= cpus + 1
+#   ensures DAFNY_PROCESSES(cpus) * Z3_PROCESSES(cpus) <= cpus
 # {}
 
 # Verify the entire project
 verify:Z3_PROCESSES=$(shell echo $$(( $(CORES) >= 3 ? 2 : 1 )))
-verify:DAFNY_PROCESSES=$(shell echo $$(( ($(CORES) + 1 ) / ($(CORES) >= 3 ? 2 : 1))))
+verify:DAFNY_PROCESSES=$(shell echo $$(( ($(CORES) ) / ($(CORES) >= 3 ? 2 : 1))))
 verify:
 	find . -name '*.dfy' | xargs -n 1 -P $(DAFNY_PROCESSES) -I % dafny \
 		-vcsCores:$(Z3_PROCESSES) \
