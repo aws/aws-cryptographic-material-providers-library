@@ -20,7 +20,7 @@ jobs:
           AwsCryptographicMaterialProviders, 
           StandardLibrary,
         ]
-        os: [ macos-latest-large ]
+        os: [ temporary-performance-testing_ubuntu-latest_64-core ]
     runs-on: ${{ matrix.os }}
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
