@@ -13,11 +13,11 @@ jobs:
     strategy:
       matrix:
         library: [
+          TestVectorsAwsCryptographicMaterialProviders,
           AwsCryptographyPrimitives,
           ComAmazonawsKms,
           ComAmazonawsDynamodb,
           AwsCryptographicMaterialProviders, 
-          TestVectorsAwsCryptographicMaterialProviders,
           StandardLibrary,
         ]
         os: [ macos-latest-large ]
