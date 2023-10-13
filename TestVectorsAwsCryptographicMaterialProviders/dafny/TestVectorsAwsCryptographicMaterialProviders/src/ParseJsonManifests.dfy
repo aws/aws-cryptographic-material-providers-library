@@ -82,27 +82,9 @@ module {:options "-functionSyntax:4"} ParseJsonManifests {
     var encryptionContextStrings :- SmallObjectToStringStringMap("encryptionContext", obj);
     var encryptionContext :- utf8EncodeMap(encryptionContextStrings);
 
-    // TODO change this to use AlgorithmSuiteInfoByHexString
-    var algorithmSuiteHex :- GetString("algorithmSuiteId", obj);
-    :- Need(HexStrings.IsLooseHexString(algorithmSuiteHex), "Not hex encoded binary");
-    var binaryId := HexStrings.FromHexString(algorithmSuiteHex);
-    var algorithmSuite :- AlgorithmSuites
-                          .GetAlgorithmSuiteInfo(binaryId)
-                          .MapFailure(e => "Invalid Suite:" + algorithmSuiteHex);
-
-    var keysAsStrings := GetArrayString("requiredEncryptionContextKeys", obj).ToOption();
-    var requiredEncryptionContextKeys :- match keysAsStrings
-      case Some(s) =>
-        var k :- utf8EncodeSeq(keysAsStrings.value);
-        Success(Some(k))
-      case None() => Success(None());
-
-    var reproducedEncryptionContextStrings :- GetOptionalSmallObjectToStringStringMap("reproducedEncryptionContext", obj);
-    var reproducedEncryptionContext :- match reproducedEncryptionContextStrings
-      case Some(r) =>
-        var e :- utf8EncodeMap(r);
-        Success(Some(e))
-      case None() => Success(None());
+    var algorithmSuite :- GetAlgorithmSuiteInfo(obj);
+    var requiredEncryptionContextKeys :- GetRequiredEncryptionContextKeys(obj);
+    var reproducedEncryptionContext :- GetReproducedEncryptionContext(obj);
 
     // TODO fix me
     var commitmentPolicy := CompleteVectors.AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite);
@@ -184,6 +166,43 @@ module {:options "-functionSyntax:4"} ParseJsonManifests {
                                 .MapFailure(ErrorToString);
 
     Success(keyDescriptionOutput.keyDescription)
+  }
+
+  function GetAlgorithmSuiteInfo(
+    obj: seq<(string, JSON)>
+  ) : Result<Types.AlgorithmSuiteInfo, string>
+  {
+    var algorithmSuiteHex :- GetString("algorithmSuiteId", obj);
+    :- Need(HexStrings.IsLooseHexString(algorithmSuiteHex), "Not hex encoded binary");
+    var binaryId := HexStrings.FromHexString(algorithmSuiteHex);
+    // TODO change this to use AlgorithmSuiteInfoByHexString
+    AlgorithmSuites
+    .GetAlgorithmSuiteInfo(binaryId)
+    .MapFailure(e => "Invalid Suite:" + algorithmSuiteHex)
+  }
+
+  function GetRequiredEncryptionContextKeys(
+    obj: seq<(string, JSON)>
+  ) : Result<Option<seq<UTF8.ValidUTF8Bytes>>, string>
+  {
+    var keysAsStrings := GetArrayString("requiredEncryptionContextKeys", obj).ToOption();
+    match keysAsStrings
+    case Some(s) =>
+      var k :- utf8EncodeSeq(keysAsStrings.value);
+      Success(Some(k))
+    case None() => Success(None())
+  }
+
+  function GetReproducedEncryptionContext(
+    obj: seq<(string, JSON)>
+  ) : Result<Option<map<UTF8.ValidUTF8Bytes, UTF8.ValidUTF8Bytes>>, string>
+  {
+    var reproducedEncryptionContextStrings :- GetOptionalSmallObjectToStringStringMap("reproducedEncryptionContext", obj);
+    match reproducedEncryptionContextStrings
+    case Some(r) =>
+      var e :- utf8EncodeMap(r);
+      Success(Some(e))
+    case None() => Success(None())
   }
 
   function ErrorToString(e: KeyVectorsTypes.Error): string

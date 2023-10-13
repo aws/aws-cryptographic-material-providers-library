@@ -104,41 +104,29 @@ module {:options "-functionSyntax:4"} TestVectors {
               && fresh(output.value.cmm.Modifies)
   {
     var input := match vector
-      case PositiveEncryptKeyringVector(
-        _,_,
-        encryptionContext, commitmentPolicy, algorithmSuite, maxPlaintextLength, requiredEncryptionContextKeys,
-        _,_,_
-        ) =>
+      case PositiveEncryptKeyringVector(_,_,_,_,_,_,_,_,_,_) =>
         Types.GetEncryptionMaterialsInput(
-          encryptionContext := encryptionContext,
-          commitmentPolicy := commitmentPolicy,
-          algorithmSuiteId := Some(algorithmSuite.id),
-          maxPlaintextLength := maxPlaintextLength,
-          requiredEncryptionContextKeys := requiredEncryptionContextKeys
+          encryptionContext := vector.encryptionContext,
+          commitmentPolicy := vector.commitmentPolicy,
+          algorithmSuiteId := Some(vector.algorithmSuite.id),
+          maxPlaintextLength := vector.maxPlaintextLength,
+          requiredEncryptionContextKeys := vector.requiredEncryptionContextKeys
         )
-      case NegativeEncryptKeyringVector(
-        _,_,
-        encryptionContext, commitmentPolicy, algorithmSuite, maxPlaintextLength, requiredEncryptionContextKeys,
-        _, _
-        ) =>
+      case NegativeEncryptKeyringVector(_,_,_,_,_,_,_,_, _) =>
         Types.GetEncryptionMaterialsInput(
-          encryptionContext := encryptionContext,
-          commitmentPolicy := commitmentPolicy,
-          algorithmSuiteId := Some(algorithmSuite.id),
-          maxPlaintextLength := maxPlaintextLength,
-          requiredEncryptionContextKeys := requiredEncryptionContextKeys
+          encryptionContext := vector.encryptionContext,
+          commitmentPolicy := vector.commitmentPolicy,
+          algorithmSuiteId := Some(vector.algorithmSuite.id),
+          maxPlaintextLength := vector.maxPlaintextLength,
+          requiredEncryptionContextKeys := vector.requiredEncryptionContextKeys
         )
-      case PositiveEncryptNegativeDecryptKeyringVector(
-        _,_,
-        encryptionContext, commitmentPolicy, algorithmSuite, maxPlaintextLength, requiredEncryptionContextKeys,
-        _,_,_,_
-        ) =>
+      case PositiveEncryptNegativeDecryptKeyringVector(_,_,_,_,_,_,_,_,_,_,_) =>
         Types.GetEncryptionMaterialsInput(
-          encryptionContext := encryptionContext,
-          commitmentPolicy := commitmentPolicy,
-          algorithmSuiteId := Some(algorithmSuite.id),
-          maxPlaintextLength := maxPlaintextLength,
-          requiredEncryptionContextKeys := requiredEncryptionContextKeys
+          encryptionContext := vector.encryptionContext,
+          commitmentPolicy := vector.commitmentPolicy,
+          algorithmSuiteId := Some(vector.algorithmSuite.id),
+          maxPlaintextLength := vector.maxPlaintextLength,
+          requiredEncryptionContextKeys := vector.requiredEncryptionContextKeys
         );
 
 
@@ -174,59 +162,43 @@ module {:options "-functionSyntax:4"} TestVectors {
               && fresh(output.value.cmm.Modifies)
   {
 
+    // It is important to remove these keys
+    // since the contract is that they MUST be reproduced!
+    var keysToRemove := Seq.ToSet(test.vector.requiredEncryptionContextKeys.UnwrapOr([]));
     var vector := match test.vector
-      case PositiveEncryptKeyringVector(
-        name, description,
-        encryptionContext, commitmentPolicy, algorithmSuite, maxPlaintextLength, requiredEncryptionContextKeys,
-        _,decryptDescription, reproducedEncryptionContext
-        ) =>
-
-        // It is important to remove these keys
-        // since the contract is that they MUST be reproduced!
-        var keysToRemove := if requiredEncryptionContextKeys.Some? then
-                              Seq.ToSet(requiredEncryptionContextKeys.value)
-                            else {};
+      case PositiveEncryptKeyringVector(_, _,_, _, _, _, _,_,_, _) =>        
         PositiveDecryptKeyringTest(
-          name := name + "->Decryption",
-          algorithmSuite := materials.algorithmSuite,
-          commitmentPolicy := commitmentPolicy,
+          name := test.vector.name + "->Decryption",
+          algorithmSuite := test.vector.algorithmSuite,
+          commitmentPolicy := test.vector.commitmentPolicy,
           encryptedDataKeys := materials.encryptedDataKeys,
-          encryptionContext := materials.encryptionContext - keysToRemove,
-          keyDescription := decryptDescription,
+          encryptionContext := test.vector.encryptionContext - keysToRemove,
+          keyDescription := test.vector.decryptDescription,
           expectedResult := DecryptResult(
             plaintextDataKey := materials.plaintextDataKey,
             // PositiveDecryptKeyringTest only supports automatic creation from a single Encrypt vector
             symmetricSigningKey := if materials.symmetricSigningKeys.Some? && 0 < |materials.symmetricSigningKeys.value| then
               Some(materials.symmetricSigningKeys.value[0]) else None,
-            requiredEncryptionContextKeys := materials.requiredEncryptionContextKeys
+            requiredEncryptionContextKeys := test.vector.requiredEncryptionContextKeys.UnwrapOr([])
           ),
-          description := if description.Some? then
-            Some("Decryption for " + description.value)
+          description := if test.vector.description.Some? then
+            Some("Decryption for " + test.vector.description.value)
           else None,
-          reproducedEncryptionContext := reproducedEncryptionContext
+          reproducedEncryptionContext := test.vector.reproducedEncryptionContext
         )
-      case PositiveEncryptNegativeDecryptKeyringVector(
-        name, description,
-        encryptionContext, commitmentPolicy, algorithmSuite, maxPlaintextLength, requiredEncryptionContextKeys,
-        decryptErrorDescription,_,decryptDescription, reproducedEncryptionContext
-        ) =>
-        // It is important to remove these keys
-        // since the contract is that they MUST be reproduced!
-        var keysToRemove := if requiredEncryptionContextKeys.Some? then
-                              Seq.ToSet(requiredEncryptionContextKeys.value)
-                            else {};
+      case PositiveEncryptNegativeDecryptKeyringVector(_, _,_, _, _, _, _,_,_,_, _) =>
         NegativeDecryptKeyringTest(
-          name := name + "->Decryption",
-          algorithmSuite := materials.algorithmSuite,
-          commitmentPolicy := commitmentPolicy,
+          name := test.vector.name + "->Decryption",
+          algorithmSuite := test.vector.algorithmSuite,
+          commitmentPolicy := test.vector.commitmentPolicy,
           encryptedDataKeys := materials.encryptedDataKeys,
-          encryptionContext := materials.encryptionContext - keysToRemove,
-          keyDescription := decryptDescription,
-          errorDescription := decryptErrorDescription,
-          description := if description.Some? then
-            Some("Decryption for " + description.value)
+          encryptionContext := test.vector.encryptionContext - keysToRemove,
+          keyDescription := test.vector.decryptDescription,
+          errorDescription := test.vector.decryptErrorDescription,
+          description := if test.vector.description.Some? then
+            Some("Decryption for " + test.vector.description.value)
           else None,
-          reproducedEncryptionContext := reproducedEncryptionContext
+          reproducedEncryptionContext := test.vector.reproducedEncryptionContext
         );
 
     var input := Types.DecryptMaterialsInput(
