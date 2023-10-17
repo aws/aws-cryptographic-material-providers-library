@@ -56,7 +56,7 @@ module {:options "-functionSyntax:4"} TestVectors {
       None;
 
     if !testResult {
-      if test.vector.PositiveEncryptKeyringVector? {
+      if test.vector.PositiveEncryptKeyringVector? || test.vector.PositiveEncryptNegativeDecryptKeyringVector? {
         print result.error;
       }
       print "\nFAILED! <-----------\n";
@@ -172,7 +172,9 @@ module {:options "-functionSyntax:4"} TestVectors {
           algorithmSuite := test.vector.algorithmSuite,
           commitmentPolicy := test.vector.commitmentPolicy,
           encryptedDataKeys := materials.encryptedDataKeys,
-          encryptionContext := test.vector.encryptionContext - keysToRemove,
+          // The verification key will only exist on the materials.
+          // The expectation is that test.vector.encryptionContext.Items <= materials.encryptionContext.Items
+          encryptionContext := materials.encryptionContext - keysToRemove,
           keyDescription := test.vector.decryptDescription,
           expectedResult := DecryptResult(
             plaintextDataKey := materials.plaintextDataKey,
