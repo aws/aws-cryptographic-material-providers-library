@@ -49,10 +49,22 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
            ::
              s + map[keys[0] := ec[keys[0]]])
   }
+  
+  // Dafny has trouble with complex operations on maps in Java
+  // by decomposing this outside the set comprehension
+  // the translated Java compiles correctly
+  const rootEncryptionContext := map["a" := "a", "b" := "b"]
+  const encryptionContextsToTest: set<map<seq<char>, seq<char>>> := {rootEncryptionContext}
+  const disjointEncryptionContext := map["a" := "c", "b" := "c", "c" := "c"]
+
+  lemma disjointEncryptionContextCorrect()
+    ensures rootEncryptionContext.Values !! disjointEncryptionContext.Values
+    ensures rootEncryptionContext.Items !! disjointEncryptionContext.Items
+  {}
 
   const SuccessTestingRequiredEncryptionContextKeysReproducedEncryptionContext :=
     set
-      encryptionContext <- {map["a" := "a", "b" := "b"]},
+      encryptionContext <- encryptionContextsToTest,
       requiredEncryptionContextKeys
       <- set
            s <- SubSets(
@@ -81,7 +93,7 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
 
   const FailureBadReproducedEncryptionContext :=
     set
-      encryptionContext <- {map["a" := "a", "b" := "b"]},
+      encryptionContext <- encryptionContextsToTest,
       requiredEncryptionContextKeys
       <- set
            s <- SubSets(
@@ -91,8 +103,8 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
       incorrectEncryptionContext
       <- set
            s <- SubSets(
-                  map["a" := "c", "b" := "c", "c" := "c"],
-                  SortedSets.ComputeSetToOrderedSequence2(map["a" := "c", "b" := "c", "c" := "c"].Keys, (a, b) => a < b))
+                  disjointEncryptionContext,
+                  SortedSets.ComputeSetToOrderedSequence2(disjointEncryptionContext.Keys, (a, b) => a < b))
            | s != map[]
            :: s,
       reproducedEncryptionContext
