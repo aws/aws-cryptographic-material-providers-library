@@ -22,8 +22,7 @@ jobs:
           StandardLibrary,
         ]
         os: [
-          # TODO just test on mac for now
-          # windows-latest,
+          windows-latest,
           ubuntu-latest,
           macos-latest
         ]
