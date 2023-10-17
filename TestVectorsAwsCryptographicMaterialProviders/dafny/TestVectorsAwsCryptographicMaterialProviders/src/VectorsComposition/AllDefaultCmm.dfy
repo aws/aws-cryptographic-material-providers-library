@@ -49,7 +49,7 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
            ::
              s + map[keys[0] := ec[keys[0]]])
   }
-  
+
   // Dafny has trouble with complex operations on maps in Java
   // by decomposing this outside the set comprehension
   // the translated Java compiles correctly

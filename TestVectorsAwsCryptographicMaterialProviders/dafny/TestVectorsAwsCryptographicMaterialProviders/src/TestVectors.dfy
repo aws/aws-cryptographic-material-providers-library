@@ -166,7 +166,7 @@ module {:options "-functionSyntax:4"} TestVectors {
     // since the contract is that they MUST be reproduced!
     var keysToRemove := Seq.ToSet(test.vector.requiredEncryptionContextKeys.UnwrapOr([]));
     var vector := match test.vector
-      case PositiveEncryptKeyringVector(_, _,_, _, _, _, _,_,_, _) =>        
+      case PositiveEncryptKeyringVector(_, _,_, _, _, _, _,_,_, _) =>
         PositiveDecryptKeyringTest(
           name := test.vector.name + "->Decryption",
           algorithmSuite := test.vector.algorithmSuite,
