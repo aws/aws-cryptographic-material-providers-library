@@ -96,8 +96,9 @@ tasks.register<Copy>("copyKeysJSON") {
     into(layout.projectDirectory.dir("dafny/TestVectorsAwsCryptographicMaterialProviders/test"))
 }
 
-spotless {
-  java {
-    googleJavaFormat()
-  }
-}
+// Commented out until the format has been updated
+// spotless {
+//   java {
+//     googleJavaFormat()
+//   }
+// }

@@ -84,8 +84,9 @@ tasks {
     }
 }
 
-spotless {
-  java {
-    googleJavaFormat()
-  }
-}
+// Commented out until the format has been updated
+// spotless {
+//   java {
+//     googleJavaFormat()
+//   }
+// }
