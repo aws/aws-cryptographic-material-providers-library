@@ -8,7 +8,9 @@ tasks.wrapper {
 plugins {
     `java-library`
     `maven-publish`
-    id("com.diffplug.spotless") version "6.22.0"
+        if (JavaVersion.current() >= JavaVersion.VERSION_11) {
+        id("com.diffplug.spotless") version "6.22.0"
+    }
 }
 
 group = "software.amazon.cryptography"
