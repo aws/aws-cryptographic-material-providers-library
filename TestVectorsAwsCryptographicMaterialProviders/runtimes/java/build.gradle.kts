@@ -8,6 +8,7 @@ tasks.wrapper {
 plugins {
     `java-library`
     `maven-publish`
+    id("com.diffplug.spotless") version "6.22.0"
 }
 
 group = "software.amazon.cryptography"
@@ -93,4 +94,10 @@ tasks.register<JavaExec>("runTests") {
 tasks.register<Copy>("copyKeysJSON") {
     from(layout.projectDirectory.file("../../dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json"))
     into(layout.projectDirectory.dir("dafny/TestVectorsAwsCryptographicMaterialProviders/test"))
+}
+
+spotless {
+  java {
+    googleJavaFormat()
+  }
 }

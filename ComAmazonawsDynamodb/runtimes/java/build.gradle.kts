@@ -4,6 +4,7 @@ import javax.annotation.Nullable
 plugins {
     `java-library`
     `maven-publish`
+    id("com.diffplug.spotless") version "6.22.0"
 }
 
 group = "software.amazon.cryptography"
@@ -86,4 +87,10 @@ tasks {
         mainClass.set("TestsFromDafny")
         classpath = sourceSets["test"].runtimeClasspath
     }
+}
+
+spotless {
+  java {
+    googleJavaFormat()
+  }
 }
