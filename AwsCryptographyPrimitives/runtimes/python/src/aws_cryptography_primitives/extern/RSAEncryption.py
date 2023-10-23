@@ -8,8 +8,6 @@ from cryptography.hazmat.primitives.serialization import (
   Encoding,
   PrivateFormat,
   PublicFormat,
-  load_der_private_key,
-  load_der_public_key,
   load_pem_public_key,
   load_pem_private_key,
 )

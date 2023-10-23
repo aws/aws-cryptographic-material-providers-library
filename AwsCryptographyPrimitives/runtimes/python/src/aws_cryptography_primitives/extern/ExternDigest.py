@@ -16,7 +16,7 @@ class default__:
     elif digest_algorithm.is_SHA__512:
       return hashes.Hash(hashes.SHA512())
     else:
-      raise ValueError()
+      raise ValueError(f"Unsupported digest algorithm: {digest_algorithm}")
 
   @staticmethod
   def internal_digest(digest_algorithm, message):

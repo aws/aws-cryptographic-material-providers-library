@@ -17,5 +17,4 @@ class default__:
             _dafny.Seq(secrets.token_bytes(i))
         )
 
-
 aws_cryptography_primitives.internal_generated_dafny.ExternRandom.default__ = default__

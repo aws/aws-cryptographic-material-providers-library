@@ -4,6 +4,8 @@ import Wrappers
 import _dafny
 from aws_cryptography_primitives.internal_generated_dafny.HMAC import *
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from software_amazon_cryptography_primitives_internaldafny_types import Error_AwsCryptographicPrimitivesError
+from cryptography.exceptions import InvalidTag
 
 class AESEncryption:
 
@@ -23,7 +25,12 @@ class AESEncryption:
             aad_bytes = bytes(aad)
 
             aesgcm = AESGCM(key_bytes)
-            ct = aesgcm.encrypt(iv_bytes, plaintext_bytes, aad_bytes)
+            try:
+                ct = aesgcm.encrypt(iv_bytes, plaintext_bytes, aad_bytes)
+            except OverflowError:
+                return Wrappers.Result_Failure(Error_AwsCryptographicPrimitivesError(
+                    message="AES-GCM cannot encrypt plaintext data larger than 2^31-1 bytes"
+                ))
 
             return Wrappers.Result_Success(
                 default__.EncryptionOutputFromByteSeq(_dafny.Seq(ct), enc_alg)
@@ -46,7 +53,12 @@ class AESEncryption:
 
             ct_and_tag = ciphertext_bytes + tag_bytes
             aesgcm = AESGCM(key_bytes)
-            plaintext = aesgcm.decrypt(iv_bytes, ct_and_tag, aad_bytes)
+            try:
+                plaintext = aesgcm.decrypt(iv_bytes, ct_and_tag, aad_bytes)
+            except InvalidTag:
+                return Wrappers.Result_Failure(Error_AwsCryptographicPrimitivesError(
+                    message="AES-GCM decrypt failed to validate authentication tag for ciphertext"
+                ))
 
             return Wrappers.Result_Success(_dafny.Seq(plaintext))
 
