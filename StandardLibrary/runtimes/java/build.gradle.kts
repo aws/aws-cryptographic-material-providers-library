@@ -9,6 +9,11 @@ plugins {
     }
 }
 
+var props = Properties().apply {
+    load(FileInputStream(File(rootProject.rootDir, "../../../project.properties")))
+}
+var dafnyVersion = props.getProperty("dafnyVersion")
+
 group = "software.amazon.cryptography"
 version = "1.0-SNAPSHOT"
 description = "StandardLibrary"
@@ -54,7 +59,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.dafny:DafnyRuntime:4.2.0")
+    implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
     implementation("software.amazon.smithy.dafny:conversion:0.1")
 }
 publishing {
