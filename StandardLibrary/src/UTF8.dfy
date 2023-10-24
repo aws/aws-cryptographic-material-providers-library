@@ -181,8 +181,9 @@ module {:extern "UTF8"} UTF8 {
         lo := lo + 4;
       }
     }
-    ValidUTF8Embed(s, t, [], 0, |t|);
-    assert ValidUTF8Range(s + t, 0, |s + t|) == ValidUTF8Range(s + t, lo, |s + t|);
-    assert s + t == s + t + [] && lo == |s| && |s + t| == |s| + |t|;
+    assert ValidUTF8Seq(s + t) by {
+      ValidUTF8Embed(s, t, [], 0, |t|);
+      assert s + t == s + t + [] && lo == |s|;
+    }
   }
 }
