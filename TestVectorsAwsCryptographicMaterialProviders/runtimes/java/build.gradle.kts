@@ -1,3 +1,6 @@
+import java.io.File
+import java.io.FileInputStream
+import java.util.Properties
 import java.net.URI
 import javax.annotation.Nullable
 
@@ -8,7 +11,15 @@ tasks.wrapper {
 plugins {
     `java-library`
     `maven-publish`
+    if (JavaVersion.current() >= JavaVersion.VERSION_11) {
+        id("com.diffplug.spotless") version "6.22.0"
+    }
 }
+
+var props = Properties().apply {
+    load(FileInputStream(File(rootProject.rootDir, "../../../project.properties")))
+}
+var dafnyVersion = props.getProperty("dafnyVersion")
 
 group = "software.amazon.cryptography"
 version = "1.0-SNAPSHOT"
@@ -56,7 +67,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.dafny:DafnyRuntime:4.2.0")
+    implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
     implementation("software.amazon.smithy.dafny:conversion:0.1")
     implementation("software.amazon.cryptography:aws-cryptographic-material-providers:1.0.1")
     implementation(platform("software.amazon.awssdk:bom:2.19.1"))
@@ -94,3 +105,10 @@ tasks.register<Copy>("copyKeysJSON") {
     from(layout.projectDirectory.file("../../dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json"))
     into(layout.projectDirectory.dir("dafny/TestVectorsAwsCryptographicMaterialProviders/test"))
 }
+
+// Commented out until the format has been updated
+// spotless {
+//   java {
+//     googleJavaFormat()
+//   }
+// }

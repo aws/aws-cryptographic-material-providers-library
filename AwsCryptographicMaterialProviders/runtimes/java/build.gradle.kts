@@ -1,3 +1,6 @@
+import java.io.File
+import java.io.FileInputStream
+import java.util.Properties
 import java.net.URI
 import javax.annotation.Nullable
 
@@ -7,10 +10,18 @@ plugins {
     `signing`
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
+    if (JavaVersion.current() >= JavaVersion.VERSION_11) {
+      id("com.diffplug.spotless") version "6.22.0"
+    }
 }
 
+var props = Properties().apply {
+    load(FileInputStream(File(rootProject.rootDir, "../../../project.properties")))
+}
+var dafnyVersion = props.getProperty("dafnyVersion")
+
 group = "software.amazon.cryptography"
-version = "1.0.1"
+version = "1.0.2"
 description = "AWS Cryptographic Material Providers Library"
 
 java {
@@ -62,7 +73,7 @@ dependencies {
     implementation("software.amazon.cryptography:ComAmazonawsDynamodb:1.0-SNAPSHOT")
 
     // Dafny dependencies
-    implementation("org.dafny:DafnyRuntime:4.2.0")
+    implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
     implementation("software.amazon.smithy.dafny:conversion:0.1")
 
     // sdk dependencies
@@ -307,3 +318,10 @@ fun buildPom(mavenPublication: MavenPublication) {
         }
     }
 }
+
+// Commented out until the format has been updated
+// spotless {
+//   java {
+//     googleJavaFormat()
+//   }
+// }
