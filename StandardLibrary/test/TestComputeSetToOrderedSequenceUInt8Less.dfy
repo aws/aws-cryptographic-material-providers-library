@@ -6,12 +6,12 @@ include "../src/Sets.dfy"
   // Just to make sure we don't conflict with dafny-lang/libraries' Sets.dfy
 include "../../libraries/src/Collections/Sets/Sets.dfy"
 
-  // This function is commonly used for sorting
-  // But there are also subtle order effects
-  // that are important for cryptographic libraries.
-  // These order functions and externs MUST
-  // be interoperable across runtimes
-  // to be used for canonical ordering
+// This function is commonly used for sorting
+// But there are also subtle order effects
+// that are important for cryptographic libraries.
+// These order functions and externs MUST
+// be interoperable across runtimes
+// to be used for canonical ordering
 
 module TestComputeSetToOrderedSequenceUInt8Less {
   import opened StandardLibrary

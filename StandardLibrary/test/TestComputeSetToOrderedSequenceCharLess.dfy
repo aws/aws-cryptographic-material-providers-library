@@ -96,6 +96,6 @@ module TestComputeSetToOrderedSequenceCharLess {
     expect output == expected;
     expect output2 == expected;
   }
-  
+
 
 }
