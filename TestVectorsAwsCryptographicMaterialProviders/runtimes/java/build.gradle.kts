@@ -50,7 +50,6 @@ if (!caPasswordString.isNullOrBlank()) {
 
 repositories {
     mavenCentral()
-    mavenLocal()
     if (caUrl != null && caPassword != null) {
         maven {
             name = "CodeArtifact"
