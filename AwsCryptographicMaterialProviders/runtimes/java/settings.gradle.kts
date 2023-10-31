@@ -1,7 +1,7 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-rootProject.name = "aws-cryptographic-material-providers"
+rootProject.name = "AwsCryptographicMaterialProviders"
 
 includeBuild(File("../../../StandardLibrary/runtimes/java/")) {
   name = "StandardLibrary"
