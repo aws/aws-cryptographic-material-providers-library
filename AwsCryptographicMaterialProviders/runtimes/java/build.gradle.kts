@@ -24,7 +24,9 @@ description = "AWS Cryptographic Material Providers Library"
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(8))
     sourceSets["main"].java {
-        mainSourceSet()
+        srcDir("src/main/java")
+        srcDir("src/main/dafny-generated")
+        srcDir("src/main/smithy-generated")
     }
     sourceSets["test"].java {
         srcDir("src/test")
