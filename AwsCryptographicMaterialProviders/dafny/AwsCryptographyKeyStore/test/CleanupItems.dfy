@@ -6,7 +6,7 @@ include "Fixtures.dfy"
 include "../src/Structure.dfy"
 
 module CleanupItems {
-  import DDB = Com.Amazonaws.Dynamodb
+  import DDB = Com_Amazonaws_Dynamodb
   import opened Wrappers
   import opened Fixtures
   import Structure

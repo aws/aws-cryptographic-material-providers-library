@@ -35,5 +35,7 @@ class default__(com_amazonaws_kms.internaldafny.generated.software_amazon_crypto
         client_region_name = client._impl.meta.region_name
         return Option_Some(region.VerbatimString(False) == client_region_name)
 
+import software_amazon_cryptography_services_kms_internaldafny
+software_amazon_cryptography_services_kms_internaldafny.default__ = default__
 com_amazonaws_kms.internaldafny.generated.software_amazon_cryptography_services_kms_internaldafny.default__ = default__
 com_amazonaws_kms.internaldafny.generated.software_amazon_cryptography_services_kms_internaldafny.TrentServiceClient = default__.KMSClient

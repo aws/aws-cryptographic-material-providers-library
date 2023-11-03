@@ -7,7 +7,9 @@ import module_
 import _dafny
 import System_
 import Wrappers
+import BoundedInts
 import StandardLibrary_mUInt
+import String
 import StandardLibrary
 import UTF8
 import software_amazon_cryptography_services_dynamodb_internaldafny_types

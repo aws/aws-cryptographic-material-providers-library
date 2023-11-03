@@ -7,7 +7,9 @@ import module_
 import _dafny
 import System_
 import Wrappers
+import BoundedInts
 import StandardLibrary_mUInt
+import String
 import StandardLibrary
 import UTF8
 
@@ -3185,28 +3187,6 @@ class IKMSClient:
 
     def Verify(self, input):
         pass
-
-
-class TrentServiceConfig:
-    @_dafny.classproperty
-    def AllSingletonConstructors(cls):
-        return [TrentServiceConfig_TrentServiceConfig()]
-    @classmethod
-    def default(cls, ):
-        return lambda: TrentServiceConfig_TrentServiceConfig()
-    def __ne__(self, __o: object) -> bool:
-        return not self.__eq__(__o)
-    @property
-    def is_TrentServiceConfig(self) -> bool:
-        return isinstance(self, TrentServiceConfig_TrentServiceConfig)
-
-class TrentServiceConfig_TrentServiceConfig(TrentServiceConfig, NamedTuple('TrentServiceConfig', [])):
-    def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.TrentServiceConfig.TrentServiceConfig'
-    def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, TrentServiceConfig_TrentServiceConfig)
-    def __hash__(self) -> int:
-        return super().__hash__()
 
 
 class TrustAnchorCertificateType:

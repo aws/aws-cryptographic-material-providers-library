@@ -7,8 +7,8 @@ include "Fixtures.dfy"
 module TestGetKeys {
   import Types = AwsCryptographyKeyStoreTypes
   import ComAmazonawsKmsTypes
-  import KMS = Com.Amazonaws.Kms
-  import DDB = Com.Amazonaws.Dynamodb
+  import KMS = Com_Amazonaws_Kms
+  import DDB = Com_Amazonaws_Dynamodb
   import KeyStore
   import opened Wrappers
   import opened Fixtures

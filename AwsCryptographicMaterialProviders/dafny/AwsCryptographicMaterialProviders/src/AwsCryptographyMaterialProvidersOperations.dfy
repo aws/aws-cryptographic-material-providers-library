@@ -57,7 +57,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   import Commitment
   import AlgorithmSuites
   import opened AwsArnParsing
-  import Kms = Com.Amazonaws.Kms
+  import Kms = Com_Amazonaws_Kms
   import Ddb = ComAmazonawsDynamodbTypes
   import RequiredEncryptionContextCMM
 

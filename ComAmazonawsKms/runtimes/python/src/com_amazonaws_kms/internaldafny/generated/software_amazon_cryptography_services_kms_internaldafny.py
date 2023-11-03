@@ -7,7 +7,9 @@ import module_
 import _dafny
 import System_
 import Wrappers
+import BoundedInts
 import StandardLibrary_mUInt
+import String
 import StandardLibrary
 import UTF8
 import software_amazon_cryptography_services_kms_internaldafny_types
@@ -21,6 +23,11 @@ class default__:
     @staticmethod
     def DefaultKMSClientConfigType():
         return KMSClientConfigType_KMSClientConfigType()
+
+    @staticmethod
+    def DafnyUserAgentSuffix(runtime):
+        d_0_version_ = _dafny.Seq("1.0.0")
+        return (((_dafny.Seq("AwsCryptographicMPL/")) + (runtime)) + (_dafny.Seq("/"))) + (d_0_version_)
 
 
 class KMSClientConfigType:

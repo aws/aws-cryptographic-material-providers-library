@@ -14,7 +14,7 @@ include = ["**/smithygenerated/*.py", "**/internal_generated_dafny/*.py"]
 python = "^3.11.0"
 aws-cryptography-primitives-externs = { path = "src/aws_cryptography_primitives/extern", develop = false}
 # TODO: Depend on PyPi once Smithy-Python publishes their Python package there
-smithy-python = { path = "../../../../../../polymorph/submodules/smithy-python/python-packages/smithy-python", develop = false}
+smithy-python = { path = "../../../../../submodules/smithy-python/python-packages/smithy-python", develop = false}
 standard-library = {path = "../../../StandardLibrary/runtimes/python", develop = false}
 cryptography = "^41.0.3"
 six = "^1.16.0"

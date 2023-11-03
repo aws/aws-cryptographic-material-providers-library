@@ -5,6 +5,8 @@ CORES=2
 
 include ../SharedMakefileV2.mk
 
+PYTHON_MODULE_NAME=main
+
 PROJECT_SERVICES := \
 	AwsCryptographicMaterialProviders \
 	AwsCryptographyKeyStore \

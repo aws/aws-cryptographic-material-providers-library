@@ -10,7 +10,7 @@ def set_config_impl(config: Config):
     Set the Dafny-compiled implementation in the Smithy-Python client Config
     and load our custom NoRetriesStrategy.
     '''
-    from aws_cryptography_primitives_internaldafny import AtomicPrimitivesClient
+    from software_amazon_cryptography_primitives_internaldafny import AtomicPrimitivesClient
     config.dafnyImplInterface = DafnyImplInterface()
     config.dafnyImplInterface.impl = AtomicPrimitivesClient()
     config.dafnyImplInterface.impl.ctor__(smithy_config_to_dafny_config(config))

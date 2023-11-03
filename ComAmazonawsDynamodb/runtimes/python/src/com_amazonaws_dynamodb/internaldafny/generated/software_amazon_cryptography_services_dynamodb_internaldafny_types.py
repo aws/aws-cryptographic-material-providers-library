@@ -7,7 +7,9 @@ import module_
 import _dafny
 import System_
 import Wrappers
+import BoundedInts
 import StandardLibrary_mUInt
+import String
 import StandardLibrary
 import UTF8
 
@@ -2967,28 +2969,6 @@ class IDynamoDBClient:
 
     def UpdateTimeToLive(self, input):
         pass
-
-
-class DynamoDB__20120810Config:
-    @_dafny.classproperty
-    def AllSingletonConstructors(cls):
-        return [DynamoDB__20120810Config_DynamoDB__20120810Config()]
-    @classmethod
-    def default(cls, ):
-        return lambda: DynamoDB__20120810Config_DynamoDB__20120810Config()
-    def __ne__(self, __o: object) -> bool:
-        return not self.__eq__(__o)
-    @property
-    def is_DynamoDB__20120810Config(self) -> bool:
-        return isinstance(self, DynamoDB__20120810Config_DynamoDB__20120810Config)
-
-class DynamoDB__20120810Config_DynamoDB__20120810Config(DynamoDB__20120810Config, NamedTuple('DynamoDB__20120810Config', [])):
-    def __dafnystr__(self) -> str:
-        return f'ComAmazonawsDynamodbTypes.DynamoDB_20120810Config.DynamoDB_20120810Config'
-    def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, DynamoDB__20120810Config_DynamoDB__20120810Config)
-    def __hash__(self) -> int:
-        return super().__hash__()
 
 
 class EnableKinesisStreamingDestinationInput:
