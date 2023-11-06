@@ -1900,6 +1900,628 @@ def _cache_type_from_dict(d: Dict[str, Any]) -> CacheType:
 
     raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
 
+
+class EncryptedDataKey:
+    key_provider_id: str
+    key_provider_info: bytes | bytearray
+    ciphertext: bytes | bytearray
+    def __init__(
+        self,
+        *,
+        key_provider_id: str,
+        key_provider_info: bytes | bytearray,
+        ciphertext: bytes | bytearray,
+    ):
+        self.key_provider_id = key_provider_id
+        self.key_provider_info = key_provider_info
+        self.ciphertext = ciphertext
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the EncryptedDataKey to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "keyProviderId": self.key_provider_id,
+            "keyProviderInfo": self.key_provider_info,
+            "ciphertext": self.ciphertext,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "EncryptedDataKey":
+        """Creates a EncryptedDataKey from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "key_provider_id": d["keyProviderId"],
+            "key_provider_info": d["keyProviderInfo"],
+            "ciphertext": d["ciphertext"],
+        }
+
+        return EncryptedDataKey(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "EncryptedDataKey("
+        if self.key_provider_id is not None:
+            result += f"key_provider_id={repr(self.key_provider_id)}, "
+
+        if self.key_provider_info is not None:
+            result += f"key_provider_info={repr(self.key_provider_info)}, "
+
+        if self.ciphertext is not None:
+            result += f"ciphertext={repr(self.ciphertext)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, EncryptedDataKey):
+            return False
+        attributes: list[str] = ['key_provider_id','key_provider_info','ciphertext',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
+
+
+
+class DecryptionMaterials:
+    algorithm_suite: AlgorithmSuiteInfo
+    encryption_context: dict[str, str]
+    required_encryption_context_keys: list[str]
+    plaintext_data_key: Optional[bytes | bytearray]
+    verification_key: Optional[bytes | bytearray]
+    symmetric_signing_key: Optional[bytes | bytearray]
+    def __init__(
+        self,
+        *,
+        algorithm_suite: AlgorithmSuiteInfo,
+        encryption_context: dict[str, str],
+        required_encryption_context_keys: list[str],
+        plaintext_data_key: Optional[bytes | bytearray] = None,
+        verification_key: Optional[bytes | bytearray] = None,
+        symmetric_signing_key: Optional[bytes | bytearray] = None,
+    ):
+        self.algorithm_suite = algorithm_suite
+        self.encryption_context = encryption_context
+        self.required_encryption_context_keys = required_encryption_context_keys
+        self.plaintext_data_key = plaintext_data_key
+        self.verification_key = verification_key
+        self.symmetric_signing_key = symmetric_signing_key
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the DecryptionMaterials to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {
+            "algorithmSuite": self.algorithm_suite.as_dict(),
+            "encryptionContext": self.encryption_context,
+            "requiredEncryptionContextKeys": self.required_encryption_context_keys,
+        }
+
+        if self.plaintext_data_key is not None:
+            d["plaintextDataKey"] = self.plaintext_data_key
+
+        if self.verification_key is not None:
+            d["verificationKey"] = self.verification_key
+
+        if self.symmetric_signing_key is not None:
+            d["symmetricSigningKey"] = self.symmetric_signing_key
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "DecryptionMaterials":
+        """Creates a DecryptionMaterials from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "algorithm_suite": AlgorithmSuiteInfo.from_dict(d["algorithmSuite"]),
+            "encryption_context": d["encryptionContext"],
+            "required_encryption_context_keys": d["requiredEncryptionContextKeys"],
+        }
+
+        if "plaintextDataKey" in d:
+            kwargs["plaintext_data_key"] = d["plaintextDataKey"]
+
+        if "verificationKey" in d:
+            kwargs["verification_key"] = d["verificationKey"]
+
+        if "symmetricSigningKey" in d:
+            kwargs["symmetric_signing_key"] = d["symmetricSigningKey"]
+
+        return DecryptionMaterials(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "DecryptionMaterials("
+        if self.algorithm_suite is not None:
+            result += f"algorithm_suite={repr(self.algorithm_suite)}, "
+
+        if self.encryption_context is not None:
+            result += f"encryption_context={repr(self.encryption_context)}, "
+
+        if self.required_encryption_context_keys is not None:
+            result += f"required_encryption_context_keys={repr(self.required_encryption_context_keys)}, "
+
+        if self.plaintext_data_key is not None:
+            result += f"plaintext_data_key={repr(self.plaintext_data_key)}, "
+
+        if self.verification_key is not None:
+            result += f"verification_key={repr(self.verification_key)}, "
+
+        if self.symmetric_signing_key is not None:
+            result += f"symmetric_signing_key={repr(self.symmetric_signing_key)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, DecryptionMaterials):
+            return False
+        attributes: list[str] = ['algorithm_suite','encryption_context','required_encryption_context_keys','plaintext_data_key','verification_key','symmetric_signing_key',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
+
+
+class EncryptionMaterials:
+    algorithm_suite: AlgorithmSuiteInfo
+    encryption_context: dict[str, str]
+    encrypted_data_keys: list[EncryptedDataKey]
+    required_encryption_context_keys: list[str]
+    plaintext_data_key: Optional[bytes | bytearray]
+    signing_key: Optional[bytes | bytearray]
+    symmetric_signing_keys: Optional[list[bytes | bytearray]]
+    def __init__(
+        self,
+        *,
+        algorithm_suite: AlgorithmSuiteInfo,
+        encryption_context: dict[str, str],
+        encrypted_data_keys: list[EncryptedDataKey],
+        required_encryption_context_keys: list[str],
+        plaintext_data_key: Optional[bytes | bytearray] = None,
+        signing_key: Optional[bytes | bytearray] = None,
+        symmetric_signing_keys: Optional[list[bytes | bytearray]] = None,
+    ):
+        """////////////////////////////////
+
+        """
+        self.algorithm_suite = algorithm_suite
+        self.encryption_context = encryption_context
+        self.encrypted_data_keys = encrypted_data_keys
+        self.required_encryption_context_keys = required_encryption_context_keys
+        self.plaintext_data_key = plaintext_data_key
+        self.signing_key = signing_key
+        self.symmetric_signing_keys = symmetric_signing_keys
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the EncryptionMaterials to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {
+            "algorithmSuite": self.algorithm_suite.as_dict(),
+            "encryptionContext": self.encryption_context,
+            "encryptedDataKeys": _encrypted_data_key_list_as_dict(self.encrypted_data_keys),
+            "requiredEncryptionContextKeys": self.required_encryption_context_keys,
+        }
+
+        if self.plaintext_data_key is not None:
+            d["plaintextDataKey"] = self.plaintext_data_key
+
+        if self.signing_key is not None:
+            d["signingKey"] = self.signing_key
+
+        if self.symmetric_signing_keys is not None:
+            d["symmetricSigningKeys"] = self.symmetric_signing_keys
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "EncryptionMaterials":
+        """Creates a EncryptionMaterials from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "algorithm_suite": AlgorithmSuiteInfo.from_dict(d["algorithmSuite"]),
+            "encryption_context": d["encryptionContext"],
+            "encrypted_data_keys": _encrypted_data_key_list_from_dict(d["encryptedDataKeys"]),
+            "required_encryption_context_keys": d["requiredEncryptionContextKeys"],
+        }
+
+        if "plaintextDataKey" in d:
+            kwargs["plaintext_data_key"] = d["plaintextDataKey"]
+
+        if "signingKey" in d:
+            kwargs["signing_key"] = d["signingKey"]
+
+        if "symmetricSigningKeys" in d:
+            kwargs["symmetric_signing_keys"] = d["symmetricSigningKeys"]
+
+        return EncryptionMaterials(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "EncryptionMaterials("
+        if self.algorithm_suite is not None:
+            result += f"algorithm_suite={repr(self.algorithm_suite)}, "
+
+        if self.encryption_context is not None:
+            result += f"encryption_context={repr(self.encryption_context)}, "
+
+        if self.encrypted_data_keys is not None:
+            result += f"encrypted_data_keys={repr(self.encrypted_data_keys)}, "
+
+        if self.required_encryption_context_keys is not None:
+            result += f"required_encryption_context_keys={repr(self.required_encryption_context_keys)}, "
+
+        if self.plaintext_data_key is not None:
+            result += f"plaintext_data_key={repr(self.plaintext_data_key)}, "
+
+        if self.signing_key is not None:
+            result += f"signing_key={repr(self.signing_key)}, "
+
+        if self.symmetric_signing_keys is not None:
+            result += f"symmetric_signing_keys={repr(self.symmetric_signing_keys)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, EncryptionMaterials):
+            return False
+        attributes: list[str] = ['algorithm_suite','encryption_context','encrypted_data_keys','required_encryption_context_keys','plaintext_data_key','signing_key','symmetric_signing_keys',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
+
+
+class BranchKeyMaterials:
+    branch_key_identifier: str
+    branch_key_version: str
+    encryption_context: dict[str, str]
+    branch_key: bytes | bytearray
+    def __init__(
+        self,
+        *,
+        branch_key_identifier: str,
+        branch_key_version: str,
+        encryption_context: dict[str, str],
+        branch_key: bytes | bytearray,
+    ):
+        self.branch_key_identifier = branch_key_identifier
+        self.branch_key_version = branch_key_version
+        self.encryption_context = encryption_context
+        self.branch_key = branch_key
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the BranchKeyMaterials to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "branchKeyIdentifier": self.branch_key_identifier,
+            "branchKeyVersion": self.branch_key_version,
+            "encryptionContext": self.encryption_context,
+            "branchKey": self.branch_key,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "BranchKeyMaterials":
+        """Creates a BranchKeyMaterials from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "branch_key_identifier": d["branchKeyIdentifier"],
+            "branch_key_version": d["branchKeyVersion"],
+            "encryption_context": d["encryptionContext"],
+            "branch_key": d["branchKey"],
+        }
+
+        return BranchKeyMaterials(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "BranchKeyMaterials("
+        if self.branch_key_identifier is not None:
+            result += f"branch_key_identifier={repr(self.branch_key_identifier)}, "
+
+        if self.branch_key_version is not None:
+            result += f"branch_key_version={repr(self.branch_key_version)}, "
+
+        if self.encryption_context is not None:
+            result += f"encryption_context={repr(self.encryption_context)}, "
+
+        if self.branch_key is not None:
+            result += f"branch_key={repr(self.branch_key)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, BranchKeyMaterials):
+            return False
+        attributes: list[str] = ['branch_key_identifier','branch_key_version','encryption_context','branch_key',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
+
+class BeaconKeyMaterials:
+    beacon_key_identifier: str
+    encryption_context: dict[str, str]
+    beacon_key: Optional[bytes | bytearray]
+    hmac_keys: Optional[dict[str, bytes | bytearray]]
+    def __init__(
+        self,
+        *,
+        beacon_key_identifier: str,
+        encryption_context: dict[str, str],
+        beacon_key: Optional[bytes | bytearray] = None,
+        hmac_keys: Optional[dict[str, bytes | bytearray]] = None,
+    ):
+        self.beacon_key_identifier = beacon_key_identifier
+        self.encryption_context = encryption_context
+        self.beacon_key = beacon_key
+        self.hmac_keys = hmac_keys
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the BeaconKeyMaterials to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {
+            "beaconKeyIdentifier": self.beacon_key_identifier,
+            "encryptionContext": self.encryption_context,
+        }
+
+        if self.beacon_key is not None:
+            d["beaconKey"] = self.beacon_key
+
+        if self.hmac_keys is not None:
+            d["hmacKeys"] = self.hmac_keys
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "BeaconKeyMaterials":
+        """Creates a BeaconKeyMaterials from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "beacon_key_identifier": d["beaconKeyIdentifier"],
+            "encryption_context": d["encryptionContext"],
+        }
+
+        if "beaconKey" in d:
+            kwargs["beacon_key"] = d["beaconKey"]
+
+        if "hmacKeys" in d:
+            kwargs["hmac_keys"] = d["hmacKeys"]
+
+        return BeaconKeyMaterials(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "BeaconKeyMaterials("
+        if self.beacon_key_identifier is not None:
+            result += f"beacon_key_identifier={repr(self.beacon_key_identifier)}, "
+
+        if self.encryption_context is not None:
+            result += f"encryption_context={repr(self.encryption_context)}, "
+
+        if self.beacon_key is not None:
+            result += f"beacon_key={repr(self.beacon_key)}, "
+
+        if self.hmac_keys is not None:
+            result += f"hmac_keys={repr(self.hmac_keys)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, BeaconKeyMaterials):
+            return False
+        attributes: list[str] = ['beacon_key_identifier','encryption_context','beacon_key','hmac_keys',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
+
+
+class GetEncryptionMaterialsOutput:
+    encryption_materials: EncryptionMaterials
+    def __init__(
+        self,
+        *,
+        encryption_materials: EncryptionMaterials,
+    ):
+        """
+        :param encryption_materials: ////////////////////////////////
+        """
+        self.encryption_materials = encryption_materials
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the GetEncryptionMaterialsOutput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "encryptionMaterials": self.encryption_materials.as_dict(),
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "GetEncryptionMaterialsOutput":
+        """Creates a GetEncryptionMaterialsOutput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "encryption_materials": EncryptionMaterials.from_dict(d["encryptionMaterials"]),
+        }
+
+        return GetEncryptionMaterialsOutput(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "GetEncryptionMaterialsOutput("
+        if self.encryption_materials is not None:
+            result += f"encryption_materials={repr(self.encryption_materials)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, GetEncryptionMaterialsOutput):
+            return False
+        attributes: list[str] = ['encryption_materials',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
+
+
+class MaterialsEncryption():
+    """////////////////////////////////
+    """
+    def __init__(self, value: EncryptionMaterials):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"Encryption": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "MaterialsEncryption":
+        if (len(d) != 1):
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return MaterialsEncryption(EncryptionMaterials.from_dict(d["Encryption"]))
+
+    def __repr__(self) -> str:
+        return f"MaterialsEncryption(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, MaterialsEncryption):
+            return False
+        return self.value == other.value
+
+class MaterialsDecryption():
+    def __init__(self, value: DecryptionMaterials):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"Decryption": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "MaterialsDecryption":
+        if (len(d) != 1):
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return MaterialsDecryption(DecryptionMaterials.from_dict(d["Decryption"]))
+
+    def __repr__(self) -> str:
+        return f"MaterialsDecryption(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, MaterialsDecryption):
+            return False
+        return self.value == other.value
+
+class MaterialsBranchKey():
+    def __init__(self, value: BranchKeyMaterials):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"BranchKey": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "MaterialsBranchKey":
+        if (len(d) != 1):
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return MaterialsBranchKey(BranchKeyMaterials.from_dict(d["BranchKey"]))
+
+    def __repr__(self) -> str:
+        return f"MaterialsBranchKey(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, MaterialsBranchKey):
+            return False
+        return self.value == other.value
+
+class MaterialsBeaconKey():
+    def __init__(self, value: BeaconKeyMaterials):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"BeaconKey": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "MaterialsBeaconKey":
+        if (len(d) != 1):
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return MaterialsBeaconKey(BeaconKeyMaterials.from_dict(d["BeaconKey"]))
+
+    def __repr__(self) -> str:
+        return f"MaterialsBeaconKey(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, MaterialsBeaconKey):
+            return False
+        return self.value == other.value
+
+class MaterialsUnknown():
+    """Represents an unknown variant.
+
+    If you receive this value, you will need to update your library to receive the
+    parsed value.
+
+    This value may not be deliberately sent.
+    """
+
+    def __init__(self, tag: str):
+        self.tag = tag
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "MaterialsUnknown":
+        if (len(d) != 1):
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+        return MaterialsUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
+
+    def __repr__(self) -> str:
+        return f"MaterialsUnknown(tag={self.tag})"
+
+Materials = Union[MaterialsEncryption, MaterialsDecryption, MaterialsBranchKey, MaterialsBeaconKey, MaterialsUnknown]
+def _materials_from_dict(d: Dict[str, Any]) -> Materials:
+    if "Encryption" in d:
+        return MaterialsEncryption.from_dict(d)
+
+    if "Decryption" in d:
+        return MaterialsDecryption.from_dict(d)
+
+    if "BranchKey" in d:
+        return MaterialsBranchKey.from_dict(d)
+
+    if "BeaconKey" in d:
+        return MaterialsBeaconKey.from_dict(d)
+
+    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
+
+
 class KeyStoreReference:
     def as_dict(self) -> Dict[str, Any]:
         """Converts the KeyStoreReference to a dictionary.
@@ -3395,69 +4017,6 @@ def _commitment_policy_from_dict(d: Dict[str, Any]) -> CommitmentPolicy:
 
     raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
 
-class EncryptedDataKey:
-    key_provider_id: str
-    key_provider_info: bytes | bytearray
-    ciphertext: bytes | bytearray
-    def __init__(
-        self,
-        *,
-        key_provider_id: str,
-        key_provider_info: bytes | bytearray,
-        ciphertext: bytes | bytearray,
-    ):
-        self.key_provider_id = key_provider_id
-        self.key_provider_info = key_provider_info
-        self.ciphertext = ciphertext
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the EncryptedDataKey to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        return {
-            "keyProviderId": self.key_provider_id,
-            "keyProviderInfo": self.key_provider_info,
-            "ciphertext": self.ciphertext,
-        }
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "EncryptedDataKey":
-        """Creates a EncryptedDataKey from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        kwargs: Dict[str, Any] = {
-            "key_provider_id": d["keyProviderId"],
-            "key_provider_info": d["keyProviderInfo"],
-            "ciphertext": d["ciphertext"],
-        }
-
-        return EncryptedDataKey(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "EncryptedDataKey("
-        if self.key_provider_id is not None:
-            result += f"key_provider_id={repr(self.key_provider_id)}, "
-
-        if self.key_provider_info is not None:
-            result += f"key_provider_info={repr(self.key_provider_info)}, "
-
-        if self.ciphertext is not None:
-            result += f"ciphertext={repr(self.ciphertext)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, EncryptedDataKey):
-            return False
-        attributes: list[str] = ['key_provider_id','key_provider_info','ciphertext',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
 
 class DecryptMaterialsInput:
     algorithm_suite_id: AlgorithmSuiteId
@@ -3540,108 +4099,6 @@ class DecryptMaterialsInput:
         if not isinstance(other, DecryptMaterialsInput):
             return False
         attributes: list[str] = ['algorithm_suite_id','commitment_policy','encrypted_data_keys','encryption_context','reproduced_encryption_context',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
-
-class DecryptionMaterials:
-    algorithm_suite: AlgorithmSuiteInfo
-    encryption_context: dict[str, str]
-    required_encryption_context_keys: list[str]
-    plaintext_data_key: Optional[bytes | bytearray]
-    verification_key: Optional[bytes | bytearray]
-    symmetric_signing_key: Optional[bytes | bytearray]
-    def __init__(
-        self,
-        *,
-        algorithm_suite: AlgorithmSuiteInfo,
-        encryption_context: dict[str, str],
-        required_encryption_context_keys: list[str],
-        plaintext_data_key: Optional[bytes | bytearray] = None,
-        verification_key: Optional[bytes | bytearray] = None,
-        symmetric_signing_key: Optional[bytes | bytearray] = None,
-    ):
-        self.algorithm_suite = algorithm_suite
-        self.encryption_context = encryption_context
-        self.required_encryption_context_keys = required_encryption_context_keys
-        self.plaintext_data_key = plaintext_data_key
-        self.verification_key = verification_key
-        self.symmetric_signing_key = symmetric_signing_key
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the DecryptionMaterials to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        d: Dict[str, Any] = {
-            "algorithmSuite": self.algorithm_suite.as_dict(),
-            "encryptionContext": self.encryption_context,
-            "requiredEncryptionContextKeys": self.required_encryption_context_keys,
-        }
-
-        if self.plaintext_data_key is not None:
-            d["plaintextDataKey"] = self.plaintext_data_key
-
-        if self.verification_key is not None:
-            d["verificationKey"] = self.verification_key
-
-        if self.symmetric_signing_key is not None:
-            d["symmetricSigningKey"] = self.symmetric_signing_key
-
-        return d
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DecryptionMaterials":
-        """Creates a DecryptionMaterials from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        kwargs: Dict[str, Any] = {
-            "algorithm_suite": AlgorithmSuiteInfo.from_dict(d["algorithmSuite"]),
-            "encryption_context": d["encryptionContext"],
-            "required_encryption_context_keys": d["requiredEncryptionContextKeys"],
-        }
-
-        if "plaintextDataKey" in d:
-            kwargs["plaintext_data_key"] = d["plaintextDataKey"]
-
-        if "verificationKey" in d:
-            kwargs["verification_key"] = d["verificationKey"]
-
-        if "symmetricSigningKey" in d:
-            kwargs["symmetric_signing_key"] = d["symmetricSigningKey"]
-
-        return DecryptionMaterials(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "DecryptionMaterials("
-        if self.algorithm_suite is not None:
-            result += f"algorithm_suite={repr(self.algorithm_suite)}, "
-
-        if self.encryption_context is not None:
-            result += f"encryption_context={repr(self.encryption_context)}, "
-
-        if self.required_encryption_context_keys is not None:
-            result += f"required_encryption_context_keys={repr(self.required_encryption_context_keys)}, "
-
-        if self.plaintext_data_key is not None:
-            result += f"plaintext_data_key={repr(self.plaintext_data_key)}, "
-
-        if self.verification_key is not None:
-            result += f"verification_key={repr(self.verification_key)}, "
-
-        if self.symmetric_signing_key is not None:
-            result += f"symmetric_signing_key={repr(self.symmetric_signing_key)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, DecryptionMaterials):
-            return False
-        attributes: list[str] = ['algorithm_suite','encryption_context','required_encryption_context_keys','plaintext_data_key','verification_key','symmetric_signing_key',]
         return all(
             getattr(self, a) == getattr(other, a)
             for a in attributes
@@ -3784,170 +4241,6 @@ class GetEncryptionMaterialsInput:
         if not isinstance(other, GetEncryptionMaterialsInput):
             return False
         attributes: list[str] = ['encryption_context','commitment_policy','algorithm_suite_id','max_plaintext_length','required_encryption_context_keys',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
-
-class EncryptionMaterials:
-    algorithm_suite: AlgorithmSuiteInfo
-    encryption_context: dict[str, str]
-    encrypted_data_keys: list[EncryptedDataKey]
-    required_encryption_context_keys: list[str]
-    plaintext_data_key: Optional[bytes | bytearray]
-    signing_key: Optional[bytes | bytearray]
-    symmetric_signing_keys: Optional[list[bytes | bytearray]]
-    def __init__(
-        self,
-        *,
-        algorithm_suite: AlgorithmSuiteInfo,
-        encryption_context: dict[str, str],
-        encrypted_data_keys: list[EncryptedDataKey],
-        required_encryption_context_keys: list[str],
-        plaintext_data_key: Optional[bytes | bytearray] = None,
-        signing_key: Optional[bytes | bytearray] = None,
-        symmetric_signing_keys: Optional[list[bytes | bytearray]] = None,
-    ):
-        """////////////////////////////////
-
-        """
-        self.algorithm_suite = algorithm_suite
-        self.encryption_context = encryption_context
-        self.encrypted_data_keys = encrypted_data_keys
-        self.required_encryption_context_keys = required_encryption_context_keys
-        self.plaintext_data_key = plaintext_data_key
-        self.signing_key = signing_key
-        self.symmetric_signing_keys = symmetric_signing_keys
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the EncryptionMaterials to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        d: Dict[str, Any] = {
-            "algorithmSuite": self.algorithm_suite.as_dict(),
-            "encryptionContext": self.encryption_context,
-            "encryptedDataKeys": _encrypted_data_key_list_as_dict(self.encrypted_data_keys),
-            "requiredEncryptionContextKeys": self.required_encryption_context_keys,
-        }
-
-        if self.plaintext_data_key is not None:
-            d["plaintextDataKey"] = self.plaintext_data_key
-
-        if self.signing_key is not None:
-            d["signingKey"] = self.signing_key
-
-        if self.symmetric_signing_keys is not None:
-            d["symmetricSigningKeys"] = self.symmetric_signing_keys
-
-        return d
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "EncryptionMaterials":
-        """Creates a EncryptionMaterials from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        kwargs: Dict[str, Any] = {
-            "algorithm_suite": AlgorithmSuiteInfo.from_dict(d["algorithmSuite"]),
-            "encryption_context": d["encryptionContext"],
-            "encrypted_data_keys": _encrypted_data_key_list_from_dict(d["encryptedDataKeys"]),
-            "required_encryption_context_keys": d["requiredEncryptionContextKeys"],
-        }
-
-        if "plaintextDataKey" in d:
-            kwargs["plaintext_data_key"] = d["plaintextDataKey"]
-
-        if "signingKey" in d:
-            kwargs["signing_key"] = d["signingKey"]
-
-        if "symmetricSigningKeys" in d:
-            kwargs["symmetric_signing_keys"] = d["symmetricSigningKeys"]
-
-        return EncryptionMaterials(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "EncryptionMaterials("
-        if self.algorithm_suite is not None:
-            result += f"algorithm_suite={repr(self.algorithm_suite)}, "
-
-        if self.encryption_context is not None:
-            result += f"encryption_context={repr(self.encryption_context)}, "
-
-        if self.encrypted_data_keys is not None:
-            result += f"encrypted_data_keys={repr(self.encrypted_data_keys)}, "
-
-        if self.required_encryption_context_keys is not None:
-            result += f"required_encryption_context_keys={repr(self.required_encryption_context_keys)}, "
-
-        if self.plaintext_data_key is not None:
-            result += f"plaintext_data_key={repr(self.plaintext_data_key)}, "
-
-        if self.signing_key is not None:
-            result += f"signing_key={repr(self.signing_key)}, "
-
-        if self.symmetric_signing_keys is not None:
-            result += f"symmetric_signing_keys={repr(self.symmetric_signing_keys)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, EncryptionMaterials):
-            return False
-        attributes: list[str] = ['algorithm_suite','encryption_context','encrypted_data_keys','required_encryption_context_keys','plaintext_data_key','signing_key','symmetric_signing_keys',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
-
-class GetEncryptionMaterialsOutput:
-    encryption_materials: EncryptionMaterials
-    def __init__(
-        self,
-        *,
-        encryption_materials: EncryptionMaterials,
-    ):
-        """
-        :param encryption_materials: ////////////////////////////////
-        """
-        self.encryption_materials = encryption_materials
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the GetEncryptionMaterialsOutput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        return {
-            "encryptionMaterials": self.encryption_materials.as_dict(),
-        }
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GetEncryptionMaterialsOutput":
-        """Creates a GetEncryptionMaterialsOutput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        kwargs: Dict[str, Any] = {
-            "encryption_materials": EncryptionMaterials.from_dict(d["encryptionMaterials"]),
-        }
-
-        return GetEncryptionMaterialsOutput(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "GetEncryptionMaterialsOutput("
-        if self.encryption_materials is not None:
-            result += f"encryption_materials={repr(self.encryption_materials)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, GetEncryptionMaterialsOutput):
-            return False
-        attributes: list[str] = ['encryption_materials',]
         return all(
             getattr(self, a) == getattr(other, a)
             for a in attributes
@@ -4840,6 +5133,7 @@ def _materials_from_dict(d: Dict[str, Any]) -> Materials:
 
     raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
 
+
 class EncryptionMaterials:
     algorithm_suite: AlgorithmSuiteInfo
     encryption_context: dict[str, str]
@@ -8726,160 +9020,6 @@ class AES_GCM:
         if not isinstance(other, AES_GCM):
             return False
         attributes: list[str] = ['key_length','tag_length','iv_length',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
-
-class BranchKeyMaterials:
-    branch_key_identifier: str
-    branch_key_version: str
-    encryption_context: dict[str, str]
-    branch_key: bytes | bytearray
-    def __init__(
-        self,
-        *,
-        branch_key_identifier: str,
-        branch_key_version: str,
-        encryption_context: dict[str, str],
-        branch_key: bytes | bytearray,
-    ):
-        self.branch_key_identifier = branch_key_identifier
-        self.branch_key_version = branch_key_version
-        self.encryption_context = encryption_context
-        self.branch_key = branch_key
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the BranchKeyMaterials to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        return {
-            "branchKeyIdentifier": self.branch_key_identifier,
-            "branchKeyVersion": self.branch_key_version,
-            "encryptionContext": self.encryption_context,
-            "branchKey": self.branch_key,
-        }
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "BranchKeyMaterials":
-        """Creates a BranchKeyMaterials from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        kwargs: Dict[str, Any] = {
-            "branch_key_identifier": d["branchKeyIdentifier"],
-            "branch_key_version": d["branchKeyVersion"],
-            "encryption_context": d["encryptionContext"],
-            "branch_key": d["branchKey"],
-        }
-
-        return BranchKeyMaterials(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "BranchKeyMaterials("
-        if self.branch_key_identifier is not None:
-            result += f"branch_key_identifier={repr(self.branch_key_identifier)}, "
-
-        if self.branch_key_version is not None:
-            result += f"branch_key_version={repr(self.branch_key_version)}, "
-
-        if self.encryption_context is not None:
-            result += f"encryption_context={repr(self.encryption_context)}, "
-
-        if self.branch_key is not None:
-            result += f"branch_key={repr(self.branch_key)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, BranchKeyMaterials):
-            return False
-        attributes: list[str] = ['branch_key_identifier','branch_key_version','encryption_context','branch_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
-
-class BeaconKeyMaterials:
-    beacon_key_identifier: str
-    encryption_context: dict[str, str]
-    beacon_key: Optional[bytes | bytearray]
-    hmac_keys: Optional[dict[str, bytes | bytearray]]
-    def __init__(
-        self,
-        *,
-        beacon_key_identifier: str,
-        encryption_context: dict[str, str],
-        beacon_key: Optional[bytes | bytearray] = None,
-        hmac_keys: Optional[dict[str, bytes | bytearray]] = None,
-    ):
-        self.beacon_key_identifier = beacon_key_identifier
-        self.encryption_context = encryption_context
-        self.beacon_key = beacon_key
-        self.hmac_keys = hmac_keys
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the BeaconKeyMaterials to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        d: Dict[str, Any] = {
-            "beaconKeyIdentifier": self.beacon_key_identifier,
-            "encryptionContext": self.encryption_context,
-        }
-
-        if self.beacon_key is not None:
-            d["beaconKey"] = self.beacon_key
-
-        if self.hmac_keys is not None:
-            d["hmacKeys"] = self.hmac_keys
-
-        return d
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "BeaconKeyMaterials":
-        """Creates a BeaconKeyMaterials from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        kwargs: Dict[str, Any] = {
-            "beacon_key_identifier": d["beaconKeyIdentifier"],
-            "encryption_context": d["encryptionContext"],
-        }
-
-        if "beaconKey" in d:
-            kwargs["beacon_key"] = d["beaconKey"]
-
-        if "hmacKeys" in d:
-            kwargs["hmac_keys"] = d["hmacKeys"]
-
-        return BeaconKeyMaterials(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "BeaconKeyMaterials("
-        if self.beacon_key_identifier is not None:
-            result += f"beacon_key_identifier={repr(self.beacon_key_identifier)}, "
-
-        if self.encryption_context is not None:
-            result += f"encryption_context={repr(self.encryption_context)}, "
-
-        if self.beacon_key is not None:
-            result += f"beacon_key={repr(self.beacon_key)}, "
-
-        if self.hmac_keys is not None:
-            result += f"hmac_keys={repr(self.hmac_keys)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, BeaconKeyMaterials):
-            return False
-        attributes: list[str] = ['beacon_key_identifier','encryption_context','beacon_key','hmac_keys',]
         return all(
             getattr(self, a) == getattr(other, a)
             for a in attributes
@@ -21860,136 +22000,6 @@ class GetCacheEntryOutput:
             for a in attributes
         )
 
-class MaterialsEncryption():
-    """////////////////////////////////
-    """
-    def __init__(self, value: EncryptionMaterials):
-        self.value = value
-
-    def as_dict(self) -> Dict[str, Any]:
-        return {"Encryption": self.value.as_dict()}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "MaterialsEncryption":
-        if (len(d) != 1):
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
-        return MaterialsEncryption(EncryptionMaterials.from_dict(d["Encryption"]))
-
-    def __repr__(self) -> str:
-        return f"MaterialsEncryption(value=repr(self.value))"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, MaterialsEncryption):
-            return False
-        return self.value == other.value
-
-class MaterialsDecryption():
-    def __init__(self, value: DecryptionMaterials):
-        self.value = value
-
-    def as_dict(self) -> Dict[str, Any]:
-        return {"Decryption": self.value.as_dict()}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "MaterialsDecryption":
-        if (len(d) != 1):
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
-        return MaterialsDecryption(DecryptionMaterials.from_dict(d["Decryption"]))
-
-    def __repr__(self) -> str:
-        return f"MaterialsDecryption(value=repr(self.value))"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, MaterialsDecryption):
-            return False
-        return self.value == other.value
-
-class MaterialsBranchKey():
-    def __init__(self, value: BranchKeyMaterials):
-        self.value = value
-
-    def as_dict(self) -> Dict[str, Any]:
-        return {"BranchKey": self.value.as_dict()}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "MaterialsBranchKey":
-        if (len(d) != 1):
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
-        return MaterialsBranchKey(BranchKeyMaterials.from_dict(d["BranchKey"]))
-
-    def __repr__(self) -> str:
-        return f"MaterialsBranchKey(value=repr(self.value))"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, MaterialsBranchKey):
-            return False
-        return self.value == other.value
-
-class MaterialsBeaconKey():
-    def __init__(self, value: BeaconKeyMaterials):
-        self.value = value
-
-    def as_dict(self) -> Dict[str, Any]:
-        return {"BeaconKey": self.value.as_dict()}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "MaterialsBeaconKey":
-        if (len(d) != 1):
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
-        return MaterialsBeaconKey(BeaconKeyMaterials.from_dict(d["BeaconKey"]))
-
-    def __repr__(self) -> str:
-        return f"MaterialsBeaconKey(value=repr(self.value))"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, MaterialsBeaconKey):
-            return False
-        return self.value == other.value
-
-class MaterialsUnknown():
-    """Represents an unknown variant.
-
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
-
-    This value may not be deliberately sent.
-    """
-
-    def __init__(self, tag: str):
-        self.tag = tag
-
-    def as_dict(self) -> Dict[str, Any]:
-        return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "MaterialsUnknown":
-        if (len(d) != 1):
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return MaterialsUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
-
-    def __repr__(self) -> str:
-        return f"MaterialsUnknown(tag={self.tag})"
-
-Materials = Union[MaterialsEncryption, MaterialsDecryption, MaterialsBranchKey, MaterialsBeaconKey, MaterialsUnknown]
-def _materials_from_dict(d: Dict[str, Any]) -> Materials:
-    if "Encryption" in d:
-        return MaterialsEncryption.from_dict(d)
-
-    if "Decryption" in d:
-        return MaterialsDecryption.from_dict(d)
-
-    if "BranchKey" in d:
-        return MaterialsBranchKey.from_dict(d)
-
-    if "BeaconKey" in d:
-        return MaterialsBeaconKey.from_dict(d)
-
-    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
-
 class EncryptionMaterials:
     algorithm_suite: AlgorithmSuiteInfo
     encryption_context: dict[str, str]
@@ -25313,798 +25323,3 @@ class DerivationAlgorithmIDENTITY():
         if not isinstance(other, DerivationAlgorithmIDENTITY):
             return False
         return self.value == other.value
-
-class DerivationAlgorithmNone():
-    def __init__(self, value: None_):
-        self.value = value
-
-    def as_dict(self) -> Dict[str, Any]:
-        return {"None": self.value.as_dict()}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DerivationAlgorithmNone":
-        if (len(d) != 1):
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
-        return DerivationAlgorithmNone(None_.from_dict(d["None"]))
-
-    def __repr__(self) -> str:
-        return f"DerivationAlgorithmNone(value=repr(self.value))"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, DerivationAlgorithmNone):
-            return False
-        return self.value == other.value
-
-class DerivationAlgorithmUnknown():
-    """Represents an unknown variant.
-
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
-
-    This value may not be deliberately sent.
-    """
-
-    def __init__(self, tag: str):
-        self.tag = tag
-
-    def as_dict(self) -> Dict[str, Any]:
-        return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DerivationAlgorithmUnknown":
-        if (len(d) != 1):
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return DerivationAlgorithmUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
-
-    def __repr__(self) -> str:
-        return f"DerivationAlgorithmUnknown(tag={self.tag})"
-
-DerivationAlgorithm = Union[DerivationAlgorithmHKDF, DerivationAlgorithmIDENTITY, DerivationAlgorithmNone, DerivationAlgorithmUnknown]
-def _derivation_algorithm_from_dict(d: Dict[str, Any]) -> DerivationAlgorithm:
-    if "HKDF" in d:
-        return DerivationAlgorithmHKDF.from_dict(d)
-
-    if "IDENTITY" in d:
-        return DerivationAlgorithmIDENTITY.from_dict(d)
-
-    if "None" in d:
-        return DerivationAlgorithmNone.from_dict(d)
-
-    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
-
-class HKDF:
-    hmac: str
-    salt_length: int
-    input_key_length: int
-    output_key_length: int
-    def __init__(
-        self,
-        *,
-        hmac: str,
-        salt_length: int = 0,
-        input_key_length: int = 0,
-        output_key_length: int = 0,
-    ):
-        self.hmac = hmac
-        self.salt_length = salt_length
-        self.input_key_length = input_key_length
-        self.output_key_length = output_key_length
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the HKDF to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        d: Dict[str, Any] = {
-            "hmac": self.hmac,
-        }
-
-        if self.salt_length is not None:
-            d["saltLength"] = self.salt_length
-
-        if self.input_key_length is not None:
-            d["inputKeyLength"] = self.input_key_length
-
-        if self.output_key_length is not None:
-            d["outputKeyLength"] = self.output_key_length
-
-        return d
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "HKDF":
-        """Creates a HKDF from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        kwargs: Dict[str, Any] = {
-            "hmac": d["hmac"],
-        }
-
-        if "saltLength" in d:
-            kwargs["salt_length"] = d["saltLength"]
-
-        if "inputKeyLength" in d:
-            kwargs["input_key_length"] = d["inputKeyLength"]
-
-        if "outputKeyLength" in d:
-            kwargs["output_key_length"] = d["outputKeyLength"]
-
-        return HKDF(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "HKDF("
-        if self.hmac is not None:
-            result += f"hmac={repr(self.hmac)}, "
-
-        if self.salt_length is not None:
-            result += f"salt_length={repr(self.salt_length)}, "
-
-        if self.input_key_length is not None:
-            result += f"input_key_length={repr(self.input_key_length)}, "
-
-        if self.output_key_length is not None:
-            result += f"output_key_length={repr(self.output_key_length)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, HKDF):
-            return False
-        attributes: list[str] = ['hmac','salt_length','input_key_length','output_key_length',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
-
-class IDENTITY:
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the IDENTITY to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        return {}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "IDENTITY":
-        """Creates a IDENTITY from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        return IDENTITY()
-
-    def __repr__(self) -> str:
-        result = "IDENTITY("
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        return isinstance(other, IDENTITY)
-
-class None_:
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the None_ to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        return {}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "None_":
-        """Creates a None_ from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        return None_()
-
-    def __repr__(self) -> str:
-        result = "None_("
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        return isinstance(other, None_)
-
-class DerivationAlgorithmHKDF():
-    def __init__(self, value: HKDF):
-        self.value = value
-
-    def as_dict(self) -> Dict[str, Any]:
-        return {"HKDF": self.value.as_dict()}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DerivationAlgorithmHKDF":
-        if (len(d) != 1):
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
-        return DerivationAlgorithmHKDF(HKDF.from_dict(d["HKDF"]))
-
-    def __repr__(self) -> str:
-        return f"DerivationAlgorithmHKDF(value=repr(self.value))"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, DerivationAlgorithmHKDF):
-            return False
-        return self.value == other.value
-
-class DerivationAlgorithmIDENTITY():
-    def __init__(self, value: IDENTITY):
-        self.value = value
-
-    def as_dict(self) -> Dict[str, Any]:
-        return {"IDENTITY": self.value.as_dict()}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DerivationAlgorithmIDENTITY":
-        if (len(d) != 1):
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
-        return DerivationAlgorithmIDENTITY(IDENTITY.from_dict(d["IDENTITY"]))
-
-    def __repr__(self) -> str:
-        return f"DerivationAlgorithmIDENTITY(value=repr(self.value))"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, DerivationAlgorithmIDENTITY):
-            return False
-        return self.value == other.value
-
-class DerivationAlgorithmNone():
-    def __init__(self, value: None_):
-        self.value = value
-
-    def as_dict(self) -> Dict[str, Any]:
-        return {"None": self.value.as_dict()}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DerivationAlgorithmNone":
-        if (len(d) != 1):
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
-        return DerivationAlgorithmNone(None_.from_dict(d["None"]))
-
-    def __repr__(self) -> str:
-        return f"DerivationAlgorithmNone(value=repr(self.value))"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, DerivationAlgorithmNone):
-            return False
-        return self.value == other.value
-
-class DerivationAlgorithmUnknown():
-    """Represents an unknown variant.
-
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
-
-    This value may not be deliberately sent.
-    """
-
-    def __init__(self, tag: str):
-        self.tag = tag
-
-    def as_dict(self) -> Dict[str, Any]:
-        return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DerivationAlgorithmUnknown":
-        if (len(d) != 1):
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return DerivationAlgorithmUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
-
-    def __repr__(self) -> str:
-        return f"DerivationAlgorithmUnknown(tag={self.tag})"
-
-DerivationAlgorithm = Union[DerivationAlgorithmHKDF, DerivationAlgorithmIDENTITY, DerivationAlgorithmNone, DerivationAlgorithmUnknown]
-def _derivation_algorithm_from_dict(d: Dict[str, Any]) -> DerivationAlgorithm:
-    if "HKDF" in d:
-        return DerivationAlgorithmHKDF.from_dict(d)
-
-    if "IDENTITY" in d:
-        return DerivationAlgorithmIDENTITY.from_dict(d)
-
-    if "None" in d:
-        return DerivationAlgorithmNone.from_dict(d)
-
-    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
-
-class HKDF:
-    hmac: str
-    salt_length: int
-    input_key_length: int
-    output_key_length: int
-    def __init__(
-        self,
-        *,
-        hmac: str,
-        salt_length: int = 0,
-        input_key_length: int = 0,
-        output_key_length: int = 0,
-    ):
-        self.hmac = hmac
-        self.salt_length = salt_length
-        self.input_key_length = input_key_length
-        self.output_key_length = output_key_length
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the HKDF to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        d: Dict[str, Any] = {
-            "hmac": self.hmac,
-        }
-
-        if self.salt_length is not None:
-            d["saltLength"] = self.salt_length
-
-        if self.input_key_length is not None:
-            d["inputKeyLength"] = self.input_key_length
-
-        if self.output_key_length is not None:
-            d["outputKeyLength"] = self.output_key_length
-
-        return d
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "HKDF":
-        """Creates a HKDF from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        kwargs: Dict[str, Any] = {
-            "hmac": d["hmac"],
-        }
-
-        if "saltLength" in d:
-            kwargs["salt_length"] = d["saltLength"]
-
-        if "inputKeyLength" in d:
-            kwargs["input_key_length"] = d["inputKeyLength"]
-
-        if "outputKeyLength" in d:
-            kwargs["output_key_length"] = d["outputKeyLength"]
-
-        return HKDF(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "HKDF("
-        if self.hmac is not None:
-            result += f"hmac={repr(self.hmac)}, "
-
-        if self.salt_length is not None:
-            result += f"salt_length={repr(self.salt_length)}, "
-
-        if self.input_key_length is not None:
-            result += f"input_key_length={repr(self.input_key_length)}, "
-
-        if self.output_key_length is not None:
-            result += f"output_key_length={repr(self.output_key_length)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, HKDF):
-            return False
-        attributes: list[str] = ['hmac','salt_length','input_key_length','output_key_length',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
-
-class IDENTITY:
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the IDENTITY to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        return {}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "IDENTITY":
-        """Creates a IDENTITY from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        return IDENTITY()
-
-    def __repr__(self) -> str:
-        result = "IDENTITY("
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        return isinstance(other, IDENTITY)
-
-class None_:
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the None_ to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        return {}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "None_":
-        """Creates a None_ from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        return None_()
-
-    def __repr__(self) -> str:
-        result = "None_("
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        return isinstance(other, None_)
-
-class EncryptAES_GCM():
-    def __init__(self, value: AES_GCM):
-        self.value = value
-
-    def as_dict(self) -> Dict[str, Any]:
-        return {"AES_GCM": self.value.as_dict()}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "EncryptAES_GCM":
-        if (len(d) != 1):
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
-        return EncryptAES_GCM(AES_GCM.from_dict(d["AES_GCM"]))
-
-    def __repr__(self) -> str:
-        return f"EncryptAES_GCM(value=repr(self.value))"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, EncryptAES_GCM):
-            return False
-        return self.value == other.value
-
-class EncryptUnknown():
-    """Represents an unknown variant.
-
-    If you receive this value, you will need to update your library to receive the
-    parsed value.
-
-    This value may not be deliberately sent.
-    """
-
-    def __init__(self, tag: str):
-        self.tag = tag
-
-    def as_dict(self) -> Dict[str, Any]:
-        return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "EncryptUnknown":
-        if (len(d) != 1):
-            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return EncryptUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
-
-    def __repr__(self) -> str:
-        return f"EncryptUnknown(tag={self.tag})"
-
-Encrypt = Union[EncryptAES_GCM, EncryptUnknown]
-def _encrypt_from_dict(d: Dict[str, Any]) -> Encrypt:
-    if "AES_GCM" in d:
-        return EncryptAES_GCM.from_dict(d)
-
-    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
-
-class AES_GCM:
-    key_length: int
-    tag_length: int
-    iv_length: int
-    def __init__(
-        self,
-        *,
-        key_length: int = 0,
-        tag_length: int = 0,
-        iv_length: int = 0,
-    ):
-        self.key_length = key_length
-        self.tag_length = tag_length
-        self.iv_length = iv_length
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the AES_GCM to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        d: Dict[str, Any] = {}
-
-        if self.key_length is not None:
-            d["keyLength"] = self.key_length
-
-        if self.tag_length is not None:
-            d["tagLength"] = self.tag_length
-
-        if self.iv_length is not None:
-            d["ivLength"] = self.iv_length
-
-        return d
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "AES_GCM":
-        """Creates a AES_GCM from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        kwargs: Dict[str, Any] = {}
-
-        if "keyLength" in d:
-            kwargs["key_length"] = d["keyLength"]
-
-        if "tagLength" in d:
-            kwargs["tag_length"] = d["tagLength"]
-
-        if "ivLength" in d:
-            kwargs["iv_length"] = d["ivLength"]
-
-        return AES_GCM(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "AES_GCM("
-        if self.key_length is not None:
-            result += f"key_length={repr(self.key_length)}, "
-
-        if self.tag_length is not None:
-            result += f"tag_length={repr(self.tag_length)}, "
-
-        if self.iv_length is not None:
-            result += f"iv_length={repr(self.iv_length)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, AES_GCM):
-            return False
-        attributes: list[str] = ['key_length','tag_length','iv_length',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
-
-class BranchKeyMaterials:
-    branch_key_identifier: str
-    branch_key_version: str
-    encryption_context: dict[str, str]
-    branch_key: bytes | bytearray
-    def __init__(
-        self,
-        *,
-        branch_key_identifier: str,
-        branch_key_version: str,
-        encryption_context: dict[str, str],
-        branch_key: bytes | bytearray,
-    ):
-        self.branch_key_identifier = branch_key_identifier
-        self.branch_key_version = branch_key_version
-        self.encryption_context = encryption_context
-        self.branch_key = branch_key
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the BranchKeyMaterials to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        return {
-            "branchKeyIdentifier": self.branch_key_identifier,
-            "branchKeyVersion": self.branch_key_version,
-            "encryptionContext": self.encryption_context,
-            "branchKey": self.branch_key,
-        }
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "BranchKeyMaterials":
-        """Creates a BranchKeyMaterials from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        kwargs: Dict[str, Any] = {
-            "branch_key_identifier": d["branchKeyIdentifier"],
-            "branch_key_version": d["branchKeyVersion"],
-            "encryption_context": d["encryptionContext"],
-            "branch_key": d["branchKey"],
-        }
-
-        return BranchKeyMaterials(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "BranchKeyMaterials("
-        if self.branch_key_identifier is not None:
-            result += f"branch_key_identifier={repr(self.branch_key_identifier)}, "
-
-        if self.branch_key_version is not None:
-            result += f"branch_key_version={repr(self.branch_key_version)}, "
-
-        if self.encryption_context is not None:
-            result += f"encryption_context={repr(self.encryption_context)}, "
-
-        if self.branch_key is not None:
-            result += f"branch_key={repr(self.branch_key)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, BranchKeyMaterials):
-            return False
-        attributes: list[str] = ['branch_key_identifier','branch_key_version','encryption_context','branch_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
-
-class BeaconKeyMaterials:
-    beacon_key_identifier: str
-    encryption_context: dict[str, str]
-    beacon_key: Optional[bytes | bytearray]
-    hmac_keys: Optional[dict[str, bytes | bytearray]]
-    def __init__(
-        self,
-        *,
-        beacon_key_identifier: str,
-        encryption_context: dict[str, str],
-        beacon_key: Optional[bytes | bytearray] = None,
-        hmac_keys: Optional[dict[str, bytes | bytearray]] = None,
-    ):
-        self.beacon_key_identifier = beacon_key_identifier
-        self.encryption_context = encryption_context
-        self.beacon_key = beacon_key
-        self.hmac_keys = hmac_keys
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the BeaconKeyMaterials to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        d: Dict[str, Any] = {
-            "beaconKeyIdentifier": self.beacon_key_identifier,
-            "encryptionContext": self.encryption_context,
-        }
-
-        if self.beacon_key is not None:
-            d["beaconKey"] = self.beacon_key
-
-        if self.hmac_keys is not None:
-            d["hmacKeys"] = self.hmac_keys
-
-        return d
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "BeaconKeyMaterials":
-        """Creates a BeaconKeyMaterials from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        kwargs: Dict[str, Any] = {
-            "beacon_key_identifier": d["beaconKeyIdentifier"],
-            "encryption_context": d["encryptionContext"],
-        }
-
-        if "beaconKey" in d:
-            kwargs["beacon_key"] = d["beaconKey"]
-
-        if "hmacKeys" in d:
-            kwargs["hmac_keys"] = d["hmacKeys"]
-
-        return BeaconKeyMaterials(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "BeaconKeyMaterials("
-        if self.beacon_key_identifier is not None:
-            result += f"beacon_key_identifier={repr(self.beacon_key_identifier)}, "
-
-        if self.encryption_context is not None:
-            result += f"encryption_context={repr(self.encryption_context)}, "
-
-        if self.beacon_key is not None:
-            result += f"beacon_key={repr(self.beacon_key)}, "
-
-        if self.hmac_keys is not None:
-            result += f"hmac_keys={repr(self.hmac_keys)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, BeaconKeyMaterials):
-            return False
-        attributes: list[str] = ['beacon_key_identifier','encryption_context','beacon_key','hmac_keys',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
-
-class DeleteCacheEntryInput:
-    identifier: bytes | bytearray
-    def __init__(
-        self,
-        *,
-        identifier: bytes | bytearray,
-    ):
-        self.identifier = identifier
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the DeleteCacheEntryInput to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        return {
-            "identifier": self.identifier,
-        }
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DeleteCacheEntryInput":
-        """Creates a DeleteCacheEntryInput from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        kwargs: Dict[str, Any] = {
-            "identifier": d["identifier"],
-        }
-
-        return DeleteCacheEntryInput(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "DeleteCacheEntryInput("
-        if self.identifier is not None:
-            result += f"identifier={repr(self.identifier)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, DeleteCacheEntryInput):
-            return False
-        attributes: list[str] = ['identifier',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
-
-class Unit:
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the Unit to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        return {}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "Unit":
-        """Creates a Unit from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        return Unit()
-
-    def __repr__(self) -> str:
-        result = "Unit("
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        return isinstance(other, Unit)

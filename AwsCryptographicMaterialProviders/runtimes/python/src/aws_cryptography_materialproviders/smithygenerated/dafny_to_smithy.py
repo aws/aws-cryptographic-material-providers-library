@@ -150,7 +150,7 @@ def DafnyToSmithy_aws_cryptography_materialproviders_DerivationAlgorithm(input):
     elif isinstance(input, DerivationAlgorithm_IDENTITY):
         DerivationAlgorithm_union_value = aws_cryptography_materialproviders.smithygenerated.models.DerivationAlgorithmIDENTITY(input.IDENTITY)
     elif isinstance(input, DerivationAlgorithm_None):
-        DerivationAlgorithm_union_value = aws_cryptography_materialproviders.smithygenerated.models.DerivationAlgorithmNone(input.None)
+        DerivationAlgorithm_union_value = aws_cryptography_materialproviders.smithygenerated.models.DerivationAlgorithmNone(input.None_)
     else:
         raise ValueError("No recognized union value in union type: " + input)
 
@@ -161,7 +161,7 @@ def DafnyToSmithy_aws_cryptography_materialproviders_SignatureAlgorithm(input):
     if isinstance(input, SignatureAlgorithm_ECDSA):
         SignatureAlgorithm_union_value = aws_cryptography_materialproviders.smithygenerated.models.SignatureAlgorithmECDSA(input.ECDSA)
     elif isinstance(input, SignatureAlgorithm_None):
-        SignatureAlgorithm_union_value = aws_cryptography_materialproviders.smithygenerated.models.SignatureAlgorithmNone(input.None)
+        SignatureAlgorithm_union_value = aws_cryptography_materialproviders.smithygenerated.models.SignatureAlgorithmNone(input.None_)
     else:
         raise ValueError("No recognized union value in union type: " + input)
 
@@ -172,7 +172,7 @@ def DafnyToSmithy_aws_cryptography_materialproviders_SymmetricSignatureAlgorithm
     if isinstance(input, SymmetricSignatureAlgorithm_HMAC):
         SymmetricSignatureAlgorithm_union_value = aws_cryptography_materialproviders.smithygenerated.models.SymmetricSignatureAlgorithmHMAC(input.HMAC)
     elif isinstance(input, SymmetricSignatureAlgorithm_None):
-        SymmetricSignatureAlgorithm_union_value = aws_cryptography_materialproviders.smithygenerated.models.SymmetricSignatureAlgorithmNone(input.None)
+        SymmetricSignatureAlgorithm_union_value = aws_cryptography_materialproviders.smithygenerated.models.SymmetricSignatureAlgorithmNone(input.None_)
     else:
         raise ValueError("No recognized union value in union type: " + input)
 
