@@ -15,6 +15,7 @@ module {:options "-functionSyntax:4"} KeyDescription {
   import ComAmazonawsKmsTypes
   import Seq
   import Base64
+  import UTF8
 
   function printErr(e: string) : (){()} by method {print e, "\n", "\n"; return ();}
   function printJSON(e: seq<(string, JSON)>) : (){()} by method {print e, "\n", "\n"; return ();}
@@ -37,7 +38,7 @@ module {:options "-functionSyntax:4"} KeyDescription {
       GetWillDecreaseSize("underlying", u, json);
       var underlying :- ToKeyDescription(u);
       var cacheLimitTtlSeconds :- GetPositiveInteger("cacheLimitTtlSeconds", obj);
-      var limitBytes := GetPositiveLong("limitBytes", obj).ToOption();
+      var limitBytes := GetOptionalPositiveLong("limitBytes", obj);
       var limitMessages := GetPositiveInteger("limitMessages", obj).ToOption();
 
       var getEntryIdentifierEncoded :- GetOptionalString("getEntryIdentifier", obj);
@@ -102,7 +103,7 @@ module {:options "-functionSyntax:4"} KeyDescription {
     : Option<AwsCryptographyMaterialProvidersTypes.DiscoveryFilter>
   {
     var filter :- GetObject("aws-kms-discovery-filter", obj).ToOption();
-    var partition :- GetString("partition", filter).ToOption();
+    var partition :- GetOptionalString("partition", filter);
     var accountIds :- GetArrayString("account-ids", filter).ToOption();
     Some(AwsCryptographyMaterialProvidersTypes.DiscoveryFilter(
            partition := partition,
@@ -128,10 +129,9 @@ module {:options "-functionSyntax:4"} KeyDescription {
     : Result<KeyDescription, string>
   {
     var encryptionAlgorithmString :- GetString("encryption-algorithm", obj);
-    :- Need(EncryptionAlgorithmSpec?(encryptionAlgorithmString), "Unsupported EncryptionAlgorithmSpec:" + encryptionAlgorithmString);
-    var encryptionAlgorithm := match encryptionAlgorithmString
-      case "RSAES_OAEP_SHA_1" => ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.RSAES_OAEP_SHA_1
-      case "RSAES_OAEP_SHA_256" => ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.RSAES_OAEP_SHA_256;
+    :- Need(encryptionAlgorithmString in String2EncryptionAlgorithmSpec,
+            "Unsupported EncryptionAlgorithmSpec:" + encryptionAlgorithmString);
+    var encryptionAlgorithm := String2EncryptionAlgorithmSpec[encryptionAlgorithmString];
     Success(KmsRsa(KmsRsaKeyring( keyId := key, encryptionAlgorithm := encryptionAlgorithm )))
   }
 
@@ -147,19 +147,19 @@ module {:options "-functionSyntax:4"} KeyDescription {
   {
     var providerId :- GetString("provider-id", obj);
     var paddingAlgorithm :- GetString("padding-algorithm", obj);
-    var paddingHash :- GetString("padding-hash", obj);
-    :- Need(PaddingAlgorithmString?(paddingAlgorithm), "Unsupported paddingAlgorithm:" + paddingAlgorithm);
-    :- Need(PaddingHashString?(paddingHash), "Unsupported paddingHash:" + paddingHash);
 
-    match paddingAlgorithm
-    case "pkcs1" =>
-      :- Need(paddingHash == "sha1", "Unsupported padding with pkcs1:" + paddingHash);
-      Success(RSA(RawRSA( keyId := key, providerId := providerId, padding := AwsCryptographyMaterialProvidersTypes.PKCS1 )))
-    case "oaep-mgf1" => match paddingHash
-      case "sha1" => Success(RSA(RawRSA( keyId := key, providerId := providerId, padding := AwsCryptographyMaterialProvidersTypes.OAEP_SHA1_MGF1 )))
-      case "sha256" => Success(RSA(RawRSA( keyId := key, providerId := providerId, padding := AwsCryptographyMaterialProvidersTypes.OAEP_SHA256_MGF1 )))
-      case "sha384" => Success(RSA(RawRSA( keyId := key, providerId := providerId, padding := AwsCryptographyMaterialProvidersTypes.OAEP_SHA384_MGF1 )))
-      case "sha512" => Success(RSA(RawRSA( keyId := key, providerId := providerId, padding := AwsCryptographyMaterialProvidersTypes.OAEP_SHA512_MGF1 )))
+    // In the test vectors the padding-hash for pkcs1 is optional
+    var maybePaddingHash :- GetOptionalString("padding-hash", obj);
+    :- Need(maybePaddingHash.None? ==> paddingAlgorithm == "pkcs1", "oaep-mgf1 MUST define padding-hash");
+    var paddingHash := maybePaddingHash.UnwrapOr("sha1");
+
+    :- Need((paddingAlgorithm, paddingHash) in String2PaddingAlgorithm,
+            "Unsupported padding:" + paddingAlgorithm + " hash:" + paddingHash);
+    Success(RSA(RawRSA(
+                  keyId := key,
+                  providerId := providerId,
+                  padding := String2PaddingAlgorithm[(paddingAlgorithm, paddingHash)]
+                )))
   }
 
   predicate KeyDescriptionString?(s: string)
@@ -181,26 +181,126 @@ module {:options "-functionSyntax:4"} KeyDescription {
     || s == "rsa"
   }
 
-  predicate PaddingAlgorithmString?(s: string)
+  const String2PaddingAlgorithm := reveal Injective(); Invert(PaddingAlgorithmString2String)
+
+  const PaddingAlgorithmString2String
+    := map[
+         AwsCryptographyMaterialProvidersTypes.PKCS1 := ("pkcs1", "sha1"),
+         AwsCryptographyMaterialProvidersTypes.OAEP_SHA1_MGF1 := ("oaep-mgf1", "sha1"),
+         AwsCryptographyMaterialProvidersTypes.OAEP_SHA256_MGF1 := ("oaep-mgf1", "sha256"),
+         AwsCryptographyMaterialProvidersTypes.OAEP_SHA384_MGF1 := ("oaep-mgf1", "sha384"),
+         AwsCryptographyMaterialProvidersTypes.OAEP_SHA512_MGF1 := ("oaep-mgf1", "sha512")
+       ]
+  lemma PaddingIsComplete(p: AwsCryptographyMaterialProvidersTypes.PaddingScheme)
+    ensures p in PaddingAlgorithmString2String.Keys
+  {}
+
+  const String2EncryptionAlgorithmSpec
+    := reveal Injective(); Invert(EncryptionAlgorithmSpec2String)
+  const EncryptionAlgorithmSpec2String
+    := map[
+         ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.RSAES_OAEP_SHA_1 := "RSAES_OAEP_SHA_1",
+         ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.RSAES_OAEP_SHA_256 := "RSAES_OAEP_SHA_256"
+         // SYMMETRIC_DEFAULT is not supported because RSA is asymmetric only
+       ]
+
+  function ToJson(
+    keyDescription: Types.KeyDescription
+  ) : Result<JSON, string>
   {
-    || s == "pkcs1"
-    || s == "oaep-mgf1"
+    match keyDescription
+    case Kms(Kms) =>
+      Success(Object([
+                       ("type", String("aws-kms")),
+                       ("key", String(Kms.keyId))
+                     ]))
+    case KmsMrk(KmsMrk) =>
+      Success(Object([
+                       ("type", String("aws-kms")),
+                       ("key", String(KmsMrk.keyId))
+                     ]))
+    case KmsMrkDiscovery(KmsMrkDiscovery) =>
+      // optional awsKmsDiscoveryFilter
+      Success(Object([
+                       ("type", String("aws-kms-mrk-aware-discovery")),
+                       ("default-mrk-region", String(KmsMrkDiscovery.defaultMrkRegion))
+                     ]))
+    case RSA(RSA) =>
+      var padding := (PaddingIsComplete(RSA.padding); PaddingAlgorithmString2String[RSA.padding]);
+      Success(Object([
+                       ("type", String("raw")),
+                       ("key", String(RSA.keyId)),
+                       ("provider-id", String(RSA.providerId)),
+                       ("encryption-algorithm", String("rsa")),
+                       ("padding-algorithm", String(padding.0)),
+                       ("padding-hash", String(padding.1))
+                     ]))
+    case AES(AES) =>
+      Success(Object([
+                       ("type", String("raw")),
+                       ("key", String(AES.keyId)),
+                       ("provider-id", String(AES.providerId)),
+                       ("encryption-algorithm", String("aes"))
+                     ]))
+    case Static(Static) =>
+      Success(Object([
+                       ("type", String("static-material-keyring")),
+                       ("key", String(Static.keyId))
+                     ]))
+    case KmsRsa(KmsRsa) =>
+      :- Need(KmsRsa.encryptionAlgorithm in EncryptionAlgorithmSpec2String, "Unsupported encryptionAlgorithm");
+      var encryptionAlgorithm := EncryptionAlgorithmSpec2String[KmsRsa.encryptionAlgorithm];
+      Success(Object([
+                       ("type", String("aws-kms-rsa")),
+                       ("key", String(KmsRsa.keyId)),
+                       ("encryption-algorithm", String(encryptionAlgorithm))
+                     ]))
+    case Hierarchy(Hierarchy) =>
+      Success(Object([
+                       ("type", String("aws-kms-hierarchy")),
+                       ("key", String(Hierarchy.keyId))
+                     ]))
+    case RequiredEncryptionContext(RequiredEncryptionContext) =>
+      var underlying :- ToJson(RequiredEncryptionContext.underlying);
+      var requiredEncryptionContextKeys :- Seq.MapWithResult(
+                                             key =>
+                                               var s :- UTF8.Decode(key);
+                                               Success(String(s)),
+                                             RequiredEncryptionContext.requiredEncryptionContextKeys);
+      Success(Object([
+                       ("type", String("required-encryption-context-cmm")),
+                       ("underlying", underlying),
+                       ("requiredEncryptionContextKeys", Array(requiredEncryptionContextKeys))
+                     ]))
+    case Caching(Caching) =>
+      var underlying :- ToJson(Caching.underlying);
+      Success(Object([
+                       ("type", String("caching-cmm")),
+                       ("underlying", underlying),
+                       ("cacheLimitTtlSeconds", Number(Int(Caching.cacheLimitTtlSeconds as nat)))
+                     ]
+                     + if Caching.limitBytes.Some?
+                     then [("limitBytes", Number(Int(Caching.limitBytes.value as nat)))] else []
+                     + if Caching.limitMessages.Some?
+                     then [("limitMessages", Number(Int(Caching.limitMessages.value as nat)))] else []
+                     + if Caching.getEntryIdentifier.Some?
+                     then [("getEntryIdentifier", String(Base64.Encode(Caching.getEntryIdentifier.value)))] else []
+                     + if Caching.putEntryIdentifier.Some?
+                     then [("putEntryIdentifier", String(Base64.Encode(Caching.putEntryIdentifier.value)))] else []
+              ))
   }
 
-  predicate PaddingHashString?(s: string)
+  function {:opaque} Invert<X(!new), Y(!new)>(m: map<X, Y>): map<Y, X>
+    requires Injective(m)
   {
-    || s == "sha1"
-    || s == "sha1"
-    || s == "sha256"
-    || s == "sha384"
-    || s == "sha512"
+    reveal Injective();
+    map k <- m :: m[k] := k
   }
 
-  predicate EncryptionAlgorithmSpec?(s: string)
+  /* True iff a map is injective. */
+  ghost predicate {:opaque} Injective<X, Y>(m: map<X, Y>)
   {
-    // This is missing SYMMETRIC_DEFAULT because this is asymmetric only
-    || s == "RSAES_OAEP_SHA_1"
-    || s == "RSAES_OAEP_SHA_256"
+    forall x, x' {:trigger m[x], m[x']} :: x != x' && x in m && x' in m ==> m[x] != m[x']
   }
 
 }

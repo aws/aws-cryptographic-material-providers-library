@@ -62,7 +62,7 @@ module {:options "-functionSyntax:4"} JSONHelpers {
     : Result<BoundedInts.int64, string>
   {
     var n :- GetNat(key, obj);
-    :- Need(n < BoundedInts.INT64_MAX as nat, "Int64 Overflow");
+    :- Need(n <= BoundedInts.INT64_MAX as nat, "Int64 Overflow");
     Success(n as BoundedInts.int64)
   }
 
@@ -70,7 +70,7 @@ module {:options "-functionSyntax:4"} JSONHelpers {
     : Result<BoundedInts.int32, string>
   {
     var n :- GetNat(key, obj);
-    :- Need(n < BoundedInts.INT32_MAX as nat, "Int64 Overflow");
+    :- Need(n <= BoundedInts.INT32_MAX as nat, "Int32 Overflow");
     Success(n as BoundedInts.int32)
   }
 
@@ -82,6 +82,18 @@ module {:options "-functionSyntax:4"} JSONHelpers {
     if obj.Some? then
       :- Need(obj.value.String?, "Not a string");
       Success(Some(obj.value.str))
+    else
+      Success(None)
+  }
+
+  function GetOptionalPositiveLong(key: string, obj: seq<(string, JSON)>)
+    : Result<Option<BoundedInts.int64>, string>
+  {
+    var obj := Get(key, obj).ToOption();
+    if obj.Some? then
+      :- Need(obj.value.Number?, "Not a number");
+      :- Need(0 <= obj.value.num.n <= BoundedInts.INT64_MAX as nat, "Int64 Overflow");
+      Success(Some(obj.value.num.n as BoundedInts.int64))
     else
       Success(None)
   }

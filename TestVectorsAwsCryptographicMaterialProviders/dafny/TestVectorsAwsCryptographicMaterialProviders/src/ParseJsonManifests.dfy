@@ -77,19 +77,19 @@ module {:options "-functionSyntax:4"} ParseJsonManifests {
     var typString := "type";
     var typ :- GetString(typString, obj);
 
-    var description := GetString("description", obj).ToOption();
+    var description := GetOptionalString("description", obj);
 
     var encryptionContextStrings :- SmallObjectToStringStringMap("encryptionContext", obj);
     var encryptionContext :- utf8EncodeMap(encryptionContextStrings);
 
-    var algorithmSuite :- GetAlgorithmSuiteInfo(obj);
+    var algorithmSuite :- GetAlgorithmSuiteInfo("algorithmSuiteId", obj);
     var requiredEncryptionContextKeys :- GetRequiredEncryptionContextKeys(obj);
     var reproducedEncryptionContext :- GetReproducedEncryptionContext(obj);
 
     // TODO fix me
     var commitmentPolicy := CompleteVectors.AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite);
     // This MAY be too flexible. If the length is say a string, this will return None
-    var maxPlaintextLength := GetPositiveLong("maxPlaintextLength", obj).ToOption();
+    var maxPlaintextLength := GetOptionalPositiveLong("maxPlaintextLength", obj);
 
     match typ
     case "positive-keyring" =>
@@ -169,10 +169,11 @@ module {:options "-functionSyntax:4"} ParseJsonManifests {
   }
 
   function GetAlgorithmSuiteInfo(
+    key: string,
     obj: seq<(string, JSON)>
   ) : Result<Types.AlgorithmSuiteInfo, string>
   {
-    var algorithmSuiteHex :- GetString("algorithmSuiteId", obj);
+    var algorithmSuiteHex :- GetString(key, obj);
     :- Need(HexStrings.IsLooseHexString(algorithmSuiteHex), "Not hex encoded binary");
     var binaryId := HexStrings.FromHexString(algorithmSuiteHex);
     // TODO change this to use AlgorithmSuiteInfoByHexString

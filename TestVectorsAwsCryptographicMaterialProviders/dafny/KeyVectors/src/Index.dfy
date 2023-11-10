@@ -41,7 +41,10 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
                     message := e
                   ));
 
-    var config := Operations.Config( keys := keys );
+    var config := Operations.Config(
+      keys := keys,
+      keysJson := keysManifestJSON
+    );
     var client := new KeyVectorsClient(config);
 
     res := Success(client);

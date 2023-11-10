@@ -138,7 +138,7 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
       return keyring.MapFailure(e => AwsCryptographyMaterialProviders(e));
     }
     case AES(RawAES(key, providerId)) => {
-      :- Need(material.Some? && material.value.Symetric?, KeyVectorException( message := "Not type: Symetric" ));
+      :- Need(material.Some? && material.value.Symetric?, KeyVectorException( message := "Not type: Symmetric" ));
       var wrappingAlg :- match material.value.bits
         case 128 => Success(MPL.ALG_AES128_GCM_IV12_TAG16)
         case 192 => Success(MPL.ALG_AES192_GCM_IV12_TAG16)
@@ -207,11 +207,11 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
     var clientSupplier :- maybeClientSupplier
     .MapFailure(e => AwsCryptographyMaterialProviders(e));
 
-    var arn :- AwsArnParsing.ParseAwsKmsArn(maybeKmsArn)
-    .MapFailure(e => KeyVectorException( message := e ));
+    var arn := AwsArnParsing.IsAwsKmsIdentifierString(maybeKmsArn);
+    var region := if arn.Success? then AwsArnParsing.GetRegion(arn.value) else None;
 
     var tmp := clientSupplier.GetClient(MPL.GetClientInput(
-                                          region := arn.region
+                                          region := region.UnwrapOr("")
                                         ));
     output := tmp.MapFailure(e => AwsCryptographyMaterialProviders(e));
   }

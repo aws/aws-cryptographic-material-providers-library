@@ -3,7 +3,7 @@
 
 include "../Model/AwsCryptographyMaterialProvidersTestVectorKeysTypes.dfy"
   // Yes, this is reaching across.
-  // idealy all these functions would exist in the STD Library.
+  // ideally all these functions would exist in the STD Library.
 include "../../TestVectorsAwsCryptographicMaterialProviders/src/LibraryIndex.dfy"
 include "../../TestVectorsAwsCryptographicMaterialProviders/src/JSONHelpers.dfy"
 include "KeyDescription.dfy"
@@ -24,7 +24,8 @@ module {:options "-functionSyntax:4"} KeysVectorOperations refines AbstractAwsCr
   import MaterialProviders
 
   datatype Config = Config(
-    keys: map<string, KeyMaterial.KeyMaterial>
+    keys: map<string, KeyMaterial.KeyMaterial>,
+    keysJson: Values.JSON
   )
 
   type InternalConfig = Config
@@ -116,7 +117,18 @@ module {:options "-functionSyntax:4"} KeysVectorOperations refines AbstractAwsCr
   function SerializeKeyDescription ( config: InternalConfig , input: SerializeKeyDescriptionInput )
     : (output: Result<SerializeKeyDescriptionOutput, Error>)
   {
-    Failure(KeyVectorException( message := "Not Supported"))
+    var json :- KeyDescription.ToJson(input.keyDescription)
+                .MapFailure((s)  => AwsCryptographyMaterialProviders(
+                                AwsCryptographyMaterialProvidersTypes.AwsCryptographicMaterialProvidersException(
+                                  message := s
+                                )));
+
+    var jsonBytes :- API.Serialize(json)
+                     .MapFailure((e: Errors.SerializationError)  => AwsCryptographyMaterialProviders(
+                                     AwsCryptographyMaterialProvidersTypes.AwsCryptographicMaterialProvidersException(
+                                       message := e.ToString()
+                                     )));
+    Success(SerializeKeyDescriptionOutput( json := jsonBytes ))
   }
 
   function GetKeyId(input: Types.KeyDescription)

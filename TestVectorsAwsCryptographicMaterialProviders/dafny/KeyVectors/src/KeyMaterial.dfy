@@ -13,6 +13,7 @@ module {:options "-functionSyntax:4"} KeyMaterial {
   import opened JSON.Values
   import opened Wrappers
   import Seq
+  import StandardLibrary
   import opened StandardLibrary.UInt
   import opened JSONHelpers
   import HexStrings
@@ -31,6 +32,8 @@ module {:options "-functionSyntax:4"} KeyMaterial {
       var tail :- BuildKeyMaterials(mpl, obj[1..]);
       Success(map[ name := keyMaterial] + tail)
   }
+
+  function printErr(e: seq<JSON>) : (){()} by method {print e, "\n", "\n"; return ();}
 
   function ToKeyMaterial(
     mpl: MPL.IAwsCryptographicMaterialProvidersClient,
@@ -51,7 +54,9 @@ module {:options "-functionSyntax:4"} KeyMaterial {
     case _ =>
       var encrypt :- GetBool("encrypt", obj);
       var decrypt :- GetBool("decrypt", obj);
-      var keyIdentifier :- GetString("key-id", obj);
+      // Version 1.0 of the keys vectors does not always have this value for all elements
+      var keyIdentifierOption :- GetOptionalString("key-id", obj);
+      var keyIdentifier := keyIdentifierOption.UnwrapOr(name);
 
       match typ
       case "aws-kms" =>
@@ -65,8 +70,18 @@ module {:options "-functionSyntax:4"} KeyMaterial {
         var algorithm :- GetString("algorithm", obj);
         var bits :- GetNat("bits", obj);
         var encoding :- GetString("encoding", obj);
-        var material :- GetString("material", obj);
 
+        // Version 1.0 of the keys vectors stores "material"
+        // as ["value"] as opposed to just a string.
+        var material? :- Get("material", obj);
+        var material :- match material?
+          case String(str) => Success(str)
+          case Array(arr) =>
+            :- Need(0 < |arr| && forall s <- arr :: s.String?, "Unsupported material shape.");
+            var strings := Seq.Map((s: JSON) requires s.String? => s.str, arr);
+            var material := StandardLibrary.Join(strings, "\n");
+            Success(material)
+          case _ => Failure("Unsupported material shape.");
         match typ
         case "symmetric" =>
           var materialBytes :- Base64.Decode(material);
