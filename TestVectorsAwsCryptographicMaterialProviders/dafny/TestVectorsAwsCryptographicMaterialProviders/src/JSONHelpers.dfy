@@ -257,6 +257,84 @@ module {:options "-functionSyntax:4"} JSONHelpers {
     }
   }
 
+  lemma ElementsOfArrayWillDecreaseSize(element: JSON, key: string, got: JSON, j: JSON)
+    requires
+      && j.Object?
+      && Get(key, j.obj).Success?
+      && Get(key, j.obj).value == got
+    requires got.Array?
+    requires element in got.arr
+    ensures Size(element) < Size(j)
+  {
+    assert 0 < |got.arr|;
+    GetWillDecreaseSize(key, got, j);
+    if got.arr == [element] {
+      calc {
+        Size(j);
+      >
+        Size(got);
+      ==
+        SizeArray(got.arr);
+      ==
+        Size(got.arr[0]) + SizeArray(got.arr[1..]);
+      == {assert got.arr[0] == element;}
+        Size(element) + SizeArray(got.arr[1..]);
+      > {assert SizeArray(got.arr[1..]) == 1;}
+        Size(element);
+      }
+    } else {
+      var i :| 0 <= i < |got.arr| && element == got.arr[i];
+
+      calc {
+        Size(j);
+      >
+        Size(got);
+      ==
+        Size(Array(got.arr));
+      == {assert got.arr == got.arr[..i] + got.arr[i..];}
+        Size(Array(got.arr[..i] + got.arr[i..]));
+      ==
+        SizeArray(got.arr[..i] + got.arr[i..]);
+      == {SizeArrayIsAssociative(got.arr[..i], got.arr[i..]);}
+        SizeArray(got.arr[..i]) + SizeArray(got.arr[i..]) - 1;
+      ==
+        SizeArray(got.arr[..i]) + Size(element) + SizeArray(got.arr[i..][1..]) - 1;
+      ==
+        Size(element) + SizeArray(got.arr[..i]) + SizeArray(got.arr[i..][1..]) - 1;
+      == {SizeArrayIsAssociative(got.arr[..i], got.arr[i..][1..]);}
+        Size(element) + SizeArray(got.arr[..i] + got.arr[i..][1..]);
+      >
+        Size(element);
+      }
+    }
+  }
+
+  lemma SizeArrayIsAssociative(o1: seq<JSON>, o2: seq<JSON>)
+    ensures SizeArray(o1) + SizeArray(o2) - 1 == SizeArray(o1 + o2)
+  {
+    if |o1| == 0 {
+      calc {
+        SizeArray(o1) + SizeArray(o2) - 1;
+      == {assert SizeArray(o1) == 1;}
+        SizeArray(o2);
+      == {assert o1 + o2 == o2;}
+        SizeArray(o1 + o2);
+      }
+    } else {
+      calc {
+        SizeArray(o1 + o2);
+      == // () help Dafny combine and split things
+        SizeArray((o1 + o2));
+      ==
+        Size((o1 + o2)[0]) + SizeArray((o1 + o2)[1..]);
+      == {assert o1[0] == (o1 + o2)[0];}
+        Size(o1[0]) + SizeArray((o1 + o2)[1..]);
+      == {assert (o1 + o2)[1..] == o1[1..] + o2;}
+        Size(o1[0]) + SizeArray(o1[1..] + o2);
+      }
+    }
+  }
+
   ghost function Size(j: JSON): nat
     ensures 0 < Size(j)
   {
