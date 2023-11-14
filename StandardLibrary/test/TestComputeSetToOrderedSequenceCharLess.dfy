@@ -92,6 +92,10 @@ module TestComputeSetToOrderedSequenceCharLess {
     var output := ComputeSetToOrderedSequence(a, CharLess);
     var output2 := ComputeSetToOrderedSequence2(a, CharLess);
     var expected := ["&", "Љ", "ᝀ", "𐀂", "𐐷", "🂡", "｡"];
+    // This is the pure logographic order
+    // however this function is used in the DB-ESDK
+    // to canonicalized sets and needs to remain the same.
+    // This order is kept here so that it is clear that this order is incorrect in this case
     // var expected := ["&", "Љ", "ᝀ", "｡", "𐀂", "𐐷", "🂡"];
     expect output == expected;
     expect output2 == expected;
