@@ -1,11 +1,12 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
-// Do not modify this file. This file is machine generated, and any changes to it will be
-// overwritten.
+// Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.services.kms.internaldafny;
 
 import dafny.DafnyMap;
 import dafny.DafnySequence;
+import java.lang.Character;
+import java.lang.String;
 import java.util.List;
 import java.util.Map;
 import software.amazon.awssdk.core.SdkBytes;
@@ -181,6 +182,8 @@ import software.amazon.cryptography.services.kms.internaldafny.types.Error_Limit
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_MalformedPolicyDocumentException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_NotFoundException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_TagException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_UnsupportedOperationException;
 // END MANUAL EDIT
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_TagException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_UnsupportedOperationException;
@@ -199,7 +202,6 @@ public class ToNative {
     // Bubble up some error to indicate this failure state.
     return new IllegalStateException("Unknown error recieved from KMS.");
   }
-
   // END MANUAL EDIT
 
   public static AlgorithmSpec AlgorithmSpec(
@@ -3480,7 +3482,6 @@ public class ToNative {
     // TODO This should indicate a codegen bug
     return new IllegalStateException("Unknown error recieved from KMS.");
   }
-
   // END MANUAL EDIT
 
   public static KmsClient TrentService(IKMSClient dafnyValue) {
