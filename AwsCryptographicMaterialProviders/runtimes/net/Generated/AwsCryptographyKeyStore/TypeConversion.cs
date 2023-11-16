@@ -647,12 +647,12 @@ namespace AWS.Cryptography.KeyStore
     {
       switch (value.GetType().Namespace)
       {
-       // BEGIN MANUAL EDIT
+        // BEGIN MANUAL EDIT
         case "Com.Amazonaws.KMS":
           return software.amazon.cryptography.keystore.internaldafny.types.Error.create_ComAmazonawsKms(
             Com.Amazonaws.Kms.TypeConversion.ToDafny_CommonError(value)
           );
-       // END MANUAL EDIT
+        // END MANUAL EDIT
         case "Com.Amazonaws.Dynamodb":
           return software.amazon.cryptography.keystore.internaldafny.types.Error.create_ComAmazonawsDynamodb(
             Com.Amazonaws.Dynamodb.TypeConversion.ToDafny_CommonError(value)

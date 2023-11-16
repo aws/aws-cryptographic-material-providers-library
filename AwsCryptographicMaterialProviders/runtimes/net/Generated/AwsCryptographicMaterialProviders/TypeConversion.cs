@@ -3417,11 +3417,11 @@ namespace AWS.Cryptography.MaterialProviders
             dafnyVal._AwsCryptographyKeyStore
           );
         case software.amazon.cryptography.materialproviders.internaldafny.types.Error_ComAmazonawsKms dafnyVal:
-         // BEGIN MANUAL EDIT
-         return Com.Amazonaws.Kms.TypeConversion.FromDafny_CommonError(
-         // END MANUAL EDIT
-            dafnyVal._ComAmazonawsKms
-          );
+          // BEGIN MANUAL EDIT
+          return Com.Amazonaws.Kms.TypeConversion.FromDafny_CommonError(
+             // END MANUAL EDIT
+             dafnyVal._ComAmazonawsKms
+           );
         case software.amazon.cryptography.materialproviders.internaldafny.types.Error_ComAmazonawsDynamodb dafnyVal:
           return Com.Amazonaws.Dynamodb.TypeConversion.FromDafny_CommonError(
             dafnyVal._ComAmazonawsDynamodb

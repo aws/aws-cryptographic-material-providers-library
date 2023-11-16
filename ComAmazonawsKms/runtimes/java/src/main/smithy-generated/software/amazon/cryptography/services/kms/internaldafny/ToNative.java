@@ -183,9 +183,9 @@ import software.amazon.cryptography.services.kms.internaldafny.types.Error_Malfo
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_NotFoundException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_TagException;
-import software.amazon.cryptography.services.kms.internaldafny.types.Error_UnsupportedOperationException;
 // END MANUAL EDIT
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_TagException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_UnsupportedOperationException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_UnsupportedOperationException;
 // BEGIN MANUAL EDIT
 import software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient;
@@ -202,6 +202,7 @@ public class ToNative {
     // Bubble up some error to indicate this failure state.
     return new IllegalStateException("Unknown error recieved from KMS.");
   }
+
   // END MANUAL EDIT
 
   public static AlgorithmSpec AlgorithmSpec(
@@ -3482,6 +3483,7 @@ public class ToNative {
     // TODO This should indicate a codegen bug
     return new IllegalStateException("Unknown error recieved from KMS.");
   }
+
   // END MANUAL EDIT
 
   public static KmsClient TrentService(IKMSClient dafnyValue) {

@@ -10489,9 +10489,9 @@ public class ToDafny {
   }
 
   public static Error Error(DynamoDbException nativeValue) {
-   // BEGIN MANUAL EDIT
-   return new Error_Opaque(nativeValue);
-   // END MANUAL EDIT
+    // BEGIN MANUAL EDIT
+    return new Error_Opaque(nativeValue);
+    // END MANUAL EDIT
   }
 
   public static IDynamoDBClient DynamoDB_20120810(DynamoDbClient nativeValue) {

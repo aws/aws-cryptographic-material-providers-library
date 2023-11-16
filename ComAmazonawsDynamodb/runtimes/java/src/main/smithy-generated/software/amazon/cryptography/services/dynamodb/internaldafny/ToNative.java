@@ -438,9 +438,10 @@ public class ToNative {
     // Bubble up some error to indicate this failure state.
     return new IllegalStateException("Unknown error recieved from DynamoDb.");
   }
+
   // END MANUAL EDIT
 
-    public static ArchivalSummary ArchivalSummary(
+  public static ArchivalSummary ArchivalSummary(
     software.amazon.cryptography.services.dynamodb.internaldafny.types.ArchivalSummary dafnyValue
   ) {
     ArchivalSummary.Builder builder = ArchivalSummary.builder();
