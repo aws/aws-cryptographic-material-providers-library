@@ -107,6 +107,7 @@ union KeyDescription {
   Static: StaticKeyring,
   KmsRsa: KmsRsaKeyring,
   Hierarchy: HierarchyKeyring,
+  Multi: MultiKeyring,
   RequiredEncryptionContext: RequiredEncryptionContextCMM,
   Caching: CachingCMM,
 }
@@ -155,6 +156,16 @@ structure KmsRsaKeyring {
 structure HierarchyKeyring {
   @required
   keyId: String,
+}
+
+structure MultiKeyring {
+  generator: KeyDescription,
+  @required
+  childKeyrings: KeyDescriptionList,
+}
+
+list KeyDescriptionList {
+  member: KeyDescription
 }
 
 structure RequiredEncryptionContextCMM {

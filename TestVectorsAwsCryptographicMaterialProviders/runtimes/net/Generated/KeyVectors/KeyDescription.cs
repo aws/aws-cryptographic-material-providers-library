@@ -15,6 +15,7 @@ namespace AWS.Cryptography.MaterialProvidersTestVectorKeys
     private AWS.Cryptography.MaterialProvidersTestVectorKeys.StaticKeyring _static;
     private AWS.Cryptography.MaterialProvidersTestVectorKeys.KmsRsaKeyring _kmsRsa;
     private AWS.Cryptography.MaterialProvidersTestVectorKeys.HierarchyKeyring _hierarchy;
+    private AWS.Cryptography.MaterialProvidersTestVectorKeys.MultiKeyring _multi;
     private AWS.Cryptography.MaterialProvidersTestVectorKeys.RequiredEncryptionContextCMM _requiredEncryptionContext;
     private AWS.Cryptography.MaterialProvidersTestVectorKeys.CachingCMM _caching;
     public AWS.Cryptography.MaterialProvidersTestVectorKeys.KMSInfo Kms
@@ -89,6 +90,15 @@ namespace AWS.Cryptography.MaterialProvidersTestVectorKeys
     {
       return this._hierarchy != null;
     }
+    public AWS.Cryptography.MaterialProvidersTestVectorKeys.MultiKeyring Multi
+    {
+      get { return this._multi; }
+      set { this._multi = value; }
+    }
+    public bool IsSetMulti()
+    {
+      return this._multi != null;
+    }
     public AWS.Cryptography.MaterialProvidersTestVectorKeys.RequiredEncryptionContextCMM RequiredEncryptionContext
     {
       get { return this._requiredEncryptionContext; }
@@ -117,6 +127,7 @@ namespace AWS.Cryptography.MaterialProvidersTestVectorKeys
       Convert.ToUInt16(IsSetStatic()) +
       Convert.ToUInt16(IsSetKmsRsa()) +
       Convert.ToUInt16(IsSetHierarchy()) +
+      Convert.ToUInt16(IsSetMulti()) +
       Convert.ToUInt16(IsSetRequiredEncryptionContext()) +
       Convert.ToUInt16(IsSetCaching());
       if (numberOfPropertiesSet == 0) throw new System.ArgumentException("No union value set");

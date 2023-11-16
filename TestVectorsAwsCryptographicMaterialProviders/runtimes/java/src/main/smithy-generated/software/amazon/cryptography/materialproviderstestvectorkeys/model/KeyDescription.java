@@ -22,6 +22,8 @@ public class KeyDescription {
 
   private final HierarchyKeyring Hierarchy;
 
+  private final MultiKeyring Multi;
+
   private final RequiredEncryptionContextCMM RequiredEncryptionContext;
 
   private final CachingCMM Caching;
@@ -35,6 +37,7 @@ public class KeyDescription {
     this.Static = builder.Static();
     this.KmsRsa = builder.KmsRsa();
     this.Hierarchy = builder.Hierarchy();
+    this.Multi = builder.Multi();
     this.RequiredEncryptionContext = builder.RequiredEncryptionContext();
     this.Caching = builder.Caching();
   }
@@ -69,6 +72,10 @@ public class KeyDescription {
 
   public HierarchyKeyring Hierarchy() {
     return this.Hierarchy;
+  }
+
+  public MultiKeyring Multi() {
+    return this.Multi;
   }
 
   public RequiredEncryptionContextCMM RequiredEncryptionContext() {
@@ -120,6 +127,10 @@ public class KeyDescription {
 
     HierarchyKeyring Hierarchy();
 
+    Builder Multi(MultiKeyring Multi);
+
+    MultiKeyring Multi();
+
     Builder RequiredEncryptionContext(RequiredEncryptionContextCMM RequiredEncryptionContext);
 
     RequiredEncryptionContextCMM RequiredEncryptionContext();
@@ -148,6 +159,8 @@ public class KeyDescription {
 
     protected HierarchyKeyring Hierarchy;
 
+    protected MultiKeyring Multi;
+
     protected RequiredEncryptionContextCMM RequiredEncryptionContext;
 
     protected CachingCMM Caching;
@@ -164,6 +177,7 @@ public class KeyDescription {
       this.Static = model.Static();
       this.KmsRsa = model.KmsRsa();
       this.Hierarchy = model.Hierarchy();
+      this.Multi = model.Multi();
       this.RequiredEncryptionContext = model.RequiredEncryptionContext();
       this.Caching = model.Caching();
     }
@@ -240,6 +254,15 @@ public class KeyDescription {
       return this.Hierarchy;
     }
 
+    public Builder Multi(MultiKeyring Multi) {
+      this.Multi = Multi;
+      return this;
+    }
+
+    public MultiKeyring Multi() {
+      return this.Multi;
+    }
+
     public Builder RequiredEncryptionContext(
         RequiredEncryptionContextCMM RequiredEncryptionContext) {
       this.RequiredEncryptionContext = RequiredEncryptionContext;
@@ -267,7 +290,7 @@ public class KeyDescription {
     }
 
     private boolean onlyOneNonNull() {
-      Object[] allValues = {this.Kms, this.KmsMrk, this.KmsMrkDiscovery, this.RSA, this.AES, this.Static, this.KmsRsa, this.Hierarchy, this.RequiredEncryptionContext, this.Caching};
+      Object[] allValues = {this.Kms, this.KmsMrk, this.KmsMrkDiscovery, this.RSA, this.AES, this.Static, this.KmsRsa, this.Hierarchy, this.Multi, this.RequiredEncryptionContext, this.Caching};
       boolean haveOneNonNull = false;
       for (Object o : allValues) {
         if (Objects.nonNull(o)) {

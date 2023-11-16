@@ -45,8 +45,10 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
     | Static(Static: StaticKeyring)
     | KmsRsa(KmsRsa: KmsRsaKeyring)
     | Hierarchy(Hierarchy: HierarchyKeyring)
+    | Multi(Multi: MultiKeyring)
     | RequiredEncryptionContext(RequiredEncryptionContext: RequiredEncryptionContextCMM)
     | Caching(Caching: CachingCMM)
+  type KeyDescriptionList = seq<KeyDescription>
   class IKeyVectorsClientCallHistory {
     ghost constructor() {
       CreateTestVectorKeyring := [];
@@ -178,6 +180,10 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
   datatype KmsRsaKeyring = | KmsRsaKeyring (
     nameonly keyId: string ,
     nameonly encryptionAlgorithm: ComAmazonawsKmsTypes.EncryptionAlgorithmSpec
+  )
+  datatype MultiKeyring = | MultiKeyring (
+    nameonly generator: Option<KeyDescription> ,
+    nameonly childKeyrings: KeyDescriptionList
   )
   datatype RawAES = | RawAES (
     nameonly keyId: string ,

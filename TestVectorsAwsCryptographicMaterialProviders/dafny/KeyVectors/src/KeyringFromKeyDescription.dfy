@@ -15,6 +15,7 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
   import KeyMaterial
   import CreateStaticKeyrings
   import CreateStaticKeyStores
+  import Seq
 
   // This is a HACK.
   // This function is not currently public
@@ -26,22 +27,58 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
     material: Option<KeyMaterial.KeyMaterial>
   )
 
-  method ToKeyring(mpl: MPL.IAwsCryptographicMaterialProvidersClient, info: KeyringInfo)
+  function GetKeyId(input: Types.KeyDescription)
+    : string
+  {
+    match input
+    case Kms(i) => i.keyId
+    case KmsMrk(i) => i.keyId
+    case KmsMrkDiscovery(i) => i.keyId
+    case RSA(i) => i.keyId
+    case AES(i) => i.keyId
+    case Static(i) => i.keyId
+    case Hierarchy(i) => i.keyId
+    case KmsRsa(i) => i.keyId
+    case RequiredEncryptionContext(i) => GetKeyId(i.underlying)
+    case Caching(i) => GetKeyId(i.underlying)
+    // The multi keyring does not have a keyId
+    case Multi(_) => ""
+  }
+
+  function GetKeyMaterial(
+    keys: map<string, KeyMaterial.KeyMaterial>,
+    keyDescription: Types.KeyDescription
+  )
+    : Option<KeyMaterial.KeyMaterial>
+  {
+    var keyId := GetKeyId(keyDescription);
+
+    if keyId in keys then
+      Some(keys[keyId])
+    else
+      None
+  }
+
+  method ToKeyring(
+    mpl: MPL.IAwsCryptographicMaterialProvidersClient,
+    keys: map<string, KeyMaterial.KeyMaterial>,
+    description: Types.KeyDescription
+  )
     returns (output: Result<MPL.IKeyring, Error>)
     requires mpl.ValidState()
     modifies mpl.Modifies
     ensures mpl.ValidState()
 
     requires
-      && !info.description.RequiredEncryptionContext?
-      && !info.description.Caching?
+      && !description.RequiredEncryptionContext?
+      && !description.Caching?
 
     ensures output.Success? ==>
               && output.value.ValidState()
               && fresh(output.value.Modifies - mpl.Modifies - {mpl.History})
               && output.value.Modifies !! {mpl.History}
   {
-    var KeyringInfo(description, material) := info;
+    var material := GetKeyMaterial(keys, description);
 
     match description
     case Static(StaticKeyring(key)) => {
@@ -188,6 +225,41 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
         return keyring.MapFailure(e => AwsCryptographyMaterialProviders(e));
       }
     }
+    case Multi(MultiKeyring) => {
+      var generator := None;
+      if MultiKeyring.generator.Some? {
+        :- Need(
+          && !MultiKeyring.generator.value.RequiredEncryptionContext?
+          && !MultiKeyring.generator.value.Caching?,
+          KeyVectorException( message := "CMM key descriptions are not supported ")
+        );
+        var generator' :- ToKeyring(mpl, keys, MultiKeyring.generator.value);
+        generator := Some(generator');
+      }
+      var childKeyrings: MPL.KeyringList := [];
+      for i := 0 to |MultiKeyring.childKeyrings|
+        invariant forall c <- childKeyrings ::
+            && c.ValidState()
+            && c.Modifies !! {mpl.History}
+            && fresh(c.Modifies - mpl.Modifies)
+      {
+        var child := MultiKeyring.childKeyrings[i];
+        :- Need(
+          && !child.RequiredEncryptionContext?
+          && !child.Caching?,
+          KeyVectorException( message := "CMM key descriptions are not supported ")
+        );
+        var childKeyring :- ToKeyring(mpl, keys, child);
+        childKeyrings := childKeyrings + [childKeyring];
+      }
+      var input := MPL.CreateMultiKeyringInput(
+        generator := generator,
+        childKeyrings := childKeyrings
+      );
+      var keyring := mpl.CreateMultiKeyring(input);
+      return keyring.MapFailure(e => AwsCryptographyMaterialProviders(e));
+    }
+
   }
 
   // A simple helper to turn the arn into a client.

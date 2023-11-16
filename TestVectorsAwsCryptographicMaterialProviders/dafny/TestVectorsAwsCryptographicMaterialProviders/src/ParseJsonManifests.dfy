@@ -77,7 +77,7 @@ module {:options "-functionSyntax:4"} ParseJsonManifests {
     var typString := "type";
     var typ :- GetString(typString, obj);
 
-    var description := GetOptionalString("description", obj);
+    var description :- GetOptionalString("description", obj);
 
     var encryptionContextStrings :- SmallObjectToStringStringMap("encryptionContext", obj);
     var encryptionContext :- utf8EncodeMap(encryptionContextStrings);
@@ -88,8 +88,7 @@ module {:options "-functionSyntax:4"} ParseJsonManifests {
 
     // TODO fix me
     var commitmentPolicy := CompleteVectors.AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite);
-    // This MAY be too flexible. If the length is say a string, this will return None
-    var maxPlaintextLength := GetOptionalPositiveLong("maxPlaintextLength", obj);
+    var maxPlaintextLength :- GetOptionalPositiveLong("maxPlaintextLength", obj);
 
     match typ
     case "positive-keyring" =>

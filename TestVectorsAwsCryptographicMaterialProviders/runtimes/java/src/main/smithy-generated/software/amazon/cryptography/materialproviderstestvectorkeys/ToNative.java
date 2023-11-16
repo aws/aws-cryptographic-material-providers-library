@@ -3,8 +3,10 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.materialproviderstestvectorkeys;
 
+import dafny.DafnySequence;
 import java.lang.IllegalArgumentException;
 import java.lang.RuntimeException;
+import java.util.List;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.Error;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.Error_CollectionOfErrors;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.Error_KeyVectorException;
@@ -23,6 +25,7 @@ import software.amazon.cryptography.materialproviderstestvectorkeys.model.KeyVec
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.KmsMrkAware;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.KmsMrkAwareDiscovery;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.KmsRsaKeyring;
+import software.amazon.cryptography.materialproviderstestvectorkeys.model.MultiKeyring;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.OpaqueError;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.RawAES;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.RawRSA;
@@ -152,6 +155,16 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static MultiKeyring MultiKeyring(
+      software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.MultiKeyring dafnyValue) {
+    MultiKeyring.Builder nativeBuilder = MultiKeyring.builder();
+    if (dafnyValue.dtor_generator().is_Some()) {
+      nativeBuilder.generator(ToNative.KeyDescription(dafnyValue.dtor_generator().dtor_value()));
+    }
+    nativeBuilder.childKeyrings(ToNative.KeyDescriptionList(dafnyValue.dtor_childKeyrings()));
+    return nativeBuilder.build();
+  }
+
   public static RawAES RawAES(
       software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.RawAES dafnyValue) {
     RawAES.Builder nativeBuilder = RawAES.builder();
@@ -251,6 +264,9 @@ public class ToNative {
     if (dafnyValue.is_Hierarchy()) {
       nativeBuilder.Hierarchy(ToNative.HierarchyKeyring(dafnyValue.dtor_Hierarchy()));
     }
+    if (dafnyValue.is_Multi()) {
+      nativeBuilder.Multi(ToNative.MultiKeyring(dafnyValue.dtor_Multi()));
+    }
     if (dafnyValue.is_RequiredEncryptionContext()) {
       nativeBuilder.RequiredEncryptionContext(ToNative.RequiredEncryptionContextCMM(dafnyValue.dtor_RequiredEncryptionContext()));
     }
@@ -258,6 +274,13 @@ public class ToNative {
       nativeBuilder.Caching(ToNative.CachingCMM(dafnyValue.dtor_Caching()));
     }
     return nativeBuilder.build();
+  }
+
+  public static List<KeyDescription> KeyDescriptionList(
+      DafnySequence<? extends software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KeyDescription> dafnyValue) {
+    return software.amazon.smithy.dafny.conversion.ToNative.Aggregate.GenericToList(
+        dafnyValue, 
+        software.amazon.cryptography.materialproviderstestvectorkeys.ToNative::KeyDescription);
   }
 
   public static KeyVectors KeyVectors(IKeyVectorsClient dafnyValue) {

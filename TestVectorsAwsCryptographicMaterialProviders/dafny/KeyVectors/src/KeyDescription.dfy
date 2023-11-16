@@ -20,90 +20,110 @@ module {:options "-functionSyntax:4"} KeyDescription {
   function printErr(e: string) : (){()} by method {print e, "\n", "\n"; return ();}
   function printJSON(e: seq<(string, JSON)>) : (){()} by method {print e, "\n", "\n"; return ();}
 
-  function  ToKeyDescription(json: JSON)
+  function ToKeyDescription(json: JSON)
     : Result<KeyDescription, string>
-    decreases Size(json)
+    decreases Size(json), 1
   {
-    :- Need(json.Object?, "KeyDescription not an object");
-    var obj := json.obj;
-    var typString := "type";
-    var typ :- GetString(typString, obj);
+    if json.Array? then
+      :- Need(1 <= |json.arr|, "Need at least one.");
+      :- Need(forall c <- json.arr :: c.Object?, "No nested arrays.");
+      ElementsOfArrayWillDecreaseSize(json);
+      ToMultiKeyring(json, Some(json.arr[0]), json.arr[1..])
+    else
 
-    :- Need(KeyDescriptionString?(typ), "Unsupported KeyDescription type:" + typ);
+      :- Need(json.Object?, "KeyDescription not an object");
+      var obj := json.obj;
+      var typString := "type";
+      var typ :- GetString(typString, obj);
 
-    match typ
-    case "aws-kms-mrk-aware-discovery" => ToAwsKmsMrkAwareDiscovery(obj)
-    case "caching-cmm" =>
-      var u :- Get("underlying", obj);
-      GetWillDecreaseSize("underlying", u, json);
-      var underlying :- ToKeyDescription(u);
-      var cacheLimitTtlSeconds :- GetPositiveInteger("cacheLimitTtlSeconds", obj);
-      var limitBytes := GetOptionalPositiveLong("limitBytes", obj);
-      var limitMessages := GetPositiveInteger("limitMessages", obj).ToOption();
+      :- Need(KeyDescriptionString?(typ), "Unsupported KeyDescription type:" + typ);
 
-      var getEntryIdentifierEncoded :- GetOptionalString("getEntryIdentifier", obj);
-      var getEntryIdentifier
-        :- if getEntryIdentifierEncoded.Some? then
-             var result := Base64.Decode(getEntryIdentifierEncoded.value);
-             if result.Success? then Success(Some(result.value)) else Failure(result.error)
-           else Success(None);
-
-      var putEntryIdentifierEncoded :- GetOptionalString("putEntryIdentifier", obj);
-      var putEntryIdentifier
-        :- if putEntryIdentifierEncoded.Some? then
-             var result := Base64.Decode(putEntryIdentifierEncoded.value);
-             if result.Success? then Success(Some(result.value)) else Failure(result.error)
-           else Success(None);
-
-      Success(Caching(
-                CachingCMM(
-                  underlying := underlying,
-                  cacheLimitTtlSeconds := cacheLimitTtlSeconds,
-                  limitBytes := limitBytes,
-                  limitMessages := limitMessages,
-                  getEntryIdentifier := getEntryIdentifier,
-                  putEntryIdentifier := putEntryIdentifier
-                )))
-    case "required-encryption-context-cmm" =>
-      var u :- Get("underlying", obj);
-      GetWillDecreaseSize("underlying", u, json);
-      var underlying :- ToKeyDescription(u);
-      var requiredEncryptionContextStrings
-        := GetArrayString("requiredEncryptionContextKeys", obj)
-           .ToOption()
-           .UnwrapOr([]);
-      var requiredEncryptionContextKeys :- utf8EncodeSeq(requiredEncryptionContextStrings);
-
-      Success(RequiredEncryptionContext(
-                RequiredEncryptionContextCMM(
-                  underlying := underlying,
-                  requiredEncryptionContextKeys := requiredEncryptionContextKeys
-                )))
-    case _ =>
-      var key :- GetString("key", obj);
       match typ
-      case "static-material-keyring" =>
-        Success(Static(StaticKeyring( keyId := key )))
-      case "aws-kms" =>
-        Success(Kms(KMSInfo( keyId := key )))
-      case "aws-kms-mrk-aware" =>
-        Success(KmsMrk(KmsMrkAware( keyId := key )))
-      case "aws-kms-rsa" => ToAwsKmsRsa(key, obj)
-      case "aws-kms-hierarchy" =>
-        Success(Hierarchy(HierarchyKeyring( keyId := key )))
-      case "raw" =>
-        var algorithm :- GetString("encryption-algorithm", obj);
-        :- Need(RawAlgorithmString?(algorithm), "Unsupported algorithm:" + algorithm);
-        match algorithm
-        case "aes" => ToRawAes(key, obj)
-        case "rsa" => ToRawRsa(key, obj)
+      case "aws-kms-mrk-aware-discovery" => ToAwsKmsMrkAwareDiscovery(obj)
+      case "multi-keyring" =>
+        var generatorJson := Get("generator", obj).ToOption();
+        var childKeyringsJson :- GetArray("childKeyrings", obj);
+
+        assert generatorJson.Some? ==> Size(generatorJson.value) < Size(json) by {
+          if generatorJson.Some? {
+            GetWillDecreaseSize("generator", generatorJson.value, json);
+          }
+        }
+        GetWillDecreaseSize("childKeyrings", Array(childKeyringsJson), json);
+        ElementsOfArrayWillDecreaseSize(Array(childKeyringsJson));
+
+        ToMultiKeyring(json, generatorJson, childKeyringsJson)
+      case "caching-cmm" =>
+        var u :- Get("underlying", obj);
+        GetWillDecreaseSize("underlying", u, json);
+        var underlying :- ToKeyDescription(u);
+        var cacheLimitTtlSeconds :- GetPositiveInteger("cacheLimitTtlSeconds", obj);
+        var limitBytes := GetPositiveLong("limitBytes", obj).ToOption();
+        var limitMessages := GetPositiveInteger("limitMessages", obj).ToOption();
+
+        var getEntryIdentifierEncoded :- GetOptionalString("getEntryIdentifier", obj);
+        var getEntryIdentifier
+          :- if getEntryIdentifierEncoded.Some? then
+               var result := Base64.Decode(getEntryIdentifierEncoded.value);
+               if result.Success? then Success(Some(result.value)) else Failure(result.error)
+             else Success(None);
+
+        var putEntryIdentifierEncoded :- GetOptionalString("putEntryIdentifier", obj);
+        var putEntryIdentifier
+          :- if putEntryIdentifierEncoded.Some? then
+               var result := Base64.Decode(putEntryIdentifierEncoded.value);
+               if result.Success? then Success(Some(result.value)) else Failure(result.error)
+             else Success(None);
+
+        Success(Caching(
+                  CachingCMM(
+                    underlying := underlying,
+                    cacheLimitTtlSeconds := cacheLimitTtlSeconds,
+                    limitBytes := limitBytes,
+                    limitMessages := limitMessages,
+                    getEntryIdentifier := getEntryIdentifier,
+                    putEntryIdentifier := putEntryIdentifier
+                  )))
+      case "required-encryption-context-cmm" =>
+        var u :- Get("underlying", obj);
+        GetWillDecreaseSize("underlying", u, json);
+        var underlying :- ToKeyDescription(u);
+        var requiredEncryptionContextStrings
+          := GetArrayString("requiredEncryptionContextKeys", obj)
+             .ToOption()
+             .UnwrapOr([]);
+        var requiredEncryptionContextKeys :- utf8EncodeSeq(requiredEncryptionContextStrings);
+
+        Success(RequiredEncryptionContext(
+                  RequiredEncryptionContextCMM(
+                    underlying := underlying,
+                    requiredEncryptionContextKeys := requiredEncryptionContextKeys
+                  )))
+      case _ =>
+        var key :- GetString("key", obj);
+        match typ
+        case "static-material-keyring" =>
+          Success(Static(StaticKeyring( keyId := key )))
+        case "aws-kms" =>
+          Success(Kms(KMSInfo( keyId := key )))
+        case "aws-kms-mrk-aware" =>
+          Success(KmsMrk(KmsMrkAware( keyId := key )))
+        case "aws-kms-rsa" => ToAwsKmsRsa(key, obj)
+        case "aws-kms-hierarchy" =>
+          Success(Hierarchy(HierarchyKeyring( keyId := key )))
+        case "raw" =>
+          var algorithm :- GetString("encryption-algorithm", obj);
+          :- Need(RawAlgorithmString?(algorithm), "Unsupported algorithm:" + algorithm);
+          match algorithm
+          case "aes" => ToRawAes(key, obj)
+          case "rsa" => ToRawRsa(key, obj)
   }
 
   function ToDiscoveryFilter(obj: seq<(string, JSON)>)
     : Option<AwsCryptographyMaterialProvidersTypes.DiscoveryFilter>
   {
     var filter :- GetObject("aws-kms-discovery-filter", obj).ToOption();
-    var partition :- GetOptionalString("partition", filter);
+    var partition :- GetString("partition", filter).ToOption();
     var accountIds :- GetArrayString("account-ids", filter).ToOption();
     Some(AwsCryptographyMaterialProvidersTypes.DiscoveryFilter(
            partition := partition,
@@ -162,6 +182,32 @@ module {:options "-functionSyntax:4"} KeyDescription {
                 )))
   }
 
+  function ToMultiKeyring(
+    json: JSON,
+    generatorJson: Option<JSON>,
+    childKeyringsJson: seq<JSON>
+  )
+    : Result<KeyDescription, string>
+    requires generatorJson.Some? ==> Size(generatorJson.value) < Size(json)
+    requires forall c <- childKeyringsJson :: Size(c) < Size(json)
+    decreases Size(json), 0
+  {
+    :- Need(generatorJson.Some? ==> generatorJson.value.Object?, "Not an object");
+    var generator :- if generatorJson.Some? then
+                       var g :- ToKeyDescription(generatorJson.value);
+                       Success(Some(g))
+                     else Success(None);
+
+    var childKeyrings :- Seq.MapWithResult(
+                           (c: JSON) requires c in childKeyringsJson =>
+                             ToKeyDescription(c),
+                           childKeyringsJson);
+    Success(Multi(MultiKeyring(
+                    generator := generator,
+                    childKeyrings := childKeyrings
+                  )))
+  }
+
   predicate KeyDescriptionString?(s: string)
   {
     || s == "static-material-keyring"
@@ -173,6 +219,7 @@ module {:options "-functionSyntax:4"} KeyDescription {
     || s == "aws-kms-rsa"
     || s == "caching-cmm"
     || s == "required-encryption-context-cmm"
+    || s == "multi-keyring"
   }
 
   predicate RawAlgorithmString?(s: string)
@@ -204,9 +251,18 @@ module {:options "-functionSyntax:4"} KeyDescription {
          // SYMMETRIC_DEFAULT is not supported because RSA is asymmetric only
        ]
 
+  type KeyDescriptionVersion = v: nat | KeyDescriptionVersion?(v)  witness 1
+  predicate KeyDescriptionVersion?(v: nat)
+  {
+    || v == 1
+    || v == 2
+    || v == 3
+  }
+
   function ToJson(
-    keyDescription: Types.KeyDescription
-  ) : Result<JSON, string>
+    keyDescription: KeyDescription,
+    outputVersion: KeyDescriptionVersion
+  ) : (output: Result<JSON, string>)
   {
     match keyDescription
     case Kms(Kms) =>
@@ -220,7 +276,7 @@ module {:options "-functionSyntax:4"} KeyDescription {
                        ("key", String(KmsMrk.keyId))
                      ]))
     case KmsMrkDiscovery(KmsMrkDiscovery) =>
-      // optional awsKmsDiscoveryFilter
+      // TODO optional awsKmsDiscoveryFilter
       Success(Object([
                        ("type", String("aws-kms-mrk-aware-discovery")),
                        ("default-mrk-region", String(KmsMrkDiscovery.defaultMrkRegion))
@@ -260,8 +316,35 @@ module {:options "-functionSyntax:4"} KeyDescription {
                        ("type", String("aws-kms-hierarchy")),
                        ("key", String(Hierarchy.keyId))
                      ]))
+    case Multi(MultiKeyring) =>
+      :- Need(
+           && (MultiKeyring.generator.Some? ==> Keyring?(MultiKeyring.generator.value))
+           && (forall c <- MultiKeyring.childKeyrings :: Keyring?(c))
+         , "CMMs not supported by Multi Keyrings");
+      (match outputVersion
+       case 3 =>
+         var generator :- if MultiKeyring.generator.Some? then
+                            var g :- ToJson(MultiKeyring.generator.value, outputVersion);
+                            Success(Some(g))
+                          else
+                            Success(None);
+         var childKeyrings :- KeyDescriptionListToJson(MultiKeyring.childKeyrings, outputVersion);
+         Success(Object([
+                          ("type", String("multi-keyring")),
+                          ("childKeyring", Array(childKeyrings))
+                        ]
+                        + (if generator.Some?
+                           then [("generator", generator.value)] else [])
+                 ))
+       case _ =>
+         :- Need(MultiKeyring.generator.Some?, "Generator required for v1 or v2");
+         var keyrings := [MultiKeyring.generator.value] + MultiKeyring.childKeyrings;
+         :- Need(forall c <- keyrings :: !c.Multi?, "Recursive structures not supported");
+         var keyrings :- KeyDescriptionListToJson(MultiKeyring.childKeyrings, outputVersion);
+         Success(Array(keyrings))
+      )
     case RequiredEncryptionContext(RequiredEncryptionContext) =>
-      var underlying :- ToJson(RequiredEncryptionContext.underlying);
+      var underlying :- ToJson(RequiredEncryptionContext.underlying, outputVersion);
       var requiredEncryptionContextKeys :- Seq.MapWithResult(
                                              key =>
                                                var s :- UTF8.Decode(key);
@@ -273,21 +356,47 @@ module {:options "-functionSyntax:4"} KeyDescription {
                        ("requiredEncryptionContextKeys", Array(requiredEncryptionContextKeys))
                      ]))
     case Caching(Caching) =>
-      var underlying :- ToJson(Caching.underlying);
+      var underlying :- ToJson(Caching.underlying, outputVersion);
       Success(Object([
                        ("type", String("caching-cmm")),
                        ("underlying", underlying),
                        ("cacheLimitTtlSeconds", Number(Int(Caching.cacheLimitTtlSeconds as nat)))
                      ]
-                     + if Caching.limitBytes.Some?
-                     then [("limitBytes", Number(Int(Caching.limitBytes.value as nat)))] else []
-                     + if Caching.limitMessages.Some?
-                     then [("limitMessages", Number(Int(Caching.limitMessages.value as nat)))] else []
-                     + if Caching.getEntryIdentifier.Some?
-                     then [("getEntryIdentifier", String(Base64.Encode(Caching.getEntryIdentifier.value)))] else []
-                     + if Caching.putEntryIdentifier.Some?
-                     then [("putEntryIdentifier", String(Base64.Encode(Caching.putEntryIdentifier.value)))] else []
+                     + (if Caching.limitBytes.Some?
+                        then [("limitBytes", Number(Int(Caching.limitBytes.value as nat)))] else [])
+                     + (if Caching.limitMessages.Some?
+                        then [("limitMessages", Number(Int(Caching.limitMessages.value as nat)))] else [])
+                     + (if Caching.getEntryIdentifier.Some?
+                        then [("getEntryIdentifier", String(Base64.Encode(Caching.getEntryIdentifier.value)))] else [])
+                     + (if Caching.putEntryIdentifier.Some?
+                        then [("putEntryIdentifier", String(Base64.Encode(Caching.putEntryIdentifier.value)))] else [])
               ))
+  }
+
+  predicate Keyring?(description: KeyDescription)
+  {
+    || description.Kms?
+    || description.KmsMrk?
+    || description.KmsMrkDiscovery?
+    || description.RSA?
+    || description.AES?
+    || description.Static?
+    || description.KmsRsa?
+    || description.Hierarchy?
+    || description.Multi?
+  }
+
+  function KeyDescriptionListToJson(
+    childKeyrings: KeyDescriptionList,
+    outputVersion: KeyDescriptionVersion
+  ) : (output: Result<seq<JSON>, string>)
+  {
+    if 0 == |childKeyrings| then
+      Success([])
+    else
+      var json :- ToJson(childKeyrings[0], outputVersion);
+      var rest :- KeyDescriptionListToJson(childKeyrings[1..], outputVersion);
+      Success([json] + rest)
   }
 
   function {:opaque} Invert<X(!new), Y(!new)>(m: map<X, Y>): map<Y, X>

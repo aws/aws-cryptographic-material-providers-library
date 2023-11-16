@@ -14,27 +14,29 @@ module {:options "-functionSyntax:4"} CmmFromKeyDescription {
   import KeyringFromKeyDescription
   import CreateStaticCMCs
   import UTF8
+  import KeyMaterial
 
   method ToCmm(
     mpl: MPL.IAwsCryptographicMaterialProvidersClient,
-    info: KeyringFromKeyDescription.KeyringInfo,
+    keys: map<string, KeyMaterial.KeyMaterial>,
+    description: Types.KeyDescription,
     forOperation: CmmOperation
   )
     returns (output: Result<MPL.ICryptographicMaterialsManager, Error>)
     requires mpl.ValidState()
     modifies mpl.Modifies
-    decreases info.description
+    decreases description
     ensures mpl.ValidState()
     ensures output.Success? ==>
               && output.value.ValidState()
               && fresh(output.value.Modifies - mpl.Modifies)
               && output.value.Modifies !! {mpl.History}
   {
-    var KeyringInfo(description, material) := info;
+    var material := KeyringFromKeyDescription.GetKeyMaterial(keys, description);
 
     match description
     case RequiredEncryptionContext(cmm) => {
-      var underlying :- ToCmm(mpl, info.( description := cmm.underlying ), forOperation);
+      var underlying :- ToCmm(mpl, keys, cmm.underlying, forOperation);
       var output' := mpl
       .CreateRequiredEncryptionContextCMM(
         MPL.CreateRequiredEncryptionContextCMMInput(
@@ -65,9 +67,7 @@ module {:options "-functionSyntax:4"} CmmFromKeyDescription {
 
       :- Need(identifier.Some? ==> material.Some? && material.value.StaticMaterial?,
               KeyVectorException( message := "CachingCMM only supports StaticMaterial."));
-      var underlying :- ToCmm(mpl, info.( description := cmm.underlying ), forOperation);
-
-
+      var underlying :- ToCmm(mpl, keys, cmm.underlying, forOperation);
 
       var entry := if identifier.Some? then
         match forOperation
@@ -121,7 +121,7 @@ module {:options "-functionSyntax:4"} CmmFromKeyDescription {
       assert createCachingCMMInput.underlyingCMC is CreateStaticCMCs.StaticCMC;
     }
     case _ => {
-      var keyring :- KeyringFromKeyDescription.ToKeyring(mpl, info);
+      var keyring :- KeyringFromKeyDescription.ToKeyring(mpl, keys, description);
       var output' := mpl
       .CreateDefaultCryptographicMaterialsManager(
         MPL.CreateDefaultCryptographicMaterialsManagerInput( keyring := keyring )

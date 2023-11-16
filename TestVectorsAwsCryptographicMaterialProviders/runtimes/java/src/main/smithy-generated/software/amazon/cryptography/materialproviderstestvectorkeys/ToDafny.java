@@ -11,6 +11,7 @@ import java.lang.IllegalArgumentException;
 import java.lang.Integer;
 import java.lang.Long;
 import java.lang.RuntimeException;
+import java.util.List;
 import java.util.Objects;
 import software.amazon.cryptography.materialproviders.internaldafny.types.DiscoveryFilter;
 import software.amazon.cryptography.materialproviders.internaldafny.types.PaddingScheme;
@@ -28,6 +29,7 @@ import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafn
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KmsMrkAware;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KmsMrkAwareDiscovery;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KmsRsaKeyring;
+import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.MultiKeyring;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.RawAES;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.RawRSA;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.RequiredEncryptionContextCMM;
@@ -157,6 +159,17 @@ public class ToDafny {
     return new KmsRsaKeyring(keyId, encryptionAlgorithm);
   }
 
+  public static MultiKeyring MultiKeyring(
+      software.amazon.cryptography.materialproviderstestvectorkeys.model.MultiKeyring nativeValue) {
+    Option<KeyDescription> generator;
+    generator = Objects.nonNull(nativeValue.generator()) ?
+        Option.create_Some(ToDafny.KeyDescription(nativeValue.generator()))
+        : Option.create_None();
+    DafnySequence<? extends KeyDescription> childKeyrings;
+    childKeyrings = ToDafny.KeyDescriptionList(nativeValue.childKeyrings());
+    return new MultiKeyring(generator, childKeyrings);
+  }
+
   public static RawAES RawAES(
       software.amazon.cryptography.materialproviderstestvectorkeys.model.RawAES nativeValue) {
     DafnySequence<? extends Character> keyId;
@@ -270,6 +283,9 @@ public class ToDafny {
     if (Objects.nonNull(nativeValue.Hierarchy())) {
       return KeyDescription.create_Hierarchy(ToDafny.HierarchyKeyring(nativeValue.Hierarchy()));
     }
+    if (Objects.nonNull(nativeValue.Multi())) {
+      return KeyDescription.create_Multi(ToDafny.MultiKeyring(nativeValue.Multi()));
+    }
     if (Objects.nonNull(nativeValue.RequiredEncryptionContext())) {
       return KeyDescription.create_RequiredEncryptionContext(ToDafny.RequiredEncryptionContextCMM(nativeValue.RequiredEncryptionContext()));
     }
@@ -277,6 +293,14 @@ public class ToDafny {
       return KeyDescription.create_Caching(ToDafny.CachingCMM(nativeValue.Caching()));
     }
     throw new IllegalArgumentException("Cannot convert " + nativeValue + " to software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KeyDescription.");
+  }
+
+  public static DafnySequence<? extends KeyDescription> KeyDescriptionList(
+      List<software.amazon.cryptography.materialproviderstestvectorkeys.model.KeyDescription> nativeValue) {
+    return software.amazon.smithy.dafny.conversion.ToDafny.Aggregate.GenericToSequence(
+        nativeValue, 
+        software.amazon.cryptography.materialproviderstestvectorkeys.ToDafny::KeyDescription, 
+        KeyDescription._typeDescriptor());
   }
 
   public static IKeyVectorsClient KeyVectors(KeyVectors nativeValue) {

@@ -52,11 +52,10 @@ module {:options "-functionSyntax:4"} KeysVectorOperations refines AbstractAwsCr
       KeyVectorException( message := "CMM key descriptions are not supported ")
     );
 
-    var info := ToKeyringInfo(config, input.keyDescription);
-
     var maybeMpl := MaterialProviders.MaterialProviders();
     var mpl :- maybeMpl.MapFailure(e => AwsCryptographyMaterialProviders(e));
-    output := KeyringFromKeyDescription.ToKeyring(mpl, info);
+
+    output := KeyringFromKeyDescription.ToKeyring(mpl, config.keys, input.keyDescription);
   }
 
   predicate CreateWrappedTestVectorKeyringEnsuresPublicly(input: TestVectorKeyringInput ,
@@ -73,12 +72,10 @@ module {:options "-functionSyntax:4"} KeysVectorOperations refines AbstractAwsCr
       KeyVectorException( message := "CMM key descriptions are not supported ")
     );
 
-    var info := ToKeyringInfo(config, input.keyDescription);
-
     var maybeMpl := WrappedMaterialProviders.WrappedMaterialProviders();
     var wrappedMPL :- maybeMpl.MapFailure(e => AwsCryptographyMaterialProviders(e));
 
-    output := KeyringFromKeyDescription.ToKeyring(wrappedMPL, info);
+    output := KeyringFromKeyDescription.ToKeyring(wrappedMPL, config.keys, input.keyDescription);
   }
 
   predicate CreateWrappedTestVectorCmmEnsuresPublicly(
@@ -89,11 +86,10 @@ module {:options "-functionSyntax:4"} KeysVectorOperations refines AbstractAwsCr
   method CreateWrappedTestVectorCmm ( config: InternalConfig , input: TestVectorCmmInput )
     returns (output: Result<AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager, Error>)
   {
-    var info := ToKeyringInfo(config, input.keyDescription);
     var maybeMpl := WrappedMaterialProviders.WrappedMaterialProviders();
     var wrappedMPL :- maybeMpl.MapFailure(e => AwsCryptographyMaterialProviders(e));
 
-    output := CmmFromKeyDescription.ToCmm(wrappedMPL, info, input.forOperation);
+    output := CmmFromKeyDescription.ToCmm(wrappedMPL, config.keys, input.keyDescription, input.forOperation);
   }
 
   function GetKeyDescription ( config: InternalConfig , input: GetKeyDescriptionInput )
@@ -117,7 +113,7 @@ module {:options "-functionSyntax:4"} KeysVectorOperations refines AbstractAwsCr
   function SerializeKeyDescription ( config: InternalConfig , input: SerializeKeyDescriptionInput )
     : (output: Result<SerializeKeyDescriptionOutput, Error>)
   {
-    var json :- KeyDescription.ToJson(input.keyDescription)
+    var json :- KeyDescription.ToJson(input.keyDescription, 2)
                 .MapFailure((s)  => AwsCryptographyMaterialProviders(
                                 AwsCryptographyMaterialProvidersTypes.AwsCryptographicMaterialProvidersException(
                                   message := s
@@ -130,38 +126,4 @@ module {:options "-functionSyntax:4"} KeysVectorOperations refines AbstractAwsCr
                                      )));
     Success(SerializeKeyDescriptionOutput( json := jsonBytes ))
   }
-
-  function GetKeyId(input: Types.KeyDescription)
-    : string
-  {
-    match input
-    case Kms(i) => i.keyId
-    case KmsMrk(i) => i.keyId
-    case KmsMrkDiscovery(i) => i.keyId
-    case RSA(i) => i.keyId
-    case AES(i) => i.keyId
-    case Static(i) => i.keyId
-    case Hierarchy(i) => i.keyId
-    case KmsRsa(i) => i.keyId
-    case RequiredEncryptionContext(i) => GetKeyId(i.underlying)
-    case Caching(i) => GetKeyId(i.underlying)
-  }
-
-  function ToKeyringInfo(
-    config: InternalConfig,
-    keyDescription: Types.KeyDescription
-  )
-    : KeyringFromKeyDescription.KeyringInfo
-  {
-    var keyId := GetKeyId(keyDescription);
-
-    KeyringFromKeyDescription.KeyringInfo(
-      keyDescription,
-      if keyId in config.keys then
-        Some(config.keys[keyId])
-      else
-        None
-    )
-  }
-
 }

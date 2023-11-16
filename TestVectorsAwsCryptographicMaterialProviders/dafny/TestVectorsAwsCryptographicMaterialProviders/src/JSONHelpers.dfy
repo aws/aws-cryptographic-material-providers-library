@@ -22,7 +22,7 @@ module {:options "-functionSyntax:4"} JSONHelpers {
   }
 
   function Get(key: string, obj: seq<(string, JSON)>)
-    : Result<Values.JSON, string>
+    : (output: Result<Values.JSON, string>)
   {
     if |obj| == 0 then
       Failure("Key: " + key + " does not exist")
@@ -257,37 +257,17 @@ module {:options "-functionSyntax:4"} JSONHelpers {
     }
   }
 
-  lemma ElementsOfArrayWillDecreaseSize(element: JSON, key: string, got: JSON, j: JSON)
-    requires
-      && j.Object?
-      && Get(key, j.obj).Success?
-      && Get(key, j.obj).value == got
+
+  lemma ElementOfArrayWillDecreaseSize(element: JSON, got: JSON)
     requires got.Array?
     requires element in got.arr
-    ensures Size(element) < Size(j)
+    ensures Size(element) < Size(got)
   {
-    assert 0 < |got.arr|;
-    GetWillDecreaseSize(key, got, j);
-    if got.arr == [element] {
-      calc {
-        Size(j);
-      >
-        Size(got);
-      ==
-        SizeArray(got.arr);
-      ==
-        Size(got.arr[0]) + SizeArray(got.arr[1..]);
-      == {assert got.arr[0] == element;}
-        Size(element) + SizeArray(got.arr[1..]);
-      > {assert SizeArray(got.arr[1..]) == 1;}
-        Size(element);
-      }
+    if got.arr == [] {
     } else {
       var i :| 0 <= i < |got.arr| && element == got.arr[i];
 
       calc {
-        Size(j);
-      >
         Size(got);
       ==
         Size(Array(got.arr));
@@ -306,6 +286,17 @@ module {:options "-functionSyntax:4"} JSONHelpers {
       >
         Size(element);
       }
+    }
+  }
+
+  lemma ElementsOfArrayWillDecreaseSize(got: JSON)
+    requires got.Array?
+    ensures forall element <- got.arr :: Size(element) < Size(got)
+  {
+    forall element <- got.arr
+      ensures Size(element) < Size(got)
+    {
+      ElementOfArrayWillDecreaseSize(element, got);
     }
   }
 
