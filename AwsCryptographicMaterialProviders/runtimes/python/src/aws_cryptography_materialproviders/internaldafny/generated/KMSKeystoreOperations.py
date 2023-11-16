@@ -70,6 +70,9 @@ class default__:
         if True:
             d_119___mcc_h0_ = source8_.kmsKeyArn
             d_120_arn_ = d_119___mcc_h0_
+            print("OPERATION")
+            print(d_120_arn_)
+            print((encryptionContext)[(Structure.default__).KMS__FIELD])
             return (d_120_arn_) == ((encryptionContext)[(Structure.default__).KMS__FIELD])
 
     @staticmethod

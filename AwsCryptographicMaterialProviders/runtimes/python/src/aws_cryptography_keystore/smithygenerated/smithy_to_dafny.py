@@ -24,11 +24,9 @@ from software_amazon_cryptography_keystore_internaldafny_types import (
     VersionKeyInput_VersionKeyInput as DafnyVersionKeyInput,
     VersionKeyOutput_VersionKeyOutput as DafnyVersionKeyOutput,
 )
-import software_amazon_cryptography_services_dynamodb_internaldafny
 from software_amazon_cryptography_services_dynamodb_internaldafny_types import (
     IDynamoDBClient,
 )
-import software_amazon_cryptography_services_kms_internaldafny
 from software_amazon_cryptography_services_kms_internaldafny_types import IKMSClient
 
 
@@ -76,7 +74,7 @@ def SmithyToDafny_aws_cryptography_keystore_GetKeyStoreInfoOutput(input):
     )
 
 def SmithyToDafny_aws_cryptography_keystore_KMSConfiguration(input):
-    if isinstance(input, aws_cryptography_keystore.smithygenerated.models.KMSConfigurationkmsKeyArn):
+    if isinstance(input, aws_cryptography_keystore.smithygenerated.models.KMSConfigurationKmsKeyArn):
         KMSConfiguration_union_value = KMSConfiguration_kmsKeyArn(input.value)
     else:
         raise ValueError("No recognized union value in union type: " + input)
@@ -140,13 +138,13 @@ def SmithyToDafny_aws_cryptography_keystore_KeyStoreConfig(input):
     )
 
 def SmithyToDafny_aws_cryptography_keystore_DdbClientReference(input):
-    import com_amazonaws_dynamodb.smithygenerated.config
-    com_amazonaws_dynamodb_client = software_amazon_cryptography_services_dynamodb_internaldafny.DynamoDB_20120810Client()
-    com_amazonaws_dynamodb_client.ctor__(com_amazonaws_dynamodb.smithygenerated.config.smithy_config_to_dafny_config(input._config))
-    return com_amazonaws_dynamodb_client
+    import software_amazon_cryptography_services_dynamodb_internaldafny
+    client = software_amazon_cryptography_services_dynamodb_internaldafny.default__.DynamoDBClient()
+    client.impl = input
+    return client
 
 def SmithyToDafny_aws_cryptography_keystore_KmsClientReference(input):
-    import com_amazonaws_kms.smithygenerated.config
-    com_amazonaws_kms_client = software_amazon_cryptography_services_kms_internaldafny.TrentServiceClient()
-    com_amazonaws_kms_client.ctor__(com_amazonaws_kms.smithygenerated.config.smithy_config_to_dafny_config(input._config))
-    return com_amazonaws_kms_client
+    import software_amazon_cryptography_services_kms_internaldafny
+    client = software_amazon_cryptography_services_kms_internaldafny.default__.KMSClient()
+    client.impl = input
+    return client

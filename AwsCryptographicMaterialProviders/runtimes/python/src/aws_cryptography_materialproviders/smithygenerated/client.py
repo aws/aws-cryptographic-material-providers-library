@@ -31,14 +31,19 @@ from .deserialize import (
     _deserialize_create_required_encryption_context_cmm,
     _deserialize_decrypt_materials,
     _deserialize_decryption_materials_with_plaintext_data_key,
+    _deserialize_delete_cache_entry,
     _deserialize_encryption_materials_has_plaintext_data_key,
     _deserialize_get_algorithm_suite_info,
+    _deserialize_get_branch_key_id,
+    _deserialize_get_cache_entry,
     _deserialize_get_client,
     _deserialize_get_encryption_materials,
     _deserialize_initialize_decryption_materials,
     _deserialize_initialize_encryption_materials,
     _deserialize_on_decrypt,
     _deserialize_on_encrypt,
+    _deserialize_put_cache_entry,
+    _deserialize_update_usage_metadata,
     _deserialize_valid_algorithm_suite_info,
     _deserialize_valid_decryption_materials_transition,
     _deserialize_valid_encryption_materials_transition,
@@ -73,8 +78,13 @@ from .models import (
     DecryptMaterialsInput,
     DecryptMaterialsOutput,
     DecryptionMaterials,
+    DeleteCacheEntryInput,
     EncryptionMaterials,
     GetAlgorithmSuiteInfoInput,
+    GetBranchKeyIdInput,
+    GetBranchKeyIdOutput,
+    GetCacheEntryInput,
+    GetCacheEntryOutput,
     GetClientInput,
     GetClientOutput,
     GetEncryptionMaterialsInput,
@@ -85,7 +95,9 @@ from .models import (
     OnDecryptOutput,
     OnEncryptInput,
     OnEncryptOutput,
+    PutCacheEntryInput,
     Unit,
+    UpdateUsageMetadataInput,
     ValidDecryptionMaterialsTransitionInput,
     ValidEncryptionMaterialsTransitionInput,
     ValidateCommitmentPolicyOnDecryptInput,
@@ -111,14 +123,19 @@ from .serialize import (
     _serialize_create_required_encryption_context_cmm,
     _serialize_decrypt_materials,
     _serialize_decryption_materials_with_plaintext_data_key,
+    _serialize_delete_cache_entry,
     _serialize_encryption_materials_has_plaintext_data_key,
     _serialize_get_algorithm_suite_info,
+    _serialize_get_branch_key_id,
+    _serialize_get_cache_entry,
     _serialize_get_client,
     _serialize_get_encryption_materials,
     _serialize_initialize_decryption_materials,
     _serialize_initialize_encryption_materials,
     _serialize_on_decrypt,
     _serialize_on_encrypt,
+    _serialize_put_cache_entry,
+    _serialize_update_usage_metadata,
     _serialize_valid_algorithm_suite_info,
     _serialize_valid_decryption_materials_transition,
     _serialize_valid_encryption_materials_transition,
@@ -607,6 +624,30 @@ class AwsCryptographicMaterialProviders:
             operation_name="DecryptMaterials",
         )
 
+    async def delete_cache_entry(self, input: DeleteCacheEntryInput, plugins: list[Plugin] | None = None) -> Unit:
+        """Invokes the DeleteCacheEntry operation.
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = [
+
+        ]
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_delete_cache_entry,
+            deserialize=_deserialize_delete_cache_entry,
+            config=self._config,
+            operation_name="DeleteCacheEntry",
+        )
+
     async def encryption_materials_has_plaintext_data_key(self, input: EncryptionMaterials, plugins: list[Plugin] | None = None) -> Unit:
         """Invokes the EncryptionMaterialsHasPlaintextDataKey operation.
 
@@ -653,6 +694,54 @@ class AwsCryptographicMaterialProviders:
             deserialize=_deserialize_get_algorithm_suite_info,
             config=self._config,
             operation_name="GetAlgorithmSuiteInfo",
+        )
+
+    async def get_branch_key_id(self, input: GetBranchKeyIdInput, plugins: list[Plugin] | None = None) -> GetBranchKeyIdOutput:
+        """Invokes the GetBranchKeyId operation.
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = [
+
+        ]
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_get_branch_key_id,
+            deserialize=_deserialize_get_branch_key_id,
+            config=self._config,
+            operation_name="GetBranchKeyId",
+        )
+
+    async def get_cache_entry(self, input: GetCacheEntryInput, plugins: list[Plugin] | None = None) -> GetCacheEntryOutput:
+        """Invokes the GetCacheEntry operation.
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = [
+
+        ]
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_get_cache_entry,
+            deserialize=_deserialize_get_cache_entry,
+            config=self._config,
+            operation_name="GetCacheEntry",
         )
 
     async def get_client(self, input: GetClientInput, plugins: list[Plugin] | None = None) -> GetClientOutput:
@@ -797,6 +886,54 @@ class AwsCryptographicMaterialProviders:
             deserialize=_deserialize_on_encrypt,
             config=self._config,
             operation_name="OnEncrypt",
+        )
+
+    async def put_cache_entry(self, input: PutCacheEntryInput, plugins: list[Plugin] | None = None) -> Unit:
+        """Invokes the PutCacheEntry operation.
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = [
+
+        ]
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_put_cache_entry,
+            deserialize=_deserialize_put_cache_entry,
+            config=self._config,
+            operation_name="PutCacheEntry",
+        )
+
+    async def update_usage_metadata(self, input: UpdateUsageMetadataInput, plugins: list[Plugin] | None = None) -> Unit:
+        """Invokes the UpdateUsageMetadata operation.
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = [
+
+        ]
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_update_usage_metadata,
+            deserialize=_deserialize_update_usage_metadata,
+            config=self._config,
+            operation_name="UpdateUsageMetadata",
         )
 
     async def valid_algorithm_suite_info(self, input: AlgorithmSuiteInfo, plugins: list[Plugin] | None = None) -> Unit:

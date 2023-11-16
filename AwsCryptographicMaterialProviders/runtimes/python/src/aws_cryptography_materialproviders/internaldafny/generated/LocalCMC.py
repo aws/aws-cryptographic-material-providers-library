@@ -119,7 +119,7 @@ class default__:
 
     @_dafny.classproperty
     def NULL(instance):
-        return LocalCMC.Ref_Null()
+        return Ref_Null()
     @_dafny.classproperty
     def INT32__MAX__VALUE(instance):
         return 2040109465
@@ -135,32 +135,32 @@ class Ref:
         return not self.__eq__(__o)
     @property
     def is_Ptr(self) -> bool:
-        return isinstance(self, LocalCMC.Ref_Ptr)
+        return isinstance(self, Ref_Ptr)
     @property
     def is_Null(self) -> bool:
-        return isinstance(self, LocalCMC.Ref_Null)
+        return isinstance(self, Ref_Null)
 
 class Ref_Ptr(Ref, NamedTuple('Ptr', [('deref', Any)])):
     def __dafnystr__(self) -> str:
-        return f'LocalCMC.Ref.Ptr({_dafny.string_of(self.deref)})'
+        return f'Ref.Ptr({_dafny.string_of(self.deref)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, LocalCMC.Ref_Ptr) and self.deref == __o.deref
+        return isinstance(__o, Ref_Ptr) and self.deref == __o.deref
     def __hash__(self) -> int:
         return super().__hash__()
 
 class Ref_Null(Ref, NamedTuple('Null', [])):
     def __dafnystr__(self) -> str:
-        return f'LocalCMC.Ref.Null'
+        return f'Ref.Null'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, LocalCMC.Ref_Null)
+        return isinstance(__o, Ref_Null)
     def __hash__(self) -> int:
         return super().__hash__()
 
 
 class CacheEntry:
     def  __init__(self):
-        self.prev: LocalCMC.Ref = LocalCMC.Ref_Null.default()()
-        self.next: LocalCMC.Ref = LocalCMC.Ref_Null.default()()
+        self.prev: Ref = Ref_Null.default()()
+        self.next: Ref = Ref_Null.default()()
         self.messagesUsed: BoundedInts.int32 = None
         self.bytesUsed: BoundedInts.int32 = None
         self._identifier: _dafny.Seq = _dafny.Seq({})
@@ -170,7 +170,7 @@ class CacheEntry:
         pass
 
     def __dafnystr__(self) -> str:
-        return "LocalCMC.CacheEntry"
+        return "CacheEntry"
     def ctor__(self, materials_k, identifier_k, creationTime_k, expiryTime_k, messagesUsed_k, bytesUsed_k):
         (self)._materials = materials_k
         (self)._identifier = identifier_k
@@ -178,8 +178,8 @@ class CacheEntry:
         (self)._expiryTime = expiryTime_k
         (self).messagesUsed = messagesUsed_k
         (self).bytesUsed = bytesUsed_k
-        (self).prev = (LocalCMC.default__).NULL
-        (self).next = (LocalCMC.default__).NULL
+        (self).prev = (default__).NULL
+        (self).next = (default__).NULL
 
     @property
     def identifier(self):
@@ -196,19 +196,19 @@ class CacheEntry:
 
 class DoublyLinkedCacheEntryList:
     def  __init__(self):
-        self.head: LocalCMC.Ref = LocalCMC.Ref_Null.default()()
-        self.tail: LocalCMC.Ref = LocalCMC.Ref_Null.default()()
+        self.head: Ref = Ref_Null.default()()
+        self.tail: Ref = Ref_Null.default()()
         pass
 
     def __dafnystr__(self) -> str:
-        return "LocalCMC.DoublyLinkedCacheEntryList"
+        return "DoublyLinkedCacheEntryList"
     def ctor__(self):
-        (self).head = LocalCMC.Ref_Null()
-        (self).tail = LocalCMC.Ref_Null()
+        (self).head = Ref_Null()
+        (self).tail = Ref_Null()
 
     def pushCell(self, toPush):
-        d_1061_cRef_: LocalCMC.Ref
-        d_1061_cRef_ = LocalCMC.Ref_Ptr(toPush)
+        d_1061_cRef_: Ref
+        d_1061_cRef_ = Ref_Ptr(toPush)
         if (self.head).is_Ptr:
             obj0_ = (self.head).deref
             obj0_.prev = d_1061_cRef_
@@ -220,8 +220,8 @@ class DoublyLinkedCacheEntryList:
 
     def moveToFront(self, c):
         if ((self.head).deref) != (c):
-            d_1062_toPush_: LocalCMC.Ref
-            d_1062_toPush_ = LocalCMC.Ref_Ptr(c)
+            d_1062_toPush_: Ref
+            d_1062_toPush_ = Ref_Ptr(c)
             (self).remove(c)
             if (self.head).is_Ptr:
                 obj1_ = (self.head).deref
@@ -246,20 +246,20 @@ class DoublyLinkedCacheEntryList:
             obj4_.prev = toRemove.prev
         with _dafny.label("0"):
             pass
-        (toRemove).next = (LocalCMC.default__).NULL
-        (toRemove).prev = (LocalCMC.default__).NULL
+        (toRemove).next = (default__).NULL
+        (toRemove).prev = (default__).NULL
 
 
 class LocalCMC(software_amazon_cryptography_materialproviders_internaldafny_types.ICryptographicMaterialsCache):
     def  __init__(self):
-        self.queue: LocalCMC.DoublyLinkedCacheEntryList = None
+        self.queue: DoublyLinkedCacheEntryList = None
         self.cache: DafnyLibraries.MutableMap = None
         self._entryCapacity: int = int(0)
         self._entryPruningTailSize: int = int(0)
         pass
 
     def __dafnystr__(self) -> str:
-        return "LocalCMC.LocalCMC"
+        return "LocalCMC"
     def PutCacheEntry(self, input):
         out241_: Wrappers.Result
         out241_ = software_amazon_cryptography_materialproviders_internaldafny_types.ICryptographicMaterialsCache.PutCacheEntry(self, input)
@@ -285,7 +285,7 @@ class LocalCMC(software_amazon_cryptography_materialproviders_internaldafny_type
         (self)._entryPruningTailSize = entryPruningTailSize_k
         nw29_ = DafnyLibraries.MutableMap()
         (self).cache = nw29_
-        nw30_ = LocalCMC.DoublyLinkedCacheEntryList()
+        nw30_ = DoublyLinkedCacheEntryList()
         nw30_.ctor__()
         (self).queue = nw30_
 
@@ -303,7 +303,7 @@ class LocalCMC(software_amazon_cryptography_materialproviders_internaldafny_type
     def GetCacheEntryWithTime(self, input, now):
         output: Wrappers.Result = None
         if (self.cache).HasKey((input).identifier):
-            d_1064_entry_: LocalCMC.CacheEntry
+            d_1064_entry_: CacheEntry
             d_1064_entry_ = (self.cache).Select((input).identifier)
             if (now) <= ((d_1064_entry_).expiryTime):
                 (self.queue).moveToFront(d_1064_entry_)
@@ -357,8 +357,8 @@ class LocalCMC(software_amazon_cryptography_materialproviders_internaldafny_type
                 output = (d_1072_valueOrError1_).PropagateFailure()
                 return output
             d_1071___v3_ = (d_1072_valueOrError1_).Extract()
-        d_1073_cell_: LocalCMC.CacheEntry
-        nw31_ = LocalCMC.CacheEntry()
+        d_1073_cell_: CacheEntry
+        nw31_ = CacheEntry()
         nw31_.ctor__((input).materials, (input).identifier, (input).creationTime, (input).expiryTime, ((input).messagesUsed).UnwrapOr(0), ((input).bytesUsed).UnwrapOr(0))
         d_1073_cell_ = nw31_
         (self.queue).pushCell(d_1073_cell_)
@@ -369,7 +369,7 @@ class LocalCMC(software_amazon_cryptography_materialproviders_internaldafny_type
     def DeleteCacheEntry_k(self, input):
         output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.defaults.tuple())()
         if (self.cache).HasKey((input).identifier):
-            d_1074_cell_: LocalCMC.CacheEntry
+            d_1074_cell_: CacheEntry
             d_1074_cell_ = (self.cache).Select((input).identifier)
             with _dafny.label("1"):
                 (self.cache).Remove((input).identifier)
@@ -381,13 +381,13 @@ class LocalCMC(software_amazon_cryptography_materialproviders_internaldafny_type
     def UpdateUsageMetadata_k(self, input):
         output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.defaults.tuple())()
         if (self.cache).HasKey((input).identifier):
-            d_1075_cell_: LocalCMC.CacheEntry
+            d_1075_cell_: CacheEntry
             d_1075_cell_ = (self.cache).Select((input).identifier)
-            if ((d_1075_cell_.messagesUsed) <= (((LocalCMC.default__).INT32__MAX__VALUE) - (1))) and ((d_1075_cell_.bytesUsed) <= (((LocalCMC.default__).INT32__MAX__VALUE) - ((input).bytesUsed))):
+            if ((d_1075_cell_.messagesUsed) <= (((default__).INT32__MAX__VALUE) - (1))) and ((d_1075_cell_.bytesUsed) <= (((default__).INT32__MAX__VALUE) - ((input).bytesUsed))):
                 rhs0_: BoundedInts.int32 = (d_1075_cell_.messagesUsed) + (1)
                 rhs1_: BoundedInts.int32 = (d_1075_cell_.bytesUsed) + ((input).bytesUsed)
-                lhs0_: LocalCMC.CacheEntry = d_1075_cell_
-                lhs1_: LocalCMC.CacheEntry = d_1075_cell_
+                lhs0_: CacheEntry = d_1075_cell_
+                lhs1_: CacheEntry = d_1075_cell_
                 lhs0_.messagesUsed = rhs0_
                 lhs1_.bytesUsed = rhs1_
             elif True:

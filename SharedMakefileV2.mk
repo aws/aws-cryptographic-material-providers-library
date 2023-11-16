@@ -330,11 +330,14 @@ polymorph_python:
 		export service_deps_var=SERVICE_DEPS_$${service} ; \
 		export namespace_var=SERVICE_NAMESPACE_$${service} ; \
 		export SERVICE=$${service} ; \
+		export snakecase_dir=SNAKECASE_DIR_$${service} ; \
 		$(MAKE) _polymorph_python || exit 1; \
 	done
 
 _polymorph_python: OUTPUT_PYTHON=--output-python $(LIBRARY_ROOT)/runtimes/python/src/main/smithy-generated
 _polymorph_python: _polymorph
+_polymorph_python:
+	mv $(LIBRARY_ROOT)/runtimes/python/src/main/smithy-generated/$($(snakecase_dir))/*.py $(LIBRARY_ROOT)/runtimes/python/src/$($(snakecase_dir))/smithygenerated
 
 ########################## .NET targets
 

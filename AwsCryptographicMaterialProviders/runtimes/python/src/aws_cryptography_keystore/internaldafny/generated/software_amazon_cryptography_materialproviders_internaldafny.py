@@ -226,6 +226,8 @@ class MaterialProvidersClient(software_amazon_cryptography_materialproviders_int
     def CreateAwsKmsHierarchicalKeyring(self, input):
         output: Wrappers.Result = None
         out368_: Wrappers.Result
+        print("create keyring")
+        print(self.config)
         out368_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsHierarchicalKeyring((self).config, input)
         output = out368_
         return output

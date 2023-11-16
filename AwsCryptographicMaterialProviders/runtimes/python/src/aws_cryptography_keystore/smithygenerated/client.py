@@ -6,6 +6,25 @@ from typing import Awaitable, Callable, TypeVar, cast
 
 from .dafny_protocol import DafnyRequest, DafnyResponse
 from .plugin import set_config_impl
+from aws_cryptography_materialproviders.smithygenerated.models import (
+    DecryptMaterialsInput,
+    DecryptMaterialsOutput,
+    DeleteCacheEntryInput,
+    GetBranchKeyIdInput,
+    GetBranchKeyIdOutput,
+    GetCacheEntryInput,
+    GetCacheEntryOutput,
+    GetClientInput,
+    GetClientOutput,
+    GetEncryptionMaterialsInput,
+    GetEncryptionMaterialsOutput,
+    OnDecryptInput,
+    OnDecryptOutput,
+    OnEncryptInput,
+    OnEncryptOutput,
+    PutCacheEntryInput,
+    UpdateUsageMetadataInput,
+)
 from smithy_python.exceptions import SmithyRetryException
 from smithy_python.interfaces.interceptor import Interceptor, InterceptorContext
 from smithy_python.interfaces.retries import RetryErrorInfo, RetryErrorType
@@ -14,10 +33,20 @@ from .config import Config, Plugin
 from .deserialize import (
     _deserialize_create_key,
     _deserialize_create_key_store,
+    _deserialize_decrypt_materials,
+    _deserialize_delete_cache_entry,
     _deserialize_get_active_branch_key,
     _deserialize_get_beacon_key,
+    _deserialize_get_branch_key_id,
     _deserialize_get_branch_key_version,
+    _deserialize_get_cache_entry,
+    _deserialize_get_client,
+    _deserialize_get_encryption_materials,
     _deserialize_get_key_store_info,
+    _deserialize_on_decrypt,
+    _deserialize_on_encrypt,
+    _deserialize_put_cache_entry,
+    _deserialize_update_usage_metadata,
     _deserialize_version_key,
 )
 from .errors import ServiceError
@@ -40,10 +69,20 @@ from .models import (
 from .serialize import (
     _serialize_create_key,
     _serialize_create_key_store,
+    _serialize_decrypt_materials,
+    _serialize_delete_cache_entry,
     _serialize_get_active_branch_key,
     _serialize_get_beacon_key,
+    _serialize_get_branch_key_id,
     _serialize_get_branch_key_version,
+    _serialize_get_cache_entry,
+    _serialize_get_client,
+    _serialize_get_encryption_materials,
     _serialize_get_key_store_info,
+    _serialize_on_decrypt,
+    _serialize_on_encrypt,
+    _serialize_put_cache_entry,
+    _serialize_update_usage_metadata,
     _serialize_version_key,
 )
 
@@ -238,6 +277,246 @@ class KeyStore:
             deserialize=_deserialize_version_key,
             config=self._config,
             operation_name="VersionKey",
+        )
+
+    async def decrypt_materials(self, input: DecryptMaterialsInput, plugins: list[Plugin] | None = None) -> DecryptMaterialsOutput:
+        """Invokes the DecryptMaterials operation.
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = [
+
+        ]
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_decrypt_materials,
+            deserialize=_deserialize_decrypt_materials,
+            config=self._config,
+            operation_name="DecryptMaterials",
+        )
+
+    async def delete_cache_entry(self, input: DeleteCacheEntryInput, plugins: list[Plugin] | None = None) -> Unit:
+        """Invokes the DeleteCacheEntry operation.
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = [
+
+        ]
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_delete_cache_entry,
+            deserialize=_deserialize_delete_cache_entry,
+            config=self._config,
+            operation_name="DeleteCacheEntry",
+        )
+
+    async def get_branch_key_id(self, input: GetBranchKeyIdInput, plugins: list[Plugin] | None = None) -> GetBranchKeyIdOutput:
+        """Invokes the GetBranchKeyId operation.
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = [
+
+        ]
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_get_branch_key_id,
+            deserialize=_deserialize_get_branch_key_id,
+            config=self._config,
+            operation_name="GetBranchKeyId",
+        )
+
+    async def get_cache_entry(self, input: GetCacheEntryInput, plugins: list[Plugin] | None = None) -> GetCacheEntryOutput:
+        """Invokes the GetCacheEntry operation.
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = [
+
+        ]
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_get_cache_entry,
+            deserialize=_deserialize_get_cache_entry,
+            config=self._config,
+            operation_name="GetCacheEntry",
+        )
+
+    async def get_client(self, input: GetClientInput, plugins: list[Plugin] | None = None) -> GetClientOutput:
+        """Invokes the GetClient operation.
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = [
+
+        ]
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_get_client,
+            deserialize=_deserialize_get_client,
+            config=self._config,
+            operation_name="GetClient",
+        )
+
+    async def get_encryption_materials(self, input: GetEncryptionMaterialsInput, plugins: list[Plugin] | None = None) -> GetEncryptionMaterialsOutput:
+        """//////////////
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = [
+
+        ]
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_get_encryption_materials,
+            deserialize=_deserialize_get_encryption_materials,
+            config=self._config,
+            operation_name="GetEncryptionMaterials",
+        )
+
+    async def on_decrypt(self, input: OnDecryptInput, plugins: list[Plugin] | None = None) -> OnDecryptOutput:
+        """Invokes the OnDecrypt operation.
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = [
+
+        ]
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_on_decrypt,
+            deserialize=_deserialize_on_decrypt,
+            config=self._config,
+            operation_name="OnDecrypt",
+        )
+
+    async def on_encrypt(self, input: OnEncryptInput, plugins: list[Plugin] | None = None) -> OnEncryptOutput:
+        """//////////////////
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = [
+
+        ]
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_on_encrypt,
+            deserialize=_deserialize_on_encrypt,
+            config=self._config,
+            operation_name="OnEncrypt",
+        )
+
+    async def put_cache_entry(self, input: PutCacheEntryInput, plugins: list[Plugin] | None = None) -> Unit:
+        """Invokes the PutCacheEntry operation.
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = [
+
+        ]
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_put_cache_entry,
+            deserialize=_deserialize_put_cache_entry,
+            config=self._config,
+            operation_name="PutCacheEntry",
+        )
+
+    async def update_usage_metadata(self, input: UpdateUsageMetadataInput, plugins: list[Plugin] | None = None) -> Unit:
+        """Invokes the UpdateUsageMetadata operation.
+
+        :param input: The operation's input.
+
+        :param plugins: A list of callables that modify the configuration dynamically.
+        Changes made by these plugins only apply for the duration of the operation
+        execution and will not affect any other operation invocations.
+        """
+        operation_plugins = [
+
+        ]
+        if plugins:
+            operation_plugins.extend(plugins)
+
+        return await self._execute_operation(
+            input=input,
+            plugins=operation_plugins,
+            serialize=_serialize_update_usage_metadata,
+            deserialize=_deserialize_update_usage_metadata,
+            config=self._config,
+            operation_name="UpdateUsageMetadata",
         )
 
     async def _execute_operation(

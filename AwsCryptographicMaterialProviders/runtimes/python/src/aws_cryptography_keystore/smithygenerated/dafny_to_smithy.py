@@ -46,7 +46,7 @@ def DafnyToSmithy_aws_cryptography_keystore_VersionKeyInput(input):
 def DafnyToSmithy_aws_cryptography_keystore_KMSConfiguration(input):
     # Convert KMSConfiguration
     if isinstance(input, KMSConfiguration_kmsKeyArn):
-        KMSConfiguration_union_value = aws_cryptography_keystore.smithygenerated.models.KMSConfigurationkmsKeyArn(input.kmsKeyArn)
+        KMSConfiguration_union_value = aws_cryptography_keystore.smithygenerated.models.KMSConfigurationkmsKeyArn(input.kms_key_arn)
     else:
         raise ValueError("No recognized union value in union type: " + input)
 
@@ -107,12 +107,10 @@ def DafnyToSmithy_aws_cryptography_keystore_VersionKeyOutput(input):
     )
 
 def DafnyToSmithy_aws_cryptography_keystore_DdbClientReference(input):
-    from com_amazonaws_dynamodb.smithygenerated.client import DynamoDB_20120810
-    return DynamoDB_20120810(input)
+    return input.impl
 
 def DafnyToSmithy_aws_cryptography_keystore_KmsClientReference(input):
-    from com_amazonaws_kms.smithygenerated.client import TrentService
-    return TrentService(input)
+    return input.impl
 
 def DafnyToSmithy_aws_cryptography_keystore_KeyStoreConfig(input):
     return aws_cryptography_keystore.smithygenerated.config.KeyStoreConfig(
