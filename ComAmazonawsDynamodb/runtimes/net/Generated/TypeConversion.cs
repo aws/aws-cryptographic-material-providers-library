@@ -10809,8 +10809,7 @@ namespace Com.Amazonaws.Dynamodb
             {
                 return Wrappers_Compile.Option<Dafny.ISequence<Dafny.ISequence<char>>>.create_None();
             }
-            return Wrappers_Compile.Option<Dafny.ISequence<Dafny.ISequence<char>>>.create_Some(ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S23_NonK\
-eyAttributeNameList((System.Collections.Generic.List<string>)value));
+            return Wrappers_Compile.Option<Dafny.ISequence<Dafny.ISequence<char>>>.create_Some(ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S23_NonKeyAttributeNameList((System.Collections.Generic.List<string>)value));
             // END MANUAL EDIT
         }
         public static string FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S30_LocalSecondaryIndexDescription__M9_IndexName(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
