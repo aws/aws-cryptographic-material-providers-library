@@ -8,7 +8,7 @@ from software_amazon_cryptography_primitives_internaldafny_types import (
     AESDecryptInput_AESDecryptInput as DafnyAESDecryptInput,
     AESEncryptInput_AESEncryptInput as DafnyAESEncryptInput,
     AESEncryptOutput_AESEncryptOutput as DafnyAESEncryptOutput,
-    # AES_GCM_AES_GCM as DafnyAES_GCM,
+    AES__GCM_AES__GCM as DafnyAES_GCM,
     AesKdfCtrInput_AesKdfCtrInput as DafnyAesKdfCtrInput,
     CryptoConfig_CryptoConfig as DafnyCryptoConfig,
     DigestInput_DigestInput as DafnyDigestInput,

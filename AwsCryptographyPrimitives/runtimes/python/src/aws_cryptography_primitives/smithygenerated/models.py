@@ -18,7 +18,7 @@ class AES_GCM:
         self.tag_length = tag_length
         self.iv_length = iv_length
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the AES_GCM to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -38,7 +38,7 @@ class AES_GCM:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "AES_GCM":
+    def from_dict(d: Dict[str, Any]):
         """Creates a AES_GCM from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -57,7 +57,7 @@ class AES_GCM:
 
         return AES_GCM(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "AES_GCM("
         if self.key_length is not None:
             result += f"key_length={repr(self.key_length)}, "
@@ -70,7 +70,7 @@ class AES_GCM:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, AES_GCM):
             return False
         attributes: list[str] = ['key_length','tag_length','iv_length',]
@@ -103,7 +103,7 @@ class AESDecryptInput:
         self.iv = iv
         self.aad = aad
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the AESDecryptInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -119,7 +119,7 @@ class AESDecryptInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "AESDecryptInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a AESDecryptInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -136,7 +136,7 @@ class AESDecryptInput:
 
         return AESDecryptInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "AESDecryptInput("
         if self.enc_alg is not None:
             result += f"enc_alg={repr(self.enc_alg)}, "
@@ -158,7 +158,7 @@ class AESDecryptInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, AESDecryptInput):
             return False
         attributes: list[str] = ['enc_alg','key','cipher_txt','auth_tag','iv','aad',]
@@ -176,7 +176,7 @@ class AESDecryptOutput:
     ):
         self.plaintext = plaintext
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the AESDecryptOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -187,7 +187,7 @@ class AESDecryptOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "AESDecryptOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a AESDecryptOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -199,14 +199,14 @@ class AESDecryptOutput:
 
         return AESDecryptOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "AESDecryptOutput("
         if self.plaintext is not None:
             result += f"plaintext={repr(self.plaintext)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, AESDecryptOutput):
             return False
         attributes: list[str] = ['plaintext',]
@@ -236,7 +236,7 @@ class AESEncryptInput:
         self.msg = msg
         self.aad = aad
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the AESEncryptInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -251,7 +251,7 @@ class AESEncryptInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "AESEncryptInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a AESEncryptInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -267,7 +267,7 @@ class AESEncryptInput:
 
         return AESEncryptInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "AESEncryptInput("
         if self.enc_alg is not None:
             result += f"enc_alg={repr(self.enc_alg)}, "
@@ -286,7 +286,7 @@ class AESEncryptInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, AESEncryptInput):
             return False
         attributes: list[str] = ['enc_alg','iv','key','msg','aad',]
@@ -307,7 +307,7 @@ class AESEncryptOutput:
         self.cipher_text = cipher_text
         self.auth_tag = auth_tag
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the AESEncryptOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -319,7 +319,7 @@ class AESEncryptOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "AESEncryptOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a AESEncryptOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -332,7 +332,7 @@ class AESEncryptOutput:
 
         return AESEncryptOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "AESEncryptOutput("
         if self.cipher_text is not None:
             result += f"cipher_text={repr(self.cipher_text)}, "
@@ -342,7 +342,7 @@ class AESEncryptOutput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, AESEncryptOutput):
             return False
         attributes: list[str] = ['cipher_text','auth_tag',]
@@ -366,7 +366,7 @@ class AesKdfCtrInput:
         self.expected_length = expected_length
         self.nonce = nonce
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the AesKdfCtrInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -385,7 +385,7 @@ class AesKdfCtrInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "AesKdfCtrInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a AesKdfCtrInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -403,7 +403,7 @@ class AesKdfCtrInput:
 
         return AesKdfCtrInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "AesKdfCtrInput("
         if self.ikm is not None:
             result += f"ikm={repr(self.ikm)}, "
@@ -416,7 +416,7 @@ class AesKdfCtrInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, AesKdfCtrInput):
             return False
         attributes: list[str] = ['ikm','expected_length','nonce',]
@@ -434,7 +434,7 @@ class AesKdfCtrOutput:
     ):
         self.okm = okm
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the AesKdfCtrOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -445,7 +445,7 @@ class AesKdfCtrOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "AesKdfCtrOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a AesKdfCtrOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -457,14 +457,14 @@ class AesKdfCtrOutput:
 
         return AesKdfCtrOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "AesKdfCtrOutput("
         if self.okm is not None:
             result += f"okm={repr(self.okm)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, AesKdfCtrOutput):
             return False
         attributes: list[str] = ['okm',]
@@ -485,7 +485,7 @@ class DigestInput:
         self.digest_algorithm = digest_algorithm
         self.message = message
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the DigestInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -497,7 +497,7 @@ class DigestInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DigestInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a DigestInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -510,7 +510,7 @@ class DigestInput:
 
         return DigestInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "DigestInput("
         if self.digest_algorithm is not None:
             result += f"digest_algorithm={repr(self.digest_algorithm)}, "
@@ -520,7 +520,7 @@ class DigestInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, DigestInput):
             return False
         attributes: list[str] = ['digest_algorithm','message',]
@@ -538,7 +538,7 @@ class DigestOutput:
     ):
         self.digest = digest
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the DigestOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -549,7 +549,7 @@ class DigestOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DigestOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a DigestOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -561,14 +561,14 @@ class DigestOutput:
 
         return DigestOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "DigestOutput("
         if self.digest is not None:
             result += f"digest={repr(self.digest)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, DigestOutput):
             return False
         attributes: list[str] = ['digest',]
@@ -592,7 +592,7 @@ class ECDSASignInput:
         self.signing_key = signing_key
         self.message = message
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the ECDSASignInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -605,7 +605,7 @@ class ECDSASignInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "ECDSASignInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a ECDSASignInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -619,7 +619,7 @@ class ECDSASignInput:
 
         return ECDSASignInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "ECDSASignInput("
         if self.signature_algorithm is not None:
             result += f"signature_algorithm={repr(self.signature_algorithm)}, "
@@ -632,7 +632,7 @@ class ECDSASignInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, ECDSASignInput):
             return False
         attributes: list[str] = ['signature_algorithm','signing_key','message',]
@@ -650,7 +650,7 @@ class ECDSASignOutput:
     ):
         self.signature = signature
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the ECDSASignOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -661,7 +661,7 @@ class ECDSASignOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "ECDSASignOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a ECDSASignOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -673,14 +673,14 @@ class ECDSASignOutput:
 
         return ECDSASignOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "ECDSASignOutput("
         if self.signature is not None:
             result += f"signature={repr(self.signature)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, ECDSASignOutput):
             return False
         attributes: list[str] = ['signature',]
@@ -707,7 +707,7 @@ class ECDSAVerifyInput:
         self.message = message
         self.signature = signature
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the ECDSAVerifyInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -721,7 +721,7 @@ class ECDSAVerifyInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "ECDSAVerifyInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a ECDSAVerifyInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -736,7 +736,7 @@ class ECDSAVerifyInput:
 
         return ECDSAVerifyInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "ECDSAVerifyInput("
         if self.signature_algorithm is not None:
             result += f"signature_algorithm={repr(self.signature_algorithm)}, "
@@ -752,7 +752,7 @@ class ECDSAVerifyInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, ECDSAVerifyInput):
             return False
         attributes: list[str] = ['signature_algorithm','verification_key','message','signature',]
@@ -770,7 +770,7 @@ class ECDSAVerifyOutput:
     ):
         self.success = success
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the ECDSAVerifyOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -781,7 +781,7 @@ class ECDSAVerifyOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "ECDSAVerifyOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a ECDSAVerifyOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -793,14 +793,14 @@ class ECDSAVerifyOutput:
 
         return ECDSAVerifyOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "ECDSAVerifyOutput("
         if self.success is not None:
             result += f"success={repr(self.success)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, ECDSAVerifyOutput):
             return False
         attributes: list[str] = ['success',]
@@ -818,7 +818,7 @@ class GenerateECDSASignatureKeyInput:
     ):
         self.signature_algorithm = signature_algorithm
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GenerateECDSASignatureKeyInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -829,7 +829,7 @@ class GenerateECDSASignatureKeyInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GenerateECDSASignatureKeyInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GenerateECDSASignatureKeyInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -841,14 +841,14 @@ class GenerateECDSASignatureKeyInput:
 
         return GenerateECDSASignatureKeyInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GenerateECDSASignatureKeyInput("
         if self.signature_algorithm is not None:
             result += f"signature_algorithm={repr(self.signature_algorithm)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GenerateECDSASignatureKeyInput):
             return False
         attributes: list[str] = ['signature_algorithm',]
@@ -872,7 +872,7 @@ class GenerateECDSASignatureKeyOutput:
         self.verification_key = verification_key
         self.signing_key = signing_key
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GenerateECDSASignatureKeyOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -885,7 +885,7 @@ class GenerateECDSASignatureKeyOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GenerateECDSASignatureKeyOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GenerateECDSASignatureKeyOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -899,7 +899,7 @@ class GenerateECDSASignatureKeyOutput:
 
         return GenerateECDSASignatureKeyOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GenerateECDSASignatureKeyOutput("
         if self.signature_algorithm is not None:
             result += f"signature_algorithm={repr(self.signature_algorithm)}, "
@@ -912,7 +912,7 @@ class GenerateECDSASignatureKeyOutput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GenerateECDSASignatureKeyOutput):
             return False
         attributes: list[str] = ['signature_algorithm','verification_key','signing_key',]
@@ -930,7 +930,7 @@ class GenerateRandomBytesInput:
     ):
         self.length = length
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GenerateRandomBytesInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -944,7 +944,7 @@ class GenerateRandomBytesInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GenerateRandomBytesInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GenerateRandomBytesInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -957,14 +957,14 @@ class GenerateRandomBytesInput:
 
         return GenerateRandomBytesInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GenerateRandomBytesInput("
         if self.length is not None:
             result += f"length={repr(self.length)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GenerateRandomBytesInput):
             return False
         attributes: list[str] = ['length',]
@@ -982,7 +982,7 @@ class GenerateRandomBytesOutput:
     ):
         self.data = data
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GenerateRandomBytesOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -993,7 +993,7 @@ class GenerateRandomBytesOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GenerateRandomBytesOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GenerateRandomBytesOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1005,14 +1005,14 @@ class GenerateRandomBytesOutput:
 
         return GenerateRandomBytesOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GenerateRandomBytesOutput("
         if self.data is not None:
             result += f"data={repr(self.data)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GenerateRandomBytesOutput):
             return False
         attributes: list[str] = ['data',]
@@ -1030,7 +1030,7 @@ class GenerateRSAKeyPairInput:
     ):
         self.length_bits = length_bits
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GenerateRSAKeyPairInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1044,7 +1044,7 @@ class GenerateRSAKeyPairInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GenerateRSAKeyPairInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GenerateRSAKeyPairInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1057,14 +1057,14 @@ class GenerateRSAKeyPairInput:
 
         return GenerateRSAKeyPairInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GenerateRSAKeyPairInput("
         if self.length_bits is not None:
             result += f"length_bits={repr(self.length_bits)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GenerateRSAKeyPairInput):
             return False
         attributes: list[str] = ['length_bits',]
@@ -1085,7 +1085,7 @@ class RSAPrivateKey:
         self.pem = pem
         self.length_bits = length_bits
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the RSAPrivateKey to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1101,7 +1101,7 @@ class RSAPrivateKey:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "RSAPrivateKey":
+    def from_dict(d: Dict[str, Any]):
         """Creates a RSAPrivateKey from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1116,7 +1116,7 @@ class RSAPrivateKey:
 
         return RSAPrivateKey(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "RSAPrivateKey("
         if self.length_bits is not None:
             result += f"length_bits={repr(self.length_bits)}, "
@@ -1126,7 +1126,7 @@ class RSAPrivateKey:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, RSAPrivateKey):
             return False
         attributes: list[str] = ['length_bits','pem',]
@@ -1147,7 +1147,7 @@ class RSAPublicKey:
         self.pem = pem
         self.length_bits = length_bits
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the RSAPublicKey to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1163,7 +1163,7 @@ class RSAPublicKey:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "RSAPublicKey":
+    def from_dict(d: Dict[str, Any]):
         """Creates a RSAPublicKey from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1178,7 +1178,7 @@ class RSAPublicKey:
 
         return RSAPublicKey(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "RSAPublicKey("
         if self.length_bits is not None:
             result += f"length_bits={repr(self.length_bits)}, "
@@ -1188,7 +1188,7 @@ class RSAPublicKey:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, RSAPublicKey):
             return False
         attributes: list[str] = ['length_bits','pem',]
@@ -1209,7 +1209,7 @@ class GenerateRSAKeyPairOutput:
         self.public_key = public_key
         self.private_key = private_key
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GenerateRSAKeyPairOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1221,7 +1221,7 @@ class GenerateRSAKeyPairOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GenerateRSAKeyPairOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GenerateRSAKeyPairOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1234,7 +1234,7 @@ class GenerateRSAKeyPairOutput:
 
         return GenerateRSAKeyPairOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GenerateRSAKeyPairOutput("
         if self.public_key is not None:
             result += f"public_key={repr(self.public_key)}, "
@@ -1244,7 +1244,7 @@ class GenerateRSAKeyPairOutput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GenerateRSAKeyPairOutput):
             return False
         attributes: list[str] = ['public_key','private_key',]
@@ -1262,7 +1262,7 @@ class GetRSAKeyModulusLengthInput:
     ):
         self.public_key = public_key
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GetRSAKeyModulusLengthInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1273,7 +1273,7 @@ class GetRSAKeyModulusLengthInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GetRSAKeyModulusLengthInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GetRSAKeyModulusLengthInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1285,14 +1285,14 @@ class GetRSAKeyModulusLengthInput:
 
         return GetRSAKeyModulusLengthInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GetRSAKeyModulusLengthInput("
         if self.public_key is not None:
             result += f"public_key={repr(self.public_key)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GetRSAKeyModulusLengthInput):
             return False
         attributes: list[str] = ['public_key',]
@@ -1310,7 +1310,7 @@ class GetRSAKeyModulusLengthOutput:
     ):
         self.length = length
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GetRSAKeyModulusLengthOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1324,7 +1324,7 @@ class GetRSAKeyModulusLengthOutput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GetRSAKeyModulusLengthOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GetRSAKeyModulusLengthOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1337,14 +1337,14 @@ class GetRSAKeyModulusLengthOutput:
 
         return GetRSAKeyModulusLengthOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GetRSAKeyModulusLengthOutput("
         if self.length is not None:
             result += f"length={repr(self.length)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GetRSAKeyModulusLengthOutput):
             return False
         attributes: list[str] = ['length',]
@@ -1374,7 +1374,7 @@ class HkdfInput:
         self.salt = salt
         self.expected_length = expected_length
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the HkdfInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1395,7 +1395,7 @@ class HkdfInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "HkdfInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a HkdfInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1415,7 +1415,7 @@ class HkdfInput:
 
         return HkdfInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "HkdfInput("
         if self.digest_algorithm is not None:
             result += f"digest_algorithm={repr(self.digest_algorithm)}, "
@@ -1434,7 +1434,7 @@ class HkdfInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, HkdfInput):
             return False
         attributes: list[str] = ['digest_algorithm','salt','ikm','info','expected_length',]
@@ -1452,7 +1452,7 @@ class HkdfOutput:
     ):
         self.okm = okm
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the HkdfOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1463,7 +1463,7 @@ class HkdfOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "HkdfOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a HkdfOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1475,14 +1475,14 @@ class HkdfOutput:
 
         return HkdfOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "HkdfOutput("
         if self.okm is not None:
             result += f"okm={repr(self.okm)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, HkdfOutput):
             return False
         attributes: list[str] = ['okm',]
@@ -1509,7 +1509,7 @@ class HkdfExpandInput:
         self.info = info
         self.expected_length = expected_length
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the HkdfExpandInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1527,7 +1527,7 @@ class HkdfExpandInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "HkdfExpandInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a HkdfExpandInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1544,7 +1544,7 @@ class HkdfExpandInput:
 
         return HkdfExpandInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "HkdfExpandInput("
         if self.digest_algorithm is not None:
             result += f"digest_algorithm={repr(self.digest_algorithm)}, "
@@ -1560,7 +1560,7 @@ class HkdfExpandInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, HkdfExpandInput):
             return False
         attributes: list[str] = ['digest_algorithm','prk','info','expected_length',]
@@ -1578,7 +1578,7 @@ class HkdfExpandOutput:
     ):
         self.okm = okm
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the HkdfExpandOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1589,7 +1589,7 @@ class HkdfExpandOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "HkdfExpandOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a HkdfExpandOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1601,14 +1601,14 @@ class HkdfExpandOutput:
 
         return HkdfExpandOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "HkdfExpandOutput("
         if self.okm is not None:
             result += f"okm={repr(self.okm)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, HkdfExpandOutput):
             return False
         attributes: list[str] = ['okm',]
@@ -1632,7 +1632,7 @@ class HkdfExtractInput:
         self.ikm = ikm
         self.salt = salt
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the HkdfExtractInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1649,7 +1649,7 @@ class HkdfExtractInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "HkdfExtractInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a HkdfExtractInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1665,7 +1665,7 @@ class HkdfExtractInput:
 
         return HkdfExtractInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "HkdfExtractInput("
         if self.digest_algorithm is not None:
             result += f"digest_algorithm={repr(self.digest_algorithm)}, "
@@ -1678,7 +1678,7 @@ class HkdfExtractInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, HkdfExtractInput):
             return False
         attributes: list[str] = ['digest_algorithm','salt','ikm',]
@@ -1696,7 +1696,7 @@ class HkdfExtractOutput:
     ):
         self.prk = prk
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the HkdfExtractOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1707,7 +1707,7 @@ class HkdfExtractOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "HkdfExtractOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a HkdfExtractOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1719,14 +1719,14 @@ class HkdfExtractOutput:
 
         return HkdfExtractOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "HkdfExtractOutput("
         if self.prk is not None:
             result += f"prk={repr(self.prk)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, HkdfExtractOutput):
             return False
         attributes: list[str] = ['prk',]
@@ -1750,7 +1750,7 @@ class HMacInput:
         self.key = key
         self.message = message
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the HMacInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1763,7 +1763,7 @@ class HMacInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "HMacInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a HMacInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1777,7 +1777,7 @@ class HMacInput:
 
         return HMacInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "HMacInput("
         if self.digest_algorithm is not None:
             result += f"digest_algorithm={repr(self.digest_algorithm)}, "
@@ -1790,7 +1790,7 @@ class HMacInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, HMacInput):
             return False
         attributes: list[str] = ['digest_algorithm','key','message',]
@@ -1808,7 +1808,7 @@ class HMacOutput:
     ):
         self.digest = digest
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the HMacOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1819,7 +1819,7 @@ class HMacOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "HMacOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a HMacOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1831,14 +1831,14 @@ class HMacOutput:
 
         return HMacOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "HMacOutput("
         if self.digest is not None:
             result += f"digest={repr(self.digest)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, HMacOutput):
             return False
         attributes: list[str] = ['digest',]
@@ -1868,7 +1868,7 @@ class KdfCtrInput:
         self.purpose = purpose
         self.nonce = nonce
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the KdfCtrInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1891,7 +1891,7 @@ class KdfCtrInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KdfCtrInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a KdfCtrInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1913,7 +1913,7 @@ class KdfCtrInput:
 
         return KdfCtrInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "KdfCtrInput("
         if self.digest_algorithm is not None:
             result += f"digest_algorithm={repr(self.digest_algorithm)}, "
@@ -1932,7 +1932,7 @@ class KdfCtrInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, KdfCtrInput):
             return False
         attributes: list[str] = ['digest_algorithm','ikm','expected_length','purpose','nonce',]
@@ -1950,7 +1950,7 @@ class KdfCtrOutput:
     ):
         self.okm = okm
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the KdfCtrOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1961,7 +1961,7 @@ class KdfCtrOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KdfCtrOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a KdfCtrOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1973,14 +1973,14 @@ class KdfCtrOutput:
 
         return KdfCtrOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "KdfCtrOutput("
         if self.okm is not None:
             result += f"okm={repr(self.okm)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, KdfCtrOutput):
             return False
         attributes: list[str] = ['okm',]
@@ -2004,7 +2004,7 @@ class RSADecryptInput:
         self.private_key = private_key
         self.cipher_text = cipher_text
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the RSADecryptInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -2017,7 +2017,7 @@ class RSADecryptInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "RSADecryptInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a RSADecryptInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -2031,7 +2031,7 @@ class RSADecryptInput:
 
         return RSADecryptInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "RSADecryptInput("
         if self.padding is not None:
             result += f"padding={repr(self.padding)}, "
@@ -2044,7 +2044,7 @@ class RSADecryptInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, RSADecryptInput):
             return False
         attributes: list[str] = ['padding','private_key','cipher_text',]
@@ -2062,7 +2062,7 @@ class RSADecryptOutput:
     ):
         self.plaintext = plaintext
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the RSADecryptOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -2073,7 +2073,7 @@ class RSADecryptOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "RSADecryptOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a RSADecryptOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -2085,14 +2085,14 @@ class RSADecryptOutput:
 
         return RSADecryptOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "RSADecryptOutput("
         if self.plaintext is not None:
             result += f"plaintext={repr(self.plaintext)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, RSADecryptOutput):
             return False
         attributes: list[str] = ['plaintext',]
@@ -2116,7 +2116,7 @@ class RSAEncryptInput:
         self.public_key = public_key
         self.plaintext = plaintext
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the RSAEncryptInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -2129,7 +2129,7 @@ class RSAEncryptInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "RSAEncryptInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a RSAEncryptInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -2143,7 +2143,7 @@ class RSAEncryptInput:
 
         return RSAEncryptInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "RSAEncryptInput("
         if self.padding is not None:
             result += f"padding={repr(self.padding)}, "
@@ -2156,7 +2156,7 @@ class RSAEncryptInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, RSAEncryptInput):
             return False
         attributes: list[str] = ['padding','public_key','plaintext',]
@@ -2174,7 +2174,7 @@ class RSAEncryptOutput:
     ):
         self.cipher_text = cipher_text
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the RSAEncryptOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -2185,7 +2185,7 @@ class RSAEncryptOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "RSAEncryptOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a RSAEncryptOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -2197,14 +2197,14 @@ class RSAEncryptOutput:
 
         return RSAEncryptOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "RSAEncryptOutput("
         if self.cipher_text is not None:
             result += f"cipher_text={repr(self.cipher_text)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, RSAEncryptOutput):
             return False
         attributes: list[str] = ['cipher_text',]

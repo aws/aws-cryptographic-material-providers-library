@@ -168,7 +168,10 @@ class AwsCryptographicMaterialProviders:
         for plugin in client_plugins:
             plugin(self._config)
 
-    async def create_aws_kms_discovery_keyring(self, input: CreateAwsKmsDiscoveryKeyringInput, plugins: list[Plugin] | None = None) -> CreateKeyringOutput:
+        print("done init, self.config")
+        print(self._config)
+
+    async def create_aws_kms_discovery_keyring(self, input: CreateAwsKmsDiscoveryKeyringInput, plugins: list[Plugin] | None = None):
         """Invokes the CreateAwsKmsDiscoveryKeyring operation.
 
         :param input: The operation's input.
@@ -192,7 +195,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsDiscoveryKeyring",
         )
 
-    async def create_aws_kms_discovery_multi_keyring(self, input: CreateAwsKmsDiscoveryMultiKeyringInput, plugins: list[Plugin] | None = None) -> CreateKeyringOutput:
+    async def create_aws_kms_discovery_multi_keyring(self, input: CreateAwsKmsDiscoveryMultiKeyringInput, plugins: list[Plugin] | None = None):
         """Invokes the CreateAwsKmsDiscoveryMultiKeyring operation.
 
         :param input: The operation's input.
@@ -216,7 +219,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsDiscoveryMultiKeyring",
         )
 
-    async def create_aws_kms_hierarchical_keyring(self, input: CreateAwsKmsHierarchicalKeyringInput, plugins: list[Plugin] | None = None) -> CreateKeyringOutput:
+    async def create_aws_kms_hierarchical_keyring(self, input: CreateAwsKmsHierarchicalKeyringInput, plugins: list[Plugin] | None = None):
         """Invokes the CreateAwsKmsHierarchicalKeyring operation.
 
         :param input: The operation's input.
@@ -240,7 +243,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsHierarchicalKeyring",
         )
 
-    async def create_aws_kms_keyring(self, input: CreateAwsKmsKeyringInput, plugins: list[Plugin] | None = None) -> CreateKeyringOutput:
+    async def create_aws_kms_keyring(self, input: CreateAwsKmsKeyringInput, plugins: list[Plugin] | None = None):
         """Invokes the CreateAwsKmsKeyring operation.
 
         :param input: The operation's input.
@@ -264,7 +267,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsKeyring",
         )
 
-    async def create_aws_kms_mrk_discovery_keyring(self, input: CreateAwsKmsMrkDiscoveryKeyringInput, plugins: list[Plugin] | None = None) -> CreateKeyringOutput:
+    async def create_aws_kms_mrk_discovery_keyring(self, input: CreateAwsKmsMrkDiscoveryKeyringInput, plugins: list[Plugin] | None = None):
         """Invokes the CreateAwsKmsMrkDiscoveryKeyring operation.
 
         :param input: The operation's input.
@@ -288,7 +291,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsMrkDiscoveryKeyring",
         )
 
-    async def create_aws_kms_mrk_discovery_multi_keyring(self, input: CreateAwsKmsMrkDiscoveryMultiKeyringInput, plugins: list[Plugin] | None = None) -> CreateKeyringOutput:
+    async def create_aws_kms_mrk_discovery_multi_keyring(self, input: CreateAwsKmsMrkDiscoveryMultiKeyringInput, plugins: list[Plugin] | None = None):
         """Invokes the CreateAwsKmsMrkDiscoveryMultiKeyring operation.
 
         :param input: The operation's input.
@@ -312,7 +315,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsMrkDiscoveryMultiKeyring",
         )
 
-    async def create_aws_kms_mrk_keyring(self, input: CreateAwsKmsMrkKeyringInput, plugins: list[Plugin] | None = None) -> CreateKeyringOutput:
+    async def create_aws_kms_mrk_keyring(self, input: CreateAwsKmsMrkKeyringInput, plugins: list[Plugin] | None = None):
         """Invokes the CreateAwsKmsMrkKeyring operation.
 
         :param input: The operation's input.
@@ -336,7 +339,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsMrkKeyring",
         )
 
-    async def create_aws_kms_mrk_multi_keyring(self, input: CreateAwsKmsMrkMultiKeyringInput, plugins: list[Plugin] | None = None) -> CreateKeyringOutput:
+    async def create_aws_kms_mrk_multi_keyring(self, input: CreateAwsKmsMrkMultiKeyringInput, plugins: list[Plugin] | None = None):
         """Invokes the CreateAwsKmsMrkMultiKeyring operation.
 
         :param input: The operation's input.
@@ -360,7 +363,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsMrkMultiKeyring",
         )
 
-    async def create_aws_kms_multi_keyring(self, input: CreateAwsKmsMultiKeyringInput, plugins: list[Plugin] | None = None) -> CreateKeyringOutput:
+    async def create_aws_kms_multi_keyring(self, input: CreateAwsKmsMultiKeyringInput, plugins: list[Plugin] | None = None):
         """Invokes the CreateAwsKmsMultiKeyring operation.
 
         :param input: The operation's input.
@@ -384,7 +387,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsMultiKeyring",
         )
 
-    async def create_aws_kms_rsa_keyring(self, input: CreateAwsKmsRsaKeyringInput, plugins: list[Plugin] | None = None) -> CreateKeyringOutput:
+    async def create_aws_kms_rsa_keyring(self, input: CreateAwsKmsRsaKeyringInput, plugins: list[Plugin] | None = None):
         """Invokes the CreateAwsKmsRsaKeyring operation.
 
         :param input: The operation's input.
@@ -408,7 +411,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsRsaKeyring",
         )
 
-    async def create_cryptographic_materials_cache(self, input: CreateCryptographicMaterialsCacheInput, plugins: list[Plugin] | None = None) -> CreateCryptographicMaterialsCacheOutput:
+    async def create_cryptographic_materials_cache(self, input: CreateCryptographicMaterialsCacheInput, plugins: list[Plugin] | None = None):
         """Invokes the CreateCryptographicMaterialsCache operation.
 
         :param input: The operation's input.
@@ -432,7 +435,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateCryptographicMaterialsCache",
         )
 
-    async def create_default_client_supplier(self, input: CreateDefaultClientSupplierInput, plugins: list[Plugin] | None = None) -> CreateDefaultClientSupplierOutput:
+    async def create_default_client_supplier(self, input: CreateDefaultClientSupplierInput, plugins: list[Plugin] | None = None):
         """Invokes the CreateDefaultClientSupplier operation.
 
         :param input: The operation's input.
@@ -456,7 +459,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateDefaultClientSupplier",
         )
 
-    async def create_default_cryptographic_materials_manager(self, input: CreateDefaultCryptographicMaterialsManagerInput, plugins: list[Plugin] | None = None) -> CreateCryptographicMaterialsManagerOutput:
+    async def create_default_cryptographic_materials_manager(self, input: CreateDefaultCryptographicMaterialsManagerInput, plugins: list[Plugin] | None = None):
         """Invokes the CreateDefaultCryptographicMaterialsManager operation.
 
         :param input: The operation's input.
@@ -480,7 +483,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateDefaultCryptographicMaterialsManager",
         )
 
-    async def create_multi_keyring(self, input: CreateMultiKeyringInput, plugins: list[Plugin] | None = None) -> CreateKeyringOutput:
+    async def create_multi_keyring(self, input: CreateMultiKeyringInput, plugins: list[Plugin] | None = None):
         """Invokes the CreateMultiKeyring operation.
 
         :param input: The operation's input.
@@ -504,7 +507,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateMultiKeyring",
         )
 
-    async def create_raw_aes_keyring(self, input: CreateRawAesKeyringInput, plugins: list[Plugin] | None = None) -> CreateKeyringOutput:
+    async def create_raw_aes_keyring(self, input: CreateRawAesKeyringInput, plugins: list[Plugin] | None = None):
         """Invokes the CreateRawAesKeyring operation.
 
         :param input: The operation's input.
@@ -528,7 +531,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateRawAesKeyring",
         )
 
-    async def create_raw_rsa_keyring(self, input: CreateRawRsaKeyringInput, plugins: list[Plugin] | None = None) -> CreateKeyringOutput:
+    async def create_raw_rsa_keyring(self, input: CreateRawRsaKeyringInput, plugins: list[Plugin] | None = None):
         """Invokes the CreateRawRsaKeyring operation.
 
         :param input: The operation's input.
@@ -552,7 +555,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateRawRsaKeyring",
         )
 
-    async def create_required_encryption_context_cmm(self, input: CreateRequiredEncryptionContextCMMInput, plugins: list[Plugin] | None = None) -> CreateRequiredEncryptionContextCMMOutput:
+    async def create_required_encryption_context_cmm(self, input: CreateRequiredEncryptionContextCMMInput, plugins: list[Plugin] | None = None):
         """Invokes the CreateRequiredEncryptionContextCMM operation.
 
         :param input: The operation's input.
@@ -576,7 +579,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateRequiredEncryptionContextCMM",
         )
 
-    async def decryption_materials_with_plaintext_data_key(self, input: DecryptionMaterials, plugins: list[Plugin] | None = None) -> Unit:
+    async def decryption_materials_with_plaintext_data_key(self, input: DecryptionMaterials, plugins: list[Plugin] | None = None):
         """Invokes the DecryptionMaterialsWithPlaintextDataKey operation.
 
         :param input: The operation's input.
@@ -600,7 +603,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="DecryptionMaterialsWithPlaintextDataKey",
         )
 
-    async def decrypt_materials(self, input: DecryptMaterialsInput, plugins: list[Plugin] | None = None) -> DecryptMaterialsOutput:
+    async def decrypt_materials(self, input: DecryptMaterialsInput, plugins: list[Plugin] | None = None):
         """Invokes the DecryptMaterials operation.
 
         :param input: The operation's input.
@@ -624,7 +627,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="DecryptMaterials",
         )
 
-    async def delete_cache_entry(self, input: DeleteCacheEntryInput, plugins: list[Plugin] | None = None) -> Unit:
+    async def delete_cache_entry(self, input: DeleteCacheEntryInput, plugins: list[Plugin] | None = None):
         """Invokes the DeleteCacheEntry operation.
 
         :param input: The operation's input.
@@ -648,7 +651,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="DeleteCacheEntry",
         )
 
-    async def encryption_materials_has_plaintext_data_key(self, input: EncryptionMaterials, plugins: list[Plugin] | None = None) -> Unit:
+    async def encryption_materials_has_plaintext_data_key(self, input: EncryptionMaterials, plugins: list[Plugin] | None = None):
         """Invokes the EncryptionMaterialsHasPlaintextDataKey operation.
 
         :param input: ////////////////////////////////
@@ -672,7 +675,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="EncryptionMaterialsHasPlaintextDataKey",
         )
 
-    async def get_algorithm_suite_info(self, input: GetAlgorithmSuiteInfoInput, plugins: list[Plugin] | None = None) -> AlgorithmSuiteInfo:
+    async def get_algorithm_suite_info(self, input: GetAlgorithmSuiteInfoInput, plugins: list[Plugin] | None = None):
         """Invokes the GetAlgorithmSuiteInfo operation.
 
         :param input: The operation's input.
@@ -696,7 +699,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="GetAlgorithmSuiteInfo",
         )
 
-    async def get_branch_key_id(self, input: GetBranchKeyIdInput, plugins: list[Plugin] | None = None) -> GetBranchKeyIdOutput:
+    async def get_branch_key_id(self, input: GetBranchKeyIdInput, plugins: list[Plugin] | None = None):
         """Invokes the GetBranchKeyId operation.
 
         :param input: The operation's input.
@@ -720,7 +723,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="GetBranchKeyId",
         )
 
-    async def get_cache_entry(self, input: GetCacheEntryInput, plugins: list[Plugin] | None = None) -> GetCacheEntryOutput:
+    async def get_cache_entry(self, input: GetCacheEntryInput, plugins: list[Plugin] | None = None):
         """Invokes the GetCacheEntry operation.
 
         :param input: The operation's input.
@@ -744,7 +747,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="GetCacheEntry",
         )
 
-    async def get_client(self, input: GetClientInput, plugins: list[Plugin] | None = None) -> GetClientOutput:
+    async def get_client(self, input: GetClientInput, plugins: list[Plugin] | None = None):
         """Invokes the GetClient operation.
 
         :param input: The operation's input.
@@ -768,7 +771,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="GetClient",
         )
 
-    async def get_encryption_materials(self, input: GetEncryptionMaterialsInput, plugins: list[Plugin] | None = None) -> GetEncryptionMaterialsOutput:
+    async def get_encryption_materials(self, input: GetEncryptionMaterialsInput, plugins: list[Plugin] | None = None):
         """//////////////
 
         :param input: The operation's input.
@@ -792,7 +795,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="GetEncryptionMaterials",
         )
 
-    async def initialize_decryption_materials(self, input: InitializeDecryptionMaterialsInput, plugins: list[Plugin] | None = None) -> DecryptionMaterials:
+    async def initialize_decryption_materials(self, input: InitializeDecryptionMaterialsInput, plugins: list[Plugin] | None = None):
         """Invokes the InitializeDecryptionMaterials operation.
 
         :param input: The operation's input.
@@ -816,7 +819,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="InitializeDecryptionMaterials",
         )
 
-    async def initialize_encryption_materials(self, input: InitializeEncryptionMaterialsInput, plugins: list[Plugin] | None = None) -> EncryptionMaterials:
+    async def initialize_encryption_materials(self, input: InitializeEncryptionMaterialsInput, plugins: list[Plugin] | None = None):
         """Invokes the InitializeEncryptionMaterials operation.
 
         :param input: The operation's input.
@@ -840,7 +843,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="InitializeEncryptionMaterials",
         )
 
-    async def on_decrypt(self, input: OnDecryptInput, plugins: list[Plugin] | None = None) -> OnDecryptOutput:
+    async def on_decrypt(self, input: OnDecryptInput, plugins: list[Plugin] | None = None):
         """Invokes the OnDecrypt operation.
 
         :param input: The operation's input.
@@ -864,7 +867,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="OnDecrypt",
         )
 
-    async def on_encrypt(self, input: OnEncryptInput, plugins: list[Plugin] | None = None) -> OnEncryptOutput:
+    async def on_encrypt(self, input: OnEncryptInput, plugins: list[Plugin] | None = None):
         """//////////////////
 
         :param input: The operation's input.
@@ -888,7 +891,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="OnEncrypt",
         )
 
-    async def put_cache_entry(self, input: PutCacheEntryInput, plugins: list[Plugin] | None = None) -> Unit:
+    async def put_cache_entry(self, input: PutCacheEntryInput, plugins: list[Plugin] | None = None):
         """Invokes the PutCacheEntry operation.
 
         :param input: The operation's input.
@@ -912,7 +915,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="PutCacheEntry",
         )
 
-    async def update_usage_metadata(self, input: UpdateUsageMetadataInput, plugins: list[Plugin] | None = None) -> Unit:
+    async def update_usage_metadata(self, input: UpdateUsageMetadataInput, plugins: list[Plugin] | None = None):
         """Invokes the UpdateUsageMetadata operation.
 
         :param input: The operation's input.
@@ -936,7 +939,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="UpdateUsageMetadata",
         )
 
-    async def valid_algorithm_suite_info(self, input: AlgorithmSuiteInfo, plugins: list[Plugin] | None = None) -> Unit:
+    async def valid_algorithm_suite_info(self, input: AlgorithmSuiteInfo, plugins: list[Plugin] | None = None):
         """Invokes the ValidAlgorithmSuiteInfo operation.
 
         :param input: The operation's input.
@@ -960,7 +963,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="ValidAlgorithmSuiteInfo",
         )
 
-    async def validate_commitment_policy_on_decrypt(self, input: ValidateCommitmentPolicyOnDecryptInput, plugins: list[Plugin] | None = None) -> Unit:
+    async def validate_commitment_policy_on_decrypt(self, input: ValidateCommitmentPolicyOnDecryptInput, plugins: list[Plugin] | None = None):
         """Invokes the ValidateCommitmentPolicyOnDecrypt operation.
 
         :param input: The operation's input.
@@ -984,7 +987,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="ValidateCommitmentPolicyOnDecrypt",
         )
 
-    async def validate_commitment_policy_on_encrypt(self, input: ValidateCommitmentPolicyOnEncryptInput, plugins: list[Plugin] | None = None) -> Unit:
+    async def validate_commitment_policy_on_encrypt(self, input: ValidateCommitmentPolicyOnEncryptInput, plugins: list[Plugin] | None = None):
         """Invokes the ValidateCommitmentPolicyOnEncrypt operation.
 
         :param input: The operation's input.
@@ -1008,7 +1011,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="ValidateCommitmentPolicyOnEncrypt",
         )
 
-    async def valid_decryption_materials_transition(self, input: ValidDecryptionMaterialsTransitionInput, plugins: list[Plugin] | None = None) -> Unit:
+    async def valid_decryption_materials_transition(self, input: ValidDecryptionMaterialsTransitionInput, plugins: list[Plugin] | None = None):
         """Invokes the ValidDecryptionMaterialsTransition operation.
 
         :param input: The operation's input.
@@ -1032,7 +1035,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="ValidDecryptionMaterialsTransition",
         )
 
-    async def valid_encryption_materials_transition(self, input: ValidEncryptionMaterialsTransitionInput, plugins: list[Plugin] | None = None) -> Unit:
+    async def valid_encryption_materials_transition(self, input: ValidEncryptionMaterialsTransitionInput, plugins: list[Plugin] | None = None):
         """Invokes the ValidEncryptionMaterialsTransition operation.
 
         :param input: The operation's input.
@@ -1064,7 +1067,7 @@ class AwsCryptographicMaterialProviders:
         deserialize: Callable[[DafnyResponse, Config], Awaitable[Output]],
         config: Config,
         operation_name: str,
-    ) -> Output:
+    ):
         try:
             return await self._handle_execution(
                 input, plugins, serialize, deserialize, config, operation_name
@@ -1084,7 +1087,7 @@ class AwsCryptographicMaterialProviders:
         deserialize: Callable[[DafnyResponse, Config], Awaitable[Output]],
         config: Config,
         operation_name: str,
-    ) -> Output:
+    ):
         context: InterceptorContext[Input, None, None, None] = InterceptorContext(
             request=input,
             response=None,
@@ -1128,12 +1131,21 @@ class AwsCryptographicMaterialProviders:
                 interceptor.read_before_serialization(context)
 
             # Step 4: Serialize the request
-            context_with_transport_request = cast(
-                InterceptorContext[Input, None, DafnyRequest, None], context
-            )
-            context_with_transport_request._transport_request = await serialize(
-                context_with_transport_request.request, config
-            )
+            print("preser")
+            print(f"{input=}")
+            try:
+                print('1')
+                context_with_transport_request = cast(
+                    InterceptorContext[Input, None, DafnyRequest, None], context
+                )
+                print('2')  
+                context_with_transport_request._transport_request = await serialize(
+                    context_with_transport_request.request, config
+                )
+                print('3')
+            except Exception as e:
+                print(e)
+            print(f"postser")
 
             # Step 5: Invoke read_after_serialization
             for interceptor in interceptors:
@@ -1207,7 +1219,7 @@ class AwsCryptographicMaterialProviders:
         context: InterceptorContext[Input, None, DafnyRequest, None],
         config: Config,
         operation_name: str,
-    ) -> InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None]:
+    ):
         try:
             # assert config.interceptors is not None
             # Step 7a: Invoke read_before_attempt
@@ -1238,13 +1250,18 @@ class AwsCryptographicMaterialProviders:
             if config.dafnyImplInterface.impl is None:
                 raise Exception("No impl found on the operation config.")
 
-            context_with_response = cast(
-                InterceptorContext[Input, None, DafnyRequest, DafnyResponse], context
-            )
+            print("precall")
+            try:
+                context_with_response = cast(
+                    InterceptorContext[Input, None, DafnyRequest, DafnyResponse], context
+                )
 
-            context_with_response._transport_response = config.dafnyImplInterface.handle_request(
-                input=context_with_response.transport_request
-            )
+                context_with_response._transport_response = config.dafnyImplInterface.handle_request(
+                    input=context_with_response.transport_request
+                )
+            except Exception as e:
+                print(e)
+            print("postcall")
 
             # Step 7n: Invoke read_after_transmit
             for interceptor in interceptors:
@@ -1261,6 +1278,7 @@ class AwsCryptographicMaterialProviders:
                 interceptor.read_before_deserialization(context_with_response)
 
             # Step 7q: deserialize
+            print("predeser")
             context_with_output = cast(
                 InterceptorContext[Input, Output, DafnyRequest, DafnyResponse],
                 context_with_response,
@@ -1268,6 +1286,7 @@ class AwsCryptographicMaterialProviders:
             context_with_output._response = await deserialize(
                 context_with_output._transport_response, config
             )
+            print("postdeser")
 
             # Step 7r: Invoke read_after_deserialization
             for interceptor in interceptors:
@@ -1291,7 +1310,7 @@ class AwsCryptographicMaterialProviders:
         self,
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
         context: InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None],
-    ) -> InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None]:
+    ):
         # Step 7s: Invoke modify_before_attempt_completion
         try:
             for interceptor in interceptors:
@@ -1320,7 +1339,7 @@ class AwsCryptographicMaterialProviders:
         self,
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
         context: InterceptorContext[Input, Output, DafnyRequest | None, DafnyResponse | None],
-    ) -> Output:
+    ):
         try:
             # Step 9: Invoke modify_before_completion
             for interceptor in interceptors:

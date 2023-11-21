@@ -344,7 +344,7 @@ class DynamoDB_20120810Shim:
         self._impl = _impl
         self._region = _region
 
-    def BatchExecuteStatement(self, input: DafnyBatchExecuteStatementInput) -> DafnyBatchExecuteStatementOutput:
+    def BatchExecuteStatement(self, input: DafnyBatchExecuteStatementInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_BatchExecuteStatementInput(input)
         try:
             wrapped_response = self._impl.batch_execute_statement(**unwrapped_request)
@@ -353,7 +353,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_BatchExecuteStatementOutput(wrapped_response))
 
-    def BatchGetItem(self, input: DafnyBatchGetItemInput) -> DafnyBatchGetItemOutput:
+    def BatchGetItem(self, input: DafnyBatchGetItemInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_BatchGetItemInput(input)
         try:
             wrapped_response = self._impl.batch_get_item(**unwrapped_request)
@@ -362,7 +362,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_BatchGetItemOutput(wrapped_response))
 
-    def BatchWriteItem(self, input: DafnyBatchWriteItemInput) -> DafnyBatchWriteItemOutput:
+    def BatchWriteItem(self, input: DafnyBatchWriteItemInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_BatchWriteItemInput(input)
         try:
             wrapped_response = self._impl.batch_write_item(**unwrapped_request)
@@ -371,7 +371,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_BatchWriteItemOutput(wrapped_response))
 
-    def CreateBackup(self, input: DafnyCreateBackupInput) -> DafnyCreateBackupOutput:
+    def CreateBackup(self, input: DafnyCreateBackupInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_CreateBackupInput(input)
         try:
             wrapped_response = self._impl.create_backup(**unwrapped_request)
@@ -380,7 +380,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_CreateBackupOutput(wrapped_response))
 
-    def CreateGlobalTable(self, input: DafnyCreateGlobalTableInput) -> DafnyCreateGlobalTableOutput:
+    def CreateGlobalTable(self, input: DafnyCreateGlobalTableInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_CreateGlobalTableInput(input)
         try:
             wrapped_response = self._impl.create_global_table(**unwrapped_request)
@@ -389,7 +389,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_CreateGlobalTableOutput(wrapped_response))
 
-    def CreateTable(self, input: DafnyCreateTableInput) -> DafnyCreateTableOutput:
+    def CreateTable(self, input: DafnyCreateTableInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_CreateTableInput(input)
         try:
             wrapped_response = self._impl.create_table(**unwrapped_request)
@@ -398,7 +398,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_CreateTableOutput(wrapped_response))
 
-    def DeleteBackup(self, input: DafnyDeleteBackupInput) -> DafnyDeleteBackupOutput:
+    def DeleteBackup(self, input: DafnyDeleteBackupInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_DeleteBackupInput(input)
         try:
             wrapped_response = self._impl.delete_backup(**unwrapped_request)
@@ -407,7 +407,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_DeleteBackupOutput(wrapped_response))
 
-    def DeleteItem(self, input: DafnyDeleteItemInput) -> DafnyDeleteItemOutput:
+    def DeleteItem(self, input: DafnyDeleteItemInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_DeleteItemInput(input)
         try:
             wrapped_response = self._impl.delete_item(**unwrapped_request)
@@ -416,7 +416,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_DeleteItemOutput(wrapped_response))
 
-    def DeleteTable(self, input: DafnyDeleteTableInput) -> DafnyDeleteTableOutput:
+    def DeleteTable(self, input: DafnyDeleteTableInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_DeleteTableInput(input)
         try:
             wrapped_response = self._impl.delete_table(**unwrapped_request)
@@ -425,7 +425,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_DeleteTableOutput(wrapped_response))
 
-    def DescribeBackup(self, input: DafnyDescribeBackupInput) -> DafnyDescribeBackupOutput:
+    def DescribeBackup(self, input: DafnyDescribeBackupInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_DescribeBackupInput(input)
         try:
             wrapped_response = self._impl.describe_backup(**unwrapped_request)
@@ -434,7 +434,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_DescribeBackupOutput(wrapped_response))
 
-    def DescribeContinuousBackups(self, input: DafnyDescribeContinuousBackupsInput) -> DafnyDescribeContinuousBackupsOutput:
+    def DescribeContinuousBackups(self, input: DafnyDescribeContinuousBackupsInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_DescribeContinuousBackupsInput(input)
         try:
             wrapped_response = self._impl.describe_continuous_backups(**unwrapped_request)
@@ -443,7 +443,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_DescribeContinuousBackupsOutput(wrapped_response))
 
-    def DescribeContributorInsights(self, input: DafnyDescribeContributorInsightsInput) -> DafnyDescribeContributorInsightsOutput:
+    def DescribeContributorInsights(self, input: DafnyDescribeContributorInsightsInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_DescribeContributorInsightsInput(input)
         try:
             wrapped_response = self._impl.describe_contributor_insights(**unwrapped_request)
@@ -452,7 +452,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_DescribeContributorInsightsOutput(wrapped_response))
 
-    def DescribeEndpoints(self, input: DafnyDescribeEndpointsRequest) -> DafnyDescribeEndpointsResponse:
+    def DescribeEndpoints(self, input: DafnyDescribeEndpointsRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_DescribeEndpointsRequest(input)
         try:
             wrapped_response = self._impl.describe_endpoints(**unwrapped_request)
@@ -461,7 +461,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_DescribeEndpointsResponse(wrapped_response))
 
-    def DescribeExport(self, input: DafnyDescribeExportInput) -> DafnyDescribeExportOutput:
+    def DescribeExport(self, input: DafnyDescribeExportInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_DescribeExportInput(input)
         try:
             wrapped_response = self._impl.describe_export(**unwrapped_request)
@@ -470,7 +470,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_DescribeExportOutput(wrapped_response))
 
-    def DescribeGlobalTable(self, input: DafnyDescribeGlobalTableInput) -> DafnyDescribeGlobalTableOutput:
+    def DescribeGlobalTable(self, input: DafnyDescribeGlobalTableInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_DescribeGlobalTableInput(input)
         try:
             wrapped_response = self._impl.describe_global_table(**unwrapped_request)
@@ -479,7 +479,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_DescribeGlobalTableOutput(wrapped_response))
 
-    def DescribeGlobalTableSettings(self, input: DafnyDescribeGlobalTableSettingsInput) -> DafnyDescribeGlobalTableSettingsOutput:
+    def DescribeGlobalTableSettings(self, input: DafnyDescribeGlobalTableSettingsInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_DescribeGlobalTableSettingsInput(input)
         try:
             wrapped_response = self._impl.describe_global_table_settings(**unwrapped_request)
@@ -488,7 +488,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_DescribeGlobalTableSettingsOutput(wrapped_response))
 
-    def DescribeImport(self, input: DafnyDescribeImportInput) -> DafnyDescribeImportOutput:
+    def DescribeImport(self, input: DafnyDescribeImportInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_DescribeImportInput(input)
         try:
             wrapped_response = self._impl.describe_import(**unwrapped_request)
@@ -497,7 +497,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_DescribeImportOutput(wrapped_response))
 
-    def DescribeKinesisStreamingDestination(self, input: DafnyDescribeKinesisStreamingDestinationInput) -> DafnyDescribeKinesisStreamingDestinationOutput:
+    def DescribeKinesisStreamingDestination(self, input: DafnyDescribeKinesisStreamingDestinationInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationInput(input)
         try:
             wrapped_response = self._impl.describe_kinesis_streaming_destination(**unwrapped_request)
@@ -506,7 +506,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationOutput(wrapped_response))
 
-    def DescribeLimits(self, input: DafnyDescribeLimitsInput) -> DafnyDescribeLimitsOutput:
+    def DescribeLimits(self, input: DafnyDescribeLimitsInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_DescribeLimitsInput(input)
         try:
             wrapped_response = self._impl.describe_limits(**unwrapped_request)
@@ -515,7 +515,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_DescribeLimitsOutput(wrapped_response))
 
-    def DescribeTable(self, input: DafnyDescribeTableInput) -> DafnyDescribeTableOutput:
+    def DescribeTable(self, input: DafnyDescribeTableInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_DescribeTableInput(input)
         try:
             wrapped_response = self._impl.describe_table(**unwrapped_request)
@@ -524,7 +524,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_DescribeTableOutput(wrapped_response))
 
-    def DescribeTableReplicaAutoScaling(self, input: DafnyDescribeTableReplicaAutoScalingInput) -> DafnyDescribeTableReplicaAutoScalingOutput:
+    def DescribeTableReplicaAutoScaling(self, input: DafnyDescribeTableReplicaAutoScalingInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingInput(input)
         try:
             wrapped_response = self._impl.describe_table_replica_auto_scaling(**unwrapped_request)
@@ -533,7 +533,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingOutput(wrapped_response))
 
-    def DescribeTimeToLive(self, input: DafnyDescribeTimeToLiveInput) -> DafnyDescribeTimeToLiveOutput:
+    def DescribeTimeToLive(self, input: DafnyDescribeTimeToLiveInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_DescribeTimeToLiveInput(input)
         try:
             wrapped_response = self._impl.describe_time_to_live(**unwrapped_request)
@@ -542,7 +542,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_DescribeTimeToLiveOutput(wrapped_response))
 
-    def DisableKinesisStreamingDestination(self, input: DafnyDisableKinesisStreamingDestinationInput) -> DafnyDisableKinesisStreamingDestinationOutput:
+    def DisableKinesisStreamingDestination(self, input: DafnyDisableKinesisStreamingDestinationInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput(input)
         try:
             wrapped_response = self._impl.disable_kinesis_streaming_destination(**unwrapped_request)
@@ -551,7 +551,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput(wrapped_response))
 
-    def EnableKinesisStreamingDestination(self, input: DafnyEnableKinesisStreamingDestinationInput) -> DafnyEnableKinesisStreamingDestinationOutput:
+    def EnableKinesisStreamingDestination(self, input: DafnyEnableKinesisStreamingDestinationInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_EnableKinesisStreamingDestinationInput(input)
         try:
             wrapped_response = self._impl.enable_kinesis_streaming_destination(**unwrapped_request)
@@ -560,7 +560,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput(wrapped_response))
 
-    def ExecuteStatement(self, input: DafnyExecuteStatementInput) -> DafnyExecuteStatementOutput:
+    def ExecuteStatement(self, input: DafnyExecuteStatementInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_ExecuteStatementInput(input)
         try:
             wrapped_response = self._impl.execute_statement(**unwrapped_request)
@@ -569,7 +569,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_ExecuteStatementOutput(wrapped_response))
 
-    def ExecuteTransaction(self, input: DafnyExecuteTransactionInput) -> DafnyExecuteTransactionOutput:
+    def ExecuteTransaction(self, input: DafnyExecuteTransactionInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_ExecuteTransactionInput(input)
         try:
             wrapped_response = self._impl.execute_transaction(**unwrapped_request)
@@ -578,7 +578,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_ExecuteTransactionOutput(wrapped_response))
 
-    def ExportTableToPointInTime(self, input: DafnyExportTableToPointInTimeInput) -> DafnyExportTableToPointInTimeOutput:
+    def ExportTableToPointInTime(self, input: DafnyExportTableToPointInTimeInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_ExportTableToPointInTimeInput(input)
         try:
             wrapped_response = self._impl.export_table_to_point_in_time(**unwrapped_request)
@@ -587,7 +587,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_ExportTableToPointInTimeOutput(wrapped_response))
 
-    def GetItem(self, input: DafnyGetItemInput) -> DafnyGetItemOutput:
+    def GetItem(self, input: DafnyGetItemInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_GetItemInput(input)
         try:
             wrapped_response = self._impl.get_item(**unwrapped_request)
@@ -596,7 +596,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_GetItemOutput(wrapped_response))
 
-    def ImportTable(self, input: DafnyImportTableInput) -> DafnyImportTableOutput:
+    def ImportTable(self, input: DafnyImportTableInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_ImportTableInput(input)
         try:
             wrapped_response = self._impl.import_table(**unwrapped_request)
@@ -605,7 +605,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_ImportTableOutput(wrapped_response))
 
-    def ListBackups(self, input: DafnyListBackupsInput) -> DafnyListBackupsOutput:
+    def ListBackups(self, input: DafnyListBackupsInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_ListBackupsInput(input)
         try:
             wrapped_response = self._impl.list_backups(**unwrapped_request)
@@ -614,7 +614,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_ListBackupsOutput(wrapped_response))
 
-    def ListContributorInsights(self, input: DafnyListContributorInsightsInput) -> DafnyListContributorInsightsOutput:
+    def ListContributorInsights(self, input: DafnyListContributorInsightsInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_ListContributorInsightsInput(input)
         try:
             wrapped_response = self._impl.list_contributor_insights(**unwrapped_request)
@@ -623,7 +623,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_ListContributorInsightsOutput(wrapped_response))
 
-    def ListExports(self, input: DafnyListExportsInput) -> DafnyListExportsOutput:
+    def ListExports(self, input: DafnyListExportsInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_ListExportsInput(input)
         try:
             wrapped_response = self._impl.list_exports(**unwrapped_request)
@@ -632,7 +632,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_ListExportsOutput(wrapped_response))
 
-    def ListGlobalTables(self, input: DafnyListGlobalTablesInput) -> DafnyListGlobalTablesOutput:
+    def ListGlobalTables(self, input: DafnyListGlobalTablesInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_ListGlobalTablesInput(input)
         try:
             wrapped_response = self._impl.list_global_tables(**unwrapped_request)
@@ -641,7 +641,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_ListGlobalTablesOutput(wrapped_response))
 
-    def ListImports(self, input: DafnyListImportsInput) -> DafnyListImportsOutput:
+    def ListImports(self, input: DafnyListImportsInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_ListImportsInput(input)
         try:
             wrapped_response = self._impl.list_imports(**unwrapped_request)
@@ -650,7 +650,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_ListImportsOutput(wrapped_response))
 
-    def ListTables(self, input: DafnyListTablesInput) -> DafnyListTablesOutput:
+    def ListTables(self, input: DafnyListTablesInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_ListTablesInput(input)
         try:
             wrapped_response = self._impl.list_tables(**unwrapped_request)
@@ -659,7 +659,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_ListTablesOutput(wrapped_response))
 
-    def ListTagsOfResource(self, input: DafnyListTagsOfResourceInput) -> DafnyListTagsOfResourceOutput:
+    def ListTagsOfResource(self, input: DafnyListTagsOfResourceInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_ListTagsOfResourceInput(input)
         try:
             wrapped_response = self._impl.list_tags_of_resource(**unwrapped_request)
@@ -668,7 +668,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_ListTagsOfResourceOutput(wrapped_response))
 
-    def PutItem(self, input: DafnyPutItemInput) -> DafnyPutItemOutput:
+    def PutItem(self, input: DafnyPutItemInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_PutItemInput(input)
         try:
             wrapped_response = self._impl.put_item(**unwrapped_request)
@@ -677,7 +677,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_PutItemOutput(wrapped_response))
 
-    def Query(self, input: DafnyQueryInput) -> DafnyQueryOutput:
+    def Query(self, input: DafnyQueryInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_QueryInput(input)
         try:
             wrapped_response = self._impl.query(**unwrapped_request)
@@ -686,7 +686,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_QueryOutput(wrapped_response))
 
-    def RestoreTableFromBackup(self, input: DafnyRestoreTableFromBackupInput) -> DafnyRestoreTableFromBackupOutput:
+    def RestoreTableFromBackup(self, input: DafnyRestoreTableFromBackupInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_RestoreTableFromBackupInput(input)
         try:
             wrapped_response = self._impl.restore_table_from_backup(**unwrapped_request)
@@ -695,7 +695,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_RestoreTableFromBackupOutput(wrapped_response))
 
-    def RestoreTableToPointInTime(self, input: DafnyRestoreTableToPointInTimeInput) -> DafnyRestoreTableToPointInTimeOutput:
+    def RestoreTableToPointInTime(self, input: DafnyRestoreTableToPointInTimeInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_RestoreTableToPointInTimeInput(input)
         try:
             wrapped_response = self._impl.restore_table_to_point_in_time(**unwrapped_request)
@@ -704,7 +704,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_RestoreTableToPointInTimeOutput(wrapped_response))
 
-    def Scan(self, input: DafnyScanInput) -> DafnyScanOutput:
+    def Scan(self, input: DafnyScanInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_ScanInput(input)
         try:
             wrapped_response = self._impl.scan(**unwrapped_request)
@@ -713,7 +713,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_ScanOutput(wrapped_response))
 
-    def TagResource(self, input: DafnyTagResourceInput) -> None:
+    def TagResource(self, input: DafnyTagResourceInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_TagResourceInput(input)
         try:
             wrapped_response = self._impl.tag_resource(**unwrapped_request)
@@ -722,7 +722,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(None)
 
-    def TransactGetItems(self, input: DafnyTransactGetItemsInput) -> DafnyTransactGetItemsOutput:
+    def TransactGetItems(self, input: DafnyTransactGetItemsInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_TransactGetItemsInput(input)
         try:
             wrapped_response = self._impl.transact_get_items(**unwrapped_request)
@@ -731,7 +731,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_TransactGetItemsOutput(wrapped_response))
 
-    def TransactWriteItems(self, input: DafnyTransactWriteItemsInput) -> DafnyTransactWriteItemsOutput:
+    def TransactWriteItems(self, input: DafnyTransactWriteItemsInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_TransactWriteItemsInput(input)
         try:
             wrapped_response = self._impl.transact_write_items(**unwrapped_request)
@@ -740,7 +740,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_TransactWriteItemsOutput(wrapped_response))
 
-    def UntagResource(self, input: DafnyUntagResourceInput) -> None:
+    def UntagResource(self, input: DafnyUntagResourceInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_UntagResourceInput(input)
         try:
             wrapped_response = self._impl.untag_resource(**unwrapped_request)
@@ -749,7 +749,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(None)
 
-    def UpdateContinuousBackups(self, input: DafnyUpdateContinuousBackupsInput) -> DafnyUpdateContinuousBackupsOutput:
+    def UpdateContinuousBackups(self, input: DafnyUpdateContinuousBackupsInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_UpdateContinuousBackupsInput(input)
         try:
             wrapped_response = self._impl.update_continuous_backups(**unwrapped_request)
@@ -758,7 +758,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_UpdateContinuousBackupsOutput(wrapped_response))
 
-    def UpdateContributorInsights(self, input: DafnyUpdateContributorInsightsInput) -> DafnyUpdateContributorInsightsOutput:
+    def UpdateContributorInsights(self, input: DafnyUpdateContributorInsightsInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_UpdateContributorInsightsInput(input)
         try:
             wrapped_response = self._impl.update_contributor_insights(**unwrapped_request)
@@ -767,7 +767,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_UpdateContributorInsightsOutput(wrapped_response))
 
-    def UpdateGlobalTable(self, input: DafnyUpdateGlobalTableInput) -> DafnyUpdateGlobalTableOutput:
+    def UpdateGlobalTable(self, input: DafnyUpdateGlobalTableInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_UpdateGlobalTableInput(input)
         try:
             wrapped_response = self._impl.update_global_table(**unwrapped_request)
@@ -776,7 +776,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_UpdateGlobalTableOutput(wrapped_response))
 
-    def UpdateGlobalTableSettings(self, input: DafnyUpdateGlobalTableSettingsInput) -> DafnyUpdateGlobalTableSettingsOutput:
+    def UpdateGlobalTableSettings(self, input: DafnyUpdateGlobalTableSettingsInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_UpdateGlobalTableSettingsInput(input)
         try:
             wrapped_response = self._impl.update_global_table_settings(**unwrapped_request)
@@ -785,7 +785,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_UpdateGlobalTableSettingsOutput(wrapped_response))
 
-    def UpdateItem(self, input: DafnyUpdateItemInput) -> DafnyUpdateItemOutput:
+    def UpdateItem(self, input: DafnyUpdateItemInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_UpdateItemInput(input)
         try:
             wrapped_response = self._impl.update_item(**unwrapped_request)
@@ -794,7 +794,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_UpdateItemOutput(wrapped_response))
 
-    def UpdateTable(self, input: DafnyUpdateTableInput) -> DafnyUpdateTableOutput:
+    def UpdateTable(self, input: DafnyUpdateTableInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_UpdateTableInput(input)
         try:
             wrapped_response = self._impl.update_table(**unwrapped_request)
@@ -803,7 +803,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_UpdateTableOutput(wrapped_response))
 
-    def UpdateTableReplicaAutoScaling(self, input: DafnyUpdateTableReplicaAutoScalingInput) -> DafnyUpdateTableReplicaAutoScalingOutput:
+    def UpdateTableReplicaAutoScaling(self, input: DafnyUpdateTableReplicaAutoScalingInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingInput(input)
         try:
             wrapped_response = self._impl.update_table_replica_auto_scaling(**unwrapped_request)
@@ -812,7 +812,7 @@ class DynamoDB_20120810Shim:
 
         return Wrappers.Result_Success(SmithyToDafny_com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingOutput(wrapped_response))
 
-    def UpdateTimeToLive(self, input: DafnyUpdateTimeToLiveInput) -> DafnyUpdateTimeToLiveOutput:
+    def UpdateTimeToLive(self, input: DafnyUpdateTimeToLiveInput):
         unwrapped_request = dafny_to_aws_sdk.DafnyToSmithy_com_amazonaws_dynamodb_UpdateTimeToLiveInput(input)
         try:
             wrapped_response = self._impl.update_time_to_live(**unwrapped_request)

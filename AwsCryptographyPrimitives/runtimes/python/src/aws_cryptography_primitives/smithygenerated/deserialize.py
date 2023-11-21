@@ -3,25 +3,12 @@
 import aws_cryptography_primitives.smithygenerated.dafny_to_smithy
 import module_
 from software_amazon_cryptography_primitives_internaldafny_types import (
-#     AESDecryptOutput_AESDecryptOutput as DafnyAESDecryptOutput,
-#     AESEncryptOutput_AESEncryptOutput as DafnyAESEncryptOutput,
-#     AesKdfCtrOutput_AesKdfCtrOutput as DafnyAesKdfCtrOutput,
-#     DigestOutput_DigestOutput as DafnyDigestOutput,
-#     ECDSASignOutput_ECDSASignOutput as DafnyECDSASignOutput,
-#     ECDSAVerifyOutput_ECDSAVerifyOutput as DafnyECDSAVerifyOutput,
+    AESEncryptOutput_AESEncryptOutput as DafnyAESEncryptOutput,
     Error,
     Error_AwsCryptographicPrimitivesError,
-#     GenerateECDSASignatureKeyOutput_GenerateECDSASignatureKeyOutput as DafnyGenerateECDSASignatureKeyOutput,
-#     GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput as DafnyGenerateRSAKeyPairOutput,
-#     GenerateRandomBytesOutput_GenerateRandomBytesOutput as DafnyGenerateRandomBytesOutput,
-#     GetRSAKeyModulusLengthOutput_GetRSAKeyModulusLengthOutput as DafnyGetRSAKeyModulusLengthOutput,
-#     HMacOutput_HMacOutput as DafnyHMacOutput,
-#     HkdfExpandOutput_HkdfExpandOutput as DafnyHkdfExpandOutput,
-#     HkdfExtractOutput_HkdfExtractOutput as DafnyHkdfExtractOutput,
-#     HkdfOutput_HkdfOutput as DafnyHkdfOutput,
-#     KdfCtrOutput_KdfCtrOutput as DafnyKdfCtrOutput,
-#     RSADecryptOutput_RSADecryptOutput as DafnyRSADecryptOutput,
-#     RSAEncryptOutput_RSAEncryptOutput as DafnyRSAEncryptOutput,
+    GenerateECDSASignatureKeyOutput_GenerateECDSASignatureKeyOutput as DafnyGenerateECDSASignatureKeyOutput,
+    GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput as DafnyGenerateRSAKeyPairOutput,
+    GetRSAKeyModulusLengthOutput_GetRSAKeyModulusLengthOutput as DafnyGetRSAKeyModulusLengthOutput,
 )
 from typing import Any
 
@@ -138,7 +125,7 @@ async def _deserialize_aes_kdf_counter_mode(input: DafnyResponse, config: Config
     return await _deserialize_error(input.error)
   return aws_cryptography_primitives.smithygenerated.dafny_to_smithy.DafnyToSmithy_aws_cryptography_primitives_AesKdfCtrOutput(input.value)
 
-async def _deserialize_error(error: Error) -> ServiceError:
+async def _deserialize_error(error: Error):
     if error.is_Opaque:
       return OpaqueError(obj=error.obj)
     elif error.is_CollectionOfErrors:

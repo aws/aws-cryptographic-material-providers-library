@@ -8,6 +8,9 @@ include ../SharedMakefileV2.mk
 PROJECT_SERVICES := \
 	AwsCryptographyPrimitives \
 
+OUTPUT_LOCAL_SERVICE_AwsCryptographyPrimitives := --local-service-test
+
+
 SERVICE_NAMESPACE_AwsCryptographyPrimitives=aws.cryptography.primitives
 MAX_RESOURCE_COUNT=10000000
 

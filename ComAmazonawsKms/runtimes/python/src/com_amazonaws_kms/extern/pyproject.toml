@@ -16,6 +16,11 @@ include = ["*.py"]
 [tool.poetry.dependencies]
 python = "^3.11.0"
 amazon-cryptography-internal-dafny-shim-kms-internaldafny = { path = "../internaldafny", develop = false}
+# TODO-Python: This fixes a race condition in internalDafny installs,
+# but is a symptom of 1) Dafny is generating code for both keystore and MPL inside MPL,
+# and 2) installing/writing files to a global install.
+# Resolving this dependency statement involves resolving those issues.
+mpl-internaldafny = { path = "../../../../../../AwsCryptographicMaterialProviders/runtimes/python/src/aws_cryptography_materialproviders/internaldafny", develop = false}
 
 [build-system]
 requires = ["poetry-core"]

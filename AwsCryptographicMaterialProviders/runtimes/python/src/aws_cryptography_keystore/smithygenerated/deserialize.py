@@ -1033,7 +1033,7 @@ async def _deserialize_decrypt(input: DafnyResponse, config: Config):
     return await _deserialize_error(input.error)
   return com_amazonaws_kms.smithygenerated.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_DecryptResponse(input.value)
 
-async def _deserialize_error(error: Error) -> ServiceError:
+async def _deserialize_error(error: Error):
     if error.is_Opaque:
       return OpaqueError(obj=error.obj)
     elif error.is_CollectionOfErrors:

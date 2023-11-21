@@ -841,7 +841,7 @@ ConsumedCapacity=Option_Some(SmithyToDafny_com_amazonaws_dynamodb_ConsumedCapaci
 )
 
 def SmithyToDafny_smithy_api_Unit(input):
-  return None()
+  return None
 
 def SmithyToDafny_com_amazonaws_dynamodb_TransactGetItemsOutput(input):
   return DafnyTransactGetItemsOutput(ConsumedCapacity=Option_Some(Seq([SmithyToDafny_com_amazonaws_dynamodb_ConsumedCapacity(list_element) for list_element in input["ConsumedCapacity"]])) if "ConsumedCapacity" in input.keys() else Option_None(),

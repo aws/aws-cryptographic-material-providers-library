@@ -242,7 +242,7 @@ class KMSClientShim:
         self._impl = _impl
         self._region = _region
 
-    def CancelKeyDeletion(self, input: DafnyCancelKeyDeletionRequest) -> DafnyCancelKeyDeletionResponse:
+    def CancelKeyDeletion(self, input: DafnyCancelKeyDeletionRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_CancelKeyDeletionRequest(input)
         try:
             wrapped_response = self._impl.cancel_key_deletion(**unwrapped_request)
@@ -251,7 +251,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_CancelKeyDeletionResponse(wrapped_response))
 
-    def ConnectCustomKeyStore(self, input: DafnyConnectCustomKeyStoreRequest) -> DafnyConnectCustomKeyStoreResponse:
+    def ConnectCustomKeyStore(self, input: DafnyConnectCustomKeyStoreRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_ConnectCustomKeyStoreRequest(input)
         try:
             wrapped_response = self._impl.connect_custom_key_store(**unwrapped_request)
@@ -260,7 +260,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_ConnectCustomKeyStoreResponse(wrapped_response))
 
-    def CreateAlias(self, input: DafnyCreateAliasRequest) -> None:
+    def CreateAlias(self, input: DafnyCreateAliasRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_CreateAliasRequest(input)
         try:
             wrapped_response = self._impl.create_alias(**unwrapped_request)
@@ -269,7 +269,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(None)
 
-    def CreateCustomKeyStore(self, input: DafnyCreateCustomKeyStoreRequest) -> DafnyCreateCustomKeyStoreResponse:
+    def CreateCustomKeyStore(self, input: DafnyCreateCustomKeyStoreRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_CreateCustomKeyStoreRequest(input)
         try:
             wrapped_response = self._impl.create_custom_key_store(**unwrapped_request)
@@ -278,7 +278,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_CreateCustomKeyStoreResponse(wrapped_response))
 
-    def CreateGrant(self, input: DafnyCreateGrantRequest) -> DafnyCreateGrantResponse:
+    def CreateGrant(self, input: DafnyCreateGrantRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_CreateGrantRequest(input)
         try:
             wrapped_response = self._impl.create_grant(**unwrapped_request)
@@ -287,7 +287,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_CreateGrantResponse(wrapped_response))
 
-    def CreateKey(self, input: DafnyCreateKeyRequest) -> DafnyCreateKeyResponse:
+    def CreateKey(self, input: DafnyCreateKeyRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_CreateKeyRequest(input)
         try:
             wrapped_response = self._impl.create_key(**unwrapped_request)
@@ -296,7 +296,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_CreateKeyResponse(wrapped_response))
 
-    def Decrypt(self, input: DafnyDecryptRequest) -> DafnyDecryptResponse:
+    def Decrypt(self, input: DafnyDecryptRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_DecryptRequest(input)
         try:
             wrapped_response = self._impl.decrypt(**unwrapped_request)
@@ -305,7 +305,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_DecryptResponse(wrapped_response))
 
-    def DeleteAlias(self, input: DafnyDeleteAliasRequest) -> None:
+    def DeleteAlias(self, input: DafnyDeleteAliasRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_DeleteAliasRequest(input)
         try:
             wrapped_response = self._impl.delete_alias(**unwrapped_request)
@@ -314,7 +314,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(None)
 
-    def DeleteCustomKeyStore(self, input: DafnyDeleteCustomKeyStoreRequest) -> DafnyDeleteCustomKeyStoreResponse:
+    def DeleteCustomKeyStore(self, input: DafnyDeleteCustomKeyStoreRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_DeleteCustomKeyStoreRequest(input)
         try:
             wrapped_response = self._impl.delete_custom_key_store(**unwrapped_request)
@@ -323,7 +323,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_DeleteCustomKeyStoreResponse(wrapped_response))
 
-    def DeleteImportedKeyMaterial(self, input: DafnyDeleteImportedKeyMaterialRequest) -> None:
+    def DeleteImportedKeyMaterial(self, input: DafnyDeleteImportedKeyMaterialRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_DeleteImportedKeyMaterialRequest(input)
         try:
             wrapped_response = self._impl.delete_imported_key_material(**unwrapped_request)
@@ -332,7 +332,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(None)
 
-    def DescribeCustomKeyStores(self, input: DafnyDescribeCustomKeyStoresRequest) -> DafnyDescribeCustomKeyStoresResponse:
+    def DescribeCustomKeyStores(self, input: DafnyDescribeCustomKeyStoresRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_DescribeCustomKeyStoresRequest(input)
         try:
             wrapped_response = self._impl.describe_custom_key_stores(**unwrapped_request)
@@ -341,7 +341,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_DescribeCustomKeyStoresResponse(wrapped_response))
 
-    def DescribeKey(self, input: DafnyDescribeKeyRequest) -> DafnyDescribeKeyResponse:
+    def DescribeKey(self, input: DafnyDescribeKeyRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_DescribeKeyRequest(input)
         try:
             wrapped_response = self._impl.describe_key(**unwrapped_request)
@@ -350,7 +350,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_DescribeKeyResponse(wrapped_response))
 
-    def DisableKey(self, input: DafnyDisableKeyRequest) -> None:
+    def DisableKey(self, input: DafnyDisableKeyRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_DisableKeyRequest(input)
         try:
             wrapped_response = self._impl.disable_key(**unwrapped_request)
@@ -359,7 +359,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(None)
 
-    def DisableKeyRotation(self, input: DafnyDisableKeyRotationRequest) -> None:
+    def DisableKeyRotation(self, input: DafnyDisableKeyRotationRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_DisableKeyRotationRequest(input)
         try:
             wrapped_response = self._impl.disable_key_rotation(**unwrapped_request)
@@ -368,7 +368,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(None)
 
-    def DisconnectCustomKeyStore(self, input: DafnyDisconnectCustomKeyStoreRequest) -> DafnyDisconnectCustomKeyStoreResponse:
+    def DisconnectCustomKeyStore(self, input: DafnyDisconnectCustomKeyStoreRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_DisconnectCustomKeyStoreRequest(input)
         try:
             wrapped_response = self._impl.disconnect_custom_key_store(**unwrapped_request)
@@ -377,7 +377,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_DisconnectCustomKeyStoreResponse(wrapped_response))
 
-    def EnableKey(self, input: DafnyEnableKeyRequest) -> None:
+    def EnableKey(self, input: DafnyEnableKeyRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_EnableKeyRequest(input)
         try:
             wrapped_response = self._impl.enable_key(**unwrapped_request)
@@ -386,7 +386,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(None)
 
-    def EnableKeyRotation(self, input: DafnyEnableKeyRotationRequest) -> None:
+    def EnableKeyRotation(self, input: DafnyEnableKeyRotationRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_EnableKeyRotationRequest(input)
         try:
             wrapped_response = self._impl.enable_key_rotation(**unwrapped_request)
@@ -395,7 +395,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(None)
 
-    def Encrypt(self, input: DafnyEncryptRequest) -> DafnyEncryptResponse:
+    def Encrypt(self, input: DafnyEncryptRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_EncryptRequest(input)
         try:
             wrapped_response = self._impl.encrypt(**unwrapped_request)
@@ -404,7 +404,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_EncryptResponse(wrapped_response))
 
-    def GenerateDataKey(self, input: DafnyGenerateDataKeyRequest) -> DafnyGenerateDataKeyResponse:
+    def GenerateDataKey(self, input: DafnyGenerateDataKeyRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_GenerateDataKeyRequest(input)
         try:
             wrapped_response = self._impl.generate_data_key(**unwrapped_request)
@@ -413,7 +413,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_GenerateDataKeyResponse(wrapped_response))
 
-    def GenerateDataKeyPair(self, input: DafnyGenerateDataKeyPairRequest) -> DafnyGenerateDataKeyPairResponse:
+    def GenerateDataKeyPair(self, input: DafnyGenerateDataKeyPairRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_GenerateDataKeyPairRequest(input)
         try:
             wrapped_response = self._impl.generate_data_key_pair(**unwrapped_request)
@@ -422,7 +422,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_GenerateDataKeyPairResponse(wrapped_response))
 
-    def GenerateDataKeyPairWithoutPlaintext(self, input: DafnyGenerateDataKeyPairWithoutPlaintextRequest) -> DafnyGenerateDataKeyPairWithoutPlaintextResponse:
+    def GenerateDataKeyPairWithoutPlaintext(self, input: DafnyGenerateDataKeyPairWithoutPlaintextRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextRequest(input)
         try:
             wrapped_response = self._impl.generate_data_key_pair_without_plaintext(**unwrapped_request)
@@ -431,7 +431,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextResponse(wrapped_response))
 
-    def GenerateDataKeyWithoutPlaintext(self, input: DafnyGenerateDataKeyWithoutPlaintextRequest) -> DafnyGenerateDataKeyWithoutPlaintextResponse:
+    def GenerateDataKeyWithoutPlaintext(self, input: DafnyGenerateDataKeyWithoutPlaintextRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest(input)
         try:
             wrapped_response = self._impl.generate_data_key_without_plaintext(**unwrapped_request)
@@ -440,7 +440,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_GenerateDataKeyWithoutPlaintextResponse(wrapped_response))
 
-    def GenerateRandom(self, input: DafnyGenerateRandomRequest) -> DafnyGenerateRandomResponse:
+    def GenerateRandom(self, input: DafnyGenerateRandomRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_GenerateRandomRequest(input)
         try:
             wrapped_response = self._impl.generate_random(**unwrapped_request)
@@ -449,7 +449,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_GenerateRandomResponse(wrapped_response))
 
-    def GetKeyPolicy(self, input: DafnyGetKeyPolicyRequest) -> DafnyGetKeyPolicyResponse:
+    def GetKeyPolicy(self, input: DafnyGetKeyPolicyRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_GetKeyPolicyRequest(input)
         try:
             wrapped_response = self._impl.get_key_policy(**unwrapped_request)
@@ -458,7 +458,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_GetKeyPolicyResponse(wrapped_response))
 
-    def GetKeyRotationStatus(self, input: DafnyGetKeyRotationStatusRequest) -> DafnyGetKeyRotationStatusResponse:
+    def GetKeyRotationStatus(self, input: DafnyGetKeyRotationStatusRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_GetKeyRotationStatusRequest(input)
         try:
             wrapped_response = self._impl.get_key_rotation_status(**unwrapped_request)
@@ -467,7 +467,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_GetKeyRotationStatusResponse(wrapped_response))
 
-    def GetParametersForImport(self, input: DafnyGetParametersForImportRequest) -> DafnyGetParametersForImportResponse:
+    def GetParametersForImport(self, input: DafnyGetParametersForImportRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_GetParametersForImportRequest(input)
         try:
             wrapped_response = self._impl.get_parameters_for_import(**unwrapped_request)
@@ -476,7 +476,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_GetParametersForImportResponse(wrapped_response))
 
-    def GetPublicKey(self, input: DafnyGetPublicKeyRequest) -> DafnyGetPublicKeyResponse:
+    def GetPublicKey(self, input: DafnyGetPublicKeyRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_GetPublicKeyRequest(input)
         try:
             wrapped_response = self._impl.get_public_key(**unwrapped_request)
@@ -485,7 +485,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_GetPublicKeyResponse(wrapped_response))
 
-    def ImportKeyMaterial(self, input: DafnyImportKeyMaterialRequest) -> DafnyImportKeyMaterialResponse:
+    def ImportKeyMaterial(self, input: DafnyImportKeyMaterialRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_ImportKeyMaterialRequest(input)
         try:
             wrapped_response = self._impl.import_key_material(**unwrapped_request)
@@ -494,7 +494,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_ImportKeyMaterialResponse(wrapped_response))
 
-    def ListAliases(self, input: DafnyListAliasesRequest) -> DafnyListAliasesResponse:
+    def ListAliases(self, input: DafnyListAliasesRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_ListAliasesRequest(input)
         try:
             wrapped_response = self._impl.list_aliases(**unwrapped_request)
@@ -503,7 +503,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_ListAliasesResponse(wrapped_response))
 
-    def ListGrants(self, input: DafnyListGrantsRequest) -> DafnyListGrantsResponse:
+    def ListGrants(self, input: DafnyListGrantsRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_ListGrantsRequest(input)
         try:
             wrapped_response = self._impl.list_grants(**unwrapped_request)
@@ -512,7 +512,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_ListGrantsResponse(wrapped_response))
 
-    def ListKeyPolicies(self, input: DafnyListKeyPoliciesRequest) -> DafnyListKeyPoliciesResponse:
+    def ListKeyPolicies(self, input: DafnyListKeyPoliciesRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_ListKeyPoliciesRequest(input)
         try:
             wrapped_response = self._impl.list_key_policies(**unwrapped_request)
@@ -521,7 +521,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_ListKeyPoliciesResponse(wrapped_response))
 
-    def ListResourceTags(self, input: DafnyListResourceTagsRequest) -> DafnyListResourceTagsResponse:
+    def ListResourceTags(self, input: DafnyListResourceTagsRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_ListResourceTagsRequest(input)
         try:
             wrapped_response = self._impl.list_resource_tags(**unwrapped_request)
@@ -530,7 +530,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_ListResourceTagsResponse(wrapped_response))
 
-    def PutKeyPolicy(self, input: DafnyPutKeyPolicyRequest) -> None:
+    def PutKeyPolicy(self, input: DafnyPutKeyPolicyRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_PutKeyPolicyRequest(input)
         try:
             wrapped_response = self._impl.put_key_policy(**unwrapped_request)
@@ -539,7 +539,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(None)
 
-    def ReEncrypt(self, input: DafnyReEncryptRequest) -> DafnyReEncryptResponse:
+    def ReEncrypt(self, input: DafnyReEncryptRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_ReEncryptRequest(input)
         try:
             wrapped_response = self._impl.re_encrypt(**unwrapped_request)
@@ -548,7 +548,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_ReEncryptResponse(wrapped_response))
 
-    def ReplicateKey(self, input: DafnyReplicateKeyRequest) -> DafnyReplicateKeyResponse:
+    def ReplicateKey(self, input: DafnyReplicateKeyRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_ReplicateKeyRequest(input)
         try:
             wrapped_response = self._impl.replicate_key(**unwrapped_request)
@@ -557,7 +557,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_ReplicateKeyResponse(wrapped_response))
 
-    def RetireGrant(self, input: DafnyRetireGrantRequest) -> None:
+    def RetireGrant(self, input: DafnyRetireGrantRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_RetireGrantRequest(input)
         try:
             wrapped_response = self._impl.retire_grant(**unwrapped_request)
@@ -566,7 +566,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(None)
 
-    def RevokeGrant(self, input: DafnyRevokeGrantRequest) -> None:
+    def RevokeGrant(self, input: DafnyRevokeGrantRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_RevokeGrantRequest(input)
         try:
             wrapped_response = self._impl.revoke_grant(**unwrapped_request)
@@ -575,7 +575,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(None)
 
-    def ScheduleKeyDeletion(self, input: DafnyScheduleKeyDeletionRequest) -> DafnyScheduleKeyDeletionResponse:
+    def ScheduleKeyDeletion(self, input: DafnyScheduleKeyDeletionRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_ScheduleKeyDeletionRequest(input)
         try:
             wrapped_response = self._impl.schedule_key_deletion(**unwrapped_request)
@@ -584,7 +584,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_ScheduleKeyDeletionResponse(wrapped_response))
 
-    def Sign(self, input: DafnySignRequest) -> DafnySignResponse:
+    def Sign(self, input: DafnySignRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_SignRequest(input)
         try:
             wrapped_response = self._impl.sign(**unwrapped_request)
@@ -593,7 +593,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_SignResponse(wrapped_response))
 
-    def TagResource(self, input: DafnyTagResourceRequest) -> None:
+    def TagResource(self, input: DafnyTagResourceRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_TagResourceRequest(input)
         try:
             wrapped_response = self._impl.tag_resource(**unwrapped_request)
@@ -602,7 +602,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(None)
 
-    def UntagResource(self, input: DafnyUntagResourceRequest) -> None:
+    def UntagResource(self, input: DafnyUntagResourceRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_UntagResourceRequest(input)
         try:
             wrapped_response = self._impl.untag_resource(**unwrapped_request)
@@ -611,7 +611,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(None)
 
-    def UpdateAlias(self, input: DafnyUpdateAliasRequest) -> None:
+    def UpdateAlias(self, input: DafnyUpdateAliasRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_UpdateAliasRequest(input)
         try:
             wrapped_response = self._impl.update_alias(**unwrapped_request)
@@ -620,7 +620,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(None)
 
-    def UpdateCustomKeyStore(self, input: DafnyUpdateCustomKeyStoreRequest) -> DafnyUpdateCustomKeyStoreResponse:
+    def UpdateCustomKeyStore(self, input: DafnyUpdateCustomKeyStoreRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_UpdateCustomKeyStoreRequest(input)
         try:
             wrapped_response = self._impl.update_custom_key_store(**unwrapped_request)
@@ -629,7 +629,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_UpdateCustomKeyStoreResponse(wrapped_response))
 
-    def UpdateKeyDescription(self, input: DafnyUpdateKeyDescriptionRequest) -> None:
+    def UpdateKeyDescription(self, input: DafnyUpdateKeyDescriptionRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_UpdateKeyDescriptionRequest(input)
         try:
             wrapped_response = self._impl.update_key_description(**unwrapped_request)
@@ -638,7 +638,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(None)
 
-    def UpdatePrimaryRegion(self, input: DafnyUpdatePrimaryRegionRequest) -> None:
+    def UpdatePrimaryRegion(self, input: DafnyUpdatePrimaryRegionRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_UpdatePrimaryRegionRequest(input)
         try:
             wrapped_response = self._impl.update_primary_region(**unwrapped_request)
@@ -647,7 +647,7 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(None)
 
-    def Verify(self, input: DafnyVerifyRequest) -> DafnyVerifyResponse:
+    def Verify(self, input: DafnyVerifyRequest):
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_VerifyRequest(input)
         try:
             wrapped_response = self._impl.verify(**unwrapped_request)

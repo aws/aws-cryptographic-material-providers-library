@@ -36,7 +36,7 @@ class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
         """
         super().__init__(message)
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the KeyStoreException to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -48,7 +48,7 @@ class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KeyStoreException":
+    def from_dict(d: Dict[str, Any]):
         """Creates a KeyStoreException from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -60,7 +60,7 @@ class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
 
         return KeyStoreException(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "KeyStoreException("
         result += f'message={self.message},'
         if self.message is not None:
@@ -68,7 +68,7 @@ class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, KeyStoreException):
             return False
         attributes: list[str] = ['message','message',]
@@ -101,7 +101,7 @@ class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
         super().__init__(message)
         self.list = list
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CollectionOfErrors to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -114,7 +114,7 @@ class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CollectionOfErrors":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CollectionOfErrors from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -127,7 +127,7 @@ class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
 
         return CollectionOfErrors(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CollectionOfErrors("
         result += f'message={self.message},'
         if self.message is not None:
@@ -136,7 +136,7 @@ class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
         result += ")"
         return result
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CollectionOfErrors):
             return False
         if not (self.list == other.list):
@@ -159,7 +159,7 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
         super().__init__("")
         self.obj = obj
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the OpaqueError to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -172,7 +172,7 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "OpaqueError":
+    def from_dict(d: Dict[str, Any]):
         """Creates a OpaqueError from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -185,7 +185,7 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
 
         return OpaqueError(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "OpaqueError("
         result += f'message={self.message},'
         if self.message is not None:
@@ -194,7 +194,7 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
         result += ")"
         return result
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, OpaqueError):
             return False
         if not (self.obj == other.obj):

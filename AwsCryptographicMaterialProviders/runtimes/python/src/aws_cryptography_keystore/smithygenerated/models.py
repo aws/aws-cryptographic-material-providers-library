@@ -21,7 +21,7 @@ class BeaconKeyMaterials:
         self.beacon_key = beacon_key
         self.hmac_keys = hmac_keys
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the BeaconKeyMaterials to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -41,7 +41,7 @@ class BeaconKeyMaterials:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "BeaconKeyMaterials":
+    def from_dict(d: Dict[str, Any]):
         """Creates a BeaconKeyMaterials from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -60,7 +60,7 @@ class BeaconKeyMaterials:
 
         return BeaconKeyMaterials(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "BeaconKeyMaterials("
         if self.beacon_key_identifier is not None:
             result += f"beacon_key_identifier={repr(self.beacon_key_identifier)}, "
@@ -76,7 +76,7 @@ class BeaconKeyMaterials:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, BeaconKeyMaterials):
             return False
         attributes: list[str] = ['beacon_key_identifier','encryption_context','beacon_key','hmac_keys',]
@@ -103,7 +103,7 @@ class BranchKeyMaterials:
         self.encryption_context = encryption_context
         self.branch_key = branch_key
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the BranchKeyMaterials to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -117,7 +117,7 @@ class BranchKeyMaterials:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "BranchKeyMaterials":
+    def from_dict(d: Dict[str, Any]):
         """Creates a BranchKeyMaterials from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -132,7 +132,7 @@ class BranchKeyMaterials:
 
         return BranchKeyMaterials(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "BranchKeyMaterials("
         if self.branch_key_identifier is not None:
             result += f"branch_key_identifier={repr(self.branch_key_identifier)}, "
@@ -148,7 +148,7 @@ class BranchKeyMaterials:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, BranchKeyMaterials):
             return False
         attributes: list[str] = ['branch_key_identifier','branch_key_version','encryption_context','branch_key',]
@@ -169,7 +169,7 @@ class CreateKeyInput:
         self.branch_key_identifier = branch_key_identifier
         self.encryption_context = encryption_context
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateKeyInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -186,7 +186,7 @@ class CreateKeyInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateKeyInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateKeyInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -202,7 +202,7 @@ class CreateKeyInput:
 
         return CreateKeyInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateKeyInput("
         if self.branch_key_identifier is not None:
             result += f"branch_key_identifier={repr(self.branch_key_identifier)}, "
@@ -212,7 +212,7 @@ class CreateKeyInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateKeyInput):
             return False
         attributes: list[str] = ['branch_key_identifier','encryption_context',]
@@ -230,7 +230,7 @@ class CreateKeyOutput:
     ):
         self.branch_key_identifier = branch_key_identifier
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateKeyOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -241,7 +241,7 @@ class CreateKeyOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateKeyOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateKeyOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -253,14 +253,14 @@ class CreateKeyOutput:
 
         return CreateKeyOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateKeyOutput("
         if self.branch_key_identifier is not None:
             result += f"branch_key_identifier={repr(self.branch_key_identifier)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateKeyOutput):
             return False
         attributes: list[str] = ['branch_key_identifier',]
@@ -270,7 +270,7 @@ class CreateKeyOutput:
         )
 
 class CreateKeyStoreInput:
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateKeyStoreInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -279,7 +279,7 @@ class CreateKeyStoreInput:
         return {}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateKeyStoreInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateKeyStoreInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -287,12 +287,12 @@ class CreateKeyStoreInput:
         """
         return CreateKeyStoreInput()
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateKeyStoreInput("
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         return isinstance(other, CreateKeyStoreInput)
 
 class CreateKeyStoreOutput:
@@ -304,7 +304,7 @@ class CreateKeyStoreOutput:
     ):
         self.table_arn = table_arn
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateKeyStoreOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -315,7 +315,7 @@ class CreateKeyStoreOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateKeyStoreOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateKeyStoreOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -327,14 +327,14 @@ class CreateKeyStoreOutput:
 
         return CreateKeyStoreOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateKeyStoreOutput("
         if self.table_arn is not None:
             result += f"table_arn={repr(self.table_arn)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateKeyStoreOutput):
             return False
         attributes: list[str] = ['table_arn',]
@@ -352,7 +352,7 @@ class GetActiveBranchKeyInput:
     ):
         self.branch_key_identifier = branch_key_identifier
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GetActiveBranchKeyInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -363,7 +363,7 @@ class GetActiveBranchKeyInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GetActiveBranchKeyInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GetActiveBranchKeyInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -375,14 +375,14 @@ class GetActiveBranchKeyInput:
 
         return GetActiveBranchKeyInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GetActiveBranchKeyInput("
         if self.branch_key_identifier is not None:
             result += f"branch_key_identifier={repr(self.branch_key_identifier)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GetActiveBranchKeyInput):
             return False
         attributes: list[str] = ['branch_key_identifier',]
@@ -400,7 +400,7 @@ class GetActiveBranchKeyOutput:
     ):
         self.branch_key_materials = branch_key_materials
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GetActiveBranchKeyOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -411,7 +411,7 @@ class GetActiveBranchKeyOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GetActiveBranchKeyOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GetActiveBranchKeyOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -423,14 +423,14 @@ class GetActiveBranchKeyOutput:
 
         return GetActiveBranchKeyOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GetActiveBranchKeyOutput("
         if self.branch_key_materials is not None:
             result += f"branch_key_materials={repr(self.branch_key_materials)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GetActiveBranchKeyOutput):
             return False
         attributes: list[str] = ['branch_key_materials',]
@@ -448,7 +448,7 @@ class GetBeaconKeyInput:
     ):
         self.branch_key_identifier = branch_key_identifier
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GetBeaconKeyInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -459,7 +459,7 @@ class GetBeaconKeyInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GetBeaconKeyInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GetBeaconKeyInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -471,14 +471,14 @@ class GetBeaconKeyInput:
 
         return GetBeaconKeyInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GetBeaconKeyInput("
         if self.branch_key_identifier is not None:
             result += f"branch_key_identifier={repr(self.branch_key_identifier)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GetBeaconKeyInput):
             return False
         attributes: list[str] = ['branch_key_identifier',]
@@ -496,7 +496,7 @@ class GetBeaconKeyOutput:
     ):
         self.beacon_key_materials = beacon_key_materials
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GetBeaconKeyOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -507,7 +507,7 @@ class GetBeaconKeyOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GetBeaconKeyOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GetBeaconKeyOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -519,14 +519,14 @@ class GetBeaconKeyOutput:
 
         return GetBeaconKeyOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GetBeaconKeyOutput("
         if self.beacon_key_materials is not None:
             result += f"beacon_key_materials={repr(self.beacon_key_materials)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GetBeaconKeyOutput):
             return False
         attributes: list[str] = ['beacon_key_materials',]
@@ -547,7 +547,7 @@ class GetBranchKeyVersionInput:
         self.branch_key_identifier = branch_key_identifier
         self.branch_key_version = branch_key_version
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GetBranchKeyVersionInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -559,7 +559,7 @@ class GetBranchKeyVersionInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GetBranchKeyVersionInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GetBranchKeyVersionInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -572,7 +572,7 @@ class GetBranchKeyVersionInput:
 
         return GetBranchKeyVersionInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GetBranchKeyVersionInput("
         if self.branch_key_identifier is not None:
             result += f"branch_key_identifier={repr(self.branch_key_identifier)}, "
@@ -582,7 +582,7 @@ class GetBranchKeyVersionInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GetBranchKeyVersionInput):
             return False
         attributes: list[str] = ['branch_key_identifier','branch_key_version',]
@@ -600,7 +600,7 @@ class GetBranchKeyVersionOutput:
     ):
         self.branch_key_materials = branch_key_materials
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GetBranchKeyVersionOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -611,7 +611,7 @@ class GetBranchKeyVersionOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GetBranchKeyVersionOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GetBranchKeyVersionOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -623,14 +623,14 @@ class GetBranchKeyVersionOutput:
 
         return GetBranchKeyVersionOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GetBranchKeyVersionOutput("
         if self.branch_key_materials is not None:
             result += f"branch_key_materials={repr(self.branch_key_materials)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GetBranchKeyVersionOutput):
             return False
         attributes: list[str] = ['branch_key_materials',]
@@ -643,20 +643,20 @@ class KMSConfigurationKmsKeyArn():
     def __init__(self, value: str):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"kmsKeyArn": self.value}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KMSConfigurationKmsKeyArn":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return KMSConfigurationKmsKeyArn(d["kmsKeyArn"])
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"KMSConfigurationKmsKeyArn(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, KMSConfigurationKmsKeyArn):
             return False
         return self.value == other.value
@@ -673,20 +673,20 @@ class KMSConfigurationUnknown():
     def __init__(self, tag: str):
         self.tag = tag
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KMSConfigurationUnknown":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return KMSConfigurationUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"KMSConfigurationUnknown(tag={self.tag})"
 
 KMSConfiguration = Union[KMSConfigurationKmsKeyArn, KMSConfigurationUnknown]
-def _kms_configuration_from_dict(d: Dict[str, Any]) -> KMSConfiguration:
+def _kms_configuration_from_dict(d: Dict[str, Any]):
     if "kmsKeyArn" in d:
         return KMSConfigurationKmsKeyArn.from_dict(d)
 
@@ -713,7 +713,7 @@ class GetKeyStoreInfoOutput:
         self.grant_tokens = grant_tokens
         self.kms_configuration = kms_configuration
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GetKeyStoreInfoOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -728,7 +728,7 @@ class GetKeyStoreInfoOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GetKeyStoreInfoOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GetKeyStoreInfoOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -744,7 +744,7 @@ class GetKeyStoreInfoOutput:
 
         return GetKeyStoreInfoOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GetKeyStoreInfoOutput("
         if self.key_store_id is not None:
             result += f"key_store_id={repr(self.key_store_id)}, "
@@ -763,7 +763,7 @@ class GetKeyStoreInfoOutput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GetKeyStoreInfoOutput):
             return False
         attributes: list[str] = ['key_store_id','key_store_name','logical_key_store_name','grant_tokens','kms_configuration',]
@@ -781,7 +781,7 @@ class VersionKeyInput:
     ):
         self.branch_key_identifier = branch_key_identifier
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the VersionKeyInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -792,7 +792,7 @@ class VersionKeyInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "VersionKeyInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a VersionKeyInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -804,14 +804,14 @@ class VersionKeyInput:
 
         return VersionKeyInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "VersionKeyInput("
         if self.branch_key_identifier is not None:
             result += f"branch_key_identifier={repr(self.branch_key_identifier)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, VersionKeyInput):
             return False
         attributes: list[str] = ['branch_key_identifier',]
@@ -821,7 +821,7 @@ class VersionKeyInput:
         )
 
 class VersionKeyOutput:
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the VersionKeyOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -830,7 +830,7 @@ class VersionKeyOutput:
         return {}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "VersionKeyOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a VersionKeyOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -838,12 +838,12 @@ class VersionKeyOutput:
         """
         return VersionKeyOutput()
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "VersionKeyOutput("
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         return isinstance(other, VersionKeyOutput)
 
 class Unit:

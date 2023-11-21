@@ -15,6 +15,8 @@ SERVICE_NAMESPACE_AwsCryptographicMaterialProviders=aws.cryptography.materialPro
 SERVICE_NAMESPACE_AwsCryptographyKeyStore=aws.cryptography.keyStore
 SNAKECASE_DIR_AwsCryptographicMaterialProviders:=aws_cryptography_materialproviders
 SNAKECASE_DIR_AwsCryptographyKeyStore:=aws_cryptography_keystore
+OUTPUT_LOCAL_SERVICE_AwsCryptographicMaterialProviders := --local-service-test
+OUTPUT_LOCAL_SERVICE_AwsCryptographyKeyStore := --local-service-test
 
 MAX_RESOURCE_COUNT=90000000
 # Order is important

@@ -15,20 +15,20 @@ class AlgorithmSuiteIdESDK():
     def __init__(self, value: str):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"ESDK": self.value}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "AlgorithmSuiteIdESDK":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return AlgorithmSuiteIdESDK(d["ESDK"])
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"AlgorithmSuiteIdESDK(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, AlgorithmSuiteIdESDK):
             return False
         return self.value == other.value
@@ -37,20 +37,20 @@ class AlgorithmSuiteIdDBE():
     def __init__(self, value: str):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"DBE": self.value}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "AlgorithmSuiteIdDBE":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return AlgorithmSuiteIdDBE(d["DBE"])
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"AlgorithmSuiteIdDBE(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, AlgorithmSuiteIdDBE):
             return False
         return self.value == other.value
@@ -67,20 +67,20 @@ class AlgorithmSuiteIdUnknown():
     def __init__(self, tag: str):
         self.tag = tag
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "AlgorithmSuiteIdUnknown":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return AlgorithmSuiteIdUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"AlgorithmSuiteIdUnknown(tag={self.tag})"
 
 AlgorithmSuiteId = Union[AlgorithmSuiteIdESDK, AlgorithmSuiteIdDBE, AlgorithmSuiteIdUnknown]
-def _algorithm_suite_id_from_dict(d: Dict[str, Any]) -> AlgorithmSuiteId:
+def _algorithm_suite_id_from_dict(d: Dict[str, Any]):
     if "ESDK" in d:
         return AlgorithmSuiteIdESDK.from_dict(d)
 
@@ -107,7 +107,7 @@ class HKDF:
         self.input_key_length = input_key_length
         self.output_key_length = output_key_length
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the HKDF to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -129,7 +129,7 @@ class HKDF:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "HKDF":
+    def from_dict(d: Dict[str, Any]):
         """Creates a HKDF from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -150,7 +150,7 @@ class HKDF:
 
         return HKDF(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "HKDF("
         if self.hmac is not None:
             result += f"hmac={repr(self.hmac)}, "
@@ -166,7 +166,7 @@ class HKDF:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, HKDF):
             return False
         attributes: list[str] = ['hmac','salt_length','input_key_length','output_key_length',]
@@ -176,7 +176,7 @@ class HKDF:
         )
 
 class IDENTITY:
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the IDENTITY to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -185,7 +185,7 @@ class IDENTITY:
         return {}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "IDENTITY":
+    def from_dict(d: Dict[str, Any]):
         """Creates a IDENTITY from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -193,16 +193,16 @@ class IDENTITY:
         """
         return IDENTITY()
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "IDENTITY("
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         return isinstance(other, IDENTITY)
 
 class None_:
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the None_ to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -211,7 +211,7 @@ class None_:
         return {}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "None_":
+    def from_dict(d: Dict[str, Any]):
         """Creates a None_ from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -219,32 +219,32 @@ class None_:
         """
         return None_()
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "None_("
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         return isinstance(other, None_)
 
 class DerivationAlgorithmHKDF():
     def __init__(self, value: HKDF):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"HKDF": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DerivationAlgorithmHKDF":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return DerivationAlgorithmHKDF(HKDF.from_dict(d["HKDF"]))
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"DerivationAlgorithmHKDF(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, DerivationAlgorithmHKDF):
             return False
         return self.value == other.value
@@ -253,20 +253,20 @@ class DerivationAlgorithmIDENTITY():
     def __init__(self, value: IDENTITY):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"IDENTITY": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DerivationAlgorithmIDENTITY":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return DerivationAlgorithmIDENTITY(IDENTITY.from_dict(d["IDENTITY"]))
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"DerivationAlgorithmIDENTITY(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, DerivationAlgorithmIDENTITY):
             return False
         return self.value == other.value
@@ -275,20 +275,20 @@ class DerivationAlgorithmNone():
     def __init__(self, value: None_):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"None": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DerivationAlgorithmNone":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return DerivationAlgorithmNone(None_.from_dict(d["None"]))
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"DerivationAlgorithmNone(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, DerivationAlgorithmNone):
             return False
         return self.value == other.value
@@ -305,20 +305,20 @@ class DerivationAlgorithmUnknown():
     def __init__(self, tag: str):
         self.tag = tag
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DerivationAlgorithmUnknown":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return DerivationAlgorithmUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"DerivationAlgorithmUnknown(tag={self.tag})"
 
 DerivationAlgorithm = Union[DerivationAlgorithmHKDF, DerivationAlgorithmIDENTITY, DerivationAlgorithmNone, DerivationAlgorithmUnknown]
-def _derivation_algorithm_from_dict(d: Dict[str, Any]) -> DerivationAlgorithm:
+def _derivation_algorithm_from_dict(d: Dict[str, Any]):
     if "HKDF" in d:
         return DerivationAlgorithmHKDF.from_dict(d)
 
@@ -331,7 +331,7 @@ def _derivation_algorithm_from_dict(d: Dict[str, Any]) -> DerivationAlgorithm:
     raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
 
 class DIRECT_KEY_WRAPPING:
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the DIRECT_KEY_WRAPPING to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -340,7 +340,7 @@ class DIRECT_KEY_WRAPPING:
         return {}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DIRECT_KEY_WRAPPING":
+    def from_dict(d: Dict[str, Any]):
         """Creates a DIRECT_KEY_WRAPPING from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -348,32 +348,32 @@ class DIRECT_KEY_WRAPPING:
         """
         return DIRECT_KEY_WRAPPING()
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "DIRECT_KEY_WRAPPING("
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         return isinstance(other, DIRECT_KEY_WRAPPING)
 
 class EncryptAES_GCM():
     def __init__(self, value: AES_GCM):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"AES_GCM": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "EncryptAES_GCM":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return EncryptAES_GCM(AES_GCM.from_dict(d["AES_GCM"]))
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"EncryptAES_GCM(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, EncryptAES_GCM):
             return False
         return self.value == other.value
@@ -390,20 +390,20 @@ class EncryptUnknown():
     def __init__(self, tag: str):
         self.tag = tag
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "EncryptUnknown":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return EncryptUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"EncryptUnknown(tag={self.tag})"
 
 Encrypt = Union[EncryptAES_GCM, EncryptUnknown]
-def _encrypt_from_dict(d: Dict[str, Any]) -> Encrypt:
+def _encrypt_from_dict(d: Dict[str, Any]):
     if "AES_GCM" in d:
         return EncryptAES_GCM.from_dict(d)
 
@@ -424,7 +424,7 @@ class IntermediateKeyWrapping:
         self.mac_key_kdf = mac_key_kdf
         self.pdk_encrypt_algorithm = pdk_encrypt_algorithm
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the IntermediateKeyWrapping to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -437,7 +437,7 @@ class IntermediateKeyWrapping:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "IntermediateKeyWrapping":
+    def from_dict(d: Dict[str, Any]):
         """Creates a IntermediateKeyWrapping from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -451,7 +451,7 @@ class IntermediateKeyWrapping:
 
         return IntermediateKeyWrapping(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "IntermediateKeyWrapping("
         if self.key_encryption_key_kdf is not None:
             result += f"key_encryption_key_kdf={repr(self.key_encryption_key_kdf)}, "
@@ -464,7 +464,7 @@ class IntermediateKeyWrapping:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, IntermediateKeyWrapping):
             return False
         attributes: list[str] = ['key_encryption_key_kdf','mac_key_kdf','pdk_encrypt_algorithm',]
@@ -477,20 +477,20 @@ class EdkWrappingAlgorithmDIRECT_KEY_WRAPPING():
     def __init__(self, value: DIRECT_KEY_WRAPPING):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"DIRECT_KEY_WRAPPING": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "EdkWrappingAlgorithmDIRECT_KEY_WRAPPING":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return EdkWrappingAlgorithmDIRECT_KEY_WRAPPING(DIRECT_KEY_WRAPPING.from_dict(d["DIRECT_KEY_WRAPPING"]))
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"EdkWrappingAlgorithmDIRECT_KEY_WRAPPING(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, EdkWrappingAlgorithmDIRECT_KEY_WRAPPING):
             return False
         return self.value == other.value
@@ -499,20 +499,20 @@ class EdkWrappingAlgorithmIntermediateKeyWrapping():
     def __init__(self, value: IntermediateKeyWrapping):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"IntermediateKeyWrapping": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "EdkWrappingAlgorithmIntermediateKeyWrapping":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return EdkWrappingAlgorithmIntermediateKeyWrapping(IntermediateKeyWrapping.from_dict(d["IntermediateKeyWrapping"]))
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"EdkWrappingAlgorithmIntermediateKeyWrapping(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, EdkWrappingAlgorithmIntermediateKeyWrapping):
             return False
         return self.value == other.value
@@ -529,20 +529,20 @@ class EdkWrappingAlgorithmUnknown():
     def __init__(self, tag: str):
         self.tag = tag
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "EdkWrappingAlgorithmUnknown":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return EdkWrappingAlgorithmUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"EdkWrappingAlgorithmUnknown(tag={self.tag})"
 
 EdkWrappingAlgorithm = Union[EdkWrappingAlgorithmDIRECT_KEY_WRAPPING, EdkWrappingAlgorithmIntermediateKeyWrapping, EdkWrappingAlgorithmUnknown]
-def _edk_wrapping_algorithm_from_dict(d: Dict[str, Any]) -> EdkWrappingAlgorithm:
+def _edk_wrapping_algorithm_from_dict(d: Dict[str, Any]):
     if "DIRECT_KEY_WRAPPING" in d:
         return EdkWrappingAlgorithmDIRECT_KEY_WRAPPING.from_dict(d)
 
@@ -560,7 +560,7 @@ class ECDSA:
     ):
         self.curve = curve
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the ECDSA to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -571,7 +571,7 @@ class ECDSA:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "ECDSA":
+    def from_dict(d: Dict[str, Any]):
         """Creates a ECDSA from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -583,14 +583,14 @@ class ECDSA:
 
         return ECDSA(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "ECDSA("
         if self.curve is not None:
             result += f"curve={repr(self.curve)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, ECDSA):
             return False
         attributes: list[str] = ['curve',]
@@ -603,20 +603,20 @@ class SignatureAlgorithmECDSA():
     def __init__(self, value: ECDSA):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"ECDSA": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "SignatureAlgorithmECDSA":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return SignatureAlgorithmECDSA(ECDSA.from_dict(d["ECDSA"]))
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"SignatureAlgorithmECDSA(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, SignatureAlgorithmECDSA):
             return False
         return self.value == other.value
@@ -625,20 +625,20 @@ class SignatureAlgorithmNone():
     def __init__(self, value: None_):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"None": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "SignatureAlgorithmNone":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return SignatureAlgorithmNone(None_.from_dict(d["None"]))
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"SignatureAlgorithmNone(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, SignatureAlgorithmNone):
             return False
         return self.value == other.value
@@ -655,20 +655,20 @@ class SignatureAlgorithmUnknown():
     def __init__(self, tag: str):
         self.tag = tag
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "SignatureAlgorithmUnknown":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return SignatureAlgorithmUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"SignatureAlgorithmUnknown(tag={self.tag})"
 
 SignatureAlgorithm = Union[SignatureAlgorithmECDSA, SignatureAlgorithmNone, SignatureAlgorithmUnknown]
-def _signature_algorithm_from_dict(d: Dict[str, Any]) -> SignatureAlgorithm:
+def _signature_algorithm_from_dict(d: Dict[str, Any]):
     if "ECDSA" in d:
         return SignatureAlgorithmECDSA.from_dict(d)
 
@@ -681,20 +681,20 @@ class SymmetricSignatureAlgorithmHMAC():
     def __init__(self, value: str):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"HMAC": self.value}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "SymmetricSignatureAlgorithmHMAC":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return SymmetricSignatureAlgorithmHMAC(d["HMAC"])
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"SymmetricSignatureAlgorithmHMAC(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, SymmetricSignatureAlgorithmHMAC):
             return False
         return self.value == other.value
@@ -703,20 +703,20 @@ class SymmetricSignatureAlgorithmNone():
     def __init__(self, value: None_):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"None": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "SymmetricSignatureAlgorithmNone":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return SymmetricSignatureAlgorithmNone(None_.from_dict(d["None"]))
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"SymmetricSignatureAlgorithmNone(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, SymmetricSignatureAlgorithmNone):
             return False
         return self.value == other.value
@@ -733,20 +733,20 @@ class SymmetricSignatureAlgorithmUnknown():
     def __init__(self, tag: str):
         self.tag = tag
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "SymmetricSignatureAlgorithmUnknown":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return SymmetricSignatureAlgorithmUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"SymmetricSignatureAlgorithmUnknown(tag={self.tag})"
 
 SymmetricSignatureAlgorithm = Union[SymmetricSignatureAlgorithmHMAC, SymmetricSignatureAlgorithmNone, SymmetricSignatureAlgorithmUnknown]
-def _symmetric_signature_algorithm_from_dict(d: Dict[str, Any]) -> SymmetricSignatureAlgorithm:
+def _symmetric_signature_algorithm_from_dict(d: Dict[str, Any]):
     if "HMAC" in d:
         return SymmetricSignatureAlgorithmHMAC.from_dict(d)
 
@@ -788,7 +788,7 @@ class AlgorithmSuiteInfo:
         self.symmetric_signature = symmetric_signature
         self.edk_wrapping = edk_wrapping
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the AlgorithmSuiteInfo to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -807,7 +807,7 @@ class AlgorithmSuiteInfo:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "AlgorithmSuiteInfo":
+    def from_dict(d: Dict[str, Any]):
         """Creates a AlgorithmSuiteInfo from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -827,7 +827,7 @@ class AlgorithmSuiteInfo:
 
         return AlgorithmSuiteInfo(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "AlgorithmSuiteInfo("
         if self.id is not None:
             result += f"id={repr(self.id)}, "
@@ -858,7 +858,7 @@ class AlgorithmSuiteInfo:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, AlgorithmSuiteInfo):
             return False
         attributes: list[str] = ['id','binary_id','message_version','encrypt','kdf','commitment','signature','symmetric_signature','edk_wrapping',]
@@ -876,7 +876,7 @@ class GetBranchKeyIdInput:
     ):
         self.encryption_context = encryption_context
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GetBranchKeyIdInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -887,7 +887,7 @@ class GetBranchKeyIdInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GetBranchKeyIdInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GetBranchKeyIdInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -899,14 +899,14 @@ class GetBranchKeyIdInput:
 
         return GetBranchKeyIdInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GetBranchKeyIdInput("
         if self.encryption_context is not None:
             result += f"encryption_context={repr(self.encryption_context)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GetBranchKeyIdInput):
             return False
         attributes: list[str] = ['encryption_context',]
@@ -924,7 +924,7 @@ class GetBranchKeyIdOutput:
     ):
         self.branch_key_id = branch_key_id
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GetBranchKeyIdOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -935,7 +935,7 @@ class GetBranchKeyIdOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GetBranchKeyIdOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GetBranchKeyIdOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -947,14 +947,14 @@ class GetBranchKeyIdOutput:
 
         return GetBranchKeyIdOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GetBranchKeyIdOutput("
         if self.branch_key_id is not None:
             result += f"branch_key_id={repr(self.branch_key_id)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GetBranchKeyIdOutput):
             return False
         attributes: list[str] = ['branch_key_id',]
@@ -972,7 +972,7 @@ class GetClientInput:
     ):
         self.region = region
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GetClientInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -983,7 +983,7 @@ class GetClientInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GetClientInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GetClientInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -995,14 +995,14 @@ class GetClientInput:
 
         return GetClientInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GetClientInput("
         if self.region is not None:
             result += f"region={repr(self.region)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GetClientInput):
             return False
         attributes: list[str] = ['region',]
@@ -1014,7 +1014,7 @@ class GetClientInput:
 class KmsClientReference:
     """///////
     """
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the KmsClientReference to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1023,7 +1023,7 @@ class KmsClientReference:
         return {}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KmsClientReference":
+    def from_dict(d: Dict[str, Any]):
         """Creates a KmsClientReference from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1031,12 +1031,12 @@ class KmsClientReference:
         """
         return KmsClientReference()
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "KmsClientReference("
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         return isinstance(other, KmsClientReference)
 
 class GetClientOutput:
@@ -1051,7 +1051,7 @@ class GetClientOutput:
         """
         self.client = client
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GetClientOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1062,7 +1062,7 @@ class GetClientOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GetClientOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GetClientOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1074,14 +1074,14 @@ class GetClientOutput:
 
         return GetClientOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GetClientOutput("
         if self.client is not None:
             result += f"client={repr(self.client)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GetClientOutput):
             return False
         attributes: list[str] = ['client',]
@@ -1102,7 +1102,7 @@ class DiscoveryFilter:
         self.account_ids = account_ids
         self.partition = partition
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the DiscoveryFilter to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1114,7 +1114,7 @@ class DiscoveryFilter:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DiscoveryFilter":
+    def from_dict(d: Dict[str, Any]):
         """Creates a DiscoveryFilter from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1127,7 +1127,7 @@ class DiscoveryFilter:
 
         return DiscoveryFilter(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "DiscoveryFilter("
         if self.account_ids is not None:
             result += f"account_ids={repr(self.account_ids)}, "
@@ -1137,7 +1137,7 @@ class DiscoveryFilter:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, DiscoveryFilter):
             return False
         attributes: list[str] = ['account_ids','partition',]
@@ -1164,7 +1164,7 @@ class CreateAwsKmsDiscoveryKeyringInput:
         self.discovery_filter = discovery_filter
         self.grant_tokens = grant_tokens
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateAwsKmsDiscoveryKeyringInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1183,7 +1183,7 @@ class CreateAwsKmsDiscoveryKeyringInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsDiscoveryKeyringInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateAwsKmsDiscoveryKeyringInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1201,7 +1201,7 @@ class CreateAwsKmsDiscoveryKeyringInput:
 
         return CreateAwsKmsDiscoveryKeyringInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateAwsKmsDiscoveryKeyringInput("
         if self.kms_client is not None:
             result += f"kms_client={repr(self.kms_client)}, "
@@ -1214,7 +1214,7 @@ class CreateAwsKmsDiscoveryKeyringInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateAwsKmsDiscoveryKeyringInput):
             return False
         attributes: list[str] = ['kms_client','discovery_filter','grant_tokens',]
@@ -1226,7 +1226,7 @@ class CreateAwsKmsDiscoveryKeyringInput:
 class KeyringReference:
     """//////////////////
     """
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the KeyringReference to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1235,7 +1235,7 @@ class KeyringReference:
         return {}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KeyringReference":
+    def from_dict(d: Dict[str, Any]):
         """Creates a KeyringReference from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1243,12 +1243,12 @@ class KeyringReference:
         """
         return KeyringReference()
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "KeyringReference("
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         return isinstance(other, KeyringReference)
 
 class CreateKeyringOutput:
@@ -1264,7 +1264,7 @@ class CreateKeyringOutput:
         """
         self.keyring = keyring
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateKeyringOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1275,7 +1275,7 @@ class CreateKeyringOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateKeyringOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateKeyringOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1287,14 +1287,14 @@ class CreateKeyringOutput:
 
         return CreateKeyringOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateKeyringOutput("
         if self.keyring is not None:
             result += f"keyring={repr(self.keyring)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateKeyringOutput):
             return False
         attributes: list[str] = ['keyring',]
@@ -1304,7 +1304,7 @@ class CreateKeyringOutput:
         )
 
 class ClientSupplierReference:
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the ClientSupplierReference to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1313,7 +1313,7 @@ class ClientSupplierReference:
         return {}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "ClientSupplierReference":
+    def from_dict(d: Dict[str, Any]):
         """Creates a ClientSupplierReference from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1321,12 +1321,12 @@ class ClientSupplierReference:
         """
         return ClientSupplierReference()
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "ClientSupplierReference("
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         return isinstance(other, ClientSupplierReference)
 
 class CreateAwsKmsDiscoveryMultiKeyringInput:
@@ -1347,7 +1347,7 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
         self.client_supplier = client_supplier
         self.grant_tokens = grant_tokens
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateAwsKmsDiscoveryMultiKeyringInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1369,7 +1369,7 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsDiscoveryMultiKeyringInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateAwsKmsDiscoveryMultiKeyringInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1390,7 +1390,7 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
 
         return CreateAwsKmsDiscoveryMultiKeyringInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateAwsKmsDiscoveryMultiKeyringInput("
         if self.regions is not None:
             result += f"regions={repr(self.regions)}, "
@@ -1406,7 +1406,7 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateAwsKmsDiscoveryMultiKeyringInput):
             return False
         attributes: list[str] = ['regions','discovery_filter','client_supplier','grant_tokens',]
@@ -1416,7 +1416,7 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
         )
 
 class BranchKeyIdSupplierReference:
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the BranchKeyIdSupplierReference to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1425,7 +1425,7 @@ class BranchKeyIdSupplierReference:
         return {}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "BranchKeyIdSupplierReference":
+    def from_dict(d: Dict[str, Any]):
         """Creates a BranchKeyIdSupplierReference from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1433,12 +1433,12 @@ class BranchKeyIdSupplierReference:
         """
         return BranchKeyIdSupplierReference()
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "BranchKeyIdSupplierReference("
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         return isinstance(other, BranchKeyIdSupplierReference)
 
 class DefaultCache:
@@ -1450,7 +1450,7 @@ class DefaultCache:
     ):
         self.entry_capacity = entry_capacity
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the DefaultCache to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1464,7 +1464,7 @@ class DefaultCache:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DefaultCache":
+    def from_dict(d: Dict[str, Any]):
         """Creates a DefaultCache from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1477,14 +1477,14 @@ class DefaultCache:
 
         return DefaultCache(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "DefaultCache("
         if self.entry_capacity is not None:
             result += f"entry_capacity={repr(self.entry_capacity)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, DefaultCache):
             return False
         attributes: list[str] = ['entry_capacity',]
@@ -1505,7 +1505,7 @@ class MultiThreadedCache:
         self.entry_capacity = entry_capacity
         self.entry_pruning_tail_size = entry_pruning_tail_size
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the MultiThreadedCache to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1522,7 +1522,7 @@ class MultiThreadedCache:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "MultiThreadedCache":
+    def from_dict(d: Dict[str, Any]):
         """Creates a MultiThreadedCache from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1538,7 +1538,7 @@ class MultiThreadedCache:
 
         return MultiThreadedCache(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "MultiThreadedCache("
         if self.entry_capacity is not None:
             result += f"entry_capacity={repr(self.entry_capacity)}, "
@@ -1548,7 +1548,7 @@ class MultiThreadedCache:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, MultiThreadedCache):
             return False
         attributes: list[str] = ['entry_capacity','entry_pruning_tail_size',]
@@ -1558,7 +1558,7 @@ class MultiThreadedCache:
         )
 
 class NoCache:
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the NoCache to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1567,7 +1567,7 @@ class NoCache:
         return {}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "NoCache":
+    def from_dict(d: Dict[str, Any]):
         """Creates a NoCache from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1575,12 +1575,12 @@ class NoCache:
         """
         return NoCache()
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "NoCache("
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         return isinstance(other, NoCache)
 
 class SingleThreadedCache:
@@ -1595,7 +1595,7 @@ class SingleThreadedCache:
         self.entry_capacity = entry_capacity
         self.entry_pruning_tail_size = entry_pruning_tail_size
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the SingleThreadedCache to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1612,7 +1612,7 @@ class SingleThreadedCache:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "SingleThreadedCache":
+    def from_dict(d: Dict[str, Any]):
         """Creates a SingleThreadedCache from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1628,7 +1628,7 @@ class SingleThreadedCache:
 
         return SingleThreadedCache(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "SingleThreadedCache("
         if self.entry_capacity is not None:
             result += f"entry_capacity={repr(self.entry_capacity)}, "
@@ -1638,7 +1638,7 @@ class SingleThreadedCache:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, SingleThreadedCache):
             return False
         attributes: list[str] = ['entry_capacity','entry_pruning_tail_size',]
@@ -1674,7 +1674,7 @@ class StormTrackingCache:
         self.in_flight_ttl = in_flight_ttl
         self.sleep_milli = sleep_milli
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the StormTrackingCache to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1706,7 +1706,7 @@ class StormTrackingCache:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "StormTrackingCache":
+    def from_dict(d: Dict[str, Any]):
         """Creates a StormTrackingCache from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1737,7 +1737,7 @@ class StormTrackingCache:
 
         return StormTrackingCache(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "StormTrackingCache("
         if self.entry_capacity is not None:
             result += f"entry_capacity={repr(self.entry_capacity)}, "
@@ -1762,7 +1762,7 @@ class StormTrackingCache:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, StormTrackingCache):
             return False
         attributes: list[str] = ['entry_capacity','entry_pruning_tail_size','grace_period','grace_interval','fan_out','in_flight_ttl','sleep_milli',]
@@ -1775,20 +1775,20 @@ class CacheTypeDefault():
     def __init__(self, value: DefaultCache):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"Default": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CacheTypeDefault":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return CacheTypeDefault(DefaultCache.from_dict(d["Default"]))
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"CacheTypeDefault(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CacheTypeDefault):
             return False
         return self.value == other.value
@@ -1797,20 +1797,20 @@ class CacheTypeNo():
     def __init__(self, value: NoCache):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"No": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CacheTypeNo":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return CacheTypeNo(NoCache.from_dict(d["No"]))
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"CacheTypeNo(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CacheTypeNo):
             return False
         return self.value == other.value
@@ -1819,20 +1819,20 @@ class CacheTypeSingleThreaded():
     def __init__(self, value: SingleThreadedCache):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"SingleThreaded": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CacheTypeSingleThreaded":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return CacheTypeSingleThreaded(SingleThreadedCache.from_dict(d["SingleThreaded"]))
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"CacheTypeSingleThreaded(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CacheTypeSingleThreaded):
             return False
         return self.value == other.value
@@ -1841,20 +1841,20 @@ class CacheTypeMultiThreaded():
     def __init__(self, value: MultiThreadedCache):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"MultiThreaded": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CacheTypeMultiThreaded":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return CacheTypeMultiThreaded(MultiThreadedCache.from_dict(d["MultiThreaded"]))
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"CacheTypeMultiThreaded(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CacheTypeMultiThreaded):
             return False
         return self.value == other.value
@@ -1863,20 +1863,20 @@ class CacheTypeStormTracking():
     def __init__(self, value: StormTrackingCache):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"StormTracking": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CacheTypeStormTracking":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return CacheTypeStormTracking(StormTrackingCache.from_dict(d["StormTracking"]))
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"CacheTypeStormTracking(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CacheTypeStormTracking):
             return False
         return self.value == other.value
@@ -1893,20 +1893,20 @@ class CacheTypeUnknown():
     def __init__(self, tag: str):
         self.tag = tag
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CacheTypeUnknown":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return CacheTypeUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"CacheTypeUnknown(tag={self.tag})"
 
 CacheType = Union[CacheTypeDefault, CacheTypeNo, CacheTypeSingleThreaded, CacheTypeMultiThreaded, CacheTypeStormTracking, CacheTypeUnknown]
-def _cache_type_from_dict(d: Dict[str, Any]) -> CacheType:
+def _cache_type_from_dict(d: Dict[str, Any]):
     if "Default" in d:
         return CacheTypeDefault.from_dict(d)
 
@@ -1925,7 +1925,7 @@ def _cache_type_from_dict(d: Dict[str, Any]) -> CacheType:
     raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
 
 class KeyStoreReference:
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the KeyStoreReference to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1934,7 +1934,7 @@ class KeyStoreReference:
         return {}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KeyStoreReference":
+    def from_dict(d: Dict[str, Any]):
         """Creates a KeyStoreReference from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -1942,12 +1942,12 @@ class KeyStoreReference:
         """
         return KeyStoreReference()
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "KeyStoreReference("
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         return isinstance(other, KeyStoreReference)
 
 class CreateAwsKmsHierarchicalKeyringInput:
@@ -1971,7 +1971,7 @@ class CreateAwsKmsHierarchicalKeyringInput:
         self.ttl_seconds = ttl_seconds
         self.cache = cache
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateAwsKmsHierarchicalKeyringInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -1996,7 +1996,7 @@ class CreateAwsKmsHierarchicalKeyringInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsHierarchicalKeyringInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateAwsKmsHierarchicalKeyringInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -2020,7 +2020,7 @@ class CreateAwsKmsHierarchicalKeyringInput:
 
         return CreateAwsKmsHierarchicalKeyringInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateAwsKmsHierarchicalKeyringInput("
         if self.branch_key_id is not None:
             result += f"branch_key_id={repr(self.branch_key_id)}, "
@@ -2039,7 +2039,7 @@ class CreateAwsKmsHierarchicalKeyringInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateAwsKmsHierarchicalKeyringInput):
             return False
         attributes: list[str] = ['branch_key_id','branch_key_id_supplier','key_store','ttl_seconds','cache',]
@@ -2067,7 +2067,7 @@ class CreateAwsKmsKeyringInput:
         self.kms_client = kms_client
         self.grant_tokens = grant_tokens
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateAwsKmsKeyringInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -2084,7 +2084,7 @@ class CreateAwsKmsKeyringInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsKeyringInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateAwsKmsKeyringInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -2100,7 +2100,7 @@ class CreateAwsKmsKeyringInput:
 
         return CreateAwsKmsKeyringInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateAwsKmsKeyringInput("
         if self.kms_key_id is not None:
             result += f"kms_key_id={repr(self.kms_key_id)}, "
@@ -2113,7 +2113,7 @@ class CreateAwsKmsKeyringInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateAwsKmsKeyringInput):
             return False
         attributes: list[str] = ['kms_key_id','kms_client','grant_tokens',]
@@ -2143,7 +2143,7 @@ class CreateAwsKmsMrkDiscoveryKeyringInput:
         self.discovery_filter = discovery_filter
         self.grant_tokens = grant_tokens
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateAwsKmsMrkDiscoveryKeyringInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -2163,7 +2163,7 @@ class CreateAwsKmsMrkDiscoveryKeyringInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsMrkDiscoveryKeyringInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateAwsKmsMrkDiscoveryKeyringInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -2182,7 +2182,7 @@ class CreateAwsKmsMrkDiscoveryKeyringInput:
 
         return CreateAwsKmsMrkDiscoveryKeyringInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateAwsKmsMrkDiscoveryKeyringInput("
         if self.kms_client is not None:
             result += f"kms_client={repr(self.kms_client)}, "
@@ -2198,7 +2198,7 @@ class CreateAwsKmsMrkDiscoveryKeyringInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateAwsKmsMrkDiscoveryKeyringInput):
             return False
         attributes: list[str] = ['kms_client','discovery_filter','grant_tokens','region',]
@@ -2225,7 +2225,7 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
         self.client_supplier = client_supplier
         self.grant_tokens = grant_tokens
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateAwsKmsMrkDiscoveryMultiKeyringInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -2247,7 +2247,7 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsMrkDiscoveryMultiKeyringInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateAwsKmsMrkDiscoveryMultiKeyringInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -2268,7 +2268,7 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
 
         return CreateAwsKmsMrkDiscoveryMultiKeyringInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateAwsKmsMrkDiscoveryMultiKeyringInput("
         if self.regions is not None:
             result += f"regions={repr(self.regions)}, "
@@ -2284,7 +2284,7 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateAwsKmsMrkDiscoveryMultiKeyringInput):
             return False
         attributes: list[str] = ['regions','discovery_filter','client_supplier','grant_tokens',]
@@ -2312,7 +2312,7 @@ class CreateAwsKmsMrkKeyringInput:
         self.kms_client = kms_client
         self.grant_tokens = grant_tokens
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateAwsKmsMrkKeyringInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -2329,7 +2329,7 @@ class CreateAwsKmsMrkKeyringInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsMrkKeyringInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateAwsKmsMrkKeyringInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -2345,7 +2345,7 @@ class CreateAwsKmsMrkKeyringInput:
 
         return CreateAwsKmsMrkKeyringInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateAwsKmsMrkKeyringInput("
         if self.kms_key_id is not None:
             result += f"kms_key_id={repr(self.kms_key_id)}, "
@@ -2358,7 +2358,7 @@ class CreateAwsKmsMrkKeyringInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateAwsKmsMrkKeyringInput):
             return False
         attributes: list[str] = ['kms_key_id','kms_client','grant_tokens',]
@@ -2388,7 +2388,7 @@ class CreateAwsKmsMrkMultiKeyringInput:
         self.client_supplier = client_supplier
         self.grant_tokens = grant_tokens
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateAwsKmsMrkMultiKeyringInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -2411,7 +2411,7 @@ class CreateAwsKmsMrkMultiKeyringInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsMrkMultiKeyringInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateAwsKmsMrkMultiKeyringInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -2433,7 +2433,7 @@ class CreateAwsKmsMrkMultiKeyringInput:
 
         return CreateAwsKmsMrkMultiKeyringInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateAwsKmsMrkMultiKeyringInput("
         if self.generator is not None:
             result += f"generator={repr(self.generator)}, "
@@ -2449,7 +2449,7 @@ class CreateAwsKmsMrkMultiKeyringInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateAwsKmsMrkMultiKeyringInput):
             return False
         attributes: list[str] = ['generator','kms_key_ids','client_supplier','grant_tokens',]
@@ -2479,7 +2479,7 @@ class CreateAwsKmsMultiKeyringInput:
         self.client_supplier = client_supplier
         self.grant_tokens = grant_tokens
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateAwsKmsMultiKeyringInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -2502,7 +2502,7 @@ class CreateAwsKmsMultiKeyringInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsMultiKeyringInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateAwsKmsMultiKeyringInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -2524,7 +2524,7 @@ class CreateAwsKmsMultiKeyringInput:
 
         return CreateAwsKmsMultiKeyringInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateAwsKmsMultiKeyringInput("
         if self.generator is not None:
             result += f"generator={repr(self.generator)}, "
@@ -2540,7 +2540,7 @@ class CreateAwsKmsMultiKeyringInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateAwsKmsMultiKeyringInput):
             return False
         attributes: list[str] = ['generator','kms_key_ids','client_supplier','grant_tokens',]
@@ -2574,7 +2574,7 @@ class CreateAwsKmsRsaKeyringInput:
         self.kms_client = kms_client
         self.grant_tokens = grant_tokens
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateAwsKmsRsaKeyringInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -2597,7 +2597,7 @@ class CreateAwsKmsRsaKeyringInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateAwsKmsRsaKeyringInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateAwsKmsRsaKeyringInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -2619,7 +2619,7 @@ class CreateAwsKmsRsaKeyringInput:
 
         return CreateAwsKmsRsaKeyringInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateAwsKmsRsaKeyringInput("
         if self.public_key is not None:
             result += f"public_key={repr(self.public_key)}, "
@@ -2638,7 +2638,7 @@ class CreateAwsKmsRsaKeyringInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateAwsKmsRsaKeyringInput):
             return False
         attributes: list[str] = ['public_key','kms_key_id','encryption_algorithm','kms_client','grant_tokens',]
@@ -2656,7 +2656,7 @@ class CreateCryptographicMaterialsCacheInput:
     ):
         self.cache = cache
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateCryptographicMaterialsCacheInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -2667,7 +2667,7 @@ class CreateCryptographicMaterialsCacheInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateCryptographicMaterialsCacheInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateCryptographicMaterialsCacheInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -2679,14 +2679,14 @@ class CreateCryptographicMaterialsCacheInput:
 
         return CreateCryptographicMaterialsCacheInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateCryptographicMaterialsCacheInput("
         if self.cache is not None:
             result += f"cache={repr(self.cache)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateCryptographicMaterialsCacheInput):
             return False
         attributes: list[str] = ['cache',]
@@ -2696,7 +2696,7 @@ class CreateCryptographicMaterialsCacheInput:
         )
 
 class CryptographicMaterialsCacheReference:
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CryptographicMaterialsCacheReference to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -2705,7 +2705,7 @@ class CryptographicMaterialsCacheReference:
         return {}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CryptographicMaterialsCacheReference":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CryptographicMaterialsCacheReference from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -2713,12 +2713,12 @@ class CryptographicMaterialsCacheReference:
         """
         return CryptographicMaterialsCacheReference()
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CryptographicMaterialsCacheReference("
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         return isinstance(other, CryptographicMaterialsCacheReference)
 
 class CreateCryptographicMaterialsCacheOutput:
@@ -2733,7 +2733,7 @@ class CreateCryptographicMaterialsCacheOutput:
         """
         self.materials_cache = materials_cache
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateCryptographicMaterialsCacheOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -2744,7 +2744,7 @@ class CreateCryptographicMaterialsCacheOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateCryptographicMaterialsCacheOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateCryptographicMaterialsCacheOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -2756,14 +2756,14 @@ class CreateCryptographicMaterialsCacheOutput:
 
         return CreateCryptographicMaterialsCacheOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateCryptographicMaterialsCacheOutput("
         if self.materials_cache is not None:
             result += f"materials_cache={repr(self.materials_cache)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateCryptographicMaterialsCacheOutput):
             return False
         attributes: list[str] = ['materials_cache',]
@@ -2773,7 +2773,7 @@ class CreateCryptographicMaterialsCacheOutput:
         )
 
 class CreateDefaultClientSupplierInput:
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateDefaultClientSupplierInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -2782,7 +2782,7 @@ class CreateDefaultClientSupplierInput:
         return {}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateDefaultClientSupplierInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateDefaultClientSupplierInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -2790,12 +2790,12 @@ class CreateDefaultClientSupplierInput:
         """
         return CreateDefaultClientSupplierInput()
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateDefaultClientSupplierInput("
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         return isinstance(other, CreateDefaultClientSupplierInput)
 
 class CreateDefaultClientSupplierOutput:
@@ -2807,7 +2807,7 @@ class CreateDefaultClientSupplierOutput:
     ):
         self.client = client
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateDefaultClientSupplierOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -2818,7 +2818,7 @@ class CreateDefaultClientSupplierOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateDefaultClientSupplierOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateDefaultClientSupplierOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -2830,14 +2830,14 @@ class CreateDefaultClientSupplierOutput:
 
         return CreateDefaultClientSupplierOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateDefaultClientSupplierOutput("
         if self.client is not None:
             result += f"client={repr(self.client)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateDefaultClientSupplierOutput):
             return False
         attributes: list[str] = ['client',]
@@ -2849,7 +2849,7 @@ class CreateDefaultClientSupplierOutput:
 class CryptographicMaterialsManagerReference:
     """//////////////
     """
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CryptographicMaterialsManagerReference to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -2858,7 +2858,7 @@ class CryptographicMaterialsManagerReference:
         return {}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CryptographicMaterialsManagerReference":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CryptographicMaterialsManagerReference from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -2866,12 +2866,12 @@ class CryptographicMaterialsManagerReference:
         """
         return CryptographicMaterialsManagerReference()
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CryptographicMaterialsManagerReference("
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         return isinstance(other, CryptographicMaterialsManagerReference)
 
 class CreateCryptographicMaterialsManagerOutput:
@@ -2887,7 +2887,7 @@ class CreateCryptographicMaterialsManagerOutput:
         """
         self.materials_manager = materials_manager
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateCryptographicMaterialsManagerOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -2898,7 +2898,7 @@ class CreateCryptographicMaterialsManagerOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateCryptographicMaterialsManagerOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateCryptographicMaterialsManagerOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -2910,14 +2910,14 @@ class CreateCryptographicMaterialsManagerOutput:
 
         return CreateCryptographicMaterialsManagerOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateCryptographicMaterialsManagerOutput("
         if self.materials_manager is not None:
             result += f"materials_manager={repr(self.materials_manager)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateCryptographicMaterialsManagerOutput):
             return False
         attributes: list[str] = ['materials_manager',]
@@ -2938,7 +2938,7 @@ class CreateDefaultCryptographicMaterialsManagerInput:
         """
         self.keyring = keyring
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateDefaultCryptographicMaterialsManagerInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -2949,7 +2949,7 @@ class CreateDefaultCryptographicMaterialsManagerInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateDefaultCryptographicMaterialsManagerInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateDefaultCryptographicMaterialsManagerInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -2961,14 +2961,14 @@ class CreateDefaultCryptographicMaterialsManagerInput:
 
         return CreateDefaultCryptographicMaterialsManagerInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateDefaultCryptographicMaterialsManagerInput("
         if self.keyring is not None:
             result += f"keyring={repr(self.keyring)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateDefaultCryptographicMaterialsManagerInput):
             return False
         attributes: list[str] = ['keyring',]
@@ -2992,7 +2992,7 @@ class CreateMultiKeyringInput:
         self.child_keyrings = child_keyrings
         self.generator = generator
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateMultiKeyringInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -3008,7 +3008,7 @@ class CreateMultiKeyringInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateMultiKeyringInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateMultiKeyringInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -3023,7 +3023,7 @@ class CreateMultiKeyringInput:
 
         return CreateMultiKeyringInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateMultiKeyringInput("
         if self.generator is not None:
             result += f"generator={repr(self.generator)}, "
@@ -3033,7 +3033,7 @@ class CreateMultiKeyringInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateMultiKeyringInput):
             return False
         attributes: list[str] = ['generator','child_keyrings',]
@@ -3063,7 +3063,7 @@ class CreateRawAesKeyringInput:
         self.wrapping_key = wrapping_key
         self.wrapping_alg = wrapping_alg
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateRawAesKeyringInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -3077,7 +3077,7 @@ class CreateRawAesKeyringInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateRawAesKeyringInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateRawAesKeyringInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -3092,7 +3092,7 @@ class CreateRawAesKeyringInput:
 
         return CreateRawAesKeyringInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateRawAesKeyringInput("
         if self.key_namespace is not None:
             result += f"key_namespace={repr(self.key_namespace)}, "
@@ -3108,7 +3108,7 @@ class CreateRawAesKeyringInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateRawAesKeyringInput):
             return False
         attributes: list[str] = ['key_namespace','key_name','wrapping_key','wrapping_alg',]
@@ -3141,7 +3141,7 @@ class CreateRawRsaKeyringInput:
         self.public_key = public_key
         self.private_key = private_key
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateRawRsaKeyringInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -3162,7 +3162,7 @@ class CreateRawRsaKeyringInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateRawRsaKeyringInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateRawRsaKeyringInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -3182,7 +3182,7 @@ class CreateRawRsaKeyringInput:
 
         return CreateRawRsaKeyringInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateRawRsaKeyringInput("
         if self.key_namespace is not None:
             result += f"key_namespace={repr(self.key_namespace)}, "
@@ -3201,7 +3201,7 @@ class CreateRawRsaKeyringInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateRawRsaKeyringInput):
             return False
         attributes: list[str] = ['key_namespace','key_name','padding_scheme','public_key','private_key',]
@@ -3229,7 +3229,7 @@ class CreateRequiredEncryptionContextCMMInput:
         self.underlying_cmm = underlying_cmm
         self.keyring = keyring
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateRequiredEncryptionContextCMMInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -3248,7 +3248,7 @@ class CreateRequiredEncryptionContextCMMInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateRequiredEncryptionContextCMMInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateRequiredEncryptionContextCMMInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -3266,7 +3266,7 @@ class CreateRequiredEncryptionContextCMMInput:
 
         return CreateRequiredEncryptionContextCMMInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateRequiredEncryptionContextCMMInput("
         if self.underlying_cmm is not None:
             result += f"underlying_cmm={repr(self.underlying_cmm)}, "
@@ -3279,7 +3279,7 @@ class CreateRequiredEncryptionContextCMMInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateRequiredEncryptionContextCMMInput):
             return False
         attributes: list[str] = ['underlying_cmm','keyring','required_encryption_context_keys',]
@@ -3300,7 +3300,7 @@ class CreateRequiredEncryptionContextCMMOutput:
         """
         self.materials_manager = materials_manager
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the CreateRequiredEncryptionContextCMMOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -3311,7 +3311,7 @@ class CreateRequiredEncryptionContextCMMOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateRequiredEncryptionContextCMMOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a CreateRequiredEncryptionContextCMMOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -3323,14 +3323,14 @@ class CreateRequiredEncryptionContextCMMOutput:
 
         return CreateRequiredEncryptionContextCMMOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "CreateRequiredEncryptionContextCMMOutput("
         if self.materials_manager is not None:
             result += f"materials_manager={repr(self.materials_manager)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CreateRequiredEncryptionContextCMMOutput):
             return False
         attributes: list[str] = ['materials_manager',]
@@ -3348,7 +3348,7 @@ class DeleteCacheEntryInput:
     ):
         self.identifier = identifier
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the DeleteCacheEntryInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -3359,7 +3359,7 @@ class DeleteCacheEntryInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DeleteCacheEntryInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a DeleteCacheEntryInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -3371,14 +3371,14 @@ class DeleteCacheEntryInput:
 
         return DeleteCacheEntryInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "DeleteCacheEntryInput("
         if self.identifier is not None:
             result += f"identifier={repr(self.identifier)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, DeleteCacheEntryInput):
             return False
         attributes: list[str] = ['identifier',]
@@ -3399,7 +3399,7 @@ class GetCacheEntryInput:
         self.identifier = identifier
         self.bytes_used = bytes_used
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GetCacheEntryInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -3415,7 +3415,7 @@ class GetCacheEntryInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GetCacheEntryInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GetCacheEntryInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -3430,7 +3430,7 @@ class GetCacheEntryInput:
 
         return GetCacheEntryInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GetCacheEntryInput("
         if self.identifier is not None:
             result += f"identifier={repr(self.identifier)}, "
@@ -3440,7 +3440,7 @@ class GetCacheEntryInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GetCacheEntryInput):
             return False
         attributes: list[str] = ['identifier','bytes_used',]
@@ -3473,7 +3473,7 @@ class DecryptionMaterials:
         self.verification_key = verification_key
         self.symmetric_signing_key = symmetric_signing_key
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the DecryptionMaterials to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -3497,7 +3497,7 @@ class DecryptionMaterials:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DecryptionMaterials":
+    def from_dict(d: Dict[str, Any]):
         """Creates a DecryptionMaterials from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -3520,7 +3520,7 @@ class DecryptionMaterials:
 
         return DecryptionMaterials(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "DecryptionMaterials("
         if self.algorithm_suite is not None:
             result += f"algorithm_suite={repr(self.algorithm_suite)}, "
@@ -3542,7 +3542,7 @@ class DecryptionMaterials:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, DecryptionMaterials):
             return False
         attributes: list[str] = ['algorithm_suite','encryption_context','required_encryption_context_keys','plaintext_data_key','verification_key','symmetric_signing_key',]
@@ -3566,7 +3566,7 @@ class EncryptedDataKey:
         self.key_provider_info = key_provider_info
         self.ciphertext = ciphertext
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the EncryptedDataKey to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -3579,7 +3579,7 @@ class EncryptedDataKey:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "EncryptedDataKey":
+    def from_dict(d: Dict[str, Any]):
         """Creates a EncryptedDataKey from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -3593,7 +3593,7 @@ class EncryptedDataKey:
 
         return EncryptedDataKey(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "EncryptedDataKey("
         if self.key_provider_id is not None:
             result += f"key_provider_id={repr(self.key_provider_id)}, "
@@ -3606,7 +3606,7 @@ class EncryptedDataKey:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, EncryptedDataKey):
             return False
         attributes: list[str] = ['key_provider_id','key_provider_info','ciphertext',]
@@ -3645,7 +3645,7 @@ class EncryptionMaterials:
         self.signing_key = signing_key
         self.symmetric_signing_keys = symmetric_signing_keys
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the EncryptionMaterials to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -3670,7 +3670,7 @@ class EncryptionMaterials:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "EncryptionMaterials":
+    def from_dict(d: Dict[str, Any]):
         """Creates a EncryptionMaterials from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -3694,7 +3694,7 @@ class EncryptionMaterials:
 
         return EncryptionMaterials(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "EncryptionMaterials("
         if self.algorithm_suite is not None:
             result += f"algorithm_suite={repr(self.algorithm_suite)}, "
@@ -3719,7 +3719,7 @@ class EncryptionMaterials:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, EncryptionMaterials):
             return False
         attributes: list[str] = ['algorithm_suite','encryption_context','encrypted_data_keys','required_encryption_context_keys','plaintext_data_key','signing_key','symmetric_signing_keys',]
@@ -3734,20 +3734,20 @@ class MaterialsEncryption():
     def __init__(self, value: EncryptionMaterials):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"Encryption": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "MaterialsEncryption":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return MaterialsEncryption(EncryptionMaterials.from_dict(d["Encryption"]))
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"MaterialsEncryption(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, MaterialsEncryption):
             return False
         return self.value == other.value
@@ -3756,20 +3756,20 @@ class MaterialsDecryption():
     def __init__(self, value: DecryptionMaterials):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"Decryption": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "MaterialsDecryption":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return MaterialsDecryption(DecryptionMaterials.from_dict(d["Decryption"]))
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"MaterialsDecryption(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, MaterialsDecryption):
             return False
         return self.value == other.value
@@ -3778,20 +3778,20 @@ class MaterialsBranchKey():
     def __init__(self, value: BranchKeyMaterials):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"BranchKey": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "MaterialsBranchKey":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return MaterialsBranchKey(BranchKeyMaterials.from_dict(d["BranchKey"]))
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"MaterialsBranchKey(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, MaterialsBranchKey):
             return False
         return self.value == other.value
@@ -3800,20 +3800,20 @@ class MaterialsBeaconKey():
     def __init__(self, value: BeaconKeyMaterials):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"BeaconKey": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "MaterialsBeaconKey":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return MaterialsBeaconKey(BeaconKeyMaterials.from_dict(d["BeaconKey"]))
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"MaterialsBeaconKey(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, MaterialsBeaconKey):
             return False
         return self.value == other.value
@@ -3830,20 +3830,20 @@ class MaterialsUnknown():
     def __init__(self, tag: str):
         self.tag = tag
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "MaterialsUnknown":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return MaterialsUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"MaterialsUnknown(tag={self.tag})"
 
 Materials = Union[MaterialsEncryption, MaterialsDecryption, MaterialsBranchKey, MaterialsBeaconKey, MaterialsUnknown]
-def _materials_from_dict(d: Dict[str, Any]) -> Materials:
+def _materials_from_dict(d: Dict[str, Any]):
     if "Encryption" in d:
         return MaterialsEncryption.from_dict(d)
 
@@ -3879,7 +3879,7 @@ class GetCacheEntryOutput:
         self.messages_used = messages_used
         self.bytes_used = bytes_used
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GetCacheEntryOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -3904,7 +3904,7 @@ class GetCacheEntryOutput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GetCacheEntryOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GetCacheEntryOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -3928,7 +3928,7 @@ class GetCacheEntryOutput:
 
         return GetCacheEntryOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GetCacheEntryOutput("
         if self.materials is not None:
             result += f"materials={repr(self.materials)}, "
@@ -3947,7 +3947,7 @@ class GetCacheEntryOutput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GetCacheEntryOutput):
             return False
         attributes: list[str] = ['materials','creation_time','expiry_time','messages_used','bytes_used',]
@@ -3980,7 +3980,7 @@ class PutCacheEntryInput:
         self.messages_used = messages_used
         self.bytes_used = bytes_used
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the PutCacheEntryInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -4006,7 +4006,7 @@ class PutCacheEntryInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "PutCacheEntryInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a PutCacheEntryInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -4031,7 +4031,7 @@ class PutCacheEntryInput:
 
         return PutCacheEntryInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "PutCacheEntryInput("
         if self.identifier is not None:
             result += f"identifier={repr(self.identifier)}, "
@@ -4053,7 +4053,7 @@ class PutCacheEntryInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, PutCacheEntryInput):
             return False
         attributes: list[str] = ['identifier','materials','creation_time','expiry_time','messages_used','bytes_used',]
@@ -4074,7 +4074,7 @@ class UpdateUsageMetadataInput:
         self.identifier = identifier
         self.bytes_used = bytes_used
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the UpdateUsageMetadataInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -4090,7 +4090,7 @@ class UpdateUsageMetadataInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "UpdateUsageMetadataInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a UpdateUsageMetadataInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -4105,7 +4105,7 @@ class UpdateUsageMetadataInput:
 
         return UpdateUsageMetadataInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "UpdateUsageMetadataInput("
         if self.identifier is not None:
             result += f"identifier={repr(self.identifier)}, "
@@ -4115,7 +4115,7 @@ class UpdateUsageMetadataInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, UpdateUsageMetadataInput):
             return False
         attributes: list[str] = ['identifier','bytes_used',]
@@ -4130,20 +4130,20 @@ class CommitmentPolicyESDK():
     def __init__(self, value: str):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"ESDK": self.value}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CommitmentPolicyESDK":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return CommitmentPolicyESDK(d["ESDK"])
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"CommitmentPolicyESDK(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CommitmentPolicyESDK):
             return False
         return self.value == other.value
@@ -4152,20 +4152,20 @@ class CommitmentPolicyDBE():
     def __init__(self, value: str):
         self.value = value
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"DBE": self.value}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CommitmentPolicyDBE":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return CommitmentPolicyDBE(d["DBE"])
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"CommitmentPolicyDBE(value=repr(self.value))"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, CommitmentPolicyDBE):
             return False
         return self.value == other.value
@@ -4182,20 +4182,20 @@ class CommitmentPolicyUnknown():
     def __init__(self, tag: str):
         self.tag = tag
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CommitmentPolicyUnknown":
+    def from_dict(d: Dict[str, Any]):
         if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return CommitmentPolicyUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"CommitmentPolicyUnknown(tag={self.tag})"
 
 CommitmentPolicy = Union[CommitmentPolicyESDK, CommitmentPolicyDBE, CommitmentPolicyUnknown]
-def _commitment_policy_from_dict(d: Dict[str, Any]) -> CommitmentPolicy:
+def _commitment_policy_from_dict(d: Dict[str, Any]):
     if "ESDK" in d:
         return CommitmentPolicyESDK.from_dict(d)
 
@@ -4225,7 +4225,7 @@ class DecryptMaterialsInput:
         self.encryption_context = encryption_context
         self.reproduced_encryption_context = reproduced_encryption_context
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the DecryptMaterialsInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -4244,7 +4244,7 @@ class DecryptMaterialsInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DecryptMaterialsInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a DecryptMaterialsInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -4262,7 +4262,7 @@ class DecryptMaterialsInput:
 
         return DecryptMaterialsInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "DecryptMaterialsInput("
         if self.algorithm_suite_id is not None:
             result += f"algorithm_suite_id={repr(self.algorithm_suite_id)}, "
@@ -4281,7 +4281,7 @@ class DecryptMaterialsInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, DecryptMaterialsInput):
             return False
         attributes: list[str] = ['algorithm_suite_id','commitment_policy','encrypted_data_keys','encryption_context','reproduced_encryption_context',]
@@ -4299,7 +4299,7 @@ class DecryptMaterialsOutput:
     ):
         self.decryption_materials = decryption_materials
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the DecryptMaterialsOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -4310,7 +4310,7 @@ class DecryptMaterialsOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DecryptMaterialsOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a DecryptMaterialsOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -4322,14 +4322,14 @@ class DecryptMaterialsOutput:
 
         return DecryptMaterialsOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "DecryptMaterialsOutput("
         if self.decryption_materials is not None:
             result += f"decryption_materials={repr(self.decryption_materials)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, DecryptMaterialsOutput):
             return False
         attributes: list[str] = ['decryption_materials',]
@@ -4359,7 +4359,7 @@ class GetEncryptionMaterialsInput:
         self.max_plaintext_length = max_plaintext_length
         self.required_encryption_context_keys = required_encryption_context_keys
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GetEncryptionMaterialsInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -4382,7 +4382,7 @@ class GetEncryptionMaterialsInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GetEncryptionMaterialsInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GetEncryptionMaterialsInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -4404,7 +4404,7 @@ class GetEncryptionMaterialsInput:
 
         return GetEncryptionMaterialsInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GetEncryptionMaterialsInput("
         if self.encryption_context is not None:
             result += f"encryption_context={repr(self.encryption_context)}, "
@@ -4423,7 +4423,7 @@ class GetEncryptionMaterialsInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GetEncryptionMaterialsInput):
             return False
         attributes: list[str] = ['encryption_context','commitment_policy','algorithm_suite_id','max_plaintext_length','required_encryption_context_keys',]
@@ -4444,7 +4444,7 @@ class GetEncryptionMaterialsOutput:
         """
         self.encryption_materials = encryption_materials
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GetEncryptionMaterialsOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -4455,7 +4455,7 @@ class GetEncryptionMaterialsOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GetEncryptionMaterialsOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GetEncryptionMaterialsOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -4467,14 +4467,14 @@ class GetEncryptionMaterialsOutput:
 
         return GetEncryptionMaterialsOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GetEncryptionMaterialsOutput("
         if self.encryption_materials is not None:
             result += f"encryption_materials={repr(self.encryption_materials)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GetEncryptionMaterialsOutput):
             return False
         attributes: list[str] = ['encryption_materials',]
@@ -4492,7 +4492,7 @@ class GetAlgorithmSuiteInfoInput:
     ):
         self.binary_id = binary_id
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the GetAlgorithmSuiteInfoInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -4503,7 +4503,7 @@ class GetAlgorithmSuiteInfoInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "GetAlgorithmSuiteInfoInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a GetAlgorithmSuiteInfoInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -4515,14 +4515,14 @@ class GetAlgorithmSuiteInfoInput:
 
         return GetAlgorithmSuiteInfoInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "GetAlgorithmSuiteInfoInput("
         if self.binary_id is not None:
             result += f"binary_id={repr(self.binary_id)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, GetAlgorithmSuiteInfoInput):
             return False
         attributes: list[str] = ['binary_id',]
@@ -4546,7 +4546,7 @@ class InitializeDecryptionMaterialsInput:
         self.encryption_context = encryption_context
         self.required_encryption_context_keys = required_encryption_context_keys
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the InitializeDecryptionMaterialsInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -4559,7 +4559,7 @@ class InitializeDecryptionMaterialsInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "InitializeDecryptionMaterialsInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a InitializeDecryptionMaterialsInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -4573,7 +4573,7 @@ class InitializeDecryptionMaterialsInput:
 
         return InitializeDecryptionMaterialsInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "InitializeDecryptionMaterialsInput("
         if self.algorithm_suite_id is not None:
             result += f"algorithm_suite_id={repr(self.algorithm_suite_id)}, "
@@ -4586,7 +4586,7 @@ class InitializeDecryptionMaterialsInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, InitializeDecryptionMaterialsInput):
             return False
         attributes: list[str] = ['algorithm_suite_id','encryption_context','required_encryption_context_keys',]
@@ -4616,7 +4616,7 @@ class InitializeEncryptionMaterialsInput:
         self.signing_key = signing_key
         self.verification_key = verification_key
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the InitializeEncryptionMaterialsInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -4637,7 +4637,7 @@ class InitializeEncryptionMaterialsInput:
         return d
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "InitializeEncryptionMaterialsInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a InitializeEncryptionMaterialsInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -4657,7 +4657,7 @@ class InitializeEncryptionMaterialsInput:
 
         return InitializeEncryptionMaterialsInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "InitializeEncryptionMaterialsInput("
         if self.algorithm_suite_id is not None:
             result += f"algorithm_suite_id={repr(self.algorithm_suite_id)}, "
@@ -4676,7 +4676,7 @@ class InitializeEncryptionMaterialsInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, InitializeEncryptionMaterialsInput):
             return False
         attributes: list[str] = ['algorithm_suite_id','encryption_context','required_encryption_context_keys','signing_key','verification_key',]
@@ -4697,7 +4697,7 @@ class OnDecryptInput:
         self.materials = materials
         self.encrypted_data_keys = encrypted_data_keys
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the OnDecryptInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -4709,7 +4709,7 @@ class OnDecryptInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "OnDecryptInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a OnDecryptInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -4722,7 +4722,7 @@ class OnDecryptInput:
 
         return OnDecryptInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "OnDecryptInput("
         if self.materials is not None:
             result += f"materials={repr(self.materials)}, "
@@ -4732,7 +4732,7 @@ class OnDecryptInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, OnDecryptInput):
             return False
         attributes: list[str] = ['materials','encrypted_data_keys',]
@@ -4750,7 +4750,7 @@ class OnDecryptOutput:
     ):
         self.materials = materials
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the OnDecryptOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -4761,7 +4761,7 @@ class OnDecryptOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "OnDecryptOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a OnDecryptOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -4773,14 +4773,14 @@ class OnDecryptOutput:
 
         return OnDecryptOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "OnDecryptOutput("
         if self.materials is not None:
             result += f"materials={repr(self.materials)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, OnDecryptOutput):
             return False
         attributes: list[str] = ['materials',]
@@ -4801,7 +4801,7 @@ class OnEncryptInput:
         """
         self.materials = materials
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the OnEncryptInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -4812,7 +4812,7 @@ class OnEncryptInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "OnEncryptInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a OnEncryptInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -4824,14 +4824,14 @@ class OnEncryptInput:
 
         return OnEncryptInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "OnEncryptInput("
         if self.materials is not None:
             result += f"materials={repr(self.materials)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, OnEncryptInput):
             return False
         attributes: list[str] = ['materials',]
@@ -4852,7 +4852,7 @@ class OnEncryptOutput:
         """
         self.materials = materials
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the OnEncryptOutput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -4863,7 +4863,7 @@ class OnEncryptOutput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "OnEncryptOutput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a OnEncryptOutput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -4875,14 +4875,14 @@ class OnEncryptOutput:
 
         return OnEncryptOutput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "OnEncryptOutput("
         if self.materials is not None:
             result += f"materials={repr(self.materials)}"
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, OnEncryptOutput):
             return False
         attributes: list[str] = ['materials',]
@@ -4903,7 +4903,7 @@ class ValidateCommitmentPolicyOnDecryptInput:
         self.algorithm = algorithm
         self.commitment_policy = commitment_policy
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the ValidateCommitmentPolicyOnDecryptInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -4915,7 +4915,7 @@ class ValidateCommitmentPolicyOnDecryptInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "ValidateCommitmentPolicyOnDecryptInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a ValidateCommitmentPolicyOnDecryptInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -4928,7 +4928,7 @@ class ValidateCommitmentPolicyOnDecryptInput:
 
         return ValidateCommitmentPolicyOnDecryptInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "ValidateCommitmentPolicyOnDecryptInput("
         if self.algorithm is not None:
             result += f"algorithm={repr(self.algorithm)}, "
@@ -4938,7 +4938,7 @@ class ValidateCommitmentPolicyOnDecryptInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, ValidateCommitmentPolicyOnDecryptInput):
             return False
         attributes: list[str] = ['algorithm','commitment_policy',]
@@ -4959,7 +4959,7 @@ class ValidateCommitmentPolicyOnEncryptInput:
         self.algorithm = algorithm
         self.commitment_policy = commitment_policy
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the ValidateCommitmentPolicyOnEncryptInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -4971,7 +4971,7 @@ class ValidateCommitmentPolicyOnEncryptInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "ValidateCommitmentPolicyOnEncryptInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a ValidateCommitmentPolicyOnEncryptInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -4984,7 +4984,7 @@ class ValidateCommitmentPolicyOnEncryptInput:
 
         return ValidateCommitmentPolicyOnEncryptInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "ValidateCommitmentPolicyOnEncryptInput("
         if self.algorithm is not None:
             result += f"algorithm={repr(self.algorithm)}, "
@@ -4994,7 +4994,7 @@ class ValidateCommitmentPolicyOnEncryptInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, ValidateCommitmentPolicyOnEncryptInput):
             return False
         attributes: list[str] = ['algorithm','commitment_policy',]
@@ -5015,7 +5015,7 @@ class ValidDecryptionMaterialsTransitionInput:
         self.start = start
         self.stop = stop
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the ValidDecryptionMaterialsTransitionInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -5027,7 +5027,7 @@ class ValidDecryptionMaterialsTransitionInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "ValidDecryptionMaterialsTransitionInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a ValidDecryptionMaterialsTransitionInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -5040,7 +5040,7 @@ class ValidDecryptionMaterialsTransitionInput:
 
         return ValidDecryptionMaterialsTransitionInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "ValidDecryptionMaterialsTransitionInput("
         if self.start is not None:
             result += f"start={repr(self.start)}, "
@@ -5050,7 +5050,7 @@ class ValidDecryptionMaterialsTransitionInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, ValidDecryptionMaterialsTransitionInput):
             return False
         attributes: list[str] = ['start','stop',]
@@ -5075,7 +5075,7 @@ class ValidEncryptionMaterialsTransitionInput:
         self.start = start
         self.stop = stop
 
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self):
         """Converts the ValidEncryptionMaterialsTransitionInput to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -5087,7 +5087,7 @@ class ValidEncryptionMaterialsTransitionInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "ValidEncryptionMaterialsTransitionInput":
+    def from_dict(d: Dict[str, Any]):
         """Creates a ValidEncryptionMaterialsTransitionInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -5100,7 +5100,7 @@ class ValidEncryptionMaterialsTransitionInput:
 
         return ValidEncryptionMaterialsTransitionInput(**kwargs)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         result = "ValidEncryptionMaterialsTransitionInput("
         if self.start is not None:
             result += f"start={repr(self.start)}, "
@@ -5110,7 +5110,7 @@ class ValidEncryptionMaterialsTransitionInput:
 
         return result + ")"
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: Any):
         if not isinstance(other, ValidEncryptionMaterialsTransitionInput):
             return False
         attributes: list[str] = ['start','stop',]
@@ -5119,16 +5119,16 @@ class ValidEncryptionMaterialsTransitionInput:
             for a in attributes
         )
 
-def _encrypted_data_key_list_as_dict(given: list[EncryptedDataKey]) -> List[Any]:
+def _encrypted_data_key_list_as_dict(given: list[EncryptedDataKey]):
     return [v.as_dict() for v in given]
 
-def _encrypted_data_key_list_from_dict(given: List[Any]) -> list[EncryptedDataKey]:
+def _encrypted_data_key_list_from_dict(given: List[Any]):
     return [EncryptedDataKey.from_dict(v) for v in given]
 
-def _keyring_list_as_dict(given: list[KeyringReference]) -> List[Any]:
+def _keyring_list_as_dict(given: list[KeyringReference]):
     return [v.as_dict() for v in given]
 
-def _keyring_list_from_dict(given: List[Any]) -> list[KeyringReference]:
+def _keyring_list_from_dict(given: List[Any]):
     return [KeyringReference.from_dict(v) for v in given]
 
 class Unit:

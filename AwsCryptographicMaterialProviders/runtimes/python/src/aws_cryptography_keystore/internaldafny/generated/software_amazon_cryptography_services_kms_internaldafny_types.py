@@ -1257,25 +1257,31 @@ class EncryptionAlgorithmSpec_SYMMETRIC__DEFAULT(EncryptionAlgorithmSpec, NamedT
     def __dafnystr__(self) -> str:
         return f'ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.SYMMETRIC_DEFAULT'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec_SYMMETRIC__DEFAULT)
+        return isinstance(__o, EncryptionAlgorithmSpec_SYMMETRIC__DEFAULT)
     def __hash__(self) -> int:
         return super().__hash__()
+    def VerbatimString(self, nope):
+        return self.__dafnystr__()
 
 class EncryptionAlgorithmSpec_RSAES__OAEP__SHA__1(EncryptionAlgorithmSpec, NamedTuple('RSAES__OAEP__SHA__1', [])):
     def __dafnystr__(self) -> str:
         return f'ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.RSAES_OAEP_SHA_1'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec_RSAES__OAEP__SHA__1)
+        return isinstance(__o, EncryptionAlgorithmSpec_RSAES__OAEP__SHA__1)
     def __hash__(self) -> int:
         return super().__hash__()
+    def VerbatimString(self, nope):
+        return self.__dafnystr__()
 
 class EncryptionAlgorithmSpec_RSAES__OAEP__SHA__256(EncryptionAlgorithmSpec, NamedTuple('RSAES__OAEP__SHA__256', [])):
     def __dafnystr__(self) -> str:
         return f'ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.RSAES_OAEP_SHA_256'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec_RSAES__OAEP__SHA__256)
+        return isinstance(__o, EncryptionAlgorithmSpec_RSAES__OAEP__SHA__256)
     def __hash__(self) -> int:
         return super().__hash__()
+    def VerbatimString(self, nope):
+        return self.__dafnystr__()
 
 
 class EncryptRequest:

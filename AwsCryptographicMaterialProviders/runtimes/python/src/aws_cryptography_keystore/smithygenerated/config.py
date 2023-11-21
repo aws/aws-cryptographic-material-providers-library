@@ -107,14 +107,14 @@ class KeyStoreConfig(Config):
         self.ddb_client = ddb_client
         self.kms_client = kms_client
 
-def dafny_config_to_smithy_config(dafny_config) -> KeyStoreConfig:
+def dafny_config_to_smithy_config(dafny_config):
     '''
     Converts the provided Dafny shape for this localService's config
     into the corresponding Smithy-modelled shape.
     '''
     return aws_cryptography_keystore.smithygenerated.dafny_to_smithy.DafnyToSmithy_aws_cryptography_keystore_KeyStoreConfig(dafny_config)
 
-def smithy_config_to_dafny_config(smithy_config) -> DafnyKeyStoreConfig:
+def smithy_config_to_dafny_config(smithy_config):
     '''
     Converts the provided Smithy-modelled shape for this localService's config
     into the corresponding Dafny shape.

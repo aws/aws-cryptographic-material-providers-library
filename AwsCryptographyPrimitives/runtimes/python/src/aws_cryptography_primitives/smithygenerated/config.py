@@ -94,14 +94,14 @@ class CryptoConfig(Config):
     def __init__(self, ):
         super().__init__()
 
-def dafny_config_to_smithy_config(dafny_config) -> CryptoConfig:
+def dafny_config_to_smithy_config(dafny_config):
     '''
     Converts the provided Dafny shape for this localService's config
     into the corresponding Smithy-modelled shape.
     '''
     return aws_cryptography_primitives.smithygenerated.dafny_to_smithy.DafnyToSmithy_aws_cryptography_primitives_CryptoConfig(dafny_config)
 
-def smithy_config_to_dafny_config(smithy_config) -> DafnyCryptoConfig:
+def smithy_config_to_dafny_config(smithy_config):
     '''
     Converts the provided Smithy-modelled shape for this localService's config
     into the corresponding Dafny shape.

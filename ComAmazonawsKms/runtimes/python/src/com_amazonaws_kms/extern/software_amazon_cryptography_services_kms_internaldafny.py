@@ -3,6 +3,7 @@ from Wrappers import Option_None, Option_Some
 from com_amazonaws_kms.smithygenerated.shim import KMSClientShim
 from com_amazonaws_kms.internaldafny.generated.software_amazon_cryptography_services_kms_internaldafny import *
 import com_amazonaws_kms.internaldafny.generated.software_amazon_cryptography_services_kms_internaldafny
+import _dafny
 
 import boto3
 from botocore.config import Config
@@ -20,6 +21,11 @@ class default__(com_amazonaws_kms.internaldafny.generated.software_amazon_crypto
             region = boto3.session.Session().region_name
         wrapped_client = KMSClientShim(impl, region)
         return Wrappers.Result_Success(wrapped_client)
+    
+    @staticmethod
+    def KMSClientForRegion(region: _dafny.Seq):
+        region_string = _dafny.string_of(region)
+        return default__.KMSClient(region=region_string)
 
     @staticmethod
     def RegionMatch(client, region):

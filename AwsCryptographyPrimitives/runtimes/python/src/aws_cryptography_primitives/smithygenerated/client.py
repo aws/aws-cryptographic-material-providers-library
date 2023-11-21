@@ -112,7 +112,7 @@ class AwsCryptographicPrimitives:
         for plugin in client_plugins:
             plugin(self._config)
 
-    async def aes_decrypt(self, input: AESDecryptInput, plugins: list[Plugin] | None = None) -> AESDecryptOutput:
+    async def aes_decrypt(self, input: AESDecryptInput, plugins: list[Plugin] | None = None):
         """Invokes the AESDecrypt operation.
 
         :param input: The operation's input.
@@ -136,7 +136,7 @@ class AwsCryptographicPrimitives:
             operation_name="AESDecrypt",
         )
 
-    async def aes_encrypt(self, input: AESEncryptInput, plugins: list[Plugin] | None = None) -> AESEncryptOutput:
+    async def aes_encrypt(self, input: AESEncryptInput, plugins: list[Plugin] | None = None):
         """Invokes the AESEncrypt operation.
 
         :param input: The operation's input.
@@ -160,7 +160,7 @@ class AwsCryptographicPrimitives:
             operation_name="AESEncrypt",
         )
 
-    async def aes_kdf_counter_mode(self, input: AesKdfCtrInput, plugins: list[Plugin] | None = None) -> AesKdfCtrOutput:
+    async def aes_kdf_counter_mode(self, input: AesKdfCtrInput, plugins: list[Plugin] | None = None):
         """Invokes the AesKdfCounterMode operation.
 
         :param input: The operation's input.
@@ -184,7 +184,7 @@ class AwsCryptographicPrimitives:
             operation_name="AesKdfCounterMode",
         )
 
-    async def digest(self, input: DigestInput, plugins: list[Plugin] | None = None) -> DigestOutput:
+    async def digest(self, input: DigestInput, plugins: list[Plugin] | None = None):
         """Invokes the Digest operation.
 
         :param input: The operation's input.
@@ -208,7 +208,7 @@ class AwsCryptographicPrimitives:
             operation_name="Digest",
         )
 
-    async def ecdsa_sign(self, input: ECDSASignInput, plugins: list[Plugin] | None = None) -> ECDSASignOutput:
+    async def ecdsa_sign(self, input: ECDSASignInput, plugins: list[Plugin] | None = None):
         """Invokes the ECDSASign operation.
 
         :param input: The operation's input.
@@ -232,7 +232,7 @@ class AwsCryptographicPrimitives:
             operation_name="ECDSASign",
         )
 
-    async def ecdsa_verify(self, input: ECDSAVerifyInput, plugins: list[Plugin] | None = None) -> ECDSAVerifyOutput:
+    async def ecdsa_verify(self, input: ECDSAVerifyInput, plugins: list[Plugin] | None = None):
         """Invokes the ECDSAVerify operation.
 
         :param input: The operation's input.
@@ -256,7 +256,7 @@ class AwsCryptographicPrimitives:
             operation_name="ECDSAVerify",
         )
 
-    async def generate_ecdsa_signature_key(self, input: GenerateECDSASignatureKeyInput, plugins: list[Plugin] | None = None) -> GenerateECDSASignatureKeyOutput:
+    async def generate_ecdsa_signature_key(self, input: GenerateECDSASignatureKeyInput, plugins: list[Plugin] | None = None):
         """Invokes the GenerateECDSASignatureKey operation.
 
         :param input: The operation's input.
@@ -280,7 +280,7 @@ class AwsCryptographicPrimitives:
             operation_name="GenerateECDSASignatureKey",
         )
 
-    async def generate_random_bytes(self, input: GenerateRandomBytesInput, plugins: list[Plugin] | None = None) -> GenerateRandomBytesOutput:
+    async def generate_random_bytes(self, input: GenerateRandomBytesInput, plugins: list[Plugin] | None = None):
         """Invokes the GenerateRandomBytes operation.
 
         :param input: The operation's input.
@@ -304,7 +304,7 @@ class AwsCryptographicPrimitives:
             operation_name="GenerateRandomBytes",
         )
 
-    async def generate_rsa_key_pair(self, input: GenerateRSAKeyPairInput, plugins: list[Plugin] | None = None) -> GenerateRSAKeyPairOutput:
+    async def generate_rsa_key_pair(self, input: GenerateRSAKeyPairInput, plugins: list[Plugin] | None = None):
         """Invokes the GenerateRSAKeyPair operation.
 
         :param input: The operation's input.
@@ -328,7 +328,7 @@ class AwsCryptographicPrimitives:
             operation_name="GenerateRSAKeyPair",
         )
 
-    async def get_rsa_key_modulus_length(self, input: GetRSAKeyModulusLengthInput, plugins: list[Plugin] | None = None) -> GetRSAKeyModulusLengthOutput:
+    async def get_rsa_key_modulus_length(self, input: GetRSAKeyModulusLengthInput, plugins: list[Plugin] | None = None):
         """Invokes the GetRSAKeyModulusLength operation.
 
         :param input: The operation's input.
@@ -352,7 +352,7 @@ class AwsCryptographicPrimitives:
             operation_name="GetRSAKeyModulusLength",
         )
 
-    async def hkdf(self, input: HkdfInput, plugins: list[Plugin] | None = None) -> HkdfOutput:
+    async def hkdf(self, input: HkdfInput, plugins: list[Plugin] | None = None):
         """Invokes the Hkdf operation.
 
         :param input: The operation's input.
@@ -376,7 +376,7 @@ class AwsCryptographicPrimitives:
             operation_name="Hkdf",
         )
 
-    async def hkdf_expand(self, input: HkdfExpandInput, plugins: list[Plugin] | None = None) -> HkdfExpandOutput:
+    async def hkdf_expand(self, input: HkdfExpandInput, plugins: list[Plugin] | None = None):
         """Invokes the HkdfExpand operation.
 
         :param input: The operation's input.
@@ -400,7 +400,7 @@ class AwsCryptographicPrimitives:
             operation_name="HkdfExpand",
         )
 
-    async def hkdf_extract(self, input: HkdfExtractInput, plugins: list[Plugin] | None = None) -> HkdfExtractOutput:
+    async def hkdf_extract(self, input: HkdfExtractInput, plugins: list[Plugin] | None = None):
         """Invokes the HkdfExtract operation.
 
         :param input: The operation's input.
@@ -424,7 +424,7 @@ class AwsCryptographicPrimitives:
             operation_name="HkdfExtract",
         )
 
-    async def h_mac(self, input: HMacInput, plugins: list[Plugin] | None = None) -> HMacOutput:
+    async def h_mac(self, input: HMacInput, plugins: list[Plugin] | None = None):
         """Invokes the HMac operation.
 
         :param input: The operation's input.
@@ -448,7 +448,7 @@ class AwsCryptographicPrimitives:
             operation_name="HMac",
         )
 
-    async def kdf_counter_mode(self, input: KdfCtrInput, plugins: list[Plugin] | None = None) -> KdfCtrOutput:
+    async def kdf_counter_mode(self, input: KdfCtrInput, plugins: list[Plugin] | None = None):
         """Invokes the KdfCounterMode operation.
 
         :param input: The operation's input.
@@ -472,7 +472,7 @@ class AwsCryptographicPrimitives:
             operation_name="KdfCounterMode",
         )
 
-    async def rsa_decrypt(self, input: RSADecryptInput, plugins: list[Plugin] | None = None) -> RSADecryptOutput:
+    async def rsa_decrypt(self, input: RSADecryptInput, plugins: list[Plugin] | None = None):
         """Invokes the RSADecrypt operation.
 
         :param input: The operation's input.
@@ -496,7 +496,7 @@ class AwsCryptographicPrimitives:
             operation_name="RSADecrypt",
         )
 
-    async def rsa_encrypt(self, input: RSAEncryptInput, plugins: list[Plugin] | None = None) -> RSAEncryptOutput:
+    async def rsa_encrypt(self, input: RSAEncryptInput, plugins: list[Plugin] | None = None):
         """Invokes the RSAEncrypt operation.
 
         :param input: The operation's input.
@@ -528,7 +528,7 @@ class AwsCryptographicPrimitives:
         deserialize: Callable[[DafnyResponse, Config], Awaitable[Output]],
         config: Config,
         operation_name: str,
-    ) -> Output:
+    ):
         try:
             return await self._handle_execution(
                 input, plugins, serialize, deserialize, config, operation_name
@@ -548,7 +548,7 @@ class AwsCryptographicPrimitives:
         deserialize: Callable[[DafnyResponse, Config], Awaitable[Output]],
         config: Config,
         operation_name: str,
-    ) -> Output:
+    ):
         context: InterceptorContext[Input, None, None, None] = InterceptorContext(
             request=input,
             response=None,
@@ -671,7 +671,7 @@ class AwsCryptographicPrimitives:
         context: InterceptorContext[Input, None, DafnyRequest, None],
         config: Config,
         operation_name: str,
-    ) -> InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None]:
+    ):
         try:
             # assert config.interceptors is not None
             # Step 7a: Invoke read_before_attempt
@@ -755,7 +755,7 @@ class AwsCryptographicPrimitives:
         self,
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
         context: InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None],
-    ) -> InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None]:
+    ):
         # Step 7s: Invoke modify_before_attempt_completion
         try:
             for interceptor in interceptors:
@@ -784,7 +784,7 @@ class AwsCryptographicPrimitives:
         self,
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
         context: InterceptorContext[Input, Output, DafnyRequest | None, DafnyResponse | None],
-    ) -> Output:
+    ):
         try:
             # Step 9: Invoke modify_before_completion
             for interceptor in interceptors:

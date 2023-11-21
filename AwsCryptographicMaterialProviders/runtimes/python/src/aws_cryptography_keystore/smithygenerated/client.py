@@ -111,7 +111,7 @@ class KeyStore:
         for plugin in client_plugins:
             plugin(self._config)
 
-    async def create_key(self, input: CreateKeyInput, plugins: list[Plugin] | None = None) -> CreateKeyOutput:
+    async def create_key(self, input: CreateKeyInput, plugins: list[Plugin] | None = None):
         """Invokes the CreateKey operation.
 
         :param input: The operation's input.
@@ -135,7 +135,7 @@ class KeyStore:
             operation_name="CreateKey",
         )
 
-    async def create_key_store(self, input: CreateKeyStoreInput, plugins: list[Plugin] | None = None) -> CreateKeyStoreOutput:
+    async def create_key_store(self, input: CreateKeyStoreInput, plugins: list[Plugin] | None = None):
         """Invokes the CreateKeyStore operation.
 
         :param input: The operation's input.
@@ -159,7 +159,7 @@ class KeyStore:
             operation_name="CreateKeyStore",
         )
 
-    async def get_active_branch_key(self, input: GetActiveBranchKeyInput, plugins: list[Plugin] | None = None) -> GetActiveBranchKeyOutput:
+    async def get_active_branch_key(self, input: GetActiveBranchKeyInput, plugins: list[Plugin] | None = None):
         """Invokes the GetActiveBranchKey operation.
 
         :param input: The operation's input.
@@ -183,7 +183,7 @@ class KeyStore:
             operation_name="GetActiveBranchKey",
         )
 
-    async def get_beacon_key(self, input: GetBeaconKeyInput, plugins: list[Plugin] | None = None) -> GetBeaconKeyOutput:
+    async def get_beacon_key(self, input: GetBeaconKeyInput, plugins: list[Plugin] | None = None):
         """Invokes the GetBeaconKey operation.
 
         :param input: The operation's input.
@@ -207,7 +207,7 @@ class KeyStore:
             operation_name="GetBeaconKey",
         )
 
-    async def get_branch_key_version(self, input: GetBranchKeyVersionInput, plugins: list[Plugin] | None = None) -> GetBranchKeyVersionOutput:
+    async def get_branch_key_version(self, input: GetBranchKeyVersionInput, plugins: list[Plugin] | None = None):
         """Invokes the GetBranchKeyVersion operation.
 
         :param input: The operation's input.
@@ -231,7 +231,7 @@ class KeyStore:
             operation_name="GetBranchKeyVersion",
         )
 
-    async def get_key_store_info(self, input: Unit, plugins: list[Plugin] | None = None) -> GetKeyStoreInfoOutput:
+    async def get_key_store_info(self, input: Unit, plugins: list[Plugin] | None = None):
         """Invokes the GetKeyStoreInfo operation.
 
         :param input: The operation's input.
@@ -255,7 +255,7 @@ class KeyStore:
             operation_name="GetKeyStoreInfo",
         )
 
-    async def version_key(self, input: VersionKeyInput, plugins: list[Plugin] | None = None) -> VersionKeyOutput:
+    async def version_key(self, input: VersionKeyInput, plugins: list[Plugin] | None = None):
         """Invokes the VersionKey operation.
 
         :param input: The operation's input.
@@ -279,7 +279,7 @@ class KeyStore:
             operation_name="VersionKey",
         )
 
-    async def decrypt_materials(self, input: DecryptMaterialsInput, plugins: list[Plugin] | None = None) -> DecryptMaterialsOutput:
+    async def decrypt_materials(self, input: DecryptMaterialsInput, plugins: list[Plugin] | None = None):
         """Invokes the DecryptMaterials operation.
 
         :param input: The operation's input.
@@ -303,7 +303,7 @@ class KeyStore:
             operation_name="DecryptMaterials",
         )
 
-    async def delete_cache_entry(self, input: DeleteCacheEntryInput, plugins: list[Plugin] | None = None) -> Unit:
+    async def delete_cache_entry(self, input: DeleteCacheEntryInput, plugins: list[Plugin] | None = None):
         """Invokes the DeleteCacheEntry operation.
 
         :param input: The operation's input.
@@ -327,7 +327,7 @@ class KeyStore:
             operation_name="DeleteCacheEntry",
         )
 
-    async def get_branch_key_id(self, input: GetBranchKeyIdInput, plugins: list[Plugin] | None = None) -> GetBranchKeyIdOutput:
+    async def get_branch_key_id(self, input: GetBranchKeyIdInput, plugins: list[Plugin] | None = None):
         """Invokes the GetBranchKeyId operation.
 
         :param input: The operation's input.
@@ -351,7 +351,7 @@ class KeyStore:
             operation_name="GetBranchKeyId",
         )
 
-    async def get_cache_entry(self, input: GetCacheEntryInput, plugins: list[Plugin] | None = None) -> GetCacheEntryOutput:
+    async def get_cache_entry(self, input: GetCacheEntryInput, plugins: list[Plugin] | None = None):
         """Invokes the GetCacheEntry operation.
 
         :param input: The operation's input.
@@ -375,7 +375,7 @@ class KeyStore:
             operation_name="GetCacheEntry",
         )
 
-    async def get_client(self, input: GetClientInput, plugins: list[Plugin] | None = None) -> GetClientOutput:
+    async def get_client(self, input: GetClientInput, plugins: list[Plugin] | None = None):
         """Invokes the GetClient operation.
 
         :param input: The operation's input.
@@ -399,7 +399,7 @@ class KeyStore:
             operation_name="GetClient",
         )
 
-    async def get_encryption_materials(self, input: GetEncryptionMaterialsInput, plugins: list[Plugin] | None = None) -> GetEncryptionMaterialsOutput:
+    async def get_encryption_materials(self, input: GetEncryptionMaterialsInput, plugins: list[Plugin] | None = None):
         """//////////////
 
         :param input: The operation's input.
@@ -423,7 +423,7 @@ class KeyStore:
             operation_name="GetEncryptionMaterials",
         )
 
-    async def on_decrypt(self, input: OnDecryptInput, plugins: list[Plugin] | None = None) -> OnDecryptOutput:
+    async def on_decrypt(self, input: OnDecryptInput, plugins: list[Plugin] | None = None):
         """Invokes the OnDecrypt operation.
 
         :param input: The operation's input.
@@ -447,7 +447,7 @@ class KeyStore:
             operation_name="OnDecrypt",
         )
 
-    async def on_encrypt(self, input: OnEncryptInput, plugins: list[Plugin] | None = None) -> OnEncryptOutput:
+    async def on_encrypt(self, input: OnEncryptInput, plugins: list[Plugin] | None = None):
         """//////////////////
 
         :param input: The operation's input.
@@ -471,7 +471,7 @@ class KeyStore:
             operation_name="OnEncrypt",
         )
 
-    async def put_cache_entry(self, input: PutCacheEntryInput, plugins: list[Plugin] | None = None) -> Unit:
+    async def put_cache_entry(self, input: PutCacheEntryInput, plugins: list[Plugin] | None = None):
         """Invokes the PutCacheEntry operation.
 
         :param input: The operation's input.
@@ -495,7 +495,7 @@ class KeyStore:
             operation_name="PutCacheEntry",
         )
 
-    async def update_usage_metadata(self, input: UpdateUsageMetadataInput, plugins: list[Plugin] | None = None) -> Unit:
+    async def update_usage_metadata(self, input: UpdateUsageMetadataInput, plugins: list[Plugin] | None = None):
         """Invokes the UpdateUsageMetadata operation.
 
         :param input: The operation's input.
@@ -527,7 +527,7 @@ class KeyStore:
         deserialize: Callable[[DafnyResponse, Config], Awaitable[Output]],
         config: Config,
         operation_name: str,
-    ) -> Output:
+    ):
         try:
             return await self._handle_execution(
                 input, plugins, serialize, deserialize, config, operation_name
@@ -547,7 +547,7 @@ class KeyStore:
         deserialize: Callable[[DafnyResponse, Config], Awaitable[Output]],
         config: Config,
         operation_name: str,
-    ) -> Output:
+    ):
         context: InterceptorContext[Input, None, None, None] = InterceptorContext(
             request=input,
             response=None,
@@ -670,7 +670,7 @@ class KeyStore:
         context: InterceptorContext[Input, None, DafnyRequest, None],
         config: Config,
         operation_name: str,
-    ) -> InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None]:
+    ):
         try:
             # assert config.interceptors is not None
             # Step 7a: Invoke read_before_attempt
@@ -754,7 +754,7 @@ class KeyStore:
         self,
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
         context: InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None],
-    ) -> InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None]:
+    ):
         # Step 7s: Invoke modify_before_attempt_completion
         try:
             for interceptor in interceptors:
@@ -783,7 +783,7 @@ class KeyStore:
         self,
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
         context: InterceptorContext[Input, Output, DafnyRequest | None, DafnyResponse | None],
-    ) -> Output:
+    ):
         try:
             # Step 9: Invoke modify_before_completion
             for interceptor in interceptors:

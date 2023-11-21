@@ -16,6 +16,11 @@ include = ["generated/*.py"]
 
 [tool.poetry.dependencies]
 python = "^3.11.0"
+# TODO-Python: This fixes a race condition in internalDafny installs,
+# but is a symptom of 1) Dafny is generating code for both keystore and MPL inside MPL,
+# and 2) installing/writing files to a global install.
+# Resolving this dependency statement involves resolving those issues.
+keystore-internaldafny = { path = "../../aws_cryptography_keystore/internaldafny", develop = false}
 
 [build-system]
 requires = ["poetry-core"]

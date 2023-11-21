@@ -107,10 +107,10 @@ def DafnyToSmithy_aws_cryptography_keystore_VersionKeyOutput(input):
     )
 
 def DafnyToSmithy_aws_cryptography_keystore_DdbClientReference(input):
-    return input.impl
+    return input._impl
 
 def DafnyToSmithy_aws_cryptography_keystore_KmsClientReference(input):
-    return input.impl
+    return input._impl
 
 def DafnyToSmithy_aws_cryptography_keystore_KeyStoreConfig(input):
     return aws_cryptography_keystore.smithygenerated.config.KeyStoreConfig(

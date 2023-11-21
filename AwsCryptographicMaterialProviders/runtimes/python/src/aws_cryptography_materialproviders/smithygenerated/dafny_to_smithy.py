@@ -46,7 +46,7 @@ def DafnyToSmithy_aws_cryptography_materialproviders_GetClientInput(input):
     )
 
 def DafnyToSmithy_aws_cryptography_materialproviders_KmsClientReference(input):
-    return input.impl
+    return input._impl
 
 def DafnyToSmithy_aws_cryptography_materialproviders_GetClientOutput(input):
     return aws_cryptography_materialproviders.smithygenerated.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_KmsClientReference(input)
@@ -350,8 +350,11 @@ def DafnyToSmithy_aws_cryptography_materialproviders_BranchKeyIdSupplierReferenc
     return BranchKeyIdSupplier(_impl=input)
 
 def DafnyToSmithy_aws_cryptography_materialproviders_KeyStoreReference(input):
+    print("DafnyToSmithy_aws_cryptography_materialproviders_KeyStoreReference")
+    print(f"{input=}")
+    print(f"{input.__dict__}")
     from aws_cryptography_keystore.smithygenerated.client import KeyStore
-    return KeyStore(input)
+    return KeyStore(input._config)
 
 def DafnyToSmithy_aws_cryptography_materialproviders_CacheType(input):
     # Convert CacheType

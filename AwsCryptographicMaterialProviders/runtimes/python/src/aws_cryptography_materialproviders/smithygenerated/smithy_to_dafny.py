@@ -96,7 +96,7 @@ def SmithyToDafny_aws_cryptography_materialproviders_GetClientInput(input):
     )
 
 def SmithyToDafny_aws_cryptography_materialproviders_GetClientOutput(input):
-    return aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KmsClientReference(input.client)
+    return aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KmsClientReference(input)
 
 def SmithyToDafny_aws_cryptography_materialproviders_KmsClientReference(input):
     import software_amazon_cryptography_services_kms_internaldafny
@@ -319,7 +319,7 @@ def SmithyToDafny_aws_cryptography_materialproviders_OnDecryptOutput(input):
 
 def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsDiscoveryKeyringInput(input):
     return DafnyCreateAwsKmsDiscoveryKeyringInput(
-        kmsClient=aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KmsClientReference(input.kms_client),
+        kmsClient=aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KmsClientReference(input),
         discoveryFilter=((Option_Some(aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DiscoveryFilter(input.discovery_filter))) if (input.discovery_filter is not None) else (Option_None())),
         grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in input.grant_tokens]))) if (input.grant_tokens is not None) else (Option_None())),
     )
@@ -346,6 +346,9 @@ def SmithyToDafny_aws_cryptography_materialproviders_ValidEncryptionMaterialsTra
     )
 
 def SmithyToDafny_aws_cryptography_materialproviders_CreateDefaultCryptographicMaterialsManagerInput(input):
+    print("hello")
+    print(f"{input=}")
+    print(f"{input.__dict__}")
     return DafnyCreateDefaultCryptographicMaterialsManagerInput(
         keyring=aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KeyringReference(input.keyring),
     )
@@ -381,7 +384,7 @@ def SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(inp
 
 def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryKeyringInput(input):
     return DafnyCreateAwsKmsMrkDiscoveryKeyringInput(
-        kmsClient=aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KmsClientReference(input.kms_client),
+        kmsClient=aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KmsClientReference(input),
         discoveryFilter=((Option_Some(aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DiscoveryFilter(input.discovery_filter))) if (input.discovery_filter is not None) else (Option_None())),
         grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in input.grant_tokens]))) if (input.grant_tokens is not None) else (Option_None())),
         region=Seq(input.region),
@@ -444,7 +447,7 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryMul
 def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsKeyringInput(input):
     return DafnyCreateAwsKmsKeyringInput(
         kmsKeyId=Seq(input.kms_key_id),
-        kmsClient=aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KmsClientReference(input.kms_client),
+        kmsClient=aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KmsClientReference(input),
         grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in input.grant_tokens]))) if (input.grant_tokens is not None) else (Option_None())),
     )
 
@@ -501,7 +504,7 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsDiscoveryMultiK
 def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsMrkKeyringInput(input):
     return DafnyCreateAwsKmsMrkKeyringInput(
         kmsKeyId=Seq(input.kms_key_id),
-        kmsClient=aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KmsClientReference(input.kms_client),
+        kmsClient=aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KmsClientReference(input),
         grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in input.grant_tokens]))) if (input.grant_tokens is not None) else (Option_None())),
     )
 
@@ -524,22 +527,22 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateDefaultClientSupplier
     )
 
 def SmithyToDafny_aws_cryptography_materialproviders_CreateKeyringOutput(input):
-    return aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KeyringReference(input.keyring)
+    return aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KeyringReference(input)
 
 def SmithyToDafny_aws_cryptography_materialproviders_CreateCryptographicMaterialsManagerOutput(input):
-    return aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(input.materials_manager)
+    return aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(input)
 
 def SmithyToDafny_aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMOutput(input):
-    return aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(input.materials_manager)
+    return aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(input)
 
 def SmithyToDafny_aws_cryptography_materialproviders_CreateCryptographicMaterialsCacheOutput(input):
-    return aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CryptographicMaterialsCacheReference(input.materials_cache)
+    return aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CryptographicMaterialsCacheReference(input)
 
 def SmithyToDafny_aws_cryptography_materialproviders_CryptographicMaterialsCacheReference(input):
     return input._impl
 
 def SmithyToDafny_aws_cryptography_materialproviders_CreateDefaultClientSupplierOutput(input):
-    return aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client)
+    return aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input)
 
 def SmithyToDafny_aws_cryptography_materialproviders_MaterialProvidersConfig(input):
     return DafnyMaterialProvidersConfig(

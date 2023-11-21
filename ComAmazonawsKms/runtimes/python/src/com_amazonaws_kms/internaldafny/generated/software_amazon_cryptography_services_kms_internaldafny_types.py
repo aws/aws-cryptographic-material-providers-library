@@ -1225,6 +1225,8 @@ class EncryptionAlgorithmSpec_SYMMETRIC__DEFAULT(EncryptionAlgorithmSpec, NamedT
         return isinstance(__o, EncryptionAlgorithmSpec_SYMMETRIC__DEFAULT)
     def __hash__(self) -> int:
         return super().__hash__()
+    def VerbatimString(self, nope):
+        return self.__dafnystr__()
 
 class EncryptionAlgorithmSpec_RSAES__OAEP__SHA__1(EncryptionAlgorithmSpec, NamedTuple('RSAES__OAEP__SHA__1', [])):
     def __dafnystr__(self) -> str:
@@ -1233,6 +1235,8 @@ class EncryptionAlgorithmSpec_RSAES__OAEP__SHA__1(EncryptionAlgorithmSpec, Named
         return isinstance(__o, EncryptionAlgorithmSpec_RSAES__OAEP__SHA__1)
     def __hash__(self) -> int:
         return super().__hash__()
+    def VerbatimString(self, nope):
+        return self.__dafnystr__()
 
 class EncryptionAlgorithmSpec_RSAES__OAEP__SHA__256(EncryptionAlgorithmSpec, NamedTuple('RSAES__OAEP__SHA__256', [])):
     def __dafnystr__(self) -> str:
@@ -1241,6 +1245,8 @@ class EncryptionAlgorithmSpec_RSAES__OAEP__SHA__256(EncryptionAlgorithmSpec, Nam
         return isinstance(__o, EncryptionAlgorithmSpec_RSAES__OAEP__SHA__256)
     def __hash__(self) -> int:
         return super().__hash__()
+    def VerbatimString(self, nope):
+        return self.__dafnystr__()
 
 
 class EncryptRequest:

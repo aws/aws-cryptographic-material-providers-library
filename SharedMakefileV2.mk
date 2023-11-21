@@ -336,8 +336,8 @@ polymorph_python:
 
 _polymorph_python: OUTPUT_PYTHON=--output-python $(LIBRARY_ROOT)/runtimes/python/src/main/smithy-generated
 _polymorph_python: _polymorph
-_polymorph_python:
-	mv $(LIBRARY_ROOT)/runtimes/python/src/main/smithy-generated/$($(snakecase_dir))/*.py $(LIBRARY_ROOT)/runtimes/python/src/$($(snakecase_dir))/smithygenerated
+# _polymorph_python:
+# 	mv $(LIBRARY_ROOT)/runtimes/python/src/main/smithy-generated/$($(snakecase_dir))/*.py $(LIBRARY_ROOT)/runtimes/python/src/$($(snakecase_dir))/smithygenerated
 
 ########################## .NET targets
 
@@ -423,7 +423,6 @@ test_java:
 	gradle -p runtimes/java runTests
 
 ########################## Python targets
-
 #build_python: _python_underscore_dependency_extern_names
 #build_python: _python_underscore_extern_names
 build_python: build_implementation_python
