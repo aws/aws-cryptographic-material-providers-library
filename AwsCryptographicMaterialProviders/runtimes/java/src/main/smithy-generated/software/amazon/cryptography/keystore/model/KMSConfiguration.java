@@ -6,6 +6,7 @@ package software.amazon.cryptography.keystore.model;
 import java.util.Objects;
 
 public class KMSConfiguration {
+
   private final String kmsKeyArn;
 
   protected KMSConfiguration(BuilderImpl builder) {
@@ -33,10 +34,10 @@ public class KMSConfiguration {
   }
 
   static class BuilderImpl implements Builder {
+
     protected String kmsKeyArn;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(KMSConfiguration model) {
       this.kmsKeyArn = model.kmsKeyArn();
@@ -53,19 +54,27 @@ public class KMSConfiguration {
 
     public KMSConfiguration build() {
       if (Objects.nonNull(this.kmsKeyArn()) && this.kmsKeyArn().length() < 1) {
-        throw new IllegalArgumentException("The size of `kmsKeyArn` must be greater than or equal to 1");
+        throw new IllegalArgumentException(
+          "The size of `kmsKeyArn` must be greater than or equal to 1"
+        );
       }
-      if (Objects.nonNull(this.kmsKeyArn()) && this.kmsKeyArn().length() > 2048) {
-        throw new IllegalArgumentException("The size of `kmsKeyArn` must be less than or equal to 2048");
+      if (
+        Objects.nonNull(this.kmsKeyArn()) && this.kmsKeyArn().length() > 2048
+      ) {
+        throw new IllegalArgumentException(
+          "The size of `kmsKeyArn` must be less than or equal to 2048"
+        );
       }
       if (!onlyOneNonNull()) {
-        throw new IllegalArgumentException("`KMSConfiguration` is a Union. A Union MUST have one and only one value set.");
+        throw new IllegalArgumentException(
+          "`KMSConfiguration` is a Union. A Union MUST have one and only one value set."
+        );
       }
       return new KMSConfiguration(this);
     }
 
     private boolean onlyOneNonNull() {
-      Object[] allValues = {this.kmsKeyArn};
+      Object[] allValues = { this.kmsKeyArn };
       boolean haveOneNonNull = false;
       for (Object o : allValues) {
         if (Objects.nonNull(o)) {

@@ -11,6 +11,7 @@ import software.amazon.awssdk.services.kms.KmsClient;
  * Inputs for for creating a AWS KMS MRK Discovery Keyring.
  */
 public class CreateAwsKmsMrkDiscoveryKeyringInput {
+
   /**
    * The KMS Client this Keyring will use to call KMS.
    */
@@ -119,6 +120,7 @@ public class CreateAwsKmsMrkDiscoveryKeyringInput {
   }
 
   static class BuilderImpl implements Builder {
+
     protected KmsClient kmsClient;
 
     protected DiscoveryFilter discoveryFilter;
@@ -127,8 +129,7 @@ public class CreateAwsKmsMrkDiscoveryKeyringInput {
 
     protected String region;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(CreateAwsKmsMrkDiscoveryKeyringInput model) {
       this.kmsClient = model.kmsClient();
@@ -174,11 +175,15 @@ public class CreateAwsKmsMrkDiscoveryKeyringInput {
     }
 
     public CreateAwsKmsMrkDiscoveryKeyringInput build() {
-      if (Objects.isNull(this.kmsClient()))  {
-        throw new IllegalArgumentException("Missing value for required field `kmsClient`");
+      if (Objects.isNull(this.kmsClient())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `kmsClient`"
+        );
       }
-      if (Objects.isNull(this.region()))  {
-        throw new IllegalArgumentException("Missing value for required field `region`");
+      if (Objects.isNull(this.region())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `region`"
+        );
       }
       return new CreateAwsKmsMrkDiscoveryKeyringInput(this);
     }

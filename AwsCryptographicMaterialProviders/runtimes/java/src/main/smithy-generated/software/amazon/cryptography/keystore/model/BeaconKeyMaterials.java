@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class BeaconKeyMaterials {
+
   private final String beaconKeyIdentifier;
 
   private final Map<String, String> encryptionContext;
@@ -68,6 +69,7 @@ public class BeaconKeyMaterials {
   }
 
   static class BuilderImpl implements Builder {
+
     protected String beaconKeyIdentifier;
 
     protected Map<String, String> encryptionContext;
@@ -76,8 +78,7 @@ public class BeaconKeyMaterials {
 
     protected Map<String, ByteBuffer> hmacKeys;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(BeaconKeyMaterials model) {
       this.beaconKeyIdentifier = model.beaconKeyIdentifier();
@@ -123,11 +124,15 @@ public class BeaconKeyMaterials {
     }
 
     public BeaconKeyMaterials build() {
-      if (Objects.isNull(this.beaconKeyIdentifier()))  {
-        throw new IllegalArgumentException("Missing value for required field `beaconKeyIdentifier`");
+      if (Objects.isNull(this.beaconKeyIdentifier())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `beaconKeyIdentifier`"
+        );
       }
-      if (Objects.isNull(this.encryptionContext()))  {
-        throw new IllegalArgumentException("Missing value for required field `encryptionContext`");
+      if (Objects.isNull(this.encryptionContext())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `encryptionContext`"
+        );
       }
       return new BeaconKeyMaterials(this);
     }

@@ -11,9 +11,6 @@ tasks.wrapper {
 plugins {
     `java-library`
     `maven-publish`
-    if (JavaVersion.current() >= JavaVersion.VERSION_11) {
-        id("com.diffplug.spotless") version "6.22.0"
-    }
 }
 
 var props = Properties().apply {
@@ -74,7 +71,6 @@ dependencies {
     implementation("software.amazon.awssdk:dynamodb")
     implementation("software.amazon.awssdk:dynamodb-enhanced")
     implementation("software.amazon.awssdk:kms")
-    implementation("software.amazon.awssdk:core:2.19.1")
 }
 
 publishing {
@@ -106,9 +102,3 @@ tasks.register<Copy>("copyKeysJSON") {
     into(layout.projectDirectory.dir("dafny/TestVectorsAwsCryptographicMaterialProviders/test"))
 }
 
-// Commented out until the format has been updated
-// spotless {
-//   java {
-//     googleJavaFormat()
-//   }
-// }

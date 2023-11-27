@@ -10,6 +10,7 @@ import java.util.Objects;
  * Inputs for creating a Raw RAW Keyring.
  */
 public class CreateRawRsaKeyringInput {
+
   /**
    * A namespace associated with this wrapping key.
    */
@@ -141,6 +142,7 @@ public class CreateRawRsaKeyringInput {
   }
 
   static class BuilderImpl implements Builder {
+
     protected String keyNamespace;
 
     protected String keyName;
@@ -151,8 +153,7 @@ public class CreateRawRsaKeyringInput {
 
     protected ByteBuffer privateKey;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(CreateRawRsaKeyringInput model) {
       this.keyNamespace = model.keyNamespace();
@@ -208,14 +209,20 @@ public class CreateRawRsaKeyringInput {
     }
 
     public CreateRawRsaKeyringInput build() {
-      if (Objects.isNull(this.keyNamespace()))  {
-        throw new IllegalArgumentException("Missing value for required field `keyNamespace`");
+      if (Objects.isNull(this.keyNamespace())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `keyNamespace`"
+        );
       }
-      if (Objects.isNull(this.keyName()))  {
-        throw new IllegalArgumentException("Missing value for required field `keyName`");
+      if (Objects.isNull(this.keyName())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `keyName`"
+        );
       }
-      if (Objects.isNull(this.paddingScheme()))  {
-        throw new IllegalArgumentException("Missing value for required field `paddingScheme`");
+      if (Objects.isNull(this.paddingScheme())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `paddingScheme`"
+        );
       }
       return new CreateRawRsaKeyringInput(this);
     }

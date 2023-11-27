@@ -6,6 +6,7 @@ package software.amazon.cryptography.materialproviderstestvectorkeys.model;
 import java.util.Objects;
 
 public class KeyDescription {
+
   private final KMSInfo Kms;
 
   private final KmsMrkAware KmsMrk;
@@ -110,6 +111,7 @@ public class KeyDescription {
   }
 
   static class BuilderImpl implements Builder {
+
     protected KMSInfo Kms;
 
     protected KmsMrkAware KmsMrk;
@@ -126,8 +128,7 @@ public class KeyDescription {
 
     protected HierarchyKeyring Hierarchy;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(KeyDescription model) {
       this.Kms = model.Kms();
@@ -214,13 +215,24 @@ public class KeyDescription {
 
     public KeyDescription build() {
       if (!onlyOneNonNull()) {
-        throw new IllegalArgumentException("`KeyDescription` is a Union. A Union MUST have one and only one value set.");
+        throw new IllegalArgumentException(
+          "`KeyDescription` is a Union. A Union MUST have one and only one value set."
+        );
       }
       return new KeyDescription(this);
     }
 
     private boolean onlyOneNonNull() {
-      Object[] allValues = {this.Kms, this.KmsMrk, this.KmsMrkDiscovery, this.RSA, this.AES, this.Static, this.KmsRsa, this.Hierarchy};
+      Object[] allValues = {
+        this.Kms,
+        this.KmsMrk,
+        this.KmsMrkDiscovery,
+        this.RSA,
+        this.AES,
+        this.Static,
+        this.KmsRsa,
+        this.Hierarchy,
+      };
       boolean haveOneNonNull = false;
       for (Object o : allValues) {
         if (Objects.nonNull(o)) {

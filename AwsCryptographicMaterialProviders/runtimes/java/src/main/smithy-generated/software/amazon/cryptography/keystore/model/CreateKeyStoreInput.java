@@ -4,8 +4,8 @@
 package software.amazon.cryptography.keystore.model;
 
 public class CreateKeyStoreInput {
-  protected CreateKeyStoreInput(BuilderImpl builder) {
-  }
+
+  protected CreateKeyStoreInput(BuilderImpl builder) {}
 
   public Builder toBuilder() {
     return new BuilderImpl(this);
@@ -20,11 +20,10 @@ public class CreateKeyStoreInput {
   }
 
   static class BuilderImpl implements Builder {
-    protected BuilderImpl() {
-    }
 
-    protected BuilderImpl(CreateKeyStoreInput model) {
-    }
+    protected BuilderImpl() {}
+
+    protected BuilderImpl(CreateKeyStoreInput model) {}
 
     public CreateKeyStoreInput build() {
       return new CreateKeyStoreInput(this);

@@ -12,6 +12,7 @@ import software.amazon.cryptography.materialproviders.IClientSupplier;
  * Inputs for for creating a AWS KMS MRK Discovery Multi-Keyring.
  */
 public class CreateAwsKmsMrkDiscoveryMultiKeyringInput {
+
   /**
    * The list of regions this Keyring will creates KMS clients for.
    */
@@ -120,6 +121,7 @@ public class CreateAwsKmsMrkDiscoveryMultiKeyringInput {
   }
 
   static class BuilderImpl implements Builder {
+
     protected List<String> regions;
 
     protected DiscoveryFilter discoveryFilter;
@@ -128,8 +130,7 @@ public class CreateAwsKmsMrkDiscoveryMultiKeyringInput {
 
     protected List<String> grantTokens;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(CreateAwsKmsMrkDiscoveryMultiKeyringInput model) {
       this.regions = model.regions();
@@ -175,8 +176,10 @@ public class CreateAwsKmsMrkDiscoveryMultiKeyringInput {
     }
 
     public CreateAwsKmsMrkDiscoveryMultiKeyringInput build() {
-      if (Objects.isNull(this.regions()))  {
-        throw new IllegalArgumentException("Missing value for required field `regions`");
+      if (Objects.isNull(this.regions())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `regions`"
+        );
       }
       return new CreateAwsKmsMrkDiscoveryMultiKeyringInput(this);
     }

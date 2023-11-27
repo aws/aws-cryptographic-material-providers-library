@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class GetKeyDescriptionInput {
+
   private final ByteBuffer json;
 
   protected GetKeyDescriptionInput(BuilderImpl builder) {
@@ -34,10 +35,10 @@ public class GetKeyDescriptionInput {
   }
 
   static class BuilderImpl implements Builder {
+
     protected ByteBuffer json;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(GetKeyDescriptionInput model) {
       this.json = model.json();
@@ -53,8 +54,10 @@ public class GetKeyDescriptionInput {
     }
 
     public GetKeyDescriptionInput build() {
-      if (Objects.isNull(this.json()))  {
-        throw new IllegalArgumentException("Missing value for required field `json`");
+      if (Objects.isNull(this.json())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `json`"
+        );
       }
       return new GetKeyDescriptionInput(this);
     }
