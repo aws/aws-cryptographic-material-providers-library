@@ -330,24 +330,33 @@ module {:options "-functionSyntax:4"} GetOpt {
     else if "-" == args[0] then
       GetOptions2(args[1..], context, parms, files + [args[0]])
     else if "-" < args[0] then
-      var newParms :- GetShort(args[0][1..], context.longMap, context.shortMap);
-      GetOptions2(args[1..], context, parms + newParms, files)
+      var (newParms, nextParm) :- GetShort(args[0][1..], context.longMap, context.shortMap);
+      if nextParm.None? then
+        GetOptions2(args[1..], context, parms + newParms, files)
+      else if |args| == 1 then
+        Failure("Short option " + [nextParm.value] + " requires argument but didn't get one.")
+      else
+        GetOptions2(args[2..], context, parms + newParms + [OneArg(context.shortMap[nextParm.value], Some(args[1]))], files)
     else
       GetOptions2(args[1..], context, parms, files + [args[0]])
   }
 
   function GetShort(arg : string, longMap : map<string, bool>, shortMap : map<char, string>, parms : seq<OneArg> := [])
-    : Result<seq<OneArg>, string>
+    : (res : Result<(seq<OneArg>, Option<char>), string>)
     requires forall x <- shortMap :: shortMap[x] in longMap
+    ensures res.Success? && res.value.1.Some? ==> res.value.1.value in shortMap
   {
     if |arg| == 0 then
-      Success(parms)
+      Success((parms, None))
     else
       var ch := arg[0];
       if ch in shortMap then
         var opt := shortMap[ch];
         if longMap[opt] then
-          Success(parms + [OneArg(opt, Some(arg[1..]))])
+          if |arg| == 1 then
+            Success((parms, Some(ch)))
+          else
+            Success((parms + [OneArg(opt, Some(arg[1..]))], None))
         else
           GetShort(arg[1..], longMap, shortMap, parms + [OneArg(opt, None)])
       else
@@ -375,8 +384,9 @@ module {:options "-functionSyntax:4"} GetOpt {
       Param.Flag("six", Some('s'), ""),
       Param.Flag("seven", Some('v'), "")
     ]);
-    var x :- expect GetOptions(MyOptions, ["cmd", "-svsttt"]);
-    expect x.params == [OneArg("six", None), OneArg("seven", None), OneArg("six", None), OneArg("two", Some("tt"))];
+    var x :- expect GetOptions(MyOptions, ["cmd", "-svsttt", "-t", "stuff", "-v"]);
+    expect x.params == [OneArg("six", None), OneArg("seven", None), OneArg("six", None), OneArg("two", Some("tt")),
+    OneArg("two", Some("stuff")), OneArg("seven", None)];
     expect x.files == [];
   }
 
