@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "software.amazon.cryptography"
-version = "1.0.0"
+version = "1.0.2"
 description = "AWS Cryptographic Material Providers Library"
 
 java {
@@ -62,7 +62,7 @@ dependencies {
     implementation("software.amazon.cryptography:ComAmazonawsDynamodb:1.0-SNAPSHOT")
 
     // Dafny dependencies
-    implementation("org.dafny:DafnyRuntime:4.1.0")
+    implementation("org.dafny:DafnyRuntime:4.2.0")
     implementation("software.amazon.smithy.dafny:conversion:0.1")
 
     // sdk dependencies

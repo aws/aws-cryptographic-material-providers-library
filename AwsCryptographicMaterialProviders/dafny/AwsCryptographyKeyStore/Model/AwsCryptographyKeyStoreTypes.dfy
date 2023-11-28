@@ -80,13 +80,198 @@ include "../../../../StandardLibrary/src/Index.dfy"
  GetBranchKeyVersion := [];
  GetBeaconKey := [];
 }
- ghost var GetKeyStoreInfo: seq<DafnyCallEvent<(), Result<GetKeyStoreInfoOutput, Error>>>
- ghost var CreateKeyStore: seq<DafnyCallEvent<CreateKeyStoreInput, Result<CreateKeyStoreOutput, Error>>>
- ghost var CreateKey: seq<DafnyCallEvent<CreateKeyInput, Result<CreateKeyOutput, Error>>>
- ghost var VersionKey: seq<DafnyCallEvent<VersionKeyInput, Result<VersionKeyOutput, Error>>>
- ghost var GetActiveBranchKey: seq<DafnyCallEvent<GetActiveBranchKeyInput, Result<GetActiveBranchKeyOutput, Error>>>
- ghost var GetBranchKeyVersion: seq<DafnyCallEvent<GetBranchKeyVersionInput, Result<GetBranchKeyVersionOutput, Error>>>
- ghost var GetBeaconKey: seq<DafnyCallEvent<GetBeaconKeyInput, Result<GetBeaconKeyOutput, Error>>>
+abstract module AbstractAwsCryptographyKeyStoreService
+{
+  import opened Wrappers
+  import opened StandardLibrary.UInt
+  import opened UTF8
+  import opened Types = AwsCryptographyKeyStoreTypes
+  import Operations : AbstractAwsCryptographyKeyStoreOperations
+  function method DefaultKeyStoreConfig(): KeyStoreConfig
+  method KeyStore(config: KeyStoreConfig := DefaultKeyStoreConfig())
+    returns (res: Result<KeyStoreClient, Error>)
+    requires config.ddbClient.Some? ==>
+               config.ddbClient.value.ValidState()
+    requires config.kmsClient.Some? ==>
+               config.kmsClient.value.ValidState()
+    modifies if config.ddbClient.Some? then
+               config.ddbClient.value.Modifies
+             else {}
+    modifies if config.kmsClient.Some? then
+               config.kmsClient.value.Modifies
+             else {}
+    ensures res.Success? ==>
+              && fresh(res.value)
+              && fresh(res.value.Modifies
+                       - ( if config.ddbClient.Some? then
+                             config.ddbClient.value.Modifies
+                           else {}
+                       ) - ( if config.kmsClient.Some? then
+                               config.kmsClient.value.Modifies
+                             else {}
+                       ) )
+              && fresh(res.value.History)
+              && res.value.ValidState()
+    ensures config.ddbClient.Some? ==>
+              config.ddbClient.value.ValidState()
+    ensures config.kmsClient.Some? ==>
+              config.kmsClient.value.ValidState()
+
+  class KeyStoreClient extends IKeyStoreClient
+  {
+    constructor(config: Operations.InternalConfig)
+      requires Operations.ValidInternalConfig?(config)
+      ensures
+        && ValidState()
+        && fresh(History)
+        && this.config == config
+    const config: Operations.InternalConfig
+    predicate ValidState()
+      ensures ValidState() ==>
+                && Operations.ValidInternalConfig?(config)
+                && History !in Operations.ModifiesInternalConfig(config)
+                && Modifies == Operations.ModifiesInternalConfig(config) + {History}
+    predicate GetKeyStoreInfoEnsuresPublicly(output: Result<GetKeyStoreInfoOutput, Error>)
+    {Operations.GetKeyStoreInfoEnsuresPublicly(output)}
+    // The public method to be called by library consumers
+    method GetKeyStoreInfo (  )
+      returns (output: Result<GetKeyStoreInfoOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`GetKeyStoreInfo
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures GetKeyStoreInfoEnsuresPublicly(output)
+      ensures History.GetKeyStoreInfo == old(History.GetKeyStoreInfo) + [DafnyCallEvent((), output)]
+    {
+      output := Operations.GetKeyStoreInfo(config);
+      History.GetKeyStoreInfo := History.GetKeyStoreInfo + [DafnyCallEvent((), output)];
+    }
+
+    predicate CreateKeyStoreEnsuresPublicly(input: CreateKeyStoreInput , output: Result<CreateKeyStoreOutput, Error>)
+    {Operations.CreateKeyStoreEnsuresPublicly(input, output)}
+    // The public method to be called by library consumers
+    method CreateKeyStore ( input: CreateKeyStoreInput )
+      returns (output: Result<CreateKeyStoreOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`CreateKeyStore
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures CreateKeyStoreEnsuresPublicly(input, output)
+      ensures History.CreateKeyStore == old(History.CreateKeyStore) + [DafnyCallEvent(input, output)]
+    {
+      output := Operations.CreateKeyStore(config, input);
+      History.CreateKeyStore := History.CreateKeyStore + [DafnyCallEvent(input, output)];
+    }
+
+    predicate CreateKeyEnsuresPublicly(input: CreateKeyInput , output: Result<CreateKeyOutput, Error>)
+    {Operations.CreateKeyEnsuresPublicly(input, output)}
+    // The public method to be called by library consumers
+    method CreateKey ( input: CreateKeyInput )
+      returns (output: Result<CreateKeyOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`CreateKey
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures CreateKeyEnsuresPublicly(input, output)
+      ensures History.CreateKey == old(History.CreateKey) + [DafnyCallEvent(input, output)]
+    {
+      output := Operations.CreateKey(config, input);
+      History.CreateKey := History.CreateKey + [DafnyCallEvent(input, output)];
+    }
+
+    predicate VersionKeyEnsuresPublicly(input: VersionKeyInput , output: Result<VersionKeyOutput, Error>)
+    {Operations.VersionKeyEnsuresPublicly(input, output)}
+    // The public method to be called by library consumers
+    method VersionKey ( input: VersionKeyInput )
+      returns (output: Result<VersionKeyOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`VersionKey
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures VersionKeyEnsuresPublicly(input, output)
+      ensures History.VersionKey == old(History.VersionKey) + [DafnyCallEvent(input, output)]
+    {
+      output := Operations.VersionKey(config, input);
+      History.VersionKey := History.VersionKey + [DafnyCallEvent(input, output)];
+    }
+
+    predicate GetActiveBranchKeyEnsuresPublicly(input: GetActiveBranchKeyInput , output: Result<GetActiveBranchKeyOutput, Error>)
+    {Operations.GetActiveBranchKeyEnsuresPublicly(input, output)}
+    // The public method to be called by library consumers
+    method GetActiveBranchKey ( input: GetActiveBranchKeyInput )
+      returns (output: Result<GetActiveBranchKeyOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`GetActiveBranchKey
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures GetActiveBranchKeyEnsuresPublicly(input, output)
+      ensures History.GetActiveBranchKey == old(History.GetActiveBranchKey) + [DafnyCallEvent(input, output)]
+    {
+      output := Operations.GetActiveBranchKey(config, input);
+      History.GetActiveBranchKey := History.GetActiveBranchKey + [DafnyCallEvent(input, output)];
+    }
+
+    predicate GetBranchKeyVersionEnsuresPublicly(input: GetBranchKeyVersionInput , output: Result<GetBranchKeyVersionOutput, Error>)
+    {Operations.GetBranchKeyVersionEnsuresPublicly(input, output)}
+    // The public method to be called by library consumers
+    method GetBranchKeyVersion ( input: GetBranchKeyVersionInput )
+      returns (output: Result<GetBranchKeyVersionOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`GetBranchKeyVersion
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures GetBranchKeyVersionEnsuresPublicly(input, output)
+      ensures History.GetBranchKeyVersion == old(History.GetBranchKeyVersion) + [DafnyCallEvent(input, output)]
+    {
+      output := Operations.GetBranchKeyVersion(config, input);
+      History.GetBranchKeyVersion := History.GetBranchKeyVersion + [DafnyCallEvent(input, output)];
+    }
+
+    predicate GetBeaconKeyEnsuresPublicly(input: GetBeaconKeyInput , output: Result<GetBeaconKeyOutput, Error>)
+    {Operations.GetBeaconKeyEnsuresPublicly(input, output)}
+    // The public method to be called by library consumers
+    method GetBeaconKey ( input: GetBeaconKeyInput )
+      returns (output: Result<GetBeaconKeyOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`GetBeaconKey
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures GetBeaconKeyEnsuresPublicly(input, output)
+      ensures History.GetBeaconKey == old(History.GetBeaconKey) + [DafnyCallEvent(input, output)]
+    {
+      output := Operations.GetBeaconKey(config, input);
+      History.GetBeaconKey := History.GetBeaconKey + [DafnyCallEvent(input, output)];
+    }
+
+  }
 }
  trait {:termination false} IKeyStoreClient
  {

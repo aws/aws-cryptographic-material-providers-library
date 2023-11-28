@@ -30,7 +30,7 @@ module {:extern "software_amazon_cryptography_services_kms_internaldafny"} Com_A
 
   function method DafnyUserAgentSuffix(runtime: string): string
   {
-    var version := "1.0.0";
+    var version := "1.0.1";
     "AwsCryptographicMPL/" + runtime + "/" + version
   }
 

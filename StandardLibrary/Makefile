@@ -26,3 +26,6 @@ _python_revert_underscore_extern_names:
 	find src -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/module {:extern \".*\"/s/_/\./g' {} \;
 	echo "Skipping Model modification for StandardLibrary"
 	find test -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/module {:extern \".*\"/s/_/\./g' {} \;
+
+format_net:
+	pushd runtimes/net && dotnet format && popd

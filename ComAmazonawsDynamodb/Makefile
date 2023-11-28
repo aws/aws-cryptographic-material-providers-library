@@ -15,3 +15,5 @@ STD_LIBRARY=StandardLibrary
 SMITHY_DEPS=model
 
 PYTHON_MODULE_NAME=com_amazonaws_dynamodb
+format_net:
+	pushd runtimes/net && dotnet format && popd

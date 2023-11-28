@@ -5,13 +5,13 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <LangVersion>10</LangVersion>
-        <TargetFrameworks>net6.0</TargetFrameworks>
+        <TargetFrameworks>net6.0;net48</TargetFrameworks>
         <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
         <OutputType>Exe</OutputType>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="DafnyRuntime" Version="4.0.0.50303" />
+        <PackageReference Include="DafnyRuntime" Version="4.2.0" />
         <!--
           System.Collections.Immutable can be removed once dafny.msbuild is updated with
           https://github.com/dafny-lang/dafny.msbuild/pull/10 and versioned
@@ -26,8 +26,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\AwsCryptographicMaterialProviders\runtimes\net\MPL.csproj" />
-      <ProjectReference Include="..\..\..\StandardLibrary\runtimes\net\STD.csproj" />
+      <ProjectReference Include="../../../AwsCryptographicMaterialProviders/runtimes/net/MPL.csproj" />
     </ItemGroup>
 
     <!--

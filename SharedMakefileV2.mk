@@ -65,13 +65,26 @@ else
   SED_PARAMETER :=
 endif
 
-
 ########################## Dafny targets
 
+# Proof of correctness for the math below
+#  function Z3_PROCESSES(cpus:nat): nat
+#  { if cpus >= 3 then 2 else 1 }
+
+#  function DAFNY_PROCESSES(cpus: nat): nat
+#   requires 0 < cpus // 0 cpus would do no work!
+#  { (cpus - 1 )/Z3_PROCESSES(cpus) }
+
+#  lemma Correct(cpus:nat)
+#    ensures DAFNY_PROCESSES(cpus) * Z3_PROCESSES(cpus) <= cpus
+#  {}
+
 # Verify the entire project
+verify:Z3_PROCESSES=$(shell echo $$(( $(CORES) >= 3 ? 2 : 1 )))
+verify:DAFNY_PROCESSES=$(shell echo $$(( ($(CORES) - 1 ) / ($(CORES) >= 3 ? 2 : 1))))
 verify:
-	dafny \
-		-vcsCores:$(CORES) \
+	find . -name '*.dfy' | xargs -n 1 -P $(DAFNY_PROCESSES) -I % dafny \
+		-vcsCores:$(Z3_PROCESSES) \
 		-compile:0 \
 		-definiteAssignment:3 \
 		-quantifierSyntax:3 \
@@ -80,13 +93,12 @@ verify:
 		-verificationLogger:csv \
 		-timeLimit:100 \
 		-trace \
-		`find . -name *.dfy`
+		%
 
 # Verify single file FILE with text logger.
 # This is useful for debugging resource count usage within a file.
 # Use PROC to further scope the verification
 verify_single:
-	@: $(if ${CORES},,CORES=2);
 	dafny \
 		-vcsCores:$(CORES) \
 		-compile:0 \
@@ -354,20 +366,23 @@ transpile_test_net: _transpile_test_all
 transpile_dependencies_net: LANG=net
 transpile_dependencies_net: transpile_dependencies
 
+test_net_mac_brew: FRAMEWORK=net6.0
 test_net:
 	dotnet run \
 		--project runtimes/net/tests/ \
-		--framework net6.0
+		--framework $(FRAMEWORK)
 
+test_net_mac_brew: FRAMEWORK=net6.0
 test_net_mac_intel:
 	DYLD_LIBRARY_PATH="/usr/local/opt/openssl@1.1/lib" dotnet run \
 		--project runtimes/net/tests/ \
-		--framework net6.0
+		--framework $(FRAMEWORK)
 
+test_net_mac_brew: FRAMEWORK=net6.0
 test_net_mac_brew:
 	DYLD_LIBRARY_PATH="$(shell brew --prefix)/opt/openssl@1.1/lib/" dotnet run \
 		--project runtimes/net/tests/ \
-		--framework net6.0
+		--framework $(FRAMEWORK)
 
 setup_net:
 	dotnet restore runtimes/net/
@@ -375,7 +390,7 @@ setup_net:
 ########################## Java targets
 
 build_java: transpile_java mvn_local_deploy_dependencies
-	gradle -p runtimes/java build
+	./runtimes/java/gradlew -p runtimes/java build
 
 transpile_java: | transpile_implementation_java transpile_test_java transpile_dependencies_java
 
@@ -409,18 +424,18 @@ mvn_local_deploy_dependencies:
 
 # The Java MUST all exist already through the transpile step.
 mvn_local_deploy:
-	gradle -p runtimes/java publishMavenLocalPublicationToMavenLocal 
+	./runtimes/java/gradlew -p runtimes/java publishMavenLocalPublicationToMavenLocal 
 
 # The Java MUST all exsist if we want to publish to CodeArtifact
 mvn_ca_deploy:
-	gradle -p runtimes/java publishMavenPublicationToPublishToCodeArtifactCIRepository
+	./runtimes/java/gradlew -p runtimes/java publishMavenPublicationToPublishToCodeArtifactCIRepository
 
 mvn_staging_deploy:
-	gradle -p runtimes/java publishMavenPublicationToPublishToCodeArtifactStagingRepository
+	./runtimes/java/gradlew -p runtimes/java publishMavenPublicationToPublishToCodeArtifactStagingRepository
 
 test_java:
     # run Dafny generated tests
-	gradle -p runtimes/java runTests
+	./runtimes/java/gradlew -p runtimes/java runTests
 
 ########################## Python targets
 #build_python: _python_underscore_dependency_extern_names
