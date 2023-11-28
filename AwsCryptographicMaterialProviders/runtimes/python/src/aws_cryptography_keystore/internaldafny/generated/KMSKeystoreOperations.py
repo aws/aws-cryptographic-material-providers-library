@@ -70,9 +70,6 @@ class default__:
         if True:
             d_119___mcc_h0_ = source8_.kmsKeyArn
             d_120_arn_ = d_119___mcc_h0_
-            print("OPERATION")
-            print(d_120_arn_)
-            print((encryptionContext)[(Structure.default__).KMS__FIELD])
             return (d_120_arn_) == ((encryptionContext)[(Structure.default__).KMS__FIELD])
 
     @staticmethod
@@ -100,7 +97,7 @@ class default__:
             res = (d_126_valueOrError1_).PropagateFailure()
             return res
         d_127_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
-        d_127_valueOrError2_ = Wrappers.default__.Need(((((d_123_generateResponse_).CiphertextBlob).is_Some) and ((len(((d_123_generateResponse_).CiphertextBlob).value)) == ((Structure.default__).KMS__GEN__KEY__NO__PLAINTEXT__LENGTH__32))) and (software_amazon_cryptography_services_kms_internaldafny_types.default__.IsValid__CiphertextType(((d_123_generateResponse_).CiphertextBlob).value)), software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("Invalid response from AWS KMS GeneratedDataKey: Invalid ciphertext")))
+        d_127_valueOrError2_ = Wrappers.default__.Need((((d_123_generateResponse_).CiphertextBlob).is_Some) and (software_amazon_cryptography_services_kms_internaldafny_types.default__.IsValid__CiphertextType(((d_123_generateResponse_).CiphertextBlob).value)), software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("Invalid response from AWS KMS GenerateDataKey: Invalid ciphertext")))
         if (d_127_valueOrError2_).IsFailure():
             res = (d_127_valueOrError2_).PropagateFailure()
             return res
@@ -133,7 +130,7 @@ class default__:
             res = (d_133_valueOrError1_).PropagateFailure()
             return res
         d_134_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
-        d_134_valueOrError2_ = Wrappers.default__.Need((((d_130_reEncryptResponse_).CiphertextBlob).is_Some) and (software_amazon_cryptography_services_kms_internaldafny_types.default__.IsValid__CiphertextType(((d_130_reEncryptResponse_).CiphertextBlob).value)), software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("Invalid response from AWS KMS GeneratedDataKey: Invalid ciphertext")))
+        d_134_valueOrError2_ = Wrappers.default__.Need((((d_130_reEncryptResponse_).CiphertextBlob).is_Some) and (software_amazon_cryptography_services_kms_internaldafny_types.default__.IsValid__CiphertextType(((d_130_reEncryptResponse_).CiphertextBlob).value)), software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("Invalid response from AWS KMS ReEncrypt: Invalid ciphertext.")))
         if (d_134_valueOrError2_).IsFailure():
             res = (d_134_valueOrError2_).PropagateFailure()
             return res

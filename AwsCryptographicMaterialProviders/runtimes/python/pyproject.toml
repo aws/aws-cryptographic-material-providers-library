@@ -19,6 +19,7 @@ standard-library = { path = "../../../StandardLibrary/runtimes/python", develop 
 amazon-cryptography-internal-dafny-shim-kms = {path = "../../../ComAmazonawsKms/runtimes/python", develop = false}
 amazon-cryptography-internal-dafny-shim-ddb = {path = "../../../ComAmazonawsDynamodb/runtimes/python", develop = false}
 mpl-internaldafny = { path = "src/aws_cryptography_materialproviders/internaldafny", develop = false}
+mpl-externs = { path = "src/aws_cryptography_materialproviders/extern", develop = false}
 keystore-internaldafny = { path = "src/aws_cryptography_keystore/internaldafny", develop = false}
 aws-cryptography-primitives = {path = "../../../AwsCryptographyPrimitives/runtimes/python", develop = false}
 

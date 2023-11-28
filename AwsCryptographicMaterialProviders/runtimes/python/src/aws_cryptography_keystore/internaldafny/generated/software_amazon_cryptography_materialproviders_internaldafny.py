@@ -134,25 +134,25 @@ class default__:
     @staticmethod
     def MaterialProviders(config):
         res: Wrappers.Result = None
-        d_1613_maybeCrypto_: Wrappers.Result
+        d_1615_maybeCrypto_: Wrappers.Result
         out359_: Wrappers.Result
         out359_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
-        d_1613_maybeCrypto_ = out359_
-        d_1614_crypto_: software_amazon_cryptography_primitives_internaldafny.AtomicPrimitivesClient
-        d_1615_valueOrError0_: Wrappers.Result = None
-        def lambda104_(d_1616_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_1616_e_)
+        d_1615_maybeCrypto_ = out359_
+        d_1616_crypto_: software_amazon_cryptography_primitives_internaldafny.AtomicPrimitivesClient
+        d_1617_valueOrError0_: Wrappers.Result = None
+        def lambda104_(d_1618_e_):
+            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_1618_e_)
 
-        d_1615_valueOrError0_ = (d_1613_maybeCrypto_).MapFailure(lambda104_)
-        if (d_1615_valueOrError0_).IsFailure():
-            res = (d_1615_valueOrError0_).PropagateFailure()
+        d_1617_valueOrError0_ = (d_1615_maybeCrypto_).MapFailure(lambda104_)
+        if (d_1617_valueOrError0_).IsFailure():
+            res = (d_1617_valueOrError0_).PropagateFailure()
             return res
-        d_1614_crypto_ = (d_1615_valueOrError0_).Extract()
-        d_1617_client_: software_amazon_cryptography_materialproviders_internaldafny.MaterialProvidersClient
+        d_1616_crypto_ = (d_1617_valueOrError0_).Extract()
+        d_1619_client_: software_amazon_cryptography_materialproviders_internaldafny.MaterialProvidersClient
         nw73_ = software_amazon_cryptography_materialproviders_internaldafny.MaterialProvidersClient()
-        nw73_.ctor__(AwsCryptographyMaterialProvidersOperations.Config_Config(d_1614_crypto_))
-        d_1617_client_ = nw73_
-        res = Wrappers.Result_Success(d_1617_client_)
+        nw73_.ctor__(AwsCryptographyMaterialProvidersOperations.Config_Config(d_1616_crypto_))
+        d_1619_client_ = nw73_
+        res = Wrappers.Result_Success(d_1619_client_)
         return res
         return res
 
@@ -226,8 +226,6 @@ class MaterialProvidersClient(software_amazon_cryptography_materialproviders_int
     def CreateAwsKmsHierarchicalKeyring(self, input):
         output: Wrappers.Result = None
         out368_: Wrappers.Result
-        print("create keyring")
-        print(self.config)
         out368_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsHierarchicalKeyring((self).config, input)
         output = out368_
         return output

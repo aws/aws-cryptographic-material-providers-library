@@ -158,7 +158,7 @@ class MultiKeyring(Keyring.VerifiableInterface, software_amazon_cryptography_mat
             out170_ = (((self).generatorKeyring).value).OnEncrypt(input)
             d_661_onEncryptOutput_ = out170_
             d_662_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
-            d_662_valueOrError1_ = Wrappers.default__.Need((d_661_onEncryptOutput_).is_Success, software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Generator keyring failed to generate plaintext data key")))
+            d_662_valueOrError1_ = Wrappers.default__.Need((d_661_onEncryptOutput_).is_Success, ((d_661_onEncryptOutput_).error if (d_661_onEncryptOutput_).is_Failure else software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unexpected failure. Input to Need is !Success."))))
             if (d_662_valueOrError1_).IsFailure():
                 res = (d_662_valueOrError1_).PropagateFailure()
                 return res

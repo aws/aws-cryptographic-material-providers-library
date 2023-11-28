@@ -393,20 +393,17 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryKey
 def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsHierarchicalKeyringInput(input):
     return DafnyCreateAwsKmsHierarchicalKeyringInput(
         branchKeyId=((Option_Some(Seq(input.branch_key_id))) if (input.branch_key_id is not None) else (Option_None())),
-        branchKeyIdSupplier=((Option_Some(aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_BranchKeyIdSupplierReference(input.branch_key_id_supplier))) if (input.branch_key_id_supplier is not None) else (Option_None())),
+        branchKeyIdSupplier=aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_BranchKeyIdSupplierReference(input.branch_key_id_supplier),
         keyStore=aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KeyStoreReference(input.key_store),
         ttlSeconds=input.ttl_seconds,
         cache=((Option_Some(aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CacheType(input.cache))) if (input.cache is not None) else (Option_None())),
     )
 
 def SmithyToDafny_aws_cryptography_materialproviders_BranchKeyIdSupplierReference(input):
-    return input._impl
+    return (Option_Some(input._impl) if input._impl is not None else Option_None())
 
 def SmithyToDafny_aws_cryptography_materialproviders_KeyStoreReference(input):
-    import aws_cryptography_keystore.smithygenerated.config
-    aws_cryptography_keystore_client = software_amazon_cryptography_keystore_internaldafny.KeyStoreClient()
-    aws_cryptography_keystore_client.ctor__(aws_cryptography_keystore.smithygenerated.config.smithy_config_to_dafny_config(input._config))
-    return aws_cryptography_keystore_client
+    return input._config.dafnyImplInterface.impl
 
 def SmithyToDafny_aws_cryptography_materialproviders_CacheType(input):
     if isinstance(input, aws_cryptography_materialproviders.smithygenerated.models.CacheTypeDefault):
@@ -470,6 +467,8 @@ def SmithyToDafny_aws_cryptography_materialproviders_CryptographicMaterialsManag
     return input._impl
 
 def temp_do_encryption_algorithm(input):
+    print("temp_do_encryption_algorithm")
+    print(f"{input=}")
     import software_amazon_cryptography_services_kms_internaldafny_types
     if (input == "ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.SYMMETRIC_DEFAULT"):
         return software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec_SYMMETRIC__DEFAULT()
@@ -482,7 +481,7 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput
     return DafnyCreateAwsKmsRsaKeyringInput(
         publicKey=((Option_Some(Seq(input.public_key))) if (input.public_key is not None) else (Option_None())),
         kmsKeyId=Seq(input.kms_key_id),
-        encryptionAlgorithm=temp_do_encryption_algorithm(input.encryption_algorithm),
+        encryptionAlgorithm=input.encryption_algorithm,
         kmsClient=((Option_Some(aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KmsClientReference(input.kms_client))) if (input.kms_client is not None) else (Option_None())),
         grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in input.grant_tokens]))) if (input.grant_tokens is not None) else (Option_None())),
     )

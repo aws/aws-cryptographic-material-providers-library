@@ -15,6 +15,9 @@ include = ["generated/*.py"]
 
 [tool.poetry.dependencies]
 python = "^3.11.0"
+# aws-cryptography-primitives-internaldafny = { path = "../../../../../AwsCryptographyPrimitives/runtimes/python/aws_cryptography_primitives/internal_generated_dafny", develop = false}
+mpl-internaldafny = { path = "../../../../../AwsCryptographicMaterialProviders/runtimes/python/src/aws_cryptography_materialproviders/internaldafny", develop = false}
+keystore-internaldafny = { path = "../../../../../AwsCryptographicMaterialProviders/runtimes/python/src/aws_cryptography_keystore/internaldafny", develop = false}
 
 [build-system]
 requires = ["poetry-core"]

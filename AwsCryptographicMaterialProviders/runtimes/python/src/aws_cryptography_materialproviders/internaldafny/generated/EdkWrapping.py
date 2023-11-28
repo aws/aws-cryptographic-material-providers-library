@@ -107,7 +107,7 @@ class default__:
     def WrapEdkMaterial(encryptionMaterials, wrap, generateAndWrap):
         ret: Wrappers.Result = None
         d_787_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
-        d_787_valueOrError0_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterials(encryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid materials for decryption.")))
+        d_787_valueOrError0_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterials(encryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid materials for encryption.")))
         if (d_787_valueOrError0_).IsFailure():
             ret = (d_787_valueOrError0_).PropagateFailure()
             return ret

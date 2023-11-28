@@ -238,9 +238,6 @@ class default__:
     @_dafny.classproperty
     def ENCRYPTION__CONTEXT__PREFIX(instance):
         return _dafny.Seq("aws-crypto-ec:")
-    @_dafny.classproperty
-    def KMS__GEN__KEY__NO__PLAINTEXT__LENGTH__32(instance):
-        return 184
 
 class BranchKeyContext:
     def  __init__(self):

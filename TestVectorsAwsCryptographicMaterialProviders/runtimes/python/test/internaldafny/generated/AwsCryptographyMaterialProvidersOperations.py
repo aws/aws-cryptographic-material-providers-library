@@ -471,6 +471,7 @@ class default__:
 
     @staticmethod
     def CreateAwsKmsRsaKeyring(config, input):
+        print("testvectors creatersakeyring used")
         output: Wrappers.Result = None
         d_1180_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
         d_1180_valueOrError0_ = Wrappers.default__.Need((((input).publicKey).is_Some) or (((input).kmsClient).is_Some), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("A publicKey or a kmsClient is required")))

@@ -2843,7 +2843,7 @@ class IDynamoDBClientCallHistory:
     def __dafnystr__(self) -> str:
         return "ComAmazonawsDynamodbTypes.IDynamoDBClientCallHistory"
 
-class IDynamoDB_20120810Client:
+class IDynamoDBClient:
     pass
     def BatchExecuteStatement(self, input):
         pass

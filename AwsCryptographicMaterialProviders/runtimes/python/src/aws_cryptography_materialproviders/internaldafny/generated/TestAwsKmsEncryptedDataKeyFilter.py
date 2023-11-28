@@ -138,66 +138,66 @@ class default__:
 
     @staticmethod
     def TestFailsNonKeyResource():
-        d_2114_discoveryFilter_: software_amazon_cryptography_materialproviders_internaldafny_types.DiscoveryFilter
+        d_2116_discoveryFilter_: software_amazon_cryptography_materialproviders_internaldafny_types.DiscoveryFilter
         out570_: software_amazon_cryptography_materialproviders_internaldafny_types.DiscoveryFilter
         out570_ = TestAwsKmsEncryptedDataKeyFilter.default__.GetDiscoveryFilter()
-        d_2114_discoveryFilter_ = out570_
-        d_2115_edkFilter_: AwsKmsDiscoveryKeyring.AwsKmsEncryptedDataKeyFilter
+        d_2116_discoveryFilter_ = out570_
+        d_2117_edkFilter_: AwsKmsDiscoveryKeyring.AwsKmsEncryptedDataKeyFilter
         nw81_ = AwsKmsDiscoveryKeyring.AwsKmsEncryptedDataKeyFilter()
-        nw81_.ctor__(Wrappers.Option_Some(d_2114_discoveryFilter_))
-        d_2115_edkFilter_ = nw81_
-        d_2116_badEdk_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
+        nw81_.ctor__(Wrappers.Option_Some(d_2116_discoveryFilter_))
+        d_2117_edkFilter_ = nw81_
+        d_2118_badEdk_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
         out571_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
         out571_ = TestAwsKmsEncryptedDataKeyFilter.default__.GetNonKeyEncryptedDataKey()
-        d_2116_badEdk_ = out571_
-        d_2117_filterResult_: Wrappers.Result
+        d_2118_badEdk_ = out571_
+        d_2119_filterResult_: Wrappers.Result
         out572_: Wrappers.Result
-        out572_ = Actions.default__.FilterWithResult(d_2115_edkFilter_, _dafny.Seq([d_2116_badEdk_]))
-        d_2117_filterResult_ = out572_
-        if not((d_2117_filterResult_).is_Failure):
+        out572_ = Actions.default__.FilterWithResult(d_2117_edkFilter_, _dafny.Seq([d_2118_badEdk_]))
+        d_2119_filterResult_ = out572_
+        if not((d_2119_filterResult_).is_Failure):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/AwsKms/AwsKmsDiscoveryKeryring/TestAwsKmsEncryptedDataKeyFilter.dfy(32,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_2118_test_: software_amazon_cryptography_materialproviders_internaldafny_types.Error
-        d_2118_test_ = (d_2117_filterResult_).error
-        if not((d_2118_test_).is_AwsCryptographicMaterialProvidersException):
+        d_2120_test_: software_amazon_cryptography_materialproviders_internaldafny_types.Error
+        d_2120_test_ = (d_2119_filterResult_).error
+        if not((d_2120_test_).is_AwsCryptographicMaterialProvidersException):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/AwsKms/AwsKmsDiscoveryKeryring/TestAwsKmsEncryptedDataKeyFilter.dfy(34,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not(((d_2118_test_).message) == (_dafny.Seq("Only AWS KMS Keys supported"))):
+        if not(((d_2120_test_).message) == (_dafny.Seq("Only AWS KMS Keys supported"))):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/AwsKms/AwsKmsDiscoveryKeryring/TestAwsKmsEncryptedDataKeyFilter.dfy(35,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def TestMatchesKeyringsConfiguration():
-        d_2119_matchingEdk_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
+        d_2121_matchingEdk_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
         out573_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
         out573_ = TestUtils.default__.GenerateMockEncryptedDataKey(_dafny.Seq("aws-kms"), (TestUtils.default__).SHARED__TEST__KEY__ARN)
-        d_2119_matchingEdk_ = out573_
-        d_2120_mismatchEdkPartition_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
+        d_2121_matchingEdk_ = out573_
+        d_2122_mismatchEdkPartition_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
         out574_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
         out574_ = TestUtils.default__.GenerateMockEncryptedDataKey(_dafny.Seq("aws-kms"), _dafny.Seq("arn:aws-cn:kms:us-west-2:658956600833:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"))
-        d_2120_mismatchEdkPartition_ = out574_
-        d_2121_mismatchEdkAccount_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
+        d_2122_mismatchEdkPartition_ = out574_
+        d_2123_mismatchEdkAccount_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
         out575_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
         out575_ = TestUtils.default__.GenerateMockEncryptedDataKey(_dafny.Seq("aws-kms"), _dafny.Seq("arn:aws:kms:us-west-2:827585335069:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"))
-        d_2121_mismatchEdkAccount_ = out575_
-        d_2122_mismatchEdkProviderId_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
+        d_2123_mismatchEdkAccount_ = out575_
+        d_2124_mismatchEdkProviderId_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
         out576_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
         out576_ = TestUtils.default__.GenerateMockEncryptedDataKey(_dafny.Seq("aws"), (TestUtils.default__).SHARED__TEST__KEY__ARN)
-        d_2122_mismatchEdkProviderId_ = out576_
-        d_2123_discoveryFilter_: software_amazon_cryptography_materialproviders_internaldafny_types.DiscoveryFilter
+        d_2124_mismatchEdkProviderId_ = out576_
+        d_2125_discoveryFilter_: software_amazon_cryptography_materialproviders_internaldafny_types.DiscoveryFilter
         out577_: software_amazon_cryptography_materialproviders_internaldafny_types.DiscoveryFilter
         out577_ = TestAwsKmsEncryptedDataKeyFilter.default__.GetDiscoveryFilter()
-        d_2123_discoveryFilter_ = out577_
-        d_2124_edkFilter_: AwsKmsDiscoveryKeyring.AwsKmsEncryptedDataKeyFilter
+        d_2125_discoveryFilter_ = out577_
+        d_2126_edkFilter_: AwsKmsDiscoveryKeyring.AwsKmsEncryptedDataKeyFilter
         nw82_ = AwsKmsDiscoveryKeyring.AwsKmsEncryptedDataKeyFilter()
-        nw82_.ctor__(Wrappers.Option_Some(d_2123_discoveryFilter_))
-        d_2124_edkFilter_ = nw82_
-        d_2125_filterResult_: Wrappers.Result
+        nw82_.ctor__(Wrappers.Option_Some(d_2125_discoveryFilter_))
+        d_2126_edkFilter_ = nw82_
+        d_2127_filterResult_: Wrappers.Result
         out578_: Wrappers.Result
-        out578_ = Actions.default__.FilterWithResult(d_2124_edkFilter_, _dafny.Seq([d_2119_matchingEdk_, d_2120_mismatchEdkPartition_, d_2121_mismatchEdkAccount_, d_2122_mismatchEdkProviderId_]))
-        d_2125_filterResult_ = out578_
-        if not((d_2125_filterResult_).is_Success):
+        out578_ = Actions.default__.FilterWithResult(d_2126_edkFilter_, _dafny.Seq([d_2121_matchingEdk_, d_2122_mismatchEdkPartition_, d_2123_mismatchEdkAccount_, d_2124_mismatchEdkProviderId_]))
+        d_2127_filterResult_ = out578_
+        if not((d_2127_filterResult_).is_Success):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/AwsKms/AwsKmsDiscoveryKeryring/TestAwsKmsEncryptedDataKeyFilter.dfy(65,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((len((d_2125_filterResult_).value)) == (1)):
+        if not((len((d_2127_filterResult_).value)) == (1)):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/AwsKms/AwsKmsDiscoveryKeryring/TestAwsKmsEncryptedDataKeyFilter.dfy(66,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((((d_2125_filterResult_).value)[0]) == (d_2119_matchingEdk_)):
+        if not((((d_2127_filterResult_).value)[0]) == (d_2121_matchingEdk_)):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/AwsKms/AwsKmsDiscoveryKeryring/TestAwsKmsEncryptedDataKeyFilter.dfy(67,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod

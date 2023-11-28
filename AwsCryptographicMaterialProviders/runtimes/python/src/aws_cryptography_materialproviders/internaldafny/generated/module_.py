@@ -183,38 +183,12 @@ class default__:
 
     @staticmethod
     def Test____Main____(noArgsParameter__):
-        d_2200_success_: bool
-        d_2200_success_ = True
+        d_2202_success_: bool
+        d_2202_success_ = True
         _dafny.print(_dafny.string_of(_dafny.Seq("TestCreateKeyStore.TestCreateKeyStore: ")))
         try:
             if True:
                 TestCreateKeyStore.default__.TestCreateKeyStore()
-                if True:
-                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
-        except _dafny.HaltException as e:
-            d_2201_haltMessage_ = e.message
-            if True:
-                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_2201_haltMessage_))
-                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestConfig.TestInvalidKmsKeyArnConfig: ")))
-        try:
-            if True:
-                TestConfig.default__.TestInvalidKmsKeyArnConfig()
-                if True:
-                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
-        except _dafny.HaltException as e:
-            d_2202_haltMessage_ = e.message
-            if True:
-                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_2202_haltMessage_))
-                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestConfig.TestValidConfig: ")))
-        try:
-            if True:
-                TestConfig.default__.TestValidConfig()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -223,11 +197,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2203_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestConfig.TestValidConfigNoClients: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestConfig.TestInvalidKmsKeyArnConfig: ")))
         try:
             if True:
-                TestConfig.default__.TestValidConfigNoClients()
+                TestConfig.default__.TestInvalidKmsKeyArnConfig()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -236,11 +210,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2204_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestGetKeys.TestGetBeaconKey: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestConfig.TestValidConfig: ")))
         try:
             if True:
-                TestGetKeys.default__.TestGetBeaconKey()
+                TestConfig.default__.TestValidConfig()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -249,11 +223,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2205_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestGetKeys.TestGetActiveKey: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestConfig.TestValidConfigNoClients: ")))
         try:
             if True:
-                TestGetKeys.default__.TestGetActiveKey()
+                TestConfig.default__.TestValidConfigNoClients()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -262,11 +236,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2206_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestGetKeys.TestGetBranchKeyVersion: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestGetKeys.TestGetBeaconKey: ")))
         try:
             if True:
-                TestGetKeys.default__.TestGetBranchKeyVersion()
+                TestGetKeys.default__.TestGetBeaconKey()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -275,11 +249,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2207_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestGetKeys.TestGetActiveKeyWithIncorrectKmsKeyArn: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestGetKeys.TestGetActiveKey: ")))
         try:
             if True:
-                TestGetKeys.default__.TestGetActiveKeyWithIncorrectKmsKeyArn()
+                TestGetKeys.default__.TestGetActiveKey()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -288,11 +262,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2208_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestGetKeys.TestGetActiveKeyWrongLogicalKeyStoreName: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestGetKeys.TestGetBranchKeyVersion: ")))
         try:
             if True:
-                TestGetKeys.default__.TestGetActiveKeyWrongLogicalKeyStoreName()
+                TestGetKeys.default__.TestGetBranchKeyVersion()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -301,11 +275,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2209_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestGetKeys.TestGetActiveKeyWithNoClients: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestGetKeys.TestGetActiveKeyWithIncorrectKmsKeyArn: ")))
         try:
             if True:
-                TestGetKeys.default__.TestGetActiveKeyWithNoClients()
+                TestGetKeys.default__.TestGetActiveKeyWithIncorrectKmsKeyArn()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -314,11 +288,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2210_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestCreateKeys.TestCreateBranchAndBeaconKeys: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestGetKeys.TestGetActiveKeyWrongLogicalKeyStoreName: ")))
         try:
             if True:
-                TestCreateKeys.default__.TestCreateBranchAndBeaconKeys()
+                TestGetKeys.default__.TestGetActiveKeyWrongLogicalKeyStoreName()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -327,11 +301,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2211_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestCreateKeys.TestCreateOptions: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestGetKeys.TestGetActiveKeyWithNoClients: ")))
         try:
             if True:
-                TestCreateKeys.default__.TestCreateOptions()
+                TestGetKeys.default__.TestGetActiveKeyWithNoClients()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -340,11 +314,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2212_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestCreateKeys.TestCreateDuplicate: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestCreateKeys.TestCreateBranchAndBeaconKeys: ")))
         try:
             if True:
-                TestCreateKeys.default__.TestCreateDuplicate()
+                TestCreateKeys.default__.TestCreateBranchAndBeaconKeys()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -353,11 +327,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2213_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestCreateKeys.InsertingADuplicateWillFail: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestCreateKeys.TestCreateOptions: ")))
         try:
             if True:
-                TestCreateKeys.default__.InsertingADuplicateWillFail()
+                TestCreateKeys.default__.TestCreateOptions()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -366,11 +340,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2214_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestCreateKeys.InsertingADuplicateWillWithADifferentVersionFail: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestCreateKeys.TestCreateDuplicate: ")))
         try:
             if True:
-                TestCreateKeys.default__.InsertingADuplicateWillWithADifferentVersionFail()
+                TestCreateKeys.default__.TestCreateDuplicate()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -379,11 +353,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2215_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestVersionKey.TestVersionKey: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestCreateKeys.InsertingADuplicateWillFail: ")))
         try:
             if True:
-                TestVersionKey.default__.TestVersionKey()
+                TestCreateKeys.default__.InsertingADuplicateWillFail()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -392,11 +366,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2216_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestVersionKey.InsertingADuplicateVersionWillFail: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestCreateKeys.InsertingADuplicateWillWithADifferentVersionFail: ")))
         try:
             if True:
-                TestVersionKey.default__.InsertingADuplicateVersionWillFail()
+                TestCreateKeys.default__.InsertingADuplicateWillWithADifferentVersionFail()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -405,11 +379,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2217_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestVersionKey.VersioningANonexistentBranchKeyWillFail: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestVersionKey.TestVersionKey: ")))
         try:
             if True:
-                TestVersionKey.default__.VersioningANonexistentBranchKeyWillFail()
+                TestVersionKey.default__.TestVersionKey()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -418,11 +392,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2218_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestIntermediateKeyWrapping.IntermediateWrapUnwrapTest: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestVersionKey.InsertingADuplicateVersionWillFail: ")))
         try:
             if True:
-                TestIntermediateKeyWrapping.default__.IntermediateWrapUnwrapTest()
+                TestVersionKey.default__.InsertingADuplicateVersionWillFail()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -431,11 +405,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2219_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestIntermediateKeyWrapping.IntermediateGenerateAndWrapUnwrapTest: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestVersionKey.VersioningANonexistentBranchKeyWillFail: ")))
         try:
             if True:
-                TestIntermediateKeyWrapping.default__.IntermediateGenerateAndWrapUnwrapTest()
+                TestVersionKey.default__.VersioningANonexistentBranchKeyWillFail()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -444,11 +418,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2220_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestDefaultClientProvider.GetUsWestTwo: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestIntermediateKeyWrapping.IntermediateWrapUnwrapTest: ")))
         try:
             if True:
-                TestDefaultClientProvider.default__.GetUsWestTwo()
+                TestIntermediateKeyWrapping.default__.IntermediateWrapUnwrapTest()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -457,11 +431,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2221_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnEncryptOnDecryptGenerateDataKey: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestIntermediateKeyWrapping.IntermediateGenerateAndWrapUnwrapTest: ")))
         try:
             if True:
-                TestRawAESKeyring.default__.TestOnEncryptOnDecryptGenerateDataKey()
+                TestIntermediateKeyWrapping.default__.IntermediateGenerateAndWrapUnwrapTest()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -470,11 +444,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2222_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnEncryptOnDecryptSuppliedDataKey: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestDefaultClientProvider.GetUsWestTwo: ")))
         try:
             if True:
-                TestRawAESKeyring.default__.TestOnEncryptOnDecryptSuppliedDataKey()
+                TestDefaultClientProvider.default__.GetUsWestTwo()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -483,11 +457,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2223_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnDecryptKeyNameMismatch: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnEncryptOnDecryptGenerateDataKey: ")))
         try:
             if True:
-                TestRawAESKeyring.default__.TestOnDecryptKeyNameMismatch()
+                TestRawAESKeyring.default__.TestOnEncryptOnDecryptGenerateDataKey()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -496,11 +470,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2224_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnDecryptBadAndGoodEdkSucceeds: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnEncryptOnDecryptSuppliedDataKey: ")))
         try:
             if True:
-                TestRawAESKeyring.default__.TestOnDecryptBadAndGoodEdkSucceeds()
+                TestRawAESKeyring.default__.TestOnEncryptOnDecryptSuppliedDataKey()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -509,11 +483,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2225_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnDecryptNoEDKs: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnDecryptKeyNameMismatch: ")))
         try:
             if True:
-                TestRawAESKeyring.default__.TestOnDecryptNoEDKs()
+                TestRawAESKeyring.default__.TestOnDecryptKeyNameMismatch()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -522,11 +496,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2226_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnEncryptUnserializableEC: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnDecryptBadAndGoodEdkSucceeds: ")))
         try:
             if True:
-                TestRawAESKeyring.default__.TestOnEncryptUnserializableEC()
+                TestRawAESKeyring.default__.TestOnDecryptBadAndGoodEdkSucceeds()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -535,11 +509,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2227_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnDecryptUnserializableEC: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnDecryptNoEDKs: ")))
         try:
             if True:
-                TestRawAESKeyring.default__.TestOnDecryptUnserializableEC()
+                TestRawAESKeyring.default__.TestOnDecryptNoEDKs()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -548,11 +522,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2228_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestHappyCase: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnEncryptUnserializableEC: ")))
         try:
             if True:
-                TestMultiKeyring.default__.TestHappyCase()
+                TestRawAESKeyring.default__.TestOnEncryptUnserializableEC()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -561,11 +535,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2229_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestChildKeyringFailureEncrypt: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnDecryptUnserializableEC: ")))
         try:
             if True:
-                TestMultiKeyring.default__.TestChildKeyringFailureEncrypt()
+                TestRawAESKeyring.default__.TestOnDecryptUnserializableEC()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -574,11 +548,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2230_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestGeneratorKeyringFails: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestHappyCase: ")))
         try:
             if True:
-                TestMultiKeyring.default__.TestGeneratorKeyringFails()
+                TestMultiKeyring.default__.TestHappyCase()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -587,11 +561,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2231_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestGeneratorKeyringDoesNotReturnPlaintextDataKey: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestChildKeyringFailureEncrypt: ")))
         try:
             if True:
-                TestMultiKeyring.default__.TestGeneratorKeyringDoesNotReturnPlaintextDataKey()
+                TestMultiKeyring.default__.TestChildKeyringFailureEncrypt()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -600,11 +574,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2232_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestGeneratorAbleToDecrypt: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestGeneratorKeyringFails: ")))
         try:
             if True:
-                TestMultiKeyring.default__.TestGeneratorAbleToDecrypt()
+                TestMultiKeyring.default__.TestGeneratorKeyringFails()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -613,11 +587,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2233_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestGeneratorUnableToDecrypt: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestGeneratorKeyringDoesNotReturnPlaintextDataKey: ")))
         try:
             if True:
-                TestMultiKeyring.default__.TestGeneratorUnableToDecrypt()
+                TestMultiKeyring.default__.TestGeneratorKeyringDoesNotReturnPlaintextDataKey()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -626,11 +600,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2234_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestCollectFailuresDecrypt: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestGeneratorAbleToDecrypt: ")))
         try:
             if True:
-                TestMultiKeyring.default__.TestCollectFailuresDecrypt()
+                TestMultiKeyring.default__.TestGeneratorAbleToDecrypt()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -639,11 +613,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2235_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawRSAKeying.TestOnEncryptOnDecryptSuppliedDataKey: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestGeneratorUnableToDecrypt: ")))
         try:
             if True:
-                TestRawRSAKeying.default__.TestOnEncryptOnDecryptSuppliedDataKey()
+                TestMultiKeyring.default__.TestGeneratorUnableToDecrypt()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -652,11 +626,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2236_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawRSAKeying.TestOnDecryptKeyNameMismatch: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestCollectFailuresDecrypt: ")))
         try:
             if True:
-                TestRawRSAKeying.default__.TestOnDecryptKeyNameMismatch()
+                TestMultiKeyring.default__.TestCollectFailuresDecrypt()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -665,11 +639,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2237_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawRSAKeying.TestOnDecryptFailure: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawRSAKeying.TestOnEncryptOnDecryptSuppliedDataKey: ")))
         try:
             if True:
-                TestRawRSAKeying.default__.TestOnDecryptFailure()
+                TestRawRSAKeying.default__.TestOnEncryptOnDecryptSuppliedDataKey()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -678,11 +652,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2238_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawRSAKeying.TestOnDecryptBadAndGoodEdkSucceeds: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawRSAKeying.TestOnDecryptKeyNameMismatch: ")))
         try:
             if True:
-                TestRawRSAKeying.default__.TestOnDecryptBadAndGoodEdkSucceeds()
+                TestRawRSAKeying.default__.TestOnDecryptKeyNameMismatch()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -691,11 +665,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2239_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsRsaKeyring.TestKmsRsaRoundtrip: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawRSAKeying.TestOnDecryptFailure: ")))
         try:
             if True:
-                TestAwsKmsRsaKeyring.default__.TestKmsRsaRoundtrip()
+                TestRawRSAKeying.default__.TestOnDecryptFailure()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -704,11 +678,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2240_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsRsaKeyring.TestKmsRsaWithAsymmetricSignatureFails: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawRSAKeying.TestOnDecryptBadAndGoodEdkSucceeds: ")))
         try:
             if True:
-                TestAwsKmsRsaKeyring.default__.TestKmsRsaWithAsymmetricSignatureFails()
+                TestRawRSAKeying.default__.TestOnDecryptBadAndGoodEdkSucceeds()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -717,11 +691,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2241_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsHierarchicalKeyring.TestHierarchyClientESDKSuite: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsRsaKeyring.TestKmsRsaRoundtrip: ")))
         try:
             if True:
-                TestAwsKmsHierarchicalKeyring.default__.TestHierarchyClientESDKSuite()
+                TestAwsKmsRsaKeyring.default__.TestKmsRsaRoundtrip()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -730,11 +704,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2242_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsHierarchicalKeyring.TestHierarchyClientDBESuite: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsRsaKeyring.TestKmsRsaWithAsymmetricSignatureFails: ")))
         try:
             if True:
-                TestAwsKmsHierarchicalKeyring.default__.TestHierarchyClientDBESuite()
+                TestAwsKmsRsaKeyring.default__.TestKmsRsaWithAsymmetricSignatureFails()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -743,11 +717,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2243_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsHierarchicalKeyring.TestBranchKeyIdSupplier: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsHierarchicalKeyring.TestHierarchyClientESDKSuite: ")))
         try:
             if True:
-                TestAwsKmsHierarchicalKeyring.default__.TestBranchKeyIdSupplier()
+                TestAwsKmsHierarchicalKeyring.default__.TestHierarchyClientESDKSuite()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -756,11 +730,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2244_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsEncryptedDataKeyFilter.TestFailsNonKeyResource: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsHierarchicalKeyring.TestHierarchyClientDBESuite: ")))
         try:
             if True:
-                TestAwsKmsEncryptedDataKeyFilter.default__.TestFailsNonKeyResource()
+                TestAwsKmsHierarchicalKeyring.default__.TestHierarchyClientDBESuite()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -769,11 +743,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2245_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsEncryptedDataKeyFilter.TestMatchesKeyringsConfiguration: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsHierarchicalKeyring.TestBranchKeyIdSupplier: ")))
         try:
             if True:
-                TestAwsKmsEncryptedDataKeyFilter.default__.TestMatchesKeyringsConfiguration()
+                TestAwsKmsHierarchicalKeyring.default__.TestBranchKeyIdSupplier()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -782,11 +756,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2246_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestLocalCMC.LocalCMCBasics: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsEncryptedDataKeyFilter.TestFailsNonKeyResource: ")))
         try:
             if True:
-                TestLocalCMC.default__.LocalCMCBasics()
+                TestAwsKmsEncryptedDataKeyFilter.default__.TestFailsNonKeyResource()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -795,11 +769,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2247_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestStormTracker.StormTrackerBasics: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsEncryptedDataKeyFilter.TestMatchesKeyringsConfiguration: ")))
         try:
             if True:
-                TestStormTracker.default__.StormTrackerBasics()
+                TestAwsKmsEncryptedDataKeyFilter.default__.TestMatchesKeyringsConfiguration()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -808,11 +782,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2248_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestStormTracker.StormTrackerFanOut: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestLocalCMC.LocalCMCBasics: ")))
         try:
             if True:
-                TestStormTracker.default__.StormTrackerFanOut()
+                TestLocalCMC.default__.LocalCMCBasics()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -821,11 +795,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2249_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestStormTracker.StormTrackerTTL: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestStormTracker.StormTrackerBasics: ")))
         try:
             if True:
-                TestStormTracker.default__.StormTrackerTTL()
+                TestStormTracker.default__.StormTrackerBasics()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -834,11 +808,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2250_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestStormTracker.StormTrackerGraceInterval: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestStormTracker.StormTrackerFanOut: ")))
         try:
             if True:
-                TestStormTracker.default__.StormTrackerGraceInterval()
+                TestStormTracker.default__.StormTrackerFanOut()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -847,11 +821,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2251_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestStormTracker.StormTrackerGracePeriod: ")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestStormTracker.StormTrackerTTL: ")))
         try:
             if True:
-                TestStormTracker.default__.StormTrackerGracePeriod()
+                TestStormTracker.default__.StormTrackerTTL()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -860,7 +834,33 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_2252_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2200_success_ = False
-        if not(d_2200_success_):
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestStormTracker.StormTrackerGraceInterval: ")))
+        try:
+            if True:
+                TestStormTracker.default__.StormTrackerGraceInterval()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_2253_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_2253_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_2202_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestStormTracker.StormTrackerGracePeriod: ")))
+        try:
+            if True:
+                TestStormTracker.default__.StormTrackerGracePeriod()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_2254_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_2254_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_2202_success_ = False
+        if not(d_2202_success_):
             raise _dafny.HaltException("<stdin>(1,0): " + _dafny.string_of(_dafny.Seq("Test failures occurred: see above.\n")))
 

@@ -18,7 +18,7 @@ python = "^3.11.0"
 aws-cryptography-primitives-internaldafny = { path = "../internal_generated_dafny", develop = false}
 # TODO: race condition
 mpl-internaldafny = { path = "../../../../../../AwsCryptographicMaterialProviders/runtimes/python/src/aws_cryptography_materialproviders/internaldafny", develop = false}
-
+amazon-cryptographic-material-providers-test-vectors-test-internaldafny = { path = "../../../../../../TestVectorsAwsCryptographicMaterialProviders/runtimes/python/test/internaldafny", develop = false}
 
 [build-system]
 requires = ["poetry-core"]

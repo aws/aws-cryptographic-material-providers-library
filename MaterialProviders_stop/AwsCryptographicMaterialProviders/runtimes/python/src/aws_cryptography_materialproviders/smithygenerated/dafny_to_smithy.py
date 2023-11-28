@@ -432,7 +432,7 @@ def DafnyToSmithy_aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput
     return aws_cryptography_materialproviders.smithygenerated.models.CreateAwsKmsRsaKeyringInput(
         public_key=(bytes(input.publicKey.value)) if (input.publicKey.is_Some) else None,
         kms_key_id=input.kmsKeyId.VerbatimString(False),
-        encryption_algorithm=input.encryptionAlgorithm.VerbatimString(False),
+        encryption_algorithm=input.encryptionAlgorithm,
         kms_client=aws_cryptography_materialproviders.smithygenerated.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_KmsClientReference(input.kmsClient.UnwrapOr(None)),
         grant_tokens=([list_element.VerbatimString(False) for list_element in input.grantTokens.value]) if (input.grantTokens.is_Some) else None,
     )

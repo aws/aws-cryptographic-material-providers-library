@@ -103,7 +103,7 @@ class default__:
 
     @_dafny.classproperty
     def NULL(instance):
-        return LocalCMC.Ref_Null()
+        return Ref_Null()
     @_dafny.classproperty
     def INT32__MAX__VALUE(instance):
         return 2040109465
@@ -119,32 +119,32 @@ class Ref:
         return not self.__eq__(__o)
     @property
     def is_Ptr(self) -> bool:
-        return isinstance(self, LocalCMC.Ref_Ptr)
+        return isinstance(self, Ref_Ptr)
     @property
     def is_Null(self) -> bool:
-        return isinstance(self, LocalCMC.Ref_Null)
+        return isinstance(self, Ref_Null)
 
 class Ref_Ptr(Ref, NamedTuple('Ptr', [('deref', Any)])):
     def __dafnystr__(self) -> str:
-        return f'LocalCMC.Ref.Ptr({_dafny.string_of(self.deref)})'
+        return f'Ref.Ptr({_dafny.string_of(self.deref)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, LocalCMC.Ref_Ptr) and self.deref == __o.deref
+        return isinstance(__o, Ref_Ptr) and self.deref == __o.deref
     def __hash__(self) -> int:
         return super().__hash__()
 
 class Ref_Null(Ref, NamedTuple('Null', [])):
     def __dafnystr__(self) -> str:
-        return f'LocalCMC.Ref.Null'
+        return f'Ref.Null'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, LocalCMC.Ref_Null)
+        return isinstance(__o, Ref_Null)
     def __hash__(self) -> int:
         return super().__hash__()
 
 
 class CacheEntry:
     def  __init__(self):
-        self.prev: LocalCMC.Ref = LocalCMC.Ref_Null.default()()
-        self.next: LocalCMC.Ref = LocalCMC.Ref_Null.default()()
+        self.prev: Ref = Ref_Null.default()()
+        self.next: Ref = Ref_Null.default()()
         self.messagesUsed: BoundedInts.int32 = None
         self.bytesUsed: BoundedInts.int32 = None
         self._identifier: _dafny.Seq = _dafny.Seq({})
@@ -180,19 +180,19 @@ class CacheEntry:
 
 class DoublyLinkedCacheEntryList:
     def  __init__(self):
-        self.head: LocalCMC.Ref = LocalCMC.Ref_Null.default()()
-        self.tail: LocalCMC.Ref = LocalCMC.Ref_Null.default()()
+        self.head: Ref = Ref_Null.default()()
+        self.tail: Ref = Ref_Null.default()()
         pass
 
     def __dafnystr__(self) -> str:
         return "LocalCMC.DoublyLinkedCacheEntryList"
     def ctor__(self):
-        (self).head = LocalCMC.Ref_Null()
-        (self).tail = LocalCMC.Ref_Null()
+        (self).head = Ref_Null()
+        (self).tail = Ref_Null()
 
     def pushCell(self, toPush):
-        d_675_cRef_: LocalCMC.Ref
-        d_675_cRef_ = LocalCMC.Ref_Ptr(toPush)
+        d_675_cRef_: Ref
+        d_675_cRef_ = Ref_Ptr(toPush)
         if (self.head).is_Ptr:
             obj0_ = (self.head).deref
             obj0_.prev = d_675_cRef_
@@ -204,8 +204,8 @@ class DoublyLinkedCacheEntryList:
 
     def moveToFront(self, c):
         if ((self.head).deref) != (c):
-            d_676_toPush_: LocalCMC.Ref
-            d_676_toPush_ = LocalCMC.Ref_Ptr(c)
+            d_676_toPush_: Ref
+            d_676_toPush_ = Ref_Ptr(c)
             (self).remove(c)
             if (self.head).is_Ptr:
                 obj1_ = (self.head).deref
@@ -236,7 +236,7 @@ class DoublyLinkedCacheEntryList:
 
 class LocalCMC(software_amazon_cryptography_materialproviders_internaldafny_types.ICryptographicMaterialsCache):
     def  __init__(self):
-        self.queue: LocalCMC.DoublyLinkedCacheEntryList = None
+        self.queue: DoublyLinkedCacheEntryList = None
         self.cache: DafnyLibraries.MutableMap = None
         self._entryCapacity: int = int(0)
         self._entryPruningTailSize: int = int(0)
@@ -269,7 +269,7 @@ class LocalCMC(software_amazon_cryptography_materialproviders_internaldafny_type
         (self)._entryPruningTailSize = entryPruningTailSize_k
         nw28_ = DafnyLibraries.MutableMap()
         (self).cache = nw28_
-        nw29_ = LocalCMC.DoublyLinkedCacheEntryList()
+        nw29_ = DoublyLinkedCacheEntryList()
         nw29_.ctor__()
         (self).queue = nw29_
 

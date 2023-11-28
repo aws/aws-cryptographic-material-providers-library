@@ -404,13 +404,12 @@ class default__:
             return output
         d_1550_wrappingAlg_: software_amazon_cryptography_primitives_internaldafny_types.AES__GCM
         def lambda101_(source36_):
-            return software_amazon_cryptography_primitives_internaldafny_types.AES__GCM_AES__GCM(16, 16, 12)
-            # if source36_.is_ALG__AES128__GCM__IV12__TAG16:
-            #     return software_amazon_cryptography_primitives_internaldafny_types.AES__GCM_AES__GCM(16, 16, 12)
-            # elif source36_.is_ALG__AES192__GCM__IV12__TAG16:
-            #     return software_amazon_cryptography_primitives_internaldafny_types.AES__GCM_AES__GCM(24, 16, 12)
-            # elif True:
-            #     return software_amazon_cryptography_primitives_internaldafny_types.AES__GCM_AES__GCM(32, 16, 12)
+            if source36_.is_ALG__AES128__GCM__IV12__TAG16:
+                return software_amazon_cryptography_primitives_internaldafny_types.AES__GCM_AES__GCM(16, 16, 12)
+            elif source36_.is_ALG__AES192__GCM__IV12__TAG16:
+                return software_amazon_cryptography_primitives_internaldafny_types.AES__GCM_AES__GCM(24, 16, 12)
+            elif True:
+                return software_amazon_cryptography_primitives_internaldafny_types.AES__GCM_AES__GCM(32, 16, 12)
 
         d_1550_wrappingAlg_ = lambda101_((input).wrappingAlg)
         d_1551_namespaceAndName_: tuple
@@ -557,7 +556,7 @@ class default__:
 
     @staticmethod
     def CmpError(s):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("A publicKey or a kmsClient is required"))
+        return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(s)
 
     @staticmethod
     def CreateRequiredEncryptionContextCMM(config, input):
@@ -631,7 +630,7 @@ class default__:
             d_1595_c_ = d_1594___mcc_h2_
             d_1596_cmc_: LocalCMC.LocalCMC
             nw67_ = LocalCMC.LocalCMC()
-            nw67_.ctor__((d_1595_c_).entryCapacity, ((d_1595_c_).entryPruningTailSize).UnwrapOr(1))
+            nw67_.ctor__((d_1595_c_).entryCapacity, (AwsCryptographyMaterialProvidersOperations.default__.OptionalCountingNumber((d_1595_c_).entryPruningTailSize)).UnwrapOr(1))
             d_1596_cmc_ = nw67_
             output = Wrappers.Result_Success(d_1596_cmc_)
             return output
@@ -640,7 +639,7 @@ class default__:
             d_1598_c_ = d_1597___mcc_h3_
             d_1599_cmc_: LocalCMC.LocalCMC
             nw68_ = LocalCMC.LocalCMC()
-            nw68_.ctor__((d_1598_c_).entryCapacity, ((d_1598_c_).entryPruningTailSize).UnwrapOr(1))
+            nw68_.ctor__((d_1598_c_).entryCapacity, (AwsCryptographyMaterialProvidersOperations.default__.OptionalCountingNumber((d_1598_c_).entryPruningTailSize)).UnwrapOr(1))
             d_1599_cmc_ = nw68_
             d_1600_synCmc_: software_amazon_cryptography_internaldafny_SynchronizedLocalCMC.SynchronizedLocalCMC
             nw69_ = software_amazon_cryptography_internaldafny_SynchronizedLocalCMC.SynchronizedLocalCMC(d_1599_cmc_)
@@ -650,25 +649,41 @@ class default__:
         elif True:
             d_1601___mcc_h4_ = source38_.StormTracking
             d_1602_c_ = d_1601___mcc_h4_
+            pat_let_tv38_ = d_1602_c_
             d_1603_cmc_: StormTracker.StormTracker
             nw70_ = StormTracker.StormTracker()
-            nw70_.ctor__(d_1602_c_)
+            def iife65_(_pat_let26_0):
+                def iife66_(d_1604_dt__update__tmp_h1_):
+                    def iife67_(_pat_let27_0):
+                        def iife68_(d_1605_dt__update_hentryPruningTailSize_h0_):
+                            return software_amazon_cryptography_materialproviders_internaldafny_types.StormTrackingCache_StormTrackingCache((d_1604_dt__update__tmp_h1_).entryCapacity, d_1605_dt__update_hentryPruningTailSize_h0_, (d_1604_dt__update__tmp_h1_).gracePeriod, (d_1604_dt__update__tmp_h1_).graceInterval, (d_1604_dt__update__tmp_h1_).fanOut, (d_1604_dt__update__tmp_h1_).inFlightTTL, (d_1604_dt__update__tmp_h1_).sleepMilli)
+                        return iife68_(_pat_let27_0)
+                    return iife67_(AwsCryptographyMaterialProvidersOperations.default__.OptionalCountingNumber((pat_let_tv38_).entryPruningTailSize))
+                return iife66_(_pat_let26_0)
+            nw70_.ctor__(iife65_(d_1602_c_))
             d_1603_cmc_ = nw70_
-            d_1604_synCmc_: software_amazon_cryptography_internaldafny_StormTrackingCMC.StormTrackingCMC
+            d_1606_synCmc_: software_amazon_cryptography_internaldafny_StormTrackingCMC.StormTrackingCMC
             nw71_ = software_amazon_cryptography_internaldafny_StormTrackingCMC.StormTrackingCMC(d_1603_cmc_)
-            d_1604_synCmc_ = nw71_
-            output = Wrappers.Result_Success(d_1604_synCmc_)
+            d_1606_synCmc_ = nw71_
+            output = Wrappers.Result_Success(d_1606_synCmc_)
             return output
         return output
 
     @staticmethod
+    def OptionalCountingNumber(c):
+        if ((c).is_Some) and (((c).value) <= (0)):
+            return Wrappers.Option_None()
+        elif True:
+            return c
+
+    @staticmethod
     def CreateDefaultClientSupplier(config, input):
         output: Wrappers.Result = None
-        d_1605_clientSupplier_: DefaultClientSupplier.DefaultClientSupplier
+        d_1607_clientSupplier_: DefaultClientSupplier.DefaultClientSupplier
         nw72_ = DefaultClientSupplier.DefaultClientSupplier()
         nw72_.ctor__()
-        d_1605_clientSupplier_ = nw72_
-        output = Wrappers.Result_Success(d_1605_clientSupplier_)
+        d_1607_clientSupplier_ = nw72_
+        output = Wrappers.Result_Success(d_1607_clientSupplier_)
         return output
         return output
 
@@ -682,33 +697,33 @@ class default__:
 
     @staticmethod
     def ValidEncryptionMaterialsTransition(config, input):
-        d_1606_valueOrError0_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterialsTransition((input).start, (input).stop), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Invalid Encryption Materials Transition")))
-        if (d_1606_valueOrError0_).IsFailure():
-            return (d_1606_valueOrError0_).PropagateFailure()
-        elif True:
-            return Wrappers.Result_Success(())
-
-    @staticmethod
-    def ValidDecryptionMaterialsTransition(config, input):
-        d_1607_valueOrError0_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsTransitionIsValid((input).start, (input).stop), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("Invalid Decryption Materials Transition")))
-        if (d_1607_valueOrError0_).IsFailure():
-            return (d_1607_valueOrError0_).PropagateFailure()
-        elif True:
-            return Wrappers.Result_Success(())
-
-    @staticmethod
-    def EncryptionMaterialsHasPlaintextDataKey(config, input):
-        d_1608_valueOrError0_ = Wrappers.default__.Need(Materials.default__.EncryptionMaterialsHasPlaintextDataKey(input), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidDecryptionMaterials(_dafny.Seq("Invalid Encryption Materials")))
+        d_1608_valueOrError0_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterialsTransition((input).start, (input).stop), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Invalid Encryption Materials Transition")))
         if (d_1608_valueOrError0_).IsFailure():
             return (d_1608_valueOrError0_).PropagateFailure()
         elif True:
             return Wrappers.Result_Success(())
 
     @staticmethod
-    def DecryptionMaterialsWithPlaintextDataKey(config, input):
-        d_1609_valueOrError0_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsWithPlaintextDataKey(input), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidDecryptionMaterials(_dafny.Seq("Invalid Decryption Materials")))
+    def ValidDecryptionMaterialsTransition(config, input):
+        d_1609_valueOrError0_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsTransitionIsValid((input).start, (input).stop), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("Invalid Decryption Materials Transition")))
         if (d_1609_valueOrError0_).IsFailure():
             return (d_1609_valueOrError0_).PropagateFailure()
+        elif True:
+            return Wrappers.Result_Success(())
+
+    @staticmethod
+    def EncryptionMaterialsHasPlaintextDataKey(config, input):
+        d_1610_valueOrError0_ = Wrappers.default__.Need(Materials.default__.EncryptionMaterialsHasPlaintextDataKey(input), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidDecryptionMaterials(_dafny.Seq("Invalid Encryption Materials")))
+        if (d_1610_valueOrError0_).IsFailure():
+            return (d_1610_valueOrError0_).PropagateFailure()
+        elif True:
+            return Wrappers.Result_Success(())
+
+    @staticmethod
+    def DecryptionMaterialsWithPlaintextDataKey(config, input):
+        d_1611_valueOrError0_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsWithPlaintextDataKey(input), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidDecryptionMaterials(_dafny.Seq("Invalid Decryption Materials")))
+        if (d_1611_valueOrError0_).IsFailure():
+            return (d_1611_valueOrError0_).PropagateFailure()
         elif True:
             return Wrappers.Result_Success(())
 
@@ -718,25 +733,25 @@ class default__:
 
     @staticmethod
     def ValidAlgorithmSuiteInfo(config, input):
-        d_1610_valueOrError0_ = Wrappers.default__.Need(AlgorithmSuites.default__.AlgorithmSuite_q(input), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidAlgorithmSuiteInfo(_dafny.Seq("Invalid AlgorithmSuiteInfo")))
-        if (d_1610_valueOrError0_).IsFailure():
-            return (d_1610_valueOrError0_).PropagateFailure()
+        d_1612_valueOrError0_ = Wrappers.default__.Need(AlgorithmSuites.default__.AlgorithmSuite_q(input), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidAlgorithmSuiteInfo(_dafny.Seq("Invalid AlgorithmSuiteInfo")))
+        if (d_1612_valueOrError0_).IsFailure():
+            return (d_1612_valueOrError0_).PropagateFailure()
         elif True:
             return Wrappers.Result_Success(())
 
     @staticmethod
     def ValidateCommitmentPolicyOnEncrypt(config, input):
-        d_1611_valueOrError0_ = Commitment.default__.ValidateCommitmentPolicyOnEncrypt((input).algorithm, (input).commitmentPolicy)
-        if (d_1611_valueOrError0_).IsFailure():
-            return (d_1611_valueOrError0_).PropagateFailure()
+        d_1613_valueOrError0_ = Commitment.default__.ValidateCommitmentPolicyOnEncrypt((input).algorithm, (input).commitmentPolicy)
+        if (d_1613_valueOrError0_).IsFailure():
+            return (d_1613_valueOrError0_).PropagateFailure()
         elif True:
             return Wrappers.Result_Success(())
 
     @staticmethod
     def ValidateCommitmentPolicyOnDecrypt(config, input):
-        d_1612_valueOrError0_ = Commitment.default__.ValidateCommitmentPolicyOnDecrypt((input).algorithm, (input).commitmentPolicy)
-        if (d_1612_valueOrError0_).IsFailure():
-            return (d_1612_valueOrError0_).PropagateFailure()
+        d_1614_valueOrError0_ = Commitment.default__.ValidateCommitmentPolicyOnDecrypt((input).algorithm, (input).commitmentPolicy)
+        if (d_1614_valueOrError0_).IsFailure():
+            return (d_1614_valueOrError0_).PropagateFailure()
         elif True:
             return Wrappers.Result_Success(())
 
