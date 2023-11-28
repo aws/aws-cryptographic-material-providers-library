@@ -374,6 +374,8 @@ def DafnyToSmithy_aws_cryptography_materialproviders_CacheType(input):
     return CacheType_union_value
 
 def DafnyToSmithy_aws_cryptography_materialproviders_CreateAwsKmsHierarchicalKeyringInput(input):
+    print("create hier keyring")
+    print(f"{input=}")
     return aws_cryptography_materialproviders.smithygenerated.models.CreateAwsKmsHierarchicalKeyringInput(
         branch_key_id=(input.branchKeyId.value.VerbatimString(False)) if (input.branchKeyId.is_Some) else None,
         branch_key_id_supplier=aws_cryptography_materialproviders.smithygenerated.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_BranchKeyIdSupplierReference(input.branchKeyIdSupplier.UnwrapOr(None)),

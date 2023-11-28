@@ -469,11 +469,20 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateRequiredEncryptionCon
 def SmithyToDafny_aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(input):
     return input._impl
 
+def temp_do_encryption_algorithm(input):
+    import software_amazon_cryptography_services_kms_internaldafny_types
+    if (input == "ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.SYMMETRIC_DEFAULT"):
+        return software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec_SYMMETRIC__DEFAULT()
+    if (input == "ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.RSAES_OAEP_SHA_1"):
+        return software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec_RSAES__OAEP__SHA__1()
+    if (input == "ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.RSAES_OAEP_SHA_256"):
+        return software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec_RSAES__OAEP__SHA__256()
+
 def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(input):
     return DafnyCreateAwsKmsRsaKeyringInput(
         publicKey=((Option_Some(Seq(input.public_key))) if (input.public_key is not None) else (Option_None())),
         kmsKeyId=Seq(input.kms_key_id),
-        encryptionAlgorithm=Seq(input.encryption_algorithm),
+        encryptionAlgorithm=temp_do_encryption_algorithm(input.encryption_algorithm),
         kmsClient=((Option_Some(aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KmsClientReference(input.kms_client))) if (input.kms_client is not None) else (Option_None())),
         grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in input.grant_tokens]))) if (input.grant_tokens is not None) else (Option_None())),
     )

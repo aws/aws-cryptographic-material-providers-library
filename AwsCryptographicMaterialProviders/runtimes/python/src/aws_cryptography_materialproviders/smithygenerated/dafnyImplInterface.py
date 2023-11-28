@@ -14,8 +14,9 @@ class DafnyImplInterface:
     operation_map = None
 
     def handle_request(self, input: DafnyRequest):
-        print("handle_request: " + input)
-        print(self.impl._config)
+        print("handle_request: " + input.operation_name)
+        print("handle_request: " + input.operation_name)
+        print(str(input.dafny_operation_input))
         if self.operation_map is None:
             self.operation_map = {
                 "CreateAwsKmsKeyring": self.impl.CreateAwsKmsKeyring,

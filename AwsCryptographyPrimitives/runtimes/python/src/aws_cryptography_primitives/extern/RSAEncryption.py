@@ -13,7 +13,7 @@ from cryptography.hazmat.primitives.serialization import (
 )
 from cryptography.hazmat.primitives import hashes
 
-class RSAEncryption:
+class RSAEncryption(aws_cryptography_primitives.internal_generated_dafny.RSAEncryption):
 
   class RSA:
 
