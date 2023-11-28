@@ -1,8 +1,8 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-include "../../../../submodules/MaterialProviders/libraries/src/Wrappers.dfy"
-include "../../../../submodules/MaterialProviders/StandardLibrary/src/StandardLibrary.dfy"
+include "../../libraries/src/Wrappers.dfy"
+include "StandardLibrary.dfy"
 
 module {:options "-functionSyntax:4"} GetOpt {
   import opened Wrappers
@@ -263,11 +263,11 @@ module {:options "-functionSyntax:4"} GetOpt {
           GetMaps(opts[1..], longMap[opt.name := opt.Opt?], shortMap, commandMap)
   }
 
-  function printFromFunction<T>(x: T): () {
-    ()
+ function Print<T>(x: T): Outcome<string> {
+    Pass
   } by method {
     print x,"\n";
-    return ();
+    return Pass;
   }
 
   function GetOptions(opts : Options, args : seq<string>)
