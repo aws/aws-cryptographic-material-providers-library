@@ -1,0 +1,11 @@
+{
+    "version": "1.0",
+    "plugins": {
+        "dafny-client-codegen": {
+            "service": "aws.cryptography.primitives#AwsCryptographicPrimitives",
+            "module": "aws_cryptography_primitives",
+            "moduleVersion": "0.0.1",
+            "protocol": "aws.polymorph#localService"
+        }
+    }
+}

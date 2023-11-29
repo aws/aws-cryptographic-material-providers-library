@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"name": "MaterialProviders",
+			"path": "../../../../../.."
+		}
+	],
+	"settings": {
+		"restructuredtext.preview.docutils.disabled": true,
+		"dotnet.defaultSolution": "disable"
+	}
+}

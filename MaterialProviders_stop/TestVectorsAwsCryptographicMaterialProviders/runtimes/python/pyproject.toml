@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "amazon-cryptographic-material-providers-test-vectors"
+version = "0.1.0"
+description = ""
+authors = ["AWS <aws-arg-dafny@amazon.com>"]
+packages = [
+    { include = "aws_cryptography_materialproviderstestvectorkeys", from = "src" }
+]
+# Include all of the following .gitignored files in package distributions,
+# even though it is not included in version control
+include = ["**/smithygenerated/*.py", "**/dafnygenerated/*.py"]
+
+[tool.poetry.dependencies]
+python = "^3.11.0"
+# TODO-Python: Not sure why this is needed... I think boto3 uses 0.19.14, but it's not resolving on PyPI atm
+awscrt = "^0.17.0"
+boto3 = "^1.28.38"
+aws-cryptographic-material-providers = { path = "../../../AwsCryptographicMaterialProviders/runtimes/python", develop = false}
+# TODO: Depend on PyPi once Smithy-Python publishes their Python package there
+smithy-python = { path = "../../../../../submodules/smithy-python/python-packages/smithy-python", develop = false}
+standard-library = { path = "../../../StandardLibrary/runtimes/python", develop = false}
+amazon-cryptographic-material-providers-test-vectors-externs = { path = "src/aws_cryptography_materialproviderstestvectorkeys/extern", develop = false}
+# TODO-Python: Remove this after resolving import/install issue
+amazon-cryptographic-material-providers-test-vectors-test-externs = { path = "test/extern", develop = false}
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.0"
+amazon-cryptographic-material-providers-test-vectors-test-externs = { path = "test/extern", develop = false}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
