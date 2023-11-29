@@ -1,6 +1,69 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
+/*
+Types :
+    Options = (name : string, params : seq<Params>)
+    datatype Param =
+      Opt(name: string, short: Option<char>, argName: string, help: string) // takes an argument
+      Flag(name: string, short: Option<char>, help: string) // does not take an argument
+      Command(help: string, options: Options) // sub command
+    Parsed = (command : string, params : seq<OneArg>, files : seq<string>, subcommand : Option<Parsed>)
+    OneArg (name : string, value : Option<string>) // for Opt value.Some? for Flag value.None?
+
+
+Main Entry Points :
+  GetOptions(opts : Options, args : seq<string>) // Parse args based on Options, automatically includes --help
+  GetHelp(opts : Options) : string // return help text for Options
+
+Helpers for `Opt` args :
+  OptValue(args : seq<OneArg>, arg : string) : Option<string> // return value for arg, if used
+  OptMapLast(args : seq<OneArg>) : map<string, string> // return args as map, return last value used if multiple
+  OptMapList(args : seq<OneArg>) : map<string, seq<string>> // return all values for each arg used
+  OptMapCheck(args : seq<OneArg>) : Result<map<string, string>, string> // as OptMapLast, but return error if any are used more than once
+
+Helpers for `Flag` args :
+  FlagCount(args : seq<OneArg>, arg : string) : nat // how many times was arg used
+  FlagsSet(args : seq<OneArg>) : set<string> // set of all Flags used at least once
+  FlagMapCount(args : seq<OneArg>) : map<string, nat> // // for each Flag used, how many times was it used
+  FlagSetCheck(args : seq<OneArg>) : Result<set<string>, string> // as FlagSet, but return error if any are used more than once
+
+Helper for argument values :
+  None yet, but should parse numbers, enums, timestamps, dates, boolean, tristate, duration, and lists of all of these
+
+Command Line Interpretations :
+  We attempt to mostly match the GNU/POSIX standard, such as it is
+
+  If "cmd" has
+    Opt("Apple", Some('a'))
+    Opt("Banana", Some('b'))
+    Flag("Cherry", Some('c'))
+    Flag("Date", Some('d'))
+  then these are all equivalent
+    cmd --cherry --apple red --banana yellow --date
+    cmd --cherry --apple=red --banana=yellow --date
+    cmd -c -a red -b yellow -d
+    cmd -ca red -byellow -d
+    cmd -cared -byellow -d
+  and these are all equivalent
+    cmd --cherry --apple red --banana yellow --date file1 file2 file3 file4 file5
+    cmd file1 --cherry file2 --apple red file3 --banana yellow file4 --date file5
+    cmd file1 -c file2 -a red file3 -b yellow file4 -d file5
+  
+  Everything after "--" is a file name, so
+    cmd --cherry --date
+  has two parameters and no files, while
+    cmd --cherry -- --date
+  has one parameter and one file (file name is "--date")
+
+  If cmd has a subcommand, then it can take no file parameters
+  e.g. if cmd has a subcommand sub then
+    cmd --cherry sub --whatever file1
+  is fine, but
+    cmd --cherry file1 sub --whatever 
+  returns the error "subcommand 'file1' not recognized"
+*/
+
 include "../../libraries/src/Wrappers.dfy"
 include "StandardLibrary.dfy"
 
@@ -24,12 +87,16 @@ module {:options "-functionSyntax:4"} GetOpt {
     var x :- GetOptions(Options("myProg", MyOptions), args);
     // deal with x.params
     // deal with x.files
+    // deal with x.subcommand
     return Success(true);
   }
 
   datatype Options = Options (
     name : string,
     params : seq<Param>
+    // Maybe some optional stuff here, e.g.
+    //   X is required
+    //   exactly one of X, Y, Z is required
   )
 
   datatype Param =
@@ -78,68 +145,103 @@ module {:options "-functionSyntax:4"} GetOpt {
 
   // get value of first occurrence of option with required argument.
   // Cannot distinguish "no value" from "argument not used"
-  function GetValue(args : seq<OneArg>, arg : string) : Option<string>
+  function OptValue(args : seq<OneArg>, arg : string) : Option<string>
   {
     if |args| == 0 then
       None
     else if args[0].name == arg then
       args[0].value
     else
-      GetValue(args[1..], arg)
+      OptValue(args[1..], arg)
   }
 
   // return the number of times this option was specified
   // only useful if the option takes an argument
-  function CountArgs(args : seq<OneArg>, arg : string) : nat
+  function {:tailrecursion} FlagCount(args : seq<OneArg>, arg : string) : nat
   {
     if |args| == 0 then
       0
     else if args[0].name == arg then
-      1 + CountArgs(args[1..], arg)
+      1 + FlagCount(args[1..], arg)
     else
-      CountArgs(args[1..], arg)
+      FlagCount(args[1..], arg)
   }
 
-  // return the number of times this option was specified
-  // only useful if the option takes an argument
-  function {:tailrecursion} AsMapLast(args : seq<OneArg>, arg : string, theMap : map<string, string> := map[]) : map<string, string>
+  function {:tailrecursion} OptMapLast(args : seq<OneArg>, theMap : map<string, string> := map[]) : map<string, string>
   {
     if |args| == 0 then
       theMap
-    else if args[0].name == arg && args[0].value.Some? then
-      AsMapLast(args[1..], arg, theMap[args[0].name := args[0].value.value])
+    else if args[0].value.Some? then
+      OptMapLast(args[1..], theMap[args[0].name := args[0].value.value])
     else
-      AsMapLast(args[1..], arg, theMap)
+      OptMapLast(args[1..], theMap)
   }
 
-  // return the number of times this option was specified
-  // only useful if the option takes an argument
-  function {:tailrecursion} AsMapList(args : seq<OneArg>, arg : string, theMap : map<string, seq<string>> := map[]) : map<string, seq<string>>
+  function {:tailrecursion} FlagsSet(args : seq<OneArg>, theSet : set<string> := {}) : set<string>
+  {
+    if |args| == 0 then
+      theSet
+    else if args[0].value.Some? then
+      FlagsSet(args[1..], theSet)
+    else
+      FlagsSet(args[1..], theSet + {args[0].name})
+  }
+
+  function {:tailrecursion} OptMapList(args : seq<OneArg>, theMap : map<string, seq<string>> := map[]) : (ret : map<string, seq<string>>)
+    requires forall k <- theMap :: 0 < |theMap[k]|
+    ensures forall k <- ret :: 0 < |ret[k]|
   {
     if |args| == 0 then
       theMap
-    else if args[0].name == arg && args[0].value.Some? then
+    else if args[0].value.Some? then
       if args[0].name in theMap then
-        AsMapList(args[1..], arg, theMap[args[0].name := theMap[args[0].name] + [args[0].value.value]])
+        OptMapList(args[1..], theMap[args[0].name := theMap[args[0].name] + [args[0].value.value]])
       else
-        AsMapList(args[1..], arg, theMap[args[0].name := [args[0].value.value]])
+        OptMapList(args[1..], theMap[args[0].name := [args[0].value.value]])
     else
-      AsMapList(args[1..], arg, theMap)
+      OptMapList(args[1..], theMap)
   }
 
-  // return the number of times this option was specified
-  // only useful if the option takes an argument
-  function {:tailrecursion} AsMapCheck(args : seq<OneArg>, arg : string, theMap : map<string, string> := map[]) : Result<map<string, string>, string>
+  function {:tailrecursion} FlagMapCount(args : seq<OneArg>, theMap : map<string, nat> := map[]) : (ret : map<string, nat>)
+    requires forall k <- theMap :: 0 < theMap[k]
+    ensures forall k <- ret :: 0 < ret[k]
+  {
+    if |args| == 0 then
+      theMap
+    else if args[0].value.Some? then
+      FlagMapCount(args[1..], theMap)
+    else
+      if args[0].name in theMap then
+        FlagMapCount(args[1..], theMap[args[0].name := theMap[args[0].name] + 1])
+      else
+        FlagMapCount(args[1..], theMap[args[0].name := 1])
+  }
+
+
+  function {:tailrecursion} FlagSetCheck(args : seq<OneArg>, theSet : set<string> := {}) : Result<set<string>, string>
+  {
+    if |args| == 0 then
+      Success(theSet)
+    else if args[0].value.Some? then
+      if args[0].name in theSet then
+        Failure("Duplicate arg : " + args[0].name)
+      else
+        FlagSetCheck(args[1..], theSet + {args[0].name})
+    else
+      FlagSetCheck(args[1..], theSet)
+  }
+
+  function {:tailrecursion} OptMapCheck(args : seq<OneArg>, theMap : map<string, string> := map[]) : Result<map<string, string>, string>
   {
     if |args| == 0 then
       Success(theMap)
-    else if args[0].name == arg && args[0].value.Some? then
+    else if args[0].value.Some? then
       if args[0].name in theMap then
         Failure("Duplicate arg : " + args[0].name)
       else
-        AsMapCheck(args[1..], arg, theMap[args[0].name := args[0].value.value])
+        OptMapCheck(args[1..], theMap[args[0].name := args[0].value.value])
     else
-      AsMapCheck(args[1..], arg, theMap)
+      OptMapCheck(args[1..], theMap)
   }
 
 
@@ -234,6 +336,7 @@ module {:options "-functionSyntax:4"} GetOpt {
       GetCommandLen(opts[1..], newMax)
   }
 
+  // convert opts to the various maps that make parsing possible 
   function {:tailrecursion} GetMaps(
     opts : seq<Param>,
     longMap : map<string, bool> := map[],
@@ -270,8 +373,7 @@ module {:options "-functionSyntax:4"} GetOpt {
     return Pass;
   }
 
-  function GetOptions(opts : Options, args : seq<string>)
-    : Result<Parsed, string>
+  function GetOptions(opts : Options, args : seq<string>) : Result<Parsed, string>
     requires 0 < |args|
     decreases args
   {
@@ -301,7 +403,7 @@ module {:options "-functionSyntax:4"} GetOpt {
     else if args[0] in context.commands then
       var (longMap, shortMap, commandSet) :- GetMaps(context.commands[args[0]].params, map["help" := false]);
       var newContext := Context(longMap, shortMap, commandSet, args[0]);
-      var result :- GetOptions2(args[1..], newContext);
+      var result :- GetOptions2(args[1..], newContext); // this is why it can't be tail recursive
       Success(Parsed(context.command, parms, files, Some(result)))
     else if args[0] == "--" then
       Success(Parsed(context.command, parms, files + args[1..], None))
@@ -337,8 +439,10 @@ module {:options "-functionSyntax:4"} GetOpt {
         Failure("Short option " + [nextParm.value] + " requires argument but didn't get one.")
       else
         GetOptions2(args[2..], context, parms + newParms + [OneArg(context.shortMap[nextParm.value], Some(args[1]))], files)
-    else
+    else if |context.commands| == 0 then
       GetOptions2(args[1..], context, parms, files + [args[0]])
+    else
+      Failure("Unrecognized command " + args[0] + " for " + context.command + "\nRun '" + context.command + " --help' for usage.")
   }
 
   function GetShort(arg : string, longMap : map<string, bool>, shortMap : map<char, string>, parms : seq<OneArg> := [])
