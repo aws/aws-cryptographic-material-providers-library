@@ -79,9 +79,9 @@ module {:options "-functionSyntax:4"} GetOpt {
       Param.Flag("foo", None, "Does foo things"),
       Param.Opt("two", Some('t'), "thingy", "Does bar things to thingy"),
       Param.Command(Options("command", "Does command stuff", [
-        Param.Opt("two", Some('t'), "thingy", "Does bar things to thingy"),
-        Param.Flag("foo", None, "Does foo things")
-      ]))
+                              Param.Opt("two", Some('t'), "thingy", "Does bar things to thingy"),
+                              Param.Flag("foo", None, "Does foo things")
+                            ]))
     ];
 
     var x :- GetOptions(Options("myProg", "does prog stuff", MyOptions), args);
@@ -123,14 +123,14 @@ module {:options "-functionSyntax:4"} GetOpt {
     if commandLen == 0 then
       "USAGE : " + opts.name + " [args...]\n" +
       opts.help + "\n" +
-        GetHelp2(opts.params, longLen)
+      GetHelp2(opts.params, longLen)
     else
       "USAGE : " + opts.name + " [args...] + command + [args...]\n" +
       opts.help + "\n" +
       "\nAvailable Commands:\n" +
-        GetCmdHelp(opts.params, commandLen) +
+      GetCmdHelp(opts.params, commandLen) +
       "\nAvailable Options:\n" +
-        GetHelp2(opts.params, longLen)
+      GetHelp2(opts.params, longLen)
   }
 
   datatype OneArg = OneArg (
@@ -212,11 +212,10 @@ module {:options "-functionSyntax:4"} GetOpt {
       theMap
     else if args[0].value.Some? then
       FlagMapCount(args[1..], theMap)
+    else if args[0].name in theMap then
+      FlagMapCount(args[1..], theMap[args[0].name := theMap[args[0].name] + 1])
     else
-      if args[0].name in theMap then
-        FlagMapCount(args[1..], theMap[args[0].name := theMap[args[0].name] + 1])
-      else
-        FlagMapCount(args[1..], theMap[args[0].name := 1])
+      FlagMapCount(args[1..], theMap[args[0].name := 1])
   }
 
 
@@ -338,7 +337,7 @@ module {:options "-functionSyntax:4"} GetOpt {
       GetCommandLen(opts[1..], newMax)
   }
 
-  // convert opts to the various maps that make parsing possible 
+  // convert opts to the various maps that make parsing possible
   function {:tailrecursion} GetMaps(
     opts : seq<Param>,
     longMap : map<string, bool> := map[],
@@ -368,7 +367,7 @@ module {:options "-functionSyntax:4"} GetOpt {
           GetMaps(opts[1..], longMap[opt.name := opt.Opt?], shortMap, commandMap)
   }
 
- function Print<T>(x: T): Outcome<string> {
+  function Print<T>(x: T): Outcome<string> {
     Pass
   } by method {
     print x,"\n";
@@ -471,40 +470,40 @@ module {:options "-functionSyntax:4"} GetOpt {
 
   method {:test} TestEmpty() {
     var MyOptions := Options("MyProg", "does stuff",
-    [
-      Param.Flag("foo", None, ""),
-      Param.Opt("bar", None, "argName", ""),
-      Param.Opt("two", Some('t'), "argName", ""),
-      Param.Flag("six", Some('s'), "")
-    ]);
+                             [
+                               Param.Flag("foo", None, ""),
+                               Param.Opt("bar", None, "argName", ""),
+                               Param.Opt("two", Some('t'), "argName", ""),
+                               Param.Flag("six", Some('s'), "")
+                             ]);
     var x :- expect GetOptions(MyOptions, ["cmd"]);
     expect x.params == [];
     expect x.files == [];
   }
   method {:test} TestShort() {
     var MyOptions := Options("MyProg", "does stuff",
-    [
-      Param.Flag("foo", None, ""),
-      Param.Opt("bar", None, "argName", ""),
-      Param.Opt("two", Some('t'), "argName", ""),
-      Param.Flag("six", Some('s'), ""),
-      Param.Flag("seven", Some('v'), "")
-    ]);
+                             [
+                               Param.Flag("foo", None, ""),
+                               Param.Opt("bar", None, "argName", ""),
+                               Param.Opt("two", Some('t'), "argName", ""),
+                               Param.Flag("six", Some('s'), ""),
+                               Param.Flag("seven", Some('v'), "")
+                             ]);
     var x :- expect GetOptions(MyOptions, ["cmd", "-svsttt", "-t", "stuff", "-v"]);
     expect x.params == [OneArg("six", None), OneArg("seven", None), OneArg("six", None), OneArg("two", Some("tt")),
-    OneArg("two", Some("stuff")), OneArg("seven", None)];
+                        OneArg("two", Some("stuff")), OneArg("seven", None)];
     expect x.files == [];
   }
 
   method {:test} TestLong() {
     var MyOptions := Options("MyProg", "does stuff",
-    [
-      Param.Flag("foo", None, ""),
-      Param.Opt("bar", None, "argName", ""),
-      Param.Opt("two", Some('t'), "argName", ""),
-      Param.Flag("six", Some('s'), ""),
-      Param.Flag("seven", Some('v'), "")
-    ]);
+                             [
+                               Param.Flag("foo", None, ""),
+                               Param.Opt("bar", None, "argName", ""),
+                               Param.Opt("two", Some('t'), "argName", ""),
+                               Param.Flag("six", Some('s'), ""),
+                               Param.Flag("seven", Some('v'), "")
+                             ]);
     var x :- expect GetOptions(MyOptions, ["cmd", "--foo", "file1", "--bar", "bar1", "-", "--bar=bar2=bar3", "file3", "--", "--this", "-that"]);
     expect x.params == [OneArg("foo", None), OneArg("bar", Some("bar1")), OneArg("bar", Some("bar2=bar3"))];
     expect x.files == ["file1", "-", "file3", "--this", "-that"];
@@ -512,30 +511,30 @@ module {:options "-functionSyntax:4"} GetOpt {
 
   method {:test} TestHelp() {
     var MyOptions := Options("MyProg", "does stuff",
-    [
-      Param.Flag("foo", None, ""),
-      Param.Opt("bar", None, "argName", ""),
-      Param.Opt("two", Some('t'), "argName", ""),
-      Param.Flag("six", Some('s'), ""),
-      Param.Flag("seven", Some('v'), "")
-    ]);
+                             [
+                               Param.Flag("foo", None, ""),
+                               Param.Opt("bar", None, "argName", ""),
+                               Param.Opt("two", Some('t'), "argName", ""),
+                               Param.Flag("six", Some('s'), ""),
+                               Param.Flag("seven", Some('v'), "")
+                             ]);
     print "\n", GetHelp(MyOptions);
   }
 
   method {:test} TestNested() {
     var MyOptions := Options("MyProg", "does stuff",
-    [
-      Param.Flag("foo", None, "Does foo things"),
-      Param.Opt("two", Some('t'), "thingy", "Does bar things to thingy"),
-      Param.Command(Options("command", "Does command stuff", [
-        Param.Opt("five", Some('h'), "thingy", "Does five things to thingy"),
-        Param.Flag("six", None, "Does six things")
-      ])),
-      Param.Command(Options("other", "Does other stuff", [
-        Param.Opt("seven", Some('h'), "thingy", "Does seven things to thingy"),
-        Param.Flag("eight", None, "Does eight things")
-      ]))
-    ]);
+                             [
+                               Param.Flag("foo", None, "Does foo things"),
+                               Param.Opt("two", Some('t'), "thingy", "Does bar things to thingy"),
+                               Param.Command(Options("command", "Does command stuff", [
+                                                       Param.Opt("five", Some('h'), "thingy", "Does five things to thingy"),
+                                                       Param.Flag("six", None, "Does six things")
+                                                     ])),
+                               Param.Command(Options("other", "Does other stuff", [
+                                                       Param.Opt("seven", Some('h'), "thingy", "Does seven things to thingy"),
+                                                       Param.Flag("eight", None, "Does eight things")
+                                                     ]))
+                             ]);
     var x :- expect GetOptions(MyOptions, ["cmd", "--foo", "other", "--seven=siete", "--eight"]);
     expect x.command == "cmd";
     expect x.params == [OneArg("foo", None)];
@@ -549,18 +548,18 @@ module {:options "-functionSyntax:4"} GetOpt {
     print "\n", GetHelp(MyOptions);
   }
 
-    method {:test} TestDdbec() {
+  method {:test} TestDdbec() {
     var MyOptions := Options("ddbec", "Test the ddbec",
-    [
-      // Param.Flag("foo", None, "Does foo things"),
-      // Param.Opt("two", Some('t'), "thingy", "Does bar things to thingy"),
-      Param.Command(Options("encrypt", "Encrypts record", [
-        Param.Opt("output", Some('o'), "fileName", "Write encrypted records to fileName.")
-      ])),
-      Param.Command(Options("decrypt", "Decrypts Records", [
-        Param.Opt("expected", Some('e'), "fileName", "fileName contains expected plaintext records")
-      ]))
-    ]);
+                             [
+                               // Param.Flag("foo", None, "Does foo things"),
+                               // Param.Opt("two", Some('t'), "thingy", "Does bar things to thingy"),
+                               Param.Command(Options("encrypt", "Encrypts record", [
+                                                       Param.Opt("output", Some('o'), "fileName", "Write encrypted records to fileName.")
+                                                     ])),
+                               Param.Command(Options("decrypt", "Decrypts Records", [
+                                                       Param.Opt("expected", Some('e'), "fileName", "fileName contains expected plaintext records")
+                                                     ]))
+                             ]);
   }
 
 }
