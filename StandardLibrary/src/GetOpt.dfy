@@ -5,8 +5,8 @@
 Types :
     Options = (name : string, help : string, params : seq<Params>)
     datatype Param =
-      Opt(name: string, short: Option<char>, argName: string, help: string) // takes an argument
-      Flag(name: string, short: Option<char>, help: string) // does not take an argument
+      Opt(name: string, argName: string, help: string, nameonly short : char) // takes an argument
+      Flag(name: string, help: string, nameonly short : char) // does not take an argument
       Command(options: Options) // sub command
     Parsed = (command : string, params : seq<OneArg>, files : seq<string>, subcommand : Option<Parsed>)
     OneArg (name : string, value : Option<string>) // for Opt value.Some? for Flag value.None?
@@ -62,6 +62,33 @@ Command Line Interpretations :
   is fine, but
     cmd --cherry file1 sub --whatever 
   returns the error "subcommand 'file1' not recognized"
+
+Future Directions (NOT ordered) :
+  X is required
+  if X is used, Y is required
+  if X is used, Y is not required
+  if X is used, Y is forbidden
+  if X is used, no other arguments can be used (e.g. --help)
+  exactly one of X, Y, Z is required
+  alias long option X for Y, does not appear in help
+  alias short option X for Y, does not appear in help
+  deprecated option X, does not appear in help, ignored
+  hidden option X, does not appear in help, not ignored
+  leading positional arguments, e.g. MyProg X Y Z --arg value --arg value
+  optional leading arguments, e.g. MyProg X Y Z --arg value --arg value or e.g. MyProg X --arg value --arg value
+    -NNN is a value, not an option, e.g. head and tail.
+  global params : get inherited by any subcommands
+  value of --arg is everything to the right; presumably joined on space
+  default values
+  if X is used, Y gets this default value
+  word wrapping for help text
+
+Not Future Directions :
+  Automatic printing of --help text, and subsequent exit.
+  Any attempt to parse args into real values.
+  Number of values per arg anything but 0 and 1
+  case-insensitive argument matching
+  allow only one of "--arg=value" and "--arg value"
 */
 
 include "../../libraries/src/Wrappers.dfy"
@@ -76,11 +103,11 @@ module {:options "-functionSyntax:4"} GetOpt {
     requires 0 < |args|
   {
     var MyOptions := [
-      Param.Flag("foo", None, "Does foo things"),
-      Param.Opt("two", Some('t'), "thingy", "Does bar things to thingy"),
+      Param.Flag("foo", "Does foo things"),
+      Param.Opt("two", "Does bar things to thingy", short := 't', argName := "thingy"),
       Param.Command(Options("command", "Does command stuff", [
-                              Param.Opt("two", Some('t'), "thingy", "Does bar things to thingy"),
-                              Param.Flag("foo", None, "Does foo things")
+                              Param.Opt("two", "Does bar things to thingy", short := 't', argName := "thingy"),
+                              Param.Flag("foo", "Does foo things")
                             ]))
     ];
 
@@ -91,26 +118,25 @@ module {:options "-functionSyntax:4"} GetOpt {
     return Success(true);
   }
 
+  const NullChar : char := 0 as char
+
   datatype Options = Options (
     name : string,
     help : string,
     params : seq<Param>
-    // Maybe some optional stuff here, e.g.
-    //   X is required
-    //   exactly one of X, Y, Z is required
   )
 
   datatype Param =
     | Opt(
         name: string,
-        short: Option<char> := None,
-        argName: string,
-        help: string
+        help: string,
+        nameonly argName: string := "arg",
+        nameonly short: char := NullChar
       )
     | Flag(
         name: string,
-        short: Option<char> := None,
-        help: string
+        help: string,
+        nameonly short: char := NullChar
       )
     | Command(
         options : Options
@@ -270,8 +296,8 @@ module {:options "-functionSyntax:4"} GetOpt {
   function GetShortHelp(opt : Param) : (output : string)
   {
     if opt.Opt? || opt.Flag? then
-      if opt.short.Some? then
-        "-" + [opt.short.value]
+      if opt.short != NullChar then
+        "-" + [opt.short]
       else
         "  "
     else
@@ -298,7 +324,7 @@ module {:options "-functionSyntax:4"} GetOpt {
   function GetHelp2(opts : seq<Param>, longLen : nat) : string
   {
     if |opts| == 0 then
-      OneHelp(Flag("help", None, "This help text."), longLen)
+      OneHelp(Flag("help", "This help text."), longLen)
     else
       var x := OneHelp(opts[0], longLen);
       x + GetHelp2(opts[1..], longLen)
@@ -357,8 +383,8 @@ module {:options "-functionSyntax:4"} GetOpt {
       else
         :- Need(opt.name !in longMap, "Duplicate long name in options : " + opt.name);
         var longMap := longMap[opt.name := opt.Opt?];
-        if opt.short.Some? then
-          var short := opt.short.value;
+        if opt.short != NullChar then
+          var short := opt.short;
           if short in shortMap then // can't be a `Need` because shortMap[short] required in message
             Failure("Duplicate short char in options : '" + [short] + "' for " + opt.name + " and " + shortMap[short])
           else
@@ -471,23 +497,24 @@ module {:options "-functionSyntax:4"} GetOpt {
   method {:test} TestEmpty() {
     var MyOptions := Options("MyProg", "does stuff",
                              [
-                               Param.Flag("foo", None, ""),
-                               Param.Opt("bar", None, "argName", ""),
-                               Param.Opt("two", Some('t'), "argName", ""),
-                               Param.Flag("six", Some('s'), "")
+                               Param.Flag("foo", "helpText"),
+                               Param.Opt("bar", "helpText"),
+                               Param.Opt("two", "helpText", short := 't'),
+                               Param.Flag("six", "helpText", short := 's')
                              ]);
     var x :- expect GetOptions(MyOptions, ["cmd"]);
     expect x.params == [];
     expect x.files == [];
   }
+
   method {:test} TestShort() {
     var MyOptions := Options("MyProg", "does stuff",
                              [
-                               Param.Flag("foo", None, ""),
-                               Param.Opt("bar", None, "argName", ""),
-                               Param.Opt("two", Some('t'), "argName", ""),
-                               Param.Flag("six", Some('s'), ""),
-                               Param.Flag("seven", Some('v'), "")
+                               Param.Flag("foo", "helpText"),
+                               Param.Opt("bar", "helpText"),
+                               Param.Opt("two", "helpText", short := 't'),
+                               Param.Flag("six", "helpText", short := 's'),
+                               Param.Flag("seven", "helpText", short := 'v')
                              ]);
     var x :- expect GetOptions(MyOptions, ["cmd", "-svsttt", "-t", "stuff", "-v"]);
     expect x.params == [OneArg("six", None), OneArg("seven", None), OneArg("six", None), OneArg("two", Some("tt")),
@@ -498,11 +525,11 @@ module {:options "-functionSyntax:4"} GetOpt {
   method {:test} TestLong() {
     var MyOptions := Options("MyProg", "does stuff",
                              [
-                               Param.Flag("foo", None, ""),
-                               Param.Opt("bar", None, "argName", ""),
-                               Param.Opt("two", Some('t'), "argName", ""),
-                               Param.Flag("six", Some('s'), ""),
-                               Param.Flag("seven", Some('v'), "")
+                               Param.Flag("foo", "helpText"),
+                               Param.Opt("bar", "helpText"),
+                               Param.Opt("two", "helpText", short := 't'),
+                               Param.Flag("six", "helpText", short := 's'),
+                               Param.Flag("seven", "helpText", short := 'v')
                              ]);
     var x :- expect GetOptions(MyOptions, ["cmd", "--foo", "file1", "--bar", "bar1", "-", "--bar=bar2=bar3", "file3", "--", "--this", "-that"]);
     expect x.params == [OneArg("foo", None), OneArg("bar", Some("bar1")), OneArg("bar", Some("bar2=bar3"))];
@@ -512,11 +539,11 @@ module {:options "-functionSyntax:4"} GetOpt {
   method {:test} TestHelp() {
     var MyOptions := Options("MyProg", "does stuff",
                              [
-                               Param.Flag("foo", None, ""),
-                               Param.Opt("bar", None, "argName", ""),
-                               Param.Opt("two", Some('t'), "argName", ""),
-                               Param.Flag("six", Some('s'), ""),
-                               Param.Flag("seven", Some('v'), "")
+                               Param.Flag("foo", "helpText"),
+                               Param.Opt("bar", "helpText"),
+                               Param.Opt("two", "helpText", short := 't'),
+                               Param.Flag("six", "helpText", short := 's'),
+                               Param.Flag("seven", "helpText", short := 'v')
                              ]);
     print "\n", GetHelp(MyOptions);
   }
@@ -524,15 +551,15 @@ module {:options "-functionSyntax:4"} GetOpt {
   method {:test} TestNested() {
     var MyOptions := Options("MyProg", "does stuff",
                              [
-                               Param.Flag("foo", None, "Does foo things"),
-                               Param.Opt("two", Some('t'), "thingy", "Does bar things to thingy"),
+                               Param.Flag("foo", "Does foo things"),
+                               Param.Opt("two", "Does bar things to thingy", short := 't', argName := "thingy"),
                                Param.Command(Options("command", "Does command stuff", [
-                                                       Param.Opt("five", Some('h'), "thingy", "Does five things to thingy"),
-                                                       Param.Flag("six", None, "Does six things")
+                                                       Param.Opt("five", "Does five things to thingy", short := 'h', argName := "thingy"),
+                                                       Param.Flag("six", "Does six things")
                                                      ])),
                                Param.Command(Options("other", "Does other stuff", [
-                                                       Param.Opt("seven", Some('h'), "thingy", "Does seven things to thingy"),
-                                                       Param.Flag("eight", None, "Does eight things")
+                                                       Param.Opt("seven", "Does seven things to thingy", short := 'h', argName := "thingy"),
+                                                       Param.Flag("eight", "Does eight things")
                                                      ]))
                              ]);
     var x :- expect GetOptions(MyOptions, ["cmd", "--foo", "other", "--seven=siete", "--eight"]);
@@ -551,13 +578,11 @@ module {:options "-functionSyntax:4"} GetOpt {
   method {:test} TestDdbec() {
     var MyOptions := Options("ddbec", "Test the ddbec",
                              [
-                               // Param.Flag("foo", None, "Does foo things"),
-                               // Param.Opt("two", Some('t'), "thingy", "Does bar things to thingy"),
                                Param.Command(Options("encrypt", "Encrypts record", [
-                                                       Param.Opt("output", Some('o'), "fileName", "Write encrypted records to fileName.")
+                                                       Param.Opt("output", "Write encrypted records to fileName.", short := 'o', argName := "fileName")
                                                      ])),
                                Param.Command(Options("decrypt", "Decrypts Records", [
-                                                       Param.Opt("expected", Some('e'), "fileName", "fileName contains expected plaintext records")
+                                                       Param.Opt("expected", "fileName contains expected plaintext records.", short := 'e', argName := "fileName")
                                                      ]))
                              ]);
   }
