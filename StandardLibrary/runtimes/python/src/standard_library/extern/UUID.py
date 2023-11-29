@@ -19,9 +19,7 @@ class default__:
     @staticmethod
     def FromByteArray(dafny_b):
         try:
-            print(f"{dafny_b.Elements}")
             native_bytes = bytes(dafny_b.Elements)
-            print(f"{native_bytes=}")
             uuid_from_bytes = uuid.UUID(bytes=native_bytes)
             return Wrappers.Result_Success(_dafny.Seq(str(uuid_from_bytes)))
         except Exception as e:
