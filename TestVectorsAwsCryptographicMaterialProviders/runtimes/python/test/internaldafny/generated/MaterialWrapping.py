@@ -76,25 +76,24 @@ import software_amazon_cryptography_primitives_internaldafny
 import Aws_mCryptography
 import Aws
 
-assert "MaterialWrapping" == __name__
-MaterialWrapping = sys.modules[__name__]
+# Module: MaterialWrapping
 
 
 class GenerateAndWrapInput:
     @classmethod
     def default(cls, ):
-        return lambda: GenerateAndWrapInput_GenerateAndWrapInput(software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo_AlgorithmSuiteInfo.default()(), _dafny.Map({}))
+        return lambda: GenerateAndWrapInput_GenerateAndWrapInput(software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo.default()(), _dafny.Map({}))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_GenerateAndWrapInput(self) -> bool:
-        return isinstance(self, MaterialWrapping.GenerateAndWrapInput_GenerateAndWrapInput)
+        return isinstance(self, GenerateAndWrapInput_GenerateAndWrapInput)
 
 class GenerateAndWrapInput_GenerateAndWrapInput(GenerateAndWrapInput, NamedTuple('GenerateAndWrapInput', [('algorithmSuite', Any), ('encryptionContext', Any)])):
     def __dafnystr__(self) -> str:
         return f'MaterialWrapping.GenerateAndWrapInput.GenerateAndWrapInput({_dafny.string_of(self.algorithmSuite)}, {_dafny.string_of(self.encryptionContext)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, MaterialWrapping.GenerateAndWrapInput_GenerateAndWrapInput) and self.algorithmSuite == __o.algorithmSuite and self.encryptionContext == __o.encryptionContext
+        return isinstance(__o, GenerateAndWrapInput_GenerateAndWrapInput) and self.algorithmSuite == __o.algorithmSuite and self.encryptionContext == __o.encryptionContext
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -107,13 +106,13 @@ class GenerateAndWrapOutput:
         return not self.__eq__(__o)
     @property
     def is_GenerateAndWrapOutput(self) -> bool:
-        return isinstance(self, MaterialWrapping.GenerateAndWrapOutput_GenerateAndWrapOutput)
+        return isinstance(self, GenerateAndWrapOutput_GenerateAndWrapOutput)
 
 class GenerateAndWrapOutput_GenerateAndWrapOutput(GenerateAndWrapOutput, NamedTuple('GenerateAndWrapOutput', [('plaintextMaterial', Any), ('wrappedMaterial', Any), ('wrapInfo', Any)])):
     def __dafnystr__(self) -> str:
         return f'MaterialWrapping.GenerateAndWrapOutput.GenerateAndWrapOutput({_dafny.string_of(self.plaintextMaterial)}, {_dafny.string_of(self.wrappedMaterial)}, {_dafny.string_of(self.wrapInfo)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, MaterialWrapping.GenerateAndWrapOutput_GenerateAndWrapOutput) and self.plaintextMaterial == __o.plaintextMaterial and self.wrappedMaterial == __o.wrappedMaterial and self.wrapInfo == __o.wrapInfo
+        return isinstance(__o, GenerateAndWrapOutput_GenerateAndWrapOutput) and self.plaintextMaterial == __o.plaintextMaterial and self.wrappedMaterial == __o.wrappedMaterial and self.wrapInfo == __o.wrapInfo
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -121,18 +120,18 @@ class GenerateAndWrapOutput_GenerateAndWrapOutput(GenerateAndWrapOutput, NamedTu
 class WrapInput:
     @classmethod
     def default(cls, ):
-        return lambda: WrapInput_WrapInput(_dafny.Seq({}), software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo_AlgorithmSuiteInfo.default()(), _dafny.Map({}))
+        return lambda: WrapInput_WrapInput(_dafny.Seq({}), software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo.default()(), _dafny.Map({}))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_WrapInput(self) -> bool:
-        return isinstance(self, MaterialWrapping.WrapInput_WrapInput)
+        return isinstance(self, WrapInput_WrapInput)
 
 class WrapInput_WrapInput(WrapInput, NamedTuple('WrapInput', [('plaintextMaterial', Any), ('algorithmSuite', Any), ('encryptionContext', Any)])):
     def __dafnystr__(self) -> str:
         return f'MaterialWrapping.WrapInput.WrapInput({_dafny.string_of(self.plaintextMaterial)}, {_dafny.string_of(self.algorithmSuite)}, {_dafny.string_of(self.encryptionContext)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, MaterialWrapping.WrapInput_WrapInput) and self.plaintextMaterial == __o.plaintextMaterial and self.algorithmSuite == __o.algorithmSuite and self.encryptionContext == __o.encryptionContext
+        return isinstance(__o, WrapInput_WrapInput) and self.plaintextMaterial == __o.plaintextMaterial and self.algorithmSuite == __o.algorithmSuite and self.encryptionContext == __o.encryptionContext
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -145,13 +144,13 @@ class WrapOutput:
         return not self.__eq__(__o)
     @property
     def is_WrapOutput(self) -> bool:
-        return isinstance(self, MaterialWrapping.WrapOutput_WrapOutput)
+        return isinstance(self, WrapOutput_WrapOutput)
 
 class WrapOutput_WrapOutput(WrapOutput, NamedTuple('WrapOutput', [('wrappedMaterial', Any), ('wrapInfo', Any)])):
     def __dafnystr__(self) -> str:
         return f'MaterialWrapping.WrapOutput.WrapOutput({_dafny.string_of(self.wrappedMaterial)}, {_dafny.string_of(self.wrapInfo)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, MaterialWrapping.WrapOutput_WrapOutput) and self.wrappedMaterial == __o.wrappedMaterial and self.wrapInfo == __o.wrapInfo
+        return isinstance(__o, WrapOutput_WrapOutput) and self.wrappedMaterial == __o.wrappedMaterial and self.wrapInfo == __o.wrapInfo
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -159,18 +158,18 @@ class WrapOutput_WrapOutput(WrapOutput, NamedTuple('WrapOutput', [('wrappedMater
 class UnwrapInput:
     @classmethod
     def default(cls, ):
-        return lambda: UnwrapInput_UnwrapInput(_dafny.Seq({}), software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo_AlgorithmSuiteInfo.default()(), _dafny.Map({}))
+        return lambda: UnwrapInput_UnwrapInput(_dafny.Seq({}), software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo.default()(), _dafny.Map({}))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_UnwrapInput(self) -> bool:
-        return isinstance(self, MaterialWrapping.UnwrapInput_UnwrapInput)
+        return isinstance(self, UnwrapInput_UnwrapInput)
 
 class UnwrapInput_UnwrapInput(UnwrapInput, NamedTuple('UnwrapInput', [('wrappedMaterial', Any), ('algorithmSuite', Any), ('encryptionContext', Any)])):
     def __dafnystr__(self) -> str:
         return f'MaterialWrapping.UnwrapInput.UnwrapInput({_dafny.string_of(self.wrappedMaterial)}, {_dafny.string_of(self.algorithmSuite)}, {_dafny.string_of(self.encryptionContext)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, MaterialWrapping.UnwrapInput_UnwrapInput) and self.wrappedMaterial == __o.wrappedMaterial and self.algorithmSuite == __o.algorithmSuite and self.encryptionContext == __o.encryptionContext
+        return isinstance(__o, UnwrapInput_UnwrapInput) and self.wrappedMaterial == __o.wrappedMaterial and self.algorithmSuite == __o.algorithmSuite and self.encryptionContext == __o.encryptionContext
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -183,13 +182,13 @@ class UnwrapOutput:
         return not self.__eq__(__o)
     @property
     def is_UnwrapOutput(self) -> bool:
-        return isinstance(self, MaterialWrapping.UnwrapOutput_UnwrapOutput)
+        return isinstance(self, UnwrapOutput_UnwrapOutput)
 
 class UnwrapOutput_UnwrapOutput(UnwrapOutput, NamedTuple('UnwrapOutput', [('unwrappedMaterial', Any), ('unwrapInfo', Any)])):
     def __dafnystr__(self) -> str:
         return f'MaterialWrapping.UnwrapOutput.UnwrapOutput({_dafny.string_of(self.unwrappedMaterial)}, {_dafny.string_of(self.unwrapInfo)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, MaterialWrapping.UnwrapOutput_UnwrapOutput) and self.unwrappedMaterial == __o.unwrappedMaterial and self.unwrapInfo == __o.unwrapInfo
+        return isinstance(__o, UnwrapOutput_UnwrapOutput) and self.unwrappedMaterial == __o.unwrappedMaterial and self.unwrapInfo == __o.unwrapInfo
     def __hash__(self) -> int:
         return super().__hash__()
 

@@ -60,6 +60,5 @@ import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
 import Constants
 
-assert "ExternRandom" == __name__
-ExternRandom = sys.modules[__name__]
+# Module: ExternRandom
 

@@ -89,7 +89,7 @@ import Keyring
 import MultiKeyring
 import AwsKmsMrkAreUnique
 
-assert "Constants" == __name__
+# assert "Constants" == __name__
 Constants = sys.modules[__name__]
 
 class default__:

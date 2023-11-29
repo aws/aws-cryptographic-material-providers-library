@@ -53,8 +53,7 @@ import software_amazon_cryptography_materialproviders_internaldafny_types
 import AlgorithmSuites
 import Materials
 
-assert "Keyring" == __name__
-Keyring = sys.modules[__name__]
+# Module: Keyring
 
 
 class VerifiableInterface:

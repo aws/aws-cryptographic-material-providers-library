@@ -52,7 +52,7 @@ import software_amazon_cryptography_services_kms_internaldafny
 import software_amazon_cryptography_services_dynamodb_internaldafny
 import software_amazon_cryptography_primitives_internaldafny_types
 
-assert "software_amazon_cryptography_materialproviders_internaldafny_types" == __name__
+# assert "software_amazon_cryptography_materialproviders_internaldafny_types" == __name__
 software_amazon_cryptography_materialproviders_internaldafny_types = sys.modules[__name__]
 
 class default__:
@@ -1745,7 +1745,7 @@ class None_:
     def is_None(self) -> bool:
         return isinstance(self, software_amazon_cryptography_materialproviders_internaldafny_types.None__None)
 
-class None_None(None_, NamedTuple('None_', [])):
+class None__None(None_, NamedTuple('None_', [])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTypes.None.None'
     def __eq__(self, __o: object) -> bool:

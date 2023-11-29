@@ -99,8 +99,7 @@ import RawRSAKeyring
 import CMM
 import Defaults
 
-assert "Commitment" == __name__
-Commitment = sys.modules[__name__]
+# Module: Commitment
 
 class default__:
     def  __init__(self):

@@ -105,8 +105,7 @@ import RequiredEncryptionContextCMM
 import AwsCryptographyMaterialProvidersOperations
 import software_amazon_cryptography_materialproviders_internaldafny
 
-assert "software_amazon_cryptography_materialproviders_internaldafny_wrapped" == __name__
-software_amazon_cryptography_materialproviders_internaldafny_wrapped = sys.modules[__name__]
+# Module: software_amazon_cryptography_materialproviders_internaldafny_wrapped
 
 class default__:
     def  __init__(self):

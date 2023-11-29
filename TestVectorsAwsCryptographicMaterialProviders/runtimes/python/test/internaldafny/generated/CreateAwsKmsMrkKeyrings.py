@@ -111,8 +111,7 @@ import KeyringExpectations
 import CreateAwsKmsKeyrings
 import CreateAwsKmsMultiKeyrings
 
-assert "CreateAwsKmsMrkKeyrings" == __name__
-CreateAwsKmsMrkKeyrings = sys.modules[__name__]
+# Module: CreateAwsKmsMrkKeyrings
 
 class default__:
     def  __init__(self):
@@ -122,16 +121,16 @@ class default__:
     def CreateAllAwsKmsMrkKeyring(input):
         allAwsKmsMrk: _dafny.Seq = _dafny.Seq({})
         allAwsKmsMrk = _dafny.Seq([])
-        hi14_: int = len((TestVectorConstants.default__).AllAwsKMSKeys)
-        for d_1303_i_ in range(0, hi14_):
-            let_tmp_rhs15_ = ((TestVectorConstants.default__).AllAwsKMSKeys)[d_1303_i_]
-            d_1304_kmsKeyId_ = let_tmp_rhs15_[0]
-            d_1305_region_ = let_tmp_rhs15_[1]
-            d_1306_keyring_: software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring
+        hi14_ = len(TestVectorConstants.default__.AllAwsKMSKeys)
+        for d_1305_i_ in range(0, hi14_):
+            let_tmp_rhs15_ = (TestVectorConstants.default__.AllAwsKMSKeys)[d_1305_i_]
+            d_1306_kmsKeyId_ = let_tmp_rhs15_[0]
+            d_1307_region_ = let_tmp_rhs15_[1]
+            d_1308_keyring_: software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring
             out273_: software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring
-            out273_ = CreateAwsKmsMrkKeyrings.default__.CreateAwsKmsMrkKeyring(d_1304_kmsKeyId_, d_1305_region_)
-            d_1306_keyring_ = out273_
-            allAwsKmsMrk = (allAwsKmsMrk) + (_dafny.Seq([d_1306_keyring_]))
+            out273_ = default__.CreateAwsKmsMrkKeyring(d_1306_kmsKeyId_, d_1307_region_)
+            d_1308_keyring_ = out273_
+            allAwsKmsMrk = (allAwsKmsMrk) + (_dafny.Seq([d_1308_keyring_]))
         return allAwsKmsMrk
 
     @staticmethod
@@ -141,36 +140,36 @@ class default__:
         _dafny.print(_dafny.string_of(kmsKeyId))
         _dafny.print(_dafny.string_of(_dafny.Seq(" ")))
         _dafny.print(_dafny.string_of(region))
-        d_1307_mpl_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
-        d_1308_valueOrError0_: Wrappers.Result = None
+        d_1309_mpl_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
+        d_1310_valueOrError0_: Wrappers.Result = None
         out274_: Wrappers.Result
         out274_ = software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__.WrappedMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__.WrappedDefaultMaterialProvidersConfig())
-        d_1308_valueOrError0_ = out274_
-        if not(not((d_1308_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/CreateKeyrings/CreateAwsKmsMrkKeyrings.dfy(53,12): " + _dafny.string_of(d_1308_valueOrError0_))
-        d_1307_mpl_ = (d_1308_valueOrError0_).Extract()
-        d_1309_clientSupplier_: software_amazon_cryptography_materialproviders_internaldafny_types.IClientSupplier
-        d_1310_valueOrError1_: Wrappers.Result = None
+        d_1310_valueOrError0_ = out274_
+        if not(not((d_1310_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/CreateKeyrings/CreateAwsKmsMrkKeyrings.dfy(53,12): " + _dafny.string_of(d_1310_valueOrError0_))
+        d_1309_mpl_ = (d_1310_valueOrError0_).Extract()
+        d_1311_clientSupplier_: software_amazon_cryptography_materialproviders_internaldafny_types.IClientSupplier
+        d_1312_valueOrError1_: Wrappers.Result = None
         out275_: Wrappers.Result
-        out275_ = (d_1307_mpl_).CreateDefaultClientSupplier(software_amazon_cryptography_materialproviders_internaldafny_types.CreateDefaultClientSupplierInput_CreateDefaultClientSupplierInput())
-        d_1310_valueOrError1_ = out275_
-        if not(not((d_1310_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/CreateKeyrings/CreateAwsKmsMrkKeyrings.dfy(55,23): " + _dafny.string_of(d_1310_valueOrError1_))
-        d_1309_clientSupplier_ = (d_1310_valueOrError1_).Extract()
-        d_1311_kmsClient_: software_amazon_cryptography_services_kms_internaldafny_types.IKMSClient
-        d_1312_valueOrError2_: Wrappers.Result = None
+        out275_ = (d_1309_mpl_).CreateDefaultClientSupplier(software_amazon_cryptography_materialproviders_internaldafny_types.CreateDefaultClientSupplierInput_CreateDefaultClientSupplierInput())
+        d_1312_valueOrError1_ = out275_
+        if not(not((d_1312_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/CreateKeyrings/CreateAwsKmsMrkKeyrings.dfy(55,23): " + _dafny.string_of(d_1312_valueOrError1_))
+        d_1311_clientSupplier_ = (d_1312_valueOrError1_).Extract()
+        d_1313_kmsClient_: software_amazon_cryptography_services_kms_internaldafny_types.IKMSClient
+        d_1314_valueOrError2_: Wrappers.Result = None
         out276_: Wrappers.Result
-        out276_ = (d_1309_clientSupplier_).GetClient(software_amazon_cryptography_materialproviders_internaldafny_types.GetClientInput_GetClientInput(region))
-        d_1312_valueOrError2_ = out276_
-        if not(not((d_1312_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/CreateKeyrings/CreateAwsKmsMrkKeyrings.dfy(56,18): " + _dafny.string_of(d_1312_valueOrError2_))
-        d_1311_kmsClient_ = (d_1312_valueOrError2_).Extract()
-        d_1313_valueOrError3_: Wrappers.Result = None
+        out276_ = (d_1311_clientSupplier_).GetClient(software_amazon_cryptography_materialproviders_internaldafny_types.GetClientInput_GetClientInput(region))
+        d_1314_valueOrError2_ = out276_
+        if not(not((d_1314_valueOrError2_).IsFailure())):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/CreateKeyrings/CreateAwsKmsMrkKeyrings.dfy(56,18): " + _dafny.string_of(d_1314_valueOrError2_))
+        d_1313_kmsClient_ = (d_1314_valueOrError2_).Extract()
+        d_1315_valueOrError3_: Wrappers.Result = None
         out277_: Wrappers.Result
-        out277_ = (d_1307_mpl_).CreateAwsKmsMrkKeyring(software_amazon_cryptography_materialproviders_internaldafny_types.CreateAwsKmsMrkKeyringInput_CreateAwsKmsMrkKeyringInput(kmsKeyId, d_1311_kmsClient_, Wrappers.Option_None()))
-        d_1313_valueOrError3_ = out277_
-        if not(not((d_1313_valueOrError3_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/CreateKeyrings/CreateAwsKmsMrkKeyrings.dfy(58,12): " + _dafny.string_of(d_1313_valueOrError3_))
-        keyring = (d_1313_valueOrError3_).Extract()
+        out277_ = (d_1309_mpl_).CreateAwsKmsMrkKeyring(software_amazon_cryptography_materialproviders_internaldafny_types.CreateAwsKmsMrkKeyringInput_CreateAwsKmsMrkKeyringInput(kmsKeyId, d_1313_kmsClient_, Wrappers.Option_None()))
+        d_1315_valueOrError3_ = out277_
+        if not(not((d_1315_valueOrError3_).IsFailure())):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/CreateKeyrings/CreateAwsKmsMrkKeyrings.dfy(58,12): " + _dafny.string_of(d_1315_valueOrError3_))
+        keyring = (d_1315_valueOrError3_).Extract()
         return keyring
 

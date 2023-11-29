@@ -75,6 +75,5 @@ import AwsCryptographyPrimitivesOperations
 import software_amazon_cryptography_primitives_internaldafny
 import Aws_mCryptography
 
-assert "Aws" == __name__
-Aws = sys.modules[__name__]
+# Module: Aws
 

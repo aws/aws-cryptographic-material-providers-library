@@ -129,7 +129,7 @@ import TestRawRSAKeying
 import TestAwsKmsRsaKeyring
 import TestAwsKmsHierarchicalKeyring
 
-assert "TestAwsKmsEncryptedDataKeyFilter" == __name__
+# assert "TestAwsKmsEncryptedDataKeyFilter" == __name__
 TestAwsKmsEncryptedDataKeyFilter = sys.modules[__name__]
 
 class default__:

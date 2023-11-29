@@ -71,8 +71,7 @@ import WrappedHKDF
 import Signature
 import KdfCtr
 
-assert "RSAEncryption" == __name__
-RSAEncryption = sys.modules[__name__]
+# Module: RSAEncryption
 
 class default__:
     def  __init__(self):
@@ -100,7 +99,7 @@ class default__:
             return (d_300_valueOrError0_).PropagateFailure()
         elif True:
             d_301_length_ = (d_300_valueOrError0_).Extract()
-            d_302_valueOrError1_ = Wrappers.default__.Need(((81) <= (d_301_length_)) and ((d_301_length_) < ((StandardLibrary_mUInt.default__).INT32__MAX__LIMIT)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Unsupported length for RSA modulus.")))
+            d_302_valueOrError1_ = Wrappers.default__.Need(((81) <= (d_301_length_)) and ((d_301_length_) < (StandardLibrary_mUInt.default__.INT32__MAX__LIMIT)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Unsupported length for RSA modulus.")))
             if (d_302_valueOrError1_).IsFailure():
                 return (d_302_valueOrError1_).PropagateFailure()
             elif True:
@@ -108,8 +107,8 @@ class default__:
 
     @staticmethod
     def Decrypt(input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
-        d_303_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_303_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_303_valueOrError0_ = Wrappers.default__.Need(((0) < (len((input).privateKey))) and ((0) < (len((input).cipherText))), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("")))
         if (d_303_valueOrError0_).IsFailure():
             output = (d_303_valueOrError0_).PropagateFailure()
@@ -121,8 +120,8 @@ class default__:
 
     @staticmethod
     def Encrypt(input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
-        d_304_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_304_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_304_valueOrError0_ = Wrappers.default__.Need(((0) < (len((input).publicKey))) and ((0) < (len((input).plaintext))), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("")))
         if (d_304_valueOrError0_).IsFailure():
             output = (d_304_valueOrError0_).PropagateFailure()

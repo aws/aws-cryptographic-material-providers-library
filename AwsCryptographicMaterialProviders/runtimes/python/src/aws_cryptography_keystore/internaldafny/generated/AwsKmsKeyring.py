@@ -97,8 +97,7 @@ import CanonicalEncryptionContext
 import IntermediateKeyWrapping
 import EdkWrapping
 
-assert "AwsKmsKeyring" == __name__
-AwsKmsKeyring = sys.modules[__name__]
+# assert "AwsKmsKeyring" == __name__
 
 
 class AwsKmsKeyring(Keyring.VerifiableInterface, software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring):
@@ -110,7 +109,7 @@ class AwsKmsKeyring(Keyring.VerifiableInterface, software_amazon_cryptography_ma
         pass
 
     def __dafnystr__(self) -> str:
-        return "AwsKmsKeyring.AwsKmsKeyring"
+        return "AwsKmsKeyring"
     def OnEncrypt(self, input):
         out209_: Wrappers.Result
         out209_ = software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring.OnEncrypt(self, input)
@@ -142,16 +141,16 @@ class AwsKmsKeyring(Keyring.VerifiableInterface, software_amazon_cryptography_ma
             res = (d_808_valueOrError0_).PropagateFailure()
             return res
         d_807_stringifiedEncCtx_ = (d_808_valueOrError0_).Extract()
-        d_809_kmsGenerateAndWrap_: AwsKmsKeyring.KmsGenerateAndWrapKeyMaterial
-        nw2_ = AwsKmsKeyring.KmsGenerateAndWrapKeyMaterial()
+        d_809_kmsGenerateAndWrap_: KmsGenerateAndWrapKeyMaterial
+        nw2_ = KmsGenerateAndWrapKeyMaterial()
         nw2_.ctor__((self).client, (self).awsKmsKey, (self).grantTokens)
         d_809_kmsGenerateAndWrap_ = nw2_
-        d_810_kmsWrap_: AwsKmsKeyring.KmsWrapKeyMaterial
-        nw3_ = AwsKmsKeyring.KmsWrapKeyMaterial()
+        d_810_kmsWrap_: KmsWrapKeyMaterial
+        nw3_ = KmsWrapKeyMaterial()
         nw3_.ctor__((self).client, (self).awsKmsKey, (self).grantTokens)
         d_810_kmsWrap_ = nw3_
         d_811_wrapOutput_: EdkWrapping.WrapEdkMaterialOutput
-        d_812_valueOrError1_: Wrappers.Result = Wrappers.Result_Success.default(EdkWrapping.WrapEdkMaterialOutput.default(AwsKmsKeyring.KmsWrapInfo.default()))()
+        d_812_valueOrError1_: Wrappers.Result = Wrappers.Result_Success.default(EdkWrapping.WrapEdkMaterialOutput.default(KmsWrapInfo.default()))()
         out211_: Wrappers.Result
         out211_ = EdkWrapping.default__.WrapEdkMaterial(d_805_materials_, d_810_kmsWrap_, d_809_kmsGenerateAndWrap_)
         d_812_valueOrError1_ = out211_
@@ -210,8 +209,8 @@ class AwsKmsKeyring(Keyring.VerifiableInterface, software_amazon_cryptography_ma
         if (d_825_valueOrError0_).IsFailure():
             res = (d_825_valueOrError0_).PropagateFailure()
             return res
-        d_826_filter_: AwsKmsKeyring.OnDecryptEncryptedDataKeyFilter
-        nw4_ = AwsKmsKeyring.OnDecryptEncryptedDataKeyFilter()
+        d_826_filter_: OnDecryptEncryptedDataKeyFilter
+        nw4_ = OnDecryptEncryptedDataKeyFilter()
         nw4_.ctor__((self).awsKmsKey)
         d_826_filter_ = nw4_
         d_827_edksToAttempt_: _dafny.Seq
@@ -229,7 +228,7 @@ class AwsKmsKeyring(Keyring.VerifiableInterface, software_amazon_cryptography_ma
             res = (d_829_valueOrError2_).PropagateFailure()
             return res
         d_830_decryptClosure_: Actions.ActionWithResult
-        nw5_ = AwsKmsKeyring.DecryptSingleEncryptedDataKey()
+        nw5_ = DecryptSingleEncryptedDataKey()
         nw5_.ctor__(d_823_materials_, (self).client, (self).awsKmsKey, (self).grantTokens)
         d_830_decryptClosure_ = nw5_
         d_831_outcome_: Wrappers.Result
@@ -269,7 +268,7 @@ class OnDecryptEncryptedDataKeyFilter(Actions.DeterministicActionWithResult, Act
         pass
 
     def __dafnystr__(self) -> str:
-        return "AwsKmsKeyring.OnDecryptEncryptedDataKeyFilter"
+        return "OnDecryptEncryptedDataKeyFilter"
     def ctor__(self, awsKmsKey):
         (self)._awsKmsKey = awsKmsKey
 
@@ -312,7 +311,7 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
         pass
 
     def __dafnystr__(self) -> str:
-        return "AwsKmsKeyring.DecryptSingleEncryptedDataKey"
+        return "DecryptSingleEncryptedDataKey"
     def ctor__(self, materials, client, awsKmsKey, grantTokens):
         (self)._materials = materials
         (self)._client = client
@@ -321,8 +320,8 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
 
     def Invoke(self, edk):
         res: Wrappers.Result = None
-        d_839_kmsUnwrap_: AwsKmsKeyring.KmsUnwrapKeyMaterial
-        nw6_ = AwsKmsKeyring.KmsUnwrapKeyMaterial()
+        d_839_kmsUnwrap_: KmsUnwrapKeyMaterial
+        nw6_ = KmsUnwrapKeyMaterial()
         nw6_.ctor__((self).client, (self).awsKmsKey, (self).grantTokens)
         d_839_kmsUnwrap_ = nw6_
         d_840_unwrapOutputRes_: Wrappers.Result
@@ -330,7 +329,7 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
         out214_ = EdkWrapping.default__.UnwrapEdkMaterial((edk).ciphertext, (self).materials, d_839_kmsUnwrap_)
         d_840_unwrapOutputRes_ = out214_
         d_841_unwrapOutput_: EdkWrapping.UnwrapEdkMaterialOutput
-        d_842_valueOrError0_: Wrappers.Result = Wrappers.Result_Success.default(EdkWrapping.UnwrapEdkMaterialOutput.default(AwsKmsKeyring.KmsUnwrapInfo.default()))()
+        d_842_valueOrError0_: Wrappers.Result = Wrappers.Result_Success.default(EdkWrapping.UnwrapEdkMaterialOutput.default(KmsUnwrapInfo.default()))()
         d_842_valueOrError0_ = d_840_unwrapOutputRes_
         if (d_842_valueOrError0_).IsFailure():
             res = (d_842_valueOrError0_).PropagateFailure()
@@ -371,13 +370,13 @@ class KmsUnwrapInfo:
         return not self.__eq__(__o)
     @property
     def is_KmsUnwrapInfo(self) -> bool:
-        return isinstance(self, AwsKmsKeyring.KmsUnwrapInfo_KmsUnwrapInfo)
+        return isinstance(self, KmsUnwrapInfo_KmsUnwrapInfo)
 
 class KmsUnwrapInfo_KmsUnwrapInfo(KmsUnwrapInfo, NamedTuple('KmsUnwrapInfo', [])):
     def __dafnystr__(self) -> str:
-        return f'AwsKmsKeyring.KmsUnwrapInfo.KmsUnwrapInfo'
+        return f'KmsUnwrapInfo.KmsUnwrapInfo'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, AwsKmsKeyring.KmsUnwrapInfo_KmsUnwrapInfo)
+        return isinstance(__o, KmsUnwrapInfo_KmsUnwrapInfo)
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -390,13 +389,13 @@ class KmsWrapInfo:
         return not self.__eq__(__o)
     @property
     def is_KmsWrapInfo(self) -> bool:
-        return isinstance(self, AwsKmsKeyring.KmsWrapInfo_KmsWrapInfo)
+        return isinstance(self, KmsWrapInfo_KmsWrapInfo)
 
 class KmsWrapInfo_KmsWrapInfo(KmsWrapInfo, NamedTuple('KmsWrapInfo', [('kmsKeyArn', Any)])):
     def __dafnystr__(self) -> str:
-        return f'AwsKmsKeyring.KmsWrapInfo.KmsWrapInfo({_dafny.string_of(self.kmsKeyArn)})'
+        return f'KmsWrapInfo.KmsWrapInfo({_dafny.string_of(self.kmsKeyArn)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, AwsKmsKeyring.KmsWrapInfo_KmsWrapInfo) and self.kmsKeyArn == __o.kmsKeyArn
+        return isinstance(__o, KmsWrapInfo_KmsWrapInfo) and self.kmsKeyArn == __o.kmsKeyArn
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -409,14 +408,14 @@ class KmsUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWithRe
         pass
 
     def __dafnystr__(self) -> str:
-        return "AwsKmsKeyring.KmsUnwrapKeyMaterial"
+        return "KmsUnwrapKeyMaterial"
     def ctor__(self, client, awsKmsKey, grantTokens):
         (self)._client = client
         (self)._awsKmsKey = awsKmsKey
         (self)._grantTokens = grantTokens
 
     def Invoke(self, input):
-        res: Wrappers.Result = Wrappers.Result_Success.default(MaterialWrapping.UnwrapOutput.default(AwsKmsKeyring.KmsUnwrapInfo.default()))()
+        res: Wrappers.Result = Wrappers.Result_Success.default(MaterialWrapping.UnwrapOutput.default(KmsUnwrapInfo.default()))()
         d_845_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
         d_845_valueOrError0_ = Wrappers.default__.Need(software_amazon_cryptography_services_kms_internaldafny_types.default__.IsValid__CiphertextType((input).wrappedMaterial), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Ciphertext length invalid")))
         if (d_845_valueOrError0_).IsFailure():
@@ -451,7 +450,7 @@ class KmsUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWithRe
             res = (d_853_valueOrError3_).PropagateFailure()
             return res
         d_854_output_: MaterialWrapping.UnwrapOutput
-        d_854_output_ = MaterialWrapping.UnwrapOutput_UnwrapOutput(((d_850_decryptResponse_).Plaintext).value, AwsKmsKeyring.KmsUnwrapInfo_KmsUnwrapInfo())
+        d_854_output_ = MaterialWrapping.UnwrapOutput_UnwrapOutput(((d_850_decryptResponse_).Plaintext).value, KmsUnwrapInfo_KmsUnwrapInfo())
         res = Wrappers.Result_Success(d_854_output_)
         return res
         return res
@@ -474,14 +473,14 @@ class KmsGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMaterial, Ac
         pass
 
     def __dafnystr__(self) -> str:
-        return "AwsKmsKeyring.KmsGenerateAndWrapKeyMaterial"
+        return "KmsGenerateAndWrapKeyMaterial"
     def ctor__(self, client, awsKmsKey, grantTokens):
         (self)._client = client
         (self)._awsKmsKey = awsKmsKey
         (self)._grantTokens = grantTokens
 
     def Invoke(self, input):
-        res: Wrappers.Result = Wrappers.Result_Success.default(MaterialWrapping.GenerateAndWrapOutput.default(AwsKmsKeyring.KmsWrapInfo.default()))()
+        res: Wrappers.Result = Wrappers.Result_Success.default(MaterialWrapping.GenerateAndWrapOutput.default(KmsWrapInfo.default()))()
         d_855_suite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo
         d_855_suite_ = (input).algorithmSuite
         d_856_stringifiedEncCtx_: _dafny.Map
@@ -523,7 +522,7 @@ class KmsGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMaterial, Ac
             res = (d_865_valueOrError4_).PropagateFailure()
             return res
         d_866_output_: MaterialWrapping.GenerateAndWrapOutput
-        d_866_output_ = MaterialWrapping.GenerateAndWrapOutput_GenerateAndWrapOutput(((d_860_generateResponse_).Plaintext).value, ((d_860_generateResponse_).CiphertextBlob).value, AwsKmsKeyring.KmsWrapInfo_KmsWrapInfo(((d_860_generateResponse_).KeyId).value))
+        d_866_output_ = MaterialWrapping.GenerateAndWrapOutput_GenerateAndWrapOutput(((d_860_generateResponse_).Plaintext).value, ((d_860_generateResponse_).CiphertextBlob).value, KmsWrapInfo_KmsWrapInfo(((d_860_generateResponse_).KeyId).value))
         res = Wrappers.Result_Success(d_866_output_)
         return res
         return res
@@ -546,14 +545,14 @@ class KmsWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionWithResult
         pass
 
     def __dafnystr__(self) -> str:
-        return "AwsKmsKeyring.KmsWrapKeyMaterial"
+        return "KmsWrapKeyMaterial"
     def ctor__(self, client, awsKmsKey, grantTokens):
         (self)._client = client
         (self)._awsKmsKey = awsKmsKey
         (self)._grantTokens = grantTokens
 
     def Invoke(self, input):
-        res: Wrappers.Result = Wrappers.Result_Success.default(MaterialWrapping.WrapOutput.default(AwsKmsKeyring.KmsWrapInfo.default()))()
+        res: Wrappers.Result = Wrappers.Result_Success.default(MaterialWrapping.WrapOutput.default(KmsWrapInfo.default()))()
         d_867_suite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo
         d_867_suite_ = (input).algorithmSuite
         d_868_stringifiedEncCtx_: _dafny.Map
@@ -595,7 +594,7 @@ class KmsWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionWithResult
             res = (d_877_valueOrError4_).PropagateFailure()
             return res
         d_878_output_: MaterialWrapping.WrapOutput
-        d_878_output_ = MaterialWrapping.WrapOutput_WrapOutput(((d_873_encryptResponse_).CiphertextBlob).value, AwsKmsKeyring.KmsWrapInfo_KmsWrapInfo(((d_873_encryptResponse_).KeyId).value))
+        d_878_output_ = MaterialWrapping.WrapOutput_WrapOutput(((d_873_encryptResponse_).CiphertextBlob).value, KmsWrapInfo_KmsWrapInfo(((d_873_encryptResponse_).KeyId).value))
         res = Wrappers.Result_Success(d_878_output_)
         return res
         return res

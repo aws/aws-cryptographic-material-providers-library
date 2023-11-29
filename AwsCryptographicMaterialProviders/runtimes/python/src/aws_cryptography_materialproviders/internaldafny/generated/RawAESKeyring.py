@@ -111,7 +111,7 @@ import software_amazon_cryptography_internaldafny_StormTrackingCMC
 import AwsKmsHierarchicalKeyring
 import AwsKmsRsaKeyring
 
-assert "RawAESKeyring" == __name__
+# assert "RawAESKeyring" == __name__
 RawAESKeyring = sys.modules[__name__]
 
 class default__:

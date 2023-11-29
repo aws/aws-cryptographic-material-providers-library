@@ -61,8 +61,7 @@ import AwsKmsUtils
 import Constants
 import ExternRandom
 
-assert "Random" == __name__
-Random = sys.modules[__name__]
+# Module: Random
 
 class default__:
     def  __init__(self):
@@ -70,9 +69,9 @@ class default__:
 
     @staticmethod
     def GenerateBytes(i):
-        res: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        res: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_205_value_: _dafny.Seq
-        d_206_valueOrError0_: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        d_206_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out17_: Wrappers.Result
         out17_ = ExternRandom.default__.GenerateBytes(i)
         d_206_valueOrError0_ = out17_
@@ -80,7 +79,7 @@ class default__:
             res = (d_206_valueOrError0_).PropagateFailure()
             return res
         d_205_value_ = (d_206_valueOrError0_).Extract()
-        d_207_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_207_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_207_valueOrError1_ = Wrappers.default__.Need((len(d_205_value_)) == (i), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect length from ExternRandom.")))
         if (d_207_valueOrError1_).IsFailure():
             res = (d_207_valueOrError1_).PropagateFailure()

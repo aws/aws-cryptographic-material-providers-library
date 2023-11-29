@@ -164,17 +164,18 @@ dafny-reportgenerator:
 #		$(if $(strip $(STD_LIBRARY)) , --library:$(PROJECT_ROOT)/$(STD_LIBRARY)/src/Index.dfy, ) \
 #		$(patsubst %, --library:$(PROJECT_ROOT)/%/src/Index.dfy, $(LIBRARIES))
 
-build_implementation:
-	dafny build \
-		-t:$(TARGET) \
-		./src/Index.dfy \
-		-o $(OUT) \
-		--quantifier-syntax:3 \
-		--function-syntax:3 \
-		--optimize-erasable-datatype-wrapper:false \
-		--unicode-char:false \
-		$(if $(strip $(STD_LIBRARY)) , --library:$(PROJECT_ROOT)/$(STD_LIBRARY)/src/Index.dfy, ) \
-		$(patsubst %, --library:$(PROJECT_ROOT)/%/src/Index.dfy, $(LIBRARIES))
+# build_implementation:
+# 	dafny build \
+# 		-t:$(TARGET) \
+# 		--no-verify \
+# 		./dafny/KeyVectors/src/Index.dfy \
+# 		-o $(OUT) \
+# 		--quantifier-syntax:3 \
+# 		--function-syntax:3 \
+# 		--optimize-erasable-datatype-wrapper:false \
+# 		--unicode-char:false \
+# 		$(if $(strip $(STD_LIBRARY)) , --library:$(PROJECT_ROOT)/$(STD_LIBRARY)/src/Index.dfy, ) \
+# 		$(patsubst %, --library:$(PROJECT_ROOT)/%/src/Index.dfy, $(LIBRARIES))
 
 # Transpile the entire project's impl
 _transpile_implementation_all: TRANSPILE_DEPENDENCIES=$(patsubst %, -library:$(PROJECT_ROOT)/%, $(PROJECT_INDEX))
@@ -204,6 +205,67 @@ _transpile_implementation_all: transpile_implementation
 transpile_implementation:
 	find ./dafny/**/src ./src -name 'Index.dfy' | sed -e 's/^/include "/' -e 's/$$/"/' | dafny \
 		-stdin \
+		-noVerify \
+		-vcsCores:$(CORES) \
+		-compileTarget:$(TARGET) \
+		-spillTargetCode:3 \
+		-compile:0 \
+		-optimizeErasableDatatypeWrapper:0 \
+		$(COMPILE_SUFFIX_OPTION) \
+		-quantifierSyntax:3 \
+		-unicodeChar:0 \
+		-functionSyntax:3 \
+		-useRuntimeLib \
+		-out $(OUT) \
+		$(if $(strip $(STD_LIBRARY)) , -library:$(PROJECT_ROOT)/$(STD_LIBRARY)/src/Index.dfy, ) \
+		$(TRANSPILE_DEPENDENCIES)
+
+# find ./dafny/**/src ./src -name 'Index.dfy' | sed -e 's/^/include "/' -e 's/$/"/' | dafny \
+# 		-stdin \
+# 		-noVerify \
+# 		-vcsCores:2 \
+# 		-compileTarget:py \
+# 		-spillTargetCode:3 \
+# 		-compile:0 \
+# 		-optimizeErasableDatatypeWrapper:0 \
+# 		-quantifierSyntax:3 \
+# 		-unicodeChar:0 \
+# 		-functionSyntax:3 \
+# 		-useRuntimeLib \
+# 		-out out \
+
+# find . -name 'Index.dfy' | sed -e 's/^/include "/' -e 's/$/"/' | dafny \
+# 	-stdin \
+# 	-noVerify \
+# 	-compileTarget:py \
+# 	-spillTargetCode:3 \
+# 	-compile:0 \
+# 	-optimizeErasableDatatypeWrapper:0 \
+# 	-quantifierSyntax:3 \
+# 	-unicodeChar:0 \
+# 	-functionSyntax:3 \
+# 	-useRuntimeLib \
+# 	-out out \
+
+# build_implementation:
+# 	find ./dafny/**/src ./src -name 'Index.dfy' | sed -e 's/^/include "/' -e 's/$$/"/' | dafny build \
+# 		--stdin \
+# 		--no-verify \
+# 		--cores:$(CORES) \
+# 		-t:$(TARGET) \
+# 		--optimize-erasable-datatype-wrapper:false \
+# 		$(COMPILE_SUFFIX_OPTION) \
+# 		--quantifier-syntax:3 \
+# 		--unicode-char:false \
+# 		--function-syntax:3 \
+# 		-o $(OUT) \
+# 		$(if $(strip $(STD_LIBRARY)) , --library:$(PROJECT_ROOT)/$(STD_LIBRARY)/src/Index.dfy, ) \
+# 		$(patsubst %, --library:$(PROJECT_ROOT)/%/src/Index.dfy, $(LIBRARIES))
+
+build_implementation:
+	dafny \
+		./dafny/KeyVectors/src/Index.dfy \
+		./dafny/TestVectorsAwsCryptographicMaterialProviders/src/Index.dfy \
 		-noVerify \
 		-vcsCores:$(CORES) \
 		-compileTarget:$(TARGET) \
@@ -452,7 +514,7 @@ build_python: _rename_test_main_python
 build_implementation_python: TARGET=py
 build_implementation_python: OUT=runtimes/python/dafny_src
 build_implementation_python: COMPILE_SUFFIX_OPTION=
-build_implementation_python: transpile_implementation
+build_implementation_python: _transpile_implementation_all
 
 # `transpile_implementation_python` is not directly used, but is indirectly used via `transpile_dependencies`
 # The `transpile` target does NOT include the Dafny runtime library (_dafny.py) in the generated code

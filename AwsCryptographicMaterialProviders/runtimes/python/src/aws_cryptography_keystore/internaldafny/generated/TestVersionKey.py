@@ -83,7 +83,7 @@ import TestGetKeys
 import CleanupItems
 import TestCreateKeys
 
-assert "TestVersionKey" == __name__
+# assert "TestVersionKey" == __name__
 TestVersionKey = sys.modules[__name__]
 
 class default__:

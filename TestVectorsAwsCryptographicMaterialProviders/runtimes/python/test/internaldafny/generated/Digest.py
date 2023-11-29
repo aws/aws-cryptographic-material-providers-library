@@ -64,8 +64,7 @@ import Random
 import AESEncryption
 import ExternDigest
 
-assert "Digest" == __name__
-Digest = sys.modules[__name__]
+# Module: Digest
 
 class default__:
     def  __init__(self):
@@ -83,12 +82,12 @@ class default__:
 
     @staticmethod
     def Digest(input):
-        res: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        res: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         let_tmp_rhs2_ = input
         d_230_digestAlgorithm_ = let_tmp_rhs2_.digestAlgorithm
         d_231_message_ = let_tmp_rhs2_.message
         d_232_value_: _dafny.Seq
-        d_233_valueOrError0_: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        d_233_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out20_: Wrappers.Result
         out20_ = ExternDigest.default__.Digest(d_230_digestAlgorithm_, d_231_message_)
         d_233_valueOrError0_ = out20_
@@ -96,8 +95,8 @@ class default__:
             res = (d_233_valueOrError0_).PropagateFailure()
             return res
         d_232_value_ = (d_233_valueOrError0_).Extract()
-        d_234_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
-        d_234_valueOrError1_ = Wrappers.default__.Need((len(d_232_value_)) == (Digest.default__.Length(d_230_digestAlgorithm_)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect length digest from ExternDigest.")))
+        d_234_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_234_valueOrError1_ = Wrappers.default__.Need((len(d_232_value_)) == (default__.Length(d_230_digestAlgorithm_)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect length digest from ExternDigest.")))
         if (d_234_valueOrError1_).IsFailure():
             res = (d_234_valueOrError1_).PropagateFailure()
             return res

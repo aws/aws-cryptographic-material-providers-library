@@ -171,8 +171,7 @@ import CompleteVectors
 import ParseJsonManifests
 import TestManifests
 
-assert "WrappedMaterialProvidersMain" == __name__
-WrappedMaterialProvidersMain = sys.modules[__name__]
+# Module: WrappedMaterialProvidersMain
 
 class default__:
     def  __init__(self):
@@ -180,23 +179,23 @@ class default__:
 
     @staticmethod
     def CheckKeyrings():
-        d_1944_mpl_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
-        d_1945_valueOrError0_: Wrappers.Result = None
+        d_1946_mpl_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
+        d_1947_valueOrError0_: Wrappers.Result = None
         out347_: Wrappers.Result
         out347_ = software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__.WrappedMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__.WrappedDefaultMaterialProvidersConfig())
-        d_1945_valueOrError0_ = out347_
-        if not(not((d_1945_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/Index.dfy(21,12): " + _dafny.string_of(d_1945_valueOrError0_))
-        d_1944_mpl_ = (d_1945_valueOrError0_).Extract()
-        d_1946_all_: _dafny.Seq
+        d_1947_valueOrError0_ = out347_
+        if not(not((d_1947_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/Index.dfy(21,12): " + _dafny.string_of(d_1947_valueOrError0_))
+        d_1946_mpl_ = (d_1947_valueOrError0_).Extract()
+        d_1948_all_: _dafny.Seq
         out348_: _dafny.Seq
         out348_ = CreateKeyrings.default__.CreateAllEncryptDecryptKeyrings()
-        d_1946_all_ = out348_
-        hi22_: int = len(d_1946_all_)
-        for d_1947_i_ in range(0, hi22_):
-            d_1948_keyring_: software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring
-            d_1948_keyring_ = (d_1946_all_)[d_1947_i_]
-            KeyringExpectations.default__.ExpectAlgorithmSuiteKeyringSuccess(d_1944_mpl_, d_1948_keyring_)
+        d_1948_all_ = out348_
+        hi22_ = len(d_1948_all_)
+        for d_1949_i_ in range(0, hi22_):
+            d_1950_keyring_: software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring
+            d_1950_keyring_ = (d_1948_all_)[d_1949_i_]
+            KeyringExpectations.default__.ExpectAlgorithmSuiteKeyringSuccess(d_1946_mpl_, d_1950_keyring_)
 
     @staticmethod
     def EncryptTestVectors():

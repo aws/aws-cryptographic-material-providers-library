@@ -108,7 +108,7 @@ import LocalCMC
 import software_amazon_cryptography_internaldafny_SynchronizedLocalCMC
 import StormTracker
 
-assert "software_amazon_cryptography_internaldafny_StormTrackingCMC" == __name__
+# assert "software_amazon_cryptography_internaldafny_StormTrackingCMC" == __name__
 software_amazon_cryptography_internaldafny_StormTrackingCMC = sys.modules[__name__]
 
 

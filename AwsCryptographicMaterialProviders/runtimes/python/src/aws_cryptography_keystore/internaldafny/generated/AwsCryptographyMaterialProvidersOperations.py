@@ -119,7 +119,7 @@ import DefaultCMM
 import DefaultClientSupplier
 import RequiredEncryptionContextCMM
 
-assert "AwsCryptographyMaterialProvidersOperations" == __name__
+# assert "AwsCryptographyMaterialProvidersOperations" == __name__
 AwsCryptographyMaterialProvidersOperations = sys.modules[__name__]
 
 class default__:

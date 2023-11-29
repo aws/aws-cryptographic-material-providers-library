@@ -79,8 +79,7 @@ import MaterialWrapping
 import CanonicalEncryptionContext
 import IntermediateKeyWrapping
 
-assert "EdkWrapping" == __name__
-EdkWrapping = sys.modules[__name__]
+# Module: EdkWrapping
 
 class default__:
     def  __init__(self):
@@ -89,8 +88,8 @@ class default__:
     @staticmethod
     def WrapEdkMaterial(encryptionMaterials, wrap, generateAndWrap):
         ret: Wrappers.Result = None
-        d_400_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
-        d_400_valueOrError0_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterials(encryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid materials for decryption.")))
+        d_400_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_400_valueOrError0_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterials(encryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid materials for encryption.")))
         if (d_400_valueOrError0_).IsFailure():
             ret = (d_400_valueOrError0_).PropagateFailure()
             return ret
@@ -104,7 +103,7 @@ class default__:
                 ret = (d_402_valueOrError1_).PropagateFailure()
                 return ret
             d_401_directOutput_ = (d_402_valueOrError1_).Extract()
-            ret = Wrappers.Result_Success(EdkWrapping.WrapEdkMaterialOutput_WrapOnlyEdkMaterialOutput((d_401_directOutput_).wrappedMaterial, Wrappers.Option_None(), (d_401_directOutput_).wrapInfo))
+            ret = Wrappers.Result_Success(WrapEdkMaterialOutput_WrapOnlyEdkMaterialOutput((d_401_directOutput_).wrappedMaterial, Wrappers.Option_None(), (d_401_directOutput_).wrapInfo))
             return ret
         elif (((encryptionMaterials).plaintextDataKey).is_Some) and ((((encryptionMaterials).algorithmSuite).edkWrapping).is_IntermediateKeyWrapping):
             d_403_intermediateOutput_: IntermediateKeyWrapping.IntermediateWrapOutput
@@ -116,7 +115,7 @@ class default__:
                 ret = (d_404_valueOrError2_).PropagateFailure()
                 return ret
             d_403_intermediateOutput_ = (d_404_valueOrError2_).Extract()
-            ret = Wrappers.Result_Success(EdkWrapping.WrapEdkMaterialOutput_WrapOnlyEdkMaterialOutput((d_403_intermediateOutput_).wrappedMaterial, Wrappers.Option_Some((d_403_intermediateOutput_).symmetricSigningKey), (d_403_intermediateOutput_).wrapInfo))
+            ret = Wrappers.Result_Success(WrapEdkMaterialOutput_WrapOnlyEdkMaterialOutput((d_403_intermediateOutput_).wrappedMaterial, Wrappers.Option_Some((d_403_intermediateOutput_).symmetricSigningKey), (d_403_intermediateOutput_).wrapInfo))
             return ret
         elif (((encryptionMaterials).plaintextDataKey).is_None) and ((((encryptionMaterials).algorithmSuite).edkWrapping).is_DIRECT__KEY__WRAPPING):
             d_405_directOutput_: MaterialWrapping.GenerateAndWrapOutput
@@ -128,10 +127,10 @@ class default__:
                 ret = (d_406_valueOrError3_).PropagateFailure()
                 return ret
             d_405_directOutput_ = (d_406_valueOrError3_).Extract()
-            ret = Wrappers.Result_Success(EdkWrapping.WrapEdkMaterialOutput_GenerateAndWrapEdkMaterialOutput((d_405_directOutput_).plaintextMaterial, (d_405_directOutput_).wrappedMaterial, Wrappers.Option_None(), (d_405_directOutput_).wrapInfo))
+            ret = Wrappers.Result_Success(WrapEdkMaterialOutput_GenerateAndWrapEdkMaterialOutput((d_405_directOutput_).plaintextMaterial, (d_405_directOutput_).wrappedMaterial, Wrappers.Option_None(), (d_405_directOutput_).wrapInfo))
             return ret
         elif (((encryptionMaterials).plaintextDataKey).is_None) and ((((encryptionMaterials).algorithmSuite).edkWrapping).is_IntermediateKeyWrapping):
-            d_407_valueOrError4_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+            d_407_valueOrError4_: Wrappers.Outcome = Wrappers.Outcome.default()()
             d_407_valueOrError4_ = Wrappers.default__.Need((((encryptionMaterials).algorithmSuite).commitment).is_HKDF, software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid algorithm suite: suites with intermediate key wrapping must use key commitment.")))
             if (d_407_valueOrError4_).IsFailure():
                 ret = (d_407_valueOrError4_).PropagateFailure()
@@ -145,7 +144,7 @@ class default__:
                 ret = (d_409_valueOrError5_).PropagateFailure()
                 return ret
             d_408_intermediateOutput_ = (d_409_valueOrError5_).Extract()
-            ret = Wrappers.Result_Success(EdkWrapping.WrapEdkMaterialOutput_GenerateAndWrapEdkMaterialOutput((d_408_intermediateOutput_).plaintextDataKey, (d_408_intermediateOutput_).wrappedMaterial, Wrappers.Option_Some((d_408_intermediateOutput_).symmetricSigningKey), (d_408_intermediateOutput_).wrapInfo))
+            ret = Wrappers.Result_Success(WrapEdkMaterialOutput_GenerateAndWrapEdkMaterialOutput((d_408_intermediateOutput_).plaintextDataKey, (d_408_intermediateOutput_).wrappedMaterial, Wrappers.Option_Some((d_408_intermediateOutput_).symmetricSigningKey), (d_408_intermediateOutput_).wrapInfo))
             return ret
         elif True:
             pass
@@ -154,7 +153,7 @@ class default__:
     @staticmethod
     def UnwrapEdkMaterial(wrappedMaterial, decryptionMaterials, unwrap):
         ret: Wrappers.Result = None
-        d_410_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_410_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_410_valueOrError0_ = Wrappers.default__.Need(Materials.default__.ValidDecryptionMaterials(decryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid materials for decryption.")))
         if (d_410_valueOrError0_).IsFailure():
             ret = (d_410_valueOrError0_).PropagateFailure()
@@ -169,10 +168,10 @@ class default__:
                 ret = (d_412_valueOrError1_).PropagateFailure()
                 return ret
             d_411_directOutput_ = (d_412_valueOrError1_).Extract()
-            ret = Wrappers.Result_Success(EdkWrapping.UnwrapEdkMaterialOutput_UnwrapEdkMaterialOutput((d_411_directOutput_).unwrappedMaterial, Wrappers.Option_None(), (d_411_directOutput_).unwrapInfo))
+            ret = Wrappers.Result_Success(UnwrapEdkMaterialOutput_UnwrapEdkMaterialOutput((d_411_directOutput_).unwrappedMaterial, Wrappers.Option_None(), (d_411_directOutput_).unwrapInfo))
             return ret
         elif (((decryptionMaterials).algorithmSuite).edkWrapping).is_IntermediateKeyWrapping:
-            d_413_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+            d_413_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
             d_413_valueOrError2_ = Wrappers.default__.Need((len(wrappedMaterial)) >= ((((((decryptionMaterials).algorithmSuite).encrypt).AES__GCM).keyLength) + (((((decryptionMaterials).algorithmSuite).encrypt).AES__GCM).tagLength)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid material for Intermediate Unwrapping")))
             if (d_413_valueOrError2_).IsFailure():
                 ret = (d_413_valueOrError2_).PropagateFailure()
@@ -186,7 +185,7 @@ class default__:
                 ret = (d_415_valueOrError3_).PropagateFailure()
                 return ret
             d_414_intermediateOutput_ = (d_415_valueOrError3_).Extract()
-            ret = Wrappers.Result_Success(EdkWrapping.UnwrapEdkMaterialOutput_UnwrapEdkMaterialOutput((d_414_intermediateOutput_).plaintextDataKey, Wrappers.Option_Some((d_414_intermediateOutput_).symmetricSigningKey), (d_414_intermediateOutput_).unwrapInfo))
+            ret = Wrappers.Result_Success(UnwrapEdkMaterialOutput_UnwrapEdkMaterialOutput((d_414_intermediateOutput_).plaintextDataKey, Wrappers.Option_Some((d_414_intermediateOutput_).symmetricSigningKey), (d_414_intermediateOutput_).unwrapInfo))
             return ret
         elif True:
             pass
@@ -207,21 +206,21 @@ class default__:
 class WrapEdkMaterialOutput:
     @classmethod
     def default(cls, default_T):
-        return lambda: WrapEdkMaterialOutput_WrapOnlyEdkMaterialOutput(_dafny.Seq({}), Wrappers.Option_None.default()(), default_T())
+        return lambda: WrapEdkMaterialOutput_WrapOnlyEdkMaterialOutput(_dafny.Seq({}), Wrappers.Option.default()(), default_T())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_WrapOnlyEdkMaterialOutput(self) -> bool:
-        return isinstance(self, EdkWrapping.WrapEdkMaterialOutput_WrapOnlyEdkMaterialOutput)
+        return isinstance(self, WrapEdkMaterialOutput_WrapOnlyEdkMaterialOutput)
     @property
     def is_GenerateAndWrapEdkMaterialOutput(self) -> bool:
-        return isinstance(self, EdkWrapping.WrapEdkMaterialOutput_GenerateAndWrapEdkMaterialOutput)
+        return isinstance(self, WrapEdkMaterialOutput_GenerateAndWrapEdkMaterialOutput)
 
 class WrapEdkMaterialOutput_WrapOnlyEdkMaterialOutput(WrapEdkMaterialOutput, NamedTuple('WrapOnlyEdkMaterialOutput', [('wrappedMaterial', Any), ('symmetricSigningKey', Any), ('wrapInfo', Any)])):
     def __dafnystr__(self) -> str:
         return f'EdkWrapping.WrapEdkMaterialOutput.WrapOnlyEdkMaterialOutput({_dafny.string_of(self.wrappedMaterial)}, {_dafny.string_of(self.symmetricSigningKey)}, {_dafny.string_of(self.wrapInfo)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, EdkWrapping.WrapEdkMaterialOutput_WrapOnlyEdkMaterialOutput) and self.wrappedMaterial == __o.wrappedMaterial and self.symmetricSigningKey == __o.symmetricSigningKey and self.wrapInfo == __o.wrapInfo
+        return isinstance(__o, WrapEdkMaterialOutput_WrapOnlyEdkMaterialOutput) and self.wrappedMaterial == __o.wrappedMaterial and self.symmetricSigningKey == __o.symmetricSigningKey and self.wrapInfo == __o.wrapInfo
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -229,7 +228,7 @@ class WrapEdkMaterialOutput_GenerateAndWrapEdkMaterialOutput(WrapEdkMaterialOutp
     def __dafnystr__(self) -> str:
         return f'EdkWrapping.WrapEdkMaterialOutput.GenerateAndWrapEdkMaterialOutput({_dafny.string_of(self.plaintextDataKey)}, {_dafny.string_of(self.wrappedMaterial)}, {_dafny.string_of(self.symmetricSigningKey)}, {_dafny.string_of(self.wrapInfo)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, EdkWrapping.WrapEdkMaterialOutput_GenerateAndWrapEdkMaterialOutput) and self.plaintextDataKey == __o.plaintextDataKey and self.wrappedMaterial == __o.wrappedMaterial and self.symmetricSigningKey == __o.symmetricSigningKey and self.wrapInfo == __o.wrapInfo
+        return isinstance(__o, WrapEdkMaterialOutput_GenerateAndWrapEdkMaterialOutput) and self.plaintextDataKey == __o.plaintextDataKey and self.wrappedMaterial == __o.wrappedMaterial and self.symmetricSigningKey == __o.symmetricSigningKey and self.wrapInfo == __o.wrapInfo
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -237,18 +236,18 @@ class WrapEdkMaterialOutput_GenerateAndWrapEdkMaterialOutput(WrapEdkMaterialOutp
 class UnwrapEdkMaterialOutput:
     @classmethod
     def default(cls, default_T):
-        return lambda: UnwrapEdkMaterialOutput_UnwrapEdkMaterialOutput(_dafny.Seq({}), Wrappers.Option_None.default()(), default_T())
+        return lambda: UnwrapEdkMaterialOutput_UnwrapEdkMaterialOutput(_dafny.Seq({}), Wrappers.Option.default()(), default_T())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_UnwrapEdkMaterialOutput(self) -> bool:
-        return isinstance(self, EdkWrapping.UnwrapEdkMaterialOutput_UnwrapEdkMaterialOutput)
+        return isinstance(self, UnwrapEdkMaterialOutput_UnwrapEdkMaterialOutput)
 
 class UnwrapEdkMaterialOutput_UnwrapEdkMaterialOutput(UnwrapEdkMaterialOutput, NamedTuple('UnwrapEdkMaterialOutput', [('plaintextDataKey', Any), ('symmetricSigningKey', Any), ('unwrapInfo', Any)])):
     def __dafnystr__(self) -> str:
         return f'EdkWrapping.UnwrapEdkMaterialOutput.UnwrapEdkMaterialOutput({_dafny.string_of(self.plaintextDataKey)}, {_dafny.string_of(self.symmetricSigningKey)}, {_dafny.string_of(self.unwrapInfo)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, EdkWrapping.UnwrapEdkMaterialOutput_UnwrapEdkMaterialOutput) and self.plaintextDataKey == __o.plaintextDataKey and self.symmetricSigningKey == __o.symmetricSigningKey and self.unwrapInfo == __o.unwrapInfo
+        return isinstance(__o, UnwrapEdkMaterialOutput_UnwrapEdkMaterialOutput) and self.plaintextDataKey == __o.plaintextDataKey and self.symmetricSigningKey == __o.symmetricSigningKey and self.unwrapInfo == __o.unwrapInfo
     def __hash__(self) -> int:
         return super().__hash__()
 

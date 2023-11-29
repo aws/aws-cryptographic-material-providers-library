@@ -81,7 +81,7 @@ import AwsCryptographyPrimitivesOperations
 import TestConfig
 import TestGetKeys
 
-assert "CleanupItems" == __name__
+# assert "CleanupItems" == __name__
 CleanupItems = sys.modules[__name__]
 
 class default__:

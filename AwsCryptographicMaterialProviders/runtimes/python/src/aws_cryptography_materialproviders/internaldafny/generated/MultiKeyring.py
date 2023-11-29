@@ -87,7 +87,7 @@ import AlgorithmSuites
 import Materials
 import Keyring
 
-assert "MultiKeyring" == __name__
+# assert "MultiKeyring" == __name__
 MultiKeyring = sys.modules[__name__]
 
 class default__:

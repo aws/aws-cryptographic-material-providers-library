@@ -72,8 +72,7 @@ import Signature
 import KdfCtr
 import RSAEncryption
 
-assert "AwsCryptographyPrimitivesOperations" == __name__
-AwsCryptographyPrimitivesOperations = sys.modules[__name__]
+# Module: AwsCryptographyPrimitivesOperations
 
 class default__:
     def  __init__(self):
@@ -81,7 +80,7 @@ class default__:
 
     @staticmethod
     def GenerateRandomBytes(config, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out39_: Wrappers.Result
         out39_ = Random.default__.GenerateBytes((input).length)
         output = out39_
@@ -89,7 +88,7 @@ class default__:
 
     @staticmethod
     def Digest(config, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out40_: Wrappers.Result
         out40_ = Digest.default__.Digest(input)
         output = out40_
@@ -101,7 +100,7 @@ class default__:
 
     @staticmethod
     def HkdfExtract(config, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out41_: Wrappers.Result
         out41_ = WrappedHKDF.default__.Extract(input)
         output = out41_
@@ -109,7 +108,7 @@ class default__:
 
     @staticmethod
     def HkdfExpand(config, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out42_: Wrappers.Result
         out42_ = WrappedHKDF.default__.Expand(input)
         output = out42_
@@ -117,7 +116,7 @@ class default__:
 
     @staticmethod
     def Hkdf(config, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out43_: Wrappers.Result
         out43_ = WrappedHKDF.default__.Hkdf(input)
         output = out43_
@@ -125,7 +124,7 @@ class default__:
 
     @staticmethod
     def KdfCounterMode(config, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out44_: Wrappers.Result
         out44_ = KdfCtr.default__.KdfCounterMode(input)
         output = out44_
@@ -133,13 +132,13 @@ class default__:
 
     @staticmethod
     def AesKdfCounterMode(config, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         output = Wrappers.Result_Failure(software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Implement")))
         return output
 
     @staticmethod
     def AESEncrypt(config, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_primitives_internaldafny_types.AESEncryptOutput.default())()
+        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_primitives_internaldafny_types.AESEncryptOutput.default())()
         out45_: Wrappers.Result
         out45_ = AESEncryption.default__.AESEncrypt(input)
         output = out45_
@@ -147,7 +146,7 @@ class default__:
 
     @staticmethod
     def AESDecrypt(config, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out46_: Wrappers.Result
         out46_ = AESEncryption.default__.AESDecrypt(input)
         output = out46_
@@ -177,7 +176,7 @@ class default__:
 
     @staticmethod
     def RSADecrypt(config, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out49_: Wrappers.Result
         out49_ = RSAEncryption.default__.Decrypt(input)
         output = out49_
@@ -185,7 +184,7 @@ class default__:
 
     @staticmethod
     def RSAEncrypt(config, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out50_: Wrappers.Result
         out50_ = RSAEncryption.default__.Encrypt(input)
         output = out50_
@@ -193,7 +192,7 @@ class default__:
 
     @staticmethod
     def GenerateECDSASignatureKey(config, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_primitives_internaldafny_types.GenerateECDSASignatureKeyOutput.default())()
+        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_primitives_internaldafny_types.GenerateECDSASignatureKeyOutput.default())()
         out51_: Wrappers.Result
         out51_ = Signature.default__.KeyGen(input)
         output = out51_
@@ -201,7 +200,7 @@ class default__:
 
     @staticmethod
     def ECDSASign(config, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out52_: Wrappers.Result
         out52_ = Signature.ECDSA.Sign((input).signatureAlgorithm, (input).signingKey, (input).message)
         output = out52_
@@ -209,7 +208,7 @@ class default__:
 
     @staticmethod
     def ECDSAVerify(config, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.defaults.bool)()
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.bool)()
         output = Signature.ECDSA.Verify((input).signatureAlgorithm, (input).verificationKey, (input).message, (input).signature)
         return output
 
@@ -225,13 +224,13 @@ class Config:
         return not self.__eq__(__o)
     @property
     def is_Config(self) -> bool:
-        return isinstance(self, AwsCryptographyPrimitivesOperations.Config_Config)
+        return isinstance(self, Config_Config)
 
 class Config_Config(Config, NamedTuple('Config', [])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyPrimitivesOperations.Config.Config'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, AwsCryptographyPrimitivesOperations.Config_Config)
+        return isinstance(__o, Config_Config)
     def __hash__(self) -> int:
         return super().__hash__()
 

@@ -62,8 +62,7 @@ import Constants
 import ExternRandom
 import Random
 
-assert "AESEncryption" == __name__
-AESEncryption = sys.modules[__name__]
+# Module: AESEncryption
 
 class default__:
     def  __init__(self):
@@ -77,8 +76,8 @@ class default__:
 
     @staticmethod
     def AESEncrypt(input):
-        res: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_primitives_internaldafny_types.AESEncryptOutput.default())()
-        d_210_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        res: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_primitives_internaldafny_types.AESEncryptOutput.default())()
+        d_210_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_210_valueOrError0_ = Wrappers.default__.Need(((len((input).iv)) == (((input).encAlg).ivLength)) and ((len((input).key)) == (((input).encAlg).keyLength)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Request does not match algorithm.")))
         if (d_210_valueOrError0_).IsFailure():
             res = (d_210_valueOrError0_).PropagateFailure()
@@ -90,7 +89,7 @@ class default__:
         d_214_msg_ = let_tmp_rhs0_.msg
         d_215_aad_ = let_tmp_rhs0_.aad
         d_216_value_: software_amazon_cryptography_primitives_internaldafny_types.AESEncryptOutput
-        d_217_valueOrError1_: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_primitives_internaldafny_types.AESEncryptOutput.default())()
+        d_217_valueOrError1_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_primitives_internaldafny_types.AESEncryptOutput.default())()
         out18_: Wrappers.Result
         out18_ = AESEncryption.AES_GCM.AESEncryptExtern(d_211_encAlg_, d_212_iv_, d_213_key_, d_214_msg_, d_215_aad_)
         d_217_valueOrError1_ = out18_
@@ -98,12 +97,12 @@ class default__:
             res = (d_217_valueOrError1_).PropagateFailure()
             return res
         d_216_value_ = (d_217_valueOrError1_).Extract()
-        d_218_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_218_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_218_valueOrError2_ = Wrappers.default__.Need((len((d_216_value_).cipherText)) == (len(d_214_msg_)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("AESEncrypt did not return cipherText of expected length")))
         if (d_218_valueOrError2_).IsFailure():
             res = (d_218_valueOrError2_).PropagateFailure()
             return res
-        d_219_valueOrError3_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_219_valueOrError3_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_219_valueOrError3_ = Wrappers.default__.Need((len((d_216_value_).authTag)) == ((d_211_encAlg_).tagLength), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("AESEncryption did not return valid tag")))
         if (d_219_valueOrError3_).IsFailure():
             res = (d_219_valueOrError3_).PropagateFailure()
@@ -114,8 +113,8 @@ class default__:
 
     @staticmethod
     def AESDecrypt(input):
-        res: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
-        d_220_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        res: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_220_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_220_valueOrError0_ = Wrappers.default__.Need((((len((input).key)) == (((input).encAlg).keyLength)) and ((len((input).iv)) == (((input).encAlg).ivLength))) and ((len((input).authTag)) == (((input).encAlg).tagLength)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Request does not match algorithm.")))
         if (d_220_valueOrError0_).IsFailure():
             res = (d_220_valueOrError0_).PropagateFailure()
@@ -128,7 +127,7 @@ class default__:
         d_225_iv_ = let_tmp_rhs1_.iv
         d_226_aad_ = let_tmp_rhs1_.aad
         d_227_value_: _dafny.Seq
-        d_228_valueOrError1_: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        d_228_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out19_: Wrappers.Result
         out19_ = AESEncryption.AES_GCM.AESDecryptExtern(d_221_encAlg_, d_222_key_, d_223_cipherTxt_, d_224_authTag_, d_225_iv_, d_226_aad_)
         d_228_valueOrError1_ = out19_
@@ -136,7 +135,7 @@ class default__:
             res = (d_228_valueOrError1_).PropagateFailure()
             return res
         d_227_value_ = (d_228_valueOrError1_).Extract()
-        d_229_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_229_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_229_valueOrError2_ = Wrappers.default__.Need((len(d_223_cipherTxt_)) == (len(d_227_value_)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("AESDecrypt did not return plaintext of expected length")))
         if (d_229_valueOrError2_).IsFailure():
             res = (d_229_valueOrError2_).PropagateFailure()

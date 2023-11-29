@@ -90,7 +90,6 @@ import AwsKmsMrkKeyring
 import MrkAwareStrictMultiKeyring
 import LocalCMC
 
-assert "software_amazon_cryptography_internaldafny_SynchronizedLocalCMC" == __name__
-software_amazon_cryptography_internaldafny_SynchronizedLocalCMC = sys.modules[__name__]
+# Module: software_amazon_cryptography_internaldafny_SynchronizedLocalCMC
 
 

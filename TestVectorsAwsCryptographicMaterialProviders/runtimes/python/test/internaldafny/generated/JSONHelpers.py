@@ -159,8 +159,7 @@ import JSON_mZeroCopy
 import JSON_mAPI
 import JSON
 
-assert "JSONHelpers" == __name__
-JSONHelpers = sys.modules[__name__]
+# Module: JSONHelpers
 
 class default__:
     def  __init__(self):
@@ -168,11 +167,11 @@ class default__:
 
     @staticmethod
     def BvToBytes(bits):
-        return _dafny.Seq([(bits)[d_1356_i_] for d_1356_i_ in range(len(bits))])
+        return _dafny.Seq([(bits)[d_1358_i_] for d_1358_i_ in range(len(bits))])
 
     @staticmethod
     def BytesBv(bits):
-        return _dafny.Seq([(bits)[d_1357_i_] for d_1357_i_ in range(len(bits))])
+        return _dafny.Seq([(bits)[d_1359_i_] for d_1359_i_ in range(len(bits))])
 
     @staticmethod
     def Get(key, obj):
@@ -192,222 +191,222 @@ class default__:
 
     @staticmethod
     def GetString(key, obj):
-        d_1358_valueOrError0_ = JSONHelpers.default__.Get(key, obj)
-        if (d_1358_valueOrError0_).IsFailure():
-            return (d_1358_valueOrError0_).PropagateFailure()
+        d_1360_valueOrError0_ = default__.Get(key, obj)
+        if (d_1360_valueOrError0_).IsFailure():
+            return (d_1360_valueOrError0_).PropagateFailure()
         elif True:
-            d_1359_obj_ = (d_1358_valueOrError0_).Extract()
-            d_1360_valueOrError1_ = Wrappers.default__.Need((d_1359_obj_).is_String, _dafny.Seq("Not a string"))
-            if (d_1360_valueOrError1_).IsFailure():
-                return (d_1360_valueOrError1_).PropagateFailure()
+            d_1361_obj_ = (d_1360_valueOrError0_).Extract()
+            d_1362_valueOrError1_ = Wrappers.default__.Need((d_1361_obj_).is_String, _dafny.Seq("Not a string"))
+            if (d_1362_valueOrError1_).IsFailure():
+                return (d_1362_valueOrError1_).PropagateFailure()
             elif True:
-                return Wrappers.Result_Success((d_1359_obj_).str)
+                return Wrappers.Result_Success((d_1361_obj_).str)
 
     @staticmethod
     def GetBool(key, obj):
-        d_1361_valueOrError0_ = JSONHelpers.default__.Get(key, obj)
-        if (d_1361_valueOrError0_).IsFailure():
-            return (d_1361_valueOrError0_).PropagateFailure()
+        d_1363_valueOrError0_ = default__.Get(key, obj)
+        if (d_1363_valueOrError0_).IsFailure():
+            return (d_1363_valueOrError0_).PropagateFailure()
         elif True:
-            d_1362_obj_ = (d_1361_valueOrError0_).Extract()
-            d_1363_valueOrError1_ = Wrappers.default__.Need((d_1362_obj_).is_Bool, _dafny.Seq("Not a bool"))
-            if (d_1363_valueOrError1_).IsFailure():
-                return (d_1363_valueOrError1_).PropagateFailure()
+            d_1364_obj_ = (d_1363_valueOrError0_).Extract()
+            d_1365_valueOrError1_ = Wrappers.default__.Need((d_1364_obj_).is_Bool, _dafny.Seq("Not a bool"))
+            if (d_1365_valueOrError1_).IsFailure():
+                return (d_1365_valueOrError1_).PropagateFailure()
             elif True:
-                return Wrappers.Result_Success((d_1362_obj_).b)
+                return Wrappers.Result_Success((d_1364_obj_).b)
 
     @staticmethod
     def GetNat(key, obj):
-        d_1364_valueOrError0_ = JSONHelpers.default__.Get(key, obj)
-        if (d_1364_valueOrError0_).IsFailure():
-            return (d_1364_valueOrError0_).PropagateFailure()
+        d_1366_valueOrError0_ = default__.Get(key, obj)
+        if (d_1366_valueOrError0_).IsFailure():
+            return (d_1366_valueOrError0_).PropagateFailure()
         elif True:
-            d_1365_obj_ = (d_1364_valueOrError0_).Extract()
-            d_1366_valueOrError1_ = Wrappers.default__.Need((d_1365_obj_).is_Number, _dafny.Seq("Not a number"))
-            if (d_1366_valueOrError1_).IsFailure():
-                return (d_1366_valueOrError1_).PropagateFailure()
+            d_1367_obj_ = (d_1366_valueOrError0_).Extract()
+            d_1368_valueOrError1_ = Wrappers.default__.Need((d_1367_obj_).is_Number, _dafny.Seq("Not a number"))
+            if (d_1368_valueOrError1_).IsFailure():
+                return (d_1368_valueOrError1_).PropagateFailure()
             elif True:
-                d_1367_valueOrError2_ = Wrappers.default__.Need((0) < (((d_1365_obj_).num).n), _dafny.Seq("Not a nat"))
-                if (d_1367_valueOrError2_).IsFailure():
-                    return (d_1367_valueOrError2_).PropagateFailure()
+                d_1369_valueOrError2_ = Wrappers.default__.Need((0) < (((d_1367_obj_).num).n), _dafny.Seq("Not a nat"))
+                if (d_1369_valueOrError2_).IsFailure():
+                    return (d_1369_valueOrError2_).PropagateFailure()
                 elif True:
-                    return Wrappers.Result_Success(((d_1365_obj_).num).n)
+                    return Wrappers.Result_Success(((d_1367_obj_).num).n)
 
     @staticmethod
     def GetOptionalString(key, obj):
-        d_1368_obj_ = (JSONHelpers.default__.Get(key, obj)).ToOption()
-        if (d_1368_obj_).is_Some:
-            d_1369_valueOrError0_ = Wrappers.default__.Need(((d_1368_obj_).value).is_String, _dafny.Seq("Not a string"))
-            if (d_1369_valueOrError0_).IsFailure():
-                return (d_1369_valueOrError0_).PropagateFailure()
+        d_1370_obj_ = (default__.Get(key, obj)).ToOption()
+        if (d_1370_obj_).is_Some:
+            d_1371_valueOrError0_ = Wrappers.default__.Need(((d_1370_obj_).value).is_String, _dafny.Seq("Not a string"))
+            if (d_1371_valueOrError0_).IsFailure():
+                return (d_1371_valueOrError0_).PropagateFailure()
             elif True:
-                return Wrappers.Result_Success(Wrappers.Option_Some(((d_1368_obj_).value).str))
+                return Wrappers.Result_Success(Wrappers.Option_Some(((d_1370_obj_).value).str))
         elif True:
             return Wrappers.Result_Success(Wrappers.Option_None())
 
     @staticmethod
     def GetObject(key, obj):
-        d_1370_valueOrError0_ = JSONHelpers.default__.Get(key, obj)
-        if (d_1370_valueOrError0_).IsFailure():
-            return (d_1370_valueOrError0_).PropagateFailure()
+        d_1372_valueOrError0_ = default__.Get(key, obj)
+        if (d_1372_valueOrError0_).IsFailure():
+            return (d_1372_valueOrError0_).PropagateFailure()
         elif True:
-            d_1371_obj_ = (d_1370_valueOrError0_).Extract()
-            d_1372_valueOrError1_ = Wrappers.default__.Need((d_1371_obj_).is_Object, _dafny.Seq("Not an object"))
-            if (d_1372_valueOrError1_).IsFailure():
-                return (d_1372_valueOrError1_).PropagateFailure()
+            d_1373_obj_ = (d_1372_valueOrError0_).Extract()
+            d_1374_valueOrError1_ = Wrappers.default__.Need((d_1373_obj_).is_Object, _dafny.Seq("Not an object"))
+            if (d_1374_valueOrError1_).IsFailure():
+                return (d_1374_valueOrError1_).PropagateFailure()
             elif True:
-                return Wrappers.Result_Success((d_1371_obj_).obj)
+                return Wrappers.Result_Success((d_1373_obj_).obj)
 
     @staticmethod
     def GetArray(key, obj):
-        d_1373_valueOrError0_ = JSONHelpers.default__.Get(key, obj)
-        if (d_1373_valueOrError0_).IsFailure():
-            return (d_1373_valueOrError0_).PropagateFailure()
+        d_1375_valueOrError0_ = default__.Get(key, obj)
+        if (d_1375_valueOrError0_).IsFailure():
+            return (d_1375_valueOrError0_).PropagateFailure()
         elif True:
-            d_1374_obj_ = (d_1373_valueOrError0_).Extract()
-            d_1375_valueOrError1_ = Wrappers.default__.Need((d_1374_obj_).is_Array, _dafny.Seq("Not an array"))
-            if (d_1375_valueOrError1_).IsFailure():
-                return (d_1375_valueOrError1_).PropagateFailure()
+            d_1376_obj_ = (d_1375_valueOrError0_).Extract()
+            d_1377_valueOrError1_ = Wrappers.default__.Need((d_1376_obj_).is_Array, _dafny.Seq("Not an array"))
+            if (d_1377_valueOrError1_).IsFailure():
+                return (d_1377_valueOrError1_).PropagateFailure()
             elif True:
-                return Wrappers.Result_Success((d_1374_obj_).arr)
+                return Wrappers.Result_Success((d_1376_obj_).arr)
 
     @staticmethod
     def GetArrayString(key, obj):
-        d_1376_valueOrError0_ = JSONHelpers.default__.Get(key, obj)
-        if (d_1376_valueOrError0_).IsFailure():
-            return (d_1376_valueOrError0_).PropagateFailure()
+        d_1378_valueOrError0_ = default__.Get(key, obj)
+        if (d_1378_valueOrError0_).IsFailure():
+            return (d_1378_valueOrError0_).PropagateFailure()
         elif True:
-            d_1377_obj_ = (d_1376_valueOrError0_).Extract()
+            d_1379_obj_ = (d_1378_valueOrError0_).Extract()
             def lambda83_(forall_var_15_):
-                d_1379_s_: JSON_mValues.JSON = forall_var_15_
-                return not ((d_1379_s_) in ((d_1377_obj_).arr)) or ((d_1379_s_).is_String)
+                d_1381_s_: JSON_mValues.JSON = forall_var_15_
+                return not ((d_1381_s_) in ((d_1379_obj_).arr)) or ((d_1381_s_).is_String)
 
-            d_1378_valueOrError1_ = Wrappers.default__.Need(((d_1377_obj_).is_Array) and (_dafny.quantifier(((d_1377_obj_).arr).UniqueElements, True, lambda83_)), _dafny.Seq("Not an array of strings"))
-            if (d_1378_valueOrError1_).IsFailure():
-                return (d_1378_valueOrError1_).PropagateFailure()
+            d_1380_valueOrError1_ = Wrappers.default__.Need(((d_1379_obj_).is_Array) and (_dafny.quantifier(((d_1379_obj_).arr).UniqueElements, True, lambda83_)), _dafny.Seq("Not an array of strings"))
+            if (d_1380_valueOrError1_).IsFailure():
+                return (d_1380_valueOrError1_).PropagateFailure()
             elif True:
-                d_1380_arr_ = (d_1377_obj_).arr
-                return Wrappers.Result_Success(_dafny.Seq([((d_1380_arr_)[d_1381_n_]).str for d_1381_n_ in range(len(d_1380_arr_))]))
+                d_1382_arr_ = (d_1379_obj_).arr
+                return Wrappers.Result_Success(_dafny.Seq([((d_1382_arr_)[d_1383_n_]).str for d_1383_n_ in range(len(d_1382_arr_))]))
 
     @staticmethod
     def GetArrayObject(key, obj):
-        d_1382_valueOrError0_ = JSONHelpers.default__.Get(key, obj)
-        if (d_1382_valueOrError0_).IsFailure():
-            return (d_1382_valueOrError0_).PropagateFailure()
+        d_1384_valueOrError0_ = default__.Get(key, obj)
+        if (d_1384_valueOrError0_).IsFailure():
+            return (d_1384_valueOrError0_).PropagateFailure()
         elif True:
-            d_1383_obj_ = (d_1382_valueOrError0_).Extract()
+            d_1385_obj_ = (d_1384_valueOrError0_).Extract()
             def lambda84_(forall_var_16_):
-                d_1385_s_: JSON_mValues.JSON = forall_var_16_
-                return not ((d_1385_s_) in ((d_1383_obj_).arr)) or ((d_1385_s_).is_Object)
+                d_1387_s_: JSON_mValues.JSON = forall_var_16_
+                return not ((d_1387_s_) in ((d_1385_obj_).arr)) or ((d_1387_s_).is_Object)
 
-            d_1384_valueOrError1_ = Wrappers.default__.Need(((d_1383_obj_).is_Array) and (_dafny.quantifier(((d_1383_obj_).arr).UniqueElements, True, lambda84_)), _dafny.Seq("Not an array of objects"))
-            if (d_1384_valueOrError1_).IsFailure():
-                return (d_1384_valueOrError1_).PropagateFailure()
+            d_1386_valueOrError1_ = Wrappers.default__.Need(((d_1385_obj_).is_Array) and (_dafny.quantifier(((d_1385_obj_).arr).UniqueElements, True, lambda84_)), _dafny.Seq("Not an array of objects"))
+            if (d_1386_valueOrError1_).IsFailure():
+                return (d_1386_valueOrError1_).PropagateFailure()
             elif True:
-                d_1386_arr_ = (d_1383_obj_).arr
-                return Wrappers.Result_Success(_dafny.Seq([((d_1386_arr_)[d_1387_n_]).obj for d_1387_n_ in range(len(d_1386_arr_))]))
+                d_1388_arr_ = (d_1385_obj_).arr
+                return Wrappers.Result_Success(_dafny.Seq([((d_1388_arr_)[d_1389_n_]).obj for d_1389_n_ in range(len(d_1388_arr_))]))
 
     @staticmethod
     def SmallObjectToStringStringMap(key, obj):
-        d_1388_valueOrError0_ = JSONHelpers.default__.Get(key, obj)
-        if (d_1388_valueOrError0_).IsFailure():
-            return (d_1388_valueOrError0_).PropagateFailure()
+        d_1390_valueOrError0_ = default__.Get(key, obj)
+        if (d_1390_valueOrError0_).IsFailure():
+            return (d_1390_valueOrError0_).PropagateFailure()
         elif True:
-            d_1389_item_ = (d_1388_valueOrError0_).Extract()
-            d_1390_valueOrError1_ = Wrappers.default__.Need((d_1389_item_).is_Object, _dafny.Seq("Not an object"))
-            if (d_1390_valueOrError1_).IsFailure():
-                return (d_1390_valueOrError1_).PropagateFailure()
+            d_1391_item_ = (d_1390_valueOrError0_).Extract()
+            d_1392_valueOrError1_ = Wrappers.default__.Need((d_1391_item_).is_Object, _dafny.Seq("Not an object"))
+            if (d_1392_valueOrError1_).IsFailure():
+                return (d_1392_valueOrError1_).PropagateFailure()
             elif True:
-                d_1391_obj_ = (d_1389_item_).obj
+                d_1393_obj_ = (d_1391_item_).obj
                 def lambda85_(forall_var_17_):
-                    d_1393_t_: tuple = forall_var_17_
-                    return not ((d_1393_t_) in (d_1391_obj_)) or (((d_1393_t_)[1]).is_String)
+                    d_1395_t_: tuple = forall_var_17_
+                    return not ((d_1395_t_) in (d_1393_obj_)) or (((d_1395_t_)[1]).is_String)
 
-                d_1392_valueOrError2_ = Wrappers.default__.Need(_dafny.quantifier((d_1391_obj_).UniqueElements, True, lambda85_), _dafny.Seq("Not a string string object"))
-                if (d_1392_valueOrError2_).IsFailure():
-                    return (d_1392_valueOrError2_).PropagateFailure()
+                d_1394_valueOrError2_ = Wrappers.default__.Need(_dafny.quantifier((d_1393_obj_).UniqueElements, True, lambda85_), _dafny.Seq("Not a string string object"))
+                if (d_1394_valueOrError2_).IsFailure():
+                    return (d_1394_valueOrError2_).PropagateFailure()
                 elif True:
                     def lambda86_(forall_var_18_):
                         def lambda87_(forall_var_19_):
-                            d_1396_j_: int = forall_var_19_
-                            return not ((((0) <= (d_1395_i_)) and ((d_1395_i_) < (d_1396_j_))) and ((d_1396_j_) < (len(d_1391_obj_)))) or ((((d_1391_obj_)[d_1395_i_])[0]) != (((d_1391_obj_)[d_1396_j_])[0]))
+                            d_1398_j_: int = forall_var_19_
+                            return not ((((0) <= (d_1397_i_)) and ((d_1397_i_) < (d_1398_j_))) and ((d_1398_j_) < (len(d_1393_obj_)))) or ((((d_1393_obj_)[d_1397_i_])[0]) != (((d_1393_obj_)[d_1398_j_])[0]))
 
-                        d_1395_i_: int = forall_var_18_
-                        return _dafny.quantifier(_dafny.IntegerRange((d_1395_i_) + (1), len(d_1391_obj_)), True, lambda87_)
+                        d_1397_i_: int = forall_var_18_
+                        return _dafny.quantifier(_dafny.IntegerRange((d_1397_i_) + (1), len(d_1393_obj_)), True, lambda87_)
 
-                    d_1394_valueOrError3_ = Wrappers.default__.Need(_dafny.quantifier(_dafny.IntegerRange(0, len(d_1391_obj_)), True, lambda86_), _dafny.Seq("JSON serialization Error"))
-                    if (d_1394_valueOrError3_).IsFailure():
-                        return (d_1394_valueOrError3_).PropagateFailure()
+                    d_1396_valueOrError3_ = Wrappers.default__.Need(_dafny.quantifier(_dafny.IntegerRange(0, len(d_1393_obj_)), True, lambda86_), _dafny.Seq("JSON serialization Error"))
+                    if (d_1396_valueOrError3_).IsFailure():
+                        return (d_1396_valueOrError3_).PropagateFailure()
                     elif True:
-                        def iife54_():
+                        def iife58_():
                             coll6_ = _dafny.Map()
                             compr_6_: tuple
-                            for compr_6_ in (d_1391_obj_).Elements:
-                                d_1397_t_: tuple = compr_6_
-                                if (d_1397_t_) in (d_1391_obj_):
-                                    coll6_[(d_1397_t_)[0]] = ((d_1397_t_)[1]).str
+                            for compr_6_ in (d_1393_obj_).Elements:
+                                d_1399_t_: tuple = compr_6_
+                                if (d_1399_t_) in (d_1393_obj_):
+                                    coll6_[(d_1399_t_)[0]] = ((d_1399_t_)[1]).str
                             return _dafny.Map(coll6_)
-                        return Wrappers.Result_Success(iife54_()
+                        return Wrappers.Result_Success(iife58_()
 )
 
     @staticmethod
     def utf8EncodePair(key, value):
-        d_1398_valueOrError0_ = UTF8.default__.Encode(key)
-        if (d_1398_valueOrError0_).IsFailure():
-            return (d_1398_valueOrError0_).PropagateFailure()
+        d_1400_valueOrError0_ = UTF8.default__.Encode(key)
+        if (d_1400_valueOrError0_).IsFailure():
+            return (d_1400_valueOrError0_).PropagateFailure()
         elif True:
-            d_1399_utf8Key_ = (d_1398_valueOrError0_).Extract()
-            d_1400_valueOrError1_ = UTF8.default__.Encode(value)
-            if (d_1400_valueOrError1_).IsFailure():
-                return (d_1400_valueOrError1_).PropagateFailure()
+            d_1401_utf8Key_ = (d_1400_valueOrError0_).Extract()
+            d_1402_valueOrError1_ = UTF8.default__.Encode(value)
+            if (d_1402_valueOrError1_).IsFailure():
+                return (d_1402_valueOrError1_).PropagateFailure()
             elif True:
-                d_1401_utf8Value_ = (d_1400_valueOrError1_).Extract()
-                return Wrappers.Result_Success((d_1399_utf8Key_, d_1401_utf8Value_))
+                d_1403_utf8Value_ = (d_1402_valueOrError1_).Extract()
+                return Wrappers.Result_Success((d_1401_utf8Key_, d_1403_utf8Value_))
 
     @staticmethod
     def utf8EncodeMap(mapStringString):
         if (len(mapStringString)) == (0):
             return Wrappers.Result_Success(_dafny.Map({}))
         elif True:
-            def iife55_():
+            def iife59_():
                 coll7_ = _dafny.Map()
                 compr_7_: _dafny.Seq
                 for compr_7_ in (mapStringString).keys.Elements:
-                    d_1403_key_: _dafny.Seq = compr_7_
-                    if (d_1403_key_) in (mapStringString):
-                        coll7_[d_1403_key_] = JSONHelpers.default__.utf8EncodePair(d_1403_key_, (mapStringString)[d_1403_key_])
+                    d_1405_key_: _dafny.Seq = compr_7_
+                    if (d_1405_key_) in (mapStringString):
+                        coll7_[d_1405_key_] = default__.utf8EncodePair(d_1405_key_, (mapStringString)[d_1405_key_])
                 return _dafny.Map(coll7_)
-            d_1402_encodedResults_ = iife55_()
+            d_1404_encodedResults_ = iife59_()
 
             def lambda88_(forall_var_20_):
-                d_1405_r_: Wrappers.Result = forall_var_20_
-                return not ((d_1405_r_) in ((d_1402_encodedResults_).values)) or ((d_1405_r_).is_Success)
+                d_1407_r_: Wrappers.Result = forall_var_20_
+                return not ((d_1407_r_) in ((d_1404_encodedResults_).values)) or ((d_1407_r_).is_Success)
 
-            d_1404_valueOrError0_ = Wrappers.default__.Need(_dafny.quantifier(((d_1402_encodedResults_).values).Elements, True, lambda88_), _dafny.Seq("String can not be UTF8 Encoded?"))
-            if (d_1404_valueOrError0_).IsFailure():
-                return (d_1404_valueOrError0_).PropagateFailure()
+            d_1406_valueOrError0_ = Wrappers.default__.Need(_dafny.quantifier(((d_1404_encodedResults_).values).Elements, True, lambda88_), _dafny.Seq("String can not be UTF8 Encoded?"))
+            if (d_1406_valueOrError0_).IsFailure():
+                return (d_1406_valueOrError0_).PropagateFailure()
             elif True:
-                def iife56_():
+                def iife60_():
                     coll8_ = _dafny.Map()
                     compr_8_: Wrappers.Result
-                    for compr_8_ in ((d_1402_encodedResults_).values).Elements:
-                        d_1406_r_: Wrappers.Result = compr_8_
-                        if (d_1406_r_) in ((d_1402_encodedResults_).values):
-                            coll8_[((d_1406_r_).value)[0]] = ((d_1406_r_).value)[1]
+                    for compr_8_ in ((d_1404_encodedResults_).values).Elements:
+                        d_1408_r_: Wrappers.Result = compr_8_
+                        if (d_1408_r_) in ((d_1404_encodedResults_).values):
+                            coll8_[((d_1408_r_).value)[0]] = ((d_1408_r_).value)[1]
                     return _dafny.Map(coll8_)
-                return Wrappers.Result_Success(iife56_()
+                return Wrappers.Result_Success(iife60_()
 )
 
     @staticmethod
     def utf8EncodeSeq(seqOfStrings):
-        d_1407_encodedResults_ = _dafny.Seq([UTF8.default__.Encode((seqOfStrings)[d_1408_i_]) for d_1408_i_ in range(len(seqOfStrings))])
+        d_1409_encodedResults_ = _dafny.Seq([UTF8.default__.Encode((seqOfStrings)[d_1410_i_]) for d_1410_i_ in range(len(seqOfStrings))])
         def lambda89_(forall_var_21_):
-            d_1410_r_: Wrappers.Result = forall_var_21_
-            return not ((d_1410_r_) in (d_1407_encodedResults_)) or ((d_1410_r_).is_Success)
+            d_1412_r_: Wrappers.Result = forall_var_21_
+            return not ((d_1412_r_) in (d_1409_encodedResults_)) or ((d_1412_r_).is_Success)
 
-        d_1409_valueOrError0_ = Wrappers.default__.Need(_dafny.quantifier((d_1407_encodedResults_).UniqueElements, True, lambda89_), _dafny.Seq("String can not be UTF8 Encoded?"))
-        if (d_1409_valueOrError0_).IsFailure():
-            return (d_1409_valueOrError0_).PropagateFailure()
+        d_1411_valueOrError0_ = Wrappers.default__.Need(_dafny.quantifier((d_1409_encodedResults_).UniqueElements, True, lambda89_), _dafny.Seq("String can not be UTF8 Encoded?"))
+        if (d_1411_valueOrError0_).IsFailure():
+            return (d_1411_valueOrError0_).PropagateFailure()
         elif True:
-            return Wrappers.Result_Success(_dafny.Seq([((d_1407_encodedResults_)[d_1411_i_]).value for d_1411_i_ in range(len(d_1407_encodedResults_))]))
+            return Wrappers.Result_Success(_dafny.Seq([((d_1409_encodedResults_)[d_1413_i_]).value for d_1413_i_ in range(len(d_1409_encodedResults_))]))
 

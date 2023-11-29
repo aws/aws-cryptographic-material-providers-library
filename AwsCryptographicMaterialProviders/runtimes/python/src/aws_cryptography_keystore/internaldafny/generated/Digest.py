@@ -70,7 +70,7 @@ import Random
 import AESEncryption
 import ExternDigest
 
-assert "Digest" == __name__
+# assert "Digest" == __name__
 Digest = sys.modules[__name__]
 
 class default__:

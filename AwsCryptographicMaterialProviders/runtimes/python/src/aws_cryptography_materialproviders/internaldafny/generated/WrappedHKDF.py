@@ -74,7 +74,7 @@ import HMAC
 import WrappedHMAC
 import HKDF
 
-assert "WrappedHKDF" == __name__
+# assert "WrappedHKDF" == __name__
 WrappedHKDF = sys.modules[__name__]
 
 class default__:

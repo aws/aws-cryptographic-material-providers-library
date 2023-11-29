@@ -107,8 +107,7 @@ import software_amazon_cryptography_materialproviders_internaldafny
 import software_amazon_cryptography_materialproviders_internaldafny_wrapped
 import TestVectorsUtils
 
-assert "TestVectorConstants" == __name__
-TestVectorConstants = sys.modules[__name__]
+# Module: TestVectorConstants
 
 class default__:
     def  __init__(self):
@@ -116,7 +115,7 @@ class default__:
 
     @_dafny.classproperty
     def AllEncryptDecryptKeyrings(instance):
-        return _dafny.Seq([TestVectorConstants.EncryptDecryptKeyrings_AwsKmsKeyring(), TestVectorConstants.EncryptDecryptKeyrings_AwsKmsMultiKeyring(), TestVectorConstants.EncryptDecryptKeyrings_AwsKmsMrkKeyring(), TestVectorConstants.EncryptDecryptKeyrings_AwsKmsMrkMultiKeyring(), TestVectorConstants.EncryptDecryptKeyrings_RawAesKeyring(), TestVectorConstants.EncryptDecryptKeyrings_RawRsaKeyring()])
+        return _dafny.Seq([EncryptDecryptKeyrings_AwsKmsKeyring(), EncryptDecryptKeyrings_AwsKmsMultiKeyring(), EncryptDecryptKeyrings_AwsKmsMrkKeyring(), EncryptDecryptKeyrings_AwsKmsMrkMultiKeyring(), EncryptDecryptKeyrings_RawAesKeyring(), EncryptDecryptKeyrings_RawRsaKeyring()])
     @_dafny.classproperty
     def AllESDKAlgorithmSuiteIds(instance):
         return _dafny.Seq([software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__NO__KDF(), software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__NO__KDF(), software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__NO__KDF(), software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256(), software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA256(), software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA256(), software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256__ECDSA__P256(), software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384(), software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384(), software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY(), software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384()])
@@ -141,28 +140,28 @@ class EncryptDecryptKeyrings:
         return not self.__eq__(__o)
     @property
     def is_AwsKmsKeyring(self) -> bool:
-        return isinstance(self, TestVectorConstants.EncryptDecryptKeyrings_AwsKmsKeyring)
+        return isinstance(self, EncryptDecryptKeyrings_AwsKmsKeyring)
     @property
     def is_AwsKmsMultiKeyring(self) -> bool:
-        return isinstance(self, TestVectorConstants.EncryptDecryptKeyrings_AwsKmsMultiKeyring)
+        return isinstance(self, EncryptDecryptKeyrings_AwsKmsMultiKeyring)
     @property
     def is_AwsKmsMrkKeyring(self) -> bool:
-        return isinstance(self, TestVectorConstants.EncryptDecryptKeyrings_AwsKmsMrkKeyring)
+        return isinstance(self, EncryptDecryptKeyrings_AwsKmsMrkKeyring)
     @property
     def is_AwsKmsMrkMultiKeyring(self) -> bool:
-        return isinstance(self, TestVectorConstants.EncryptDecryptKeyrings_AwsKmsMrkMultiKeyring)
+        return isinstance(self, EncryptDecryptKeyrings_AwsKmsMrkMultiKeyring)
     @property
     def is_RawAesKeyring(self) -> bool:
-        return isinstance(self, TestVectorConstants.EncryptDecryptKeyrings_RawAesKeyring)
+        return isinstance(self, EncryptDecryptKeyrings_RawAesKeyring)
     @property
     def is_RawRsaKeyring(self) -> bool:
-        return isinstance(self, TestVectorConstants.EncryptDecryptKeyrings_RawRsaKeyring)
+        return isinstance(self, EncryptDecryptKeyrings_RawRsaKeyring)
 
 class EncryptDecryptKeyrings_AwsKmsKeyring(EncryptDecryptKeyrings, NamedTuple('AwsKmsKeyring', [])):
     def __dafnystr__(self) -> str:
         return f'TestVectorConstants.EncryptDecryptKeyrings.AwsKmsKeyring'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, TestVectorConstants.EncryptDecryptKeyrings_AwsKmsKeyring)
+        return isinstance(__o, EncryptDecryptKeyrings_AwsKmsKeyring)
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -170,7 +169,7 @@ class EncryptDecryptKeyrings_AwsKmsMultiKeyring(EncryptDecryptKeyrings, NamedTup
     def __dafnystr__(self) -> str:
         return f'TestVectorConstants.EncryptDecryptKeyrings.AwsKmsMultiKeyring'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, TestVectorConstants.EncryptDecryptKeyrings_AwsKmsMultiKeyring)
+        return isinstance(__o, EncryptDecryptKeyrings_AwsKmsMultiKeyring)
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -178,7 +177,7 @@ class EncryptDecryptKeyrings_AwsKmsMrkKeyring(EncryptDecryptKeyrings, NamedTuple
     def __dafnystr__(self) -> str:
         return f'TestVectorConstants.EncryptDecryptKeyrings.AwsKmsMrkKeyring'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, TestVectorConstants.EncryptDecryptKeyrings_AwsKmsMrkKeyring)
+        return isinstance(__o, EncryptDecryptKeyrings_AwsKmsMrkKeyring)
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -186,7 +185,7 @@ class EncryptDecryptKeyrings_AwsKmsMrkMultiKeyring(EncryptDecryptKeyrings, Named
     def __dafnystr__(self) -> str:
         return f'TestVectorConstants.EncryptDecryptKeyrings.AwsKmsMrkMultiKeyring'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, TestVectorConstants.EncryptDecryptKeyrings_AwsKmsMrkMultiKeyring)
+        return isinstance(__o, EncryptDecryptKeyrings_AwsKmsMrkMultiKeyring)
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -194,7 +193,7 @@ class EncryptDecryptKeyrings_RawAesKeyring(EncryptDecryptKeyrings, NamedTuple('R
     def __dafnystr__(self) -> str:
         return f'TestVectorConstants.EncryptDecryptKeyrings.RawAesKeyring'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, TestVectorConstants.EncryptDecryptKeyrings_RawAesKeyring)
+        return isinstance(__o, EncryptDecryptKeyrings_RawAesKeyring)
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -202,7 +201,7 @@ class EncryptDecryptKeyrings_RawRsaKeyring(EncryptDecryptKeyrings, NamedTuple('R
     def __dafnystr__(self) -> str:
         return f'TestVectorConstants.EncryptDecryptKeyrings.RawRsaKeyring'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, TestVectorConstants.EncryptDecryptKeyrings_RawRsaKeyring)
+        return isinstance(__o, EncryptDecryptKeyrings_RawRsaKeyring)
     def __hash__(self) -> int:
         return super().__hash__()
 

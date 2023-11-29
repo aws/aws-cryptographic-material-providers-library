@@ -104,7 +104,7 @@ import AwsKmsMrkDiscoveryKeyring
 import MrkAwareDiscoveryMultiKeyring
 import AwsKmsMrkKeyring
 
-assert "MrkAwareStrictMultiKeyring" == __name__
+# assert "MrkAwareStrictMultiKeyring" == __name__
 MrkAwareStrictMultiKeyring = sys.modules[__name__]
 
 class default__:

@@ -128,7 +128,7 @@ import TestMultiKeyring
 import TestRawRSAKeying
 import TestAwsKmsRsaKeyring
 
-assert "TestAwsKmsHierarchicalKeyring" == __name__
+# assert "TestAwsKmsHierarchicalKeyring" == __name__
 TestAwsKmsHierarchicalKeyring = sys.modules[__name__]
 
 class default__:

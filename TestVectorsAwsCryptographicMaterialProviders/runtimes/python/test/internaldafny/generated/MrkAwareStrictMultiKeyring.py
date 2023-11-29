@@ -88,8 +88,7 @@ import AwsKmsMrkDiscoveryKeyring
 import MrkAwareDiscoveryMultiKeyring
 import AwsKmsMrkKeyring
 
-assert "MrkAwareStrictMultiKeyring" == __name__
-MrkAwareStrictMultiKeyring = sys.modules[__name__]
+# Module: MrkAwareStrictMultiKeyring
 
 class default__:
     def  __init__(self):
@@ -113,18 +112,18 @@ class default__:
 
         d_646_allStrings_ = lambda43_(generator)
         d_649_allIdentifiers_: _dafny.Seq
-        d_650_valueOrError0_: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        d_650_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_650_valueOrError0_ = (Seq.default__.MapWithResult(AwsArnParsing.default__.IsAwsKmsIdentifierString, d_646_allStrings_)).MapFailure(AwsKmsUtils.default__.WrapStringToError)
         if (d_650_valueOrError0_).IsFailure():
             output = (d_650_valueOrError0_).PropagateFailure()
             return output
         d_649_allIdentifiers_ = (d_650_valueOrError0_).Extract()
-        d_651_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_651_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_651_valueOrError1_ = AwsKmsMrkAreUnique.default__.AwsKmsMrkAreUnique(d_649_allIdentifiers_)
         if (d_651_valueOrError1_).IsFailure():
             output = (d_651_valueOrError1_).PropagateFailure()
             return output
-        d_652_generatorKeyring_: Wrappers.Option = Wrappers.Option_None.default()()
+        d_652_generatorKeyring_: Wrappers.Option = Wrappers.Option.default()()
         source29_ = generator
         if source29_.is_None:
             d_652_generatorKeyring_ = Wrappers.Option_None()
@@ -162,7 +161,7 @@ class default__:
         elif True:
             d_662___mcc_h2_ = source30_.value
             d_663_childIdentifiers_ = d_662___mcc_h2_
-            hi6_: int = len(d_663_childIdentifiers_)
+            hi6_ = len(d_663_childIdentifiers_)
             for d_664_index_ in range(0, hi6_):
                 d_665_childIdentifier_: _dafny.Seq
                 d_665_childIdentifier_ = (d_663_childIdentifiers_)[d_664_index_]
@@ -189,7 +188,7 @@ class default__:
                 nw26_.ctor__(d_669_client_, d_665_childIdentifier_, (grantTokens).UnwrapOr(_dafny.Seq([])))
                 d_671_keyring_ = nw26_
                 d_661_children_ = (d_661_children_) + (_dafny.Seq([d_671_keyring_]))
-        d_672_valueOrError6_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_672_valueOrError6_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_672_valueOrError6_ = Wrappers.default__.Need(((d_652_generatorKeyring_).is_Some) or ((len(d_661_children_)) > (0)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("generatorKeyring or child Keyrings needed to create a multi keyring")))
         if (d_672_valueOrError6_).IsFailure():
             output = (d_672_valueOrError6_).PropagateFailure()

@@ -62,7 +62,7 @@ import CreateKeys
 import CreateKeyStoreTable
 import GetKeys
 
-assert "AwsCryptographyKeyStoreOperations" == __name__
+# assert "AwsCryptographyKeyStoreOperations" == __name__
 AwsCryptographyKeyStoreOperations = sys.modules[__name__]
 
 class default__:

@@ -66,6 +66,6 @@ import software_amazon_cryptography_keystore_internaldafny
 import Fixtures
 import TestCreateKeyStore
 
-assert "ExternRandom" == __name__
+# assert "ExternRandom" == __name__
 ExternRandom = sys.modules[__name__]
 

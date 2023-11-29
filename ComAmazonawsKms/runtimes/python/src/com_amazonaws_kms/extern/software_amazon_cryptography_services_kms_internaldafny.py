@@ -34,7 +34,7 @@ class default__(com_amazonaws_kms.internaldafny.generated.software_amazon_crypto
         # our code generation.
         try:
             assert isinstance(client, KMSClientShim)
-        except AssertionError:
+        except assertionError:
             raise TypeError("Client provided to RegionMatch is not a KMSClientShim: " + client)
 
         # Since client is a TrentServiceShim, we can reach into its _impl, which is a boto3 client

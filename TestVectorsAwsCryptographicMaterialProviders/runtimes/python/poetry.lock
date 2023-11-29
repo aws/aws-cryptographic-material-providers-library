@@ -996,6 +996,17 @@ files = [
 six = ">=1.5"
 
 [[package]]
+name = "pytz"
+version = "2023.3.post1"
+description = "World timezone definitions, modern and historical"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pytz-2023.3.post1-py2.py3-none-any.whl", hash = "sha256:ce42d816b81b68506614c11e8937d3aa9e41007ceb50bfdcb0749b921bf646c7"},
+    {file = "pytz-2023.3.post1.tar.gz", hash = "sha256:7b4fddbeb94a1eba4b557da24f19fdf9db575192544270a9101d8509f9f43d7b"},
+]
+
+[[package]]
 name = "s3transfer"
 version = "0.8.1"
 description = "An Amazon S3 Transfer Manager"
@@ -1050,6 +1061,7 @@ files = []
 develop = false
 
 [package.dependencies]
+pytz = "^2023.3.post1"
 standard-library-externs = {path = "src/standard_library/extern"}
 
 [package.source]
@@ -1066,7 +1078,7 @@ files = []
 develop = false
 
 [package.dependencies]
-standard-library-internaldafny = {path = "../internal_generated_dafny"}
+standard-library-internaldafny = {path = "../internaldafny"}
 
 [package.source]
 type = "directory"
@@ -1077,13 +1089,13 @@ name = "standard-library-internaldafny"
 version = "0.1.0"
 description = ""
 optional = false
-python-versions = "^3.11"
+python-versions = "^3.11.0"
 files = []
 develop = false
 
 [package.source]
 type = "directory"
-url = "../../../StandardLibrary/runtimes/python/src/standard_library/internal_generated_dafny"
+url = "../../../StandardLibrary/runtimes/python/src/standard_library/internaldafny"
 
 [[package]]
 name = "urllib3"

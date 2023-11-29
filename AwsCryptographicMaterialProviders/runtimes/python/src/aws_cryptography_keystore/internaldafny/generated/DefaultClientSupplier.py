@@ -117,7 +117,7 @@ import Defaults
 import Commitment
 import DefaultCMM
 
-assert "DefaultClientSupplier" == __name__
+# assert "DefaultClientSupplier" == __name__
 DefaultClientSupplier = sys.modules[__name__]
 
 

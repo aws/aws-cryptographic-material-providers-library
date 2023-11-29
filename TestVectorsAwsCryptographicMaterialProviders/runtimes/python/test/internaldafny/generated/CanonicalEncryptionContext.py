@@ -77,8 +77,7 @@ import Aws_mCryptography
 import Aws
 import MaterialWrapping
 
-assert "CanonicalEncryptionContext" == __name__
-CanonicalEncryptionContext = sys.modules[__name__]
+# Module: CanonicalEncryptionContext
 
 class default__:
     def  __init__(self):
@@ -86,7 +85,7 @@ class default__:
 
     @staticmethod
     def EncryptionContextToAAD(encryptionContext):
-        d_310_valueOrError0_ = Wrappers.default__.Need((len(encryptionContext)) < ((StandardLibrary_mUInt.default__).UINT16__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption Context is too large")))
+        d_310_valueOrError0_ = Wrappers.default__.Need((len(encryptionContext)) < (StandardLibrary_mUInt.default__.UINT16__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption Context is too large")))
         if (d_310_valueOrError0_).IsFailure():
             return (d_310_valueOrError0_).PropagateFailure()
         elif True:

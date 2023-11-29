@@ -58,7 +58,7 @@ import AwsKmsUtils
 import Structure
 import KMSKeystoreOperations
 
-assert "DDBKeystoreOperations" == __name__
+# assert "DDBKeystoreOperations" == __name__
 DDBKeystoreOperations = sys.modules[__name__]
 
 class default__:

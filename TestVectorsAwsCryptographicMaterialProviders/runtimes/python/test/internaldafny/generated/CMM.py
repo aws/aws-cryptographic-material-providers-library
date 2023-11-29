@@ -97,8 +97,7 @@ import AwsKmsRsaKeyring
 import RawAESKeyring
 import RawRSAKeyring
 
-assert "CMM" == __name__
-CMM = sys.modules[__name__]
+# Module: CMM
 
 class default__:
     def  __init__(self):

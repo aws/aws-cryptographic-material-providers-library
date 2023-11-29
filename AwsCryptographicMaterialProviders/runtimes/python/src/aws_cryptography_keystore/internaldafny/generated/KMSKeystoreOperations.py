@@ -57,7 +57,7 @@ import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
 import Structure
 
-assert "KMSKeystoreOperations" == __name__
+# assert "KMSKeystoreOperations" == __name__
 KMSKeystoreOperations = sys.modules[__name__]
 
 class default__:

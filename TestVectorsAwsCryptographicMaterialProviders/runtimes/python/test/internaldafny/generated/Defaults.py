@@ -98,8 +98,7 @@ import RawAESKeyring
 import RawRSAKeyring
 import CMM
 
-assert "Defaults" == __name__
-Defaults = sys.modules[__name__]
+# Module: Defaults
 
 class default__:
     def  __init__(self):

@@ -120,7 +120,7 @@ import DefaultClientSupplier
 import RequiredEncryptionContextCMM
 import AwsCryptographyMaterialProvidersOperations
 
-assert "software_amazon_cryptography_materialproviders_internaldafny" == __name__
+# assert "software_amazon_cryptography_materialproviders_internaldafny" == __name__
 software_amazon_cryptography_materialproviders_internaldafny = sys.modules[__name__]
 
 class default__:

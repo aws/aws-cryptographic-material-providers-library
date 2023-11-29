@@ -77,7 +77,7 @@ import WrappedHKDF
 import Signature
 import KdfCtr
 
-assert "RSAEncryption" == __name__
+# assert "RSAEncryption" == __name__
 RSAEncryption = sys.modules[__name__]
 
 class default__:

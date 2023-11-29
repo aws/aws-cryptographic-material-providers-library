@@ -172,8 +172,7 @@ import ParseJsonManifests
 import TestManifests
 import WrappedMaterialProvidersMain
 
-assert "TestWrappedMaterialProvidersMain" == __name__
-TestWrappedMaterialProvidersMain = sys.modules[__name__]
+# Module: TestWrappedMaterialProvidersMain
 
 class default__:
     def  __init__(self):

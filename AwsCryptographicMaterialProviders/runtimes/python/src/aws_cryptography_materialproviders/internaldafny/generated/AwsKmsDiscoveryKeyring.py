@@ -99,7 +99,7 @@ import EdkWrapping
 import AwsKmsKeyring
 import StrictMultiKeyring
 
-assert "AwsKmsDiscoveryKeyring" == __name__
+# assert "AwsKmsDiscoveryKeyring" == __name__
 AwsKmsDiscoveryKeyring = sys.modules[__name__]
 
 class default__:

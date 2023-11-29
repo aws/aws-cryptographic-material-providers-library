@@ -110,7 +110,7 @@ import StormTracker
 import software_amazon_cryptography_internaldafny_StormTrackingCMC
 import AwsKmsHierarchicalKeyring
 
-assert "AwsKmsRsaKeyring" == __name__
+# assert "AwsKmsRsaKeyring" == __name__
 AwsKmsRsaKeyring = sys.modules[__name__]
 
 class default__:

@@ -96,7 +96,7 @@ import MaterialWrapping
 import CanonicalEncryptionContext
 import IntermediateKeyWrapping
 
-assert "EdkWrapping" == __name__
+# assert "EdkWrapping" == __name__
 EdkWrapping = sys.modules[__name__]
 
 class default__:

@@ -80,7 +80,7 @@ import RSAEncryption
 import AwsCryptographyPrimitivesOperations
 import TestConfig
 
-assert "TestGetKeys" == __name__
+# assert "TestGetKeys" == __name__
 TestGetKeys = sys.modules[__name__]
 
 class default__:

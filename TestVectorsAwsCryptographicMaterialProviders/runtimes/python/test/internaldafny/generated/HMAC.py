@@ -65,8 +65,7 @@ import AESEncryption
 import ExternDigest
 import Digest
 
-assert "HMAC" == __name__
-HMAC = sys.modules[__name__]
+# Module: HMAC
 
 
 class HMac:

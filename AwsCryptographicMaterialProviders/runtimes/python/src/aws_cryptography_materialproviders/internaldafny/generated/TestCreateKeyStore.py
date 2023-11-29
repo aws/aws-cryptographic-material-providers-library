@@ -65,7 +65,7 @@ import AwsCryptographyKeyStoreOperations
 import software_amazon_cryptography_keystore_internaldafny
 import Fixtures
 
-assert "TestCreateKeyStore" == __name__
+# assert "TestCreateKeyStore" == __name__
 TestCreateKeyStore = sys.modules[__name__]
 
 class default__:

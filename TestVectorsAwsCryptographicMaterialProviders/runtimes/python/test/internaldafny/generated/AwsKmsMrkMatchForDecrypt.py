@@ -57,8 +57,7 @@ import MultiKeyring
 import AwsArnParsing
 import AwsKmsMrkAreUnique
 
-assert "AwsKmsMrkMatchForDecrypt" == __name__
-AwsKmsMrkMatchForDecrypt = sys.modules[__name__]
+# Module: AwsKmsMrkMatchForDecrypt
 
 class default__:
     def  __init__(self):
@@ -70,25 +69,24 @@ class default__:
             return True
         elif True:
             source14_ = (messageAwsKmsIdentifer, configuredAwsKmsIdentifier)
-            if True:
-                d_159___mcc_h0_ = source14_[0]
-                d_160___mcc_h1_ = source14_[1]
-                source15_ = d_159___mcc_h0_
-                if source15_.is_AwsKmsArnIdentifier:
-                    d_161___mcc_h2_ = source15_.a
-                    source16_ = d_160___mcc_h1_
-                    if source16_.is_AwsKmsArnIdentifier:
-                        d_162___mcc_h4_ = source16_.a
-                        d_163_messageAwsKmsArn_ = d_162___mcc_h4_
-                        d_164_configuredAwsKmsArn_ = d_161___mcc_h2_
-                        if (not(AwsArnParsing.default__.IsMultiRegionAwsKmsArn(d_164_configuredAwsKmsArn_))) or (not(AwsArnParsing.default__.IsMultiRegionAwsKmsArn(d_163_messageAwsKmsArn_))):
-                            return False
-                        elif True:
-                            return (((((d_163_messageAwsKmsArn_).partition) == ((d_164_configuredAwsKmsArn_).partition)) and (((d_163_messageAwsKmsArn_).service) == ((d_164_configuredAwsKmsArn_).service))) and (((d_163_messageAwsKmsArn_).account) == ((d_164_configuredAwsKmsArn_).account))) and (((d_163_messageAwsKmsArn_).resource) == ((d_164_configuredAwsKmsArn_).resource))
-                    elif True:
-                        d_165___mcc_h6_ = source16_.r
+            d_159___mcc_h0_ = source14_[0]
+            d_160___mcc_h1_ = source14_[1]
+            source15_ = d_159___mcc_h0_
+            if source15_.is_AwsKmsArnIdentifier:
+                d_161___mcc_h2_ = source15_.a
+                source16_ = d_160___mcc_h1_
+                if source16_.is_AwsKmsArnIdentifier:
+                    d_162___mcc_h4_ = source16_.a
+                    d_163_messageAwsKmsArn_ = d_162___mcc_h4_
+                    d_164_configuredAwsKmsArn_ = d_161___mcc_h2_
+                    if (not(AwsArnParsing.default__.IsMultiRegionAwsKmsArn(d_164_configuredAwsKmsArn_))) or (not(AwsArnParsing.default__.IsMultiRegionAwsKmsArn(d_163_messageAwsKmsArn_))):
                         return False
+                    elif True:
+                        return (((((d_163_messageAwsKmsArn_).partition) == ((d_164_configuredAwsKmsArn_).partition)) and (((d_163_messageAwsKmsArn_).service) == ((d_164_configuredAwsKmsArn_).service))) and (((d_163_messageAwsKmsArn_).account) == ((d_164_configuredAwsKmsArn_).account))) and (((d_163_messageAwsKmsArn_).resource) == ((d_164_configuredAwsKmsArn_).resource))
                 elif True:
-                    d_166___mcc_h8_ = source15_.r
+                    d_165___mcc_h6_ = source16_.r
                     return False
+            elif True:
+                d_166___mcc_h8_ = source15_.r
+                return False
 

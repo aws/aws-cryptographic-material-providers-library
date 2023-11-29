@@ -125,7 +125,7 @@ import TestIntermediateKeyWrapping
 import TestDefaultClientProvider
 import TestRawAESKeyring
 
-assert "TestMultiKeyring" == __name__
+# assert "TestMultiKeyring" == __name__
 TestMultiKeyring = sys.modules[__name__]
 
 class default__:

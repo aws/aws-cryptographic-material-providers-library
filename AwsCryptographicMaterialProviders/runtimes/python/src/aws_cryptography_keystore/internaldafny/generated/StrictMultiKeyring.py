@@ -98,7 +98,7 @@ import IntermediateKeyWrapping
 import EdkWrapping
 import AwsKmsKeyring
 
-assert "StrictMultiKeyring" == __name__
+# assert "StrictMultiKeyring" == __name__
 StrictMultiKeyring = sys.modules[__name__]
 
 class default__:

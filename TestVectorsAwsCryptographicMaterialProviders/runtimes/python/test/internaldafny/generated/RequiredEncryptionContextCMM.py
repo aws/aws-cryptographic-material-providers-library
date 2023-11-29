@@ -102,8 +102,7 @@ import Commitment
 import DefaultCMM
 import DefaultClientSupplier
 
-assert "RequiredEncryptionContextCMM" == __name__
-RequiredEncryptionContextCMM = sys.modules[__name__]
+# Module: RequiredEncryptionContextCMM
 
 
 class RequiredEncryptionContextCMM(CMM.VerifiableInterface, software_amazon_cryptography_materialproviders_internaldafny_types.ICryptographicMaterialsManager):
@@ -146,7 +145,7 @@ class RequiredEncryptionContextCMM(CMM.VerifiableInterface, software_amazon_cryp
 
     def GetEncryptionMaterials_k(self, input):
         output: Wrappers.Result = None
-        d_1096_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_1096_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
         def lambda74_(forall_var_11_):
             d_1097_k_: _dafny.Seq = forall_var_11_
             return not ((d_1097_k_) in ((self).requiredEncryptionContextKeys)) or ((d_1097_k_) in ((input).encryptionContext))
@@ -158,6 +157,7 @@ class RequiredEncryptionContextCMM(CMM.VerifiableInterface, software_amazon_cryp
         d_1098_result_: software_amazon_cryptography_materialproviders_internaldafny_types.GetEncryptionMaterialsOutput
         d_1099_valueOrError1_: Wrappers.Result = None
         pat_let_tv36_ = input
+        out226_: Wrappers.Result
         def iife43_(_pat_let20_0):
             def iife44_(d_1100_dt__update__tmp_h0_):
                 def iife45_(_pat_let21_0):
@@ -166,14 +166,13 @@ class RequiredEncryptionContextCMM(CMM.VerifiableInterface, software_amazon_cryp
                     return iife46_(_pat_let21_0)
                 return iife45_(Wrappers.Option_Some((((pat_let_tv36_).requiredEncryptionContextKeys).UnwrapOr(_dafny.Seq([]))) + ((self).requiredEncryptionContextKeys)))
             return iife44_(_pat_let20_0)
-        out226_: Wrappers.Result
         out226_ = ((self).underlyingCMM).GetEncryptionMaterials(iife43_(input))
         d_1099_valueOrError1_ = out226_
         if (d_1099_valueOrError1_).IsFailure():
             output = (d_1099_valueOrError1_).PropagateFailure()
             return output
         d_1098_result_ = (d_1099_valueOrError1_).Extract()
-        d_1102_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_1102_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
         def lambda75_(forall_var_12_):
             d_1103_k_: _dafny.Seq = forall_var_12_
             return not ((d_1103_k_) in ((self).requiredEncryptionContextKeys)) or ((d_1103_k_) in (((d_1098_result_).encryptionMaterials).requiredEncryptionContextKeys))
@@ -182,12 +181,12 @@ class RequiredEncryptionContextCMM(CMM.VerifiableInterface, software_amazon_cryp
         if (d_1102_valueOrError2_).IsFailure():
             output = (d_1102_valueOrError2_).PropagateFailure()
             return output
-        d_1104_valueOrError3_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_1104_valueOrError3_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_1104_valueOrError3_ = Wrappers.default__.Need(Materials.default__.EncryptionMaterialsHasPlaintextDataKey((d_1098_result_).encryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Could not retrieve materials required for encryption")))
         if (d_1104_valueOrError3_).IsFailure():
             output = (d_1104_valueOrError3_).PropagateFailure()
             return output
-        d_1105_valueOrError4_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_1105_valueOrError4_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_1105_valueOrError4_ = Wrappers.default__.Need(CMM.default__.RequiredEncryptionContextKeys_q((input).requiredEncryptionContextKeys, (d_1098_result_).encryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Keyring returned an invalid response")))
         if (d_1105_valueOrError4_).IsFailure():
             output = (d_1105_valueOrError4_).PropagateFailure()
@@ -197,17 +196,17 @@ class RequiredEncryptionContextCMM(CMM.VerifiableInterface, software_amazon_cryp
 
     def DecryptMaterials_k(self, input):
         output: Wrappers.Result = None
-        d_1106_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_1106_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_1106_valueOrError0_ = Wrappers.default__.Need(((input).reproducedEncryptionContext).is_Some, software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("No reproduced encryption context on decrypt.")))
         if (d_1106_valueOrError0_).IsFailure():
             output = (d_1106_valueOrError0_).PropagateFailure()
             return output
-        d_1107_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_1107_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_1107_valueOrError1_ = Wrappers.default__.Need(CMM.default__.ReproducedEncryptionContext_q(input), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption context does not match reproduced encryption context.")))
         if (d_1107_valueOrError1_).IsFailure():
             output = (d_1107_valueOrError1_).PropagateFailure()
             return output
-        d_1108_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_1108_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
         def lambda76_(forall_var_13_):
             d_1109_k_: _dafny.Seq = forall_var_13_
             return not ((d_1109_k_) in ((self).requiredEncryptionContextKeys)) or ((d_1109_k_) in (((input).reproducedEncryptionContext).value))
@@ -225,7 +224,7 @@ class RequiredEncryptionContextCMM(CMM.VerifiableInterface, software_amazon_cryp
             output = (d_1111_valueOrError3_).PropagateFailure()
             return output
         d_1110_result_ = (d_1111_valueOrError3_).Extract()
-        d_1112_valueOrError4_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_1112_valueOrError4_: Wrappers.Outcome = Wrappers.Outcome.default()()
         def lambda77_(forall_var_14_):
             d_1113_k_: _dafny.Seq = forall_var_14_
             return not ((d_1113_k_) in ((self).requiredEncryptionContextKeys)) or ((d_1113_k_) in (((d_1110_result_).decryptionMaterials).encryptionContext))
@@ -234,12 +233,12 @@ class RequiredEncryptionContextCMM(CMM.VerifiableInterface, software_amazon_cryp
         if (d_1112_valueOrError4_).IsFailure():
             output = (d_1112_valueOrError4_).PropagateFailure()
             return output
-        d_1114_valueOrError5_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_1114_valueOrError5_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_1114_valueOrError5_ = Wrappers.default__.Need(CMM.default__.EncryptionContextComplete(input, (d_1110_result_).decryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Reproduced encryption context missing from encryption context.")))
         if (d_1114_valueOrError5_).IsFailure():
             output = (d_1114_valueOrError5_).PropagateFailure()
             return output
-        d_1115_valueOrError6_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_1115_valueOrError6_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_1115_valueOrError6_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsWithPlaintextDataKey((d_1110_result_).decryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Keyring.OnDecrypt failed to decrypt the plaintext data key.")))
         if (d_1115_valueOrError6_).IsFailure():
             output = (d_1115_valueOrError6_).PropagateFailure()

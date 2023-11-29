@@ -48,8 +48,7 @@ import DafnyLibraries
 import software_amazon_cryptography_services_dynamodb_internaldafny_types
 import software_amazon_cryptography_services_kms_internaldafny_types
 
-assert "software_amazon_cryptography_keystore_internaldafny_types" == __name__
-software_amazon_cryptography_keystore_internaldafny_types = sys.modules[__name__]
+# Module: software_amazon_cryptography_keystore_internaldafny_types
 
 
 class DafnyCallEvent:
@@ -60,13 +59,13 @@ class DafnyCallEvent:
         return not self.__eq__(__o)
     @property
     def is_DafnyCallEvent(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.DafnyCallEvent_DafnyCallEvent)
+        return isinstance(self, DafnyCallEvent_DafnyCallEvent)
 
 class DafnyCallEvent_DafnyCallEvent(DafnyCallEvent, NamedTuple('DafnyCallEvent', [('input', Any), ('output', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.DafnyCallEvent.DafnyCallEvent({_dafny.string_of(self.input)}, {_dafny.string_of(self.output)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.DafnyCallEvent_DafnyCallEvent) and self.input == __o.input and self.output == __o.output
+        return isinstance(__o, DafnyCallEvent_DafnyCallEvent) and self.input == __o.input and self.output == __o.output
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -74,18 +73,18 @@ class DafnyCallEvent_DafnyCallEvent(DafnyCallEvent, NamedTuple('DafnyCallEvent',
 class BeaconKeyMaterials:
     @classmethod
     def default(cls, ):
-        return lambda: BeaconKeyMaterials_BeaconKeyMaterials(_dafny.Seq({}), _dafny.Map({}), Wrappers.Option_None.default()(), Wrappers.Option_None.default()())
+        return lambda: BeaconKeyMaterials_BeaconKeyMaterials(_dafny.Seq({}), _dafny.Map({}), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_BeaconKeyMaterials(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.BeaconKeyMaterials_BeaconKeyMaterials)
+        return isinstance(self, BeaconKeyMaterials_BeaconKeyMaterials)
 
 class BeaconKeyMaterials_BeaconKeyMaterials(BeaconKeyMaterials, NamedTuple('BeaconKeyMaterials', [('beaconKeyIdentifier', Any), ('encryptionContext', Any), ('beaconKey', Any), ('hmacKeys', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.BeaconKeyMaterials.BeaconKeyMaterials({_dafny.string_of(self.beaconKeyIdentifier)}, {_dafny.string_of(self.encryptionContext)}, {_dafny.string_of(self.beaconKey)}, {_dafny.string_of(self.hmacKeys)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.BeaconKeyMaterials_BeaconKeyMaterials) and self.beaconKeyIdentifier == __o.beaconKeyIdentifier and self.encryptionContext == __o.encryptionContext and self.beaconKey == __o.beaconKey and self.hmacKeys == __o.hmacKeys
+        return isinstance(__o, BeaconKeyMaterials_BeaconKeyMaterials) and self.beaconKeyIdentifier == __o.beaconKeyIdentifier and self.encryptionContext == __o.encryptionContext and self.beaconKey == __o.beaconKey and self.hmacKeys == __o.hmacKeys
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -98,13 +97,13 @@ class BranchKeyMaterials:
         return not self.__eq__(__o)
     @property
     def is_BranchKeyMaterials(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials_BranchKeyMaterials)
+        return isinstance(self, BranchKeyMaterials_BranchKeyMaterials)
 
 class BranchKeyMaterials_BranchKeyMaterials(BranchKeyMaterials, NamedTuple('BranchKeyMaterials', [('branchKeyIdentifier', Any), ('branchKeyVersion', Any), ('encryptionContext', Any), ('branchKey', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.BranchKeyMaterials.BranchKeyMaterials({_dafny.string_of(self.branchKeyIdentifier)}, {_dafny.string_of(self.branchKeyVersion)}, {_dafny.string_of(self.encryptionContext)}, {_dafny.string_of(self.branchKey)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials_BranchKeyMaterials) and self.branchKeyIdentifier == __o.branchKeyIdentifier and self.branchKeyVersion == __o.branchKeyVersion and self.encryptionContext == __o.encryptionContext and self.branchKey == __o.branchKey
+        return isinstance(__o, BranchKeyMaterials_BranchKeyMaterials) and self.branchKeyIdentifier == __o.branchKeyIdentifier and self.branchKeyVersion == __o.branchKeyVersion and self.encryptionContext == __o.encryptionContext and self.branchKey == __o.branchKey
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -112,18 +111,18 @@ class BranchKeyMaterials_BranchKeyMaterials(BranchKeyMaterials, NamedTuple('Bran
 class CreateKeyInput:
     @classmethod
     def default(cls, ):
-        return lambda: CreateKeyInput_CreateKeyInput(Wrappers.Option_None.default()(), Wrappers.Option_None.default()())
+        return lambda: CreateKeyInput_CreateKeyInput(Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_CreateKeyInput(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.CreateKeyInput_CreateKeyInput)
+        return isinstance(self, CreateKeyInput_CreateKeyInput)
 
 class CreateKeyInput_CreateKeyInput(CreateKeyInput, NamedTuple('CreateKeyInput', [('branchKeyIdentifier', Any), ('encryptionContext', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.CreateKeyInput.CreateKeyInput({_dafny.string_of(self.branchKeyIdentifier)}, {_dafny.string_of(self.encryptionContext)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.CreateKeyInput_CreateKeyInput) and self.branchKeyIdentifier == __o.branchKeyIdentifier and self.encryptionContext == __o.encryptionContext
+        return isinstance(__o, CreateKeyInput_CreateKeyInput) and self.branchKeyIdentifier == __o.branchKeyIdentifier and self.encryptionContext == __o.encryptionContext
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -136,13 +135,13 @@ class CreateKeyOutput:
         return not self.__eq__(__o)
     @property
     def is_CreateKeyOutput(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.CreateKeyOutput_CreateKeyOutput)
+        return isinstance(self, CreateKeyOutput_CreateKeyOutput)
 
 class CreateKeyOutput_CreateKeyOutput(CreateKeyOutput, NamedTuple('CreateKeyOutput', [('branchKeyIdentifier', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.CreateKeyOutput.CreateKeyOutput({_dafny.string_of(self.branchKeyIdentifier)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.CreateKeyOutput_CreateKeyOutput) and self.branchKeyIdentifier == __o.branchKeyIdentifier
+        return isinstance(__o, CreateKeyOutput_CreateKeyOutput) and self.branchKeyIdentifier == __o.branchKeyIdentifier
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -158,13 +157,13 @@ class CreateKeyStoreInput:
         return not self.__eq__(__o)
     @property
     def is_CreateKeyStoreInput(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.CreateKeyStoreInput_CreateKeyStoreInput)
+        return isinstance(self, CreateKeyStoreInput_CreateKeyStoreInput)
 
 class CreateKeyStoreInput_CreateKeyStoreInput(CreateKeyStoreInput, NamedTuple('CreateKeyStoreInput', [])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.CreateKeyStoreInput.CreateKeyStoreInput'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.CreateKeyStoreInput_CreateKeyStoreInput)
+        return isinstance(__o, CreateKeyStoreInput_CreateKeyStoreInput)
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -177,13 +176,13 @@ class CreateKeyStoreOutput:
         return not self.__eq__(__o)
     @property
     def is_CreateKeyStoreOutput(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.CreateKeyStoreOutput_CreateKeyStoreOutput)
+        return isinstance(self, CreateKeyStoreOutput_CreateKeyStoreOutput)
 
 class CreateKeyStoreOutput_CreateKeyStoreOutput(CreateKeyStoreOutput, NamedTuple('CreateKeyStoreOutput', [('tableArn', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.CreateKeyStoreOutput.CreateKeyStoreOutput({_dafny.string_of(self.tableArn)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.CreateKeyStoreOutput_CreateKeyStoreOutput) and self.tableArn == __o.tableArn
+        return isinstance(__o, CreateKeyStoreOutput_CreateKeyStoreOutput) and self.tableArn == __o.tableArn
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -196,13 +195,13 @@ class GetActiveBranchKeyInput:
         return not self.__eq__(__o)
     @property
     def is_GetActiveBranchKeyInput(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.GetActiveBranchKeyInput_GetActiveBranchKeyInput)
+        return isinstance(self, GetActiveBranchKeyInput_GetActiveBranchKeyInput)
 
 class GetActiveBranchKeyInput_GetActiveBranchKeyInput(GetActiveBranchKeyInput, NamedTuple('GetActiveBranchKeyInput', [('branchKeyIdentifier', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.GetActiveBranchKeyInput.GetActiveBranchKeyInput({_dafny.string_of(self.branchKeyIdentifier)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.GetActiveBranchKeyInput_GetActiveBranchKeyInput) and self.branchKeyIdentifier == __o.branchKeyIdentifier
+        return isinstance(__o, GetActiveBranchKeyInput_GetActiveBranchKeyInput) and self.branchKeyIdentifier == __o.branchKeyIdentifier
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -210,18 +209,18 @@ class GetActiveBranchKeyInput_GetActiveBranchKeyInput(GetActiveBranchKeyInput, N
 class GetActiveBranchKeyOutput:
     @classmethod
     def default(cls, ):
-        return lambda: GetActiveBranchKeyOutput_GetActiveBranchKeyOutput(software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials_BranchKeyMaterials.default()())
+        return lambda: GetActiveBranchKeyOutput_GetActiveBranchKeyOutput(BranchKeyMaterials.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_GetActiveBranchKeyOutput(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.GetActiveBranchKeyOutput_GetActiveBranchKeyOutput)
+        return isinstance(self, GetActiveBranchKeyOutput_GetActiveBranchKeyOutput)
 
 class GetActiveBranchKeyOutput_GetActiveBranchKeyOutput(GetActiveBranchKeyOutput, NamedTuple('GetActiveBranchKeyOutput', [('branchKeyMaterials', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.GetActiveBranchKeyOutput.GetActiveBranchKeyOutput({_dafny.string_of(self.branchKeyMaterials)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.GetActiveBranchKeyOutput_GetActiveBranchKeyOutput) and self.branchKeyMaterials == __o.branchKeyMaterials
+        return isinstance(__o, GetActiveBranchKeyOutput_GetActiveBranchKeyOutput) and self.branchKeyMaterials == __o.branchKeyMaterials
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -234,13 +233,13 @@ class GetBeaconKeyInput:
         return not self.__eq__(__o)
     @property
     def is_GetBeaconKeyInput(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.GetBeaconKeyInput_GetBeaconKeyInput)
+        return isinstance(self, GetBeaconKeyInput_GetBeaconKeyInput)
 
 class GetBeaconKeyInput_GetBeaconKeyInput(GetBeaconKeyInput, NamedTuple('GetBeaconKeyInput', [('branchKeyIdentifier', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.GetBeaconKeyInput.GetBeaconKeyInput({_dafny.string_of(self.branchKeyIdentifier)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.GetBeaconKeyInput_GetBeaconKeyInput) and self.branchKeyIdentifier == __o.branchKeyIdentifier
+        return isinstance(__o, GetBeaconKeyInput_GetBeaconKeyInput) and self.branchKeyIdentifier == __o.branchKeyIdentifier
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -248,18 +247,18 @@ class GetBeaconKeyInput_GetBeaconKeyInput(GetBeaconKeyInput, NamedTuple('GetBeac
 class GetBeaconKeyOutput:
     @classmethod
     def default(cls, ):
-        return lambda: GetBeaconKeyOutput_GetBeaconKeyOutput(software_amazon_cryptography_keystore_internaldafny_types.BeaconKeyMaterials_BeaconKeyMaterials.default()())
+        return lambda: GetBeaconKeyOutput_GetBeaconKeyOutput(BeaconKeyMaterials.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_GetBeaconKeyOutput(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.GetBeaconKeyOutput_GetBeaconKeyOutput)
+        return isinstance(self, GetBeaconKeyOutput_GetBeaconKeyOutput)
 
 class GetBeaconKeyOutput_GetBeaconKeyOutput(GetBeaconKeyOutput, NamedTuple('GetBeaconKeyOutput', [('beaconKeyMaterials', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.GetBeaconKeyOutput.GetBeaconKeyOutput({_dafny.string_of(self.beaconKeyMaterials)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.GetBeaconKeyOutput_GetBeaconKeyOutput) and self.beaconKeyMaterials == __o.beaconKeyMaterials
+        return isinstance(__o, GetBeaconKeyOutput_GetBeaconKeyOutput) and self.beaconKeyMaterials == __o.beaconKeyMaterials
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -272,13 +271,13 @@ class GetBranchKeyVersionInput:
         return not self.__eq__(__o)
     @property
     def is_GetBranchKeyVersionInput(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.GetBranchKeyVersionInput_GetBranchKeyVersionInput)
+        return isinstance(self, GetBranchKeyVersionInput_GetBranchKeyVersionInput)
 
 class GetBranchKeyVersionInput_GetBranchKeyVersionInput(GetBranchKeyVersionInput, NamedTuple('GetBranchKeyVersionInput', [('branchKeyIdentifier', Any), ('branchKeyVersion', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.GetBranchKeyVersionInput.GetBranchKeyVersionInput({_dafny.string_of(self.branchKeyIdentifier)}, {_dafny.string_of(self.branchKeyVersion)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.GetBranchKeyVersionInput_GetBranchKeyVersionInput) and self.branchKeyIdentifier == __o.branchKeyIdentifier and self.branchKeyVersion == __o.branchKeyVersion
+        return isinstance(__o, GetBranchKeyVersionInput_GetBranchKeyVersionInput) and self.branchKeyIdentifier == __o.branchKeyIdentifier and self.branchKeyVersion == __o.branchKeyVersion
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -286,18 +285,18 @@ class GetBranchKeyVersionInput_GetBranchKeyVersionInput(GetBranchKeyVersionInput
 class GetBranchKeyVersionOutput:
     @classmethod
     def default(cls, ):
-        return lambda: GetBranchKeyVersionOutput_GetBranchKeyVersionOutput(software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials_BranchKeyMaterials.default()())
+        return lambda: GetBranchKeyVersionOutput_GetBranchKeyVersionOutput(BranchKeyMaterials.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_GetBranchKeyVersionOutput(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.GetBranchKeyVersionOutput_GetBranchKeyVersionOutput)
+        return isinstance(self, GetBranchKeyVersionOutput_GetBranchKeyVersionOutput)
 
 class GetBranchKeyVersionOutput_GetBranchKeyVersionOutput(GetBranchKeyVersionOutput, NamedTuple('GetBranchKeyVersionOutput', [('branchKeyMaterials', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.GetBranchKeyVersionOutput.GetBranchKeyVersionOutput({_dafny.string_of(self.branchKeyMaterials)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.GetBranchKeyVersionOutput_GetBranchKeyVersionOutput) and self.branchKeyMaterials == __o.branchKeyMaterials
+        return isinstance(__o, GetBranchKeyVersionOutput_GetBranchKeyVersionOutput) and self.branchKeyMaterials == __o.branchKeyMaterials
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -305,18 +304,18 @@ class GetBranchKeyVersionOutput_GetBranchKeyVersionOutput(GetBranchKeyVersionOut
 class GetKeyStoreInfoOutput:
     @classmethod
     def default(cls, ):
-        return lambda: GetKeyStoreInfoOutput_GetKeyStoreInfoOutput(_dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), software_amazon_cryptography_keystore_internaldafny_types.KMSConfiguration_kmsKeyArn.default()())
+        return lambda: GetKeyStoreInfoOutput_GetKeyStoreInfoOutput(_dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), KMSConfiguration.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_GetKeyStoreInfoOutput(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.GetKeyStoreInfoOutput_GetKeyStoreInfoOutput)
+        return isinstance(self, GetKeyStoreInfoOutput_GetKeyStoreInfoOutput)
 
 class GetKeyStoreInfoOutput_GetKeyStoreInfoOutput(GetKeyStoreInfoOutput, NamedTuple('GetKeyStoreInfoOutput', [('keyStoreId', Any), ('keyStoreName', Any), ('logicalKeyStoreName', Any), ('grantTokens', Any), ('kmsConfiguration', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.GetKeyStoreInfoOutput.GetKeyStoreInfoOutput({_dafny.string_of(self.keyStoreId)}, {_dafny.string_of(self.keyStoreName)}, {_dafny.string_of(self.logicalKeyStoreName)}, {_dafny.string_of(self.grantTokens)}, {_dafny.string_of(self.kmsConfiguration)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.GetKeyStoreInfoOutput_GetKeyStoreInfoOutput) and self.keyStoreId == __o.keyStoreId and self.keyStoreName == __o.keyStoreName and self.logicalKeyStoreName == __o.logicalKeyStoreName and self.grantTokens == __o.grantTokens and self.kmsConfiguration == __o.kmsConfiguration
+        return isinstance(__o, GetKeyStoreInfoOutput_GetKeyStoreInfoOutput) and self.keyStoreId == __o.keyStoreId and self.keyStoreName == __o.keyStoreName and self.logicalKeyStoreName == __o.logicalKeyStoreName and self.grantTokens == __o.grantTokens and self.kmsConfiguration == __o.kmsConfiguration
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -355,18 +354,18 @@ class IKeyStoreClient:
 class KeyStoreConfig:
     @classmethod
     def default(cls, ):
-        return lambda: KeyStoreConfig_KeyStoreConfig(_dafny.Seq({}), software_amazon_cryptography_keystore_internaldafny_types.KMSConfiguration_kmsKeyArn.default()(), _dafny.Seq({}), Wrappers.Option_None.default()(), Wrappers.Option_None.default()(), Wrappers.Option_None.default()(), Wrappers.Option_None.default()())
+        return lambda: KeyStoreConfig_KeyStoreConfig(_dafny.Seq({}), KMSConfiguration.default()(), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_KeyStoreConfig(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.KeyStoreConfig_KeyStoreConfig)
+        return isinstance(self, KeyStoreConfig_KeyStoreConfig)
 
 class KeyStoreConfig_KeyStoreConfig(KeyStoreConfig, NamedTuple('KeyStoreConfig', [('ddbTableName', Any), ('kmsConfiguration', Any), ('logicalKeyStoreName', Any), ('id', Any), ('grantTokens', Any), ('ddbClient', Any), ('kmsClient', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.KeyStoreConfig.KeyStoreConfig({_dafny.string_of(self.ddbTableName)}, {_dafny.string_of(self.kmsConfiguration)}, {_dafny.string_of(self.logicalKeyStoreName)}, {_dafny.string_of(self.id)}, {_dafny.string_of(self.grantTokens)}, {_dafny.string_of(self.ddbClient)}, {_dafny.string_of(self.kmsClient)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.KeyStoreConfig_KeyStoreConfig) and self.ddbTableName == __o.ddbTableName and self.kmsConfiguration == __o.kmsConfiguration and self.logicalKeyStoreName == __o.logicalKeyStoreName and self.id == __o.id and self.grantTokens == __o.grantTokens and self.ddbClient == __o.ddbClient and self.kmsClient == __o.kmsClient
+        return isinstance(__o, KeyStoreConfig_KeyStoreConfig) and self.ddbTableName == __o.ddbTableName and self.kmsConfiguration == __o.kmsConfiguration and self.logicalKeyStoreName == __o.logicalKeyStoreName and self.id == __o.id and self.grantTokens == __o.grantTokens and self.ddbClient == __o.ddbClient and self.kmsClient == __o.kmsClient
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -379,13 +378,13 @@ class KMSConfiguration:
         return not self.__eq__(__o)
     @property
     def is_kmsKeyArn(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.KMSConfiguration_kmsKeyArn)
+        return isinstance(self, KMSConfiguration_kmsKeyArn)
 
 class KMSConfiguration_kmsKeyArn(KMSConfiguration, NamedTuple('kmsKeyArn', [('kmsKeyArn', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.KMSConfiguration.kmsKeyArn({_dafny.string_of(self.kmsKeyArn)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.KMSConfiguration_kmsKeyArn) and self.kmsKeyArn == __o.kmsKeyArn
+        return isinstance(__o, KMSConfiguration_kmsKeyArn) and self.kmsKeyArn == __o.kmsKeyArn
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -398,13 +397,13 @@ class VersionKeyInput:
         return not self.__eq__(__o)
     @property
     def is_VersionKeyInput(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.VersionKeyInput_VersionKeyInput)
+        return isinstance(self, VersionKeyInput_VersionKeyInput)
 
 class VersionKeyInput_VersionKeyInput(VersionKeyInput, NamedTuple('VersionKeyInput', [('branchKeyIdentifier', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.VersionKeyInput.VersionKeyInput({_dafny.string_of(self.branchKeyIdentifier)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.VersionKeyInput_VersionKeyInput) and self.branchKeyIdentifier == __o.branchKeyIdentifier
+        return isinstance(__o, VersionKeyInput_VersionKeyInput) and self.branchKeyIdentifier == __o.branchKeyIdentifier
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -420,13 +419,13 @@ class VersionKeyOutput:
         return not self.__eq__(__o)
     @property
     def is_VersionKeyOutput(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.VersionKeyOutput_VersionKeyOutput)
+        return isinstance(self, VersionKeyOutput_VersionKeyOutput)
 
 class VersionKeyOutput_VersionKeyOutput(VersionKeyOutput, NamedTuple('VersionKeyOutput', [])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.VersionKeyOutput.VersionKeyOutput'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.VersionKeyOutput_VersionKeyOutput)
+        return isinstance(__o, VersionKeyOutput_VersionKeyOutput)
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -439,25 +438,25 @@ class Error:
         return not self.__eq__(__o)
     @property
     def is_KeyStoreException(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException)
+        return isinstance(self, Error_KeyStoreException)
     @property
     def is_ComAmazonawsDynamodb(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.Error_ComAmazonawsDynamodb)
+        return isinstance(self, Error_ComAmazonawsDynamodb)
     @property
     def is_ComAmazonawsKms(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.Error_ComAmazonawsKms)
+        return isinstance(self, Error_ComAmazonawsKms)
     @property
     def is_CollectionOfErrors(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.Error_CollectionOfErrors)
+        return isinstance(self, Error_CollectionOfErrors)
     @property
     def is_Opaque(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_keystore_internaldafny_types.Error_Opaque)
+        return isinstance(self, Error_Opaque)
 
 class Error_KeyStoreException(Error, NamedTuple('KeyStoreException', [('message', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.Error.KeyStoreException({_dafny.string_of(self.message)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException) and self.message == __o.message
+        return isinstance(__o, Error_KeyStoreException) and self.message == __o.message
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -465,7 +464,7 @@ class Error_ComAmazonawsDynamodb(Error, NamedTuple('ComAmazonawsDynamodb', [('Co
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.Error.ComAmazonawsDynamodb({_dafny.string_of(self.ComAmazonawsDynamodb)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.Error_ComAmazonawsDynamodb) and self.ComAmazonawsDynamodb == __o.ComAmazonawsDynamodb
+        return isinstance(__o, Error_ComAmazonawsDynamodb) and self.ComAmazonawsDynamodb == __o.ComAmazonawsDynamodb
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -473,7 +472,7 @@ class Error_ComAmazonawsKms(Error, NamedTuple('ComAmazonawsKms', [('ComAmazonaws
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.Error.ComAmazonawsKms({_dafny.string_of(self.ComAmazonawsKms)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.Error_ComAmazonawsKms) and self.ComAmazonawsKms == __o.ComAmazonawsKms
+        return isinstance(__o, Error_ComAmazonawsKms) and self.ComAmazonawsKms == __o.ComAmazonawsKms
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -481,7 +480,7 @@ class Error_CollectionOfErrors(Error, NamedTuple('CollectionOfErrors', [('list',
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.Error.CollectionOfErrors({_dafny.string_of(self.list)}, {_dafny.string_of(self.message)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.Error_CollectionOfErrors) and self.list == __o.list and self.message == __o.message
+        return isinstance(__o, Error_CollectionOfErrors) and self.list == __o.list and self.message == __o.message
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -489,7 +488,7 @@ class Error_Opaque(Error, NamedTuple('Opaque', [('obj', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.Error.Opaque({_dafny.string_of(self.obj)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_keystore_internaldafny_types.Error_Opaque) and self.obj == __o.obj
+        return isinstance(__o, Error_Opaque) and self.obj == __o.obj
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -500,4 +499,4 @@ class OpaqueError:
 
     @staticmethod
     def default():
-        return software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException.default()()
+        return Error.default()()

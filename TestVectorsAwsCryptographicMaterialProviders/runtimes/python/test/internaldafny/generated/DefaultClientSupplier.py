@@ -101,8 +101,7 @@ import Defaults
 import Commitment
 import DefaultCMM
 
-assert "DefaultClientSupplier" == __name__
-DefaultClientSupplier = sys.modules[__name__]
+# Module: DefaultClientSupplier
 
 
 class DefaultClientSupplier(software_amazon_cryptography_materialproviders_internaldafny_types.IClientSupplier):

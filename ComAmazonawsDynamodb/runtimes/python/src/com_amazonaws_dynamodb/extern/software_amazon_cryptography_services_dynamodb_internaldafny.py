@@ -28,7 +28,7 @@ class default__(com_amazonaws_dynamodb.internaldafny.generated.software_amazon_c
         # our code generation.
         try:
             assert isinstance(client, DynamoDB_20120810Shim)
-        except AssertionError:
+        except assertionError:
             raise TypeError("Client provided to RegionMatch is not a DynamoDB_20120810Shim: " + client)
 
         # Since client is a DynamoDB_20120810Shim, we can reach into its _impl, which is a boto3 client

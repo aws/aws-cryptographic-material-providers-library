@@ -48,7 +48,7 @@ import DafnyLibraries
 import software_amazon_cryptography_services_kms_internaldafny_types
 import software_amazon_cryptography_services_kms_internaldafny
 
-assert "TestComAmazonawsKms" == __name__
+# assert "TestComAmazonawsKms" == __name__
 TestComAmazonawsKms = sys.modules[__name__]
 
 class default__:

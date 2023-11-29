@@ -122,7 +122,7 @@ import AwsCryptographyMaterialProvidersOperations
 import software_amazon_cryptography_materialproviders_internaldafny
 import TestUtils
 
-assert "TestIntermediateKeyWrapping" == __name__
+# assert "TestIntermediateKeyWrapping" == __name__
 TestIntermediateKeyWrapping = sys.modules[__name__]
 
 class default__:

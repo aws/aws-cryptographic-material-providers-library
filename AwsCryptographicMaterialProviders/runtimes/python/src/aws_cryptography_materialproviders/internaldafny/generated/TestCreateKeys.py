@@ -82,7 +82,7 @@ import TestConfig
 import TestGetKeys
 import CleanupItems
 
-assert "TestCreateKeys" == __name__
+# assert "TestCreateKeys" == __name__
 TestCreateKeys = sys.modules[__name__]
 
 class default__:

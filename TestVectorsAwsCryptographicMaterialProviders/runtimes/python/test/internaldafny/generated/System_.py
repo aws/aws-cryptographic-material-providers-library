@@ -6,8 +6,7 @@ from itertools import count
 import module_
 import _dafny
 
-assert "System_" == __name__
-System_ = sys.modules[__name__]
+# Module: System_
 
 class nat:
     def  __init__(self):

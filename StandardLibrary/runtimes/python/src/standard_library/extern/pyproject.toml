@@ -15,7 +15,7 @@ include = ["*.py"]
 
 [tool.poetry.dependencies]
 python = "^3.11.0"
-standard-library-internaldafny = { path = "../internal_generated_dafny", develop = false}
+standard-library-internaldafny = { path = "../internaldafny", develop = false}
 
 [build-system]
 requires = ["poetry-core"]

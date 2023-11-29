@@ -166,8 +166,7 @@ import CreateStaticKeyStores
 import KeyringFromKeyDescription
 import KeysVectorOperations
 
-assert "software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny" == __name__
-software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny = sys.modules[__name__]
+# Module: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny
 
 class default__:
     def  __init__(self):
@@ -180,73 +179,73 @@ class default__:
     @staticmethod
     def KeyVectors(config):
         res: Wrappers.Result = None
-        d_1688_keysManifestBv_: _dafny.Seq
-        d_1689_valueOrError0_: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        d_1690_keysManifestBv_: _dafny.Seq
+        d_1691_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out322_: Wrappers.Result
         out322_ = FileIO.default__.ReadBytesFromFile((config).keyManifiestPath)
-        d_1689_valueOrError0_ = out322_
-        if not(not((d_1689_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/KeyVectors/src/Index.dfy(26,23): " + _dafny.string_of(d_1689_valueOrError0_))
-        d_1688_keysManifestBv_ = (d_1689_valueOrError0_).Extract()
-        d_1690_keysManifestBytes_: _dafny.Seq
-        d_1690_keysManifestBytes_ = JSONHelpers.default__.BvToBytes(d_1688_keysManifestBv_)
-        d_1691_keysManifestJSON_: JSON_mValues.JSON
-        d_1692_valueOrError1_: Wrappers.Result = Wrappers.Result_Success.default(JSON_mValues.JSON.default())()
-        def lambda109_(d_1693_e_):
-            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_KeyVectorException((d_1693_e_).ToString())
+        d_1691_valueOrError0_ = out322_
+        if not(not((d_1691_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/KeyVectors/src/Index.dfy(26,23): " + _dafny.string_of(d_1691_valueOrError0_))
+        d_1690_keysManifestBv_ = (d_1691_valueOrError0_).Extract()
+        d_1692_keysManifestBytes_: _dafny.Seq
+        d_1692_keysManifestBytes_ = JSONHelpers.default__.BvToBytes(d_1690_keysManifestBv_)
+        d_1693_keysManifestJSON_: JSON_mValues.JSON
+        d_1694_valueOrError1_: Wrappers.Result = Wrappers.Result.default(JSON_mValues.JSON.default())()
+        def lambda109_(d_1695_e_):
+            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_KeyVectorException((d_1695_e_).ToString())
 
-        d_1692_valueOrError1_ = (JSON_mAPI.default__.Deserialize(d_1690_keysManifestBytes_)).MapFailure(lambda109_)
-        if (d_1692_valueOrError1_).IsFailure():
-            res = (d_1692_valueOrError1_).PropagateFailure()
+        d_1694_valueOrError1_ = (JSON_mAPI.default__.Deserialize(d_1692_keysManifestBytes_)).MapFailure(lambda109_)
+        if (d_1694_valueOrError1_).IsFailure():
+            res = (d_1694_valueOrError1_).PropagateFailure()
             return res
-        d_1691_keysManifestJSON_ = (d_1692_valueOrError1_).Extract()
-        if not((d_1691_keysManifestJSON_).is_Object):
+        d_1693_keysManifestJSON_ = (d_1694_valueOrError1_).Extract()
+        if not((d_1693_keysManifestJSON_).is_Object):
             raise _dafny.HaltException("dafny/KeyVectors/src/Index.dfy(32,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_1694_keysObject_: JSON_mValues.JSON
-        d_1695_valueOrError2_: Wrappers.Result = Wrappers.Result_Success.default(JSON_mValues.JSON.default())()
-        d_1695_valueOrError2_ = JSONHelpers.default__.Get(_dafny.Seq("keys"), (d_1691_keysManifestJSON_).obj)
-        if not(not((d_1695_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("dafny/KeyVectors/src/Index.dfy(33,19): " + _dafny.string_of(d_1695_valueOrError2_))
-        d_1694_keysObject_ = (d_1695_valueOrError2_).Extract()
-        if not((d_1694_keysObject_).is_Object):
+        d_1696_keysObject_: JSON_mValues.JSON
+        d_1697_valueOrError2_: Wrappers.Result = Wrappers.Result.default(JSON_mValues.JSON.default())()
+        d_1697_valueOrError2_ = JSONHelpers.default__.Get(_dafny.Seq("keys"), (d_1693_keysManifestJSON_).obj)
+        if not(not((d_1697_valueOrError2_).IsFailure())):
+            raise _dafny.HaltException("dafny/KeyVectors/src/Index.dfy(33,19): " + _dafny.string_of(d_1697_valueOrError2_))
+        d_1696_keysObject_ = (d_1697_valueOrError2_).Extract()
+        if not((d_1696_keysObject_).is_Object):
             raise _dafny.HaltException("dafny/KeyVectors/src/Index.dfy(34,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_1696_maybeMpl_: Wrappers.Result
+        d_1698_maybeMpl_: Wrappers.Result
         out323_: Wrappers.Result
         out323_ = software_amazon_cryptography_materialproviders_internaldafny.default__.MaterialProviders(software_amazon_cryptography_materialproviders_internaldafny.default__.DefaultMaterialProvidersConfig())
-        d_1696_maybeMpl_ = out323_
-        d_1697_mpl_: software_amazon_cryptography_materialproviders_internaldafny.MaterialProvidersClient
-        d_1698_valueOrError3_: Wrappers.Result = None
-        def lambda110_(d_1699_e_):
-            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(d_1699_e_)
+        d_1698_maybeMpl_ = out323_
+        d_1699_mpl_: software_amazon_cryptography_materialproviders_internaldafny.MaterialProvidersClient
+        d_1700_valueOrError3_: Wrappers.Result = None
+        def lambda110_(d_1701_e_):
+            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(d_1701_e_)
 
-        d_1698_valueOrError3_ = (d_1696_maybeMpl_).MapFailure(lambda110_)
-        if (d_1698_valueOrError3_).IsFailure():
-            res = (d_1698_valueOrError3_).PropagateFailure()
+        d_1700_valueOrError3_ = (d_1698_maybeMpl_).MapFailure(lambda110_)
+        if (d_1700_valueOrError3_).IsFailure():
+            res = (d_1700_valueOrError3_).PropagateFailure()
             return res
-        d_1697_mpl_ = (d_1698_valueOrError3_).Extract()
-        d_1700_keys_: _dafny.Map
-        d_1701_valueOrError4_: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Map)()
-        def lambda111_(d_1702_e_):
-            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_KeyVectorException(d_1702_e_)
+        d_1699_mpl_ = (d_1700_valueOrError3_).Extract()
+        d_1702_keys_: _dafny.Map
+        d_1703_valueOrError4_: Wrappers.Result = Wrappers.Result.default(_dafny.Map)()
+        def lambda111_(d_1704_e_):
+            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_KeyVectorException(d_1704_e_)
 
-        d_1701_valueOrError4_ = (KeyMaterial.default__.BuildKeyMaterials(d_1697_mpl_, (d_1694_keysObject_).obj)).MapFailure(lambda111_)
-        if (d_1701_valueOrError4_).IsFailure():
-            res = (d_1701_valueOrError4_).PropagateFailure()
+        d_1703_valueOrError4_ = (KeyMaterial.default__.BuildKeyMaterials(d_1699_mpl_, (d_1696_keysObject_).obj)).MapFailure(lambda111_)
+        if (d_1703_valueOrError4_).IsFailure():
+            res = (d_1703_valueOrError4_).PropagateFailure()
             return res
-        d_1700_keys_ = (d_1701_valueOrError4_).Extract()
-        d_1703_config_: KeysVectorOperations.Config
-        d_1703_config_ = KeysVectorOperations.Config_Config(d_1700_keys_)
-        d_1704_client_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny.KeyVectorsClient
-        nw75_ = software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny.KeyVectorsClient()
-        nw75_.ctor__(d_1703_config_)
-        d_1704_client_ = nw75_
-        res = Wrappers.Result_Success(d_1704_client_)
+        d_1702_keys_ = (d_1703_valueOrError4_).Extract()
+        d_1705_config_: KeysVectorOperations.Config
+        d_1705_config_ = KeysVectorOperations.Config_Config(d_1702_keys_)
+        d_1706_client_: KeyVectorsClient
+        nw75_ = KeyVectorsClient()
+        nw75_.ctor__(d_1705_config_)
+        d_1706_client_ = nw75_
+        res = Wrappers.Result_Success(d_1706_client_)
         return res
 
 
 class KeyVectorsClient(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.IKeyVectorsClient):
     def  __init__(self):
-        self._config: KeysVectorOperations.Config = KeysVectorOperations.Config_Config.default()()
+        self._config: KeysVectorOperations.Config = KeysVectorOperations.Config.default()()
         pass
 
     def __dafnystr__(self) -> str:

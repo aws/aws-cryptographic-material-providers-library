@@ -61,7 +61,7 @@ import DDBKeystoreOperations
 import CreateKeys
 import CreateKeyStoreTable
 
-assert "GetKeys" == __name__
+# assert "GetKeys" == __name__
 GetKeys = sys.modules[__name__]
 
 class default__:

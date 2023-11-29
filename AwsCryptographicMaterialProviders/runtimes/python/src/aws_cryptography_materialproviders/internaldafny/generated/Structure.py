@@ -56,7 +56,7 @@ import AwsArnParsing
 import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
 
-assert "Structure" == __name__
+# assert "Structure" == __name__
 Structure = sys.modules[__name__]
 
 class default__:

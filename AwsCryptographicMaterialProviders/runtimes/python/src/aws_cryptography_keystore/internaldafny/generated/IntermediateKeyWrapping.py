@@ -95,7 +95,7 @@ import Aws
 import MaterialWrapping
 import CanonicalEncryptionContext
 
-assert "IntermediateKeyWrapping" == __name__
+# assert "IntermediateKeyWrapping" == __name__
 IntermediateKeyWrapping = sys.modules[__name__]
 
 class default__:

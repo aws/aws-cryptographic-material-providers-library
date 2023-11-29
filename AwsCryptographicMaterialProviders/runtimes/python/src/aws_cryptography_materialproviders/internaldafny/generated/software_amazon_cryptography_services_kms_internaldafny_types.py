@@ -47,7 +47,7 @@ import Actions
 import DafnyLibraries
 import software_amazon_cryptography_services_dynamodb_internaldafny_types
 
-assert "software_amazon_cryptography_services_kms_internaldafny_types" == __name__
+# assert "software_amazon_cryptography_services_kms_internaldafny_types" == __name__
 software_amazon_cryptography_services_kms_internaldafny_types = sys.modules[__name__]
 
 class default__:

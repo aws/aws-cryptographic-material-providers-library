@@ -63,7 +63,7 @@ import CreateKeyStoreTable
 import GetKeys
 import AwsCryptographyKeyStoreOperations
 
-assert "software_amazon_cryptography_keystore_internaldafny" == __name__
+# assert "software_amazon_cryptography_keystore_internaldafny" == __name__
 software_amazon_cryptography_keystore_internaldafny = sys.modules[__name__]
 
 class default__:

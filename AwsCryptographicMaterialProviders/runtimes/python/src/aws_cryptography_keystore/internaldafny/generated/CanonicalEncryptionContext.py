@@ -94,7 +94,7 @@ import Aws_mCryptography
 import Aws
 import MaterialWrapping
 
-assert "CanonicalEncryptionContext" == __name__
+# assert "CanonicalEncryptionContext" == __name__
 CanonicalEncryptionContext = sys.modules[__name__]
 
 class default__:

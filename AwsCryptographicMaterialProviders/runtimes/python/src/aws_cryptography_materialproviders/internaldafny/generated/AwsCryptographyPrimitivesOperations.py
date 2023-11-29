@@ -78,7 +78,7 @@ import Signature
 import KdfCtr
 import RSAEncryption
 
-assert "AwsCryptographyPrimitivesOperations" == __name__
+# assert "AwsCryptographyPrimitivesOperations" == __name__
 AwsCryptographyPrimitivesOperations = sys.modules[__name__]
 
 class default__:

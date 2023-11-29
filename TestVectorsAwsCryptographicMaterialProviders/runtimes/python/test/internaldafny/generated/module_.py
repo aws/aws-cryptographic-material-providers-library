@@ -182,8 +182,7 @@ import GetKeys
 import AwsCryptographyKeyStoreOperations
 import software_amazon_cryptography_keystore_internaldafny
 
-assert "module_" == __name__
-module_ = sys.modules[__name__]
+# Module: module_
 
 class default__:
     def  __init__(self):
@@ -191,8 +190,8 @@ class default__:
 
     @staticmethod
     def Test____Main____(noArgsParameter__):
-        d_2136_success_: bool
-        d_2136_success_ = True
+        d_2138_success_: bool
+        d_2138_success_ = True
         _dafny.print(_dafny.string_of(_dafny.Seq("TestWrappedMaterialProvidersMain.ASDF: ")))
         try:
             if True:
@@ -200,12 +199,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_2137_haltMessage_ = e.message
+            d_2139_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_2137_haltMessage_))
+                _dafny.print(_dafny.string_of(d_2139_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2136_success_ = False
+                d_2138_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestWrappedMaterialProvidersMain.TestVectors: ")))
         try:
             if True:
@@ -213,12 +212,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_2138_haltMessage_ = e.message
+            d_2140_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_2138_haltMessage_))
+                _dafny.print(_dafny.string_of(d_2140_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_2136_success_ = False
-        if not(d_2136_success_):
+                d_2138_success_ = False
+        if not(d_2138_success_):
             raise _dafny.HaltException("<stdin>(1,0): " + _dafny.string_of(_dafny.Seq("Test failures occurred: see above.\n")))
 

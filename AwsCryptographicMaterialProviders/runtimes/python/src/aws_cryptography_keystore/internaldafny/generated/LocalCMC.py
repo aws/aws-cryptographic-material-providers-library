@@ -105,7 +105,7 @@ import MrkAwareDiscoveryMultiKeyring
 import AwsKmsMrkKeyring
 import MrkAwareStrictMultiKeyring
 
-assert "LocalCMC" == __name__
+# assert "LocalCMC" == __name__
 LocalCMC = sys.modules[__name__]
 
 class default__:

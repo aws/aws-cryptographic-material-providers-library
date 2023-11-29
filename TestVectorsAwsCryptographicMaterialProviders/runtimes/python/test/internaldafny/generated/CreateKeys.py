@@ -177,8 +177,7 @@ import Structure
 import KMSKeystoreOperations
 import DDBKeystoreOperations
 
-assert "CreateKeys" == __name__
-CreateKeys = sys.modules[__name__]
+# Module: CreateKeys
 
 class default__:
     def  __init__(self):
@@ -186,121 +185,121 @@ class default__:
 
     @staticmethod
     def CreateBranchAndBeaconKeys(branchKeyIdentifier, customEncryptionContext, timestamp, branchKeyVersion, ddbTableName, logicalKeyStoreName, kmsConfiguration, grantTokens, kmsClient, ddbClient):
-        output: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_keystore_internaldafny_types.CreateKeyOutput.default())()
-        d_2025_decryptOnlyEncryptionContext_: _dafny.Map
-        d_2025_decryptOnlyEncryptionContext_ = Structure.default__.DecryptOnlyBranchKeyEncryptionContext(branchKeyIdentifier, branchKeyVersion, timestamp, logicalKeyStoreName, (kmsConfiguration).kmsKeyArn, customEncryptionContext)
-        d_2026_activeEncryptionContext_: _dafny.Map
-        d_2026_activeEncryptionContext_ = Structure.default__.ActiveBranchKeyEncryptionContext(d_2025_decryptOnlyEncryptionContext_)
-        d_2027_beaconEncryptionContext_: _dafny.Map
-        d_2027_beaconEncryptionContext_ = Structure.default__.BeaconKeyEncryptionContext(d_2025_decryptOnlyEncryptionContext_)
-        d_2028_wrappedDecryptOnlyBranchKey_: software_amazon_cryptography_services_kms_internaldafny_types.GenerateDataKeyWithoutPlaintextResponse
-        d_2029_valueOrError0_: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_services_kms_internaldafny_types.GenerateDataKeyWithoutPlaintextResponse.default())()
+        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.CreateKeyOutput.default())()
+        d_2027_decryptOnlyEncryptionContext_: _dafny.Map
+        d_2027_decryptOnlyEncryptionContext_ = Structure.default__.DecryptOnlyBranchKeyEncryptionContext(branchKeyIdentifier, branchKeyVersion, timestamp, logicalKeyStoreName, (kmsConfiguration).kmsKeyArn, customEncryptionContext)
+        d_2028_activeEncryptionContext_: _dafny.Map
+        d_2028_activeEncryptionContext_ = Structure.default__.ActiveBranchKeyEncryptionContext(d_2027_decryptOnlyEncryptionContext_)
+        d_2029_beaconEncryptionContext_: _dafny.Map
+        d_2029_beaconEncryptionContext_ = Structure.default__.BeaconKeyEncryptionContext(d_2027_decryptOnlyEncryptionContext_)
+        d_2030_wrappedDecryptOnlyBranchKey_: software_amazon_cryptography_services_kms_internaldafny_types.GenerateDataKeyWithoutPlaintextResponse
+        d_2031_valueOrError0_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_services_kms_internaldafny_types.GenerateDataKeyWithoutPlaintextResponse.default())()
         out357_: Wrappers.Result
-        out357_ = KMSKeystoreOperations.default__.GenerateKey(d_2025_decryptOnlyEncryptionContext_, kmsConfiguration, grantTokens, kmsClient)
-        d_2029_valueOrError0_ = out357_
-        if (d_2029_valueOrError0_).IsFailure():
-            output = (d_2029_valueOrError0_).PropagateFailure()
+        out357_ = KMSKeystoreOperations.default__.GenerateKey(d_2027_decryptOnlyEncryptionContext_, kmsConfiguration, grantTokens, kmsClient)
+        d_2031_valueOrError0_ = out357_
+        if (d_2031_valueOrError0_).IsFailure():
+            output = (d_2031_valueOrError0_).PropagateFailure()
             return output
-        d_2028_wrappedDecryptOnlyBranchKey_ = (d_2029_valueOrError0_).Extract()
-        d_2030_wrappedActiveBranchKey_: software_amazon_cryptography_services_kms_internaldafny_types.ReEncryptResponse
-        d_2031_valueOrError1_: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_services_kms_internaldafny_types.ReEncryptResponse.default())()
+        d_2030_wrappedDecryptOnlyBranchKey_ = (d_2031_valueOrError0_).Extract()
+        d_2032_wrappedActiveBranchKey_: software_amazon_cryptography_services_kms_internaldafny_types.ReEncryptResponse
+        d_2033_valueOrError1_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_services_kms_internaldafny_types.ReEncryptResponse.default())()
         out358_: Wrappers.Result
-        out358_ = KMSKeystoreOperations.default__.ReEncryptKey(((d_2028_wrappedDecryptOnlyBranchKey_).CiphertextBlob).value, d_2025_decryptOnlyEncryptionContext_, d_2026_activeEncryptionContext_, kmsConfiguration, grantTokens, kmsClient)
-        d_2031_valueOrError1_ = out358_
-        if (d_2031_valueOrError1_).IsFailure():
-            output = (d_2031_valueOrError1_).PropagateFailure()
+        out358_ = KMSKeystoreOperations.default__.ReEncryptKey(((d_2030_wrappedDecryptOnlyBranchKey_).CiphertextBlob).value, d_2027_decryptOnlyEncryptionContext_, d_2028_activeEncryptionContext_, kmsConfiguration, grantTokens, kmsClient)
+        d_2033_valueOrError1_ = out358_
+        if (d_2033_valueOrError1_).IsFailure():
+            output = (d_2033_valueOrError1_).PropagateFailure()
             return output
-        d_2030_wrappedActiveBranchKey_ = (d_2031_valueOrError1_).Extract()
-        d_2032_wrappedBeaconKey_: software_amazon_cryptography_services_kms_internaldafny_types.GenerateDataKeyWithoutPlaintextResponse
-        d_2033_valueOrError2_: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_services_kms_internaldafny_types.GenerateDataKeyWithoutPlaintextResponse.default())()
+        d_2032_wrappedActiveBranchKey_ = (d_2033_valueOrError1_).Extract()
+        d_2034_wrappedBeaconKey_: software_amazon_cryptography_services_kms_internaldafny_types.GenerateDataKeyWithoutPlaintextResponse
+        d_2035_valueOrError2_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_services_kms_internaldafny_types.GenerateDataKeyWithoutPlaintextResponse.default())()
         out359_: Wrappers.Result
-        out359_ = KMSKeystoreOperations.default__.GenerateKey(d_2027_beaconEncryptionContext_, kmsConfiguration, grantTokens, kmsClient)
-        d_2033_valueOrError2_ = out359_
-        if (d_2033_valueOrError2_).IsFailure():
-            output = (d_2033_valueOrError2_).PropagateFailure()
+        out359_ = KMSKeystoreOperations.default__.GenerateKey(d_2029_beaconEncryptionContext_, kmsConfiguration, grantTokens, kmsClient)
+        d_2035_valueOrError2_ = out359_
+        if (d_2035_valueOrError2_).IsFailure():
+            output = (d_2035_valueOrError2_).PropagateFailure()
             return output
-        d_2032_wrappedBeaconKey_ = (d_2033_valueOrError2_).Extract()
-        d_2034_decryptOnlyBranchKeyItem_: _dafny.Map
-        d_2034_decryptOnlyBranchKeyItem_ = Structure.default__.ToAttributeMap(d_2025_decryptOnlyEncryptionContext_, ((d_2028_wrappedDecryptOnlyBranchKey_).CiphertextBlob).value)
-        d_2035_activeBranchKeyItem_: _dafny.Map
-        d_2035_activeBranchKeyItem_ = Structure.default__.ToAttributeMap(d_2026_activeEncryptionContext_, ((d_2030_wrappedActiveBranchKey_).CiphertextBlob).value)
-        d_2036_beaconKeyItem_: _dafny.Map
-        d_2036_beaconKeyItem_ = Structure.default__.ToAttributeMap(d_2027_beaconEncryptionContext_, ((d_2032_wrappedBeaconKey_).CiphertextBlob).value)
-        d_2037___v0_: software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsOutput
-        d_2038_valueOrError3_: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsOutput.default())()
+        d_2034_wrappedBeaconKey_ = (d_2035_valueOrError2_).Extract()
+        d_2036_decryptOnlyBranchKeyItem_: _dafny.Map
+        d_2036_decryptOnlyBranchKeyItem_ = Structure.default__.ToAttributeMap(d_2027_decryptOnlyEncryptionContext_, ((d_2030_wrappedDecryptOnlyBranchKey_).CiphertextBlob).value)
+        d_2037_activeBranchKeyItem_: _dafny.Map
+        d_2037_activeBranchKeyItem_ = Structure.default__.ToAttributeMap(d_2028_activeEncryptionContext_, ((d_2032_wrappedActiveBranchKey_).CiphertextBlob).value)
+        d_2038_beaconKeyItem_: _dafny.Map
+        d_2038_beaconKeyItem_ = Structure.default__.ToAttributeMap(d_2029_beaconEncryptionContext_, ((d_2034_wrappedBeaconKey_).CiphertextBlob).value)
+        d_2039___v0_: software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsOutput
+        d_2040_valueOrError3_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsOutput.default())()
         out360_: Wrappers.Result
-        out360_ = DDBKeystoreOperations.default__.WriteNewKeyToStore(d_2034_decryptOnlyBranchKeyItem_, d_2035_activeBranchKeyItem_, d_2036_beaconKeyItem_, ddbTableName, ddbClient)
-        d_2038_valueOrError3_ = out360_
-        if (d_2038_valueOrError3_).IsFailure():
-            output = (d_2038_valueOrError3_).PropagateFailure()
+        out360_ = DDBKeystoreOperations.default__.WriteNewKeyToStore(d_2036_decryptOnlyBranchKeyItem_, d_2037_activeBranchKeyItem_, d_2038_beaconKeyItem_, ddbTableName, ddbClient)
+        d_2040_valueOrError3_ = out360_
+        if (d_2040_valueOrError3_).IsFailure():
+            output = (d_2040_valueOrError3_).PropagateFailure()
             return output
-        d_2037___v0_ = (d_2038_valueOrError3_).Extract()
+        d_2039___v0_ = (d_2040_valueOrError3_).Extract()
         output = Wrappers.Result_Success(software_amazon_cryptography_keystore_internaldafny_types.CreateKeyOutput_CreateKeyOutput(branchKeyIdentifier))
         return output
 
     @staticmethod
     def VersionActiveBranchKey(input, timestamp, branchKeyVersion, ddbTableName, logicalKeyStoreName, kmsConfiguration, grantTokens, kmsClient, ddbClient):
-        output: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_keystore_internaldafny_types.VersionKeyOutput.default())()
-        d_2039_oldActiveItem_: _dafny.Map
-        d_2040_valueOrError0_: Wrappers.Result = None
+        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.VersionKeyOutput.default())()
+        d_2041_oldActiveItem_: _dafny.Map
+        d_2042_valueOrError0_: Wrappers.Result = None
         out361_: Wrappers.Result
         out361_ = DDBKeystoreOperations.default__.GetActiveBranchKeyItem((input).branchKeyIdentifier, ddbTableName, ddbClient)
-        d_2040_valueOrError0_ = out361_
-        if (d_2040_valueOrError0_).IsFailure():
-            output = (d_2040_valueOrError0_).PropagateFailure()
+        d_2042_valueOrError0_ = out361_
+        if (d_2042_valueOrError0_).IsFailure():
+            output = (d_2042_valueOrError0_).PropagateFailure()
             return output
-        d_2039_oldActiveItem_ = (d_2040_valueOrError0_).Extract()
-        d_2041_oldActiveEncryptionContext_: _dafny.Map
-        d_2041_oldActiveEncryptionContext_ = Structure.default__.ToBranchKeyContext(d_2039_oldActiveItem_, logicalKeyStoreName)
-        d_2042_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
-        d_2042_valueOrError1_ = Wrappers.default__.Need((True) and (KMSKeystoreOperations.default__.AttemptKmsOperation_q(kmsConfiguration, d_2041_oldActiveEncryptionContext_)), software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("Wrapping AWS KMS key in dynamodb does not match configured AWS KMS information.")))
-        if (d_2042_valueOrError1_).IsFailure():
-            output = (d_2042_valueOrError1_).PropagateFailure()
+        d_2041_oldActiveItem_ = (d_2042_valueOrError0_).Extract()
+        d_2043_oldActiveEncryptionContext_: _dafny.Map
+        d_2043_oldActiveEncryptionContext_ = Structure.default__.ToBranchKeyContext(d_2041_oldActiveItem_, logicalKeyStoreName)
+        d_2044_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_2044_valueOrError1_ = Wrappers.default__.Need((True) and (KMSKeystoreOperations.default__.AttemptKmsOperation_q(kmsConfiguration, d_2043_oldActiveEncryptionContext_)), software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("Wrapping AWS KMS key in dynamodb does not match configured AWS KMS information.")))
+        if (d_2044_valueOrError1_).IsFailure():
+            output = (d_2044_valueOrError1_).PropagateFailure()
             return output
-        d_2043___v1_: software_amazon_cryptography_services_kms_internaldafny_types.ReEncryptResponse
-        d_2044_valueOrError2_: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_services_kms_internaldafny_types.ReEncryptResponse.default())()
+        d_2045___v1_: software_amazon_cryptography_services_kms_internaldafny_types.ReEncryptResponse
+        d_2046_valueOrError2_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_services_kms_internaldafny_types.ReEncryptResponse.default())()
         out362_: Wrappers.Result
-        out362_ = KMSKeystoreOperations.default__.ReEncryptKey(((d_2039_oldActiveItem_)[(Structure.default__).BRANCH__KEY__FIELD]).B, d_2041_oldActiveEncryptionContext_, d_2041_oldActiveEncryptionContext_, kmsConfiguration, grantTokens, kmsClient)
-        d_2044_valueOrError2_ = out362_
-        if (d_2044_valueOrError2_).IsFailure():
-            output = (d_2044_valueOrError2_).PropagateFailure()
+        out362_ = KMSKeystoreOperations.default__.ReEncryptKey(((d_2041_oldActiveItem_)[Structure.default__.BRANCH__KEY__FIELD]).B, d_2043_oldActiveEncryptionContext_, d_2043_oldActiveEncryptionContext_, kmsConfiguration, grantTokens, kmsClient)
+        d_2046_valueOrError2_ = out362_
+        if (d_2046_valueOrError2_).IsFailure():
+            output = (d_2046_valueOrError2_).PropagateFailure()
             return output
-        d_2043___v1_ = (d_2044_valueOrError2_).Extract()
-        d_2045_decryptOnlyEncryptionContext_: _dafny.Map
-        d_2045_decryptOnlyEncryptionContext_ = Structure.default__.NewVersionFromActiveBranchKeyEncryptionContext(d_2041_oldActiveEncryptionContext_, branchKeyVersion, timestamp)
-        d_2046_activeEncryptionContext_: _dafny.Map
-        d_2046_activeEncryptionContext_ = Structure.default__.ActiveBranchKeyEncryptionContext(d_2045_decryptOnlyEncryptionContext_)
-        d_2047_wrappedDecryptOnlyBranchKey_: software_amazon_cryptography_services_kms_internaldafny_types.GenerateDataKeyWithoutPlaintextResponse
-        d_2048_valueOrError3_: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_services_kms_internaldafny_types.GenerateDataKeyWithoutPlaintextResponse.default())()
+        d_2045___v1_ = (d_2046_valueOrError2_).Extract()
+        d_2047_decryptOnlyEncryptionContext_: _dafny.Map
+        d_2047_decryptOnlyEncryptionContext_ = Structure.default__.NewVersionFromActiveBranchKeyEncryptionContext(d_2043_oldActiveEncryptionContext_, branchKeyVersion, timestamp)
+        d_2048_activeEncryptionContext_: _dafny.Map
+        d_2048_activeEncryptionContext_ = Structure.default__.ActiveBranchKeyEncryptionContext(d_2047_decryptOnlyEncryptionContext_)
+        d_2049_wrappedDecryptOnlyBranchKey_: software_amazon_cryptography_services_kms_internaldafny_types.GenerateDataKeyWithoutPlaintextResponse
+        d_2050_valueOrError3_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_services_kms_internaldafny_types.GenerateDataKeyWithoutPlaintextResponse.default())()
         out363_: Wrappers.Result
-        out363_ = KMSKeystoreOperations.default__.GenerateKey(d_2045_decryptOnlyEncryptionContext_, kmsConfiguration, grantTokens, kmsClient)
-        d_2048_valueOrError3_ = out363_
-        if (d_2048_valueOrError3_).IsFailure():
-            output = (d_2048_valueOrError3_).PropagateFailure()
+        out363_ = KMSKeystoreOperations.default__.GenerateKey(d_2047_decryptOnlyEncryptionContext_, kmsConfiguration, grantTokens, kmsClient)
+        d_2050_valueOrError3_ = out363_
+        if (d_2050_valueOrError3_).IsFailure():
+            output = (d_2050_valueOrError3_).PropagateFailure()
             return output
-        d_2047_wrappedDecryptOnlyBranchKey_ = (d_2048_valueOrError3_).Extract()
-        d_2049_wrappedActiveBranchKey_: software_amazon_cryptography_services_kms_internaldafny_types.ReEncryptResponse
-        d_2050_valueOrError4_: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_services_kms_internaldafny_types.ReEncryptResponse.default())()
+        d_2049_wrappedDecryptOnlyBranchKey_ = (d_2050_valueOrError3_).Extract()
+        d_2051_wrappedActiveBranchKey_: software_amazon_cryptography_services_kms_internaldafny_types.ReEncryptResponse
+        d_2052_valueOrError4_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_services_kms_internaldafny_types.ReEncryptResponse.default())()
         out364_: Wrappers.Result
-        out364_ = KMSKeystoreOperations.default__.ReEncryptKey(((d_2047_wrappedDecryptOnlyBranchKey_).CiphertextBlob).value, d_2045_decryptOnlyEncryptionContext_, d_2046_activeEncryptionContext_, kmsConfiguration, grantTokens, kmsClient)
-        d_2050_valueOrError4_ = out364_
-        if (d_2050_valueOrError4_).IsFailure():
-            output = (d_2050_valueOrError4_).PropagateFailure()
+        out364_ = KMSKeystoreOperations.default__.ReEncryptKey(((d_2049_wrappedDecryptOnlyBranchKey_).CiphertextBlob).value, d_2047_decryptOnlyEncryptionContext_, d_2048_activeEncryptionContext_, kmsConfiguration, grantTokens, kmsClient)
+        d_2052_valueOrError4_ = out364_
+        if (d_2052_valueOrError4_).IsFailure():
+            output = (d_2052_valueOrError4_).PropagateFailure()
             return output
-        d_2049_wrappedActiveBranchKey_ = (d_2050_valueOrError4_).Extract()
-        d_2051_decryptOnlyBranchKeyItem_: _dafny.Map
-        d_2051_decryptOnlyBranchKeyItem_ = Structure.default__.ToAttributeMap(d_2045_decryptOnlyEncryptionContext_, ((d_2047_wrappedDecryptOnlyBranchKey_).CiphertextBlob).value)
-        d_2052_activeBranchKeyItem_: _dafny.Map
-        d_2052_activeBranchKeyItem_ = Structure.default__.ToAttributeMap(d_2046_activeEncryptionContext_, ((d_2049_wrappedActiveBranchKey_).CiphertextBlob).value)
-        d_2053___v2_: software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsOutput
-        d_2054_valueOrError5_: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsOutput.default())()
+        d_2051_wrappedActiveBranchKey_ = (d_2052_valueOrError4_).Extract()
+        d_2053_decryptOnlyBranchKeyItem_: _dafny.Map
+        d_2053_decryptOnlyBranchKeyItem_ = Structure.default__.ToAttributeMap(d_2047_decryptOnlyEncryptionContext_, ((d_2049_wrappedDecryptOnlyBranchKey_).CiphertextBlob).value)
+        d_2054_activeBranchKeyItem_: _dafny.Map
+        d_2054_activeBranchKeyItem_ = Structure.default__.ToAttributeMap(d_2048_activeEncryptionContext_, ((d_2051_wrappedActiveBranchKey_).CiphertextBlob).value)
+        d_2055___v2_: software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsOutput
+        d_2056_valueOrError5_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsOutput.default())()
         out365_: Wrappers.Result
-        out365_ = DDBKeystoreOperations.default__.WriteNewBranchKeyVersionToKeystore(d_2051_decryptOnlyBranchKeyItem_, d_2052_activeBranchKeyItem_, ddbTableName, ddbClient)
-        d_2054_valueOrError5_ = out365_
-        if (d_2054_valueOrError5_).IsFailure():
-            output = (d_2054_valueOrError5_).PropagateFailure()
+        out365_ = DDBKeystoreOperations.default__.WriteNewBranchKeyVersionToKeystore(d_2053_decryptOnlyBranchKeyItem_, d_2054_activeBranchKeyItem_, ddbTableName, ddbClient)
+        d_2056_valueOrError5_ = out365_
+        if (d_2056_valueOrError5_).IsFailure():
+            output = (d_2056_valueOrError5_).PropagateFailure()
             return output
-        d_2053___v2_ = (d_2054_valueOrError5_).Extract()
+        d_2055___v2_ = (d_2056_valueOrError5_).Extract()
         output = Wrappers.Result_Success(software_amazon_cryptography_keystore_internaldafny_types.VersionKeyOutput_VersionKeyOutput())
         return output
 

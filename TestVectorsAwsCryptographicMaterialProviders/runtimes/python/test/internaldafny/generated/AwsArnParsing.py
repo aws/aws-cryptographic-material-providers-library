@@ -55,8 +55,7 @@ import Materials
 import Keyring
 import MultiKeyring
 
-assert "AwsArnParsing" == __name__
-AwsArnParsing = sys.modules[__name__]
+# Module: AwsArnParsing
 
 class default__:
     def  __init__(self):
@@ -68,7 +67,7 @@ class default__:
 
     @staticmethod
     def ValidAwsKmsArn(arn):
-        return (((arn).Valid()) and (((arn).service) == (_dafny.Seq("kms")))) and (AwsArnParsing.default__.ValidAwsKmsResource((arn).resource))
+        return (((arn).Valid()) and (((arn).service) == (_dafny.Seq("kms")))) and (default__.ValidAwsKmsResource((arn).resource))
 
     @staticmethod
     def ParseAwsKmsRawResources(identifier):
@@ -77,9 +76,9 @@ class default__:
         if (d_88_valueOrError0_).IsFailure():
             return (d_88_valueOrError0_).PropagateFailure()
         elif (len(d_87_info_)) == (1):
-            return AwsArnParsing.default__.ParseAwsKmsResources((_dafny.Seq("key/")) + (identifier))
+            return default__.ParseAwsKmsResources((_dafny.Seq("key/")) + (identifier))
         elif True:
-            return AwsArnParsing.default__.ParseAwsKmsResources(identifier)
+            return default__.ParseAwsKmsResources(identifier)
 
     @staticmethod
     def ParseAwsKmsResources(identifier):
@@ -90,8 +89,8 @@ class default__:
         elif True:
             d_91_resourceType_ = (d_89_info_)[0]
             d_92_value_ = StandardLibrary.default__.Join(_dafny.Seq((d_89_info_)[1::]), _dafny.Seq("/"))
-            d_93_resource_ = AwsArnParsing.AwsResource_AwsResource(d_91_resourceType_, d_92_value_)
-            d_94_valueOrError1_ = Wrappers.default__.Need(AwsArnParsing.default__.ValidAwsKmsResource(d_93_resource_), (_dafny.Seq("Malformed resource: ")) + (identifier))
+            d_93_resource_ = AwsResource_AwsResource(d_91_resourceType_, d_92_value_)
+            d_94_valueOrError1_ = Wrappers.default__.Need(default__.ValidAwsKmsResource(d_93_resource_), (_dafny.Seq("Malformed resource: ")) + (identifier))
             if (d_94_valueOrError1_).IsFailure():
                 return (d_94_valueOrError1_).PropagateFailure()
             elif True:
@@ -103,7 +102,7 @@ class default__:
 
     @staticmethod
     def ValidAmazonDynamodbArn(arn):
-        return (((arn).Valid()) and (((arn).service) == (_dafny.Seq("dynamodb")))) and (AwsArnParsing.default__.ValidAmazonDynamodbResource((arn).resource))
+        return (((arn).Valid()) and (((arn).service) == (_dafny.Seq("dynamodb")))) and (default__.ValidAmazonDynamodbResource((arn).resource))
 
     @staticmethod
     def ParseAmazonDynamodbResources(identifier):
@@ -118,8 +117,8 @@ class default__:
             if (d_99_valueOrError1_).IsFailure():
                 return (d_99_valueOrError1_).PropagateFailure()
             elif True:
-                d_100_resource_ = AwsArnParsing.AwsResource_AwsResource(d_97_resourceType_, d_98_value_)
-                d_101_valueOrError2_ = Wrappers.default__.Need(AwsArnParsing.default__.ValidAmazonDynamodbResource(d_100_resource_), (_dafny.Seq("Malformed resource: ")) + (identifier))
+                d_100_resource_ = AwsResource_AwsResource(d_97_resourceType_, d_98_value_)
+                d_101_valueOrError2_ = Wrappers.default__.Need(default__.ValidAmazonDynamodbResource(d_100_resource_), (_dafny.Seq("Malformed resource: ")) + (identifier))
                 if (d_101_valueOrError2_).IsFailure():
                     return (d_101_valueOrError2_).PropagateFailure()
                 elif True:
@@ -132,13 +131,13 @@ class default__:
         if (d_103_valueOrError0_).IsFailure():
             return (d_103_valueOrError0_).PropagateFailure()
         elif True:
-            d_104_valueOrError1_ = AwsArnParsing.default__.ParseAwsKmsResources((d_102_components_)[5])
+            d_104_valueOrError1_ = default__.ParseAwsKmsResources((d_102_components_)[5])
             if (d_104_valueOrError1_).IsFailure():
                 return (d_104_valueOrError1_).PropagateFailure()
             elif True:
                 d_105_resource_ = (d_104_valueOrError1_).Extract()
-                d_106_arn_ = AwsArnParsing.AwsArn_AwsArn((d_102_components_)[0], (d_102_components_)[1], (d_102_components_)[2], (d_102_components_)[3], (d_102_components_)[4], d_105_resource_)
-                d_107_valueOrError2_ = Wrappers.default__.Need(AwsArnParsing.default__.ValidAwsKmsArn(d_106_arn_), (_dafny.Seq("Malformed Arn:")) + (identifier))
+                d_106_arn_ = AwsArn_AwsArn((d_102_components_)[0], (d_102_components_)[1], (d_102_components_)[2], (d_102_components_)[3], (d_102_components_)[4], d_105_resource_)
+                d_107_valueOrError2_ = Wrappers.default__.Need(default__.ValidAwsKmsArn(d_106_arn_), (_dafny.Seq("Malformed Arn:")) + (identifier))
                 if (d_107_valueOrError2_).IsFailure():
                     return (d_107_valueOrError2_).PropagateFailure()
                 elif True:
@@ -151,13 +150,13 @@ class default__:
         if (d_109_valueOrError0_).IsFailure():
             return (d_109_valueOrError0_).PropagateFailure()
         elif True:
-            d_110_valueOrError1_ = AwsArnParsing.default__.ParseAmazonDynamodbResources((d_108_components_)[5])
+            d_110_valueOrError1_ = default__.ParseAmazonDynamodbResources((d_108_components_)[5])
             if (d_110_valueOrError1_).IsFailure():
                 return (d_110_valueOrError1_).PropagateFailure()
             elif True:
                 d_111_resource_ = (d_110_valueOrError1_).Extract()
-                d_112_arn_ = AwsArnParsing.AwsArn_AwsArn((d_108_components_)[0], (d_108_components_)[1], (d_108_components_)[2], (d_108_components_)[3], (d_108_components_)[4], d_111_resource_)
-                d_113_valueOrError2_ = Wrappers.default__.Need(AwsArnParsing.default__.ValidAmazonDynamodbArn(d_112_arn_), (_dafny.Seq("Malformed Arn:")) + (identifier))
+                d_112_arn_ = AwsArn_AwsArn((d_108_components_)[0], (d_108_components_)[1], (d_108_components_)[2], (d_108_components_)[3], (d_108_components_)[4], d_111_resource_)
+                d_113_valueOrError2_ = Wrappers.default__.Need(default__.ValidAmazonDynamodbArn(d_112_arn_), (_dafny.Seq("Malformed Arn:")) + (identifier))
                 if (d_113_valueOrError2_).IsFailure():
                     return (d_113_valueOrError2_).PropagateFailure()
                 elif True:
@@ -166,34 +165,34 @@ class default__:
     @staticmethod
     def ParseAwsKmsIdentifier(identifier):
         if (_dafny.Seq("arn:")) <= (identifier):
-            d_114_valueOrError0_ = AwsArnParsing.default__.ParseAwsKmsArn(identifier)
+            d_114_valueOrError0_ = default__.ParseAwsKmsArn(identifier)
             if (d_114_valueOrError0_).IsFailure():
                 return (d_114_valueOrError0_).PropagateFailure()
             elif True:
                 d_115_arn_ = (d_114_valueOrError0_).Extract()
-                return Wrappers.Result_Success(AwsArnParsing.AwsKmsIdentifier_AwsKmsArnIdentifier(d_115_arn_))
+                return Wrappers.Result_Success(AwsKmsIdentifier_AwsKmsArnIdentifier(d_115_arn_))
         elif True:
-            d_116_valueOrError1_ = AwsArnParsing.default__.ParseAwsKmsRawResources(identifier)
+            d_116_valueOrError1_ = default__.ParseAwsKmsRawResources(identifier)
             if (d_116_valueOrError1_).IsFailure():
                 return (d_116_valueOrError1_).PropagateFailure()
             elif True:
                 d_117_r_ = (d_116_valueOrError1_).Extract()
-                return Wrappers.Result_Success(AwsArnParsing.AwsKmsIdentifier_AwsKmsRawResourceIdentifier(d_117_r_))
+                return Wrappers.Result_Success(AwsKmsIdentifier_AwsKmsRawResourceIdentifier(d_117_r_))
 
     @staticmethod
     def ParseAmazonDynamodbTableName(identifier):
-        d_118_valueOrError0_ = AwsArnParsing.default__.ParseAmazonDynamodbTableArn(identifier)
+        d_118_valueOrError0_ = default__.ParseAmazonDynamodbTableArn(identifier)
         if (d_118_valueOrError0_).IsFailure():
             return (d_118_valueOrError0_).PropagateFailure()
         elif True:
             d_119_arn_ = (d_118_valueOrError0_).Extract()
-            d_120_tableArn_ = AwsArnParsing.AmazonDynamodbTableName_AmazonDynamodbTableArn(d_119_arn_)
+            d_120_tableArn_ = AmazonDynamodbTableName_AmazonDynamodbTableArn(d_119_arn_)
             d_121_tableName_ = (d_120_tableArn_).GetTableName()
             return Wrappers.Result_Success(d_121_tableName_)
 
     @staticmethod
     def IsMultiRegionAwsKmsArn(arn):
-        return AwsArnParsing.default__.IsMultiRegionAwsKmsResource((arn).resource)
+        return default__.IsMultiRegionAwsKmsResource((arn).resource)
 
     @staticmethod
     def IsMultiRegionAwsKmsIdentifier(identifier):
@@ -201,11 +200,11 @@ class default__:
         if source8_.is_AwsKmsArnIdentifier:
             d_122___mcc_h0_ = source8_.a
             d_123_arn_ = d_122___mcc_h0_
-            return AwsArnParsing.default__.IsMultiRegionAwsKmsArn(d_123_arn_)
+            return default__.IsMultiRegionAwsKmsArn(d_123_arn_)
         elif True:
             d_124___mcc_h1_ = source8_.r
             d_125_r_ = d_124___mcc_h1_
-            return AwsArnParsing.default__.IsMultiRegionAwsKmsResource(d_125_r_)
+            return default__.IsMultiRegionAwsKmsResource(d_125_r_)
 
     @staticmethod
     def IsMultiRegionAwsKmsResource(resource):
@@ -228,11 +227,11 @@ class default__:
         if (d_129_valueOrError0_).IsFailure():
             return (d_129_valueOrError0_).PropagateFailure()
         elif True:
-            d_130_valueOrError1_ = Wrappers.default__.Need(((0) < (len(s))) and ((len(s)) <= ((AwsArnParsing.default__).MAX__AWS__KMS__IDENTIFIER__LENGTH)), _dafny.Seq("Identifier exceeds maximum length."))
+            d_130_valueOrError1_ = Wrappers.default__.Need(((0) < (len(s))) and ((len(s)) <= (default__.MAX__AWS__KMS__IDENTIFIER__LENGTH)), _dafny.Seq("Identifier exceeds maximum length."))
             if (d_130_valueOrError1_).IsFailure():
                 return (d_130_valueOrError1_).PropagateFailure()
             elif True:
-                return AwsArnParsing.default__.ParseAwsKmsIdentifier(s)
+                return default__.ParseAwsKmsIdentifier(s)
 
     @staticmethod
     def Error(s):
@@ -240,7 +239,7 @@ class default__:
 
     @staticmethod
     def ValidateDdbTableArn(tableArn):
-        d_131_valueOrError0_ = (AwsArnParsing.default__.ParseAmazonDynamodbTableName(tableArn)).MapFailure(AwsArnParsing.default__.Error)
+        d_131_valueOrError0_ = (default__.ParseAmazonDynamodbTableName(tableArn)).MapFailure(default__.Error)
         if (d_131_valueOrError0_).IsFailure():
             return (d_131_valueOrError0_).PropagateFailure()
         elif True:
@@ -249,7 +248,7 @@ class default__:
             if (d_133_valueOrError1_).IsFailure():
                 return (d_133_valueOrError1_).PropagateFailure()
             elif True:
-                d_134_valueOrError2_ = Wrappers.default__.Need(software_amazon_cryptography_services_dynamodb_internaldafny_types.default__.IsValid__TableName((AwsArnParsing.default__.ParseAmazonDynamodbTableName(tableArn)).value), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Table Name is too long")))
+                d_134_valueOrError2_ = Wrappers.default__.Need(software_amazon_cryptography_services_dynamodb_internaldafny_types.default__.IsValid__TableName((default__.ParseAmazonDynamodbTableName(tableArn)).value), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Table Name is too long")))
                 if (d_134_valueOrError2_).IsFailure():
                     return (d_134_valueOrError2_).PropagateFailure()
                 elif True:
@@ -267,7 +266,7 @@ class AwsResource:
         return not self.__eq__(__o)
     @property
     def is_AwsResource(self) -> bool:
-        return isinstance(self, AwsArnParsing.AwsResource_AwsResource)
+        return isinstance(self, AwsResource_AwsResource)
     def Valid(self):
         return (True) and ((0) < (len((self).value)))
 
@@ -279,7 +278,7 @@ class AwsResource_AwsResource(AwsResource, NamedTuple('AwsResource', [('resource
     def __dafnystr__(self) -> str:
         return f'AwsArnParsing.AwsResource.AwsResource({_dafny.string_of(self.resourceType)}, {_dafny.string_of(self.value)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, AwsArnParsing.AwsResource_AwsResource) and self.resourceType == __o.resourceType and self.value == __o.value
+        return isinstance(__o, AwsResource_AwsResource) and self.resourceType == __o.resourceType and self.value == __o.value
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -287,12 +286,12 @@ class AwsResource_AwsResource(AwsResource, NamedTuple('AwsResource', [('resource
 class AwsArn:
     @classmethod
     def default(cls, ):
-        return lambda: AwsArn_AwsArn(_dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), AwsArnParsing.AwsResource_AwsResource.default()())
+        return lambda: AwsArn_AwsArn(_dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), AwsResource.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_AwsArn(self) -> bool:
-        return isinstance(self, AwsArnParsing.AwsArn_AwsArn)
+        return isinstance(self, AwsArn_AwsArn)
     def Valid(self):
         return (((((((self).arnLiteral) == (_dafny.Seq("arn"))) and ((0) < (len((self).partition)))) and ((0) < (len((self).service)))) and ((0) < (len((self).region)))) and ((0) < (len((self).account)))) and (((self).resource).Valid())
 
@@ -308,6 +307,7 @@ class AwsArn:
                     in0_ = _this
                     in1_ = Wrappers.Option_Some((_this).region)
                     _this = in0_
+                    
                     customRegion = in1_
                     raise _dafny.TailCall()
                 elif True:
@@ -321,7 +321,7 @@ class AwsArn_AwsArn(AwsArn, NamedTuple('AwsArn', [('arnLiteral', Any), ('partiti
     def __dafnystr__(self) -> str:
         return f'AwsArnParsing.AwsArn.AwsArn({_dafny.string_of(self.arnLiteral)}, {_dafny.string_of(self.partition)}, {_dafny.string_of(self.service)}, {_dafny.string_of(self.region)}, {_dafny.string_of(self.account)}, {_dafny.string_of(self.resource)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, AwsArnParsing.AwsArn_AwsArn) and self.arnLiteral == __o.arnLiteral and self.partition == __o.partition and self.service == __o.service and self.region == __o.region and self.account == __o.account and self.resource == __o.resource
+        return isinstance(__o, AwsArn_AwsArn) and self.arnLiteral == __o.arnLiteral and self.partition == __o.partition and self.service == __o.service and self.region == __o.region and self.account == __o.account and self.resource == __o.resource
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -332,7 +332,7 @@ class AwsKmsArn:
 
     @staticmethod
     def default():
-        return AwsArnParsing.AwsArn_AwsArn.default()()
+        return AwsArn.default()()
 
 class AwsKmsResource:
     def  __init__(self):
@@ -340,20 +340,20 @@ class AwsKmsResource:
 
     @staticmethod
     def default():
-        return AwsArnParsing.AwsResource_AwsResource.default()()
+        return AwsResource.default()()
 
 class AwsKmsIdentifier:
     @classmethod
     def default(cls, ):
-        return lambda: AwsKmsIdentifier_AwsKmsArnIdentifier(AwsArnParsing.AwsArn_AwsArn.default()())
+        return lambda: AwsKmsIdentifier_AwsKmsArnIdentifier(AwsArn.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_AwsKmsArnIdentifier(self) -> bool:
-        return isinstance(self, AwsArnParsing.AwsKmsIdentifier_AwsKmsArnIdentifier)
+        return isinstance(self, AwsKmsIdentifier_AwsKmsArnIdentifier)
     @property
     def is_AwsKmsRawResourceIdentifier(self) -> bool:
-        return isinstance(self, AwsArnParsing.AwsKmsIdentifier_AwsKmsRawResourceIdentifier)
+        return isinstance(self, AwsKmsIdentifier_AwsKmsRawResourceIdentifier)
     def ToString(self):
         source11_ = self
         if source11_.is_AwsKmsArnIdentifier:
@@ -370,7 +370,7 @@ class AwsKmsIdentifier_AwsKmsArnIdentifier(AwsKmsIdentifier, NamedTuple('AwsKmsA
     def __dafnystr__(self) -> str:
         return f'AwsArnParsing.AwsKmsIdentifier.AwsKmsArnIdentifier({_dafny.string_of(self.a)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, AwsArnParsing.AwsKmsIdentifier_AwsKmsArnIdentifier) and self.a == __o.a
+        return isinstance(__o, AwsKmsIdentifier_AwsKmsArnIdentifier) and self.a == __o.a
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -378,7 +378,7 @@ class AwsKmsIdentifier_AwsKmsRawResourceIdentifier(AwsKmsIdentifier, NamedTuple(
     def __dafnystr__(self) -> str:
         return f'AwsArnParsing.AwsKmsIdentifier.AwsKmsRawResourceIdentifier({_dafny.string_of(self.r)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, AwsArnParsing.AwsKmsIdentifier_AwsKmsRawResourceIdentifier) and self.r == __o.r
+        return isinstance(__o, AwsKmsIdentifier_AwsKmsRawResourceIdentifier) and self.r == __o.r
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -389,7 +389,7 @@ class AmazonDynamodbTableArn:
 
     @staticmethod
     def default():
-        return AwsArnParsing.AwsArn_AwsArn.default()()
+        return AwsArn.default()()
 
 class AmazonDynamodbResource:
     def  __init__(self):
@@ -397,30 +397,29 @@ class AmazonDynamodbResource:
 
     @staticmethod
     def default():
-        return AwsArnParsing.AwsResource_AwsResource.default()()
+        return AwsResource.default()()
 
 class AmazonDynamodbTableName:
     @classmethod
     def default(cls, ):
-        return lambda: AmazonDynamodbTableName_AmazonDynamodbTableArn(AwsArnParsing.AwsArn_AwsArn.default()())
+        return lambda: AmazonDynamodbTableName_AmazonDynamodbTableArn(AwsArn.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_AmazonDynamodbTableArn(self) -> bool:
-        return isinstance(self, AwsArnParsing.AmazonDynamodbTableName_AmazonDynamodbTableArn)
+        return isinstance(self, AmazonDynamodbTableName_AmazonDynamodbTableArn)
     def GetTableName(self):
         source12_ = self
-        if True:
-            d_141___mcc_h0_ = source12_.a
-            d_142_a_ = d_141___mcc_h0_
-            return ((d_142_a_).resource).value
+        d_141___mcc_h0_ = source12_.a
+        d_142_a_ = d_141___mcc_h0_
+        return ((d_142_a_).resource).value
 
 
 class AmazonDynamodbTableName_AmazonDynamodbTableArn(AmazonDynamodbTableName, NamedTuple('AmazonDynamodbTableArn', [('a', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsArnParsing.AmazonDynamodbTableName.AmazonDynamodbTableArn({_dafny.string_of(self.a)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, AwsArnParsing.AmazonDynamodbTableName_AmazonDynamodbTableArn) and self.a == __o.a
+        return isinstance(__o, AmazonDynamodbTableName_AmazonDynamodbTableArn) and self.a == __o.a
     def __hash__(self) -> int:
         return super().__hash__()
 

@@ -121,7 +121,7 @@ import RequiredEncryptionContextCMM
 import AwsCryptographyMaterialProvidersOperations
 import software_amazon_cryptography_materialproviders_internaldafny
 
-assert "TestUtils" == __name__
+# assert "TestUtils" == __name__
 TestUtils = sys.modules[__name__]
 
 class default__:

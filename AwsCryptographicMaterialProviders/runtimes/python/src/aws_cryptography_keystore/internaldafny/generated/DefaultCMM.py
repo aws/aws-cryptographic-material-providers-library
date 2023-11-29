@@ -116,7 +116,7 @@ import CMM
 import Defaults
 import Commitment
 
-assert "DefaultCMM" == __name__
+# assert "DefaultCMM" == __name__
 DefaultCMM = sys.modules[__name__]
 
 

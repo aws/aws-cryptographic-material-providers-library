@@ -54,8 +54,7 @@ import AlgorithmSuites
 import Materials
 import Keyring
 
-assert "MultiKeyring" == __name__
-MultiKeyring = sys.modules[__name__]
+# Module: MultiKeyring
 
 class default__:
     def  __init__(self):
@@ -73,7 +72,7 @@ class default__:
             res = (d_66_valueOrError0_).PropagateFailure()
             return res
         d_65_output_ = (d_66_valueOrError0_).Extract()
-        d_67_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_67_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_67_valueOrError1_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsTransitionIsValid((input).materials, (d_65_output_).materials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Keyring performed invalid material transition")))
         if (d_67_valueOrError1_).IsFailure():
             res = (d_67_valueOrError1_).PropagateFailure()
@@ -85,7 +84,7 @@ class default__:
 
 class MultiKeyring(Keyring.VerifiableInterface, software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring):
     def  __init__(self):
-        self._generatorKeyring: Wrappers.Option = Wrappers.Option_None.default()()
+        self._generatorKeyring: Wrappers.Option = Wrappers.Option.default()()
         self._childKeyrings: _dafny.Seq = _dafny.Seq({})
         pass
 
@@ -115,7 +114,7 @@ class MultiKeyring(Keyring.VerifiableInterface, software_amazon_cryptography_mat
         d_69_returnMaterials_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptionMaterials
         d_69_returnMaterials_ = (input).materials
         if ((self).generatorKeyring).is_Some:
-            d_70_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+            d_70_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
             d_70_valueOrError0_ = Wrappers.default__.Need((((input).materials).plaintextDataKey).is_None, software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("This multi keyring has a generator but provided Encryption Materials already contain plaintext data key")))
             if (d_70_valueOrError0_).IsFailure():
                 res = (d_70_valueOrError0_).PropagateFailure()
@@ -124,18 +123,18 @@ class MultiKeyring(Keyring.VerifiableInterface, software_amazon_cryptography_mat
             out13_: Wrappers.Result
             out13_ = (((self).generatorKeyring).value).OnEncrypt(input)
             d_71_onEncryptOutput_ = out13_
-            d_72_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
-            d_72_valueOrError1_ = Wrappers.default__.Need((d_71_onEncryptOutput_).is_Success, software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Generator keyring failed to generate plaintext data key")))
+            d_72_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+            d_72_valueOrError1_ = Wrappers.default__.Need((d_71_onEncryptOutput_).is_Success, ((d_71_onEncryptOutput_).error if (d_71_onEncryptOutput_).is_Failure else software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unexpected failure. Input to Need is !Success."))))
             if (d_72_valueOrError1_).IsFailure():
                 res = (d_72_valueOrError1_).PropagateFailure()
                 return res
-            d_73_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+            d_73_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
             d_73_valueOrError2_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterialsTransition((input).materials, ((d_71_onEncryptOutput_).value).materials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Generator keyring returned invalid encryption materials")))
             if (d_73_valueOrError2_).IsFailure():
                 res = (d_73_valueOrError2_).PropagateFailure()
                 return res
             d_69_returnMaterials_ = ((d_71_onEncryptOutput_).value).materials
-        hi0_: int = len((self).childKeyrings)
+        hi0_ = len((self).childKeyrings)
         for d_74_i_ in range(0, hi0_):
             d_75_onEncryptInput_: software_amazon_cryptography_materialproviders_internaldafny_types.OnEncryptInput
             d_75_onEncryptInput_ = software_amazon_cryptography_materialproviders_internaldafny_types.OnEncryptInput_OnEncryptInput(d_69_returnMaterials_)
@@ -143,18 +142,18 @@ class MultiKeyring(Keyring.VerifiableInterface, software_amazon_cryptography_mat
             out14_: Wrappers.Result
             out14_ = (((self).childKeyrings)[d_74_i_]).OnEncrypt(d_75_onEncryptInput_)
             d_76_onEncryptOutput_ = out14_
-            d_77_valueOrError3_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+            d_77_valueOrError3_: Wrappers.Outcome = Wrappers.Outcome.default()()
             d_77_valueOrError3_ = Wrappers.default__.Need((d_76_onEncryptOutput_).is_Success, software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Child keyring failed to encrypt plaintext data key")))
             if (d_77_valueOrError3_).IsFailure():
                 res = (d_77_valueOrError3_).PropagateFailure()
                 return res
-            d_78_valueOrError4_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+            d_78_valueOrError4_: Wrappers.Outcome = Wrappers.Outcome.default()()
             d_78_valueOrError4_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterialsTransition(d_69_returnMaterials_, ((d_76_onEncryptOutput_).value).materials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Child keyring performed invalid transition on encryption materials")))
             if (d_78_valueOrError4_).IsFailure():
                 res = (d_78_valueOrError4_).PropagateFailure()
                 return res
             d_69_returnMaterials_ = ((d_76_onEncryptOutput_).value).materials
-        d_79_valueOrError5_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_79_valueOrError5_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_79_valueOrError5_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterialsTransition((input).materials, d_69_returnMaterials_), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("A child or generator keyring modified the encryption materials in illegal ways.")))
         if (d_79_valueOrError5_).IsFailure():
             res = (d_79_valueOrError5_).PropagateFailure()
@@ -167,7 +166,7 @@ class MultiKeyring(Keyring.VerifiableInterface, software_amazon_cryptography_mat
         res: Wrappers.Result = None
         d_80_materials_: software_amazon_cryptography_materialproviders_internaldafny_types.DecryptionMaterials
         d_80_materials_ = (input).materials
-        d_81_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_81_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_81_valueOrError0_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsWithoutPlaintextDataKey((input).materials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Keyring received decryption materials that already contain a plaintext data key.")))
         if (d_81_valueOrError0_).IsFailure():
             res = (d_81_valueOrError0_).PropagateFailure()
@@ -177,7 +176,7 @@ class MultiKeyring(Keyring.VerifiableInterface, software_amazon_cryptography_mat
         if ((self).generatorKeyring).is_Some:
             d_83_result_: Wrappers.Result
             out15_: Wrappers.Result
-            out15_ = MultiKeyring.default__.AttemptDecryptDataKey(((self).generatorKeyring).value, input)
+            out15_ = default__.AttemptDecryptDataKey(((self).generatorKeyring).value, input)
             d_83_result_ = out15_
             if (d_83_result_).is_Success:
                 if ((((d_83_result_).value).materials).plaintextDataKey).is_Some:
@@ -185,11 +184,11 @@ class MultiKeyring(Keyring.VerifiableInterface, software_amazon_cryptography_mat
                     return res
             elif True:
                 d_82_failures_ = (d_82_failures_) + (_dafny.Seq([(d_83_result_).error]))
-        hi1_: int = len((self).childKeyrings)
+        hi1_ = len((self).childKeyrings)
         for d_84_j_ in range(0, hi1_):
             d_85_result_: Wrappers.Result
             out16_: Wrappers.Result
-            out16_ = MultiKeyring.default__.AttemptDecryptDataKey(((self).childKeyrings)[d_84_j_], input)
+            out16_ = default__.AttemptDecryptDataKey(((self).childKeyrings)[d_84_j_], input)
             d_85_result_ = out16_
             if (d_85_result_).is_Success:
                 res = Wrappers.Result_Success((d_85_result_).value)

@@ -69,8 +69,7 @@ import WrappedHMAC
 import HKDF
 import WrappedHKDF
 
-assert "Signature" == __name__
-Signature = sys.modules[__name__]
+# Module: Signature
 
 class default__:
     def  __init__(self):
@@ -94,9 +93,9 @@ class default__:
 
     @staticmethod
     def KeyGen(input):
-        res: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_primitives_internaldafny_types.GenerateECDSASignatureKeyOutput.default())()
-        d_273_sigKeyPair_: Signature.SignatureKeyPair
-        d_274_valueOrError0_: Wrappers.Result = Wrappers.Result_Success.default(Signature.SignatureKeyPair.default())()
+        res: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_primitives_internaldafny_types.GenerateECDSASignatureKeyOutput.default())()
+        d_273_sigKeyPair_: SignatureKeyPair
+        d_274_valueOrError0_: Wrappers.Result = Wrappers.Result.default(SignatureKeyPair.default())()
         out31_: Wrappers.Result
         out31_ = Signature.ECDSA.ExternKeyGen((input).signatureAlgorithm)
         d_274_valueOrError0_ = out31_
@@ -104,8 +103,8 @@ class default__:
             res = (d_274_valueOrError0_).PropagateFailure()
             return res
         d_273_sigKeyPair_ = (d_274_valueOrError0_).Extract()
-        d_275_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
-        d_275_valueOrError1_ = Wrappers.default__.Need((len((d_273_sigKeyPair_).verificationKey)) == (Signature.default__.FieldSize((input).signatureAlgorithm)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect verification-key length from ExternKeyGen.")))
+        d_275_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_275_valueOrError1_ = Wrappers.default__.Need((len((d_273_sigKeyPair_).verificationKey)) == (default__.FieldSize((input).signatureAlgorithm)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect verification-key length from ExternKeyGen.")))
         if (d_275_valueOrError1_).IsFailure():
             res = (d_275_valueOrError1_).PropagateFailure()
             return res
@@ -122,13 +121,13 @@ class SignatureKeyPair:
         return not self.__eq__(__o)
     @property
     def is_SignatureKeyPair(self) -> bool:
-        return isinstance(self, Signature.SignatureKeyPair_SignatureKeyPair)
+        return isinstance(self, SignatureKeyPair_SignatureKeyPair)
 
 class SignatureKeyPair_SignatureKeyPair(SignatureKeyPair, NamedTuple('SignatureKeyPair', [('verificationKey', Any), ('signingKey', Any)])):
     def __dafnystr__(self) -> str:
         return f'Signature.SignatureKeyPair.SignatureKeyPair({_dafny.string_of(self.verificationKey)}, {_dafny.string_of(self.signingKey)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, Signature.SignatureKeyPair_SignatureKeyPair) and self.verificationKey == __o.verificationKey and self.signingKey == __o.signingKey
+        return isinstance(__o, SignatureKeyPair_SignatureKeyPair) and self.verificationKey == __o.verificationKey and self.signingKey == __o.signingKey
     def __hash__(self) -> int:
         return super().__hash__()
 

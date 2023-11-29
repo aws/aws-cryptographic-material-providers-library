@@ -101,7 +101,7 @@ import StrictMultiKeyring
 import AwsKmsDiscoveryKeyring
 import DiscoveryMultiKeyring
 
-assert "AwsKmsMrkDiscoveryKeyring" == __name__
+# assert "AwsKmsMrkDiscoveryKeyring" == __name__
 AwsKmsMrkDiscoveryKeyring = sys.modules[__name__]
 
 class default__:

@@ -58,8 +58,7 @@ import AwsArnParsing
 import AwsKmsMrkAreUnique
 import AwsKmsMrkMatchForDecrypt
 
-assert "AwsKmsUtils" == __name__
-AwsKmsUtils = sys.modules[__name__]
+# Module: AwsKmsUtils
 
 class default__:
     def  __init__(self):
@@ -76,7 +75,7 @@ class default__:
                 for compr_1_ in ((utf8EncCtx).keys).Elements:
                     d_168_utf8Key_: _dafny.Seq = compr_1_
                     if (d_168_utf8Key_) in ((utf8EncCtx).keys):
-                        coll1_[d_168_utf8Key_] = AwsKmsUtils.default__.StringifyEncryptionContextPair(d_168_utf8Key_, (utf8EncCtx)[d_168_utf8Key_])
+                        coll1_[d_168_utf8Key_] = default__.StringifyEncryptionContextPair(d_168_utf8Key_, (utf8EncCtx)[d_168_utf8Key_])
                 return _dafny.Map(coll1_)
             d_167_stringifyResults_ = iife13_()
 
@@ -112,12 +111,12 @@ class default__:
 
     @staticmethod
     def StringifyEncryptionContextPair(utf8Key, utf8Value):
-        d_174_valueOrError0_ = (UTF8.default__.Decode(utf8Key)).MapFailure(AwsKmsUtils.default__.WrapStringToError)
+        d_174_valueOrError0_ = (UTF8.default__.Decode(utf8Key)).MapFailure(default__.WrapStringToError)
         if (d_174_valueOrError0_).IsFailure():
             return (d_174_valueOrError0_).PropagateFailure()
         elif True:
             d_175_key_ = (d_174_valueOrError0_).Extract()
-            d_176_valueOrError1_ = (UTF8.default__.Decode(utf8Value)).MapFailure(AwsKmsUtils.default__.WrapStringToError)
+            d_176_valueOrError1_ = (UTF8.default__.Decode(utf8Value)).MapFailure(default__.WrapStringToError)
             if (d_176_valueOrError1_).IsFailure():
                 return (d_176_valueOrError1_).PropagateFailure()
             elif True:
@@ -130,7 +129,7 @@ class default__:
 
     @staticmethod
     def ValidateKmsKeyId(keyId):
-        d_178_valueOrError0_ = (AwsArnParsing.default__.ParseAwsKmsIdentifier(keyId)).MapFailure(AwsKmsUtils.default__.WrapStringToError)
+        d_178_valueOrError0_ = (AwsArnParsing.default__.ParseAwsKmsIdentifier(keyId)).MapFailure(default__.WrapStringToError)
         if (d_178_valueOrError0_).IsFailure():
             return (d_178_valueOrError0_).PropagateFailure()
         elif True:
@@ -139,7 +138,7 @@ class default__:
             if (d_180_valueOrError1_).IsFailure():
                 return (d_180_valueOrError1_).PropagateFailure()
             elif True:
-                d_181_valueOrError2_ = Wrappers.default__.Need(((0) < (len(keyId))) and ((len(keyId)) <= ((AwsArnParsing.default__).MAX__AWS__KMS__IDENTIFIER__LENGTH)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Key identifier is too long")))
+                d_181_valueOrError2_ = Wrappers.default__.Need(((0) < (len(keyId))) and ((len(keyId)) <= (AwsArnParsing.default__.MAX__AWS__KMS__IDENTIFIER__LENGTH)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Key identifier is too long")))
                 if (d_181_valueOrError2_).IsFailure():
                     return (d_181_valueOrError2_).PropagateFailure()
                 elif True:
@@ -172,7 +171,7 @@ class default__:
             return (d_186_valueOrError0_).PropagateFailure()
         elif True:
             d_188_namespace_ = (d_186_valueOrError0_).Extract()
-            d_189_valueOrError1_ = Wrappers.default__.Need((len(d_188_namespace_)) < ((StandardLibrary_mUInt.default__).UINT16__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Key namespace too long")))
+            d_189_valueOrError1_ = Wrappers.default__.Need((len(d_188_namespace_)) < (StandardLibrary_mUInt.default__.UINT16__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Key namespace too long")))
             if (d_189_valueOrError1_).IsFailure():
                 return (d_189_valueOrError1_).PropagateFailure()
             elif True:
@@ -184,7 +183,7 @@ class default__:
                     return (d_190_valueOrError2_).PropagateFailure()
                 elif True:
                     d_192_name_ = (d_190_valueOrError2_).Extract()
-                    d_193_valueOrError3_ = Wrappers.default__.Need((len(d_192_name_)) < ((StandardLibrary_mUInt.default__).UINT16__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Key name too long")))
+                    d_193_valueOrError3_ = Wrappers.default__.Need((len(d_192_name_)) < (StandardLibrary_mUInt.default__.UINT16__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Key name too long")))
                     if (d_193_valueOrError3_).IsFailure():
                         return (d_193_valueOrError3_).PropagateFailure()
                     elif True:
@@ -224,7 +223,7 @@ class OnDecryptMrkAwareEncryptedDataKeyFilter(Actions.DeterministicActionWithRes
         (self)._providerId = providerId
 
     def Invoke(self, edk):
-        res: Wrappers.Result = Wrappers.Result_Success.default(_dafny.defaults.bool)()
+        res: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.bool)()
         if ((edk).keyProviderId) != ((self).providerId):
             res = Wrappers.Result_Success(False)
             return res
@@ -232,15 +231,15 @@ class OnDecryptMrkAwareEncryptedDataKeyFilter(Actions.DeterministicActionWithRes
             res = Wrappers.Result_Failure(software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid AWS KMS encoding, provider info is not UTF8.")))
             return res
         d_198_keyId_: _dafny.Seq
-        d_199_valueOrError0_: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
-        d_199_valueOrError0_ = (UTF8.default__.Decode((edk).keyProviderInfo)).MapFailure(AwsKmsUtils.default__.WrapStringToError)
+        d_199_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_199_valueOrError0_ = (UTF8.default__.Decode((edk).keyProviderInfo)).MapFailure(default__.WrapStringToError)
         if (d_199_valueOrError0_).IsFailure():
             res = (d_199_valueOrError0_).PropagateFailure()
             return res
         d_198_keyId_ = (d_199_valueOrError0_).Extract()
         d_200_arn_: AwsArnParsing.AwsArn
         d_201_valueOrError1_: Wrappers.Result = None
-        d_201_valueOrError1_ = (AwsArnParsing.default__.ParseAwsKmsArn(d_198_keyId_)).MapFailure(AwsKmsUtils.default__.WrapStringToError)
+        d_201_valueOrError1_ = (AwsArnParsing.default__.ParseAwsKmsArn(d_198_keyId_)).MapFailure(default__.WrapStringToError)
         if (d_201_valueOrError1_).IsFailure():
             res = (d_201_valueOrError1_).PropagateFailure()
             return res

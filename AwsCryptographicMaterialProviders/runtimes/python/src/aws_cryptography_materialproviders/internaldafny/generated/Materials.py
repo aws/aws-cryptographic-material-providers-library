@@ -85,7 +85,7 @@ import TestCreateKeys
 import TestVersionKey
 import AlgorithmSuites
 
-assert "Materials" == __name__
+# assert "Materials" == __name__
 Materials = sys.modules[__name__]
 
 class default__:

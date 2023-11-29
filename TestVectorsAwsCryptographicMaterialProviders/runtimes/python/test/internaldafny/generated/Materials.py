@@ -52,8 +52,7 @@ import software_amazon_cryptography_primitives_internaldafny_types
 import software_amazon_cryptography_materialproviders_internaldafny_types
 import AlgorithmSuites
 
-assert "Materials" == __name__
-Materials = sys.modules[__name__]
+# Module: Materials
 
 class default__:
     def  __init__(self):
@@ -64,7 +63,7 @@ class default__:
         pat_let_tv0_ = input
         pat_let_tv1_ = input
         pat_let_tv2_ = input
-        d_13_valueOrError0_ = Wrappers.default__.Need(((Materials.default__).EC__PUBLIC__KEY__FIELD) not in ((input).encryptionContext), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption Context ")))
+        d_13_valueOrError0_ = Wrappers.default__.Need((default__.EC__PUBLIC__KEY__FIELD) not in ((input).encryptionContext), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption Context ")))
         if (d_13_valueOrError0_).IsFailure():
             return (d_13_valueOrError0_).PropagateFailure()
         elif True:
@@ -97,7 +96,7 @@ class default__:
                                             def iife3_(d_23_valueOrError5_):
                                                 def iife4_(_pat_let2_0):
                                                     def iife5_(d_24_enc__vk_):
-                                                        return Wrappers.Result_Success(((pat_let_tv1_).encryptionContext).set((Materials.default__).EC__PUBLIC__KEY__FIELD, d_24_enc__vk_))
+                                                        return Wrappers.Result_Success(((pat_let_tv1_).encryptionContext).set(default__.EC__PUBLIC__KEY__FIELD, d_24_enc__vk_))
                                                     return iife5_(_pat_let2_0)
                                                 return ((d_23_valueOrError5_).PropagateFailure() if (d_23_valueOrError5_).IsFailure() else iife4_((d_23_valueOrError5_).Extract()))
                                             return iife3_(_pat_let1_0)
@@ -130,15 +129,15 @@ class default__:
             return (d_28_valueOrError0_).PropagateFailure()
         elif True:
             d_30_suite_ = AlgorithmSuites.default__.GetSuite((input).algorithmSuiteId)
-            d_31_valueOrError1_ = Wrappers.default__.Need((((d_30_suite_).signature).is_ECDSA) == (((Materials.default__).EC__PUBLIC__KEY__FIELD) in ((input).encryptionContext)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption Context missing verification key.")))
+            d_31_valueOrError1_ = Wrappers.default__.Need((((d_30_suite_).signature).is_ECDSA) == ((default__.EC__PUBLIC__KEY__FIELD) in ((input).encryptionContext)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption Context missing verification key.")))
             if (d_31_valueOrError1_).IsFailure():
                 return (d_31_valueOrError1_).PropagateFailure()
             elif True:
-                d_32_valueOrError2_ = Wrappers.default__.Need((((d_30_suite_).signature).is_None) == (((Materials.default__).EC__PUBLIC__KEY__FIELD) not in ((input).encryptionContext)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Verification key can not exist in non-signed Algorithm Suites.")))
+                d_32_valueOrError2_ = Wrappers.default__.Need((((d_30_suite_).signature).is_None) == ((default__.EC__PUBLIC__KEY__FIELD) not in ((input).encryptionContext)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Verification key can not exist in non-signed Algorithm Suites.")))
                 if (d_32_valueOrError2_).IsFailure():
                     return (d_32_valueOrError2_).PropagateFailure()
                 elif True:
-                    d_33_valueOrError3_ = Materials.default__.DecodeVerificationKey((input).encryptionContext)
+                    d_33_valueOrError3_ = default__.DecodeVerificationKey((input).encryptionContext)
                     if (d_33_valueOrError3_).IsFailure():
                         return (d_33_valueOrError3_).PropagateFailure()
                     elif True:
@@ -147,8 +146,8 @@ class default__:
 
     @staticmethod
     def DecodeVerificationKey(encryptionContext):
-        if ((Materials.default__).EC__PUBLIC__KEY__FIELD) in (encryptionContext):
-            d_35_utf8Key_ = (encryptionContext)[(Materials.default__).EC__PUBLIC__KEY__FIELD]
+        if (default__.EC__PUBLIC__KEY__FIELD) in (encryptionContext):
+            d_35_utf8Key_ = (encryptionContext)[default__.EC__PUBLIC__KEY__FIELD]
             def lambda6_(d_37_e_):
                 return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(d_37_e_)
 
@@ -171,7 +170,7 @@ class default__:
 
     @staticmethod
     def ValidEncryptionMaterialsTransition(oldMat, newMat):
-        return ((((((((((((newMat).algorithmSuite) == ((oldMat).algorithmSuite)) and (((newMat).encryptionContext) == ((oldMat).encryptionContext))) and (((newMat).requiredEncryptionContextKeys) == ((oldMat).requiredEncryptionContextKeys))) and (((newMat).signingKey) == ((oldMat).signingKey))) and (((((oldMat).plaintextDataKey).is_None) and (((newMat).plaintextDataKey).is_Some)) or (((oldMat).plaintextDataKey) == ((newMat).plaintextDataKey)))) and (((newMat).plaintextDataKey).is_Some)) and ((len((oldMat).encryptedDataKeys)) <= (len((newMat).encryptedDataKeys)))) and ((_dafny.MultiSet((oldMat).encryptedDataKeys)).issubset(_dafny.MultiSet((newMat).encryptedDataKeys)))) and (not (not((((oldMat).algorithmSuite).symmetricSignature).is_None)) or (((((newMat).symmetricSigningKeys).is_Some) and (((oldMat).symmetricSigningKeys).is_Some)) and ((_dafny.MultiSet(((oldMat).symmetricSigningKeys).value)).issubset(_dafny.MultiSet(((newMat).symmetricSigningKeys).value)))))) and (Materials.default__.ValidEncryptionMaterials(oldMat))) and (Materials.default__.ValidEncryptionMaterials(newMat))
+        return ((((((((((((newMat).algorithmSuite) == ((oldMat).algorithmSuite)) and (((newMat).encryptionContext) == ((oldMat).encryptionContext))) and (((newMat).requiredEncryptionContextKeys) == ((oldMat).requiredEncryptionContextKeys))) and (((newMat).signingKey) == ((oldMat).signingKey))) and (((((oldMat).plaintextDataKey).is_None) and (((newMat).plaintextDataKey).is_Some)) or (((oldMat).plaintextDataKey) == ((newMat).plaintextDataKey)))) and (((newMat).plaintextDataKey).is_Some)) and ((len((oldMat).encryptedDataKeys)) <= (len((newMat).encryptedDataKeys)))) and ((_dafny.MultiSet((oldMat).encryptedDataKeys)).issubset(_dafny.MultiSet((newMat).encryptedDataKeys)))) and (not (not((((oldMat).algorithmSuite).symmetricSignature).is_None)) or (((((newMat).symmetricSigningKeys).is_Some) and (((oldMat).symmetricSigningKeys).is_Some)) and ((_dafny.MultiSet(((oldMat).symmetricSigningKeys).value)).issubset(_dafny.MultiSet(((newMat).symmetricSigningKeys).value)))))) and (default__.ValidEncryptionMaterials(oldMat))) and (default__.ValidEncryptionMaterials(newMat))
 
     @staticmethod
     def ValidEncryptionMaterials(encryptionMaterials):
@@ -197,17 +196,17 @@ class default__:
                     d_43_key_: _dafny.Seq = forall_var_2_
                     return not ((d_43_key_) in ((pat_let_tv17_).requiredEncryptionContextKeys)) or ((d_43_key_) in ((pat_let_tv18_).encryptionContext))
 
-                return ((((((((((((d_42_suite_).signature).is_None) == (((pat_let_tv3_).signingKey).is_None)) and (not (((pat_let_tv4_).plaintextDataKey).is_Some) or ((AlgorithmSuites.default__.GetEncryptKeyLength(d_42_suite_)) == (len(((pat_let_tv5_).plaintextDataKey).value))))) and (not (((pat_let_tv6_).plaintextDataKey).is_None) or ((len((pat_let_tv7_).encryptedDataKeys)) == (0)))) and ((not(((d_42_suite_).signature).is_None)) == (((Materials.default__).EC__PUBLIC__KEY__FIELD) in ((pat_let_tv8_).encryptionContext)))) and ((((d_42_suite_).signature).is_ECDSA) == (((pat_let_tv9_).signingKey).is_Some))) and ((not(((d_42_suite_).signature).is_None)) == (((Materials.default__).EC__PUBLIC__KEY__FIELD) in ((pat_let_tv10_).encryptionContext)))) and (not ((((d_42_suite_).symmetricSignature).is_HMAC) and (((pat_let_tv11_).symmetricSigningKeys).is_Some)) or ((len(((pat_let_tv12_).symmetricSigningKeys).value)) == (len((pat_let_tv13_).encryptedDataKeys))))) and (not (((d_42_suite_).symmetricSignature).is_HMAC) or (((pat_let_tv14_).symmetricSigningKeys).is_Some))) and (not (((d_42_suite_).symmetricSignature).is_None) or (((pat_let_tv15_).symmetricSigningKeys).is_None))) and (_dafny.quantifier(((pat_let_tv16_).requiredEncryptionContextKeys).UniqueElements, True, lambda8_))
+                return ((((((((((((d_42_suite_).signature).is_None) == (((pat_let_tv3_).signingKey).is_None)) and (not (((pat_let_tv4_).plaintextDataKey).is_Some) or ((AlgorithmSuites.default__.GetEncryptKeyLength(d_42_suite_)) == (len(((pat_let_tv5_).plaintextDataKey).value))))) and (not (((pat_let_tv6_).plaintextDataKey).is_None) or ((len((pat_let_tv7_).encryptedDataKeys)) == (0)))) and ((not(((d_42_suite_).signature).is_None)) == ((default__.EC__PUBLIC__KEY__FIELD) in ((pat_let_tv8_).encryptionContext)))) and ((((d_42_suite_).signature).is_ECDSA) == (((pat_let_tv9_).signingKey).is_Some))) and ((not(((d_42_suite_).signature).is_None)) == ((default__.EC__PUBLIC__KEY__FIELD) in ((pat_let_tv10_).encryptionContext)))) and (not ((((d_42_suite_).symmetricSignature).is_HMAC) and (((pat_let_tv11_).symmetricSigningKeys).is_Some)) or ((len(((pat_let_tv12_).symmetricSigningKeys).value)) == (len((pat_let_tv13_).encryptedDataKeys))))) and (not (((d_42_suite_).symmetricSignature).is_HMAC) or (((pat_let_tv14_).symmetricSigningKeys).is_Some))) and (not (((d_42_suite_).symmetricSignature).is_None) or (((pat_let_tv15_).symmetricSigningKeys).is_None))) and (_dafny.quantifier(((pat_let_tv16_).requiredEncryptionContextKeys).UniqueElements, True, lambda8_))
             return iife9_(_pat_let4_0)
         return (AlgorithmSuites.default__.AlgorithmSuite_q((encryptionMaterials).algorithmSuite)) and (iife8_((encryptionMaterials).algorithmSuite))
 
     @staticmethod
     def EncryptionMaterialsHasPlaintextDataKey(encryptionMaterials):
-        return ((((encryptionMaterials).plaintextDataKey).is_Some) and ((len((encryptionMaterials).encryptedDataKeys)) > (0))) and (Materials.default__.ValidEncryptionMaterials(encryptionMaterials))
+        return ((((encryptionMaterials).plaintextDataKey).is_Some) and ((len((encryptionMaterials).encryptedDataKeys)) > (0))) and (default__.ValidEncryptionMaterials(encryptionMaterials))
 
     @staticmethod
     def EncryptionMaterialAddEncryptedDataKeys(encryptionMaterials, encryptedDataKeysToAdd, symmetricSigningKeysToAdd):
-        d_44_valueOrError0_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterials(encryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Attempt to modify invalid encryption material.")))
+        d_44_valueOrError0_ = Wrappers.default__.Need(default__.ValidEncryptionMaterials(encryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Attempt to modify invalid encryption material.")))
         if (d_44_valueOrError0_).IsFailure():
             return (d_44_valueOrError0_).PropagateFailure()
         elif True:
@@ -229,7 +228,7 @@ class default__:
     @staticmethod
     def EncryptionMaterialAddDataKey(encryptionMaterials, plaintextDataKey, encryptedDataKeysToAdd, symmetricSigningKeysToAdd):
         d_49_suite_ = (encryptionMaterials).algorithmSuite
-        d_50_valueOrError0_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterials(encryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Attempt to modify invalid encryption material.")))
+        d_50_valueOrError0_ = Wrappers.default__.Need(default__.ValidEncryptionMaterials(encryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Attempt to modify invalid encryption material.")))
         if (d_50_valueOrError0_).IsFailure():
             return (d_50_valueOrError0_).PropagateFailure()
         elif True:
@@ -254,7 +253,7 @@ class default__:
 
     @staticmethod
     def DecryptionMaterialsTransitionIsValid(oldMat, newMat):
-        return ((((((((((newMat).algorithmSuite) == ((oldMat).algorithmSuite)) and (((newMat).encryptionContext) == ((oldMat).encryptionContext))) and (((newMat).requiredEncryptionContextKeys) == ((oldMat).requiredEncryptionContextKeys))) and (((newMat).verificationKey) == ((oldMat).verificationKey))) and (((oldMat).plaintextDataKey).is_None)) and (((newMat).plaintextDataKey).is_Some)) and (((oldMat).symmetricSigningKey).is_None)) and (Materials.default__.ValidDecryptionMaterials(oldMat))) and (Materials.default__.ValidDecryptionMaterials(newMat))
+        return ((((((((((newMat).algorithmSuite) == ((oldMat).algorithmSuite)) and (((newMat).encryptionContext) == ((oldMat).encryptionContext))) and (((newMat).requiredEncryptionContextKeys) == ((oldMat).requiredEncryptionContextKeys))) and (((newMat).verificationKey) == ((oldMat).verificationKey))) and (((oldMat).plaintextDataKey).is_None)) and (((newMat).plaintextDataKey).is_Some)) and (((oldMat).symmetricSigningKey).is_None)) and (default__.ValidDecryptionMaterials(oldMat))) and (default__.ValidDecryptionMaterials(newMat))
 
     @staticmethod
     def ValidDecryptionMaterials(decryptionMaterials):
@@ -275,14 +274,14 @@ class default__:
                     d_57_k_: _dafny.Seq = forall_var_3_
                     return not ((d_57_k_) in ((pat_let_tv28_).requiredEncryptionContextKeys)) or ((d_57_k_) in ((pat_let_tv29_).encryptionContext))
 
-                return ((((((not (((pat_let_tv19_).plaintextDataKey).is_Some) or ((AlgorithmSuites.default__.GetEncryptKeyLength(d_56_suite_)) == (len(((pat_let_tv20_).plaintextDataKey).value)))) and ((not(((d_56_suite_).signature).is_None)) == (((Materials.default__).EC__PUBLIC__KEY__FIELD) in ((pat_let_tv21_).encryptionContext)))) and ((((d_56_suite_).signature).is_ECDSA) == (((pat_let_tv22_).verificationKey).is_Some))) and ((not(((d_56_suite_).signature).is_None)) == (((Materials.default__).EC__PUBLIC__KEY__FIELD) in ((pat_let_tv23_).encryptionContext)))) and (not (not(((d_56_suite_).symmetricSignature).is_None)) or ((((pat_let_tv24_).plaintextDataKey).is_Some) == (((pat_let_tv25_).symmetricSigningKey).is_Some)))) and (not (((d_56_suite_).symmetricSignature).is_None) or (((pat_let_tv26_).symmetricSigningKey).is_None))) and (_dafny.quantifier(((pat_let_tv27_).requiredEncryptionContextKeys).UniqueElements, True, lambda9_))
+                return ((((((not (((pat_let_tv19_).plaintextDataKey).is_Some) or ((AlgorithmSuites.default__.GetEncryptKeyLength(d_56_suite_)) == (len(((pat_let_tv20_).plaintextDataKey).value)))) and ((not(((d_56_suite_).signature).is_None)) == ((default__.EC__PUBLIC__KEY__FIELD) in ((pat_let_tv21_).encryptionContext)))) and ((((d_56_suite_).signature).is_ECDSA) == (((pat_let_tv22_).verificationKey).is_Some))) and ((not(((d_56_suite_).signature).is_None)) == ((default__.EC__PUBLIC__KEY__FIELD) in ((pat_let_tv23_).encryptionContext)))) and (not (not(((d_56_suite_).symmetricSignature).is_None)) or ((((pat_let_tv24_).plaintextDataKey).is_Some) == (((pat_let_tv25_).symmetricSigningKey).is_Some)))) and (not (((d_56_suite_).symmetricSignature).is_None) or (((pat_let_tv26_).symmetricSigningKey).is_None))) and (_dafny.quantifier(((pat_let_tv27_).requiredEncryptionContextKeys).UniqueElements, True, lambda9_))
             return iife11_(_pat_let5_0)
         return (AlgorithmSuites.default__.AlgorithmSuite_q((decryptionMaterials).algorithmSuite)) and (iife10_((decryptionMaterials).algorithmSuite))
 
     @staticmethod
     def DecryptionMaterialsAddDataKey(decryptionMaterials, plaintextDataKey, symmetricSigningKey):
         d_58_suite_ = (decryptionMaterials).algorithmSuite
-        d_59_valueOrError0_ = Wrappers.default__.Need(Materials.default__.ValidDecryptionMaterials(decryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("Attempt to modify invalid decryption material.")))
+        d_59_valueOrError0_ = Wrappers.default__.Need(default__.ValidDecryptionMaterials(decryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("Attempt to modify invalid decryption material.")))
         if (d_59_valueOrError0_).IsFailure():
             return (d_59_valueOrError0_).PropagateFailure()
         elif True:
@@ -306,11 +305,11 @@ class default__:
 
     @staticmethod
     def DecryptionMaterialsWithoutPlaintextDataKey(decryptionMaterials):
-        return (((decryptionMaterials).plaintextDataKey).is_None) and (Materials.default__.ValidDecryptionMaterials(decryptionMaterials))
+        return (((decryptionMaterials).plaintextDataKey).is_None) and (default__.ValidDecryptionMaterials(decryptionMaterials))
 
     @staticmethod
     def DecryptionMaterialsWithPlaintextDataKey(decryptionMaterials):
-        return (((decryptionMaterials).plaintextDataKey).is_Some) and (Materials.default__.ValidDecryptionMaterials(decryptionMaterials))
+        return (((decryptionMaterials).plaintextDataKey).is_Some) and (default__.ValidDecryptionMaterials(decryptionMaterials))
 
     @_dafny.classproperty
     def EC__PUBLIC__KEY__FIELD(instance):
@@ -318,7 +317,7 @@ class default__:
         return d_64_s_
     @_dafny.classproperty
     def RESERVED__KEY__VALUES(instance):
-        return _dafny.Set({(Materials.default__).EC__PUBLIC__KEY__FIELD})
+        return _dafny.Set({default__.EC__PUBLIC__KEY__FIELD})
 
 class DecryptionMaterialsPendingPlaintextDataKey:
     def  __init__(self):
@@ -326,7 +325,7 @@ class DecryptionMaterialsPendingPlaintextDataKey:
 
     @staticmethod
     def default():
-        return software_amazon_cryptography_materialproviders_internaldafny_types.DecryptionMaterials_DecryptionMaterials.default()()
+        return software_amazon_cryptography_materialproviders_internaldafny_types.DecryptionMaterials.default()()
 
 class SealedDecryptionMaterials:
     def  __init__(self):
@@ -334,4 +333,4 @@ class SealedDecryptionMaterials:
 
     @staticmethod
     def default():
-        return software_amazon_cryptography_materialproviders_internaldafny_types.DecryptionMaterials_DecryptionMaterials.default()()
+        return software_amazon_cryptography_materialproviders_internaldafny_types.DecryptionMaterials.default()()

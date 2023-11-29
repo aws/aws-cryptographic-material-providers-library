@@ -59,8 +59,7 @@ import AwsKmsMrkAreUnique
 import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
 
-assert "Constants" == __name__
-Constants = sys.modules[__name__]
+# Module: Constants
 
 class default__:
     def  __init__(self):
@@ -85,23 +84,23 @@ class AwsKmsEncryptedDataKey:
 
     @staticmethod
     def default():
-        return software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey_EncryptedDataKey.default()()
+        return software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey.default()()
 
 class AwsKmsEdkHelper:
     @classmethod
     def default(cls, ):
-        return lambda: AwsKmsEdkHelper_AwsKmsEdkHelper(software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey_EncryptedDataKey.default()(), AwsArnParsing.AwsArn_AwsArn.default()())
+        return lambda: AwsKmsEdkHelper_AwsKmsEdkHelper(software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey.default()(), AwsArnParsing.AwsArn.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_AwsKmsEdkHelper(self) -> bool:
-        return isinstance(self, Constants.AwsKmsEdkHelper_AwsKmsEdkHelper)
+        return isinstance(self, AwsKmsEdkHelper_AwsKmsEdkHelper)
 
 class AwsKmsEdkHelper_AwsKmsEdkHelper(AwsKmsEdkHelper, NamedTuple('AwsKmsEdkHelper', [('edk', Any), ('arn', Any)])):
     def __dafnystr__(self) -> str:
         return f'Constants.AwsKmsEdkHelper.AwsKmsEdkHelper({_dafny.string_of(self.edk)}, {_dafny.string_of(self.arn)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, Constants.AwsKmsEdkHelper_AwsKmsEdkHelper) and self.edk == __o.edk and self.arn == __o.arn
+        return isinstance(__o, AwsKmsEdkHelper_AwsKmsEdkHelper) and self.edk == __o.edk and self.arn == __o.arn
     def __hash__(self) -> int:
         return super().__hash__()
 

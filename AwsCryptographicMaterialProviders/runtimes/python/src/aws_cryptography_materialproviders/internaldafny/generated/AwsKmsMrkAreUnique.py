@@ -88,7 +88,7 @@ import Materials
 import Keyring
 import MultiKeyring
 
-assert "AwsKmsMrkAreUnique" == __name__
+# assert "AwsKmsMrkAreUnique" == __name__
 AwsKmsMrkAreUnique = sys.modules[__name__]
 
 class default__:

@@ -115,7 +115,7 @@ import RawRSAKeyring
 import CMM
 import Defaults
 
-assert "Commitment" == __name__
+# assert "Commitment" == __name__
 Commitment = sys.modules[__name__]
 
 class default__:

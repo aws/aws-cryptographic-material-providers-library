@@ -55,7 +55,7 @@ import software_amazon_cryptography_materialproviders_internaldafny_types
 import AwsArnParsing
 import AwsKmsMrkMatchForDecrypt
 
-assert "AwsKmsUtils" == __name__
+# assert "AwsKmsUtils" == __name__
 AwsKmsUtils = sys.modules[__name__]
 
 class default__:

@@ -79,7 +79,7 @@ import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
 
-assert "TestConfig" == __name__
+# assert "TestConfig" == __name__
 TestConfig = sys.modules[__name__]
 
 class default__:

@@ -160,8 +160,7 @@ import JSON_mAPI
 import JSON
 import JSONHelpers
 
-assert "KeyDescription" == __name__
-KeyDescription = sys.modules[__name__]
+# Module: KeyDescription
 
 class default__:
     def  __init__(self):
@@ -189,126 +188,126 @@ class default__:
 
     @staticmethod
     def ToKeyDescription(obj):
-        d_1412_valueOrError0_ = Wrappers.default__.Need((obj).is_Object, _dafny.Seq("KeyDescription not an object"))
-        if (d_1412_valueOrError0_).IsFailure():
-            return (d_1412_valueOrError0_).PropagateFailure()
+        d_1414_valueOrError0_ = Wrappers.default__.Need((obj).is_Object, _dafny.Seq("KeyDescription not an object"))
+        if (d_1414_valueOrError0_).IsFailure():
+            return (d_1414_valueOrError0_).PropagateFailure()
         elif True:
-            d_1413_obj_ = (obj).obj
-            d_1414_typString_ = _dafny.Seq("type")
-            d_1415_valueOrError1_ = JSONHelpers.default__.GetString(d_1414_typString_, d_1413_obj_)
-            if (d_1415_valueOrError1_).IsFailure():
-                return (d_1415_valueOrError1_).PropagateFailure()
+            d_1415_obj_ = (obj).obj
+            d_1416_typString_ = _dafny.Seq("type")
+            d_1417_valueOrError1_ = JSONHelpers.default__.GetString(d_1416_typString_, d_1415_obj_)
+            if (d_1417_valueOrError1_).IsFailure():
+                return (d_1417_valueOrError1_).PropagateFailure()
             elif True:
-                d_1416_typ_ = (d_1415_valueOrError1_).Extract()
-                d_1417_valueOrError2_ = Wrappers.default__.Need(KeyDescription.default__.KeyDescriptionString_q(d_1416_typ_), (_dafny.Seq("Unsupported KeyDescription type:")) + (d_1416_typ_))
-                if (d_1417_valueOrError2_).IsFailure():
-                    return (d_1417_valueOrError2_).PropagateFailure()
+                d_1418_typ_ = (d_1417_valueOrError1_).Extract()
+                d_1419_valueOrError2_ = Wrappers.default__.Need(default__.KeyDescriptionString_q(d_1418_typ_), (_dafny.Seq("Unsupported KeyDescription type:")) + (d_1418_typ_))
+                if (d_1419_valueOrError2_).IsFailure():
+                    return (d_1419_valueOrError2_).PropagateFailure()
                 elif True:
-                    if (d_1416_typ_) == (_dafny.Seq("aws-kms-mrk-aware-discovery")):
-                        d_1418_valueOrError3_ = JSONHelpers.default__.GetString(_dafny.Seq("default-mrk-region"), d_1413_obj_)
-                        if (d_1418_valueOrError3_).IsFailure():
-                            return (d_1418_valueOrError3_).PropagateFailure()
+                    if (d_1418_typ_) == (_dafny.Seq("aws-kms-mrk-aware-discovery")):
+                        d_1420_valueOrError3_ = JSONHelpers.default__.GetString(_dafny.Seq("default-mrk-region"), d_1415_obj_)
+                        if (d_1420_valueOrError3_).IsFailure():
+                            return (d_1420_valueOrError3_).PropagateFailure()
                         elif True:
-                            d_1419_defaultMrkRegion_ = (d_1418_valueOrError3_).Extract()
-                            d_1420_filter_ = JSONHelpers.default__.GetObject(_dafny.Seq("aws-kms-discovery-filter"), d_1413_obj_)
-                            d_1421_awsKmsDiscoveryFilter_ = KeyDescription.default__.ToDiscoveryFilter(d_1413_obj_)
-                            return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_KmsMrkDiscovery(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KmsMrkAwareDiscovery_KmsMrkAwareDiscovery(_dafny.Seq("aws-kms-mrk-aware-discovery"), d_1419_defaultMrkRegion_, d_1421_awsKmsDiscoveryFilter_)))
+                            d_1421_defaultMrkRegion_ = (d_1420_valueOrError3_).Extract()
+                            d_1422_filter_ = JSONHelpers.default__.GetObject(_dafny.Seq("aws-kms-discovery-filter"), d_1415_obj_)
+                            d_1423_awsKmsDiscoveryFilter_ = default__.ToDiscoveryFilter(d_1415_obj_)
+                            return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_KmsMrkDiscovery(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KmsMrkAwareDiscovery_KmsMrkAwareDiscovery(_dafny.Seq("aws-kms-mrk-aware-discovery"), d_1421_defaultMrkRegion_, d_1423_awsKmsDiscoveryFilter_)))
                     elif True:
-                        d_1422_valueOrError4_ = JSONHelpers.default__.GetString(_dafny.Seq("key"), d_1413_obj_)
-                        if (d_1422_valueOrError4_).IsFailure():
-                            return (d_1422_valueOrError4_).PropagateFailure()
+                        d_1424_valueOrError4_ = JSONHelpers.default__.GetString(_dafny.Seq("key"), d_1415_obj_)
+                        if (d_1424_valueOrError4_).IsFailure():
+                            return (d_1424_valueOrError4_).PropagateFailure()
                         elif True:
-                            d_1423_key_ = (d_1422_valueOrError4_).Extract()
-                            if (d_1416_typ_) == (_dafny.Seq("static-material-keyring")):
-                                return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Static(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.StaticKeyring_StaticKeyring(d_1423_key_)))
-                            elif (d_1416_typ_) == (_dafny.Seq("aws-kms")):
-                                return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Kms(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KMSInfo_KMSInfo(d_1423_key_)))
-                            elif (d_1416_typ_) == (_dafny.Seq("aws-kms-mrk-aware")):
-                                return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_KmsMrk(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KmsMrkAware_KmsMrkAware(d_1423_key_)))
-                            elif (d_1416_typ_) == (_dafny.Seq("aws-kms-rsa")):
-                                d_1424_valueOrError5_ = JSONHelpers.default__.GetString(_dafny.Seq("encryption-algorithm"), d_1413_obj_)
-                                if (d_1424_valueOrError5_).IsFailure():
-                                    return (d_1424_valueOrError5_).PropagateFailure()
+                            d_1425_key_ = (d_1424_valueOrError4_).Extract()
+                            if (d_1418_typ_) == (_dafny.Seq("static-material-keyring")):
+                                return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Static(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.StaticKeyring_StaticKeyring(d_1425_key_)))
+                            elif (d_1418_typ_) == (_dafny.Seq("aws-kms")):
+                                return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Kms(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KMSInfo_KMSInfo(d_1425_key_)))
+                            elif (d_1418_typ_) == (_dafny.Seq("aws-kms-mrk-aware")):
+                                return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_KmsMrk(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KmsMrkAware_KmsMrkAware(d_1425_key_)))
+                            elif (d_1418_typ_) == (_dafny.Seq("aws-kms-rsa")):
+                                d_1426_valueOrError5_ = JSONHelpers.default__.GetString(_dafny.Seq("encryption-algorithm"), d_1415_obj_)
+                                if (d_1426_valueOrError5_).IsFailure():
+                                    return (d_1426_valueOrError5_).PropagateFailure()
                                 elif True:
-                                    d_1425_encryptionAlgorithmString_ = (d_1424_valueOrError5_).Extract()
-                                    d_1426_valueOrError6_ = Wrappers.default__.Need(KeyDescription.default__.EncryptionAlgorithmSpec_q(d_1425_encryptionAlgorithmString_), (_dafny.Seq("Unsupported EncryptionAlgorithmSpec:")) + (d_1425_encryptionAlgorithmString_))
-                                    if (d_1426_valueOrError6_).IsFailure():
-                                        return (d_1426_valueOrError6_).PropagateFailure()
+                                    d_1427_encryptionAlgorithmString_ = (d_1426_valueOrError5_).Extract()
+                                    d_1428_valueOrError6_ = Wrappers.default__.Need(default__.EncryptionAlgorithmSpec_q(d_1427_encryptionAlgorithmString_), (_dafny.Seq("Unsupported EncryptionAlgorithmSpec:")) + (d_1427_encryptionAlgorithmString_))
+                                    if (d_1428_valueOrError6_).IsFailure():
+                                        return (d_1428_valueOrError6_).PropagateFailure()
                                     elif True:
-                                        d_1427_encryptionAlgorithm_ = (software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec_RSAES__OAEP__SHA__1() if (d_1425_encryptionAlgorithmString_) == (_dafny.Seq("RSAES_OAEP_SHA_1")) else software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec_RSAES__OAEP__SHA__256())
-                                        return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_KmsRsa(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KmsRsaKeyring_KmsRsaKeyring(d_1423_key_, d_1427_encryptionAlgorithm_)))
-                            elif (d_1416_typ_) == (_dafny.Seq("aws-kms-hierarchy")):
-                                return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Hierarchy(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.HierarchyKeyring_HierarchyKeyring(d_1423_key_)))
+                                        d_1429_encryptionAlgorithm_ = (software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec_RSAES__OAEP__SHA__1() if (d_1427_encryptionAlgorithmString_) == (_dafny.Seq("RSAES_OAEP_SHA_1")) else software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec_RSAES__OAEP__SHA__256())
+                                        return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_KmsRsa(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KmsRsaKeyring_KmsRsaKeyring(d_1425_key_, d_1429_encryptionAlgorithm_)))
+                            elif (d_1418_typ_) == (_dafny.Seq("aws-kms-hierarchy")):
+                                return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Hierarchy(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.HierarchyKeyring_HierarchyKeyring(d_1425_key_)))
                             elif True:
-                                d_1428_valueOrError7_ = JSONHelpers.default__.GetString(_dafny.Seq("encryption-algorithm"), d_1413_obj_)
-                                if (d_1428_valueOrError7_).IsFailure():
-                                    return (d_1428_valueOrError7_).PropagateFailure()
+                                d_1430_valueOrError7_ = JSONHelpers.default__.GetString(_dafny.Seq("encryption-algorithm"), d_1415_obj_)
+                                if (d_1430_valueOrError7_).IsFailure():
+                                    return (d_1430_valueOrError7_).PropagateFailure()
                                 elif True:
-                                    d_1429_algorithm_ = (d_1428_valueOrError7_).Extract()
-                                    d_1430_valueOrError8_ = JSONHelpers.default__.GetString(_dafny.Seq("provider-id"), d_1413_obj_)
-                                    if (d_1430_valueOrError8_).IsFailure():
-                                        return (d_1430_valueOrError8_).PropagateFailure()
+                                    d_1431_algorithm_ = (d_1430_valueOrError7_).Extract()
+                                    d_1432_valueOrError8_ = JSONHelpers.default__.GetString(_dafny.Seq("provider-id"), d_1415_obj_)
+                                    if (d_1432_valueOrError8_).IsFailure():
+                                        return (d_1432_valueOrError8_).PropagateFailure()
                                     elif True:
-                                        d_1431_providerId_ = (d_1430_valueOrError8_).Extract()
-                                        d_1432_valueOrError9_ = Wrappers.default__.Need(KeyDescription.default__.RawAlgorithmString_q(d_1429_algorithm_), (_dafny.Seq("Unsupported algorithm:")) + (d_1429_algorithm_))
-                                        if (d_1432_valueOrError9_).IsFailure():
-                                            return (d_1432_valueOrError9_).PropagateFailure()
+                                        d_1433_providerId_ = (d_1432_valueOrError8_).Extract()
+                                        d_1434_valueOrError9_ = Wrappers.default__.Need(default__.RawAlgorithmString_q(d_1431_algorithm_), (_dafny.Seq("Unsupported algorithm:")) + (d_1431_algorithm_))
+                                        if (d_1434_valueOrError9_).IsFailure():
+                                            return (d_1434_valueOrError9_).PropagateFailure()
                                         elif True:
-                                            if (d_1429_algorithm_) == (_dafny.Seq("aes")):
-                                                return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_AES(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawAES_RawAES(d_1423_key_, d_1431_providerId_)))
+                                            if (d_1431_algorithm_) == (_dafny.Seq("aes")):
+                                                return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_AES(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawAES_RawAES(d_1425_key_, d_1433_providerId_)))
                                             elif True:
-                                                d_1433_valueOrError10_ = JSONHelpers.default__.GetString(_dafny.Seq("padding-algorithm"), d_1413_obj_)
-                                                if (d_1433_valueOrError10_).IsFailure():
-                                                    return (d_1433_valueOrError10_).PropagateFailure()
+                                                d_1435_valueOrError10_ = JSONHelpers.default__.GetString(_dafny.Seq("padding-algorithm"), d_1415_obj_)
+                                                if (d_1435_valueOrError10_).IsFailure():
+                                                    return (d_1435_valueOrError10_).PropagateFailure()
                                                 elif True:
-                                                    d_1434_paddingAlgorithm_ = (d_1433_valueOrError10_).Extract()
-                                                    d_1435_valueOrError11_ = JSONHelpers.default__.GetString(_dafny.Seq("padding-hash"), d_1413_obj_)
-                                                    if (d_1435_valueOrError11_).IsFailure():
-                                                        return (d_1435_valueOrError11_).PropagateFailure()
+                                                    d_1436_paddingAlgorithm_ = (d_1435_valueOrError10_).Extract()
+                                                    d_1437_valueOrError11_ = JSONHelpers.default__.GetString(_dafny.Seq("padding-hash"), d_1415_obj_)
+                                                    if (d_1437_valueOrError11_).IsFailure():
+                                                        return (d_1437_valueOrError11_).PropagateFailure()
                                                     elif True:
-                                                        d_1436_paddingHash_ = (d_1435_valueOrError11_).Extract()
-                                                        d_1437_valueOrError12_ = Wrappers.default__.Need(KeyDescription.default__.PaddingAlgorithmString_q(d_1434_paddingAlgorithm_), (_dafny.Seq("Unsupported paddingAlgorithm:")) + (d_1434_paddingAlgorithm_))
-                                                        if (d_1437_valueOrError12_).IsFailure():
-                                                            return (d_1437_valueOrError12_).PropagateFailure()
+                                                        d_1438_paddingHash_ = (d_1437_valueOrError11_).Extract()
+                                                        d_1439_valueOrError12_ = Wrappers.default__.Need(default__.PaddingAlgorithmString_q(d_1436_paddingAlgorithm_), (_dafny.Seq("Unsupported paddingAlgorithm:")) + (d_1436_paddingAlgorithm_))
+                                                        if (d_1439_valueOrError12_).IsFailure():
+                                                            return (d_1439_valueOrError12_).PropagateFailure()
                                                         elif True:
-                                                            d_1438_valueOrError13_ = Wrappers.default__.Need(KeyDescription.default__.PaddingHashString_q(d_1436_paddingHash_), (_dafny.Seq("Unsupported paddingHash:")) + (d_1436_paddingHash_))
-                                                            if (d_1438_valueOrError13_).IsFailure():
-                                                                return (d_1438_valueOrError13_).PropagateFailure()
+                                                            d_1440_valueOrError13_ = Wrappers.default__.Need(default__.PaddingHashString_q(d_1438_paddingHash_), (_dafny.Seq("Unsupported paddingHash:")) + (d_1438_paddingHash_))
+                                                            if (d_1440_valueOrError13_).IsFailure():
+                                                                return (d_1440_valueOrError13_).PropagateFailure()
                                                             elif True:
-                                                                if (d_1434_paddingAlgorithm_) == (_dafny.Seq("pkcs1")):
-                                                                    d_1439_valueOrError14_ = Wrappers.default__.Need((d_1436_paddingHash_) == (_dafny.Seq("sha1")), (_dafny.Seq("Unsupported padding with pkcs1:")) + (d_1436_paddingHash_))
-                                                                    if (d_1439_valueOrError14_).IsFailure():
-                                                                        return (d_1439_valueOrError14_).PropagateFailure()
+                                                                if (d_1436_paddingAlgorithm_) == (_dafny.Seq("pkcs1")):
+                                                                    d_1441_valueOrError14_ = Wrappers.default__.Need((d_1438_paddingHash_) == (_dafny.Seq("sha1")), (_dafny.Seq("Unsupported padding with pkcs1:")) + (d_1438_paddingHash_))
+                                                                    if (d_1441_valueOrError14_).IsFailure():
+                                                                        return (d_1441_valueOrError14_).PropagateFailure()
                                                                     elif True:
-                                                                        return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_RSA(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawRSA_RawRSA(d_1423_key_, d_1431_providerId_, software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme_PKCS1())))
+                                                                        return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_RSA(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawRSA_RawRSA(d_1425_key_, d_1433_providerId_, software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme_PKCS1())))
                                                                 elif True:
-                                                                    if (d_1436_paddingHash_) == (_dafny.Seq("sha1")):
-                                                                        return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_RSA(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawRSA_RawRSA(d_1423_key_, d_1431_providerId_, software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme_OAEP__SHA1__MGF1())))
-                                                                    elif (d_1436_paddingHash_) == (_dafny.Seq("sha256")):
-                                                                        return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_RSA(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawRSA_RawRSA(d_1423_key_, d_1431_providerId_, software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme_OAEP__SHA256__MGF1())))
-                                                                    elif (d_1436_paddingHash_) == (_dafny.Seq("sha384")):
-                                                                        return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_RSA(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawRSA_RawRSA(d_1423_key_, d_1431_providerId_, software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme_OAEP__SHA384__MGF1())))
+                                                                    if (d_1438_paddingHash_) == (_dafny.Seq("sha1")):
+                                                                        return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_RSA(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawRSA_RawRSA(d_1425_key_, d_1433_providerId_, software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme_OAEP__SHA1__MGF1())))
+                                                                    elif (d_1438_paddingHash_) == (_dafny.Seq("sha256")):
+                                                                        return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_RSA(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawRSA_RawRSA(d_1425_key_, d_1433_providerId_, software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme_OAEP__SHA256__MGF1())))
+                                                                    elif (d_1438_paddingHash_) == (_dafny.Seq("sha384")):
+                                                                        return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_RSA(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawRSA_RawRSA(d_1425_key_, d_1433_providerId_, software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme_OAEP__SHA384__MGF1())))
                                                                     elif True:
-                                                                        return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_RSA(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawRSA_RawRSA(d_1423_key_, d_1431_providerId_, software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme_OAEP__SHA512__MGF1())))
+                                                                        return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_RSA(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawRSA_RawRSA(d_1425_key_, d_1433_providerId_, software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme_OAEP__SHA512__MGF1())))
 
     @staticmethod
     def ToDiscoveryFilter(obj):
-        d_1440_valueOrError0_ = (JSONHelpers.default__.GetObject(_dafny.Seq("aws-kms-discovery-filter"), obj)).ToOption()
-        if (d_1440_valueOrError0_).IsFailure():
-            return (d_1440_valueOrError0_).PropagateFailure()
+        d_1442_valueOrError0_ = (JSONHelpers.default__.GetObject(_dafny.Seq("aws-kms-discovery-filter"), obj)).ToOption()
+        if (d_1442_valueOrError0_).IsFailure():
+            return (d_1442_valueOrError0_).PropagateFailure()
         elif True:
-            d_1441_filter_ = (d_1440_valueOrError0_).Extract()
-            d_1442_valueOrError1_ = (JSONHelpers.default__.GetString(_dafny.Seq("partition"), d_1441_filter_)).ToOption()
-            if (d_1442_valueOrError1_).IsFailure():
-                return (d_1442_valueOrError1_).PropagateFailure()
+            d_1443_filter_ = (d_1442_valueOrError0_).Extract()
+            d_1444_valueOrError1_ = (JSONHelpers.default__.GetString(_dafny.Seq("partition"), d_1443_filter_)).ToOption()
+            if (d_1444_valueOrError1_).IsFailure():
+                return (d_1444_valueOrError1_).PropagateFailure()
             elif True:
-                d_1443_partition_ = (d_1442_valueOrError1_).Extract()
-                d_1444_valueOrError2_ = (JSONHelpers.default__.GetArrayString(_dafny.Seq("account-ids"), d_1441_filter_)).ToOption()
-                if (d_1444_valueOrError2_).IsFailure():
-                    return (d_1444_valueOrError2_).PropagateFailure()
+                d_1445_partition_ = (d_1444_valueOrError1_).Extract()
+                d_1446_valueOrError2_ = (JSONHelpers.default__.GetArrayString(_dafny.Seq("account-ids"), d_1443_filter_)).ToOption()
+                if (d_1446_valueOrError2_).IsFailure():
+                    return (d_1446_valueOrError2_).PropagateFailure()
                 elif True:
-                    d_1445_accountIds_ = (d_1444_valueOrError2_).Extract()
-                    return Wrappers.Option_Some(software_amazon_cryptography_materialproviders_internaldafny_types.DiscoveryFilter_DiscoveryFilter(d_1445_accountIds_, d_1443_partition_))
+                    d_1447_accountIds_ = (d_1446_valueOrError2_).Extract()
+                    return Wrappers.Option_Some(software_amazon_cryptography_materialproviders_internaldafny_types.DiscoveryFilter_DiscoveryFilter(d_1447_accountIds_, d_1445_partition_))
 
     @staticmethod
     def KeyDescriptionString_q(s):

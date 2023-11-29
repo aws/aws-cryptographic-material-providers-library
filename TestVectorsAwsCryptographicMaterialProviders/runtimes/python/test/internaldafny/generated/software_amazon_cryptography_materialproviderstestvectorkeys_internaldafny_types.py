@@ -116,8 +116,7 @@ import CreateRawAesKeyrings
 import CreateRawRsaKeyrings
 import CreateKeyrings
 
-assert "software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types" == __name__
-software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types = sys.modules[__name__]
+# Module: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types
 
 
 class DafnyCallEvent:
@@ -128,13 +127,13 @@ class DafnyCallEvent:
         return not self.__eq__(__o)
     @property
     def is_DafnyCallEvent(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.DafnyCallEvent_DafnyCallEvent)
+        return isinstance(self, DafnyCallEvent_DafnyCallEvent)
 
 class DafnyCallEvent_DafnyCallEvent(DafnyCallEvent, NamedTuple('DafnyCallEvent', [('input', Any), ('output', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.DafnyCallEvent.DafnyCallEvent({_dafny.string_of(self.input)}, {_dafny.string_of(self.output)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.DafnyCallEvent_DafnyCallEvent) and self.input == __o.input and self.output == __o.output
+        return isinstance(__o, DafnyCallEvent_DafnyCallEvent) and self.input == __o.input and self.output == __o.output
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -147,13 +146,13 @@ class GetKeyDescriptionInput:
         return not self.__eq__(__o)
     @property
     def is_GetKeyDescriptionInput(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.GetKeyDescriptionInput_GetKeyDescriptionInput)
+        return isinstance(self, GetKeyDescriptionInput_GetKeyDescriptionInput)
 
 class GetKeyDescriptionInput_GetKeyDescriptionInput(GetKeyDescriptionInput, NamedTuple('GetKeyDescriptionInput', [('json', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.GetKeyDescriptionInput.GetKeyDescriptionInput({_dafny.string_of(self.json)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.GetKeyDescriptionInput_GetKeyDescriptionInput) and self.json == __o.json
+        return isinstance(__o, GetKeyDescriptionInput_GetKeyDescriptionInput) and self.json == __o.json
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -161,18 +160,18 @@ class GetKeyDescriptionInput_GetKeyDescriptionInput(GetKeyDescriptionInput, Name
 class GetKeyDescriptionOutput:
     @classmethod
     def default(cls, ):
-        return lambda: GetKeyDescriptionOutput_GetKeyDescriptionOutput(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Kms.default()())
+        return lambda: GetKeyDescriptionOutput_GetKeyDescriptionOutput(KeyDescription.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_GetKeyDescriptionOutput(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.GetKeyDescriptionOutput_GetKeyDescriptionOutput)
+        return isinstance(self, GetKeyDescriptionOutput_GetKeyDescriptionOutput)
 
 class GetKeyDescriptionOutput_GetKeyDescriptionOutput(GetKeyDescriptionOutput, NamedTuple('GetKeyDescriptionOutput', [('keyDescription', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.GetKeyDescriptionOutput.GetKeyDescriptionOutput({_dafny.string_of(self.keyDescription)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.GetKeyDescriptionOutput_GetKeyDescriptionOutput) and self.keyDescription == __o.keyDescription
+        return isinstance(__o, GetKeyDescriptionOutput_GetKeyDescriptionOutput) and self.keyDescription == __o.keyDescription
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -185,13 +184,13 @@ class HierarchyKeyring:
         return not self.__eq__(__o)
     @property
     def is_HierarchyKeyring(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.HierarchyKeyring_HierarchyKeyring)
+        return isinstance(self, HierarchyKeyring_HierarchyKeyring)
 
 class HierarchyKeyring_HierarchyKeyring(HierarchyKeyring, NamedTuple('HierarchyKeyring', [('keyId', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.HierarchyKeyring.HierarchyKeyring({_dafny.string_of(self.keyId)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.HierarchyKeyring_HierarchyKeyring) and self.keyId == __o.keyId
+        return isinstance(__o, HierarchyKeyring_HierarchyKeyring) and self.keyId == __o.keyId
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -199,39 +198,39 @@ class HierarchyKeyring_HierarchyKeyring(HierarchyKeyring, NamedTuple('HierarchyK
 class KeyDescription:
     @classmethod
     def default(cls, ):
-        return lambda: KeyDescription_Kms(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KMSInfo_KMSInfo.default()())
+        return lambda: KeyDescription_Kms(KMSInfo.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_Kms(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Kms)
+        return isinstance(self, KeyDescription_Kms)
     @property
     def is_KmsMrk(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_KmsMrk)
+        return isinstance(self, KeyDescription_KmsMrk)
     @property
     def is_KmsMrkDiscovery(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_KmsMrkDiscovery)
+        return isinstance(self, KeyDescription_KmsMrkDiscovery)
     @property
     def is_RSA(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_RSA)
+        return isinstance(self, KeyDescription_RSA)
     @property
     def is_AES(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_AES)
+        return isinstance(self, KeyDescription_AES)
     @property
     def is_Static(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Static)
+        return isinstance(self, KeyDescription_Static)
     @property
     def is_KmsRsa(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_KmsRsa)
+        return isinstance(self, KeyDescription_KmsRsa)
     @property
     def is_Hierarchy(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Hierarchy)
+        return isinstance(self, KeyDescription_Hierarchy)
 
 class KeyDescription_Kms(KeyDescription, NamedTuple('Kms', [('Kms', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription.Kms({_dafny.string_of(self.Kms)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Kms) and self.Kms == __o.Kms
+        return isinstance(__o, KeyDescription_Kms) and self.Kms == __o.Kms
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -239,7 +238,7 @@ class KeyDescription_KmsMrk(KeyDescription, NamedTuple('KmsMrk', [('KmsMrk', Any
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription.KmsMrk({_dafny.string_of(self.KmsMrk)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_KmsMrk) and self.KmsMrk == __o.KmsMrk
+        return isinstance(__o, KeyDescription_KmsMrk) and self.KmsMrk == __o.KmsMrk
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -247,7 +246,7 @@ class KeyDescription_KmsMrkDiscovery(KeyDescription, NamedTuple('KmsMrkDiscovery
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription.KmsMrkDiscovery({_dafny.string_of(self.KmsMrkDiscovery)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_KmsMrkDiscovery) and self.KmsMrkDiscovery == __o.KmsMrkDiscovery
+        return isinstance(__o, KeyDescription_KmsMrkDiscovery) and self.KmsMrkDiscovery == __o.KmsMrkDiscovery
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -255,7 +254,7 @@ class KeyDescription_RSA(KeyDescription, NamedTuple('RSA', [('RSA', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription.RSA({_dafny.string_of(self.RSA)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_RSA) and self.RSA == __o.RSA
+        return isinstance(__o, KeyDescription_RSA) and self.RSA == __o.RSA
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -263,7 +262,7 @@ class KeyDescription_AES(KeyDescription, NamedTuple('AES', [('AES', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription.AES({_dafny.string_of(self.AES)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_AES) and self.AES == __o.AES
+        return isinstance(__o, KeyDescription_AES) and self.AES == __o.AES
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -271,7 +270,7 @@ class KeyDescription_Static(KeyDescription, NamedTuple('Static', [('Static', Any
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription.Static({_dafny.string_of(self.Static)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Static) and self.Static == __o.Static
+        return isinstance(__o, KeyDescription_Static) and self.Static == __o.Static
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -279,7 +278,7 @@ class KeyDescription_KmsRsa(KeyDescription, NamedTuple('KmsRsa', [('KmsRsa', Any
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription.KmsRsa({_dafny.string_of(self.KmsRsa)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_KmsRsa) and self.KmsRsa == __o.KmsRsa
+        return isinstance(__o, KeyDescription_KmsRsa) and self.KmsRsa == __o.KmsRsa
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -287,7 +286,7 @@ class KeyDescription_Hierarchy(KeyDescription, NamedTuple('Hierarchy', [('Hierar
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription.Hierarchy({_dafny.string_of(self.Hierarchy)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Hierarchy) and self.Hierarchy == __o.Hierarchy
+        return isinstance(__o, KeyDescription_Hierarchy) and self.Hierarchy == __o.Hierarchy
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -316,13 +315,13 @@ class KeyVectorsConfig:
         return not self.__eq__(__o)
     @property
     def is_KeyVectorsConfig(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyVectorsConfig_KeyVectorsConfig)
+        return isinstance(self, KeyVectorsConfig_KeyVectorsConfig)
 
 class KeyVectorsConfig_KeyVectorsConfig(KeyVectorsConfig, NamedTuple('KeyVectorsConfig', [('keyManifiestPath', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyVectorsConfig.KeyVectorsConfig({_dafny.string_of(self.keyManifiestPath)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyVectorsConfig_KeyVectorsConfig) and self.keyManifiestPath == __o.keyManifiestPath
+        return isinstance(__o, KeyVectorsConfig_KeyVectorsConfig) and self.keyManifiestPath == __o.keyManifiestPath
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -335,13 +334,13 @@ class KMSInfo:
         return not self.__eq__(__o)
     @property
     def is_KMSInfo(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KMSInfo_KMSInfo)
+        return isinstance(self, KMSInfo_KMSInfo)
 
 class KMSInfo_KMSInfo(KMSInfo, NamedTuple('KMSInfo', [('keyId', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KMSInfo.KMSInfo({_dafny.string_of(self.keyId)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KMSInfo_KMSInfo) and self.keyId == __o.keyId
+        return isinstance(__o, KMSInfo_KMSInfo) and self.keyId == __o.keyId
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -354,13 +353,13 @@ class KmsMrkAware:
         return not self.__eq__(__o)
     @property
     def is_KmsMrkAware(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KmsMrkAware_KmsMrkAware)
+        return isinstance(self, KmsMrkAware_KmsMrkAware)
 
 class KmsMrkAware_KmsMrkAware(KmsMrkAware, NamedTuple('KmsMrkAware', [('keyId', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsMrkAware.KmsMrkAware({_dafny.string_of(self.keyId)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KmsMrkAware_KmsMrkAware) and self.keyId == __o.keyId
+        return isinstance(__o, KmsMrkAware_KmsMrkAware) and self.keyId == __o.keyId
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -368,18 +367,18 @@ class KmsMrkAware_KmsMrkAware(KmsMrkAware, NamedTuple('KmsMrkAware', [('keyId', 
 class KmsMrkAwareDiscovery:
     @classmethod
     def default(cls, ):
-        return lambda: KmsMrkAwareDiscovery_KmsMrkAwareDiscovery(_dafny.Seq({}), _dafny.Seq({}), Wrappers.Option_None.default()())
+        return lambda: KmsMrkAwareDiscovery_KmsMrkAwareDiscovery(_dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_KmsMrkAwareDiscovery(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KmsMrkAwareDiscovery_KmsMrkAwareDiscovery)
+        return isinstance(self, KmsMrkAwareDiscovery_KmsMrkAwareDiscovery)
 
 class KmsMrkAwareDiscovery_KmsMrkAwareDiscovery(KmsMrkAwareDiscovery, NamedTuple('KmsMrkAwareDiscovery', [('keyId', Any), ('defaultMrkRegion', Any), ('awsKmsDiscoveryFilter', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsMrkAwareDiscovery.KmsMrkAwareDiscovery({_dafny.string_of(self.keyId)}, {_dafny.string_of(self.defaultMrkRegion)}, {_dafny.string_of(self.awsKmsDiscoveryFilter)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KmsMrkAwareDiscovery_KmsMrkAwareDiscovery) and self.keyId == __o.keyId and self.defaultMrkRegion == __o.defaultMrkRegion and self.awsKmsDiscoveryFilter == __o.awsKmsDiscoveryFilter
+        return isinstance(__o, KmsMrkAwareDiscovery_KmsMrkAwareDiscovery) and self.keyId == __o.keyId and self.defaultMrkRegion == __o.defaultMrkRegion and self.awsKmsDiscoveryFilter == __o.awsKmsDiscoveryFilter
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -387,18 +386,18 @@ class KmsMrkAwareDiscovery_KmsMrkAwareDiscovery(KmsMrkAwareDiscovery, NamedTuple
 class KmsRsaKeyring:
     @classmethod
     def default(cls, ):
-        return lambda: KmsRsaKeyring_KmsRsaKeyring(_dafny.Seq({}), software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec_SYMMETRIC__DEFAULT.default()())
+        return lambda: KmsRsaKeyring_KmsRsaKeyring(_dafny.Seq({}), software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_KmsRsaKeyring(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KmsRsaKeyring_KmsRsaKeyring)
+        return isinstance(self, KmsRsaKeyring_KmsRsaKeyring)
 
 class KmsRsaKeyring_KmsRsaKeyring(KmsRsaKeyring, NamedTuple('KmsRsaKeyring', [('keyId', Any), ('encryptionAlgorithm', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsRsaKeyring.KmsRsaKeyring({_dafny.string_of(self.keyId)}, {_dafny.string_of(self.encryptionAlgorithm)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KmsRsaKeyring_KmsRsaKeyring) and self.keyId == __o.keyId and self.encryptionAlgorithm == __o.encryptionAlgorithm
+        return isinstance(__o, KmsRsaKeyring_KmsRsaKeyring) and self.keyId == __o.keyId and self.encryptionAlgorithm == __o.encryptionAlgorithm
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -411,13 +410,13 @@ class RawAES:
         return not self.__eq__(__o)
     @property
     def is_RawAES(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawAES_RawAES)
+        return isinstance(self, RawAES_RawAES)
 
 class RawAES_RawAES(RawAES, NamedTuple('RawAES', [('keyId', Any), ('providerId', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawAES.RawAES({_dafny.string_of(self.keyId)}, {_dafny.string_of(self.providerId)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawAES_RawAES) and self.keyId == __o.keyId and self.providerId == __o.providerId
+        return isinstance(__o, RawAES_RawAES) and self.keyId == __o.keyId and self.providerId == __o.providerId
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -425,18 +424,18 @@ class RawAES_RawAES(RawAES, NamedTuple('RawAES', [('keyId', Any), ('providerId',
 class RawRSA:
     @classmethod
     def default(cls, ):
-        return lambda: RawRSA_RawRSA(_dafny.Seq({}), _dafny.Seq({}), software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme_PKCS1.default()())
+        return lambda: RawRSA_RawRSA(_dafny.Seq({}), _dafny.Seq({}), software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_RawRSA(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawRSA_RawRSA)
+        return isinstance(self, RawRSA_RawRSA)
 
 class RawRSA_RawRSA(RawRSA, NamedTuple('RawRSA', [('keyId', Any), ('providerId', Any), ('padding', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawRSA.RawRSA({_dafny.string_of(self.keyId)}, {_dafny.string_of(self.providerId)}, {_dafny.string_of(self.padding)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawRSA_RawRSA) and self.keyId == __o.keyId and self.providerId == __o.providerId and self.padding == __o.padding
+        return isinstance(__o, RawRSA_RawRSA) and self.keyId == __o.keyId and self.providerId == __o.providerId and self.padding == __o.padding
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -444,18 +443,18 @@ class RawRSA_RawRSA(RawRSA, NamedTuple('RawRSA', [('keyId', Any), ('providerId',
 class SerializeKeyDescriptionInput:
     @classmethod
     def default(cls, ):
-        return lambda: SerializeKeyDescriptionInput_SerializeKeyDescriptionInput(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Kms.default()())
+        return lambda: SerializeKeyDescriptionInput_SerializeKeyDescriptionInput(KeyDescription.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_SerializeKeyDescriptionInput(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.SerializeKeyDescriptionInput_SerializeKeyDescriptionInput)
+        return isinstance(self, SerializeKeyDescriptionInput_SerializeKeyDescriptionInput)
 
 class SerializeKeyDescriptionInput_SerializeKeyDescriptionInput(SerializeKeyDescriptionInput, NamedTuple('SerializeKeyDescriptionInput', [('keyDescription', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.SerializeKeyDescriptionInput.SerializeKeyDescriptionInput({_dafny.string_of(self.keyDescription)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.SerializeKeyDescriptionInput_SerializeKeyDescriptionInput) and self.keyDescription == __o.keyDescription
+        return isinstance(__o, SerializeKeyDescriptionInput_SerializeKeyDescriptionInput) and self.keyDescription == __o.keyDescription
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -468,13 +467,13 @@ class SerializeKeyDescriptionOutput:
         return not self.__eq__(__o)
     @property
     def is_SerializeKeyDescriptionOutput(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.SerializeKeyDescriptionOutput_SerializeKeyDescriptionOutput)
+        return isinstance(self, SerializeKeyDescriptionOutput_SerializeKeyDescriptionOutput)
 
 class SerializeKeyDescriptionOutput_SerializeKeyDescriptionOutput(SerializeKeyDescriptionOutput, NamedTuple('SerializeKeyDescriptionOutput', [('json', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.SerializeKeyDescriptionOutput.SerializeKeyDescriptionOutput({_dafny.string_of(self.json)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.SerializeKeyDescriptionOutput_SerializeKeyDescriptionOutput) and self.json == __o.json
+        return isinstance(__o, SerializeKeyDescriptionOutput_SerializeKeyDescriptionOutput) and self.json == __o.json
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -487,13 +486,13 @@ class StaticKeyring:
         return not self.__eq__(__o)
     @property
     def is_StaticKeyring(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.StaticKeyring_StaticKeyring)
+        return isinstance(self, StaticKeyring_StaticKeyring)
 
 class StaticKeyring_StaticKeyring(StaticKeyring, NamedTuple('StaticKeyring', [('keyId', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.StaticKeyring.StaticKeyring({_dafny.string_of(self.keyId)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.StaticKeyring_StaticKeyring) and self.keyId == __o.keyId
+        return isinstance(__o, StaticKeyring_StaticKeyring) and self.keyId == __o.keyId
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -501,18 +500,18 @@ class StaticKeyring_StaticKeyring(StaticKeyring, NamedTuple('StaticKeyring', [('
 class TestVectorKeyringInput:
     @classmethod
     def default(cls, ):
-        return lambda: TestVectorKeyringInput_TestVectorKeyringInput(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Kms.default()())
+        return lambda: TestVectorKeyringInput_TestVectorKeyringInput(KeyDescription.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_TestVectorKeyringInput(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.TestVectorKeyringInput_TestVectorKeyringInput)
+        return isinstance(self, TestVectorKeyringInput_TestVectorKeyringInput)
 
 class TestVectorKeyringInput_TestVectorKeyringInput(TestVectorKeyringInput, NamedTuple('TestVectorKeyringInput', [('keyDescription', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.TestVectorKeyringInput.TestVectorKeyringInput({_dafny.string_of(self.keyDescription)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.TestVectorKeyringInput_TestVectorKeyringInput) and self.keyDescription == __o.keyDescription
+        return isinstance(__o, TestVectorKeyringInput_TestVectorKeyringInput) and self.keyDescription == __o.keyDescription
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -525,25 +524,25 @@ class Error:
         return not self.__eq__(__o)
     @property
     def is_KeyVectorException(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_KeyVectorException)
+        return isinstance(self, Error_KeyVectorException)
     @property
     def is_AwsCryptographyMaterialProviders(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders)
+        return isinstance(self, Error_AwsCryptographyMaterialProviders)
     @property
     def is_ComAmazonawsKms(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_ComAmazonawsKms)
+        return isinstance(self, Error_ComAmazonawsKms)
     @property
     def is_CollectionOfErrors(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_CollectionOfErrors)
+        return isinstance(self, Error_CollectionOfErrors)
     @property
     def is_Opaque(self) -> bool:
-        return isinstance(self, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_Opaque)
+        return isinstance(self, Error_Opaque)
 
 class Error_KeyVectorException(Error, NamedTuple('KeyVectorException', [('message', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error.KeyVectorException({_dafny.string_of(self.message)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_KeyVectorException) and self.message == __o.message
+        return isinstance(__o, Error_KeyVectorException) and self.message == __o.message
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -551,7 +550,7 @@ class Error_AwsCryptographyMaterialProviders(Error, NamedTuple('AwsCryptographyM
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error.AwsCryptographyMaterialProviders({_dafny.string_of(self.AwsCryptographyMaterialProviders)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders) and self.AwsCryptographyMaterialProviders == __o.AwsCryptographyMaterialProviders
+        return isinstance(__o, Error_AwsCryptographyMaterialProviders) and self.AwsCryptographyMaterialProviders == __o.AwsCryptographyMaterialProviders
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -559,7 +558,7 @@ class Error_ComAmazonawsKms(Error, NamedTuple('ComAmazonawsKms', [('ComAmazonaws
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error.ComAmazonawsKms({_dafny.string_of(self.ComAmazonawsKms)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_ComAmazonawsKms) and self.ComAmazonawsKms == __o.ComAmazonawsKms
+        return isinstance(__o, Error_ComAmazonawsKms) and self.ComAmazonawsKms == __o.ComAmazonawsKms
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -567,7 +566,7 @@ class Error_CollectionOfErrors(Error, NamedTuple('CollectionOfErrors', [('list',
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error.CollectionOfErrors({_dafny.string_of(self.list)}, {_dafny.string_of(self.message)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_CollectionOfErrors) and self.list == __o.list and self.message == __o.message
+        return isinstance(__o, Error_CollectionOfErrors) and self.list == __o.list and self.message == __o.message
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -575,7 +574,7 @@ class Error_Opaque(Error, NamedTuple('Opaque', [('obj', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error.Opaque({_dafny.string_of(self.obj)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_Opaque) and self.obj == __o.obj
+        return isinstance(__o, Error_Opaque) and self.obj == __o.obj
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -586,4 +585,4 @@ class OpaqueError:
 
     @staticmethod
     def default():
-        return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_KeyVectorException.default()()
+        return Error.default()()

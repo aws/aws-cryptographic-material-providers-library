@@ -405,8 +405,13 @@ class KMSClientShim:
         return Wrappers.Result_Success(AwsSdkToDafny_com_amazonaws_kms_EncryptResponse(wrapped_response))
 
     def GenerateDataKey(self, input: DafnyGenerateDataKeyRequest):
+        print("GenerateDataKey")
+        print(self)
+        print(self._impl)
         unwrapped_request = dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_GenerateDataKeyRequest(input)
         try:
+            print(self)
+            print(self._impl)
             wrapped_response = self._impl.generate_data_key(**unwrapped_request)
         except ClientError as e:
             return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))

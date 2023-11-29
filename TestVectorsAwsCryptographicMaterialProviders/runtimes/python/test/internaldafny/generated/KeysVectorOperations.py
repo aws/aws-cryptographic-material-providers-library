@@ -165,8 +165,7 @@ import CreateStaticKeyrings
 import CreateStaticKeyStores
 import KeyringFromKeyDescription
 
-assert "KeysVectorOperations" == __name__
-KeysVectorOperations = sys.modules[__name__]
+# Module: KeysVectorOperations
 
 class default__:
     def  __init__(self):
@@ -179,28 +178,28 @@ class default__:
     @staticmethod
     def CreateTestVectorKeyring(config, input):
         output: Wrappers.Result = None
-        d_1652_keyDescription_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription
-        d_1652_keyDescription_ = (input).keyDescription
-        d_1653_keyId_: _dafny.Seq
-        d_1653_keyId_ = KeysVectorOperations.default__.GetKeyId(d_1652_keyDescription_)
-        d_1654_info_: KeyringFromKeyDescription.KeyringInfo
-        d_1654_info_ = KeyringFromKeyDescription.KeyringInfo_KeyringInfo(d_1652_keyDescription_, (Wrappers.Option_Some(((config).keys)[d_1653_keyId_]) if (d_1653_keyId_) in ((config).keys) else Wrappers.Option_None()))
-        d_1655_maybeMpl_: Wrappers.Result
+        d_1654_keyDescription_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription
+        d_1654_keyDescription_ = (input).keyDescription
+        d_1655_keyId_: _dafny.Seq
+        d_1655_keyId_ = default__.GetKeyId(d_1654_keyDescription_)
+        d_1656_info_: KeyringFromKeyDescription.KeyringInfo
+        d_1656_info_ = KeyringFromKeyDescription.KeyringInfo_KeyringInfo(d_1654_keyDescription_, (Wrappers.Option_Some(((config).keys)[d_1655_keyId_]) if (d_1655_keyId_) in ((config).keys) else Wrappers.Option_None()))
+        d_1657_maybeMpl_: Wrappers.Result
         out318_: Wrappers.Result
         out318_ = software_amazon_cryptography_materialproviders_internaldafny.default__.MaterialProviders(software_amazon_cryptography_materialproviders_internaldafny.default__.DefaultMaterialProvidersConfig())
-        d_1655_maybeMpl_ = out318_
-        d_1656_mpl_: software_amazon_cryptography_materialproviders_internaldafny.MaterialProvidersClient
-        d_1657_valueOrError0_: Wrappers.Result = None
-        def lambda105_(d_1658_e_):
-            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(d_1658_e_)
+        d_1657_maybeMpl_ = out318_
+        d_1658_mpl_: software_amazon_cryptography_materialproviders_internaldafny.MaterialProvidersClient
+        d_1659_valueOrError0_: Wrappers.Result = None
+        def lambda105_(d_1660_e_):
+            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(d_1660_e_)
 
-        d_1657_valueOrError0_ = (d_1655_maybeMpl_).MapFailure(lambda105_)
-        if (d_1657_valueOrError0_).IsFailure():
-            output = (d_1657_valueOrError0_).PropagateFailure()
+        d_1659_valueOrError0_ = (d_1657_maybeMpl_).MapFailure(lambda105_)
+        if (d_1659_valueOrError0_).IsFailure():
+            output = (d_1659_valueOrError0_).PropagateFailure()
             return output
-        d_1656_mpl_ = (d_1657_valueOrError0_).Extract()
+        d_1658_mpl_ = (d_1659_valueOrError0_).Extract()
         out319_: Wrappers.Result
-        out319_ = KeyringFromKeyDescription.default__.ToKeyring(d_1656_mpl_, d_1654_info_)
+        out319_ = KeyringFromKeyDescription.default__.ToKeyring(d_1658_mpl_, d_1656_info_)
         output = out319_
         return output
 
@@ -211,50 +210,50 @@ class default__:
     @staticmethod
     def CreateWappedTestVectorKeyring(config, input):
         output: Wrappers.Result = None
-        d_1659_keyDescription_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription
-        d_1659_keyDescription_ = (input).keyDescription
-        d_1660_keyId_: _dafny.Seq
-        d_1660_keyId_ = KeysVectorOperations.default__.GetKeyId(d_1659_keyDescription_)
-        d_1661_info_: KeyringFromKeyDescription.KeyringInfo
-        d_1661_info_ = KeyringFromKeyDescription.KeyringInfo_KeyringInfo(d_1659_keyDescription_, (Wrappers.Option_Some(((config).keys)[d_1660_keyId_]) if (d_1660_keyId_) in ((config).keys) else Wrappers.Option_None()))
-        d_1662_maybeMpl_: Wrappers.Result
+        d_1661_keyDescription_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription
+        d_1661_keyDescription_ = (input).keyDescription
+        d_1662_keyId_: _dafny.Seq
+        d_1662_keyId_ = default__.GetKeyId(d_1661_keyDescription_)
+        d_1663_info_: KeyringFromKeyDescription.KeyringInfo
+        d_1663_info_ = KeyringFromKeyDescription.KeyringInfo_KeyringInfo(d_1661_keyDescription_, (Wrappers.Option_Some(((config).keys)[d_1662_keyId_]) if (d_1662_keyId_) in ((config).keys) else Wrappers.Option_None()))
+        d_1664_maybeMpl_: Wrappers.Result
         out320_: Wrappers.Result
         out320_ = software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__.WrappedMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__.WrappedDefaultMaterialProvidersConfig())
-        d_1662_maybeMpl_ = out320_
-        d_1663_wrappedMPL_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
-        d_1664_valueOrError0_: Wrappers.Result = None
-        def lambda106_(d_1665_e_):
-            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(d_1665_e_)
+        d_1664_maybeMpl_ = out320_
+        d_1665_wrappedMPL_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
+        d_1666_valueOrError0_: Wrappers.Result = None
+        def lambda106_(d_1667_e_):
+            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(d_1667_e_)
 
-        d_1664_valueOrError0_ = (d_1662_maybeMpl_).MapFailure(lambda106_)
-        if (d_1664_valueOrError0_).IsFailure():
-            output = (d_1664_valueOrError0_).PropagateFailure()
+        d_1666_valueOrError0_ = (d_1664_maybeMpl_).MapFailure(lambda106_)
+        if (d_1666_valueOrError0_).IsFailure():
+            output = (d_1666_valueOrError0_).PropagateFailure()
             return output
-        d_1663_wrappedMPL_ = (d_1664_valueOrError0_).Extract()
+        d_1665_wrappedMPL_ = (d_1666_valueOrError0_).Extract()
         out321_: Wrappers.Result
-        out321_ = KeyringFromKeyDescription.default__.ToKeyring(d_1663_wrappedMPL_, d_1661_info_)
+        out321_ = KeyringFromKeyDescription.default__.ToKeyring(d_1665_wrappedMPL_, d_1663_info_)
         output = out321_
         return output
 
     @staticmethod
     def GetKeyDescription(config, input):
-        def lambda107_(d_1667_e_):
-            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException((d_1667_e_).ToString()))
+        def lambda107_(d_1669_e_):
+            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException((d_1669_e_).ToString()))
 
-        d_1666_valueOrError0_ = (JSON_mAPI.default__.Deserialize((input).json)).MapFailure(lambda107_)
-        if (d_1666_valueOrError0_).IsFailure():
-            return (d_1666_valueOrError0_).PropagateFailure()
+        d_1668_valueOrError0_ = (JSON_mAPI.default__.Deserialize((input).json)).MapFailure(lambda107_)
+        if (d_1668_valueOrError0_).IsFailure():
+            return (d_1668_valueOrError0_).PropagateFailure()
         elif True:
-            d_1668_keyDescriptionJSON_ = (d_1666_valueOrError0_).Extract()
-            def lambda108_(d_1670_e_):
-                return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(d_1670_e_))
+            d_1670_keyDescriptionJSON_ = (d_1668_valueOrError0_).Extract()
+            def lambda108_(d_1672_e_):
+                return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(d_1672_e_))
 
-            d_1669_valueOrError1_ = (KeyDescription.default__.ToKeyDescription(d_1668_keyDescriptionJSON_)).MapFailure(lambda108_)
-            if (d_1669_valueOrError1_).IsFailure():
-                return (d_1669_valueOrError1_).PropagateFailure()
+            d_1671_valueOrError1_ = (KeyDescription.default__.ToKeyDescription(d_1670_keyDescriptionJSON_)).MapFailure(lambda108_)
+            if (d_1671_valueOrError1_).IsFailure():
+                return (d_1671_valueOrError1_).PropagateFailure()
             elif True:
-                d_1671_keyDescription_ = (d_1669_valueOrError1_).Extract()
-                return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.GetKeyDescriptionOutput_GetKeyDescriptionOutput(d_1671_keyDescription_))
+                d_1673_keyDescription_ = (d_1671_valueOrError1_).Extract()
+                return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.GetKeyDescriptionOutput_GetKeyDescriptionOutput(d_1673_keyDescription_))
 
     @staticmethod
     def SerializeKeyDescription(config, input):
@@ -264,37 +263,37 @@ class default__:
     def GetKeyId(input):
         source51_ = input
         if source51_.is_Kms:
-            d_1672___mcc_h0_ = source51_.Kms
-            d_1673_i_ = d_1672___mcc_h0_
-            return (d_1673_i_).keyId
-        elif source51_.is_KmsMrk:
-            d_1674___mcc_h1_ = source51_.KmsMrk
-            d_1675_i_ = d_1674___mcc_h1_
+            d_1674___mcc_h0_ = source51_.Kms
+            d_1675_i_ = d_1674___mcc_h0_
             return (d_1675_i_).keyId
-        elif source51_.is_KmsMrkDiscovery:
-            d_1676___mcc_h2_ = source51_.KmsMrkDiscovery
-            d_1677_i_ = d_1676___mcc_h2_
+        elif source51_.is_KmsMrk:
+            d_1676___mcc_h1_ = source51_.KmsMrk
+            d_1677_i_ = d_1676___mcc_h1_
             return (d_1677_i_).keyId
-        elif source51_.is_RSA:
-            d_1678___mcc_h3_ = source51_.RSA
-            d_1679_i_ = d_1678___mcc_h3_
+        elif source51_.is_KmsMrkDiscovery:
+            d_1678___mcc_h2_ = source51_.KmsMrkDiscovery
+            d_1679_i_ = d_1678___mcc_h2_
             return (d_1679_i_).keyId
-        elif source51_.is_AES:
-            d_1680___mcc_h4_ = source51_.AES
-            d_1681_i_ = d_1680___mcc_h4_
+        elif source51_.is_RSA:
+            d_1680___mcc_h3_ = source51_.RSA
+            d_1681_i_ = d_1680___mcc_h3_
             return (d_1681_i_).keyId
-        elif source51_.is_Static:
-            d_1682___mcc_h5_ = source51_.Static
-            d_1683_i_ = d_1682___mcc_h5_
+        elif source51_.is_AES:
+            d_1682___mcc_h4_ = source51_.AES
+            d_1683_i_ = d_1682___mcc_h4_
             return (d_1683_i_).keyId
-        elif source51_.is_KmsRsa:
-            d_1684___mcc_h6_ = source51_.KmsRsa
-            d_1685_i_ = d_1684___mcc_h6_
+        elif source51_.is_Static:
+            d_1684___mcc_h5_ = source51_.Static
+            d_1685_i_ = d_1684___mcc_h5_
             return (d_1685_i_).keyId
-        elif True:
-            d_1686___mcc_h7_ = source51_.Hierarchy
-            d_1687_i_ = d_1686___mcc_h7_
+        elif source51_.is_KmsRsa:
+            d_1686___mcc_h6_ = source51_.KmsRsa
+            d_1687_i_ = d_1686___mcc_h6_
             return (d_1687_i_).keyId
+        elif True:
+            d_1688___mcc_h7_ = source51_.Hierarchy
+            d_1689_i_ = d_1688___mcc_h7_
+            return (d_1689_i_).keyId
 
 
 class Config:
@@ -305,13 +304,13 @@ class Config:
         return not self.__eq__(__o)
     @property
     def is_Config(self) -> bool:
-        return isinstance(self, KeysVectorOperations.Config_Config)
+        return isinstance(self, Config_Config)
 
 class Config_Config(Config, NamedTuple('Config', [('keys', Any)])):
     def __dafnystr__(self) -> str:
         return f'KeysVectorOperations.Config.Config({_dafny.string_of(self.keys)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, KeysVectorOperations.Config_Config) and self.keys == __o.keys
+        return isinstance(__o, Config_Config) and self.keys == __o.keys
     def __hash__(self) -> int:
         return super().__hash__()
 

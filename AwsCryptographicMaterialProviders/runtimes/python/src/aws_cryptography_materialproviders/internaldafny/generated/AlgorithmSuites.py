@@ -84,7 +84,7 @@ import CleanupItems
 import TestCreateKeys
 import TestVersionKey
 
-assert "AlgorithmSuites" == __name__
+# assert "AlgorithmSuites" == __name__
 AlgorithmSuites = sys.modules[__name__]
 
 class default__:

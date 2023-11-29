@@ -73,7 +73,7 @@ import Digest
 import HMAC
 import WrappedHMAC
 
-assert "HKDF" == __name__
+# assert "HKDF" == __name__
 HKDF = sys.modules[__name__]
 
 class default__:

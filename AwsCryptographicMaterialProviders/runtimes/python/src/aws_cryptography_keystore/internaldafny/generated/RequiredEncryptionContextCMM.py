@@ -118,7 +118,7 @@ import Commitment
 import DefaultCMM
 import DefaultClientSupplier
 
-assert "RequiredEncryptionContextCMM" == __name__
+# assert "RequiredEncryptionContextCMM" == __name__
 RequiredEncryptionContextCMM = sys.modules[__name__]
 
 

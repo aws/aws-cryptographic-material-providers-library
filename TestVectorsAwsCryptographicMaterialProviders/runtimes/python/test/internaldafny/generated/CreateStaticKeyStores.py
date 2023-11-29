@@ -163,8 +163,7 @@ import KeyDescription
 import KeyMaterial
 import CreateStaticKeyrings
 
-assert "CreateStaticKeyStores" == __name__
-CreateStaticKeyStores = sys.modules[__name__]
+# Module: CreateStaticKeyStores
 
 class default__:
     def  __init__(self):
@@ -173,7 +172,7 @@ class default__:
     @staticmethod
     def CreateStaticKeyStore(staticKeyMaterial):
         keyStore: software_amazon_cryptography_keystore_internaldafny_types.IKeyStoreClient = None
-        nw74_ = CreateStaticKeyStores.StaticKeyStore()
+        nw74_ = StaticKeyStore()
         nw74_.ctor__(staticKeyMaterial)
         keyStore = nw74_
         return keyStore
@@ -182,7 +181,7 @@ class default__:
 
 class StaticKeyStore(software_amazon_cryptography_keystore_internaldafny_types.IKeyStoreClient):
     def  __init__(self):
-        self._staticKeyMaterial: KeyMaterial.KeyMaterial = KeyMaterial.KeyMaterial_Symetric.default()()
+        self._staticKeyMaterial: KeyMaterial.KeyMaterial = KeyMaterial.KeyMaterial.default()()
         pass
 
     def __dafnystr__(self) -> str:
@@ -191,17 +190,17 @@ class StaticKeyStore(software_amazon_cryptography_keystore_internaldafny_types.I
         (self)._staticKeyMaterial = staticKeyMaterial
 
     def GetActiveBranchKey(self, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_keystore_internaldafny_types.GetActiveBranchKeyOutput.default())()
+        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.GetActiveBranchKeyOutput.default())()
         output = Wrappers.Result_Success(software_amazon_cryptography_keystore_internaldafny_types.GetActiveBranchKeyOutput_GetActiveBranchKeyOutput(software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials_BranchKeyMaterials((input).branchKeyIdentifier, ((self).staticKeyMaterial).branchKeyVersion, _dafny.Map({}), ((self).staticKeyMaterial).branchKey)))
         return output
 
     def GetBranchKeyVersion(self, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_keystore_internaldafny_types.GetBranchKeyVersionOutput.default())()
+        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.GetBranchKeyVersionOutput.default())()
         output = Wrappers.Result_Success(software_amazon_cryptography_keystore_internaldafny_types.GetBranchKeyVersionOutput_GetBranchKeyVersionOutput(software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials_BranchKeyMaterials((input).branchKeyIdentifier, ((self).staticKeyMaterial).branchKeyVersion, _dafny.Map({}), ((self).staticKeyMaterial).branchKey)))
         return output
 
     def GetBeaconKey(self, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_keystore_internaldafny_types.GetBeaconKeyOutput.default())()
+        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.GetBeaconKeyOutput.default())()
         output = Wrappers.Result_Success(software_amazon_cryptography_keystore_internaldafny_types.GetBeaconKeyOutput_GetBeaconKeyOutput(software_amazon_cryptography_keystore_internaldafny_types.BeaconKeyMaterials_BeaconKeyMaterials((input).branchKeyIdentifier, _dafny.Map({}), Wrappers.Option_Some(((self).staticKeyMaterial).beaconKey), Wrappers.Option_None())))
         return output
 
@@ -211,17 +210,17 @@ class StaticKeyStore(software_amazon_cryptography_keystore_internaldafny_types.I
         return output
 
     def CreateKeyStore(self, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_keystore_internaldafny_types.CreateKeyStoreOutput.default())()
+        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.CreateKeyStoreOutput.default())()
         output = Wrappers.Result_Failure(software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("Not Supported")))
         return output
 
     def CreateKey(self, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_keystore_internaldafny_types.CreateKeyOutput.default())()
+        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.CreateKeyOutput.default())()
         output = Wrappers.Result_Failure(software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("Not Supported")))
         return output
 
     def VersionKey(self, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_keystore_internaldafny_types.VersionKeyOutput.default())()
+        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.VersionKeyOutput.default())()
         output = Wrappers.Result_Failure(software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("Not Supported")))
         return output
 

@@ -68,7 +68,7 @@ import TestCreateKeyStore
 import ExternRandom
 import Random
 
-assert "AESEncryption" == __name__
+# assert "AESEncryption" == __name__
 AESEncryption = sys.modules[__name__]
 
 class default__:

@@ -67,8 +67,7 @@ import Digest
 import HMAC
 import WrappedHMAC
 
-assert "HKDF" == __name__
-HKDF = sys.modules[__name__]
+# Module: HKDF
 
 class default__:
     def  __init__(self):
@@ -140,10 +139,10 @@ class default__:
             d_247_nonEmptySalt_ = d_249_s_
         d_250_prk_: _dafny.Seq
         out24_: _dafny.Seq
-        out24_ = HKDF.default__.Extract(d_244_hmac_, d_247_nonEmptySalt_, ikm)
+        out24_ = default__.Extract(d_244_hmac_, d_247_nonEmptySalt_, ikm)
         d_250_prk_ = out24_
         out25_: _dafny.Seq
-        out25_ = HKDF.default__.Expand(d_244_hmac_, d_250_prk_, info, L, digest)
+        out25_ = default__.Expand(d_244_hmac_, d_250_prk_, info, L, digest)
         okm = out25_
         return okm
 

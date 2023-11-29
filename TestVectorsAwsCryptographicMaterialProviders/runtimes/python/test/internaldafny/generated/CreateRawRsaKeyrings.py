@@ -114,8 +114,7 @@ import CreateAwsKmsMrkKeyrings
 import CreateAwsKmsMrkMultiKeyrings
 import CreateRawAesKeyrings
 
-assert "CreateRawRsaKeyrings" == __name__
-CreateRawRsaKeyrings = sys.modules[__name__]
+# Module: CreateRawRsaKeyrings
 
 class default__:
     def  __init__(self):
@@ -125,75 +124,75 @@ class default__:
     def CreateAllRawRsaKeyring(input):
         allRSA: _dafny.Seq = _dafny.Seq({})
         allRSA = _dafny.Seq([])
-        d_1335_AllPaddingSchemes_: _dafny.Set
-        def iife53_():
+        d_1337_AllPaddingSchemes_: _dafny.Set
+        def iife57_():
             coll5_ = _dafny.Set()
             compr_5_: software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme
             for compr_5_ in software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme.AllSingletonConstructors:
-                d_1336_w_: software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme = compr_5_
+                d_1338_w_: software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme = compr_5_
                 if True:
-                    coll5_ = coll5_.union(_dafny.Set([d_1336_w_]))
+                    coll5_ = coll5_.union(_dafny.Set([d_1338_w_]))
             return _dafny.Set(coll5_)
-        d_1335_AllPaddingSchemes_ = iife53_()
+        d_1337_AllPaddingSchemes_ = iife57_()
         
-        while (d_1335_AllPaddingSchemes_) != (_dafny.Set({})):
-            d_1337_paddingScheme_: software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme
+        while (d_1337_AllPaddingSchemes_) != (_dafny.Set({})):
+            d_1339_paddingScheme_: software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme
             with _dafny.label("_ASSIGN_SUCH_THAT_d_3"):
                 assign_such_that_3_: software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme
-                for assign_such_that_3_ in (d_1335_AllPaddingSchemes_).Elements:
-                    d_1337_paddingScheme_ = assign_such_that_3_
-                    if (d_1337_paddingScheme_) in (d_1335_AllPaddingSchemes_):
+                for assign_such_that_3_ in (d_1337_AllPaddingSchemes_).Elements:
+                    d_1339_paddingScheme_ = assign_such_that_3_
+                    if (d_1339_paddingScheme_) in (d_1337_AllPaddingSchemes_):
                         raise _dafny.Break("_ASSIGN_SUCH_THAT_d_3")
                 raise Exception("assign-such-that search produced no value (line 40)")
                 pass
-            d_1338_keyring_: software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring
+            d_1340_keyring_: software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring
             out288_: software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring
-            out288_ = CreateRawRsaKeyrings.default__.CreateRawRsaKeyring(d_1337_paddingScheme_)
-            d_1338_keyring_ = out288_
-            allRSA = (allRSA) + (_dafny.Seq([d_1338_keyring_]))
-            d_1335_AllPaddingSchemes_ = (d_1335_AllPaddingSchemes_) - (_dafny.Set({d_1337_paddingScheme_}))
+            out288_ = default__.CreateRawRsaKeyring(d_1339_paddingScheme_)
+            d_1340_keyring_ = out288_
+            allRSA = (allRSA) + (_dafny.Seq([d_1340_keyring_]))
+            d_1337_AllPaddingSchemes_ = (d_1337_AllPaddingSchemes_) - (_dafny.Set({d_1339_paddingScheme_}))
         return allRSA
 
     @staticmethod
     def CreateRawRsaKeyring(paddingScheme):
         keyring: software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring = None
-        d_1339_mpl_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
-        d_1340_valueOrError0_: Wrappers.Result = None
+        d_1341_mpl_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
+        d_1342_valueOrError0_: Wrappers.Result = None
         out289_: Wrappers.Result
         out289_ = software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__.WrappedMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__.WrappedDefaultMaterialProvidersConfig())
-        d_1340_valueOrError0_ = out289_
-        if not(not((d_1340_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/CreateKeyrings/CreateRawRsaKeyrings.dfy(56,12): " + _dafny.string_of(d_1340_valueOrError0_))
-        d_1339_mpl_ = (d_1340_valueOrError0_).Extract()
-        d_1341_crypto_: software_amazon_cryptography_primitives_internaldafny.AtomicPrimitivesClient
-        d_1342_valueOrError1_: Wrappers.Result = None
+        d_1342_valueOrError0_ = out289_
+        if not(not((d_1342_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/CreateKeyrings/CreateRawRsaKeyrings.dfy(56,12): " + _dafny.string_of(d_1342_valueOrError0_))
+        d_1341_mpl_ = (d_1342_valueOrError0_).Extract()
+        d_1343_crypto_: software_amazon_cryptography_primitives_internaldafny.AtomicPrimitivesClient
+        d_1344_valueOrError1_: Wrappers.Result = None
         out290_: Wrappers.Result
         out290_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
-        d_1342_valueOrError1_ = out290_
-        if not(not((d_1342_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/CreateKeyrings/CreateRawRsaKeyrings.dfy(57,15): " + _dafny.string_of(d_1342_valueOrError1_))
-        d_1341_crypto_ = (d_1342_valueOrError1_).Extract()
-        d_1343_keys_: software_amazon_cryptography_primitives_internaldafny_types.GenerateRSAKeyPairOutput
-        d_1344_valueOrError2_: Wrappers.Result = None
+        d_1344_valueOrError1_ = out290_
+        if not(not((d_1344_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/CreateKeyrings/CreateRawRsaKeyrings.dfy(57,15): " + _dafny.string_of(d_1344_valueOrError1_))
+        d_1343_crypto_ = (d_1344_valueOrError1_).Extract()
+        d_1345_keys_: software_amazon_cryptography_primitives_internaldafny_types.GenerateRSAKeyPairOutput
+        d_1346_valueOrError2_: Wrappers.Result = None
         out291_: Wrappers.Result
-        out291_ = (d_1341_crypto_).GenerateRSAKeyPair(software_amazon_cryptography_primitives_internaldafny_types.GenerateRSAKeyPairInput_GenerateRSAKeyPairInput(2048))
-        d_1344_valueOrError2_ = out291_
-        if not(not((d_1344_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/CreateKeyrings/CreateRawRsaKeyrings.dfy(59,13): " + _dafny.string_of(d_1344_valueOrError2_))
-        d_1343_keys_ = (d_1344_valueOrError2_).Extract()
-        d_1345_namespace_: _dafny.Seq
-        d_1346_name_: _dafny.Seq
+        out291_ = (d_1343_crypto_).GenerateRSAKeyPair(software_amazon_cryptography_primitives_internaldafny_types.GenerateRSAKeyPairInput_GenerateRSAKeyPairInput(2048))
+        d_1346_valueOrError2_ = out291_
+        if not(not((d_1346_valueOrError2_).IsFailure())):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/CreateKeyrings/CreateRawRsaKeyrings.dfy(59,13): " + _dafny.string_of(d_1346_valueOrError2_))
+        d_1345_keys_ = (d_1346_valueOrError2_).Extract()
+        d_1347_namespace_: _dafny.Seq
+        d_1348_name_: _dafny.Seq
         out292_: _dafny.Seq
         out293_: _dafny.Seq
         out292_, out293_ = TestVectorsUtils.default__.NamespaceAndName(0)
-        d_1345_namespace_ = out292_
-        d_1346_name_ = out293_
-        d_1347_valueOrError3_: Wrappers.Result = None
+        d_1347_namespace_ = out292_
+        d_1348_name_ = out293_
+        d_1349_valueOrError3_: Wrappers.Result = None
         out294_: Wrappers.Result
-        out294_ = (d_1339_mpl_).CreateRawRsaKeyring(software_amazon_cryptography_materialproviders_internaldafny_types.CreateRawRsaKeyringInput_CreateRawRsaKeyringInput(d_1345_namespace_, d_1346_name_, paddingScheme, Wrappers.Option_Some(((d_1343_keys_).publicKey).pem), Wrappers.Option_Some(((d_1343_keys_).privateKey).pem)))
-        d_1347_valueOrError3_ = out294_
-        if not(not((d_1347_valueOrError3_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/CreateKeyrings/CreateRawRsaKeyrings.dfy(66,12): " + _dafny.string_of(d_1347_valueOrError3_))
-        keyring = (d_1347_valueOrError3_).Extract()
+        out294_ = (d_1341_mpl_).CreateRawRsaKeyring(software_amazon_cryptography_materialproviders_internaldafny_types.CreateRawRsaKeyringInput_CreateRawRsaKeyringInput(d_1347_namespace_, d_1348_name_, paddingScheme, Wrappers.Option_Some(((d_1345_keys_).publicKey).pem), Wrappers.Option_Some(((d_1345_keys_).privateKey).pem)))
+        d_1349_valueOrError3_ = out294_
+        if not(not((d_1349_valueOrError3_).IsFailure())):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/CreateKeyrings/CreateRawRsaKeyrings.dfy(66,12): " + _dafny.string_of(d_1349_valueOrError3_))
+        keyring = (d_1349_valueOrError3_).Extract()
         return keyring
 

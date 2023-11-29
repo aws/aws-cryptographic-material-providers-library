@@ -53,7 +53,7 @@ import software_amazon_cryptography_services_dynamodb_internaldafny
 import software_amazon_cryptography_primitives_internaldafny_types
 import software_amazon_cryptography_materialproviders_internaldafny_types
 
-assert "AwsArnParsing" == __name__
+# assert "AwsArnParsing" == __name__
 AwsArnParsing = sys.modules[__name__]
 
 class default__:

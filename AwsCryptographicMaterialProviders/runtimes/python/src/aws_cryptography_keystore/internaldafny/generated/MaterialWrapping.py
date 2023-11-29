@@ -93,7 +93,7 @@ import software_amazon_cryptography_primitives_internaldafny
 import Aws_mCryptography
 import Aws
 
-assert "MaterialWrapping" == __name__
+# assert "MaterialWrapping" == __name__
 MaterialWrapping = sys.modules[__name__]
 
 

@@ -112,7 +112,7 @@ import AwsKmsHierarchicalKeyring
 import AwsKmsRsaKeyring
 import RawAESKeyring
 
-assert "RawRSAKeyring" == __name__
+# assert "RawRSAKeyring" == __name__
 RawRSAKeyring = sys.modules[__name__]
 
 

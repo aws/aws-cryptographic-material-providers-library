@@ -92,6 +92,6 @@ import Constants
 import software_amazon_cryptography_primitives_internaldafny
 import Aws_mCryptography
 
-assert "Aws" == __name__
+# assert "Aws" == __name__
 Aws = sys.modules[__name__]
 

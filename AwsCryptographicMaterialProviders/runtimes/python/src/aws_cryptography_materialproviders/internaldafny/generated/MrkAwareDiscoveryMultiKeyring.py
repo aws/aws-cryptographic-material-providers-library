@@ -102,7 +102,7 @@ import AwsKmsDiscoveryKeyring
 import DiscoveryMultiKeyring
 import AwsKmsMrkDiscoveryKeyring
 
-assert "MrkAwareDiscoveryMultiKeyring" == __name__
+# assert "MrkAwareDiscoveryMultiKeyring" == __name__
 MrkAwareDiscoveryMultiKeyring = sys.modules[__name__]
 
 class default__:

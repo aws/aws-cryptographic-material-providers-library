@@ -162,8 +162,7 @@ import JSONHelpers
 import KeyDescription
 import KeyMaterial
 
-assert "CreateStaticKeyrings" == __name__
-CreateStaticKeyrings = sys.modules[__name__]
+# Module: CreateStaticKeyrings
 
 class default__:
     def  __init__(self):
@@ -172,7 +171,7 @@ class default__:
     @staticmethod
     def CreateStaticMaterialsKeyring(encryptMaterial, decryptMaterial):
         keyring: software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring = None
-        nw73_ = CreateStaticKeyrings.StaticMaterialsKeyring()
+        nw73_ = StaticMaterialsKeyring()
         nw73_.ctor__(encryptMaterial, decryptMaterial)
         keyring = nw73_
         return keyring

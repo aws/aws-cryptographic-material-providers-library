@@ -69,6 +69,6 @@ import ExternRandom
 import Random
 import AESEncryption
 
-assert "ExternDigest" == __name__
+# assert "ExternDigest" == __name__
 ExternDigest = sys.modules[__name__]
 

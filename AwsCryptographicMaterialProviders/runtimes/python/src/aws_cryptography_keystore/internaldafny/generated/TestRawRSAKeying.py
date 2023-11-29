@@ -126,7 +126,7 @@ import TestDefaultClientProvider
 import TestRawAESKeyring
 import TestMultiKeyring
 
-assert "TestRawRSAKeying" == __name__
+# assert "TestRawRSAKeying" == __name__
 TestRawRSAKeying = sys.modules[__name__]
 
 class default__:

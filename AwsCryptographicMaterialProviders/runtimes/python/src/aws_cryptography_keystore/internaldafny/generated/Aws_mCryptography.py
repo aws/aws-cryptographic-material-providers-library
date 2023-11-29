@@ -91,6 +91,6 @@ import AwsKmsMrkAreUnique
 import Constants
 import software_amazon_cryptography_primitives_internaldafny
 
-assert "Aws_mCryptography" == __name__
+# assert "Aws_mCryptography" == __name__
 Aws_mCryptography = sys.modules[__name__]
 

@@ -60,7 +60,7 @@ import KMSKeystoreOperations
 import DDBKeystoreOperations
 import CreateKeys
 
-assert "CreateKeyStoreTable" == __name__
+# assert "CreateKeyStoreTable" == __name__
 CreateKeyStoreTable = sys.modules[__name__]
 
 class default__:

@@ -130,7 +130,7 @@ import TestAwsKmsRsaKeyring
 import TestAwsKmsHierarchicalKeyring
 import TestAwsKmsEncryptedDataKeyFilter
 
-assert "TestLocalCMC" == __name__
+# assert "TestLocalCMC" == __name__
 TestLocalCMC = sys.modules[__name__]
 
 class default__:

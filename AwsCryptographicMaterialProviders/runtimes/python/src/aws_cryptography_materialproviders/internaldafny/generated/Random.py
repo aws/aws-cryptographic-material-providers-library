@@ -67,7 +67,7 @@ import Fixtures
 import TestCreateKeyStore
 import ExternRandom
 
-assert "Random" == __name__
+# assert "Random" == __name__
 Random = sys.modules[__name__]
 
 class default__:

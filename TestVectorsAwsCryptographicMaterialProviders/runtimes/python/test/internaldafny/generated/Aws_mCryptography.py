@@ -74,6 +74,5 @@ import RSAEncryption
 import AwsCryptographyPrimitivesOperations
 import software_amazon_cryptography_primitives_internaldafny
 
-assert "Aws_mCryptography" == __name__
-Aws_mCryptography = sys.modules[__name__]
+# Module: Aws_mCryptography
 

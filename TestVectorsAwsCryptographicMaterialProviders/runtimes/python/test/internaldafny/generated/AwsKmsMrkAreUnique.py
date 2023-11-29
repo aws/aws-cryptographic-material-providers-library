@@ -56,8 +56,7 @@ import Keyring
 import MultiKeyring
 import AwsArnParsing
 
-assert "AwsKmsMrkAreUnique" == __name__
-AwsKmsMrkAreUnique = sys.modules[__name__]
+# Module: AwsKmsMrkAreUnique
 
 class default__:
     def  __init__(self):
@@ -69,7 +68,7 @@ class default__:
         if (len(d_143_mrks_)) == (0):
             return Wrappers.Outcome_Pass()
         elif True:
-            d_144_mrkKeyIds_ = Seq.default__.Map(AwsKmsMrkAreUnique.default__.GetKeyId, d_143_mrks_)
+            d_144_mrkKeyIds_ = Seq.default__.Map(default__.GetKeyId, d_143_mrks_)
             d_145_setMrks_ = Seq.default__.ToSet(d_144_mrkKeyIds_)
             if (len(d_144_mrkKeyIds_)) == (len(d_145_setMrks_)):
                 return Wrappers.Outcome_Pass()
@@ -86,7 +85,7 @@ class default__:
 
                 def lambda10_(d_149_duplicateMrkIds_):
                     def lambda11_(d_150_identifier_):
-                        return (AwsKmsMrkAreUnique.default__.GetKeyId(d_150_identifier_)) in (d_149_duplicateMrkIds_)
+                        return (default__.GetKeyId(d_150_identifier_)) in (d_149_duplicateMrkIds_)
 
                     return lambda11_
 

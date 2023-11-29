@@ -66,8 +66,7 @@ import ExternDigest
 import Digest
 import HMAC
 
-assert "WrappedHMAC" == __name__
-WrappedHMAC = sys.modules[__name__]
+# Module: WrappedHMAC
 
 class default__:
     def  __init__(self):
@@ -79,7 +78,7 @@ class default__:
         if (d_235_valueOrError0_).IsFailure():
             return (d_235_valueOrError0_).PropagateFailure()
         elif True:
-            d_236_valueOrError1_ = Wrappers.default__.Need((len((input).message)) < ((StandardLibrary_mUInt.default__).INT32__MAX__LIMIT), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Message over INT32_MAX_LIMIT")))
+            d_236_valueOrError1_ = Wrappers.default__.Need((len((input).message)) < (StandardLibrary_mUInt.default__.INT32__MAX__LIMIT), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Message over INT32_MAX_LIMIT")))
             if (d_236_valueOrError1_).IsFailure():
                 return (d_236_valueOrError1_).PropagateFailure()
             elif True:

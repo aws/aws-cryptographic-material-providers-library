@@ -176,8 +176,7 @@ import software_amazon_cryptography_services_dynamodb_internaldafny
 import Structure
 import KMSKeystoreOperations
 
-assert "DDBKeystoreOperations" == __name__
-DDBKeystoreOperations = sys.modules[__name__]
+# Module: DDBKeystoreOperations
 
 class default__:
     def  __init__(self):
@@ -185,176 +184,176 @@ class default__:
 
     @staticmethod
     def WriteNewKeyToStore(versionBranchKeyItem, activeBranchKeyItem, beaconKeyItem, tableName, ddbClient):
-        output: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsOutput.default())()
-        d_1989_items_: _dafny.Seq
-        d_1989_items_ = _dafny.Seq([DDBKeystoreOperations.default__.CreateTransactWritePutItem(versionBranchKeyItem, tableName, DDBKeystoreOperations.ConditionExpression_BRANCH__KEY__NOT__EXIST()), DDBKeystoreOperations.default__.CreateTransactWritePutItem(activeBranchKeyItem, tableName, DDBKeystoreOperations.ConditionExpression_BRANCH__KEY__NOT__EXIST()), DDBKeystoreOperations.default__.CreateTransactWritePutItem(beaconKeyItem, tableName, DDBKeystoreOperations.ConditionExpression_BRANCH__KEY__NOT__EXIST())])
-        d_1990_transactRequest_: software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsInput
-        d_1990_transactRequest_ = software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsInput_TransactWriteItemsInput(d_1989_items_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
-        d_1991_maybeTransactWriteResponse_: Wrappers.Result
+        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsOutput.default())()
+        d_1991_items_: _dafny.Seq
+        d_1991_items_ = _dafny.Seq([default__.CreateTransactWritePutItem(versionBranchKeyItem, tableName, ConditionExpression_BRANCH__KEY__NOT__EXIST()), default__.CreateTransactWritePutItem(activeBranchKeyItem, tableName, ConditionExpression_BRANCH__KEY__NOT__EXIST()), default__.CreateTransactWritePutItem(beaconKeyItem, tableName, ConditionExpression_BRANCH__KEY__NOT__EXIST())])
+        d_1992_transactRequest_: software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsInput
+        d_1992_transactRequest_ = software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsInput_TransactWriteItemsInput(d_1991_items_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
+        d_1993_maybeTransactWriteResponse_: Wrappers.Result
         out352_: Wrappers.Result
-        out352_ = (ddbClient).TransactWriteItems(d_1990_transactRequest_)
-        d_1991_maybeTransactWriteResponse_ = out352_
-        d_1992_transactWriteItemsResponse_: software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsOutput
-        d_1993_valueOrError0_: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsOutput.default())()
-        def lambda137_(d_1994_e_):
-            return software_amazon_cryptography_keystore_internaldafny_types.Error_ComAmazonawsDynamodb(d_1994_e_)
+        out352_ = (ddbClient).TransactWriteItems(d_1992_transactRequest_)
+        d_1993_maybeTransactWriteResponse_ = out352_
+        d_1994_transactWriteItemsResponse_: software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsOutput
+        d_1995_valueOrError0_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsOutput.default())()
+        def lambda137_(d_1996_e_):
+            return software_amazon_cryptography_keystore_internaldafny_types.Error_ComAmazonawsDynamodb(d_1996_e_)
 
-        d_1993_valueOrError0_ = (d_1991_maybeTransactWriteResponse_).MapFailure(lambda137_)
-        if (d_1993_valueOrError0_).IsFailure():
-            output = (d_1993_valueOrError0_).PropagateFailure()
+        d_1995_valueOrError0_ = (d_1993_maybeTransactWriteResponse_).MapFailure(lambda137_)
+        if (d_1995_valueOrError0_).IsFailure():
+            output = (d_1995_valueOrError0_).PropagateFailure()
             return output
-        d_1992_transactWriteItemsResponse_ = (d_1993_valueOrError0_).Extract()
-        output = Wrappers.Result_Success(d_1992_transactWriteItemsResponse_)
+        d_1994_transactWriteItemsResponse_ = (d_1995_valueOrError0_).Extract()
+        output = Wrappers.Result_Success(d_1994_transactWriteItemsResponse_)
         return output
 
     @staticmethod
     def WriteNewBranchKeyVersionToKeystore(versionBranchKeyItem, activeBranchKeyItem, tableName, ddbClient):
-        output: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsOutput.default())()
-        d_1995_items_: _dafny.Seq
-        d_1995_items_ = _dafny.Seq([DDBKeystoreOperations.default__.CreateTransactWritePutItem(versionBranchKeyItem, tableName, DDBKeystoreOperations.ConditionExpression_BRANCH__KEY__NOT__EXIST()), DDBKeystoreOperations.default__.CreateTransactWritePutItem(activeBranchKeyItem, tableName, DDBKeystoreOperations.ConditionExpression_BRANCH__KEY__EXISTS())])
-        d_1996_transactRequest_: software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsInput
-        d_1996_transactRequest_ = software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsInput_TransactWriteItemsInput(d_1995_items_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
-        d_1997_maybeTransactWriteResponse_: Wrappers.Result
+        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsOutput.default())()
+        d_1997_items_: _dafny.Seq
+        d_1997_items_ = _dafny.Seq([default__.CreateTransactWritePutItem(versionBranchKeyItem, tableName, ConditionExpression_BRANCH__KEY__NOT__EXIST()), default__.CreateTransactWritePutItem(activeBranchKeyItem, tableName, ConditionExpression_BRANCH__KEY__EXISTS())])
+        d_1998_transactRequest_: software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsInput
+        d_1998_transactRequest_ = software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsInput_TransactWriteItemsInput(d_1997_items_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
+        d_1999_maybeTransactWriteResponse_: Wrappers.Result
         out353_: Wrappers.Result
-        out353_ = (ddbClient).TransactWriteItems(d_1996_transactRequest_)
-        d_1997_maybeTransactWriteResponse_ = out353_
-        d_1998_transactWriteItemsResponse_: software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsOutput
-        d_1999_valueOrError0_: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsOutput.default())()
-        def lambda138_(d_2000_e_):
-            return software_amazon_cryptography_keystore_internaldafny_types.Error_ComAmazonawsDynamodb(d_2000_e_)
+        out353_ = (ddbClient).TransactWriteItems(d_1998_transactRequest_)
+        d_1999_maybeTransactWriteResponse_ = out353_
+        d_2000_transactWriteItemsResponse_: software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsOutput
+        d_2001_valueOrError0_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItemsOutput.default())()
+        def lambda138_(d_2002_e_):
+            return software_amazon_cryptography_keystore_internaldafny_types.Error_ComAmazonawsDynamodb(d_2002_e_)
 
-        d_1999_valueOrError0_ = (d_1997_maybeTransactWriteResponse_).MapFailure(lambda138_)
-        if (d_1999_valueOrError0_).IsFailure():
-            output = (d_1999_valueOrError0_).PropagateFailure()
+        d_2001_valueOrError0_ = (d_1999_maybeTransactWriteResponse_).MapFailure(lambda138_)
+        if (d_2001_valueOrError0_).IsFailure():
+            output = (d_2001_valueOrError0_).PropagateFailure()
             return output
-        d_1998_transactWriteItemsResponse_ = (d_1999_valueOrError0_).Extract()
-        output = Wrappers.Result_Success(d_1998_transactWriteItemsResponse_)
+        d_2000_transactWriteItemsResponse_ = (d_2001_valueOrError0_).Extract()
+        output = Wrappers.Result_Success(d_2000_transactWriteItemsResponse_)
         return output
 
     @staticmethod
     def GetActiveBranchKeyItem(branchKeyIdentifier, tableName, ddbClient):
         output: Wrappers.Result = None
-        d_2001_dynamoDbKey_: _dafny.Map
-        d_2001_dynamoDbKey_ = _dafny.Map({(Structure.default__).BRANCH__KEY__IDENTIFIER__FIELD: software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(branchKeyIdentifier), (Structure.default__).TYPE__FIELD: software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S((Structure.default__).BRANCH__KEY__ACTIVE__TYPE)})
-        d_2002_ItemRequest_: software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemInput
-        d_2002_ItemRequest_ = software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemInput_GetItemInput(tableName, d_2001_dynamoDbKey_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
-        d_2003_maybeGetItem_: Wrappers.Result
+        d_2003_dynamoDbKey_: _dafny.Map
+        d_2003_dynamoDbKey_ = _dafny.Map({Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD: software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(branchKeyIdentifier), Structure.default__.TYPE__FIELD: software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(Structure.default__.BRANCH__KEY__ACTIVE__TYPE)})
+        d_2004_ItemRequest_: software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemInput
+        d_2004_ItemRequest_ = software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemInput_GetItemInput(tableName, d_2003_dynamoDbKey_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
+        d_2005_maybeGetItem_: Wrappers.Result
         out354_: Wrappers.Result
-        out354_ = (ddbClient).GetItem(d_2002_ItemRequest_)
-        d_2003_maybeGetItem_ = out354_
-        d_2004_getItemResponse_: software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemOutput
-        d_2005_valueOrError0_: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemOutput.default())()
-        def lambda139_(d_2006_e_):
-            return software_amazon_cryptography_keystore_internaldafny_types.Error_ComAmazonawsDynamodb(d_2006_e_)
+        out354_ = (ddbClient).GetItem(d_2004_ItemRequest_)
+        d_2005_maybeGetItem_ = out354_
+        d_2006_getItemResponse_: software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemOutput
+        d_2007_valueOrError0_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemOutput.default())()
+        def lambda139_(d_2008_e_):
+            return software_amazon_cryptography_keystore_internaldafny_types.Error_ComAmazonawsDynamodb(d_2008_e_)
 
-        d_2005_valueOrError0_ = (d_2003_maybeGetItem_).MapFailure(lambda139_)
-        if (d_2005_valueOrError0_).IsFailure():
-            output = (d_2005_valueOrError0_).PropagateFailure()
+        d_2007_valueOrError0_ = (d_2005_maybeGetItem_).MapFailure(lambda139_)
+        if (d_2007_valueOrError0_).IsFailure():
+            output = (d_2007_valueOrError0_).PropagateFailure()
             return output
-        d_2004_getItemResponse_ = (d_2005_valueOrError0_).Extract()
-        d_2007_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
-        d_2007_valueOrError1_ = Wrappers.default__.Need(((d_2004_getItemResponse_).Item).is_Some, software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("No item found for corresponding branch key identifier.")))
-        if (d_2007_valueOrError1_).IsFailure():
-            output = (d_2007_valueOrError1_).PropagateFailure()
+        d_2006_getItemResponse_ = (d_2007_valueOrError0_).Extract()
+        d_2009_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_2009_valueOrError1_ = Wrappers.default__.Need(((d_2006_getItemResponse_).Item).is_Some, software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("No item found for corresponding branch key identifier.")))
+        if (d_2009_valueOrError1_).IsFailure():
+            output = (d_2009_valueOrError1_).PropagateFailure()
             return output
-        d_2008_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
-        d_2008_valueOrError2_ = Wrappers.default__.Need((Structure.default__.ActiveBranchKeyItem_q(((d_2004_getItemResponse_).Item).value)) and ((((((d_2004_getItemResponse_).Item).value)[(Structure.default__).BRANCH__KEY__IDENTIFIER__FIELD]).S) == (branchKeyIdentifier)), software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("Item found is not a valid active branch key.")))
-        if (d_2008_valueOrError2_).IsFailure():
-            output = (d_2008_valueOrError2_).PropagateFailure()
+        d_2010_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_2010_valueOrError2_ = Wrappers.default__.Need((Structure.default__.ActiveBranchKeyItem_q(((d_2006_getItemResponse_).Item).value)) and ((((((d_2006_getItemResponse_).Item).value)[Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD]).S) == (branchKeyIdentifier)), software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("Item found is not a valid active branch key.")))
+        if (d_2010_valueOrError2_).IsFailure():
+            output = (d_2010_valueOrError2_).PropagateFailure()
             return output
-        output = Wrappers.Result_Success(((d_2004_getItemResponse_).Item).value)
+        output = Wrappers.Result_Success(((d_2006_getItemResponse_).Item).value)
         return output
 
     @staticmethod
     def GetVersionBranchKeyItem(branchKeyIdentifier, branchKeyVersion, tableName, ddbClient):
         output: Wrappers.Result = None
-        d_2009_dynamoDbKey_: _dafny.Map
-        d_2009_dynamoDbKey_ = _dafny.Map({(Structure.default__).BRANCH__KEY__IDENTIFIER__FIELD: software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(branchKeyIdentifier), (Structure.default__).TYPE__FIELD: software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(((Structure.default__).BRANCH__KEY__TYPE__PREFIX) + (branchKeyVersion))})
-        d_2010_ItemRequest_: software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemInput
-        d_2010_ItemRequest_ = software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemInput_GetItemInput(tableName, d_2009_dynamoDbKey_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
-        d_2011_maybeGetItem_: Wrappers.Result
+        d_2011_dynamoDbKey_: _dafny.Map
+        d_2011_dynamoDbKey_ = _dafny.Map({Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD: software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(branchKeyIdentifier), Structure.default__.TYPE__FIELD: software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S((Structure.default__.BRANCH__KEY__TYPE__PREFIX) + (branchKeyVersion))})
+        d_2012_ItemRequest_: software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemInput
+        d_2012_ItemRequest_ = software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemInput_GetItemInput(tableName, d_2011_dynamoDbKey_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
+        d_2013_maybeGetItem_: Wrappers.Result
         out355_: Wrappers.Result
-        out355_ = (ddbClient).GetItem(d_2010_ItemRequest_)
-        d_2011_maybeGetItem_ = out355_
-        d_2012_getItemResponse_: software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemOutput
-        d_2013_valueOrError0_: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemOutput.default())()
-        def lambda140_(d_2014_e_):
-            return software_amazon_cryptography_keystore_internaldafny_types.Error_ComAmazonawsDynamodb(d_2014_e_)
+        out355_ = (ddbClient).GetItem(d_2012_ItemRequest_)
+        d_2013_maybeGetItem_ = out355_
+        d_2014_getItemResponse_: software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemOutput
+        d_2015_valueOrError0_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemOutput.default())()
+        def lambda140_(d_2016_e_):
+            return software_amazon_cryptography_keystore_internaldafny_types.Error_ComAmazonawsDynamodb(d_2016_e_)
 
-        d_2013_valueOrError0_ = (d_2011_maybeGetItem_).MapFailure(lambda140_)
-        if (d_2013_valueOrError0_).IsFailure():
-            output = (d_2013_valueOrError0_).PropagateFailure()
+        d_2015_valueOrError0_ = (d_2013_maybeGetItem_).MapFailure(lambda140_)
+        if (d_2015_valueOrError0_).IsFailure():
+            output = (d_2015_valueOrError0_).PropagateFailure()
             return output
-        d_2012_getItemResponse_ = (d_2013_valueOrError0_).Extract()
-        d_2015_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
-        d_2015_valueOrError1_ = Wrappers.default__.Need(((d_2012_getItemResponse_).Item).is_Some, software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("No item found for corresponding branch key identifier.")))
-        if (d_2015_valueOrError1_).IsFailure():
-            output = (d_2015_valueOrError1_).PropagateFailure()
+        d_2014_getItemResponse_ = (d_2015_valueOrError0_).Extract()
+        d_2017_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_2017_valueOrError1_ = Wrappers.default__.Need(((d_2014_getItemResponse_).Item).is_Some, software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("No item found for corresponding branch key identifier.")))
+        if (d_2017_valueOrError1_).IsFailure():
+            output = (d_2017_valueOrError1_).PropagateFailure()
             return output
-        d_2016_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
-        d_2016_valueOrError2_ = Wrappers.default__.Need(((Structure.default__.VersionBranchKeyItem_q(((d_2012_getItemResponse_).Item).value)) and ((((((d_2012_getItemResponse_).Item).value)[(Structure.default__).BRANCH__KEY__IDENTIFIER__FIELD]).S) == (branchKeyIdentifier))) and ((((((d_2012_getItemResponse_).Item).value)[(Structure.default__).TYPE__FIELD]).S) == (((Structure.default__).BRANCH__KEY__TYPE__PREFIX) + (branchKeyVersion))), software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("Item found is not a valid branch key version.")))
-        if (d_2016_valueOrError2_).IsFailure():
-            output = (d_2016_valueOrError2_).PropagateFailure()
+        d_2018_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_2018_valueOrError2_ = Wrappers.default__.Need(((Structure.default__.VersionBranchKeyItem_q(((d_2014_getItemResponse_).Item).value)) and ((((((d_2014_getItemResponse_).Item).value)[Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD]).S) == (branchKeyIdentifier))) and ((((((d_2014_getItemResponse_).Item).value)[Structure.default__.TYPE__FIELD]).S) == ((Structure.default__.BRANCH__KEY__TYPE__PREFIX) + (branchKeyVersion))), software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("Item found is not a valid branch key version.")))
+        if (d_2018_valueOrError2_).IsFailure():
+            output = (d_2018_valueOrError2_).PropagateFailure()
             return output
-        output = Wrappers.Result_Success(((d_2012_getItemResponse_).Item).value)
+        output = Wrappers.Result_Success(((d_2014_getItemResponse_).Item).value)
         return output
 
     @staticmethod
     def GetBeaconKeyItem(branchKeyIdentifier, tableName, ddbClient):
         output: Wrappers.Result = None
-        d_2017_dynamoDbKey_: _dafny.Map
-        d_2017_dynamoDbKey_ = _dafny.Map({(Structure.default__).BRANCH__KEY__IDENTIFIER__FIELD: software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(branchKeyIdentifier), (Structure.default__).TYPE__FIELD: software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S((Structure.default__).BEACON__KEY__TYPE__VALUE)})
-        d_2018_ItemRequest_: software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemInput
-        d_2018_ItemRequest_ = software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemInput_GetItemInput(tableName, d_2017_dynamoDbKey_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
-        d_2019_maybeGetItem_: Wrappers.Result
+        d_2019_dynamoDbKey_: _dafny.Map
+        d_2019_dynamoDbKey_ = _dafny.Map({Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD: software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(branchKeyIdentifier), Structure.default__.TYPE__FIELD: software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(Structure.default__.BEACON__KEY__TYPE__VALUE)})
+        d_2020_ItemRequest_: software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemInput
+        d_2020_ItemRequest_ = software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemInput_GetItemInput(tableName, d_2019_dynamoDbKey_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
+        d_2021_maybeGetItem_: Wrappers.Result
         out356_: Wrappers.Result
-        out356_ = (ddbClient).GetItem(d_2018_ItemRequest_)
-        d_2019_maybeGetItem_ = out356_
-        d_2020_getItemResponse_: software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemOutput
-        d_2021_valueOrError0_: Wrappers.Result = Wrappers.Result_Success.default(software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemOutput.default())()
-        def lambda141_(d_2022_e_):
-            return software_amazon_cryptography_keystore_internaldafny_types.Error_ComAmazonawsDynamodb(d_2022_e_)
+        out356_ = (ddbClient).GetItem(d_2020_ItemRequest_)
+        d_2021_maybeGetItem_ = out356_
+        d_2022_getItemResponse_: software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemOutput
+        d_2023_valueOrError0_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemOutput.default())()
+        def lambda141_(d_2024_e_):
+            return software_amazon_cryptography_keystore_internaldafny_types.Error_ComAmazonawsDynamodb(d_2024_e_)
 
-        d_2021_valueOrError0_ = (d_2019_maybeGetItem_).MapFailure(lambda141_)
-        if (d_2021_valueOrError0_).IsFailure():
-            output = (d_2021_valueOrError0_).PropagateFailure()
+        d_2023_valueOrError0_ = (d_2021_maybeGetItem_).MapFailure(lambda141_)
+        if (d_2023_valueOrError0_).IsFailure():
+            output = (d_2023_valueOrError0_).PropagateFailure()
             return output
-        d_2020_getItemResponse_ = (d_2021_valueOrError0_).Extract()
-        d_2023_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
-        d_2023_valueOrError1_ = Wrappers.default__.Need(((d_2020_getItemResponse_).Item).is_Some, software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("No item found for corresponding branch key identifier.")))
-        if (d_2023_valueOrError1_).IsFailure():
-            output = (d_2023_valueOrError1_).PropagateFailure()
+        d_2022_getItemResponse_ = (d_2023_valueOrError0_).Extract()
+        d_2025_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_2025_valueOrError1_ = Wrappers.default__.Need(((d_2022_getItemResponse_).Item).is_Some, software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("No item found for corresponding branch key identifier.")))
+        if (d_2025_valueOrError1_).IsFailure():
+            output = (d_2025_valueOrError1_).PropagateFailure()
             return output
-        d_2024_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
-        d_2024_valueOrError2_ = Wrappers.default__.Need((Structure.default__.BeaconKeyItem_q(((d_2020_getItemResponse_).Item).value)) and ((((((d_2020_getItemResponse_).Item).value)[(Structure.default__).BRANCH__KEY__IDENTIFIER__FIELD]).S) == (branchKeyIdentifier)), software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("Item found is not a valid beacon key.")))
-        if (d_2024_valueOrError2_).IsFailure():
-            output = (d_2024_valueOrError2_).PropagateFailure()
+        d_2026_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_2026_valueOrError2_ = Wrappers.default__.Need((Structure.default__.BeaconKeyItem_q(((d_2022_getItemResponse_).Item).value)) and ((((((d_2022_getItemResponse_).Item).value)[Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD]).S) == (branchKeyIdentifier)), software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("Item found is not a valid beacon key.")))
+        if (d_2026_valueOrError2_).IsFailure():
+            output = (d_2026_valueOrError2_).PropagateFailure()
             return output
-        output = Wrappers.Result_Success(((d_2020_getItemResponse_).Item).value)
+        output = Wrappers.Result_Success(((d_2022_getItemResponse_).Item).value)
         return output
 
     @staticmethod
     def CreateTransactWritePutItem(item, tableName, ConditionExpression):
         def lambda142_(source63_):
             if source63_.is_BRANCH__KEY__NOT__EXIST:
-                return (DDBKeystoreOperations.default__).BRANCH__KEY__NOT__EXIST__CONDITION
+                return default__.BRANCH__KEY__NOT__EXIST__CONDITION
             elif True:
-                return (DDBKeystoreOperations.default__).BRANCH__KEY__EXISTS__CONDITION
+                return default__.BRANCH__KEY__EXISTS__CONDITION
 
-        return software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItem_TransactWriteItem(Wrappers.Option_None(), Wrappers.Option_Some(software_amazon_cryptography_services_dynamodb_internaldafny_types.Put_Put(item, tableName, Wrappers.Option_Some(lambda142_(ConditionExpression)), Wrappers.Option_Some((DDBKeystoreOperations.default__).BRANCH__KEY__EXISTS__EXPRESSION__ATTRIBUTE__NAMES), Wrappers.Option_None(), Wrappers.Option_None())), Wrappers.Option_None(), Wrappers.Option_None())
+        return software_amazon_cryptography_services_dynamodb_internaldafny_types.TransactWriteItem_TransactWriteItem(Wrappers.Option_None(), Wrappers.Option_Some(software_amazon_cryptography_services_dynamodb_internaldafny_types.Put_Put(item, tableName, Wrappers.Option_Some(lambda142_(ConditionExpression)), Wrappers.Option_Some(default__.BRANCH__KEY__EXISTS__EXPRESSION__ATTRIBUTE__NAMES), Wrappers.Option_None(), Wrappers.Option_None())), Wrappers.Option_None(), Wrappers.Option_None())
 
     @_dafny.classproperty
     def BRANCH__KEY__EXISTS__EXPRESSION__ATTRIBUTE__NAME(instance):
         return _dafny.Seq("#BranchKeyIdentifierField")
     @_dafny.classproperty
     def BRANCH__KEY__EXISTS__EXPRESSION__ATTRIBUTE__NAMES(instance):
-        return _dafny.Map({(DDBKeystoreOperations.default__).BRANCH__KEY__EXISTS__EXPRESSION__ATTRIBUTE__NAME: (Structure.default__).BRANCH__KEY__IDENTIFIER__FIELD})
+        return _dafny.Map({default__.BRANCH__KEY__EXISTS__EXPRESSION__ATTRIBUTE__NAME: Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD})
     @_dafny.classproperty
     def BRANCH__KEY__NOT__EXIST__CONDITION(instance):
-        return ((_dafny.Seq("attribute_not_exists(")) + ((DDBKeystoreOperations.default__).BRANCH__KEY__EXISTS__EXPRESSION__ATTRIBUTE__NAME)) + (_dafny.Seq(")"))
+        return ((_dafny.Seq("attribute_not_exists(")) + (default__.BRANCH__KEY__EXISTS__EXPRESSION__ATTRIBUTE__NAME)) + (_dafny.Seq(")"))
     @_dafny.classproperty
     def BRANCH__KEY__EXISTS__CONDITION(instance):
-        return ((_dafny.Seq("attribute_exists(")) + ((DDBKeystoreOperations.default__).BRANCH__KEY__EXISTS__EXPRESSION__ATTRIBUTE__NAME)) + (_dafny.Seq(")"))
+        return ((_dafny.Seq("attribute_exists(")) + (default__.BRANCH__KEY__EXISTS__EXPRESSION__ATTRIBUTE__NAME)) + (_dafny.Seq(")"))
 
 class ConditionExpression:
     @_dafny.classproperty
@@ -367,16 +366,16 @@ class ConditionExpression:
         return not self.__eq__(__o)
     @property
     def is_BRANCH__KEY__NOT__EXIST(self) -> bool:
-        return isinstance(self, DDBKeystoreOperations.ConditionExpression_BRANCH__KEY__NOT__EXIST)
+        return isinstance(self, ConditionExpression_BRANCH__KEY__NOT__EXIST)
     @property
     def is_BRANCH__KEY__EXISTS(self) -> bool:
-        return isinstance(self, DDBKeystoreOperations.ConditionExpression_BRANCH__KEY__EXISTS)
+        return isinstance(self, ConditionExpression_BRANCH__KEY__EXISTS)
 
 class ConditionExpression_BRANCH__KEY__NOT__EXIST(ConditionExpression, NamedTuple('BRANCH__KEY__NOT__EXIST', [])):
     def __dafnystr__(self) -> str:
         return f'DDBKeystoreOperations.ConditionExpression.BRANCH_KEY_NOT_EXIST'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, DDBKeystoreOperations.ConditionExpression_BRANCH__KEY__NOT__EXIST)
+        return isinstance(__o, ConditionExpression_BRANCH__KEY__NOT__EXIST)
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -384,7 +383,7 @@ class ConditionExpression_BRANCH__KEY__EXISTS(ConditionExpression, NamedTuple('B
     def __dafnystr__(self) -> str:
         return f'DDBKeystoreOperations.ConditionExpression.BRANCH_KEY_EXISTS'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, DDBKeystoreOperations.ConditionExpression_BRANCH__KEY__EXISTS)
+        return isinstance(__o, ConditionExpression_BRANCH__KEY__EXISTS)
     def __hash__(self) -> int:
         return super().__hash__()
 

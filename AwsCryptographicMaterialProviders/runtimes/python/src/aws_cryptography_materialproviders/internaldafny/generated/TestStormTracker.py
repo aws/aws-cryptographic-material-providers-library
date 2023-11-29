@@ -131,7 +131,7 @@ import TestAwsKmsHierarchicalKeyring
 import TestAwsKmsEncryptedDataKeyFilter
 import TestLocalCMC
 
-assert "TestStormTracker" == __name__
+# assert "TestStormTracker" == __name__
 TestStormTracker = sys.modules[__name__]
 
 class default__:

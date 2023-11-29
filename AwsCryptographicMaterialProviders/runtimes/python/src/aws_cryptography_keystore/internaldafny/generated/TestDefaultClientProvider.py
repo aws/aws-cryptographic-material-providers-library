@@ -123,7 +123,7 @@ import software_amazon_cryptography_materialproviders_internaldafny
 import TestUtils
 import TestIntermediateKeyWrapping
 
-assert "TestDefaultClientProvider" == __name__
+# assert "TestDefaultClientProvider" == __name__
 TestDefaultClientProvider = sys.modules[__name__]
 
 class default__:

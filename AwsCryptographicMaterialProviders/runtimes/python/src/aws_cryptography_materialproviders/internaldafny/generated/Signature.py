@@ -75,7 +75,7 @@ import WrappedHMAC
 import HKDF
 import WrappedHKDF
 
-assert "Signature" == __name__
+# assert "Signature" == __name__
 Signature = sys.modules[__name__]
 
 class default__:

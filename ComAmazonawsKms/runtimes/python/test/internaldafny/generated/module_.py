@@ -91,7 +91,7 @@ import JSON_mZeroCopy
 import JSON_mAPI
 import JSON
 
-assert "module_" == __name__
+# assert "module_" == __name__
 module_ = sys.modules[__name__]
 
 class default__:

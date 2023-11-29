@@ -89,8 +89,7 @@ import MrkAwareDiscoveryMultiKeyring
 import AwsKmsMrkKeyring
 import MrkAwareStrictMultiKeyring
 
-assert "LocalCMC" == __name__
-LocalCMC = sys.modules[__name__]
+# Module: LocalCMC
 
 class default__:
     def  __init__(self):
@@ -126,7 +125,7 @@ class Ref:
 
 class Ref_Ptr(Ref, NamedTuple('Ptr', [('deref', Any)])):
     def __dafnystr__(self) -> str:
-        return f'Ref.Ptr({_dafny.string_of(self.deref)})'
+        return f'LocalCMC.Ref.Ptr({_dafny.string_of(self.deref)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, Ref_Ptr) and self.deref == __o.deref
     def __hash__(self) -> int:
@@ -134,7 +133,7 @@ class Ref_Ptr(Ref, NamedTuple('Ptr', [('deref', Any)])):
 
 class Ref_Null(Ref, NamedTuple('Null', [])):
     def __dafnystr__(self) -> str:
-        return f'Ref.Null'
+        return f'LocalCMC.Ref.Null'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, Ref_Null)
     def __hash__(self) -> int:
@@ -143,14 +142,14 @@ class Ref_Null(Ref, NamedTuple('Null', [])):
 
 class CacheEntry:
     def  __init__(self):
-        self.prev: Ref = Ref_Null.default()()
-        self.next: Ref = Ref_Null.default()()
-        self.messagesUsed: BoundedInts.int32 = None
-        self.bytesUsed: BoundedInts.int32 = None
+        self.prev: Ref = Ref.default()()
+        self.next: Ref = Ref.default()()
+        self.messagesUsed: int = None
+        self.bytesUsed: int = None
         self._identifier: _dafny.Seq = _dafny.Seq({})
         self._materials: software_amazon_cryptography_materialproviders_internaldafny_types.Materials = None
-        self._creationTime: BoundedInts.int64 = None
-        self._expiryTime: BoundedInts.int64 = None
+        self._creationTime: int = None
+        self._expiryTime: int = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -162,8 +161,8 @@ class CacheEntry:
         (self)._expiryTime = expiryTime_k
         (self).messagesUsed = messagesUsed_k
         (self).bytesUsed = bytesUsed_k
-        (self).prev = (LocalCMC.default__).NULL
-        (self).next = (LocalCMC.default__).NULL
+        (self).prev = default__.NULL
+        (self).next = default__.NULL
 
     @property
     def identifier(self):
@@ -180,8 +179,8 @@ class CacheEntry:
 
 class DoublyLinkedCacheEntryList:
     def  __init__(self):
-        self.head: Ref = Ref_Null.default()()
-        self.tail: Ref = Ref_Null.default()()
+        self.head: Ref = Ref.default()()
+        self.tail: Ref = Ref.default()()
         pass
 
     def __dafnystr__(self) -> str:
@@ -230,8 +229,8 @@ class DoublyLinkedCacheEntryList:
             obj4_.prev = toRemove.prev
         with _dafny.label("0"):
             pass
-        (toRemove).next = (LocalCMC.default__).NULL
-        (toRemove).prev = (LocalCMC.default__).NULL
+        (toRemove).next = default__.NULL
+        (toRemove).prev = default__.NULL
 
 
 class LocalCMC(software_amazon_cryptography_materialproviders_internaldafny_types.ICryptographicMaterialsCache):
@@ -275,8 +274,8 @@ class LocalCMC(software_amazon_cryptography_materialproviders_internaldafny_type
 
     def GetCacheEntry_k(self, input):
         output: Wrappers.Result = None
-        d_677_now_: BoundedInts.int64
-        out124_: BoundedInts.int64
+        d_677_now_: int
+        out124_: int
         out124_ = Time.default__.CurrentRelativeTime()
         d_677_now_ = out124_
         out125_: Wrappers.Result
@@ -287,13 +286,13 @@ class LocalCMC(software_amazon_cryptography_materialproviders_internaldafny_type
     def GetCacheEntryWithTime(self, input, now):
         output: Wrappers.Result = None
         if (self.cache).HasKey((input).identifier):
-            d_678_entry_: LocalCMC.CacheEntry
+            d_678_entry_: CacheEntry
             d_678_entry_ = (self.cache).Select((input).identifier)
             if (now) <= ((d_678_entry_).expiryTime):
                 (self.queue).moveToFront(d_678_entry_)
                 output = Wrappers.Result_Success(software_amazon_cryptography_materialproviders_internaldafny_types.GetCacheEntryOutput_GetCacheEntryOutput((d_678_entry_).materials, (d_678_entry_).creationTime, (d_678_entry_).expiryTime, d_678_entry_.messagesUsed, d_678_entry_.bytesUsed))
                 d_679___v0_: tuple
-                d_680_valueOrError0_: Wrappers.Result = Wrappers.Result_Success.default(_dafny.defaults.tuple())()
+                d_680_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
                 out126_: Wrappers.Result
                 out126_ = (self).pruning(now)
                 d_680_valueOrError0_ = out126_
@@ -303,7 +302,7 @@ class LocalCMC(software_amazon_cryptography_materialproviders_internaldafny_type
                 d_679___v0_ = (d_680_valueOrError0_).Extract()
             elif True:
                 d_681___v1_: tuple
-                d_682_valueOrError1_: Wrappers.Result = Wrappers.Result_Success.default(_dafny.defaults.tuple())()
+                d_682_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
                 out127_: Wrappers.Result
                 out127_ = (self).DeleteCacheEntry_k(software_amazon_cryptography_materialproviders_internaldafny_types.DeleteCacheEntryInput_DeleteCacheEntryInput((input).identifier))
                 d_682_valueOrError1_ = out127_
@@ -317,13 +316,13 @@ class LocalCMC(software_amazon_cryptography_materialproviders_internaldafny_type
         return output
 
     def PutCacheEntry_k(self, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.defaults.tuple())()
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
         if ((self).entryCapacity) == (0):
             output = Wrappers.Result_Success(())
             return output
         if (self.cache).HasKey((input).identifier):
             d_683___v2_: tuple
-            d_684_valueOrError0_: Wrappers.Result = Wrappers.Result_Success.default(_dafny.defaults.tuple())()
+            d_684_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
             out128_: Wrappers.Result
             out128_ = (self).DeleteCacheEntry_k(software_amazon_cryptography_materialproviders_internaldafny_types.DeleteCacheEntryInput_DeleteCacheEntryInput((input).identifier))
             d_684_valueOrError0_ = out128_
@@ -333,7 +332,7 @@ class LocalCMC(software_amazon_cryptography_materialproviders_internaldafny_type
             d_683___v2_ = (d_684_valueOrError0_).Extract()
         if ((self).entryCapacity) == ((self.cache).Size()):
             d_685___v3_: tuple
-            d_686_valueOrError1_: Wrappers.Result = Wrappers.Result_Success.default(_dafny.defaults.tuple())()
+            d_686_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
             out129_: Wrappers.Result
             out129_ = (self).DeleteCacheEntry_k(software_amazon_cryptography_materialproviders_internaldafny_types.DeleteCacheEntryInput_DeleteCacheEntryInput(((self.queue.tail).deref).identifier))
             d_686_valueOrError1_ = out129_
@@ -341,8 +340,8 @@ class LocalCMC(software_amazon_cryptography_materialproviders_internaldafny_type
                 output = (d_686_valueOrError1_).PropagateFailure()
                 return output
             d_685___v3_ = (d_686_valueOrError1_).Extract()
-        d_687_cell_: LocalCMC.CacheEntry
-        nw30_ = LocalCMC.CacheEntry()
+        d_687_cell_: CacheEntry
+        nw30_ = CacheEntry()
         nw30_.ctor__((input).materials, (input).identifier, (input).creationTime, (input).expiryTime, ((input).messagesUsed).UnwrapOr(0), ((input).bytesUsed).UnwrapOr(0))
         d_687_cell_ = nw30_
         (self.queue).pushCell(d_687_cell_)
@@ -351,9 +350,9 @@ class LocalCMC(software_amazon_cryptography_materialproviders_internaldafny_type
         return output
 
     def DeleteCacheEntry_k(self, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.defaults.tuple())()
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
         if (self.cache).HasKey((input).identifier):
-            d_688_cell_: LocalCMC.CacheEntry
+            d_688_cell_: CacheEntry
             d_688_cell_ = (self.cache).Select((input).identifier)
             with _dafny.label("1"):
                 (self.cache).Remove((input).identifier)
@@ -363,20 +362,20 @@ class LocalCMC(software_amazon_cryptography_materialproviders_internaldafny_type
         return output
 
     def UpdateUsageMetadata_k(self, input):
-        output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.defaults.tuple())()
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
         if (self.cache).HasKey((input).identifier):
-            d_689_cell_: LocalCMC.CacheEntry
+            d_689_cell_: CacheEntry
             d_689_cell_ = (self.cache).Select((input).identifier)
-            if ((d_689_cell_.messagesUsed) <= (((LocalCMC.default__).INT32__MAX__VALUE) - (1))) and ((d_689_cell_.bytesUsed) <= (((LocalCMC.default__).INT32__MAX__VALUE) - ((input).bytesUsed))):
-                rhs0_: BoundedInts.int32 = (d_689_cell_.messagesUsed) + (1)
-                rhs1_: BoundedInts.int32 = (d_689_cell_.bytesUsed) + ((input).bytesUsed)
-                lhs0_: LocalCMC.CacheEntry = d_689_cell_
-                lhs1_: LocalCMC.CacheEntry = d_689_cell_
+            if ((d_689_cell_.messagesUsed) <= ((default__.INT32__MAX__VALUE) - (1))) and ((d_689_cell_.bytesUsed) <= ((default__.INT32__MAX__VALUE) - ((input).bytesUsed))):
+                rhs0_ = (d_689_cell_.messagesUsed) + (1)
+                rhs1_ = (d_689_cell_.bytesUsed) + ((input).bytesUsed)
+                lhs0_ = d_689_cell_
+                lhs1_ = d_689_cell_
                 lhs0_.messagesUsed = rhs0_
                 lhs1_.bytesUsed = rhs1_
             elif True:
                 d_690___v4_: tuple
-                d_691_valueOrError0_: Wrappers.Result = Wrappers.Result_Success.default(_dafny.defaults.tuple())()
+                d_691_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
                 out130_: Wrappers.Result
                 out130_ = (self).DeleteCacheEntry_k(software_amazon_cryptography_materialproviders_internaldafny_types.DeleteCacheEntryInput_DeleteCacheEntryInput((input).identifier))
                 d_691_valueOrError0_ = out130_
@@ -389,13 +388,13 @@ class LocalCMC(software_amazon_cryptography_materialproviders_internaldafny_type
         return output
 
     def pruning(self, now):
-        output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.defaults.tuple())()
-        hi7_: int = (self).entryPruningTailSize
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+        hi7_ = (self).entryPruningTailSize
         for d_692_i_ in range(0, hi7_):
             if (self.queue.tail).is_Ptr:
                 if (((self.queue.tail).deref).expiryTime) < (now):
                     d_693___v5_: tuple
-                    d_694_valueOrError0_: Wrappers.Result = Wrappers.Result_Success.default(_dafny.defaults.tuple())()
+                    d_694_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
                     out131_: Wrappers.Result
                     out131_ = (self).DeleteCacheEntry_k(software_amazon_cryptography_materialproviders_internaldafny_types.DeleteCacheEntryInput_DeleteCacheEntryInput(((self.queue.tail).deref).identifier))
                     d_694_valueOrError0_ = out131_

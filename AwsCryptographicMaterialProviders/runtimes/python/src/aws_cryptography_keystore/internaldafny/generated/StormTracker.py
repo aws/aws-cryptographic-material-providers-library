@@ -107,7 +107,7 @@ import MrkAwareStrictMultiKeyring
 import LocalCMC
 import software_amazon_cryptography_internaldafny_SynchronizedLocalCMC
 
-assert "StormTracker" == __name__
+# assert "StormTracker" == __name__
 StormTracker = sys.modules[__name__]
 
 class default__:

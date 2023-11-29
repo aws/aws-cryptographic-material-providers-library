@@ -115,8 +115,7 @@ import CreateAwsKmsMrkMultiKeyrings
 import CreateRawAesKeyrings
 import CreateRawRsaKeyrings
 
-assert "CreateKeyrings" == __name__
-CreateKeyrings = sys.modules[__name__]
+# Module: CreateKeyrings
 
 class default__:
     def  __init__(self):
@@ -126,46 +125,46 @@ class default__:
     def CreateAllEncryptDecryptKeyrings():
         all: _dafny.Seq = _dafny.Seq({})
         all = _dafny.Seq([])
-        hi16_: int = len((TestVectorConstants.default__).AllEncryptDecryptKeyrings)
-        for d_1348_i_ in range(0, hi16_):
-            d_1349_keyringType_: TestVectorConstants.EncryptDecryptKeyrings
-            d_1349_keyringType_ = ((TestVectorConstants.default__).AllEncryptDecryptKeyrings)[d_1348_i_]
-            source39_ = d_1349_keyringType_
+        hi16_ = len(TestVectorConstants.default__.AllEncryptDecryptKeyrings)
+        for d_1350_i_ in range(0, hi16_):
+            d_1351_keyringType_: TestVectorConstants.EncryptDecryptKeyrings
+            d_1351_keyringType_ = (TestVectorConstants.default__.AllEncryptDecryptKeyrings)[d_1350_i_]
+            source39_ = d_1351_keyringType_
             if source39_.is_AwsKmsKeyring:
-                d_1350_allAwsKms_: _dafny.Seq
+                d_1352_allAwsKms_: _dafny.Seq
                 out295_: _dafny.Seq
-                out295_ = CreateAwsKmsKeyrings.default__.CreateAllAwsKmsKeyring(d_1349_keyringType_)
-                d_1350_allAwsKms_ = out295_
-                all = (all) + (d_1350_allAwsKms_)
+                out295_ = CreateAwsKmsKeyrings.default__.CreateAllAwsKmsKeyring(d_1351_keyringType_)
+                d_1352_allAwsKms_ = out295_
+                all = (all) + (d_1352_allAwsKms_)
             elif source39_.is_AwsKmsMultiKeyring:
-                d_1351_allAwsKms_: _dafny.Seq
+                d_1353_allAwsKms_: _dafny.Seq
                 out296_: _dafny.Seq
-                out296_ = CreateAwsKmsMultiKeyrings.default__.CreateAllAwsKmsMultiKeyring(d_1349_keyringType_)
-                d_1351_allAwsKms_ = out296_
-                all = (all) + (d_1351_allAwsKms_)
+                out296_ = CreateAwsKmsMultiKeyrings.default__.CreateAllAwsKmsMultiKeyring(d_1351_keyringType_)
+                d_1353_allAwsKms_ = out296_
+                all = (all) + (d_1353_allAwsKms_)
             elif source39_.is_AwsKmsMrkKeyring:
-                d_1352_allAwsKmsMrk_: _dafny.Seq
+                d_1354_allAwsKmsMrk_: _dafny.Seq
                 out297_: _dafny.Seq
-                out297_ = CreateAwsKmsMrkKeyrings.default__.CreateAllAwsKmsMrkKeyring(d_1349_keyringType_)
-                d_1352_allAwsKmsMrk_ = out297_
-                all = (all) + (d_1352_allAwsKmsMrk_)
+                out297_ = CreateAwsKmsMrkKeyrings.default__.CreateAllAwsKmsMrkKeyring(d_1351_keyringType_)
+                d_1354_allAwsKmsMrk_ = out297_
+                all = (all) + (d_1354_allAwsKmsMrk_)
             elif source39_.is_AwsKmsMrkMultiKeyring:
-                d_1353_allAwsKmsMrkMult_: _dafny.Seq
+                d_1355_allAwsKmsMrkMult_: _dafny.Seq
                 out298_: _dafny.Seq
-                out298_ = CreateAwsKmsMrkMultiKeyrings.default__.CreateAllAwsKmsMrkMultiKeyring(d_1349_keyringType_)
-                d_1353_allAwsKmsMrkMult_ = out298_
-                all = (all) + (d_1353_allAwsKmsMrkMult_)
+                out298_ = CreateAwsKmsMrkMultiKeyrings.default__.CreateAllAwsKmsMrkMultiKeyring(d_1351_keyringType_)
+                d_1355_allAwsKmsMrkMult_ = out298_
+                all = (all) + (d_1355_allAwsKmsMrkMult_)
             elif source39_.is_RawAesKeyring:
-                d_1354_allRSA_: _dafny.Seq
+                d_1356_allRSA_: _dafny.Seq
                 out299_: _dafny.Seq
-                out299_ = CreateRawAesKeyrings.default__.CreateAllRawAesKeyring(d_1349_keyringType_)
-                d_1354_allRSA_ = out299_
-                all = (all) + (d_1354_allRSA_)
+                out299_ = CreateRawAesKeyrings.default__.CreateAllRawAesKeyring(d_1351_keyringType_)
+                d_1356_allRSA_ = out299_
+                all = (all) + (d_1356_allRSA_)
             elif True:
-                d_1355_allAES_: _dafny.Seq
+                d_1357_allAES_: _dafny.Seq
                 out300_: _dafny.Seq
-                out300_ = CreateRawRsaKeyrings.default__.CreateAllRawRsaKeyring(d_1349_keyringType_)
-                d_1355_allAES_ = out300_
-                all = (all) + (d_1355_allAES_)
+                out300_ = CreateRawRsaKeyrings.default__.CreateAllRawRsaKeyring(d_1351_keyringType_)
+                d_1357_allAES_ = out300_
+                all = (all) + (d_1357_allAES_)
         return all
 

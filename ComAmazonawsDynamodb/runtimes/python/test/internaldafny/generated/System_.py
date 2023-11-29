@@ -6,7 +6,7 @@ from itertools import count
 import module_
 import _dafny
 
-assert "System_" == __name__
+# assert "System_" == __name__
 System_ = sys.modules[__name__]
 
 class nat:

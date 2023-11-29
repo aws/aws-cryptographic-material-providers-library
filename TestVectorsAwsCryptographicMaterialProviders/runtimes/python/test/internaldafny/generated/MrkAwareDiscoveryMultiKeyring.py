@@ -86,8 +86,7 @@ import software_amazon_cryptography_services_kms_internaldafny
 import DiscoveryMultiKeyring
 import AwsKmsMrkDiscoveryKeyring
 
-assert "MrkAwareDiscoveryMultiKeyring" == __name__
-MrkAwareDiscoveryMultiKeyring = sys.modules[__name__]
+# Module: MrkAwareDiscoveryMultiKeyring
 
 class default__:
     def  __init__(self):
@@ -96,19 +95,19 @@ class default__:
     @staticmethod
     def MrkAwareDiscoveryMultiKeyring(regions, discoveryFilter, clientSupplier, grantTokens):
         output: Wrappers.Result = None
-        d_600_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_600_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_600_valueOrError0_ = Wrappers.default__.Need((len(regions)) > (0), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("No regions passed.")))
         if (d_600_valueOrError0_).IsFailure():
             output = (d_600_valueOrError0_).PropagateFailure()
             return output
-        d_601_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome_Pass.default()()
+        d_601_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_601_valueOrError1_ = Wrappers.default__.Need((Seq.default__.IndexOfOption(regions, _dafny.Seq(""))).is_None, software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Empty string is not a valid region.")))
         if (d_601_valueOrError1_).IsFailure():
             output = (d_601_valueOrError1_).PropagateFailure()
             return output
         d_602_children_: _dafny.Seq
         d_602_children_ = _dafny.Seq([])
-        hi5_: int = len(regions)
+        hi5_ = len(regions)
         for d_603_i_ in range(0, hi5_):
             d_604_region_: _dafny.Seq
             d_604_region_ = (regions)[d_603_i_]

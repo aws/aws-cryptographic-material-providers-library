@@ -76,7 +76,7 @@ import HKDF
 import WrappedHKDF
 import Signature
 
-assert "KdfCtr" == __name__
+# assert "KdfCtr" == __name__
 KdfCtr = sys.modules[__name__]
 
 class default__:

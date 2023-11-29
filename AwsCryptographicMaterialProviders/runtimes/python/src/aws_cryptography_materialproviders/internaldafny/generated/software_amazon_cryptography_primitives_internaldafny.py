@@ -90,7 +90,7 @@ import MultiKeyring
 import AwsKmsMrkAreUnique
 import Constants
 
-assert "software_amazon_cryptography_primitives_internaldafny" == __name__
+# assert "software_amazon_cryptography_primitives_internaldafny" == __name__
 software_amazon_cryptography_primitives_internaldafny = sys.modules[__name__]
 
 class default__:

@@ -72,7 +72,7 @@ import ExternDigest
 import Digest
 import HMAC
 
-assert "WrappedHMAC" == __name__
+# assert "WrappedHMAC" == __name__
 WrappedHMAC = sys.modules[__name__]
 
 class default__:

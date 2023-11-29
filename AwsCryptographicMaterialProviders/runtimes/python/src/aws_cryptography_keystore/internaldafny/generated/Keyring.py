@@ -86,7 +86,7 @@ import TestVersionKey
 import AlgorithmSuites
 import Materials
 
-assert "Keyring" == __name__
+# assert "Keyring" == __name__
 Keyring = sys.modules[__name__]
 
 

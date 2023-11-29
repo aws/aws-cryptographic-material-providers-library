@@ -64,7 +64,7 @@ import GetKeys
 import AwsCryptographyKeyStoreOperations
 import software_amazon_cryptography_keystore_internaldafny
 
-assert "Fixtures" == __name__
+# assert "Fixtures" == __name__
 Fixtures = sys.modules[__name__]
 
 class default__:

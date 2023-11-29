@@ -170,8 +170,7 @@ import TestVectors
 import CompleteVectors
 import ParseJsonManifests
 
-assert "TestManifests" == __name__
-TestManifests = sys.modules[__name__]
+# Module: TestManifests
 
 class default__:
     def  __init__(self):
@@ -179,160 +178,160 @@ class default__:
 
     @staticmethod
     def StartEncrypt(encryptManifestPath, keysManifiestPath):
-        d_1909_encryptManifestBv_: _dafny.Seq
-        d_1910_valueOrError0_: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        d_1911_encryptManifestBv_: _dafny.Seq
+        d_1912_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out336_: Wrappers.Result
         out336_ = FileIO.default__.ReadBytesFromFile(encryptManifestPath)
-        d_1910_valueOrError0_ = out336_
-        if not(not((d_1910_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestManifests.dfy(28,26): " + _dafny.string_of(d_1910_valueOrError0_))
-        d_1909_encryptManifestBv_ = (d_1910_valueOrError0_).Extract()
-        d_1911_encryptManifestBytes_: _dafny.Seq
-        d_1911_encryptManifestBytes_ = JSONHelpers.default__.BvToBytes(d_1909_encryptManifestBv_)
-        d_1912_encryptManifestJSON_: JSON_mValues.JSON
-        d_1913_valueOrError1_: Wrappers.Result = Wrappers.Result_Success.default(JSON_mValues.JSON.default())()
-        d_1913_valueOrError1_ = JSON_mAPI.default__.Deserialize(d_1911_encryptManifestBytes_)
-        if not(not((d_1913_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestManifests.dfy(30,28): " + _dafny.string_of(d_1913_valueOrError1_))
-        d_1912_encryptManifestJSON_ = (d_1913_valueOrError1_).Extract()
-        if not((d_1912_encryptManifestJSON_).is_Object):
+        d_1912_valueOrError0_ = out336_
+        if not(not((d_1912_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestManifests.dfy(28,26): " + _dafny.string_of(d_1912_valueOrError0_))
+        d_1911_encryptManifestBv_ = (d_1912_valueOrError0_).Extract()
+        d_1913_encryptManifestBytes_: _dafny.Seq
+        d_1913_encryptManifestBytes_ = JSONHelpers.default__.BvToBytes(d_1911_encryptManifestBv_)
+        d_1914_encryptManifestJSON_: JSON_mValues.JSON
+        d_1915_valueOrError1_: Wrappers.Result = Wrappers.Result.default(JSON_mValues.JSON.default())()
+        d_1915_valueOrError1_ = JSON_mAPI.default__.Deserialize(d_1913_encryptManifestBytes_)
+        if not(not((d_1915_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestManifests.dfy(30,28): " + _dafny.string_of(d_1915_valueOrError1_))
+        d_1914_encryptManifestJSON_ = (d_1915_valueOrError1_).Extract()
+        if not((d_1914_encryptManifestJSON_).is_Object):
             raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestManifests.dfy(31,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_1914_keys_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny.KeyVectorsClient
-        d_1915_valueOrError2_: Wrappers.Result = None
+        d_1916_keys_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny.KeyVectorsClient
+        d_1917_valueOrError2_: Wrappers.Result = None
         out337_: Wrappers.Result
         out337_ = software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny.default__.KeyVectors(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyVectorsConfig_KeyVectorsConfig(keysManifiestPath))
-        d_1915_valueOrError2_ = out337_
-        if not(not((d_1915_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestManifests.dfy(33,13): " + _dafny.string_of(d_1915_valueOrError2_))
-        d_1914_keys_ = (d_1915_valueOrError2_).Extract()
-        d_1916_jsonTests_: _dafny.Seq
-        d_1917_valueOrError3_: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
-        d_1917_valueOrError3_ = JSONHelpers.default__.GetObject(_dafny.Seq("tests"), (d_1912_encryptManifestJSON_).obj)
-        if not(not((d_1917_valueOrError3_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestManifests.dfy(37,18): " + _dafny.string_of(d_1917_valueOrError3_))
-        d_1916_jsonTests_ = (d_1917_valueOrError3_).Extract()
-        d_1918_encryptVectors_: _dafny.Seq
-        d_1919_valueOrError4_: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
-        d_1919_valueOrError4_ = ParseJsonManifests.default__.BuildEncryptTestVector(d_1914_keys_, d_1916_jsonTests_)
-        if not(not((d_1919_valueOrError4_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestManifests.dfy(38,23): " + _dafny.string_of(d_1919_valueOrError4_))
-        d_1918_encryptVectors_ = (d_1919_valueOrError4_).Extract()
-        d_1920_encryptTests_: _dafny.Seq
-        d_1921_valueOrError5_: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        d_1917_valueOrError2_ = out337_
+        if not(not((d_1917_valueOrError2_).IsFailure())):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestManifests.dfy(33,13): " + _dafny.string_of(d_1917_valueOrError2_))
+        d_1916_keys_ = (d_1917_valueOrError2_).Extract()
+        d_1918_jsonTests_: _dafny.Seq
+        d_1919_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_1919_valueOrError3_ = JSONHelpers.default__.GetObject(_dafny.Seq("tests"), (d_1914_encryptManifestJSON_).obj)
+        if not(not((d_1919_valueOrError3_).IsFailure())):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestManifests.dfy(37,18): " + _dafny.string_of(d_1919_valueOrError3_))
+        d_1918_jsonTests_ = (d_1919_valueOrError3_).Extract()
+        d_1920_encryptVectors_: _dafny.Seq
+        d_1921_valueOrError4_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_1921_valueOrError4_ = ParseJsonManifests.default__.BuildEncryptTestVector(d_1916_keys_, d_1918_jsonTests_)
+        if not(not((d_1921_valueOrError4_).IsFailure())):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestManifests.dfy(38,23): " + _dafny.string_of(d_1921_valueOrError4_))
+        d_1920_encryptVectors_ = (d_1921_valueOrError4_).Extract()
+        d_1922_encryptTests_: _dafny.Seq
+        d_1923_valueOrError5_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out338_: Wrappers.Result
-        out338_ = TestManifests.default__.ToEncryptTests(d_1914_keys_, d_1918_encryptVectors_)
-        d_1921_valueOrError5_ = out338_
-        if not(not((d_1921_valueOrError5_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestManifests.dfy(40,21): " + _dafny.string_of(d_1921_valueOrError5_))
-        d_1920_encryptTests_ = (d_1921_valueOrError5_).Extract()
-        d_1922_decryptTests_: _dafny.Seq
+        out338_ = default__.ToEncryptTests(d_1916_keys_, d_1920_encryptVectors_)
+        d_1923_valueOrError5_ = out338_
+        if not(not((d_1923_valueOrError5_).IsFailure())):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestManifests.dfy(40,21): " + _dafny.string_of(d_1923_valueOrError5_))
+        d_1922_encryptTests_ = (d_1923_valueOrError5_).Extract()
+        d_1924_decryptTests_: _dafny.Seq
         out339_: _dafny.Seq
-        out339_ = TestManifests.default__.TestEncrypts(d_1920_encryptTests_, d_1914_keys_)
-        d_1922_decryptTests_ = out339_
-        d_1923___v0_: _dafny.Seq
+        out339_ = default__.TestEncrypts(d_1922_encryptTests_, d_1916_keys_)
+        d_1924_decryptTests_ = out339_
+        d_1925___v0_: _dafny.Seq
         out340_: _dafny.Seq
-        out340_ = TestManifests.default__.TestDecrypts(d_1922_decryptTests_)
-        d_1923___v0_ = out340_
+        out340_ = default__.TestDecrypts(d_1924_decryptTests_)
+        d_1925___v0_ = out340_
 
     @staticmethod
     def TestEncrypts(tests, keys):
         output: _dafny.Seq = _dafny.Seq({})
-        d_1924_hasFailure_: bool
-        d_1924_hasFailure_ = False
+        d_1926_hasFailure_: bool
+        d_1926_hasFailure_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("\n=================== Starting Encrypt Tests =================== \n\n")))
-        d_1925_decryptableTests_: _dafny.Seq
-        d_1925_decryptableTests_ = _dafny.Seq([])
-        hi18_: int = len(tests)
-        for d_1926_i_ in range(0, hi18_):
-            d_1927_test_: TestVectors.EncryptTest
-            d_1927_test_ = (tests)[d_1926_i_]
-            d_1928_pass_: bool
-            d_1929_maybeEncryptionMaterials_: Wrappers.Option
+        d_1927_decryptableTests_: _dafny.Seq
+        d_1927_decryptableTests_ = _dafny.Seq([])
+        hi18_ = len(tests)
+        for d_1928_i_ in range(0, hi18_):
+            d_1929_test_: TestVectors.EncryptTest
+            d_1929_test_ = (tests)[d_1928_i_]
+            d_1930_pass_: bool
+            d_1931_maybeEncryptionMaterials_: Wrappers.Option
             out341_: bool
             out342_: Wrappers.Option
-            out341_, out342_ = TestVectors.default__.TestGetEncryptionMaterials(d_1927_test_)
-            d_1928_pass_ = out341_
-            d_1929_maybeEncryptionMaterials_ = out342_
-            if (d_1928_pass_) and (((d_1927_test_).vector).is_PositiveEncryptKeyringVector):
-                d_1925_decryptableTests_ = (d_1925_decryptableTests_) + (_dafny.Seq([(d_1927_test_, (d_1929_maybeEncryptionMaterials_).value)]))
-            elif not(d_1928_pass_):
-                d_1924_hasFailure_ = True
+            out341_, out342_ = TestVectors.default__.TestGetEncryptionMaterials(d_1929_test_)
+            d_1930_pass_ = out341_
+            d_1931_maybeEncryptionMaterials_ = out342_
+            if (d_1930_pass_) and (((d_1929_test_).vector).is_PositiveEncryptKeyringVector):
+                d_1927_decryptableTests_ = (d_1927_decryptableTests_) + (_dafny.Seq([(d_1929_test_, (d_1931_maybeEncryptionMaterials_).value)]))
+            elif not(d_1930_pass_):
+                d_1926_hasFailure_ = True
         _dafny.print(_dafny.string_of(_dafny.Seq("\n=================== Completed Encrypt Tests =================== \n\n")))
-        if not(not(d_1924_hasFailure_)):
+        if not(not(d_1926_hasFailure_)):
             raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestManifests.dfy(79,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_1930_valueOrError0_: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        d_1932_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out343_: Wrappers.Result
-        out343_ = TestManifests.default__.ToDecryptTests(keys, d_1925_decryptableTests_)
-        d_1930_valueOrError0_ = out343_
-        if not(not((d_1930_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestManifests.dfy(80,11): " + _dafny.string_of(d_1930_valueOrError0_))
-        output = (d_1930_valueOrError0_).Extract()
+        out343_ = default__.ToDecryptTests(keys, d_1927_decryptableTests_)
+        d_1932_valueOrError0_ = out343_
+        if not(not((d_1932_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestManifests.dfy(80,11): " + _dafny.string_of(d_1932_valueOrError0_))
+        output = (d_1932_valueOrError0_).Extract()
         return output
 
     @staticmethod
     def TestDecrypts(tests):
         manifest: _dafny.Seq = _dafny.Seq({})
         _dafny.print(_dafny.string_of(_dafny.Seq("\n=================== Starting Decrypt Tests =================== \n\n")))
-        d_1931_hasFailure_: bool
-        d_1931_hasFailure_ = False
-        hi19_: int = len(tests)
-        for d_1932_i_ in range(0, hi19_):
-            d_1933_pass_: bool
+        d_1933_hasFailure_: bool
+        d_1933_hasFailure_ = False
+        hi19_ = len(tests)
+        for d_1934_i_ in range(0, hi19_):
+            d_1935_pass_: bool
             out344_: bool
-            out344_ = TestVectors.default__.TestDecryptMaterials((tests)[d_1932_i_])
-            d_1933_pass_ = out344_
-            if not(d_1933_pass_):
-                d_1931_hasFailure_ = True
+            out344_ = TestVectors.default__.TestDecryptMaterials((tests)[d_1934_i_])
+            d_1935_pass_ = out344_
+            if not(d_1935_pass_):
+                d_1933_hasFailure_ = True
         _dafny.print(_dafny.string_of(_dafny.Seq("\n=================== Completed Decrypt Tests =================== \n\n")))
-        if not(not(d_1931_hasFailure_)):
+        if not(not(d_1933_hasFailure_)):
             raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestManifests.dfy(104,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        manifest = TestManifests.default__.ToJSONDecryptManifiest(tests)
+        manifest = default__.ToJSONDecryptManifiest(tests)
         return manifest
 
     @staticmethod
     def ToEncryptTests(keys, encryptVectors):
-        output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
-        d_1934_encryptTests_: _dafny.Seq
-        d_1934_encryptTests_ = _dafny.Seq([])
-        hi20_: int = len(encryptVectors)
-        for d_1935_i_ in range(0, hi20_):
-            d_1936_test_: TestVectors.EncryptTest
-            d_1937_valueOrError0_: Wrappers.Result = None
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_1936_encryptTests_: _dafny.Seq
+        d_1936_encryptTests_ = _dafny.Seq([])
+        hi20_ = len(encryptVectors)
+        for d_1937_i_ in range(0, hi20_):
+            d_1938_test_: TestVectors.EncryptTest
+            d_1939_valueOrError0_: Wrappers.Result = None
             out345_: Wrappers.Result
-            out345_ = TestVectors.default__.ToEncryptTest(keys, (encryptVectors)[d_1935_i_])
-            d_1937_valueOrError0_ = out345_
-            if (d_1937_valueOrError0_).IsFailure():
-                output = (d_1937_valueOrError0_).PropagateFailure()
+            out345_ = TestVectors.default__.ToEncryptTest(keys, (encryptVectors)[d_1937_i_])
+            d_1939_valueOrError0_ = out345_
+            if (d_1939_valueOrError0_).IsFailure():
+                output = (d_1939_valueOrError0_).PropagateFailure()
                 return output
-            d_1936_test_ = (d_1937_valueOrError0_).Extract()
-            d_1934_encryptTests_ = (d_1934_encryptTests_) + (_dafny.Seq([d_1936_test_]))
-        output = Wrappers.Result_Success(d_1934_encryptTests_)
+            d_1938_test_ = (d_1939_valueOrError0_).Extract()
+            d_1936_encryptTests_ = (d_1936_encryptTests_) + (_dafny.Seq([d_1938_test_]))
+        output = Wrappers.Result_Success(d_1936_encryptTests_)
         return output
         return output
 
     @staticmethod
     def ToDecryptTests(keys, tests):
-        output: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
-        d_1938_positiveEncryptTests_: _dafny.Seq
-        def lambda129_(d_1939_r_):
-            return (((d_1939_r_)[0]).vector).is_PositiveEncryptKeyringVector
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_1940_positiveEncryptTests_: _dafny.Seq
+        def lambda129_(d_1941_r_):
+            return (((d_1941_r_)[0]).vector).is_PositiveEncryptKeyringVector
 
-        d_1938_positiveEncryptTests_ = Seq.default__.Filter(lambda129_, tests)
-        d_1940_decryptTests_: _dafny.Seq
-        d_1940_decryptTests_ = _dafny.Seq([])
-        hi21_: int = len(d_1938_positiveEncryptTests_)
-        for d_1941_i_ in range(0, hi21_):
-            d_1942_test_: TestVectors.DecryptTest
-            d_1943_valueOrError0_: Wrappers.Result = None
+        d_1940_positiveEncryptTests_ = Seq.default__.Filter(lambda129_, tests)
+        d_1942_decryptTests_: _dafny.Seq
+        d_1942_decryptTests_ = _dafny.Seq([])
+        hi21_ = len(d_1940_positiveEncryptTests_)
+        for d_1943_i_ in range(0, hi21_):
+            d_1944_test_: TestVectors.DecryptTest
+            d_1945_valueOrError0_: Wrappers.Result = None
             out346_: Wrappers.Result
-            out346_ = TestVectors.default__.ToDecryptTest(keys, ((d_1938_positiveEncryptTests_)[d_1941_i_])[0], ((d_1938_positiveEncryptTests_)[d_1941_i_])[1])
-            d_1943_valueOrError0_ = out346_
-            if (d_1943_valueOrError0_).IsFailure():
-                output = (d_1943_valueOrError0_).PropagateFailure()
+            out346_ = TestVectors.default__.ToDecryptTest(keys, ((d_1940_positiveEncryptTests_)[d_1943_i_])[0], ((d_1940_positiveEncryptTests_)[d_1943_i_])[1])
+            d_1945_valueOrError0_ = out346_
+            if (d_1945_valueOrError0_).IsFailure():
+                output = (d_1945_valueOrError0_).PropagateFailure()
                 return output
-            d_1942_test_ = (d_1943_valueOrError0_).Extract()
-            d_1940_decryptTests_ = (d_1940_decryptTests_) + (_dafny.Seq([d_1942_test_]))
-        output = Wrappers.Result_Success(d_1940_decryptTests_)
+            d_1944_test_ = (d_1945_valueOrError0_).Extract()
+            d_1942_decryptTests_ = (d_1942_decryptTests_) + (_dafny.Seq([d_1944_test_]))
+        output = Wrappers.Result_Success(d_1942_decryptTests_)
         return output
         return output
 

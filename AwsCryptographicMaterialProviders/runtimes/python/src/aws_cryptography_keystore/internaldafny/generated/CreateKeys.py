@@ -59,7 +59,7 @@ import Structure
 import KMSKeystoreOperations
 import DDBKeystoreOperations
 
-assert "CreateKeys" == __name__
+# assert "CreateKeys" == __name__
 CreateKeys = sys.modules[__name__]
 
 class default__:
