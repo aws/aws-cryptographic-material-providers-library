@@ -1325,7 +1325,7 @@ def DafnyToAwsSdk_com_amazonaws_kms_EncryptRequest(input):
         output["GrantTokens"] = [list_element.VerbatimString(False) for list_element in input.GrantTokens.value]
 
     if input.EncryptionAlgorithm.is_Some:
-        output["EncryptionAlgorithm"] = input.EncryptionAlgorithm.value.VerbatimString(False)
+        output["EncryptionAlgorithm"] = input.EncryptionAlgorithm.value.__dafnystr__().split(".")[-1]
 
     return output
 
@@ -1821,7 +1821,7 @@ def DafnyToAwsSdk_com_amazonaws_kms_DecryptRequest(input):
         output["KeyId"] = input.KeyId.value.VerbatimString(False)
 
     if input.EncryptionAlgorithm.is_Some:
-        output["EncryptionAlgorithm"] = input.EncryptionAlgorithm.value.VerbatimString(False)
+        output["EncryptionAlgorithm"] = input.EncryptionAlgorithm.value.__dafnystr__().split(".")[-1]
 
     return output
 
@@ -3375,7 +3375,7 @@ def DafnyToAwsSdk_com_amazonaws_kms_EncryptResponse(input):
         output["KeyId"] = input.KeyId.value.VerbatimString(False)
 
     if input.EncryptionAlgorithm.is_Some:
-        output["EncryptionAlgorithm"] = input.EncryptionAlgorithm.value.VerbatimString(False)
+        output["EncryptionAlgorithm"] = input.EncryptionAlgorithm.value.__dafnystr__().split(".")[-1]
 
     return output
 
@@ -3686,6 +3686,6 @@ def DafnyToAwsSdk_com_amazonaws_kms_DecryptResponse(input):
         output["Plaintext"] = bytes(input.Plaintext.value)
 
     if input.EncryptionAlgorithm.is_Some:
-        output["EncryptionAlgorithm"] = input.EncryptionAlgorithm.value.VerbatimString(False)
+        output["EncryptionAlgorithm"] = input.EncryptionAlgorithm.value.__dafnystr__().split(".")[-1]
 
     return output

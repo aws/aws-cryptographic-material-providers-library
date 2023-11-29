@@ -374,12 +374,12 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsMultiKeyringInp
     return DafnyCreateAwsKmsMultiKeyringInput(
         generator=((Option_Some(Seq(input.generator))) if (input.generator is not None) else (Option_None())),
         kmsKeyIds=((Option_Some(Seq([Seq(list_element) for list_element in input.kms_key_ids]))) if (input.kms_key_ids is not None) else (Option_None())),
-        clientSupplier=((Option_Some(aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier))) if (input.client_supplier is not None) else (Option_None())),
+        clientSupplier=aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier),
         grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in input.grant_tokens]))) if (input.grant_tokens is not None) else (Option_None())),
     )
 
 def SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input):
-    return input._impl
+    return (Option_Some(input._impl) if input._impl is not None else Option_None())
 
 def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryKeyringInput(input):
     return DafnyCreateAwsKmsMrkDiscoveryKeyringInput(
@@ -436,9 +436,10 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryMul
     return DafnyCreateAwsKmsMrkDiscoveryMultiKeyringInput(
         regions=Seq([Seq(list_element) for list_element in input.regions]),
         discoveryFilter=((Option_Some(aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DiscoveryFilter(input.discovery_filter))) if (input.discovery_filter is not None) else (Option_None())),
-        clientSupplier=((Option_Some(aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier))) if (input.client_supplier is not None) else (Option_None())),
+        clientSupplier=aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier),
         grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in input.grant_tokens]))) if (input.grant_tokens is not None) else (Option_None())),
     )
+
 
 def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsKeyringInput(input):
     return DafnyCreateAwsKmsKeyringInput(
@@ -504,7 +505,7 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsDiscoveryMultiK
     return DafnyCreateAwsKmsDiscoveryMultiKeyringInput(
         regions=Seq([Seq(list_element) for list_element in input.regions]),
         discoveryFilter=((Option_Some(aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DiscoveryFilter(input.discovery_filter))) if (input.discovery_filter is not None) else (Option_None())),
-        clientSupplier=((Option_Some(aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier))) if (input.client_supplier is not None) else (Option_None())),
+        clientSupplier=aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier),
         grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in input.grant_tokens]))) if (input.grant_tokens is not None) else (Option_None())),
     )
 
@@ -525,7 +526,7 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsMrkMultiKeyring
     return DafnyCreateAwsKmsMrkMultiKeyringInput(
         generator=((Option_Some(Seq(input.generator))) if (input.generator is not None) else (Option_None())),
         kmsKeyIds=((Option_Some(Seq([Seq(list_element) for list_element in input.kms_key_ids]))) if (input.kms_key_ids is not None) else (Option_None())),
-        clientSupplier=((Option_Some(aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier))) if (input.client_supplier is not None) else (Option_None())),
+        clientSupplier=aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier),
         grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in input.grant_tokens]))) if (input.grant_tokens is not None) else (Option_None())),
     )
 
@@ -549,7 +550,7 @@ def SmithyToDafny_aws_cryptography_materialproviders_CryptographicMaterialsCache
     return input._impl
 
 def SmithyToDafny_aws_cryptography_materialproviders_CreateDefaultClientSupplierOutput(input):
-    return aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input)
+    return aws_cryptography_materialproviders.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input).value
 
 def SmithyToDafny_aws_cryptography_materialproviders_MaterialProvidersConfig(input):
     return DafnyMaterialProvidersConfig(

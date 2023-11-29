@@ -9,9 +9,7 @@ class default__:
     @staticmethod
     def ToByteArray(dafny_str):
         try:
-            print(f"{dafny_str.Elements=}")
             uuid_from_str = uuid.UUID(''.join(dafny_str.Elements))
-            print(f"{uuid_from_str=}")
             return Wrappers.Result_Success(_dafny.Seq(uuid_from_str.bytes))
         except Exception as e:
             return Wrappers.Result_Failure(_dafny.string_of(
@@ -20,7 +18,16 @@ class default__:
         
     @staticmethod
     def FromByteArray(dafny_b):
-        pass
+        try:
+            print(f"{dafny_b.Elements}")
+            native_bytes = bytes(dafny_b.Elements)
+            print(f"{native_bytes=}")
+            uuid_from_bytes = uuid.UUID(bytes=native_bytes)
+            return Wrappers.Result_Success(_dafny.Seq(str(uuid_from_bytes)))
+        except Exception as e:
+            return Wrappers.Result_Failure(_dafny.string_of(
+                "Could not convert byte array to UUID: " + str(e)
+            ))
 
     @staticmethod
     def GenerateUUID():
