@@ -16,7 +16,7 @@ jobs:
         library:
           [
             StandardLibrary,
-            # AwsCryptographyPrimitives,
+            AwsCryptographyPrimitives,
             # ComAmazonawsKms,
             # ComAmazonawsDynamodb,
             # AwsCryptographicMaterialProviders,
@@ -75,12 +75,6 @@ jobs:
         shell: bash
         run: |
           make test_net FRAMEWORK=net48
-
-      - name: Test ${{ matrix.library }} .NET Framework netcoreapp2.0
-        working-directory: ./${{ matrix.library }}
-        shell: bash
-        run: |
-          make test_net FRAMEWORK=netcoreapp2.0
           
       - name: Test ${{ matrix.library }} .NET net6.0
         working-directory: ./${{ matrix.library }}
@@ -104,5 +98,25 @@ jobs:
               --framework net6.0
           dotnet test runtimes/net/tests/LocalCMC.Tests/ \
               --framework net48
+
+      - name: Setup .NET Core SDK netcoreapp2.0
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: netcoreapp2.0
+
+      - name: Test ${{ matrix.library }} .NET Framework netcoreapp2.0
+        working-directory: ./${{ matrix.library }}
+        shell: bash
+        run: |
+          make test_net FRAMEWORK=netcoreapp2.0
+
+      - name: Test Cache Thread Safety netcoreapp2.0
+        if: matrix.library == 'AwsCryptographicMaterialProviders'
+        working-directory: ./${{ matrix.library }}
+        shell: bash
+        ## Run .NET 6.0 and .NET Framework net48
+        run: |
+          dotnet restore runtimes/net/tests/LocalCMC.Tests/
+          dotnet build runtimes/net/tests/LocalCMC.Tests/
           dotnet test runtimes/net/tests/LocalCMC.Tests/ \
-              --framework netcoreapp2.0
+              --framework netcoreapp2.0          

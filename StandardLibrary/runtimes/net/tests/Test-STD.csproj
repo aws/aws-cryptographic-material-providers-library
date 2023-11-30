@@ -4,6 +4,11 @@
     <RootNamespace>TEST_STD</RootNamespace>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
+    <!--
+    xunit test projects must target a platform, not an API.
+    So we specify netcoreapp2.0 instead of the more general netstandard2.0.
+    See https://xunit.net/docs/why-no-netstandard.
+    -->
     <TargetFrameworks>net6.0;net48;netcoreapp2.0</TargetFrameworks>
     <LangVersion>10</LangVersion>
     <OutputType>Exe</OutputType>
