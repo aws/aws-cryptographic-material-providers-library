@@ -18,7 +18,7 @@ jobs:
             StandardLibrary,
             AwsCryptographyPrimitives,
             ComAmazonawsKms,
-            # ComAmazonawsDynamodb,
+            ComAmazonawsDynamodb,
             # AwsCryptographicMaterialProviders,
             # TestVectorsAwsCryptographicMaterialProviders,
           ]
@@ -99,17 +99,26 @@ jobs:
           dotnet test runtimes/net/tests/LocalCMC.Tests/ \
               --framework net48
 
-      - name: Setup .NET Core SDK netcoreapp2.0
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '2.0.9' # netcoreapp2.0 translate to 2.0.9... ask MSFT
+      # - name: Setup .NET Core SDK netcoreapp2.0
+      #   uses: actions/setup-dotnet@v3
+      #   with:
+      #     dotnet-version: '2.0.9' # netcoreapp2.0 translate to 2.0.9... ask MSFT
+
+      # For setting up netcoreapp2.0
+      # See https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-install-script#examples 
+      - name: Setup .NET Core SDK netcoreapp2.0 Windows
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: |
+          # Run a separate PowerShell process because the script calls exit, so it will end the current PowerShell session.
+          &powershell -NoProfile -ExecutionPolicy unrestricted -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; &([scriptblock]::Create((Invoke-WebRequest -UseBasicParsing 'https://dot.net/v1/dotnet-install.ps1'))) -Runtime dotnet -Version 2.0.9"
+
+      - name: Setup .NET Core SDK netcoreapp2.0 Linux/Macos
+        if: matrix.os != 'windows-latest'
+        shell: bash
+        run: |
+          curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --runtime dotnet --version 2.0.9
           
-      # - name: Setup .NET Core SDK netcoreapp2.0 Windows
-      #   if: matrix.os == 'windows-latest'
-      #   shell: pwsh
-      #   run: |
-      #     # Run a separate PowerShell process because the script calls exit, so it will end the current PowerShell session.
-      #     &powershell -NoProfile -ExecutionPolicy unrestricted -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; &([scriptblock]::Create((Invoke-WebRequest -UseBasicParsing 'https://dot.net/v1/dotnet-install.ps1'))) -Runtime "
 
       - name: Test ${{ matrix.library }} .NET Framework netcoreapp2.0
         working-directory: ./${{ matrix.library }}
