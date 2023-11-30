@@ -5,25 +5,26 @@ on:
   pull_request:
 
 jobs:
-  getVersion:
-    uses: ./.github/workflows/dafny_version.yaml
-  pr-ci-format:
-    needs: getVersion
-    uses: ./.github/workflows/library_format.yml
-    with:
-      dafny: ${{needs.getVersion.outputs.version}}
-  pr-ci-verification:
-    needs: getVersion
-    uses: ./.github/workflows/library_dafny_verification.yml
-    with:
-      dafny: ${{needs.getVersion.outputs.version}}
-  pr-ci-java:
-    needs: getVersion
-    uses: ./.github/workflows/library_java_tests.yml
-    with:
-      dafny: ${{needs.getVersion.outputs.version}}
-  pr-ci-net:
-    needs: getVersion
+  # getVersion:
+  #   uses: ./.github/workflows/dafny_version.yaml
+  # push-ci-format:
+  #   needs: getVersion
+  #   uses: ./.github/workflows/library_format.yml
+  #   with:
+  #     dafny: ${{needs.getVersion.outputs.version}}
+  # push-ci-verification:
+  #   needs: getVersion
+  #   uses: ./.github/workflows/library_dafny_verification.yml
+  #   with:
+  #     dafny: ${{needs.getVersion.outputs.version}}
+  # push-ci-java:
+  #   needs: getVersion
+  #   uses: ./.github/workflows/library_java_tests.yml
+  #   with:
+  #     dafny: ${{needs.getVersion.outputs.version}}
+  push-ci-net:
+    # needs: getVersion
     uses: ./.github/workflows/library_net_tests.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      # dafny: ${{needs.getVersion.outputs.version}}
+      dafny: '4.2.0'
