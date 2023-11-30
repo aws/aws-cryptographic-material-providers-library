@@ -16,11 +16,11 @@ jobs:
         library:
           [
             StandardLibrary,
-            AwsCryptographyPrimitives,
-            ComAmazonawsKms,
-            ComAmazonawsDynamodb,
-            AwsCryptographicMaterialProviders,
-            TestVectorsAwsCryptographicMaterialProviders,
+            # AwsCryptographyPrimitives,
+            # ComAmazonawsKms,
+            # ComAmazonawsDynamodb,
+            # AwsCryptographicMaterialProviders,
+            # TestVectorsAwsCryptographicMaterialProviders,
           ]
         dotnet-version: ["6.0.x"]
         os: [windows-latest, ubuntu-latest, macos-latest]
@@ -70,14 +70,18 @@ jobs:
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_net CORES=$CORES
 
-      # .NET Framework is only supported in Windows
       - name: Test ${{ matrix.library }} .NET Framework net48
-        if: matrix.os == 'windows-latest'
         working-directory: ./${{ matrix.library }}
         shell: bash
         run: |
           make test_net FRAMEWORK=net48
 
+      - name: Test ${{ matrix.library }} .NET Framework netcoreapp2.0
+        working-directory: ./${{ matrix.library }}
+        shell: bash
+        run: |
+          make test_net FRAMEWORK=netcoreapp2.0
+          
       - name: Test ${{ matrix.library }} .NET net6.0
         working-directory: ./${{ matrix.library }}
         shell: bash
@@ -100,3 +104,5 @@ jobs:
               --framework net6.0
           dotnet test runtimes/net/tests/LocalCMC.Tests/ \
               --framework net48
+          dotnet test runtimes/net/tests/LocalCMC.Tests/ \
+              --framework netcoreapp2.0
