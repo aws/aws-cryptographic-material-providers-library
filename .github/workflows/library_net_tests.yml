@@ -122,7 +122,9 @@ jobs:
       - name: Debug Setup .NET Core SDK netcoreapp2.0 Linux/Macos
         shell: bash
         run: |
+          PATH=/home/runner/.dotnet:$PATH
           ls /home/runner/.dotnet/tools
+          dotnet --list-runtimes
           
       - name: Test ${{ matrix.library }} .NET Framework netcoreapp2.0
         working-directory: ./${{ matrix.library }}
