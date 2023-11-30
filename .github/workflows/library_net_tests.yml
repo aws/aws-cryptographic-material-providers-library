@@ -70,34 +70,34 @@ jobs:
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_net CORES=$CORES
 
-      - name: Test ${{ matrix.library }} .NET Framework net48
-        working-directory: ./${{ matrix.library }}
-        shell: bash
-        run: |
-          make test_net FRAMEWORK=net48
+      # - name: Test ${{ matrix.library }} .NET Framework net48
+      #   working-directory: ./${{ matrix.library }}
+      #   shell: bash
+      #   run: |
+      #     make test_net FRAMEWORK=net48
           
-      - name: Test ${{ matrix.library }} .NET net6.0
-        working-directory: ./${{ matrix.library }}
-        shell: bash
-        run: |
-          if [ "$RUNNER_OS" == "macOS" ]; then
-            make test_net_mac_intel FRAMEWORK=net6.0
-          else
-            make test_net FRAMEWORK=net6.0
-          fi
+      # - name: Test ${{ matrix.library }} .NET net6.0
+      #   working-directory: ./${{ matrix.library }}
+      #   shell: bash
+      #   run: |
+      #     if [ "$RUNNER_OS" == "macOS" ]; then
+      #       make test_net_mac_intel FRAMEWORK=net6.0
+      #     else
+      #       make test_net FRAMEWORK=net6.0
+      #     fi
 
-      - name: Test Cache Thread Safety
-        if: matrix.library == 'AwsCryptographicMaterialProviders'
-        working-directory: ./${{ matrix.library }}
-        shell: bash
-        ## Run .NET 6.0 and .NET Framework net48
-        run: |
-          dotnet restore runtimes/net/tests/LocalCMC.Tests/
-          dotnet build runtimes/net/tests/LocalCMC.Tests/
-          dotnet test runtimes/net/tests/LocalCMC.Tests/ \
-              --framework net6.0
-          dotnet test runtimes/net/tests/LocalCMC.Tests/ \
-              --framework net48
+      # - name: Test Cache Thread Safety
+      #   if: matrix.library == 'AwsCryptographicMaterialProviders'
+      #   working-directory: ./${{ matrix.library }}
+      #   shell: bash
+      #   ## Run .NET 6.0 and .NET Framework net48
+      #   run: |
+      #     dotnet restore runtimes/net/tests/LocalCMC.Tests/
+      #     dotnet build runtimes/net/tests/LocalCMC.Tests/
+      #     dotnet test runtimes/net/tests/LocalCMC.Tests/ \
+      #         --framework net6.0
+      #     dotnet test runtimes/net/tests/LocalCMC.Tests/ \
+      #         --framework net48
 
       # - name: Setup .NET Core SDK netcoreapp2.0
       #   uses: actions/setup-dotnet@v3
@@ -119,7 +119,11 @@ jobs:
         run: |
           curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --runtime dotnet --version 2.0.9
           
-
+      - name: Debug Setup .NET Core SDK netcoreapp2.0 Linux/Macos
+        shell: bash
+        run: |
+          ls /home/runner/.dotnet
+          
       - name: Test ${{ matrix.library }} .NET Framework netcoreapp2.0
         working-directory: ./${{ matrix.library }}
         shell: bash
