@@ -11,7 +11,6 @@ Types :
     Parsed = (command : string, params : seq<OneArg>, files : seq<string>, subcommand : Option<Parsed>)
     OneArg (name : string, value : Option<string>) // for Opt value.Some? for Flag value.None?
 
-
 Main Entry Points :
   GetOptions(opts : Options, args : seq<string>) // Parse args based on Options, automatically includes --help
   GetHelp(opts : Options) : string // return help text for Options
@@ -63,8 +62,13 @@ Command Line Interpretations :
     cmd --cherry file1 sub --whatever 
   returns the error "subcommand 'file1' not recognized"
 
+Specialized Options for Opt
+  nameonly default : string // if not used, pretend it was used with this value
+  nameonly required : bool  // if not used, report an error
+  // it is, of course, an error for something to be required and also have a default value
+
+
 Future Directions (NOT ordered) :
-  X is required
   if X is used, Y is required
   if X is used, Y is not required
   if X is used, Y is forbidden
@@ -79,16 +83,16 @@ Future Directions (NOT ordered) :
     -NNN is a value, not an option, e.g. head and tail.
   global params : get inherited by any subcommands
   value of --arg is everything to the right; presumably joined on space
-  default values
   if X is used, Y gets this default value
   word wrapping for help text
 
 Not Future Directions :
   Automatic printing of --help text, and subsequent exit.
-  Any attempt to parse args into real values.
-  Number of values per arg anything but 0 and 1
+  Any attempt to automatically parse args into real values.
+    (but we DO want to provide many helper functions for this)
+  Arg with optional value
+  Arg with multiple values
   case-insensitive argument matching
-  allow only one of "--arg=value" and "--arg value"
 */
 
 include "../../libraries/src/Wrappers.dfy"
@@ -131,7 +135,9 @@ module {:options "-functionSyntax:4"} GetOpt {
         name: string,
         help: string,
         nameonly argName: string := "arg",
-        nameonly short: char := NullChar
+        nameonly short: char := NullChar,
+        nameonly default : Option<string> := None,
+        nameonly required : bool := false
       )
     | Flag(
         name: string,
@@ -170,6 +176,16 @@ module {:options "-functionSyntax:4"} GetOpt {
     files : seq<string>,
     subcommand : Option<Parsed>
   )
+
+  function {:tailrecursion} ValidOptions(params : seq<Param>) : Outcome<string>
+  {
+    if |params| == 0 then
+      Pass
+    else if params[0].Opt? && params[0].required && params[0].default.Some? then
+      Fail("Option '" + params[0].name + "' is both required and has a default value.")
+    else
+      ValidOptions(params[1..])
+  }
 
   // get value of first occurrence of option with required argument.
   // Cannot distinguish "no value" from "argument not used"
@@ -271,15 +287,30 @@ module {:options "-functionSyntax:4"} GetOpt {
       OptMapCheck(args[1..], theMap)
   }
 
-
   type CommandMap = x : map<string, Options> | forall k <- x :: x[k].name == k
+
+  function GetHelpHelp(opt : Param) : string
+  {
+    if opt.Command? then
+      ""
+    else if opt.Flag? then
+      opt.help
+    else
+      opt.help +
+      if opt.required then
+        " (required)"
+      else if opt.default.Some? then
+        " (default : " + opt.default.value + ")"
+      else
+        ""
+  }
 
   function OneHelp(opt : Param, longLen : nat) : string
   {
     if opt.Command? then
       ""
     else
-      GetShortHelp(opt) + "  " + GetLongHelp(opt, longLen) + "  " + opt.help + "\n"
+      GetShortHelp(opt) + "  " + GetLongHelp(opt, longLen) + "  " + GetHelpHelp(opt) + "\n"
   }
 
   function GetCommandHelp(opt : Param, commandLen : nat) : string
@@ -400,13 +431,62 @@ module {:options "-functionSyntax:4"} GetOpt {
     return Pass;
   }
 
+  predicate {:tailrecursion} ArgExists(args : seq<OneArg>, name : string)
+  {
+    if |args| == 0 then
+      false
+    else if args[0].name == name then
+      true
+    else
+      ArgExists(args[1..], name)
+  }
+
+  function {:tailrecursion} PostProcess2(opts : seq<Param>, args : seq<OneArg>, newArgs : seq<OneArg> := []) : Result<seq<OneArg>, string>
+  {
+    if |opts| == 0 then
+      Success(newArgs)
+    else if opts[0].Opt? && opts[0].required && !ArgExists(args, opts[0].name) then
+      Failure("Option '" + opts[0].name + "' is required, but was not used.")
+    else if opts[0].Opt? && opts[0].default.Some? && !ArgExists(args, opts[0].name) then
+      PostProcess2(opts[1..], args, newArgs + [OneArg(opts[0].name, Some(opts[0].default.value))])
+    else
+      PostProcess2(opts[1..], args, newArgs)
+  }
+
+  // return position of option which is the subcommand of this name
+  function {:tailrecursion} GetSubOptions(opts : seq<Param>, name : string, pos : nat := 0) : (ret : Result<nat, string>)
+    requires pos <= |opts|
+    ensures ret.Success? ==> 0 < |opts| && ret.value < |opts| && opts[ret.value].Command? && opts[ret.value].options.name == name
+    decreases |opts|-pos
+  {
+    if |opts| == pos then
+      Failure("Internal Error in GetSubOptions")
+    else if opts[pos].Command? && opts[pos].options.name == name then
+      Success(pos)
+    else
+      GetSubOptions(opts, name, pos+1)
+  }
+
+  function /*{:tailrecursion}*/ PostProcess(opts : Options, args : Parsed) : Result<Parsed, string>
+  {
+    var newParams :- PostProcess2(opts.params, args.params);
+    if args.subcommand.Some? then
+      var optPos :- GetSubOptions(opts.params, args.subcommand.value.command);
+      var sub :- PostProcess(opts.params[optPos].options, args.subcommand.value);
+      Success(args.(params := args.params + newParams, subcommand := Some(sub)))
+    else
+      Success(args.(params := args.params + newParams))
+  }
+
   function GetOptions(opts : Options, args : seq<string>) : Result<Parsed, string>
     requires 0 < |args|
     decreases args
   {
+    :- ValidOptions(opts.params);
     var (longMap, shortMap, commandMap) :- GetMaps(opts.params, map["help" := false]);
     var context := Context(longMap, shortMap, commandMap, args[0]);
-    GetOptions2(args[1..], context)
+    var result :- GetOptions2(args[1..], context);
+    PostProcess(opts, result)
   }
 
   datatype Context = Context (
@@ -536,6 +616,37 @@ module {:options "-functionSyntax:4"} GetOpt {
     expect x.files == ["file1", "-", "file3", "--this", "-that"];
   }
 
+  method {:test} TestRequired() {
+    var MyOptions := Options("MyProg", "does stuff",
+                             [
+                               Param.Flag("foo", "helpText"),
+                               Param.Opt("bar", "helpText", required := true),
+                               Param.Opt("two", "helpText", short := 't'),
+                               Param.Flag("six", "helpText", short := 's'),
+                               Param.Flag("seven", "helpText", short := 'v')
+                             ]);
+    var x :- expect GetOptions(MyOptions, ["cmd", "--foo", "file1", "--bar", "bar1", "-", "--bar=bar2=bar3", "file3", "--", "--this", "-that"]);
+    expect x.params == [OneArg("foo", None), OneArg("bar", Some("bar1")), OneArg("bar", Some("bar2=bar3"))];
+    expect x.files == ["file1", "-", "file3", "--this", "-that"];
+    print "\n", GetHelp(MyOptions);
+
+    var y := GetOptions(MyOptions, ["cmd", "--foo", "file1", "file3", "--", "--this", "-that"]);
+    expect y.Failure?;
+    expect y.error == "Option 'bar' is required, but was not used.";
+  }
+
+  method {:test} TestDefaultRequired() {
+    var MyOptions := Options("MyProg", "does stuff",
+                             [
+                               Param.Flag("foo", "helpText"),
+                               Param.Opt("bar", "helpText", required := true, default := Some("foo")),
+                               Param.Opt("two", "helpText", short := 't')
+                             ]);
+    var x := GetOptions(MyOptions, ["cmd", "--foo", "file1", "--bar", "bar1", "-", "--bar=bar2=bar3", "file3", "--", "--this", "-that"]);
+    expect x.Failure?;
+    expect x.error == "Option 'bar' is both required and has a default value.";
+  }
+
   method {:test} TestHelp() {
     var MyOptions := Options("MyProg", "does stuff",
                              [
@@ -564,6 +675,7 @@ module {:options "-functionSyntax:4"} GetOpt {
                              ]);
     var x :- expect GetOptions(MyOptions, ["cmd", "--foo", "other", "--seven=siete", "--eight"]);
     expect x.command == "cmd";
+    print "\n", x.params, "\n";
     expect x.params == [OneArg("foo", None)];
     expect x.files == [];
     expect x.subcommand.Some?;
@@ -574,6 +686,60 @@ module {:options "-functionSyntax:4"} GetOpt {
     expect sub.subcommand.None?;
     print "\n", GetHelp(MyOptions);
   }
+
+  method {:test} TestDefault() {
+    var MyOptions := Options(
+      "MyProg",
+      "does stuff",
+      [
+        Param.Flag("foo", "Does foo things"),
+        Param.Opt("two", "Does bar things to thingy", short := 't', argName := "thingy", default := Some("two_dflt")),
+        Param.Command(Options(
+                        "command", "Does command stuff", [
+                          Param.Opt("five", "Does five things to thingy", short := 'h', argName := "thingy", default := Some("five_dflt")),
+                          Param.Flag("six", "Does six things")
+                        ]
+                      )),
+        Param.Command(Options(
+                        "other", "Does other stuff", [
+                          Param.Opt("seven", "Does seven things to thingy", short := 'h', argName := "thingy", default := Some("seven_dflt")),
+                          Param.Flag("eight", "Does eight things")
+                        ]
+                      ))
+      ]
+    );
+    var x :- expect GetOptions(MyOptions, ["cmd", "--foo", "other", "--eight"]);
+    expect x.command == "cmd";
+    expect x.params == [OneArg("foo", None), OneArg("two", Some("two_dflt"))];
+    expect x.files == [];
+    expect x.subcommand.Some?;
+    var sub := x.subcommand.value;
+    expect sub.command == "other";
+    expect sub.params == [OneArg("eight", None), OneArg("seven", Some("seven_dflt"))];
+    expect sub.files == [];
+    expect sub.subcommand.None?;
+
+    x :- expect GetOptions(MyOptions, ["cmd", "--foo", "command", "--six"]);
+    expect x.command == "cmd";
+    expect x.params == [OneArg("foo", None), OneArg("two", Some("two_dflt"))];
+    expect x.files == [];
+    expect x.subcommand.Some?;
+    sub := x.subcommand.value;
+    expect sub.command == "command";
+    expect sub.params == [OneArg("six", None), OneArg("five", Some("five_dflt"))];
+    expect sub.files == [];
+    expect sub.subcommand.None?;
+
+    x :- expect GetOptions(MyOptions, ["cmd", "--foo"]);
+    expect x.command == "cmd";
+    print "\n", x.params, "\n";
+    expect x.params == [OneArg("foo", None), OneArg("two", Some("two_dflt"))];
+    expect x.files == [];
+    expect x.subcommand.None?;
+
+    print "\n", GetHelp(MyOptions);
+  }
+
 
   method {:test} TestDdbec() {
     var MyOptions := Options("ddbec", "Test the ddbec",
