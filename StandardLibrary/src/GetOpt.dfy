@@ -12,8 +12,8 @@ Types :
     OneArg (name : string, value : Option<string>) // for Opt value.Some? for Flag value.None?
 
 Main Entry Points :
-  GetOptions(opts : Options, args : seq<string>) // Parse args based on Options, automatically includes --help
-  GetHelp(opts : Options) : string // return help text for Options
+  GetOptions(opts : Options, args : seq<string>) : Parsed // Parse args based on Options, automatically includes --help
+  NeedsHelp(opts : Options, args : Parsed) : Option<string> // return help text, if --help was used
 
 Helpers for `Opt` args :
   OptValue(args : seq<OneArg>, arg : string) : Option<string> // return value for arg, if used
@@ -66,6 +66,11 @@ Specialized Options for Opt
   nameonly default : string // if not used, pretend it was used with this value
   nameonly required : bool  // if not used, report an error
   // it is, of course, an error for something to be required and also have a default value
+  nameonly inherit : bool // all subcommands inherit this Param
+
+Specialized Options for Flag
+  nameonly bool solo // if this flag is used, no other Options may be used
+  nameonly inherit : bool // all subcommands inherit this Param
 
 
 Future Directions (NOT ordered) :
@@ -96,11 +101,23 @@ Not Future Directions :
 */
 
 include "../../libraries/src/Wrappers.dfy"
-include "StandardLibrary.dfy"
 
 module {:options "-functionSyntax:4"} GetOpt {
   import opened Wrappers
-  import opened StandardLibrary
+    // import Seq
+
+  /* Returns the subsequence consisting of those elements of a sequence that satisfy a given
+    predicate. */
+  function {:opaque} Filter<T>(f: (T ~> bool), xs: seq<T>): (result: seq<T>)
+    requires forall i :: 0 <= i < |xs| ==> f.requires(xs[i])
+    ensures |result| <= |xs|
+    ensures forall i: nat :: i < |result| && f.requires(result[i]) ==> f(result[i])
+    reads set i, o | 0 <= i < |xs| && o in f.reads(xs[i]) :: o
+  {
+    if |xs| == 0 then []
+    else (if f(xs[0]) then [xs[0]] else []) + Filter(f, xs[1..])
+  }
+
 
   // --key value file --key=value file -abckValue [--] file file file
   method Example(args : seq<string>) returns (output : Result<bool, string>)
@@ -115,7 +132,13 @@ module {:options "-functionSyntax:4"} GetOpt {
                             ]))
     ];
 
-    var x :- GetOptions(Options("myProg", "does prog stuff", MyOptions), args);
+    var opts := Options("myProg", "does prog stuff", MyOptions);
+    var x :- GetOptions(opts, args);
+    var h := NeedsHelp(opts, x);
+    if h.Some? {
+      print h.value;
+      return Success(true);
+    }
     // deal with x.params
     // deal with x.files
     // deal with x.subcommand
@@ -137,32 +160,60 @@ module {:options "-functionSyntax:4"} GetOpt {
         nameonly argName: string := "arg",
         nameonly short: char := NullChar,
         nameonly default : Option<string> := None,
-        nameonly required : bool := false
+        nameonly required : bool := false,
+        nameonly inherit : bool := false
       )
     | Flag(
         name: string,
         help: string,
-        nameonly short: char := NullChar
+        nameonly short: char := NullChar,
+        nameonly solo : bool := false,
+        nameonly inherit : bool := false
       )
     | Command(
         options : Options
       )
-
-  function GetHelp(opts : Options) : string
   {
-    var longLen := GetLongLen(opts.params, 6);
-    var commandLen := GetCommandLen(opts.params);
+    predicate NeedsArg()
+    {
+      this.Opt?
+    }
+    predicate Inherits()
+    {
+      (this.Opt? || this.Flag?) && this.inherit
+    }
+  }
+
+  function {:tailrecursion} NeedsHelp(opts : Options, args : Parsed, prefix : string := "") : Option<string>
+  {
+    if |args.params| != 0 && args.params[0].name == HELP_STR then
+      Some(GetHelp(opts, prefix))
+    else if args.subcommand.Some? then
+      var pos :- GetSubOptions(opts.params, args.subcommand.value.command);
+      NeedsHelp(opts.params[pos].options, args.subcommand.value, prefix + args.command + " ")
+    else
+      None
+  }
+
+  const HELP_STR : string := "help"
+  const HELP_PARAM : Param := Param.Flag(HELP_STR, "This help text.", solo := true, inherit := true)
+
+  function GetHelp(opts : Options, prefix : string := "") : string
+  {
+    var newOpts := opts.params + [HELP_PARAM];
+    var longLen := GetLongLen(newOpts, 6);
+    var commandLen := GetCommandLen(newOpts);
     if commandLen == 0 then
-      "USAGE : " + opts.name + " [args...]\n" +
+      "USAGE : " + prefix + opts.name + " [args...]\n" +
       opts.help + "\n" +
-      GetHelp2(opts.params, longLen)
+      GetHelp2(newOpts, longLen)
     else
       "USAGE : " + opts.name + " [args...] + command + [args...]\n" +
       opts.help + "\n" +
       "\nAvailable Commands:\n" +
-      GetCmdHelp(opts.params, commandLen) +
+      GetCmdHelp(newOpts, commandLen) +
       "\nAvailable Options:\n" +
-      GetHelp2(opts.params, longLen)
+      GetHelp2(newOpts, longLen)
   }
 
   datatype OneArg = OneArg (
@@ -355,7 +406,7 @@ module {:options "-functionSyntax:4"} GetOpt {
   function GetHelp2(opts : seq<Param>, longLen : nat) : string
   {
     if |opts| == 0 then
-      OneHelp(Flag("help", "This help text."), longLen)
+      ""
     else
       var x := OneHelp(opts[0], longLen);
       x + GetHelp2(opts[1..], longLen)
@@ -397,10 +448,10 @@ module {:options "-functionSyntax:4"} GetOpt {
   // convert opts to the various maps that make parsing possible
   function {:tailrecursion} GetMaps(
     opts : seq<Param>,
-    longMap : map<string, bool> := map[],
+    longMap : map<string, Param> := map[],
     shortMap : map<char, string> := map[],
     commandMap : CommandMap := map[])
-    : (ret : Result<(map<string, bool>, map<char, string>, CommandMap), string>)
+    : (ret : Result<(map<string, Param>, map<char, string>, CommandMap), string>)
     requires forall x <- shortMap :: shortMap[x] in longMap
     ensures ret.Success? ==> (forall x <- ret.value.1 :: ret.value.1[x] in ret.value.0)
   {
@@ -413,15 +464,15 @@ module {:options "-functionSyntax:4"} GetOpt {
         GetMaps(opts[1..], longMap, shortMap, commandMap[opt.options.name := opt.options])
       else
         :- Need(opt.name !in longMap, "Duplicate long name in options : " + opt.name);
-        var longMap := longMap[opt.name := opt.Opt?];
+        var longMap := longMap[opt.name := opt];
         if opt.short != NullChar then
           var short := opt.short;
           if short in shortMap then // can't be a `Need` because shortMap[short] required in message
             Failure("Duplicate short char in options : '" + [short] + "' for " + opt.name + " and " + shortMap[short])
           else
-            GetMaps(opts[1..], longMap[opt.name := opt.Opt?], shortMap[short := opt.name], commandMap)
+            GetMaps(opts[1..], longMap[opt.name := opt], shortMap[short := opt.name], commandMap)
         else
-          GetMaps(opts[1..], longMap[opt.name := opt.Opt?], shortMap, commandMap)
+          GetMaps(opts[1..], longMap[opt.name := opt], shortMap, commandMap)
   }
 
   function Print<T>(x: T): Outcome<string> {
@@ -454,15 +505,15 @@ module {:options "-functionSyntax:4"} GetOpt {
   }
 
   // return position of option which is the subcommand of this name
-  function {:tailrecursion} GetSubOptions(opts : seq<Param>, name : string, pos : nat := 0) : (ret : Result<nat, string>)
+  function {:tailrecursion} GetSubOptions(opts : seq<Param>, name : string, pos : nat := 0) : (ret : Option<nat>)
     requires pos <= |opts|
-    ensures ret.Success? ==> 0 < |opts| && ret.value < |opts| && opts[ret.value].Command? && opts[ret.value].options.name == name
+    ensures ret.Some? ==> 0 < |opts| && ret.value < |opts| && opts[ret.value].Command? && opts[ret.value].options.name == name
     decreases |opts|-pos
   {
     if |opts| == pos then
-      Failure("Internal Error in GetSubOptions")
+      None
     else if opts[pos].Command? && opts[pos].options.name == name then
-      Success(pos)
+      Some(pos)
     else
       GetSubOptions(opts, name, pos+1)
   }
@@ -471,9 +522,12 @@ module {:options "-functionSyntax:4"} GetOpt {
   {
     var newParams :- PostProcess2(opts.params, args.params);
     if args.subcommand.Some? then
-      var optPos :- GetSubOptions(opts.params, args.subcommand.value.command);
-      var sub :- PostProcess(opts.params[optPos].options, args.subcommand.value);
-      Success(args.(params := args.params + newParams, subcommand := Some(sub)))
+      var optPos := GetSubOptions(opts.params, args.subcommand.value.command);
+      if optPos.Some? then
+        var sub :- PostProcess(opts.params[optPos.value].options, args.subcommand.value);
+        Success(args.(params := args.params + newParams, subcommand := Some(sub)))
+      else
+        Failure("Internal error in GetOpt::PostProcess")
     else
       Success(args.(params := args.params + newParams))
   }
@@ -482,19 +536,42 @@ module {:options "-functionSyntax:4"} GetOpt {
     requires 0 < |args|
     decreases args
   {
+    var newOpts := opts.params + [HELP_PARAM];
     :- ValidOptions(opts.params);
-    var (longMap, shortMap, commandMap) :- GetMaps(opts.params, map["help" := false]);
-    var context := Context(longMap, shortMap, commandMap, args[0]);
+    var inherits := Filter((o : Param) => o.Inherits(), newOpts);
+    var (longMap, shortMap, commandMap) :- GetMaps(newOpts);
+    var context := Context(longMap, shortMap, inherits, commandMap, args[0]);
     var result :- GetOptions2(args[1..], context);
     PostProcess(opts, result)
   }
 
   datatype Context = Context (
-    longMap : map<string, bool>,
+    longMap : map<string, Param>,
     shortMap : map<char, string>,
+    inherits : seq<Param>,
     commands : CommandMap,
     command : string
   )
+
+  /* For an element that occurs at least once in a sequence, the index of its
+     first occurrence is returned. */
+  function {:opaque} IndexOf<T(==)>(xs: seq<T>, v: T): (i: nat)
+    requires v in xs
+    ensures i < |xs| && xs[i] == v
+    ensures forall j :: 0 <= j < i ==> xs[j] != v
+  {
+    if xs[0] == v then 0 else 1 + IndexOf(xs[1..], v)
+  }
+
+  // split on first occurrence of delim, which must exist
+  function SplitOnce<T(==)>(s: seq<T>, delim: T): (res : (seq<T>,seq<T>))
+    requires delim in s
+    ensures res.0 + [delim] + res.1 == s
+    ensures !(delim in res.0)
+  {
+    var i := IndexOf(s, delim);
+    (s[..i], s[(i + 1)..])
+  }
 
   function /*{:tailrecursion}*/ GetOptions2(
     args : seq<string>,
@@ -508,8 +585,9 @@ module {:options "-functionSyntax:4"} GetOpt {
     if |args| == 0 then
       Success(Parsed(context.command, parms, files, None))
     else if args[0] in context.commands then
-      var (longMap, shortMap, commandSet) :- GetMaps(context.commands[args[0]].params, map["help" := false]);
-      var newContext := Context(longMap, shortMap, commandSet, args[0]);
+      var inherits := Filter((o : Param) => o.Inherits(), context.commands[args[0]].params);
+      var (longMap, shortMap, commandSet) :- GetMaps(context.commands[args[0]].params + context.inherits);
+      var newContext := Context(longMap, shortMap, context.inherits + inherits, commandSet, args[0]);
       var result :- GetOptions2(args[1..], newContext); // this is why it can't be tail recursive
       Success(Parsed(context.command, parms, files, Some(result)))
     else if args[0] == "--" then
@@ -519,7 +597,7 @@ module {:options "-functionSyntax:4"} GetOpt {
       if '=' in longOpt then
         var (opt,arg) := SplitOnce(longOpt, '=');
         if opt in context.longMap then
-          if context.longMap[opt] then
+          if context.longMap[opt].NeedsArg() then
             GetOptions2(args[1..], context, parms + [OneArg(opt, Some(arg))], files)
           else
             Failure("Option " + opt + " does not take an argument, but it got one.")
@@ -527,11 +605,14 @@ module {:options "-functionSyntax:4"} GetOpt {
           Failure("Option " + opt + " not recognized.")
       else
       if longOpt in context.longMap then
-        if context.longMap[longOpt] then
+        var opt := context.longMap[longOpt];
+        if opt.NeedsArg() then
           if |args| < 2 then
             Failure("Option " + longOpt + " requires an argument, but didn't get one.")
           else
             GetOptions2(args[2..], context, parms + [OneArg(longOpt, Some(args[1]))], files)
+        else if opt.Flag? && opt.solo && (|args| != 1 || |parms| != 0 || |files| != 0) then
+          Failure("Option '" + longOpt + "' used with other stuff, but must only be used alone.")
         else
           GetOptions2(args[1..], context, parms + [OneArg(longOpt, None)], files)
       else
@@ -552,7 +633,7 @@ module {:options "-functionSyntax:4"} GetOpt {
       Failure("Unrecognized command " + args[0] + " for " + context.command + "\nRun '" + context.command + " --help' for usage.")
   }
 
-  function GetShort(arg : string, longMap : map<string, bool>, shortMap : map<char, string>, parms : seq<OneArg> := [])
+  function GetShort(arg : string, longMap : map<string, Param>, shortMap : map<char, string>, parms : seq<OneArg> := [])
     : (res : Result<(seq<OneArg>, Option<char>), string>)
     requires forall x <- shortMap :: shortMap[x] in longMap
     ensures res.Success? && res.value.1.Some? ==> res.value.1.value in shortMap
@@ -563,7 +644,7 @@ module {:options "-functionSyntax:4"} GetOpt {
       var ch := arg[0];
       if ch in shortMap then
         var opt := shortMap[ch];
-        if longMap[opt] then
+        if longMap[opt].NeedsArg() then
           if |arg| == 1 then
             Success((parms, Some(ch)))
           else
@@ -628,7 +709,6 @@ module {:options "-functionSyntax:4"} GetOpt {
     var x :- expect GetOptions(MyOptions, ["cmd", "--foo", "file1", "--bar", "bar1", "-", "--bar=bar2=bar3", "file3", "--", "--this", "-that"]);
     expect x.params == [OneArg("foo", None), OneArg("bar", Some("bar1")), OneArg("bar", Some("bar2=bar3"))];
     expect x.files == ["file1", "-", "file3", "--this", "-that"];
-    print "\n", GetHelp(MyOptions);
 
     var y := GetOptions(MyOptions, ["cmd", "--foo", "file1", "file3", "--", "--this", "-that"]);
     expect y.Failure?;
@@ -656,7 +736,23 @@ module {:options "-functionSyntax:4"} GetOpt {
                                Param.Flag("six", "helpText", short := 's'),
                                Param.Flag("seven", "helpText", short := 'v')
                              ]);
-    print "\n", GetHelp(MyOptions);
+    var x :- expect GetOptions(MyOptions, ["cmd", "--help"]);
+    var y :- expect NeedsHelp(MyOptions, x);
+    print "\n", y, "\n";
+  }
+
+  method {:test} TestHelpFail() {
+    var MyOptions := Options("MyProg", "does stuff",
+                             [
+                               Param.Flag("foo", "helpText"),
+                               Param.Opt("bar", "helpText"),
+                               Param.Opt("two", "helpText", short := 't'),
+                               Param.Flag("six", "helpText", short := 's'),
+                               Param.Flag("seven", "helpText", short := 'v')
+                             ]);
+    var x := GetOptions(MyOptions, ["cmd", "--help", "--foo"]);
+    expect x.Failure?;
+    expect x.error == "Option 'help' used with other stuff, but must only be used alone.";
   }
 
   method {:test} TestNested() {
@@ -666,16 +762,15 @@ module {:options "-functionSyntax:4"} GetOpt {
                                Param.Opt("two", "Does bar things to thingy", short := 't', argName := "thingy"),
                                Param.Command(Options("command", "Does command stuff", [
                                                        Param.Opt("five", "Does five things to thingy", short := 'h', argName := "thingy"),
-                                                       Param.Flag("six", "Does six things")
+                                                       Param.Flag("six", "Does six things", inherit := true)
                                                      ])),
                                Param.Command(Options("other", "Does other stuff", [
                                                        Param.Opt("seven", "Does seven things to thingy", short := 'h', argName := "thingy"),
                                                        Param.Flag("eight", "Does eight things")
                                                      ]))
                              ]);
-    var x :- expect GetOptions(MyOptions, ["cmd", "--foo", "other", "--seven=siete", "--eight"]);
-    expect x.command == "cmd";
-    print "\n", x.params, "\n";
+    var x :- expect GetOptions(MyOptions, ["MyProg", "--foo", "other", "--seven=siete", "--eight"]);
+    expect x.command == "MyProg";
     expect x.params == [OneArg("foo", None)];
     expect x.files == [];
     expect x.subcommand.Some?;
@@ -684,7 +779,14 @@ module {:options "-functionSyntax:4"} GetOpt {
     expect sub.params == [OneArg("seven", Some("siete")), OneArg("eight", None)];
     expect sub.files == [];
     expect sub.subcommand.None?;
-    print "\n", GetHelp(MyOptions);
+
+    x :- expect GetOptions(MyOptions, ["MyProg", "--help"]);
+    var y :- expect NeedsHelp(MyOptions, x);
+    print "\n", y, "\n";
+
+    x :- expect GetOptions(MyOptions, ["MyProg", "command", "--help"]);
+    y :- expect NeedsHelp(MyOptions, x);
+    print "\n", y, "\n";
   }
 
   method {:test} TestDefault() {
@@ -732,12 +834,9 @@ module {:options "-functionSyntax:4"} GetOpt {
 
     x :- expect GetOptions(MyOptions, ["cmd", "--foo"]);
     expect x.command == "cmd";
-    print "\n", x.params, "\n";
     expect x.params == [OneArg("foo", None), OneArg("two", Some("two_dflt"))];
     expect x.files == [];
     expect x.subcommand.None?;
-
-    print "\n", GetHelp(MyOptions);
   }
 
 
