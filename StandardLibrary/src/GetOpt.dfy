@@ -62,34 +62,35 @@ Command Line Interpretations :
     cmd --cherry file1 sub --whatever 
   returns the error "subcommand 'file1' not recognized"
 
-Specialized Options for Opt
-  nameonly default : string // if not used, pretend it was used with this value
-  nameonly required : bool  // if not used, report an error
-  // it is, of course, an error for something to be required and also have a default value
+Specialized Options for both Opt and Flag
   nameonly inherit : bool // all subcommands inherit this Param
+  nameonly vis : Visibility // should this option be hidden from help or results
+  nameonly shortAlias : seq<char> // these short option characters also point to this same option
+  nameonly longAlias : seq<char> // these long option strings also point to this same option
+  // aliases do not appear in help. returned arg name is the option's name, not the alias's
+
+Specialized Options for Opt
+  nameonly unused : Unused // if not used, raise an error or provide a default
 
 Specialized Options for Flag
   nameonly bool solo // if this flag is used, no other Options may be used
-  nameonly inherit : bool // all subcommands inherit this Param
-
 
 Future Directions (NOT ordered) :
+
+  leading positional arguments, e.g. MyProg X Y Z --arg value --arg value
+    Opt has
+      nameonly positional : Tri := No
+    order in list is order of positionals
+    all Yes's must precede all Maybe's
+
   if X is used, Y is required
   if X is used, Y is not required
   if X is used, Y is forbidden
-  if X is used, no other arguments can be used (e.g. --help)
-  exactly one of X, Y, Z is required
-  alias long option X for Y, does not appear in help
-  alias short option X for Y, does not appear in help
-  deprecated option X, does not appear in help, ignored
-  hidden option X, does not appear in help, not ignored
-  leading positional arguments, e.g. MyProg X Y Z --arg value --arg value
-  optional leading arguments, e.g. MyProg X Y Z --arg value --arg value or e.g. MyProg X --arg value --arg value
-    -NNN is a value, not an option, e.g. head and tail.
-  global params : get inherited by any subcommands
-  value of --arg is everything to the right; presumably joined on space
   if X is used, Y gets this default value
-  word wrapping for help text
+  exactly one of X, Y, Z is required (but better to have "--thing (X or Y or Z)" be required)
+
+  value of --arg is everything to the right; presumably joined on space
+  better formatting and word wrapping for help text
 
 Not Future Directions :
   Automatic printing of --help text, and subsequent exit.
@@ -101,25 +102,12 @@ Not Future Directions :
 */
 
 include "../../libraries/src/Wrappers.dfy"
+  //include "../../../../submodules/MaterialProviders/libraries/src/Collections/Sequences/Seq.dfy"
 
 module {:options "-functionSyntax:4"} GetOpt {
   import opened Wrappers
-    // import Seq
+    // import Seq, replace when repaired
 
-  /* Returns the subsequence consisting of those elements of a sequence that satisfy a given
-    predicate. */
-  function {:opaque} Filter<T>(f: (T ~> bool), xs: seq<T>): (result: seq<T>)
-    requires forall i :: 0 <= i < |xs| ==> f.requires(xs[i])
-    ensures |result| <= |xs|
-    ensures forall i: nat :: i < |result| && f.requires(result[i]) ==> f(result[i])
-    reads set i, o | 0 <= i < |xs| && o in f.reads(xs[i]) :: o
-  {
-    if |xs| == 0 then []
-    else (if f(xs[0]) then [xs[0]] else []) + Filter(f, xs[1..])
-  }
-
-
-  // --key value file --key=value file -abckValue [--] file file file
   method Example(args : seq<string>) returns (output : Result<bool, string>)
     requires 0 < |args|
   {
@@ -145,6 +133,21 @@ module {:options "-functionSyntax:4"} GetOpt {
     return Success(true);
   }
 
+  /* Returns the subsequence consisting of those elements of a sequence that satisfy a given
+    predicate. */
+  function {:opaque} Filter<T>(f: (T ~> bool), xs: seq<T>): (result: seq<T>)
+    requires forall i :: 0 <= i < |xs| ==> f.requires(xs[i])
+    ensures |result| <= |xs|
+    ensures forall i: nat :: i < |result| && f.requires(result[i]) ==> f(result[i])
+    reads set i, o | 0 <= i < |xs| && o in f.reads(xs[i]) :: o
+  {
+    if |xs| == 0 then []
+    else (if f(xs[0]) then [xs[0]] else []) + Filter(f, xs[1..])
+  }
+
+  datatype Tri = Yes | No | Maybe
+  datatype Visibility = Normal | Hidden | Deprecated
+
   const NullChar : char := 0 as char
 
   datatype Options = Options (
@@ -153,22 +156,29 @@ module {:options "-functionSyntax:4"} GetOpt {
     params : seq<Param>
   )
 
+  datatype Unused = UnusedOk | Required | Default(val : string)
+
   datatype Param =
     | Opt(
         name: string,
         help: string,
         nameonly argName: string := "arg",
         nameonly short: char := NullChar,
-        nameonly default : Option<string> := None,
-        nameonly required : bool := false,
-        nameonly inherit : bool := false
+        nameonly unused : Unused := UnusedOk,
+        nameonly inherit : bool := false,
+        nameonly vis : Visibility := Normal,
+        nameonly shortAlias : seq<char> := [],
+        nameonly longAlias : seq<string> := []
       )
     | Flag(
         name: string,
         help: string,
         nameonly short: char := NullChar,
         nameonly solo : bool := false,
-        nameonly inherit : bool := false
+        nameonly inherit : bool := false,
+        nameonly vis : Visibility := Normal,
+        nameonly shortAlias : seq<char> := [],
+        nameonly longAlias : seq<string> := []
       )
     | Command(
         options : Options
@@ -181,6 +191,50 @@ module {:options "-functionSyntax:4"} GetOpt {
     predicate Inherits()
     {
       (this.Opt? || this.Flag?) && this.inherit
+    }
+    predicate ShowHelp()
+    {
+      this.Command? || this.vis == Normal
+    }
+    predicate KeepResult()
+    {
+      this.Command? || this.vis != Deprecated
+    }
+    function Name() : string
+    {
+      if this.Command? then
+        options.name
+      else
+        name
+    }
+    function MakeArg(value : Option<string>) : seq<OneArg>
+    {
+      if this.KeepResult() then
+        [OneArg(Name(), value)]
+      else
+        []
+    }
+    function ShortAlias() : seq<char>
+    {
+      if this.Command? then
+        []
+      else
+        shortAlias
+    }
+    function LongAlias() : seq<string>
+    {
+      if this.Command? then
+        []
+      else
+        longAlias
+    }
+    predicate Required()
+    {
+      this.Opt? && this.unused.Required?
+    }
+    predicate HasDefault()
+    {
+      this.Opt? && this.unused.Default?
     }
   }
 
@@ -208,7 +262,7 @@ module {:options "-functionSyntax:4"} GetOpt {
       opts.help + "\n" +
       GetHelp2(newOpts, longLen)
     else
-      "USAGE : " + opts.name + " [args...] + command + [args...]\n" +
+      "USAGE : " + opts.name + " [args...] command [args...]\n" +
       opts.help + "\n" +
       "\nAvailable Commands:\n" +
       GetCmdHelp(newOpts, commandLen) +
@@ -227,16 +281,6 @@ module {:options "-functionSyntax:4"} GetOpt {
     files : seq<string>,
     subcommand : Option<Parsed>
   )
-
-  function {:tailrecursion} ValidOptions(params : seq<Param>) : Outcome<string>
-  {
-    if |params| == 0 then
-      Pass
-    else if params[0].Opt? && params[0].required && params[0].default.Some? then
-      Fail("Option '" + params[0].name + "' is both required and has a default value.")
-    else
-      ValidOptions(params[1..])
-  }
 
   // get value of first occurrence of option with required argument.
   // Cannot distinguish "no value" from "argument not used"
@@ -348,17 +392,17 @@ module {:options "-functionSyntax:4"} GetOpt {
       opt.help
     else
       opt.help +
-      if opt.required then
+      if opt.Required() then
         " (required)"
-      else if opt.default.Some? then
-        " (default : " + opt.default.value + ")"
+      else if opt.HasDefault() then
+        " (default : " + opt.unused.val + ")"
       else
         ""
   }
 
   function OneHelp(opt : Param, longLen : nat) : string
   {
-    if opt.Command? then
+    if opt.Command? || !opt.ShowHelp() then
       ""
     else
       GetShortHelp(opt) + "  " + GetLongHelp(opt, longLen) + "  " + GetHelpHelp(opt) + "\n"
@@ -445,6 +489,50 @@ module {:options "-functionSyntax:4"} GetOpt {
       GetCommandLen(opts[1..], newMax)
   }
 
+  function AddShortAlias(
+    aliases : seq<char>,
+    shortMap : map<char, string>,
+    name : string,
+    ghost origLongMap : map<string, Param>,
+    ghost origAliases : seq<char> := aliases,
+    ghost origShortMap : map<char, string> := shortMap
+  ) : (ret : Result<map<char, string>, string>)
+    requires name in origLongMap
+    requires forall x <- shortMap :: shortMap[x] in origLongMap
+    requires forall k <- origShortMap :: k in shortMap && shortMap[k] == origShortMap[k]
+    requires forall k <- origAliases :: k in aliases || (k in shortMap && shortMap[k] == name)
+    requires forall k <- shortMap ::
+               || (k in origShortMap && shortMap[k] == origShortMap[k])
+               || (shortMap[k] == name)
+    ensures ret.Success? ==>
+              && (forall k <- origShortMap :: k in ret.value && ret.value[k] == origShortMap[k])
+              && (forall k <- origAliases :: k in ret.value && ret.value[k] == name)
+              && (forall x <- ret.value :: ret.value[x] in origLongMap)
+  {
+    if |aliases| == 0 then
+      Success(shortMap)
+    else if aliases[0] in shortMap then
+      Failure("Short alias '" + aliases[0..1] + "' for '" + name + "' already in use as a short option.")
+    else
+      AddShortAlias(aliases[1..], shortMap[aliases[0] := name], name, origLongMap, origAliases, origShortMap)
+  }
+
+  function AddLongAlias(
+    aliases : seq<string>,
+    longMap : map<string, Param>,
+    opt : Param
+  ) : (ret : Result<map<string, Param>, string>)
+    ensures ret.Success? ==>
+              forall k <- longMap :: k in ret.value
+  {
+    if |aliases| == 0 then
+      Success(longMap)
+    else if aliases[0] in longMap then
+      Failure("Long alias '" + aliases[0] + "' already in use as a long option.")
+    else
+      AddLongAlias(aliases[1..], longMap[aliases[0] := opt], opt)
+  }
+
   // convert opts to the various maps that make parsing possible
   function {:tailrecursion} GetMaps(
     opts : seq<Param>,
@@ -465,6 +553,8 @@ module {:options "-functionSyntax:4"} GetOpt {
       else
         :- Need(opt.name !in longMap, "Duplicate long name in options : " + opt.name);
         var longMap := longMap[opt.name := opt];
+        var shortMap :- AddShortAlias(opt.ShortAlias(), shortMap, opt.name, longMap);
+        var longMap :- AddLongAlias(opt.LongAlias(), longMap, opt);
         if opt.short != NullChar then
           var short := opt.short;
           if short in shortMap then // can't be a `Need` because shortMap[short] required in message
@@ -496,10 +586,10 @@ module {:options "-functionSyntax:4"} GetOpt {
   {
     if |opts| == 0 then
       Success(newArgs)
-    else if opts[0].Opt? && opts[0].required && !ArgExists(args, opts[0].name) then
+    else if opts[0].Opt? && opts[0].Required() && !ArgExists(args, opts[0].name) then
       Failure("Option '" + opts[0].name + "' is required, but was not used.")
-    else if opts[0].Opt? && opts[0].default.Some? && !ArgExists(args, opts[0].name) then
-      PostProcess2(opts[1..], args, newArgs + [OneArg(opts[0].name, Some(opts[0].default.value))])
+    else if opts[0].Opt? && opts[0].HasDefault() && !ArgExists(args, opts[0].name) then
+      PostProcess2(opts[1..], args, newArgs + [OneArg(opts[0].name, Some(opts[0].unused.val))])
     else
       PostProcess2(opts[1..], args, newArgs)
   }
@@ -537,7 +627,6 @@ module {:options "-functionSyntax:4"} GetOpt {
     decreases args
   {
     var newOpts := opts.params + [HELP_PARAM];
-    :- ValidOptions(opts.params);
     var inherits := Filter((o : Param) => o.Inherits(), newOpts);
     var (longMap, shortMap, commandMap) :- GetMaps(newOpts);
     var context := Context(longMap, shortMap, inherits, commandMap, args[0]);
@@ -598,7 +687,7 @@ module {:options "-functionSyntax:4"} GetOpt {
         var (opt,arg) := SplitOnce(longOpt, '=');
         if opt in context.longMap then
           if context.longMap[opt].NeedsArg() then
-            GetOptions2(args[1..], context, parms + [OneArg(opt, Some(arg))], files)
+            GetOptions2(args[1..], context, parms + context.longMap[opt].MakeArg(Some(arg)), files)
           else
             Failure("Option " + opt + " does not take an argument, but it got one.")
         else
@@ -610,11 +699,11 @@ module {:options "-functionSyntax:4"} GetOpt {
           if |args| < 2 then
             Failure("Option " + longOpt + " requires an argument, but didn't get one.")
           else
-            GetOptions2(args[2..], context, parms + [OneArg(longOpt, Some(args[1]))], files)
+            GetOptions2(args[2..], context, parms + opt.MakeArg(Some(args[1])), files)
         else if opt.Flag? && opt.solo && (|args| != 1 || |parms| != 0 || |files| != 0) then
           Failure("Option '" + longOpt + "' used with other stuff, but must only be used alone.")
         else
-          GetOptions2(args[1..], context, parms + [OneArg(longOpt, None)], files)
+          GetOptions2(args[1..], context, parms + opt.MakeArg(None), files)
       else
         Failure("Option " + longOpt + " not recognized.")
     else if "-" == args[0] then
@@ -626,7 +715,9 @@ module {:options "-functionSyntax:4"} GetOpt {
       else if |args| == 1 then
         Failure("Short option " + [nextParm.value] + " requires argument but didn't get one.")
       else
-        GetOptions2(args[2..], context, parms + newParms + [OneArg(context.shortMap[nextParm.value], Some(args[1]))], files)
+        var longOpt := context.shortMap[nextParm.value];
+        var opt := context.longMap[longOpt];
+        GetOptions2(args[2..], context, parms + newParms + opt.MakeArg(Some(args[1])), files)
     else if |context.commands| == 0 then
       GetOptions2(args[1..], context, parms, files + [args[0]])
     else
@@ -648,9 +739,9 @@ module {:options "-functionSyntax:4"} GetOpt {
           if |arg| == 1 then
             Success((parms, Some(ch)))
           else
-            Success((parms + [OneArg(opt, Some(arg[1..]))], None))
+            Success((parms + longMap[opt].MakeArg(Some(arg[1..])), None))
         else
-          GetShort(arg[1..], longMap, shortMap, parms + [OneArg(opt, None)])
+          GetShort(arg[1..], longMap, shortMap, parms + longMap[opt].MakeArg(None))
       else
         Failure("Short option '" + [ch] + "' not recognized.")
   }
@@ -701,7 +792,7 @@ module {:options "-functionSyntax:4"} GetOpt {
     var MyOptions := Options("MyProg", "does stuff",
                              [
                                Param.Flag("foo", "helpText"),
-                               Param.Opt("bar", "helpText", required := true),
+                               Param.Opt("bar", "helpText", unused := Required),
                                Param.Opt("two", "helpText", short := 't'),
                                Param.Flag("six", "helpText", short := 's'),
                                Param.Flag("seven", "helpText", short := 'v')
@@ -715,16 +806,32 @@ module {:options "-functionSyntax:4"} GetOpt {
     expect y.error == "Option 'bar' is required, but was not used.";
   }
 
-  method {:test} TestDefaultRequired() {
+  method {:test} TestDeprecated() {
     var MyOptions := Options("MyProg", "does stuff",
                              [
-                               Param.Flag("foo", "helpText"),
-                               Param.Opt("bar", "helpText", required := true, default := Some("foo")),
-                               Param.Opt("two", "helpText", short := 't')
+                               Param.Flag("foo", "helpText", vis := Deprecated),
+                               Param.Opt("bar", "helpText", vis := Deprecated),
+                               Param.Opt("two", "helpText", short := 't'),
+                               Param.Flag("six", "helpText", short := 's', vis := Deprecated),
+                               Param.Flag("seven", "helpText", short := 'v')
                              ]);
-    var x := GetOptions(MyOptions, ["cmd", "--foo", "file1", "--bar", "bar1", "-", "--bar=bar2=bar3", "file3", "--", "--this", "-that"]);
-    expect x.Failure?;
-    expect x.error == "Option 'bar' is both required and has a default value.";
+    var x :- expect GetOptions(MyOptions, ["cmd", "--foo", "--bar=baz", "-svtstuff"]);
+    expect x.params == [OneArg("seven", None), OneArg("two", Some("stuff"))];
+    expect x.files == [];
+  }
+
+  method {:test} TestAlias() {
+    var MyOptions := Options("MyProg", "does stuff",
+                             [
+                               Param.Flag("foo", "helpText", shortAlias := "abc", longAlias := ["def", "ghi"]),
+                               Param.Opt("bar", "helpText", vis := Deprecated),
+                               Param.Opt("two", "helpText", short := 't'),
+                               Param.Flag("six", "helpText", short := 's', vis := Deprecated),
+                               Param.Flag("seven", "helpText", short := 'v')
+                             ]);
+    var x :- expect GetOptions(MyOptions, ["cmd", "-abc", "--def", "--ghi"]);
+    expect x.params == [OneArg("foo", None), OneArg("foo", None), OneArg("foo", None), OneArg("foo", None), OneArg("foo", None)];
+    expect x.files == [];
   }
 
   method {:test} TestHelp() {
@@ -795,16 +902,16 @@ module {:options "-functionSyntax:4"} GetOpt {
       "does stuff",
       [
         Param.Flag("foo", "Does foo things"),
-        Param.Opt("two", "Does bar things to thingy", short := 't', argName := "thingy", default := Some("two_dflt")),
+        Param.Opt("two", "Does bar things to thingy", short := 't', argName := "thingy", unused := Default("two_dflt")),
         Param.Command(Options(
                         "command", "Does command stuff", [
-                          Param.Opt("five", "Does five things to thingy", short := 'h', argName := "thingy", default := Some("five_dflt")),
+                          Param.Opt("five", "Does five things to thingy", short := 'h', argName := "thingy", unused := Default("five_dflt")),
                           Param.Flag("six", "Does six things")
                         ]
                       )),
         Param.Command(Options(
                         "other", "Does other stuff", [
-                          Param.Opt("seven", "Does seven things to thingy", short := 'h', argName := "thingy", default := Some("seven_dflt")),
+                          Param.Opt("seven", "Does seven things to thingy", short := 'h', argName := "thingy", unused := Default("seven_dflt")),
                           Param.Flag("eight", "Does eight things")
                         ]
                       ))
@@ -839,17 +946,24 @@ module {:options "-functionSyntax:4"} GetOpt {
     expect x.subcommand.None?;
   }
 
-
   method {:test} TestDdbec() {
-    var MyOptions := Options("ddbec", "Test the ddbec",
-                             [
-                               Param.Command(Options("encrypt", "Encrypts record", [
-                                                       Param.Opt("output", "Write encrypted records to fileName.", short := 'o', argName := "fileName")
-                                                     ])),
-                               Param.Command(Options("decrypt", "Decrypts Records", [
-                                                       Param.Opt("expected", "fileName contains expected plaintext records.", short := 'e', argName := "fileName")
-                                                     ]))
-                             ]);
+    var MyOptions := Options(
+      "ddbec", "Test the ddbec",
+      [
+        Param.Command(Options(
+                        "encrypt", "Encrypts record",
+                        [
+                          Param.Opt("output", "Write encrypted records to fileName.", short := 'o', argName := "fileName")
+                        ]
+                      )),
+        Param.Command(Options(
+                        "decrypt", "Decrypts Records",
+                        [
+                          Param.Opt("expected", "fileName contains expected plaintext records.", short := 'e', argName := "fileName")
+                        ]
+                      ))
+      ]
+    );
   }
 
 }
