@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -73,7 +73,7 @@ import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
 import software_amazon_cryptography_primitives_internaldafny
-import Aws_mCryptography
+import Aws_Cryptography
 import Aws
 import MaterialWrapping
 import CanonicalEncryptionContext
@@ -116,47 +116,47 @@ import CreateRawAesKeyrings
 import CreateRawRsaKeyrings
 import CreateKeyrings
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types
-import JSON_mUtils_mViews_mCore
-import JSON_mUtils_mViews_mWriters
-import JSON_mUtils_mViews
-import JSON_mUtils_mLexers_mCore
-import JSON_mUtils_mLexers_mStrings
-import JSON_mUtils_mLexers
-import JSON_mUtils_mCursors
-import JSON_mUtils_mParsers
-import JSON_mUtils_mStr_mCharStrConversion
-import JSON_mUtils_mStr_mCharStrEscaping
-import JSON_mUtils_mStr
-import JSON_mUtils_mSeq
-import JSON_mUtils_mVectors
-import JSON_mUtils
-import JSON_mErrors
-import JSON_mValues
-import JSON_mSpec
-import JSON_mGrammar
-import JSON_mSerializer_mByteStrConversion
-import JSON_mSerializer
-import JSON_mDeserializer_mUint16StrConversion
-import JSON_mDeserializer_mByteStrConversion
-import JSON_mDeserializer
-import JSON_mConcreteSyntax_mSpec
-import JSON_mConcreteSyntax_mSpecProperties
-import JSON_mConcreteSyntax
-import JSON_mZeroCopy_mSerializer
-import JSON_mZeroCopy_mDeserializer_mCore
-import JSON_mZeroCopy_mDeserializer_mStrings
-import JSON_mZeroCopy_mDeserializer_mNumbers
-import JSON_mZeroCopy_mDeserializer_mObjectParams
-import JSON_mZeroCopy_mDeserializer_mObjects
-import JSON_mZeroCopy_mDeserializer_mArrayParams
-import JSON_mZeroCopy_mDeserializer_mArrays
-import JSON_mZeroCopy_mDeserializer_mConstants
-import JSON_mZeroCopy_mDeserializer_mValues
-import JSON_mZeroCopy_mDeserializer_mAPI
-import JSON_mZeroCopy_mDeserializer
-import JSON_mZeroCopy_mAPI
-import JSON_mZeroCopy
-import JSON_mAPI
+import JSON_Utils_Views_Core
+import JSON_Utils_Views_Writers
+import JSON_Utils_Views
+import JSON_Utils_Lexers_Core
+import JSON_Utils_Lexers_Strings
+import JSON_Utils_Lexers
+import JSON_Utils_Cursors
+import JSON_Utils_Parsers
+import JSON_Utils_Str_CharStrConversion
+import JSON_Utils_Str_CharStrEscaping
+import JSON_Utils_Str
+import JSON_Utils_Seq
+import JSON_Utils_Vectors
+import JSON_Utils
+import JSON_Errors
+import JSON_Values
+import JSON_Spec
+import JSON_Grammar
+import JSON_Serializer_ByteStrConversion
+import JSON_Serializer
+import JSON_Deserializer_Uint16StrConversion
+import JSON_Deserializer_ByteStrConversion
+import JSON_Deserializer
+import JSON_ConcreteSyntax_Spec
+import JSON_ConcreteSyntax_SpecProperties
+import JSON_ConcreteSyntax
+import JSON_ZeroCopy_Serializer
+import JSON_ZeroCopy_Deserializer_Core
+import JSON_ZeroCopy_Deserializer_Strings
+import JSON_ZeroCopy_Deserializer_Numbers
+import JSON_ZeroCopy_Deserializer_ObjectParams
+import JSON_ZeroCopy_Deserializer_Objects
+import JSON_ZeroCopy_Deserializer_ArrayParams
+import JSON_ZeroCopy_Deserializer_Arrays
+import JSON_ZeroCopy_Deserializer_Constants
+import JSON_ZeroCopy_Deserializer_Values
+import JSON_ZeroCopy_Deserializer_API
+import JSON_ZeroCopy_Deserializer
+import JSON_ZeroCopy_API
+import JSON_ZeroCopy
+import JSON_API
 import JSON
 
 # Module: JSONHelpers
@@ -278,7 +278,7 @@ class default__:
         elif True:
             d_1379_obj_ = (d_1378_valueOrError0_).Extract()
             def lambda83_(forall_var_15_):
-                d_1381_s_: JSON_mValues.JSON = forall_var_15_
+                d_1381_s_: JSON_Values.JSON = forall_var_15_
                 return not ((d_1381_s_) in ((d_1379_obj_).arr)) or ((d_1381_s_).is_String)
 
             d_1380_valueOrError1_ = Wrappers.default__.Need(((d_1379_obj_).is_Array) and (_dafny.quantifier(((d_1379_obj_).arr).UniqueElements, True, lambda83_)), _dafny.Seq("Not an array of strings"))
@@ -296,7 +296,7 @@ class default__:
         elif True:
             d_1385_obj_ = (d_1384_valueOrError0_).Extract()
             def lambda84_(forall_var_16_):
-                d_1387_s_: JSON_mValues.JSON = forall_var_16_
+                d_1387_s_: JSON_Values.JSON = forall_var_16_
                 return not ((d_1387_s_) in ((d_1385_obj_).arr)) or ((d_1387_s_).is_Object)
 
             d_1386_valueOrError1_ = Wrappers.default__.Need(((d_1385_obj_).is_Array) and (_dafny.quantifier(((d_1385_obj_).arr).UniqueElements, True, lambda84_)), _dafny.Seq("Not an array of objects"))
@@ -338,7 +338,7 @@ class default__:
                     if (d_1396_valueOrError3_).IsFailure():
                         return (d_1396_valueOrError3_).PropagateFailure()
                     elif True:
-                        def iife58_():
+                        def iife34_():
                             coll6_ = _dafny.Map()
                             compr_6_: tuple
                             for compr_6_ in (d_1393_obj_).Elements:
@@ -346,7 +346,7 @@ class default__:
                                 if (d_1399_t_) in (d_1393_obj_):
                                     coll6_[(d_1399_t_)[0]] = ((d_1399_t_)[1]).str
                             return _dafny.Map(coll6_)
-                        return Wrappers.Result_Success(iife58_()
+                        return Wrappers.Result_Success(iife34_()
 )
 
     @staticmethod
@@ -368,7 +368,7 @@ class default__:
         if (len(mapStringString)) == (0):
             return Wrappers.Result_Success(_dafny.Map({}))
         elif True:
-            def iife59_():
+            def iife35_():
                 coll7_ = _dafny.Map()
                 compr_7_: _dafny.Seq
                 for compr_7_ in (mapStringString).keys.Elements:
@@ -376,7 +376,7 @@ class default__:
                     if (d_1405_key_) in (mapStringString):
                         coll7_[d_1405_key_] = default__.utf8EncodePair(d_1405_key_, (mapStringString)[d_1405_key_])
                 return _dafny.Map(coll7_)
-            d_1404_encodedResults_ = iife59_()
+            d_1404_encodedResults_ = iife35_()
 
             def lambda88_(forall_var_20_):
                 d_1407_r_: Wrappers.Result = forall_var_20_
@@ -386,7 +386,7 @@ class default__:
             if (d_1406_valueOrError0_).IsFailure():
                 return (d_1406_valueOrError0_).PropagateFailure()
             elif True:
-                def iife60_():
+                def iife36_():
                     coll8_ = _dafny.Map()
                     compr_8_: Wrappers.Result
                     for compr_8_ in ((d_1404_encodedResults_).values).Elements:
@@ -394,7 +394,7 @@ class default__:
                         if (d_1408_r_) in ((d_1404_encodedResults_).values):
                             coll8_[((d_1408_r_).value)[0]] = ((d_1408_r_).value)[1]
                     return _dafny.Map(coll8_)
-                return Wrappers.Result_Success(iife60_()
+                return Wrappers.Result_Success(iife36_()
 )
 
     @staticmethod

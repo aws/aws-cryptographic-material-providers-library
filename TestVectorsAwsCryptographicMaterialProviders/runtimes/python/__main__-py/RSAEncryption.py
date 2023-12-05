@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -94,12 +94,12 @@ class default__:
 
     @staticmethod
     def GetRSAKeyModulusLength(publicKey):
-        d_300_valueOrError0_ = RSAEncryption.RSA.GetRSAKeyModulusLengthExtern(publicKey)
+        d_300_valueOrError0_ = RSAEncryption.RSA_GetRSAKeyModulusLengthExtern(publicKey)
         if (d_300_valueOrError0_).IsFailure():
             return (d_300_valueOrError0_).PropagateFailure()
         elif True:
             d_301_length_ = (d_300_valueOrError0_).Extract()
-            d_302_valueOrError1_ = Wrappers.default__.Need(((81) <= (d_301_length_)) and ((d_301_length_) < (StandardLibrary_mUInt.default__.INT32__MAX__LIMIT)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Unsupported length for RSA modulus.")))
+            d_302_valueOrError1_ = Wrappers.default__.Need(((81) <= (d_301_length_)) and ((d_301_length_) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Unsupported length for RSA modulus.")))
             if (d_302_valueOrError1_).IsFailure():
                 return (d_302_valueOrError1_).PropagateFailure()
             elif True:

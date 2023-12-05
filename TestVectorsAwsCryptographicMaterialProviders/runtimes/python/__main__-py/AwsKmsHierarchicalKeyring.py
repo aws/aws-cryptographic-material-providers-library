@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -73,7 +73,7 @@ import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
 import software_amazon_cryptography_primitives_internaldafny
-import Aws_mCryptography
+import Aws_Cryptography
 import Aws
 import MaterialWrapping
 import CanonicalEncryptionContext
@@ -421,18 +421,18 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, software_amazon_cry
     def GetActiveCacheId(self, branchKeyId, branchKeyIdUtf8, cryptoPrimitives):
         cacheId: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_755_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        def iife39_(_pat_let18_0):
-            def iife40_(d_756_branchKeyId_):
-                return (True) and (((0) <= (len(d_756_branchKeyId_))) and ((len(d_756_branchKeyId_)) < (StandardLibrary_mUInt.default__.UINT32__LIMIT)))
-            return iife40_(_pat_let18_0)
-        d_755_valueOrError0_ = Wrappers.default__.Need((((UTF8.default__.Decode(branchKeyIdUtf8)).MapFailure(AwsKmsUtils.default__.WrapStringToError)).is_Success) and (iife39_(((UTF8.default__.Decode(branchKeyIdUtf8)).MapFailure(AwsKmsUtils.default__.WrapStringToError)).value)), default__.E(_dafny.Seq("Invalid Branch Key ID Length")))
+        def iife15_(_pat_let6_0):
+            def iife16_(d_756_branchKeyId_):
+                return (True) and (((0) <= (len(d_756_branchKeyId_))) and ((len(d_756_branchKeyId_)) < (StandardLibrary_UInt.default__.UINT32__LIMIT)))
+            return iife16_(_pat_let6_0)
+        d_755_valueOrError0_ = Wrappers.default__.Need((((UTF8.default__.Decode(branchKeyIdUtf8)).MapFailure(AwsKmsUtils.default__.WrapStringToError)).is_Success) and (iife15_(((UTF8.default__.Decode(branchKeyIdUtf8)).MapFailure(AwsKmsUtils.default__.WrapStringToError)).value)), default__.E(_dafny.Seq("Invalid Branch Key ID Length")))
         if (d_755_valueOrError0_).IsFailure():
             cacheId = (d_755_valueOrError0_).PropagateFailure()
             return cacheId
         d_757_branchKeyId_: _dafny.Seq
         d_757_branchKeyId_ = (UTF8.default__.Decode(branchKeyIdUtf8)).value
         d_758_lenBranchKey_: _dafny.Seq
-        d_758_lenBranchKey_ = StandardLibrary_mUInt.default__.UInt32ToSeq(len(d_757_branchKeyId_))
+        d_758_lenBranchKey_ = StandardLibrary_UInt.default__.UInt32ToSeq(len(d_757_branchKeyId_))
         d_759_hashAlgorithm_: software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm
         d_759_hashAlgorithm_ = software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__512()
         d_760_maybeBranchKeyDigest_: Wrappers.Result
@@ -511,7 +511,7 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, software_amazon_cry
             out169_ = Time.default__.CurrentRelativeTime()
             d_779_now_ = out169_
             d_780_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_780_valueOrError1_ = Wrappers.default__.Need(((d_779_now_) + ((self).ttlSeconds)) < (StandardLibrary_mUInt.default__.INT64__MAX__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("INT64 Overflow when putting cache entry.")))
+            d_780_valueOrError1_ = Wrappers.default__.Need(((d_779_now_) + ((self).ttlSeconds)) < (StandardLibrary_UInt.default__.INT64__MAX__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("INT64 Overflow when putting cache entry.")))
             if (d_780_valueOrError1_).IsFailure():
                 material = (d_780_valueOrError1_).PropagateFailure()
                 return material
@@ -729,18 +729,18 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
     def GetVersionCacheId(self, branchKeyIdUtf8, branchKeyVersion, cryptoPrimitives):
         cacheId: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_820_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        def iife41_(_pat_let19_0):
-            def iife42_(d_821_branchKeyId_):
-                return (True) and (((0) <= (len(d_821_branchKeyId_))) and ((len(d_821_branchKeyId_)) < (StandardLibrary_mUInt.default__.UINT32__LIMIT)))
-            return iife42_(_pat_let19_0)
-        d_820_valueOrError0_ = Wrappers.default__.Need((((UTF8.default__.Decode(branchKeyIdUtf8)).MapFailure(AwsKmsUtils.default__.WrapStringToError)).is_Success) and (iife41_(((UTF8.default__.Decode(branchKeyIdUtf8)).MapFailure(AwsKmsUtils.default__.WrapStringToError)).value)), default__.E(_dafny.Seq("Invalid Branch Key ID Length")))
+        def iife17_(_pat_let7_0):
+            def iife18_(d_821_branchKeyId_):
+                return (True) and (((0) <= (len(d_821_branchKeyId_))) and ((len(d_821_branchKeyId_)) < (StandardLibrary_UInt.default__.UINT32__LIMIT)))
+            return iife18_(_pat_let7_0)
+        d_820_valueOrError0_ = Wrappers.default__.Need((((UTF8.default__.Decode(branchKeyIdUtf8)).MapFailure(AwsKmsUtils.default__.WrapStringToError)).is_Success) and (iife17_(((UTF8.default__.Decode(branchKeyIdUtf8)).MapFailure(AwsKmsUtils.default__.WrapStringToError)).value)), default__.E(_dafny.Seq("Invalid Branch Key ID Length")))
         if (d_820_valueOrError0_).IsFailure():
             cacheId = (d_820_valueOrError0_).PropagateFailure()
             return cacheId
         d_822_branchKeyId_: _dafny.Seq
         d_822_branchKeyId_ = (UTF8.default__.Decode(branchKeyIdUtf8)).value
         d_823_lenBranchKey_: _dafny.Seq
-        d_823_lenBranchKey_ = StandardLibrary_mUInt.default__.UInt32ToSeq(len(d_822_branchKeyId_))
+        d_823_lenBranchKey_ = StandardLibrary_UInt.default__.UInt32ToSeq(len(d_822_branchKeyId_))
         d_824_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_824_valueOrError1_ = Wrappers.default__.Need(UTF8.default__.IsASCIIString(branchKeyVersion), default__.E(_dafny.Seq("Unable to represent as an ASCII string.")))
         if (d_824_valueOrError1_).IsFailure():
@@ -800,7 +800,7 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
             out178_ = Time.default__.CurrentRelativeTime()
             d_839_now_ = out178_
             d_840_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_840_valueOrError1_ = Wrappers.default__.Need(((d_839_now_) + ((self).ttlSeconds)) < (StandardLibrary_mUInt.default__.INT64__MAX__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("INT64 Overflow when putting cache entry.")))
+            d_840_valueOrError1_ = Wrappers.default__.Need(((d_839_now_) + ((self).ttlSeconds)) < (StandardLibrary_UInt.default__.INT64__MAX__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("INT64 Overflow when putting cache entry.")))
             if (d_840_valueOrError1_).IsFailure():
                 material = (d_840_valueOrError1_).PropagateFailure()
                 return material

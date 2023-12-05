@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -73,7 +73,7 @@ import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
 import software_amazon_cryptography_primitives_internaldafny
-import Aws_mCryptography
+import Aws_Cryptography
 import Aws
 import MaterialWrapping
 import CanonicalEncryptionContext
@@ -116,47 +116,47 @@ import CreateRawAesKeyrings
 import CreateRawRsaKeyrings
 import CreateKeyrings
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types
-import JSON_mUtils_mViews_mCore
-import JSON_mUtils_mViews_mWriters
-import JSON_mUtils_mViews
-import JSON_mUtils_mLexers_mCore
-import JSON_mUtils_mLexers_mStrings
-import JSON_mUtils_mLexers
-import JSON_mUtils_mCursors
-import JSON_mUtils_mParsers
-import JSON_mUtils_mStr_mCharStrConversion
-import JSON_mUtils_mStr_mCharStrEscaping
-import JSON_mUtils_mStr
-import JSON_mUtils_mSeq
-import JSON_mUtils_mVectors
-import JSON_mUtils
-import JSON_mErrors
-import JSON_mValues
-import JSON_mSpec
-import JSON_mGrammar
-import JSON_mSerializer_mByteStrConversion
-import JSON_mSerializer
-import JSON_mDeserializer_mUint16StrConversion
-import JSON_mDeserializer_mByteStrConversion
-import JSON_mDeserializer
-import JSON_mConcreteSyntax_mSpec
-import JSON_mConcreteSyntax_mSpecProperties
-import JSON_mConcreteSyntax
-import JSON_mZeroCopy_mSerializer
-import JSON_mZeroCopy_mDeserializer_mCore
-import JSON_mZeroCopy_mDeserializer_mStrings
-import JSON_mZeroCopy_mDeserializer_mNumbers
-import JSON_mZeroCopy_mDeserializer_mObjectParams
-import JSON_mZeroCopy_mDeserializer_mObjects
-import JSON_mZeroCopy_mDeserializer_mArrayParams
-import JSON_mZeroCopy_mDeserializer_mArrays
-import JSON_mZeroCopy_mDeserializer_mConstants
-import JSON_mZeroCopy_mDeserializer_mValues
-import JSON_mZeroCopy_mDeserializer_mAPI
-import JSON_mZeroCopy_mDeserializer
-import JSON_mZeroCopy_mAPI
-import JSON_mZeroCopy
-import JSON_mAPI
+import JSON_Utils_Views_Core
+import JSON_Utils_Views_Writers
+import JSON_Utils_Views
+import JSON_Utils_Lexers_Core
+import JSON_Utils_Lexers_Strings
+import JSON_Utils_Lexers
+import JSON_Utils_Cursors
+import JSON_Utils_Parsers
+import JSON_Utils_Str_CharStrConversion
+import JSON_Utils_Str_CharStrEscaping
+import JSON_Utils_Str
+import JSON_Utils_Seq
+import JSON_Utils_Vectors
+import JSON_Utils
+import JSON_Errors
+import JSON_Values
+import JSON_Spec
+import JSON_Grammar
+import JSON_Serializer_ByteStrConversion
+import JSON_Serializer
+import JSON_Deserializer_Uint16StrConversion
+import JSON_Deserializer_ByteStrConversion
+import JSON_Deserializer
+import JSON_ConcreteSyntax_Spec
+import JSON_ConcreteSyntax_SpecProperties
+import JSON_ConcreteSyntax
+import JSON_ZeroCopy_Serializer
+import JSON_ZeroCopy_Deserializer_Core
+import JSON_ZeroCopy_Deserializer_Strings
+import JSON_ZeroCopy_Deserializer_Numbers
+import JSON_ZeroCopy_Deserializer_ObjectParams
+import JSON_ZeroCopy_Deserializer_Objects
+import JSON_ZeroCopy_Deserializer_ArrayParams
+import JSON_ZeroCopy_Deserializer_Arrays
+import JSON_ZeroCopy_Deserializer_Constants
+import JSON_ZeroCopy_Deserializer_Values
+import JSON_ZeroCopy_Deserializer_API
+import JSON_ZeroCopy_Deserializer
+import JSON_ZeroCopy_API
+import JSON_ZeroCopy
+import JSON_API
 import JSON
 import JSONHelpers
 import KeyDescription
@@ -186,6 +186,8 @@ class default__:
         out326_: Wrappers.Result
         out326_ = ((test).cmm).GetEncryptionMaterials((test).input)
         d_1707_result_ = out326_
+        pat_let_tv164_ = d_1707_result_
+        pat_let_tv165_ = d_1707_result_
         def lambda112_(source52_):
             if source52_.is_PositiveEncryptKeyringVector:
                 d_1708___mcc_h0_ = source52_.name
@@ -197,7 +199,7 @@ class default__:
                 d_1714___mcc_h6_ = source52_.requiredEncryptionContextKeys
                 d_1715___mcc_h7_ = source52_.encryptDescription
                 d_1716___mcc_h8_ = source52_.decryptDescription
-                return (d_1707_result_).is_Success
+                return (pat_let_tv164_).is_Success
             elif True:
                 d_1717___mcc_h9_ = source52_.name
                 d_1718___mcc_h10_ = source52_.description
@@ -208,7 +210,7 @@ class default__:
                 d_1723___mcc_h15_ = source52_.requiredEncryptionContextKeys
                 d_1724___mcc_h16_ = source52_.errorDescription
                 d_1725___mcc_h17_ = source52_.keyDescription
-                return not((d_1707_result_).is_Success)
+                return not((pat_let_tv165_).is_Success)
 
         testResult = lambda112_((test).vector)
         materials = (Wrappers.Option_Some(((d_1707_result_).value).encryptionMaterials) if (((test).vector).is_PositiveEncryptKeyringVector) and ((d_1707_result_).is_Success) else Wrappers.Option_None())
@@ -229,6 +231,14 @@ class default__:
         out327_: Wrappers.Result
         out327_ = ((test).cmm).DecryptMaterials((test).input)
         d_1726_result_ = out327_
+        pat_let_tv166_ = d_1726_result_
+        pat_let_tv167_ = d_1726_result_
+        pat_let_tv168_ = test
+        pat_let_tv169_ = d_1726_result_
+        pat_let_tv170_ = test
+        pat_let_tv171_ = d_1726_result_
+        pat_let_tv172_ = test
+        pat_let_tv173_ = d_1726_result_
         def lambda113_(source53_):
             if source53_.is_PositiveDecryptKeyringTest:
                 d_1727___mcc_h0_ = source53_.name
@@ -240,7 +250,7 @@ class default__:
                 d_1733___mcc_h6_ = source53_.expectedResult
                 d_1734___mcc_h7_ = source53_.description
                 d_1735___mcc_h8_ = source53_.reproducedEncryptionContext
-                return ((((d_1726_result_).is_Success) and (((((d_1726_result_).value).decryptionMaterials).plaintextDataKey) == ((((test).vector).expectedResult).plaintextDataKey))) and (((((d_1726_result_).value).decryptionMaterials).symmetricSigningKey) == ((((test).vector).expectedResult).symmetricSigningKey))) and (((((d_1726_result_).value).decryptionMaterials).requiredEncryptionContextKeys) == ((((test).vector).expectedResult).requiredEncryptionContextKeys))
+                return ((((pat_let_tv166_).is_Success) and (((((pat_let_tv167_).value).decryptionMaterials).plaintextDataKey) == ((((pat_let_tv168_).vector).expectedResult).plaintextDataKey))) and (((((pat_let_tv169_).value).decryptionMaterials).symmetricSigningKey) == ((((pat_let_tv170_).vector).expectedResult).symmetricSigningKey))) and (((((pat_let_tv171_).value).decryptionMaterials).requiredEncryptionContextKeys) == ((((pat_let_tv172_).vector).expectedResult).requiredEncryptionContextKeys))
             elif True:
                 d_1736___mcc_h9_ = source53_.name
                 d_1737___mcc_h10_ = source53_.algorithmSuite
@@ -251,7 +261,7 @@ class default__:
                 d_1742___mcc_h15_ = source53_.keyDescription
                 d_1743___mcc_h16_ = source53_.reproducedEncryptionContext
                 d_1744___mcc_h17_ = source53_.description
-                return not((d_1726_result_).is_Success)
+                return not((pat_let_tv173_).is_Success)
 
         output = lambda113_((test).vector)
         if not(output):
@@ -275,27 +285,12 @@ class default__:
                 d_1752___mcc_h6_ = source54_.requiredEncryptionContextKeys
                 d_1753___mcc_h7_ = source54_.encryptDescription
                 d_1754___mcc_h8_ = source54_.decryptDescription
-                def iife63_(_pat_let27_0):
-                    def iife64_(d_1755_requiredEncryptionContextKeys_):
-                        def iife65_(_pat_let28_0):
-                            def iife66_(d_1756_maxPlaintextLength_):
-                                def iife67_(_pat_let29_0):
-                                    def iife68_(d_1757_algorithmSuite_):
-                                        def iife69_(_pat_let30_0):
-                                            def iife70_(d_1758_commitmentPolicy_):
-                                                def iife71_(_pat_let31_0):
-                                                    def iife72_(d_1759_encryptionContext_):
-                                                        return software_amazon_cryptography_materialproviders_internaldafny_types.GetEncryptionMaterialsInput_GetEncryptionMaterialsInput(d_1759_encryptionContext_, d_1758_commitmentPolicy_, Wrappers.Option_Some((d_1757_algorithmSuite_).id), d_1756_maxPlaintextLength_, d_1755_requiredEncryptionContextKeys_)
-                                                    return iife72_(_pat_let31_0)
-                                                return iife71_(d_1748___mcc_h2_)
-                                            return iife70_(_pat_let30_0)
-                                        return iife69_(d_1749___mcc_h3_)
-                                    return iife68_(_pat_let29_0)
-                                return iife67_(d_1750___mcc_h4_)
-                            return iife66_(_pat_let28_0)
-                        return iife65_(d_1751___mcc_h5_)
-                    return iife64_(_pat_let27_0)
-                return iife63_(d_1752___mcc_h6_)
+                d_1755_requiredEncryptionContextKeys_ = d_1752___mcc_h6_
+                d_1756_maxPlaintextLength_ = d_1751___mcc_h5_
+                d_1757_algorithmSuite_ = d_1750___mcc_h4_
+                d_1758_commitmentPolicy_ = d_1749___mcc_h3_
+                d_1759_encryptionContext_ = d_1748___mcc_h2_
+                return software_amazon_cryptography_materialproviders_internaldafny_types.GetEncryptionMaterialsInput_GetEncryptionMaterialsInput(d_1759_encryptionContext_, d_1758_commitmentPolicy_, Wrappers.Option_Some((d_1757_algorithmSuite_).id), d_1756_maxPlaintextLength_, d_1755_requiredEncryptionContextKeys_)
             elif True:
                 d_1760___mcc_h9_ = source54_.name
                 d_1761___mcc_h10_ = source54_.description
@@ -306,27 +301,12 @@ class default__:
                 d_1766___mcc_h15_ = source54_.requiredEncryptionContextKeys
                 d_1767___mcc_h16_ = source54_.errorDescription
                 d_1768___mcc_h17_ = source54_.keyDescription
-                def iife73_(_pat_let32_0):
-                    def iife74_(d_1769_requiredEncryptionContextKeys_):
-                        def iife75_(_pat_let33_0):
-                            def iife76_(d_1770_maxPlaintextLength_):
-                                def iife77_(_pat_let34_0):
-                                    def iife78_(d_1771_algorithmSuite_):
-                                        def iife79_(_pat_let35_0):
-                                            def iife80_(d_1772_commitmentPolicy_):
-                                                def iife81_(_pat_let36_0):
-                                                    def iife82_(d_1773_encryptionContext_):
-                                                        return software_amazon_cryptography_materialproviders_internaldafny_types.GetEncryptionMaterialsInput_GetEncryptionMaterialsInput(d_1773_encryptionContext_, d_1772_commitmentPolicy_, Wrappers.Option_Some((d_1771_algorithmSuite_).id), d_1770_maxPlaintextLength_, d_1769_requiredEncryptionContextKeys_)
-                                                    return iife82_(_pat_let36_0)
-                                                return iife81_(d_1762___mcc_h11_)
-                                            return iife80_(_pat_let35_0)
-                                        return iife79_(d_1763___mcc_h12_)
-                                    return iife78_(_pat_let34_0)
-                                return iife77_(d_1764___mcc_h13_)
-                            return iife76_(_pat_let33_0)
-                        return iife75_(d_1765___mcc_h14_)
-                    return iife74_(_pat_let32_0)
-                return iife73_(d_1766___mcc_h15_)
+                d_1769_requiredEncryptionContextKeys_ = d_1766___mcc_h15_
+                d_1770_maxPlaintextLength_ = d_1765___mcc_h14_
+                d_1771_algorithmSuite_ = d_1764___mcc_h13_
+                d_1772_commitmentPolicy_ = d_1763___mcc_h12_
+                d_1773_encryptionContext_ = d_1762___mcc_h11_
+                return software_amazon_cryptography_materialproviders_internaldafny_types.GetEncryptionMaterialsInput_GetEncryptionMaterialsInput(d_1773_encryptionContext_, d_1772_commitmentPolicy_, Wrappers.Option_Some((d_1771_algorithmSuite_).id), d_1770_maxPlaintextLength_, d_1769_requiredEncryptionContextKeys_)
 
         d_1745_input_ = lambda114_(vector)
         d_1774_mpl_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
@@ -344,11 +324,11 @@ class default__:
         d_1777_keyring_: software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring
         d_1778_valueOrError1_: Wrappers.Result = None
         def lambda115_(d_1779_e_):
-            def iife83_(_pat_let37_0):
-                def iife84_(d_1780___v44_):
+            def iife39_(_pat_let15_0):
+                def iife40_(d_1780___v44_):
                     return _dafny.Seq("Keyring failure")
-                return iife84_(_pat_let37_0)
-            return iife83_(default__.printErr(d_1779_e_))
+                return iife40_(_pat_let15_0)
+            return iife39_(default__.printErr(d_1779_e_))
 
         d_1778_valueOrError1_ = (d_1776_maybeKeyring_).MapFailure(lambda115_)
         if (d_1778_valueOrError1_).IsFailure():
@@ -397,11 +377,11 @@ class default__:
         d_1791_keyring_: software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring
         d_1792_valueOrError1_: Wrappers.Result = None
         def lambda117_(d_1793_e_):
-            def iife85_(_pat_let38_0):
-                def iife86_(d_1794___v45_):
+            def iife41_(_pat_let16_0):
+                def iife42_(d_1794___v45_):
                     return _dafny.Seq("Keyring failure")
-                return iife86_(_pat_let38_0)
-            return iife85_(default__.printErr(d_1793_e_))
+                return iife42_(_pat_let16_0)
+            return iife41_(default__.printErr(d_1793_e_))
 
         d_1792_valueOrError1_ = (d_1790_maybeKeyring_).MapFailure(lambda117_)
         if (d_1792_valueOrError1_).IsFailure():

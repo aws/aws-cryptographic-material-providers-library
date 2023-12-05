@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -73,7 +73,7 @@ import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
 import software_amazon_cryptography_primitives_internaldafny
-import Aws_mCryptography
+import Aws_Cryptography
 import Aws
 import MaterialWrapping
 import CanonicalEncryptionContext
@@ -116,47 +116,47 @@ import CreateRawAesKeyrings
 import CreateRawRsaKeyrings
 import CreateKeyrings
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types
-import JSON_mUtils_mViews_mCore
-import JSON_mUtils_mViews_mWriters
-import JSON_mUtils_mViews
-import JSON_mUtils_mLexers_mCore
-import JSON_mUtils_mLexers_mStrings
-import JSON_mUtils_mLexers
-import JSON_mUtils_mCursors
-import JSON_mUtils_mParsers
-import JSON_mUtils_mStr_mCharStrConversion
-import JSON_mUtils_mStr_mCharStrEscaping
-import JSON_mUtils_mStr
-import JSON_mUtils_mSeq
-import JSON_mUtils_mVectors
-import JSON_mUtils
-import JSON_mErrors
-import JSON_mValues
-import JSON_mSpec
-import JSON_mGrammar
-import JSON_mSerializer_mByteStrConversion
-import JSON_mSerializer
-import JSON_mDeserializer_mUint16StrConversion
-import JSON_mDeserializer_mByteStrConversion
-import JSON_mDeserializer
-import JSON_mConcreteSyntax_mSpec
-import JSON_mConcreteSyntax_mSpecProperties
-import JSON_mConcreteSyntax
-import JSON_mZeroCopy_mSerializer
-import JSON_mZeroCopy_mDeserializer_mCore
-import JSON_mZeroCopy_mDeserializer_mStrings
-import JSON_mZeroCopy_mDeserializer_mNumbers
-import JSON_mZeroCopy_mDeserializer_mObjectParams
-import JSON_mZeroCopy_mDeserializer_mObjects
-import JSON_mZeroCopy_mDeserializer_mArrayParams
-import JSON_mZeroCopy_mDeserializer_mArrays
-import JSON_mZeroCopy_mDeserializer_mConstants
-import JSON_mZeroCopy_mDeserializer_mValues
-import JSON_mZeroCopy_mDeserializer_mAPI
-import JSON_mZeroCopy_mDeserializer
-import JSON_mZeroCopy_mAPI
-import JSON_mZeroCopy
-import JSON_mAPI
+import JSON_Utils_Views_Core
+import JSON_Utils_Views_Writers
+import JSON_Utils_Views
+import JSON_Utils_Lexers_Core
+import JSON_Utils_Lexers_Strings
+import JSON_Utils_Lexers
+import JSON_Utils_Cursors
+import JSON_Utils_Parsers
+import JSON_Utils_Str_CharStrConversion
+import JSON_Utils_Str_CharStrEscaping
+import JSON_Utils_Str
+import JSON_Utils_Seq
+import JSON_Utils_Vectors
+import JSON_Utils
+import JSON_Errors
+import JSON_Values
+import JSON_Spec
+import JSON_Grammar
+import JSON_Serializer_ByteStrConversion
+import JSON_Serializer
+import JSON_Deserializer_Uint16StrConversion
+import JSON_Deserializer_ByteStrConversion
+import JSON_Deserializer
+import JSON_ConcreteSyntax_Spec
+import JSON_ConcreteSyntax_SpecProperties
+import JSON_ConcreteSyntax
+import JSON_ZeroCopy_Serializer
+import JSON_ZeroCopy_Deserializer_Core
+import JSON_ZeroCopy_Deserializer_Strings
+import JSON_ZeroCopy_Deserializer_Numbers
+import JSON_ZeroCopy_Deserializer_ObjectParams
+import JSON_ZeroCopy_Deserializer_Objects
+import JSON_ZeroCopy_Deserializer_ArrayParams
+import JSON_ZeroCopy_Deserializer_Arrays
+import JSON_ZeroCopy_Deserializer_Constants
+import JSON_ZeroCopy_Deserializer_Values
+import JSON_ZeroCopy_Deserializer_API
+import JSON_ZeroCopy_Deserializer
+import JSON_ZeroCopy_API
+import JSON_ZeroCopy
+import JSON_API
 import JSON
 import JSONHelpers
 import KeyDescription
@@ -271,7 +271,7 @@ class default__:
         d_2103_unwrapEncryptionContext_: _dafny.Map
         d_2103_unwrapEncryptionContext_ = ((input).encryptionContext).UnwrapOr(_dafny.Map({}))
         d_2104_encodedEncryptionContext_: _dafny.Set
-        def iife113_():
+        def iife69_():
             coll25_ = _dafny.Set()
             compr_30_: _dafny.Seq
             for compr_30_ in (d_2103_unwrapEncryptionContext_).keys.Elements:
@@ -279,23 +279,23 @@ class default__:
                 if (d_2105_k_) in (d_2103_unwrapEncryptionContext_):
                     coll25_ = coll25_.union(_dafny.Set([(UTF8.default__.Decode(d_2105_k_), UTF8.default__.Decode((d_2103_unwrapEncryptionContext_)[d_2105_k_]), d_2105_k_)]))
             return _dafny.Set(coll25_)
-        d_2104_encodedEncryptionContext_ = iife113_()
+        d_2104_encodedEncryptionContext_ = iife69_()
         
         d_2106_valueOrError5_: Wrappers.Outcome = Wrappers.Outcome.default()()
         def lambda146_(forall_var_25_):
-            def iife114_(_pat_let44_0):
-                def iife115_(d_2108_encoded_):
+            def iife70_(_pat_let22_0):
+                def iife71_(d_2108_encoded_):
                     return ((d_2108_encoded_).is_Success) and (((d_2107_i_)[2]) == ((d_2108_encoded_).value))
-                return iife115_(_pat_let44_0)
+                return iife71_(_pat_let22_0)
             d_2107_i_: tuple = forall_var_25_
-            return not ((d_2107_i_) in (d_2104_encodedEncryptionContext_)) or ((((((d_2107_i_)[0]).is_Success) and (((d_2107_i_)[1]).is_Success)) and (software_amazon_cryptography_services_dynamodb_internaldafny_types.default__.IsValid__AttributeName((Structure.default__.ENCRYPTION__CONTEXT__PREFIX) + (((d_2107_i_)[0]).value)))) and (iife114_(UTF8.default__.Encode(((d_2107_i_)[0]).value))))
+            return not ((d_2107_i_) in (d_2104_encodedEncryptionContext_)) or ((((((d_2107_i_)[0]).is_Success) and (((d_2107_i_)[1]).is_Success)) and (software_amazon_cryptography_services_dynamodb_internaldafny_types.default__.IsValid__AttributeName((Structure.default__.ENCRYPTION__CONTEXT__PREFIX) + (((d_2107_i_)[0]).value)))) and (iife70_(UTF8.default__.Encode(((d_2107_i_)[0]).value))))
 
         d_2106_valueOrError5_ = Wrappers.default__.Need(_dafny.quantifier((d_2104_encodedEncryptionContext_).Elements, True, lambda146_), software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("Unable to encode string")))
         if (d_2106_valueOrError5_).IsFailure():
             output = (d_2106_valueOrError5_).PropagateFailure()
             return output
         out377_: Wrappers.Result
-        def iife116_():
+        def iife72_():
             coll26_ = _dafny.Map()
             compr_31_: tuple
             for compr_31_ in (d_2104_encodedEncryptionContext_).Elements:
@@ -303,7 +303,7 @@ class default__:
                 if (d_2109_i_) in (d_2104_encodedEncryptionContext_):
                     coll26_[((d_2109_i_)[0]).value] = ((d_2109_i_)[1]).value
             return _dafny.Map(coll26_)
-        out377_ = CreateKeys.default__.CreateBranchAndBeaconKeys(d_2091_branchKeyIdentifier_, iife116_()
+        out377_ = CreateKeys.default__.CreateBranchAndBeaconKeys(d_2091_branchKeyIdentifier_, iife72_()
         , d_2096_timestamp_, d_2100_branchKeyVersion_, (config).ddbTableName, (config).logicalKeyStoreName, (config).kmsConfiguration, (config).grantTokens, (config).kmsClient, (config).ddbClient)
         output = out377_
         return output

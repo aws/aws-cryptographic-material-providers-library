@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -60,9 +60,9 @@ class default__:
 
     @staticmethod
     def InitializeEncryptionMaterials(input):
-        pat_let_tv0_ = input
-        pat_let_tv1_ = input
-        pat_let_tv2_ = input
+        pat_let_tv123_ = input
+        pat_let_tv124_ = input
+        pat_let_tv125_ = input
         d_13_valueOrError0_ = Wrappers.default__.Need((default__.EC__PUBLIC__KEY__FIELD) not in ((input).encryptionContext), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption Context ")))
         if (d_13_valueOrError0_).IsFailure():
             return (d_13_valueOrError0_).PropagateFailure()
@@ -87,29 +87,20 @@ class default__:
                         def lambda3_(source7_):
                             if source7_.is_ECDSA:
                                 d_20___mcc_h0_ = source7_.ECDSA
-                                def iife0_(_pat_let0_0):
-                                    def iife1_(d_21_curve_):
-                                        def lambda4_(d_22_e_):
-                                            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(d_22_e_)
+                                d_21_curve_ = d_20___mcc_h0_
+                                def lambda4_(d_23_e_):
+                                    return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(d_23_e_)
 
-                                        def iife2_(_pat_let1_0):
-                                            def iife3_(d_23_valueOrError5_):
-                                                def iife4_(_pat_let2_0):
-                                                    def iife5_(d_24_enc__vk_):
-                                                        return Wrappers.Result_Success(((pat_let_tv1_).encryptionContext).set(default__.EC__PUBLIC__KEY__FIELD, d_24_enc__vk_))
-                                                    return iife5_(_pat_let2_0)
-                                                return ((d_23_valueOrError5_).PropagateFailure() if (d_23_valueOrError5_).IsFailure() else iife4_((d_23_valueOrError5_).Extract()))
-                                            return iife3_(_pat_let1_0)
-                                        return iife2_((UTF8.default__.Encode(Base64.default__.Encode(((pat_let_tv0_).verificationKey).value))).MapFailure(lambda4_))
-                                    return iife1_(_pat_let0_0)
-                                return iife0_(d_20___mcc_h0_)
+                                d_22_valueOrError5_ = (UTF8.default__.Encode(Base64.default__.Encode(((pat_let_tv123_).verificationKey).value))).MapFailure(lambda4_)
+                                if (d_22_valueOrError5_).IsFailure():
+                                    return (d_22_valueOrError5_).PropagateFailure()
+                                elif True:
+                                    d_24_enc__vk_ = (d_22_valueOrError5_).Extract()
+                                    return Wrappers.Result_Success(((pat_let_tv124_).encryptionContext).set(default__.EC__PUBLIC__KEY__FIELD, d_24_enc__vk_))
                             elif True:
                                 d_25___mcc_h2_ = source7_.None_
-                                def iife6_(_pat_let3_0):
-                                    def iife7_(d_26_None_):
-                                        return Wrappers.Result_Success((pat_let_tv2_).encryptionContext)
-                                    return iife7_(_pat_let3_0)
-                                return iife6_((d_16_suite_).signature)
+                                d_26_None_ = (d_16_suite_).signature
+                                return Wrappers.Result_Success((pat_let_tv125_).encryptionContext)
 
                         d_19_valueOrError4_ = lambda3_((d_16_suite_).signature)
                         if (d_19_valueOrError4_).IsFailure():
@@ -174,31 +165,31 @@ class default__:
 
     @staticmethod
     def ValidEncryptionMaterials(encryptionMaterials):
-        pat_let_tv3_ = encryptionMaterials
-        pat_let_tv4_ = encryptionMaterials
-        pat_let_tv5_ = encryptionMaterials
-        pat_let_tv6_ = encryptionMaterials
-        pat_let_tv7_ = encryptionMaterials
-        pat_let_tv8_ = encryptionMaterials
-        pat_let_tv9_ = encryptionMaterials
-        pat_let_tv10_ = encryptionMaterials
-        pat_let_tv11_ = encryptionMaterials
-        pat_let_tv12_ = encryptionMaterials
-        pat_let_tv13_ = encryptionMaterials
-        pat_let_tv14_ = encryptionMaterials
-        pat_let_tv15_ = encryptionMaterials
-        pat_let_tv16_ = encryptionMaterials
-        pat_let_tv17_ = encryptionMaterials
-        pat_let_tv18_ = encryptionMaterials
-        def iife8_(_pat_let4_0):
-            def iife9_(d_42_suite_):
+        pat_let_tv126_ = encryptionMaterials
+        pat_let_tv127_ = encryptionMaterials
+        pat_let_tv128_ = encryptionMaterials
+        pat_let_tv129_ = encryptionMaterials
+        pat_let_tv130_ = encryptionMaterials
+        pat_let_tv131_ = encryptionMaterials
+        pat_let_tv132_ = encryptionMaterials
+        pat_let_tv133_ = encryptionMaterials
+        pat_let_tv134_ = encryptionMaterials
+        pat_let_tv135_ = encryptionMaterials
+        pat_let_tv136_ = encryptionMaterials
+        pat_let_tv137_ = encryptionMaterials
+        pat_let_tv138_ = encryptionMaterials
+        pat_let_tv139_ = encryptionMaterials
+        pat_let_tv140_ = encryptionMaterials
+        pat_let_tv141_ = encryptionMaterials
+        def iife0_(_pat_let0_0):
+            def iife1_(d_42_suite_):
                 def lambda8_(forall_var_2_):
                     d_43_key_: _dafny.Seq = forall_var_2_
-                    return not ((d_43_key_) in ((pat_let_tv17_).requiredEncryptionContextKeys)) or ((d_43_key_) in ((pat_let_tv18_).encryptionContext))
+                    return not ((d_43_key_) in ((pat_let_tv140_).requiredEncryptionContextKeys)) or ((d_43_key_) in ((pat_let_tv141_).encryptionContext))
 
-                return ((((((((((((d_42_suite_).signature).is_None) == (((pat_let_tv3_).signingKey).is_None)) and (not (((pat_let_tv4_).plaintextDataKey).is_Some) or ((AlgorithmSuites.default__.GetEncryptKeyLength(d_42_suite_)) == (len(((pat_let_tv5_).plaintextDataKey).value))))) and (not (((pat_let_tv6_).plaintextDataKey).is_None) or ((len((pat_let_tv7_).encryptedDataKeys)) == (0)))) and ((not(((d_42_suite_).signature).is_None)) == ((default__.EC__PUBLIC__KEY__FIELD) in ((pat_let_tv8_).encryptionContext)))) and ((((d_42_suite_).signature).is_ECDSA) == (((pat_let_tv9_).signingKey).is_Some))) and ((not(((d_42_suite_).signature).is_None)) == ((default__.EC__PUBLIC__KEY__FIELD) in ((pat_let_tv10_).encryptionContext)))) and (not ((((d_42_suite_).symmetricSignature).is_HMAC) and (((pat_let_tv11_).symmetricSigningKeys).is_Some)) or ((len(((pat_let_tv12_).symmetricSigningKeys).value)) == (len((pat_let_tv13_).encryptedDataKeys))))) and (not (((d_42_suite_).symmetricSignature).is_HMAC) or (((pat_let_tv14_).symmetricSigningKeys).is_Some))) and (not (((d_42_suite_).symmetricSignature).is_None) or (((pat_let_tv15_).symmetricSigningKeys).is_None))) and (_dafny.quantifier(((pat_let_tv16_).requiredEncryptionContextKeys).UniqueElements, True, lambda8_))
-            return iife9_(_pat_let4_0)
-        return (AlgorithmSuites.default__.AlgorithmSuite_q((encryptionMaterials).algorithmSuite)) and (iife8_((encryptionMaterials).algorithmSuite))
+                return ((((((((((((d_42_suite_).signature).is_None) == (((pat_let_tv126_).signingKey).is_None)) and (not (((pat_let_tv127_).plaintextDataKey).is_Some) or ((AlgorithmSuites.default__.GetEncryptKeyLength(d_42_suite_)) == (len(((pat_let_tv128_).plaintextDataKey).value))))) and (not (((pat_let_tv129_).plaintextDataKey).is_None) or ((len((pat_let_tv130_).encryptedDataKeys)) == (0)))) and ((not(((d_42_suite_).signature).is_None)) == ((default__.EC__PUBLIC__KEY__FIELD) in ((pat_let_tv131_).encryptionContext)))) and ((((d_42_suite_).signature).is_ECDSA) == (((pat_let_tv132_).signingKey).is_Some))) and ((not(((d_42_suite_).signature).is_None)) == ((default__.EC__PUBLIC__KEY__FIELD) in ((pat_let_tv133_).encryptionContext)))) and (not ((((d_42_suite_).symmetricSignature).is_HMAC) and (((pat_let_tv134_).symmetricSigningKeys).is_Some)) or ((len(((pat_let_tv135_).symmetricSigningKeys).value)) == (len((pat_let_tv136_).encryptedDataKeys))))) and (not (((d_42_suite_).symmetricSignature).is_HMAC) or (((pat_let_tv137_).symmetricSigningKeys).is_Some))) and (not (((d_42_suite_).symmetricSignature).is_None) or (((pat_let_tv138_).symmetricSigningKeys).is_None))) and (_dafny.quantifier(((pat_let_tv139_).requiredEncryptionContextKeys).UniqueElements, True, lambda8_))
+            return iife1_(_pat_let0_0)
+        return (AlgorithmSuites.default__.AlgorithmSuite_q((encryptionMaterials).algorithmSuite)) and (iife0_((encryptionMaterials).algorithmSuite))
 
     @staticmethod
     def EncryptionMaterialsHasPlaintextDataKey(encryptionMaterials):
@@ -257,26 +248,26 @@ class default__:
 
     @staticmethod
     def ValidDecryptionMaterials(decryptionMaterials):
-        pat_let_tv19_ = decryptionMaterials
-        pat_let_tv20_ = decryptionMaterials
-        pat_let_tv21_ = decryptionMaterials
-        pat_let_tv22_ = decryptionMaterials
-        pat_let_tv23_ = decryptionMaterials
-        pat_let_tv24_ = decryptionMaterials
-        pat_let_tv25_ = decryptionMaterials
-        pat_let_tv26_ = decryptionMaterials
-        pat_let_tv27_ = decryptionMaterials
-        pat_let_tv28_ = decryptionMaterials
-        pat_let_tv29_ = decryptionMaterials
-        def iife10_(_pat_let5_0):
-            def iife11_(d_56_suite_):
+        pat_let_tv142_ = decryptionMaterials
+        pat_let_tv143_ = decryptionMaterials
+        pat_let_tv144_ = decryptionMaterials
+        pat_let_tv145_ = decryptionMaterials
+        pat_let_tv146_ = decryptionMaterials
+        pat_let_tv147_ = decryptionMaterials
+        pat_let_tv148_ = decryptionMaterials
+        pat_let_tv149_ = decryptionMaterials
+        pat_let_tv150_ = decryptionMaterials
+        pat_let_tv151_ = decryptionMaterials
+        pat_let_tv152_ = decryptionMaterials
+        def iife2_(_pat_let1_0):
+            def iife3_(d_56_suite_):
                 def lambda9_(forall_var_3_):
                     d_57_k_: _dafny.Seq = forall_var_3_
-                    return not ((d_57_k_) in ((pat_let_tv28_).requiredEncryptionContextKeys)) or ((d_57_k_) in ((pat_let_tv29_).encryptionContext))
+                    return not ((d_57_k_) in ((pat_let_tv151_).requiredEncryptionContextKeys)) or ((d_57_k_) in ((pat_let_tv152_).encryptionContext))
 
-                return ((((((not (((pat_let_tv19_).plaintextDataKey).is_Some) or ((AlgorithmSuites.default__.GetEncryptKeyLength(d_56_suite_)) == (len(((pat_let_tv20_).plaintextDataKey).value)))) and ((not(((d_56_suite_).signature).is_None)) == ((default__.EC__PUBLIC__KEY__FIELD) in ((pat_let_tv21_).encryptionContext)))) and ((((d_56_suite_).signature).is_ECDSA) == (((pat_let_tv22_).verificationKey).is_Some))) and ((not(((d_56_suite_).signature).is_None)) == ((default__.EC__PUBLIC__KEY__FIELD) in ((pat_let_tv23_).encryptionContext)))) and (not (not(((d_56_suite_).symmetricSignature).is_None)) or ((((pat_let_tv24_).plaintextDataKey).is_Some) == (((pat_let_tv25_).symmetricSigningKey).is_Some)))) and (not (((d_56_suite_).symmetricSignature).is_None) or (((pat_let_tv26_).symmetricSigningKey).is_None))) and (_dafny.quantifier(((pat_let_tv27_).requiredEncryptionContextKeys).UniqueElements, True, lambda9_))
-            return iife11_(_pat_let5_0)
-        return (AlgorithmSuites.default__.AlgorithmSuite_q((decryptionMaterials).algorithmSuite)) and (iife10_((decryptionMaterials).algorithmSuite))
+                return ((((((not (((pat_let_tv142_).plaintextDataKey).is_Some) or ((AlgorithmSuites.default__.GetEncryptKeyLength(d_56_suite_)) == (len(((pat_let_tv143_).plaintextDataKey).value)))) and ((not(((d_56_suite_).signature).is_None)) == ((default__.EC__PUBLIC__KEY__FIELD) in ((pat_let_tv144_).encryptionContext)))) and ((((d_56_suite_).signature).is_ECDSA) == (((pat_let_tv145_).verificationKey).is_Some))) and ((not(((d_56_suite_).signature).is_None)) == ((default__.EC__PUBLIC__KEY__FIELD) in ((pat_let_tv146_).encryptionContext)))) and (not (not(((d_56_suite_).symmetricSignature).is_None)) or ((((pat_let_tv147_).plaintextDataKey).is_Some) == (((pat_let_tv148_).symmetricSigningKey).is_Some)))) and (not (((d_56_suite_).symmetricSignature).is_None) or (((pat_let_tv149_).symmetricSigningKey).is_None))) and (_dafny.quantifier(((pat_let_tv150_).requiredEncryptionContextKeys).UniqueElements, True, lambda9_))
+            return iife3_(_pat_let1_0)
+        return (AlgorithmSuites.default__.AlgorithmSuite_q((decryptionMaterials).algorithmSuite)) and (iife2_((decryptionMaterials).algorithmSuite))
 
     @staticmethod
     def DecryptionMaterialsAddDataKey(decryptionMaterials, plaintextDataKey, symmetricSigningKey):

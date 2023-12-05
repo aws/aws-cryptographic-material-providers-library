@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -73,7 +73,7 @@ class default__:
             if (len(d_144_mrkKeyIds_)) == (len(d_145_setMrks_)):
                 return Wrappers.Outcome_Pass()
             elif True:
-                def iife12_():
+                def iife4_():
                     coll0_ = _dafny.Set()
                     compr_0_: _dafny.Seq
                     for compr_0_ in (d_144_mrkKeyIds_).Elements:
@@ -81,7 +81,7 @@ class default__:
                         if ((d_147_x_) in (d_144_mrkKeyIds_)) and (((_dafny.MultiSet(d_144_mrkKeyIds_))[d_147_x_]) >= (1)):
                             coll0_ = coll0_.union(_dafny.Set([d_147_x_]))
                     return _dafny.Set(coll0_)
-                d_146_duplicateMrkIds_ = iife12_()
+                d_146_duplicateMrkIds_ = iife4_()
 
                 def lambda10_(d_149_duplicateMrkIds_):
                     def lambda11_(d_150_identifier_):

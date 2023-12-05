@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -209,7 +209,7 @@ class default__:
     @staticmethod
     def ECDSAVerify(config, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.bool)()
-        output = Signature.ECDSA.Verify((input).signatureAlgorithm, (input).verificationKey, (input).message, (input).signature)
+        output = Signature.ECDSA_Verify((input).signatureAlgorithm, (input).verificationKey, (input).message, (input).signature)
         return output
 
 

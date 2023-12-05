@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 
 # Module: Seq
@@ -332,6 +332,6 @@ class default__:
         out0_: _dafny.Seq
         out0_ = default__.SetToSeq(s)
         xs = out0_
-        xs = Seq_mMergeSort.default__.MergeSortBy(xs, R)
+        xs = Seq_MergeSort.default__.MergeSortBy(xs, R)
         return xs
 

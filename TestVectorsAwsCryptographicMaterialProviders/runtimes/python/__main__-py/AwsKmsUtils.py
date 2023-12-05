@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -69,7 +69,7 @@ class default__:
         if (len(utf8EncCtx)) == (0):
             return Wrappers.Result_Success(_dafny.Map({}))
         elif True:
-            def iife13_():
+            def iife5_():
                 coll1_ = _dafny.Map()
                 compr_1_: _dafny.Seq
                 for compr_1_ in ((utf8EncCtx).keys).Elements:
@@ -77,7 +77,7 @@ class default__:
                     if (d_168_utf8Key_) in ((utf8EncCtx).keys):
                         coll1_[d_168_utf8Key_] = default__.StringifyEncryptionContextPair(d_168_utf8Key_, (utf8EncCtx)[d_168_utf8Key_])
                 return _dafny.Map(coll1_)
-            d_167_stringifyResults_ = iife13_()
+            d_167_stringifyResults_ = iife5_()
 
             def lambda13_(exists_var_0_):
                 d_169_r_: Wrappers.Result = exists_var_0_
@@ -98,7 +98,7 @@ class default__:
                 if not(d_170_stringKeysUnique_):
                     return Wrappers.Result_Failure(software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption context keys are not unique")))
                 elif True:
-                    def iife14_():
+                    def iife6_():
                         coll2_ = _dafny.Map()
                         compr_2_: Wrappers.Result
                         for compr_2_ in ((d_167_stringifyResults_).values).Elements:
@@ -106,7 +106,7 @@ class default__:
                             if (d_173_r_) in ((d_167_stringifyResults_).values):
                                 coll2_[((d_173_r_).value)[0]] = ((d_173_r_).value)[1]
                         return _dafny.Map(coll2_)
-                    return Wrappers.Result_Success(iife14_()
+                    return Wrappers.Result_Success(iife6_()
 )
 
     @staticmethod
@@ -171,7 +171,7 @@ class default__:
             return (d_186_valueOrError0_).PropagateFailure()
         elif True:
             d_188_namespace_ = (d_186_valueOrError0_).Extract()
-            d_189_valueOrError1_ = Wrappers.default__.Need((len(d_188_namespace_)) < (StandardLibrary_mUInt.default__.UINT16__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Key namespace too long")))
+            d_189_valueOrError1_ = Wrappers.default__.Need((len(d_188_namespace_)) < (StandardLibrary_UInt.default__.UINT16__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Key namespace too long")))
             if (d_189_valueOrError1_).IsFailure():
                 return (d_189_valueOrError1_).PropagateFailure()
             elif True:
@@ -183,7 +183,7 @@ class default__:
                     return (d_190_valueOrError2_).PropagateFailure()
                 elif True:
                     d_192_name_ = (d_190_valueOrError2_).Extract()
-                    d_193_valueOrError3_ = Wrappers.default__.Need((len(d_192_name_)) < (StandardLibrary_mUInt.default__.UINT16__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Key name too long")))
+                    d_193_valueOrError3_ = Wrappers.default__.Need((len(d_192_name_)) < (StandardLibrary_UInt.default__.UINT16__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Key name too long")))
                     if (d_193_valueOrError3_).IsFailure():
                         return (d_193_valueOrError3_).PropagateFailure()
                     elif True:

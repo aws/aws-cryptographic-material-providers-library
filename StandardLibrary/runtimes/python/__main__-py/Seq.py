@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import BoundedInts
-import StandardLibrary_mUInt
+import StandardLibrary_UInt
 import StandardLibrary
 import UTF8
 import TestUTF8
@@ -17,7 +17,7 @@ import TestTime
 import HexStrings
 import TestHexStrings
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 
 # Module: Seq
@@ -341,6 +341,6 @@ class default__:
         out4_: _dafny.Seq
         out4_ = default__.SetToSeq(s)
         xs = out4_
-        xs = Seq_mMergeSort.default__.MergeSortBy(xs, R)
+        xs = Seq_MergeSort.default__.MergeSortBy(xs, R)
         return xs
 

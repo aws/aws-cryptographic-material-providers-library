@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -73,7 +73,7 @@ import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
 import software_amazon_cryptography_primitives_internaldafny
-import Aws_mCryptography
+import Aws_Cryptography
 import Aws
 import MaterialWrapping
 import CanonicalEncryptionContext
@@ -156,17 +156,17 @@ class RequiredEncryptionContextCMM(CMM.VerifiableInterface, software_amazon_cryp
             return output
         d_1098_result_: software_amazon_cryptography_materialproviders_internaldafny_types.GetEncryptionMaterialsOutput
         d_1099_valueOrError1_: Wrappers.Result = None
-        pat_let_tv36_ = input
+        pat_let_tv161_ = input
         out226_: Wrappers.Result
-        def iife43_(_pat_let20_0):
-            def iife44_(d_1100_dt__update__tmp_h0_):
-                def iife45_(_pat_let21_0):
-                    def iife46_(d_1101_dt__update_hrequiredEncryptionContextKeys_h0_):
+        def iife19_(_pat_let8_0):
+            def iife20_(d_1100_dt__update__tmp_h0_):
+                def iife21_(_pat_let9_0):
+                    def iife22_(d_1101_dt__update_hrequiredEncryptionContextKeys_h0_):
                         return software_amazon_cryptography_materialproviders_internaldafny_types.GetEncryptionMaterialsInput_GetEncryptionMaterialsInput((d_1100_dt__update__tmp_h0_).encryptionContext, (d_1100_dt__update__tmp_h0_).commitmentPolicy, (d_1100_dt__update__tmp_h0_).algorithmSuiteId, (d_1100_dt__update__tmp_h0_).maxPlaintextLength, d_1101_dt__update_hrequiredEncryptionContextKeys_h0_)
-                    return iife46_(_pat_let21_0)
-                return iife45_(Wrappers.Option_Some((((pat_let_tv36_).requiredEncryptionContextKeys).UnwrapOr(_dafny.Seq([]))) + ((self).requiredEncryptionContextKeys)))
-            return iife44_(_pat_let20_0)
-        out226_ = ((self).underlyingCMM).GetEncryptionMaterials(iife43_(input))
+                    return iife22_(_pat_let9_0)
+                return iife21_(Wrappers.Option_Some((((pat_let_tv161_).requiredEncryptionContextKeys).UnwrapOr(_dafny.Seq([]))) + ((self).requiredEncryptionContextKeys)))
+            return iife20_(_pat_let8_0)
+        out226_ = ((self).underlyingCMM).GetEncryptionMaterials(iife19_(input))
         d_1099_valueOrError1_ = out226_
         if (d_1099_valueOrError1_).IsFailure():
             output = (d_1099_valueOrError1_).PropagateFailure()

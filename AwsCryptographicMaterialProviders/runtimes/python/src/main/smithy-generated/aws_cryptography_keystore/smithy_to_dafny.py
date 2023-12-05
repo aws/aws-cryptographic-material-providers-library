@@ -2,8 +2,8 @@
 
 from Wrappers import Option_None, Option_Some
 from _dafny import Map, Seq
-import aws_cryptography_keystore.smithygenerated.models
-import aws_cryptography_keystore.smithygenerated.smithy_to_dafny
+import aws_cryptography_keystore.smithygenerated.aws_cryptography_keystore.models
+import aws_cryptography_keystore.smithygenerated.aws_cryptography_keystore.smithy_to_dafny
 import module_
 from software_amazon_cryptography_keystore_internaldafny_types import (
     BeaconKeyMaterials_BeaconKeyMaterials as DafnyBeaconKeyMaterials,
@@ -33,24 +33,8 @@ from software_amazon_cryptography_services_kms_internaldafny_types import IKMSCl
 def SmithyToDafny_smithy_api_Unit(input):
     return None
 
-def SmithyToDafny_aws_cryptography_keystore_GetBeaconKeyInput(input):
-    return DafnyGetBeaconKeyInput(
-        branchKeyIdentifier=Seq(input.branch_key_identifier),
-    )
-
 def SmithyToDafny_aws_cryptography_keystore_CreateKeyStoreInput(input):
     return DafnyCreateKeyStoreInput(
-    )
-
-def SmithyToDafny_aws_cryptography_keystore_GetBranchKeyVersionInput(input):
-    return DafnyGetBranchKeyVersionInput(
-        branchKeyIdentifier=Seq(input.branch_key_identifier),
-        branchKeyVersion=Seq(input.branch_key_version),
-    )
-
-def SmithyToDafny_aws_cryptography_keystore_GetActiveBranchKeyInput(input):
-    return DafnyGetActiveBranchKeyInput(
-        branchKeyIdentifier=Seq(input.branch_key_identifier),
     )
 
 def SmithyToDafny_aws_cryptography_keystore_CreateKeyInput(input):
@@ -64,57 +48,42 @@ def SmithyToDafny_aws_cryptography_keystore_VersionKeyInput(input):
         branchKeyIdentifier=Seq(input.branch_key_identifier),
     )
 
+def SmithyToDafny_aws_cryptography_keystore_GetActiveBranchKeyInput(input):
+    return DafnyGetActiveBranchKeyInput(
+        branchKeyIdentifier=Seq(input.branch_key_identifier),
+    )
+
+def SmithyToDafny_aws_cryptography_keystore_GetBranchKeyVersionInput(input):
+    return DafnyGetBranchKeyVersionInput(
+        branchKeyIdentifier=Seq(input.branch_key_identifier),
+        branchKeyVersion=Seq(input.branch_key_version),
+    )
+
+def SmithyToDafny_aws_cryptography_keystore_GetBeaconKeyInput(input):
+    return DafnyGetBeaconKeyInput(
+        branchKeyIdentifier=Seq(input.branch_key_identifier),
+    )
+
 def SmithyToDafny_aws_cryptography_keystore_GetKeyStoreInfoOutput(input):
     return DafnyGetKeyStoreInfoOutput(
         keyStoreId=Seq(input.key_store_id),
         keyStoreName=Seq(input.key_store_name),
         logicalKeyStoreName=Seq(input.logical_key_store_name),
         grantTokens=Seq([Seq(list_element) for list_element in input.grant_tokens]),
-        kmsConfiguration=aws_cryptography_keystore.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_KMSConfiguration(input.kms_configuration),
+        kmsConfiguration=aws_cryptography_keystore.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_KMSConfiguration(input.kms_configuration),
     )
 
 def SmithyToDafny_aws_cryptography_keystore_KMSConfiguration(input):
-    if isinstance(input, aws_cryptography_keystore.smithygenerated.models.KMSConfigurationkmsKeyArn):
+    if isinstance(input, aws_cryptography_keystore.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationkmsKeyArn):
         KMSConfiguration_union_value = KMSConfiguration_kmsKeyArn(input.value)
     else:
         raise ValueError("No recognized union value in union type: " + input)
 
     return KMSConfiguration_union_value
 
-def SmithyToDafny_aws_cryptography_keystore_GetBeaconKeyOutput(input):
-    return DafnyGetBeaconKeyOutput(
-        beaconKeyMaterials=aws_cryptography_keystore.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_BeaconKeyMaterials(input.beacon_key_materials),
-    )
-
-def SmithyToDafny_aws_cryptography_keystore_BeaconKeyMaterials(input):
-    return DafnyBeaconKeyMaterials(
-        beaconKeyIdentifier=Seq(input.beacon_key_identifier),
-        encryptionContext=Map({Seq(key): Seq(value) for (key, value) in input.encryption_context.items() }),
-        beaconKey=((Option_Some(Seq(input.beacon_key))) if (input.beacon_key is not None) else (Option_None())),
-        hmacKeys=((Option_Some(Map({Seq(key): Seq(value) for (key, value) in input.hmac_keys.items() }))) if (input.hmac_keys is not None) else (Option_None())),
-    )
-
 def SmithyToDafny_aws_cryptography_keystore_CreateKeyStoreOutput(input):
     return DafnyCreateKeyStoreOutput(
         tableArn=Seq(input.table_arn),
-    )
-
-def SmithyToDafny_aws_cryptography_keystore_GetBranchKeyVersionOutput(input):
-    return DafnyGetBranchKeyVersionOutput(
-        branchKeyMaterials=aws_cryptography_keystore.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_BranchKeyMaterials(input.branch_key_materials),
-    )
-
-def SmithyToDafny_aws_cryptography_keystore_BranchKeyMaterials(input):
-    return DafnyBranchKeyMaterials(
-        branchKeyIdentifier=Seq(input.branch_key_identifier),
-        branchKeyVersion=Seq(input.branch_key_version),
-        encryptionContext=Map({Seq(key): Seq(value) for (key, value) in input.encryption_context.items() }),
-        branchKey=Seq(input.branch_key),
-    )
-
-def SmithyToDafny_aws_cryptography_keystore_GetActiveBranchKeyOutput(input):
-    return DafnyGetActiveBranchKeyOutput(
-        branchKeyMaterials=aws_cryptography_keystore.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_BranchKeyMaterials(input.branch_key_materials),
     )
 
 def SmithyToDafny_aws_cryptography_keystore_CreateKeyOutput(input):
@@ -126,15 +95,46 @@ def SmithyToDafny_aws_cryptography_keystore_VersionKeyOutput(input):
     return DafnyVersionKeyOutput(
     )
 
+def SmithyToDafny_aws_cryptography_keystore_GetActiveBranchKeyOutput(input):
+    return DafnyGetActiveBranchKeyOutput(
+        branchKeyMaterials=aws_cryptography_keystore.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_BranchKeyMaterials(input.branch_key_materials),
+    )
+
+def SmithyToDafny_aws_cryptography_keystore_BranchKeyMaterials(input):
+    return DafnyBranchKeyMaterials(
+        branchKeyIdentifier=Seq(input.branch_key_identifier),
+        branchKeyVersion=Seq(input.branch_key_version),
+        encryptionContext=Map({Seq(key): Seq(value) for (key, value) in input.encryption_context.items() }),
+        branchKey=Seq(input.branch_key),
+    )
+
+def SmithyToDafny_aws_cryptography_keystore_GetBranchKeyVersionOutput(input):
+    return DafnyGetBranchKeyVersionOutput(
+        branchKeyMaterials=aws_cryptography_keystore.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_BranchKeyMaterials(input.branch_key_materials),
+    )
+
+def SmithyToDafny_aws_cryptography_keystore_GetBeaconKeyOutput(input):
+    return DafnyGetBeaconKeyOutput(
+        beaconKeyMaterials=aws_cryptography_keystore.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_BeaconKeyMaterials(input.beacon_key_materials),
+    )
+
+def SmithyToDafny_aws_cryptography_keystore_BeaconKeyMaterials(input):
+    return DafnyBeaconKeyMaterials(
+        beaconKeyIdentifier=Seq(input.beacon_key_identifier),
+        encryptionContext=Map({Seq(key): Seq(value) for (key, value) in input.encryption_context.items() }),
+        beaconKey=((Option_Some(Seq(input.beacon_key))) if (input.beacon_key is not None) else (Option_None())),
+        hmacKeys=((Option_Some(Map({Seq(key): Seq(value) for (key, value) in input.hmac_keys.items() }))) if (input.hmac_keys is not None) else (Option_None())),
+    )
+
 def SmithyToDafny_aws_cryptography_keystore_KeyStoreConfig(input):
     return DafnyKeyStoreConfig(
         ddbTableName=Seq(input.ddb_table_name),
-        kmsConfiguration=aws_cryptography_keystore.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_KMSConfiguration(input.kms_configuration),
+        kmsConfiguration=aws_cryptography_keystore.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_KMSConfiguration(input.kms_configuration),
         logicalKeyStoreName=Seq(input.logical_key_store_name),
         id=Seq(input.id),
         grantTokens=Seq([Seq(list_element) for list_element in input.grant_tokens]),
-        ddbClient=aws_cryptography_keystore.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_DdbClientReference(input.ddb_client),
-        kmsClient=aws_cryptography_keystore.smithygenerated.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_KmsClientReference(input.kms_client),
+        ddbClient=aws_cryptography_keystore.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_DdbClientReference(input.ddb_client),
+        kmsClient=aws_cryptography_keystore.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_KmsClientReference(input.kms_client),
     )
 
 def SmithyToDafny_aws_cryptography_keystore_DdbClientReference(input):

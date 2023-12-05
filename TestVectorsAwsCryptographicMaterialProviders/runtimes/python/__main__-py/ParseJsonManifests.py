@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -73,7 +73,7 @@ import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
 import software_amazon_cryptography_primitives_internaldafny
-import Aws_mCryptography
+import Aws_Cryptography
 import Aws
 import MaterialWrapping
 import CanonicalEncryptionContext
@@ -116,47 +116,47 @@ import CreateRawAesKeyrings
 import CreateRawRsaKeyrings
 import CreateKeyrings
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types
-import JSON_mUtils_mViews_mCore
-import JSON_mUtils_mViews_mWriters
-import JSON_mUtils_mViews
-import JSON_mUtils_mLexers_mCore
-import JSON_mUtils_mLexers_mStrings
-import JSON_mUtils_mLexers
-import JSON_mUtils_mCursors
-import JSON_mUtils_mParsers
-import JSON_mUtils_mStr_mCharStrConversion
-import JSON_mUtils_mStr_mCharStrEscaping
-import JSON_mUtils_mStr
-import JSON_mUtils_mSeq
-import JSON_mUtils_mVectors
-import JSON_mUtils
-import JSON_mErrors
-import JSON_mValues
-import JSON_mSpec
-import JSON_mGrammar
-import JSON_mSerializer_mByteStrConversion
-import JSON_mSerializer
-import JSON_mDeserializer_mUint16StrConversion
-import JSON_mDeserializer_mByteStrConversion
-import JSON_mDeserializer
-import JSON_mConcreteSyntax_mSpec
-import JSON_mConcreteSyntax_mSpecProperties
-import JSON_mConcreteSyntax
-import JSON_mZeroCopy_mSerializer
-import JSON_mZeroCopy_mDeserializer_mCore
-import JSON_mZeroCopy_mDeserializer_mStrings
-import JSON_mZeroCopy_mDeserializer_mNumbers
-import JSON_mZeroCopy_mDeserializer_mObjectParams
-import JSON_mZeroCopy_mDeserializer_mObjects
-import JSON_mZeroCopy_mDeserializer_mArrayParams
-import JSON_mZeroCopy_mDeserializer_mArrays
-import JSON_mZeroCopy_mDeserializer_mConstants
-import JSON_mZeroCopy_mDeserializer_mValues
-import JSON_mZeroCopy_mDeserializer_mAPI
-import JSON_mZeroCopy_mDeserializer
-import JSON_mZeroCopy_mAPI
-import JSON_mZeroCopy
-import JSON_mAPI
+import JSON_Utils_Views_Core
+import JSON_Utils_Views_Writers
+import JSON_Utils_Views
+import JSON_Utils_Lexers_Core
+import JSON_Utils_Lexers_Strings
+import JSON_Utils_Lexers
+import JSON_Utils_Cursors
+import JSON_Utils_Parsers
+import JSON_Utils_Str_CharStrConversion
+import JSON_Utils_Str_CharStrEscaping
+import JSON_Utils_Str
+import JSON_Utils_Seq
+import JSON_Utils_Vectors
+import JSON_Utils
+import JSON_Errors
+import JSON_Values
+import JSON_Spec
+import JSON_Grammar
+import JSON_Serializer_ByteStrConversion
+import JSON_Serializer
+import JSON_Deserializer_Uint16StrConversion
+import JSON_Deserializer_ByteStrConversion
+import JSON_Deserializer
+import JSON_ConcreteSyntax_Spec
+import JSON_ConcreteSyntax_SpecProperties
+import JSON_ConcreteSyntax
+import JSON_ZeroCopy_Serializer
+import JSON_ZeroCopy_Deserializer_Core
+import JSON_ZeroCopy_Deserializer_Strings
+import JSON_ZeroCopy_Deserializer_Numbers
+import JSON_ZeroCopy_Deserializer_ObjectParams
+import JSON_ZeroCopy_Deserializer_Objects
+import JSON_ZeroCopy_Deserializer_ArrayParams
+import JSON_ZeroCopy_Deserializer_Arrays
+import JSON_ZeroCopy_Deserializer_Constants
+import JSON_ZeroCopy_Deserializer_Values
+import JSON_ZeroCopy_Deserializer_API
+import JSON_ZeroCopy_Deserializer
+import JSON_ZeroCopy_API
+import JSON_ZeroCopy
+import JSON_API
 import JSON
 import JSONHelpers
 import KeyDescription
@@ -239,11 +239,11 @@ class default__:
                                 elif True:
                                     d_1855_algorithmSuite_ = (d_1852_valueOrError6_).Extract()
                                     d_1856_keysAsStrings_ = (JSONHelpers.default__.GetArrayString(_dafny.Seq("requiredEncryptionContextKeys"), d_1839_obj_)).ToOption()
-                                    def iife106_(_pat_let43_0):
-                                        def iife107_(d_1858_result_):
+                                    def iife62_(_pat_let21_0):
+                                        def iife63_(d_1858_result_):
                                             return (Wrappers.Result_Success(Wrappers.Option_Some((d_1858_result_).value)) if (d_1858_result_).is_Success else Wrappers.Result_Failure((d_1858_result_).error))
-                                        return iife107_(_pat_let43_0)
-                                    d_1857_valueOrError7_ = (iife106_(JSONHelpers.default__.utf8EncodeSeq((d_1856_keysAsStrings_).value)) if (d_1856_keysAsStrings_).is_Some else Wrappers.Result_Success(Wrappers.Option_None()))
+                                        return iife63_(_pat_let21_0)
+                                    d_1857_valueOrError7_ = (iife62_(JSONHelpers.default__.utf8EncodeSeq((d_1856_keysAsStrings_).value)) if (d_1856_keysAsStrings_).is_Some else Wrappers.Result_Success(Wrappers.Option_None()))
                                     if (d_1857_valueOrError7_).IsFailure():
                                         return (d_1857_valueOrError7_).PropagateFailure()
                                     elif True:
@@ -264,7 +264,7 @@ class default__:
                                                     def lambda126_(d_1867_e_):
                                                         return (d_1867_e_).ToString()
 
-                                                    d_1866_valueOrError10_ = (JSON_mAPI.default__.Serialize(d_1863_encryptKeyDescriptionObject_)).MapFailure(lambda126_)
+                                                    d_1866_valueOrError10_ = (JSON_API.default__.Serialize(d_1863_encryptKeyDescriptionObject_)).MapFailure(lambda126_)
                                                     if (d_1866_valueOrError10_).IsFailure():
                                                         return (d_1866_valueOrError10_).PropagateFailure()
                                                     elif True:
@@ -272,7 +272,7 @@ class default__:
                                                         def lambda127_(d_1870_e_):
                                                             return (d_1870_e_).ToString()
 
-                                                        d_1869_valueOrError11_ = (JSON_mAPI.default__.Serialize(d_1865_decryptKeyDescriptionObject_)).MapFailure(lambda127_)
+                                                        d_1869_valueOrError11_ = (JSON_API.default__.Serialize(d_1865_decryptKeyDescriptionObject_)).MapFailure(lambda127_)
                                                         if (d_1869_valueOrError11_).IsFailure():
                                                             return (d_1869_valueOrError11_).PropagateFailure()
                                                         elif True:
@@ -297,7 +297,7 @@ class default__:
                                                 def lambda128_(d_1879_e_):
                                                     return (d_1879_e_).ToString()
 
-                                                d_1878_valueOrError15_ = (JSON_mAPI.default__.Serialize(d_1877_keyDescriptionObject_)).MapFailure(lambda128_)
+                                                d_1878_valueOrError15_ = (JSON_API.default__.Serialize(d_1877_keyDescriptionObject_)).MapFailure(lambda128_)
                                                 if (d_1878_valueOrError15_).IsFailure():
                                                     return (d_1878_valueOrError15_).PropagateFailure()
                                                 elif True:

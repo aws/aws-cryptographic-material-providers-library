@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import BoundedInts
-import StandardLibrary_mUInt
+import StandardLibrary_UInt
 import StandardLibrary
 
 # Module: UTF8

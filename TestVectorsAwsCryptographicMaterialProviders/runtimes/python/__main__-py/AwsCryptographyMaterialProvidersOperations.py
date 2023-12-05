@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -73,7 +73,7 @@ import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
 import software_amazon_cryptography_primitives_internaldafny
-import Aws_mCryptography
+import Aws_Cryptography
 import Aws
 import MaterialWrapping
 import CanonicalEncryptionContext
@@ -550,7 +550,7 @@ class default__:
             output = (d_1194_valueOrError0_).PropagateFailure()
             return output
         d_1195_keySet_: _dafny.Set
-        def iife47_():
+        def iife23_():
             coll3_ = _dafny.Set()
             compr_3_: _dafny.Seq
             for compr_3_ in ((input).requiredEncryptionContextKeys).Elements:
@@ -558,7 +558,7 @@ class default__:
                 if (d_1196_k_) in ((input).requiredEncryptionContextKeys):
                     coll3_ = coll3_.union(_dafny.Set([d_1196_k_]))
             return _dafny.Set(coll3_)
-        d_1195_keySet_ = iife47_()
+        d_1195_keySet_ = iife23_()
         
         d_1197_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_1197_valueOrError1_ = Wrappers.default__.Need((0) < (len(d_1195_keySet_)), default__.CmpError(_dafny.Seq("RequiredEncryptionContextCMM needs at least one requiredEncryptionContextKey.")))
@@ -580,17 +580,17 @@ class default__:
         if source36_.is_Default:
             d_1199___mcc_h0_ = source36_.Default
             d_1200_c_ = d_1199___mcc_h0_
-            pat_let_tv37_ = d_1200_c_
+            pat_let_tv162_ = d_1200_c_
             d_1201_cache_: software_amazon_cryptography_materialproviders_internaldafny_types.StormTrackingCache
-            def iife48_(_pat_let22_0):
-                def iife49_(d_1202_dt__update__tmp_h0_):
-                    def iife50_(_pat_let23_0):
-                        def iife51_(d_1203_dt__update_hentryCapacity_h0_):
+            def iife24_(_pat_let10_0):
+                def iife25_(d_1202_dt__update__tmp_h0_):
+                    def iife26_(_pat_let11_0):
+                        def iife27_(d_1203_dt__update_hentryCapacity_h0_):
                             return software_amazon_cryptography_materialproviders_internaldafny_types.StormTrackingCache_StormTrackingCache(d_1203_dt__update_hentryCapacity_h0_, (d_1202_dt__update__tmp_h0_).entryPruningTailSize, (d_1202_dt__update__tmp_h0_).gracePeriod, (d_1202_dt__update__tmp_h0_).graceInterval, (d_1202_dt__update__tmp_h0_).fanOut, (d_1202_dt__update__tmp_h0_).inFlightTTL, (d_1202_dt__update__tmp_h0_).sleepMilli)
-                        return iife51_(_pat_let23_0)
-                    return iife50_((pat_let_tv37_).entryCapacity)
-                return iife49_(_pat_let22_0)
-            d_1201_cache_ = iife48_(StormTracker.default__.DefaultStorm())
+                        return iife27_(_pat_let11_0)
+                    return iife26_((pat_let_tv162_).entryCapacity)
+                return iife25_(_pat_let10_0)
+            d_1201_cache_ = iife24_(StormTracker.default__.DefaultStorm())
             d_1204_cmc_: StormTracker.StormTracker
             nw63_ = StormTracker.StormTracker()
             nw63_.ctor__(d_1201_cache_)
@@ -632,18 +632,18 @@ class default__:
         elif True:
             d_1215___mcc_h4_ = source36_.StormTracking
             d_1216_c_ = d_1215___mcc_h4_
-            pat_let_tv38_ = d_1216_c_
+            pat_let_tv163_ = d_1216_c_
             d_1217_cmc_: StormTracker.StormTracker
             nw69_ = StormTracker.StormTracker()
-            def iife52_(_pat_let24_0):
-                def iife53_(d_1218_dt__update__tmp_h1_):
-                    def iife54_(_pat_let25_0):
-                        def iife55_(d_1219_dt__update_hentryPruningTailSize_h0_):
+            def iife28_(_pat_let12_0):
+                def iife29_(d_1218_dt__update__tmp_h1_):
+                    def iife30_(_pat_let13_0):
+                        def iife31_(d_1219_dt__update_hentryPruningTailSize_h0_):
                             return software_amazon_cryptography_materialproviders_internaldafny_types.StormTrackingCache_StormTrackingCache((d_1218_dt__update__tmp_h1_).entryCapacity, d_1219_dt__update_hentryPruningTailSize_h0_, (d_1218_dt__update__tmp_h1_).gracePeriod, (d_1218_dt__update__tmp_h1_).graceInterval, (d_1218_dt__update__tmp_h1_).fanOut, (d_1218_dt__update__tmp_h1_).inFlightTTL, (d_1218_dt__update__tmp_h1_).sleepMilli)
-                        return iife55_(_pat_let25_0)
-                    return iife54_(default__.OptionalCountingNumber((pat_let_tv38_).entryPruningTailSize))
-                return iife53_(_pat_let24_0)
-            nw69_.ctor__(iife52_(d_1216_c_))
+                        return iife31_(_pat_let13_0)
+                    return iife30_(default__.OptionalCountingNumber((pat_let_tv163_).entryPruningTailSize))
+                return iife29_(_pat_let12_0)
+            nw69_.ctor__(iife28_(d_1216_c_))
             d_1217_cmc_ = nw69_
             d_1220_synCmc_: software_amazon_cryptography_internaldafny_StormTrackingCMC.StormTrackingCMC
             nw70_ = software_amazon_cryptography_internaldafny_StormTrackingCMC.StormTrackingCMC(d_1217_cmc_)

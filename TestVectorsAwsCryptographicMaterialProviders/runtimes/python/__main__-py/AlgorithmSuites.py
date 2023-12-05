@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -87,39 +87,162 @@ class default__:
 
     @staticmethod
     def ESDKAlgorithmSuite_q(a):
+        pat_let_tv0_ = a
+        pat_let_tv1_ = a
+        pat_let_tv2_ = a
+        pat_let_tv3_ = a
+        pat_let_tv4_ = a
+        pat_let_tv5_ = a
+        pat_let_tv6_ = a
+        pat_let_tv7_ = a
+        pat_let_tv8_ = a
+        pat_let_tv9_ = a
+        pat_let_tv10_ = a
+        pat_let_tv11_ = a
+        pat_let_tv12_ = a
+        pat_let_tv13_ = a
+        pat_let_tv14_ = a
+        pat_let_tv15_ = a
+        pat_let_tv16_ = a
+        pat_let_tv17_ = a
+        pat_let_tv18_ = a
+        pat_let_tv19_ = a
+        pat_let_tv20_ = a
+        pat_let_tv21_ = a
+        pat_let_tv22_ = a
+        pat_let_tv23_ = a
+        pat_let_tv24_ = a
+        pat_let_tv25_ = a
+        pat_let_tv26_ = a
+        pat_let_tv27_ = a
+        pat_let_tv28_ = a
+        pat_let_tv29_ = a
+        pat_let_tv30_ = a
+        pat_let_tv31_ = a
+        pat_let_tv32_ = a
+        pat_let_tv33_ = a
+        pat_let_tv34_ = a
+        pat_let_tv35_ = a
+        pat_let_tv36_ = a
+        pat_let_tv37_ = a
+        pat_let_tv38_ = a
+        pat_let_tv39_ = a
+        pat_let_tv40_ = a
+        pat_let_tv41_ = a
+        pat_let_tv42_ = a
+        pat_let_tv43_ = a
+        pat_let_tv44_ = a
+        pat_let_tv45_ = a
+        pat_let_tv46_ = a
+        pat_let_tv47_ = a
+        pat_let_tv48_ = a
+        pat_let_tv49_ = a
+        pat_let_tv50_ = a
+        pat_let_tv51_ = a
+        pat_let_tv52_ = a
+        pat_let_tv53_ = a
+        pat_let_tv54_ = a
+        pat_let_tv55_ = a
+        pat_let_tv56_ = a
+        pat_let_tv57_ = a
+        pat_let_tv58_ = a
+        pat_let_tv59_ = a
+        pat_let_tv60_ = a
+        pat_let_tv61_ = a
+        pat_let_tv62_ = a
+        pat_let_tv63_ = a
+        pat_let_tv64_ = a
+        pat_let_tv65_ = a
+        pat_let_tv66_ = a
+        pat_let_tv67_ = a
+        pat_let_tv68_ = a
+        pat_let_tv69_ = a
+        pat_let_tv70_ = a
+        pat_let_tv71_ = a
+        pat_let_tv72_ = a
+        pat_let_tv73_ = a
+        pat_let_tv74_ = a
+        pat_let_tv75_ = a
+        pat_let_tv76_ = a
+        pat_let_tv77_ = a
+        pat_let_tv78_ = a
+        pat_let_tv79_ = a
+        pat_let_tv80_ = a
+        pat_let_tv81_ = a
+        pat_let_tv82_ = a
+        pat_let_tv83_ = a
+        pat_let_tv84_ = a
+        pat_let_tv85_ = a
+        pat_let_tv86_ = a
+        pat_let_tv87_ = a
+        pat_let_tv88_ = a
+        pat_let_tv89_ = a
+        pat_let_tv90_ = a
+        pat_let_tv91_ = a
+        pat_let_tv92_ = a
+        pat_let_tv93_ = a
+        pat_let_tv94_ = a
+        pat_let_tv95_ = a
+        pat_let_tv96_ = a
+        pat_let_tv97_ = a
+        pat_let_tv98_ = a
+        pat_let_tv99_ = a
         def lambda0_(source0_):
             if source0_.is_ALG__AES__128__GCM__IV12__TAG16__NO__KDF:
-                return ((((((((((a).binaryId) == (_dafny.Seq([0, 20]))) and (((a).messageVersion) == (1))) and (True)) and (((((a).encrypt).AES__GCM).keyLength) == (16))) and (((a).kdf).is_IDENTITY)) and (((a).signature).is_None)) and (((a).commitment).is_None)) and (((a).symmetricSignature).is_None)) and (((a).edkWrapping).is_DIRECT__KEY__WRAPPING)
+                return ((((((((((pat_let_tv0_).binaryId) == (_dafny.Seq([0, 20]))) and (((pat_let_tv1_).messageVersion) == (1))) and (True)) and (((((pat_let_tv2_).encrypt).AES__GCM).keyLength) == (16))) and (((pat_let_tv3_).kdf).is_IDENTITY)) and (((pat_let_tv4_).signature).is_None)) and (((pat_let_tv5_).commitment).is_None)) and (((pat_let_tv6_).symmetricSignature).is_None)) and (((pat_let_tv7_).edkWrapping).is_DIRECT__KEY__WRAPPING)
             elif source0_.is_ALG__AES__192__GCM__IV12__TAG16__NO__KDF:
-                return ((((((((((a).binaryId) == (_dafny.Seq([0, 70]))) and (((a).messageVersion) == (1))) and (True)) and (((((a).encrypt).AES__GCM).keyLength) == (24))) and (((a).kdf).is_IDENTITY)) and (((a).signature).is_None)) and (((a).commitment).is_None)) and (((a).symmetricSignature).is_None)) and (((a).edkWrapping).is_DIRECT__KEY__WRAPPING)
+                return ((((((((((pat_let_tv8_).binaryId) == (_dafny.Seq([0, 70]))) and (((pat_let_tv9_).messageVersion) == (1))) and (True)) and (((((pat_let_tv10_).encrypt).AES__GCM).keyLength) == (24))) and (((pat_let_tv11_).kdf).is_IDENTITY)) and (((pat_let_tv12_).signature).is_None)) and (((pat_let_tv13_).commitment).is_None)) and (((pat_let_tv14_).symmetricSignature).is_None)) and (((pat_let_tv15_).edkWrapping).is_DIRECT__KEY__WRAPPING)
             elif source0_.is_ALG__AES__256__GCM__IV12__TAG16__NO__KDF:
-                return ((((((((((a).binaryId) == (_dafny.Seq([0, 120]))) and (((a).messageVersion) == (1))) and (True)) and (((((a).encrypt).AES__GCM).keyLength) == (32))) and (((a).kdf).is_IDENTITY)) and (((a).signature).is_None)) and (((a).commitment).is_None)) and (((a).symmetricSignature).is_None)) and (((a).edkWrapping).is_DIRECT__KEY__WRAPPING)
+                return ((((((((((pat_let_tv16_).binaryId) == (_dafny.Seq([0, 120]))) and (((pat_let_tv17_).messageVersion) == (1))) and (True)) and (((((pat_let_tv18_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv19_).kdf).is_IDENTITY)) and (((pat_let_tv20_).signature).is_None)) and (((pat_let_tv21_).commitment).is_None)) and (((pat_let_tv22_).symmetricSignature).is_None)) and (((pat_let_tv23_).edkWrapping).is_DIRECT__KEY__WRAPPING)
             elif source0_.is_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256:
-                return (((((((((((a).binaryId) == (_dafny.Seq([1, 20]))) and (((a).messageVersion) == (1))) and (True)) and (((((a).encrypt).AES__GCM).keyLength) == (16))) and (((a).kdf).is_HKDF)) and (((((a).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256()))) and (((a).signature).is_None)) and (((a).commitment).is_None)) and (((a).symmetricSignature).is_None)) and (((a).edkWrapping).is_DIRECT__KEY__WRAPPING)
+                return (((((((((((pat_let_tv24_).binaryId) == (_dafny.Seq([1, 20]))) and (((pat_let_tv25_).messageVersion) == (1))) and (True)) and (((((pat_let_tv26_).encrypt).AES__GCM).keyLength) == (16))) and (((pat_let_tv27_).kdf).is_HKDF)) and (((((pat_let_tv28_).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256()))) and (((pat_let_tv29_).signature).is_None)) and (((pat_let_tv30_).commitment).is_None)) and (((pat_let_tv31_).symmetricSignature).is_None)) and (((pat_let_tv32_).edkWrapping).is_DIRECT__KEY__WRAPPING)
             elif source0_.is_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA256:
-                return (((((((((((a).binaryId) == (_dafny.Seq([1, 70]))) and (((a).messageVersion) == (1))) and (True)) and (((((a).encrypt).AES__GCM).keyLength) == (24))) and (((a).kdf).is_HKDF)) and (((((a).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256()))) and (((a).signature).is_None)) and (((a).commitment).is_None)) and (((a).symmetricSignature).is_None)) and (((a).edkWrapping).is_DIRECT__KEY__WRAPPING)
+                return (((((((((((pat_let_tv33_).binaryId) == (_dafny.Seq([1, 70]))) and (((pat_let_tv34_).messageVersion) == (1))) and (True)) and (((((pat_let_tv35_).encrypt).AES__GCM).keyLength) == (24))) and (((pat_let_tv36_).kdf).is_HKDF)) and (((((pat_let_tv37_).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256()))) and (((pat_let_tv38_).signature).is_None)) and (((pat_let_tv39_).commitment).is_None)) and (((pat_let_tv40_).symmetricSignature).is_None)) and (((pat_let_tv41_).edkWrapping).is_DIRECT__KEY__WRAPPING)
             elif source0_.is_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA256:
-                return (((((((((((a).binaryId) == (_dafny.Seq([1, 120]))) and (((a).messageVersion) == (1))) and (True)) and (((((a).encrypt).AES__GCM).keyLength) == (32))) and (((a).kdf).is_HKDF)) and (((((a).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256()))) and (((a).signature).is_None)) and (((a).commitment).is_None)) and (((a).symmetricSignature).is_None)) and (((a).edkWrapping).is_DIRECT__KEY__WRAPPING)
+                return (((((((((((pat_let_tv42_).binaryId) == (_dafny.Seq([1, 120]))) and (((pat_let_tv43_).messageVersion) == (1))) and (True)) and (((((pat_let_tv44_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv45_).kdf).is_HKDF)) and (((((pat_let_tv46_).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256()))) and (((pat_let_tv47_).signature).is_None)) and (((pat_let_tv48_).commitment).is_None)) and (((pat_let_tv49_).symmetricSignature).is_None)) and (((pat_let_tv50_).edkWrapping).is_DIRECT__KEY__WRAPPING)
             elif source0_.is_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256__ECDSA__P256:
-                return ((((((((((((a).binaryId) == (_dafny.Seq([2, 20]))) and (((a).messageVersion) == (1))) and (True)) and (((((a).encrypt).AES__GCM).keyLength) == (16))) and (((a).kdf).is_HKDF)) and (((((a).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256()))) and (((a).signature).is_ECDSA)) and (((((a).signature).ECDSA).curve) == (software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P256()))) and (((a).commitment).is_None)) and (((a).symmetricSignature).is_None)) and (((a).edkWrapping).is_DIRECT__KEY__WRAPPING)
+                return ((((((((((((pat_let_tv51_).binaryId) == (_dafny.Seq([2, 20]))) and (((pat_let_tv52_).messageVersion) == (1))) and (True)) and (((((pat_let_tv53_).encrypt).AES__GCM).keyLength) == (16))) and (((pat_let_tv54_).kdf).is_HKDF)) and (((((pat_let_tv55_).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256()))) and (((pat_let_tv56_).signature).is_ECDSA)) and (((((pat_let_tv57_).signature).ECDSA).curve) == (software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P256()))) and (((pat_let_tv58_).commitment).is_None)) and (((pat_let_tv59_).symmetricSignature).is_None)) and (((pat_let_tv60_).edkWrapping).is_DIRECT__KEY__WRAPPING)
             elif source0_.is_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384:
-                return ((((((((((((a).binaryId) == (_dafny.Seq([3, 70]))) and (((a).messageVersion) == (1))) and (True)) and (((((a).encrypt).AES__GCM).keyLength) == (24))) and (((a).kdf).is_HKDF)) and (((((a).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__384()))) and (((a).signature).is_ECDSA)) and (((((a).signature).ECDSA).curve) == (software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P384()))) and (((a).commitment).is_None)) and (((a).symmetricSignature).is_None)) and (((a).edkWrapping).is_DIRECT__KEY__WRAPPING)
+                return ((((((((((((pat_let_tv61_).binaryId) == (_dafny.Seq([3, 70]))) and (((pat_let_tv62_).messageVersion) == (1))) and (True)) and (((((pat_let_tv63_).encrypt).AES__GCM).keyLength) == (24))) and (((pat_let_tv64_).kdf).is_HKDF)) and (((((pat_let_tv65_).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__384()))) and (((pat_let_tv66_).signature).is_ECDSA)) and (((((pat_let_tv67_).signature).ECDSA).curve) == (software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P384()))) and (((pat_let_tv68_).commitment).is_None)) and (((pat_let_tv69_).symmetricSignature).is_None)) and (((pat_let_tv70_).edkWrapping).is_DIRECT__KEY__WRAPPING)
             elif source0_.is_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384:
-                return ((((((((((((a).binaryId) == (_dafny.Seq([3, 120]))) and (((a).messageVersion) == (1))) and (True)) and (((((a).encrypt).AES__GCM).keyLength) == (32))) and (((a).kdf).is_HKDF)) and (((((a).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__384()))) and (((a).signature).is_ECDSA)) and (((((a).signature).ECDSA).curve) == (software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P384()))) and (((a).commitment).is_None)) and (((a).symmetricSignature).is_None)) and (((a).edkWrapping).is_DIRECT__KEY__WRAPPING)
+                return ((((((((((((pat_let_tv71_).binaryId) == (_dafny.Seq([3, 120]))) and (((pat_let_tv72_).messageVersion) == (1))) and (True)) and (((((pat_let_tv73_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv74_).kdf).is_HKDF)) and (((((pat_let_tv75_).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__384()))) and (((pat_let_tv76_).signature).is_ECDSA)) and (((((pat_let_tv77_).signature).ECDSA).curve) == (software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P384()))) and (((pat_let_tv78_).commitment).is_None)) and (((pat_let_tv79_).symmetricSignature).is_None)) and (((pat_let_tv80_).edkWrapping).is_DIRECT__KEY__WRAPPING)
             elif source0_.is_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY:
-                return (((((((((((a).binaryId) == (_dafny.Seq([4, 120]))) and (((a).messageVersion) == (2))) and (True)) and (((((a).encrypt).AES__GCM).keyLength) == (32))) and (((a).kdf).is_HKDF)) and (((((a).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__512()))) and (((a).signature).is_None)) and (((a).commitment).is_HKDF)) and (((a).symmetricSignature).is_None)) and (((a).edkWrapping).is_DIRECT__KEY__WRAPPING)
+                return (((((((((((pat_let_tv81_).binaryId) == (_dafny.Seq([4, 120]))) and (((pat_let_tv82_).messageVersion) == (2))) and (True)) and (((((pat_let_tv83_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv84_).kdf).is_HKDF)) and (((((pat_let_tv85_).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__512()))) and (((pat_let_tv86_).signature).is_None)) and (((pat_let_tv87_).commitment).is_HKDF)) and (((pat_let_tv88_).symmetricSignature).is_None)) and (((pat_let_tv89_).edkWrapping).is_DIRECT__KEY__WRAPPING)
             elif True:
-                return ((((((((((((a).binaryId) == (_dafny.Seq([5, 120]))) and (((a).messageVersion) == (2))) and (True)) and (((((a).encrypt).AES__GCM).keyLength) == (32))) and (((a).kdf).is_HKDF)) and (((((a).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__512()))) and (((a).signature).is_ECDSA)) and (((((a).signature).ECDSA).curve) == (software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P384()))) and (((a).commitment).is_HKDF)) and (((a).symmetricSignature).is_None)) and (((a).edkWrapping).is_DIRECT__KEY__WRAPPING)
+                return ((((((((((((pat_let_tv90_).binaryId) == (_dafny.Seq([5, 120]))) and (((pat_let_tv91_).messageVersion) == (2))) and (True)) and (((((pat_let_tv92_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv93_).kdf).is_HKDF)) and (((((pat_let_tv94_).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__512()))) and (((pat_let_tv95_).signature).is_ECDSA)) and (((((pat_let_tv96_).signature).ECDSA).curve) == (software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P384()))) and (((pat_let_tv97_).commitment).is_HKDF)) and (((pat_let_tv98_).symmetricSignature).is_None)) and (((pat_let_tv99_).edkWrapping).is_DIRECT__KEY__WRAPPING)
 
         return ((default__.AlgorithmSuiteInfo_q(a)) and (default__.SupportedESDKEncrypt_q((a).encrypt))) and (lambda0_(((a).id).ESDK))
 
     @staticmethod
     def DBEAlgorithmSuite_q(a):
+        pat_let_tv100_ = a
+        pat_let_tv101_ = a
+        pat_let_tv102_ = a
+        pat_let_tv103_ = a
+        pat_let_tv104_ = a
+        pat_let_tv105_ = a
+        pat_let_tv106_ = a
+        pat_let_tv107_ = a
+        pat_let_tv108_ = a
+        pat_let_tv109_ = a
+        pat_let_tv110_ = a
+        pat_let_tv111_ = a
+        pat_let_tv112_ = a
+        pat_let_tv113_ = a
+        pat_let_tv114_ = a
+        pat_let_tv115_ = a
+        pat_let_tv116_ = a
+        pat_let_tv117_ = a
+        pat_let_tv118_ = a
+        pat_let_tv119_ = a
+        pat_let_tv120_ = a
+        pat_let_tv121_ = a
+        pat_let_tv122_ = a
         def lambda1_(source1_):
             if source1_.is_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__SYMSIG__HMAC__SHA384:
-                return ((((((((((((((a).binaryId) == (_dafny.Seq([103, 0]))) and (((a).messageVersion) == (1))) and (True)) and (((((a).encrypt).AES__GCM).keyLength) == (32))) and (((a).kdf).is_HKDF)) and (((((a).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__512()))) and (((a).signature).is_None)) and (((a).commitment).is_HKDF)) and (((a).symmetricSignature).is_HMAC)) and ((((a).symmetricSignature).HMAC) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__384()))) and (((a).edkWrapping).is_IntermediateKeyWrapping)) and (True)) and (((((((a).edkWrapping).IntermediateKeyWrapping).pdkEncryptAlgorithm).AES__GCM).keyLength) == (32))
+                return ((((((((((((((pat_let_tv100_).binaryId) == (_dafny.Seq([103, 0]))) and (((pat_let_tv101_).messageVersion) == (1))) and (True)) and (((((pat_let_tv102_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv103_).kdf).is_HKDF)) and (((((pat_let_tv104_).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__512()))) and (((pat_let_tv105_).signature).is_None)) and (((pat_let_tv106_).commitment).is_HKDF)) and (((pat_let_tv107_).symmetricSignature).is_HMAC)) and ((((pat_let_tv108_).symmetricSignature).HMAC) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__384()))) and (((pat_let_tv109_).edkWrapping).is_IntermediateKeyWrapping)) and (True)) and (((((((pat_let_tv110_).edkWrapping).IntermediateKeyWrapping).pdkEncryptAlgorithm).AES__GCM).keyLength) == (32))
             elif True:
-                return (((((((((((((((a).binaryId) == (_dafny.Seq([103, 1]))) and (((a).messageVersion) == (1))) and (True)) and (((((a).encrypt).AES__GCM).keyLength) == (32))) and (((a).kdf).is_HKDF)) and (((((a).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__512()))) and (((a).signature).is_ECDSA)) and (((((a).signature).ECDSA).curve) == (software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P384()))) and (((a).commitment).is_HKDF)) and (((a).symmetricSignature).is_HMAC)) and ((((a).symmetricSignature).HMAC) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__384()))) and (((a).edkWrapping).is_IntermediateKeyWrapping)) and (True)) and (((((((a).edkWrapping).IntermediateKeyWrapping).pdkEncryptAlgorithm).AES__GCM).keyLength) == (32))
+                return (((((((((((((((pat_let_tv111_).binaryId) == (_dafny.Seq([103, 1]))) and (((pat_let_tv112_).messageVersion) == (1))) and (True)) and (((((pat_let_tv113_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv114_).kdf).is_HKDF)) and (((((pat_let_tv115_).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__512()))) and (((pat_let_tv116_).signature).is_ECDSA)) and (((((pat_let_tv117_).signature).ECDSA).curve) == (software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P384()))) and (((pat_let_tv118_).commitment).is_HKDF)) and (((pat_let_tv119_).symmetricSignature).is_HMAC)) and ((((pat_let_tv120_).symmetricSignature).HMAC) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__384()))) and (((pat_let_tv121_).edkWrapping).is_IntermediateKeyWrapping)) and (True)) and (((((((pat_let_tv122_).edkWrapping).IntermediateKeyWrapping).pdkEncryptAlgorithm).AES__GCM).keyLength) == (32))
 
         return (((default__.AlgorithmSuiteInfo_q(a)) and (default__.SupportedDBEEncrypt_q((a).encrypt))) and (default__.SupportedDBEEDKWrapping_q((a).edkWrapping))) and (lambda1_(((a).id).DBE))
 

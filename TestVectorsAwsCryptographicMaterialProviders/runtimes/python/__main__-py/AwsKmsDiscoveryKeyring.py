@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -73,7 +73,7 @@ import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
 import software_amazon_cryptography_primitives_internaldafny
-import Aws_mCryptography
+import Aws_Cryptography
 import Aws
 import MaterialWrapping
 import CanonicalEncryptionContext
@@ -90,18 +90,15 @@ class default__:
 
     @staticmethod
     def DiscoveryMatch(arn, discoveryFilter):
-        pat_let_tv31_ = arn
-        pat_let_tv32_ = arn
+        pat_let_tv155_ = arn
+        pat_let_tv156_ = arn
         def lambda36_(source24_):
             if source24_.is_None:
                 return True
             elif True:
                 d_519___mcc_h0_ = source24_.value
-                def iife25_(_pat_let11_0):
-                    def iife26_(d_520_filter_):
-                        return (((d_520_filter_).partition) == ((pat_let_tv31_).partition)) and (((d_520_filter_).accountIds) <= (_dafny.Seq([(pat_let_tv32_).account])))
-                    return iife26_(_pat_let11_0)
-                return iife25_(d_519___mcc_h0_)
+                d_520_filter_ = d_519___mcc_h0_
+                return (((d_520_filter_).partition) == ((pat_let_tv155_).partition)) and (((d_520_filter_).accountIds) <= (_dafny.Seq([(pat_let_tv156_).account])))
 
         return (True) and (lambda36_(discoveryFilter))
 
@@ -191,18 +188,12 @@ class AwsKmsDiscoveryKeyring(Keyring.VerifiableInterface, software_amazon_crypto
         def lambda37_(source25_):
             if source25_.is_Success:
                 d_534___mcc_h0_ = source25_.value
-                def iife27_(_pat_let12_0):
-                    def iife28_(d_535_mat_):
-                        return Wrappers.Result_Success(software_amazon_cryptography_materialproviders_internaldafny_types.OnDecryptOutput_OnDecryptOutput(d_535_mat_))
-                    return iife28_(_pat_let12_0)
-                return iife27_(d_534___mcc_h0_)
+                d_535_mat_ = d_534___mcc_h0_
+                return Wrappers.Result_Success(software_amazon_cryptography_materialproviders_internaldafny_types.OnDecryptOutput_OnDecryptOutput(d_535_mat_))
             elif True:
                 d_536___mcc_h1_ = source25_.error
-                def iife29_(_pat_let13_0):
-                    def iife30_(d_537_errors_):
-                        return Wrappers.Result_Failure(software_amazon_cryptography_materialproviders_internaldafny_types.Error_CollectionOfErrors(d_537_errors_, _dafny.Seq("No Configured KMS Key was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`.")))
-                    return iife30_(_pat_let13_0)
-                return iife29_(d_536___mcc_h1_)
+                d_537_errors_ = d_536___mcc_h1_
+                return Wrappers.Result_Failure(software_amazon_cryptography_materialproviders_internaldafny_types.Error_CollectionOfErrors(d_537_errors_, _dafny.Seq("No Configured KMS Key was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`.")))
 
         res = lambda37_(d_533_outcome_)
         return res

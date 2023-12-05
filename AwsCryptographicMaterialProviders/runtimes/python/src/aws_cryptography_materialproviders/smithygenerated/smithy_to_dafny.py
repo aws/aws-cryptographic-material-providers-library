@@ -378,6 +378,8 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsMultiKeyringInp
         grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in input.grant_tokens]))) if (input.grant_tokens is not None) else (Option_None())),
     )
 
+# clientSupplier=Option_Some(CSR(input.csr)) if CSR(input.csr) is not None else Option_None()
+
 def SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input):
     return (Option_Some(input._impl) if input._impl is not None else Option_None())
 

@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -73,7 +73,7 @@ import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
 import software_amazon_cryptography_primitives_internaldafny
-import Aws_mCryptography
+import Aws_Cryptography
 import Aws
 import MaterialWrapping
 import CanonicalEncryptionContext
@@ -160,7 +160,7 @@ class AwsKmsMrkKeyring(Keyring.VerifiableInterface, software_amazon_cryptography
             return output
         d_620_providerInfo_ = (d_621_valueOrError2_).Extract()
         d_622_valueOrError3_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_622_valueOrError3_ = Wrappers.default__.Need((len(d_620_providerInfo_)) < (StandardLibrary_mUInt.default__.UINT16__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid response from AWS KMS GenerateDataKey: Key ID too long.")))
+        d_622_valueOrError3_ = Wrappers.default__.Need((len(d_620_providerInfo_)) < (StandardLibrary_UInt.default__.UINT16__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid response from AWS KMS GenerateDataKey: Key ID too long.")))
         if (d_622_valueOrError3_).IsFailure():
             output = (d_622_valueOrError3_).PropagateFailure()
             return output

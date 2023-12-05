@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -73,7 +73,7 @@ import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
 import software_amazon_cryptography_primitives_internaldafny
-import Aws_mCryptography
+import Aws_Cryptography
 import Aws
 import MaterialWrapping
 import CanonicalEncryptionContext
@@ -116,47 +116,47 @@ import CreateRawAesKeyrings
 import CreateRawRsaKeyrings
 import CreateKeyrings
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types
-import JSON_mUtils_mViews_mCore
-import JSON_mUtils_mViews_mWriters
-import JSON_mUtils_mViews
-import JSON_mUtils_mLexers_mCore
-import JSON_mUtils_mLexers_mStrings
-import JSON_mUtils_mLexers
-import JSON_mUtils_mCursors
-import JSON_mUtils_mParsers
-import JSON_mUtils_mStr_mCharStrConversion
-import JSON_mUtils_mStr_mCharStrEscaping
-import JSON_mUtils_mStr
-import JSON_mUtils_mSeq
-import JSON_mUtils_mVectors
-import JSON_mUtils
-import JSON_mErrors
-import JSON_mValues
-import JSON_mSpec
-import JSON_mGrammar
-import JSON_mSerializer_mByteStrConversion
-import JSON_mSerializer
-import JSON_mDeserializer_mUint16StrConversion
-import JSON_mDeserializer_mByteStrConversion
-import JSON_mDeserializer
-import JSON_mConcreteSyntax_mSpec
-import JSON_mConcreteSyntax_mSpecProperties
-import JSON_mConcreteSyntax
-import JSON_mZeroCopy_mSerializer
-import JSON_mZeroCopy_mDeserializer_mCore
-import JSON_mZeroCopy_mDeserializer_mStrings
-import JSON_mZeroCopy_mDeserializer_mNumbers
-import JSON_mZeroCopy_mDeserializer_mObjectParams
-import JSON_mZeroCopy_mDeserializer_mObjects
-import JSON_mZeroCopy_mDeserializer_mArrayParams
-import JSON_mZeroCopy_mDeserializer_mArrays
-import JSON_mZeroCopy_mDeserializer_mConstants
-import JSON_mZeroCopy_mDeserializer_mValues
-import JSON_mZeroCopy_mDeserializer_mAPI
-import JSON_mZeroCopy_mDeserializer
-import JSON_mZeroCopy_mAPI
-import JSON_mZeroCopy
-import JSON_mAPI
+import JSON_Utils_Views_Core
+import JSON_Utils_Views_Writers
+import JSON_Utils_Views
+import JSON_Utils_Lexers_Core
+import JSON_Utils_Lexers_Strings
+import JSON_Utils_Lexers
+import JSON_Utils_Cursors
+import JSON_Utils_Parsers
+import JSON_Utils_Str_CharStrConversion
+import JSON_Utils_Str_CharStrEscaping
+import JSON_Utils_Str
+import JSON_Utils_Seq
+import JSON_Utils_Vectors
+import JSON_Utils
+import JSON_Errors
+import JSON_Values
+import JSON_Spec
+import JSON_Grammar
+import JSON_Serializer_ByteStrConversion
+import JSON_Serializer
+import JSON_Deserializer_Uint16StrConversion
+import JSON_Deserializer_ByteStrConversion
+import JSON_Deserializer
+import JSON_ConcreteSyntax_Spec
+import JSON_ConcreteSyntax_SpecProperties
+import JSON_ConcreteSyntax
+import JSON_ZeroCopy_Serializer
+import JSON_ZeroCopy_Deserializer_Core
+import JSON_ZeroCopy_Deserializer_Strings
+import JSON_ZeroCopy_Deserializer_Numbers
+import JSON_ZeroCopy_Deserializer_ObjectParams
+import JSON_ZeroCopy_Deserializer_Objects
+import JSON_ZeroCopy_Deserializer_ArrayParams
+import JSON_ZeroCopy_Deserializer_Arrays
+import JSON_ZeroCopy_Deserializer_Constants
+import JSON_ZeroCopy_Deserializer_Values
+import JSON_ZeroCopy_Deserializer_API
+import JSON_ZeroCopy_Deserializer
+import JSON_ZeroCopy_API
+import JSON_ZeroCopy
+import JSON_API
 import JSON
 import JSONHelpers
 import KeyDescription
@@ -189,20 +189,20 @@ class default__:
         d_1690_keysManifestBv_ = (d_1691_valueOrError0_).Extract()
         d_1692_keysManifestBytes_: _dafny.Seq
         d_1692_keysManifestBytes_ = JSONHelpers.default__.BvToBytes(d_1690_keysManifestBv_)
-        d_1693_keysManifestJSON_: JSON_mValues.JSON
-        d_1694_valueOrError1_: Wrappers.Result = Wrappers.Result.default(JSON_mValues.JSON.default())()
+        d_1693_keysManifestJSON_: JSON_Values.JSON
+        d_1694_valueOrError1_: Wrappers.Result = Wrappers.Result.default(JSON_Values.JSON.default())()
         def lambda109_(d_1695_e_):
             return software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.Error_KeyVectorException((d_1695_e_).ToString())
 
-        d_1694_valueOrError1_ = (JSON_mAPI.default__.Deserialize(d_1692_keysManifestBytes_)).MapFailure(lambda109_)
+        d_1694_valueOrError1_ = (JSON_API.default__.Deserialize(d_1692_keysManifestBytes_)).MapFailure(lambda109_)
         if (d_1694_valueOrError1_).IsFailure():
             res = (d_1694_valueOrError1_).PropagateFailure()
             return res
         d_1693_keysManifestJSON_ = (d_1694_valueOrError1_).Extract()
         if not((d_1693_keysManifestJSON_).is_Object):
             raise _dafny.HaltException("dafny/KeyVectors/src/Index.dfy(32,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_1696_keysObject_: JSON_mValues.JSON
-        d_1697_valueOrError2_: Wrappers.Result = Wrappers.Result.default(JSON_mValues.JSON.default())()
+        d_1696_keysObject_: JSON_Values.JSON
+        d_1697_valueOrError2_: Wrappers.Result = Wrappers.Result.default(JSON_Values.JSON.default())()
         d_1697_valueOrError2_ = JSONHelpers.default__.Get(_dafny.Seq("keys"), (d_1693_keysManifestJSON_).obj)
         if not(not((d_1697_valueOrError2_).IsFailure())):
             raise _dafny.HaltException("dafny/KeyVectors/src/Index.dfy(33,19): " + _dafny.string_of(d_1697_valueOrError2_))

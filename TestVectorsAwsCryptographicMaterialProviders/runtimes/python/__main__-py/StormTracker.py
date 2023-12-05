@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -73,7 +73,7 @@ import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
 import software_amazon_cryptography_primitives_internaldafny
-import Aws_mCryptography
+import Aws_Cryptography
 import Aws
 import MaterialWrapping
 import CanonicalEncryptionContext
@@ -172,10 +172,10 @@ class StormTracker:
 
     def InFlightSize(self):
         d_695_x_ = (self.inFlight).Size()
-        if (d_695_x_) <= (StandardLibrary_mUInt.default__.INT64__MAX__LIMIT):
+        if (d_695_x_) <= (StandardLibrary_UInt.default__.INT64__MAX__LIMIT):
             return d_695_x_
         elif True:
-            return StandardLibrary_mUInt.default__.INT64__MAX__LIMIT
+            return StandardLibrary_UInt.default__.INT64__MAX__LIMIT
 
     def FanOutReached(self, now):
         res: bool = False
@@ -185,10 +185,10 @@ class StormTracker:
         return res
 
     def AddLong(self, x, y):
-        if (x) < ((StandardLibrary_mUInt.default__.INT64__MAX__LIMIT) - (y)):
+        if (x) < ((StandardLibrary_UInt.default__.INT64__MAX__LIMIT) - (y)):
             return (x) + (y)
         elif True:
-            return StandardLibrary_mUInt.default__.INT64__MAX__LIMIT
+            return StandardLibrary_UInt.default__.INT64__MAX__LIMIT
 
     def CheckInFlight(self, identifier, result, now):
         output: CacheState = CacheState.default()()

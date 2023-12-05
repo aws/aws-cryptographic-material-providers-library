@@ -2,7 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 include "../../StandardLibrary/src/Index.dfy"
- module {:extern "software_amazon_cryptography_primitives_internaldafny_types" } AwsCryptographyPrimitivesTypes
+module {:extern "software...."} DotModule replaces AwsCryptographyPrimitivesTypes
+module {:extern "software____"} UnderscoreModule replaces AwsCryptographyPrimitivesTypes
+
+build python UnderscoreModule
+build java DotModule
+
+ replaceable module AwsCryptographyPrimitivesTypes
  {
  import opened Wrappers
  import opened StandardLibrary.UInt

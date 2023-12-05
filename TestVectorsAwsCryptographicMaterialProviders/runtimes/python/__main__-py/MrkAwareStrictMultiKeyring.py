@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -73,7 +73,7 @@ import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
 import software_amazon_cryptography_primitives_internaldafny
-import Aws_mCryptography
+import Aws_Cryptography
 import Aws
 import MaterialWrapping
 import CanonicalEncryptionContext
@@ -97,18 +97,16 @@ class default__:
     @staticmethod
     def MrkAwareStrictMultiKeyring(generator, awsKmsKeys, clientSupplier, grantTokens):
         output: Wrappers.Result = None
-        pat_let_tv35_ = awsKmsKeys
+        pat_let_tv159_ = awsKmsKeys
+        pat_let_tv160_ = awsKmsKeys
         d_646_allStrings_: _dafny.Seq
         def lambda43_(source28_):
             if source28_.is_None:
-                return (awsKmsKeys).UnwrapOr(_dafny.Seq([]))
+                return (pat_let_tv159_).UnwrapOr(_dafny.Seq([]))
             elif True:
                 d_647___mcc_h0_ = source28_.value
-                def iife37_(_pat_let17_0):
-                    def iife38_(d_648_g_):
-                        return (_dafny.Seq([d_648_g_])) + ((pat_let_tv35_).UnwrapOr(_dafny.Seq([])))
-                    return iife38_(_pat_let17_0)
-                return iife37_(d_647___mcc_h0_)
+                d_648_g_ = d_647___mcc_h0_
+                return (_dafny.Seq([d_648_g_])) + ((pat_let_tv160_).UnwrapOr(_dafny.Seq([])))
 
         d_646_allStrings_ = lambda43_(generator)
         d_649_allIdentifiers_: _dafny.Seq

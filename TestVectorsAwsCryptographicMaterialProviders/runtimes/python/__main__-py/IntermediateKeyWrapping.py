@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -73,7 +73,7 @@ import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
 import software_amazon_cryptography_primitives_internaldafny
-import Aws_mCryptography
+import Aws_Cryptography
 import Aws
 import MaterialWrapping
 import CanonicalEncryptionContext
@@ -324,15 +324,15 @@ class default__:
         d_388_symmetricSigningKeyInput_: software_amazon_cryptography_primitives_internaldafny_types.HkdfExpandInput
         d_388_symmetricSigningKeyInput_ = software_amazon_cryptography_primitives_internaldafny_types.HkdfExpandInput_HkdfExpandInput((((algorithmSuite).commitment).HKDF).hmac, d_385_pseudoRandomKey_, default__.KEYWRAP__MAC__INFO, (((algorithmSuite).commitment).HKDF).outputKeyLength)
         d_389_pdkEncryptionKeyInput_: software_amazon_cryptography_primitives_internaldafny_types.HkdfExpandInput
-        def iife19_(_pat_let8_0):
-            def iife20_(d_390_dt__update__tmp_h0_):
-                def iife21_(_pat_let9_0):
-                    def iife22_(d_391_dt__update_hinfo_h0_):
+        def iife11_(_pat_let4_0):
+            def iife12_(d_390_dt__update__tmp_h0_):
+                def iife13_(_pat_let5_0):
+                    def iife14_(d_391_dt__update_hinfo_h0_):
                         return software_amazon_cryptography_primitives_internaldafny_types.HkdfExpandInput_HkdfExpandInput((d_390_dt__update__tmp_h0_).digestAlgorithm, (d_390_dt__update__tmp_h0_).prk, d_391_dt__update_hinfo_h0_, (d_390_dt__update__tmp_h0_).expectedLength)
-                    return iife22_(_pat_let9_0)
-                return iife21_(default__.KEYWRAP__ENC__INFO)
-            return iife20_(_pat_let8_0)
-        d_389_pdkEncryptionKeyInput_ = iife19_(d_388_symmetricSigningKeyInput_)
+                    return iife14_(_pat_let5_0)
+                return iife13_(default__.KEYWRAP__ENC__INFO)
+            return iife12_(_pat_let4_0)
+        d_389_pdkEncryptionKeyInput_ = iife11_(d_388_symmetricSigningKeyInput_)
         d_392_maybeSymmetricSigningKey_: Wrappers.Result
         out80_: Wrappers.Result
         out80_ = (cryptoPrimitives).HkdfExpand(d_388_symmetricSigningKeyInput_)

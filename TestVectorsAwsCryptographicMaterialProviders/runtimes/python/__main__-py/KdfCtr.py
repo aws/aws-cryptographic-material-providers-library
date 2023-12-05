@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -80,7 +80,7 @@ class default__:
     def KdfCounterMode(input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_276_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_276_valueOrError0_ = Wrappers.default__.Need((((((((input).digestAlgorithm) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256())) and ((len((input).ikm)) == (32))) and (((input).nonce).is_Some)) and ((len(((input).nonce).value)) == (16))) and (((input).expectedLength) == (32))) and (((0) < (((input).expectedLength) * (8))) and ((((input).expectedLength) * (8)) < (StandardLibrary_mUInt.default__.INT32__MAX__LIMIT))), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Kdf in Counter Mode input is invalid.")))
+        d_276_valueOrError0_ = Wrappers.default__.Need((((((((input).digestAlgorithm) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256())) and ((len((input).ikm)) == (32))) and (((input).nonce).is_Some)) and ((len(((input).nonce).value)) == (16))) and (((input).expectedLength) == (32))) and (((0) < (((input).expectedLength) * (8))) and ((((input).expectedLength) * (8)) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT))), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Kdf in Counter Mode input is invalid.")))
         if (d_276_valueOrError0_).IsFailure():
             output = (d_276_valueOrError0_).PropagateFailure()
             return output
@@ -95,16 +95,16 @@ class default__:
         d_281_internalLength_: int
         d_281_internalLength_ = ((4) + (len(default__.SEPARATION__INDICATOR))) + (4)
         d_282_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_282_valueOrError1_ = Wrappers.default__.Need((True) and ((((d_281_internalLength_) + (len(d_278_label___))) + (len(d_279_info_))) < (StandardLibrary_mUInt.default__.INT32__MAX__LIMIT)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Input Length exceeds INT32_MAX_LIMIT")))
+        d_282_valueOrError1_ = Wrappers.default__.Need((True) and ((((d_281_internalLength_) + (len(d_278_label___))) + (len(d_279_info_))) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Input Length exceeds INT32_MAX_LIMIT")))
         if (d_282_valueOrError1_).IsFailure():
             output = (d_282_valueOrError1_).PropagateFailure()
             return output
         d_283_lengthBits_: _dafny.Seq
-        d_283_lengthBits_ = StandardLibrary_mUInt.default__.UInt32ToSeq(((input).expectedLength) * (8))
+        d_283_lengthBits_ = StandardLibrary_UInt.default__.UInt32ToSeq(((input).expectedLength) * (8))
         d_284_explicitInfo_: _dafny.Seq
         d_284_explicitInfo_ = (((d_278_label___) + (default__.SEPARATION__INDICATOR)) + (d_279_info_)) + (d_283_lengthBits_)
         d_285_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_285_valueOrError2_ = Wrappers.default__.Need(((4) + (len(d_284_explicitInfo_))) < (StandardLibrary_mUInt.default__.INT32__MAX__LIMIT), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("PRF input length exceeds INT32_MAX_LIMIT.")))
+        d_285_valueOrError2_ = Wrappers.default__.Need(((4) + (len(d_284_explicitInfo_))) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("PRF input length exceeds INT32_MAX_LIMIT.")))
         if (d_285_valueOrError2_).IsFailure():
             output = (d_285_valueOrError2_).PropagateFailure()
             return output
@@ -142,7 +142,7 @@ class default__:
         d_292_buffer_: _dafny.Seq
         d_292_buffer_ = _dafny.Seq([])
         d_293_i_: _dafny.Seq
-        d_293_i_ = StandardLibrary_mUInt.default__.UInt32ToSeq(default__.COUNTER__START__VALUE)
+        d_293_i_ = StandardLibrary_UInt.default__.UInt32ToSeq(default__.COUNTER__START__VALUE)
         hi2_ = (d_291_iterations_) + (1)
         for d_294_iteration_ in range(1, hi2_):
             (d_288_hmac_).BlockUpdate(d_293_i_)

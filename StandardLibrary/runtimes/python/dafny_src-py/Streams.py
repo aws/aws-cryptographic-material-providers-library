@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -133,7 +133,7 @@ class ByteReader:
             return res
         d_237_bytes_ = (d_238_valueOrError0_).Extract()
         d_239_n_: int
-        d_239_n_ = StandardLibrary_mUInt.default__.SeqToUInt16(d_237_bytes_)
+        d_239_n_ = StandardLibrary_UInt.default__.SeqToUInt16(d_237_bytes_)
         res = Wrappers.Result_Success(d_239_n_)
         return res
         return res
@@ -150,7 +150,7 @@ class ByteReader:
             return res
         d_240_bytes_ = (d_241_valueOrError0_).Extract()
         d_242_n_: int
-        d_242_n_ = StandardLibrary_mUInt.default__.SeqToUInt32(d_240_bytes_)
+        d_242_n_ = StandardLibrary_UInt.default__.SeqToUInt32(d_240_bytes_)
         res = Wrappers.Result_Success(d_242_n_)
         return res
         return res
@@ -167,7 +167,7 @@ class ByteReader:
             return res
         d_243_bytes_ = (d_244_valueOrError0_).Extract()
         d_245_n_: int
-        d_245_n_ = StandardLibrary_mUInt.default__.SeqToUInt64(d_243_bytes_)
+        d_245_n_ = StandardLibrary_UInt.default__.SeqToUInt64(d_243_bytes_)
         res = Wrappers.Result_Success(d_245_n_)
         return res
         return res
@@ -237,14 +237,14 @@ class ByteWriter:
     def WriteUInt16(self, n):
         r: int = int(0)
         out14_: int
-        out14_ = ((self).writer).WriteElements(StandardLibrary_mUInt.default__.UInt16ToSeq(n))
+        out14_ = ((self).writer).WriteElements(StandardLibrary_UInt.default__.UInt16ToSeq(n))
         r = out14_
         return r
 
     def WriteUInt32(self, n):
         r: int = int(0)
         out15_: int
-        out15_ = ((self).writer).WriteElements(StandardLibrary_mUInt.default__.UInt32ToSeq(n))
+        out15_ = ((self).writer).WriteElements(StandardLibrary_UInt.default__.UInt32ToSeq(n))
         r = out15_
         return r
 

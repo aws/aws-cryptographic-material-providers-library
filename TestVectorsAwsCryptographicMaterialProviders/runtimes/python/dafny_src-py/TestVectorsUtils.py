@@ -8,8 +8,8 @@ import _dafny
 import System_
 import Wrappers
 import BoundedInts
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UTF8
 import software_amazon_cryptography_services_kms_internaldafny_types
@@ -24,7 +24,7 @@ import AlgorithmSuites
 import Materials
 import Keyring
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import MultiKeyring
@@ -48,7 +48,7 @@ import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
 import software_amazon_cryptography_primitives_internaldafny
-import Aws_mCryptography
+import Aws_Cryptography
 import Aws
 import MaterialWrapping
 import CanonicalEncryptionContext
@@ -132,7 +132,7 @@ class default__:
         d_0_validUTF8char_ = (d_1_valueOrError0_).Extract()
         d_2_key_: _dafny.Seq
         d_2_key_ = _dafny.Seq([])
-        while (len(d_2_key_)) < (StandardLibrary_mUInt.default__.UINT16__LIMIT):
+        while (len(d_2_key_)) < (StandardLibrary_UInt.default__.UINT16__LIMIT):
             d_2_key_ = (d_2_key_) + (d_0_validUTF8char_)
         encCtx = _dafny.Map({d_2_key_: _dafny.Seq([0])})
         return encCtx
@@ -154,7 +154,7 @@ class default__:
         d_7_i_ = 0
         while ((len(d_6_encCtx_)) < (d_3_numMaxPairs_)) and ((d_7_i_) < (65536)):
             d_8_key_: _dafny.Seq
-            d_8_key_ = StandardLibrary_mUInt.default__.UInt16ToSeq(d_7_i_)
+            d_8_key_ = StandardLibrary_UInt.default__.UInt16ToSeq(d_7_i_)
             if UTF8.default__.ValidUTF8Seq(d_8_key_):
                 d_6_encCtx_ = (d_6_encCtx_).set(d_8_key_, d_4_val_)
             d_7_i_ = (d_7_i_) + (1)

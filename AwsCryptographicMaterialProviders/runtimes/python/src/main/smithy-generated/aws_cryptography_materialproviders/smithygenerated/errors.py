@@ -19,7 +19,7 @@ class AwsCryptographicMaterialProvidersException(ApiError[Literal["AwsCryptograp
         """
         super().__init__(message)
 
-    def as_dict(self):
+    def as_dict(self) -> Dict[str, Any]:
         """Converts the AwsCryptographicMaterialProvidersException to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -31,7 +31,7 @@ class AwsCryptographicMaterialProvidersException(ApiError[Literal["AwsCryptograp
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]):
+    def from_dict(d: Dict[str, Any]) -> "AwsCryptographicMaterialProvidersException":
         """Creates a AwsCryptographicMaterialProvidersException from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -43,7 +43,7 @@ class AwsCryptographicMaterialProvidersException(ApiError[Literal["AwsCryptograp
 
         return AwsCryptographicMaterialProvidersException(**kwargs)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         result = "AwsCryptographicMaterialProvidersException("
         result += f'message={self.message},'
         if self.message is not None:
@@ -51,7 +51,7 @@ class AwsCryptographicMaterialProvidersException(ApiError[Literal["AwsCryptograp
 
         return result + ")"
 
-    def __eq__(self, other: Any):
+    def __eq__(self, other: Any) -> bool:
         if not isinstance(other, AwsCryptographicMaterialProvidersException):
             return False
         attributes: list[str] = ['message','message',]
@@ -70,7 +70,7 @@ class InvalidDecryptionMaterials(ApiError[Literal["InvalidDecryptionMaterials"]]
     ):
         super().__init__(message)
 
-    def as_dict(self):
+    def as_dict(self) -> Dict[str, Any]:
         """Converts the InvalidDecryptionMaterials to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -82,7 +82,7 @@ class InvalidDecryptionMaterials(ApiError[Literal["InvalidDecryptionMaterials"]]
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]):
+    def from_dict(d: Dict[str, Any]) -> "InvalidDecryptionMaterials":
         """Creates a InvalidDecryptionMaterials from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -94,7 +94,7 @@ class InvalidDecryptionMaterials(ApiError[Literal["InvalidDecryptionMaterials"]]
 
         return InvalidDecryptionMaterials(**kwargs)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         result = "InvalidDecryptionMaterials("
         result += f'message={self.message},'
         if self.message is not None:
@@ -102,7 +102,7 @@ class InvalidDecryptionMaterials(ApiError[Literal["InvalidDecryptionMaterials"]]
 
         return result + ")"
 
-    def __eq__(self, other: Any):
+    def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidDecryptionMaterials):
             return False
         attributes: list[str] = ['message','message',]
@@ -121,7 +121,7 @@ class InvalidEncryptionMaterials(ApiError[Literal["InvalidEncryptionMaterials"]]
     ):
         super().__init__(message)
 
-    def as_dict(self):
+    def as_dict(self) -> Dict[str, Any]:
         """Converts the InvalidEncryptionMaterials to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -133,7 +133,7 @@ class InvalidEncryptionMaterials(ApiError[Literal["InvalidEncryptionMaterials"]]
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]):
+    def from_dict(d: Dict[str, Any]) -> "InvalidEncryptionMaterials":
         """Creates a InvalidEncryptionMaterials from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -145,7 +145,7 @@ class InvalidEncryptionMaterials(ApiError[Literal["InvalidEncryptionMaterials"]]
 
         return InvalidEncryptionMaterials(**kwargs)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         result = "InvalidEncryptionMaterials("
         result += f'message={self.message},'
         if self.message is not None:
@@ -153,7 +153,7 @@ class InvalidEncryptionMaterials(ApiError[Literal["InvalidEncryptionMaterials"]]
 
         return result + ")"
 
-    def __eq__(self, other: Any):
+    def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidEncryptionMaterials):
             return False
         attributes: list[str] = ['message','message',]
@@ -172,7 +172,7 @@ class InvalidAlgorithmSuiteInfo(ApiError[Literal["InvalidAlgorithmSuiteInfo"]]):
     ):
         super().__init__(message)
 
-    def as_dict(self):
+    def as_dict(self) -> Dict[str, Any]:
         """Converts the InvalidAlgorithmSuiteInfo to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -184,7 +184,7 @@ class InvalidAlgorithmSuiteInfo(ApiError[Literal["InvalidAlgorithmSuiteInfo"]]):
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]):
+    def from_dict(d: Dict[str, Any]) -> "InvalidAlgorithmSuiteInfo":
         """Creates a InvalidAlgorithmSuiteInfo from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -196,7 +196,7 @@ class InvalidAlgorithmSuiteInfo(ApiError[Literal["InvalidAlgorithmSuiteInfo"]]):
 
         return InvalidAlgorithmSuiteInfo(**kwargs)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         result = "InvalidAlgorithmSuiteInfo("
         result += f'message={self.message},'
         if self.message is not None:
@@ -204,7 +204,7 @@ class InvalidAlgorithmSuiteInfo(ApiError[Literal["InvalidAlgorithmSuiteInfo"]]):
 
         return result + ")"
 
-    def __eq__(self, other: Any):
+    def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidAlgorithmSuiteInfo):
             return False
         attributes: list[str] = ['message','message',]
@@ -223,7 +223,7 @@ class InvalidAlgorithmSuiteInfoOnDecrypt(ApiError[Literal["InvalidAlgorithmSuite
     ):
         super().__init__(message)
 
-    def as_dict(self):
+    def as_dict(self) -> Dict[str, Any]:
         """Converts the InvalidAlgorithmSuiteInfoOnDecrypt to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -235,7 +235,7 @@ class InvalidAlgorithmSuiteInfoOnDecrypt(ApiError[Literal["InvalidAlgorithmSuite
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]):
+    def from_dict(d: Dict[str, Any]) -> "InvalidAlgorithmSuiteInfoOnDecrypt":
         """Creates a InvalidAlgorithmSuiteInfoOnDecrypt from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -247,7 +247,7 @@ class InvalidAlgorithmSuiteInfoOnDecrypt(ApiError[Literal["InvalidAlgorithmSuite
 
         return InvalidAlgorithmSuiteInfoOnDecrypt(**kwargs)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         result = "InvalidAlgorithmSuiteInfoOnDecrypt("
         result += f'message={self.message},'
         if self.message is not None:
@@ -255,7 +255,7 @@ class InvalidAlgorithmSuiteInfoOnDecrypt(ApiError[Literal["InvalidAlgorithmSuite
 
         return result + ")"
 
-    def __eq__(self, other: Any):
+    def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidAlgorithmSuiteInfoOnDecrypt):
             return False
         attributes: list[str] = ['message','message',]
@@ -274,7 +274,7 @@ class InvalidAlgorithmSuiteInfoOnEncrypt(ApiError[Literal["InvalidAlgorithmSuite
     ):
         super().__init__(message)
 
-    def as_dict(self):
+    def as_dict(self) -> Dict[str, Any]:
         """Converts the InvalidAlgorithmSuiteInfoOnEncrypt to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -286,7 +286,7 @@ class InvalidAlgorithmSuiteInfoOnEncrypt(ApiError[Literal["InvalidAlgorithmSuite
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]):
+    def from_dict(d: Dict[str, Any]) -> "InvalidAlgorithmSuiteInfoOnEncrypt":
         """Creates a InvalidAlgorithmSuiteInfoOnEncrypt from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -298,7 +298,7 @@ class InvalidAlgorithmSuiteInfoOnEncrypt(ApiError[Literal["InvalidAlgorithmSuite
 
         return InvalidAlgorithmSuiteInfoOnEncrypt(**kwargs)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         result = "InvalidAlgorithmSuiteInfoOnEncrypt("
         result += f'message={self.message},'
         if self.message is not None:
@@ -306,7 +306,7 @@ class InvalidAlgorithmSuiteInfoOnEncrypt(ApiError[Literal["InvalidAlgorithmSuite
 
         return result + ")"
 
-    def __eq__(self, other: Any):
+    def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidAlgorithmSuiteInfoOnEncrypt):
             return False
         attributes: list[str] = ['message','message',]
@@ -325,7 +325,7 @@ class InvalidDecryptionMaterialsTransition(ApiError[Literal["InvalidDecryptionMa
     ):
         super().__init__(message)
 
-    def as_dict(self):
+    def as_dict(self) -> Dict[str, Any]:
         """Converts the InvalidDecryptionMaterialsTransition to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -337,7 +337,7 @@ class InvalidDecryptionMaterialsTransition(ApiError[Literal["InvalidDecryptionMa
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]):
+    def from_dict(d: Dict[str, Any]) -> "InvalidDecryptionMaterialsTransition":
         """Creates a InvalidDecryptionMaterialsTransition from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -349,7 +349,7 @@ class InvalidDecryptionMaterialsTransition(ApiError[Literal["InvalidDecryptionMa
 
         return InvalidDecryptionMaterialsTransition(**kwargs)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         result = "InvalidDecryptionMaterialsTransition("
         result += f'message={self.message},'
         if self.message is not None:
@@ -357,7 +357,7 @@ class InvalidDecryptionMaterialsTransition(ApiError[Literal["InvalidDecryptionMa
 
         return result + ")"
 
-    def __eq__(self, other: Any):
+    def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidDecryptionMaterialsTransition):
             return False
         attributes: list[str] = ['message','message',]
@@ -376,7 +376,7 @@ class InvalidEncryptionMaterialsTransition(ApiError[Literal["InvalidEncryptionMa
     ):
         super().__init__(message)
 
-    def as_dict(self):
+    def as_dict(self) -> Dict[str, Any]:
         """Converts the InvalidEncryptionMaterialsTransition to a dictionary.
 
         The dictionary uses the modeled shape names rather than the parameter names as
@@ -388,7 +388,7 @@ class InvalidEncryptionMaterialsTransition(ApiError[Literal["InvalidEncryptionMa
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]):
+    def from_dict(d: Dict[str, Any]) -> "InvalidEncryptionMaterialsTransition":
         """Creates a InvalidEncryptionMaterialsTransition from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
@@ -400,7 +400,7 @@ class InvalidEncryptionMaterialsTransition(ApiError[Literal["InvalidEncryptionMa
 
         return InvalidEncryptionMaterialsTransition(**kwargs)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         result = "InvalidEncryptionMaterialsTransition("
         result += f'message={self.message},'
         if self.message is not None:
@@ -408,7 +408,7 @@ class InvalidEncryptionMaterialsTransition(ApiError[Literal["InvalidEncryptionMa
 
         return result + ")"
 
-    def __eq__(self, other: Any):
+    def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidEncryptionMaterialsTransition):
             return False
         attributes: list[str] = ['message','message',]

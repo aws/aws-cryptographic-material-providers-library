@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -73,7 +73,7 @@ import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
 import software_amazon_cryptography_primitives_internaldafny
-import Aws_mCryptography
+import Aws_Cryptography
 import Aws
 import MaterialWrapping
 import CanonicalEncryptionContext
@@ -116,47 +116,47 @@ import CreateRawAesKeyrings
 import CreateRawRsaKeyrings
 import CreateKeyrings
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types
-import JSON_mUtils_mViews_mCore
-import JSON_mUtils_mViews_mWriters
-import JSON_mUtils_mViews
-import JSON_mUtils_mLexers_mCore
-import JSON_mUtils_mLexers_mStrings
-import JSON_mUtils_mLexers
-import JSON_mUtils_mCursors
-import JSON_mUtils_mParsers
-import JSON_mUtils_mStr_mCharStrConversion
-import JSON_mUtils_mStr_mCharStrEscaping
-import JSON_mUtils_mStr
-import JSON_mUtils_mSeq
-import JSON_mUtils_mVectors
-import JSON_mUtils
-import JSON_mErrors
-import JSON_mValues
-import JSON_mSpec
-import JSON_mGrammar
-import JSON_mSerializer_mByteStrConversion
-import JSON_mSerializer
-import JSON_mDeserializer_mUint16StrConversion
-import JSON_mDeserializer_mByteStrConversion
-import JSON_mDeserializer
-import JSON_mConcreteSyntax_mSpec
-import JSON_mConcreteSyntax_mSpecProperties
-import JSON_mConcreteSyntax
-import JSON_mZeroCopy_mSerializer
-import JSON_mZeroCopy_mDeserializer_mCore
-import JSON_mZeroCopy_mDeserializer_mStrings
-import JSON_mZeroCopy_mDeserializer_mNumbers
-import JSON_mZeroCopy_mDeserializer_mObjectParams
-import JSON_mZeroCopy_mDeserializer_mObjects
-import JSON_mZeroCopy_mDeserializer_mArrayParams
-import JSON_mZeroCopy_mDeserializer_mArrays
-import JSON_mZeroCopy_mDeserializer_mConstants
-import JSON_mZeroCopy_mDeserializer_mValues
-import JSON_mZeroCopy_mDeserializer_mAPI
-import JSON_mZeroCopy_mDeserializer
-import JSON_mZeroCopy_mAPI
-import JSON_mZeroCopy
-import JSON_mAPI
+import JSON_Utils_Views_Core
+import JSON_Utils_Views_Writers
+import JSON_Utils_Views
+import JSON_Utils_Lexers_Core
+import JSON_Utils_Lexers_Strings
+import JSON_Utils_Lexers
+import JSON_Utils_Cursors
+import JSON_Utils_Parsers
+import JSON_Utils_Str_CharStrConversion
+import JSON_Utils_Str_CharStrEscaping
+import JSON_Utils_Str
+import JSON_Utils_Seq
+import JSON_Utils_Vectors
+import JSON_Utils
+import JSON_Errors
+import JSON_Values
+import JSON_Spec
+import JSON_Grammar
+import JSON_Serializer_ByteStrConversion
+import JSON_Serializer
+import JSON_Deserializer_Uint16StrConversion
+import JSON_Deserializer_ByteStrConversion
+import JSON_Deserializer
+import JSON_ConcreteSyntax_Spec
+import JSON_ConcreteSyntax_SpecProperties
+import JSON_ConcreteSyntax
+import JSON_ZeroCopy_Serializer
+import JSON_ZeroCopy_Deserializer_Core
+import JSON_ZeroCopy_Deserializer_Strings
+import JSON_ZeroCopy_Deserializer_Numbers
+import JSON_ZeroCopy_Deserializer_ObjectParams
+import JSON_ZeroCopy_Deserializer_Objects
+import JSON_ZeroCopy_Deserializer_ArrayParams
+import JSON_ZeroCopy_Deserializer_Arrays
+import JSON_ZeroCopy_Deserializer_Constants
+import JSON_ZeroCopy_Deserializer_Values
+import JSON_ZeroCopy_Deserializer_API
+import JSON_ZeroCopy_Deserializer
+import JSON_ZeroCopy_API
+import JSON_ZeroCopy
+import JSON_API
 import JSON
 import JSONHelpers
 import KeyDescription
@@ -190,7 +190,7 @@ class default__:
 
     @staticmethod
     def ToAttributeMap(encryptionContext, encryptedKey):
-        def iife108_():
+        def iife64_():
             coll20_ = _dafny.Map()
             compr_25_: _dafny.Seq
             for compr_25_ in ((((encryptionContext).keys) | (_dafny.Set({default__.BRANCH__KEY__FIELD}))) - (_dafny.Set({default__.TABLE__FIELD}))).Elements:
@@ -199,12 +199,12 @@ class default__:
                     if (d_1952_k_) in ((((encryptionContext).keys) | (_dafny.Set({default__.BRANCH__KEY__FIELD}))) - (_dafny.Set({default__.TABLE__FIELD}))):
                         coll20_[d_1952_k_] = (software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_N((encryptionContext)[default__.HIERARCHY__VERSION]) if (d_1952_k_) == (default__.HIERARCHY__VERSION) else (software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_B(encryptedKey) if (d_1952_k_) == (default__.BRANCH__KEY__FIELD) else software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S((encryptionContext)[d_1952_k_])))
             return _dafny.Map(coll20_)
-        return iife108_()
+        return iife64_()
         
 
     @staticmethod
     def ToBranchKeyContext(item, logicalKeyStoreName):
-        def iife109_():
+        def iife65_():
             coll21_ = _dafny.Map()
             compr_26_: _dafny.Seq
             for compr_26_ in ((((item).keys) - (_dafny.Set({default__.BRANCH__KEY__FIELD}))) | (_dafny.Set({default__.TABLE__FIELD}))).Elements:
@@ -212,7 +212,7 @@ class default__:
                 if (d_1953_k_) in ((((item).keys) - (_dafny.Set({default__.BRANCH__KEY__FIELD}))) | (_dafny.Set({default__.TABLE__FIELD}))):
                     coll21_[d_1953_k_] = (((item)[d_1953_k_]).N if (d_1953_k_) == (default__.HIERARCHY__VERSION) else (logicalKeyStoreName if (d_1953_k_) == (default__.TABLE__FIELD) else ((item)[d_1953_k_]).S))
             return _dafny.Map(coll21_)
-        return iife109_()
+        return iife65_()
         
 
     @staticmethod
@@ -245,7 +245,7 @@ class default__:
 
     @staticmethod
     def ExtractCustomEncryptionContext(encryptionContext):
-        def iife110_():
+        def iife66_():
             coll22_ = _dafny.Set()
             compr_27_: _dafny.Seq
             for compr_27_ in (encryptionContext).keys.Elements:
@@ -253,7 +253,7 @@ class default__:
                 if ((d_1964_k_) in (encryptionContext)) and ((default__.ENCRYPTION__CONTEXT__PREFIX) < (d_1964_k_)):
                     coll22_ = coll22_.union(_dafny.Set([(UTF8.default__.Encode(_dafny.Seq((d_1964_k_)[len(default__.ENCRYPTION__CONTEXT__PREFIX)::])), UTF8.default__.Encode((encryptionContext)[d_1964_k_]))]))
             return _dafny.Set(coll22_)
-        d_1963_encodedEncryptionContext_ = iife110_()
+        d_1963_encodedEncryptionContext_ = iife66_()
 
         def lambda132_(forall_var_23_):
             d_1966_i_: tuple = forall_var_23_
@@ -263,7 +263,7 @@ class default__:
         if (d_1965_valueOrError0_).IsFailure():
             return (d_1965_valueOrError0_).PropagateFailure()
         elif True:
-            def iife111_():
+            def iife67_():
                 coll23_ = _dafny.Map()
                 compr_28_: tuple
                 for compr_28_ in (d_1963_encodedEncryptionContext_).Elements:
@@ -271,12 +271,12 @@ class default__:
                     if (d_1967_i_) in (d_1963_encodedEncryptionContext_):
                         coll23_[((d_1967_i_)[0]).value] = ((d_1967_i_)[1]).value
                 return _dafny.Map(coll23_)
-            return Wrappers.Result_Success(iife111_()
+            return Wrappers.Result_Success(iife67_()
 )
 
     @staticmethod
     def DecryptOnlyBranchKeyEncryptionContext(branchKeyId, branchKeyVersion, timestamp, logicalKeyStoreName, kmsKeyArn, customEncryptionContext):
-        def iife112_():
+        def iife68_():
             coll24_ = _dafny.Map()
             compr_29_: _dafny.Seq
             for compr_29_ in (customEncryptionContext).keys.Elements:
@@ -284,7 +284,7 @@ class default__:
                 if (d_1968_k_) in (customEncryptionContext):
                     coll24_[(default__.ENCRYPTION__CONTEXT__PREFIX) + (d_1968_k_)] = (customEncryptionContext)[d_1968_k_]
             return _dafny.Map(coll24_)
-        return (_dafny.Map({default__.BRANCH__KEY__IDENTIFIER__FIELD: branchKeyId, default__.TYPE__FIELD: (default__.BRANCH__KEY__TYPE__PREFIX) + (branchKeyVersion), default__.KEY__CREATE__TIME: timestamp, default__.TABLE__FIELD: logicalKeyStoreName, default__.KMS__FIELD: kmsKeyArn, default__.HIERARCHY__VERSION: _dafny.Seq("1")})) | (iife112_()
+        return (_dafny.Map({default__.BRANCH__KEY__IDENTIFIER__FIELD: branchKeyId, default__.TYPE__FIELD: (default__.BRANCH__KEY__TYPE__PREFIX) + (branchKeyVersion), default__.KEY__CREATE__TIME: timestamp, default__.TABLE__FIELD: logicalKeyStoreName, default__.KMS__FIELD: kmsKeyArn, default__.HIERARCHY__VERSION: _dafny.Seq("1")})) | (iife68_()
         )
 
     @staticmethod
