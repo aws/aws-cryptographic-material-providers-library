@@ -39,21 +39,25 @@ module {:extern "RSAEncryption"} RSAEncryption {
     output := EncryptExtern(input.padding, input.publicKey, input.plaintext);
   }
 
-  method {:extern "RSAEncryption.RSA", "GenerateKeyPairExtern"} GenerateKeyPairExtern(lengthBits: Types.RSAModulusLengthBitsToGenerate)
+  // TODO-Python: extern names
+  method {:extern "RSA", "GenerateKeyPairExtern"} GenerateKeyPairExtern(lengthBits: Types.RSAModulusLengthBitsToGenerate)
     returns (publicKey: seq<uint8>, privateKey: seq<uint8>)
     ensures |publicKey| > 0
     ensures |privateKey| > 0
 
-  function method {:extern "RSAEncryption.RSA", "GetRSAKeyModulusLengthExtern"} GetRSAKeyModulusLengthExtern(publicKey: seq<uint8>)
+  // TODO-Python: extern names
+  function method {:extern "RSA", "GetRSAKeyModulusLengthExtern"} GetRSAKeyModulusLengthExtern(publicKey: seq<uint8>)
     : (length: Result<uint32, Types.Error>)
 
-  method {:extern "RSAEncryption.RSA", "DecryptExtern"} DecryptExtern(padding: Types.RSAPaddingMode, privateKey: seq<uint8>,
+  // TODO-Python: extern names
+  method {:extern "RSA", "DecryptExtern"} DecryptExtern(padding: Types.RSAPaddingMode, privateKey: seq<uint8>,
                                                                       cipherText: seq<uint8>)
     returns (res: Result<seq<uint8>, Types.Error>)
     requires |privateKey| > 0
     requires |cipherText| > 0
 
-  method {:extern "RSAEncryption.RSA", "EncryptExtern"} EncryptExtern(padding: Types.RSAPaddingMode, publicKey: seq<uint8>,
+  // TODO-Python: extern names
+  method {:extern "RSA", "EncryptExtern"} EncryptExtern(padding: Types.RSAPaddingMode, publicKey: seq<uint8>,
                                                                       plaintextData: seq<uint8>)
     returns (res: Result<seq<uint8>, Types.Error>)
     requires |publicKey| > 0

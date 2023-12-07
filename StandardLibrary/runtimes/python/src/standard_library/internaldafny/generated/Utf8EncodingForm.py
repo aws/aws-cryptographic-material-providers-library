@@ -8,15 +8,14 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
 import Unicode
 import Functions
 
-# assert "Utf8EncodingForm" == __name__
-Utf8EncodingForm = sys.modules[__name__]
+# Module: Utf8EncodingForm
 
 class default__:
     def  __init__(self):
@@ -25,16 +24,16 @@ class default__:
     @staticmethod
     def IsMinimalWellFormedCodeUnitSubsequence(s):
         if (len(s)) == (1):
-            d_47_b_ = Utf8EncodingForm.default__.IsWellFormedSingleCodeUnitSequence(s)
+            d_47_b_ = default__.IsWellFormedSingleCodeUnitSequence(s)
             return d_47_b_
         elif (len(s)) == (2):
-            d_48_b_ = Utf8EncodingForm.default__.IsWellFormedDoubleCodeUnitSequence(s)
+            d_48_b_ = default__.IsWellFormedDoubleCodeUnitSequence(s)
             return d_48_b_
         elif (len(s)) == (3):
-            d_49_b_ = Utf8EncodingForm.default__.IsWellFormedTripleCodeUnitSequence(s)
+            d_49_b_ = default__.IsWellFormedTripleCodeUnitSequence(s)
             return d_49_b_
         elif (len(s)) == (4):
-            d_50_b_ = Utf8EncodingForm.default__.IsWellFormedQuadrupleCodeUnitSequence(s)
+            d_50_b_ = default__.IsWellFormedQuadrupleCodeUnitSequence(s)
             return d_50_b_
         elif True:
             return False
@@ -67,13 +66,13 @@ class default__:
 
     @staticmethod
     def SplitPrefixMinimalWellFormedCodeUnitSubsequence(s):
-        if ((len(s)) >= (1)) and (Utf8EncodingForm.default__.IsWellFormedSingleCodeUnitSequence(_dafny.Seq((s)[:1:]))):
+        if ((len(s)) >= (1)) and (default__.IsWellFormedSingleCodeUnitSequence(_dafny.Seq((s)[:1:]))):
             return Wrappers.Option_Some(_dafny.Seq((s)[:1:]))
-        elif ((len(s)) >= (2)) and (Utf8EncodingForm.default__.IsWellFormedDoubleCodeUnitSequence(_dafny.Seq((s)[:2:]))):
+        elif ((len(s)) >= (2)) and (default__.IsWellFormedDoubleCodeUnitSequence(_dafny.Seq((s)[:2:]))):
             return Wrappers.Option_Some(_dafny.Seq((s)[:2:]))
-        elif ((len(s)) >= (3)) and (Utf8EncodingForm.default__.IsWellFormedTripleCodeUnitSequence(_dafny.Seq((s)[:3:]))):
+        elif ((len(s)) >= (3)) and (default__.IsWellFormedTripleCodeUnitSequence(_dafny.Seq((s)[:3:]))):
             return Wrappers.Option_Some(_dafny.Seq((s)[:3:]))
-        elif ((len(s)) >= (4)) and (Utf8EncodingForm.default__.IsWellFormedQuadrupleCodeUnitSequence(_dafny.Seq((s)[:4:]))):
+        elif ((len(s)) >= (4)) and (default__.IsWellFormedQuadrupleCodeUnitSequence(_dafny.Seq((s)[:4:]))):
             return Wrappers.Option_Some(_dafny.Seq((s)[:4:]))
         elif True:
             return Wrappers.Option_None()
@@ -81,13 +80,13 @@ class default__:
     @staticmethod
     def EncodeScalarValue(v):
         if (v) <= (127):
-            return Utf8EncodingForm.default__.EncodeScalarValueSingleByte(v)
+            return default__.EncodeScalarValueSingleByte(v)
         elif (v) <= (2047):
-            return Utf8EncodingForm.default__.EncodeScalarValueDoubleByte(v)
+            return default__.EncodeScalarValueDoubleByte(v)
         elif (v) <= (65535):
-            return Utf8EncodingForm.default__.EncodeScalarValueTripleByte(v)
+            return default__.EncodeScalarValueTripleByte(v)
         elif True:
-            return Utf8EncodingForm.default__.EncodeScalarValueQuadrupleByte(v)
+            return default__.EncodeScalarValueQuadrupleByte(v)
 
     @staticmethod
     def EncodeScalarValueSingleByte(v):
@@ -129,13 +128,13 @@ class default__:
     @staticmethod
     def DecodeMinimalWellFormedCodeUnitSubsequence(m):
         if (len(m)) == (1):
-            return Utf8EncodingForm.default__.DecodeMinimalWellFormedCodeUnitSubsequenceSingleByte(m)
+            return default__.DecodeMinimalWellFormedCodeUnitSubsequenceSingleByte(m)
         elif (len(m)) == (2):
-            return Utf8EncodingForm.default__.DecodeMinimalWellFormedCodeUnitSubsequenceDoubleByte(m)
+            return default__.DecodeMinimalWellFormedCodeUnitSubsequenceDoubleByte(m)
         elif (len(m)) == (3):
-            return Utf8EncodingForm.default__.DecodeMinimalWellFormedCodeUnitSubsequenceTripleByte(m)
+            return default__.DecodeMinimalWellFormedCodeUnitSubsequenceTripleByte(m)
         elif True:
-            return Utf8EncodingForm.default__.DecodeMinimalWellFormedCodeUnitSubsequenceQuadrupleByte(m)
+            return default__.DecodeMinimalWellFormedCodeUnitSubsequenceQuadrupleByte(m)
 
     @staticmethod
     def DecodeMinimalWellFormedCodeUnitSubsequenceSingleByte(m):
@@ -176,7 +175,7 @@ class default__:
 
     @staticmethod
     def PartitionCodeUnitSequenceChecked(s):
-        maybeParts: Wrappers.Option = Wrappers.Option_None.default()()
+        maybeParts: Wrappers.Option = Wrappers.Option.default()()
         if (s) == (_dafny.Seq([])):
             maybeParts = Wrappers.Option_Some(_dafny.Seq([]))
             return maybeParts
@@ -186,8 +185,8 @@ class default__:
         d_104_rest_ = s
         while (len(d_104_rest_)) > (0):
             d_105_prefix_: _dafny.Seq
-            d_106_valueOrError0_: Wrappers.Option = Wrappers.Option_None.default()()
-            d_106_valueOrError0_ = Utf8EncodingForm.default__.SplitPrefixMinimalWellFormedCodeUnitSubsequence(d_104_rest_)
+            d_106_valueOrError0_: Wrappers.Option = Wrappers.Option.default()()
+            d_106_valueOrError0_ = default__.SplitPrefixMinimalWellFormedCodeUnitSubsequence(d_104_rest_)
             if (d_106_valueOrError0_).IsFailure():
                 maybeParts = (d_106_valueOrError0_).PropagateFailure()
                 return maybeParts
@@ -200,41 +199,41 @@ class default__:
 
     @staticmethod
     def PartitionCodeUnitSequence(s):
-        return (Utf8EncodingForm.default__.PartitionCodeUnitSequenceChecked(s)).Extract()
+        return (default__.PartitionCodeUnitSequenceChecked(s)).Extract()
 
     @staticmethod
     def IsWellFormedCodeUnitSequence(s):
-        return (Utf8EncodingForm.default__.PartitionCodeUnitSequenceChecked(s)).is_Some
+        return (default__.PartitionCodeUnitSequenceChecked(s)).is_Some
 
     @staticmethod
     def EncodeScalarSequence(vs):
-        s: _dafny.Seq = Utf8EncodingForm.WellFormedCodeUnitSeq.default()
+        s: _dafny.Seq = WellFormedCodeUnitSeq.default()
         s = _dafny.Seq([])
-        lo1_: int = 0
+        lo1_ = 0
         for d_107_i_ in range(len(vs)-1, lo1_-1, -1):
             d_108_next_: _dafny.Seq
-            d_108_next_ = Utf8EncodingForm.default__.EncodeScalarValue((vs)[d_107_i_])
+            d_108_next_ = default__.EncodeScalarValue((vs)[d_107_i_])
             s = (d_108_next_) + (s)
         return s
 
     @staticmethod
     def DecodeCodeUnitSequence(s):
-        d_109_parts_ = Utf8EncodingForm.default__.PartitionCodeUnitSequence(s)
-        d_110_vs_ = Seq.default__.Map(Utf8EncodingForm.default__.DecodeMinimalWellFormedCodeUnitSubsequence, d_109_parts_)
+        d_109_parts_ = default__.PartitionCodeUnitSequence(s)
+        d_110_vs_ = Seq.default__.Map(default__.DecodeMinimalWellFormedCodeUnitSubsequence, d_109_parts_)
         return d_110_vs_
 
     @staticmethod
     def DecodeCodeUnitSequenceChecked(s):
-        maybeVs: Wrappers.Option = Wrappers.Option_None.default()()
+        maybeVs: Wrappers.Option = Wrappers.Option.default()()
         d_111_maybeParts_: Wrappers.Option
-        d_111_maybeParts_ = Utf8EncodingForm.default__.PartitionCodeUnitSequenceChecked(s)
+        d_111_maybeParts_ = default__.PartitionCodeUnitSequenceChecked(s)
         if (d_111_maybeParts_).is_None:
             maybeVs = Wrappers.Option_None()
             return maybeVs
         d_112_parts_: _dafny.Seq
         d_112_parts_ = (d_111_maybeParts_).value
         d_113_vs_: _dafny.Seq
-        d_113_vs_ = Seq.default__.Map(Utf8EncodingForm.default__.DecodeMinimalWellFormedCodeUnitSubsequence, d_112_parts_)
+        d_113_vs_ = Seq.default__.Map(default__.DecodeMinimalWellFormedCodeUnitSubsequence, d_112_parts_)
         maybeVs = Wrappers.Option_Some(d_113_vs_)
         return maybeVs
         return maybeVs

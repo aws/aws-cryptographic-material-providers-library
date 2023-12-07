@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -17,8 +17,7 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 
-# assert "UnicodeStrings" == __name__
-UnicodeStrings = sys.modules[__name__]
+# Module: UnicodeStrings
 
 class default__:
     def  __init__(self):

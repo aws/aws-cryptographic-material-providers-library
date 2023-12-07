@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,11 +29,10 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 
-# assert "StandardLibrary" == __name__
-StandardLibrary = sys.modules[__name__]
+# Module: StandardLibrary
 
 class default__:
     def  __init__(self):
@@ -60,7 +59,7 @@ class default__:
         d_211___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
-                d_212_i_ = StandardLibrary.default__.FindIndexMatching(s, delim, 0)
+                d_212_i_ = default__.FindIndexMatching(s, delim, 0)
                 if (d_212_i_).is_Some:
                     d_211___accumulator_ = (d_211___accumulator_) + (_dafny.Seq([_dafny.Seq((s)[:(d_212_i_).value:])]))
                     in44_ = _dafny.Seq((s)[((d_212_i_).value) + (1)::])
@@ -74,12 +73,12 @@ class default__:
 
     @staticmethod
     def SplitOnce(s, delim):
-        d_213_i_ = StandardLibrary.default__.FindIndexMatching(s, delim, 0)
+        d_213_i_ = default__.FindIndexMatching(s, delim, 0)
         return (_dafny.Seq((s)[:(d_213_i_).value:]), _dafny.Seq((s)[((d_213_i_).value) + (1)::]))
 
     @staticmethod
     def SplitOnce_q(s, delim):
-        d_214_valueOrError0_ = StandardLibrary.default__.FindIndexMatching(s, delim, 0)
+        d_214_valueOrError0_ = default__.FindIndexMatching(s, delim, 0)
         if (d_214_valueOrError0_).IsFailure():
             return (d_214_valueOrError0_).PropagateFailure()
         elif True:
@@ -94,7 +93,7 @@ class default__:
 
             return lambda14_
 
-        return StandardLibrary.default__.FindIndex(s, lambda13_(c), i)
+        return default__.FindIndex(s, lambda13_(c), i)
 
     @staticmethod
     def FindIndex(s, f, i):
@@ -167,7 +166,7 @@ class default__:
     def LexicographicLessOrEqual(a, b, less):
         def lambda17_(exists_var_0_):
             d_222_k_: int = exists_var_0_
-            return (((0) <= (d_222_k_)) and ((d_222_k_) <= (len(a)))) and (StandardLibrary.default__.LexicographicLessOrEqualAux(a, b, less, d_222_k_))
+            return (((0) <= (d_222_k_)) and ((d_222_k_) <= (len(a)))) and (default__.LexicographicLessOrEqualAux(a, b, less, d_222_k_))
 
         return _dafny.quantifier(_dafny.IntegerRange(0, (len(a)) + (1)), False, lambda17_)
 
@@ -195,11 +194,11 @@ class default__:
                             assign_such_that_1_: _dafny.Seq
                             for assign_such_that_1_ in (s).Elements:
                                 d_225_a_ = assign_such_that_1_
-                                if ((d_225_a_) in (s)) and (StandardLibrary.default__.IsMinimum(d_225_a_, s, less)):
+                                if ((d_225_a_) in (s)) and (default__.IsMinimum(d_225_a_, s, less)):
                                     raise _dafny.Break("_ASSIGN_SUCH_THAT_d_1")
                             raise Exception("assign-such-that search produced no value (line 369)")
                             pass
-                        return (_dafny.Seq([d_225_a_])) + (StandardLibrary.default__.SetToOrderedSequence((pat_let_tv0_) - (_dafny.Set({d_225_a_})), pat_let_tv1_))
+                        return (_dafny.Seq([d_225_a_])) + (default__.SetToOrderedSequence((pat_let_tv0_) - (_dafny.Set({d_225_a_})), pat_let_tv1_))
                     return iife1_(0)
                     
                 break
@@ -208,7 +207,7 @@ class default__:
     def IsMinimum(a, s, less):
         def lambda19_(forall_var_1_):
             d_226_z_: _dafny.Seq = forall_var_1_
-            return not ((d_226_z_) in (s)) or (StandardLibrary.default__.LexicographicLessOrEqual(a, d_226_z_, less))
+            return not ((d_226_z_) in (s)) or (default__.LexicographicLessOrEqual(a, d_226_z_, less))
 
         return ((a) in (s)) and (_dafny.quantifier((s).Elements, True, lambda19_))
 

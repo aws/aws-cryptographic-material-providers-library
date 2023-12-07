@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -22,6 +22,5 @@ import GeneralInternals
 import MulInternalsNonlinear
 import MulInternals
 
-# assert "Mul" == __name__
-Mul = sys.modules[__name__]
+# Module: Mul
 

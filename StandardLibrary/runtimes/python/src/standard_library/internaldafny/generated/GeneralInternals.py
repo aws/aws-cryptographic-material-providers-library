@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -19,6 +19,5 @@ import Utf16EncodingForm
 import UnicodeStrings
 import FileIO
 
-# assert "GeneralInternals" == __name__
-GeneralInternals = sys.modules[__name__]
+# Module: GeneralInternals
 

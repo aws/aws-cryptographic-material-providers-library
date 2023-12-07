@@ -4,8 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["AWS <aws-arg-dafny@amazon.com>"]
 packages = [
-    { include = "aws_cryptography_keystore", from = "src" },
-    { include = "aws_cryptography_materialproviders", from = "src" },
+    { include = "aws_cryptographic_materialproviders", from = "src" },
 ]
 # Include all Smithy- and Dafny-generated code in package distributions,
 # even though they are not included in version control

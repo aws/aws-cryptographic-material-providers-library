@@ -8,12 +8,11 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 
-# assert "BoundedInts" == __name__
-BoundedInts = sys.modules[__name__]
+# Module: BoundedInts
 
 class default__:
     def  __init__(self):

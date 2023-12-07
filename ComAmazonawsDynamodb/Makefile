@@ -5,6 +5,8 @@ CORES=2
 
 include ../SharedMakefileV2.mk
 
+PYTHON_MODULE_NAME=com_amazonaws_dynamodb
+
 PROJECT_SERVICES := \
 	ComAmazonawsDynamodb \
 

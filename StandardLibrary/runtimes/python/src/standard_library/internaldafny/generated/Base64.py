@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -42,8 +42,7 @@ import HexStrings
 import FloatCompare
 import ConcurrentCall
 
-# assert "Base64" == __name__
-Base64 = sys.modules[__name__]
+# Module: Base64
 
 class default__:
     def  __init__(self):
@@ -57,7 +56,7 @@ class default__:
     def IsUnpaddedBase64String(s):
         def lambda23_(forall_var_5_):
             d_273_k_: str = forall_var_5_
-            return not ((d_273_k_) in (s)) or (Base64.default__.IsBase64Char(d_273_k_))
+            return not ((d_273_k_) in (s)) or (default__.IsBase64Char(d_273_k_))
 
         return ((_dafny.euclidian_modulus(len(s), 4)) == (0)) and (_dafny.quantifier((s).UniqueElements, True, lambda23_))
 
@@ -115,11 +114,11 @@ class default__:
 
     @staticmethod
     def DecodeBlock(s):
-        return Base64.default__.UInt24ToSeq(Base64.default__.IndexSeqToUInt24(s))
+        return default__.UInt24ToSeq(default__.IndexSeqToUInt24(s))
 
     @staticmethod
     def EncodeBlock(s):
-        return Base64.default__.UInt24ToIndexSeq(Base64.default__.SeqToUInt24(s))
+        return default__.UInt24ToIndexSeq(default__.SeqToUInt24(s))
 
     @staticmethod
     def DecodeRecursively(s):
@@ -129,7 +128,7 @@ class default__:
                 if (len(s)) == (0):
                     return (d_284___accumulator_) + (_dafny.Seq([]))
                 elif True:
-                    d_284___accumulator_ = (d_284___accumulator_) + (Base64.default__.DecodeBlock(_dafny.Seq((s)[:4:])))
+                    d_284___accumulator_ = (d_284___accumulator_) + (default__.DecodeBlock(_dafny.Seq((s)[:4:])))
                     in79_ = _dafny.Seq((s)[4::])
                     s = in79_
                     raise _dafny.TailCall()
@@ -143,7 +142,7 @@ class default__:
                 if (len(b)) == (0):
                     return (d_285___accumulator_) + (_dafny.Seq([]))
                 elif True:
-                    d_285___accumulator_ = (d_285___accumulator_) + (Base64.default__.EncodeBlock(_dafny.Seq((b)[:3:])))
+                    d_285___accumulator_ = (d_285___accumulator_) + (default__.EncodeBlock(_dafny.Seq((b)[:3:])))
                     in80_ = _dafny.Seq((b)[3::])
                     b = in80_
                     raise _dafny.TailCall()
@@ -151,52 +150,52 @@ class default__:
 
     @staticmethod
     def FromCharsToIndices(s):
-        return _dafny.Seq([Base64.default__.CharToIndex((s)[d_286_i_]) for d_286_i_ in range(len(s))])
+        return _dafny.Seq([default__.CharToIndex((s)[d_286_i_]) for d_286_i_ in range(len(s))])
 
     @staticmethod
     def FromIndicesToChars(b):
-        return _dafny.Seq([Base64.default__.IndexToChar((b)[d_287_i_]) for d_287_i_ in range(len(b))])
+        return _dafny.Seq([default__.IndexToChar((b)[d_287_i_]) for d_287_i_ in range(len(b))])
 
     @staticmethod
     def DecodeUnpadded(s):
-        return Base64.default__.DecodeRecursively(Base64.default__.FromCharsToIndices(s))
+        return default__.DecodeRecursively(default__.FromCharsToIndices(s))
 
     @staticmethod
     def EncodeUnpadded(b):
-        return Base64.default__.FromIndicesToChars(Base64.default__.EncodeRecursively(b))
+        return default__.FromIndicesToChars(default__.EncodeRecursively(b))
 
     @staticmethod
     def Is1Padding(s):
-        return ((((((len(s)) == (4)) and (Base64.default__.IsBase64Char((s)[0]))) and (Base64.default__.IsBase64Char((s)[1]))) and (Base64.default__.IsBase64Char((s)[2]))) and ((_dafny.euclidian_modulus(Base64.default__.CharToIndex((s)[2]), 4)) == (0))) and (((s)[3]) == ('='))
+        return ((((((len(s)) == (4)) and (default__.IsBase64Char((s)[0]))) and (default__.IsBase64Char((s)[1]))) and (default__.IsBase64Char((s)[2]))) and ((_dafny.euclidian_modulus(default__.CharToIndex((s)[2]), 4)) == (0))) and (((s)[3]) == ('='))
 
     @staticmethod
     def Decode1Padding(s):
-        d_288_d_ = Base64.default__.DecodeBlock(_dafny.Seq([Base64.default__.CharToIndex((s)[0]), Base64.default__.CharToIndex((s)[1]), Base64.default__.CharToIndex((s)[2]), 0]))
+        d_288_d_ = default__.DecodeBlock(_dafny.Seq([default__.CharToIndex((s)[0]), default__.CharToIndex((s)[1]), default__.CharToIndex((s)[2]), 0]))
         return _dafny.Seq([(d_288_d_)[0], (d_288_d_)[1]])
 
     @staticmethod
     def Encode1Padding(b):
-        d_289_e_ = Base64.default__.EncodeBlock(_dafny.Seq([(b)[0], (b)[1], 0]))
-        return _dafny.Seq([Base64.default__.IndexToChar((d_289_e_)[0]), Base64.default__.IndexToChar((d_289_e_)[1]), Base64.default__.IndexToChar((d_289_e_)[2]), '='])
+        d_289_e_ = default__.EncodeBlock(_dafny.Seq([(b)[0], (b)[1], 0]))
+        return _dafny.Seq([default__.IndexToChar((d_289_e_)[0]), default__.IndexToChar((d_289_e_)[1]), default__.IndexToChar((d_289_e_)[2]), '='])
 
     @staticmethod
     def Is2Padding(s):
-        return ((((((len(s)) == (4)) and (Base64.default__.IsBase64Char((s)[0]))) and (Base64.default__.IsBase64Char((s)[1]))) and ((_dafny.euclidian_modulus(Base64.default__.CharToIndex((s)[1]), 16)) == (0))) and (((s)[2]) == ('='))) and (((s)[3]) == ('='))
+        return ((((((len(s)) == (4)) and (default__.IsBase64Char((s)[0]))) and (default__.IsBase64Char((s)[1]))) and ((_dafny.euclidian_modulus(default__.CharToIndex((s)[1]), 16)) == (0))) and (((s)[2]) == ('='))) and (((s)[3]) == ('='))
 
     @staticmethod
     def Decode2Padding(s):
-        d_290_d_ = Base64.default__.DecodeBlock(_dafny.Seq([Base64.default__.CharToIndex((s)[0]), Base64.default__.CharToIndex((s)[1]), 0, 0]))
+        d_290_d_ = default__.DecodeBlock(_dafny.Seq([default__.CharToIndex((s)[0]), default__.CharToIndex((s)[1]), 0, 0]))
         return _dafny.Seq([(d_290_d_)[0]])
 
     @staticmethod
     def Encode2Padding(b):
-        d_291_e_ = Base64.default__.EncodeBlock(_dafny.Seq([(b)[0], 0, 0]))
-        return _dafny.Seq([Base64.default__.IndexToChar((d_291_e_)[0]), Base64.default__.IndexToChar((d_291_e_)[1]), '=', '='])
+        d_291_e_ = default__.EncodeBlock(_dafny.Seq([(b)[0], 0, 0]))
+        return _dafny.Seq([default__.IndexToChar((d_291_e_)[0]), default__.IndexToChar((d_291_e_)[1]), '=', '='])
 
     @staticmethod
     def IsBase64String(s):
         d_292_finalBlockStart_ = (len(s)) - (4)
-        return ((_dafny.euclidian_modulus(len(s), 4)) == (0)) and ((Base64.default__.IsUnpaddedBase64String(s)) or ((Base64.default__.IsUnpaddedBase64String(_dafny.Seq((s)[:d_292_finalBlockStart_:]))) and ((Base64.default__.Is1Padding(_dafny.Seq((s)[d_292_finalBlockStart_::]))) or (Base64.default__.Is2Padding(_dafny.Seq((s)[d_292_finalBlockStart_::]))))))
+        return ((_dafny.euclidian_modulus(len(s), 4)) == (0)) and ((default__.IsUnpaddedBase64String(s)) or ((default__.IsUnpaddedBase64String(_dafny.Seq((s)[:d_292_finalBlockStart_:]))) and ((default__.Is1Padding(_dafny.Seq((s)[d_292_finalBlockStart_::]))) or (default__.Is2Padding(_dafny.Seq((s)[d_292_finalBlockStart_::]))))))
 
     @staticmethod
     def DecodeValid(s):
@@ -206,33 +205,33 @@ class default__:
             d_293_finalBlockStart_ = (len(s)) - (4)
             d_294_prefix_ = _dafny.Seq((s)[:d_293_finalBlockStart_:])
             d_295_suffix_ = _dafny.Seq((s)[d_293_finalBlockStart_::])
-            if Base64.default__.Is1Padding(d_295_suffix_):
-                return (Base64.default__.DecodeUnpadded(d_294_prefix_)) + (Base64.default__.Decode1Padding(d_295_suffix_))
-            elif Base64.default__.Is2Padding(d_295_suffix_):
-                return (Base64.default__.DecodeUnpadded(d_294_prefix_)) + (Base64.default__.Decode2Padding(d_295_suffix_))
+            if default__.Is1Padding(d_295_suffix_):
+                return (default__.DecodeUnpadded(d_294_prefix_)) + (default__.Decode1Padding(d_295_suffix_))
+            elif default__.Is2Padding(d_295_suffix_):
+                return (default__.DecodeUnpadded(d_294_prefix_)) + (default__.Decode2Padding(d_295_suffix_))
             elif True:
-                return Base64.default__.DecodeUnpadded(s)
+                return default__.DecodeUnpadded(s)
 
     @staticmethod
     def Decode(s):
-        if Base64.default__.IsBase64String(s):
-            return Wrappers.Result_Success(Base64.default__.DecodeValid(s))
+        if default__.IsBase64String(s):
+            return Wrappers.Result_Success(default__.DecodeValid(s))
         elif True:
             return Wrappers.Result_Failure(_dafny.Seq("The encoding is malformed"))
 
     @staticmethod
     def Encode(b):
         if (_dafny.euclidian_modulus(len(b), 3)) == (0):
-            d_296_s_ = Base64.default__.EncodeUnpadded(b)
+            d_296_s_ = default__.EncodeUnpadded(b)
             return d_296_s_
         elif (_dafny.euclidian_modulus(len(b), 3)) == (1):
-            d_297_s1_ = Base64.default__.EncodeUnpadded(_dafny.Seq((b)[:(len(b)) - (1):]))
-            d_298_s2_ = Base64.default__.Encode2Padding(_dafny.Seq((b)[(len(b)) - (1)::]))
+            d_297_s1_ = default__.EncodeUnpadded(_dafny.Seq((b)[:(len(b)) - (1):]))
+            d_298_s2_ = default__.Encode2Padding(_dafny.Seq((b)[(len(b)) - (1)::]))
             d_299_s_ = (d_297_s1_) + (d_298_s2_)
             return d_299_s_
         elif True:
-            d_300_s1_ = Base64.default__.EncodeUnpadded(_dafny.Seq((b)[:(len(b)) - (2):]))
-            d_301_s2_ = Base64.default__.Encode1Padding(_dafny.Seq((b)[(len(b)) - (2)::]))
+            d_300_s1_ = default__.EncodeUnpadded(_dafny.Seq((b)[:(len(b)) - (2):]))
+            d_301_s2_ = default__.Encode1Padding(_dafny.Seq((b)[(len(b)) - (2)::]))
             d_302_s_ = (d_300_s1_) + (d_301_s2_)
             return d_302_s_
 

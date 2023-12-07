@@ -8,6 +8,5 @@ import _dafny
 import System_
 import Wrappers
 
-# assert "Relations" == __name__
-Relations = sys.modules[__name__]
+# Module: Relations
 

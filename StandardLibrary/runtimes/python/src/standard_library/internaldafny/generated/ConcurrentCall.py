@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -41,8 +41,7 @@ import SortedSets
 import HexStrings
 import FloatCompare
 
-# assert "ConcurrentCall" == __name__
-ConcurrentCall = sys.modules[__name__]
+# Module: ConcurrentCall
 
 
 class Callee:

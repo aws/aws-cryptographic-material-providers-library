@@ -8,12 +8,11 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
 import Unicode
 
-# assert "Functions" == __name__
-Functions = sys.modules[__name__]
+# Module: Functions
 

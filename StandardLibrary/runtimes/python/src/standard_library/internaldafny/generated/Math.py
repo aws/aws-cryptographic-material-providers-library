@@ -8,10 +8,9 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 
-# assert "Math" == __name__
-Math = sys.modules[__name__]
+# Module: Math
 
 class default__:
     def  __init__(self):

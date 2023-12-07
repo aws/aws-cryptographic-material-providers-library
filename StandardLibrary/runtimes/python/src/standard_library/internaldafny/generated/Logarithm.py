@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,7 @@ import DivInternals
 import DivMod
 import Power
 
-# assert "Logarithm" == __name__
-Logarithm = sys.modules[__name__]
+# Module: Logarithm
 
 class default__:
     def  __init__(self):

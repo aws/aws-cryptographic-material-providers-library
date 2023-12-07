@@ -150,33 +150,6 @@ dafny-reportgenerator:
 
 # Dafny helper targets
 
-# On Python, `dafny build` adds Dafny runtime modules (ex. `_dafny.py`).
-# Python runs `build` targets for the target module, and `transpile` targets for dependencies and tests.
-#build_implementation:
-#	dafny build \
-#		-t:$(TARGET) \
-#		./src/Index.dfy \
-#		-o $(OUT) \
-#		--quantifier-syntax:3 \
-#		--function-syntax:3 \
-#		--optimize-erasable-datatype-wrapper:false \
-#		--unicode-char:false \
-#		$(if $(strip $(STD_LIBRARY)) , --library:$(PROJECT_ROOT)/$(STD_LIBRARY)/src/Index.dfy, ) \
-#		$(patsubst %, --library:$(PROJECT_ROOT)/%/src/Index.dfy, $(LIBRARIES))
-
-# build_implementation:
-# 	dafny build \
-# 		-t:$(TARGET) \
-# 		--no-verify \
-# 		./dafny/KeyVectors/src/Index.dfy \
-# 		-o $(OUT) \
-# 		--quantifier-syntax:3 \
-# 		--function-syntax:3 \
-# 		--optimize-erasable-datatype-wrapper:false \
-# 		--unicode-char:false \
-# 		$(if $(strip $(STD_LIBRARY)) , --library:$(PROJECT_ROOT)/$(STD_LIBRARY)/src/Index.dfy, ) \
-# 		$(patsubst %, --library:$(PROJECT_ROOT)/%/src/Index.dfy, $(LIBRARIES))
-
 # Transpile the entire project's impl
 _transpile_implementation_all: TRANSPILE_DEPENDENCIES=$(patsubst %, -library:$(PROJECT_ROOT)/%, $(PROJECT_INDEX))
 _transpile_implementation_all: transpile_implementation
@@ -205,67 +178,6 @@ _transpile_implementation_all: transpile_implementation
 transpile_implementation:
 	find ./dafny/**/src ./src -name 'Index.dfy' | sed -e 's/^/include "/' -e 's/$$/"/' | dafny \
 		-stdin \
-		-noVerify \
-		-vcsCores:$(CORES) \
-		-compileTarget:$(TARGET) \
-		-spillTargetCode:3 \
-		-compile:0 \
-		-optimizeErasableDatatypeWrapper:0 \
-		$(COMPILE_SUFFIX_OPTION) \
-		-quantifierSyntax:3 \
-		-unicodeChar:0 \
-		-functionSyntax:3 \
-		-useRuntimeLib \
-		-out $(OUT) \
-		$(if $(strip $(STD_LIBRARY)) , -library:$(PROJECT_ROOT)/$(STD_LIBRARY)/src/Index.dfy, ) \
-		$(TRANSPILE_DEPENDENCIES)
-
-# find ./dafny/**/src ./src -name 'Index.dfy' | sed -e 's/^/include "/' -e 's/$/"/' | dafny \
-# 		-stdin \
-# 		-noVerify \
-# 		-vcsCores:2 \
-# 		-compileTarget:py \
-# 		-spillTargetCode:3 \
-# 		-compile:0 \
-# 		-optimizeErasableDatatypeWrapper:0 \
-# 		-quantifierSyntax:3 \
-# 		-unicodeChar:0 \
-# 		-functionSyntax:3 \
-# 		-useRuntimeLib \
-# 		-out out \
-
-# find . -name 'Index.dfy' | sed -e 's/^/include "/' -e 's/$/"/' | dafny \
-# 	-stdin \
-# 	-noVerify \
-# 	-compileTarget:py \
-# 	-spillTargetCode:3 \
-# 	-compile:0 \
-# 	-optimizeErasableDatatypeWrapper:0 \
-# 	-quantifierSyntax:3 \
-# 	-unicodeChar:0 \
-# 	-functionSyntax:3 \
-# 	-useRuntimeLib \
-# 	-out out \
-
-# build_implementation:
-# 	find ./dafny/**/src ./src -name 'Index.dfy' | sed -e 's/^/include "/' -e 's/$$/"/' | dafny build \
-# 		--stdin \
-# 		--no-verify \
-# 		--cores:$(CORES) \
-# 		-t:$(TARGET) \
-# 		--optimize-erasable-datatype-wrapper:false \
-# 		$(COMPILE_SUFFIX_OPTION) \
-# 		--quantifier-syntax:3 \
-# 		--unicode-char:false \
-# 		--function-syntax:3 \
-# 		-o $(OUT) \
-# 		$(if $(strip $(STD_LIBRARY)) , --library:$(PROJECT_ROOT)/$(STD_LIBRARY)/src/Index.dfy, ) \
-# 		$(patsubst %, --library:$(PROJECT_ROOT)/%/src/Index.dfy, $(LIBRARIES))
-
-build_implementation:
-	dafny \
-		./dafny/KeyVectors/src/Index.dfy \
-		./dafny/TestVectorsAwsCryptographicMaterialProviders/src/Index.dfy \
 		-noVerify \
 		-vcsCores:$(CORES) \
 		-compileTarget:$(TARGET) \
@@ -330,6 +242,7 @@ _polymorph:
 	$(OUTPUT_JAVA) \
 	$(OUTPUT_DOTNET) \
 	$(OUTPUT_PYTHON) \
+	$(POLYMORPH_PYTHON_MODULE_NAME) \
 	--model $(if $(DIR_STRUCTURE_V2), $(LIBRARY_ROOT)/dafny/$(SERVICE)/Model, $(SMITHY_MODEL_ROOT)) \
 	--dependent-model $(PROJECT_ROOT)/$(SMITHY_DEPS) \
 	$(patsubst %, --dependent-model $(PROJECT_ROOT)/%/Model, $($(service_deps_var))) \
@@ -407,11 +320,17 @@ polymorph_python:
 		export snakecase_dir=SNAKECASE_DIR_$${service} ; \
 		$(MAKE) _polymorph_python || exit 1; \
 	done
+	rm -rf $(LIBRARY_ROOT)/runtimes/python/src/$(PYTHON_MODULE_NAME)/smithygenerated/*
+	mv $(LIBRARY_ROOT)/runtimes/python/src/$(PYTHON_MODULE_NAME)/smithy-generated/* $(LIBRARY_ROOT)/runtimes/python/src/$(PYTHON_MODULE_NAME)/smithygenerated
+	rm -rf $(LIBRARY_ROOT)/runtimes/python/src/$(PYTHON_MODULE_NAME)/smithy-generated
+	# TODO-Python: Can I do this from within Smithy...?
+	rm $(LIBRARY_ROOT)/runtimes/python/src/$(PYTHON_MODULE_NAME)/smithygenerated/pyproject.toml
+	rm $(LIBRARY_ROOT)/runtimes/python/src/$(PYTHON_MODULE_NAME)/smithygenerated/README.md
 
-_polymorph_python: OUTPUT_PYTHON=--output-python $(LIBRARY_ROOT)/runtimes/python/src/main/smithy-generated
+_polymorph_python: OUTPUT_PYTHON=--output-python $(LIBRARY_ROOT)/runtimes/python/src/$(PYTHON_MODULE_NAME)/smithy-generated
+# TODO-Python: Maybe I can get the module name as the folder just before smithy-generated/ in ^
+_polymorph_python: POLYMORPH_PYTHON_MODULE_NAME=--python-module-name $(PYTHON_MODULE_NAME)
 _polymorph_python: _polymorph
-# _polymorph_python:
-# 	mv $(LIBRARY_ROOT)/runtimes/python/src/main/smithy-generated/$($(snakecase_dir))/*.py $(LIBRARY_ROOT)/runtimes/python/src/$($(snakecase_dir))/smithygenerated
 
 ########################## .NET targets
 
@@ -500,40 +419,53 @@ test_java:
 	./runtimes/java/gradlew -p runtimes/java runTests
 
 ########################## Python targets
-#build_python: _python_underscore_dependency_extern_names
-#build_python: _python_underscore_extern_names
-build_python: build_implementation_python
-build_python: transpile_test_python
-build_python: transpile_dependencies_python
-#build_python: _python_revert_underscore_extern_names
-#build_python: _python_revert_underscore_dependency_extern_names
-build_python: _mv_internaldafny_python
-build_python: _remove_src_module_python
-build_python: _rename_test_main_python
 
-build_implementation_python: TARGET=py
-build_implementation_python: OUT=runtimes/python/dafny_src
-build_implementation_python: COMPILE_SUFFIX_OPTION=
-build_implementation_python: _transpile_implementation_all
+transpile_python: | transpile_implementation_python transpile_test_python transpile_dependencies_python _mv_internaldafny_python _rename_test_main_python _remove_src_module_python
 
-# `transpile_implementation_python` is not directly used, but is indirectly used via `transpile_dependencies`
-# The `transpile` target does NOT include the Dafny runtime library (_dafny.py) in the generated code
-# while the `build` target does
-transpile_implementation_python: transpile_dependencies_python
-transpile_implementation_python: transpile_src_python
-transpile_implementation_python: transpile_test_python
-transpile_implementation_python: _mv_internaldafny_python
-transpile_implementation_python: _remove_src_module_python
-
-transpile_src_python: TARGET=py
-transpile_src_python: OUT=runtimes/python/dafny_src
-transpile_src_python: COMPILE_SUFFIX_OPTION=
-transpile_src_python: transpile_implementation
+transpile_implementation_python: TARGET=py
+transpile_implementation_python: OUT=runtimes/python/dafny_src
+transpile_implementation_python: COMPILE_SUFFIX_OPTION=
+transpile_implementation_python: _transpile_implementation_all
 
 transpile_test_python: TARGET=py
 transpile_test_python: OUT=runtimes/python/__main__
 transpile_test_python: COMPILE_SUFFIX_OPTION=
-transpile_test_python: transpile_test
+transpile_test_python: _transpile_test_all
+
+# #transpile_python: _python_underscore_dependency_extern_names
+# #transpile_python: _python_underscore_extern_names
+# transpile_python: build_implementation_python
+# transpile_python: transpile_test_python
+# transpile_python: transpile_dependencies_python
+# #transpile_python: _python_revert_underscore_extern_names
+# #transpile_python: _python_revert_underscore_dependency_extern_names
+# transpile_python: _mv_internaldafny_python
+# transpile_python: _remove_src_module_python
+# transpile_python: _rename_test_main_python
+
+# build_implementation_python: TARGET=py
+# build_implementation_python: OUT=runtimes/python/dafny_src
+# build_implementation_python: COMPILE_SUFFIX_OPTION=
+# build_implementation_python: _transpile_implementation_all
+
+# `transpile_implementation_python` is not directly used, but is indirectly used via `transpile_dependencies`
+# The `transpile` target does NOT include the Dafny runtime library (_dafny.py) in the generated code
+# while the `build` target does
+# transpile_implementation_python: transpile_dependencies_python
+# transpile_implementation_python: transpile_src_python
+# transpile_implementation_python: transpile_test_python
+# transpile_implementation_python: _mv_internaldafny_python
+# transpile_implementation_python: _remove_src_module_python
+
+# transpile_src_python: TARGET=py
+# transpile_src_python: OUT=runtimes/python/dafny_src
+# transpile_src_python: COMPILE_SUFFIX_OPTION=
+# transpile_src_python: transpile_implementation
+
+# transpile_test_python: TARGET=py
+# transpile_test_python: OUT=runtimes/python/__main__
+# transpile_test_python: COMPILE_SUFFIX_OPTION=
+# transpile_test_python: transpile_test
 
 # Hacky workaround until Dafny supports per-language extern names.
 # Replaces `.`s with `_`s in strings like `{:extern ".*"}`.
@@ -563,9 +495,9 @@ _python_revert_underscore_dependency_extern_names:
 # Move Dafny-generated code into its expected location in the Python module
 _mv_internaldafny_python:
 	# Remove any previously generated Dafny code in src/, then copy in newly-generated code
-	rm -rf runtimes/python/src/main/internaldafny/generated/
-	mkdir runtimes/python/src/main/internaldafny/generated/
-	mv runtimes/python/dafny_src-py/*.py runtimes/python/src/main/internaldafny/generated
+	rm -rf runtimes/python/src/$(PYTHON_MODULE_NAME)/internaldafny/generated/
+	mkdir runtimes/python/src/$(PYTHON_MODULE_NAME)/internaldafny/generated/
+	mv runtimes/python/dafny_src-py/*.py runtimes/python/src/$(PYTHON_MODULE_NAME)/internaldafny/generated
 	rm -rf runtimes/python/dafny_src-py
 	# Remove any previously generated Dafny code in test/, then copy in newly-generated code
 	rm -rf runtimes/python/test/internaldafny/generated

@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -17,10 +17,8 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 
-# assert "FileIO" == __name__
-FileIO = sys.modules[__name__]
+# Module: FileIO
 
 class default__:
     def  __init__(self):
@@ -28,7 +26,7 @@ class default__:
 
     @staticmethod
     def ReadBytesFromFile(path):
-        res: Wrappers.Result = Wrappers.Result_Success.default(_dafny.Seq)()
+        res: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_164_isError_: bool
         d_165_bytesRead_: _dafny.Seq
         d_166_errorMsg_: _dafny.Seq
@@ -45,7 +43,7 @@ class default__:
 
     @staticmethod
     def WriteBytesToFile(path, bytes):
-        res: Wrappers.Result = Wrappers.Result_Success.default(_dafny.defaults.tuple())()
+        res: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
         d_167_isError_: bool
         d_168_errorMsg_: _dafny.Seq
         out4_: bool

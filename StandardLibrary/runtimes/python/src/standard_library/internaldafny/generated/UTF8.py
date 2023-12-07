@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,13 +29,12 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 
-# assert "UTF8" == __name__
-UTF8 = sys.modules[__name__]
+# Module: UTF8
 
 class default__:
     def  __init__(self):
@@ -88,7 +87,7 @@ class default__:
                     return True
                 elif True:
                     d_230_r_ = _dafny.Seq((a)[lo:hi:])
-                    if UTF8.default__.Uses1Byte(d_230_r_):
+                    if default__.Uses1Byte(d_230_r_):
                         in54_ = a
                         in55_ = (lo) + (1)
                         in56_ = hi
@@ -96,7 +95,7 @@ class default__:
                         lo = in55_
                         hi = in56_
                         raise _dafny.TailCall()
-                    elif ((2) <= (len(d_230_r_))) and (UTF8.default__.Uses2Bytes(d_230_r_)):
+                    elif ((2) <= (len(d_230_r_))) and (default__.Uses2Bytes(d_230_r_)):
                         in57_ = a
                         in58_ = (lo) + (2)
                         in59_ = hi
@@ -104,7 +103,7 @@ class default__:
                         lo = in58_
                         hi = in59_
                         raise _dafny.TailCall()
-                    elif ((3) <= (len(d_230_r_))) and (UTF8.default__.Uses3Bytes(d_230_r_)):
+                    elif ((3) <= (len(d_230_r_))) and (default__.Uses3Bytes(d_230_r_)):
                         in60_ = a
                         in61_ = (lo) + (3)
                         in62_ = hi
@@ -112,7 +111,7 @@ class default__:
                         lo = in61_
                         hi = in62_
                         raise _dafny.TailCall()
-                    elif ((4) <= (len(d_230_r_))) and (UTF8.default__.Uses4Bytes(d_230_r_)):
+                    elif ((4) <= (len(d_230_r_))) and (default__.Uses4Bytes(d_230_r_)):
                         in63_ = a
                         in64_ = (lo) + (4)
                         in65_ = hi
@@ -126,7 +125,7 @@ class default__:
 
     @staticmethod
     def ValidUTF8Seq(s):
-        return UTF8.default__.ValidUTF8Range(s, 0, len(s))
+        return default__.ValidUTF8Range(s, 0, len(s))
 
 
 class ValidUTF8Bytes:

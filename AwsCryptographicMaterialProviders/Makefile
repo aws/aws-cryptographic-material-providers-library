@@ -5,7 +5,7 @@ CORES=2
 
 include ../SharedMakefileV2.mk
 
-PYTHON_MODULE_NAME=main
+PYTHON_MODULE_NAME=aws_cryptographic_materialproviders
 
 PROJECT_SERVICES := \
 	AwsCryptographicMaterialProviders \

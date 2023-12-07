@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -26,8 +26,7 @@ import ModInternalsNonlinear
 import DivInternalsNonlinear
 import ModInternals
 
-# assert "DivInternals" == __name__
-DivInternals = sys.modules[__name__]
+# Module: DivInternals
 
 class default__:
     def  __init__(self):
@@ -59,7 +58,7 @@ class default__:
     @staticmethod
     def DivRecursive(x, d):
         if (d) > (0):
-            return DivInternals.default__.DivPos(x, d)
+            return default__.DivPos(x, d)
         elif True:
-            return (-1) * (DivInternals.default__.DivPos(x, (-1) * (d)))
+            return (-1) * (default__.DivPos(x, (-1) * (d)))
 

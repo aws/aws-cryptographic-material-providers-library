@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -28,8 +28,7 @@ import ModInternals
 import DivInternals
 import DivMod
 
-# assert "Power" == __name__
-Power = sys.modules[__name__]
+# Module: Power
 
 class default__:
     def  __init__(self):

@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -21,8 +21,7 @@ import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
 
-# assert "MulInternals" == __name__
-MulInternals = sys.modules[__name__]
+# Module: MulInternals
 
 class default__:
     def  __init__(self):
@@ -47,7 +46,7 @@ class default__:
     @staticmethod
     def MulRecursive(x, y):
         if (x) >= (0):
-            return MulInternals.default__.MulPos(x, y)
+            return default__.MulPos(x, y)
         elif True:
-            return (-1) * (MulInternals.default__.MulPos((-1) * (x), y))
+            return (-1) * (default__.MulPos((-1) * (x), y))
 

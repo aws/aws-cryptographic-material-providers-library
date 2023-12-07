@@ -8,11 +8,10 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 
-# assert "Seq" == __name__
-Seq = sys.modules[__name__]
+# Module: Seq
 
 class default__:
     def  __init__(self):
@@ -86,7 +85,7 @@ class default__:
         elif ((xs)[0]) == (v):
             return Wrappers.Option_Some(0)
         elif True:
-            d_28_o_k_ = Seq.default__.IndexOfOption(_dafny.Seq((xs)[1::]), v)
+            d_28_o_k_ = default__.IndexOfOption(_dafny.Seq((xs)[1::]), v)
             if (d_28_o_k_).is_Some:
                 return Wrappers.Option_Some(((d_28_o_k_).value) + (1))
             elif True:
@@ -131,7 +130,7 @@ class default__:
         if (v) not in (xs):
             return xs
         elif True:
-            d_29_i_ = Seq.default__.IndexOf(xs, v)
+            d_29_i_ = default__.IndexOf(xs, v)
             return (_dafny.Seq((xs)[:d_29_i_:])) + (_dafny.Seq((xs)[(d_29_i_) + (1)::]))
 
     @staticmethod
@@ -173,10 +172,10 @@ class default__:
         if (len(xs)) == (0):
             return (_dafny.Seq([]), _dafny.Seq([]))
         elif True:
-            let_tmp_rhs0_ = Seq.default__.Unzip(Seq.default__.DropLast(xs))
+            let_tmp_rhs0_ = default__.Unzip(default__.DropLast(xs))
             d_32_a_ = let_tmp_rhs0_[0]
             d_33_b_ = let_tmp_rhs0_[1]
-            return ((d_32_a_) + (_dafny.Seq([(Seq.default__.Last(xs))[0]])), (d_33_b_) + (_dafny.Seq([(Seq.default__.Last(xs))[1]])))
+            return ((d_32_a_) + (_dafny.Seq([(default__.Last(xs))[0]])), (d_33_b_) + (_dafny.Seq([(default__.Last(xs))[1]])))
 
     @staticmethod
     def Zip(xs, ys):
@@ -186,9 +185,9 @@ class default__:
                 if (len(xs)) == (0):
                     return (_dafny.Seq([])) + (d_34___accumulator_)
                 elif True:
-                    d_34___accumulator_ = (_dafny.Seq([(Seq.default__.Last(xs), Seq.default__.Last(ys))])) + (d_34___accumulator_)
-                    in15_ = Seq.default__.DropLast(xs)
-                    in16_ = Seq.default__.DropLast(ys)
+                    d_34___accumulator_ = (_dafny.Seq([(default__.Last(xs), default__.Last(ys))])) + (d_34___accumulator_)
+                    in15_ = default__.DropLast(xs)
+                    in16_ = default__.DropLast(ys)
                     xs = in15_
                     ys = in16_
                     raise _dafny.TailCall()
@@ -199,14 +198,14 @@ class default__:
         if (len(xs)) == (1):
             return (xs)[0]
         elif True:
-            return Math.default__.Max((xs)[0], Seq.default__.Max(_dafny.Seq((xs)[1::])))
+            return Math.default__.Max((xs)[0], default__.Max(_dafny.Seq((xs)[1::])))
 
     @staticmethod
     def Min(xs):
         if (len(xs)) == (1):
             return (xs)[0]
         elif True:
-            return Math.default__.Min((xs)[0], Seq.default__.Min(_dafny.Seq((xs)[1::])))
+            return Math.default__.Min((xs)[0], default__.Min(_dafny.Seq((xs)[1::])))
 
     @staticmethod
     def Flatten(xs):
@@ -230,8 +229,8 @@ class default__:
                 if (len(xs)) == (0):
                     return (_dafny.Seq([])) + (d_36___accumulator_)
                 elif True:
-                    d_36___accumulator_ = (Seq.default__.Last(xs)) + (d_36___accumulator_)
-                    in18_ = Seq.default__.DropLast(xs)
+                    d_36___accumulator_ = (default__.Last(xs)) + (d_36___accumulator_)
+                    in18_ = default__.DropLast(xs)
                     xs = in18_
                     raise _dafny.TailCall()
                 break
@@ -250,7 +249,7 @@ class default__:
                 return (d_38_valueOrError0_).PropagateFailure()
             elif True:
                 d_39_head_ = (d_38_valueOrError0_).Extract()
-                d_40_valueOrError1_ = Seq.default__.MapWithResult(f, _dafny.Seq((xs)[1::]))
+                d_40_valueOrError1_ = default__.MapWithResult(f, _dafny.Seq((xs)[1::]))
                 if (d_40_valueOrError1_).IsFailure():
                     return (d_40_valueOrError1_).PropagateFailure()
                 elif True:
@@ -294,13 +293,13 @@ class default__:
         if (len(xs)) == (0):
             return init
         elif True:
-            return f((xs)[0], Seq.default__.FoldRight(f, _dafny.Seq((xs)[1::]), init))
+            return f((xs)[0], default__.FoldRight(f, _dafny.Seq((xs)[1::]), init))
 
     @staticmethod
     def FlatMap(f, xs):
         result: _dafny.Seq = _dafny.Seq({})
         result = _dafny.Seq([])
-        lo0_: int = 0
+        lo0_ = 0
         for d_43_i_ in range(len(xs)-1, lo0_-1, -1):
             d_44_next_: _dafny.Seq
             d_44_next_ = f((xs)[d_43_i_])
@@ -331,8 +330,8 @@ class default__:
     def SetToSortedSeq(s, R):
         xs: _dafny.Seq = _dafny.Seq({})
         out0_: _dafny.Seq
-        out0_ = Seq.default__.SetToSeq(s)
+        out0_ = default__.SetToSeq(s)
         xs = out0_
-        xs = Seq_mMergeSort.default__.MergeSortBy(xs, R)
+        xs = Seq_MergeSort.default__.MergeSortBy(xs, R)
         return xs
 

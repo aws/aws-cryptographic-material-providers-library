@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -40,8 +40,7 @@ import Sorting
 import SortedSets
 import HexStrings
 
-# assert "FloatCompare" == __name__
-FloatCompare = sys.modules[__name__]
+# Module: FloatCompare
 
 class default__:
     def  __init__(self):
@@ -81,13 +80,13 @@ class default__:
 
     @staticmethod
     def StrToInt(s, acc):
-        d_256_tmp_ = FloatCompare.default__.SkipLeadingSpace(s)
+        d_256_tmp_ = default__.SkipLeadingSpace(s)
         if (len(d_256_tmp_)) == (0):
             return 0
         elif ((d_256_tmp_)[0]) == ('-'):
-            return (0) - (FloatCompare.default__.StrToIntInner(s, 0))
+            return (0) - (default__.StrToIntInner(s, 0))
         elif True:
-            return FloatCompare.default__.StrToIntInner(s, 0)
+            return default__.StrToIntInner(s, 0)
 
     @staticmethod
     def SplitE(x):
@@ -99,9 +98,9 @@ class default__:
 
     @staticmethod
     def SplitExp(x):
-        d_258_parts_ = FloatCompare.default__.SplitE(x)
+        d_258_parts_ = default__.SplitE(x)
         if (d_258_parts_).is_Some:
-            return (((d_258_parts_).value)[0], FloatCompare.default__.StrToInt(((d_258_parts_).value)[1], 0))
+            return (((d_258_parts_).value)[0], default__.StrToInt(((d_258_parts_).value)[1], 0))
         elif True:
             return (x, 0)
 
@@ -133,9 +132,9 @@ class default__:
     def SplitDot(x):
         d_259_parts_ = StandardLibrary.default__.SplitOnce_q(x, '.')
         if (d_259_parts_).is_Some:
-            return (FloatCompare.default__.SkipLeadingZeros(((d_259_parts_).value)[0]), FloatCompare.default__.SkipTrailingZeros(((d_259_parts_).value)[1]))
+            return (default__.SkipLeadingZeros(((d_259_parts_).value)[0]), default__.SkipTrailingZeros(((d_259_parts_).value)[1]))
         elif True:
-            return (FloatCompare.default__.SkipLeadingZeros(x), _dafny.Seq(""))
+            return (default__.SkipLeadingZeros(x), _dafny.Seq(""))
 
     @staticmethod
     def StrCmp(x, y):
@@ -165,12 +164,12 @@ class default__:
 
     @staticmethod
     def CompareFloatInner(x, y):
-        d_261_xParts_ = FloatCompare.default__.SplitExp(x)
-        d_262_yParts_ = FloatCompare.default__.SplitExp(y)
-        d_263_xNum_ = FloatCompare.default__.SplitDot((d_261_xParts_)[0])
-        d_264_yNum_ = FloatCompare.default__.SplitDot((d_262_yParts_)[0])
-        d_265_xDigits_ = FloatCompare.default__.SkipLeadingZeros(((d_263_xNum_)[0]) + ((d_263_xNum_)[1]))
-        d_266_yDigits_ = FloatCompare.default__.SkipLeadingZeros(((d_264_yNum_)[0]) + ((d_264_yNum_)[1]))
+        d_261_xParts_ = default__.SplitExp(x)
+        d_262_yParts_ = default__.SplitExp(y)
+        d_263_xNum_ = default__.SplitDot((d_261_xParts_)[0])
+        d_264_yNum_ = default__.SplitDot((d_262_yParts_)[0])
+        d_265_xDigits_ = default__.SkipLeadingZeros(((d_263_xNum_)[0]) + ((d_263_xNum_)[1]))
+        d_266_yDigits_ = default__.SkipLeadingZeros(((d_264_yNum_)[0]) + ((d_264_yNum_)[1]))
         d_267_xExp_ = ((d_261_xParts_)[1]) - (len((d_263_xNum_)[1]))
         d_268_yExp_ = ((d_262_yParts_)[1]) - (len((d_264_yNum_)[1]))
         d_269_logX_ = (d_267_xExp_) + (len(d_265_xDigits_))
@@ -180,11 +179,11 @@ class default__:
         elif (d_270_logY_) > (d_269_logX_):
             return -1
         elif (len(d_265_xDigits_)) < (len(d_266_yDigits_)):
-            return FloatCompare.default__.StrCmp(FloatCompare.default__.AppendZeros(d_265_xDigits_, len(d_266_yDigits_)), d_266_yDigits_)
+            return default__.StrCmp(default__.AppendZeros(d_265_xDigits_, len(d_266_yDigits_)), d_266_yDigits_)
         elif (len(d_266_yDigits_)) < (len(d_265_xDigits_)):
-            return FloatCompare.default__.StrCmp(d_265_xDigits_, FloatCompare.default__.AppendZeros(d_266_yDigits_, len(d_265_xDigits_)))
+            return default__.StrCmp(d_265_xDigits_, default__.AppendZeros(d_266_yDigits_, len(d_265_xDigits_)))
         elif True:
-            return FloatCompare.default__.StrCmp(d_265_xDigits_, d_266_yDigits_)
+            return default__.StrCmp(d_265_xDigits_, d_266_yDigits_)
 
     @staticmethod
     def IsNegative(x):
@@ -215,32 +214,32 @@ class default__:
 
     @staticmethod
     def RecognizeZero(x):
-        if FloatCompare.default__.IsNegative(x):
-            if FloatCompare.default__.IsZero(_dafny.Seq((x)[1::])):
+        if default__.IsNegative(x):
+            if default__.IsZero(_dafny.Seq((x)[1::])):
                 return _dafny.Seq("0")
             elif True:
                 return x
-        elif FloatCompare.default__.IsZero(x):
+        elif default__.IsZero(x):
             return _dafny.Seq("0")
         elif True:
             return x
 
     @staticmethod
     def CleanNumber(x):
-        return FloatCompare.default__.RecognizeZero(FloatCompare.default__.SkipLeadingPlus(FloatCompare.default__.SkipLeadingSpace(x)))
+        return default__.RecognizeZero(default__.SkipLeadingPlus(default__.SkipLeadingSpace(x)))
 
     @staticmethod
     def CompareFloat(x, y):
-        d_271_x_ = FloatCompare.default__.CleanNumber(x)
-        d_272_y_ = FloatCompare.default__.CleanNumber(y)
-        if (FloatCompare.default__.IsNegative(d_271_x_)) and (FloatCompare.default__.IsNegative(d_272_y_)):
-            return FloatCompare.default__.CompareFloatInner(_dafny.Seq((d_272_y_)[1::]), _dafny.Seq((d_271_x_)[1::]))
-        elif FloatCompare.default__.IsNegative(d_271_x_):
+        d_271_x_ = default__.CleanNumber(x)
+        d_272_y_ = default__.CleanNumber(y)
+        if (default__.IsNegative(d_271_x_)) and (default__.IsNegative(d_272_y_)):
+            return default__.CompareFloatInner(_dafny.Seq((d_272_y_)[1::]), _dafny.Seq((d_271_x_)[1::]))
+        elif default__.IsNegative(d_271_x_):
             return -1
-        elif FloatCompare.default__.IsNegative(d_272_y_):
+        elif default__.IsNegative(d_272_y_):
             return 1
         elif True:
-            return FloatCompare.default__.CompareFloatInner(d_271_x_, d_272_y_)
+            return default__.CompareFloatInner(d_271_x_, d_272_y_)
 
     @_dafny.classproperty
     def Less(instance):

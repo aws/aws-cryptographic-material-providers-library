@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -25,8 +25,7 @@ import Mul
 import ModInternalsNonlinear
 import DivInternalsNonlinear
 
-# assert "ModInternals" == __name__
-ModInternals = sys.modules[__name__]
+# Module: ModInternals
 
 class default__:
     def  __init__(self):

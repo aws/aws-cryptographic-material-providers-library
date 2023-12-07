@@ -8,13 +8,12 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
 
-# assert "Unicode" == __name__
-Unicode = sys.modules[__name__]
+# Module: Unicode
 
 class default__:
     def  __init__(self):
@@ -50,7 +49,7 @@ class HighSurrogateCodePoint:
 
     @staticmethod
     def default():
-        return (Unicode.default__).HIGH__SURROGATE__MIN
+        return default__.HIGH__SURROGATE__MIN
 
 class LowSurrogateCodePoint:
     def  __init__(self):
@@ -58,7 +57,7 @@ class LowSurrogateCodePoint:
 
     @staticmethod
     def default():
-        return (Unicode.default__).LOW__SURROGATE__MIN
+        return default__.LOW__SURROGATE__MIN
 
 class ScalarValue:
     def  __init__(self):

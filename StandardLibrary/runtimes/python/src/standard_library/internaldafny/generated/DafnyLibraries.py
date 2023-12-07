@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -45,8 +45,7 @@ import Base64
 import Base64Lemmas
 import Actions
 
-# assert "DafnyLibraries" == __name__
-DafnyLibraries = sys.modules[__name__]
+# Module: DafnyLibraries
 
 
 class MutableMapTrait:
@@ -58,7 +57,7 @@ class MutableMapTrait:
         pass
 
 
-class MutableMap(DafnyLibraries.MutableMapTrait):
+class MutableMap(MutableMapTrait):
     def  __init__(self):
         pass
 

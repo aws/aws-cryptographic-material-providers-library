@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -16,8 +16,7 @@ import Unicode
 import Functions
 import Utf8EncodingForm
 
-# assert "Utf16EncodingForm" == __name__
-Utf16EncodingForm = sys.modules[__name__]
+# Module: Utf16EncodingForm
 
 class default__:
     def  __init__(self):
@@ -26,9 +25,9 @@ class default__:
     @staticmethod
     def IsMinimalWellFormedCodeUnitSubsequence(s):
         if (len(s)) == (1):
-            return Utf16EncodingForm.default__.IsWellFormedSingleCodeUnitSequence(s)
+            return default__.IsWellFormedSingleCodeUnitSequence(s)
         elif (len(s)) == (2):
-            d_114_b_ = Utf16EncodingForm.default__.IsWellFormedDoubleCodeUnitSequence(s)
+            d_114_b_ = default__.IsWellFormedDoubleCodeUnitSequence(s)
             return d_114_b_
         elif True:
             return False
@@ -46,9 +45,9 @@ class default__:
 
     @staticmethod
     def SplitPrefixMinimalWellFormedCodeUnitSubsequence(s):
-        if ((len(s)) >= (1)) and (Utf16EncodingForm.default__.IsWellFormedSingleCodeUnitSequence(_dafny.Seq((s)[:1:]))):
+        if ((len(s)) >= (1)) and (default__.IsWellFormedSingleCodeUnitSequence(_dafny.Seq((s)[:1:]))):
             return Wrappers.Option_Some(_dafny.Seq((s)[:1:]))
-        elif ((len(s)) >= (2)) and (Utf16EncodingForm.default__.IsWellFormedDoubleCodeUnitSequence(_dafny.Seq((s)[:2:]))):
+        elif ((len(s)) >= (2)) and (default__.IsWellFormedDoubleCodeUnitSequence(_dafny.Seq((s)[:2:]))):
             return Wrappers.Option_Some(_dafny.Seq((s)[:2:]))
         elif True:
             return Wrappers.Option_None()
@@ -56,9 +55,9 @@ class default__:
     @staticmethod
     def EncodeScalarValue(v):
         if (((0) <= (v)) and ((v) <= (55295))) or (((57344) <= (v)) and ((v) <= (65535))):
-            return Utf16EncodingForm.default__.EncodeScalarValueSingleWord(v)
+            return default__.EncodeScalarValueSingleWord(v)
         elif True:
-            return Utf16EncodingForm.default__.EncodeScalarValueDoubleWord(v)
+            return default__.EncodeScalarValueDoubleWord(v)
 
     @staticmethod
     def EncodeScalarValueSingleWord(v):
@@ -78,9 +77,9 @@ class default__:
     @staticmethod
     def DecodeMinimalWellFormedCodeUnitSubsequence(m):
         if (len(m)) == (1):
-            return Utf16EncodingForm.default__.DecodeMinimalWellFormedCodeUnitSubsequenceSingleWord(m)
+            return default__.DecodeMinimalWellFormedCodeUnitSubsequenceSingleWord(m)
         elif True:
-            return Utf16EncodingForm.default__.DecodeMinimalWellFormedCodeUnitSubsequenceDoubleWord(m)
+            return default__.DecodeMinimalWellFormedCodeUnitSubsequenceDoubleWord(m)
 
     @staticmethod
     def DecodeMinimalWellFormedCodeUnitSubsequenceSingleWord(m):
@@ -101,7 +100,7 @@ class default__:
 
     @staticmethod
     def PartitionCodeUnitSequenceChecked(s):
-        maybeParts: Wrappers.Option = Wrappers.Option_None.default()()
+        maybeParts: Wrappers.Option = Wrappers.Option.default()()
         if (s) == (_dafny.Seq([])):
             maybeParts = Wrappers.Option_Some(_dafny.Seq([]))
             return maybeParts
@@ -111,8 +110,8 @@ class default__:
         d_135_rest_ = s
         while (len(d_135_rest_)) > (0):
             d_136_prefix_: _dafny.Seq
-            d_137_valueOrError0_: Wrappers.Option = Wrappers.Option_None.default()()
-            d_137_valueOrError0_ = Utf16EncodingForm.default__.SplitPrefixMinimalWellFormedCodeUnitSubsequence(d_135_rest_)
+            d_137_valueOrError0_: Wrappers.Option = Wrappers.Option.default()()
+            d_137_valueOrError0_ = default__.SplitPrefixMinimalWellFormedCodeUnitSubsequence(d_135_rest_)
             if (d_137_valueOrError0_).IsFailure():
                 maybeParts = (d_137_valueOrError0_).PropagateFailure()
                 return maybeParts
@@ -125,41 +124,41 @@ class default__:
 
     @staticmethod
     def PartitionCodeUnitSequence(s):
-        return (Utf16EncodingForm.default__.PartitionCodeUnitSequenceChecked(s)).Extract()
+        return (default__.PartitionCodeUnitSequenceChecked(s)).Extract()
 
     @staticmethod
     def IsWellFormedCodeUnitSequence(s):
-        return (Utf16EncodingForm.default__.PartitionCodeUnitSequenceChecked(s)).is_Some
+        return (default__.PartitionCodeUnitSequenceChecked(s)).is_Some
 
     @staticmethod
     def EncodeScalarSequence(vs):
-        s: _dafny.Seq = Utf16EncodingForm.WellFormedCodeUnitSeq.default()
+        s: _dafny.Seq = WellFormedCodeUnitSeq.default()
         s = _dafny.Seq([])
-        lo2_: int = 0
+        lo2_ = 0
         for d_138_i_ in range(len(vs)-1, lo2_-1, -1):
             d_139_next_: _dafny.Seq
-            d_139_next_ = Utf16EncodingForm.default__.EncodeScalarValue((vs)[d_138_i_])
+            d_139_next_ = default__.EncodeScalarValue((vs)[d_138_i_])
             s = (d_139_next_) + (s)
         return s
 
     @staticmethod
     def DecodeCodeUnitSequence(s):
-        d_140_parts_ = Utf16EncodingForm.default__.PartitionCodeUnitSequence(s)
-        d_141_vs_ = Seq.default__.Map(Utf16EncodingForm.default__.DecodeMinimalWellFormedCodeUnitSubsequence, d_140_parts_)
+        d_140_parts_ = default__.PartitionCodeUnitSequence(s)
+        d_141_vs_ = Seq.default__.Map(default__.DecodeMinimalWellFormedCodeUnitSubsequence, d_140_parts_)
         return d_141_vs_
 
     @staticmethod
     def DecodeCodeUnitSequenceChecked(s):
-        maybeVs: Wrappers.Option = Wrappers.Option_None.default()()
+        maybeVs: Wrappers.Option = Wrappers.Option.default()()
         d_142_maybeParts_: Wrappers.Option
-        d_142_maybeParts_ = Utf16EncodingForm.default__.PartitionCodeUnitSequenceChecked(s)
+        d_142_maybeParts_ = default__.PartitionCodeUnitSequenceChecked(s)
         if (d_142_maybeParts_).is_None:
             maybeVs = Wrappers.Option_None()
             return maybeVs
         d_143_parts_: _dafny.Seq
         d_143_parts_ = (d_142_maybeParts_).value
         d_144_vs_: _dafny.Seq
-        d_144_vs_ = Seq.default__.Map(Utf16EncodingForm.default__.DecodeMinimalWellFormedCodeUnitSubsequence, d_143_parts_)
+        d_144_vs_ = Seq.default__.Map(default__.DecodeMinimalWellFormedCodeUnitSubsequence, d_143_parts_)
         maybeVs = Wrappers.Option_Some(d_144_vs_)
         return maybeVs
         return maybeVs

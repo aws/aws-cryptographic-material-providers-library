@@ -7,11 +7,17 @@ import module_
 import _dafny
 import System_
 import Wrappers
+import BoundedInts
+import StandardLibrary_UInt
+import StandardLibrary_String
+import StandardLibrary
+import UTF8
+import software_amazon_cryptography_services_dynamodb_internaldafny_types
+import software_amazon_cryptography_services_dynamodb_internaldafny
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
-import BoundedInts
 import Unicode
 import Functions
 import Utf8EncodingForm
@@ -29,11 +35,7 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
-import StandardLibrary
 import UUID
-import UTF8
 import Time
 import Streams
 import Sorting
@@ -45,11 +47,8 @@ import Base64
 import Base64Lemmas
 import Actions
 import DafnyLibraries
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_dynamodb_internaldafny
 
-# assert "TestComAmazonawsDynamoDB" == __name__
-TestComAmazonawsDynamoDB = sys.modules[__name__]
+# Module: TestComAmazonawsDynamoDB
 
 class default__:
     def  __init__(self):
@@ -68,7 +67,7 @@ class default__:
         d_2_item_: _dafny.Map
         d_2_item_ = _dafny.Map({_dafny.Seq("branch-key-id"): software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(_dafny.Seq("ddb-client-test")), _dafny.Seq("type"): software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(_dafny.Seq("ddb-client-test")), _dafny.Seq("status"): software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(_dafny.Seq("ACTIVE"))})
         d_3_putInput_: software_amazon_cryptography_services_dynamodb_internaldafny_types.PutItemInput
-        d_3_putInput_ = software_amazon_cryptography_services_dynamodb_internaldafny_types.PutItemInput_PutItemInput((TestComAmazonawsDynamoDB.default__).tableNameTest, d_2_item_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
+        d_3_putInput_ = software_amazon_cryptography_services_dynamodb_internaldafny_types.PutItemInput_PutItemInput(default__.tableNameTest, d_2_item_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
         d_4_putRet_: Wrappers.Result
         out1_: Wrappers.Result
         out1_ = (d_0_client_).PutItem(d_3_putInput_)
@@ -78,7 +77,7 @@ class default__:
         d_5_Key2Get_: _dafny.Map
         d_5_Key2Get_ = _dafny.Map({_dafny.Seq("branch-key-id"): software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(_dafny.Seq("ddb-client-test")), _dafny.Seq("type"): software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(_dafny.Seq("ddb-client-test"))})
         d_6_getInput_: software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemInput
-        d_6_getInput_ = software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemInput_GetItemInput((TestComAmazonawsDynamoDB.default__).tableNameTest, d_5_Key2Get_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
+        d_6_getInput_ = software_amazon_cryptography_services_dynamodb_internaldafny_types.GetItemInput_GetItemInput(default__.tableNameTest, d_5_Key2Get_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
         d_7_getRet_: Wrappers.Result
         out2_: Wrappers.Result
         out2_ = (d_0_client_).GetItem(d_6_getInput_)
@@ -98,7 +97,7 @@ class default__:
         d_11_attributeValueMap_: _dafny.Map
         d_11_attributeValueMap_ = _dafny.Map({_dafny.Seq(":status"): software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(_dafny.Seq("ACTIVE")), _dafny.Seq(":branchKeyId"): software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(_dafny.Seq("ddb-client-test"))})
         d_12_queryInput_: software_amazon_cryptography_services_dynamodb_internaldafny_types.QueryInput
-        d_12_queryInput_ = software_amazon_cryptography_services_dynamodb_internaldafny_types.QueryInput_QueryInput((TestComAmazonawsDynamoDB.default__).tableNameTest, Wrappers.Option_Some((TestComAmazonawsDynamoDB.default__).secIndex), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_Some(_dafny.Seq("#status = :status and #branchKeyId = :branchKeyId")), Wrappers.Option_Some(d_10_attributeNameMap_), Wrappers.Option_Some(d_11_attributeValueMap_))
+        d_12_queryInput_ = software_amazon_cryptography_services_dynamodb_internaldafny_types.QueryInput_QueryInput(default__.tableNameTest, Wrappers.Option_Some(default__.secIndex), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_Some(_dafny.Seq("#status = :status and #branchKeyId = :branchKeyId")), Wrappers.Option_Some(d_10_attributeNameMap_), Wrappers.Option_Some(d_11_attributeValueMap_))
         d_13_queryRet_: Wrappers.Result
         out3_: Wrappers.Result
         out3_ = (d_0_client_).Query(d_12_queryInput_)

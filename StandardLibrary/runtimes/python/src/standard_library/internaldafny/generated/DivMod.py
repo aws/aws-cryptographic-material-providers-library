@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -27,6 +27,5 @@ import DivInternalsNonlinear
 import ModInternals
 import DivInternals
 
-# assert "DivMod" == __name__
-DivMod = sys.modules[__name__]
+# Module: DivMod
 

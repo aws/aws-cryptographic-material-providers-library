@@ -8,7 +8,7 @@ import _dafny
 import System_
 import Wrappers
 import Relations
-import Seq_mMergeSort
+import Seq_MergeSort
 import Math
 import Seq
 import BoundedInts
@@ -29,8 +29,8 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibrary_mUInt
-import String
+import StandardLibrary_UInt
+import StandardLibrary_String
 import StandardLibrary
 import UUID
 import UTF8
@@ -43,6 +43,5 @@ import FloatCompare
 import ConcurrentCall
 import Base64
 
-# assert "Base64Lemmas" == __name__
-Base64Lemmas = sys.modules[__name__]
+# Module: Base64Lemmas
 
