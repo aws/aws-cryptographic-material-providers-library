@@ -2,7 +2,7 @@
 
 from typing import Any, Dict, Literal
 
-from ...aws_cryptography_materialproviderstestvectorkeys.errors import ApiError
+from smithygenerated.aws_cryptography_materialproviderstestvectorkeys.errors import ApiError
 
 
 class AwsCryptographicMaterialProvidersException(ApiError[Literal["AwsCryptographicMaterialProvidersException"]]):

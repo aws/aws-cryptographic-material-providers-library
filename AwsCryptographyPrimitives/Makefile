@@ -10,7 +10,7 @@ PYTHON_MODULE_NAME=aws_cryptography_primitives
 PROJECT_SERVICES := \
 	AwsCryptographyPrimitives \
 
-OUTPUT_LOCAL_SERVICE_AwsCryptographyPrimitives := --local-service-test
+# OUTPUT_LOCAL_SERVICE_AwsCryptographyPrimitives := --local-service-test
 
 
 SERVICE_NAMESPACE_AwsCryptographyPrimitives=aws.cryptography.primitives

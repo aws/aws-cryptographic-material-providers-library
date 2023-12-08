@@ -19,13 +19,9 @@ aws-cryptographic-material-providers = { path = "../../../AwsCryptographicMateri
 # TODO: Depend on PyPi once Smithy-Python publishes their Python package there
 smithy-python = { path = "../../../../../submodules/smithy-python/python-packages/smithy-python", develop = false}
 standard-library = { path = "../../../StandardLibrary/runtimes/python", develop = false}
-amazon-cryptographic-material-providers-test-vectors-externs = { path = "src/aws_cryptography_materialproviderstestvectorkeys/extern", develop = false}
-# TODO-Python: Remove this after resolving import/install issue
-amazon-cryptographic-material-providers-test-vectors-test-externs = { path = "test/extern", develop = false}
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.0"
-amazon-cryptographic-material-providers-test-vectors-test-externs = { path = "test/extern", develop = false}
 
 [build-system]
 requires = ["poetry-core"]

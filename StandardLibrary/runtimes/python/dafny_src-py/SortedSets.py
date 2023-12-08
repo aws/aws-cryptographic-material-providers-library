@@ -17,6 +17,7 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
+import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
