@@ -71,6 +71,8 @@ Specialized Options for both Opt and Flag
 
 Specialized Options for Opt
   nameonly unused : Unused // if not used, raise an error or provide a default
+  nameonly positional : Tri // positional parameters, required or optional
+  // a positional MUST NOT start with a - unless it followed by exclusively digits
 
 Specialized Options for Flag
   nameonly bool solo // if this flag is used, no other Options may be used
@@ -168,7 +170,8 @@ module {:options "-functionSyntax:4"} GetOpt {
         nameonly inherit : bool := false,
         nameonly vis : Visibility := Normal,
         nameonly shortAlias : seq<char> := [],
-        nameonly longAlias : seq<string> := []
+        nameonly longAlias : seq<string> := [],
+        nameonly positional : Tri := No
       )
     | Flag(
         name: string,
@@ -622,15 +625,79 @@ module {:options "-functionSyntax:4"} GetOpt {
       Success(args.(params := args.params + newParams))
   }
 
+  predicate AllDigits(s : string)
+  {
+    if |s| == 0 then
+      true
+    else if '0' <= s[0] <= '9' then
+      AllDigits(s[1..])
+    else
+      false
+  }
+  predicate ValidPositional(s : string)
+  {
+    if |s| == 0 then
+      true
+    else if s[0] != '-' then
+      true
+    else
+      AllDigits(s[1..])
+  }
+
+  function TestPositionals(opts : seq<Param>, optional : Option<string> := None) : Outcome<string>
+  {
+    if |opts| == 0 then
+      Pass
+    else if !opts[0].Opt? then
+      TestPositionals(opts[1..], optional)
+    else if opts[0].positional == No then
+      TestPositionals(opts[1..], optional)
+    else if opts[0].positional == Maybe then
+      TestPositionals(opts[1..], Some(opts[0].name))
+    else if optional.None? then
+      TestPositionals(opts[1..], optional)
+    else
+      Fail("Required positional argument '" + opts[0].name + "' follows optional positional argument '" + optional.value + "'.")
+  }
+
+  function GetPositionals(opts : seq<Param>, args : seq<string>, params : seq<OneArg> := [])
+    : (ret : Result<(seq<string>, seq<OneArg>), string>)
+    ensures ret.Success? ==> |ret.value.0| <= |args|
+  {
+    if |opts| == 0 then
+      Success((args, params))
+    else if !opts[0].Opt? then
+      GetPositionals(opts[1..], args, params)
+    else if opts[0].positional == No then
+      GetPositionals(opts[1..], args, params)
+    else if opts[0].positional == Yes then
+      if |args| == 0 then
+        Failure("Positional arg '" + opts[0].name + "' is required, but we've run out of arguments.")
+      else if ValidPositional(args[0]) then
+        GetPositionals(opts[1..], args[1..], params + [OneArg(opts[0].name, Some(args[0]))])
+      else
+        Failure("Positional arg " + opts[0].name + " matched with invalid positional value '" + args[0] + "'.")
+    else
+      assert opts[0].positional == Maybe;
+      if |args| == 0 then
+        Success((args, params))
+      else if ValidPositional(args[0]) then
+        GetPositionals(opts[1..], args[1..], params + [OneArg(opts[0].name, Some(args[0]))])
+      else
+        Success((args, params))
+  }
+
   function GetOptions(opts : Options, args : seq<string>) : Result<Parsed, string>
     requires 0 < |args|
     decreases args
   {
     var newOpts := opts.params + [HELP_PARAM];
     var inherits := Filter((o : Param) => o.Inherits(), newOpts);
+    :- TestPositionals(newOpts);
+    var (newArgs, params) :- GetPositionals(newOpts, args[1..]);
     var (longMap, shortMap, commandMap) :- GetMaps(newOpts);
     var context := Context(longMap, shortMap, inherits, commandMap, args[0]);
-    var result :- GetOptions2(args[1..], context);
+    var result :- GetOptions2(newArgs, context, params);
     PostProcess(opts, result)
   }
 
@@ -675,9 +742,13 @@ module {:options "-functionSyntax:4"} GetOpt {
       Success(Parsed(context.command, parms, files, None))
     else if args[0] in context.commands then
       var inherits := Filter((o : Param) => o.Inherits(), context.commands[args[0]].params);
-      var (longMap, shortMap, commandSet) :- GetMaps(context.commands[args[0]].params + context.inherits);
+      var newOpts := context.commands[args[0]].params + context.inherits;
+      :- TestPositionals(newOpts);
+      var (newArgs, params) :- GetPositionals(newOpts, args[1..]);
+      var (longMap, shortMap, commandSet) :- GetMaps(newOpts);
       var newContext := Context(longMap, shortMap, context.inherits + inherits, commandSet, args[0]);
-      var result :- GetOptions2(args[1..], newContext); // this is why it can't be tail recursive
+      var lostArgs := |args| - |newArgs|;
+      var result :- GetOptions2(args[lostArgs..], newContext, params); // this is why it can't be tail recursive
       Success(Parsed(context.command, parms, files, Some(result)))
     else if args[0] == "--" then
       Success(Parsed(context.command, parms, files + args[1..], None))
@@ -832,6 +903,50 @@ module {:options "-functionSyntax:4"} GetOpt {
     var x :- expect GetOptions(MyOptions, ["cmd", "-abc", "--def", "--ghi"]);
     expect x.params == [OneArg("foo", None), OneArg("foo", None), OneArg("foo", None), OneArg("foo", None), OneArg("foo", None)];
     expect x.files == [];
+  }
+
+  method {:test} TestPositionalFail() {
+    var MyOptions := Options("MyProg", "does stuff",
+                             [
+                               Param.Flag("foo", "helpText"),
+                               Param.Opt("two", "helpText", positional := Maybe),
+                               Param.Opt("bar", "helpText", positional := Yes)
+                             ]);
+    var x := GetOptions(MyOptions, ["cmd", "stuff", "-123", "--foo"]);
+    expect x.Failure?;
+    expect x.error == "Required positional argument 'bar' follows optional positional argument 'two'.";
+  }
+
+  method {:test} TestPositional() {
+    var MyOptions := Options("MyProg", "does stuff",
+                             [
+                               Param.Flag("foo", "helpText"),
+                               Param.Opt("bar", "helpText", positional := Yes),
+                               Param.Opt("two", "helpText", positional := Maybe)
+                             ]);
+    var x :- expect GetOptions(MyOptions, ["cmd", "stuff", "-123", "--foo"]);
+    expect x.params == [OneArg("bar", Some("stuff")), OneArg("two", Some("-123")), OneArg("foo", None)];
+    expect x.files == [];
+
+    x :- expect GetOptions(MyOptions, ["cmd", "stuff", "--two=-123", "--foo"]);
+    expect x.params == [OneArg("bar", Some("stuff")), OneArg("two", Some("-123")), OneArg("foo", None)];
+    expect x.files == [];
+
+    x :- expect GetOptions(MyOptions, ["cmd", "stuff", "--two=-123", "--foo", "--bar", "more-stuff"]);
+    expect x.params == [OneArg("bar", Some("stuff")), OneArg("two", Some("-123")), OneArg("foo", None), OneArg("bar", Some("more-stuff"))];
+    expect x.files == [];
+
+    x :- expect GetOptions(MyOptions, ["cmd", "stuff"]);
+    expect x.params == [OneArg("bar", Some("stuff"))];
+    expect x.files == [];
+
+    var y := GetOptions(MyOptions, ["cmd", "--two=-123", "--foo", "--bar", "more-stuff"]);
+    expect y.Failure?;
+    expect y.error == "Positional arg bar matched with invalid positional value '--two=-123'.";
+
+    y := GetOptions(MyOptions, ["cmd"]);
+    expect y.Failure?;
+    expect y.error == "Positional arg 'bar' is required, but we've run out of arguments.";
   }
 
   method {:test} TestHelp() {
