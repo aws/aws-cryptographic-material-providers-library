@@ -102,3 +102,4 @@ tasks.register<Copy>("copyKeysJSON") {
 tasks.wrapper {
     gradleVersion = "7.6"
 }
+
