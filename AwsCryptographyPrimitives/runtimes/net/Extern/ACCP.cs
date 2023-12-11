@@ -11,38 +11,38 @@ using _IError = software.amazon.cryptography.primitives.internaldafny.types._IEr
 
 namespace ACCP
 {
-  public partial class ACCPUtils
-  {
-    public static _IResult<_IHKDFProvider, _IError> ExternCheckForAccp()
+    public partial class ACCPUtils
     {
-      return Result<_IHKDFProvider, _IError>.create_Success(_HKDFProvider.create_MPL());
-    }
-  }
-
-  public partial class ACCP_HKDF
-  {
-    public static
-      _IResult<Dafny.ISequence<byte>, _IError> ExternExtract(_IHkdfExtractInput input)
-    {
-      return Result<Dafny.ISequence<byte>, _IError>.create_Failure(
-        software.amazon.cryptography.primitives.internaldafny.types.Error.create_AwsCryptographicPrimitivesError(
-          AWS.Cryptography.Primitives.TypeConversion.ToDafny_N6_smithy__N3_api__S6_String("ACCP is not supported in .NET")));
+        public static _IResult<_IHKDFProvider, _IError> ExternCheckForAccp()
+        {
+            return Result<_IHKDFProvider, _IError>.create_Success(_HKDFProvider.create_MPL());
+        }
     }
 
-    public static
-      _IResult<Dafny.ISequence<byte>, _IError> ExternExpand(_IHkdfExpandInput input)
+    public partial class ACCP_HKDF
     {
-      return Result<Dafny.ISequence<byte>, _IError>.create_Failure(
-        software.amazon.cryptography.primitives.internaldafny.types.Error.create_AwsCryptographicPrimitivesError(
-          AWS.Cryptography.Primitives.TypeConversion.ToDafny_N6_smithy__N3_api__S6_String("ACCP is not supported in .NET")));
+        public static
+          _IResult<Dafny.ISequence<byte>, _IError> ExternExtract(_IHkdfExtractInput input)
+        {
+            return Result<Dafny.ISequence<byte>, _IError>.create_Failure(
+              software.amazon.cryptography.primitives.internaldafny.types.Error.create_AwsCryptographicPrimitivesError(
+                AWS.Cryptography.Primitives.TypeConversion.ToDafny_N6_smithy__N3_api__S6_String("ACCP is not supported in .NET")));
+        }
+
+        public static
+          _IResult<Dafny.ISequence<byte>, _IError> ExternExpand(_IHkdfExpandInput input)
+        {
+            return Result<Dafny.ISequence<byte>, _IError>.create_Failure(
+              software.amazon.cryptography.primitives.internaldafny.types.Error.create_AwsCryptographicPrimitivesError(
+                AWS.Cryptography.Primitives.TypeConversion.ToDafny_N6_smithy__N3_api__S6_String("ACCP is not supported in .NET")));
+        }
+
+        public static
+          _IResult<Dafny.ISequence<byte>, _IError> ExternHkdf(_IHkdfInput input)
+        {
+            return Result<Dafny.ISequence<byte>, _IError>.create_Failure(
+              software.amazon.cryptography.primitives.internaldafny.types.Error.create_AwsCryptographicPrimitivesError(
+                AWS.Cryptography.Primitives.TypeConversion.ToDafny_N6_smithy__N3_api__S6_String("ACCP is not supported in .NET")));
+        }
     }
-    
-    public static
-      _IResult<Dafny.ISequence<byte>, _IError> ExternHkdf(_IHkdfInput input)
-    {
-      return Result<Dafny.ISequence<byte>, _IError>.create_Failure(
-        software.amazon.cryptography.primitives.internaldafny.types.Error.create_AwsCryptographicPrimitivesError(
-          AWS.Cryptography.Primitives.TypeConversion.ToDafny_N6_smithy__N3_api__S6_String("ACCP is not supported in .NET")));
-    }
-  }
 }
