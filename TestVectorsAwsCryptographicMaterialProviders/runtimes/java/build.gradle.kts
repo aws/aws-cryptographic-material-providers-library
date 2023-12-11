@@ -11,11 +11,6 @@ plugins {
     id("com.google.osdetector") version "1.7.0"
 }
 
-var props = Properties().apply {
-    load(FileInputStream(File(rootProject.rootDir, "../../../project.properties")))
-}
-var dafnyVersion = props.getProperty("dafnyVersion")
-
 group = "software.amazon.cryptography"
 version = "1.0-SNAPSHOT"
 description = "TestAwsCryptographicMaterialProviders"
@@ -38,7 +33,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
+    implementation("org.dafny:DafnyRuntime:4.2.0")
     implementation("software.amazon.smithy.dafny:conversion:0.1")
     implementation("software.amazon.cryptography:aws-cryptographic-material-providers:${
         if (project.hasProperty("publishedVersion")) publishedVersion else "1.0-SNAPSHOT"}")
