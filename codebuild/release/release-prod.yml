@@ -68,5 +68,3 @@ phases:
       # Publish to Sonatype
       - gradle -p runtimes/java publishMavenPublicationToSonatypeRepository -PpublishedVersion=$VERSION closeSonatypeStagingRepository -PpublishedVersion=$VERSION
       - gradle -p runtimes/java findSonatypeStagingRepository -PpublishedVersion=$VERSION releaseSonatypeStagingRepository -PpublishedVersion=$VERSION
-
-

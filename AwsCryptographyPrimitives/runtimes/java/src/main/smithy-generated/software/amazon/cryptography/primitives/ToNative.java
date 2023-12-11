@@ -391,14 +391,17 @@ public class ToNative {
   }
 
   public static GetHKDFProviderInput GetHKDFProviderInput(
-      software.amazon.cryptography.primitives.internaldafny.types.GetHKDFProviderInput dafnyValue) {
+    software.amazon.cryptography.primitives.internaldafny.types.GetHKDFProviderInput dafnyValue
+  ) {
     GetHKDFProviderInput.Builder nativeBuilder = GetHKDFProviderInput.builder();
     return nativeBuilder.build();
   }
 
   public static GetHKDFProviderOutput GetHKDFProviderOutput(
-      software.amazon.cryptography.primitives.internaldafny.types.GetHKDFProviderOutput dafnyValue) {
-    GetHKDFProviderOutput.Builder nativeBuilder = GetHKDFProviderOutput.builder();
+    software.amazon.cryptography.primitives.internaldafny.types.GetHKDFProviderOutput dafnyValue
+  ) {
+    GetHKDFProviderOutput.Builder nativeBuilder =
+      GetHKDFProviderOutput.builder();
     nativeBuilder.provider(ToNative.HKDFProvider(dafnyValue.dtor_provider()));
     return nativeBuilder.build();
   }
@@ -698,14 +701,18 @@ public class ToNative {
   }
 
   public static HKDFProvider HKDFProvider(
-      software.amazon.cryptography.primitives.internaldafny.types.HKDFProvider dafnyValue) {
+    software.amazon.cryptography.primitives.internaldafny.types.HKDFProvider dafnyValue
+  ) {
     if (dafnyValue.is_ACCP()) {
       return HKDFProvider.ACCP;
     }
     if (dafnyValue.is_MPL()) {
       return HKDFProvider.MPL;
     }
-    throw new IllegalArgumentException("No entry of software.amazon.cryptography.primitives.model.HKDFProvider matches the input : " + dafnyValue);
+    throw new IllegalArgumentException(
+      "No entry of software.amazon.cryptography.primitives.model.HKDFProvider matches the input : " +
+      dafnyValue
+    );
   }
 
   public static RSAPaddingMode RSAPaddingMode(

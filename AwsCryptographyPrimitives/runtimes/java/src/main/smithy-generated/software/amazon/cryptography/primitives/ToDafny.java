@@ -390,12 +390,14 @@ public class ToDafny {
   }
 
   public static GetHKDFProviderInput GetHKDFProviderInput(
-      software.amazon.cryptography.primitives.model.GetHKDFProviderInput nativeValue) {
+    software.amazon.cryptography.primitives.model.GetHKDFProviderInput nativeValue
+  ) {
     return new GetHKDFProviderInput();
   }
 
   public static GetHKDFProviderOutput GetHKDFProviderOutput(
-      software.amazon.cryptography.primitives.model.GetHKDFProviderOutput nativeValue) {
+    software.amazon.cryptography.primitives.model.GetHKDFProviderOutput nativeValue
+  ) {
     HKDFProvider provider;
     provider = ToDafny.HKDFProvider(nativeValue.provider());
     return new GetHKDFProviderOutput(provider);
@@ -747,17 +749,25 @@ public class ToDafny {
   }
 
   public static HKDFProvider HKDFProvider(
-      software.amazon.cryptography.primitives.model.HKDFProvider nativeValue) {
+    software.amazon.cryptography.primitives.model.HKDFProvider nativeValue
+  ) {
     switch (nativeValue) {
-      case ACCP: {
-        return HKDFProvider.create_ACCP();
-      }
-      case MPL: {
-        return HKDFProvider.create_MPL();
-      }
-      default: {
-        throw new RuntimeException("Cannot convert " + nativeValue + " to software.amazon.cryptography.primitives.internaldafny.types.HKDFProvider.");
-      }
+      case ACCP:
+        {
+          return HKDFProvider.create_ACCP();
+        }
+      case MPL:
+        {
+          return HKDFProvider.create_MPL();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.primitives.internaldafny.types.HKDFProvider."
+          );
+        }
     }
   }
 

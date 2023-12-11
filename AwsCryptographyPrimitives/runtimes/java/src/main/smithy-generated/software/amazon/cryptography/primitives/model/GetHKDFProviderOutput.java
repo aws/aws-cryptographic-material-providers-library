@@ -6,6 +6,7 @@ package software.amazon.cryptography.primitives.model;
 import java.util.Objects;
 
 public class GetHKDFProviderOutput {
+
   private final HKDFProvider provider;
 
   protected GetHKDFProviderOutput(BuilderImpl builder) {
@@ -33,10 +34,10 @@ public class GetHKDFProviderOutput {
   }
 
   static class BuilderImpl implements Builder {
+
     protected HKDFProvider provider;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(GetHKDFProviderOutput model) {
       this.provider = model.provider();
@@ -52,8 +53,10 @@ public class GetHKDFProviderOutput {
     }
 
     public GetHKDFProviderOutput build() {
-      if (Objects.isNull(this.provider()))  {
-        throw new IllegalArgumentException("Missing value for required field `provider`");
+      if (Objects.isNull(this.provider())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `provider`"
+        );
       }
       return new GetHKDFProviderOutput(this);
     }

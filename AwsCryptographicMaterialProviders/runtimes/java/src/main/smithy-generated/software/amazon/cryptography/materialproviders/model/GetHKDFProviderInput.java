@@ -4,8 +4,8 @@
 package software.amazon.cryptography.materialproviders.model;
 
 public class GetHKDFProviderInput {
-  protected GetHKDFProviderInput(BuilderImpl builder) {
-  }
+
+  protected GetHKDFProviderInput(BuilderImpl builder) {}
 
   public Builder toBuilder() {
     return new BuilderImpl(this);
@@ -20,11 +20,10 @@ public class GetHKDFProviderInput {
   }
 
   static class BuilderImpl implements Builder {
-    protected BuilderImpl() {
-    }
 
-    protected BuilderImpl(GetHKDFProviderInput model) {
-    }
+    protected BuilderImpl() {}
+
+    protected BuilderImpl(GetHKDFProviderInput model) {}
 
     public GetHKDFProviderInput build() {
       return new GetHKDFProviderInput(this);

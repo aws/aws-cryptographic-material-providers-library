@@ -372,11 +372,20 @@ public class TestMaterialProviders
     }
   }
 
-  public Result<GetHKDFProviderOutput, Error> GetHKDFProvider(GetHKDFProviderInput dafnyInput) {
-    software.amazon.cryptography.primitives.model.GetHKDFProviderInput nativeInput = software.amazon.cryptography.primitives.ToNative.GetHKDFProviderInput(dafnyInput);
+  public Result<GetHKDFProviderOutput, Error> GetHKDFProvider(
+    GetHKDFProviderInput dafnyInput
+  ) {
+    software.amazon.cryptography.primitives.model.GetHKDFProviderInput nativeInput =
+      software.amazon.cryptography.primitives.ToNative.GetHKDFProviderInput(
+        dafnyInput
+      );
     try {
-      software.amazon.cryptography.primitives.model.GetHKDFProviderOutput nativeOutput = this._impl.GetHKDFProvider(nativeInput);
-      GetHKDFProviderOutput dafnyOutput = software.amazon.cryptography.primitives.ToDafny.GetHKDFProviderOutput(nativeOutput);
+      software.amazon.cryptography.primitives.model.GetHKDFProviderOutput nativeOutput =
+        this._impl.GetHKDFProvider(nativeInput);
+      GetHKDFProviderOutput dafnyOutput =
+        software.amazon.cryptography.primitives.ToDafny.GetHKDFProviderOutput(
+          nativeOutput
+        );
       return Result.create_Success(dafnyOutput);
     } catch (RuntimeException ex) {
       return Result.create_Failure(ToDafny.Error(ex));

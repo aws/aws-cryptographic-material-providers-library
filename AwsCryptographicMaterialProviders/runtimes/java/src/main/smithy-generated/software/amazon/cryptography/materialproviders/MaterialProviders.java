@@ -441,12 +441,20 @@ public class MaterialProviders {
   }
 
   public GetHKDFProviderOutput GetHKDFProvider(GetHKDFProviderInput input) {
-    software.amazon.cryptography.primitives.internaldafny.types.GetHKDFProviderInput dafnyValue = software.amazon.cryptography.primitives.ToDafny.GetHKDFProviderInput(input);
-    Result<software.amazon.cryptography.primitives.internaldafny.types.GetHKDFProviderOutput, Error> result = this._impl.GetHKDFProvider(dafnyValue);
+    software.amazon.cryptography.primitives.internaldafny.types.GetHKDFProviderInput dafnyValue =
+      software.amazon.cryptography.primitives.ToDafny.GetHKDFProviderInput(
+        input
+      );
+    Result<
+      software.amazon.cryptography.primitives.internaldafny.types.GetHKDFProviderOutput,
+      Error
+    > result = this._impl.GetHKDFProvider(dafnyValue);
     if (result.is_Failure()) {
       throw ToNative.Error(result.dtor_error());
     }
-    return software.amazon.cryptography.primitives.ToNative.GetHKDFProviderOutput(result.dtor_value());
+    return software.amazon.cryptography.primitives.ToNative.GetHKDFProviderOutput(
+      result.dtor_value()
+    );
   }
 
   public DecryptionMaterials InitializeDecryptionMaterials(

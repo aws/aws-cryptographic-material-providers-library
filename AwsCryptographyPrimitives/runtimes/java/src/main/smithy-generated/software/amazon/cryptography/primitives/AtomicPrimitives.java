@@ -183,17 +183,27 @@ public class AtomicPrimitives {
   }
 
   public GetHKDFProviderOutput GetHKDFProvider(GetHKDFProviderInput input) {
-    software.amazon.cryptography.primitives.internaldafny.types.GetHKDFProviderInput dafnyValue = ToDafny.GetHKDFProviderInput(input);
-    Result<software.amazon.cryptography.primitives.internaldafny.types.GetHKDFProviderOutput, Error> result = this._impl.GetHKDFProvider(dafnyValue);
+    software.amazon.cryptography.primitives.internaldafny.types.GetHKDFProviderInput dafnyValue =
+      ToDafny.GetHKDFProviderInput(input);
+    Result<
+      software.amazon.cryptography.primitives.internaldafny.types.GetHKDFProviderOutput,
+      Error
+    > result = this._impl.GetHKDFProvider(dafnyValue);
     if (result.is_Failure()) {
       throw ToNative.Error(result.dtor_error());
     }
     return ToNative.GetHKDFProviderOutput(result.dtor_value());
   }
 
-  public GetRSAKeyModulusLengthOutput GetRSAKeyModulusLength(GetRSAKeyModulusLengthInput input) {
-    software.amazon.cryptography.primitives.internaldafny.types.GetRSAKeyModulusLengthInput dafnyValue = ToDafny.GetRSAKeyModulusLengthInput(input);
-    Result<software.amazon.cryptography.primitives.internaldafny.types.GetRSAKeyModulusLengthOutput, Error> result = this._impl.GetRSAKeyModulusLength(dafnyValue);
+  public GetRSAKeyModulusLengthOutput GetRSAKeyModulusLength(
+    GetRSAKeyModulusLengthInput input
+  ) {
+    software.amazon.cryptography.primitives.internaldafny.types.GetRSAKeyModulusLengthInput dafnyValue =
+      ToDafny.GetRSAKeyModulusLengthInput(input);
+    Result<
+      software.amazon.cryptography.primitives.internaldafny.types.GetRSAKeyModulusLengthOutput,
+      Error
+    > result = this._impl.GetRSAKeyModulusLength(dafnyValue);
     if (result.is_Failure()) {
       throw ToNative.Error(result.dtor_error());
     }
