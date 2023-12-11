@@ -1,18 +1,68 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <RootNamespace>AWS Cryptographic Materials Provider Library</RootNamespace>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>disable</Nullable>
-        <LangVersion>10</LangVersion>
-        <TargetFrameworks>net6.0</TargetFrameworks>
-        <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    </PropertyGroup>
+      <OutputType>Library</OutputType>
+      <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+      <IsPackable>true</IsPackable>
+      
+      <Version>1.0.0</Version>
+      
+      <AssemblyName>AWS.Cryptography.MaterialProviders</AssemblyName>
+      <PackageId>AWS.Cryptography.MaterialProviders</PackageId>
+      <Title>AwsCryptographicMaterialProvidersLibrary</Title>
+      <Description>The AWS Cryptographic Material Providers Library abstracts lower level cryptographic materials management of encryption and decryption materials. It uses cryptographic best practices to protect the data keys that protect your data.</Description>
+      <Authors>Amazon Web Services</Authors>
+      <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+      <RepositoryUrl>https://github.com/aws/aws-cryptographic-material-providers-library-net</RepositoryUrl>
+      <PackageIcon>icon.png</PackageIcon>
+      <PackageReadmeFile>README.md</PackageReadmeFile>
+      <PackageTags>AWS;Amazon;KMS;Encryption;Cryptography</PackageTags>
+      
+      <ImplicitUsings>enable</ImplicitUsings>
+      <Nullable>disable</Nullable>
+      <LangVersion>10</LangVersion>
+      <TargetFrameworks>net6.0;net48</TargetFrameworks>
+      <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+      <!--
+        Ignore errors from generated code. Ideally this would be scoped to just the relevant files.
+        CS0105: duplicate namespace, CS0618: obsolete members
+      -->
+      <NoWarn>CS0105,CS0618</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- This is somewhat brittle,
+         but having the value in a properties file
+         that can be shared is worth it.
+         See: https://learn.microsoft.com/en-us/visualstudio/msbuild/property-functions?view=vs-2022
+         for more details on property functions
+         
+         This takes a properties file (a=b)
+         1. Loads the file
+         2. Splits on `dafnyVersion=` and takes everything to the right of that
+           e.g. the version + any trailing data
+         3. Splits on newline and takes the second element.
+           This SHOULD be the value of `dafnyVersion` and not contain any trailing data
+     -->
+    <projectProperties>
+      $([System.IO.File]::ReadAllText('$(MSBuildProjectDirectory)/../../../project.properties'))
+    </projectProperties>
+    <dropBeforeDafnyVersionProperty>
+      $([System.Text.RegularExpressions.Regex]::Split("$(projectProperties)", "dafnyVersion=")[1])
+    </dropBeforeDafnyVersionProperty>
+    <DafnyVersion>
+      $([System.Text.RegularExpressions.Regex]::Split("$(dropBeforeDafnyVersionProperty)", "\n")[1])
+    </DafnyVersion>
+  </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AWSSDK.Core" Version="3.7.103" />
-        <PackageReference Include="DafnyRuntime" Version="4.2.0" />
-        <PackageReference Include="Portable.BouncyCastle" Version="1.8.5.2" />
+        <PackageReference Include="AWSSDK.Core" Version="3.7.300.2" />
+        <PackageReference Include="DafnyRuntime" Version="$(DafnyVersion)" />
+        <PackageReference Include="BouncyCastle.Cryptography" Version="2.2.1" />
+        <PackageReference Include="AWS.Cryptography.Internal.StandardLibrary" Version="1.1.1" />
+        <PackageReference Include="AWS.Cryptography.Internal.ComAmazonawsKms" Version="1.0.0" />
+        <PackageReference Include="AWS.Cryptography.Internal.ComAmazonawsDynamodb" Version="1.0.0" />
+        <PackageReference Include="AWS.Cryptography.Internal.AwsCryptographyPrimitives" Version="1.0.0" />
         <!--
           System.Collections.Immutable can be removed once dafny.msbuild is updated with
           https://github.com/dafny-lang/dafny.msbuild/pull/10 and versioned
@@ -27,23 +77,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\AwsCryptographyPrimitives\runtimes\net\Crypto.csproj" />
-        <ProjectReference Include="..\..\..\ComAmazonawsKms\runtimes\net\AWS-KMS.csproj" />
-        <ProjectReference Include="..\..\..\StandardLibrary\runtimes\net\STD.csproj" />
-        <ProjectReference Include="..\..\..\ComAmazonawsDynamodb\runtimes\net\ComAmazonawsDynamodb.csproj" />
+      <None Include="..\..\..\icon.png" Pack="true" PackagePath="" />
+      <None Include="..\..\..\README.md" Pack="true" PackagePath="" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Generated" />
-    </ItemGroup>
-
-    <!--
-      TODO .NET assemblies are expected to have an ICON.
-      This MUST be replaced before launch.
-    -->
-    <!-- <ItemGroup>
-      <None Include="..\icon.png" Pack="true" PackagePath="" />
-      <None Include="..\README.md" Pack="true" PackagePath="" />
-    </ItemGroup> -->
 
 </Project>

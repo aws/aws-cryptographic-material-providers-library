@@ -6,6 +6,7 @@ package software.amazon.cryptography.materialproviders.model;
 import java.util.Objects;
 
 public class EntryDoesNotExist extends RuntimeException {
+
   protected EntryDoesNotExist(BuilderImpl builder) {
     super(messageFromBuilder(builder), builder.cause());
   }
@@ -67,12 +68,12 @@ public class EntryDoesNotExist extends RuntimeException {
   }
 
   static class BuilderImpl implements Builder {
+
     protected String message;
 
     protected Throwable cause;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(EntryDoesNotExist model) {
       this.message = model.message();
@@ -98,8 +99,10 @@ public class EntryDoesNotExist extends RuntimeException {
     }
 
     public EntryDoesNotExist build() {
-      if (Objects.isNull(this.message()))  {
-        throw new IllegalArgumentException("Missing value for required field `message`");
+      if (Objects.isNull(this.message())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `message`"
+        );
       }
       return new EntryDoesNotExist(this);
     }

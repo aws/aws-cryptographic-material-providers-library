@@ -58,7 +58,7 @@ module Base64 {
 
   lemma CharToIndexToChar(x: char)
     requires IsBase64Char(x)
-    ensures IndexToChar(CharToIndex(x)) == x;
+    ensures IndexToChar(CharToIndex(x)) == x
   {}
 
   lemma IndexToCharToIndex(x: index)
@@ -363,7 +363,7 @@ module Base64 {
       DecodeUnpadded(s)
   }
 
-  lemma AboutDecodeValid(s: seq<char>, b: seq<uint8>)
+  lemma {:vcs_split_on_every_assert} AboutDecodeValid(s: seq<char>, b: seq<uint8>)
     requires IsBase64String(s) && b == DecodeValid(s)
     ensures 4 <= |s| ==> var finalBlockStart := |s| - 4;
                          var prefix, suffix := s[..finalBlockStart], s[finalBlockStart..];
@@ -378,6 +378,7 @@ module Base64 {
       if s == [] {
       } else if Is1Padding(suffix) {
         assert !Is2Padding(suffix);
+        assert |prefix| % 4 == 0;
         var x, y := DecodeUnpadded(prefix), Decode1Padding(suffix);
         assert b == x + y;
         assert |x| == |x| / 3 * 3 && |y| == 2;
@@ -411,9 +412,9 @@ module Base64 {
   }
 
   lemma ConcatMod4Sequences<T>(s: seq<T>, t: seq<T>)
-    requires |s| % 4 == 0;
-    requires |t| % 4 == 0;
-    ensures |s + t| % 4 == 0;
+    requires |s| % 4 == 0
+    requires |t| % 4 == 0
+    ensures |s + t| % 4 == 0
   {
   }
 

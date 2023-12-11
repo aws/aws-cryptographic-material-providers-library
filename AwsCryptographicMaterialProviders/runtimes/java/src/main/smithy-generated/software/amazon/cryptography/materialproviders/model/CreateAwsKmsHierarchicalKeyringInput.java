@@ -12,6 +12,7 @@ import software.amazon.cryptography.materialproviders.IBranchKeyIdSupplier;
  * Inputs for creating a Hierarchical Keyring.
  */
 public class CreateAwsKmsHierarchicalKeyringInput {
+
   /**
    * The identifier for the single Branch Key responsible for wrapping and unwrapping the data key. Either a Branch Key ID or Branch Key Supplier must be specified.
    */
@@ -143,6 +144,7 @@ public class CreateAwsKmsHierarchicalKeyringInput {
   }
 
   static class BuilderImpl implements Builder {
+
     protected String branchKeyId;
 
     protected IBranchKeyIdSupplier branchKeyIdSupplier;
@@ -155,8 +157,7 @@ public class CreateAwsKmsHierarchicalKeyringInput {
 
     protected CacheType cache;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(CreateAwsKmsHierarchicalKeyringInput model) {
       this.branchKeyId = model.branchKeyId();
@@ -176,7 +177,9 @@ public class CreateAwsKmsHierarchicalKeyringInput {
       return this.branchKeyId;
     }
 
-    public Builder branchKeyIdSupplier(IBranchKeyIdSupplier branchKeyIdSupplier) {
+    public Builder branchKeyIdSupplier(
+      IBranchKeyIdSupplier branchKeyIdSupplier
+    ) {
       this.branchKeyIdSupplier = BranchKeyIdSupplier.wrap(branchKeyIdSupplier);
       return this;
     }
@@ -214,14 +217,20 @@ public class CreateAwsKmsHierarchicalKeyringInput {
     }
 
     public CreateAwsKmsHierarchicalKeyringInput build() {
-      if (Objects.isNull(this.keyStore()))  {
-        throw new IllegalArgumentException("Missing value for required field `keyStore`");
+      if (Objects.isNull(this.keyStore())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `keyStore`"
+        );
       }
       if (!this._ttlSecondsSet) {
-        throw new IllegalArgumentException("Missing value for required field `ttlSeconds`");
+        throw new IllegalArgumentException(
+          "Missing value for required field `ttlSeconds`"
+        );
       }
       if (this._ttlSecondsSet && this.ttlSeconds() < 0) {
-        throw new IllegalArgumentException("`ttlSeconds` must be greater than or equal to 0");
+        throw new IllegalArgumentException(
+          "`ttlSeconds` must be greater than or equal to 0"
+        );
       }
       return new CreateAwsKmsHierarchicalKeyringInput(this);
     }

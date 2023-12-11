@@ -6,6 +6,12 @@ plugins {
     `maven-publish`
 }
 
+var props = Properties().apply {
+    load(FileInputStream(File(rootProject.rootDir, "../../../project.properties")))
+}
+var dafnyVersion = props.getProperty("dafnyVersion")
+
+
 group = "software.amazon.cryptography"
 version = "1.0-SNAPSHOT"
 description = "ComAmazonawsKms"
@@ -28,7 +34,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.dafny:DafnyRuntime:4.2.0")
+    implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
     implementation("software.amazon.smithy.dafny:conversion:0.1")
     implementation("software.amazon.cryptography:StandardLibrary:1.0-SNAPSHOT")
     implementation(platform("software.amazon.awssdk:bom:2.19.1"))
@@ -58,3 +64,4 @@ tasks {
         classpath = sourceSets["test"].runtimeClasspath
     }
 }
+

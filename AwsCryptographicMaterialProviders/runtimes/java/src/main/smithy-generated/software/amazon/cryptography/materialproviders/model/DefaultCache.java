@@ -7,6 +7,7 @@ package software.amazon.cryptography.materialproviders.model;
  * The best choice for most situations. Probably a StormTrackingCache.
  */
 public class DefaultCache {
+
   /**
    * Maximum number of entries cached.
    */
@@ -46,12 +47,12 @@ public class DefaultCache {
   }
 
   static class BuilderImpl implements Builder {
+
     protected int entryCapacity;
 
     private boolean _entryCapacitySet = false;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(DefaultCache model) {
       this.entryCapacity = model.entryCapacity();
@@ -70,10 +71,14 @@ public class DefaultCache {
 
     public DefaultCache build() {
       if (!this._entryCapacitySet) {
-        throw new IllegalArgumentException("Missing value for required field `entryCapacity`");
+        throw new IllegalArgumentException(
+          "Missing value for required field `entryCapacity`"
+        );
       }
       if (this._entryCapacitySet && this.entryCapacity() < 1) {
-        throw new IllegalArgumentException("`entryCapacity` must be greater than or equal to 1");
+        throw new IllegalArgumentException(
+          "`entryCapacity` must be greater than or equal to 1"
+        );
       }
       return new DefaultCache(this);
     }

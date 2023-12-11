@@ -7,20 +7,24 @@ on:
   workflow_dispatch:
     inputs:
       dafny:
-        description: 'The Dafny version to use'
+        description: "The Dafny version to use"
         required: true
         type: string
 
 jobs:
-  push-ci-verification:
+  manual-ci-format:
+    uses: ./.github/workflows/library_format.yml
+    with:
+      dafny: ${{ inputs.dafny }}
+  manual-ci-verification:
     uses: ./.github/workflows/library_dafny_verification.yml
     with:
       dafny: ${{ inputs.dafny }}
-  push-ci-java:
+  manual-ci-java:
     uses: ./.github/workflows/library_java_tests.yml
     with:
       dafny: ${{ inputs.dafny }}
-  push-ci-net:
+  manual-ci-net:
     uses: ./.github/workflows/library_net_tests.yml
     with:
       dafny: ${{ inputs.dafny }}

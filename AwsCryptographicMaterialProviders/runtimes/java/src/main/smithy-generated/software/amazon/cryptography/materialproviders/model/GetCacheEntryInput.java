@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class GetCacheEntryInput {
+
   private final ByteBuffer identifier;
 
   private final Long bytesUsed;
@@ -45,12 +46,12 @@ public class GetCacheEntryInput {
   }
 
   static class BuilderImpl implements Builder {
+
     protected ByteBuffer identifier;
 
     protected Long bytesUsed;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(GetCacheEntryInput model) {
       this.identifier = model.identifier();
@@ -76,8 +77,10 @@ public class GetCacheEntryInput {
     }
 
     public GetCacheEntryInput build() {
-      if (Objects.isNull(this.identifier()))  {
-        throw new IllegalArgumentException("Missing value for required field `identifier`");
+      if (Objects.isNull(this.identifier())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `identifier`"
+        );
       }
       return new GetCacheEntryInput(this);
     }

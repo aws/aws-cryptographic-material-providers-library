@@ -7,7 +7,7 @@ module TestComAmazonawsKms {
   import Com.Amazonaws.Kms
   import opened StandardLibrary.UInt
 
-  const keyId :=  "arn:aws:kms:us-west-2:658956600833:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f";
+  const keyId :=  "arn:aws:kms:us-west-2:658956600833:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"
   // One test depends on knowing the region it is being run it.
   // For now, hardcode this value to the region we are currently using to test,
   // which is the same region that our test KMS Key lives in.
@@ -15,7 +15,7 @@ module TestComAmazonawsKms {
   // grab this value from some config.
   // For now, we prefer to have brittleness in these tests vs. missing a test case
   // that cannot be formally verified.
-  const TEST_REGION := "us-west-2";
+  const TEST_REGION := "us-west-2"
 
   // This is required because
   // https://github.com/dafny-lang/dafny/issues/2311
@@ -85,7 +85,7 @@ module TestComAmazonawsKms {
     nameonly expectedKeyId: Kms.Types.KeyIdType
   )
   {
-    var client :- expect Kms.KMSClient();
+    var client :- expect Kms.KMSClientForRegion(TEST_REGION);
 
     var ret := client.Decrypt(input);
 
@@ -106,7 +106,7 @@ module TestComAmazonawsKms {
   )
     requires input.NumberOfBytes.Some?
   {
-    var client :- expect Kms.KMSClient();
+    var client :- expect Kms.KMSClientForRegion(TEST_REGION);
 
     var ret := client.GenerateDataKey(input);
 
@@ -138,7 +138,7 @@ module TestComAmazonawsKms {
     nameonly input: Kms.Types.EncryptRequest
   )
   {
-    var client :- expect Kms.KMSClient();
+    var client :- expect Kms.KMSClientForRegion(TEST_REGION);
 
     var ret := client.Encrypt(input);
 
@@ -167,9 +167,14 @@ module TestComAmazonawsKms {
   // While we cannot easily test that the expected implementations
   // return Some(), we can at least ensure that the ones that do are correct.
   method {:test} RegionMatchTest() {
-    var client :- expect Kms.KMSClient();
+    var client :- expect Kms.KMSClientForRegion(TEST_REGION);
     var region := Kms.RegionMatch(client, TEST_REGION);
     expect region.None? || region.value;
+  }
+
+  // This should default to whatever default SDK uses.
+  method {:test} EmptyStringIsDefaultRegion() {
+    var client :- expect Kms.KMSClientForRegion("");
   }
 
 }

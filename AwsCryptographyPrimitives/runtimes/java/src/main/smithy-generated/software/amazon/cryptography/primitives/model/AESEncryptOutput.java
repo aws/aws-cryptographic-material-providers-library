@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class AESEncryptOutput {
+
   private final ByteBuffer cipherText;
 
   private final ByteBuffer authTag;
@@ -45,12 +46,12 @@ public class AESEncryptOutput {
   }
 
   static class BuilderImpl implements Builder {
+
     protected ByteBuffer cipherText;
 
     protected ByteBuffer authTag;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(AESEncryptOutput model) {
       this.cipherText = model.cipherText();
@@ -76,11 +77,15 @@ public class AESEncryptOutput {
     }
 
     public AESEncryptOutput build() {
-      if (Objects.isNull(this.cipherText()))  {
-        throw new IllegalArgumentException("Missing value for required field `cipherText`");
+      if (Objects.isNull(this.cipherText())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `cipherText`"
+        );
       }
-      if (Objects.isNull(this.authTag()))  {
-        throw new IllegalArgumentException("Missing value for required field `authTag`");
+      if (Objects.isNull(this.authTag())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `authTag`"
+        );
       }
       return new AESEncryptOutput(this);
     }

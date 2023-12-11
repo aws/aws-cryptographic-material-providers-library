@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class HkdfOutput {
+
   private final ByteBuffer okm;
 
   protected HkdfOutput(BuilderImpl builder) {
@@ -34,10 +35,10 @@ public class HkdfOutput {
   }
 
   static class BuilderImpl implements Builder {
+
     protected ByteBuffer okm;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(HkdfOutput model) {
       this.okm = model.okm();
@@ -53,8 +54,10 @@ public class HkdfOutput {
     }
 
     public HkdfOutput build() {
-      if (Objects.isNull(this.okm()))  {
-        throw new IllegalArgumentException("Missing value for required field `okm`");
+      if (Objects.isNull(this.okm())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `okm`"
+        );
       }
       return new HkdfOutput(this);
     }

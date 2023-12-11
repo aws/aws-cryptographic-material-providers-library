@@ -7,6 +7,7 @@ import java.util.Objects;
 import software.amazon.cryptography.primitives.model.DigestAlgorithm;
 
 public class SymmetricSignatureAlgorithm {
+
   private final DigestAlgorithm HMAC;
 
   private final None None;
@@ -45,12 +46,12 @@ public class SymmetricSignatureAlgorithm {
   }
 
   static class BuilderImpl implements Builder {
+
     protected DigestAlgorithm HMAC;
 
     protected None None;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(SymmetricSignatureAlgorithm model) {
       this.HMAC = model.HMAC();
@@ -77,13 +78,15 @@ public class SymmetricSignatureAlgorithm {
 
     public SymmetricSignatureAlgorithm build() {
       if (!onlyOneNonNull()) {
-        throw new IllegalArgumentException("`SymmetricSignatureAlgorithm` is a Union. A Union MUST have one and only one value set.");
+        throw new IllegalArgumentException(
+          "`SymmetricSignatureAlgorithm` is a Union. A Union MUST have one and only one value set."
+        );
       }
       return new SymmetricSignatureAlgorithm(this);
     }
 
     private boolean onlyOneNonNull() {
-      Object[] allValues = {this.HMAC, this.None};
+      Object[] allValues = { this.HMAC, this.None };
       boolean haveOneNonNull = false;
       for (Object o : allValues) {
         if (Objects.nonNull(o)) {

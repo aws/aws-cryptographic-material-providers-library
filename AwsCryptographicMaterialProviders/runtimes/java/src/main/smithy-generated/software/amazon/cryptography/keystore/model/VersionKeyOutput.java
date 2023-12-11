@@ -7,8 +7,8 @@ package software.amazon.cryptography.keystore.model;
  * Outputs for versioning a Branch Key.
  */
 public class VersionKeyOutput {
-  protected VersionKeyOutput(BuilderImpl builder) {
-  }
+
+  protected VersionKeyOutput(BuilderImpl builder) {}
 
   public Builder toBuilder() {
     return new BuilderImpl(this);
@@ -23,11 +23,10 @@ public class VersionKeyOutput {
   }
 
   static class BuilderImpl implements Builder {
-    protected BuilderImpl() {
-    }
 
-    protected BuilderImpl(VersionKeyOutput model) {
-    }
+    protected BuilderImpl() {}
+
+    protected BuilderImpl(VersionKeyOutput model) {}
 
     public VersionKeyOutput build() {
       return new VersionKeyOutput(this);

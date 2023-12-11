@@ -4,6 +4,7 @@
 package software.amazon.cryptography.primitives.model;
 
 public class GetRSAKeyModulusLengthOutput {
+
   private final int length;
 
   protected GetRSAKeyModulusLengthOutput(BuilderImpl builder) {
@@ -31,12 +32,12 @@ public class GetRSAKeyModulusLengthOutput {
   }
 
   static class BuilderImpl implements Builder {
+
     protected int length;
 
     private boolean _lengthSet = false;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(GetRSAKeyModulusLengthOutput model) {
       this.length = model.length();
@@ -55,10 +56,14 @@ public class GetRSAKeyModulusLengthOutput {
 
     public GetRSAKeyModulusLengthOutput build() {
       if (!this._lengthSet) {
-        throw new IllegalArgumentException("Missing value for required field `length`");
+        throw new IllegalArgumentException(
+          "Missing value for required field `length`"
+        );
       }
       if (this._lengthSet && this.length() < 81) {
-        throw new IllegalArgumentException("`length` must be greater than or equal to 81");
+        throw new IllegalArgumentException(
+          "`length` must be greater than or equal to 81"
+        );
       }
       return new GetRSAKeyModulusLengthOutput(this);
     }

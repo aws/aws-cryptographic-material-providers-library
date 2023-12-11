@@ -13,7 +13,7 @@ Parameters:
 
 Resources:
   GitHubCIRole:
-    Type: 'AWS::IAM::Role'
+    Type: "AWS::IAM::Role"
     Properties:
       RoleName: !Sub "GitHub-CI-${ProjectName}-Role-${AWS::Region}"
       Description: "Access DDB, KMS, Resources for CI from GitHub, and Prod CodeBuild"
@@ -32,11 +32,12 @@ Resources:
               "Principal": { "Federated": "arn:aws:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com" },
               "Action": "sts:AssumeRoleWithWebIdentity",
               "Condition": {
-                "StringEquals": {
-                  "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
-                },
+                "StringEquals": { "token.actions.githubusercontent.com:aud": "sts.amazonaws.com" },
                 "StringLike": {
-                  "token.actions.githubusercontent.com:sub": "repo:${GitHubRepo}:*"
+                  "token.actions.githubusercontent.com:sub": [
+                    "repo:aws/aws-cryptographic-material-providers-library-java:*",
+                    "repo:aws/aws-cryptographic-material-providers-library-dafny:*"
+                  ]
                 }
               }
             },
@@ -50,6 +51,8 @@ Resources:
                 "StringEquals": {
                   "aws:PrincipalArn": [
                     "arn:aws:iam::587316601012:role/service-role/codebuild-AWS-MPL-Java-service-role-release",
+                    "arn:aws:iam::587316601012:role/service-role/codebuild-AWS-MPL-DotNet-service-role-release",
+                    "arn:aws:iam::587316601012:role/service-role/codebuild-AWS-ESDK-DotNet-service-role-release",
                     "arn:aws:iam::370957321024:role/ToolsDevelopment"
                   ]
                 }
@@ -57,4 +60,3 @@ Resources:
             }
           ]
         }
-

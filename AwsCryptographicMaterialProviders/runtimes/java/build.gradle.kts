@@ -1,5 +1,6 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
+
 import java.net.URI
 
 val publishedVersion: String by project
@@ -16,8 +17,15 @@ plugins {
     id("com.google.osdetector") version "1.7.0"
 }
 
+var props = Properties().apply {
+    load(FileInputStream(File(rootProject.rootDir, "../../../project.properties")))
+}
+var dafnyVersion = props.getProperty("dafnyVersion")
+
 group = "software.amazon.cryptography"
+
 version = if (project.hasProperty("publishedVersion")) publishedVersion else "1.0-SNAPSHOT"
+
 description = "AWS Cryptographic Material Providers Library"
 
 java {
@@ -45,7 +53,7 @@ dependencies {
     implementation("software.amazon.cryptography:ComAmazonawsDynamodb:1.0-SNAPSHOT")
 
     // Dafny dependencies
-    implementation("org.dafny:DafnyRuntime:4.2.0")
+    implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
     implementation("software.amazon.smithy.dafny:conversion:0.1")
 
     // sdk dependencies
@@ -296,3 +304,4 @@ fun buildPom(mavenPublication: MavenPublication) {
         }
     }
 }
+

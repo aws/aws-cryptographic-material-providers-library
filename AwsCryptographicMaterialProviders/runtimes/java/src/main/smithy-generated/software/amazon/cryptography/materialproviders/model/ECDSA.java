@@ -7,6 +7,7 @@ import java.util.Objects;
 import software.amazon.cryptography.primitives.model.ECDSASignatureAlgorithm;
 
 public class ECDSA {
+
   private final ECDSASignatureAlgorithm curve;
 
   protected ECDSA(BuilderImpl builder) {
@@ -34,10 +35,10 @@ public class ECDSA {
   }
 
   static class BuilderImpl implements Builder {
+
     protected ECDSASignatureAlgorithm curve;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(ECDSA model) {
       this.curve = model.curve();
@@ -53,8 +54,10 @@ public class ECDSA {
     }
 
     public ECDSA build() {
-      if (Objects.isNull(this.curve()))  {
-        throw new IllegalArgumentException("Missing value for required field `curve`");
+      if (Objects.isNull(this.curve())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `curve`"
+        );
       }
       return new ECDSA(this);
     }

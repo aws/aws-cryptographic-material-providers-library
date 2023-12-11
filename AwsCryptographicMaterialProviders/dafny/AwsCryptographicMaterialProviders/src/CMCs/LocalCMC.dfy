@@ -17,9 +17,9 @@ module {:options "/functionSyntax:4" } LocalCMC {
     | Null
 
   // A const Null to avoid creating them all the time
-  const NULL : Ref<CacheEntry> := Null;
-  const INT32_MAX_VALUE: int32 := 0x7999_9999;
-  const INT64_MAX_VALUE: int64 := 0x7999_9999_9999_9999;
+  const NULL : Ref<CacheEntry> := Null
+  const INT32_MAX_VALUE: int32 := 0x7999_9999
+  const INT64_MAX_VALUE: int64 := 0x7999_9999_9999_9999
 
   class CacheEntry {
     var prev: Ref<CacheEntry>
@@ -260,7 +260,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
     if s[0] == v then 0 else 1 + IndexOfCacheEntry(s[1..], v)
   }
 
-  method RemoveValue<K, V>(k0: K, m: map<K, V>)
+  method RemoveValue<K, V(==)>(k0: K, m: map<K, V>)
     requires k0 in m
     requires forall k <- m, k' <- m | k != k' :: m[k] != m[k']
     ensures (m - {k0}).Values == m.Values - {m[k0]}
@@ -471,7 +471,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
         creationTime' := input.creationTime,
         expiryTime' := input.expiryTime,
         messagesUsed' := input.messagesUsed.UnwrapOr(0),
-                                                     bytesUsed' := input.bytesUsed.UnwrapOr(0)
+        bytesUsed' := input.bytesUsed.UnwrapOr(0)
       );
 
       if cell in cache.Values() {
