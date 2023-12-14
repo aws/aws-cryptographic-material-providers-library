@@ -9,7 +9,6 @@ import java.util.Objects;
  * Inputs for getting a Beacon Key
  */
 public class GetBeaconKeyInput {
-
   /**
    * The identifier of the Branch Key the Beacon Key is associated with.
    */
@@ -49,10 +48,10 @@ public class GetBeaconKeyInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected String branchKeyIdentifier;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(GetBeaconKeyInput model) {
       this.branchKeyIdentifier = model.branchKeyIdentifier();
@@ -68,10 +67,8 @@ public class GetBeaconKeyInput {
     }
 
     public GetBeaconKeyInput build() {
-      if (Objects.isNull(this.branchKeyIdentifier())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `branchKeyIdentifier`"
-        );
+      if (Objects.isNull(this.branchKeyIdentifier()))  {
+        throw new IllegalArgumentException("Missing value for required field `branchKeyIdentifier`");
       }
       return new GetBeaconKeyInput(this);
     }

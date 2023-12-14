@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class AlgorithmSuiteInfo {
-
   private final AlgorithmSuiteId id;
 
   private final ByteBuffer binaryId;
@@ -123,7 +122,6 @@ public class AlgorithmSuiteInfo {
   }
 
   static class BuilderImpl implements Builder {
-
     protected AlgorithmSuiteId id;
 
     protected ByteBuffer binaryId;
@@ -142,7 +140,8 @@ public class AlgorithmSuiteInfo {
 
     protected EdkWrappingAlgorithm edkWrapping;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(AlgorithmSuiteInfo model) {
       this.id = model.id();
@@ -219,9 +218,7 @@ public class AlgorithmSuiteInfo {
       return this.signature;
     }
 
-    public Builder symmetricSignature(
-      SymmetricSignatureAlgorithm symmetricSignature
-    ) {
+    public Builder symmetricSignature(SymmetricSignatureAlgorithm symmetricSignature) {
       this.symmetricSignature = symmetricSignature;
       return this;
     }
@@ -240,50 +237,32 @@ public class AlgorithmSuiteInfo {
     }
 
     public AlgorithmSuiteInfo build() {
-      if (Objects.isNull(this.id())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `id`"
-        );
+      if (Objects.isNull(this.id()))  {
+        throw new IllegalArgumentException("Missing value for required field `id`");
       }
-      if (Objects.isNull(this.binaryId())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `binaryId`"
-        );
+      if (Objects.isNull(this.binaryId()))  {
+        throw new IllegalArgumentException("Missing value for required field `binaryId`");
       }
-      if (Objects.isNull(this.messageVersion())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `messageVersion`"
-        );
+      if (Objects.isNull(this.messageVersion()))  {
+        throw new IllegalArgumentException("Missing value for required field `messageVersion`");
       }
-      if (Objects.isNull(this.encrypt())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `encrypt`"
-        );
+      if (Objects.isNull(this.encrypt()))  {
+        throw new IllegalArgumentException("Missing value for required field `encrypt`");
       }
-      if (Objects.isNull(this.kdf())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `kdf`"
-        );
+      if (Objects.isNull(this.kdf()))  {
+        throw new IllegalArgumentException("Missing value for required field `kdf`");
       }
-      if (Objects.isNull(this.commitment())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `commitment`"
-        );
+      if (Objects.isNull(this.commitment()))  {
+        throw new IllegalArgumentException("Missing value for required field `commitment`");
       }
-      if (Objects.isNull(this.signature())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `signature`"
-        );
+      if (Objects.isNull(this.signature()))  {
+        throw new IllegalArgumentException("Missing value for required field `signature`");
       }
-      if (Objects.isNull(this.symmetricSignature())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `symmetricSignature`"
-        );
+      if (Objects.isNull(this.symmetricSignature()))  {
+        throw new IllegalArgumentException("Missing value for required field `symmetricSignature`");
       }
-      if (Objects.isNull(this.edkWrapping())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `edkWrapping`"
-        );
+      if (Objects.isNull(this.edkWrapping()))  {
+        throw new IllegalArgumentException("Missing value for required field `edkWrapping`");
       }
       return new AlgorithmSuiteInfo(this);
     }

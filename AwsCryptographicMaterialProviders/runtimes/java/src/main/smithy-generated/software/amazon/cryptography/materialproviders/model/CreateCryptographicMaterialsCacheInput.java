@@ -6,7 +6,6 @@ package software.amazon.cryptography.materialproviders.model;
 import java.util.Objects;
 
 public class CreateCryptographicMaterialsCacheInput {
-
   /**
    * Which type of local cache to use.
    */
@@ -46,10 +45,10 @@ public class CreateCryptographicMaterialsCacheInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected CacheType cache;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(CreateCryptographicMaterialsCacheInput model) {
       this.cache = model.cache();
@@ -65,10 +64,8 @@ public class CreateCryptographicMaterialsCacheInput {
     }
 
     public CreateCryptographicMaterialsCacheInput build() {
-      if (Objects.isNull(this.cache())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `cache`"
-        );
+      if (Objects.isNull(this.cache()))  {
+        throw new IllegalArgumentException("Missing value for required field `cache`");
       }
       return new CreateCryptographicMaterialsCacheInput(this);
     }

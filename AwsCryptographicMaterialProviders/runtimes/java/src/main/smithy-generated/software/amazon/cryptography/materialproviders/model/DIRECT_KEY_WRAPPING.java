@@ -4,8 +4,8 @@
 package software.amazon.cryptography.materialproviders.model;
 
 public class DIRECT_KEY_WRAPPING {
-
-  protected DIRECT_KEY_WRAPPING(BuilderImpl builder) {}
+  protected DIRECT_KEY_WRAPPING(BuilderImpl builder) {
+  }
 
   public Builder toBuilder() {
     return new BuilderImpl(this);
@@ -20,10 +20,11 @@ public class DIRECT_KEY_WRAPPING {
   }
 
   static class BuilderImpl implements Builder {
+    protected BuilderImpl() {
+    }
 
-    protected BuilderImpl() {}
-
-    protected BuilderImpl(DIRECT_KEY_WRAPPING model) {}
+    protected BuilderImpl(DIRECT_KEY_WRAPPING model) {
+    }
 
     public DIRECT_KEY_WRAPPING build() {
       return new DIRECT_KEY_WRAPPING(this);

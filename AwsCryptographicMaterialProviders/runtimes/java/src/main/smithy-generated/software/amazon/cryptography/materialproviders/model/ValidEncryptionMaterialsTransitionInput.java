@@ -6,7 +6,6 @@ package software.amazon.cryptography.materialproviders.model;
 import java.util.Objects;
 
 public class ValidEncryptionMaterialsTransitionInput {
-
   private final EncryptionMaterials start;
 
   private final EncryptionMaterials stop;
@@ -45,12 +44,12 @@ public class ValidEncryptionMaterialsTransitionInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected EncryptionMaterials start;
 
     protected EncryptionMaterials stop;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(ValidEncryptionMaterialsTransitionInput model) {
       this.start = model.start();
@@ -76,15 +75,11 @@ public class ValidEncryptionMaterialsTransitionInput {
     }
 
     public ValidEncryptionMaterialsTransitionInput build() {
-      if (Objects.isNull(this.start())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `start`"
-        );
+      if (Objects.isNull(this.start()))  {
+        throw new IllegalArgumentException("Missing value for required field `start`");
       }
-      if (Objects.isNull(this.stop())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `stop`"
-        );
+      if (Objects.isNull(this.stop()))  {
+        throw new IllegalArgumentException("Missing value for required field `stop`");
       }
       return new ValidEncryptionMaterialsTransitionInput(this);
     }

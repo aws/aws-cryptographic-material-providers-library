@@ -10,7 +10,6 @@ import java.util.Objects;
  * A filter which defines what AWS partition and AWS accounts a KMS Key may be in for a Keyring to be allowed to attempt to decrypt it.
  */
 public class DiscoveryFilter {
-
   /**
    * A list of allowed AWS account IDs.
    */
@@ -73,12 +72,12 @@ public class DiscoveryFilter {
   }
 
   static class BuilderImpl implements Builder {
-
     protected List<String> accountIds;
 
     protected String partition;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(DiscoveryFilter model) {
       this.accountIds = model.accountIds();
@@ -104,15 +103,11 @@ public class DiscoveryFilter {
     }
 
     public DiscoveryFilter build() {
-      if (Objects.isNull(this.accountIds())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `accountIds`"
-        );
+      if (Objects.isNull(this.accountIds()))  {
+        throw new IllegalArgumentException("Missing value for required field `accountIds`");
       }
-      if (Objects.isNull(this.partition())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `partition`"
-        );
+      if (Objects.isNull(this.partition()))  {
+        throw new IllegalArgumentException("Missing value for required field `partition`");
       }
       return new DiscoveryFilter(this);
     }

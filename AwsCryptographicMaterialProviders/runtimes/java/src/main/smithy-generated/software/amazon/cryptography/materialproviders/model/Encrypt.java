@@ -7,7 +7,6 @@ import java.util.Objects;
 import software.amazon.cryptography.primitives.model.AES_GCM;
 
 public class Encrypt {
-
   private final AES_GCM AES_GCM;
 
   protected Encrypt(BuilderImpl builder) {
@@ -35,10 +34,10 @@ public class Encrypt {
   }
 
   static class BuilderImpl implements Builder {
-
     protected AES_GCM AES_GCM;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(Encrypt model) {
       this.AES_GCM = model.AES_GCM();
@@ -55,15 +54,13 @@ public class Encrypt {
 
     public Encrypt build() {
       if (!onlyOneNonNull()) {
-        throw new IllegalArgumentException(
-          "`Encrypt` is a Union. A Union MUST have one and only one value set."
-        );
+        throw new IllegalArgumentException("`Encrypt` is a Union. A Union MUST have one and only one value set.");
       }
       return new Encrypt(this);
     }
 
     private boolean onlyOneNonNull() {
-      Object[] allValues = { this.AES_GCM };
+      Object[] allValues = {this.AES_GCM};
       boolean haveOneNonNull = false;
       for (Object o : allValues) {
         if (Objects.nonNull(o)) {

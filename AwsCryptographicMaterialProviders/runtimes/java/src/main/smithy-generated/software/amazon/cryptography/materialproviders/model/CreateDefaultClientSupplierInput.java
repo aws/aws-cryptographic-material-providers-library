@@ -4,8 +4,8 @@
 package software.amazon.cryptography.materialproviders.model;
 
 public class CreateDefaultClientSupplierInput {
-
-  protected CreateDefaultClientSupplierInput(BuilderImpl builder) {}
+  protected CreateDefaultClientSupplierInput(BuilderImpl builder) {
+  }
 
   public Builder toBuilder() {
     return new BuilderImpl(this);
@@ -20,10 +20,11 @@ public class CreateDefaultClientSupplierInput {
   }
 
   static class BuilderImpl implements Builder {
+    protected BuilderImpl() {
+    }
 
-    protected BuilderImpl() {}
-
-    protected BuilderImpl(CreateDefaultClientSupplierInput model) {}
+    protected BuilderImpl(CreateDefaultClientSupplierInput model) {
+    }
 
     public CreateDefaultClientSupplierInput build() {
       return new CreateDefaultClientSupplierInput(this);

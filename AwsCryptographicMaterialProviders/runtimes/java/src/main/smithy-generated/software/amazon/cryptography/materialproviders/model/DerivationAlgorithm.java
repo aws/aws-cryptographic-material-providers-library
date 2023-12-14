@@ -6,7 +6,6 @@ package software.amazon.cryptography.materialproviders.model;
 import java.util.Objects;
 
 public class DerivationAlgorithm {
-
   private final HKDF HKDF;
 
   private final IDENTITY IDENTITY;
@@ -56,14 +55,14 @@ public class DerivationAlgorithm {
   }
 
   static class BuilderImpl implements Builder {
-
     protected HKDF HKDF;
 
     protected IDENTITY IDENTITY;
 
     protected None None;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(DerivationAlgorithm model) {
       this.HKDF = model.HKDF();
@@ -100,15 +99,13 @@ public class DerivationAlgorithm {
 
     public DerivationAlgorithm build() {
       if (!onlyOneNonNull()) {
-        throw new IllegalArgumentException(
-          "`DerivationAlgorithm` is a Union. A Union MUST have one and only one value set."
-        );
+        throw new IllegalArgumentException("`DerivationAlgorithm` is a Union. A Union MUST have one and only one value set.");
       }
       return new DerivationAlgorithm(this);
     }
 
     private boolean onlyOneNonNull() {
-      Object[] allValues = { this.HKDF, this.IDENTITY, this.None };
+      Object[] allValues = {this.HKDF, this.IDENTITY, this.None};
       boolean haveOneNonNull = false;
       for (Object o : allValues) {
         if (Objects.nonNull(o)) {

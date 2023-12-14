@@ -14,7 +14,6 @@ import software.amazon.cryptography.materialproviders.Keyring;
  * Inputs for creating an Required Encryption Context Cryptographic Materials Manager.
  */
 public class CreateRequiredEncryptionContextCMMInput {
-
   /**
    * The Cryprographic Materials Manager that the created Required Encryption Context Cryptographic Materials Manager will delegate to. Either a Keyring or underlying Cryprographic Materials Manager must be specified.
    */
@@ -33,8 +32,7 @@ public class CreateRequiredEncryptionContextCMMInput {
   protected CreateRequiredEncryptionContextCMMInput(BuilderImpl builder) {
     this.underlyingCMM = builder.underlyingCMM();
     this.keyring = builder.keyring();
-    this.requiredEncryptionContextKeys =
-      builder.requiredEncryptionContextKeys();
+    this.requiredEncryptionContextKeys = builder.requiredEncryptionContextKeys();
   }
 
   /**
@@ -90,9 +88,7 @@ public class CreateRequiredEncryptionContextCMMInput {
     /**
      * @param requiredEncryptionContextKeys A list of Encryption Context keys which are required to be supplied during encryption and decryption, and correspond to Encryption Context key-value pairs which are not stored on the resulting message.
      */
-    Builder requiredEncryptionContextKeys(
-      List<String> requiredEncryptionContextKeys
-    );
+    Builder requiredEncryptionContextKeys(List<String> requiredEncryptionContextKeys);
 
     /**
      * @return A list of Encryption Context keys which are required to be supplied during encryption and decryption, and correspond to Encryption Context key-value pairs which are not stored on the resulting message.
@@ -103,20 +99,19 @@ public class CreateRequiredEncryptionContextCMMInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected ICryptographicMaterialsManager underlyingCMM;
 
     protected IKeyring keyring;
 
     protected List<String> requiredEncryptionContextKeys;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(CreateRequiredEncryptionContextCMMInput model) {
       this.underlyingCMM = model.underlyingCMM();
       this.keyring = model.keyring();
-      this.requiredEncryptionContextKeys =
-        model.requiredEncryptionContextKeys();
+      this.requiredEncryptionContextKeys = model.requiredEncryptionContextKeys();
     }
 
     public Builder underlyingCMM(ICryptographicMaterialsManager underlyingCMM) {
@@ -137,9 +132,7 @@ public class CreateRequiredEncryptionContextCMMInput {
       return this.keyring;
     }
 
-    public Builder requiredEncryptionContextKeys(
-      List<String> requiredEncryptionContextKeys
-    ) {
+    public Builder requiredEncryptionContextKeys(List<String> requiredEncryptionContextKeys) {
       this.requiredEncryptionContextKeys = requiredEncryptionContextKeys;
       return this;
     }
@@ -149,10 +142,8 @@ public class CreateRequiredEncryptionContextCMMInput {
     }
 
     public CreateRequiredEncryptionContextCMMInput build() {
-      if (Objects.isNull(this.requiredEncryptionContextKeys())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `requiredEncryptionContextKeys`"
-        );
+      if (Objects.isNull(this.requiredEncryptionContextKeys()))  {
+        throw new IllegalArgumentException("Missing value for required field `requiredEncryptionContextKeys`");
       }
       return new CreateRequiredEncryptionContextCMMInput(this);
     }

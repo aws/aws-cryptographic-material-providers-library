@@ -6,7 +6,6 @@ package software.amazon.cryptography.materialproviderstestvectorkeys.model;
 import java.util.Objects;
 
 public class StaticKeyring {
-
   private final String keyId;
 
   protected StaticKeyring(BuilderImpl builder) {
@@ -34,10 +33,10 @@ public class StaticKeyring {
   }
 
   static class BuilderImpl implements Builder {
-
     protected String keyId;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(StaticKeyring model) {
       this.keyId = model.keyId();
@@ -53,10 +52,8 @@ public class StaticKeyring {
     }
 
     public StaticKeyring build() {
-      if (Objects.isNull(this.keyId())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `keyId`"
-        );
+      if (Objects.isNull(this.keyId()))  {
+        throw new IllegalArgumentException("Missing value for required field `keyId`");
       }
       return new StaticKeyring(this);
     }

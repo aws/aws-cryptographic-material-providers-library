@@ -9,7 +9,6 @@ import java.util.Objects;
  * Outputs for the Branch Key responsible for wrapping or unwrapping the data key in this encryption or decryption.
  */
 public class GetBranchKeyIdOutput {
-
   /**
    * The identifier of the Branch Key that should be responsible for wrapping or unwrapping the data key in this encryption or decryption.
    */
@@ -49,10 +48,10 @@ public class GetBranchKeyIdOutput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected String branchKeyId;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(GetBranchKeyIdOutput model) {
       this.branchKeyId = model.branchKeyId();
@@ -68,10 +67,8 @@ public class GetBranchKeyIdOutput {
     }
 
     public GetBranchKeyIdOutput build() {
-      if (Objects.isNull(this.branchKeyId())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `branchKeyId`"
-        );
+      if (Objects.isNull(this.branchKeyId()))  {
+        throw new IllegalArgumentException("Missing value for required field `branchKeyId`");
       }
       return new GetBranchKeyIdOutput(this);
     }

@@ -11,7 +11,6 @@ import software.amazon.awssdk.services.kms.KmsClient;
  * Inputs for for creating a AWS KMS Discovery Keyring.
  */
 public class CreateAwsKmsDiscoveryKeyringInput {
-
   /**
    * The KMS Client this Keyring will use to call KMS.
    */
@@ -97,14 +96,14 @@ public class CreateAwsKmsDiscoveryKeyringInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected KmsClient kmsClient;
 
     protected DiscoveryFilter discoveryFilter;
 
     protected List<String> grantTokens;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(CreateAwsKmsDiscoveryKeyringInput model) {
       this.kmsClient = model.kmsClient();
@@ -140,10 +139,8 @@ public class CreateAwsKmsDiscoveryKeyringInput {
     }
 
     public CreateAwsKmsDiscoveryKeyringInput build() {
-      if (Objects.isNull(this.kmsClient())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `kmsClient`"
-        );
+      if (Objects.isNull(this.kmsClient()))  {
+        throw new IllegalArgumentException("Missing value for required field `kmsClient`");
       }
       return new CreateAwsKmsDiscoveryKeyringInput(this);
     }

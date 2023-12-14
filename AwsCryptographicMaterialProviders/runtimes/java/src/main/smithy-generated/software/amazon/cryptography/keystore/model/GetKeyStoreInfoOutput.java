@@ -10,7 +10,6 @@ import java.util.Objects;
  * The configuration information for a Key Store.
  */
 public class GetKeyStoreInfoOutput {
-
   /**
    * An identifier for this Key Store.
    */
@@ -142,7 +141,6 @@ public class GetKeyStoreInfoOutput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected String keyStoreId;
 
     protected String keyStoreName;
@@ -153,7 +151,8 @@ public class GetKeyStoreInfoOutput {
 
     protected KMSConfiguration kmsConfiguration;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(GetKeyStoreInfoOutput model) {
       this.keyStoreId = model.keyStoreId();
@@ -209,45 +208,26 @@ public class GetKeyStoreInfoOutput {
     }
 
     public GetKeyStoreInfoOutput build() {
-      if (Objects.isNull(this.keyStoreId())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `keyStoreId`"
-        );
+      if (Objects.isNull(this.keyStoreId()))  {
+        throw new IllegalArgumentException("Missing value for required field `keyStoreId`");
       }
-      if (Objects.isNull(this.keyStoreName())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `keyStoreName`"
-        );
+      if (Objects.isNull(this.keyStoreName()))  {
+        throw new IllegalArgumentException("Missing value for required field `keyStoreName`");
       }
-      if (
-        Objects.nonNull(this.keyStoreName()) && this.keyStoreName().length() < 3
-      ) {
-        throw new IllegalArgumentException(
-          "The size of `keyStoreName` must be greater than or equal to 3"
-        );
+      if (Objects.nonNull(this.keyStoreName()) && this.keyStoreName().length() < 3) {
+        throw new IllegalArgumentException("The size of `keyStoreName` must be greater than or equal to 3");
       }
-      if (
-        Objects.nonNull(this.keyStoreName()) &&
-        this.keyStoreName().length() > 255
-      ) {
-        throw new IllegalArgumentException(
-          "The size of `keyStoreName` must be less than or equal to 255"
-        );
+      if (Objects.nonNull(this.keyStoreName()) && this.keyStoreName().length() > 255) {
+        throw new IllegalArgumentException("The size of `keyStoreName` must be less than or equal to 255");
       }
-      if (Objects.isNull(this.logicalKeyStoreName())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `logicalKeyStoreName`"
-        );
+      if (Objects.isNull(this.logicalKeyStoreName()))  {
+        throw new IllegalArgumentException("Missing value for required field `logicalKeyStoreName`");
       }
-      if (Objects.isNull(this.grantTokens())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `grantTokens`"
-        );
+      if (Objects.isNull(this.grantTokens()))  {
+        throw new IllegalArgumentException("Missing value for required field `grantTokens`");
       }
-      if (Objects.isNull(this.kmsConfiguration())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `kmsConfiguration`"
-        );
+      if (Objects.isNull(this.kmsConfiguration()))  {
+        throw new IllegalArgumentException("Missing value for required field `kmsConfiguration`");
       }
       return new GetKeyStoreInfoOutput(this);
     }

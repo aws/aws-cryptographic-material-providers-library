@@ -6,7 +6,6 @@ package software.amazon.cryptography.materialproviders.model;
 import java.util.Objects;
 
 public class ValidateCommitmentPolicyOnEncryptInput {
-
   private final AlgorithmSuiteId algorithm;
 
   private final CommitmentPolicy commitmentPolicy;
@@ -45,12 +44,12 @@ public class ValidateCommitmentPolicyOnEncryptInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected AlgorithmSuiteId algorithm;
 
     protected CommitmentPolicy commitmentPolicy;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(ValidateCommitmentPolicyOnEncryptInput model) {
       this.algorithm = model.algorithm();
@@ -76,15 +75,11 @@ public class ValidateCommitmentPolicyOnEncryptInput {
     }
 
     public ValidateCommitmentPolicyOnEncryptInput build() {
-      if (Objects.isNull(this.algorithm())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `algorithm`"
-        );
+      if (Objects.isNull(this.algorithm()))  {
+        throw new IllegalArgumentException("Missing value for required field `algorithm`");
       }
-      if (Objects.isNull(this.commitmentPolicy())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `commitmentPolicy`"
-        );
+      if (Objects.isNull(this.commitmentPolicy()))  {
+        throw new IllegalArgumentException("Missing value for required field `commitmentPolicy`");
       }
       return new ValidateCommitmentPolicyOnEncryptInput(this);
     }

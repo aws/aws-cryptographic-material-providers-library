@@ -244,6 +244,7 @@ _polymorph:
 	--dependent-model $(PROJECT_ROOT)/$(SMITHY_DEPS) \
 	$(patsubst %, --dependent-model $(PROJECT_ROOT)/%/Model, $($(service_deps_var))) \
 	--namespace $($(namespace_var)) \
+	--dafny-version 4.2.0 \
 	$(AWS_SDK_CMD) \
 	$(OUTPUT_LOCAL_SERVICE_$(SERVICE)) \
 	";

@@ -9,7 +9,6 @@ import java.util.Objects;
  * Outputs for Branch Key creation.
  */
 public class CreateKeyOutput {
-
   /**
    * A identifier for the created Branch Key.
    */
@@ -49,10 +48,10 @@ public class CreateKeyOutput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected String branchKeyIdentifier;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(CreateKeyOutput model) {
       this.branchKeyIdentifier = model.branchKeyIdentifier();
@@ -68,10 +67,8 @@ public class CreateKeyOutput {
     }
 
     public CreateKeyOutput build() {
-      if (Objects.isNull(this.branchKeyIdentifier())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `branchKeyIdentifier`"
-        );
+      if (Objects.isNull(this.branchKeyIdentifier()))  {
+        throw new IllegalArgumentException("Missing value for required field `branchKeyIdentifier`");
       }
       return new CreateKeyOutput(this);
     }

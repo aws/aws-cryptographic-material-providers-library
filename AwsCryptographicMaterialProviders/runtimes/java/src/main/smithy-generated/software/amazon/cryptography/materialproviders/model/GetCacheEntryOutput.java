@@ -6,7 +6,6 @@ package software.amazon.cryptography.materialproviders.model;
 import java.util.Objects;
 
 public class GetCacheEntryOutput {
-
   private final Materials materials;
 
   private final long creationTime;
@@ -78,7 +77,6 @@ public class GetCacheEntryOutput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected Materials materials;
 
     protected long creationTime;
@@ -97,7 +95,8 @@ public class GetCacheEntryOutput {
 
     private boolean _bytesUsedSet = false;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(GetCacheEntryOutput model) {
       this.materials = model.materials();
@@ -161,50 +160,32 @@ public class GetCacheEntryOutput {
     }
 
     public GetCacheEntryOutput build() {
-      if (Objects.isNull(this.materials())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `materials`"
-        );
+      if (Objects.isNull(this.materials()))  {
+        throw new IllegalArgumentException("Missing value for required field `materials`");
       }
       if (!this._creationTimeSet) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `creationTime`"
-        );
+        throw new IllegalArgumentException("Missing value for required field `creationTime`");
       }
       if (this._creationTimeSet && this.creationTime() < 0) {
-        throw new IllegalArgumentException(
-          "`creationTime` must be greater than or equal to 0"
-        );
+        throw new IllegalArgumentException("`creationTime` must be greater than or equal to 0");
       }
       if (!this._expiryTimeSet) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `expiryTime`"
-        );
+        throw new IllegalArgumentException("Missing value for required field `expiryTime`");
       }
       if (this._expiryTimeSet && this.expiryTime() < 0) {
-        throw new IllegalArgumentException(
-          "`expiryTime` must be greater than or equal to 0"
-        );
+        throw new IllegalArgumentException("`expiryTime` must be greater than or equal to 0");
       }
       if (!this._messagesUsedSet) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `messagesUsed`"
-        );
+        throw new IllegalArgumentException("Missing value for required field `messagesUsed`");
       }
       if (this._messagesUsedSet && this.messagesUsed() < 0) {
-        throw new IllegalArgumentException(
-          "`messagesUsed` must be greater than or equal to 0"
-        );
+        throw new IllegalArgumentException("`messagesUsed` must be greater than or equal to 0");
       }
       if (!this._bytesUsedSet) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `bytesUsed`"
-        );
+        throw new IllegalArgumentException("Missing value for required field `bytesUsed`");
       }
       if (this._bytesUsedSet && this.bytesUsed() < 0) {
-        throw new IllegalArgumentException(
-          "`bytesUsed` must be greater than or equal to 0"
-        );
+        throw new IllegalArgumentException("`bytesUsed` must be greater than or equal to 0");
       }
       return new GetCacheEntryOutput(this);
     }

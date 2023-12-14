@@ -12,7 +12,6 @@ import software.amazon.cryptography.materialproviders.Keyring;
  * Inputs for creating a Multi-Keyring.
  */
 public class CreateMultiKeyringInput {
-
   /**
    * A keyring responsible for wrapping and unwrapping the data key. This is the first keyring that will be used to wrap the data key, and may be responsible for additionally generating the data key.
    */
@@ -75,12 +74,12 @@ public class CreateMultiKeyringInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected IKeyring generator;
 
     protected List<IKeyring> childKeyrings;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(CreateMultiKeyringInput model) {
       this.generator = model.generator();
@@ -106,10 +105,8 @@ public class CreateMultiKeyringInput {
     }
 
     public CreateMultiKeyringInput build() {
-      if (Objects.isNull(this.childKeyrings())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `childKeyrings`"
-        );
+      if (Objects.isNull(this.childKeyrings()))  {
+        throw new IllegalArgumentException("Missing value for required field `childKeyrings`");
       }
       return new CreateMultiKeyringInput(this);
     }

@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class HkdfExtractInput {
-
   private final DigestAlgorithm digestAlgorithm;
 
   private final ByteBuffer salt;
@@ -57,14 +56,14 @@ public class HkdfExtractInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected DigestAlgorithm digestAlgorithm;
 
     protected ByteBuffer salt;
 
     protected ByteBuffer ikm;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(HkdfExtractInput model) {
       this.digestAlgorithm = model.digestAlgorithm();
@@ -100,15 +99,11 @@ public class HkdfExtractInput {
     }
 
     public HkdfExtractInput build() {
-      if (Objects.isNull(this.digestAlgorithm())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `digestAlgorithm`"
-        );
+      if (Objects.isNull(this.digestAlgorithm()))  {
+        throw new IllegalArgumentException("Missing value for required field `digestAlgorithm`");
       }
-      if (Objects.isNull(this.ikm())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `ikm`"
-        );
+      if (Objects.isNull(this.ikm()))  {
+        throw new IllegalArgumentException("Missing value for required field `ikm`");
       }
       return new HkdfExtractInput(this);
     }

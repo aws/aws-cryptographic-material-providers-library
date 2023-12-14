@@ -6,7 +6,6 @@ package software.amazon.cryptography.materialproviderstestvectorkeys.model;
 import java.util.Objects;
 
 public class KmsMrkAware {
-
   private final String keyId;
 
   protected KmsMrkAware(BuilderImpl builder) {
@@ -34,10 +33,10 @@ public class KmsMrkAware {
   }
 
   static class BuilderImpl implements Builder {
-
     protected String keyId;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(KmsMrkAware model) {
       this.keyId = model.keyId();
@@ -53,10 +52,8 @@ public class KmsMrkAware {
     }
 
     public KmsMrkAware build() {
-      if (Objects.isNull(this.keyId())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `keyId`"
-        );
+      if (Objects.isNull(this.keyId()))  {
+        throw new IllegalArgumentException("Missing value for required field `keyId`");
       }
       return new KmsMrkAware(this);
     }

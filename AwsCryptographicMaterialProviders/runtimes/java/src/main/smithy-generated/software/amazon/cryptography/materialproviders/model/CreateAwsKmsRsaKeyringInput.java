@@ -13,7 +13,6 @@ import software.amazon.awssdk.services.kms.model.EncryptionAlgorithmSpec;
  * Inputs for creating a AWS KMS RSA Keyring.
  */
 public class CreateAwsKmsRsaKeyringInput {
-
   /**
    * The public RSA Key responsible for wrapping data keys, as a UTF8 encoded, PEM encoded X.509 SubjectPublicKeyInfo structure. This should be the public key as exported from KMS. If not specified, this Keyring cannot be used on encrypt.
    */
@@ -145,7 +144,6 @@ public class CreateAwsKmsRsaKeyringInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected ByteBuffer publicKey;
 
     protected String kmsKeyId;
@@ -156,7 +154,8 @@ public class CreateAwsKmsRsaKeyringInput {
 
     protected List<String> grantTokens;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(CreateAwsKmsRsaKeyringInput model) {
       this.publicKey = model.publicKey();
@@ -184,9 +183,7 @@ public class CreateAwsKmsRsaKeyringInput {
       return this.kmsKeyId;
     }
 
-    public Builder encryptionAlgorithm(
-      EncryptionAlgorithmSpec encryptionAlgorithm
-    ) {
+    public Builder encryptionAlgorithm(EncryptionAlgorithmSpec encryptionAlgorithm) {
       this.encryptionAlgorithm = encryptionAlgorithm;
       return this;
     }
@@ -214,15 +211,11 @@ public class CreateAwsKmsRsaKeyringInput {
     }
 
     public CreateAwsKmsRsaKeyringInput build() {
-      if (Objects.isNull(this.kmsKeyId())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `kmsKeyId`"
-        );
+      if (Objects.isNull(this.kmsKeyId()))  {
+        throw new IllegalArgumentException("Missing value for required field `kmsKeyId`");
       }
-      if (Objects.isNull(this.encryptionAlgorithm())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `encryptionAlgorithm`"
-        );
+      if (Objects.isNull(this.encryptionAlgorithm()))  {
+        throw new IllegalArgumentException("Missing value for required field `encryptionAlgorithm`");
       }
       return new CreateAwsKmsRsaKeyringInput(this);
     }

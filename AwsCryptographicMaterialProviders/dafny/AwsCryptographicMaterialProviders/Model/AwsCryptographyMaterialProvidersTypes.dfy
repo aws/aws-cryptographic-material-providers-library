@@ -772,62 +772,62 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
   }
   datatype CreateAwsKmsDiscoveryKeyringInput = | CreateAwsKmsDiscoveryKeyringInput (
     nameonly kmsClient: ComAmazonawsKmsTypes.IKMSClient ,
-    nameonly discoveryFilter: Option<DiscoveryFilter> ,
-    nameonly grantTokens: Option<GrantTokenList>
+    nameonly discoveryFilter: Option<DiscoveryFilter> := Option.None ,
+    nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
   datatype CreateAwsKmsDiscoveryMultiKeyringInput = | CreateAwsKmsDiscoveryMultiKeyringInput (
     nameonly regions: RegionList ,
-    nameonly discoveryFilter: Option<DiscoveryFilter> ,
-    nameonly clientSupplier: Option<IClientSupplier> ,
-    nameonly grantTokens: Option<GrantTokenList>
+    nameonly discoveryFilter: Option<DiscoveryFilter> := Option.None ,
+    nameonly clientSupplier: Option<IClientSupplier> := Option.None ,
+    nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
   datatype CreateAwsKmsHierarchicalKeyringInput = | CreateAwsKmsHierarchicalKeyringInput (
-    nameonly branchKeyId: Option<string> ,
-    nameonly branchKeyIdSupplier: Option<IBranchKeyIdSupplier> ,
+    nameonly branchKeyId: Option<string> := Option.None ,
+    nameonly branchKeyIdSupplier: Option<IBranchKeyIdSupplier> := Option.None ,
     nameonly keyStore: AwsCryptographyKeyStoreTypes.IKeyStoreClient ,
     nameonly ttlSeconds: PositiveLong ,
-    nameonly cache: Option<CacheType>
+    nameonly cache: Option<CacheType> := Option.None
   )
   datatype CreateAwsKmsKeyringInput = | CreateAwsKmsKeyringInput (
     nameonly kmsKeyId: KmsKeyId ,
     nameonly kmsClient: ComAmazonawsKmsTypes.IKMSClient ,
-    nameonly grantTokens: Option<GrantTokenList>
+    nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
   datatype CreateAwsKmsMrkDiscoveryKeyringInput = | CreateAwsKmsMrkDiscoveryKeyringInput (
     nameonly kmsClient: ComAmazonawsKmsTypes.IKMSClient ,
-    nameonly discoveryFilter: Option<DiscoveryFilter> ,
-    nameonly grantTokens: Option<GrantTokenList> ,
+    nameonly discoveryFilter: Option<DiscoveryFilter> := Option.None ,
+    nameonly grantTokens: Option<GrantTokenList> := Option.None ,
     nameonly region: Region
   )
   datatype CreateAwsKmsMrkDiscoveryMultiKeyringInput = | CreateAwsKmsMrkDiscoveryMultiKeyringInput (
     nameonly regions: RegionList ,
-    nameonly discoveryFilter: Option<DiscoveryFilter> ,
-    nameonly clientSupplier: Option<IClientSupplier> ,
-    nameonly grantTokens: Option<GrantTokenList>
+    nameonly discoveryFilter: Option<DiscoveryFilter> := Option.None ,
+    nameonly clientSupplier: Option<IClientSupplier> := Option.None ,
+    nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
   datatype CreateAwsKmsMrkKeyringInput = | CreateAwsKmsMrkKeyringInput (
     nameonly kmsKeyId: KmsKeyId ,
     nameonly kmsClient: ComAmazonawsKmsTypes.IKMSClient ,
-    nameonly grantTokens: Option<GrantTokenList>
+    nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
   datatype CreateAwsKmsMrkMultiKeyringInput = | CreateAwsKmsMrkMultiKeyringInput (
-    nameonly generator: Option<KmsKeyId> ,
-    nameonly kmsKeyIds: Option<KmsKeyIdList> ,
-    nameonly clientSupplier: Option<IClientSupplier> ,
-    nameonly grantTokens: Option<GrantTokenList>
+    nameonly generator: Option<KmsKeyId> := Option.None ,
+    nameonly kmsKeyIds: Option<KmsKeyIdList> := Option.None ,
+    nameonly clientSupplier: Option<IClientSupplier> := Option.None ,
+    nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
   datatype CreateAwsKmsMultiKeyringInput = | CreateAwsKmsMultiKeyringInput (
-    nameonly generator: Option<KmsKeyId> ,
-    nameonly kmsKeyIds: Option<KmsKeyIdList> ,
-    nameonly clientSupplier: Option<IClientSupplier> ,
-    nameonly grantTokens: Option<GrantTokenList>
+    nameonly generator: Option<KmsKeyId> := Option.None ,
+    nameonly kmsKeyIds: Option<KmsKeyIdList> := Option.None ,
+    nameonly clientSupplier: Option<IClientSupplier> := Option.None ,
+    nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
   datatype CreateAwsKmsRsaKeyringInput = | CreateAwsKmsRsaKeyringInput (
-    nameonly publicKey: Option<Secret> ,
+    nameonly publicKey: Option<Secret> := Option.None ,
     nameonly kmsKeyId: KmsKeyId ,
     nameonly encryptionAlgorithm: ComAmazonawsKmsTypes.EncryptionAlgorithmSpec ,
-    nameonly kmsClient: Option<ComAmazonawsKmsTypes.IKMSClient> ,
-    nameonly grantTokens: Option<GrantTokenList>
+    nameonly kmsClient: Option<ComAmazonawsKmsTypes.IKMSClient> := Option.None ,
+    nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
   datatype CreateCryptographicMaterialsCacheInput = | CreateCryptographicMaterialsCacheInput (
     nameonly cache: CacheType
@@ -839,7 +839,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly keyring: IKeyring
   )
   datatype CreateMultiKeyringInput = | CreateMultiKeyringInput (
-    nameonly generator: Option<IKeyring> ,
+    nameonly generator: Option<IKeyring> := Option.None ,
     nameonly childKeyrings: KeyringList
   )
   datatype CreateRawAesKeyringInput = | CreateRawAesKeyringInput (
@@ -852,12 +852,12 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly keyNamespace: string ,
     nameonly keyName: string ,
     nameonly paddingScheme: PaddingScheme ,
-    nameonly publicKey: Option<seq<uint8>> ,
-    nameonly privateKey: Option<seq<uint8>>
+    nameonly publicKey: Option<seq<uint8>> := Option.None ,
+    nameonly privateKey: Option<seq<uint8>> := Option.None
   )
   datatype CreateRequiredEncryptionContextCMMInput = | CreateRequiredEncryptionContextCMMInput (
-    nameonly underlyingCMM: Option<ICryptographicMaterialsManager> ,
-    nameonly keyring: Option<IKeyring> ,
+    nameonly underlyingCMM: Option<ICryptographicMaterialsManager> := Option.None ,
+    nameonly keyring: Option<IKeyring> := Option.None ,
     nameonly requiredEncryptionContextKeys: EncryptionContextKeys
   )
   class ICryptographicMaterialsCacheCallHistory {
@@ -1145,16 +1145,16 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly algorithmSuite: AlgorithmSuiteInfo ,
     nameonly encryptionContext: EncryptionContext ,
     nameonly requiredEncryptionContextKeys: EncryptionContextKeys ,
-    nameonly plaintextDataKey: Option<Secret> ,
-    nameonly verificationKey: Option<Secret> ,
-    nameonly symmetricSigningKey: Option<Secret>
+    nameonly plaintextDataKey: Option<Secret> := Option.None ,
+    nameonly verificationKey: Option<Secret> := Option.None ,
+    nameonly symmetricSigningKey: Option<Secret> := Option.None
   )
   datatype DecryptMaterialsInput = | DecryptMaterialsInput (
     nameonly algorithmSuiteId: AlgorithmSuiteId ,
     nameonly commitmentPolicy: CommitmentPolicy ,
     nameonly encryptedDataKeys: EncryptedDataKeyList ,
     nameonly encryptionContext: EncryptionContext ,
-    nameonly reproducedEncryptionContext: Option<EncryptionContext>
+    nameonly reproducedEncryptionContext: Option<EncryptionContext> := Option.None
   )
   datatype DecryptMaterialsOutput = | DecryptMaterialsOutput (
     nameonly decryptionMaterials: DecryptionMaterials
@@ -1197,9 +1197,9 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly encryptionContext: EncryptionContext ,
     nameonly encryptedDataKeys: EncryptedDataKeyList ,
     nameonly requiredEncryptionContextKeys: EncryptionContextKeys ,
-    nameonly plaintextDataKey: Option<Secret> ,
-    nameonly signingKey: Option<Secret> ,
-    nameonly symmetricSigningKeys: Option<SymmetricSigningKeyList>
+    nameonly plaintextDataKey: Option<Secret> := Option.None ,
+    nameonly signingKey: Option<Secret> := Option.None ,
+    nameonly symmetricSigningKeys: Option<SymmetricSigningKeyList> := Option.None
   )
   datatype ESDKAlgorithmSuiteId =
     | ALG_AES_128_GCM_IV12_TAG16_NO_KDF
@@ -1225,7 +1225,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
   )
   datatype GetCacheEntryInput = | GetCacheEntryInput (
     nameonly identifier: seq<uint8> ,
-    nameonly bytesUsed: Option<int64>
+    nameonly bytesUsed: Option<int64> := Option.None
   )
   datatype GetCacheEntryOutput = | GetCacheEntryOutput (
     nameonly materials: Materials ,
@@ -1240,9 +1240,9 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
   datatype GetEncryptionMaterialsInput = | GetEncryptionMaterialsInput (
     nameonly encryptionContext: EncryptionContext ,
     nameonly commitmentPolicy: CommitmentPolicy ,
-    nameonly algorithmSuiteId: Option<AlgorithmSuiteId> ,
-    nameonly maxPlaintextLength: Option<int64> ,
-    nameonly requiredEncryptionContextKeys: Option<EncryptionContextKeys>
+    nameonly algorithmSuiteId: Option<AlgorithmSuiteId> := Option.None ,
+    nameonly maxPlaintextLength: Option<int64> := Option.None ,
+    nameonly requiredEncryptionContextKeys: Option<EncryptionContextKeys> := Option.None
   )
   datatype GetEncryptionMaterialsOutput = | GetEncryptionMaterialsOutput (
     nameonly encryptionMaterials: EncryptionMaterials
@@ -1266,8 +1266,8 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly algorithmSuiteId: AlgorithmSuiteId ,
     nameonly encryptionContext: EncryptionContext ,
     nameonly requiredEncryptionContextKeys: EncryptionContextKeys ,
-    nameonly signingKey: Option<Secret> ,
-    nameonly verificationKey: Option<Secret>
+    nameonly signingKey: Option<Secret> := Option.None ,
+    nameonly verificationKey: Option<Secret> := Option.None
   )
   datatype IntermediateKeyWrapping = | IntermediateKeyWrapping (
     nameonly keyEncryptionKeyKdf: DerivationAlgorithm ,
@@ -1385,7 +1385,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     | BeaconKey(BeaconKey: AwsCryptographyKeyStoreTypes.BeaconKeyMaterials)
   datatype MultiThreadedCache = | MultiThreadedCache (
     nameonly entryCapacity: CountingNumber ,
-    nameonly entryPruningTailSize: Option<CountingNumber>
+    nameonly entryPruningTailSize: Option<CountingNumber> := Option.None
   )
   datatype NoCache = | NoCache (
 
@@ -1425,8 +1425,8 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly materials: Materials ,
     nameonly creationTime: PositiveLong ,
     nameonly expiryTime: PositiveLong ,
-    nameonly messagesUsed: Option<PositiveInteger> ,
-    nameonly bytesUsed: Option<PositiveInteger>
+    nameonly messagesUsed: Option<PositiveInteger> := Option.None ,
+    nameonly bytesUsed: Option<PositiveInteger> := Option.None
   )
   type Region = string
   type RegionList = seq<Region>
@@ -1436,11 +1436,11 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     | None(None: None)
   datatype SingleThreadedCache = | SingleThreadedCache (
     nameonly entryCapacity: CountingNumber ,
-    nameonly entryPruningTailSize: Option<CountingNumber>
+    nameonly entryPruningTailSize: Option<CountingNumber> := Option.None
   )
   datatype StormTrackingCache = | StormTrackingCache (
     nameonly entryCapacity: CountingNumber ,
-    nameonly entryPruningTailSize: Option<CountingNumber> ,
+    nameonly entryPruningTailSize: Option<CountingNumber> := Option.None ,
     nameonly gracePeriod: CountingNumber ,
     nameonly graceInterval: CountingNumber ,
     nameonly fanOut: CountingNumber ,
@@ -1546,13 +1546,20 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
   import Operations : AbstractAwsCryptographyMaterialProvidersOperations
   function method DefaultMaterialProvidersConfig(): MaterialProvidersConfig
   method MaterialProviders(config: MaterialProvidersConfig := DefaultMaterialProvidersConfig())
-    returns (res: Result<MaterialProvidersClient, Error>)
+    returns (res: Result<IAwsCryptographicMaterialProvidersClient, Error>)
     ensures res.Success? ==>
               && fresh(res.value)
               && fresh(res.value.Modifies)
               && fresh(res.value.History)
               && res.value.ValidState()
 
+  // Helper function for the benefit of native code to create a Success(client) without referring to Dafny internals
+  function method CreateSuccessOfClient(client: IAwsCryptographicMaterialProvidersClient): Result<IAwsCryptographicMaterialProvidersClient, Error> {
+    Success(client)
+  } // Helper function for the benefit of native code to create a Failure(error) without referring to Dafny internals
+  function method CreateFailureOfError(error: Error): Result<IAwsCryptographicMaterialProvidersClient, Error> {
+    Failure(error)
+  }
   class MaterialProvidersClient extends IAwsCryptographicMaterialProvidersClient
   {
     constructor(config: Operations.InternalConfig)

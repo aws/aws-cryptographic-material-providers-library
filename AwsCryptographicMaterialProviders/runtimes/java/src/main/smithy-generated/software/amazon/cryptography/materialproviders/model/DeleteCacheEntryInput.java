@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class DeleteCacheEntryInput {
-
   private final ByteBuffer identifier;
 
   protected DeleteCacheEntryInput(BuilderImpl builder) {
@@ -35,10 +34,10 @@ public class DeleteCacheEntryInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected ByteBuffer identifier;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(DeleteCacheEntryInput model) {
       this.identifier = model.identifier();
@@ -54,10 +53,8 @@ public class DeleteCacheEntryInput {
     }
 
     public DeleteCacheEntryInput build() {
-      if (Objects.isNull(this.identifier())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `identifier`"
-        );
+      if (Objects.isNull(this.identifier()))  {
+        throw new IllegalArgumentException("Missing value for required field `identifier`");
       }
       return new DeleteCacheEntryInput(this);
     }

@@ -9,7 +9,6 @@ import java.util.Objects;
  * Inputs for getting a AWS KMS Client.
  */
 public class GetClientInput {
-
   /**
    * The region the client should be created in.
    */
@@ -49,10 +48,10 @@ public class GetClientInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected String region;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(GetClientInput model) {
       this.region = model.region();
@@ -68,10 +67,8 @@ public class GetClientInput {
     }
 
     public GetClientInput build() {
-      if (Objects.isNull(this.region())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `region`"
-        );
+      if (Objects.isNull(this.region()))  {
+        throw new IllegalArgumentException("Missing value for required field `region`");
       }
       return new GetClientInput(this);
     }

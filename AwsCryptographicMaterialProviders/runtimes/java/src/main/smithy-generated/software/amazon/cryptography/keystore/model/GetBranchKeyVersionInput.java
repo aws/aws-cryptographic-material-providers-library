@@ -9,7 +9,6 @@ import java.util.Objects;
  * Inputs for getting a version of a Branch Key.
  */
 public class GetBranchKeyVersionInput {
-
   /**
    * The identifier for the Branch Key to get a particular version for.
    */
@@ -72,12 +71,12 @@ public class GetBranchKeyVersionInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected String branchKeyIdentifier;
 
     protected String branchKeyVersion;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(GetBranchKeyVersionInput model) {
       this.branchKeyIdentifier = model.branchKeyIdentifier();
@@ -103,15 +102,11 @@ public class GetBranchKeyVersionInput {
     }
 
     public GetBranchKeyVersionInput build() {
-      if (Objects.isNull(this.branchKeyIdentifier())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `branchKeyIdentifier`"
-        );
+      if (Objects.isNull(this.branchKeyIdentifier()))  {
+        throw new IllegalArgumentException("Missing value for required field `branchKeyIdentifier`");
       }
-      if (Objects.isNull(this.branchKeyVersion())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `branchKeyVersion`"
-        );
+      if (Objects.isNull(this.branchKeyVersion()))  {
+        throw new IllegalArgumentException("Missing value for required field `branchKeyVersion`");
       }
       return new GetBranchKeyVersionInput(this);
     }

@@ -9,7 +9,6 @@ import java.util.Objects;
  * Outputs for getting a version of a Branch Key.
  */
 public class GetBranchKeyVersionOutput {
-
   /**
    * The materials for the Branch Key.
    */
@@ -49,10 +48,10 @@ public class GetBranchKeyVersionOutput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected BranchKeyMaterials branchKeyMaterials;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(GetBranchKeyVersionOutput model) {
       this.branchKeyMaterials = model.branchKeyMaterials();
@@ -68,10 +67,8 @@ public class GetBranchKeyVersionOutput {
     }
 
     public GetBranchKeyVersionOutput build() {
-      if (Objects.isNull(this.branchKeyMaterials())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `branchKeyMaterials`"
-        );
+      if (Objects.isNull(this.branchKeyMaterials()))  {
+        throw new IllegalArgumentException("Missing value for required field `branchKeyMaterials`");
       }
       return new GetBranchKeyVersionOutput(this);
     }

@@ -8,7 +8,6 @@ package software.amazon.cryptography.materialproviders.model;
  * and tries to prevent redundant or overly parallel backend calls.
  */
 public class StormTrackingCache {
-
   /**
    * Maximum number of entries cached.
    */
@@ -190,7 +189,6 @@ public class StormTrackingCache {
   }
 
   static class BuilderImpl implements Builder {
-
     protected int entryCapacity;
 
     private boolean _entryCapacitySet = false;
@@ -219,7 +217,8 @@ public class StormTrackingCache {
 
     private boolean _sleepMilliSet = false;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(StormTrackingCache model) {
       this.entryCapacity = model.entryCapacity();
@@ -310,69 +309,43 @@ public class StormTrackingCache {
 
     public StormTrackingCache build() {
       if (!this._entryCapacitySet) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `entryCapacity`"
-        );
+        throw new IllegalArgumentException("Missing value for required field `entryCapacity`");
       }
       if (this._entryCapacitySet && this.entryCapacity() < 1) {
-        throw new IllegalArgumentException(
-          "`entryCapacity` must be greater than or equal to 1"
-        );
+        throw new IllegalArgumentException("`entryCapacity` must be greater than or equal to 1");
       }
       if (this._entryPruningTailSizeSet && this.entryPruningTailSize() < 1) {
-        throw new IllegalArgumentException(
-          "`entryPruningTailSize` must be greater than or equal to 1"
-        );
+        throw new IllegalArgumentException("`entryPruningTailSize` must be greater than or equal to 1");
       }
       if (!this._gracePeriodSet) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `gracePeriod`"
-        );
+        throw new IllegalArgumentException("Missing value for required field `gracePeriod`");
       }
       if (this._gracePeriodSet && this.gracePeriod() < 1) {
-        throw new IllegalArgumentException(
-          "`gracePeriod` must be greater than or equal to 1"
-        );
+        throw new IllegalArgumentException("`gracePeriod` must be greater than or equal to 1");
       }
       if (!this._graceIntervalSet) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `graceInterval`"
-        );
+        throw new IllegalArgumentException("Missing value for required field `graceInterval`");
       }
       if (this._graceIntervalSet && this.graceInterval() < 1) {
-        throw new IllegalArgumentException(
-          "`graceInterval` must be greater than or equal to 1"
-        );
+        throw new IllegalArgumentException("`graceInterval` must be greater than or equal to 1");
       }
       if (!this._fanOutSet) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `fanOut`"
-        );
+        throw new IllegalArgumentException("Missing value for required field `fanOut`");
       }
       if (this._fanOutSet && this.fanOut() < 1) {
-        throw new IllegalArgumentException(
-          "`fanOut` must be greater than or equal to 1"
-        );
+        throw new IllegalArgumentException("`fanOut` must be greater than or equal to 1");
       }
       if (!this._inFlightTTLSet) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `inFlightTTL`"
-        );
+        throw new IllegalArgumentException("Missing value for required field `inFlightTTL`");
       }
       if (this._inFlightTTLSet && this.inFlightTTL() < 1) {
-        throw new IllegalArgumentException(
-          "`inFlightTTL` must be greater than or equal to 1"
-        );
+        throw new IllegalArgumentException("`inFlightTTL` must be greater than or equal to 1");
       }
       if (!this._sleepMilliSet) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `sleepMilli`"
-        );
+        throw new IllegalArgumentException("Missing value for required field `sleepMilli`");
       }
       if (this._sleepMilliSet && this.sleepMilli() < 1) {
-        throw new IllegalArgumentException(
-          "`sleepMilli` must be greater than or equal to 1"
-        );
+        throw new IllegalArgumentException("`sleepMilli` must be greater than or equal to 1");
       }
       return new StormTrackingCache(this);
     }

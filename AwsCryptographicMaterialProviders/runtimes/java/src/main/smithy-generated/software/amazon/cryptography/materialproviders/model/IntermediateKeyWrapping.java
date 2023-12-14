@@ -6,7 +6,6 @@ package software.amazon.cryptography.materialproviders.model;
 import java.util.Objects;
 
 public class IntermediateKeyWrapping {
-
   private final DerivationAlgorithm keyEncryptionKeyKdf;
 
   private final DerivationAlgorithm macKeyKdf;
@@ -56,14 +55,14 @@ public class IntermediateKeyWrapping {
   }
 
   static class BuilderImpl implements Builder {
-
     protected DerivationAlgorithm keyEncryptionKeyKdf;
 
     protected DerivationAlgorithm macKeyKdf;
 
     protected Encrypt pdkEncryptAlgorithm;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(IntermediateKeyWrapping model) {
       this.keyEncryptionKeyKdf = model.keyEncryptionKeyKdf();
@@ -71,9 +70,7 @@ public class IntermediateKeyWrapping {
       this.pdkEncryptAlgorithm = model.pdkEncryptAlgorithm();
     }
 
-    public Builder keyEncryptionKeyKdf(
-      DerivationAlgorithm keyEncryptionKeyKdf
-    ) {
+    public Builder keyEncryptionKeyKdf(DerivationAlgorithm keyEncryptionKeyKdf) {
       this.keyEncryptionKeyKdf = keyEncryptionKeyKdf;
       return this;
     }
@@ -101,20 +98,14 @@ public class IntermediateKeyWrapping {
     }
 
     public IntermediateKeyWrapping build() {
-      if (Objects.isNull(this.keyEncryptionKeyKdf())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `keyEncryptionKeyKdf`"
-        );
+      if (Objects.isNull(this.keyEncryptionKeyKdf()))  {
+        throw new IllegalArgumentException("Missing value for required field `keyEncryptionKeyKdf`");
       }
-      if (Objects.isNull(this.macKeyKdf())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `macKeyKdf`"
-        );
+      if (Objects.isNull(this.macKeyKdf()))  {
+        throw new IllegalArgumentException("Missing value for required field `macKeyKdf`");
       }
-      if (Objects.isNull(this.pdkEncryptAlgorithm())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `pdkEncryptAlgorithm`"
-        );
+      if (Objects.isNull(this.pdkEncryptAlgorithm()))  {
+        throw new IllegalArgumentException("Missing value for required field `pdkEncryptAlgorithm`");
       }
       return new IntermediateKeyWrapping(this);
     }

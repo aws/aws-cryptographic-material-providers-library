@@ -4,8 +4,8 @@
 package software.amazon.cryptography.materialproviders.model;
 
 public class MaterialProvidersConfig {
-
-  protected MaterialProvidersConfig(BuilderImpl builder) {}
+  protected MaterialProvidersConfig(BuilderImpl builder) {
+  }
 
   public Builder toBuilder() {
     return new BuilderImpl(this);
@@ -20,10 +20,11 @@ public class MaterialProvidersConfig {
   }
 
   static class BuilderImpl implements Builder {
+    protected BuilderImpl() {
+    }
 
-    protected BuilderImpl() {}
-
-    protected BuilderImpl(MaterialProvidersConfig model) {}
+    protected BuilderImpl(MaterialProvidersConfig model) {
+    }
 
     public MaterialProvidersConfig build() {
       return new MaterialProvidersConfig(this);

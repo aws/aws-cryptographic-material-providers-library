@@ -6,7 +6,6 @@ package software.amazon.cryptography.materialproviders.model;
 import java.util.Objects;
 
 public class OnDecryptOutput {
-
   private final DecryptionMaterials materials;
 
   protected OnDecryptOutput(BuilderImpl builder) {
@@ -34,10 +33,10 @@ public class OnDecryptOutput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected DecryptionMaterials materials;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(OnDecryptOutput model) {
       this.materials = model.materials();
@@ -53,10 +52,8 @@ public class OnDecryptOutput {
     }
 
     public OnDecryptOutput build() {
-      if (Objects.isNull(this.materials())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `materials`"
-        );
+      if (Objects.isNull(this.materials()))  {
+        throw new IllegalArgumentException("Missing value for required field `materials`");
       }
       return new OnDecryptOutput(this);
     }

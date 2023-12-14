@@ -4,7 +4,6 @@
 package software.amazon.cryptography.primitives.model;
 
 public class GenerateRandomBytesInput {
-
   private final int length;
 
   protected GenerateRandomBytesInput(BuilderImpl builder) {
@@ -32,12 +31,12 @@ public class GenerateRandomBytesInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected int length;
 
     private boolean _lengthSet = false;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(GenerateRandomBytesInput model) {
       this.length = model.length();
@@ -56,14 +55,10 @@ public class GenerateRandomBytesInput {
 
     public GenerateRandomBytesInput build() {
       if (!this._lengthSet) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `length`"
-        );
+        throw new IllegalArgumentException("Missing value for required field `length`");
       }
       if (this._lengthSet && this.length() < 0) {
-        throw new IllegalArgumentException(
-          "`length` must be greater than or equal to 0"
-        );
+        throw new IllegalArgumentException("`length` must be greater than or equal to 0");
       }
       return new GenerateRandomBytesInput(this);
     }

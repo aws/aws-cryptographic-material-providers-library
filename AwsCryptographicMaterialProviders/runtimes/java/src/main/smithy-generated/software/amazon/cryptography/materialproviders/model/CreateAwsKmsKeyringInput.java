@@ -11,7 +11,6 @@ import software.amazon.awssdk.services.kms.KmsClient;
  * Inputs for for creating a AWS KMS Keyring.
  */
 public class CreateAwsKmsKeyringInput {
-
   /**
    * The identifier for the symmetric AWS KMS Key responsible for wrapping and unwrapping data keys. This should not be a AWS KMS Multi-Region Key.
    */
@@ -97,14 +96,14 @@ public class CreateAwsKmsKeyringInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected String kmsKeyId;
 
     protected KmsClient kmsClient;
 
     protected List<String> grantTokens;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(CreateAwsKmsKeyringInput model) {
       this.kmsKeyId = model.kmsKeyId();
@@ -140,15 +139,11 @@ public class CreateAwsKmsKeyringInput {
     }
 
     public CreateAwsKmsKeyringInput build() {
-      if (Objects.isNull(this.kmsKeyId())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `kmsKeyId`"
-        );
+      if (Objects.isNull(this.kmsKeyId()))  {
+        throw new IllegalArgumentException("Missing value for required field `kmsKeyId`");
       }
-      if (Objects.isNull(this.kmsClient())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `kmsClient`"
-        );
+      if (Objects.isNull(this.kmsClient()))  {
+        throw new IllegalArgumentException("Missing value for required field `kmsClient`");
       }
       return new CreateAwsKmsKeyringInput(this);
     }

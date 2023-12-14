@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class RSAEncryptOutput {
-
   private final ByteBuffer cipherText;
 
   protected RSAEncryptOutput(BuilderImpl builder) {
@@ -35,10 +34,10 @@ public class RSAEncryptOutput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected ByteBuffer cipherText;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(RSAEncryptOutput model) {
       this.cipherText = model.cipherText();
@@ -54,10 +53,8 @@ public class RSAEncryptOutput {
     }
 
     public RSAEncryptOutput build() {
-      if (Objects.isNull(this.cipherText())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `cipherText`"
-        );
+      if (Objects.isNull(this.cipherText()))  {
+        throw new IllegalArgumentException("Missing value for required field `cipherText`");
       }
       return new RSAEncryptOutput(this);
     }

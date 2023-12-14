@@ -6,7 +6,6 @@ package software.amazon.cryptography.materialproviders.model;
 import java.util.Objects;
 
 public class CacheType {
-
   /**
    * The best choice for most situations. Probably a StormTrackingCache.
    */
@@ -142,7 +141,6 @@ public class CacheType {
   }
 
   static class BuilderImpl implements Builder {
-
     protected DefaultCache Default;
 
     protected NoCache No;
@@ -153,7 +151,8 @@ public class CacheType {
 
     protected StormTrackingCache StormTracking;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(CacheType model) {
       this.Default = model.Default();
@@ -210,21 +209,13 @@ public class CacheType {
 
     public CacheType build() {
       if (!onlyOneNonNull()) {
-        throw new IllegalArgumentException(
-          "`CacheType` is a Union. A Union MUST have one and only one value set."
-        );
+        throw new IllegalArgumentException("`CacheType` is a Union. A Union MUST have one and only one value set.");
       }
       return new CacheType(this);
     }
 
     private boolean onlyOneNonNull() {
-      Object[] allValues = {
-        this.Default,
-        this.No,
-        this.SingleThreaded,
-        this.MultiThreaded,
-        this.StormTracking,
-      };
+      Object[] allValues = {this.Default, this.No, this.SingleThreaded, this.MultiThreaded, this.StormTracking};
       boolean haveOneNonNull = false;
       for (Object o : allValues) {
         if (Objects.nonNull(o)) {

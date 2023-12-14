@@ -7,8 +7,8 @@ package software.amazon.cryptography.materialproviders.model;
  * Nothing should ever be cached.
  */
 public class NoCache {
-
-  protected NoCache(BuilderImpl builder) {}
+  protected NoCache(BuilderImpl builder) {
+  }
 
   public Builder toBuilder() {
     return new BuilderImpl(this);
@@ -23,10 +23,11 @@ public class NoCache {
   }
 
   static class BuilderImpl implements Builder {
+    protected BuilderImpl() {
+    }
 
-    protected BuilderImpl() {}
-
-    protected BuilderImpl(NoCache model) {}
+    protected BuilderImpl(NoCache model) {
+    }
 
     public NoCache build() {
       return new NoCache(this);

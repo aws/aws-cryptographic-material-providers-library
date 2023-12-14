@@ -9,7 +9,6 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
 
 public class KeyStoreConfig {
-
   /**
    * The DynamoDB table name that backs this Key Store.
    */
@@ -187,7 +186,6 @@ public class KeyStoreConfig {
   }
 
   static class BuilderImpl implements Builder {
-
     protected String ddbTableName;
 
     protected KMSConfiguration kmsConfiguration;
@@ -202,7 +200,8 @@ public class KeyStoreConfig {
 
     protected KmsClient kmsClient;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(KeyStoreConfig model) {
       this.ddbTableName = model.ddbTableName();
@@ -278,35 +277,20 @@ public class KeyStoreConfig {
     }
 
     public KeyStoreConfig build() {
-      if (Objects.isNull(this.ddbTableName())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `ddbTableName`"
-        );
+      if (Objects.isNull(this.ddbTableName()))  {
+        throw new IllegalArgumentException("Missing value for required field `ddbTableName`");
       }
-      if (
-        Objects.nonNull(this.ddbTableName()) && this.ddbTableName().length() < 3
-      ) {
-        throw new IllegalArgumentException(
-          "The size of `ddbTableName` must be greater than or equal to 3"
-        );
+      if (Objects.nonNull(this.ddbTableName()) && this.ddbTableName().length() < 3) {
+        throw new IllegalArgumentException("The size of `ddbTableName` must be greater than or equal to 3");
       }
-      if (
-        Objects.nonNull(this.ddbTableName()) &&
-        this.ddbTableName().length() > 255
-      ) {
-        throw new IllegalArgumentException(
-          "The size of `ddbTableName` must be less than or equal to 255"
-        );
+      if (Objects.nonNull(this.ddbTableName()) && this.ddbTableName().length() > 255) {
+        throw new IllegalArgumentException("The size of `ddbTableName` must be less than or equal to 255");
       }
-      if (Objects.isNull(this.kmsConfiguration())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `kmsConfiguration`"
-        );
+      if (Objects.isNull(this.kmsConfiguration()))  {
+        throw new IllegalArgumentException("Missing value for required field `kmsConfiguration`");
       }
-      if (Objects.isNull(this.logicalKeyStoreName())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `logicalKeyStoreName`"
-        );
+      if (Objects.isNull(this.logicalKeyStoreName()))  {
+        throw new IllegalArgumentException("Missing value for required field `logicalKeyStoreName`");
       }
       return new KeyStoreConfig(this);
     }

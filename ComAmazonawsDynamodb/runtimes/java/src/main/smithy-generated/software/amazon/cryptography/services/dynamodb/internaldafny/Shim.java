@@ -250,7 +250,6 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Update
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateTimeToLiveOutput;
 
 public class Shim implements IDynamoDBClient {
-
   private final DynamoDbClient _impl;
 
   private final String region;
@@ -270,119 +269,104 @@ public class Shim implements IDynamoDBClient {
 
   @Override
   public Result<BatchExecuteStatementOutput, Error> BatchExecuteStatement(
-    BatchExecuteStatementInput input
-  ) {
-    BatchExecuteStatementRequest converted =
-      ToNative.BatchExecuteStatementInput(input);
+      BatchExecuteStatementInput input) {
+    BatchExecuteStatementRequest converted = ToNative.BatchExecuteStatementInput(input);
     try {
-      BatchExecuteStatementResponse result = _impl.batchExecuteStatement(
-        converted
-      );
-      BatchExecuteStatementOutput dafnyResponse =
-        ToDafny.BatchExecuteStatementOutput(result);
-      return Result.create_Success(dafnyResponse);
+      BatchExecuteStatementResponse result = _impl.batchExecuteStatement(converted);
+      BatchExecuteStatementOutput dafnyResponse = ToDafny.BatchExecuteStatementOutput(result);
+      return Result.create_Success(BatchExecuteStatementOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(BatchExecuteStatementOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(BatchExecuteStatementOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(BatchExecuteStatementOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<BatchGetItemOutput, Error> BatchGetItem(
-    BatchGetItemInput input
-  ) {
+  public Result<BatchGetItemOutput, Error> BatchGetItem(BatchGetItemInput input) {
     BatchGetItemRequest converted = ToNative.BatchGetItemInput(input);
     try {
       BatchGetItemResponse result = _impl.batchGetItem(converted);
       BatchGetItemOutput dafnyResponse = ToDafny.BatchGetItemOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(BatchGetItemOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(BatchGetItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(BatchGetItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(BatchGetItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(BatchGetItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(BatchGetItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<BatchWriteItemOutput, Error> BatchWriteItem(
-    BatchWriteItemInput input
-  ) {
+  public Result<BatchWriteItemOutput, Error> BatchWriteItem(BatchWriteItemInput input) {
     BatchWriteItemRequest converted = ToNative.BatchWriteItemInput(input);
     try {
       BatchWriteItemResponse result = _impl.batchWriteItem(converted);
       BatchWriteItemOutput dafnyResponse = ToDafny.BatchWriteItemOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(BatchWriteItemOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(BatchWriteItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ItemCollectionSizeLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(BatchWriteItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(BatchWriteItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(BatchWriteItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(BatchWriteItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(BatchWriteItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<CreateBackupOutput, Error> CreateBackup(
-    CreateBackupInput input
-  ) {
+  public Result<CreateBackupOutput, Error> CreateBackup(CreateBackupInput input) {
     CreateBackupRequest converted = ToNative.CreateBackupInput(input);
     try {
       CreateBackupResponse result = _impl.createBackup(converted);
       CreateBackupOutput dafnyResponse = ToDafny.CreateBackupOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(CreateBackupOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (BackupInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(CreateBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ContinuousBackupsUnavailableException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(CreateBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(CreateBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(CreateBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TableInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(CreateBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(CreateBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(CreateBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<CreateGlobalTableOutput, Error> CreateGlobalTable(
-    CreateGlobalTableInput input
-  ) {
+  public Result<CreateGlobalTableOutput, Error> CreateGlobalTable(CreateGlobalTableInput input) {
     CreateGlobalTableRequest converted = ToNative.CreateGlobalTableInput(input);
     try {
       CreateGlobalTableResponse result = _impl.createGlobalTable(converted);
-      CreateGlobalTableOutput dafnyResponse = ToDafny.CreateGlobalTableOutput(
-        result
-      );
-      return Result.create_Success(dafnyResponse);
+      CreateGlobalTableOutput dafnyResponse = ToDafny.CreateGlobalTableOutput(result);
+      return Result.create_Success(CreateGlobalTableOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (GlobalTableAlreadyExistsException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(CreateGlobalTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(CreateGlobalTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(CreateGlobalTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(CreateGlobalTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(CreateGlobalTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
@@ -392,37 +376,35 @@ public class Shim implements IDynamoDBClient {
     try {
       CreateTableResponse result = _impl.createTable(converted);
       CreateTableOutput dafnyResponse = ToDafny.CreateTableOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(CreateTableOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(CreateTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(CreateTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(CreateTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(CreateTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<DeleteBackupOutput, Error> DeleteBackup(
-    DeleteBackupInput input
-  ) {
+  public Result<DeleteBackupOutput, Error> DeleteBackup(DeleteBackupInput input) {
     DeleteBackupRequest converted = ToNative.DeleteBackupInput(input);
     try {
       DeleteBackupResponse result = _impl.deleteBackup(converted);
       DeleteBackupOutput dafnyResponse = ToDafny.DeleteBackupOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(DeleteBackupOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (BackupInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DeleteBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (BackupNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DeleteBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DeleteBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DeleteBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DeleteBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
@@ -432,23 +414,23 @@ public class Shim implements IDynamoDBClient {
     try {
       DeleteItemResponse result = _impl.deleteItem(converted);
       DeleteItemOutput dafnyResponse = ToDafny.DeleteItemOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(DeleteItemOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (ConditionalCheckFailedException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DeleteItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DeleteItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ItemCollectionSizeLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DeleteItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DeleteItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DeleteItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DeleteItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TransactionConflictException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DeleteItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DeleteItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
@@ -458,429 +440,347 @@ public class Shim implements IDynamoDBClient {
     try {
       DeleteTableResponse result = _impl.deleteTable(converted);
       DeleteTableOutput dafnyResponse = ToDafny.DeleteTableOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(DeleteTableOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DeleteTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DeleteTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DeleteTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DeleteTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DeleteTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<DescribeBackupOutput, Error> DescribeBackup(
-    DescribeBackupInput input
-  ) {
+  public Result<DescribeBackupOutput, Error> DescribeBackup(DescribeBackupInput input) {
     DescribeBackupRequest converted = ToNative.DescribeBackupInput(input);
     try {
       DescribeBackupResponse result = _impl.describeBackup(converted);
       DescribeBackupOutput dafnyResponse = ToDafny.DescribeBackupOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(DescribeBackupOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (BackupNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<
-    DescribeContinuousBackupsOutput,
-    Error
-  > DescribeContinuousBackups(DescribeContinuousBackupsInput input) {
-    DescribeContinuousBackupsRequest converted =
-      ToNative.DescribeContinuousBackupsInput(input);
+  public Result<DescribeContinuousBackupsOutput, Error> DescribeContinuousBackups(
+      DescribeContinuousBackupsInput input) {
+    DescribeContinuousBackupsRequest converted = ToNative.DescribeContinuousBackupsInput(input);
     try {
-      DescribeContinuousBackupsResponse result =
-        _impl.describeContinuousBackups(converted);
-      DescribeContinuousBackupsOutput dafnyResponse =
-        ToDafny.DescribeContinuousBackupsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      DescribeContinuousBackupsResponse result = _impl.describeContinuousBackups(converted);
+      DescribeContinuousBackupsOutput dafnyResponse = ToDafny.DescribeContinuousBackupsOutput(result);
+      return Result.create_Success(DescribeContinuousBackupsOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeContinuousBackupsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeContinuousBackupsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeContinuousBackupsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<
-    DescribeContributorInsightsOutput,
-    Error
-  > DescribeContributorInsights(DescribeContributorInsightsInput input) {
-    DescribeContributorInsightsRequest converted =
-      ToNative.DescribeContributorInsightsInput(input);
+  public Result<DescribeContributorInsightsOutput, Error> DescribeContributorInsights(
+      DescribeContributorInsightsInput input) {
+    DescribeContributorInsightsRequest converted = ToNative.DescribeContributorInsightsInput(input);
     try {
-      DescribeContributorInsightsResponse result =
-        _impl.describeContributorInsights(converted);
-      DescribeContributorInsightsOutput dafnyResponse =
-        ToDafny.DescribeContributorInsightsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      DescribeContributorInsightsResponse result = _impl.describeContributorInsights(converted);
+      DescribeContributorInsightsOutput dafnyResponse = ToDafny.DescribeContributorInsightsOutput(result);
+      return Result.create_Success(DescribeContributorInsightsOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeContributorInsightsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeContributorInsightsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeContributorInsightsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
   public Result<DescribeEndpointsResponse, Error> DescribeEndpoints(
-    DescribeEndpointsRequest input
-  ) {
-    software.amazon.awssdk.services.dynamodb.model.DescribeEndpointsRequest converted =
-      ToNative.DescribeEndpointsRequest(input);
+      DescribeEndpointsRequest input) {
+    software.amazon.awssdk.services.dynamodb.model.DescribeEndpointsRequest converted = ToNative.DescribeEndpointsRequest(input);
     try {
-      software.amazon.awssdk.services.dynamodb.model.DescribeEndpointsResponse result =
-        _impl.describeEndpoints(converted);
-      DescribeEndpointsResponse dafnyResponse =
-        ToDafny.DescribeEndpointsResponse(result);
-      return Result.create_Success(dafnyResponse);
+      software.amazon.awssdk.services.dynamodb.model.DescribeEndpointsResponse result = _impl.describeEndpoints(converted);
+      DescribeEndpointsResponse dafnyResponse = ToDafny.DescribeEndpointsResponse(result);
+      return Result.create_Success(DescribeEndpointsResponse._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeEndpointsResponse._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<DescribeExportOutput, Error> DescribeExport(
-    DescribeExportInput input
-  ) {
+  public Result<DescribeExportOutput, Error> DescribeExport(DescribeExportInput input) {
     DescribeExportRequest converted = ToNative.DescribeExportInput(input);
     try {
       DescribeExportResponse result = _impl.describeExport(converted);
       DescribeExportOutput dafnyResponse = ToDafny.DescribeExportOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(DescribeExportOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (ExportNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeExportOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeExportOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeExportOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeExportOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
   public Result<DescribeGlobalTableOutput, Error> DescribeGlobalTable(
-    DescribeGlobalTableInput input
-  ) {
-    DescribeGlobalTableRequest converted = ToNative.DescribeGlobalTableInput(
-      input
-    );
+      DescribeGlobalTableInput input) {
+    DescribeGlobalTableRequest converted = ToNative.DescribeGlobalTableInput(input);
     try {
       DescribeGlobalTableResponse result = _impl.describeGlobalTable(converted);
-      DescribeGlobalTableOutput dafnyResponse =
-        ToDafny.DescribeGlobalTableOutput(result);
-      return Result.create_Success(dafnyResponse);
+      DescribeGlobalTableOutput dafnyResponse = ToDafny.DescribeGlobalTableOutput(result);
+      return Result.create_Success(DescribeGlobalTableOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (GlobalTableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeGlobalTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeGlobalTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeGlobalTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<
-    DescribeGlobalTableSettingsOutput,
-    Error
-  > DescribeGlobalTableSettings(DescribeGlobalTableSettingsInput input) {
-    DescribeGlobalTableSettingsRequest converted =
-      ToNative.DescribeGlobalTableSettingsInput(input);
+  public Result<DescribeGlobalTableSettingsOutput, Error> DescribeGlobalTableSettings(
+      DescribeGlobalTableSettingsInput input) {
+    DescribeGlobalTableSettingsRequest converted = ToNative.DescribeGlobalTableSettingsInput(input);
     try {
-      DescribeGlobalTableSettingsResponse result =
-        _impl.describeGlobalTableSettings(converted);
-      DescribeGlobalTableSettingsOutput dafnyResponse =
-        ToDafny.DescribeGlobalTableSettingsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      DescribeGlobalTableSettingsResponse result = _impl.describeGlobalTableSettings(converted);
+      DescribeGlobalTableSettingsOutput dafnyResponse = ToDafny.DescribeGlobalTableSettingsOutput(result);
+      return Result.create_Success(DescribeGlobalTableSettingsOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (GlobalTableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeGlobalTableSettingsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeGlobalTableSettingsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeGlobalTableSettingsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<DescribeImportOutput, Error> DescribeImport(
-    DescribeImportInput input
-  ) {
+  public Result<DescribeImportOutput, Error> DescribeImport(DescribeImportInput input) {
     DescribeImportRequest converted = ToNative.DescribeImportInput(input);
     try {
       DescribeImportResponse result = _impl.describeImport(converted);
       DescribeImportOutput dafnyResponse = ToDafny.DescribeImportOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(DescribeImportOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (ImportNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeImportOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeImportOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<
-    DescribeKinesisStreamingDestinationOutput,
-    Error
-  > DescribeKinesisStreamingDestination(
-    DescribeKinesisStreamingDestinationInput input
-  ) {
-    DescribeKinesisStreamingDestinationRequest converted =
-      ToNative.DescribeKinesisStreamingDestinationInput(input);
+  public Result<DescribeKinesisStreamingDestinationOutput, Error> DescribeKinesisStreamingDestination(
+      DescribeKinesisStreamingDestinationInput input) {
+    DescribeKinesisStreamingDestinationRequest converted = ToNative.DescribeKinesisStreamingDestinationInput(input);
     try {
-      DescribeKinesisStreamingDestinationResponse result =
-        _impl.describeKinesisStreamingDestination(converted);
-      DescribeKinesisStreamingDestinationOutput dafnyResponse =
-        ToDafny.DescribeKinesisStreamingDestinationOutput(result);
-      return Result.create_Success(dafnyResponse);
+      DescribeKinesisStreamingDestinationResponse result = _impl.describeKinesisStreamingDestination(converted);
+      DescribeKinesisStreamingDestinationOutput dafnyResponse = ToDafny.DescribeKinesisStreamingDestinationOutput(result);
+      return Result.create_Success(DescribeKinesisStreamingDestinationOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeKinesisStreamingDestinationOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeKinesisStreamingDestinationOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeKinesisStreamingDestinationOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<DescribeLimitsOutput, Error> DescribeLimits(
-    DescribeLimitsInput input
-  ) {
+  public Result<DescribeLimitsOutput, Error> DescribeLimits(DescribeLimitsInput input) {
     DescribeLimitsRequest converted = ToNative.DescribeLimitsInput(input);
     try {
       DescribeLimitsResponse result = _impl.describeLimits(converted);
       DescribeLimitsOutput dafnyResponse = ToDafny.DescribeLimitsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(DescribeLimitsOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeLimitsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeLimitsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<DescribeTableOutput, Error> DescribeTable(
-    DescribeTableInput input
-  ) {
+  public Result<DescribeTableOutput, Error> DescribeTable(DescribeTableInput input) {
     DescribeTableRequest converted = ToNative.DescribeTableInput(input);
     try {
       DescribeTableResponse result = _impl.describeTable(converted);
       DescribeTableOutput dafnyResponse = ToDafny.DescribeTableOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(DescribeTableOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<
-    DescribeTableReplicaAutoScalingOutput,
-    Error
-  > DescribeTableReplicaAutoScaling(
-    DescribeTableReplicaAutoScalingInput input
-  ) {
-    DescribeTableReplicaAutoScalingRequest converted =
-      ToNative.DescribeTableReplicaAutoScalingInput(input);
+  public Result<DescribeTableReplicaAutoScalingOutput, Error> DescribeTableReplicaAutoScaling(
+      DescribeTableReplicaAutoScalingInput input) {
+    DescribeTableReplicaAutoScalingRequest converted = ToNative.DescribeTableReplicaAutoScalingInput(input);
     try {
-      DescribeTableReplicaAutoScalingResponse result =
-        _impl.describeTableReplicaAutoScaling(converted);
-      DescribeTableReplicaAutoScalingOutput dafnyResponse =
-        ToDafny.DescribeTableReplicaAutoScalingOutput(result);
-      return Result.create_Success(dafnyResponse);
+      DescribeTableReplicaAutoScalingResponse result = _impl.describeTableReplicaAutoScaling(converted);
+      DescribeTableReplicaAutoScalingOutput dafnyResponse = ToDafny.DescribeTableReplicaAutoScalingOutput(result);
+      return Result.create_Success(DescribeTableReplicaAutoScalingOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeTableReplicaAutoScalingOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeTableReplicaAutoScalingOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeTableReplicaAutoScalingOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<DescribeTimeToLiveOutput, Error> DescribeTimeToLive(
-    DescribeTimeToLiveInput input
-  ) {
-    DescribeTimeToLiveRequest converted = ToNative.DescribeTimeToLiveInput(
-      input
-    );
+  public Result<DescribeTimeToLiveOutput, Error> DescribeTimeToLive(DescribeTimeToLiveInput input) {
+    DescribeTimeToLiveRequest converted = ToNative.DescribeTimeToLiveInput(input);
     try {
       DescribeTimeToLiveResponse result = _impl.describeTimeToLive(converted);
-      DescribeTimeToLiveOutput dafnyResponse = ToDafny.DescribeTimeToLiveOutput(
-        result
-      );
-      return Result.create_Success(dafnyResponse);
+      DescribeTimeToLiveOutput dafnyResponse = ToDafny.DescribeTimeToLiveOutput(result);
+      return Result.create_Success(DescribeTimeToLiveOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeTimeToLiveOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeTimeToLiveOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DescribeTimeToLiveOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<
-    DisableKinesisStreamingDestinationOutput,
-    Error
-  > DisableKinesisStreamingDestination(
-    DisableKinesisStreamingDestinationInput input
-  ) {
-    DisableKinesisStreamingDestinationRequest converted =
-      ToNative.DisableKinesisStreamingDestinationInput(input);
+  public Result<DisableKinesisStreamingDestinationOutput, Error> DisableKinesisStreamingDestination(
+      DisableKinesisStreamingDestinationInput input) {
+    DisableKinesisStreamingDestinationRequest converted = ToNative.DisableKinesisStreamingDestinationInput(input);
     try {
-      DisableKinesisStreamingDestinationResponse result =
-        _impl.disableKinesisStreamingDestination(converted);
-      DisableKinesisStreamingDestinationOutput dafnyResponse =
-        ToDafny.DisableKinesisStreamingDestinationOutput(result);
-      return Result.create_Success(dafnyResponse);
+      DisableKinesisStreamingDestinationResponse result = _impl.disableKinesisStreamingDestination(converted);
+      DisableKinesisStreamingDestinationOutput dafnyResponse = ToDafny.DisableKinesisStreamingDestinationOutput(result);
+      return Result.create_Success(DisableKinesisStreamingDestinationOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DisableKinesisStreamingDestinationOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DisableKinesisStreamingDestinationOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DisableKinesisStreamingDestinationOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DisableKinesisStreamingDestinationOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(DisableKinesisStreamingDestinationOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<
-    EnableKinesisStreamingDestinationOutput,
-    Error
-  > EnableKinesisStreamingDestination(
-    EnableKinesisStreamingDestinationInput input
-  ) {
-    EnableKinesisStreamingDestinationRequest converted =
-      ToNative.EnableKinesisStreamingDestinationInput(input);
+  public Result<EnableKinesisStreamingDestinationOutput, Error> EnableKinesisStreamingDestination(
+      EnableKinesisStreamingDestinationInput input) {
+    EnableKinesisStreamingDestinationRequest converted = ToNative.EnableKinesisStreamingDestinationInput(input);
     try {
-      EnableKinesisStreamingDestinationResponse result =
-        _impl.enableKinesisStreamingDestination(converted);
-      EnableKinesisStreamingDestinationOutput dafnyResponse =
-        ToDafny.EnableKinesisStreamingDestinationOutput(result);
-      return Result.create_Success(dafnyResponse);
+      EnableKinesisStreamingDestinationResponse result = _impl.enableKinesisStreamingDestination(converted);
+      EnableKinesisStreamingDestinationOutput dafnyResponse = ToDafny.EnableKinesisStreamingDestinationOutput(result);
+      return Result.create_Success(EnableKinesisStreamingDestinationOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(EnableKinesisStreamingDestinationOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(EnableKinesisStreamingDestinationOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(EnableKinesisStreamingDestinationOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(EnableKinesisStreamingDestinationOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(EnableKinesisStreamingDestinationOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<ExecuteStatementOutput, Error> ExecuteStatement(
-    ExecuteStatementInput input
-  ) {
+  public Result<ExecuteStatementOutput, Error> ExecuteStatement(ExecuteStatementInput input) {
     ExecuteStatementRequest converted = ToNative.ExecuteStatementInput(input);
     try {
       ExecuteStatementResponse result = _impl.executeStatement(converted);
-      ExecuteStatementOutput dafnyResponse = ToDafny.ExecuteStatementOutput(
-        result
-      );
-      return Result.create_Success(dafnyResponse);
+      ExecuteStatementOutput dafnyResponse = ToDafny.ExecuteStatementOutput(result);
+      return Result.create_Success(ExecuteStatementOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (ConditionalCheckFailedException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExecuteStatementOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DuplicateItemException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExecuteStatementOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExecuteStatementOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ItemCollectionSizeLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExecuteStatementOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExecuteStatementOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExecuteStatementOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExecuteStatementOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TransactionConflictException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExecuteStatementOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExecuteStatementOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<ExecuteTransactionOutput, Error> ExecuteTransaction(
-    ExecuteTransactionInput input
-  ) {
-    ExecuteTransactionRequest converted = ToNative.ExecuteTransactionInput(
-      input
-    );
+  public Result<ExecuteTransactionOutput, Error> ExecuteTransaction(ExecuteTransactionInput input) {
+    ExecuteTransactionRequest converted = ToNative.ExecuteTransactionInput(input);
     try {
       ExecuteTransactionResponse result = _impl.executeTransaction(converted);
-      ExecuteTransactionOutput dafnyResponse = ToDafny.ExecuteTransactionOutput(
-        result
-      );
-      return Result.create_Success(dafnyResponse);
+      ExecuteTransactionOutput dafnyResponse = ToDafny.ExecuteTransactionOutput(result);
+      return Result.create_Success(ExecuteTransactionOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (IdempotentParameterMismatchException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExecuteTransactionOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExecuteTransactionOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExecuteTransactionOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExecuteTransactionOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExecuteTransactionOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TransactionCanceledException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExecuteTransactionOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TransactionInProgressException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExecuteTransactionOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExecuteTransactionOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
   public Result<ExportTableToPointInTimeOutput, Error> ExportTableToPointInTime(
-    ExportTableToPointInTimeInput input
-  ) {
-    ExportTableToPointInTimeRequest converted =
-      ToNative.ExportTableToPointInTimeInput(input);
+      ExportTableToPointInTimeInput input) {
+    ExportTableToPointInTimeRequest converted = ToNative.ExportTableToPointInTimeInput(input);
     try {
-      ExportTableToPointInTimeResponse result = _impl.exportTableToPointInTime(
-        converted
-      );
-      ExportTableToPointInTimeOutput dafnyResponse =
-        ToDafny.ExportTableToPointInTimeOutput(result);
-      return Result.create_Success(dafnyResponse);
+      ExportTableToPointInTimeResponse result = _impl.exportTableToPointInTime(converted);
+      ExportTableToPointInTimeOutput dafnyResponse = ToDafny.ExportTableToPointInTimeOutput(result);
+      return Result.create_Success(ExportTableToPointInTimeOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (ExportConflictException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExportTableToPointInTimeOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExportTableToPointInTimeOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (InvalidExportTimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExportTableToPointInTimeOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExportTableToPointInTimeOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (PointInTimeRecoveryUnavailableException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExportTableToPointInTimeOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExportTableToPointInTimeOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ExportTableToPointInTimeOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
@@ -890,17 +790,17 @@ public class Shim implements IDynamoDBClient {
     try {
       GetItemResponse result = _impl.getItem(converted);
       GetItemOutput dafnyResponse = ToDafny.GetItemOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(GetItemOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(GetItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(GetItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(GetItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(GetItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(GetItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
@@ -910,15 +810,15 @@ public class Shim implements IDynamoDBClient {
     try {
       ImportTableResponse result = _impl.importTable(converted);
       ImportTableOutput dafnyResponse = ToDafny.ImportTableOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(ImportTableOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (ImportConflictException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ImportTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ImportTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ImportTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ImportTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
@@ -928,33 +828,28 @@ public class Shim implements IDynamoDBClient {
     try {
       ListBackupsResponse result = _impl.listBackups(converted);
       ListBackupsOutput dafnyResponse = ToDafny.ListBackupsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(ListBackupsOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ListBackupsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ListBackupsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
   public Result<ListContributorInsightsOutput, Error> ListContributorInsights(
-    ListContributorInsightsInput input
-  ) {
-    ListContributorInsightsRequest converted =
-      ToNative.ListContributorInsightsInput(input);
+      ListContributorInsightsInput input) {
+    ListContributorInsightsRequest converted = ToNative.ListContributorInsightsInput(input);
     try {
-      ListContributorInsightsResponse result = _impl.listContributorInsights(
-        converted
-      );
-      ListContributorInsightsOutput dafnyResponse =
-        ToDafny.ListContributorInsightsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      ListContributorInsightsResponse result = _impl.listContributorInsights(converted);
+      ListContributorInsightsOutput dafnyResponse = ToDafny.ListContributorInsightsOutput(result);
+      return Result.create_Success(ListContributorInsightsOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ListContributorInsightsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ListContributorInsightsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ListContributorInsightsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
@@ -964,31 +859,27 @@ public class Shim implements IDynamoDBClient {
     try {
       ListExportsResponse result = _impl.listExports(converted);
       ListExportsOutput dafnyResponse = ToDafny.ListExportsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(ListExportsOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ListExportsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ListExportsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ListExportsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<ListGlobalTablesOutput, Error> ListGlobalTables(
-    ListGlobalTablesInput input
-  ) {
+  public Result<ListGlobalTablesOutput, Error> ListGlobalTables(ListGlobalTablesInput input) {
     ListGlobalTablesRequest converted = ToNative.ListGlobalTablesInput(input);
     try {
       ListGlobalTablesResponse result = _impl.listGlobalTables(converted);
-      ListGlobalTablesOutput dafnyResponse = ToDafny.ListGlobalTablesOutput(
-        result
-      );
-      return Result.create_Success(dafnyResponse);
+      ListGlobalTablesOutput dafnyResponse = ToDafny.ListGlobalTablesOutput(result);
+      return Result.create_Success(ListGlobalTablesOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ListGlobalTablesOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ListGlobalTablesOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
@@ -998,11 +889,11 @@ public class Shim implements IDynamoDBClient {
     try {
       ListImportsResponse result = _impl.listImports(converted);
       ListImportsOutput dafnyResponse = ToDafny.ListImportsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(ListImportsOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ListImportsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ListImportsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
@@ -1012,33 +903,27 @@ public class Shim implements IDynamoDBClient {
     try {
       ListTablesResponse result = _impl.listTables(converted);
       ListTablesOutput dafnyResponse = ToDafny.ListTablesOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(ListTablesOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ListTablesOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ListTablesOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<ListTagsOfResourceOutput, Error> ListTagsOfResource(
-    ListTagsOfResourceInput input
-  ) {
-    ListTagsOfResourceRequest converted = ToNative.ListTagsOfResourceInput(
-      input
-    );
+  public Result<ListTagsOfResourceOutput, Error> ListTagsOfResource(ListTagsOfResourceInput input) {
+    ListTagsOfResourceRequest converted = ToNative.ListTagsOfResourceInput(input);
     try {
       ListTagsOfResourceResponse result = _impl.listTagsOfResource(converted);
-      ListTagsOfResourceOutput dafnyResponse = ToDafny.ListTagsOfResourceOutput(
-        result
-      );
-      return Result.create_Success(dafnyResponse);
+      ListTagsOfResourceOutput dafnyResponse = ToDafny.ListTagsOfResourceOutput(result);
+      return Result.create_Success(ListTagsOfResourceOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ListTagsOfResourceOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ListTagsOfResourceOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ListTagsOfResourceOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
@@ -1048,23 +933,23 @@ public class Shim implements IDynamoDBClient {
     try {
       PutItemResponse result = _impl.putItem(converted);
       PutItemOutput dafnyResponse = ToDafny.PutItemOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(PutItemOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (ConditionalCheckFailedException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(PutItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(PutItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ItemCollectionSizeLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(PutItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(PutItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(PutItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(PutItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TransactionConflictException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(PutItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(PutItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
@@ -1074,79 +959,69 @@ public class Shim implements IDynamoDBClient {
     try {
       QueryResponse result = _impl.query(converted);
       QueryOutput dafnyResponse = ToDafny.QueryOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(QueryOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(QueryOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(QueryOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(QueryOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(QueryOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(QueryOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
   public Result<RestoreTableFromBackupOutput, Error> RestoreTableFromBackup(
-    RestoreTableFromBackupInput input
-  ) {
-    RestoreTableFromBackupRequest converted =
-      ToNative.RestoreTableFromBackupInput(input);
+      RestoreTableFromBackupInput input) {
+    RestoreTableFromBackupRequest converted = ToNative.RestoreTableFromBackupInput(input);
     try {
-      RestoreTableFromBackupResponse result = _impl.restoreTableFromBackup(
-        converted
-      );
-      RestoreTableFromBackupOutput dafnyResponse =
-        ToDafny.RestoreTableFromBackupOutput(result);
-      return Result.create_Success(dafnyResponse);
+      RestoreTableFromBackupResponse result = _impl.restoreTableFromBackup(converted);
+      RestoreTableFromBackupOutput dafnyResponse = ToDafny.RestoreTableFromBackupOutput(result);
+      return Result.create_Success(RestoreTableFromBackupOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (BackupInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(RestoreTableFromBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (BackupNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(RestoreTableFromBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(RestoreTableFromBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(RestoreTableFromBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TableAlreadyExistsException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(RestoreTableFromBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TableInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(RestoreTableFromBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(RestoreTableFromBackupOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<
-    RestoreTableToPointInTimeOutput,
-    Error
-  > RestoreTableToPointInTime(RestoreTableToPointInTimeInput input) {
-    RestoreTableToPointInTimeRequest converted =
-      ToNative.RestoreTableToPointInTimeInput(input);
+  public Result<RestoreTableToPointInTimeOutput, Error> RestoreTableToPointInTime(
+      RestoreTableToPointInTimeInput input) {
+    RestoreTableToPointInTimeRequest converted = ToNative.RestoreTableToPointInTimeInput(input);
     try {
-      RestoreTableToPointInTimeResponse result =
-        _impl.restoreTableToPointInTime(converted);
-      RestoreTableToPointInTimeOutput dafnyResponse =
-        ToDafny.RestoreTableToPointInTimeOutput(result);
-      return Result.create_Success(dafnyResponse);
+      RestoreTableToPointInTimeResponse result = _impl.restoreTableToPointInTime(converted);
+      RestoreTableToPointInTimeOutput dafnyResponse = ToDafny.RestoreTableToPointInTimeOutput(result);
+      return Result.create_Success(RestoreTableToPointInTimeOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(RestoreTableToPointInTimeOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (InvalidRestoreTimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(RestoreTableToPointInTimeOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(RestoreTableToPointInTimeOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (PointInTimeRecoveryUnavailableException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(RestoreTableToPointInTimeOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TableAlreadyExistsException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(RestoreTableToPointInTimeOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TableInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(RestoreTableToPointInTimeOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(RestoreTableToPointInTimeOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(RestoreTableToPointInTimeOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
@@ -1156,17 +1031,17 @@ public class Shim implements IDynamoDBClient {
     try {
       ScanResponse result = _impl.scan(converted);
       ScanOutput dafnyResponse = ToDafny.ScanOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(ScanOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ScanOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ScanOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ScanOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ScanOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(ScanOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
@@ -1175,75 +1050,65 @@ public class Shim implements IDynamoDBClient {
     TagResourceRequest converted = ToNative.TagResourceInput(input);
     try {
       _impl.tagResource(converted);
-      return Result.create_Success(Tuple0.create());
+      return Result.create_Success(dafny.Tuple0._typeDescriptor(), Error._typeDescriptor(), Tuple0.create());
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(dafny.Tuple0._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(dafny.Tuple0._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(dafny.Tuple0._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(dafny.Tuple0._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(dafny.Tuple0._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<TransactGetItemsOutput, Error> TransactGetItems(
-    TransactGetItemsInput input
-  ) {
+  public Result<TransactGetItemsOutput, Error> TransactGetItems(TransactGetItemsInput input) {
     TransactGetItemsRequest converted = ToNative.TransactGetItemsInput(input);
     try {
       TransactGetItemsResponse result = _impl.transactGetItems(converted);
-      TransactGetItemsOutput dafnyResponse = ToDafny.TransactGetItemsOutput(
-        result
-      );
-      return Result.create_Success(dafnyResponse);
+      TransactGetItemsOutput dafnyResponse = ToDafny.TransactGetItemsOutput(result);
+      return Result.create_Success(TransactGetItemsOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(TransactGetItemsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(TransactGetItemsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(TransactGetItemsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(TransactGetItemsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TransactionCanceledException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(TransactGetItemsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(TransactGetItemsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<TransactWriteItemsOutput, Error> TransactWriteItems(
-    TransactWriteItemsInput input
-  ) {
-    TransactWriteItemsRequest converted = ToNative.TransactWriteItemsInput(
-      input
-    );
+  public Result<TransactWriteItemsOutput, Error> TransactWriteItems(TransactWriteItemsInput input) {
+    TransactWriteItemsRequest converted = ToNative.TransactWriteItemsInput(input);
     try {
       TransactWriteItemsResponse result = _impl.transactWriteItems(converted);
-      TransactWriteItemsOutput dafnyResponse = ToDafny.TransactWriteItemsOutput(
-        result
-      );
-      return Result.create_Success(dafnyResponse);
+      TransactWriteItemsOutput dafnyResponse = ToDafny.TransactWriteItemsOutput(result);
+      return Result.create_Success(TransactWriteItemsOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (IdempotentParameterMismatchException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(TransactWriteItemsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(TransactWriteItemsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(TransactWriteItemsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(TransactWriteItemsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(TransactWriteItemsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TransactionCanceledException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(TransactWriteItemsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TransactionInProgressException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(TransactWriteItemsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(TransactWriteItemsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
@@ -1252,119 +1117,100 @@ public class Shim implements IDynamoDBClient {
     UntagResourceRequest converted = ToNative.UntagResourceInput(input);
     try {
       _impl.untagResource(converted);
-      return Result.create_Success(Tuple0.create());
+      return Result.create_Success(dafny.Tuple0._typeDescriptor(), Error._typeDescriptor(), Tuple0.create());
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(dafny.Tuple0._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(dafny.Tuple0._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(dafny.Tuple0._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(dafny.Tuple0._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(dafny.Tuple0._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
   public Result<UpdateContinuousBackupsOutput, Error> UpdateContinuousBackups(
-    UpdateContinuousBackupsInput input
-  ) {
-    UpdateContinuousBackupsRequest converted =
-      ToNative.UpdateContinuousBackupsInput(input);
+      UpdateContinuousBackupsInput input) {
+    UpdateContinuousBackupsRequest converted = ToNative.UpdateContinuousBackupsInput(input);
     try {
-      UpdateContinuousBackupsResponse result = _impl.updateContinuousBackups(
-        converted
-      );
-      UpdateContinuousBackupsOutput dafnyResponse =
-        ToDafny.UpdateContinuousBackupsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      UpdateContinuousBackupsResponse result = _impl.updateContinuousBackups(converted);
+      UpdateContinuousBackupsOutput dafnyResponse = ToDafny.UpdateContinuousBackupsOutput(result);
+      return Result.create_Success(UpdateContinuousBackupsOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (ContinuousBackupsUnavailableException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateContinuousBackupsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateContinuousBackupsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateContinuousBackupsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateContinuousBackupsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<
-    UpdateContributorInsightsOutput,
-    Error
-  > UpdateContributorInsights(UpdateContributorInsightsInput input) {
-    UpdateContributorInsightsRequest converted =
-      ToNative.UpdateContributorInsightsInput(input);
+  public Result<UpdateContributorInsightsOutput, Error> UpdateContributorInsights(
+      UpdateContributorInsightsInput input) {
+    UpdateContributorInsightsRequest converted = ToNative.UpdateContributorInsightsInput(input);
     try {
-      UpdateContributorInsightsResponse result =
-        _impl.updateContributorInsights(converted);
-      UpdateContributorInsightsOutput dafnyResponse =
-        ToDafny.UpdateContributorInsightsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      UpdateContributorInsightsResponse result = _impl.updateContributorInsights(converted);
+      UpdateContributorInsightsOutput dafnyResponse = ToDafny.UpdateContributorInsightsOutput(result);
+      return Result.create_Success(UpdateContributorInsightsOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateContributorInsightsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateContributorInsightsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateContributorInsightsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<UpdateGlobalTableOutput, Error> UpdateGlobalTable(
-    UpdateGlobalTableInput input
-  ) {
+  public Result<UpdateGlobalTableOutput, Error> UpdateGlobalTable(UpdateGlobalTableInput input) {
     UpdateGlobalTableRequest converted = ToNative.UpdateGlobalTableInput(input);
     try {
       UpdateGlobalTableResponse result = _impl.updateGlobalTable(converted);
-      UpdateGlobalTableOutput dafnyResponse = ToDafny.UpdateGlobalTableOutput(
-        result
-      );
-      return Result.create_Success(dafnyResponse);
+      UpdateGlobalTableOutput dafnyResponse = ToDafny.UpdateGlobalTableOutput(result);
+      return Result.create_Success(UpdateGlobalTableOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (GlobalTableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateGlobalTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateGlobalTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ReplicaAlreadyExistsException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateGlobalTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ReplicaNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateGlobalTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateGlobalTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateGlobalTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<
-    UpdateGlobalTableSettingsOutput,
-    Error
-  > UpdateGlobalTableSettings(UpdateGlobalTableSettingsInput input) {
-    UpdateGlobalTableSettingsRequest converted =
-      ToNative.UpdateGlobalTableSettingsInput(input);
+  public Result<UpdateGlobalTableSettingsOutput, Error> UpdateGlobalTableSettings(
+      UpdateGlobalTableSettingsInput input) {
+    UpdateGlobalTableSettingsRequest converted = ToNative.UpdateGlobalTableSettingsInput(input);
     try {
-      UpdateGlobalTableSettingsResponse result =
-        _impl.updateGlobalTableSettings(converted);
-      UpdateGlobalTableSettingsOutput dafnyResponse =
-        ToDafny.UpdateGlobalTableSettingsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      UpdateGlobalTableSettingsResponse result = _impl.updateGlobalTableSettings(converted);
+      UpdateGlobalTableSettingsOutput dafnyResponse = ToDafny.UpdateGlobalTableSettingsOutput(result);
+      return Result.create_Success(UpdateGlobalTableSettingsOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (GlobalTableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateGlobalTableSettingsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (IndexNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateGlobalTableSettingsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateGlobalTableSettingsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateGlobalTableSettingsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ReplicaNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateGlobalTableSettingsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateGlobalTableSettingsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateGlobalTableSettingsOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
@@ -1374,23 +1220,23 @@ public class Shim implements IDynamoDBClient {
     try {
       UpdateItemResponse result = _impl.updateItem(converted);
       UpdateItemOutput dafnyResponse = ToDafny.UpdateItemOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(UpdateItemOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (ConditionalCheckFailedException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ItemCollectionSizeLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (TransactionConflictException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateItemOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
@@ -1400,67 +1246,58 @@ public class Shim implements IDynamoDBClient {
     try {
       UpdateTableResponse result = _impl.updateTable(converted);
       UpdateTableOutput dafnyResponse = ToDafny.UpdateTableOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(UpdateTableOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateTableOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<
-    UpdateTableReplicaAutoScalingOutput,
-    Error
-  > UpdateTableReplicaAutoScaling(UpdateTableReplicaAutoScalingInput input) {
-    UpdateTableReplicaAutoScalingRequest converted =
-      ToNative.UpdateTableReplicaAutoScalingInput(input);
+  public Result<UpdateTableReplicaAutoScalingOutput, Error> UpdateTableReplicaAutoScaling(
+      UpdateTableReplicaAutoScalingInput input) {
+    UpdateTableReplicaAutoScalingRequest converted = ToNative.UpdateTableReplicaAutoScalingInput(input);
     try {
-      UpdateTableReplicaAutoScalingResponse result =
-        _impl.updateTableReplicaAutoScaling(converted);
-      UpdateTableReplicaAutoScalingOutput dafnyResponse =
-        ToDafny.UpdateTableReplicaAutoScalingOutput(result);
-      return Result.create_Success(dafnyResponse);
+      UpdateTableReplicaAutoScalingResponse result = _impl.updateTableReplicaAutoScaling(converted);
+      UpdateTableReplicaAutoScalingOutput dafnyResponse = ToDafny.UpdateTableReplicaAutoScalingOutput(result);
+      return Result.create_Success(UpdateTableReplicaAutoScalingOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateTableReplicaAutoScalingOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateTableReplicaAutoScalingOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateTableReplicaAutoScalingOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateTableReplicaAutoScalingOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateTableReplicaAutoScalingOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 
   @Override
-  public Result<UpdateTimeToLiveOutput, Error> UpdateTimeToLive(
-    UpdateTimeToLiveInput input
-  ) {
+  public Result<UpdateTimeToLiveOutput, Error> UpdateTimeToLive(UpdateTimeToLiveInput input) {
     UpdateTimeToLiveRequest converted = ToNative.UpdateTimeToLiveInput(input);
     try {
       UpdateTimeToLiveResponse result = _impl.updateTimeToLive(converted);
-      UpdateTimeToLiveOutput dafnyResponse = ToDafny.UpdateTimeToLiveOutput(
-        result
-      );
-      return Result.create_Success(dafnyResponse);
+      UpdateTimeToLiveOutput dafnyResponse = ToDafny.UpdateTimeToLiveOutput(result);
+      return Result.create_Success(UpdateTimeToLiveOutput._typeDescriptor(), Error._typeDescriptor(), dafnyResponse);
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateTimeToLiveOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateTimeToLiveOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateTimeToLiveOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateTimeToLiveOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(UpdateTimeToLiveOutput._typeDescriptor(), Error._typeDescriptor(), ToDafny.Error(ex));
     }
   }
 }

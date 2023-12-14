@@ -9,7 +9,6 @@ import java.util.Objects;
  * Outputs for Key Store DynamoDB table creation.
  */
 public class CreateKeyStoreOutput {
-
   /**
    * The ARN of the DynamoDB table that backs this Key Store.
    */
@@ -49,10 +48,10 @@ public class CreateKeyStoreOutput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected String tableArn;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(CreateKeyStoreOutput model) {
       this.tableArn = model.tableArn();
@@ -68,10 +67,8 @@ public class CreateKeyStoreOutput {
     }
 
     public CreateKeyStoreOutput build() {
-      if (Objects.isNull(this.tableArn())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `tableArn`"
-        );
+      if (Objects.isNull(this.tableArn()))  {
+        throw new IllegalArgumentException("Missing value for required field `tableArn`");
       }
       return new CreateKeyStoreOutput(this);
     }

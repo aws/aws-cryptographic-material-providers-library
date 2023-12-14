@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class BranchKeyMaterials {
-
   private final String branchKeyIdentifier;
 
   private final String branchKeyVersion;
@@ -69,7 +68,6 @@ public class BranchKeyMaterials {
   }
 
   static class BuilderImpl implements Builder {
-
     protected String branchKeyIdentifier;
 
     protected String branchKeyVersion;
@@ -78,7 +76,8 @@ public class BranchKeyMaterials {
 
     protected ByteBuffer branchKey;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(BranchKeyMaterials model) {
       this.branchKeyIdentifier = model.branchKeyIdentifier();
@@ -124,25 +123,17 @@ public class BranchKeyMaterials {
     }
 
     public BranchKeyMaterials build() {
-      if (Objects.isNull(this.branchKeyIdentifier())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `branchKeyIdentifier`"
-        );
+      if (Objects.isNull(this.branchKeyIdentifier()))  {
+        throw new IllegalArgumentException("Missing value for required field `branchKeyIdentifier`");
       }
-      if (Objects.isNull(this.branchKeyVersion())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `branchKeyVersion`"
-        );
+      if (Objects.isNull(this.branchKeyVersion()))  {
+        throw new IllegalArgumentException("Missing value for required field `branchKeyVersion`");
       }
-      if (Objects.isNull(this.encryptionContext())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `encryptionContext`"
-        );
+      if (Objects.isNull(this.encryptionContext()))  {
+        throw new IllegalArgumentException("Missing value for required field `encryptionContext`");
       }
-      if (Objects.isNull(this.branchKey())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `branchKey`"
-        );
+      if (Objects.isNull(this.branchKey()))  {
+        throw new IllegalArgumentException("Missing value for required field `branchKey`");
       }
       return new BranchKeyMaterials(this);
     }

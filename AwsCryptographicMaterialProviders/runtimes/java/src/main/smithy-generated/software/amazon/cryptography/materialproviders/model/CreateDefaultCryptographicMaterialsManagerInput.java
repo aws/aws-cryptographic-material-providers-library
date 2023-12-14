@@ -11,15 +11,12 @@ import software.amazon.cryptography.materialproviders.Keyring;
  * Inputs for creating a Default Cryptographic Materials Manager.
  */
 public class CreateDefaultCryptographicMaterialsManagerInput {
-
   /**
    * The Keyring that the created Default Cryprographic Materials Manager will use to wrap data keys.
    */
   private final IKeyring keyring;
 
-  protected CreateDefaultCryptographicMaterialsManagerInput(
-    BuilderImpl builder
-  ) {
+  protected CreateDefaultCryptographicMaterialsManagerInput(BuilderImpl builder) {
     this.keyring = builder.keyring();
   }
 
@@ -53,14 +50,12 @@ public class CreateDefaultCryptographicMaterialsManagerInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected IKeyring keyring;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
-    protected BuilderImpl(
-      CreateDefaultCryptographicMaterialsManagerInput model
-    ) {
+    protected BuilderImpl(CreateDefaultCryptographicMaterialsManagerInput model) {
       this.keyring = model.keyring();
     }
 
@@ -74,10 +69,8 @@ public class CreateDefaultCryptographicMaterialsManagerInput {
     }
 
     public CreateDefaultCryptographicMaterialsManagerInput build() {
-      if (Objects.isNull(this.keyring())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `keyring`"
-        );
+      if (Objects.isNull(this.keyring()))  {
+        throw new IllegalArgumentException("Missing value for required field `keyring`");
       }
       return new CreateDefaultCryptographicMaterialsManagerInput(this);
     }

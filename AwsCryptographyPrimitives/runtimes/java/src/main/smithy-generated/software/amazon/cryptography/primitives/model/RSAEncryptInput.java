@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class RSAEncryptInput {
-
   private final RSAPaddingMode padding;
 
   private final ByteBuffer publicKey;
@@ -57,14 +56,14 @@ public class RSAEncryptInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected RSAPaddingMode padding;
 
     protected ByteBuffer publicKey;
 
     protected ByteBuffer plaintext;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(RSAEncryptInput model) {
       this.padding = model.padding();
@@ -100,20 +99,14 @@ public class RSAEncryptInput {
     }
 
     public RSAEncryptInput build() {
-      if (Objects.isNull(this.padding())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `padding`"
-        );
+      if (Objects.isNull(this.padding()))  {
+        throw new IllegalArgumentException("Missing value for required field `padding`");
       }
-      if (Objects.isNull(this.publicKey())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `publicKey`"
-        );
+      if (Objects.isNull(this.publicKey()))  {
+        throw new IllegalArgumentException("Missing value for required field `publicKey`");
       }
-      if (Objects.isNull(this.plaintext())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `plaintext`"
-        );
+      if (Objects.isNull(this.plaintext()))  {
+        throw new IllegalArgumentException("Missing value for required field `plaintext`");
       }
       return new RSAEncryptInput(this);
     }

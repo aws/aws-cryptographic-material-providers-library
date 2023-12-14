@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class GetEncryptionMaterialsInput {
-
   private final Map<String, String> encryptionContext;
 
   private final CommitmentPolicy commitmentPolicy;
@@ -24,8 +23,7 @@ public class GetEncryptionMaterialsInput {
     this.commitmentPolicy = builder.commitmentPolicy();
     this.algorithmSuiteId = builder.algorithmSuiteId();
     this.maxPlaintextLength = builder.maxPlaintextLength();
-    this.requiredEncryptionContextKeys =
-      builder.requiredEncryptionContextKeys();
+    this.requiredEncryptionContextKeys = builder.requiredEncryptionContextKeys();
   }
 
   public Map<String, String> encryptionContext() {
@@ -73,9 +71,7 @@ public class GetEncryptionMaterialsInput {
 
     Long maxPlaintextLength();
 
-    Builder requiredEncryptionContextKeys(
-      List<String> requiredEncryptionContextKeys
-    );
+    Builder requiredEncryptionContextKeys(List<String> requiredEncryptionContextKeys);
 
     List<String> requiredEncryptionContextKeys();
 
@@ -83,7 +79,6 @@ public class GetEncryptionMaterialsInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected Map<String, String> encryptionContext;
 
     protected CommitmentPolicy commitmentPolicy;
@@ -94,15 +89,15 @@ public class GetEncryptionMaterialsInput {
 
     protected List<String> requiredEncryptionContextKeys;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(GetEncryptionMaterialsInput model) {
       this.encryptionContext = model.encryptionContext();
       this.commitmentPolicy = model.commitmentPolicy();
       this.algorithmSuiteId = model.algorithmSuiteId();
       this.maxPlaintextLength = model.maxPlaintextLength();
-      this.requiredEncryptionContextKeys =
-        model.requiredEncryptionContextKeys();
+      this.requiredEncryptionContextKeys = model.requiredEncryptionContextKeys();
     }
 
     public Builder encryptionContext(Map<String, String> encryptionContext) {
@@ -141,9 +136,7 @@ public class GetEncryptionMaterialsInput {
       return this.maxPlaintextLength;
     }
 
-    public Builder requiredEncryptionContextKeys(
-      List<String> requiredEncryptionContextKeys
-    ) {
+    public Builder requiredEncryptionContextKeys(List<String> requiredEncryptionContextKeys) {
       this.requiredEncryptionContextKeys = requiredEncryptionContextKeys;
       return this;
     }
@@ -153,15 +146,11 @@ public class GetEncryptionMaterialsInput {
     }
 
     public GetEncryptionMaterialsInput build() {
-      if (Objects.isNull(this.encryptionContext())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `encryptionContext`"
-        );
+      if (Objects.isNull(this.encryptionContext()))  {
+        throw new IllegalArgumentException("Missing value for required field `encryptionContext`");
       }
-      if (Objects.isNull(this.commitmentPolicy())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `commitmentPolicy`"
-        );
+      if (Objects.isNull(this.commitmentPolicy()))  {
+        throw new IllegalArgumentException("Missing value for required field `commitmentPolicy`");
       }
       return new GetEncryptionMaterialsInput(this);
     }

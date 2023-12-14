@@ -10804,13 +10804,7 @@ namespace Com.Amazonaws.Dynamodb
         }
         public static Wrappers_Compile._IOption<Dafny.ISequence<Dafny.ISequence<char>>> ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S10_Projection__M16_NonKeyAttributes(System.Collections.Generic.List<string> value)
         {
-            // BEGIN MANUAL EDIT
-            if (value == null || value.Count == 0)
-            {
-                return Wrappers_Compile.Option<Dafny.ISequence<Dafny.ISequence<char>>>.create_None();
-            }
-            return Wrappers_Compile.Option<Dafny.ISequence<Dafny.ISequence<char>>>.create_Some(ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S23_NonKeyAttributeNameList((System.Collections.Generic.List<string>)value));
-            // END MANUAL EDIT
+            return value == null ? Wrappers_Compile.Option<Dafny.ISequence<Dafny.ISequence<char>>>.create_None() : Wrappers_Compile.Option<Dafny.ISequence<Dafny.ISequence<char>>>.create_Some(ToDafny_N3_com__N9_amazonaws__N8_dynamodb__S23_NonKeyAttributeNameList((System.Collections.Generic.List<string>)value));
         }
         public static string FromDafny_N3_com__N9_amazonaws__N8_dynamodb__S30_LocalSecondaryIndexDescription__M9_IndexName(Wrappers_Compile._IOption<Dafny.ISequence<char>> value)
         {

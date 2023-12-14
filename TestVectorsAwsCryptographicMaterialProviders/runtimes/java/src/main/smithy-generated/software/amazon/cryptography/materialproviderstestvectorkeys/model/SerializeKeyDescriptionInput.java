@@ -6,7 +6,6 @@ package software.amazon.cryptography.materialproviderstestvectorkeys.model;
 import java.util.Objects;
 
 public class SerializeKeyDescriptionInput {
-
   private final KeyDescription keyDescription;
 
   protected SerializeKeyDescriptionInput(BuilderImpl builder) {
@@ -34,10 +33,10 @@ public class SerializeKeyDescriptionInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected KeyDescription keyDescription;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(SerializeKeyDescriptionInput model) {
       this.keyDescription = model.keyDescription();
@@ -53,10 +52,8 @@ public class SerializeKeyDescriptionInput {
     }
 
     public SerializeKeyDescriptionInput build() {
-      if (Objects.isNull(this.keyDescription())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `keyDescription`"
-        );
+      if (Objects.isNull(this.keyDescription()))  {
+        throw new IllegalArgumentException("Missing value for required field `keyDescription`");
       }
       return new SerializeKeyDescriptionInput(this);
     }

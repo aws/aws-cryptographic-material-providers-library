@@ -6,7 +6,6 @@ package software.amazon.cryptography.keystore.model;
 import java.util.Map;
 
 public class CreateKeyInput {
-
   /**
    * The identifier for the created Branch Key.
    */
@@ -69,12 +68,12 @@ public class CreateKeyInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected String branchKeyIdentifier;
 
     protected Map<String, String> encryptionContext;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(CreateKeyInput model) {
       this.branchKeyIdentifier = model.branchKeyIdentifier();

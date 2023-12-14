@@ -8,7 +8,6 @@ import software.amazon.cryptography.keystore.model.BeaconKeyMaterials;
 import software.amazon.cryptography.keystore.model.BranchKeyMaterials;
 
 public class Materials {
-
   private final EncryptionMaterials Encryption;
 
   private final DecryptionMaterials Decryption;
@@ -69,7 +68,6 @@ public class Materials {
   }
 
   static class BuilderImpl implements Builder {
-
     protected EncryptionMaterials Encryption;
 
     protected DecryptionMaterials Decryption;
@@ -78,7 +76,8 @@ public class Materials {
 
     protected BeaconKeyMaterials BeaconKey;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(Materials model) {
       this.Encryption = model.Encryption();
@@ -125,20 +124,13 @@ public class Materials {
 
     public Materials build() {
       if (!onlyOneNonNull()) {
-        throw new IllegalArgumentException(
-          "`Materials` is a Union. A Union MUST have one and only one value set."
-        );
+        throw new IllegalArgumentException("`Materials` is a Union. A Union MUST have one and only one value set.");
       }
       return new Materials(this);
     }
 
     private boolean onlyOneNonNull() {
-      Object[] allValues = {
-        this.Encryption,
-        this.Decryption,
-        this.BranchKey,
-        this.BeaconKey,
-      };
+      Object[] allValues = {this.Encryption, this.Decryption, this.BranchKey, this.BeaconKey};
       boolean haveOneNonNull = false;
       for (Object o : allValues) {
         if (Objects.nonNull(o)) {

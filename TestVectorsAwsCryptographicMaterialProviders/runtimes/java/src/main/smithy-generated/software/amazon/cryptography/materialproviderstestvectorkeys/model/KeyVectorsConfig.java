@@ -6,7 +6,6 @@ package software.amazon.cryptography.materialproviderstestvectorkeys.model;
 import java.util.Objects;
 
 public class KeyVectorsConfig {
-
   private final String keyManifiestPath;
 
   protected KeyVectorsConfig(BuilderImpl builder) {
@@ -34,10 +33,10 @@ public class KeyVectorsConfig {
   }
 
   static class BuilderImpl implements Builder {
-
     protected String keyManifiestPath;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(KeyVectorsConfig model) {
       this.keyManifiestPath = model.keyManifiestPath();
@@ -53,10 +52,8 @@ public class KeyVectorsConfig {
     }
 
     public KeyVectorsConfig build() {
-      if (Objects.isNull(this.keyManifiestPath())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `keyManifiestPath`"
-        );
+      if (Objects.isNull(this.keyManifiestPath()))  {
+        throw new IllegalArgumentException("Missing value for required field `keyManifiestPath`");
       }
       return new KeyVectorsConfig(this);
     }
