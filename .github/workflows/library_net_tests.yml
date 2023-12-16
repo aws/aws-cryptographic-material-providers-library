@@ -120,16 +120,19 @@ jobs:
           curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --runtime dotnet --version 2.0.9
           
       - name: Debug Setup .NET Core SDK netcoreapp2.0 Linux/Macos
+        continue-on-error: true
         shell: bash
         run: |
           PATH=/home/runner/.dotnet:$PATH
-          ls /home/runner/.dotnet/tools
-          dotnet --list-runtimes
+          echo "path is: $PATH"
+          echo "ls /home/runner/.dotnet/tools: $(ls /home/runner/.dotnet/tools)" 
+          echo "dotnet --list-runtimes: $(dotnet --list-runtimes)"
           
       - name: Test ${{ matrix.library }} .NET Framework netcoreapp2.0
         working-directory: ./${{ matrix.library }}
         shell: bash
         run: |
+          PATH=/home/runner/.dotnet:$PATH
           make test_net FRAMEWORK=netcoreapp2.0
 
       - name: Test Cache Thread Safety netcoreapp2.0
