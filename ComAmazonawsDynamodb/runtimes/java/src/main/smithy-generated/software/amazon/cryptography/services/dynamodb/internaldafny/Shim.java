@@ -250,6 +250,7 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Update
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateTimeToLiveOutput;
 
 public class Shim implements IDynamoDBClient {
+
   private final DynamoDbClient _impl;
 
   private final String region;
@@ -269,11 +270,16 @@ public class Shim implements IDynamoDBClient {
 
   @Override
   public Result<BatchExecuteStatementOutput, Error> BatchExecuteStatement(
-      BatchExecuteStatementInput input) {
-    BatchExecuteStatementRequest converted = ToNative.BatchExecuteStatementInput(input);
+    BatchExecuteStatementInput input
+  ) {
+    BatchExecuteStatementRequest converted =
+      ToNative.BatchExecuteStatementInput(input);
     try {
-      BatchExecuteStatementResponse result = _impl.batchExecuteStatement(converted);
-      BatchExecuteStatementOutput dafnyResponse = ToDafny.BatchExecuteStatementOutput(result);
+      BatchExecuteStatementResponse result = _impl.batchExecuteStatement(
+        converted
+      );
+      BatchExecuteStatementOutput dafnyResponse =
+        ToDafny.BatchExecuteStatementOutput(result);
       return Result.create_Success(dafnyResponse);
     } catch (InternalServerErrorException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -282,12 +288,14 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<BatchGetItemOutput, Error> BatchGetItem(BatchGetItemInput input) {
+  public Result<BatchGetItemOutput, Error> BatchGetItem(
+    BatchGetItemInput input
+  ) {
     BatchGetItemRequest converted = ToNative.BatchGetItemInput(input);
     try {
       BatchGetItemResponse result = _impl.batchGetItem(converted);
@@ -304,12 +312,14 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<BatchWriteItemOutput, Error> BatchWriteItem(BatchWriteItemInput input) {
+  public Result<BatchWriteItemOutput, Error> BatchWriteItem(
+    BatchWriteItemInput input
+  ) {
     BatchWriteItemRequest converted = ToNative.BatchWriteItemInput(input);
     try {
       BatchWriteItemResponse result = _impl.batchWriteItem(converted);
@@ -328,12 +338,14 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<CreateBackupOutput, Error> CreateBackup(CreateBackupInput input) {
+  public Result<CreateBackupOutput, Error> CreateBackup(
+    CreateBackupInput input
+  ) {
     CreateBackupRequest converted = ToNative.CreateBackupInput(input);
     try {
       CreateBackupResponse result = _impl.createBackup(converted);
@@ -354,16 +366,20 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<CreateGlobalTableOutput, Error> CreateGlobalTable(CreateGlobalTableInput input) {
+  public Result<CreateGlobalTableOutput, Error> CreateGlobalTable(
+    CreateGlobalTableInput input
+  ) {
     CreateGlobalTableRequest converted = ToNative.CreateGlobalTableInput(input);
     try {
       CreateGlobalTableResponse result = _impl.createGlobalTable(converted);
-      CreateGlobalTableOutput dafnyResponse = ToDafny.CreateGlobalTableOutput(result);
+      CreateGlobalTableOutput dafnyResponse = ToDafny.CreateGlobalTableOutput(
+        result
+      );
       return Result.create_Success(dafnyResponse);
     } catch (GlobalTableAlreadyExistsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -376,7 +392,7 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -396,12 +412,14 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<DeleteBackupOutput, Error> DeleteBackup(DeleteBackupInput input) {
+  public Result<DeleteBackupOutput, Error> DeleteBackup(
+    DeleteBackupInput input
+  ) {
     DeleteBackupRequest converted = ToNative.DeleteBackupInput(input);
     try {
       DeleteBackupResponse result = _impl.deleteBackup(converted);
@@ -418,7 +436,7 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -446,7 +464,7 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -468,12 +486,14 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<DescribeBackupOutput, Error> DescribeBackup(DescribeBackupInput input) {
+  public Result<DescribeBackupOutput, Error> DescribeBackup(
+    DescribeBackupInput input
+  ) {
     DescribeBackupRequest converted = ToNative.DescribeBackupInput(input);
     try {
       DescribeBackupResponse result = _impl.describeBackup(converted);
@@ -486,17 +506,22 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<DescribeContinuousBackupsOutput, Error> DescribeContinuousBackups(
-      DescribeContinuousBackupsInput input) {
-    DescribeContinuousBackupsRequest converted = ToNative.DescribeContinuousBackupsInput(input);
+  public Result<
+    DescribeContinuousBackupsOutput,
+    Error
+  > DescribeContinuousBackups(DescribeContinuousBackupsInput input) {
+    DescribeContinuousBackupsRequest converted =
+      ToNative.DescribeContinuousBackupsInput(input);
     try {
-      DescribeContinuousBackupsResponse result = _impl.describeContinuousBackups(converted);
-      DescribeContinuousBackupsOutput dafnyResponse = ToDafny.DescribeContinuousBackupsOutput(result);
+      DescribeContinuousBackupsResponse result =
+        _impl.describeContinuousBackups(converted);
+      DescribeContinuousBackupsOutput dafnyResponse =
+        ToDafny.DescribeContinuousBackupsOutput(result);
       return Result.create_Success(dafnyResponse);
     } catch (InternalServerErrorException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -505,17 +530,22 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<DescribeContributorInsightsOutput, Error> DescribeContributorInsights(
-      DescribeContributorInsightsInput input) {
-    DescribeContributorInsightsRequest converted = ToNative.DescribeContributorInsightsInput(input);
+  public Result<
+    DescribeContributorInsightsOutput,
+    Error
+  > DescribeContributorInsights(DescribeContributorInsightsInput input) {
+    DescribeContributorInsightsRequest converted =
+      ToNative.DescribeContributorInsightsInput(input);
     try {
-      DescribeContributorInsightsResponse result = _impl.describeContributorInsights(converted);
-      DescribeContributorInsightsOutput dafnyResponse = ToDafny.DescribeContributorInsightsOutput(result);
+      DescribeContributorInsightsResponse result =
+        _impl.describeContributorInsights(converted);
+      DescribeContributorInsightsOutput dafnyResponse =
+        ToDafny.DescribeContributorInsightsOutput(result);
       return Result.create_Success(dafnyResponse);
     } catch (InternalServerErrorException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -524,27 +554,33 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
   public Result<DescribeEndpointsResponse, Error> DescribeEndpoints(
-      DescribeEndpointsRequest input) {
-    software.amazon.awssdk.services.dynamodb.model.DescribeEndpointsRequest converted = ToNative.DescribeEndpointsRequest(input);
+    DescribeEndpointsRequest input
+  ) {
+    software.amazon.awssdk.services.dynamodb.model.DescribeEndpointsRequest converted =
+      ToNative.DescribeEndpointsRequest(input);
     try {
-      software.amazon.awssdk.services.dynamodb.model.DescribeEndpointsResponse result = _impl.describeEndpoints(converted);
-      DescribeEndpointsResponse dafnyResponse = ToDafny.DescribeEndpointsResponse(result);
+      software.amazon.awssdk.services.dynamodb.model.DescribeEndpointsResponse result =
+        _impl.describeEndpoints(converted);
+      DescribeEndpointsResponse dafnyResponse =
+        ToDafny.DescribeEndpointsResponse(result);
       return Result.create_Success(dafnyResponse);
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<DescribeExportOutput, Error> DescribeExport(DescribeExportInput input) {
+  public Result<DescribeExportOutput, Error> DescribeExport(
+    DescribeExportInput input
+  ) {
     DescribeExportRequest converted = ToNative.DescribeExportInput(input);
     try {
       DescribeExportResponse result = _impl.describeExport(converted);
@@ -559,17 +595,21 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
   public Result<DescribeGlobalTableOutput, Error> DescribeGlobalTable(
-      DescribeGlobalTableInput input) {
-    DescribeGlobalTableRequest converted = ToNative.DescribeGlobalTableInput(input);
+    DescribeGlobalTableInput input
+  ) {
+    DescribeGlobalTableRequest converted = ToNative.DescribeGlobalTableInput(
+      input
+    );
     try {
       DescribeGlobalTableResponse result = _impl.describeGlobalTable(converted);
-      DescribeGlobalTableOutput dafnyResponse = ToDafny.DescribeGlobalTableOutput(result);
+      DescribeGlobalTableOutput dafnyResponse =
+        ToDafny.DescribeGlobalTableOutput(result);
       return Result.create_Success(dafnyResponse);
     } catch (GlobalTableNotFoundException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -578,17 +618,22 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<DescribeGlobalTableSettingsOutput, Error> DescribeGlobalTableSettings(
-      DescribeGlobalTableSettingsInput input) {
-    DescribeGlobalTableSettingsRequest converted = ToNative.DescribeGlobalTableSettingsInput(input);
+  public Result<
+    DescribeGlobalTableSettingsOutput,
+    Error
+  > DescribeGlobalTableSettings(DescribeGlobalTableSettingsInput input) {
+    DescribeGlobalTableSettingsRequest converted =
+      ToNative.DescribeGlobalTableSettingsInput(input);
     try {
-      DescribeGlobalTableSettingsResponse result = _impl.describeGlobalTableSettings(converted);
-      DescribeGlobalTableSettingsOutput dafnyResponse = ToDafny.DescribeGlobalTableSettingsOutput(result);
+      DescribeGlobalTableSettingsResponse result =
+        _impl.describeGlobalTableSettings(converted);
+      DescribeGlobalTableSettingsOutput dafnyResponse =
+        ToDafny.DescribeGlobalTableSettingsOutput(result);
       return Result.create_Success(dafnyResponse);
     } catch (GlobalTableNotFoundException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -597,12 +642,14 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<DescribeImportOutput, Error> DescribeImport(DescribeImportInput input) {
+  public Result<DescribeImportOutput, Error> DescribeImport(
+    DescribeImportInput input
+  ) {
     DescribeImportRequest converted = ToNative.DescribeImportInput(input);
     try {
       DescribeImportResponse result = _impl.describeImport(converted);
@@ -613,17 +660,24 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<DescribeKinesisStreamingDestinationOutput, Error> DescribeKinesisStreamingDestination(
-      DescribeKinesisStreamingDestinationInput input) {
-    DescribeKinesisStreamingDestinationRequest converted = ToNative.DescribeKinesisStreamingDestinationInput(input);
+  public Result<
+    DescribeKinesisStreamingDestinationOutput,
+    Error
+  > DescribeKinesisStreamingDestination(
+    DescribeKinesisStreamingDestinationInput input
+  ) {
+    DescribeKinesisStreamingDestinationRequest converted =
+      ToNative.DescribeKinesisStreamingDestinationInput(input);
     try {
-      DescribeKinesisStreamingDestinationResponse result = _impl.describeKinesisStreamingDestination(converted);
-      DescribeKinesisStreamingDestinationOutput dafnyResponse = ToDafny.DescribeKinesisStreamingDestinationOutput(result);
+      DescribeKinesisStreamingDestinationResponse result =
+        _impl.describeKinesisStreamingDestination(converted);
+      DescribeKinesisStreamingDestinationOutput dafnyResponse =
+        ToDafny.DescribeKinesisStreamingDestinationOutput(result);
       return Result.create_Success(dafnyResponse);
     } catch (InternalServerErrorException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -632,12 +686,14 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<DescribeLimitsOutput, Error> DescribeLimits(DescribeLimitsInput input) {
+  public Result<DescribeLimitsOutput, Error> DescribeLimits(
+    DescribeLimitsInput input
+  ) {
     DescribeLimitsRequest converted = ToNative.DescribeLimitsInput(input);
     try {
       DescribeLimitsResponse result = _impl.describeLimits(converted);
@@ -648,12 +704,14 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<DescribeTableOutput, Error> DescribeTable(DescribeTableInput input) {
+  public Result<DescribeTableOutput, Error> DescribeTable(
+    DescribeTableInput input
+  ) {
     DescribeTableRequest converted = ToNative.DescribeTableInput(input);
     try {
       DescribeTableResponse result = _impl.describeTable(converted);
@@ -666,17 +724,24 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<DescribeTableReplicaAutoScalingOutput, Error> DescribeTableReplicaAutoScaling(
-      DescribeTableReplicaAutoScalingInput input) {
-    DescribeTableReplicaAutoScalingRequest converted = ToNative.DescribeTableReplicaAutoScalingInput(input);
+  public Result<
+    DescribeTableReplicaAutoScalingOutput,
+    Error
+  > DescribeTableReplicaAutoScaling(
+    DescribeTableReplicaAutoScalingInput input
+  ) {
+    DescribeTableReplicaAutoScalingRequest converted =
+      ToNative.DescribeTableReplicaAutoScalingInput(input);
     try {
-      DescribeTableReplicaAutoScalingResponse result = _impl.describeTableReplicaAutoScaling(converted);
-      DescribeTableReplicaAutoScalingOutput dafnyResponse = ToDafny.DescribeTableReplicaAutoScalingOutput(result);
+      DescribeTableReplicaAutoScalingResponse result =
+        _impl.describeTableReplicaAutoScaling(converted);
+      DescribeTableReplicaAutoScalingOutput dafnyResponse =
+        ToDafny.DescribeTableReplicaAutoScalingOutput(result);
       return Result.create_Success(dafnyResponse);
     } catch (InternalServerErrorException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -685,16 +750,22 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<DescribeTimeToLiveOutput, Error> DescribeTimeToLive(DescribeTimeToLiveInput input) {
-    DescribeTimeToLiveRequest converted = ToNative.DescribeTimeToLiveInput(input);
+  public Result<DescribeTimeToLiveOutput, Error> DescribeTimeToLive(
+    DescribeTimeToLiveInput input
+  ) {
+    DescribeTimeToLiveRequest converted = ToNative.DescribeTimeToLiveInput(
+      input
+    );
     try {
       DescribeTimeToLiveResponse result = _impl.describeTimeToLive(converted);
-      DescribeTimeToLiveOutput dafnyResponse = ToDafny.DescribeTimeToLiveOutput(result);
+      DescribeTimeToLiveOutput dafnyResponse = ToDafny.DescribeTimeToLiveOutput(
+        result
+      );
       return Result.create_Success(dafnyResponse);
     } catch (InternalServerErrorException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -703,17 +774,24 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<DisableKinesisStreamingDestinationOutput, Error> DisableKinesisStreamingDestination(
-      DisableKinesisStreamingDestinationInput input) {
-    DisableKinesisStreamingDestinationRequest converted = ToNative.DisableKinesisStreamingDestinationInput(input);
+  public Result<
+    DisableKinesisStreamingDestinationOutput,
+    Error
+  > DisableKinesisStreamingDestination(
+    DisableKinesisStreamingDestinationInput input
+  ) {
+    DisableKinesisStreamingDestinationRequest converted =
+      ToNative.DisableKinesisStreamingDestinationInput(input);
     try {
-      DisableKinesisStreamingDestinationResponse result = _impl.disableKinesisStreamingDestination(converted);
-      DisableKinesisStreamingDestinationOutput dafnyResponse = ToDafny.DisableKinesisStreamingDestinationOutput(result);
+      DisableKinesisStreamingDestinationResponse result =
+        _impl.disableKinesisStreamingDestination(converted);
+      DisableKinesisStreamingDestinationOutput dafnyResponse =
+        ToDafny.DisableKinesisStreamingDestinationOutput(result);
       return Result.create_Success(dafnyResponse);
     } catch (InternalServerErrorException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -726,17 +804,24 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<EnableKinesisStreamingDestinationOutput, Error> EnableKinesisStreamingDestination(
-      EnableKinesisStreamingDestinationInput input) {
-    EnableKinesisStreamingDestinationRequest converted = ToNative.EnableKinesisStreamingDestinationInput(input);
+  public Result<
+    EnableKinesisStreamingDestinationOutput,
+    Error
+  > EnableKinesisStreamingDestination(
+    EnableKinesisStreamingDestinationInput input
+  ) {
+    EnableKinesisStreamingDestinationRequest converted =
+      ToNative.EnableKinesisStreamingDestinationInput(input);
     try {
-      EnableKinesisStreamingDestinationResponse result = _impl.enableKinesisStreamingDestination(converted);
-      EnableKinesisStreamingDestinationOutput dafnyResponse = ToDafny.EnableKinesisStreamingDestinationOutput(result);
+      EnableKinesisStreamingDestinationResponse result =
+        _impl.enableKinesisStreamingDestination(converted);
+      EnableKinesisStreamingDestinationOutput dafnyResponse =
+        ToDafny.EnableKinesisStreamingDestinationOutput(result);
       return Result.create_Success(dafnyResponse);
     } catch (InternalServerErrorException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -749,16 +834,20 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<ExecuteStatementOutput, Error> ExecuteStatement(ExecuteStatementInput input) {
+  public Result<ExecuteStatementOutput, Error> ExecuteStatement(
+    ExecuteStatementInput input
+  ) {
     ExecuteStatementRequest converted = ToNative.ExecuteStatementInput(input);
     try {
       ExecuteStatementResponse result = _impl.executeStatement(converted);
-      ExecuteStatementOutput dafnyResponse = ToDafny.ExecuteStatementOutput(result);
+      ExecuteStatementOutput dafnyResponse = ToDafny.ExecuteStatementOutput(
+        result
+      );
       return Result.create_Success(dafnyResponse);
     } catch (ConditionalCheckFailedException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -779,16 +868,22 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<ExecuteTransactionOutput, Error> ExecuteTransaction(ExecuteTransactionInput input) {
-    ExecuteTransactionRequest converted = ToNative.ExecuteTransactionInput(input);
+  public Result<ExecuteTransactionOutput, Error> ExecuteTransaction(
+    ExecuteTransactionInput input
+  ) {
+    ExecuteTransactionRequest converted = ToNative.ExecuteTransactionInput(
+      input
+    );
     try {
       ExecuteTransactionResponse result = _impl.executeTransaction(converted);
-      ExecuteTransactionOutput dafnyResponse = ToDafny.ExecuteTransactionOutput(result);
+      ExecuteTransactionOutput dafnyResponse = ToDafny.ExecuteTransactionOutput(
+        result
+      );
       return Result.create_Success(dafnyResponse);
     } catch (IdempotentParameterMismatchException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -807,17 +902,22 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
   public Result<ExportTableToPointInTimeOutput, Error> ExportTableToPointInTime(
-      ExportTableToPointInTimeInput input) {
-    ExportTableToPointInTimeRequest converted = ToNative.ExportTableToPointInTimeInput(input);
+    ExportTableToPointInTimeInput input
+  ) {
+    ExportTableToPointInTimeRequest converted =
+      ToNative.ExportTableToPointInTimeInput(input);
     try {
-      ExportTableToPointInTimeResponse result = _impl.exportTableToPointInTime(converted);
-      ExportTableToPointInTimeOutput dafnyResponse = ToDafny.ExportTableToPointInTimeOutput(result);
+      ExportTableToPointInTimeResponse result = _impl.exportTableToPointInTime(
+        converted
+      );
+      ExportTableToPointInTimeOutput dafnyResponse =
+        ToDafny.ExportTableToPointInTimeOutput(result);
       return Result.create_Success(dafnyResponse);
     } catch (ExportConflictException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -834,7 +934,7 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -856,7 +956,7 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -876,7 +976,7 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -892,17 +992,22 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
   public Result<ListContributorInsightsOutput, Error> ListContributorInsights(
-      ListContributorInsightsInput input) {
-    ListContributorInsightsRequest converted = ToNative.ListContributorInsightsInput(input);
+    ListContributorInsightsInput input
+  ) {
+    ListContributorInsightsRequest converted =
+      ToNative.ListContributorInsightsInput(input);
     try {
-      ListContributorInsightsResponse result = _impl.listContributorInsights(converted);
-      ListContributorInsightsOutput dafnyResponse = ToDafny.ListContributorInsightsOutput(result);
+      ListContributorInsightsResponse result = _impl.listContributorInsights(
+        converted
+      );
+      ListContributorInsightsOutput dafnyResponse =
+        ToDafny.ListContributorInsightsOutput(result);
       return Result.create_Success(dafnyResponse);
     } catch (InternalServerErrorException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -911,7 +1016,7 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -929,23 +1034,27 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<ListGlobalTablesOutput, Error> ListGlobalTables(ListGlobalTablesInput input) {
+  public Result<ListGlobalTablesOutput, Error> ListGlobalTables(
+    ListGlobalTablesInput input
+  ) {
     ListGlobalTablesRequest converted = ToNative.ListGlobalTablesInput(input);
     try {
       ListGlobalTablesResponse result = _impl.listGlobalTables(converted);
-      ListGlobalTablesOutput dafnyResponse = ToDafny.ListGlobalTablesOutput(result);
+      ListGlobalTablesOutput dafnyResponse = ToDafny.ListGlobalTablesOutput(
+        result
+      );
       return Result.create_Success(dafnyResponse);
     } catch (InternalServerErrorException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -961,7 +1070,7 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -977,16 +1086,22 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<ListTagsOfResourceOutput, Error> ListTagsOfResource(ListTagsOfResourceInput input) {
-    ListTagsOfResourceRequest converted = ToNative.ListTagsOfResourceInput(input);
+  public Result<ListTagsOfResourceOutput, Error> ListTagsOfResource(
+    ListTagsOfResourceInput input
+  ) {
+    ListTagsOfResourceRequest converted = ToNative.ListTagsOfResourceInput(
+      input
+    );
     try {
       ListTagsOfResourceResponse result = _impl.listTagsOfResource(converted);
-      ListTagsOfResourceOutput dafnyResponse = ToDafny.ListTagsOfResourceOutput(result);
+      ListTagsOfResourceOutput dafnyResponse = ToDafny.ListTagsOfResourceOutput(
+        result
+      );
       return Result.create_Success(dafnyResponse);
     } catch (InternalServerErrorException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -995,7 +1110,7 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -1023,7 +1138,7 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -1045,17 +1160,22 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
   public Result<RestoreTableFromBackupOutput, Error> RestoreTableFromBackup(
-      RestoreTableFromBackupInput input) {
-    RestoreTableFromBackupRequest converted = ToNative.RestoreTableFromBackupInput(input);
+    RestoreTableFromBackupInput input
+  ) {
+    RestoreTableFromBackupRequest converted =
+      ToNative.RestoreTableFromBackupInput(input);
     try {
-      RestoreTableFromBackupResponse result = _impl.restoreTableFromBackup(converted);
-      RestoreTableFromBackupOutput dafnyResponse = ToDafny.RestoreTableFromBackupOutput(result);
+      RestoreTableFromBackupResponse result = _impl.restoreTableFromBackup(
+        converted
+      );
+      RestoreTableFromBackupOutput dafnyResponse =
+        ToDafny.RestoreTableFromBackupOutput(result);
       return Result.create_Success(dafnyResponse);
     } catch (BackupInUseException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -1072,17 +1192,22 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<RestoreTableToPointInTimeOutput, Error> RestoreTableToPointInTime(
-      RestoreTableToPointInTimeInput input) {
-    RestoreTableToPointInTimeRequest converted = ToNative.RestoreTableToPointInTimeInput(input);
+  public Result<
+    RestoreTableToPointInTimeOutput,
+    Error
+  > RestoreTableToPointInTime(RestoreTableToPointInTimeInput input) {
+    RestoreTableToPointInTimeRequest converted =
+      ToNative.RestoreTableToPointInTimeInput(input);
     try {
-      RestoreTableToPointInTimeResponse result = _impl.restoreTableToPointInTime(converted);
-      RestoreTableToPointInTimeOutput dafnyResponse = ToDafny.RestoreTableToPointInTimeOutput(result);
+      RestoreTableToPointInTimeResponse result =
+        _impl.restoreTableToPointInTime(converted);
+      RestoreTableToPointInTimeOutput dafnyResponse =
+        ToDafny.RestoreTableToPointInTimeOutput(result);
       return Result.create_Success(dafnyResponse);
     } catch (InternalServerErrorException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -1101,7 +1226,7 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -1123,7 +1248,7 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -1144,16 +1269,20 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<TransactGetItemsOutput, Error> TransactGetItems(TransactGetItemsInput input) {
+  public Result<TransactGetItemsOutput, Error> TransactGetItems(
+    TransactGetItemsInput input
+  ) {
     TransactGetItemsRequest converted = ToNative.TransactGetItemsInput(input);
     try {
       TransactGetItemsResponse result = _impl.transactGetItems(converted);
-      TransactGetItemsOutput dafnyResponse = ToDafny.TransactGetItemsOutput(result);
+      TransactGetItemsOutput dafnyResponse = ToDafny.TransactGetItemsOutput(
+        result
+      );
       return Result.create_Success(dafnyResponse);
     } catch (InternalServerErrorException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -1168,16 +1297,22 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<TransactWriteItemsOutput, Error> TransactWriteItems(TransactWriteItemsInput input) {
-    TransactWriteItemsRequest converted = ToNative.TransactWriteItemsInput(input);
+  public Result<TransactWriteItemsOutput, Error> TransactWriteItems(
+    TransactWriteItemsInput input
+  ) {
+    TransactWriteItemsRequest converted = ToNative.TransactWriteItemsInput(
+      input
+    );
     try {
       TransactWriteItemsResponse result = _impl.transactWriteItems(converted);
-      TransactWriteItemsOutput dafnyResponse = ToDafny.TransactWriteItemsOutput(result);
+      TransactWriteItemsOutput dafnyResponse = ToDafny.TransactWriteItemsOutput(
+        result
+      );
       return Result.create_Success(dafnyResponse);
     } catch (IdempotentParameterMismatchException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -1196,7 +1331,7 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -1217,17 +1352,22 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
   public Result<UpdateContinuousBackupsOutput, Error> UpdateContinuousBackups(
-      UpdateContinuousBackupsInput input) {
-    UpdateContinuousBackupsRequest converted = ToNative.UpdateContinuousBackupsInput(input);
+    UpdateContinuousBackupsInput input
+  ) {
+    UpdateContinuousBackupsRequest converted =
+      ToNative.UpdateContinuousBackupsInput(input);
     try {
-      UpdateContinuousBackupsResponse result = _impl.updateContinuousBackups(converted);
-      UpdateContinuousBackupsOutput dafnyResponse = ToDafny.UpdateContinuousBackupsOutput(result);
+      UpdateContinuousBackupsResponse result = _impl.updateContinuousBackups(
+        converted
+      );
+      UpdateContinuousBackupsOutput dafnyResponse =
+        ToDafny.UpdateContinuousBackupsOutput(result);
       return Result.create_Success(dafnyResponse);
     } catch (ContinuousBackupsUnavailableException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -1238,17 +1378,22 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<UpdateContributorInsightsOutput, Error> UpdateContributorInsights(
-      UpdateContributorInsightsInput input) {
-    UpdateContributorInsightsRequest converted = ToNative.UpdateContributorInsightsInput(input);
+  public Result<
+    UpdateContributorInsightsOutput,
+    Error
+  > UpdateContributorInsights(UpdateContributorInsightsInput input) {
+    UpdateContributorInsightsRequest converted =
+      ToNative.UpdateContributorInsightsInput(input);
     try {
-      UpdateContributorInsightsResponse result = _impl.updateContributorInsights(converted);
-      UpdateContributorInsightsOutput dafnyResponse = ToDafny.UpdateContributorInsightsOutput(result);
+      UpdateContributorInsightsResponse result =
+        _impl.updateContributorInsights(converted);
+      UpdateContributorInsightsOutput dafnyResponse =
+        ToDafny.UpdateContributorInsightsOutput(result);
       return Result.create_Success(dafnyResponse);
     } catch (InternalServerErrorException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -1257,16 +1402,20 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<UpdateGlobalTableOutput, Error> UpdateGlobalTable(UpdateGlobalTableInput input) {
+  public Result<UpdateGlobalTableOutput, Error> UpdateGlobalTable(
+    UpdateGlobalTableInput input
+  ) {
     UpdateGlobalTableRequest converted = ToNative.UpdateGlobalTableInput(input);
     try {
       UpdateGlobalTableResponse result = _impl.updateGlobalTable(converted);
-      UpdateGlobalTableOutput dafnyResponse = ToDafny.UpdateGlobalTableOutput(result);
+      UpdateGlobalTableOutput dafnyResponse = ToDafny.UpdateGlobalTableOutput(
+        result
+      );
       return Result.create_Success(dafnyResponse);
     } catch (GlobalTableNotFoundException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -1281,17 +1430,22 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<UpdateGlobalTableSettingsOutput, Error> UpdateGlobalTableSettings(
-      UpdateGlobalTableSettingsInput input) {
-    UpdateGlobalTableSettingsRequest converted = ToNative.UpdateGlobalTableSettingsInput(input);
+  public Result<
+    UpdateGlobalTableSettingsOutput,
+    Error
+  > UpdateGlobalTableSettings(UpdateGlobalTableSettingsInput input) {
+    UpdateGlobalTableSettingsRequest converted =
+      ToNative.UpdateGlobalTableSettingsInput(input);
     try {
-      UpdateGlobalTableSettingsResponse result = _impl.updateGlobalTableSettings(converted);
-      UpdateGlobalTableSettingsOutput dafnyResponse = ToDafny.UpdateGlobalTableSettingsOutput(result);
+      UpdateGlobalTableSettingsResponse result =
+        _impl.updateGlobalTableSettings(converted);
+      UpdateGlobalTableSettingsOutput dafnyResponse =
+        ToDafny.UpdateGlobalTableSettingsOutput(result);
       return Result.create_Success(dafnyResponse);
     } catch (GlobalTableNotFoundException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -1308,7 +1462,7 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -1336,7 +1490,7 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -1358,17 +1512,22 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<UpdateTableReplicaAutoScalingOutput, Error> UpdateTableReplicaAutoScaling(
-      UpdateTableReplicaAutoScalingInput input) {
-    UpdateTableReplicaAutoScalingRequest converted = ToNative.UpdateTableReplicaAutoScalingInput(input);
+  public Result<
+    UpdateTableReplicaAutoScalingOutput,
+    Error
+  > UpdateTableReplicaAutoScaling(UpdateTableReplicaAutoScalingInput input) {
+    UpdateTableReplicaAutoScalingRequest converted =
+      ToNative.UpdateTableReplicaAutoScalingInput(input);
     try {
-      UpdateTableReplicaAutoScalingResponse result = _impl.updateTableReplicaAutoScaling(converted);
-      UpdateTableReplicaAutoScalingOutput dafnyResponse = ToDafny.UpdateTableReplicaAutoScalingOutput(result);
+      UpdateTableReplicaAutoScalingResponse result =
+        _impl.updateTableReplicaAutoScaling(converted);
+      UpdateTableReplicaAutoScalingOutput dafnyResponse =
+        ToDafny.UpdateTableReplicaAutoScalingOutput(result);
       return Result.create_Success(dafnyResponse);
     } catch (InternalServerErrorException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -1381,16 +1540,20 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
   @Override
-  public Result<UpdateTimeToLiveOutput, Error> UpdateTimeToLive(UpdateTimeToLiveInput input) {
+  public Result<UpdateTimeToLiveOutput, Error> UpdateTimeToLive(
+    UpdateTimeToLiveInput input
+  ) {
     UpdateTimeToLiveRequest converted = ToNative.UpdateTimeToLiveInput(input);
     try {
       UpdateTimeToLiveResponse result = _impl.updateTimeToLive(converted);
-      UpdateTimeToLiveOutput dafnyResponse = ToDafny.UpdateTimeToLiveOutput(result);
+      UpdateTimeToLiveOutput dafnyResponse = ToDafny.UpdateTimeToLiveOutput(
+        result
+      );
       return Result.create_Success(dafnyResponse);
     } catch (InternalServerErrorException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -1403,7 +1566,7 @@ public class Shim implements IDynamoDBClient {
     } catch (DynamoDbException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure( Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 }
