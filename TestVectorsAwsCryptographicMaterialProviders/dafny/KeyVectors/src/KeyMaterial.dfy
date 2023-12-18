@@ -136,11 +136,7 @@ module {:options "-functionSyntax:4"} KeyMaterial {
     obj: seq<(string, JSON)>
   ) : Result<KeyMaterial, string>
   {
-    var algorithmSuiteHex :- GetString("algorithmSuiteId", obj);
-    :- Need(HexStrings.IsLooseHexString(algorithmSuiteHex), "Not hex encoded binary");
-    var binaryId := HexStrings.FromHexString(algorithmSuiteHex);
-    var algorithmSuite :- mpl.GetAlgorithmSuiteInfo(binaryId)
-                          .MapFailure(e => "Invalid Suite:" + algorithmSuiteHex);
+    var algorithmSuite :- GetAlgorithmSuiteInfo(mpl, obj);
 
     var encryptionContextStrings :- SmallObjectToStringStringMap("encryptionContext", obj);
     var encryptionContext :- utf8EncodeMap(encryptionContextStrings);
