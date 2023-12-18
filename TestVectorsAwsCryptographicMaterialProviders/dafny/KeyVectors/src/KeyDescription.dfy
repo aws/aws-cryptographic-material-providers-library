@@ -25,7 +25,7 @@ module {:options "-functionSyntax:4"} KeyDescription {
     decreases Size(json), 1
   {
     if json.Array? then
-      :- Need(1 <= |json.arr|, "Need at least one.");
+      :- Need(1 <= |json.arr|, "Need at least one element in a JSON Array.");
       :- Need(forall c <- json.arr :: c.Object?, "No nested arrays.");
       ElementsOfArrayWillDecreaseSize(json);
       ToMultiKeyring(json, Some(json.arr[0]), json.arr[1..])
