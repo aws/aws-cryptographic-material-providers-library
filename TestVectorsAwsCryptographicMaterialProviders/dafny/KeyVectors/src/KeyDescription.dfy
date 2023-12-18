@@ -30,7 +30,6 @@ module {:options "-functionSyntax:4"} KeyDescription {
       ElementsOfArrayWillDecreaseSize(json);
       ToMultiKeyring(json, Some(json.arr[0]), json.arr[1..])
     else
-
       :- Need(json.Object?, "KeyDescription not an object");
       var obj := json.obj;
       var typString := "type";
