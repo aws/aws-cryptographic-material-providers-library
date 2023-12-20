@@ -79,7 +79,7 @@ dependencies {
     implementation("software.amazon.awssdk:kms")
 
     // BC
-    implementation("org.bouncycastle:bcprov-jdk18on:1.75")
+    implementation("org.bouncycastle:bcprov-jdk18on:1.77")
 
     // https://mvnrepository.com/artifact/org.testng/testng
     testImplementation("org.testng:testng:7.5")
