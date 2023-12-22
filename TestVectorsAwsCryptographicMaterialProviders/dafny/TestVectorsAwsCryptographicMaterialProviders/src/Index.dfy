@@ -10,13 +10,34 @@ module {:options "-functionSyntax:4"} WrappedMaterialProvidersMain {
   import opened Wrappers
   import MplManifestOptions
   import Seq
+  import GetOpt
   import CompleteVectors
   import TestManifests
 
-  method Main(args: seq<string>) {
+  method Main(args: seq<string>) 
+  {
+
+    var vectorRunnerCommands := [
+      GetOpt.Command(GetOpt.Options("decrypt", "decrypt test options", [
+        GetOpt.Opt("manifest-path", "local path to manifest location", unused := GetOpt.Required),
+        GetOpt.Opt("test-name", "test only one vector")])),
+      GetOpt.Command(GetOpt.Options("encrypt", "encrypt test options", [
+        GetOpt.Opt("manifest-path", "local path to manifest location", unused := GetOpt.Required),
+        GetOpt.Opt("decrypt-manifest-output", "local output location for encrypt manifest", unused := GetOpt.Required),
+        GetOpt.Opt("test-name", "test only one vector")])),
+      GetOpt.Command(GetOpt.Options("encrypt-manifest", "writes encrypt manifest test vectors", [
+        GetOpt.Opt("encrypt-manifest-output", "local path to write encrypt manifest test vector to", unused := GetOpt.Required)]))
+    ];
+
+    var vectorRunnerOptions := GetOpt.Options("testvectors", "test the mpl testvectors", vectorRunnerCommands);
+
     // The expectation is that the first argument
     // is the filename or runtime
     expect 0 < |args|;
+    var parsedOptions := GetOpt.GetOptions(vectorRunnerOptions, args);
+    // var help := GetOpt.NeedsHelp(vectorRunnerOptions, parsedOptions);
+
+
     var op? := ParseCommandLineOptions(args[1..]);
 
     if op?.Success? {
