@@ -45,8 +45,8 @@ const Runtimes = {
     "StandardLibrary/runtimes/net/STD.csproj": {
       dependencies: [],
     },
-  }
-}
+  },
+};
 
 /**
  * @type {import('semantic-release').GlobalConfig}
@@ -85,17 +85,15 @@ module.exports = {
           },
 
           // Now update the Gradle Java  dependencies
-          ...Object.entries(Runtimes.java).flatMap(
-            ([file, { dependencies }]) =>
-              dependencies.map((dependency) => ({
-                files: [file],
-                from: `implementation("${dependency}:.*")`,
-                to:
-                  `implementation("${dependency}:` +
-                  '${nextRelease.version}" />',
-                results: [CheckResults(file)],
-                countMatches: true,
-              }))
+          ...Object.entries(Runtimes.java).flatMap(([file, { dependencies }]) =>
+            dependencies.map((dependency) => ({
+              files: [file],
+              from: `implementation("${dependency}:.*")`,
+              to:
+                `implementation("${dependency}:` + '${nextRelease.version}" />',
+              results: [CheckResults(file)],
+              countMatches: true,
+            })),
           ),
 
           // Update the version for all DotNet projects
@@ -109,17 +107,16 @@ module.exports = {
           },
 
           // Now update the Dotnet project dependencies
-          ...Object.entries(Runtimes.net).flatMap(
-            ([file, { dependencies }]) =>
-              dependencies.map((dependency) => ({
-                files: [file],
-                from: `<PackageReference Include=\"${dependency}\" Version=\".*\" />`,
-                to:
-                  `<PackageReference Include=\"${dependency}\"` +
-                  ' Version="${nextRelease.version}" />',
-                results: [CheckResults(file)],
-                countMatches: true,
-              }))
+          ...Object.entries(Runtimes.net).flatMap(([file, { dependencies }]) =>
+            dependencies.map((dependency) => ({
+              files: [file],
+              from: `<PackageReference Include=\"${dependency}\" Version=\".*\" />`,
+              to:
+                `<PackageReference Include=\"${dependency}\"` +
+                ' Version="${nextRelease.version}" />',
+              results: [CheckResults(file)],
+              countMatches: true,
+            })),
           ),
         ],
       },
@@ -130,7 +127,7 @@ module.exports = {
       {
         assets: [
           "CHANGELOG.md",
-          ...Object.values(Runtimes).flatMap(r => Object.keys(r))
+          ...Object.values(Runtimes).flatMap((r) => Object.keys(r)),
         ],
         message:
           "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
