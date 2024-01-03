@@ -17,6 +17,7 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
+import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -44,7 +45,6 @@ import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
-import DafnyLibraries
 import software_amazon_cryptography_services_dynamodb_internaldafny_types
 
 # Module: software_amazon_cryptography_services_dynamodb_internaldafny

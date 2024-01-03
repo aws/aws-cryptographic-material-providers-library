@@ -243,10 +243,11 @@ _polymorph:
 	$(OUTPUT_JAVA) \
 	$(OUTPUT_DOTNET) \
 	$(OUTPUT_PYTHON) \
-	$(POLYMORPH_PYTHON_MODULE_NAME) \
+	$(MODULE_NAME) \
 	--model $(if $(DIR_STRUCTURE_V2), $(LIBRARY_ROOT)/dafny/$(SERVICE)/Model, $(SMITHY_MODEL_ROOT)) \
 	--dependent-model $(PROJECT_ROOT)/$(SMITHY_DEPS) \
 	$(patsubst %, --dependent-model $(PROJECT_ROOT)/%/Model, $($(service_deps_var))) \
+	$(DEPENDENCY_MODULE_NAMES) \
 	--namespace $($(namespace_var)) \
 	$(AWS_SDK_CMD) \
 	$(OUTPUT_LOCAL_SERVICE_$(SERVICE)) \
@@ -318,19 +319,25 @@ polymorph_python:
 		export service_deps_var=SERVICE_DEPS_$${service} ; \
 		export namespace_var=SERVICE_NAMESPACE_$${service} ; \
 		export SERVICE=$${service} ; \
-		export snakecase_dir=SNAKECASE_DIR_$${service} ; \
 		$(MAKE) _polymorph_python || exit 1; \
 	done
-	rm -rf $(LIBRARY_ROOT)/runtimes/python/src/$(PYTHON_MODULE_NAME)/smithygenerated/*
-	cp -R $(LIBRARY_ROOT)/runtimes/python/src/$(PYTHON_MODULE_NAME)/smithy-generated/* $(LIBRARY_ROOT)/runtimes/python/src/$(PYTHON_MODULE_NAME)/smithygenerated
-	# rm -rf $(LIBRARY_ROOT)/runtimes/python/src/$(PYTHON_MODULE_NAME)/smithy-generated
-	# TODO-Python: Can I do this from within Smithy...?
 	rm $(LIBRARY_ROOT)/runtimes/python/src/$(PYTHON_MODULE_NAME)/smithygenerated/pyproject.toml
 	rm $(LIBRARY_ROOT)/runtimes/python/src/$(PYTHON_MODULE_NAME)/smithygenerated/README.md
 
-_polymorph_python: OUTPUT_PYTHON=--output-python $(LIBRARY_ROOT)/runtimes/python/src/$(PYTHON_MODULE_NAME)/smithy-generated
+	
+_polymorph_python: OUTPUT_PYTHON=--output-python $(LIBRARY_ROOT)/runtimes/python/src/$(PYTHON_MODULE_NAME)/smithygenerated
 # TODO-Python: Maybe I can get the module name as the folder just before smithy-generated/ in ^
-_polymorph_python: POLYMORPH_PYTHON_MODULE_NAME=--python-module-name $(PYTHON_MODULE_NAME)
+_polymorph_python: MODULE_NAME=--module-name $(PYTHON_MODULE_NAME)
+# Python codegen MUST know dependencies' module names...
+# This greps each service dependency's Makefile for two strings:
+# 1. "SERVICE_NAMESPACE_$(dependency)"
+# 2. "PYTHON_MODULE_NAME"
+# , then assembles them together as
+# "SERVICE_NAMESPACE_$(dependency)"="PYTHON_MODULE_NAME"
+# , creating a map from a service namespace to its wrapping module name.
+# We plan to move this information into Dafny project files.
+# This is unfortunately one long line that breaks when I split it up...
+_polymorph_python: DEPENDENCY_MODULE_NAMES=$(PYTHON_DEPENDENCY_MODULE_NAMES)
 _polymorph_python: _polymorph
 
 ########################## .NET targets

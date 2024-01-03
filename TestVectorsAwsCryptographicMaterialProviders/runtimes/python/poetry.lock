@@ -173,21 +173,22 @@ files = [
 
 [[package]]
 name = "attrs"
-version = "23.1.0"
+version = "23.2.0"
 description = "Classes Without Boilerplate"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "attrs-23.1.0-py3-none-any.whl", hash = "sha256:1f28b4522cdc2fb4256ac1a020c78acf9cba2c6b461ccd2c126f3aa8e8335d04"},
-    {file = "attrs-23.1.0.tar.gz", hash = "sha256:6279836d581513a26f1bf235f9acd333bc9115683f14f7e8fae46c98fc50e015"},
+    {file = "attrs-23.2.0-py3-none-any.whl", hash = "sha256:99b87a485a5820b23b879f04c2305b44b951b502fd64be915879d77a7e8fc6f1"},
+    {file = "attrs-23.2.0.tar.gz", hash = "sha256:935dc3b529c262f6cf76e50877d35a4bd3c1de194fd41f47a2b7ae8f19971f30"},
 ]
 
 [package.extras]
 cov = ["attrs[tests]", "coverage[toml] (>=5.3)"]
-dev = ["attrs[docs,tests]", "pre-commit"]
+dev = ["attrs[tests]", "pre-commit"]
 docs = ["furo", "myst-parser", "sphinx", "sphinx-notfound-page", "sphinxcontrib-towncrier", "towncrier", "zope-interface"]
 tests = ["attrs[tests-no-zope]", "zope-interface"]
-tests-no-zope = ["cloudpickle", "hypothesis", "mypy (>=1.1.1)", "pympler", "pytest (>=4.3.0)", "pytest-mypy-plugins", "pytest-xdist[psutil]"]
+tests-mypy = ["mypy (>=1.6)", "pytest-mypy-plugins"]
+tests-no-zope = ["attrs[tests-mypy]", "cloudpickle", "hypothesis", "pympler", "pytest (>=4.3.0)", "pytest-xdist[psutil]"]
 
 [[package]]
 name = "aws-cryptographic-material-providers"
@@ -282,17 +283,17 @@ files = [
 
 [[package]]
 name = "boto3"
-version = "1.34.6"
+version = "1.34.12"
 description = "The AWS SDK for Python"
 optional = false
 python-versions = ">= 3.8"
 files = [
-    {file = "boto3-1.34.6-py3-none-any.whl", hash = "sha256:1dd6d952a175da45d05cf9eb2b8d5be31f4863cc54444ac27fbcbba966fc4053"},
-    {file = "boto3-1.34.6.tar.gz", hash = "sha256:ae47b84db94fc3b8e635c6d1b93da85a5fdca961b212260e5dbf5166435fe7b0"},
+    {file = "boto3-1.34.12-py3-none-any.whl", hash = "sha256:7d7eac86a2cbdfb8074927119da61884bfa29f3c504717d455371fc0a07c99d8"},
+    {file = "boto3-1.34.12.tar.gz", hash = "sha256:67b763669f9eff10a55fe199875d6e66fda8051647af49f8b9b8fced674d75d7"},
 ]
 
 [package.dependencies]
-botocore = ">=1.34.6,<1.35.0"
+botocore = ">=1.34.12,<1.35.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.10.0,<0.11.0"
 
@@ -301,13 +302,13 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.34.6"
+version = "1.34.12"
 description = "Low-level, data-driven core of boto 3."
 optional = false
 python-versions = ">= 3.8"
 files = [
-    {file = "botocore-1.34.6-py3-none-any.whl", hash = "sha256:697000cb756b8f469c10ed0a8a8590f799a90a98b814ebfccd2add4048084ff1"},
-    {file = "botocore-1.34.6.tar.gz", hash = "sha256:bfe587f48e154a3a836f85af165116b7d5dba9b3b746ce0b94e6d2ed1e06c206"},
+    {file = "botocore-1.34.12-py3-none-any.whl", hash = "sha256:346b0788f3bf4c68928db909170e4c7300119a22f9a2176bf5f764d3542997e8"},
+    {file = "botocore-1.34.12.tar.gz", hash = "sha256:53dfc19d63f2b70821e9804b7ecfc5e50fc84d9bd6818359b27db629ef43ec59"},
 ]
 
 [package.dependencies]
@@ -778,13 +779,13 @@ files = [
 
 [[package]]
 name = "pytest"
-version = "7.4.3"
+version = "7.4.4"
 description = "pytest: simple powerful testing with Python"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pytest-7.4.3-py3-none-any.whl", hash = "sha256:0d009c083ea859a71b76adf7c1d502e4bc170b80a8ef002da5806527b9591fac"},
-    {file = "pytest-7.4.3.tar.gz", hash = "sha256:d989d136982de4e3b29dabcc838ad581c64e8ed52c11fbe86ddebd9da0818cd5"},
+    {file = "pytest-7.4.4-py3-none-any.whl", hash = "sha256:b090cdf5ed60bf4c45261be03239c2c1c22df034fbffe691abe93cd80cea01d8"},
+    {file = "pytest-7.4.4.tar.gz", hash = "sha256:2cf0005922c6ace4a3e2ec8b4080eb0d9753fdc93107415332f50ce9e7994280"},
 ]
 
 [package.dependencies]
@@ -863,7 +864,7 @@ files = [
 ]
 
 [[package]]
-name = "smithy-python"
+name = "smithy_python"
 version = "0.0.1"
 description = "Core libraries for Smithy defined services in Python"
 optional = false
