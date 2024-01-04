@@ -76,7 +76,11 @@ AWS Cryptographic Material Providers Library to `PackageReference` `ItemGroup`:
 <PackageReference Include="AWS.Cryptography.MaterialProviders" />
 ```
 
-The AWS Cryptographic Material Providers Library targets [.NET Framework](https://docs.microsoft.com/en-us/dotnet/framework/) 6.0.
+The AWS Cryptographic Material Providers Library targets:
+
+- [.NET Framework](https://docs.microsoft.com/en-us/dotnet/framework/) 4.8.
+- [.NET](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-6) 6.0.
+- [.NET Standard](https://learn.microsoft.com/en-us/dotnet/standard/net-standard?tabs=net-standard-2-0) 2.0.
 
 ### Additional setup for macOS only
 
