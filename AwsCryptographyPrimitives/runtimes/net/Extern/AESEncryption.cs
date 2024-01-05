@@ -35,6 +35,7 @@ namespace AESEncryption
             try
             {
                 // System.Security.Cryptography.AesGcm is absent in .NET Framework or .NET Standard 2.0
+                // https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.aesgcm?view=net-8.0#applies-to
                 var param = new AeadParameters(
                     new KeyParameter(keyBytes),
                     encAlg.dtor_tagLength * 8,
