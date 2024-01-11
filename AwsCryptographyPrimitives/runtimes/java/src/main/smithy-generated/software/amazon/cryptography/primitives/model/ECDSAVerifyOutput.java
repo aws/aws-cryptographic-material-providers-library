@@ -6,7 +6,6 @@ package software.amazon.cryptography.primitives.model;
 import java.util.Objects;
 
 public class ECDSAVerifyOutput {
-
   private final Boolean success;
 
   protected ECDSAVerifyOutput(BuilderImpl builder) {
@@ -34,10 +33,10 @@ public class ECDSAVerifyOutput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected Boolean success;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(ECDSAVerifyOutput model) {
       this.success = model.success();
@@ -53,10 +52,8 @@ public class ECDSAVerifyOutput {
     }
 
     public ECDSAVerifyOutput build() {
-      if (Objects.isNull(this.success())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `success`"
-        );
+      if (Objects.isNull(this.success()))  {
+        throw new IllegalArgumentException("Missing value for required field `success`");
       }
       return new ECDSAVerifyOutput(this);
     }

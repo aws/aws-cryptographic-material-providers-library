@@ -97,6 +97,17 @@ module TestComputeSetToOrderedSequenceCharLess {
     // to canonicalized sets and needs to remain the same.
     // This order is kept here so that it is clear that this order is incorrect in this case
     // var expected := ["&", "Љ", "ᝀ", "｡", "𐀂", "𐐷", "🂡"];
+
+    /*
+
+      &	046	38	0x26	&amp;
+      Љ	02011	1033	0x409	&#1033;
+      ᝀ 013500	5952	0x1740	&#5952;
+      ｡	0177541	65377	0xFF61	&#65377;
+      𐀂 0200002	65538	0x10002	&#65538;
+      🂡 0370241	127137	0x1F0A1	&#127137;
+
+    */
     expect output == expected;
     expect output2 == expected;
   }

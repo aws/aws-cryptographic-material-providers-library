@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class GenerateRandomBytesOutput {
-
   private final ByteBuffer data;
 
   protected GenerateRandomBytesOutput(BuilderImpl builder) {
@@ -35,10 +34,10 @@ public class GenerateRandomBytesOutput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected ByteBuffer data;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(GenerateRandomBytesOutput model) {
       this.data = model.data();
@@ -54,10 +53,8 @@ public class GenerateRandomBytesOutput {
     }
 
     public GenerateRandomBytesOutput build() {
-      if (Objects.isNull(this.data())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `data`"
-        );
+      if (Objects.isNull(this.data()))  {
+        throw new IllegalArgumentException("Missing value for required field `data`");
       }
       return new GenerateRandomBytesOutput(this);
     }
