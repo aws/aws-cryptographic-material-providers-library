@@ -39,6 +39,13 @@ namespace software.amazon.cryptography.services.kms.internaldafny
           )
         {
             string regionStr = TypeConversion.FromDafny_N6_smithy__N3_api__S6_String(regionDafnyString);
+<<<<<<< HEAD
+=======
+            // The ESDK uses empty string as a kind of none.
+            // In the case of an AWS KMS raw key identifier there is no region element
+            // an so "" is used in this case.
+            if (regionStr == "") return KMSClient();
+>>>>>>> main
             var region = RegionEndpoint.GetBySystemName(regionStr);
             var client = new DefaultKmsClient(region);
 

@@ -85,7 +85,7 @@ module TestComAmazonawsKms {
     nameonly expectedKeyId: Com_Amazonaws_Kms.Types.KeyIdType
   )
   {
-    var client :- expect Com_Amazonaws_Kms.KMSClient();
+    var client :- expect Kms.KMSClientForRegion(TEST_REGION);
 
     var ret := client.Decrypt(input);
 
@@ -106,7 +106,7 @@ module TestComAmazonawsKms {
   )
     requires input.NumberOfBytes.Some?
   {
-    var client :- expect Com_Amazonaws_Kms.KMSClient();
+    var client :- expect Kms.KMSClientForRegion(TEST_REGION);
 
     var ret := client.GenerateDataKey(input);
 
@@ -138,7 +138,7 @@ module TestComAmazonawsKms {
     nameonly input: Com_Amazonaws_Kms.Types.EncryptRequest
   )
   {
-    var client :- expect Com_Amazonaws_Kms.KMSClient();
+    var client :- expect Kms.KMSClientForRegion(TEST_REGION);
 
     var ret := client.Encrypt(input);
 
@@ -167,9 +167,14 @@ module TestComAmazonawsKms {
   // While we cannot easily test that the expected implementations
   // return Some(), we can at least ensure that the ones that do are correct.
   method {:test} RegionMatchTest() {
-    var client :- expect Com_Amazonaws_Kms.KMSClient();
-    var region := Com_Amazonaws_Kms.RegionMatch(client, TEST_REGION);
+    var client :- expect Kms.KMSClientForRegion(TEST_REGION);
+    var region := Kms.RegionMatch(client, TEST_REGION);
     expect region.None? || region.value;
+  }
+
+  // This should default to whatever default SDK uses.
+  method {:test} EmptyStringIsDefaultRegion() {
+    var client :- expect Kms.KMSClientForRegion("");
   }
 
 }

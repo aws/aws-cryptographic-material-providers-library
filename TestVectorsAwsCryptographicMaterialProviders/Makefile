@@ -57,6 +57,3 @@ SERVICE_DEPS_KeyVectors := \
 	ComAmazonawsDynamodb \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographicMaterialProviders \
-
-format_net:
-	pushd runtimes/net && dotnet format && popd

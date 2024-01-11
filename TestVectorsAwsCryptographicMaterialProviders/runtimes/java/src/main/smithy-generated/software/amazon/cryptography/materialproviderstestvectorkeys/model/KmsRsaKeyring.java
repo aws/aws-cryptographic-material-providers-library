@@ -7,6 +7,7 @@ import java.util.Objects;
 import software.amazon.awssdk.services.kms.model.EncryptionAlgorithmSpec;
 
 public class KmsRsaKeyring {
+
   private final String keyId;
 
   private final EncryptionAlgorithmSpec encryptionAlgorithm;
@@ -45,12 +46,12 @@ public class KmsRsaKeyring {
   }
 
   static class BuilderImpl implements Builder {
+
     protected String keyId;
 
     protected EncryptionAlgorithmSpec encryptionAlgorithm;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(KmsRsaKeyring model) {
       this.keyId = model.keyId();
@@ -66,7 +67,9 @@ public class KmsRsaKeyring {
       return this.keyId;
     }
 
-    public Builder encryptionAlgorithm(EncryptionAlgorithmSpec encryptionAlgorithm) {
+    public Builder encryptionAlgorithm(
+      EncryptionAlgorithmSpec encryptionAlgorithm
+    ) {
       this.encryptionAlgorithm = encryptionAlgorithm;
       return this;
     }
@@ -76,11 +79,15 @@ public class KmsRsaKeyring {
     }
 
     public KmsRsaKeyring build() {
-      if (Objects.isNull(this.keyId()))  {
-        throw new IllegalArgumentException("Missing value for required field `keyId`");
+      if (Objects.isNull(this.keyId())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `keyId`"
+        );
       }
-      if (Objects.isNull(this.encryptionAlgorithm()))  {
-        throw new IllegalArgumentException("Missing value for required field `encryptionAlgorithm`");
+      if (Objects.isNull(this.encryptionAlgorithm())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `encryptionAlgorithm`"
+        );
       }
       return new KmsRsaKeyring(this);
     }

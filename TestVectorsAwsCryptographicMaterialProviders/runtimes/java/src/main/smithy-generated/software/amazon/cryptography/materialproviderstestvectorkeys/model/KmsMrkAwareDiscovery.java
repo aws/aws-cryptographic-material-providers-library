@@ -7,6 +7,7 @@ import java.util.Objects;
 import software.amazon.cryptography.materialproviders.model.DiscoveryFilter;
 
 public class KmsMrkAwareDiscovery {
+
   private final String keyId;
 
   private final String defaultMrkRegion;
@@ -68,14 +69,14 @@ public class KmsMrkAwareDiscovery {
   }
 
   static class BuilderImpl implements Builder {
+
     protected String keyId;
 
     protected String defaultMrkRegion;
 
     protected DiscoveryFilter awsKmsDiscoveryFilter;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(KmsMrkAwareDiscovery model) {
       this.keyId = model.keyId();
@@ -101,7 +102,9 @@ public class KmsMrkAwareDiscovery {
       return this.defaultMrkRegion;
     }
 
-    public Builder awsKmsDiscoveryFilter(DiscoveryFilter awsKmsDiscoveryFilter) {
+    public Builder awsKmsDiscoveryFilter(
+      DiscoveryFilter awsKmsDiscoveryFilter
+    ) {
       this.awsKmsDiscoveryFilter = awsKmsDiscoveryFilter;
       return this;
     }
@@ -111,11 +114,15 @@ public class KmsMrkAwareDiscovery {
     }
 
     public KmsMrkAwareDiscovery build() {
-      if (Objects.isNull(this.keyId()))  {
-        throw new IllegalArgumentException("Missing value for required field `keyId`");
+      if (Objects.isNull(this.keyId())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `keyId`"
+        );
       }
-      if (Objects.isNull(this.defaultMrkRegion()))  {
-        throw new IllegalArgumentException("Missing value for required field `defaultMrkRegion`");
+      if (Objects.isNull(this.defaultMrkRegion())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `defaultMrkRegion`"
+        );
       }
       return new KmsMrkAwareDiscovery(this);
     }

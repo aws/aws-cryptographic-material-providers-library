@@ -5,7 +5,11 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <IsPackable>true</IsPackable>
   
+<<<<<<< HEAD
     <Version>1.1.1</Version>
+=======
+    <Version>1.2.0</Version>
+>>>>>>> main
     
     <AssemblyName>AWS.Cryptography.Internal.StandardLibrary</AssemblyName>
     <PackageId>AWS.Cryptography.Internal.StandardLibrary</PackageId>
@@ -13,7 +17,11 @@
     <Description>The StandarLibrary is a library written to supply helpful Dafny functionality.</Description>
     <Authors>Amazon Web Services</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+<<<<<<< HEAD
     <RepositoryUrl>https://github.com/aws/aws-cryptographic-material-providers-library-net</RepositoryUrl>
+=======
+    <RepositoryUrl>https://github.com/aws/aws-cryptographic-material-providers-library</RepositoryUrl>
+>>>>>>> main
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>AWS;Amazon;KMS;Encryption;Cryptography</PackageTags>
@@ -28,10 +36,38 @@
       CS0105: duplicate namespace, CS0618: obsolete members
     -->
     <NoWarn>CS0105,CS0618</NoWarn>
+<<<<<<< HEAD
+=======
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- This is somewhat brittle,
+         but having the value in a properties file
+         that can be shared is worth it.
+         See: https://learn.microsoft.com/en-us/visualstudio/msbuild/property-functions?view=vs-2022
+         for more details on property functions
+         
+         This takes a properties file (a=b)
+         1. Loads the file
+         2. Splits on `dafnyVersion=` and takes everything to the right of that
+           e.g. the version + any trailing data
+         3. Splits on newline and takes the second element.
+           This SHOULD be the value of `dafnyVersion` and not contain any trailing data
+     -->
+    <projectProperties>
+      $([System.IO.File]::ReadAllText('$(MSBuildProjectDirectory)/../../../project.properties'))
+    </projectProperties>
+    <dropBeforeDafnyVersionProperty>
+      $([System.Text.RegularExpressions.Regex]::Split("$(projectProperties)", "dafnyVersion=")[1])
+    </dropBeforeDafnyVersionProperty>
+    <DafnyVersion>
+      $([System.Text.RegularExpressions.Regex]::Split("$(dropBeforeDafnyVersionProperty)", "\n")[1])
+    </DafnyVersion>
+>>>>>>> main
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DafnyRuntime" Version="4.2.0" />
+    <PackageReference Include="DafnyRuntime" Version="$(DafnyVersion)" />
     <!--
       System.Collections.Immutable can be removed once dafny.msbuild is updated with
       https://github.com/dafny-lang/dafny.msbuild/pull/10 and versioned

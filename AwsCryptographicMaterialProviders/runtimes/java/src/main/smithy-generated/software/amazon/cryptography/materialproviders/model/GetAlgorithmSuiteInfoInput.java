@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class GetAlgorithmSuiteInfoInput {
+
   private final ByteBuffer binaryId;
 
   protected GetAlgorithmSuiteInfoInput(BuilderImpl builder) {
@@ -34,10 +35,10 @@ public class GetAlgorithmSuiteInfoInput {
   }
 
   static class BuilderImpl implements Builder {
+
     protected ByteBuffer binaryId;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(GetAlgorithmSuiteInfoInput model) {
       this.binaryId = model.binaryId();
@@ -53,8 +54,10 @@ public class GetAlgorithmSuiteInfoInput {
     }
 
     public GetAlgorithmSuiteInfoInput build() {
-      if (Objects.isNull(this.binaryId()))  {
-        throw new IllegalArgumentException("Missing value for required field `binaryId`");
+      if (Objects.isNull(this.binaryId())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `binaryId`"
+        );
       }
       return new GetAlgorithmSuiteInfoInput(this);
     }

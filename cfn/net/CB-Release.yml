@@ -14,7 +14,11 @@ Parameters:
   SourceLocation:
     Type: String
     Description: The https GitHub URL for the project
+<<<<<<< HEAD
     Default: "https://github.com/aws/aws-cryptographic-material-providers-library-dafny.git"
+=======
+    Default: "https://github.com/aws/aws-cryptographic-material-providers-library.git"
+>>>>>>> main
   NumberOfBuildsInBatch:
     Type: Number
     MaxValue: 100
@@ -111,7 +115,11 @@ Resources:
               }
           ]
         }
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> main
   AssumeArtifactRolePolicy:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:

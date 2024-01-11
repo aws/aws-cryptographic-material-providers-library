@@ -5,7 +5,7 @@ on:
   workflow_call:
     inputs:
       dafny:
-        description: 'The Dafny version to run'
+        description: "The Dafny version to run"
         required: true
         type: string
 
@@ -13,20 +13,17 @@ jobs:
   testDotNet:
     strategy:
       matrix:
-        library: [
-          StandardLibrary,
-          AwsCryptographyPrimitives,
-          ComAmazonawsKms,
-          ComAmazonawsDynamodb,
-          AwsCryptographicMaterialProviders,
-          TestVectorsAwsCryptographicMaterialProviders,
-        ]
-        dotnet-version: [ '6.0.x' ]
-        os: [
-          windows-latest,
-          ubuntu-latest,
-          macos-latest,
-        ]
+        library:
+          [
+            StandardLibrary,
+            AwsCryptographyPrimitives,
+            ComAmazonawsKms,
+            ComAmazonawsDynamodb,
+            AwsCryptographicMaterialProviders,
+            TestVectorsAwsCryptographicMaterialProviders,
+          ]
+        dotnet-version: ["6.0.x"]
+        os: [windows-latest, ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     permissions:
       id-token: write
@@ -61,7 +58,7 @@ jobs:
         with:
           dafny-version: ${{ inputs.dafny }}
 
-      - name: Download Dependencies 
+      - name: Download Dependencies
         working-directory: ./${{ matrix.library }}
         run: make setup_net
 
@@ -73,7 +70,13 @@ jobs:
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_net CORES=$CORES
 
+<<<<<<< HEAD
       # .NET Framework is only supported in Windows
+=======
+      # .NET Framework is a software development framework
+      # for building and running applications on Windows.
+      # https://dotnet.microsoft.com/en-us/learn/dotnet/what-is-dotnet-framework
+>>>>>>> main
       - name: Test ${{ matrix.library }} .NET Framework net48
         if: matrix.os == 'windows-latest'
         working-directory: ./${{ matrix.library }}
@@ -91,15 +94,38 @@ jobs:
             make test_net FRAMEWORK=net6.0
           fi
 
+<<<<<<< HEAD
       - name: Test Cache Thread Safety
         if: matrix.library == 'AwsCryptographicMaterialProviders'
         working-directory: ./${{ matrix.library }}
         shell: bash
         ## Run .NET 6.0 and .NET Framework net48
+=======
+      - name: Test Cache Thread Safety net6.0
+        if: matrix.library == 'AwsCryptographicMaterialProviders'
+        working-directory: ./${{ matrix.library }}
+        shell: bash
+>>>>>>> main
         run: |
           dotnet restore runtimes/net/tests/LocalCMC.Tests/
           dotnet build runtimes/net/tests/LocalCMC.Tests/
           dotnet test runtimes/net/tests/LocalCMC.Tests/ \
               --framework net6.0
+<<<<<<< HEAD
           dotnet test runtimes/net/tests/LocalCMC.Tests/ \
               --framework net48
+=======
+
+      # .NET Framework is a software development framework
+      # for building and running applications on Windows.
+      # https://dotnet.microsoft.com/en-us/learn/dotnet/what-is-dotnet-framework
+      - name: Test Cache Thread Safety .NET Framework net48
+        if: matrix.os == 'windows-latest' && matrix.library == 'AwsCryptographicMaterialProviders'
+        working-directory: ./${{ matrix.library }}
+        shell: bash
+        run: |
+          dotnet restore runtimes/net/tests/LocalCMC.Tests/
+          dotnet build runtimes/net/tests/LocalCMC.Tests/
+          dotnet test runtimes/net/tests/LocalCMC.Tests/ \
+              --framework net48
+>>>>>>> main

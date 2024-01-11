@@ -1,3 +1,6 @@
+import java.io.File
+import java.io.FileInputStream
+import java.util.Properties
 import java.net.URI
 import javax.annotation.Nullable
 
@@ -9,8 +12,13 @@ plugins {
     id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
 }
 
+var props = Properties().apply {
+    load(FileInputStream(File(rootProject.rootDir, "../../../project.properties")))
+}
+var dafnyVersion = props.getProperty("dafnyVersion")
+
 group = "software.amazon.cryptography"
-version = "1.0.2"
+version = "1.2.0"
 description = "AWS Cryptographic Material Providers Library"
 
 java {
@@ -62,7 +70,7 @@ dependencies {
     implementation("software.amazon.cryptography:ComAmazonawsDynamodb:1.0-SNAPSHOT")
 
     // Dafny dependencies
-    implementation("org.dafny:DafnyRuntime:4.2.0")
+    implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
     implementation("software.amazon.smithy.dafny:conversion:0.1")
 
     // sdk dependencies
@@ -285,7 +293,7 @@ fun buildPom(mavenPublication: MavenPublication) {
         mavenPublication.pom {
             name.set("AWS Cryptographic Material Providers Library")
             description.set("The AWS Cryptographic Material Providers Library for Java")
-            url.set("https://github.com/aws/aws-cryptographic-material-providers-library-java")
+            url.set("https://github.com/aws/aws-cryptographic-material-providers-library")
             licenses {
                 license {
                     name.set("Apache License 2.0")
@@ -302,8 +310,9 @@ fun buildPom(mavenPublication: MavenPublication) {
                 }
             }
             scm {
-                url.set("https://github.com/aws/aws-cryptographic-material-providers-library-java.git")
+                url.set("https://github.com/aws/aws-cryptographic-material-providers-library.git")
             }
         }
     }
 }
+

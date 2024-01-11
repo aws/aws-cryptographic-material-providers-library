@@ -127,14 +127,14 @@ verify_service:
 		-trace \
 		`find ./dafny/$(SERVICE) -name '*.dfy'` \
 
-format:
+format_dafny:
 	dafny format \
 		--function-syntax 3 \
 		--quantifier-syntax 3 \
 		--unicode-char false \
 		`find . -name '*.dfy'`
 
-format-check:
+format_dafny-check:
 	dafny format \
 		--check \
 		--function-syntax 3 \
@@ -147,6 +147,9 @@ dafny-reportgenerator:
 		summarize-csv-results \
 		--max-resource-count $(MAX_RESOURCE_COUNT) \
 		TestResults/*.csv
+
+clean-dafny-report:
+	rm TestResults/*.csv
 
 # Dafny helper targets
 
@@ -375,6 +378,12 @@ test_net_mac_brew:
 
 setup_net:
 	dotnet restore runtimes/net/
+
+format_net:
+	dotnet format runtimes/net/*.csproj
+
+format_net-check:
+	dotnet format runtimes/net/*.csproj --verify-no-changes
 
 ########################## Java targets
 

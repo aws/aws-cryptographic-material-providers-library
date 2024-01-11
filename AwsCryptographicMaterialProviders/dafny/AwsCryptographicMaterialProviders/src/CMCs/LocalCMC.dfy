@@ -260,10 +260,10 @@ module {:options "/functionSyntax:4" } LocalCMC {
     if s[0] == v then 0 else 1 + IndexOfCacheEntry(s[1..], v)
   }
 
-  method RemoveValue<K, V>(k0: K, m: map<K, V>)
-    // requires k0 in m
-    // requires forall k <- m, k' <- m | k != k' :: m[k] != m[k']
-    // ensures (m - {k0}).Values == m.Values - {m[k0]}
+  method RemoveValue<K, V(==)>(k0: K, m: map<K, V>)
+    requires k0 in m
+    requires forall k <- m, k' <- m | k != k' :: m[k] != m[k']
+    ensures (m - {k0}).Values == m.Values - {m[k0]}
   {
     var m' := m - {k0};
     // calc {
