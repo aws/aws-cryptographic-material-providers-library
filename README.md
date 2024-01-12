@@ -1,5 +1,9 @@
 # AWS Cryptographic Material Providers Library
 
+📣 Note: This repository contains the source code and related files for all
+language implementations of the AWS Cryptographic Material Providers Library.
+See our [supported languages](#supported-languages) section for more information.
+
 The AWS Cryptographic Material Providers Library abstracts lower level cryptographic materials management of encryption and decryption materials.
 It uses cryptographic best practices to protect the data keys that protect your data.
 The data key is protected with a key encryption key called a _wrapping key_.
@@ -50,6 +54,12 @@ If you are using the AWS Cryptographic Material Providers Library for .NET you w
 
 - **To download and install the AWS SDK for Java 2.x**, see [Installing the AWS SDK for Java 2.x](https://docs.aws.amazon.com/sdk-for-java/v2/developer-guide/getting-started.html).
 - **To download and install the AWS SDK for .Net 3.x** see [Installing the AWS SDK for .Net v3](https://docs.aws.amazon.com/sdk-for-net/v3/developer-guide/welcome.html)
+
+## Supported Languages
+
+- Java
+- .NET
+- Dafny
 
 ## FAQ
 
