@@ -28,28 +28,37 @@ class Comparer:
     self.is_less_than = is_less_than
 
   def compare(self, x, y):
-    '''
-    Compare bytes of utf-16-be encodings of chars x and y.
-    '''
-    # x and y are _dafny.Seqs of length 1 (char)
-    x_char = x.Elements[0]
-    y_char = y.Elements[0]
+    x_list = list(x.Elements)
+    y_list = list(y.Elements)
     
-    x_encode = x_char.encode("utf-16-be")
-    y_encode = y_char.encode("utf-16-be")
+    for i in range(len(x_list)):
+      x_element = x_list[i]
+      try:
+        x_element_encoded = x_element.encode("utf-16-be")
+        x_list[i] = x_element_encoded
+      except AttributeError:
+        pass # non-chars don't have an encode attribute
 
-    for i in range(0, min(len(x_encode), len(y_encode))):
-      if (self.is_less_than(x_encode[i], y_encode[i])):
+    for i in range(len(y_list)):
+      y_element = y_list[i]
+      try:
+        y_element_encoded = y_element.encode("utf-16-be")
+        y_list[i] = y_element_encoded
+      except AttributeError:
+        pass # non-chars don't have an encode attribute
+
+    for i in range(0, min(len(x_list), len(y_list))):
+      if (self.is_less_than(x_list[i], y_list[i])):
         return -1
-      if (self.is_less_than(y_encode[i], x_encode[i])):
+      if (self.is_less_than(y_list[i], x_list[i])):
         return 1
     # Reached the end of one array. Either they are equal, or the
     # one which is shorter should be considered "less than"
-    if len(x_encode) < len(y_encode):
+    if len(x_list) < len(y_list):
       return -1
-    elif len(x_encode) == len(y_encode):
+    elif len(x_list) == len(y_list):
       return 0
-    elif len(x_encode) > len(y_encode):
+    elif len(x_list) > len(y_list):
       return 1
 
 

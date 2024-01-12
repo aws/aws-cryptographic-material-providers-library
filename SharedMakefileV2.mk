@@ -439,6 +439,7 @@ test_java:
 
 transpile_python: | transpile_implementation_python transpile_test_python transpile_dependencies_python _mv_internaldafny_python _rename_test_main_python _remove_src_module_python
 
+# transpile_implementation_python: _python_underscore_extern_names
 transpile_implementation_python: TARGET=py
 transpile_implementation_python: OUT=runtimes/python/dafny_src
 transpile_implementation_python: COMPILE_SUFFIX_OPTION=
@@ -491,11 +492,10 @@ transpile_test_python: _transpile_test_all
 # This is tracked in https://github.com/dafny-lang/dafny/issues/4322.
 # This may require new Smithy-Dafny logic to generate Pythonic extern names.
 _python_underscore_extern_names:
-	find dafny -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/.*{:extern \".*\".*/s/\./_/g' {} \;
-
-#	find src -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/.*{:extern \".*\".*/s/\./_/g' {} \;
-#	find Model -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/.*{:extern \".*\.*"/s/\./_/g' {} \;
-#	find test -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/.*{:extern \".*\".*/s/\./_/g' {} \;
+#	find dafny -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/.*{:extern \".*\".*/s/\./_/g' {} \;
+	find src -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/.*{:extern \".*\".*/s/\./_/g' {} \;
+	find Model -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/.*{:extern \".*\.*"/s/\./_/g' {} \;
+	find test -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/.*{:extern \".*\".*/s/\./_/g' {} \;
 
 _python_underscore_dependency_extern_names:
     $(patsubst %, $(MAKE) -C $(PROJECT_ROOT)/% _python_underscore_extern_names;, $(LIBRARIES))
