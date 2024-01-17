@@ -10,10 +10,10 @@ from software_amazon_cryptography_keystore_internaldafny_types import (
 from typing import Any, Callable, TypeAlias, Union
 
 from .dafnyImplInterface import DafnyImplInterface
+from botocore.client import BaseClient
 from smithy_python._private.retries import SimpleRetryStrategy
 from smithy_python.interfaces.interceptor import Interceptor
 from smithy_python.interfaces.retries import RetryStrategy
-from typing import Any
 
 from ..aws_cryptography_materialproviders.models import (
     DecryptMaterialsInput,
@@ -52,7 +52,7 @@ from .models import (
 )
 
 
-_ServiceInterceptor = Union[Interceptor[CreateKeyInput, CreateKeyOutput, Any, Any], Interceptor[CreateKeyStoreInput, CreateKeyStoreOutput, Any, Any], Interceptor[GetActiveBranchKeyInput, GetActiveBranchKeyOutput, Any, Any], Interceptor[GetBeaconKeyInput, GetBeaconKeyOutput, Any, Any], Interceptor[GetBranchKeyVersionInput, GetBranchKeyVersionOutput, Any, Any], Interceptor[Unit, GetKeyStoreInfoOutput, Any, Any], Interceptor[VersionKeyInput, VersionKeyOutput, Any, Any], Interceptor[DecryptMaterialsInput, DecryptMaterialsOutput, Any, Any], Interceptor[DeleteCacheEntryInput, Unit, Any, Any], Interceptor[GetBranchKeyIdInput, GetBranchKeyIdOutput, Any, Any], Interceptor[GetCacheEntryInput, GetCacheEntryOutput, Any, Any], Interceptor[GetClientInput, Any, Any, Any], Interceptor[GetEncryptionMaterialsInput, GetEncryptionMaterialsOutput, Any, Any], Interceptor[OnDecryptInput, OnDecryptOutput, Any, Any], Interceptor[OnEncryptInput, OnEncryptOutput, Any, Any], Interceptor[PutCacheEntryInput, Unit, Any, Any], Interceptor[UpdateUsageMetadataInput, Unit, Any, Any]]
+_ServiceInterceptor = Union[Interceptor[CreateKeyInput, CreateKeyOutput, Any, Any], Interceptor[CreateKeyStoreInput, CreateKeyStoreOutput, Any, Any], Interceptor[GetActiveBranchKeyInput, GetActiveBranchKeyOutput, Any, Any], Interceptor[GetBeaconKeyInput, GetBeaconKeyOutput, Any, Any], Interceptor[GetBranchKeyVersionInput, GetBranchKeyVersionOutput, Any, Any], Interceptor[Unit, GetKeyStoreInfoOutput, Any, Any], Interceptor[VersionKeyInput, VersionKeyOutput, Any, Any], Interceptor[DecryptMaterialsInput, DecryptMaterialsOutput, Any, Any], Interceptor[DeleteCacheEntryInput, Unit, Any, Any], Interceptor[GetBranchKeyIdInput, GetBranchKeyIdOutput, Any, Any], Interceptor[GetCacheEntryInput, GetCacheEntryOutput, Any, Any], Interceptor[GetClientInput, BaseClient, Any, Any], Interceptor[GetEncryptionMaterialsInput, GetEncryptionMaterialsOutput, Any, Any], Interceptor[OnDecryptInput, OnDecryptOutput, Any, Any], Interceptor[OnEncryptInput, OnEncryptOutput, Any, Any], Interceptor[PutCacheEntryInput, Unit, Any, Any], Interceptor[UpdateUsageMetadataInput, Unit, Any, Any]]
 @dataclass(init=False)
 class Config:
     """Configuration for KeyStore."""
@@ -94,8 +94,8 @@ class KeyStoreConfig(Config):
     logical_key_store_name: str
     id: str
     grant_tokens: list[str]
-    ddb_client: Any
-    kms_client: Any
+    ddb_client: BaseClient
+    kms_client: BaseClient
 
     def __init__(
         self,
@@ -104,8 +104,8 @@ class KeyStoreConfig(Config):
         logical_key_store_name: str,
         id: str,
         grant_tokens: list[str],
-        ddb_client: Any,
-        kms_client: Any,
+        ddb_client: BaseClient,
+        kms_client: BaseClient,
     ):
         """Constructor for KeyStoreConfig.
 

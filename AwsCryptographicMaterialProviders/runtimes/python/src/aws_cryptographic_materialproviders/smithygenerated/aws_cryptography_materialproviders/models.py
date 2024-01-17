@@ -5,8 +5,9 @@ from typing import Any, Dict, List, Optional, Union
 from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.models import (
     AES_GCM,
 )
-from typing import Any
+from botocore.client import BaseClient
 
+from ..aws_cryptography_keystore.client import KeyStore
 from ..aws_cryptography_keystore.models import BeaconKeyMaterials, BranchKeyMaterials
 from .references import (
     BranchKeyIdSupplier,
@@ -1098,13 +1099,13 @@ class DiscoveryFilter:
         )
 
 class CreateAwsKmsDiscoveryKeyringInput:
-    kms_client: Any
+    kms_client: BaseClient
     discovery_filter: Optional[DiscoveryFilter]
     grant_tokens: Optional[list[str]]
     def __init__(
         self,
         *,
-        kms_client: Any,
+        kms_client: BaseClient,
         discovery_filter: Optional[DiscoveryFilter] = None,
         grant_tokens: Optional[list[str]] = None,
     ):
@@ -1145,7 +1146,7 @@ class CreateAwsKmsDiscoveryKeyringInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "kms_client": Any.from_dict(d["kmsClient"]),
+            "kms_client": BaseClient.from_dict(d["kmsClient"]),
         }
 
         if "discoveryFilter" in d:
@@ -1809,13 +1810,13 @@ def _cache_type_from_dict(d: Dict[str, Any]) -> CacheType:
 class CreateAwsKmsHierarchicalKeyringInput:
     branch_key_id: Optional[str]
     branch_key_id_supplier: Optional[BranchKeyIdSupplier]
-    key_store: Any
+    key_store: KeyStore
     ttl_seconds: int
     cache: Optional[CacheType]
     def __init__(
         self,
         *,
-        key_store: Any,
+        key_store: KeyStore,
         branch_key_id: Optional[str] = None,
         branch_key_id_supplier: Optional[BranchKeyIdSupplier] = None,
         ttl_seconds: int = 0,
@@ -1874,7 +1875,7 @@ class CreateAwsKmsHierarchicalKeyringInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "key_store": Any.from_dict(d["keyStore"]),
+            "key_store": KeyStore.from_dict(d["keyStore"]),
         }
 
         if "branchKeyId" in d:
@@ -1921,13 +1922,13 @@ class CreateAwsKmsHierarchicalKeyringInput:
 
 class CreateAwsKmsKeyringInput:
     kms_key_id: str
-    kms_client: Any
+    kms_client: BaseClient
     grant_tokens: Optional[list[str]]
     def __init__(
         self,
         *,
         kms_key_id: str,
-        kms_client: Any,
+        kms_client: BaseClient,
         grant_tokens: Optional[list[str]] = None,
     ):
         """Inputs for for creating a AWS KMS Keyring.
@@ -1967,7 +1968,7 @@ class CreateAwsKmsKeyringInput:
         """
         kwargs: Dict[str, Any] = {
             "kms_key_id": d["kmsKeyId"],
-            "kms_client": Any.from_dict(d["kmsClient"]),
+            "kms_client": BaseClient.from_dict(d["kmsClient"]),
         }
 
         if "grantTokens" in d:
@@ -1998,14 +1999,14 @@ class CreateAwsKmsKeyringInput:
         )
 
 class CreateAwsKmsMrkDiscoveryKeyringInput:
-    kms_client: Any
+    kms_client: BaseClient
     discovery_filter: Optional[DiscoveryFilter]
     grant_tokens: Optional[list[str]]
     region: str
     def __init__(
         self,
         *,
-        kms_client: Any,
+        kms_client: BaseClient,
         region: str,
         discovery_filter: Optional[DiscoveryFilter] = None,
         grant_tokens: Optional[list[str]] = None,
@@ -2050,7 +2051,7 @@ class CreateAwsKmsMrkDiscoveryKeyringInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "kms_client": Any.from_dict(d["kmsClient"]),
+            "kms_client": BaseClient.from_dict(d["kmsClient"]),
             "region": d["region"],
         }
 
@@ -2186,13 +2187,13 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
 
 class CreateAwsKmsMrkKeyringInput:
     kms_key_id: str
-    kms_client: Any
+    kms_client: BaseClient
     grant_tokens: Optional[list[str]]
     def __init__(
         self,
         *,
         kms_key_id: str,
-        kms_client: Any,
+        kms_client: BaseClient,
         grant_tokens: Optional[list[str]] = None,
     ):
         """Inputs for for creating an AWS KMS MRK Keyring.
@@ -2231,7 +2232,7 @@ class CreateAwsKmsMrkKeyringInput:
         """
         kwargs: Dict[str, Any] = {
             "kms_key_id": d["kmsKeyId"],
-            "kms_client": Any.from_dict(d["kmsClient"]),
+            "kms_client": BaseClient.from_dict(d["kmsClient"]),
         }
 
         if "grantTokens" in d:
@@ -2471,7 +2472,7 @@ class CreateAwsKmsRsaKeyringInput:
     public_key: Optional[bytes | bytearray]
     kms_key_id: str
     encryption_algorithm: str
-    kms_client: Optional[Any]
+    kms_client: Optional[BaseClient]
     grant_tokens: Optional[list[str]]
     def __init__(
         self,
@@ -2479,7 +2480,7 @@ class CreateAwsKmsRsaKeyringInput:
         kms_key_id: str,
         encryption_algorithm: str,
         public_key: Optional[bytes | bytearray] = None,
-        kms_client: Optional[Any] = None,
+        kms_client: Optional[BaseClient] = None,
         grant_tokens: Optional[list[str]] = None,
     ):
         """Inputs for creating a AWS KMS RSA Keyring.
@@ -2539,7 +2540,7 @@ class CreateAwsKmsRsaKeyringInput:
             kwargs["public_key"] = d["publicKey"]
 
         if "kmsClient" in d:
-            kwargs["kms_client"] = Any.from_dict(d["kmsClient"])
+            kwargs["kms_client"] = BaseClient.from_dict(d["kmsClient"])
 
         if "grantTokens" in d:
             kwargs["grant_tokens"] = d["grantTokens"]
