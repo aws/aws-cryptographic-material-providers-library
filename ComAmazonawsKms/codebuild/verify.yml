@@ -5,10 +5,6 @@ env:
     FILE_NAME: "AWS.Cryptography.Internal.ComAmazonawsKms.dll"
     ASSEMBLY_NAME: "AWS.Cryptography.Internal.ComAmazonawsKms.dll"
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 phases:
   install:
     runtime-versions:

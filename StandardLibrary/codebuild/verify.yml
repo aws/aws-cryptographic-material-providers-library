@@ -5,10 +5,6 @@ env:
     FILE_NAME: "AWS.Cryptography.Internal.StandardLibrary.dll"
     ASSEMBLY_NAME: "AWS.Cryptography.Internal.StandardLibrary.dll"
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 phases:
   install:
     runtime-versions:
@@ -25,8 +21,4 @@ phases:
       - mkdir net6.0
       - python codebuild/net/retrieve_signed_assembly.py --target net6.0 --unique-id $Env:UNIQUE_ID --output net6.0
       - $sig = Get-AuthenticodeSignature -FilePath net6.0/$Env:FILE_NAME
-<<<<<<< HEAD
       - $sig | Format-List -Property *
-=======
-      - $sig | Format-List -Property *
->>>>>>> main
