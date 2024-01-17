@@ -7,7 +7,7 @@ include "Fixtures.dfy"
 
 module TestCreateKeyStore {
   import Types = AwsCryptographyKeyStoreTypes
-  import KMS = Com_Amazonaws_Kms
+  import KMS = Com.Amazonaws.Kms
   import DDB = Com_Amazonaws_Dynamodb
   import KeyStore
   import opened Wrappers

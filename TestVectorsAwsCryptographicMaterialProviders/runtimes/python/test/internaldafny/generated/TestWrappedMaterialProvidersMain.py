@@ -122,6 +122,8 @@ import AwsKmsKeyring
 import StrictMultiKeyring
 import AwsKmsDiscoveryKeyring
 import software_amazon_cryptography_services_kms_internaldafny
+import Com_Amazonaws
+import Com
 import DiscoveryMultiKeyring
 import AwsKmsMrkDiscoveryKeyring
 import MrkAwareDiscoveryMultiKeyring

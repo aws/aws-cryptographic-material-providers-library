@@ -11,7 +11,7 @@ module {:extern "software_amazon_cryptography_keystore_internaldafny"}
   import opened AwsArnParsing
   import opened AwsKmsUtils
   import Operations = AwsCryptographyKeyStoreOperations
-  import KMSOperations = Com_Amazonaws_Kms
+  import KMSOperations = Com.Amazonaws.Kms
   import DDBOperations =  Com_Amazonaws_Dynamodb
   import KMS = ComAmazonawsKmsTypes
   import DDB = ComAmazonawsDynamodbTypes
@@ -32,15 +32,13 @@ module {:extern "software_amazon_cryptography_keystore_internaldafny"}
   }
 
   method KeyStore(config: KeyStoreConfig)
-    returns (res: Result<KeyStoreClient, Error>)
+    returns (res: Result<IKeyStoreClient, Error>)
     ensures res.Success? ==>
-              && KMS.IsValid_KeyIdType(res.value.config.kmsConfiguration.kmsKeyArn)
+              && KMS.IsValid_KeyIdType(config.kmsConfiguration.kmsKeyArn)
               && DDB.IsValid_TableName(config.ddbTableName)
               && GetValidGrantTokens(config.grantTokens).Success?
-              && (config.kmsClient.Some? ==> res.value.config.kmsClient == config.kmsClient.value)
-              && (config.ddbClient.Some? ==> res.value.config.ddbClient == config.ddbClient.value
-                                             && res.value.config.kmsClient.ValidState()
-                                             && res.value.config.ddbClient.ValidState())
+                                             && config.kmsClient.value.ValidState()
+                                             && config.ddbClient.value.ValidState()
     ensures
       && !DDB.IsValid_TableName(config.ddbTableName)
       && !KMS.IsValid_KeyIdType(config.kmsConfiguration.kmsKeyArn)

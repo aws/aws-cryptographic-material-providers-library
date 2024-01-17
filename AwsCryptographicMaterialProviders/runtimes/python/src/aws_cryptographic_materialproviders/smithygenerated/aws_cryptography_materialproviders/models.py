@@ -5,9 +5,15 @@ from typing import Any, Dict, List, Optional, Union
 from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.models import (
     AES_GCM,
 )
+from typing import Any
 
-from ..aws_cryptography_keystore.client import KeyStore
 from ..aws_cryptography_keystore.models import BeaconKeyMaterials, BranchKeyMaterials
+from .references import (
+    BranchKeyIdSupplier,
+    ClientSupplier,
+    CryptographicMaterialsManager,
+    Keyring,
+)
 
 
 class AlgorithmSuiteIdESDK():
@@ -1172,71 +1178,17 @@ class CreateAwsKmsDiscoveryKeyringInput:
             for a in attributes
         )
 
-class KeyringReference:
-    """//////////////////
-    """
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the KeyringReference to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        return {}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KeyringReference":
-        """Creates a KeyringReference from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        return KeyringReference()
-
-    def __repr__(self) -> str:
-        result = "KeyringReference("
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        return isinstance(other, KeyringReference)
-
-class ClientSupplierReference:
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the ClientSupplierReference to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        return {}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "ClientSupplierReference":
-        """Creates a ClientSupplierReference from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        return ClientSupplierReference()
-
-    def __repr__(self) -> str:
-        result = "ClientSupplierReference("
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        return isinstance(other, ClientSupplierReference)
-
 class CreateAwsKmsDiscoveryMultiKeyringInput:
     regions: list[str]
     discovery_filter: Optional[DiscoveryFilter]
-    client_supplier: Optional[Any]
+    client_supplier: Optional[ClientSupplier]
     grant_tokens: Optional[list[str]]
     def __init__(
         self,
         *,
         regions: list[str],
         discovery_filter: Optional[DiscoveryFilter] = None,
-        client_supplier: Optional[Any] = None,
+        client_supplier: Optional[ClientSupplier] = None,
         grant_tokens: Optional[list[str]] = None,
     ):
         """Inputs for for creating an AWS KMS Discovery Multi-Keyring.
@@ -1291,7 +1243,7 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
             kwargs["discovery_filter"] = DiscoveryFilter.from_dict(d["discoveryFilter"])
 
         if "clientSupplier" in d:
-            kwargs["client_supplier"] = ClientSupplierReference.from_dict(d["clientSupplier"])
+            kwargs["client_supplier"] = ClientSupplier.from_dict(d["clientSupplier"])
 
         if "grantTokens" in d:
             kwargs["grant_tokens"] = d["grantTokens"]
@@ -1322,32 +1274,6 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
             getattr(self, a) == getattr(other, a)
             for a in attributes
         )
-
-class BranchKeyIdSupplierReference:
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the BranchKeyIdSupplierReference to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        return {}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "BranchKeyIdSupplierReference":
-        """Creates a BranchKeyIdSupplierReference from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        return BranchKeyIdSupplierReference()
-
-    def __repr__(self) -> str:
-        result = "BranchKeyIdSupplierReference("
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        return isinstance(other, BranchKeyIdSupplierReference)
 
 class DefaultCache:
     entry_capacity: int
@@ -1882,16 +1808,16 @@ def _cache_type_from_dict(d: Dict[str, Any]) -> CacheType:
 
 class CreateAwsKmsHierarchicalKeyringInput:
     branch_key_id: Optional[str]
-    branch_key_id_supplier: Optional[Any]
-    key_store: KeyStore
+    branch_key_id_supplier: Optional[BranchKeyIdSupplier]
+    key_store: Any
     ttl_seconds: int
     cache: Optional[CacheType]
     def __init__(
         self,
         *,
-        key_store: KeyStore,
+        key_store: Any,
         branch_key_id: Optional[str] = None,
-        branch_key_id_supplier: Optional[Any] = None,
+        branch_key_id_supplier: Optional[BranchKeyIdSupplier] = None,
         ttl_seconds: int = 0,
         cache: Optional[CacheType] = None,
     ):
@@ -1948,14 +1874,14 @@ class CreateAwsKmsHierarchicalKeyringInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "key_store": KeyStore.from_dict(d["keyStore"]),
+            "key_store": Any.from_dict(d["keyStore"]),
         }
 
         if "branchKeyId" in d:
             kwargs["branch_key_id"] = d["branchKeyId"]
 
         if "branchKeyIdSupplier" in d:
-            kwargs["branch_key_id_supplier"] = BranchKeyIdSupplierReference.from_dict(d["branchKeyIdSupplier"])
+            kwargs["branch_key_id_supplier"] = BranchKeyIdSupplier.from_dict(d["branchKeyIdSupplier"])
 
         if "ttlSeconds" in d:
             kwargs["ttl_seconds"] = d["ttlSeconds"]
@@ -2164,14 +2090,14 @@ class CreateAwsKmsMrkDiscoveryKeyringInput:
 class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
     regions: list[str]
     discovery_filter: Optional[DiscoveryFilter]
-    client_supplier: Optional[Any]
+    client_supplier: Optional[ClientSupplier]
     grant_tokens: Optional[list[str]]
     def __init__(
         self,
         *,
         regions: list[str],
         discovery_filter: Optional[DiscoveryFilter] = None,
-        client_supplier: Optional[Any] = None,
+        client_supplier: Optional[ClientSupplier] = None,
         grant_tokens: Optional[list[str]] = None,
     ):
         """Inputs for for creating a AWS KMS MRK Discovery Multi-Keyring.
@@ -2226,7 +2152,7 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
             kwargs["discovery_filter"] = DiscoveryFilter.from_dict(d["discoveryFilter"])
 
         if "clientSupplier" in d:
-            kwargs["client_supplier"] = ClientSupplierReference.from_dict(d["clientSupplier"])
+            kwargs["client_supplier"] = ClientSupplier.from_dict(d["clientSupplier"])
 
         if "grantTokens" in d:
             kwargs["grant_tokens"] = d["grantTokens"]
@@ -2338,14 +2264,14 @@ class CreateAwsKmsMrkKeyringInput:
 class CreateAwsKmsMrkMultiKeyringInput:
     generator: Optional[str]
     kms_key_ids: Optional[list[str]]
-    client_supplier: Optional[Any]
+    client_supplier: Optional[ClientSupplier]
     grant_tokens: Optional[list[str]]
     def __init__(
         self,
         *,
         generator: Optional[str] = None,
         kms_key_ids: Optional[list[str]] = None,
-        client_supplier: Optional[Any] = None,
+        client_supplier: Optional[ClientSupplier] = None,
         grant_tokens: Optional[list[str]] = None,
     ):
         """Inputs for for creating a AWS KMS MRK Multi-Keyring.
@@ -2406,7 +2332,7 @@ class CreateAwsKmsMrkMultiKeyringInput:
             kwargs["kms_key_ids"] = d["kmsKeyIds"]
 
         if "clientSupplier" in d:
-            kwargs["client_supplier"] = ClientSupplierReference.from_dict(d["clientSupplier"])
+            kwargs["client_supplier"] = ClientSupplier.from_dict(d["clientSupplier"])
 
         if "grantTokens" in d:
             kwargs["grant_tokens"] = d["grantTokens"]
@@ -2441,14 +2367,14 @@ class CreateAwsKmsMrkMultiKeyringInput:
 class CreateAwsKmsMultiKeyringInput:
     generator: Optional[str]
     kms_key_ids: Optional[list[str]]
-    client_supplier: Optional[Any]
+    client_supplier: Optional[ClientSupplier]
     grant_tokens: Optional[list[str]]
     def __init__(
         self,
         *,
         generator: Optional[str] = None,
         kms_key_ids: Optional[list[str]] = None,
-        client_supplier: Optional[Any] = None,
+        client_supplier: Optional[ClientSupplier] = None,
         grant_tokens: Optional[list[str]] = None,
     ):
         """Inputs for for creating a AWS KMS Multi-Keyring.
@@ -2509,7 +2435,7 @@ class CreateAwsKmsMultiKeyringInput:
             kwargs["kms_key_ids"] = d["kmsKeyIds"]
 
         if "clientSupplier" in d:
-            kwargs["client_supplier"] = ClientSupplierReference.from_dict(d["clientSupplier"])
+            kwargs["client_supplier"] = ClientSupplier.from_dict(d["clientSupplier"])
 
         if "grantTokens" in d:
             kwargs["grant_tokens"] = d["grantTokens"]
@@ -2699,32 +2625,6 @@ class CreateCryptographicMaterialsCacheInput:
             for a in attributes
         )
 
-class CryptographicMaterialsCacheReference:
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the CryptographicMaterialsCacheReference to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        return {}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CryptographicMaterialsCacheReference":
-        """Creates a CryptographicMaterialsCacheReference from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        return CryptographicMaterialsCacheReference()
-
-    def __repr__(self) -> str:
-        result = "CryptographicMaterialsCacheReference("
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        return isinstance(other, CryptographicMaterialsCacheReference)
-
 class CreateDefaultClientSupplierInput:
     def as_dict(self) -> Dict[str, Any]:
         """Converts the CreateDefaultClientSupplierInput to a dictionary.
@@ -2751,40 +2651,12 @@ class CreateDefaultClientSupplierInput:
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, CreateDefaultClientSupplierInput)
 
-class CryptographicMaterialsManagerReference:
-    """//////////////
-    """
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the CryptographicMaterialsManagerReference to a dictionary.
-
-        The dictionary uses the modeled shape names rather than the parameter names as
-        keys to be mostly compatible with boto3.
-        """
-        return {}
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CryptographicMaterialsManagerReference":
-        """Creates a CryptographicMaterialsManagerReference from a dictionary.
-
-        The dictionary is expected to use the modeled shape names rather than the
-        parameter names as keys to be mostly compatible with boto3.
-        """
-        return CryptographicMaterialsManagerReference()
-
-    def __repr__(self) -> str:
-        result = "CryptographicMaterialsManagerReference("
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        return isinstance(other, CryptographicMaterialsManagerReference)
-
 class CreateDefaultCryptographicMaterialsManagerInput:
-    keyring: Any
+    keyring: Keyring
     def __init__(
         self,
         *,
-        keyring: Any,
+        keyring: Keyring,
     ):
         """Inputs for creating a Default Cryptographic Materials Manager.
 
@@ -2811,7 +2683,7 @@ class CreateDefaultCryptographicMaterialsManagerInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "keyring": KeyringReference.from_dict(d["keyring"]),
+            "keyring": Keyring.from_dict(d["keyring"]),
         }
 
         return CreateDefaultCryptographicMaterialsManagerInput(**kwargs)
@@ -2833,13 +2705,13 @@ class CreateDefaultCryptographicMaterialsManagerInput:
         )
 
 class CreateMultiKeyringInput:
-    generator: Optional[Any]
-    child_keyrings: list[KeyringReference]
+    generator: Optional[Keyring]
+    child_keyrings: list[Keyring]
     def __init__(
         self,
         *,
-        child_keyrings: list[KeyringReference],
-        generator: Optional[Any] = None,
+        child_keyrings: list[Keyring],
+        generator: Optional[Keyring] = None,
     ):
         """Inputs for creating a Multi-Keyring.
 
@@ -2879,7 +2751,7 @@ class CreateMultiKeyringInput:
         }
 
         if "generator" in d:
-            kwargs["generator"] = KeyringReference.from_dict(d["generator"])
+            kwargs["generator"] = Keyring.from_dict(d["generator"])
 
         return CreateMultiKeyringInput(**kwargs)
 
@@ -3087,15 +2959,15 @@ class CreateRawRsaKeyringInput:
         )
 
 class CreateRequiredEncryptionContextCMMInput:
-    underlying_cmm: Optional[Any]
-    keyring: Optional[Any]
+    underlying_cmm: Optional[CryptographicMaterialsManager]
+    keyring: Optional[Keyring]
     required_encryption_context_keys: list[str]
     def __init__(
         self,
         *,
         required_encryption_context_keys: list[str],
-        underlying_cmm: Optional[Any] = None,
-        keyring: Optional[Any] = None,
+        underlying_cmm: Optional[CryptographicMaterialsManager] = None,
+        keyring: Optional[Keyring] = None,
     ):
         """Inputs for creating an Required Encryption Context Cryptographic Materials
         Manager.
@@ -3148,10 +3020,10 @@ class CreateRequiredEncryptionContextCMMInput:
         }
 
         if "underlyingCMM" in d:
-            kwargs["underlying_cmm"] = CryptographicMaterialsManagerReference.from_dict(d["underlyingCMM"])
+            kwargs["underlying_cmm"] = CryptographicMaterialsManager.from_dict(d["underlyingCMM"])
 
         if "keyring" in d:
-            kwargs["keyring"] = KeyringReference.from_dict(d["keyring"])
+            kwargs["keyring"] = Keyring.from_dict(d["keyring"])
 
         return CreateRequiredEncryptionContextCMMInput(**kwargs)
 
@@ -4915,11 +4787,11 @@ def _encrypted_data_key_list_as_dict(given: list[EncryptedDataKey]) -> List[Any]
 def _encrypted_data_key_list_from_dict(given: List[Any]) -> list[EncryptedDataKey]:
     return [EncryptedDataKey.from_dict(v) for v in given]
 
-def _keyring_list_as_dict(given: list[KeyringReference]) -> List[Any]:
+def _keyring_list_as_dict(given: list[Keyring]) -> List[Any]:
     return [v.as_dict() for v in given]
 
-def _keyring_list_from_dict(given: List[Any]) -> list[KeyringReference]:
-    return [KeyringReference.from_dict(v) for v in given]
+def _keyring_list_from_dict(given: List[Any]) -> list[Keyring]:
+    return [Keyring.from_dict(v) for v in given]
 
 class Unit:
     pass

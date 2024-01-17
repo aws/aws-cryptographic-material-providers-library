@@ -475,16 +475,16 @@ class InvalidEncryptionMaterialsTransition(ApiError[Literal["InvalidEncryptionMa
     message: str
 
 class AwsCryptographicPrimitives(ApiError[Literal["AwsCryptographicPrimitives"]]):
-    AwsCryptographicPrimitives: service
+    AwsCryptographicPrimitives: Any
 
 class DynamoDB_20120810(ApiError[Literal["DynamoDB_20120810"]]):
-    DynamoDB_20120810: service
+    DynamoDB_20120810: Any
 
 class TrentService(ApiError[Literal["TrentService"]]):
-    TrentService: service
+    TrentService: Any
 
 class KeyStore(ApiError[Literal["KeyStore"]]):
-    KeyStore: service
+    KeyStore: Any
 
 class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
     code: Literal["CollectionOfErrors"] = "CollectionOfErrors"

@@ -8,7 +8,7 @@ include "CleanupItems.dfy"
 module TestVersionKey {
   import Types = AwsCryptographyKeyStoreTypes
   import ComAmazonawsKmsTypes
-  import KMS = Com_Amazonaws_Kms
+  import KMS = Com.Amazonaws.Kms
   import DDB = Com_Amazonaws_Dynamodb
   import KeyStore
   import UUID

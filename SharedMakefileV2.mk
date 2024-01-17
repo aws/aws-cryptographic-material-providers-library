@@ -502,9 +502,9 @@ _python_underscore_dependency_extern_names:
 
 _python_revert_underscore_extern_names:
 	find dafny -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/.*{:extern \".*\".*/s/_/\./g' {} \;
-#	find src -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/.*{:extern \".*\".*/s/_/\./g' {} \;
-#	find Model -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/.*{:extern \".*\".*/s/_/\./g' {} \; 2>/dev/null
-#	find test -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/.*{:extern \".*\".*/s/_/\./g' {} \;
+	find src -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/.*{:extern \".*\".*/s/_/\./g' {} \;
+	find Model -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/.*{:extern \".*\".*/s/_/\./g' {} \; 2>/dev/null
+	find test -regex ".*\.dfy" -type f -exec sed -i $(SED_PARAMETER) '/.*{:extern \".*\".*/s/_/\./g' {} \;
 
 _python_revert_underscore_dependency_extern_names:
 	$(patsubst %, $(MAKE) -C $(PROJECT_ROOT)/% _python_revert_underscore_extern_names;, $(LIBRARIES))

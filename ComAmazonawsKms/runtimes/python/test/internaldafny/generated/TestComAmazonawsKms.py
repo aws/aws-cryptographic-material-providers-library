@@ -13,7 +13,6 @@ import StandardLibrary_String
 import StandardLibrary
 import UTF8
 import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny
 import Relations
 import Seq_MergeSort
 import Math
@@ -47,6 +46,9 @@ import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
+import software_amazon_cryptography_services_kms_internaldafny
+import Com_Amazonaws
+import Com
 
 # Module: TestComAmazonawsKms
 
@@ -77,7 +79,7 @@ class default__:
         d_1_client_: software_amazon_cryptography_services_kms_internaldafny_types.IKMSClient
         d_2_valueOrError0_: Wrappers.Result = None
         out0_: Wrappers.Result
-        out0_ = software_amazon_cryptography_services_kms_internaldafny.default__.KMSClient()
+        out0_ = software_amazon_cryptography_services_kms_internaldafny.default__.KMSClientForRegion(default__.TEST__REGION)
         d_2_valueOrError0_ = out0_
         if not(not((d_2_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(88,15): " + _dafny.string_of(d_2_valueOrError0_))
@@ -107,7 +109,7 @@ class default__:
         d_7_client_: software_amazon_cryptography_services_kms_internaldafny_types.IKMSClient
         d_8_valueOrError0_: Wrappers.Result = None
         out2_: Wrappers.Result
-        out2_ = software_amazon_cryptography_services_kms_internaldafny.default__.KMSClient()
+        out2_ = software_amazon_cryptography_services_kms_internaldafny.default__.KMSClientForRegion(default__.TEST__REGION)
         d_8_valueOrError0_ = out2_
         if not(not((d_8_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(109,15): " + _dafny.string_of(d_8_valueOrError0_))
@@ -139,7 +141,7 @@ class default__:
         d_14_client_: software_amazon_cryptography_services_kms_internaldafny_types.IKMSClient
         d_15_valueOrError0_: Wrappers.Result = None
         out4_: Wrappers.Result
-        out4_ = software_amazon_cryptography_services_kms_internaldafny.default__.KMSClient()
+        out4_ = software_amazon_cryptography_services_kms_internaldafny.default__.KMSClientForRegion(default__.TEST__REGION)
         d_15_valueOrError0_ = out4_
         if not(not((d_15_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(141,15): " + _dafny.string_of(d_15_valueOrError0_))
@@ -167,7 +169,7 @@ class default__:
         d_21_client_: software_amazon_cryptography_services_kms_internaldafny_types.IKMSClient
         d_22_valueOrError0_: Wrappers.Result = None
         out6_: Wrappers.Result
-        out6_ = software_amazon_cryptography_services_kms_internaldafny.default__.KMSClient()
+        out6_ = software_amazon_cryptography_services_kms_internaldafny.default__.KMSClientForRegion(default__.TEST__REGION)
         d_22_valueOrError0_ = out6_
         if not(not((d_22_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(170,15): " + _dafny.string_of(d_22_valueOrError0_))
@@ -177,9 +179,20 @@ class default__:
         if not(((d_23_region_).is_None) or ((d_23_region_).value)):
             raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(172,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
-    @_dafny.classproperty
-    def keyId(instance):
-        return _dafny.Seq("arn:aws:kms:us-west-2:658956600833:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f")
+    @staticmethod
+    def EmptyStringIsDefaultRegion():
+        d_24_client_: software_amazon_cryptography_services_kms_internaldafny_types.IKMSClient
+        d_25_valueOrError0_: Wrappers.Result = None
+        out7_: Wrappers.Result
+        out7_ = software_amazon_cryptography_services_kms_internaldafny.default__.KMSClientForRegion(_dafny.Seq(""))
+        d_25_valueOrError0_ = out7_
+        if not(not((d_25_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(177,15): " + _dafny.string_of(d_25_valueOrError0_))
+        d_24_client_ = (d_25_valueOrError0_).Extract()
+
     @_dafny.classproperty
     def TEST__REGION(instance):
         return _dafny.Seq("us-west-2")
+    @_dafny.classproperty
+    def keyId(instance):
+        return _dafny.Seq("arn:aws:kms:us-west-2:658956600833:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f")

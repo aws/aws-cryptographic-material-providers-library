@@ -218,6 +218,11 @@ class KmsMrkAwareDiscovery:
         default_mrk_region: str,
         aws_kms_discovery_filter: Optional[DiscoveryFilter] = None,
     ):
+        """
+        :param aws_kms_discovery_filter: A filter which defines what AWS partition and
+        AWS accounts a KMS Key may be in for a Keyring to be allowed to attempt to
+        decrypt it.
+        """
         self.key_id = key_id
         self.default_mrk_region = default_mrk_region
         self.aws_kms_discovery_filter = aws_kms_discovery_filter

@@ -57,6 +57,14 @@ class default__:
     def DefaultDynamoDBClientConfigType():
         return DynamoDBClientConfigType_DynamoDBClientConfigType()
 
+    @staticmethod
+    def CreateSuccessOfClient(client):
+        return Wrappers.Result_Success(client)
+
+    @staticmethod
+    def CreateFailureOfError(error):
+        return Wrappers.Result_Failure(error)
+
 
 class DynamoDBClientConfigType:
     @_dafny.classproperty

@@ -5,7 +5,7 @@ include "../Model/AwsCryptographyMaterialProvidersTypes.dfy"
 
 module DefaultClientSupplier {
   import ComAmazonawsKmsTypes
-  import Kms = Com_Amazonaws_Kms
+  import Kms = Com.Amazonaws.Kms
   import opened AwsCryptographyMaterialProvidersTypes
 
   import opened Wrappers

@@ -13,10 +13,10 @@ from .dafnyImplInterface import DafnyImplInterface
 from smithy_python._private.retries import SimpleRetryStrategy
 from smithy_python.interfaces.interceptor import Interceptor
 from smithy_python.interfaces.retries import RetryStrategy
+from typing import Any
 
 from .models import (
     AlgorithmSuiteInfo,
-    ClientSupplierReference,
     CreateAwsKmsDiscoveryKeyringInput,
     CreateAwsKmsDiscoveryMultiKeyringInput,
     CreateAwsKmsHierarchicalKeyringInput,
@@ -34,8 +34,6 @@ from .models import (
     CreateRawAesKeyringInput,
     CreateRawRsaKeyringInput,
     CreateRequiredEncryptionContextCMMInput,
-    CryptographicMaterialsCacheReference,
-    CryptographicMaterialsManagerReference,
     DecryptMaterialsInput,
     DecryptMaterialsOutput,
     DecryptionMaterials,
@@ -50,7 +48,6 @@ from .models import (
     GetEncryptionMaterialsOutput,
     InitializeDecryptionMaterialsInput,
     InitializeEncryptionMaterialsInput,
-    KeyringReference,
     OnDecryptInput,
     OnDecryptOutput,
     OnEncryptInput,
@@ -63,9 +60,15 @@ from .models import (
     ValidateCommitmentPolicyOnDecryptInput,
     ValidateCommitmentPolicyOnEncryptInput,
 )
+from .references import (
+    ClientSupplier,
+    CryptographicMaterialsCache,
+    CryptographicMaterialsManager,
+    Keyring,
+)
 
 
-_ServiceInterceptor = Union[Interceptor[CreateAwsKmsDiscoveryKeyringInput, KeyringReference, Any, Any], Interceptor[CreateAwsKmsDiscoveryMultiKeyringInput, KeyringReference, Any, Any], Interceptor[CreateAwsKmsHierarchicalKeyringInput, KeyringReference, Any, Any], Interceptor[CreateAwsKmsKeyringInput, KeyringReference, Any, Any], Interceptor[CreateAwsKmsMrkDiscoveryKeyringInput, KeyringReference, Any, Any], Interceptor[CreateAwsKmsMrkDiscoveryMultiKeyringInput, KeyringReference, Any, Any], Interceptor[CreateAwsKmsMrkKeyringInput, KeyringReference, Any, Any], Interceptor[CreateAwsKmsMrkMultiKeyringInput, KeyringReference, Any, Any], Interceptor[CreateAwsKmsMultiKeyringInput, KeyringReference, Any, Any], Interceptor[CreateAwsKmsRsaKeyringInput, KeyringReference, Any, Any], Interceptor[CreateCryptographicMaterialsCacheInput, CryptographicMaterialsCacheReference, Any, Any], Interceptor[CreateDefaultClientSupplierInput, ClientSupplierReference, Any, Any], Interceptor[CreateDefaultCryptographicMaterialsManagerInput, CryptographicMaterialsManagerReference, Any, Any], Interceptor[CreateMultiKeyringInput, KeyringReference, Any, Any], Interceptor[CreateRawAesKeyringInput, KeyringReference, Any, Any], Interceptor[CreateRawRsaKeyringInput, KeyringReference, Any, Any], Interceptor[CreateRequiredEncryptionContextCMMInput, CryptographicMaterialsManagerReference, Any, Any], Interceptor[DecryptionMaterials, Unit, Any, Any], Interceptor[DecryptMaterialsInput, DecryptMaterialsOutput, Any, Any], Interceptor[DeleteCacheEntryInput, Unit, Any, Any], Interceptor[EncryptionMaterials, Unit, Any, Any], Interceptor[bytes | bytearray, AlgorithmSuiteInfo, Any, Any], Interceptor[GetBranchKeyIdInput, GetBranchKeyIdOutput, Any, Any], Interceptor[GetCacheEntryInput, GetCacheEntryOutput, Any, Any], Interceptor[GetClientInput, Any, Any, Any], Interceptor[GetEncryptionMaterialsInput, GetEncryptionMaterialsOutput, Any, Any], Interceptor[InitializeDecryptionMaterialsInput, DecryptionMaterials, Any, Any], Interceptor[InitializeEncryptionMaterialsInput, EncryptionMaterials, Any, Any], Interceptor[OnDecryptInput, OnDecryptOutput, Any, Any], Interceptor[OnEncryptInput, OnEncryptOutput, Any, Any], Interceptor[PutCacheEntryInput, Unit, Any, Any], Interceptor[UpdateUsageMetadataInput, Unit, Any, Any], Interceptor[AlgorithmSuiteInfo, Unit, Any, Any], Interceptor[ValidateCommitmentPolicyOnDecryptInput, Unit, Any, Any], Interceptor[ValidateCommitmentPolicyOnEncryptInput, Unit, Any, Any], Interceptor[ValidDecryptionMaterialsTransitionInput, Unit, Any, Any], Interceptor[ValidEncryptionMaterialsTransitionInput, Unit, Any, Any]]
+_ServiceInterceptor = Union[Interceptor[CreateAwsKmsDiscoveryKeyringInput, Keyring, Any, Any], Interceptor[CreateAwsKmsDiscoveryMultiKeyringInput, Keyring, Any, Any], Interceptor[CreateAwsKmsHierarchicalKeyringInput, Keyring, Any, Any], Interceptor[CreateAwsKmsKeyringInput, Keyring, Any, Any], Interceptor[CreateAwsKmsMrkDiscoveryKeyringInput, Keyring, Any, Any], Interceptor[CreateAwsKmsMrkDiscoveryMultiKeyringInput, Keyring, Any, Any], Interceptor[CreateAwsKmsMrkKeyringInput, Keyring, Any, Any], Interceptor[CreateAwsKmsMrkMultiKeyringInput, Keyring, Any, Any], Interceptor[CreateAwsKmsMultiKeyringInput, Keyring, Any, Any], Interceptor[CreateAwsKmsRsaKeyringInput, Keyring, Any, Any], Interceptor[CreateCryptographicMaterialsCacheInput, CryptographicMaterialsCache, Any, Any], Interceptor[CreateDefaultClientSupplierInput, ClientSupplier, Any, Any], Interceptor[CreateDefaultCryptographicMaterialsManagerInput, CryptographicMaterialsManager, Any, Any], Interceptor[CreateMultiKeyringInput, Keyring, Any, Any], Interceptor[CreateRawAesKeyringInput, Keyring, Any, Any], Interceptor[CreateRawRsaKeyringInput, Keyring, Any, Any], Interceptor[CreateRequiredEncryptionContextCMMInput, CryptographicMaterialsManager, Any, Any], Interceptor[DecryptionMaterials, Unit, Any, Any], Interceptor[DecryptMaterialsInput, DecryptMaterialsOutput, Any, Any], Interceptor[DeleteCacheEntryInput, Unit, Any, Any], Interceptor[EncryptionMaterials, Unit, Any, Any], Interceptor[bytes | bytearray, AlgorithmSuiteInfo, Any, Any], Interceptor[GetBranchKeyIdInput, GetBranchKeyIdOutput, Any, Any], Interceptor[GetCacheEntryInput, GetCacheEntryOutput, Any, Any], Interceptor[GetClientInput, Any, Any, Any], Interceptor[GetEncryptionMaterialsInput, GetEncryptionMaterialsOutput, Any, Any], Interceptor[InitializeDecryptionMaterialsInput, DecryptionMaterials, Any, Any], Interceptor[InitializeEncryptionMaterialsInput, EncryptionMaterials, Any, Any], Interceptor[OnDecryptInput, OnDecryptOutput, Any, Any], Interceptor[OnEncryptInput, OnEncryptOutput, Any, Any], Interceptor[PutCacheEntryInput, Unit, Any, Any], Interceptor[UpdateUsageMetadataInput, Unit, Any, Any], Interceptor[AlgorithmSuiteInfo, Unit, Any, Any], Interceptor[ValidateCommitmentPolicyOnDecryptInput, Unit, Any, Any], Interceptor[ValidateCommitmentPolicyOnEncryptInput, Unit, Any, Any], Interceptor[ValidDecryptionMaterialsTransitionInput, Unit, Any, Any], Interceptor[ValidEncryptionMaterialsTransitionInput, Unit, Any, Any]]
 @dataclass(init=False)
 class Config:
     """Configuration for AwsCryptographicMaterialProviders."""

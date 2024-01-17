@@ -8,11 +8,16 @@ import _dafny
 import boto3
 from botocore.config import Config
 
+def get_available_aws_regions():
+    from boto3.session import Session
+    s = Session()
+    return s.get_available_regions("kms")
+
 class default__(com_amazonaws_kms.internaldafny.generated.software_amazon_cryptography_services_kms_internaldafny.default__):
     @staticmethod
     def KMSClient(boto_client = None, region=None):
         if boto_client is None:
-            if region is not None:
+            if region is not None and region in get_available_aws_regions():
                 boto_config = Config(
                     region_name=region
                 )

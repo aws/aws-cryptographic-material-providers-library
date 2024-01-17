@@ -7,7 +7,7 @@ include "TestUtils.dfy"
 module TestDefaultClientProvider {
   import Types = AwsCryptographyMaterialProvidersTypes
   import ComAmazonawsKmsTypes
-  import KMS = Com_Amazonaws_Kms
+  import KMS = Com.Amazonaws.Kms
   import MaterialProviders
   import opened TestUtils
   import opened UInt = StandardLibrary.UInt

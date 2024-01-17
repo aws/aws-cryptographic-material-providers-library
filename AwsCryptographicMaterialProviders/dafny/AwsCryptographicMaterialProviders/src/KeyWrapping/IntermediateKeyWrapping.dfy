@@ -16,6 +16,7 @@ module IntermediateKeyWrapping {
   import Crypto = AwsCryptographyPrimitivesTypes
   import Types = AwsCryptographyMaterialProvidersTypes
   import Aws.Cryptography.Primitives
+  import AwsCryptographyPrimitivesTypes
   import Materials
   import UTF8
   import HKDF
@@ -300,7 +301,7 @@ module IntermediateKeyWrapping {
     intermediateMaterial: seq<uint8>,
     algorithmSuite: Types.AlgorithmSuiteInfo,
     encryptionContext: Types.EncryptionContext,
-    cryptoPrimitives: Primitives.AtomicPrimitivesClient
+    cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient
   )
     returns (res: Result<PdkEncryptionAndSymmetricSigningKeys, Types.Error>)
     requires cryptoPrimitives.ValidState()

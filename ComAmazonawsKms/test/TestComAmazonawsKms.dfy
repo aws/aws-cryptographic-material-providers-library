@@ -4,7 +4,7 @@
 include "../src/Index.dfy"
 
 module TestComAmazonawsKms {
-  import Com_Amazonaws_Kms
+  import Com.Amazonaws.Kms
   import opened StandardLibrary.UInt
 
   const keyId :=  "arn:aws:kms:us-west-2:658956600833:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"
@@ -20,8 +20,8 @@ module TestComAmazonawsKms {
   // This is required because
   // https://github.com/dafny-lang/dafny/issues/2311
   function method workAround(literal: seq<uint8>)
-    :(ret: Com_Amazonaws_Kms.Types.CiphertextType)
-    requires Com_Amazonaws_Kms.Types.IsValid_CiphertextType(literal)
+    :(ret: Kms.Types.CiphertextType)
+    requires Kms.Types.IsValid_CiphertextType(literal)
   {literal}
 
   // These are the operations needed for the Encryption SDK
@@ -42,12 +42,12 @@ module TestComAmazonawsKms {
     ];
 
     BasicDecryptTest(
-      input := Com_Amazonaws_Kms.Types.DecryptRequest(
+      input := Kms.Types.DecryptRequest(
         CiphertextBlob := workAround(CiphertextBlob),
-        EncryptionContext := Com_Amazonaws_Kms.Wrappers.None,
-        GrantTokens := Com_Amazonaws_Kms.Wrappers.None,
-        KeyId := Com_Amazonaws_Kms.Wrappers.Some(keyId),
-        EncryptionAlgorithm := Com_Amazonaws_Kms.Wrappers.None
+        EncryptionContext := Kms.Wrappers.None,
+        GrantTokens := Kms.Wrappers.None,
+        KeyId := Kms.Wrappers.Some(keyId),
+        EncryptionAlgorithm := Kms.Wrappers.None
       ),
       expectedPlaintext := [ 165, 191, 67, 62 ],
       expectedKeyId := keyId
@@ -56,33 +56,33 @@ module TestComAmazonawsKms {
 
   method {:test} BasicGenerateTests() {
     BasicGenerateTest(
-      input := Com_Amazonaws_Kms.Types.GenerateDataKeyRequest(
+      input := Kms.Types.GenerateDataKeyRequest(
         KeyId := keyId,
-        EncryptionContext := Com_Amazonaws_Kms.Wrappers.None,
-        NumberOfBytes := Com_Amazonaws_Kms.Wrappers.Some(32 as Com_Amazonaws_Kms.Types.NumberOfBytesType),
-        KeySpec := Com_Amazonaws_Kms.Wrappers.None,
-        GrantTokens := Com_Amazonaws_Kms.Wrappers.None
+        EncryptionContext := Kms.Wrappers.None,
+        NumberOfBytes := Kms.Wrappers.Some(32 as Kms.Types.NumberOfBytesType),
+        KeySpec := Kms.Wrappers.None,
+        GrantTokens := Kms.Wrappers.None
       )
     );
   }
 
   method {:test} BasicEncryptTests() {
     BasicEncryptTest(
-      input := Com_Amazonaws_Kms.Types.EncryptRequest(
+      input := Kms.Types.EncryptRequest(
         KeyId := keyId,
         // The string "asdf" as bytes
         Plaintext := [ 97, 115, 100, 102 ],
-        EncryptionContext := Com_Amazonaws_Kms.Wrappers.None,
-        GrantTokens := Com_Amazonaws_Kms.Wrappers.None,
-        EncryptionAlgorithm := Com_Amazonaws_Kms.Wrappers.None
+        EncryptionContext := Kms.Wrappers.None,
+        GrantTokens := Kms.Wrappers.None,
+        EncryptionAlgorithm := Kms.Wrappers.None
       )
     );
   }
 
   method BasicDecryptTest(
-    nameonly input: Com_Amazonaws_Kms.Types.DecryptRequest,
-    nameonly expectedPlaintext: Com_Amazonaws_Kms.Types.PlaintextType,
-    nameonly expectedKeyId: Com_Amazonaws_Kms.Types.KeyIdType
+    nameonly input: Kms.Types.DecryptRequest,
+    nameonly expectedPlaintext: Kms.Types.PlaintextType,
+    nameonly expectedKeyId: Kms.Types.KeyIdType
   )
   {
     var client :- expect Kms.KMSClientForRegion(TEST_REGION);
@@ -102,7 +102,7 @@ module TestComAmazonawsKms {
   }
 
   method BasicGenerateTest(
-    nameonly input: Com_Amazonaws_Kms.Types.GenerateDataKeyRequest
+    nameonly input: Kms.Types.GenerateDataKeyRequest
   )
     requires input.NumberOfBytes.Some?
   {
@@ -119,12 +119,12 @@ module TestComAmazonawsKms {
     expect KeyId.Some?;
     expect |Plaintext.value| == input.NumberOfBytes.value as nat;
 
-    var decryptInput := Com_Amazonaws_Kms.Types.DecryptRequest(
+    var decryptInput := Kms.Types.DecryptRequest(
       CiphertextBlob := CiphertextBlob.value,
       EncryptionContext := input.EncryptionContext,
       GrantTokens := input.GrantTokens,
-      KeyId := Com_Amazonaws_Kms.Wrappers.Some(KeyId.value),
-      EncryptionAlgorithm := Com_Amazonaws_Kms.Wrappers.None
+      KeyId := Kms.Wrappers.Some(KeyId.value),
+      EncryptionAlgorithm := Kms.Wrappers.None
     );
 
     BasicDecryptTest(
@@ -135,7 +135,7 @@ module TestComAmazonawsKms {
   }
 
   method BasicEncryptTest(
-    nameonly input: Com_Amazonaws_Kms.Types.EncryptRequest
+    nameonly input: Kms.Types.EncryptRequest
   )
   {
     var client :- expect Kms.KMSClientForRegion(TEST_REGION);
@@ -149,11 +149,11 @@ module TestComAmazonawsKms {
     expect CiphertextBlob.Some?;
     expect KeyId.Some?;
 
-    var decryptInput := Com_Amazonaws_Kms.Types.DecryptRequest(
+    var decryptInput := Kms.Types.DecryptRequest(
       CiphertextBlob := CiphertextBlob.value,
       EncryptionContext := input.EncryptionContext,
       GrantTokens := input.GrantTokens,
-      KeyId := Com_Amazonaws_Kms.Wrappers.Some(KeyId.value),
+      KeyId := Kms.Wrappers.Some(KeyId.value),
       EncryptionAlgorithm := input.EncryptionAlgorithm
     );
 

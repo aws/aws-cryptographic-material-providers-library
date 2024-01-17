@@ -13,6 +13,7 @@ from .dafnyImplInterface import DafnyImplInterface
 from smithy_python._private.retries import SimpleRetryStrategy
 from smithy_python.interfaces.interceptor import Interceptor
 from smithy_python.interfaces.retries import RetryStrategy
+from typing import Any
 
 from ..aws_cryptography_materialproviders.models import (
     DecryptMaterialsInput,

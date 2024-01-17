@@ -394,152 +394,152 @@ from software_amazon_cryptography_services_dynamodb_internaldafny_types import (
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_BackupInUseException(input):
     return Error_BackupInUseException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_BackupNotFoundException(input):
     return Error_BackupNotFoundException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_ConditionalCheckFailedException(input):
     return Error_ConditionalCheckFailedException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_ContinuousBackupsUnavailableException(input):
     return Error_ContinuousBackupsUnavailableException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_DuplicateItemException(input):
     return Error_DuplicateItemException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_ExportConflictException(input):
     return Error_ExportConflictException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_ExportNotFoundException(input):
     return Error_ExportNotFoundException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_GlobalTableAlreadyExistsException(input):
     return Error_GlobalTableAlreadyExistsException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_GlobalTableNotFoundException(input):
     return Error_GlobalTableNotFoundException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_IdempotentParameterMismatchException(input):
     return Error_IdempotentParameterMismatchException(
-        Message=Seq(input["Message"]),
+        Message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_ImportConflictException(input):
     return Error_ImportConflictException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_ImportNotFoundException(input):
     return Error_ImportNotFoundException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_IndexNotFoundException(input):
     return Error_IndexNotFoundException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_InternalServerError(input):
     return Error_InternalServerError(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_InvalidEndpointException(input):
     return Error_InvalidEndpointException(
-        Message=Seq(input["Message"]),
+        Message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_InvalidExportTimeException(input):
     return Error_InvalidExportTimeException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_InvalidRestoreTimeException(input):
     return Error_InvalidRestoreTimeException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_ItemCollectionSizeLimitExceededException(input):
     return Error_ItemCollectionSizeLimitExceededException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_LimitExceededException(input):
     return Error_LimitExceededException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_PointInTimeRecoveryUnavailableException(input):
     return Error_PointInTimeRecoveryUnavailableException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_ProvisionedThroughputExceededException(input):
     return Error_ProvisionedThroughputExceededException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_ReplicaAlreadyExistsException(input):
     return Error_ReplicaAlreadyExistsException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_ReplicaNotFoundException(input):
     return Error_ReplicaNotFoundException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_RequestLimitExceeded(input):
     return Error_RequestLimitExceeded(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_ResourceInUseException(input):
     return Error_ResourceInUseException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_ResourceNotFoundException(input):
     return Error_ResourceNotFoundException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_TableAlreadyExistsException(input):
     return Error_TableAlreadyExistsException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_TableInUseException(input):
     return Error_TableInUseException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_TableNotFoundException(input):
     return Error_TableNotFoundException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_TransactionCanceledException(input):
     return Error_TransactionCanceledException(
-        Message=Seq(input["Message"]),
+        Message=Seq(input['Error']["Message"]),
         CancellationReasons=Seq([com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_CancellationReason(list_element) for list_element in input["CancellationReasons"]]),
     )
 
@@ -578,12 +578,12 @@ def AwsSdkToDafny_com_amazonaws_dynamodb_AttributeValue(input):
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_TransactionConflictException(input):
     return Error_TransactionConflictException(
-        message=Seq(input["message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_TransactionInProgressException(input):
     return Error_TransactionInProgressException(
-        Message=Seq(input["Message"]),
+        Message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_dynamodb_BatchExecuteStatementInput(input):

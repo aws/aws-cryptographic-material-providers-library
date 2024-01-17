@@ -17,7 +17,7 @@ module
   }
 
   method MaterialProviders(config: MaterialProvidersConfig)
-    returns (res: Result<MaterialProvidersClient, Error>)
+    returns (res: Result<IAwsCryptographicMaterialProvidersClient, Error>)
   {
     var maybeCrypto := Primitives.AtomicPrimitives();
     var crypto :- maybeCrypto

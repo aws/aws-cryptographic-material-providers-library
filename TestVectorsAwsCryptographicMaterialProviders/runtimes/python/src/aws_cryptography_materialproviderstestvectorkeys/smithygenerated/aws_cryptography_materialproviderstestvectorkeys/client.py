@@ -11,9 +11,7 @@ from typing import Awaitable, Callable, TypeVar, cast
 from .config import Config, KeyVectorsConfig
 from .dafny_protocol import DafnyRequest, DafnyResponse
 from .plugin import set_config_impl
-from null.smithygenerated.aws_cryptography_materialproviders.models import (
-    KeyringReference,
-)
+from null.smithygenerated.aws_cryptography_materialproviders.references import Keyring
 from smithy_python.exceptions import SmithyRetryException
 from smithy_python.interfaces.interceptor import Interceptor, InterceptorContext
 from smithy_python.interfaces.retries import RetryErrorInfo, RetryErrorType
@@ -69,7 +67,7 @@ class KeyVectors:
         if dafny_client is not None:
             self._config.dafnyImplInterface.impl = dafny_client
 
-    def create_test_vector_keyring(self, input: TestVectorKeyringInput) -> KeyringReference:
+    def create_test_vector_keyring(self, input: TestVectorKeyringInput) -> Keyring:
         """Invokes the CreateTestVectorKeyring operation.
 
         :param input: The operation's input.
@@ -83,7 +81,7 @@ class KeyVectors:
             operation_name="CreateTestVectorKeyring",
         ))
 
-    def create_wapped_test_vector_keyring(self, input: TestVectorKeyringInput) -> KeyringReference:
+    def create_wapped_test_vector_keyring(self, input: TestVectorKeyringInput) -> Keyring:
         """Invokes the CreateWappedTestVectorKeyring operation.
 
         :param input: The operation's input.

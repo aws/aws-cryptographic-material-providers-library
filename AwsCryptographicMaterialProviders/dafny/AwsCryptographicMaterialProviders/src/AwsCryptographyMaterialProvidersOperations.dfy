@@ -57,12 +57,12 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   import Commitment
   import AlgorithmSuites
   import opened AwsArnParsing
-  import Kms = Com_Amazonaws_Kms
+  import Kms = Com.Amazonaws.Kms
   import Ddb = ComAmazonawsDynamodbTypes
   import RequiredEncryptionContextCMM
 
   datatype Config = Config(
-    nameonly crypto: Primitives.AtomicPrimitivesClient
+    nameonly crypto: Crypto.IAwsCryptographicPrimitivesClient
   )
 
   type InternalConfig = Config

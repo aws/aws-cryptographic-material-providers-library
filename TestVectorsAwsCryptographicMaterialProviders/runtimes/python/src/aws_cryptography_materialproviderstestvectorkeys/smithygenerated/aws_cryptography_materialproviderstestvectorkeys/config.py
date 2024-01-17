@@ -21,8 +21,6 @@ from null.smithygenerated.aws_cryptography_materialproviders.models import (
     GetClientInput,
     GetEncryptionMaterialsInput,
     GetEncryptionMaterialsOutput,
-    KeyringReference,
-    KmsClientReference,
     OnDecryptInput,
     OnDecryptOutput,
     OnEncryptInput,
@@ -30,9 +28,11 @@ from null.smithygenerated.aws_cryptography_materialproviders.models import (
     PutCacheEntryInput,
     UpdateUsageMetadataInput,
 )
+from null.smithygenerated.aws_cryptography_materialproviders.references import Keyring
 from smithy_python._private.retries import SimpleRetryStrategy
 from smithy_python.interfaces.interceptor import Interceptor
 from smithy_python.interfaces.retries import RetryStrategy
+from typing import Any
 
 from .models import (
     GetKeyDescriptionInput,
@@ -44,7 +44,7 @@ from .models import (
 )
 
 
-_ServiceInterceptor = Union[Interceptor[DecryptMaterialsInput, DecryptMaterialsOutput, Any, Any], Interceptor[DeleteCacheEntryInput, Unit, Any, Any], Interceptor[GetBranchKeyIdInput, GetBranchKeyIdOutput, Any, Any], Interceptor[GetCacheEntryInput, GetCacheEntryOutput, Any, Any], Interceptor[GetClientInput, KmsClientReference, Any, Any], Interceptor[GetEncryptionMaterialsInput, GetEncryptionMaterialsOutput, Any, Any], Interceptor[OnDecryptInput, OnDecryptOutput, Any, Any], Interceptor[OnEncryptInput, OnEncryptOutput, Any, Any], Interceptor[PutCacheEntryInput, Unit, Any, Any], Interceptor[UpdateUsageMetadataInput, Unit, Any, Any], Interceptor[TestVectorKeyringInput, KeyringReference, Any, Any], Interceptor[TestVectorKeyringInput, KeyringReference, Any, Any], Interceptor[GetKeyDescriptionInput, GetKeyDescriptionOutput, Any, Any], Interceptor[SerializeKeyDescriptionInput, SerializeKeyDescriptionOutput, Any, Any]]
+_ServiceInterceptor = Union[Interceptor[DecryptMaterialsInput, DecryptMaterialsOutput, Any, Any], Interceptor[DeleteCacheEntryInput, Unit, Any, Any], Interceptor[GetBranchKeyIdInput, GetBranchKeyIdOutput, Any, Any], Interceptor[GetCacheEntryInput, GetCacheEntryOutput, Any, Any], Interceptor[GetClientInput, Any, Any, Any], Interceptor[GetEncryptionMaterialsInput, GetEncryptionMaterialsOutput, Any, Any], Interceptor[OnDecryptInput, OnDecryptOutput, Any, Any], Interceptor[OnEncryptInput, OnEncryptOutput, Any, Any], Interceptor[PutCacheEntryInput, Unit, Any, Any], Interceptor[UpdateUsageMetadataInput, Unit, Any, Any], Interceptor[TestVectorKeyringInput, Keyring, Any, Any], Interceptor[TestVectorKeyringInput, Keyring, Any, Any], Interceptor[GetKeyDescriptionInput, GetKeyDescriptionOutput, Any, Any], Interceptor[SerializeKeyDescriptionInput, SerializeKeyDescriptionOutput, Any, Any]]
 @dataclass(init=False)
 class Config:
     """Configuration for KeyVectors."""
@@ -81,10 +81,15 @@ class KeyVectorsConfig(Config):
     '''
     Smithy-modelled localService Config shape for this localService.
     '''
-    # TODO-Python: Add types to Config members
-    key_manifiest_path: Any
+    key_manifiest_path: str
 
-    def __init__(self, key_manifiest_path, ):
+    def __init__(
+        self,
+        key_manifiest_path: str,
+    ):
+        """Constructor for KeyVectorsConfig.
+
+        """
         super().__init__()
         self.key_manifiest_path = key_manifiest_path
 

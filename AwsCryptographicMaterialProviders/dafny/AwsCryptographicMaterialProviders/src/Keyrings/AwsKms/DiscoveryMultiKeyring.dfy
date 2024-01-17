@@ -19,7 +19,7 @@ module DiscoveryMultiKeyring {
   import AwsKmsMrkAreUnique
   import AwsKmsDiscoveryKeyring
   import opened AwsKmsUtils
-  import Kms = Com_Amazonaws_Kms
+  import Kms = Com.Amazonaws.Kms
 
   //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-multi-keyrings.md#aws-kms-discovery-multi-keyring
   //= type=implication

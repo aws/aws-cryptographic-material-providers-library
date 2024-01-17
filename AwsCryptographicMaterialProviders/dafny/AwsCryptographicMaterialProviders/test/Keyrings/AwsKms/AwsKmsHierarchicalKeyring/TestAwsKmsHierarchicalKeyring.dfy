@@ -12,7 +12,7 @@ include "../../../../../AwsCryptographyKeyStore/test/Fixtures.dfy"
 module TestAwsKmsHierarchicalKeyring {
   import Types = AwsCryptographyMaterialProvidersTypes
   import ComAmazonawsKmsTypes
-  import KMS = Com_Amazonaws_Kms
+  import KMS = Com.Amazonaws.Kms
   import DDB = Com_Amazonaws_Dynamodb
   import DDBTypes = ComAmazonawsDynamodbTypes
   import KeyStore = KeyStore

@@ -82,10 +82,10 @@ class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
     message: str
 
 class DynamoDB_20120810(ApiError[Literal["DynamoDB_20120810"]]):
-    DynamoDB_20120810: service
+    DynamoDB_20120810: Any
 
 class TrentService(ApiError[Literal["TrentService"]]):
-    TrentService: service
+    TrentService: Any
 
 class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
     code: Literal["CollectionOfErrors"] = "CollectionOfErrors"

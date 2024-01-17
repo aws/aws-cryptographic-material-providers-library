@@ -48,7 +48,6 @@ from .deserialize import (
 from .errors import ServiceError
 from .models import (
     AlgorithmSuiteInfo,
-    ClientSupplierReference,
     CreateAwsKmsDiscoveryKeyringInput,
     CreateAwsKmsDiscoveryMultiKeyringInput,
     CreateAwsKmsHierarchicalKeyringInput,
@@ -66,18 +65,21 @@ from .models import (
     CreateRawAesKeyringInput,
     CreateRawRsaKeyringInput,
     CreateRequiredEncryptionContextCMMInput,
-    CryptographicMaterialsCacheReference,
-    CryptographicMaterialsManagerReference,
     DecryptionMaterials,
     EncryptionMaterials,
     InitializeDecryptionMaterialsInput,
     InitializeEncryptionMaterialsInput,
-    KeyringReference,
     Unit,
     ValidDecryptionMaterialsTransitionInput,
     ValidEncryptionMaterialsTransitionInput,
     ValidateCommitmentPolicyOnDecryptInput,
     ValidateCommitmentPolicyOnEncryptInput,
+)
+from .references import (
+    ClientSupplier,
+    CryptographicMaterialsCache,
+    CryptographicMaterialsManager,
+    Keyring,
 )
 from .serialize import (
     _serialize_create_aws_kms_discovery_keyring,
@@ -138,7 +140,7 @@ class AwsCryptographicMaterialProviders:
         if dafny_client is not None:
             self._config.dafnyImplInterface.impl = dafny_client
 
-    def create_aws_kms_keyring(self, input: CreateAwsKmsKeyringInput) -> KeyringReference:
+    def create_aws_kms_keyring(self, input: CreateAwsKmsKeyringInput) -> Keyring:
         """Creates an AWS KMS Keyring, which wraps and unwraps data keys using single symmetric AWS KMS Key.
 
         :param input: Inputs for for creating a AWS KMS Keyring.
@@ -152,7 +154,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsKeyring",
         ))
 
-    def create_aws_kms_discovery_keyring(self, input: CreateAwsKmsDiscoveryKeyringInput) -> KeyringReference:
+    def create_aws_kms_discovery_keyring(self, input: CreateAwsKmsDiscoveryKeyringInput) -> Keyring:
         """Creates an AWS KMS Discovery Keyring, which supports unwrapping data keys wrapped by a symmetric AWS KMS Key for a single region.
 
         :param input: Inputs for for creating a AWS KMS Discovery Keyring.
@@ -166,7 +168,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsDiscoveryKeyring",
         ))
 
-    def create_aws_kms_multi_keyring(self, input: CreateAwsKmsMultiKeyringInput) -> KeyringReference:
+    def create_aws_kms_multi_keyring(self, input: CreateAwsKmsMultiKeyringInput) -> Keyring:
         """Creates an AWS KMS Multi-Keyring, which wraps and unwraps data keys using one or more symmetric AWS KMS Keys.
 
         :param input: Inputs for for creating a AWS KMS Multi-Keyring.
@@ -180,7 +182,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsMultiKeyring",
         ))
 
-    def create_aws_kms_discovery_multi_keyring(self, input: CreateAwsKmsDiscoveryMultiKeyringInput) -> KeyringReference:
+    def create_aws_kms_discovery_multi_keyring(self, input: CreateAwsKmsDiscoveryMultiKeyringInput) -> Keyring:
         """Creates an AWS KMS Discovery Multi-Keyring, which supports unwrapping data keys wrapped by a symmetric AWS KMS Key, for multiple regions.
 
         :param input: Inputs for for creating an AWS KMS Discovery Multi-Keyring.
@@ -194,7 +196,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsDiscoveryMultiKeyring",
         ))
 
-    def create_aws_kms_mrk_keyring(self, input: CreateAwsKmsMrkKeyringInput) -> KeyringReference:
+    def create_aws_kms_mrk_keyring(self, input: CreateAwsKmsMrkKeyringInput) -> Keyring:
         """Creates an AWS KMS MRK Keyring, which wraps and unwraps data keys using single symmetric AWS KMS Key or AWS KMS Multi-Region Key.
 
         :param input: Inputs for for creating an AWS KMS MRK Keyring.
@@ -208,7 +210,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsMrkKeyring",
         ))
 
-    def create_aws_kms_mrk_multi_keyring(self, input: CreateAwsKmsMrkMultiKeyringInput) -> KeyringReference:
+    def create_aws_kms_mrk_multi_keyring(self, input: CreateAwsKmsMrkMultiKeyringInput) -> Keyring:
         """Creates an AWS KMS MRK Multi-Keyring, which wraps and unwraps data keys using one or more symmetric AWS KMS Keys or AWS KMS Multi-Region Keys.
 
         :param input: Inputs for for creating a AWS KMS MRK Multi-Keyring.
@@ -222,7 +224,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsMrkMultiKeyring",
         ))
 
-    def create_aws_kms_mrk_discovery_keyring(self, input: CreateAwsKmsMrkDiscoveryKeyringInput) -> KeyringReference:
+    def create_aws_kms_mrk_discovery_keyring(self, input: CreateAwsKmsMrkDiscoveryKeyringInput) -> Keyring:
         """Creates an AWS KMS MRK Discovery Keyring, which supports unwrapping data keys wrapped by a symmetric AWS KMS Key or AWS KMS Multi-Region Key in a particular region.
 
         :param input: Inputs for for creating a AWS KMS MRK Discovery Keyring.
@@ -236,7 +238,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsMrkDiscoveryKeyring",
         ))
 
-    def create_aws_kms_mrk_discovery_multi_keyring(self, input: CreateAwsKmsMrkDiscoveryMultiKeyringInput) -> KeyringReference:
+    def create_aws_kms_mrk_discovery_multi_keyring(self, input: CreateAwsKmsMrkDiscoveryMultiKeyringInput) -> Keyring:
         """Creates an AWS KMS MRK Discovery Multi-Keyring that supports unwrapping data keys wrapped by a symmetric AWS KMS Key or AWS KMS Multi-Region Key, for a single region.
 
         :param input: Inputs for for creating a AWS KMS MRK Discovery Multi-Keyring.
@@ -250,7 +252,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsMrkDiscoveryMultiKeyring",
         ))
 
-    def create_aws_kms_hierarchical_keyring(self, input: CreateAwsKmsHierarchicalKeyringInput) -> KeyringReference:
+    def create_aws_kms_hierarchical_keyring(self, input: CreateAwsKmsHierarchicalKeyringInput) -> Keyring:
         """Creates a Hierarchical Keyring, which supports wrapping and unwrapping data keys using Branch Keys persisted in DynamoDB and protected by a symmetric AWS KMS Key or AWS KMS Multi-Region Key.
 
         :param input: Inputs for creating a Hierarchical Keyring.
@@ -264,7 +266,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsHierarchicalKeyring",
         ))
 
-    def create_multi_keyring(self, input: CreateMultiKeyringInput) -> KeyringReference:
+    def create_multi_keyring(self, input: CreateMultiKeyringInput) -> Keyring:
         """Creates a Multi-Keyring comprised of one or more other Keyrings.
 
         :param input: Inputs for creating a Multi-Keyring.
@@ -278,7 +280,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateMultiKeyring",
         ))
 
-    def create_raw_aes_keyring(self, input: CreateRawAesKeyringInput) -> KeyringReference:
+    def create_raw_aes_keyring(self, input: CreateRawAesKeyringInput) -> Keyring:
         """Creates a Raw AES Keyring, which wraps and unwraps data keys locally using AES_GCM.
 
         :param input: Inputs for creating a Raw AES Keyring.
@@ -292,7 +294,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateRawAesKeyring",
         ))
 
-    def create_raw_rsa_keyring(self, input: CreateRawRsaKeyringInput) -> KeyringReference:
+    def create_raw_rsa_keyring(self, input: CreateRawRsaKeyringInput) -> Keyring:
         """Creates a Raw RSA Keyring, which wraps and unwraps data keys locally using RSA.
 
         :param input: Inputs for creating a Raw RAW Keyring.
@@ -306,7 +308,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateRawRsaKeyring",
         ))
 
-    def create_aws_kms_rsa_keyring(self, input: CreateAwsKmsRsaKeyringInput) -> KeyringReference:
+    def create_aws_kms_rsa_keyring(self, input: CreateAwsKmsRsaKeyringInput) -> Keyring:
         """Creates an AWS KMS RSA Keyring, which wraps and unwraps data keys using a single asymmetric AWS KMS Key for RSA.
 
         :param input: Inputs for creating a AWS KMS RSA Keyring.
@@ -320,7 +322,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsRsaKeyring",
         ))
 
-    def create_default_cryptographic_materials_manager(self, input: CreateDefaultCryptographicMaterialsManagerInput) -> CryptographicMaterialsManagerReference:
+    def create_default_cryptographic_materials_manager(self, input: CreateDefaultCryptographicMaterialsManagerInput) -> CryptographicMaterialsManager:
         """Creates a Default Cryptographic Materials Manager.
 
         :param input: Inputs for creating a Default Cryptographic Materials Manager.
@@ -334,7 +336,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateDefaultCryptographicMaterialsManager",
         ))
 
-    def create_required_encryption_context_cmm(self, input: CreateRequiredEncryptionContextCMMInput) -> CryptographicMaterialsManagerReference:
+    def create_required_encryption_context_cmm(self, input: CreateRequiredEncryptionContextCMMInput) -> CryptographicMaterialsManager:
         """Creates an Required Encryption Context Cryptographic Materials Manager.
 
         :param input: Inputs for creating an Required Encryption Context Cryptographic Materials Manager.
@@ -348,7 +350,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateRequiredEncryptionContextCMM",
         ))
 
-    def create_cryptographic_materials_cache(self, input: CreateCryptographicMaterialsCacheInput) -> CryptographicMaterialsCacheReference:
+    def create_cryptographic_materials_cache(self, input: CreateCryptographicMaterialsCacheInput) -> CryptographicMaterialsCache:
         """Invokes the CreateCryptographicMaterialsCache operation.
 
         :param input: The operation's input.
@@ -362,7 +364,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateCryptographicMaterialsCache",
         ))
 
-    def create_default_client_supplier(self, input: CreateDefaultClientSupplierInput) -> ClientSupplierReference:
+    def create_default_client_supplier(self, input: CreateDefaultClientSupplierInput) -> ClientSupplier:
         """Invokes the CreateDefaultClientSupplier operation.
 
         :param input: The operation's input.
@@ -647,6 +649,7 @@ class AwsCryptographicMaterialProviders:
                     retry_strategy.record_success(token=retry_token)
                     break
         except Exception as e:
+            print(f"{e=}")
             if context.response is not None:
                 # config.logger.exception(f"Exception occurred while handling: {context.response}")
                 pass
@@ -712,6 +715,7 @@ class AwsCryptographicMaterialProviders:
             for interceptor in interceptors:
                 interceptor.read_after_deserialization(context_with_output)
         except Exception as e:
+            print(f"{e=}")
             if context.response is not None:
                 # config.logger.exception(f"Exception occurred while handling: {context.response}")
                 pass
@@ -738,6 +742,7 @@ class AwsCryptographicMaterialProviders:
                     context
                 )
         except Exception as e:
+            print(f"{e=}")
             if context.response is not None:
                 # config.logger.exception(f"Exception occurred while handling: {context.response}")
                 pass
