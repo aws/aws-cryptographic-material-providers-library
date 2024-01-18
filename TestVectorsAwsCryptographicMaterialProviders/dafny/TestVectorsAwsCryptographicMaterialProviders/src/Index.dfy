@@ -10,111 +10,91 @@ module {:options "-functionSyntax:4"} WrappedMaterialProvidersMain {
   import opened Wrappers
   import MplManifestOptions
   import Seq
-  import GetOpt
   import CompleteVectors
   import TestManifests
 
-  method Main(args: seq<string>) 
-  {
+  method Main(args: seq<string>) {
     // The expectation is that the first argument
     // is the filename or runtime
     expect 0 < |args|;
+    var op? := ParseCommandLineOptions(args[1..]);
 
-    var vectorRunnerCommands := [
-      GetOpt.Command(GetOpt.Options("decrypt", "decrypt test options", [
-        GetOpt.Opt("manifest-path", "local path to manifest location", unused := GetOpt.Required),
-        GetOpt.Opt("test-name", "test only one vector")])),
-      GetOpt.Command(GetOpt.Options("encrypt", "encrypt test options", [
-        GetOpt.Opt("manifest-path", "local path to manifest location", unused := GetOpt.Required),
-        GetOpt.Opt("decrypt-manifest-output", "local output location for encrypt manifest", unused := GetOpt.Required),
-        GetOpt.Opt("test-name", "test only one vector")])),
-      GetOpt.Command(GetOpt.Options("encrypt-manifest", "writes encrypt manifest test vectors", [
-        GetOpt.Opt("encrypt-manifest-output", "local path to write encrypt manifest test vector to", unused := GetOpt.Required)]))
-    ];
-
-    var vectorRunnerOptions := GetOpt.Options("testvectors", "test the mpl testvectors", vectorRunnerCommands);
-    var parsedOptions? := GetOpt.GetOptions(vectorRunnerOptions, args);
-
-    var cmd? := ParseCLICmds(parsedOptions?);
-
-    if cmd?.Success? {
-      var cmd := cmd?.value;
+    if op?.Success? {
+      // Do the work
+      var op := op?.value;
       if
-      case cmd.Decrypt? =>
+      case op.Decrypt? =>
       // var _ :- expect EsdkTestManifests.StartDecryptVectors(op);
-      case cmd.Encrypt? =>
-        var result := TestManifests.StartEncrypt(cmd);
+      case op.Encrypt? =>
+        var result := TestManifests.StartEncrypt(op);
         if result.Failure? {
           print result.error;
         }
         expect result.Success?;
-      case cmd.EncryptManifest? =>
-        var result := CompleteVectors.WriteStuff(cmd);
+      case op.EncryptManifest? =>
+        var result := CompleteVectors.WriteStuff(op);
         if result.Failure? {
           print result.error;
         }
         expect result.Success?;
     } else {
-      print cmd?.error;
+      print op?.error;
+      print "help";
     }
   }
 
-  function ParseCLICmds(parsedArgs: Result<GetOpt.Parsed, string>)
+  function ParseCommandLineOptions(args: seq<string>)
     : (output: Result<MplManifestOptions.ManifestOptions, string>)
   {
-    :- Need(parsedArgs.Success?, "Unable to parse CLI commands");
+    :- Need(1 < |args|, "Not enough arguments.");
+    :- Need(CommandOption?(args[0]), "Unknown argument:" + args[0]);
 
-    match parsedArgs.value.command
-    case "decrypt" => ParseDecryptCommand(parsedArgs.value.params)
-    case "encrypt" => ParseEncryptCommand(parsedArgs.value.params)
-    case "encrypt-manifest" => ParseEncryptManifestCommand(parsedArgs.value.params)
-    case _ => Failure("unknown command")
+    var op
+      := if (|args| - 1) % 2 == 0 then
+           Options2Map(args[1..])
+         else
+           Options2Map(args[1..|args| - 1]);
+
+    match args[0]
+    case "decrypt" => ParseDecryptOptions(op)
+    case "encrypt" => ParseEncryptOptions(op)
+    case "encrypt-manifest" => ParseEncryptManifestOptions(op)
   }
 
-  function ParseDecryptCommand(params: seq<GetOpt.OneArg>)
+  function ParseDecryptOptions(op: map<string, string>)
     : (output: Result<MplManifestOptions.ManifestOptions, string>)
+    ensures output.Success? ==> output.value.Decrypt?
   {
-    var manifestPath? := GetOpt.OptValue(params, "manifest-path");
-    var testName? := GetOpt.OptValue(params, "test-name");
+    :- Need(DecryptOptions?(op), "Incorrect arguments");
 
-    if !manifestPath?.Some? then Failure("manifest-path requires a value")
-    else
-      :- Need(0 < |manifestPath?.value|, "Invalid manifest-path length");
-      Success(MplManifestOptions.Decrypt(
-        manifestPath := if Seq.Last(manifestPath?.value) == '/' then manifestPath?.value else manifestPath?.value + "/",
-        testName := if testName?.Some? then Some(testName?.value) else None
-      ))
+    Success(MplManifestOptions.Decrypt(
+              manifestPath := if Seq.Last(op["-manifest-path"]) == '/' then op["-manifest-path"] else op["-manifest-path"] + "/",
+              testName := if "-test-name" in op then Some(op["-test-name"]) else None
+            ))
   }
 
-  function ParseEncryptCommand(params: seq<GetOpt.OneArg>)
+  function ParseEncryptOptions(op: map<string, string>)
     : (output: Result<MplManifestOptions.ManifestOptions, string>)
+    ensures output.Success? ==> output.value.Encrypt?
   {
-    var manifestPath? := GetOpt.OptValue(params, "manifest-path");
-    var decryptManifestOutput? := GetOpt.OptValue(params, "decrypt-manifest-output");
-    var testName? := GetOpt.OptValue(params, "test-name");
-    
-    if !manifestPath?.Some? then Failure("manifest-path requires a value")
-    else if !decryptManifestOutput?.Some? then Failure("decrypt-manifest-output requires a value")
-    else
-      :- Need(0 < |manifestPath?.value|, "Invalid manifest-path length");
-      Success(MplManifestOptions.Encrypt(
-        manifestPath := if Seq.Last(manifestPath?.value) == '/' then manifestPath?.value else manifestPath?.value + "/",
-        decryptManifestOutput := decryptManifestOutput?.value,
-        testName := if testName?.Some? then Some(testName?.value) else None
-      ))
+    :- Need(EncryptOptions?(op), "Incorrect arguments");
+
+    Success(MplManifestOptions.Encrypt(
+              manifestPath := if Seq.Last(op["-manifest-path"]) == '/' then op["-manifest-path"] else op["-manifest-path"] + "/",
+              decryptManifestOutput := op["-decrypt-manifest-output"],
+              testName := if "-test-name" in op then Some(op["-test-name"]) else None
+            ))
   }
 
-  function ParseEncryptManifestCommand(params: seq<GetOpt.OneArg>)
+  function ParseEncryptManifestOptions(op: map<string, string>)
     : (output: Result<MplManifestOptions.ManifestOptions, string>)
+    ensures output.Success? ==> output.value.EncryptManifest?
   {
-    var encryptManifestOutput? := GetOpt.OptValue(params, "encrypt-manifest-output");
+    :- Need(EncryptManifestOptions?(op), "Incorrect arguments");
 
-    if !encryptManifestOutput?.Some? then Failure("encrypt-manifest-output")
-    else
-      :- Need(0 < |encryptManifestOutput?.value|, "Invalid manifest-path length");
-      Success(MplManifestOptions.EncryptManifest(
-          encryptManifestOutput := if Seq.Last(encryptManifestOutput?.value) == '/' then encryptManifestOutput?.value else encryptManifestOutput?.value + "/" 
-      ))
+    Success(MplManifestOptions.EncryptManifest(
+              encryptManifestOutput := if Seq.Last(op["-encrypt-manifest-output"]) == '/' then op["-encrypt-manifest-output"] else op["-encrypt-manifest-output"] + "/"
+            ))
   }
 
   predicate CommandOption?(s: string)
