@@ -12,5 +12,5 @@ dist
 .pytest_cache
 
 # Dafny Generated Python
-src/**/internaldafny/generated/*.py
-test/internaldafny/generated/*.py
+# src/**/internaldafny/generated/*.py
+# test/internaldafny/generated/*.py
