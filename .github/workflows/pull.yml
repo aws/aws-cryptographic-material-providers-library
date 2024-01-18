@@ -31,4 +31,4 @@ jobs:
     needs: getVersion
     uses: ./.github/workflows/library_python_tests.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: 4.4.0
