@@ -8,12 +8,13 @@ phases:
     commands:
       - cd ..
       # Get Dafny
-      - export `cat ./aws-cryptographic-material-providers-library-dafny/project.properties`
+      ## TODO FIX ME
+      #- export `cat ./aws-cryptographic-material-providers-library/project.properties`
       - curl https://github.com/dafny-lang/dafny/releases/download/v$dafnyVersion/dafny-$dafnyVersion-x64-ubuntu-20.04.zip  -L -o dafny.zip
       - unzip -qq dafny.zip && rm dafny.zip
       - export PATH="$PWD/dafny:$PATH"
       # Switch back to the main directory
-      - cd aws-cryptographic-material-providers-library-dafny
+      - cd aws-cryptographic-material-providers-library
   pre_build:
     commands:
       # - TMP_ROLE=$(aws sts assume-role --role-arn "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2" --role-session-name "CB-TestVectorResources")
@@ -30,16 +31,14 @@ phases:
       ## Build Library from Source
       - cd StandardLibrary
       - make transpile_net
-      - make test_net
+      - make test_net FRAMEWORK=net6.0
 
       - dotnet build runtimes/net /p:Configuration=Release -nowarn:CS0162,CS0168
       - export ASSEMBLY_NAME="AWS.Cryptography.Internal.StandardLibrary.dll"
       - export BASE=../codebuild/net
       - python $BASE/upload_assembly.py --target net6.0 --unique-id $UNIQUE_ID
       - python $BASE/upload_assembly.py --target net48 --unique-id $UNIQUE_ID
-      - python $BASE/upload_assembly.py --target netstandard2.0 --unique-id $UNIQUE_ID
       ## Retrieve the signed assembly. We're not going to use it, but this
       ## ensures that the signing process is complete
       - python $BASE/retrieve_signed_assembly.py --target net6.0 --unique-id $UNIQUE_ID
       - python $BASE/retrieve_signed_assembly.py --target net48 --unique-id $UNIQUE_ID
-      - python $BASE/retrieve_signed_assembly.py --target netstandard2.0 --unique-id $UNIQUE_ID

@@ -8,12 +8,13 @@ phases:
     commands:
       - cd ..
       # Get Dafny
-      - export `cat ./aws-cryptographic-material-providers-library-dafny/project.properties`
+      ## TODO FIX ME
+      #- export `cat ./aws-cryptographic-material-providers-library/project.properties`
       - curl https://github.com/dafny-lang/dafny/releases/download/v$dafnyVersion/dafny-$dafnyVersion-x64-ubuntu-20.04.zip  -L -o dafny.zip
       - unzip -qq dafny.zip && rm dafny.zip
       - export PATH="$PWD/dafny:$PATH"
       # Switch back to the main directory
-      - cd aws-cryptographic-material-providers-library-dafny
+      - cd aws-cryptographic-material-providers-library
   pre_build:
     commands:
       # UNIQUE_ID should be passed in as an environment variable. It is used to tie
@@ -29,7 +30,6 @@ phases:
       - export BASE=../codebuild/net
       - python $BASE/retrieve_signed_assembly.py --target net6.0 --unique-id $UNIQUE_ID
       - python $BASE/retrieve_signed_assembly.py --target net48 --unique-id $UNIQUE_ID
-      - python $BASE/retrieve_signed_assembly.py --target netstandard2.0 --unique-id $UNIQUE_ID
   build:
     commands:
       - mkdir build
@@ -56,4 +56,4 @@ phases:
       - export AWS_SECRET_ACCESS_KEY=$(echo "${TMP_ROLE}" | jq -r '.Credentials.SecretAccessKey')
       - export AWS_SESSION_TOKEN=$(echo "${TMP_ROLE}" | jq -r '.Credentials.SessionToken')
       - aws sts get-caller-identity
-      - make test_net
+      - make test_net FRAMEWORK=net6.0
