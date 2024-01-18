@@ -264,24 +264,26 @@ module {:options "-functionSyntax:4"} ParseJsonManifests {
     : Result<Types.EncryptedDataKeyList, string>
   {
     var encryptedDataKeysJson :- GetArray("encryptedDataKeys", obj);
-    Seq.MapWithResult(
-      (json: JSON) =>
-        :- Need(json.Object?, "Encrypted data key is not an object");
-        var keyProviderId :- GetString("keyProviderId", json.obj);
-        var keyProviderInfo :- GetString("keyProviderInfo", json.obj);
-        var ciphertext :- GetString("ciphertext", json.obj);
+    Seq.MapWithResult(GetEncryptedDataKey, encryptedDataKeysJson)
+  }
 
-        var keyProviderId :- UTF8.Encode(keyProviderId);
-        var keyProviderInfo :- Base64.Decode(keyProviderInfo);
-        var ciphertext :- Base64.Decode(ciphertext);
+  function GetEncryptedDataKey(json: JSON)
+    : Result<Types.EncryptedDataKey, string>
+  {
+    :- Need(json.Object?, "Encrypted data key is not an object");
+    var keyProviderId :- GetString("keyProviderId", json.obj);
+    var keyProviderInfo :- GetString("keyProviderInfo", json.obj);
+    var ciphertext :- GetString("ciphertext", json.obj);
 
-        Success(Types.EncryptedDataKey(
-                  keyProviderId := keyProviderId,
-                  keyProviderInfo := keyProviderInfo,
-                  ciphertext := ciphertext
-                )),
-      encryptedDataKeysJson
-    )
+    var keyProviderId :- UTF8.Encode(keyProviderId);
+    var keyProviderInfo :- Base64.Decode(keyProviderInfo);
+    var ciphertext :- Base64.Decode(ciphertext);
+
+    Success(Types.EncryptedDataKey(
+              keyProviderId := keyProviderId,
+              keyProviderInfo := keyProviderInfo,
+              ciphertext := ciphertext
+            ))
   }
 
   function GetExpectedResult(obj: seq<(string, JSON)>)
