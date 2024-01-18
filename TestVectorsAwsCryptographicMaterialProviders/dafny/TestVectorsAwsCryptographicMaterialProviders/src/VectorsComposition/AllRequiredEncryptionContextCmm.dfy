@@ -12,7 +12,7 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
   import KeyVectorsTypes = AwsCryptographyMaterialProvidersTestVectorKeysTypes
   import Types = AwsCryptographyMaterialProvidersTypes
   import AllDefaultCmm
-  
+
   import opened UTF8
 
   function SubSets(ec: map<Types.Utf8Bytes, Types.Utf8Bytes>, keys: seq<Types.Utf8Bytes>)
@@ -111,6 +111,6 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
   // These are only required encryption context vectors with static aes keyrings
   const Tests: set<TestVectors.EncryptTestVector> :=
     SuccessTestingRequiredEncryptionContextKeysReproducedEncryptionContext +
-    FailureBadReproducedEncryptionContext 
+    FailureBadReproducedEncryptionContext
 
 }
