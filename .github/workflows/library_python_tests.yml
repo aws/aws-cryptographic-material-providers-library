@@ -67,14 +67,6 @@ jobs:
           pip install --upgrade tox
           pip install poetry
 
-      - name: Build ${{ matrix.library }} implementation
-        shell: bash
-        working-directory: ./${{ matrix.library }}
-        run: |
-          # This works because `node` is installed by default on GHA runners
-          CORES=$(node -e 'console.log(os.cpus().length)')
-          make transpile_python CORES=$CORES
-
       - name: Test ${{ matrix.library }}
         working-directory: ./${{ matrix.library }}
         shell: bash
