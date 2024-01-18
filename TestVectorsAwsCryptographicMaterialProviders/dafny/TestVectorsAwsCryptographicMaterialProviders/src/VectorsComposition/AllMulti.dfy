@@ -39,21 +39,20 @@ module {:options "-functionSyntax:4"} AllMulti {
 
   const KeyDescriptions := OnlyGeneratorKeyDescriptions + KeyDescriptionsGeneratorAndChildren
 
-  const Tests: set<TestVectors.EncryptTestVector> := {}
-  // const Tests: set<TestVectors.EncryptTestVector> :=
-  //   set
-  //     keyDescription <- KeyDescriptions,
-  //     algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
-  //     commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite)
-  //     ::
-  //       TestVectors.PositiveEncryptKeyringVector(
-  //         name := "MultiKeyring " + keyDescription.Multi.generator.value.AES.keyId, 
-  //         encryptionContext := map[],
-  //         commitmentPolicy := commitmentPolicy,
-  //         algorithmSuite := algorithmSuite,
-  //         encryptDescription := keyDescription,
-  //         decryptDescription := keyDescription
-  //       )
+  const Tests: set<TestVectors.EncryptTestVector> :=
+    set
+      keyDescription <- KeyDescriptions,
+      algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
+      commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite)
+      ::
+        TestVectors.PositiveEncryptKeyringVector(
+          name := "MultiKeyring " + keyDescription.Multi.generator.value.AES.keyId, 
+          encryptionContext := map[],
+          commitmentPolicy := commitmentPolicy,
+          algorithmSuite := algorithmSuite,
+          encryptDescription := keyDescription,
+          decryptDescription := keyDescription
+        )
 
   
   function getChildKeyrings(keys: seq<string>, key: string, i: int := 0) : seq<KeyVectorsTypes.KeyDescription>

@@ -305,7 +305,7 @@ module {:options "-functionSyntax:4"} KeyDescription {
          var childKeyrings :- KeyDescriptionListToJson(MultiKeyring.childKeyrings, outputVersion);
          Success(Object([
                           ("type", String("multi-keyring")),
-                          ("childKeyring", Array(childKeyrings))
+                          ("childKeyrings", Array(childKeyrings))
                         ]
                         + (if generator.Some?
                            then [("generator", generator.value)] else [])
