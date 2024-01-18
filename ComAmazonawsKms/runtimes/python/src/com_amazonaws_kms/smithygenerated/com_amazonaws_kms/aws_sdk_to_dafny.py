@@ -218,167 +218,167 @@ from software_amazon_cryptography_services_kms_internaldafny_types import (
 
 def AwsSdkToDafny_com_amazonaws_kms_AlreadyExistsException(input):
     return Error_AlreadyExistsException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_CloudHsmClusterInUseException(input):
     return Error_CloudHsmClusterInUseException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException(input):
     return Error_CloudHsmClusterInvalidConfigurationException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_CloudHsmClusterNotActiveException(input):
     return Error_CloudHsmClusterNotActiveException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_CloudHsmClusterNotFoundException(input):
     return Error_CloudHsmClusterNotFoundException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_CloudHsmClusterNotRelatedException(input):
     return Error_CloudHsmClusterNotRelatedException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_CustomKeyStoreHasCMKsException(input):
     return Error_CustomKeyStoreHasCMKsException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_CustomKeyStoreInvalidStateException(input):
     return Error_CustomKeyStoreInvalidStateException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_CustomKeyStoreNameInUseException(input):
     return Error_CustomKeyStoreNameInUseException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_CustomKeyStoreNotFoundException(input):
     return Error_CustomKeyStoreNotFoundException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_DependencyTimeoutException(input):
     return Error_DependencyTimeoutException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_DisabledException(input):
     return Error_DisabledException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_ExpiredImportTokenException(input):
     return Error_ExpiredImportTokenException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_IncorrectKeyException(input):
     return Error_IncorrectKeyException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_IncorrectKeyMaterialException(input):
     return Error_IncorrectKeyMaterialException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_IncorrectTrustAnchorException(input):
     return Error_IncorrectTrustAnchorException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_InvalidAliasNameException(input):
     return Error_InvalidAliasNameException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_InvalidArnException(input):
     return Error_InvalidArnException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_InvalidCiphertextException(input):
     return Error_InvalidCiphertextException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_InvalidGrantIdException(input):
     return Error_InvalidGrantIdException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_InvalidGrantTokenException(input):
     return Error_InvalidGrantTokenException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_InvalidImportTokenException(input):
     return Error_InvalidImportTokenException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_InvalidKeyUsageException(input):
     return Error_InvalidKeyUsageException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_InvalidMarkerException(input):
     return Error_InvalidMarkerException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_KeyUnavailableException(input):
     return Error_KeyUnavailableException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_KMSInternalException(input):
     return Error_KMSInternalException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_KMSInvalidSignatureException(input):
     return Error_KMSInvalidSignatureException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_KMSInvalidStateException(input):
     return Error_KMSInvalidStateException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_LimitExceededException(input):
     return Error_LimitExceededException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_MalformedPolicyDocumentException(input):
     return Error_MalformedPolicyDocumentException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_NotFoundException(input):
     return Error_NotFoundException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_TagException(input):
     return Error_TagException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_UnsupportedOperationException(input):
     return Error_UnsupportedOperationException(
-        message=Seq(input["Message"]),
+        message=Seq(input['Error']["Message"]),
     )
 
 def AwsSdkToDafny_com_amazonaws_kms_CancelKeyDeletionRequest(input):

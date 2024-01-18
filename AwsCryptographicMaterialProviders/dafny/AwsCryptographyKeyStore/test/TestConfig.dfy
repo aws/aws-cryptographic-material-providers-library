@@ -8,7 +8,7 @@ module TestConfig {
   import Types = AwsCryptographyKeyStoreTypes
   import ComAmazonawsKmsTypes
   import KMS = Com.Amazonaws.Kms
-  import DDB = Com_Amazonaws_Dynamodb
+  import DDB = Com.Amazonaws.Dynamodb
   import KeyStore
   import opened Wrappers
   import opened Fixtures

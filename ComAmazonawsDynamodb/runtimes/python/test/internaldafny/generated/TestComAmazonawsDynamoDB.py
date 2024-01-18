@@ -13,7 +13,6 @@ import StandardLibrary_String
 import StandardLibrary
 import UTF8
 import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_dynamodb_internaldafny
 import Relations
 import Seq_MergeSort
 import Math
@@ -47,6 +46,9 @@ import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
+import software_amazon_cryptography_services_dynamodb_internaldafny
+import Com_Amazonaws
+import Com
 
 # Module: TestComAmazonawsDynamoDB
 

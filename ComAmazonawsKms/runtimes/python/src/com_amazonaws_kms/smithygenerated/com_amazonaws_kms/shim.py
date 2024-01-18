@@ -96,103 +96,103 @@ def sdk_error_to_dafny_error(e: ClientError):
     into the corresponding Dafny error.
     '''
     if e.response['Error']['Code'] == 'AlreadyExistsException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_AlreadyExistsException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_AlreadyExistsException(e.response)
 
     elif e.response['Error']['Code'] == 'CloudHsmClusterInUseException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CloudHsmClusterInUseException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CloudHsmClusterInUseException(e.response)
 
     elif e.response['Error']['Code'] == 'CloudHsmClusterInvalidConfigurationException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException(e.response)
 
     elif e.response['Error']['Code'] == 'CloudHsmClusterNotActiveException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CloudHsmClusterNotActiveException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CloudHsmClusterNotActiveException(e.response)
 
     elif e.response['Error']['Code'] == 'CloudHsmClusterNotFoundException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CloudHsmClusterNotFoundException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CloudHsmClusterNotFoundException(e.response)
 
     elif e.response['Error']['Code'] == 'CloudHsmClusterNotRelatedException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CloudHsmClusterNotRelatedException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CloudHsmClusterNotRelatedException(e.response)
 
     elif e.response['Error']['Code'] == 'CustomKeyStoreHasCMKsException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CustomKeyStoreHasCMKsException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CustomKeyStoreHasCMKsException(e.response)
 
     elif e.response['Error']['Code'] == 'CustomKeyStoreInvalidStateException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CustomKeyStoreInvalidStateException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CustomKeyStoreInvalidStateException(e.response)
 
     elif e.response['Error']['Code'] == 'CustomKeyStoreNameInUseException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CustomKeyStoreNameInUseException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CustomKeyStoreNameInUseException(e.response)
 
     elif e.response['Error']['Code'] == 'CustomKeyStoreNotFoundException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CustomKeyStoreNotFoundException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CustomKeyStoreNotFoundException(e.response)
 
     elif e.response['Error']['Code'] == 'DependencyTimeoutException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_DependencyTimeoutException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_DependencyTimeoutException(e.response)
 
     elif e.response['Error']['Code'] == 'DisabledException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_DisabledException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_DisabledException(e.response)
 
     elif e.response['Error']['Code'] == 'ExpiredImportTokenException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_ExpiredImportTokenException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_ExpiredImportTokenException(e.response)
 
     elif e.response['Error']['Code'] == 'IncorrectKeyException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_IncorrectKeyException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_IncorrectKeyException(e.response)
 
     elif e.response['Error']['Code'] == 'IncorrectKeyMaterialException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_IncorrectKeyMaterialException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_IncorrectKeyMaterialException(e.response)
 
     elif e.response['Error']['Code'] == 'IncorrectTrustAnchorException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_IncorrectTrustAnchorException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_IncorrectTrustAnchorException(e.response)
 
     elif e.response['Error']['Code'] == 'InvalidAliasNameException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_InvalidAliasNameException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_InvalidAliasNameException(e.response)
 
     elif e.response['Error']['Code'] == 'InvalidArnException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_InvalidArnException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_InvalidArnException(e.response)
 
     elif e.response['Error']['Code'] == 'InvalidCiphertextException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_InvalidCiphertextException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_InvalidCiphertextException(e.response)
 
     elif e.response['Error']['Code'] == 'InvalidGrantIdException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_InvalidGrantIdException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_InvalidGrantIdException(e.response)
 
     elif e.response['Error']['Code'] == 'InvalidGrantTokenException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_InvalidGrantTokenException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_InvalidGrantTokenException(e.response)
 
     elif e.response['Error']['Code'] == 'InvalidImportTokenException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_InvalidImportTokenException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_InvalidImportTokenException(e.response)
 
     elif e.response['Error']['Code'] == 'InvalidKeyUsageException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_InvalidKeyUsageException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_InvalidKeyUsageException(e.response)
 
     elif e.response['Error']['Code'] == 'InvalidMarkerException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_InvalidMarkerException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_InvalidMarkerException(e.response)
 
     elif e.response['Error']['Code'] == 'KeyUnavailableException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_KeyUnavailableException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_KeyUnavailableException(e.response)
 
     elif e.response['Error']['Code'] == 'KMSInternalException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_KMSInternalException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_KMSInternalException(e.response)
 
     elif e.response['Error']['Code'] == 'KMSInvalidSignatureException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_KMSInvalidSignatureException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_KMSInvalidSignatureException(e.response)
 
     elif e.response['Error']['Code'] == 'KMSInvalidStateException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_KMSInvalidStateException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_KMSInvalidStateException(e.response)
 
     elif e.response['Error']['Code'] == 'LimitExceededException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_LimitExceededException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_LimitExceededException(e.response)
 
     elif e.response['Error']['Code'] == 'MalformedPolicyDocumentException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_MalformedPolicyDocumentException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_MalformedPolicyDocumentException(e.response)
 
     elif e.response['Error']['Code'] == 'NotFoundException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_NotFoundException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_NotFoundException(e.response)
 
     elif e.response['Error']['Code'] == 'TagException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_TagException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_TagException(e.response)
 
     elif e.response['Error']['Code'] == 'UnsupportedOperationException':
-        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_UnsupportedOperationException(e.response['Error'])
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_UnsupportedOperationException(e.response)
 
     return software_amazon_cryptography_services_kms_internaldafny_types.Error_Opaque(obj=e)
 

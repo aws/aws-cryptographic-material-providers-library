@@ -122,6 +122,7 @@ import AwsKmsKeyring
 import StrictMultiKeyring
 import AwsKmsDiscoveryKeyring
 import software_amazon_cryptography_services_kms_internaldafny
+import software_amazon_cryptography_services_dynamodb_internaldafny
 import Com_Amazonaws
 import Com
 import DiscoveryMultiKeyring
@@ -168,7 +169,6 @@ import CompleteVectors
 import ParseJsonManifests
 import TestManifests
 import WrappedMaterialProvidersMain
-import software_amazon_cryptography_services_dynamodb_internaldafny
 import Structure
 import KMSKeystoreOperations
 import DDBKeystoreOperations

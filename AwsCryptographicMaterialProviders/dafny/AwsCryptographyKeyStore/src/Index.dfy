@@ -12,7 +12,7 @@ module {:extern "software_amazon_cryptography_keystore_internaldafny"}
   import opened AwsKmsUtils
   import Operations = AwsCryptographyKeyStoreOperations
   import KMSOperations = Com.Amazonaws.Kms
-  import DDBOperations =  Com_Amazonaws_Dynamodb
+  import DDBOperations =  Com.Amazonaws.Dynamodb
   import KMS = ComAmazonawsKmsTypes
   import DDB = ComAmazonawsDynamodbTypes
   import UUID

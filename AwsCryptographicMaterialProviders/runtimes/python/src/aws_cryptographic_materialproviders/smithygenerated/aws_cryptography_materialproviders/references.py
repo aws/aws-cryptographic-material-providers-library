@@ -4,7 +4,7 @@ import abc
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny
 import software_amazon_cryptography_materialproviders_internaldafny_types
-from typing import Any
+from typing import Any, Dict
 
 
 
@@ -29,6 +29,13 @@ class BranchKeyIdSupplier(IBranchKeyIdSupplier):
         dafny_output = self._impl.GetBranchKeyId(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_GetBranchKeyIdInput(native_input))
         return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetBranchKeyIdOutput(dafny_output)
 
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> 'BranchKeyIdSupplier':
+        return BranchKeyIdSupplier(d['_impl'])
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {'_impl': self._impl}
+
 class IClientSupplier(metaclass=abc.ABCMeta):
     @classmethod
     def __subclasshook__(cls, subclass):
@@ -49,6 +56,13 @@ class ClientSupplier(IClientSupplier):
     def GetClient(self, native_input):
         dafny_output = self._impl.GetClient(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_GetClientInput(native_input))
         return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetClientOutput(dafny_output)
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> 'ClientSupplier':
+        return ClientSupplier(d['_impl'])
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {'_impl': self._impl}
 
 class ICryptographicMaterialsCache(metaclass=abc.ABCMeta):
     @classmethod
@@ -98,6 +112,13 @@ class CryptographicMaterialsCache(ICryptographicMaterialsCache):
         dafny_output = self._impl.DeleteCacheEntry(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DeleteCacheEntryInput(native_input))
         return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_smithy_api_Unit()
 
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> 'CryptographicMaterialsCache':
+        return CryptographicMaterialsCache(d['_impl'])
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {'_impl': self._impl}
+
 class ICryptographicMaterialsManager(metaclass=abc.ABCMeta):
     @classmethod
     def __subclasshook__(cls, subclass):
@@ -128,6 +149,13 @@ class CryptographicMaterialsManager(ICryptographicMaterialsManager):
         dafny_output = self._impl.DecryptMaterials(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DecryptMaterialsInput(native_input))
         return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_DecryptMaterialsOutput(dafny_output)
 
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> 'CryptographicMaterialsManager':
+        return CryptographicMaterialsManager(d['_impl'])
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {'_impl': self._impl}
+
 class IKeyring(metaclass=abc.ABCMeta):
     @classmethod
     def __subclasshook__(cls, subclass):
@@ -157,3 +185,10 @@ class Keyring(IKeyring):
     def OnDecrypt(self, native_input):
         dafny_output = self._impl.OnDecrypt(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_OnDecryptInput(native_input))
         return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_OnDecryptOutput(dafny_output)
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> 'Keyring':
+        return Keyring(d['_impl'])
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {'_impl': self._impl}

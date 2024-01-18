@@ -308,7 +308,6 @@ class KeyStore:
                     retry_strategy.record_success(token=retry_token)
                     break
         except Exception as e:
-            print(f"{e=}")
             if context.response is not None:
                 # config.logger.exception(f"Exception occurred while handling: {context.response}")
                 pass
@@ -374,7 +373,6 @@ class KeyStore:
             for interceptor in interceptors:
                 interceptor.read_after_deserialization(context_with_output)
         except Exception as e:
-            print(f"{e=}")
             if context.response is not None:
                 # config.logger.exception(f"Exception occurred while handling: {context.response}")
                 pass
@@ -401,7 +399,6 @@ class KeyStore:
                     context
                 )
         except Exception as e:
-            print(f"{e=}")
             if context.response is not None:
                 # config.logger.exception(f"Exception occurred while handling: {context.response}")
                 pass
