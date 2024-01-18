@@ -13,6 +13,7 @@ import sys
 
 import aws_cryptography_primitives
 
+print(f"{sys.path=}")
 # End import modules required for Dafny-generated tests
 
 internaldafny_dir = '/'.join(__file__.split("/")[:-1])

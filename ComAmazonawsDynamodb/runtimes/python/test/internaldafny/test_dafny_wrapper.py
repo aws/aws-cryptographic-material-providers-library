@@ -18,6 +18,7 @@ sys.path.append(internaldafny_dir + "/generated")
 
 import com_amazonaws_dynamodb
 
+print(f"{sys.path=}")
 # End import modules required for Dafny-generated tests
 
 def test_dafny():

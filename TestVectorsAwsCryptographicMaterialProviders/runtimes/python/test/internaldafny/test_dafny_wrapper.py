@@ -21,6 +21,7 @@ import aws_cryptographic_materialproviders
 # print(f"{sys.path=}")
 from aws_cryptography_materialproviderstestvectorkeys.internaldafny.extern import wrapped_mpl
 
+print(f"{sys.path=}")
 # End import modules required for Dafny-generated tests
 
 
