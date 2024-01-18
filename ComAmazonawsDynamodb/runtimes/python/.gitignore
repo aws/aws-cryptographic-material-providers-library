@@ -11,6 +11,6 @@ dist
 .tox
 .pytest_cache
 
-# Dafny Generated Java
-src/**/internaldafny/generated
-test/internaldafny/generated
+# Dafny Generated Python
+# src/**/internaldafny/generated
+# test/internaldafny/generated
