@@ -77,5 +77,6 @@ jobs:
 
       - name: Test ${{ matrix.library }}
         working-directory: ./${{ matrix.library }}
+        shell: bash
         run: |
           make test_python
