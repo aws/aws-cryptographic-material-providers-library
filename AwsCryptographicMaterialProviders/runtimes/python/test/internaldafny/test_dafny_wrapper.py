@@ -10,7 +10,6 @@ which will execute the `internaldafny_test_executor.py` file in the `dafny` dire
 
 import aws_cryptographic_materialproviders
 
-print(f"{sys.path=}")
 # End import modules required for Dafny-generated tests
 
 import sys
