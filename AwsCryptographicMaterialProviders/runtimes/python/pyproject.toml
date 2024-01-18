@@ -13,7 +13,7 @@ include = ["**/smithygenerated/*.py", "**/internaldafny/generated/*.py", "**/int
 [tool.poetry.dependencies]
 python = "^3.11.0"
 # TODO: Depend on PyPi once Smithy-Python publishes their Python package there
-smithy-python = { path = "../../../../../submodules/smithy-python/python-packages/smithy-python", develop = false}
+smithy-python = { path = "../../../submodules/smithy-python/python-packages/smithy-python", develop = false}
 standard-library = { path = "../../../StandardLibrary/runtimes/python", develop = false}
 amazon-cryptography-internal-dafny-shim-kms = {path = "../../../ComAmazonawsKms/runtimes/python", develop = false}
 amazon-cryptography-internal-dafny-shim-ddb = {path = "../../../ComAmazonawsDynamodb/runtimes/python", develop = false}
