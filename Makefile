@@ -47,6 +47,9 @@ polymorph_code_gen:
 setup_semantic_release:
 	npm i --no-save semantic-release @semantic-release/changelog semantic-release-replace-plugin @semantic-release/git
 
+run_semantic_release:
+	npx semantic-release --no-ci --branch test-release
+
 duvet: | duvet_extract duvet_report
 
 duvet_extract:
