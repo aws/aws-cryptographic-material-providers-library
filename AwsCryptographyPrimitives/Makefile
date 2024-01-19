@@ -6,7 +6,6 @@ CORES=2
 include ../SharedMakefileV2.mk
 
 PYTHON_MODULE_NAME=aws_cryptography_primitives
-OUTPUT_LOCAL_SERVICE_AwsCryptographyPrimitives=--local-service-test
 
 PROJECT_SERVICES := \
 	AwsCryptographyPrimitives \
