@@ -266,12 +266,12 @@ module {:options "/functionSyntax:4" } LocalCMC {
     ensures (m - {k0}).Values == m.Values - {m[k0]}
   {
     var m' := m - {k0};
-    // calc {
-    //   m'.Values;
-    //   set k <- m' :: m'[k];
-    //   set k <- m - {k0} :: m[k];
-    //   m.Values - {m[k0]};
-    // }
+    calc {
+      m'.Values;
+      set k <- m' :: m'[k];
+      set k <- m - {k0} :: m[k];
+      m.Values - {m[k0]};
+    }
   }
 
 

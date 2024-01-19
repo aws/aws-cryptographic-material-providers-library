@@ -63,17 +63,12 @@ public class HMac extends _ExternBase_HMac {
   }
 
   public void BlockUpdate(DafnySequence<? extends Byte> input) {
-    System.out.println("update");
-    System.out.println(input);
     final byte[] inputBytes = (byte[]) Array.unwrap(input.toArray());
     hmac.update(inputBytes);
   }
 
   public DafnySequence<? extends Byte> GetResult() {
     final byte[] digest = hmac.doFinal();
-    DafnySequence<? extends Byte> a = DafnySequence.fromBytes(digest);
-    System.out.println("Getresult");
-    System.out.println(a);
-    return a;
+    return DafnySequence.fromBytes(digest);
   }
 }

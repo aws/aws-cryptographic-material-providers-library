@@ -4,47 +4,17 @@ import aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryp
 import aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny
 from dataclasses import dataclass
 import module_
-from null.smithygenerated.aws_cryptography_materialproviders.references import Keyring
 from software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types import (
     KeyVectorsConfig_KeyVectorsConfig as DafnyKeyVectorsConfig,
 )
-from typing import Any, Callable, TypeAlias, Union
+from typing import Any, Callable, TypeAlias
 
 from .dafnyImplInterface import DafnyImplInterface
-from botocore.client import BaseClient
-from null.smithygenerated.aws_cryptography_materialproviders.models import (
-    DecryptMaterialsInput,
-    DecryptMaterialsOutput,
-    DeleteCacheEntryInput,
-    GetBranchKeyIdInput,
-    GetBranchKeyIdOutput,
-    GetCacheEntryInput,
-    GetCacheEntryOutput,
-    GetClientInput,
-    GetEncryptionMaterialsInput,
-    GetEncryptionMaterialsOutput,
-    OnDecryptInput,
-    OnDecryptOutput,
-    OnEncryptInput,
-    OnEncryptOutput,
-    PutCacheEntryInput,
-    UpdateUsageMetadataInput,
-)
 from smithy_python._private.retries import SimpleRetryStrategy
-from smithy_python.interfaces.interceptor import Interceptor
 from smithy_python.interfaces.retries import RetryStrategy
 
-from .models import (
-    GetKeyDescriptionInput,
-    GetKeyDescriptionOutput,
-    SerializeKeyDescriptionInput,
-    SerializeKeyDescriptionOutput,
-    TestVectorKeyringInput,
-    Unit,
-)
 
-
-_ServiceInterceptor = Union[Interceptor[DecryptMaterialsInput, DecryptMaterialsOutput, Any, Any], Interceptor[DeleteCacheEntryInput, Unit, Any, Any], Interceptor[GetBranchKeyIdInput, GetBranchKeyIdOutput, Any, Any], Interceptor[GetCacheEntryInput, GetCacheEntryOutput, Any, Any], Interceptor[GetClientInput, BaseClient, Any, Any], Interceptor[GetEncryptionMaterialsInput, GetEncryptionMaterialsOutput, Any, Any], Interceptor[OnDecryptInput, OnDecryptOutput, Any, Any], Interceptor[OnEncryptInput, OnEncryptOutput, Any, Any], Interceptor[PutCacheEntryInput, Unit, Any, Any], Interceptor[UpdateUsageMetadataInput, Unit, Any, Any], Interceptor[TestVectorKeyringInput, Keyring, Any, Any], Interceptor[TestVectorKeyringInput, Keyring, Any, Any], Interceptor[GetKeyDescriptionInput, GetKeyDescriptionOutput, Any, Any], Interceptor[SerializeKeyDescriptionInput, SerializeKeyDescriptionOutput, Any, Any]]
+_ServiceInterceptor = Any
 @dataclass(init=False)
 class Config:
     """Configuration for KeyVectors."""

@@ -2,8 +2,8 @@
 
 import asyncio
 from asyncio import sleep
-import aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models
 from copy import deepcopy
+import null.smithygenerated.aws_cryptography_materialproviders.references
 from software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types import (
     IKeyVectorsClient,
 )

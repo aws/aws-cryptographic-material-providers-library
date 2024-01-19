@@ -5,7 +5,7 @@ import time
 import threading
 import functools
 
-# TODO refactor
+# decorator that locks calls to a function
 def synchronized(wrapped):
     lock = threading.Lock()
     @functools.wraps(wrapped)

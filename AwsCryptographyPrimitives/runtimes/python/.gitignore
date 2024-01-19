@@ -1,5 +1,6 @@
 # Python build artifacts
 __pycache__
+**/__pycache__
 *.pyc
 src/**.egg-info/
 build
@@ -10,7 +11,3 @@ dist
 # Python test artifacts
 .tox
 .pytest_cache
-
-# Dafny Generated Python
-# src/**/internaldafny/generated/*.py
-# test/internaldafny/generated/*.py
