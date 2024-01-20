@@ -27,7 +27,8 @@ const Runtimes = {
   net: {
     "AwsCryptographicMaterialProviders/runtimes/net/MPL.csproj": {
       dependencies: [],
-      assemblyInfo: "AwsCryptographicMaterialProviders/runtimes/net/AssemblyInfo.cs",
+      assemblyInfo:
+        "AwsCryptographicMaterialProviders/runtimes/net/AssemblyInfo.cs",
     },
     "ComAmazonawsKms/runtimes/net/AWS-KMS.csproj": {
       dependencies: [],
@@ -107,13 +108,14 @@ module.exports = {
           },
 
           // Update the AssmeblyInfo.cs file of the DotNet projects
-          ...Object.entries(Runtimes.net).flatMap(([file, { assemblyInfo }]) => ({
+          ...Object.entries(Runtimes.net).flatMap(
+            ([file, { assemblyInfo }]) => ({
               files: assemblyInfo,
-              from: 'assembly: AssemblyVersion\(.*\)',
+              from: "assembly: AssemblyVersion(.*)",
               to: 'assembly: AssemblyVersion("${nextRelease.version}")]',
               results: [CheckResults(assemblyInfo)],
               countMatches: true,
-            })
+            }),
           ),
         ],
       },
