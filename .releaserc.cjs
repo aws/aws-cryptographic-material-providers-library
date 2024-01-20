@@ -54,7 +54,7 @@ const Runtimes = {
 module.exports = {
   //branches: ["main"],
   repositoryUrl:
-    "git@github.com:josecorella/aws-cryptographic-material-providers-library.git",
+    "git@github.com:aws/aws-cryptographic-material-providers-library.git",
   plugins: [
     // Check the commits since the last release
     "@semantic-release/commit-analyzer",
