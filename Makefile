@@ -50,6 +50,9 @@ setup_semantic_release:
 run_semantic_release:
 	npx semantic-release --no-ci
 
+dry_run_semantic_release:
+	npx semantic-release --dry-run
+
 duvet: | duvet_extract duvet_report
 
 duvet_extract:
