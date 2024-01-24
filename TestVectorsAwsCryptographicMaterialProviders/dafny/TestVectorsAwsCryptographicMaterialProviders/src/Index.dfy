@@ -10,13 +10,41 @@ module {:options "-functionSyntax:4"} WrappedMaterialProvidersMain {
   import opened Wrappers
   import MplManifestOptions
   import Seq
+  import opened GetOpt
   import CompleteVectors
   import TestManifests
 
   method Main(args: seq<string>) {
+    var vectorOptions := Options("test-vectors", "?",
+                                 [
+                                   Param.Command(Options("decrypt", "decrypt command for test-vectors",
+                                                         [
+                                                           Param.Opt("manifest-path", "relative path to the location of the manifest", unused := Required),
+                                                           Param.Opt("test-name", "id of the test to run")
+                                                         ])),
+                                   Param.Command(Options("encrypt", "encrypt command for test-vectors",
+                                                         [
+                                                           Param.Opt("manifest-path", "relative path to the location of the manifest", unused := Required),
+                                                           Param.Opt("decrypt-manifest-path", "relative path to the location where the decrypted manifest will be written to.", unused := Required),
+                                                           Param.Opt("test-name", "id of the test to run")
+                                                         ])),
+                                   Param.Command(Options("encrypt-manifest", "encryp manifest command for test-vectors",
+                                                         [
+                                                           Param.Opt("encrypt-manifest-output", "relative path of where to store the encrypt-manifest produced", unused := Required)
+                                                         ]))
+                                 ]);
     // The expectation is that the first argument
     // is the filename or runtime
     expect 0 < |args|;
+    var parsedOptions? := GetOptions(vectorOptions, args);
+
+    if parsedOptions?.Success? {
+      var op? := ParseCommandLineOptions'(parsedOptions?.value);
+
+    } else {
+      print parsedOptions?.error + "\n";
+    }
+
     var op? := ParseCommandLineOptions(args[1..]);
 
     if op?.Success? {
@@ -39,7 +67,7 @@ module {:options "-functionSyntax:4"} WrappedMaterialProvidersMain {
         expect result.Success?;
     } else {
       print op?.error;
-      print "help";
+      print "help\n";
     }
   }
 
@@ -61,6 +89,19 @@ module {:options "-functionSyntax:4"} WrappedMaterialProvidersMain {
     case "encrypt-manifest" => ParseEncryptManifestOptions(op)
   }
 
+  function ParseCommandLineOptions'(parsedOptions: Parsed)
+    : (output: Result<MplManifestOptions.ManifestOptions, string>)
+  {
+    :- Need(parsedOptions.subcommand.Some?, "Must supply subcommand\n");
+
+    match parsedOptions.subcommand.value.command
+    case "decrypt" => ParseDecryptCmd(parsedOptions.subcommand.value.params)
+    case "encrypt" => ParseEncryptCmd(parsedOptions.subcommand.value.params)
+    case "encrypt-manifest" => ParseEncryptManifestCmd(parsedOptions.subcommand.value.params)
+    // GetOpt GetOptions actually takes care of this for us but Dafny doesn't know so we must have default case.
+    case _ => Failure("Received unknown subcommand")
+  }
+
   function ParseDecryptOptions(op: map<string, string>)
     : (output: Result<MplManifestOptions.ManifestOptions, string>)
     ensures output.Success? ==> output.value.Decrypt?
@@ -71,6 +112,13 @@ module {:options "-functionSyntax:4"} WrappedMaterialProvidersMain {
               manifestPath := if Seq.Last(op["-manifest-path"]) == '/' then op["-manifest-path"] else op["-manifest-path"] + "/",
               testName := if "-test-name" in op then Some(op["-test-name"]) else None
             ))
+  }
+  
+  function ParseDecryptCmd(params: seq<OneArg>)
+    : (output: Result<MplManifestOptions.ManifestOptions, string>)
+    ensures output.Success? ==> output.value.Decrypt?
+  {
+    Failure("Oops")
   }
 
   function ParseEncryptOptions(op: map<string, string>)
@@ -85,6 +133,12 @@ module {:options "-functionSyntax:4"} WrappedMaterialProvidersMain {
               testName := if "-test-name" in op then Some(op["-test-name"]) else None
             ))
   }
+  function ParseEncryptCmd(params: seq<OneArg>)
+    : (output: Result<MplManifestOptions.ManifestOptions, string>)
+    ensures output.Success? ==> output.value.Encrypt?
+  {
+    Failure("Oopps")
+  }
 
   function ParseEncryptManifestOptions(op: map<string, string>)
     : (output: Result<MplManifestOptions.ManifestOptions, string>)
@@ -95,6 +149,13 @@ module {:options "-functionSyntax:4"} WrappedMaterialProvidersMain {
     Success(MplManifestOptions.EncryptManifest(
               encryptManifestOutput := if Seq.Last(op["-encrypt-manifest-output"]) == '/' then op["-encrypt-manifest-output"] else op["-encrypt-manifest-output"] + "/"
             ))
+  }
+  
+  function ParseEncryptManifestCmd(params: seq<OneArg>)
+    : (output: Result<MplManifestOptions.ManifestOptions, string>)
+    ensures output.Success? ==> output.value.EncryptManifest?
+  {
+    Failure("Oops")
   }
 
   predicate CommandOption?(s: string)
