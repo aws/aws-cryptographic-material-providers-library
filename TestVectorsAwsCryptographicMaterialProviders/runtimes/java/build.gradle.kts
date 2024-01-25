@@ -11,6 +11,7 @@ tasks.wrapper {
 plugins {
     `java-library`
     `maven-publish`
+    application
 }
 
 var props = Properties().apply {
@@ -66,7 +67,7 @@ repositories {
 dependencies {
     implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
     implementation("software.amazon.smithy.dafny:conversion:0.1")
-    implementation("software.amazon.cryptography:aws-cryptographic-material-providers:1.0.1")
+    implementation("software.amazon.cryptography:aws-cryptographic-material-providers:1.2.1")
     implementation(platform("software.amazon.awssdk:bom:2.19.1"))
     implementation("software.amazon.awssdk:dynamodb")
     implementation("software.amazon.awssdk:dynamodb-enhanced")
@@ -102,3 +103,6 @@ tasks.register<Copy>("copyKeysJSON") {
     into(layout.projectDirectory.dir("dafny/TestVectorsAwsCryptographicMaterialProviders/test"))
 }
 
+application {
+    mainClass.set("ImplementationFromDafny")
+}
