@@ -7,7 +7,7 @@ import module_
 from software_amazon_cryptography_keystore_internaldafny_types import (
     KeyStoreConfig_KeyStoreConfig as DafnyKeyStoreConfig,
 )
-from typing import Any, Callable, TypeAlias
+from typing import Any, Callable, Optional, TypeAlias
 
 from .dafnyImplInterface import DafnyImplInterface
 from botocore.client import BaseClient
@@ -57,20 +57,20 @@ class KeyStoreConfig(Config):
     ddb_table_name: str
     kms_configuration: KMSConfiguration
     logical_key_store_name: str
-    id: str
-    grant_tokens: list[str]
-    ddb_client: BaseClient
-    kms_client: BaseClient
+    id: Optional[str]
+    grant_tokens: Optional[list[str]]
+    ddb_client: Optional[BaseClient]
+    kms_client: Optional[BaseClient]
 
     def __init__(
         self,
         ddb_table_name: str,
         kms_configuration: KMSConfiguration,
         logical_key_store_name: str,
-        id: str,
-        grant_tokens: list[str],
-        ddb_client: BaseClient,
-        kms_client: BaseClient,
+        id: Optional[str] = None,
+        grant_tokens: Optional[list[str]] = None,
+        ddb_client: Optional[BaseClient] = None,
+        kms_client: Optional[BaseClient] = None,
     ):
         """Constructor for KeyStoreConfig.
 

@@ -30,10 +30,6 @@ class AwsCryptographicMaterialProvidersException(ApiError[Literal["AwsCryptograp
         *,
         message: str,
     ):
-        """////////////////
-        :param message: A message associated with the specific error.
-
-        """
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:

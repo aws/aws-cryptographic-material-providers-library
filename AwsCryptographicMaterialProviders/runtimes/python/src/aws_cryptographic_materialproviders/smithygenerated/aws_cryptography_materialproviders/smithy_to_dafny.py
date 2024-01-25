@@ -2,8 +2,10 @@
 
 from Wrappers import Option_None, Option_Some
 from _dafny import Map, Seq
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny
+import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny
 import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny
 import module_
 from software_amazon_cryptography_materialproviders_internaldafny_types import (
@@ -34,14 +36,17 @@ from software_amazon_cryptography_materialproviders_internaldafny_types import (
     CreateRawAesKeyringInput_CreateRawAesKeyringInput as DafnyCreateRawAesKeyringInput,
     CreateRawRsaKeyringInput_CreateRawRsaKeyringInput as DafnyCreateRawRsaKeyringInput,
     CreateRequiredEncryptionContextCMMInput_CreateRequiredEncryptionContextCMMInput as DafnyCreateRequiredEncryptionContextCMMInput,
+    DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING as DafnyDIRECT_KEY_WRAPPING,
     DecryptMaterialsInput_DecryptMaterialsInput as DafnyDecryptMaterialsInput,
     DecryptMaterialsOutput_DecryptMaterialsOutput as DafnyDecryptMaterialsOutput,
     DecryptionMaterials_DecryptionMaterials as DafnyDecryptionMaterials,
+    DefaultCache_DefaultCache as DafnyDefaultCache,
     DeleteCacheEntryInput_DeleteCacheEntryInput as DafnyDeleteCacheEntryInput,
     DerivationAlgorithm_HKDF,
     DerivationAlgorithm_IDENTITY,
     DerivationAlgorithm_None,
     DiscoveryFilter_DiscoveryFilter as DafnyDiscoveryFilter,
+    ECDSA_ECDSA as DafnyECDSA,
     EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING,
     EdkWrappingAlgorithm_IntermediateKeyWrapping,
     Encrypt_AES__GCM,
@@ -54,13 +59,19 @@ from software_amazon_cryptography_materialproviders_internaldafny_types import (
     GetClientInput_GetClientInput as DafnyGetClientInput,
     GetEncryptionMaterialsInput_GetEncryptionMaterialsInput as DafnyGetEncryptionMaterialsInput,
     GetEncryptionMaterialsOutput_GetEncryptionMaterialsOutput as DafnyGetEncryptionMaterialsOutput,
+    HKDF_HKDF as DafnyHKDF,
+    IDENTITY_IDENTITY as DafnyIDENTITY,
     InitializeDecryptionMaterialsInput_InitializeDecryptionMaterialsInput as DafnyInitializeDecryptionMaterialsInput,
     InitializeEncryptionMaterialsInput_InitializeEncryptionMaterialsInput as DafnyInitializeEncryptionMaterialsInput,
+    IntermediateKeyWrapping_IntermediateKeyWrapping as DafnyIntermediateKeyWrapping,
     MaterialProvidersConfig_MaterialProvidersConfig as DafnyMaterialProvidersConfig,
     Materials_BeaconKey,
     Materials_BranchKey,
     Materials_Decryption,
     Materials_Encryption,
+    MultiThreadedCache_MultiThreadedCache as DafnyMultiThreadedCache,
+    NoCache_NoCache as DafnyNoCache,
+    None_None as DafnyNone,
     OnDecryptInput_OnDecryptInput as DafnyOnDecryptInput,
     OnDecryptOutput_OnDecryptOutput as DafnyOnDecryptOutput,
     OnEncryptInput_OnEncryptInput as DafnyOnEncryptInput,
@@ -68,6 +79,8 @@ from software_amazon_cryptography_materialproviders_internaldafny_types import (
     PutCacheEntryInput_PutCacheEntryInput as DafnyPutCacheEntryInput,
     SignatureAlgorithm_ECDSA,
     SignatureAlgorithm_None,
+    SingleThreadedCache_SingleThreadedCache as DafnySingleThreadedCache,
+    StormTrackingCache_StormTrackingCache as DafnyStormTrackingCache,
     SymmetricSignatureAlgorithm_HMAC,
     SymmetricSignatureAlgorithm_None,
     UpdateUsageMetadataInput_UpdateUsageMetadataInput as DafnyUpdateUsageMetadataInput,
@@ -115,17 +128,150 @@ def SmithyToDafny_aws_cryptography_materialproviders_PutCacheEntryInput(input):
 
 def SmithyToDafny_aws_cryptography_materialproviders_Materials(input):
     if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.MaterialsEncryption):
-        Materials_union_value = Materials_Encryption(input.value)
+        Materials_union_value = Materials_Encryption(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_EncryptionMaterials(input.value))
     elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.MaterialsDecryption):
-        Materials_union_value = Materials_Decryption(input.value)
+        Materials_union_value = Materials_Decryption(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DecryptionMaterials(input.value))
     elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.MaterialsBranchKey):
-        Materials_union_value = Materials_BranchKey(input.value)
+        Materials_union_value = Materials_BranchKey(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_BranchKeyMaterials(input.value))
     elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.MaterialsBeaconKey):
-        Materials_union_value = Materials_BeaconKey(input.value)
+        Materials_union_value = Materials_BeaconKey(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_BeaconKeyMaterials(input.value))
     else:
         raise ValueError("No recognized union value in union type: " + input)
 
     return Materials_union_value
+
+def SmithyToDafny_aws_cryptography_materialproviders_EncryptionMaterials(input):
+    return DafnyEncryptionMaterials(
+        algorithmSuite=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_AlgorithmSuiteInfo(input.algorithm_suite),
+        encryptionContext=Map({Seq(key): Seq(value) for (key, value) in input.encryption_context.items() }),
+        encryptedDataKeys=Seq([aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_EncryptedDataKey(list_element) for list_element in input.encrypted_data_keys]),
+        requiredEncryptionContextKeys=Seq([Seq(list_element) for list_element in input.required_encryption_context_keys]),
+        plaintextDataKey=((Option_Some(Seq(input.plaintext_data_key))) if (input.plaintext_data_key is not None) else (Option_None())),
+        signingKey=((Option_Some(Seq(input.signing_key))) if (input.signing_key is not None) else (Option_None())),
+        symmetricSigningKeys=((Option_Some(Seq([Seq(list_element) for list_element in input.symmetric_signing_keys]))) if (input.symmetric_signing_keys is not None) else (Option_None())),
+    )
+
+def SmithyToDafny_aws_cryptography_materialproviders_AlgorithmSuiteInfo(input):
+    return DafnyAlgorithmSuiteInfo(
+        id=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_AlgorithmSuiteId(input.id),
+        binaryId=Seq(input.binary_id),
+        messageVersion=input.message_version,
+        encrypt=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_Encrypt(input.encrypt),
+        kdf=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DerivationAlgorithm(input.kdf),
+        commitment=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DerivationAlgorithm(input.commitment),
+        signature=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_SignatureAlgorithm(input.signature),
+        symmetricSignature=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_SymmetricSignatureAlgorithm(input.symmetric_signature),
+        edkWrapping=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_EdkWrappingAlgorithm(input.edk_wrapping),
+    )
+
+def SmithyToDafny_aws_cryptography_materialproviders_EncryptedDataKey(input):
+    return DafnyEncryptedDataKey(
+        keyProviderId=Seq(input.key_provider_id),
+        keyProviderInfo=Seq(input.key_provider_info),
+        ciphertext=Seq(input.ciphertext),
+    )
+
+def SmithyToDafny_aws_cryptography_materialproviders_AlgorithmSuiteId(input):
+    if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.AlgorithmSuiteIdESDK):
+        AlgorithmSuiteId_union_value = AlgorithmSuiteId_ESDK(input.value)
+    elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.AlgorithmSuiteIdDBE):
+        AlgorithmSuiteId_union_value = AlgorithmSuiteId_DBE(input.value)
+    else:
+        raise ValueError("No recognized union value in union type: " + input)
+
+    return AlgorithmSuiteId_union_value
+
+def SmithyToDafny_aws_cryptography_materialproviders_Encrypt(input):
+    if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EncryptAES_GCM):
+        Encrypt_union_value = Encrypt_AES__GCM(aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.SmithyToDafny_aws_cryptography_primitives_AES_GCM(input.value))
+    else:
+        raise ValueError("No recognized union value in union type: " + input)
+
+    return Encrypt_union_value
+
+def SmithyToDafny_aws_cryptography_materialproviders_DerivationAlgorithm(input):
+    if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DerivationAlgorithmHKDF):
+        DerivationAlgorithm_union_value = DerivationAlgorithm_HKDF(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_HKDF(input.value))
+    elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DerivationAlgorithmIDENTITY):
+        DerivationAlgorithm_union_value = DerivationAlgorithm_IDENTITY(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_IDENTITY(input.value))
+    elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DerivationAlgorithmNone):
+        DerivationAlgorithm_union_value = DerivationAlgorithm_None(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_None(input.value))
+    else:
+        raise ValueError("No recognized union value in union type: " + input)
+
+    return DerivationAlgorithm_union_value
+
+def SmithyToDafny_aws_cryptography_materialproviders_SignatureAlgorithm(input):
+    if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.SignatureAlgorithmECDSA):
+        SignatureAlgorithm_union_value = SignatureAlgorithm_ECDSA(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ECDSA(input.value))
+    elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.SignatureAlgorithmNone):
+        SignatureAlgorithm_union_value = SignatureAlgorithm_None(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_None(input.value))
+    else:
+        raise ValueError("No recognized union value in union type: " + input)
+
+    return SignatureAlgorithm_union_value
+
+def SmithyToDafny_aws_cryptography_materialproviders_SymmetricSignatureAlgorithm(input):
+    if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.SymmetricSignatureAlgorithmHMAC):
+        SymmetricSignatureAlgorithm_union_value = SymmetricSignatureAlgorithm_HMAC(input.value)
+    elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.SymmetricSignatureAlgorithmNone):
+        SymmetricSignatureAlgorithm_union_value = SymmetricSignatureAlgorithm_None(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_None(input.value))
+    else:
+        raise ValueError("No recognized union value in union type: " + input)
+
+    return SymmetricSignatureAlgorithm_union_value
+
+def SmithyToDafny_aws_cryptography_materialproviders_EdkWrappingAlgorithm(input):
+    if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EdkWrappingAlgorithmDIRECT_KEY_WRAPPING):
+        EdkWrappingAlgorithm_union_value = EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DIRECT_KEY_WRAPPING(input.value))
+    elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EdkWrappingAlgorithmIntermediateKeyWrapping):
+        EdkWrappingAlgorithm_union_value = EdkWrappingAlgorithm_IntermediateKeyWrapping(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_IntermediateKeyWrapping(input.value))
+    else:
+        raise ValueError("No recognized union value in union type: " + input)
+
+    return EdkWrappingAlgorithm_union_value
+
+def SmithyToDafny_aws_cryptography_materialproviders_DecryptionMaterials(input):
+    return DafnyDecryptionMaterials(
+        algorithmSuite=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_AlgorithmSuiteInfo(input.algorithm_suite),
+        encryptionContext=Map({Seq(key): Seq(value) for (key, value) in input.encryption_context.items() }),
+        requiredEncryptionContextKeys=Seq([Seq(list_element) for list_element in input.required_encryption_context_keys]),
+        plaintextDataKey=((Option_Some(Seq(input.plaintext_data_key))) if (input.plaintext_data_key is not None) else (Option_None())),
+        verificationKey=((Option_Some(Seq(input.verification_key))) if (input.verification_key is not None) else (Option_None())),
+        symmetricSigningKey=((Option_Some(Seq(input.symmetric_signing_key))) if (input.symmetric_signing_key is not None) else (Option_None())),
+    )
+
+def SmithyToDafny_aws_cryptography_materialproviders_HKDF(input):
+    return DafnyHKDF(
+        hmac=input.hmac,
+        saltLength=input.salt_length,
+        inputKeyLength=input.input_key_length,
+        outputKeyLength=input.output_key_length,
+    )
+
+def SmithyToDafny_aws_cryptography_materialproviders_IDENTITY(input):
+    return DafnyIDENTITY(
+    )
+
+def SmithyToDafny_aws_cryptography_materialproviders_None(input):
+    return DafnyNone(
+    )
+
+def SmithyToDafny_aws_cryptography_materialproviders_ECDSA(input):
+    return DafnyECDSA(
+        curve=input.curve,
+    )
+
+def SmithyToDafny_aws_cryptography_materialproviders_DIRECT_KEY_WRAPPING(input):
+    return DafnyDIRECT_KEY_WRAPPING(
+    )
+
+def SmithyToDafny_aws_cryptography_materialproviders_IntermediateKeyWrapping(input):
+    return DafnyIntermediateKeyWrapping(
+        keyEncryptionKeyKdf=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DerivationAlgorithm(input.key_encryption_key_kdf),
+        macKeyKdf=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DerivationAlgorithm(input.mac_key_kdf),
+        pdkEncryptAlgorithm=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_Encrypt(input.pdk_encrypt_algorithm),
+    )
 
 def SmithyToDafny_smithy_api_Unit(input):
     return None
@@ -175,101 +321,10 @@ def SmithyToDafny_aws_cryptography_materialproviders_CommitmentPolicy(input):
 
     return CommitmentPolicy_union_value
 
-def SmithyToDafny_aws_cryptography_materialproviders_AlgorithmSuiteId(input):
-    if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.AlgorithmSuiteIdESDK):
-        AlgorithmSuiteId_union_value = AlgorithmSuiteId_ESDK(input.value)
-    elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.AlgorithmSuiteIdDBE):
-        AlgorithmSuiteId_union_value = AlgorithmSuiteId_DBE(input.value)
-    else:
-        raise ValueError("No recognized union value in union type: " + input)
-
-    return AlgorithmSuiteId_union_value
-
 def SmithyToDafny_aws_cryptography_materialproviders_GetEncryptionMaterialsOutput(input):
     return DafnyGetEncryptionMaterialsOutput(
         encryptionMaterials=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_EncryptionMaterials(input.encryption_materials),
     )
-
-def SmithyToDafny_aws_cryptography_materialproviders_EncryptionMaterials(input):
-    return DafnyEncryptionMaterials(
-        algorithmSuite=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_AlgorithmSuiteInfo(input.algorithm_suite),
-        encryptionContext=Map({Seq(key): Seq(value) for (key, value) in input.encryption_context.items() }),
-        encryptedDataKeys=Seq([aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_EncryptedDataKey(list_element) for list_element in input.encrypted_data_keys]),
-        requiredEncryptionContextKeys=Seq([Seq(list_element) for list_element in input.required_encryption_context_keys]),
-        plaintextDataKey=((Option_Some(Seq(input.plaintext_data_key))) if (input.plaintext_data_key is not None) else (Option_None())),
-        signingKey=((Option_Some(Seq(input.signing_key))) if (input.signing_key is not None) else (Option_None())),
-        symmetricSigningKeys=((Option_Some(Seq([Seq(list_element) for list_element in input.symmetric_signing_keys]))) if (input.symmetric_signing_keys is not None) else (Option_None())),
-    )
-
-def SmithyToDafny_aws_cryptography_materialproviders_AlgorithmSuiteInfo(input):
-    return DafnyAlgorithmSuiteInfo(
-        id=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_AlgorithmSuiteId(input.id),
-        binaryId=Seq(input.binary_id),
-        messageVersion=input.message_version,
-        encrypt=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_Encrypt(input.encrypt),
-        kdf=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DerivationAlgorithm(input.kdf),
-        commitment=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DerivationAlgorithm(input.commitment),
-        signature=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_SignatureAlgorithm(input.signature),
-        symmetricSignature=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_SymmetricSignatureAlgorithm(input.symmetric_signature),
-        edkWrapping=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_EdkWrappingAlgorithm(input.edk_wrapping),
-    )
-
-def SmithyToDafny_aws_cryptography_materialproviders_EncryptedDataKey(input):
-    return DafnyEncryptedDataKey(
-        keyProviderId=Seq(input.key_provider_id),
-        keyProviderInfo=Seq(input.key_provider_info),
-        ciphertext=Seq(input.ciphertext),
-    )
-
-def SmithyToDafny_aws_cryptography_materialproviders_Encrypt(input):
-    if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EncryptAES_GCM):
-        Encrypt_union_value = Encrypt_AES__GCM(input.value)
-    else:
-        raise ValueError("No recognized union value in union type: " + input)
-
-    return Encrypt_union_value
-
-def SmithyToDafny_aws_cryptography_materialproviders_DerivationAlgorithm(input):
-    if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DerivationAlgorithmHKDF):
-        DerivationAlgorithm_union_value = DerivationAlgorithm_HKDF(input.value)
-    elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DerivationAlgorithmIDENTITY):
-        DerivationAlgorithm_union_value = DerivationAlgorithm_IDENTITY(input.value)
-    elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DerivationAlgorithmNone):
-        DerivationAlgorithm_union_value = DerivationAlgorithm_None(input.value)
-    else:
-        raise ValueError("No recognized union value in union type: " + input)
-
-    return DerivationAlgorithm_union_value
-
-def SmithyToDafny_aws_cryptography_materialproviders_SignatureAlgorithm(input):
-    if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.SignatureAlgorithmECDSA):
-        SignatureAlgorithm_union_value = SignatureAlgorithm_ECDSA(input.value)
-    elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.SignatureAlgorithmNone):
-        SignatureAlgorithm_union_value = SignatureAlgorithm_None(input.value)
-    else:
-        raise ValueError("No recognized union value in union type: " + input)
-
-    return SignatureAlgorithm_union_value
-
-def SmithyToDafny_aws_cryptography_materialproviders_SymmetricSignatureAlgorithm(input):
-    if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.SymmetricSignatureAlgorithmHMAC):
-        SymmetricSignatureAlgorithm_union_value = SymmetricSignatureAlgorithm_HMAC(input.value)
-    elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.SymmetricSignatureAlgorithmNone):
-        SymmetricSignatureAlgorithm_union_value = SymmetricSignatureAlgorithm_None(input.value)
-    else:
-        raise ValueError("No recognized union value in union type: " + input)
-
-    return SymmetricSignatureAlgorithm_union_value
-
-def SmithyToDafny_aws_cryptography_materialproviders_EdkWrappingAlgorithm(input):
-    if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EdkWrappingAlgorithmDIRECT_KEY_WRAPPING):
-        EdkWrappingAlgorithm_union_value = EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(input.value)
-    elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EdkWrappingAlgorithmIntermediateKeyWrapping):
-        EdkWrappingAlgorithm_union_value = EdkWrappingAlgorithm_IntermediateKeyWrapping(input.value)
-    else:
-        raise ValueError("No recognized union value in union type: " + input)
-
-    return EdkWrappingAlgorithm_union_value
 
 def SmithyToDafny_aws_cryptography_materialproviders_DecryptMaterialsInput(input):
     return DafnyDecryptMaterialsInput(
@@ -283,16 +338,6 @@ def SmithyToDafny_aws_cryptography_materialproviders_DecryptMaterialsInput(input
 def SmithyToDafny_aws_cryptography_materialproviders_DecryptMaterialsOutput(input):
     return DafnyDecryptMaterialsOutput(
         decryptionMaterials=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DecryptionMaterials(input.decryption_materials),
-    )
-
-def SmithyToDafny_aws_cryptography_materialproviders_DecryptionMaterials(input):
-    return DafnyDecryptionMaterials(
-        algorithmSuite=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_AlgorithmSuiteInfo(input.algorithm_suite),
-        encryptionContext=Map({Seq(key): Seq(value) for (key, value) in input.encryption_context.items() }),
-        requiredEncryptionContextKeys=Seq([Seq(list_element) for list_element in input.required_encryption_context_keys]),
-        plaintextDataKey=((Option_Some(Seq(input.plaintext_data_key))) if (input.plaintext_data_key is not None) else (Option_None())),
-        verificationKey=((Option_Some(Seq(input.verification_key))) if (input.verification_key is not None) else (Option_None())),
-        symmetricSigningKey=((Option_Some(Seq(input.symmetric_signing_key))) if (input.symmetric_signing_key is not None) else (Option_None())),
     )
 
 def SmithyToDafny_aws_cryptography_materialproviders_OnEncryptInput(input):
@@ -340,7 +385,7 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsMultiKeyringInp
     return DafnyCreateAwsKmsMultiKeyringInput(
         generator=((Option_Some(Seq(input.generator))) if (input.generator is not None) else (Option_None())),
         kmsKeyIds=((Option_Some(Seq([Seq(list_element) for list_element in input.kms_key_ids]))) if (input.kms_key_ids is not None) else (Option_None())),
-        clientSupplier=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier))) if (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier) is not None) else (Option_None())),
+        clientSupplier=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier))) if ((input.client_supplier is not None) and (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier) is not None)) else (Option_None())),
         grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in input.grant_tokens]))) if (input.grant_tokens is not None) else (Option_None())),
     )
 
@@ -351,7 +396,7 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsDiscoveryMultiK
     return DafnyCreateAwsKmsDiscoveryMultiKeyringInput(
         regions=Seq([Seq(list_element) for list_element in input.regions]),
         discoveryFilter=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DiscoveryFilter(input.discovery_filter))) if (input.discovery_filter is not None) else (Option_None())),
-        clientSupplier=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier))) if (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier) is not None) else (Option_None())),
+        clientSupplier=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier))) if ((input.client_supplier is not None) and (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier) is not None)) else (Option_None())),
         grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in input.grant_tokens]))) if (input.grant_tokens is not None) else (Option_None())),
     )
 
@@ -366,7 +411,7 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsMrkMultiKeyring
     return DafnyCreateAwsKmsMrkMultiKeyringInput(
         generator=((Option_Some(Seq(input.generator))) if (input.generator is not None) else (Option_None())),
         kmsKeyIds=((Option_Some(Seq([Seq(list_element) for list_element in input.kms_key_ids]))) if (input.kms_key_ids is not None) else (Option_None())),
-        clientSupplier=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier))) if (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier) is not None) else (Option_None())),
+        clientSupplier=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier))) if ((input.client_supplier is not None) and (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier) is not None)) else (Option_None())),
         grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in input.grant_tokens]))) if (input.grant_tokens is not None) else (Option_None())),
     )
 
@@ -382,14 +427,14 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryMul
     return DafnyCreateAwsKmsMrkDiscoveryMultiKeyringInput(
         regions=Seq([Seq(list_element) for list_element in input.regions]),
         discoveryFilter=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DiscoveryFilter(input.discovery_filter))) if (input.discovery_filter is not None) else (Option_None())),
-        clientSupplier=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier))) if (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier) is not None) else (Option_None())),
+        clientSupplier=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier))) if ((input.client_supplier is not None) and (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input.client_supplier) is not None)) else (Option_None())),
         grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in input.grant_tokens]))) if (input.grant_tokens is not None) else (Option_None())),
     )
 
 def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsHierarchicalKeyringInput(input):
     return DafnyCreateAwsKmsHierarchicalKeyringInput(
         branchKeyId=((Option_Some(Seq(input.branch_key_id))) if (input.branch_key_id is not None) else (Option_None())),
-        branchKeyIdSupplier=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_BranchKeyIdSupplierReference(input.branch_key_id_supplier))) if (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_BranchKeyIdSupplierReference(input.branch_key_id_supplier) is not None) else (Option_None())),
+        branchKeyIdSupplier=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_BranchKeyIdSupplierReference(input.branch_key_id_supplier))) if ((input.branch_key_id_supplier is not None) and (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_BranchKeyIdSupplierReference(input.branch_key_id_supplier) is not None)) else (Option_None())),
         keyStore=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KeyStoreReference(input.key_store),
         ttlSeconds=input.ttl_seconds,
         cache=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CacheType(input.cache))) if (input.cache is not None) else (Option_None())),
@@ -403,23 +448,55 @@ def SmithyToDafny_aws_cryptography_materialproviders_KeyStoreReference(input):
 
 def SmithyToDafny_aws_cryptography_materialproviders_CacheType(input):
     if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeDefault):
-        CacheType_union_value = CacheType_Default(input.value)
+        CacheType_union_value = CacheType_Default(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DefaultCache(input.value))
     elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeNo):
-        CacheType_union_value = CacheType_No(input.value)
+        CacheType_union_value = CacheType_No(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_NoCache(input.value))
     elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeSingleThreaded):
-        CacheType_union_value = CacheType_SingleThreaded(input.value)
+        CacheType_union_value = CacheType_SingleThreaded(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_SingleThreadedCache(input.value))
     elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeMultiThreaded):
-        CacheType_union_value = CacheType_MultiThreaded(input.value)
+        CacheType_union_value = CacheType_MultiThreaded(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_MultiThreadedCache(input.value))
     elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeStormTracking):
-        CacheType_union_value = CacheType_StormTracking(input.value)
+        CacheType_union_value = CacheType_StormTracking(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_StormTrackingCache(input.value))
     else:
         raise ValueError("No recognized union value in union type: " + input)
 
     return CacheType_union_value
 
+def SmithyToDafny_aws_cryptography_materialproviders_DefaultCache(input):
+    return DafnyDefaultCache(
+        entryCapacity=input.entry_capacity,
+    )
+
+def SmithyToDafny_aws_cryptography_materialproviders_NoCache(input):
+    return DafnyNoCache(
+    )
+
+def SmithyToDafny_aws_cryptography_materialproviders_SingleThreadedCache(input):
+    return DafnySingleThreadedCache(
+        entryCapacity=input.entry_capacity,
+        entryPruningTailSize=((Option_Some(input.entry_pruning_tail_size)) if (input.entry_pruning_tail_size is not None) else (Option_None())),
+    )
+
+def SmithyToDafny_aws_cryptography_materialproviders_MultiThreadedCache(input):
+    return DafnyMultiThreadedCache(
+        entryCapacity=input.entry_capacity,
+        entryPruningTailSize=((Option_Some(input.entry_pruning_tail_size)) if (input.entry_pruning_tail_size is not None) else (Option_None())),
+    )
+
+def SmithyToDafny_aws_cryptography_materialproviders_StormTrackingCache(input):
+    return DafnyStormTrackingCache(
+        entryCapacity=input.entry_capacity,
+        entryPruningTailSize=((Option_Some(input.entry_pruning_tail_size)) if (input.entry_pruning_tail_size is not None) else (Option_None())),
+        gracePeriod=input.grace_period,
+        graceInterval=input.grace_interval,
+        fanOut=input.fan_out,
+        inFlightTTL=input.in_flight_ttl,
+        sleepMilli=input.sleep_milli,
+    )
+
 def SmithyToDafny_aws_cryptography_materialproviders_CreateMultiKeyringInput(input):
     return DafnyCreateMultiKeyringInput(
-        generator=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KeyringReference(input.generator))) if (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KeyringReference(input.generator) is not None) else (Option_None())),
+        generator=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KeyringReference(input.generator))) if ((input.generator is not None) and (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KeyringReference(input.generator) is not None)) else (Option_None())),
         childKeyrings=Seq([aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KeyringReference(list_element) for list_element in input.child_keyrings]),
     )
 
@@ -448,7 +525,7 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput
         publicKey=((Option_Some(Seq(input.public_key))) if (input.public_key is not None) else (Option_None())),
         kmsKeyId=Seq(input.kms_key_id),
         encryptionAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_EncryptionAlgorithmSpec(input.encryption_algorithm),
-        kmsClient=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KmsClientReference(input.kms_client))) if (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KmsClientReference(input.kms_client) is not None) else (Option_None())),
+        kmsClient=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KmsClientReference(input.kms_client))) if ((input.kms_client is not None) and (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KmsClientReference(input.kms_client) is not None)) else (Option_None())),
         grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in input.grant_tokens]))) if (input.grant_tokens is not None) else (Option_None())),
     )
 
@@ -459,8 +536,8 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateDefaultCryptographicM
 
 def SmithyToDafny_aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMInput(input):
     return DafnyCreateRequiredEncryptionContextCMMInput(
-        underlyingCMM=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(input.underlying_cmm))) if (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(input.underlying_cmm) is not None) else (Option_None())),
-        keyring=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KeyringReference(input.keyring))) if (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KeyringReference(input.keyring) is not None) else (Option_None())),
+        underlyingCMM=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(input.underlying_cmm))) if ((input.underlying_cmm is not None) and (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(input.underlying_cmm) is not None)) else (Option_None())),
+        keyring=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KeyringReference(input.keyring))) if ((input.keyring is not None) and (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_KeyringReference(input.keyring) is not None)) else (Option_None())),
         requiredEncryptionContextKeys=Seq([Seq(list_element) for list_element in input.required_encryption_context_keys]),
     )
 

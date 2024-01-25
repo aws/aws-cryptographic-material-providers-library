@@ -30,10 +30,6 @@ class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
         *,
         message: str,
     ):
-        """////////////////
-        :param message: A message associated with the specific error.
-
-        """
         super().__init__(message)
 
     def as_dict(self) -> Dict[str, Any]:

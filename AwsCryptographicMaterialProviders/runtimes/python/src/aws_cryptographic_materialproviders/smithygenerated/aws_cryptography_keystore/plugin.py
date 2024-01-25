@@ -12,9 +12,8 @@ def set_config_impl(config: Config):
     '''
     config.dafnyImplInterface = DafnyImplInterface()
     if isinstance(config, KeyStoreConfig):
-        from software_amazon_cryptography_keystore_internaldafny import KeyStoreClient
-        config.dafnyImplInterface.impl = KeyStoreClient()
-        config.dafnyImplInterface.impl.ctor__(smithy_config_to_dafny_config(config))
+        from software_amazon_cryptography_keystore_internaldafny import default__
+        config.dafnyImplInterface.impl = default__.KeyStore(smithy_config_to_dafny_config(config)).value
     config.retry_strategy = NoRetriesStrategy()
 
 class ZeroRetryDelayToken:

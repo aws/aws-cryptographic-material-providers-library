@@ -432,7 +432,7 @@ class AwsCryptographicMaterialProviders:
     def encryption_materials_has_plaintext_data_key(self, input: EncryptionMaterials) -> Unit:
         """Invokes the EncryptionMaterialsHasPlaintextDataKey operation.
 
-        :param input: ////////////////////////////////
+        :param input: The operation's input.
         """
         return asyncio.run(self._execute_operation(
             input=input,
@@ -560,7 +560,7 @@ class AwsCryptographicMaterialProviders:
                 interceptor.read_before_execution(context)
 
             # Step 1b: Run operation-level plugins
-            config = deepcopy(config)
+            # config = deepcopy(config)
             for plugin in plugins:
                 plugin(config)
 

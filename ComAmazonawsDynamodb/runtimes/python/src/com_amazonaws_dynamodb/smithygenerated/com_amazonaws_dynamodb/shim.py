@@ -469,6 +469,8 @@ class DynamoDBClientShim:
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_ExportTableToPointInTimeOutput(boto_response_dict))
 
     def GetItem(self, input: DafnyGetItemInput) -> DafnyGetItemOutput:
+        print(f"{self=}")
+        print(f"{self._impl=}")
         boto_request_dict = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_GetItemInput(input)
         try:
             boto_response_dict = self._impl.get_item(**boto_request_dict)

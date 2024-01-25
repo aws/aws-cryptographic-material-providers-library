@@ -13,8 +13,6 @@ from ..aws_cryptography_keystore.models import BeaconKeyMaterials, BranchKeyMate
 
 
 class AlgorithmSuiteIdESDK():
-    """////////////////////////////////
-    """
     def __init__(self, value: str):
         self.value = value
 
@@ -3355,9 +3353,6 @@ class EncryptionMaterials:
         signing_key: Optional[bytes | bytearray] = None,
         symmetric_signing_keys: Optional[list[bytes | bytearray]] = None,
     ):
-        """////////////////////////////////
-
-        """
         self.algorithm_suite = algorithm_suite
         self.encryption_context = encryption_context
         self.encrypted_data_keys = encrypted_data_keys
@@ -3450,8 +3445,6 @@ class EncryptionMaterials:
         )
 
 class MaterialsEncryption():
-    """////////////////////////////////
-    """
     def __init__(self, value: EncryptionMaterials):
         self.value = value
 
@@ -3846,8 +3839,6 @@ class UpdateUsageMetadataInput:
         )
 
 class CommitmentPolicyESDK():
-    """//////////
-    """
     def __init__(self, value: str):
         self.value = value
 
@@ -4160,9 +4151,6 @@ class GetEncryptionMaterialsOutput:
         *,
         encryption_materials: EncryptionMaterials,
     ):
-        """
-        :param encryption_materials: ////////////////////////////////
-        """
         self.encryption_materials = encryption_materials
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4469,9 +4457,6 @@ class OnEncryptInput:
         *,
         materials: EncryptionMaterials,
     ):
-        """
-        :param materials: ////////////////////////////////
-        """
         self.materials = materials
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4520,9 +4505,6 @@ class OnEncryptOutput:
         *,
         materials: EncryptionMaterials,
     ):
-        """
-        :param materials: ////////////////////////////////
-        """
         self.materials = materials
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4741,10 +4723,6 @@ class ValidEncryptionMaterialsTransitionInput:
         start: EncryptionMaterials,
         stop: EncryptionMaterials,
     ):
-        """
-        :param start: ////////////////////////////////
-        :param stop: ////////////////////////////////
-        """
         self.start = start
         self.stop = stop
 

@@ -74,8 +74,8 @@ def SmithyToDafny_aws_cryptography_keystore_GetKeyStoreInfoOutput(input):
     )
 
 def SmithyToDafny_aws_cryptography_keystore_KMSConfiguration(input):
-    if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationkmsKeyArn):
-        KMSConfiguration_union_value = KMSConfiguration_kmsKeyArn(input.value)
+    if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationKmsKeyArn):
+        KMSConfiguration_union_value = KMSConfiguration_kmsKeyArn(Seq(input.value))
     else:
         raise ValueError("No recognized union value in union type: " + input)
 
@@ -131,10 +131,10 @@ def SmithyToDafny_aws_cryptography_keystore_KeyStoreConfig(input):
         ddbTableName=Seq(input.ddb_table_name),
         kmsConfiguration=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_KMSConfiguration(input.kms_configuration),
         logicalKeyStoreName=Seq(input.logical_key_store_name),
-        id=Seq(input.id),
-        grantTokens=Seq([Seq(list_element) for list_element in input.grant_tokens]),
-        ddbClient=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_DdbClientReference(input.ddb_client),
-        kmsClient=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_KmsClientReference(input.kms_client),
+        id=((Option_Some(Seq(input.id))) if (input.id is not None) else (Option_None())),
+        grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in input.grant_tokens]))) if (input.grant_tokens is not None) else (Option_None())),
+        ddbClient=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_DdbClientReference(input.ddb_client))) if ((input.ddb_client is not None) and (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_DdbClientReference(input.ddb_client) is not None)) else (Option_None())),
+        kmsClient=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_KmsClientReference(input.kms_client))) if ((input.kms_client is not None) and (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_KmsClientReference(input.kms_client) is not None)) else (Option_None())),
     )
 
 def SmithyToDafny_aws_cryptography_keystore_DdbClientReference(input):

@@ -45,7 +45,7 @@ def DafnyToSmithy_aws_cryptography_keystore_GetBeaconKeyInput(input):
 def DafnyToSmithy_aws_cryptography_keystore_KMSConfiguration(input):
     # Convert KMSConfiguration
     if isinstance(input, KMSConfiguration_kmsKeyArn):
-        KMSConfiguration_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationkmsKeyArn(input.kmsKeyArn)
+        KMSConfiguration_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationKmsKeyArn(input.kmsKeyArn)
     else:
         raise ValueError("No recognized union value in union type: " + input)
 
@@ -120,6 +120,6 @@ def DafnyToSmithy_aws_cryptography_keystore_KeyStoreConfig(input):
         logical_key_store_name=input.logicalKeyStoreName.VerbatimString(False),
         id=(input.id.value.VerbatimString(False)) if (input.id.is_Some) else None,
         grant_tokens=([list_element.VerbatimString(False) for list_element in input.grantTokens.value]) if (input.grantTokens.is_Some) else None,
-        ddb_client=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.DafnyToSmithy_aws_cryptography_keystore_DdbClientReference(input.ddbClient.UnwrapOr(None)),
-        kms_client=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.DafnyToSmithy_aws_cryptography_keystore_KmsClientReference(input.kmsClient.UnwrapOr(None)),
+        ddb_client=(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.DafnyToSmithy_aws_cryptography_keystore_DdbClientReference(input.ddbClient.UnwrapOr(None))) if (input.ddbClient.UnwrapOr(None) is not None) else None,
+        kms_client=(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.DafnyToSmithy_aws_cryptography_keystore_KmsClientReference(input.kmsClient.UnwrapOr(None))) if (input.kmsClient.UnwrapOr(None) is not None) else None,
     )
