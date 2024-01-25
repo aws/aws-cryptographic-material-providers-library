@@ -45,6 +45,15 @@ jobs:
         uses: dafny-lang/setup-dafny-action@v1.6.1
         with:
           dafny-version: ${{ inputs.dafny }}
+
+      - name: Build ${{ matrix.library }} implementation
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          # This works because `node` is installed by default on GHA runners
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make build_java CORES=$CORES
+
       # Check that Java can continue to read its own produced manifest and hand it to .NET
       - name: Setup Java 17
         uses: actions/setup-java@v3

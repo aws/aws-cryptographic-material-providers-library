@@ -54,7 +54,7 @@ jobs:
         uses: dafny-lang/setup-dafny-action@v1.6.1
         with:
           dafny-version: ${{ inputs.dafny }}
-      
+
       - name: Copy over keys.json so that it is discoverable by the tests
         uses: gradle/gradle-build-action@v2
         with:
