@@ -11,7 +11,6 @@ packages = [
 python = "^3.11.0"
 # TODO: Depend on PyPi once Smithy-Python publishes their Python package there
 smithy-python = { path = "../../../submodules/smithy-python/python-packages/smithy-python", develop = false}
-# TODO: Depend on PyPi once Dafny publishes the Dafny Python runtime there
 DafnyRuntimePython = "^4.4.0"
 standard-library = {path = "../../../StandardLibrary/runtimes/python", develop = false}
 cryptography = "^41.0.3"

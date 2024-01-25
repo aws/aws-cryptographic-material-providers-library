@@ -10,7 +10,6 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.11.0"
 pytz = "^2023.3.post1"
-# TODO: Depend on PyPi once Dafny publishes the Dafny Python runtime there
 DafnyRuntimePython = "^4.4.0"
 
 [tool.poetry.group.test.dependencies]
