@@ -83,7 +83,7 @@ module {:options "-functionSyntax:4"} WrappedMaterialProvidersMain {
     // GetOpt GetOptions actually takes care of this for us but Dafny doesn't know so we must have default case.
     case _ => Failure("Received unknown subcommand")
   }
-  
+
   function ParseDecryptCmd(params: seq<OneArg>)
     : (output: Result<MplManifestOptions.ManifestOptions, string>)
     ensures output.Success? ==> output.value.Decrypt?
@@ -93,12 +93,12 @@ module {:options "-functionSyntax:4"} WrappedMaterialProvidersMain {
 
     var manifestPath := if manifestPath?.Some? then manifestPath?.value else ".";
     :- Need(0 < |manifestPath|, "Invalid manifest path length\n");
-    
+
     Success(MplManifestOptions.Decrypt(
               manifestPath := if Seq.Last(manifestPath) == '/' then manifestPath else manifestPath + "/",
               testName := if testName?.Some? then testName?  else None
-    ))
-    
+            ))
+
   }
 
   function ParseEncryptCmd(params: seq<OneArg>)
@@ -108,22 +108,22 @@ module {:options "-functionSyntax:4"} WrappedMaterialProvidersMain {
     var manifestPath? := OptValue(params, "manifest-path");
     var decryptManifestPath? := OptValue(params, "decrypt-manifest-path");
     var testName? := OptValue(params, "test-name");
-    
+
     var manifestPath := if manifestPath?.Some? then manifestPath?.value else ".";
     var decryptManifestPath := if decryptManifestPath?.Some? then decryptManifestPath?.value else ".";
     :- Need(
-      && 0 < |manifestPath|
-      && 0 < |decryptManifestPath|,
-      "Invalid manifest or decrypt manifest path length\n"
-    );
+         && 0 < |manifestPath|
+         && 0 < |decryptManifestPath|,
+         "Invalid manifest or decrypt manifest path length\n"
+       );
 
     Success(MplManifestOptions.Encrypt(
               manifestPath := if Seq.Last(manifestPath) == '/' then manifestPath else manifestPath + "/",
               decryptManifestOutput := if Seq.Last(decryptManifestPath) == '/' then decryptManifestPath else decryptManifestPath + "/",
-              testName := if testName?.Some? then testName? else None     
-    ))
+              testName := if testName?.Some? then testName? else None
+            ))
   }
-  
+
   function ParseEncryptManifestCmd(params: seq<OneArg>)
     : (output: Result<MplManifestOptions.ManifestOptions, string>)
     ensures output.Success? ==> output.value.EncryptManifest?
@@ -131,10 +131,10 @@ module {:options "-functionSyntax:4"} WrappedMaterialProvidersMain {
     var encryptManifestOutput? := OptValue(params, "encrypt-manifest-output");
     var encryptManifestOutput := if encryptManifestOutput?.Some? then encryptManifestOutput?.value else ".";
     :- Need(0 < |encryptManifestOutput|, "Invalid encrypt manifest output length");
-    
+
     Success(MplManifestOptions.EncryptManifest(
               encryptManifestOutput := if Seq.Last(encryptManifestOutput) == '/' then encryptManifestOutput else encryptManifestOutput + "/"
-    ))
+            ))
   }
 
   predicate DecryptSingleOptions?(op: map<string, string>)

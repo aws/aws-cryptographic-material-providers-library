@@ -66,23 +66,23 @@ jobs:
         with:
           arguments: run --args="encrypt-manifest --encrypt-manifest-output ."
           build-root-directory: ./${{ matrix.library }}/runtimes/java
-      
+
       - name: Copy over keys.json so that it is discoverable by the CLI
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: copyKeysJSON 
+          arguments: copyKeysJSON
           build-root-directory: ./${{ matrix.library }}/runtimes/java
-    
+
       - name: Create encrypt manifest
         uses: gradle/gradle-build-action@v2
         with:
           arguments: run --args="encrypt --manifest-path . --decrypt-manifest-path ."
           build-root-directory: ./${{ matrix.library }}/runtimes/java
-    
+
       - name: Decrypt encrypt manifest
         uses: gradle/gradle-build-action@v2
         with:
           arguments: run --args="decrypt --manifest-path ."
           build-root-directory: ./${{ matrix.library }}/runtimes/java
-        
+
       # Check that .NET can continue to read its own produced manifest and hand it to Java
