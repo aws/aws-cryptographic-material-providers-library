@@ -26,5 +26,4 @@ class default__:
 
     def _executor_call(callee, serial_iters, local_num):
         for j in range(0, serial_iters):
-            print("doing the thing")
             callee.call(j, local_num)

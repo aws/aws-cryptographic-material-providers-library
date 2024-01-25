@@ -2,7 +2,7 @@
 name = "aws-cryptographic-material-providers"
 version = "0.1.0"
 description = ""
-authors = ["AWS <aws-arg-dafny@amazon.com>"]
+authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
 packages = [
     { include = "aws_cryptographic_materialproviders", from = "src" },
 ]

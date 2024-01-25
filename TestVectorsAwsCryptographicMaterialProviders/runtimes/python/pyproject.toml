@@ -2,7 +2,7 @@
 name = "amazon-cryptographic-material-providers-test-vectors"
 version = "0.1.0"
 description = ""
-authors = ["AWS <aws-arg-dafny@amazon.com>"]
+authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
 packages = [
     { include = "aws_cryptography_materialproviderstestvectorkeys", from = "src" }
 ]
