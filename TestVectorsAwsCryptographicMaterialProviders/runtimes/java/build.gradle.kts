@@ -97,7 +97,12 @@ tasks.register<JavaExec>("runTests") {
 
 tasks.register<Copy>("copyKeysJSON") {
     from(layout.projectDirectory.file("../../dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json"))
-    into(layout.projectDirectory.dir("./"))
+    into(layout.projectDirectory.dir("dafny/TestVectorsAwsCryptographicMaterialProviders/test"))
+}
+
+tasks.register<Copy>("copyKeysJSONCurr") {
+    from(layout.projectDirectory.file("../../dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json"))
+    into(layout.projectDirectory.dir("."))
 }
 
 application {

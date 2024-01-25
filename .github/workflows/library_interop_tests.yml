@@ -82,7 +82,7 @@ jobs:
       - name: Copy over keys.json so that it is discoverable by the CLI
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: copyKeysJSON
+          arguments: copyKeysJSONCurr
           build-root-directory: ./${{ matrix.library }}/runtimes/java
 
       - name: Create encrypt manifest
