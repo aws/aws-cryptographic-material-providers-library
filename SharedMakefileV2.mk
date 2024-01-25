@@ -352,7 +352,7 @@ format_net-check:
 
 ########################## Java targets
 
-build_java: transpile_java mvn_local_deploy_dependencies
+build_java: transpile_java
 	./runtimes/java/gradlew -p runtimes/java build
 
 transpile_java: | transpile_implementation_java transpile_test_java transpile_dependencies_java
@@ -378,16 +378,6 @@ _mv_test_java:
 
 transpile_dependencies_java: LANG=java
 transpile_dependencies_java: transpile_dependencies
-
-# If we are not StandardLibrary, locally deploy the StandardLibrary.
-# Locally deploy all other dependencies 
-mvn_local_deploy_dependencies:
-	$(if $(strip $(STD_LIBRARY)), $(MAKE) -C $(PROJECT_ROOT)/$(STD_LIBRARY) mvn_local_deploy, )
-	$(patsubst %, $(MAKE) -C $(PROJECT_ROOT)/% mvn_local_deploy;, $(PROJECT_DEPENDENCIES))
-
-# The Java MUST all exist already through the transpile step.
-mvn_local_deploy:
-	./runtimes/java/gradlew -p runtimes/java publishMavenLocalPublicationToMavenLocal 
 
 # The Java MUST all exsist if we want to publish to CodeArtifact
 mvn_ca_deploy:

@@ -51,7 +51,6 @@ if (!caPasswordString.isNullOrBlank()) {
 
 repositories {
     mavenCentral()
-    mavenLocal()
     if (caUrl != null && caPassword != null) {
         maven {
             name = "CodeArtifact"
@@ -67,7 +66,11 @@ repositories {
 dependencies {
     implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
     implementation("software.amazon.smithy.dafny:conversion:0.1")
-    implementation("software.amazon.cryptography:aws-cryptographic-material-providers:1.2.1")
+    implementation("software.amazon.cryptography:aws-cryptographic-material-providers:1.0.1")
+    implementation("software.amazon.cryptography:StandardLibrary:1.0-SNAPSHOT")
+    implementation("software.amazon.cryptography:ComAmazonawsKms:1.0-SNAPSHOT")
+    implementation("software.amazon.cryptography:ComAmazonawsDynamodb:1.0-SNAPSHOT")
+    implementation("software.amazon.cryptography:AwsCryptographyPrimitives:1.0-SNAPSHOT")
     implementation(platform("software.amazon.awssdk:bom:2.19.1"))
     implementation("software.amazon.awssdk:dynamodb")
     implementation("software.amazon.awssdk:dynamodb-enhanced")
@@ -75,17 +78,11 @@ dependencies {
 }
 
 publishing {
-    publications.create<MavenPublication>("mavenLocal") {
-        groupId = group as String?
-        artifactId = description
-        from(components["java"])
-    }
     publications.create<MavenPublication>("maven") {
         groupId = group as String?
         artifactId = description
         from(components["java"])
     }
-    repositories { mavenLocal() }
 }
 
 tasks.withType<JavaCompile>() {
