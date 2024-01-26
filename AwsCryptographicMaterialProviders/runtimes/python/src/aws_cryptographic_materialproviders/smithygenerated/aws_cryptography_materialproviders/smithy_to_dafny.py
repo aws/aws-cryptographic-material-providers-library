@@ -39,8 +39,8 @@ from software_amazon_cryptography_materialproviders_internaldafny_types import (
     CreateRawAesKeyringInput_CreateRawAesKeyringInput as DafnyCreateRawAesKeyringInput,
     CreateRawRsaKeyringInput_CreateRawRsaKeyringInput as DafnyCreateRawRsaKeyringInput,
     CreateRequiredEncryptionContextCMMInput_CreateRequiredEncryptionContextCMMInput as DafnyCreateRequiredEncryptionContextCMMInput,
-    DBEAlgorithmSuiteId_0x6700,
-    DBEAlgorithmSuiteId_0x6701,
+    DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384__SYMSIG__HMAC__SHA384,
+    DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__SYMSIG__HMAC__SHA384,
     DBECommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT,
     DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING as DafnyDIRECT_KEY_WRAPPING,
     DecryptMaterialsInput_DecryptMaterialsInput as DafnyDecryptMaterialsInput,
@@ -53,17 +53,17 @@ from software_amazon_cryptography_materialproviders_internaldafny_types import (
     DerivationAlgorithm_None,
     DiscoveryFilter_DiscoveryFilter as DafnyDiscoveryFilter,
     ECDSA_ECDSA as DafnyECDSA,
-    ESDKAlgorithmSuiteId_0x0014,
-    ESDKAlgorithmSuiteId_0x0046,
-    ESDKAlgorithmSuiteId_0x0078,
-    ESDKAlgorithmSuiteId_0x0114,
-    ESDKAlgorithmSuiteId_0x0146,
-    ESDKAlgorithmSuiteId_0x0178,
-    ESDKAlgorithmSuiteId_0x0214,
-    ESDKAlgorithmSuiteId_0x0346,
-    ESDKAlgorithmSuiteId_0x0378,
-    ESDKAlgorithmSuiteId_0x0478,
-    ESDKAlgorithmSuiteId_0x0578,
+    ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256,
+    ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256__ECDSA__P256,
+    ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__NO__KDF,
+    ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA256,
+    ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384,
+    ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__NO__KDF,
+    ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY,
+    ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384,
+    ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA256,
+    ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384,
+    ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__NO__KDF,
     ESDKCommitmentPolicy_FORBID__ENCRYPT__ALLOW__DECRYPT,
     ESDKCommitmentPolicy_REQUIRE__ENCRYPT__ALLOW__DECRYPT,
     ESDKCommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT,
@@ -268,47 +268,47 @@ def SmithyToDafny_aws_cryptography_materialproviders_DecryptionMaterials(input):
 
 def SmithyToDafny_aws_cryptography_materialproviders_ESDKAlgorithmSuiteId(input):
     if input == 'ALG_AES_128_GCM_IV12_TAG16_NO_KDF':
-        return ESDKAlgorithmSuiteId_0x0014()
+        return ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__NO__KDF()
 
     if input == 'ALG_AES_192_GCM_IV12_TAG16_NO_KDF':
-        return ESDKAlgorithmSuiteId_0x0046()
+        return ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__NO__KDF()
 
     if input == 'ALG_AES_256_GCM_IV12_TAG16_NO_KDF':
-        return ESDKAlgorithmSuiteId_0x0078()
+        return ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__NO__KDF()
 
     if input == 'ALG_AES_128_GCM_IV12_TAG16_HKDF_SHA256':
-        return ESDKAlgorithmSuiteId_0x0114()
+        return ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256()
 
     if input == 'ALG_AES_192_GCM_IV12_TAG16_HKDF_SHA256':
-        return ESDKAlgorithmSuiteId_0x0146()
+        return ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA256()
 
     if input == 'ALG_AES_256_GCM_IV12_TAG16_HKDF_SHA256':
-        return ESDKAlgorithmSuiteId_0x0178()
+        return ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA256()
 
     if input == 'ALG_AES_128_GCM_IV12_TAG16_HKDF_SHA256_ECDSA_P256':
-        return ESDKAlgorithmSuiteId_0x0214()
+        return ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256__ECDSA__P256()
 
     if input == 'ALG_AES_192_GCM_IV12_TAG16_HKDF_SHA384_ECDSA_P384':
-        return ESDKAlgorithmSuiteId_0x0346()
+        return ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384()
 
     if input == 'ALG_AES_256_GCM_IV12_TAG16_HKDF_SHA384_ECDSA_P384':
-        return ESDKAlgorithmSuiteId_0x0378()
+        return ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384()
 
     if input == 'ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY':
-        return ESDKAlgorithmSuiteId_0x0478()
+        return ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY()
 
     if input == 'ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY_ECDSA_P384':
-        return ESDKAlgorithmSuiteId_0x0578()
+        return ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384()
 
     else:
         raise ValueError(f'No recognized enum value in enum type: {input=}')
 
 def SmithyToDafny_aws_cryptography_materialproviders_DBEAlgorithmSuiteId(input):
     if input == 'ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY_SYMSIG_HMAC_SHA384':
-        return DBEAlgorithmSuiteId_0x6700()
+        return DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__SYMSIG__HMAC__SHA384()
 
     if input == 'ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY_ECDSA_P384_SYMSIG_HMAC_SHA384':
-        return DBEAlgorithmSuiteId_0x6701()
+        return DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384__SYMSIG__HMAC__SHA384()
 
     else:
         raise ValueError(f'No recognized enum value in enum type: {input=}')
