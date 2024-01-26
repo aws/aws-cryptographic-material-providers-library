@@ -62,7 +62,7 @@ def DafnyToSmithy_aws_cryptography_materialproviders_Materials(input):
     elif isinstance(input, Materials_BeaconKey):
         Materials_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.MaterialsBeaconKey(input.BeaconKey)
     else:
-        raise ValueError("No recognized union value in union type: " + input)
+        raise ValueError("No recognized union value in union type: " + str(input))
 
     return Materials_union_value
 
@@ -104,7 +104,7 @@ def DafnyToSmithy_aws_cryptography_materialproviders_AlgorithmSuiteId(input):
     elif isinstance(input, AlgorithmSuiteId_DBE):
         AlgorithmSuiteId_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.AlgorithmSuiteIdDBE(input.DBE)
     else:
-        raise ValueError("No recognized union value in union type: " + input)
+        raise ValueError("No recognized union value in union type: " + str(input))
 
     return AlgorithmSuiteId_union_value
 
@@ -113,7 +113,7 @@ def DafnyToSmithy_aws_cryptography_materialproviders_Encrypt(input):
     if isinstance(input, Encrypt_AES__GCM):
         Encrypt_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EncryptAES_GCM(input.AES_GCM)
     else:
-        raise ValueError("No recognized union value in union type: " + input)
+        raise ValueError("No recognized union value in union type: " + str(input))
 
     return Encrypt_union_value
 
@@ -126,7 +126,7 @@ def DafnyToSmithy_aws_cryptography_materialproviders_DerivationAlgorithm(input):
     elif isinstance(input, DerivationAlgorithm_None):
         DerivationAlgorithm_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DerivationAlgorithmNone(input.None_)
     else:
-        raise ValueError("No recognized union value in union type: " + input)
+        raise ValueError("No recognized union value in union type: " + str(input))
 
     return DerivationAlgorithm_union_value
 
@@ -137,7 +137,7 @@ def DafnyToSmithy_aws_cryptography_materialproviders_SignatureAlgorithm(input):
     elif isinstance(input, SignatureAlgorithm_None):
         SignatureAlgorithm_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.SignatureAlgorithmNone(input.None_)
     else:
-        raise ValueError("No recognized union value in union type: " + input)
+        raise ValueError("No recognized union value in union type: " + str(input))
 
     return SignatureAlgorithm_union_value
 
@@ -148,7 +148,7 @@ def DafnyToSmithy_aws_cryptography_materialproviders_SymmetricSignatureAlgorithm
     elif isinstance(input, SymmetricSignatureAlgorithm_None):
         SymmetricSignatureAlgorithm_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.SymmetricSignatureAlgorithmNone(input.None_)
     else:
-        raise ValueError("No recognized union value in union type: " + input)
+        raise ValueError("No recognized union value in union type: " + str(input))
 
     return SymmetricSignatureAlgorithm_union_value
 
@@ -159,7 +159,7 @@ def DafnyToSmithy_aws_cryptography_materialproviders_EdkWrappingAlgorithm(input)
     elif isinstance(input, EdkWrappingAlgorithm_IntermediateKeyWrapping):
         EdkWrappingAlgorithm_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EdkWrappingAlgorithmIntermediateKeyWrapping(input.IntermediateKeyWrapping)
     else:
-        raise ValueError("No recognized union value in union type: " + input)
+        raise ValueError("No recognized union value in union type: " + str(input))
 
     return EdkWrappingAlgorithm_union_value
 
@@ -252,7 +252,7 @@ def DafnyToSmithy_aws_cryptography_materialproviders_CommitmentPolicy(input):
     elif isinstance(input, CommitmentPolicy_DBE):
         CommitmentPolicy_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CommitmentPolicyDBE(input.DBE)
     else:
-        raise ValueError("No recognized union value in union type: " + input)
+        raise ValueError("No recognized union value in union type: " + str(input))
 
     return CommitmentPolicy_union_value
 
@@ -397,7 +397,7 @@ def DafnyToSmithy_aws_cryptography_materialproviders_CacheType(input):
     elif isinstance(input, CacheType_StormTracking):
         CacheType_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeStormTracking(input.StormTracking)
     else:
-        raise ValueError("No recognized union value in union type: " + input)
+        raise ValueError("No recognized union value in union type: " + str(input))
 
     return CacheType_union_value
 

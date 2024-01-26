@@ -47,7 +47,7 @@ def DafnyToSmithy_aws_cryptography_keystore_KMSConfiguration(input):
     if isinstance(input, KMSConfiguration_kmsKeyArn):
         KMSConfiguration_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationKmsKeyArn(input.kmsKeyArn)
     else:
-        raise ValueError("No recognized union value in union type: " + input)
+        raise ValueError("No recognized union value in union type: " + str(input))
 
     return KMSConfiguration_union_value
 

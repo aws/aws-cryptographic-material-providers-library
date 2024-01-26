@@ -9,6 +9,9 @@ import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.s
 import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny
 import module_
 from software_amazon_cryptography_materialproviders_internaldafny_types import (
+    AesWrappingAlg_ALG__AES128__GCM__IV12__TAG16,
+    AesWrappingAlg_ALG__AES192__GCM__IV12__TAG16,
+    AesWrappingAlg_ALG__AES256__GCM__IV12__TAG16,
     AlgorithmSuiteId_DBE,
     AlgorithmSuiteId_ESDK,
     AlgorithmSuiteInfo_AlgorithmSuiteInfo as DafnyAlgorithmSuiteInfo,
@@ -36,6 +39,9 @@ from software_amazon_cryptography_materialproviders_internaldafny_types import (
     CreateRawAesKeyringInput_CreateRawAesKeyringInput as DafnyCreateRawAesKeyringInput,
     CreateRawRsaKeyringInput_CreateRawRsaKeyringInput as DafnyCreateRawRsaKeyringInput,
     CreateRequiredEncryptionContextCMMInput_CreateRequiredEncryptionContextCMMInput as DafnyCreateRequiredEncryptionContextCMMInput,
+    DBEAlgorithmSuiteId_0x6700,
+    DBEAlgorithmSuiteId_0x6701,
+    DBECommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT,
     DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING as DafnyDIRECT_KEY_WRAPPING,
     DecryptMaterialsInput_DecryptMaterialsInput as DafnyDecryptMaterialsInput,
     DecryptMaterialsOutput_DecryptMaterialsOutput as DafnyDecryptMaterialsOutput,
@@ -47,6 +53,20 @@ from software_amazon_cryptography_materialproviders_internaldafny_types import (
     DerivationAlgorithm_None,
     DiscoveryFilter_DiscoveryFilter as DafnyDiscoveryFilter,
     ECDSA_ECDSA as DafnyECDSA,
+    ESDKAlgorithmSuiteId_0x0014,
+    ESDKAlgorithmSuiteId_0x0046,
+    ESDKAlgorithmSuiteId_0x0078,
+    ESDKAlgorithmSuiteId_0x0114,
+    ESDKAlgorithmSuiteId_0x0146,
+    ESDKAlgorithmSuiteId_0x0178,
+    ESDKAlgorithmSuiteId_0x0214,
+    ESDKAlgorithmSuiteId_0x0346,
+    ESDKAlgorithmSuiteId_0x0378,
+    ESDKAlgorithmSuiteId_0x0478,
+    ESDKAlgorithmSuiteId_0x0578,
+    ESDKCommitmentPolicy_FORBID__ENCRYPT__ALLOW__DECRYPT,
+    ESDKCommitmentPolicy_REQUIRE__ENCRYPT__ALLOW__DECRYPT,
+    ESDKCommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT,
     EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING,
     EdkWrappingAlgorithm_IntermediateKeyWrapping,
     Encrypt_AES__GCM,
@@ -76,6 +96,11 @@ from software_amazon_cryptography_materialproviders_internaldafny_types import (
     OnDecryptOutput_OnDecryptOutput as DafnyOnDecryptOutput,
     OnEncryptInput_OnEncryptInput as DafnyOnEncryptInput,
     OnEncryptOutput_OnEncryptOutput as DafnyOnEncryptOutput,
+    PaddingScheme_OAEP__SHA1__MGF1,
+    PaddingScheme_OAEP__SHA256__MGF1,
+    PaddingScheme_OAEP__SHA384__MGF1,
+    PaddingScheme_OAEP__SHA512__MGF1,
+    PaddingScheme_PKCS1,
     PutCacheEntryInput_PutCacheEntryInput as DafnyPutCacheEntryInput,
     SignatureAlgorithm_ECDSA,
     SignatureAlgorithm_None,
@@ -136,7 +161,7 @@ def SmithyToDafny_aws_cryptography_materialproviders_Materials(input):
     elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.MaterialsBeaconKey):
         Materials_union_value = Materials_BeaconKey(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_BeaconKeyMaterials(input.value))
     else:
-        raise ValueError("No recognized union value in union type: " + input)
+        raise ValueError("No recognized union value in union type: " + str(input))
 
     return Materials_union_value
 
@@ -173,11 +198,11 @@ def SmithyToDafny_aws_cryptography_materialproviders_EncryptedDataKey(input):
 
 def SmithyToDafny_aws_cryptography_materialproviders_AlgorithmSuiteId(input):
     if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.AlgorithmSuiteIdESDK):
-        AlgorithmSuiteId_union_value = AlgorithmSuiteId_ESDK(input.value)
+        AlgorithmSuiteId_union_value = AlgorithmSuiteId_ESDK(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ESDKAlgorithmSuiteId(input.value))
     elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.AlgorithmSuiteIdDBE):
-        AlgorithmSuiteId_union_value = AlgorithmSuiteId_DBE(input.value)
+        AlgorithmSuiteId_union_value = AlgorithmSuiteId_DBE(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DBEAlgorithmSuiteId(input.value))
     else:
-        raise ValueError("No recognized union value in union type: " + input)
+        raise ValueError("No recognized union value in union type: " + str(input))
 
     return AlgorithmSuiteId_union_value
 
@@ -185,7 +210,7 @@ def SmithyToDafny_aws_cryptography_materialproviders_Encrypt(input):
     if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EncryptAES_GCM):
         Encrypt_union_value = Encrypt_AES__GCM(aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.SmithyToDafny_aws_cryptography_primitives_AES_GCM(input.value))
     else:
-        raise ValueError("No recognized union value in union type: " + input)
+        raise ValueError("No recognized union value in union type: " + str(input))
 
     return Encrypt_union_value
 
@@ -197,7 +222,7 @@ def SmithyToDafny_aws_cryptography_materialproviders_DerivationAlgorithm(input):
     elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DerivationAlgorithmNone):
         DerivationAlgorithm_union_value = DerivationAlgorithm_None(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_None(input.value))
     else:
-        raise ValueError("No recognized union value in union type: " + input)
+        raise ValueError("No recognized union value in union type: " + str(input))
 
     return DerivationAlgorithm_union_value
 
@@ -207,17 +232,17 @@ def SmithyToDafny_aws_cryptography_materialproviders_SignatureAlgorithm(input):
     elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.SignatureAlgorithmNone):
         SignatureAlgorithm_union_value = SignatureAlgorithm_None(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_None(input.value))
     else:
-        raise ValueError("No recognized union value in union type: " + input)
+        raise ValueError("No recognized union value in union type: " + str(input))
 
     return SignatureAlgorithm_union_value
 
 def SmithyToDafny_aws_cryptography_materialproviders_SymmetricSignatureAlgorithm(input):
     if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.SymmetricSignatureAlgorithmHMAC):
-        SymmetricSignatureAlgorithm_union_value = SymmetricSignatureAlgorithm_HMAC(input.value)
+        SymmetricSignatureAlgorithm_union_value = SymmetricSignatureAlgorithm_HMAC(aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.SmithyToDafny_aws_cryptography_primitives_DigestAlgorithm(input.value))
     elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.SymmetricSignatureAlgorithmNone):
         SymmetricSignatureAlgorithm_union_value = SymmetricSignatureAlgorithm_None(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_None(input.value))
     else:
-        raise ValueError("No recognized union value in union type: " + input)
+        raise ValueError("No recognized union value in union type: " + str(input))
 
     return SymmetricSignatureAlgorithm_union_value
 
@@ -227,7 +252,7 @@ def SmithyToDafny_aws_cryptography_materialproviders_EdkWrappingAlgorithm(input)
     elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EdkWrappingAlgorithmIntermediateKeyWrapping):
         EdkWrappingAlgorithm_union_value = EdkWrappingAlgorithm_IntermediateKeyWrapping(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_IntermediateKeyWrapping(input.value))
     else:
-        raise ValueError("No recognized union value in union type: " + input)
+        raise ValueError("No recognized union value in union type: " + str(input))
 
     return EdkWrappingAlgorithm_union_value
 
@@ -241,9 +266,56 @@ def SmithyToDafny_aws_cryptography_materialproviders_DecryptionMaterials(input):
         symmetricSigningKey=((Option_Some(Seq(input.symmetric_signing_key))) if (input.symmetric_signing_key is not None) else (Option_None())),
     )
 
+def SmithyToDafny_aws_cryptography_materialproviders_ESDKAlgorithmSuiteId(input):
+    if input == '0x0014':
+        return ESDKAlgorithmSuiteId_0x0014()
+
+    if input == '0x0046':
+        return ESDKAlgorithmSuiteId_0x0046()
+
+    if input == '0x0078':
+        return ESDKAlgorithmSuiteId_0x0078()
+
+    if input == '0x0114':
+        return ESDKAlgorithmSuiteId_0x0114()
+
+    if input == '0x0146':
+        return ESDKAlgorithmSuiteId_0x0146()
+
+    if input == '0x0178':
+        return ESDKAlgorithmSuiteId_0x0178()
+
+    if input == '0x0214':
+        return ESDKAlgorithmSuiteId_0x0214()
+
+    if input == '0x0346':
+        return ESDKAlgorithmSuiteId_0x0346()
+
+    if input == '0x0378':
+        return ESDKAlgorithmSuiteId_0x0378()
+
+    if input == '0x0478':
+        return ESDKAlgorithmSuiteId_0x0478()
+
+    if input == '0x0578':
+        return ESDKAlgorithmSuiteId_0x0578()
+
+    else:
+        raise ValueError(f'No recognized enum value in enum type: {input=}')
+
+def SmithyToDafny_aws_cryptography_materialproviders_DBEAlgorithmSuiteId(input):
+    if input == '0x6700':
+        return DBEAlgorithmSuiteId_0x6700()
+
+    if input == '0x6701':
+        return DBEAlgorithmSuiteId_0x6701()
+
+    else:
+        raise ValueError(f'No recognized enum value in enum type: {input=}')
+
 def SmithyToDafny_aws_cryptography_materialproviders_HKDF(input):
     return DafnyHKDF(
-        hmac=input.hmac,
+        hmac=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.SmithyToDafny_aws_cryptography_primitives_DigestAlgorithm(input.hmac),
         saltLength=input.salt_length,
         inputKeyLength=input.input_key_length,
         outputKeyLength=input.output_key_length,
@@ -259,7 +331,7 @@ def SmithyToDafny_aws_cryptography_materialproviders_None(input):
 
 def SmithyToDafny_aws_cryptography_materialproviders_ECDSA(input):
     return DafnyECDSA(
-        curve=input.curve,
+        curve=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.SmithyToDafny_aws_cryptography_primitives_ECDSASignatureAlgorithm(input.curve),
     )
 
 def SmithyToDafny_aws_cryptography_materialproviders_DIRECT_KEY_WRAPPING(input):
@@ -313,13 +385,33 @@ def SmithyToDafny_aws_cryptography_materialproviders_GetEncryptionMaterialsInput
 
 def SmithyToDafny_aws_cryptography_materialproviders_CommitmentPolicy(input):
     if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CommitmentPolicyESDK):
-        CommitmentPolicy_union_value = CommitmentPolicy_ESDK(input.value)
+        CommitmentPolicy_union_value = CommitmentPolicy_ESDK(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ESDKCommitmentPolicy(input.value))
     elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CommitmentPolicyDBE):
-        CommitmentPolicy_union_value = CommitmentPolicy_DBE(input.value)
+        CommitmentPolicy_union_value = CommitmentPolicy_DBE(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DBECommitmentPolicy(input.value))
     else:
-        raise ValueError("No recognized union value in union type: " + input)
+        raise ValueError("No recognized union value in union type: " + str(input))
 
     return CommitmentPolicy_union_value
+
+def SmithyToDafny_aws_cryptography_materialproviders_ESDKCommitmentPolicy(input):
+    if input == 'FORBID_ENCRYPT_ALLOW_DECRYPT':
+        return ESDKCommitmentPolicy_FORBID__ENCRYPT__ALLOW__DECRYPT()
+
+    if input == 'REQUIRE_ENCRYPT_ALLOW_DECRYPT':
+        return ESDKCommitmentPolicy_REQUIRE__ENCRYPT__ALLOW__DECRYPT()
+
+    if input == 'REQUIRE_ENCRYPT_REQUIRE_DECRYPT':
+        return ESDKCommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT()
+
+    else:
+        raise ValueError(f'No recognized enum value in enum type: {input=}')
+
+def SmithyToDafny_aws_cryptography_materialproviders_DBECommitmentPolicy(input):
+    if input == 'REQUIRE_ENCRYPT_REQUIRE_DECRYPT':
+        return DBECommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT()
+
+    else:
+        raise ValueError(f'No recognized enum value in enum type: {input=}')
 
 def SmithyToDafny_aws_cryptography_materialproviders_GetEncryptionMaterialsOutput(input):
     return DafnyGetEncryptionMaterialsOutput(
@@ -458,7 +550,7 @@ def SmithyToDafny_aws_cryptography_materialproviders_CacheType(input):
     elif isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CacheTypeStormTracking):
         CacheType_union_value = CacheType_StormTracking(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_StormTrackingCache(input.value))
     else:
-        raise ValueError("No recognized union value in union type: " + input)
+        raise ValueError("No recognized union value in union type: " + str(input))
 
     return CacheType_union_value
 
@@ -508,17 +600,49 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateRawAesKeyringInput(in
         keyNamespace=Seq(input.key_namespace),
         keyName=Seq(input.key_name),
         wrappingKey=Seq(input.wrapping_key),
-        wrappingAlg=input.wrapping_alg,
+        wrappingAlg=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_AesWrappingAlg(input.wrapping_alg),
     )
+
+def SmithyToDafny_aws_cryptography_materialproviders_AesWrappingAlg(input):
+    if input == 'ALG_AES128_GCM_IV12_TAG16':
+        return AesWrappingAlg_ALG__AES128__GCM__IV12__TAG16()
+
+    if input == 'ALG_AES192_GCM_IV12_TAG16':
+        return AesWrappingAlg_ALG__AES192__GCM__IV12__TAG16()
+
+    if input == 'ALG_AES256_GCM_IV12_TAG16':
+        return AesWrappingAlg_ALG__AES256__GCM__IV12__TAG16()
+
+    else:
+        raise ValueError(f'No recognized enum value in enum type: {input=}')
 
 def SmithyToDafny_aws_cryptography_materialproviders_CreateRawRsaKeyringInput(input):
     return DafnyCreateRawRsaKeyringInput(
         keyNamespace=Seq(input.key_namespace),
         keyName=Seq(input.key_name),
-        paddingScheme=input.padding_scheme,
+        paddingScheme=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_PaddingScheme(input.padding_scheme),
         publicKey=((Option_Some(Seq(input.public_key))) if (input.public_key is not None) else (Option_None())),
         privateKey=((Option_Some(Seq(input.private_key))) if (input.private_key is not None) else (Option_None())),
     )
+
+def SmithyToDafny_aws_cryptography_materialproviders_PaddingScheme(input):
+    if input == 'PKCS1':
+        return PaddingScheme_PKCS1()
+
+    if input == 'OAEP_SHA1_MGF1':
+        return PaddingScheme_OAEP__SHA1__MGF1()
+
+    if input == 'OAEP_SHA256_MGF1':
+        return PaddingScheme_OAEP__SHA256__MGF1()
+
+    if input == 'OAEP_SHA384_MGF1':
+        return PaddingScheme_OAEP__SHA384__MGF1()
+
+    if input == 'OAEP_SHA512_MGF1':
+        return PaddingScheme_OAEP__SHA512__MGF1()
+
+    else:
+        raise ValueError(f'No recognized enum value in enum type: {input=}')
 
 def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(input):
     return DafnyCreateAwsKmsRsaKeyringInput(
