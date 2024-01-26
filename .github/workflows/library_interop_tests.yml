@@ -95,16 +95,10 @@ jobs:
           build-root-directory: ./${{ matrix.library }}/runtimes/java
 
       - name: Create encrypt manifest
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: run --args="encrypt --manifest-path . --decrypt-manifest-path ."
-          build-root-directory: ./${{ matrix.library }}/runtimes/java
+        run: gradle -p ./${{ matrix.library }}/runtimes/java run --args="encrypt --manifest-path . --decrypt-manifest-path ."
 
       - name: Decrypt encrypt manifest
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: run --args="decrypt --manifest-path ."
-          build-root-directory: ./${{ matrix.library }}/runtimes/java
+        run: gradle -p ./${{ matrix.library }}/runtimes/java run --args="decrypt --manifest-path ."
 
       - name: .NET decrypt Java's encrypt manifest
         working-directory: ./${{ matrix.library }}
@@ -136,8 +130,5 @@ jobs:
             dotnet run --project runtimes/net --framework net6.0 decrypt --manifest-path runtimes/net
     
       - name: Java Decrypt .NET's encrypt manifest
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: run --args="decrypt --manifest-path ../net"
-          build-root-directory: ./${{ matrix.library }}/runtimes/java
+        run: gradle -p ./${{ matrix.library }}/runtimes/java run --args="decrypt --manifest-path ../net"
 
