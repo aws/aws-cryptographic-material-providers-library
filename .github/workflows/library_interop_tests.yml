@@ -75,19 +75,18 @@ jobs:
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_net
+      
+      - name: Setup gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+            gradle-version: 7.2
      
       # Check that Java can continue to read its own produced manifest and hand it to .NET
       - name: Compile Java 17
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: build
-          build-root-directory: ./${{ matrix.library }}/runtimes/java
+        run: gradle -p ./${{ matrix.library }}/runtimes/java build
 
       - name: Create a manifest for Java to read and write
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: -p runtimes/java run --args="encrypt-manifest --encrypt-manifest-output ."
-          build-root-directory: ./${{ matrix.library }}
+        run: gradle -p ./${{ matrix.library }}/runtimes/java run --args="encrypt-manifest --encrypt-manifest-output ."
 
       - name: Copy over keys.json so that it is discoverable by the CLI
         uses: gradle/gradle-build-action@v2
