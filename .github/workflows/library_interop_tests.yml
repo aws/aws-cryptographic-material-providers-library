@@ -85,19 +85,23 @@ jobs:
       - name: Compile Java 17
         run: gradle -p ./${{ matrix.library }}/runtimes/java build
 
-      - name: Create a manifest for Java to read and write
+      - name: Java create manifest
         run: gradle -p ./${{ matrix.library }}/runtimes/java run --args="encrypt-manifest --encrypt-manifest-output ."
 
-      - name: Copy over keys.json so that it is discoverable by the CLI
+      - name: Copy over keys.json so that it is discoverable by the CLI for Java tests
         uses: gradle/gradle-build-action@v2
         with:
           arguments: copyKeysJSONCurr
           build-root-directory: ./${{ matrix.library }}/runtimes/java
 
-      - name: Create encrypt manifest
+      - name: Copy over keys.json so that it is discoverable by the CLI for .NET tests
+        working-directory: ./${{ matrix.library }}
+        run: cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/net
+
+      - name: Java create encrypt manifest
         run: gradle -p ./${{ matrix.library }}/runtimes/java run --args="encrypt --manifest-path . --decrypt-manifest-path ."
 
-      - name: Decrypt encrypt manifest
+      - name: Java decrypt encrypt manifest
         run: gradle -p ./${{ matrix.library }}/runtimes/java run --args="decrypt --manifest-path ."
 
       - name: .NET decrypt Java's encrypt manifest
