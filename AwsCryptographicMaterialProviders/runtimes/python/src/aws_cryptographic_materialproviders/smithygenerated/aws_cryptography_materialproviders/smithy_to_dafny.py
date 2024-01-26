@@ -267,47 +267,47 @@ def SmithyToDafny_aws_cryptography_materialproviders_DecryptionMaterials(input):
     )
 
 def SmithyToDafny_aws_cryptography_materialproviders_ESDKAlgorithmSuiteId(input):
-    if input == '0x0014':
+    if input == 'ALG_AES_128_GCM_IV12_TAG16_NO_KDF':
         return ESDKAlgorithmSuiteId_0x0014()
 
-    if input == '0x0046':
+    if input == 'ALG_AES_192_GCM_IV12_TAG16_NO_KDF':
         return ESDKAlgorithmSuiteId_0x0046()
 
-    if input == '0x0078':
+    if input == 'ALG_AES_256_GCM_IV12_TAG16_NO_KDF':
         return ESDKAlgorithmSuiteId_0x0078()
 
-    if input == '0x0114':
+    if input == 'ALG_AES_128_GCM_IV12_TAG16_HKDF_SHA256':
         return ESDKAlgorithmSuiteId_0x0114()
 
-    if input == '0x0146':
+    if input == 'ALG_AES_192_GCM_IV12_TAG16_HKDF_SHA256':
         return ESDKAlgorithmSuiteId_0x0146()
 
-    if input == '0x0178':
+    if input == 'ALG_AES_256_GCM_IV12_TAG16_HKDF_SHA256':
         return ESDKAlgorithmSuiteId_0x0178()
 
-    if input == '0x0214':
+    if input == 'ALG_AES_128_GCM_IV12_TAG16_HKDF_SHA256_ECDSA_P256':
         return ESDKAlgorithmSuiteId_0x0214()
 
-    if input == '0x0346':
+    if input == 'ALG_AES_192_GCM_IV12_TAG16_HKDF_SHA384_ECDSA_P384':
         return ESDKAlgorithmSuiteId_0x0346()
 
-    if input == '0x0378':
+    if input == 'ALG_AES_256_GCM_IV12_TAG16_HKDF_SHA384_ECDSA_P384':
         return ESDKAlgorithmSuiteId_0x0378()
 
-    if input == '0x0478':
+    if input == 'ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY':
         return ESDKAlgorithmSuiteId_0x0478()
 
-    if input == '0x0578':
+    if input == 'ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY_ECDSA_P384':
         return ESDKAlgorithmSuiteId_0x0578()
 
     else:
         raise ValueError(f'No recognized enum value in enum type: {input=}')
 
 def SmithyToDafny_aws_cryptography_materialproviders_DBEAlgorithmSuiteId(input):
-    if input == '0x6700':
+    if input == 'ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY_SYMSIG_HMAC_SHA384':
         return DBEAlgorithmSuiteId_0x6700()
 
-    if input == '0x6701':
+    if input == 'ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY_ECDSA_P384_SYMSIG_HMAC_SHA384':
         return DBEAlgorithmSuiteId_0x6701()
 
     else:
