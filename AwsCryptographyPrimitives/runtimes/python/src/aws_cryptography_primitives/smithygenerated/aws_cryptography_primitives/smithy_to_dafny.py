@@ -55,13 +55,13 @@ def SmithyToDafny_aws_cryptography_primitives_DigestInput(input):
     )
 
 def SmithyToDafny_aws_cryptography_primitives_DigestAlgorithm(input):
-    if input == 'SHA_512':
+    if input == SHA_512:
         return DigestAlgorithm_SHA__512()
 
-    elif input == 'SHA_384':
+    elif input == SHA_384:
         return DigestAlgorithm_SHA__384()
 
-    elif input == 'SHA_256':
+    elif input == SHA_256:
         return DigestAlgorithm_SHA__256()
 
     else:
@@ -158,19 +158,19 @@ def SmithyToDafny_aws_cryptography_primitives_RSADecryptInput(input):
     )
 
 def SmithyToDafny_aws_cryptography_primitives_RSAPaddingMode(input):
-    if input == 'PKCS1':
+    if input == PKCS1:
         return RSAPaddingMode_PKCS1()
 
-    elif input == 'OAEP_SHA1':
+    elif input == OAEP_SHA1:
         return RSAPaddingMode_OAEP__SHA1()
 
-    elif input == 'OAEP_SHA256':
+    elif input == OAEP_SHA256:
         return RSAPaddingMode_OAEP__SHA256()
 
-    elif input == 'OAEP_SHA384':
+    elif input == OAEP_SHA384:
         return RSAPaddingMode_OAEP__SHA384()
 
-    elif input == 'OAEP_SHA512':
+    elif input == OAEP_SHA512:
         return RSAPaddingMode_OAEP__SHA512()
 
     else:
@@ -189,10 +189,10 @@ def SmithyToDafny_aws_cryptography_primitives_GenerateECDSASignatureKeyInput(inp
     )
 
 def SmithyToDafny_aws_cryptography_primitives_ECDSASignatureAlgorithm(input):
-    if input == 'ECDSA_P384':
+    if input == ECDSA_P384:
         return ECDSASignatureAlgorithm_ECDSA__P384()
 
-    elif input == 'ECDSA_P256':
+    elif input == ECDSA_P256:
         return ECDSASignatureAlgorithm_ECDSA__P256()
 
     else:
