@@ -40,7 +40,7 @@ def SmithyToDafny_aws_cryptography_keystore_CreateKeyStoreInput(input):
 def SmithyToDafny_aws_cryptography_keystore_CreateKeyInput(input):
     return DafnyCreateKeyInput(
         branchKeyIdentifier=((Option_Some(Seq(input.branch_key_identifier))) if (input.branch_key_identifier is not None) else (Option_None())),
-        encryptionContext=((Option_Some(Map({Seq(list(key)): Seq(list(value)) for (key, value) in input.encryption_context.items() }))) if (input.encryption_context is not None) else (Option_None())),
+        encryptionContext=((Option_Some(Map({Seq(list(ord(c) for c in key)): Seq(list(ord(c) for c in value)) for (key, value) in input.encryption_context.items() }))) if (input.encryption_context is not None) else (Option_None())),
     )
 
 def SmithyToDafny_aws_cryptography_keystore_VersionKeyInput(input):
@@ -103,8 +103,8 @@ def SmithyToDafny_aws_cryptography_keystore_GetActiveBranchKeyOutput(input):
 def SmithyToDafny_aws_cryptography_keystore_BranchKeyMaterials(input):
     return DafnyBranchKeyMaterials(
         branchKeyIdentifier=Seq(input.branch_key_identifier),
-        branchKeyVersion=Seq(list(input.branch_key_version)),
-        encryptionContext=Map({Seq(list(key)): Seq(list(value)) for (key, value) in input.encryption_context.items() }),
+        branchKeyVersion=Seq(list(ord(c) for c in input.branch_key_version)),
+        encryptionContext=Map({Seq(list(ord(c) for c in key)): Seq(list(ord(c) for c in value)) for (key, value) in input.encryption_context.items() }),
         branchKey=Seq(input.branch_key),
     )
 
@@ -121,7 +121,7 @@ def SmithyToDafny_aws_cryptography_keystore_GetBeaconKeyOutput(input):
 def SmithyToDafny_aws_cryptography_keystore_BeaconKeyMaterials(input):
     return DafnyBeaconKeyMaterials(
         beaconKeyIdentifier=Seq(input.beacon_key_identifier),
-        encryptionContext=Map({Seq(list(key)): Seq(list(value)) for (key, value) in input.encryption_context.items() }),
+        encryptionContext=Map({Seq(list(ord(c) for c in key)): Seq(list(ord(c) for c in value)) for (key, value) in input.encryption_context.items() }),
         beaconKey=((Option_Some(Seq(input.beacon_key))) if (input.beacon_key is not None) else (Option_None())),
         hmacKeys=((Option_Some(Map({Seq(key): Seq(value) for (key, value) in input.hmac_keys.items() }))) if (input.hmac_keys is not None) else (Option_None())),
     )
