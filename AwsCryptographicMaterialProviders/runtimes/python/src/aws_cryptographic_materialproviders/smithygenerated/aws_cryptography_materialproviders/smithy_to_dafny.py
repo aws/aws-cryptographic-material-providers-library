@@ -270,34 +270,34 @@ def SmithyToDafny_aws_cryptography_materialproviders_ESDKAlgorithmSuiteId(input)
     if input == 'ALG_AES_128_GCM_IV12_TAG16_NO_KDF':
         return ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__NO__KDF()
 
-    if input == 'ALG_AES_192_GCM_IV12_TAG16_NO_KDF':
+    elif input == 'ALG_AES_192_GCM_IV12_TAG16_NO_KDF':
         return ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__NO__KDF()
 
-    if input == 'ALG_AES_256_GCM_IV12_TAG16_NO_KDF':
+    elif input == 'ALG_AES_256_GCM_IV12_TAG16_NO_KDF':
         return ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__NO__KDF()
 
-    if input == 'ALG_AES_128_GCM_IV12_TAG16_HKDF_SHA256':
+    elif input == 'ALG_AES_128_GCM_IV12_TAG16_HKDF_SHA256':
         return ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256()
 
-    if input == 'ALG_AES_192_GCM_IV12_TAG16_HKDF_SHA256':
+    elif input == 'ALG_AES_192_GCM_IV12_TAG16_HKDF_SHA256':
         return ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA256()
 
-    if input == 'ALG_AES_256_GCM_IV12_TAG16_HKDF_SHA256':
+    elif input == 'ALG_AES_256_GCM_IV12_TAG16_HKDF_SHA256':
         return ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA256()
 
-    if input == 'ALG_AES_128_GCM_IV12_TAG16_HKDF_SHA256_ECDSA_P256':
+    elif input == 'ALG_AES_128_GCM_IV12_TAG16_HKDF_SHA256_ECDSA_P256':
         return ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256__ECDSA__P256()
 
-    if input == 'ALG_AES_192_GCM_IV12_TAG16_HKDF_SHA384_ECDSA_P384':
+    elif input == 'ALG_AES_192_GCM_IV12_TAG16_HKDF_SHA384_ECDSA_P384':
         return ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384()
 
-    if input == 'ALG_AES_256_GCM_IV12_TAG16_HKDF_SHA384_ECDSA_P384':
+    elif input == 'ALG_AES_256_GCM_IV12_TAG16_HKDF_SHA384_ECDSA_P384':
         return ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384()
 
-    if input == 'ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY':
+    elif input == 'ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY':
         return ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY()
 
-    if input == 'ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY_ECDSA_P384':
+    elif input == 'ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY_ECDSA_P384':
         return ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384()
 
     else:
@@ -307,7 +307,7 @@ def SmithyToDafny_aws_cryptography_materialproviders_DBEAlgorithmSuiteId(input):
     if input == 'ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY_SYMSIG_HMAC_SHA384':
         return DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__SYMSIG__HMAC__SHA384()
 
-    if input == 'ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY_ECDSA_P384_SYMSIG_HMAC_SHA384':
+    elif input == 'ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY_ECDSA_P384_SYMSIG_HMAC_SHA384':
         return DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384__SYMSIG__HMAC__SHA384()
 
     else:
@@ -397,10 +397,10 @@ def SmithyToDafny_aws_cryptography_materialproviders_ESDKCommitmentPolicy(input)
     if input == 'FORBID_ENCRYPT_ALLOW_DECRYPT':
         return ESDKCommitmentPolicy_FORBID__ENCRYPT__ALLOW__DECRYPT()
 
-    if input == 'REQUIRE_ENCRYPT_ALLOW_DECRYPT':
+    elif input == 'REQUIRE_ENCRYPT_ALLOW_DECRYPT':
         return ESDKCommitmentPolicy_REQUIRE__ENCRYPT__ALLOW__DECRYPT()
 
-    if input == 'REQUIRE_ENCRYPT_REQUIRE_DECRYPT':
+    elif input == 'REQUIRE_ENCRYPT_REQUIRE_DECRYPT':
         return ESDKCommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT()
 
     else:
@@ -607,10 +607,10 @@ def SmithyToDafny_aws_cryptography_materialproviders_AesWrappingAlg(input):
     if input == 'ALG_AES128_GCM_IV12_TAG16':
         return AesWrappingAlg_ALG__AES128__GCM__IV12__TAG16()
 
-    if input == 'ALG_AES192_GCM_IV12_TAG16':
+    elif input == 'ALG_AES192_GCM_IV12_TAG16':
         return AesWrappingAlg_ALG__AES192__GCM__IV12__TAG16()
 
-    if input == 'ALG_AES256_GCM_IV12_TAG16':
+    elif input == 'ALG_AES256_GCM_IV12_TAG16':
         return AesWrappingAlg_ALG__AES256__GCM__IV12__TAG16()
 
     else:
@@ -629,16 +629,16 @@ def SmithyToDafny_aws_cryptography_materialproviders_PaddingScheme(input):
     if input == 'PKCS1':
         return PaddingScheme_PKCS1()
 
-    if input == 'OAEP_SHA1_MGF1':
+    elif input == 'OAEP_SHA1_MGF1':
         return PaddingScheme_OAEP__SHA1__MGF1()
 
-    if input == 'OAEP_SHA256_MGF1':
+    elif input == 'OAEP_SHA256_MGF1':
         return PaddingScheme_OAEP__SHA256__MGF1()
 
-    if input == 'OAEP_SHA384_MGF1':
+    elif input == 'OAEP_SHA384_MGF1':
         return PaddingScheme_OAEP__SHA384__MGF1()
 
-    if input == 'OAEP_SHA512_MGF1':
+    elif input == 'OAEP_SHA512_MGF1':
         return PaddingScheme_OAEP__SHA512__MGF1()
 
     else:
