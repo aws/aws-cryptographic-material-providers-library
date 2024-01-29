@@ -137,7 +137,7 @@ def DafnyToSmithy_aws_cryptography_materialproviders_AlgorithmSuiteId(input):
 def DafnyToSmithy_aws_cryptography_materialproviders_Encrypt(input):
     # Convert Encrypt
     if isinstance(input, Encrypt_AES__GCM):
-        Encrypt_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EncryptAES_GCM(input.AES_GCM)
+        Encrypt_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EncryptAES_GCM(input.AES__GCM)
     else:
         raise ValueError("No recognized union value in union type: " + str(input))
 
@@ -181,7 +181,7 @@ def DafnyToSmithy_aws_cryptography_materialproviders_SymmetricSignatureAlgorithm
 def DafnyToSmithy_aws_cryptography_materialproviders_EdkWrappingAlgorithm(input):
     # Convert EdkWrappingAlgorithm
     if isinstance(input, EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING):
-        EdkWrappingAlgorithm_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EdkWrappingAlgorithmDIRECT_KEY_WRAPPING(input.DIRECT_KEY_WRAPPING)
+        EdkWrappingAlgorithm_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EdkWrappingAlgorithmDIRECT_KEY_WRAPPING(input.DIRECT__KEY__WRAPPING)
     elif isinstance(input, EdkWrappingAlgorithm_IntermediateKeyWrapping):
         EdkWrappingAlgorithm_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EdkWrappingAlgorithmIntermediateKeyWrapping(input.IntermediateKeyWrapping)
     else:
