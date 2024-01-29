@@ -18,6 +18,45 @@ class AES_GCM:
         self.tag_length = tag_length
         self.iv_length = iv_length
 
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the AES_GCM to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {}
+
+        if self.key_length is not None:
+            d["keyLength"] = self.key_length
+
+        if self.tag_length is not None:
+            d["tagLength"] = self.tag_length
+
+        if self.iv_length is not None:
+            d["ivLength"] = self.iv_length
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "AES_GCM":
+        """Creates a AES_GCM from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {}
+
+        if "keyLength" in d:
+            kwargs["key_length"] = d["keyLength"]
+
+        if "tagLength" in d:
+            kwargs["tag_length"] = d["tagLength"]
+
+        if "ivLength" in d:
+            kwargs["iv_length"] = d["ivLength"]
+
+        return AES_GCM(**kwargs)
+
     def __repr__(self) -> str:
         result = "AES_GCM("
         if self.key_length is not None:
@@ -63,6 +102,39 @@ class AESDecryptInput:
         self.auth_tag = auth_tag
         self.iv = iv
         self.aad = aad
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the AESDecryptInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "encAlg": self.enc_alg.as_dict(),
+            "key": self.key,
+            "cipherTxt": self.cipher_txt,
+            "authTag": self.auth_tag,
+            "iv": self.iv,
+            "aad": self.aad,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "AESDecryptInput":
+        """Creates a AESDecryptInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "enc_alg": AES_GCM.from_dict(d["encAlg"]),
+            "key": d["key"],
+            "cipher_txt": d["cipherTxt"],
+            "auth_tag": d["authTag"],
+            "iv": d["iv"],
+            "aad": d["aad"],
+        }
+
+        return AESDecryptInput(**kwargs)
 
     def __repr__(self) -> str:
         result = "AESDecryptInput("
@@ -116,6 +188,37 @@ class AESEncryptInput:
         self.msg = msg
         self.aad = aad
 
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the AESEncryptInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "encAlg": self.enc_alg.as_dict(),
+            "iv": self.iv,
+            "key": self.key,
+            "msg": self.msg,
+            "aad": self.aad,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "AESEncryptInput":
+        """Creates a AESEncryptInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "enc_alg": AES_GCM.from_dict(d["encAlg"]),
+            "iv": d["iv"],
+            "key": d["key"],
+            "msg": d["msg"],
+            "aad": d["aad"],
+        }
+
+        return AESEncryptInput(**kwargs)
+
     def __repr__(self) -> str:
         result = "AESEncryptInput("
         if self.enc_alg is not None:
@@ -156,6 +259,31 @@ class AESEncryptOutput:
         self.cipher_text = cipher_text
         self.auth_tag = auth_tag
 
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the AESEncryptOutput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "cipherText": self.cipher_text,
+            "authTag": self.auth_tag,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "AESEncryptOutput":
+        """Creates a AESEncryptOutput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "cipher_text": d["cipherText"],
+            "auth_tag": d["authTag"],
+        }
+
+        return AESEncryptOutput(**kwargs)
+
     def __repr__(self) -> str:
         result = "AESEncryptOutput("
         if self.cipher_text is not None:
@@ -189,6 +317,43 @@ class AesKdfCtrInput:
         self.ikm = ikm
         self.expected_length = expected_length
         self.nonce = nonce
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the AesKdfCtrInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {
+            "ikm": self.ikm,
+        }
+
+        if self.expected_length is not None:
+            d["expectedLength"] = self.expected_length
+
+        if self.nonce is not None:
+            d["nonce"] = self.nonce
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "AesKdfCtrInput":
+        """Creates a AesKdfCtrInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "ikm": d["ikm"],
+        }
+
+        if "expectedLength" in d:
+            kwargs["expected_length"] = d["expectedLength"]
+
+        if "nonce" in d:
+            kwargs["nonce"] = d["nonce"]
+
+        return AesKdfCtrInput(**kwargs)
 
     def __repr__(self) -> str:
         result = "AesKdfCtrInput("
@@ -224,6 +389,31 @@ class DigestInput:
         self.digest_algorithm = digest_algorithm
         self.message = message
 
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the DigestInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "digestAlgorithm": self.digest_algorithm,
+            "message": self.message,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "DigestInput":
+        """Creates a DigestInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "digest_algorithm": d["digestAlgorithm"],
+            "message": d["message"],
+        }
+
+        return DigestInput(**kwargs)
+
     def __repr__(self) -> str:
         result = "DigestInput("
         if self.digest_algorithm is not None:
@@ -257,6 +447,33 @@ class ECDSASignInput:
         self.signature_algorithm = signature_algorithm
         self.signing_key = signing_key
         self.message = message
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the ECDSASignInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "signatureAlgorithm": self.signature_algorithm,
+            "signingKey": self.signing_key,
+            "message": self.message,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "ECDSASignInput":
+        """Creates a ECDSASignInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "signature_algorithm": d["signatureAlgorithm"],
+            "signing_key": d["signingKey"],
+            "message": d["message"],
+        }
+
+        return ECDSASignInput(**kwargs)
 
     def __repr__(self) -> str:
         result = "ECDSASignInput("
@@ -298,6 +515,35 @@ class ECDSAVerifyInput:
         self.message = message
         self.signature = signature
 
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the ECDSAVerifyInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "signatureAlgorithm": self.signature_algorithm,
+            "verificationKey": self.verification_key,
+            "message": self.message,
+            "signature": self.signature,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "ECDSAVerifyInput":
+        """Creates a ECDSAVerifyInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "signature_algorithm": d["signatureAlgorithm"],
+            "verification_key": d["verificationKey"],
+            "message": d["message"],
+            "signature": d["signature"],
+        }
+
+        return ECDSAVerifyInput(**kwargs)
+
     def __repr__(self) -> str:
         result = "ECDSAVerifyInput("
         if self.signature_algorithm is not None:
@@ -332,6 +578,29 @@ class GenerateECDSASignatureKeyInput:
     ):
         self.signature_algorithm = signature_algorithm
 
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the GenerateECDSASignatureKeyInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "signatureAlgorithm": self.signature_algorithm,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "GenerateECDSASignatureKeyInput":
+        """Creates a GenerateECDSASignatureKeyInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "signature_algorithm": d["signatureAlgorithm"],
+        }
+
+        return GenerateECDSASignatureKeyInput(**kwargs)
+
     def __repr__(self) -> str:
         result = "GenerateECDSASignatureKeyInput("
         if self.signature_algorithm is not None:
@@ -362,6 +631,33 @@ class GenerateECDSASignatureKeyOutput:
         self.signature_algorithm = signature_algorithm
         self.verification_key = verification_key
         self.signing_key = signing_key
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the GenerateECDSASignatureKeyOutput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "signatureAlgorithm": self.signature_algorithm,
+            "verificationKey": self.verification_key,
+            "signingKey": self.signing_key,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "GenerateECDSASignatureKeyOutput":
+        """Creates a GenerateECDSASignatureKeyOutput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "signature_algorithm": d["signatureAlgorithm"],
+            "verification_key": d["verificationKey"],
+            "signing_key": d["signingKey"],
+        }
+
+        return GenerateECDSASignatureKeyOutput(**kwargs)
 
     def __repr__(self) -> str:
         result = "GenerateECDSASignatureKeyOutput("
@@ -394,6 +690,33 @@ class GenerateRandomBytesInput:
     ):
         self.length = length
 
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the GenerateRandomBytesInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {}
+
+        if self.length is not None:
+            d["length"] = self.length
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "GenerateRandomBytesInput":
+        """Creates a GenerateRandomBytesInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {}
+
+        if "length" in d:
+            kwargs["length"] = d["length"]
+
+        return GenerateRandomBytesInput(**kwargs)
+
     def __repr__(self) -> str:
         result = "GenerateRandomBytesInput("
         if self.length is not None:
@@ -418,6 +741,33 @@ class GenerateRSAKeyPairInput:
         length_bits: int = 0,
     ):
         self.length_bits = length_bits
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the GenerateRSAKeyPairInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {}
+
+        if self.length_bits is not None:
+            d["lengthBits"] = self.length_bits
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "GenerateRSAKeyPairInput":
+        """Creates a GenerateRSAKeyPairInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {}
+
+        if "lengthBits" in d:
+            kwargs["length_bits"] = d["lengthBits"]
+
+        return GenerateRSAKeyPairInput(**kwargs)
 
     def __repr__(self) -> str:
         result = "GenerateRSAKeyPairInput("
@@ -446,6 +796,37 @@ class RSAPrivateKey:
     ):
         self.pem = pem
         self.length_bits = length_bits
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the RSAPrivateKey to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {
+            "pem": self.pem,
+        }
+
+        if self.length_bits is not None:
+            d["lengthBits"] = self.length_bits
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "RSAPrivateKey":
+        """Creates a RSAPrivateKey from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "pem": d["pem"],
+        }
+
+        if "lengthBits" in d:
+            kwargs["length_bits"] = d["lengthBits"]
+
+        return RSAPrivateKey(**kwargs)
 
     def __repr__(self) -> str:
         result = "RSAPrivateKey("
@@ -478,6 +859,37 @@ class RSAPublicKey:
         self.pem = pem
         self.length_bits = length_bits
 
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the RSAPublicKey to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {
+            "pem": self.pem,
+        }
+
+        if self.length_bits is not None:
+            d["lengthBits"] = self.length_bits
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "RSAPublicKey":
+        """Creates a RSAPublicKey from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "pem": d["pem"],
+        }
+
+        if "lengthBits" in d:
+            kwargs["length_bits"] = d["lengthBits"]
+
+        return RSAPublicKey(**kwargs)
+
     def __repr__(self) -> str:
         result = "RSAPublicKey("
         if self.length_bits is not None:
@@ -509,6 +921,31 @@ class GenerateRSAKeyPairOutput:
         self.public_key = public_key
         self.private_key = private_key
 
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the GenerateRSAKeyPairOutput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "publicKey": self.public_key.as_dict(),
+            "privateKey": self.private_key.as_dict(),
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "GenerateRSAKeyPairOutput":
+        """Creates a GenerateRSAKeyPairOutput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "public_key": RSAPublicKey.from_dict(d["publicKey"]),
+            "private_key": RSAPrivateKey.from_dict(d["privateKey"]),
+        }
+
+        return GenerateRSAKeyPairOutput(**kwargs)
+
     def __repr__(self) -> str:
         result = "GenerateRSAKeyPairOutput("
         if self.public_key is not None:
@@ -537,6 +974,29 @@ class GetRSAKeyModulusLengthInput:
     ):
         self.public_key = public_key
 
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the GetRSAKeyModulusLengthInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "publicKey": self.public_key,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "GetRSAKeyModulusLengthInput":
+        """Creates a GetRSAKeyModulusLengthInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "public_key": d["publicKey"],
+        }
+
+        return GetRSAKeyModulusLengthInput(**kwargs)
+
     def __repr__(self) -> str:
         result = "GetRSAKeyModulusLengthInput("
         if self.public_key is not None:
@@ -561,6 +1021,33 @@ class GetRSAKeyModulusLengthOutput:
         length: int = 0,
     ):
         self.length = length
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the GetRSAKeyModulusLengthOutput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {}
+
+        if self.length is not None:
+            d["length"] = self.length
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "GetRSAKeyModulusLengthOutput":
+        """Creates a GetRSAKeyModulusLengthOutput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {}
+
+        if "length" in d:
+            kwargs["length"] = d["length"]
+
+        return GetRSAKeyModulusLengthOutput(**kwargs)
 
     def __repr__(self) -> str:
         result = "GetRSAKeyModulusLengthOutput("
@@ -598,6 +1085,47 @@ class HkdfInput:
         self.info = info
         self.salt = salt
         self.expected_length = expected_length
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the HkdfInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {
+            "digestAlgorithm": self.digest_algorithm,
+            "ikm": self.ikm,
+            "info": self.info,
+        }
+
+        if self.salt is not None:
+            d["salt"] = self.salt
+
+        if self.expected_length is not None:
+            d["expectedLength"] = self.expected_length
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "HkdfInput":
+        """Creates a HkdfInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "digest_algorithm": d["digestAlgorithm"],
+            "ikm": d["ikm"],
+            "info": d["info"],
+        }
+
+        if "salt" in d:
+            kwargs["salt"] = d["salt"]
+
+        if "expectedLength" in d:
+            kwargs["expected_length"] = d["expectedLength"]
+
+        return HkdfInput(**kwargs)
 
     def __repr__(self) -> str:
         result = "HkdfInput("
@@ -645,6 +1173,41 @@ class HkdfExpandInput:
         self.info = info
         self.expected_length = expected_length
 
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the HkdfExpandInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {
+            "digestAlgorithm": self.digest_algorithm,
+            "prk": self.prk,
+            "info": self.info,
+        }
+
+        if self.expected_length is not None:
+            d["expectedLength"] = self.expected_length
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "HkdfExpandInput":
+        """Creates a HkdfExpandInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "digest_algorithm": d["digestAlgorithm"],
+            "prk": d["prk"],
+            "info": d["info"],
+        }
+
+        if "expectedLength" in d:
+            kwargs["expected_length"] = d["expectedLength"]
+
+        return HkdfExpandInput(**kwargs)
+
     def __repr__(self) -> str:
         result = "HkdfExpandInput("
         if self.digest_algorithm is not None:
@@ -685,6 +1248,39 @@ class HkdfExtractInput:
         self.ikm = ikm
         self.salt = salt
 
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the HkdfExtractInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {
+            "digestAlgorithm": self.digest_algorithm,
+            "ikm": self.ikm,
+        }
+
+        if self.salt is not None:
+            d["salt"] = self.salt
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "HkdfExtractInput":
+        """Creates a HkdfExtractInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "digest_algorithm": d["digestAlgorithm"],
+            "ikm": d["ikm"],
+        }
+
+        if "salt" in d:
+            kwargs["salt"] = d["salt"]
+
+        return HkdfExtractInput(**kwargs)
+
     def __repr__(self) -> str:
         result = "HkdfExtractInput("
         if self.digest_algorithm is not None:
@@ -721,6 +1317,33 @@ class HMacInput:
         self.digest_algorithm = digest_algorithm
         self.key = key
         self.message = message
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the HMacInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "digestAlgorithm": self.digest_algorithm,
+            "key": self.key,
+            "message": self.message,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "HMacInput":
+        """Creates a HMacInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "digest_algorithm": d["digestAlgorithm"],
+            "key": d["key"],
+            "message": d["message"],
+        }
+
+        return HMacInput(**kwargs)
 
     def __repr__(self) -> str:
         result = "HMacInput("
@@ -765,6 +1388,51 @@ class KdfCtrInput:
         self.purpose = purpose
         self.nonce = nonce
 
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the KdfCtrInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        d: Dict[str, Any] = {
+            "digestAlgorithm": self.digest_algorithm,
+            "ikm": self.ikm,
+        }
+
+        if self.expected_length is not None:
+            d["expectedLength"] = self.expected_length
+
+        if self.purpose is not None:
+            d["purpose"] = self.purpose
+
+        if self.nonce is not None:
+            d["nonce"] = self.nonce
+
+        return d
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KdfCtrInput":
+        """Creates a KdfCtrInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "digest_algorithm": d["digestAlgorithm"],
+            "ikm": d["ikm"],
+        }
+
+        if "expectedLength" in d:
+            kwargs["expected_length"] = d["expectedLength"]
+
+        if "purpose" in d:
+            kwargs["purpose"] = d["purpose"]
+
+        if "nonce" in d:
+            kwargs["nonce"] = d["nonce"]
+
+        return KdfCtrInput(**kwargs)
+
     def __repr__(self) -> str:
         result = "KdfCtrInput("
         if self.digest_algorithm is not None:
@@ -808,6 +1476,33 @@ class RSADecryptInput:
         self.private_key = private_key
         self.cipher_text = cipher_text
 
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the RSADecryptInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "padding": self.padding,
+            "privateKey": self.private_key,
+            "cipherText": self.cipher_text,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "RSADecryptInput":
+        """Creates a RSADecryptInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "padding": d["padding"],
+            "private_key": d["privateKey"],
+            "cipher_text": d["cipherText"],
+        }
+
+        return RSADecryptInput(**kwargs)
+
     def __repr__(self) -> str:
         result = "RSADecryptInput("
         if self.padding is not None:
@@ -844,6 +1539,33 @@ class RSAEncryptInput:
         self.padding = padding
         self.public_key = public_key
         self.plaintext = plaintext
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the RSAEncryptInput to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "padding": self.padding,
+            "publicKey": self.public_key,
+            "plaintext": self.plaintext,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "RSAEncryptInput":
+        """Creates a RSAEncryptInput from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "padding": d["padding"],
+            "public_key": d["publicKey"],
+            "plaintext": d["plaintext"],
+        }
+
+        return RSAEncryptInput(**kwargs)
 
     def __repr__(self) -> str:
         result = "RSAEncryptInput("

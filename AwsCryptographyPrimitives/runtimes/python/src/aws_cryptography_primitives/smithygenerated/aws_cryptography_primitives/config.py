@@ -7,39 +7,14 @@ import module_
 from software_amazon_cryptography_primitives_internaldafny_types import (
     CryptoConfig_CryptoConfig as DafnyCryptoConfig,
 )
-from typing import Any, Callable, TypeAlias, Union
+from typing import Any, Callable, TypeAlias
 
 from .dafnyImplInterface import DafnyImplInterface
 from smithy_python._private.retries import SimpleRetryStrategy
-from smithy_python.interfaces.interceptor import Interceptor
 from smithy_python.interfaces.retries import RetryStrategy
 
-from .models import (
-    AESDecryptInput,
-    AESEncryptInput,
-    AESEncryptOutput,
-    AesKdfCtrInput,
-    DigestInput,
-    ECDSASignInput,
-    ECDSAVerifyInput,
-    GenerateECDSASignatureKeyInput,
-    GenerateECDSASignatureKeyOutput,
-    GenerateRSAKeyPairInput,
-    GenerateRSAKeyPairOutput,
-    GenerateRandomBytesInput,
-    GetRSAKeyModulusLengthInput,
-    GetRSAKeyModulusLengthOutput,
-    HMacInput,
-    HkdfExpandInput,
-    HkdfExtractInput,
-    HkdfInput,
-    KdfCtrInput,
-    RSADecryptInput,
-    RSAEncryptInput,
-)
 
-
-_ServiceInterceptor = Union[Interceptor[AESDecryptInput, bytes | bytearray, Any, Any], Interceptor[AESEncryptInput, AESEncryptOutput, Any, Any], Interceptor[AesKdfCtrInput, bytes | bytearray, Any, Any], Interceptor[DigestInput, bytes | bytearray, Any, Any], Interceptor[ECDSASignInput, bytes | bytearray, Any, Any], Interceptor[ECDSAVerifyInput, bool, Any, Any], Interceptor[GenerateECDSASignatureKeyInput, GenerateECDSASignatureKeyOutput, Any, Any], Interceptor[GenerateRandomBytesInput, bytes | bytearray, Any, Any], Interceptor[GenerateRSAKeyPairInput, GenerateRSAKeyPairOutput, Any, Any], Interceptor[GetRSAKeyModulusLengthInput, GetRSAKeyModulusLengthOutput, Any, Any], Interceptor[HkdfInput, bytes | bytearray, Any, Any], Interceptor[HkdfExpandInput, bytes | bytearray, Any, Any], Interceptor[HkdfExtractInput, bytes | bytearray, Any, Any], Interceptor[HMacInput, bytes | bytearray, Any, Any], Interceptor[KdfCtrInput, bytes | bytearray, Any, Any], Interceptor[RSADecryptInput, bytes | bytearray, Any, Any], Interceptor[RSAEncryptInput, bytes | bytearray, Any, Any]]
+_ServiceInterceptor = Any
 @dataclass(init=False)
 class Config:
     """Configuration for AwsCryptographicPrimitives."""

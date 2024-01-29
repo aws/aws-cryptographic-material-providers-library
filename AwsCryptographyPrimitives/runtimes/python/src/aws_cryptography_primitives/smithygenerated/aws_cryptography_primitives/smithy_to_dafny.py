@@ -11,8 +11,13 @@ from software_amazon_cryptography_primitives_internaldafny_types import (
     AES__GCM_AES__GCM as DafnyAES_GCM,
     AesKdfCtrInput_AesKdfCtrInput as DafnyAesKdfCtrInput,
     CryptoConfig_CryptoConfig as DafnyCryptoConfig,
+    DigestAlgorithm_SHA__256,
+    DigestAlgorithm_SHA__384,
+    DigestAlgorithm_SHA__512,
     DigestInput_DigestInput as DafnyDigestInput,
     ECDSASignInput_ECDSASignInput as DafnyECDSASignInput,
+    ECDSASignatureAlgorithm_ECDSA__P256,
+    ECDSASignatureAlgorithm_ECDSA__P384,
     ECDSAVerifyInput_ECDSAVerifyInput as DafnyECDSAVerifyInput,
     GenerateECDSASignatureKeyInput_GenerateECDSASignatureKeyInput as DafnyGenerateECDSASignatureKeyInput,
     GenerateECDSASignatureKeyOutput_GenerateECDSASignatureKeyOutput as DafnyGenerateECDSASignatureKeyOutput,
@@ -28,6 +33,11 @@ from software_amazon_cryptography_primitives_internaldafny_types import (
     KdfCtrInput_KdfCtrInput as DafnyKdfCtrInput,
     RSADecryptInput_RSADecryptInput as DafnyRSADecryptInput,
     RSAEncryptInput_RSAEncryptInput as DafnyRSAEncryptInput,
+    RSAPaddingMode_OAEP__SHA1,
+    RSAPaddingMode_OAEP__SHA256,
+    RSAPaddingMode_OAEP__SHA384,
+    RSAPaddingMode_OAEP__SHA512,
+    RSAPaddingMode_PKCS1,
     RSAPrivateKey_RSAPrivateKey as DafnyRSAPrivateKey,
     RSAPublicKey_RSAPublicKey as DafnyRSAPublicKey,
 )
@@ -40,27 +50,40 @@ def SmithyToDafny_aws_cryptography_primitives_GenerateRandomBytesInput(input):
 
 def SmithyToDafny_aws_cryptography_primitives_DigestInput(input):
     return DafnyDigestInput(
-        digestAlgorithm=input.digest_algorithm,
+        digestAlgorithm=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.SmithyToDafny_aws_cryptography_primitives_DigestAlgorithm(input.digest_algorithm),
         message=Seq(input.message),
     )
 
+def SmithyToDafny_aws_cryptography_primitives_DigestAlgorithm(input):
+    if input == 'SHA_512':
+        return DigestAlgorithm_SHA__512()
+
+    elif input == 'SHA_384':
+        return DigestAlgorithm_SHA__384()
+
+    elif input == 'SHA_256':
+        return DigestAlgorithm_SHA__256()
+
+    else:
+        raise ValueError(f'No recognized enum value in enum type: {input=}')
+
 def SmithyToDafny_aws_cryptography_primitives_HMacInput(input):
     return DafnyHMacInput(
-        digestAlgorithm=input.digest_algorithm,
+        digestAlgorithm=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.SmithyToDafny_aws_cryptography_primitives_DigestAlgorithm(input.digest_algorithm),
         key=Seq(input.key),
         message=Seq(input.message),
     )
 
 def SmithyToDafny_aws_cryptography_primitives_HkdfExtractInput(input):
     return DafnyHkdfExtractInput(
-        digestAlgorithm=input.digest_algorithm,
+        digestAlgorithm=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.SmithyToDafny_aws_cryptography_primitives_DigestAlgorithm(input.digest_algorithm),
         salt=((Option_Some(Seq(input.salt))) if (input.salt is not None) else (Option_None())),
         ikm=Seq(input.ikm),
     )
 
 def SmithyToDafny_aws_cryptography_primitives_HkdfExpandInput(input):
     return DafnyHkdfExpandInput(
-        digestAlgorithm=input.digest_algorithm,
+        digestAlgorithm=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.SmithyToDafny_aws_cryptography_primitives_DigestAlgorithm(input.digest_algorithm),
         prk=Seq(input.prk),
         info=Seq(input.info),
         expectedLength=input.expected_length,
@@ -68,7 +91,7 @@ def SmithyToDafny_aws_cryptography_primitives_HkdfExpandInput(input):
 
 def SmithyToDafny_aws_cryptography_primitives_HkdfInput(input):
     return DafnyHkdfInput(
-        digestAlgorithm=input.digest_algorithm,
+        digestAlgorithm=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.SmithyToDafny_aws_cryptography_primitives_DigestAlgorithm(input.digest_algorithm),
         salt=((Option_Some(Seq(input.salt))) if (input.salt is not None) else (Option_None())),
         ikm=Seq(input.ikm),
         info=Seq(input.info),
@@ -77,7 +100,7 @@ def SmithyToDafny_aws_cryptography_primitives_HkdfInput(input):
 
 def SmithyToDafny_aws_cryptography_primitives_KdfCtrInput(input):
     return DafnyKdfCtrInput(
-        digestAlgorithm=input.digest_algorithm,
+        digestAlgorithm=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.SmithyToDafny_aws_cryptography_primitives_DigestAlgorithm(input.digest_algorithm),
         ikm=Seq(input.ikm),
         expectedLength=input.expected_length,
         purpose=((Option_Some(Seq(input.purpose))) if (input.purpose is not None) else (Option_None())),
@@ -129,33 +152,62 @@ def SmithyToDafny_aws_cryptography_primitives_GetRSAKeyModulusLengthInput(input)
 
 def SmithyToDafny_aws_cryptography_primitives_RSADecryptInput(input):
     return DafnyRSADecryptInput(
-        padding=input.padding,
+        padding=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.SmithyToDafny_aws_cryptography_primitives_RSAPaddingMode(input.padding),
         privateKey=Seq(input.private_key),
         cipherText=Seq(input.cipher_text),
     )
 
+def SmithyToDafny_aws_cryptography_primitives_RSAPaddingMode(input):
+    if input == 'PKCS1':
+        return RSAPaddingMode_PKCS1()
+
+    elif input == 'OAEP_SHA1':
+        return RSAPaddingMode_OAEP__SHA1()
+
+    elif input == 'OAEP_SHA256':
+        return RSAPaddingMode_OAEP__SHA256()
+
+    elif input == 'OAEP_SHA384':
+        return RSAPaddingMode_OAEP__SHA384()
+
+    elif input == 'OAEP_SHA512':
+        return RSAPaddingMode_OAEP__SHA512()
+
+    else:
+        raise ValueError(f'No recognized enum value in enum type: {input=}')
+
 def SmithyToDafny_aws_cryptography_primitives_RSAEncryptInput(input):
     return DafnyRSAEncryptInput(
-        padding=input.padding,
+        padding=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.SmithyToDafny_aws_cryptography_primitives_RSAPaddingMode(input.padding),
         publicKey=Seq(input.public_key),
         plaintext=Seq(input.plaintext),
     )
 
 def SmithyToDafny_aws_cryptography_primitives_GenerateECDSASignatureKeyInput(input):
     return DafnyGenerateECDSASignatureKeyInput(
-        signatureAlgorithm=input.signature_algorithm,
+        signatureAlgorithm=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.SmithyToDafny_aws_cryptography_primitives_ECDSASignatureAlgorithm(input.signature_algorithm),
     )
+
+def SmithyToDafny_aws_cryptography_primitives_ECDSASignatureAlgorithm(input):
+    if input == 'ECDSA_P384':
+        return ECDSASignatureAlgorithm_ECDSA__P384()
+
+    elif input == 'ECDSA_P256':
+        return ECDSASignatureAlgorithm_ECDSA__P256()
+
+    else:
+        raise ValueError(f'No recognized enum value in enum type: {input=}')
 
 def SmithyToDafny_aws_cryptography_primitives_ECDSASignInput(input):
     return DafnyECDSASignInput(
-        signatureAlgorithm=input.signature_algorithm,
+        signatureAlgorithm=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.SmithyToDafny_aws_cryptography_primitives_ECDSASignatureAlgorithm(input.signature_algorithm),
         signingKey=Seq(input.signing_key),
         message=Seq(input.message),
     )
 
 def SmithyToDafny_aws_cryptography_primitives_ECDSAVerifyInput(input):
     return DafnyECDSAVerifyInput(
-        signatureAlgorithm=input.signature_algorithm,
+        signatureAlgorithm=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.SmithyToDafny_aws_cryptography_primitives_ECDSASignatureAlgorithm(input.signature_algorithm),
         verificationKey=Seq(input.verification_key),
         message=Seq(input.message),
         signature=Seq(input.signature),
@@ -225,7 +277,7 @@ def SmithyToDafny_aws_cryptography_primitives_RSAEncryptOutput(input):
 
 def SmithyToDafny_aws_cryptography_primitives_GenerateECDSASignatureKeyOutput(input):
     return DafnyGenerateECDSASignatureKeyOutput(
-        signatureAlgorithm=input.signature_algorithm,
+        signatureAlgorithm=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.SmithyToDafny_aws_cryptography_primitives_ECDSASignatureAlgorithm(input.signature_algorithm),
         verificationKey=Seq(input.verification_key),
         signingKey=Seq(input.signing_key),
     )
