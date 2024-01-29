@@ -24,13 +24,13 @@ def DafnyToSmithy_aws_cryptography_primitives_GenerateRandomBytesInput(input):
 
 def DafnyToSmithy_aws_cryptography_primitives_DigestAlgorithm(input):
     if isinstance(input, DigestAlgorithm_SHA__512):
-        return SHA_512
+        return 'SHA_512'
 
     elif isinstance(input, DigestAlgorithm_SHA__384):
-        return SHA_384
+        return 'SHA_384'
 
     elif isinstance(input, DigestAlgorithm_SHA__256):
-        return SHA_256
+        return 'SHA_256'
 
     else:
         raise ValueError(f'No recognized enum value in enum type: {input=}')
@@ -126,19 +126,19 @@ def DafnyToSmithy_aws_cryptography_primitives_GetRSAKeyModulusLengthInput(input)
 
 def DafnyToSmithy_aws_cryptography_primitives_RSAPaddingMode(input):
     if isinstance(input, RSAPaddingMode_PKCS1):
-        return PKCS1
+        return 'PKCS1'
 
     elif isinstance(input, RSAPaddingMode_OAEP__SHA1):
-        return OAEP_SHA1
+        return 'OAEP_SHA1'
 
     elif isinstance(input, RSAPaddingMode_OAEP__SHA256):
-        return OAEP_SHA256
+        return 'OAEP_SHA256'
 
     elif isinstance(input, RSAPaddingMode_OAEP__SHA384):
-        return OAEP_SHA384
+        return 'OAEP_SHA384'
 
     elif isinstance(input, RSAPaddingMode_OAEP__SHA512):
-        return OAEP_SHA512
+        return 'OAEP_SHA512'
 
     else:
         raise ValueError(f'No recognized enum value in enum type: {input=}')
@@ -159,10 +159,10 @@ def DafnyToSmithy_aws_cryptography_primitives_RSAEncryptInput(input):
 
 def DafnyToSmithy_aws_cryptography_primitives_ECDSASignatureAlgorithm(input):
     if isinstance(input, ECDSASignatureAlgorithm_ECDSA__P384):
-        return ECDSA_P384
+        return 'ECDSA_P384'
 
     elif isinstance(input, ECDSASignatureAlgorithm_ECDSA__P256):
-        return ECDSA_P256
+        return 'ECDSA_P256'
 
     else:
         raise ValueError(f'No recognized enum value in enum type: {input=}')
