@@ -45,7 +45,7 @@ def DafnyToSmithy_aws_cryptography_keystore_GetBeaconKeyInput(input):
 def DafnyToSmithy_aws_cryptography_keystore_KMSConfiguration(input):
     # Convert KMSConfiguration
     if isinstance(input, KMSConfiguration_kmsKeyArn):
-        KMSConfiguration_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationKmsKeyArn(input.kmsKeyArn)
+        KMSConfiguration_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationKmsKeyArn(input.kmsKeyArn.VerbatimString(False))
     else:
         raise ValueError("No recognized union value in union type: " + str(input))
 

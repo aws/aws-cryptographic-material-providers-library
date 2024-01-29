@@ -176,6 +176,16 @@ def SmithyToDafny_aws_cryptography_materialproviders_EncryptionMaterials(input):
         symmetricSigningKeys=((Option_Some(Seq([Seq(list_element) for list_element in input.symmetric_signing_keys]))) if (input.symmetric_signing_keys is not None) else (Option_None())),
     )
 
+def SmithyToDafny_aws_cryptography_materialproviders_DecryptionMaterials(input):
+    return DafnyDecryptionMaterials(
+        algorithmSuite=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_AlgorithmSuiteInfo(input.algorithm_suite),
+        encryptionContext=Map({Seq(key): Seq(value) for (key, value) in input.encryption_context.items() }),
+        requiredEncryptionContextKeys=Seq([Seq(list_element) for list_element in input.required_encryption_context_keys]),
+        plaintextDataKey=((Option_Some(Seq(input.plaintext_data_key))) if (input.plaintext_data_key is not None) else (Option_None())),
+        verificationKey=((Option_Some(Seq(input.verification_key))) if (input.verification_key is not None) else (Option_None())),
+        symmetricSigningKey=((Option_Some(Seq(input.symmetric_signing_key))) if (input.symmetric_signing_key is not None) else (Option_None())),
+    )
+
 def SmithyToDafny_aws_cryptography_materialproviders_AlgorithmSuiteInfo(input):
     return DafnyAlgorithmSuiteInfo(
         id=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_AlgorithmSuiteId(input.id),
@@ -255,16 +265,6 @@ def SmithyToDafny_aws_cryptography_materialproviders_EdkWrappingAlgorithm(input)
         raise ValueError("No recognized union value in union type: " + str(input))
 
     return EdkWrappingAlgorithm_union_value
-
-def SmithyToDafny_aws_cryptography_materialproviders_DecryptionMaterials(input):
-    return DafnyDecryptionMaterials(
-        algorithmSuite=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_AlgorithmSuiteInfo(input.algorithm_suite),
-        encryptionContext=Map({Seq(key): Seq(value) for (key, value) in input.encryption_context.items() }),
-        requiredEncryptionContextKeys=Seq([Seq(list_element) for list_element in input.required_encryption_context_keys]),
-        plaintextDataKey=((Option_Some(Seq(input.plaintext_data_key))) if (input.plaintext_data_key is not None) else (Option_None())),
-        verificationKey=((Option_Some(Seq(input.verification_key))) if (input.verification_key is not None) else (Option_None())),
-        symmetricSigningKey=((Option_Some(Seq(input.symmetric_signing_key))) if (input.symmetric_signing_key is not None) else (Option_None())),
-    )
 
 def SmithyToDafny_aws_cryptography_materialproviders_ESDKAlgorithmSuiteId(input):
     if input == 'ALG_AES_128_GCM_IV12_TAG16_NO_KDF':
