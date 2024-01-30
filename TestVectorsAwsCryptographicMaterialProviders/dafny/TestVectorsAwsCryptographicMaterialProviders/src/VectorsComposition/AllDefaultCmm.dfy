@@ -129,7 +129,7 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
           requiredEncryptionContextKeys := Some(SortedSets.ComputeSetToSequence(requiredEncryptionContextKeys)),
           reproducedEncryptionContext := Some(reproducedEncryptionContext)
         )
-        
+
   const Tests
   := {}
   + {

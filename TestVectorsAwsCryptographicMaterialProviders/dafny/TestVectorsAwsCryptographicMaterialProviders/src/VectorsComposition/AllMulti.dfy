@@ -18,10 +18,10 @@ module {:options "-functionSyntax:4"} AllMulti {
       ::
         KeyVectorsTypes.Multi(KeyVectorsTypes.MultiKeyring(
                                 generator := Some(KeyVectorsTypes.KeyDescription.AES(
-                                  KeyVectorsTypes.RawAES(
-                                    keyId := key,
-                                    providerId := "aws-raw-vectors-persistent-" + key
-                                  ))),
+                                                    KeyVectorsTypes.RawAES(
+                                                      keyId := key,
+                                                      providerId := "aws-raw-vectors-persistent-" + key
+                                                    ))),
                                 childKeyrings := []
                               ))
 
@@ -31,10 +31,10 @@ module {:options "-functionSyntax:4"} AllMulti {
       ::
         KeyVectorsTypes.Multi(KeyVectorsTypes.MultiKeyring(
                                 generator := Some(KeyVectorsTypes.KeyDescription.AES(
-                                  KeyVectorsTypes.RawAES(
-                                    keyId := key,
-                                    providerId := "aws-raw-vectors-persistent-" + key
-                                  ))),
+                                                    KeyVectorsTypes.RawAES(
+                                                      keyId := key,
+                                                      providerId := "aws-raw-vectors-persistent-" + key
+                                                    ))),
                                 childKeyrings := getChildKeyrings(AllRawAES.aesPersistentKeyNames, key)
                               ))
 
@@ -68,8 +68,8 @@ module {:options "-functionSyntax:4"} AllMulti {
       getChildKeyrings(keys, key, i+1)
     else
       [KeyVectorsTypes.KeyDescription.AES(
-        KeyVectorsTypes.RawAES(
-          keyId := keys[i],
-          providerId := "aws-raw-vectors-persistent-" + keys[i]))] + getChildKeyrings(keys, key, i+1)
+         KeyVectorsTypes.RawAES(
+           keyId := keys[i],
+           providerId := "aws-raw-vectors-persistent-" + keys[i]))] + getChildKeyrings(keys, key, i+1)
   }
 }
