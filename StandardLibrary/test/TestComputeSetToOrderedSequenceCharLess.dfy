@@ -107,7 +107,7 @@ module TestComputeSetToOrderedSequenceCharLess {
     //# UTF-16 code units for high or low surrogates MUST be compared individually,
     //# and the Unicode scalar value represented by a surrogate pair MUST NOT be compared.
     // 
-    // ComputeSetToOrderedSequence may be passed `char`s that cannot be encoded as "UTF-16 Binary Order",
+    // ComputeSetToOrderedSequence may be passed `char`s that cannot be encoded in "UTF-16",
     // ex. uint8 `1`.
     // Any `char`s that cannot be UTF encoded should be compared without encoding.
     // 
