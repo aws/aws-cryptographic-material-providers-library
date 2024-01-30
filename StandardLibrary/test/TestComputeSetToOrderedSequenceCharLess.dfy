@@ -99,13 +99,18 @@ module TestComputeSetToOrderedSequenceCharLess {
     // where characters are converted to their UTF-16 big endian representations
     // and compared starting at the first bytes
     // (or, UTF-16 little endian and compared starting at their last bytes).
-    // Note that non-string characters should NOT be UTF encoded.
-    // More detail in the spec:
+    // 
+    // More detail on expected ordering in the spec:
     //= specification/dynamodb-encryption-client/string-ordering#utf-16-binary-order
     //# When ordering strings, these strings MUST be compared according to their UTF-16 encoding,
     //# lexicographically per UTF-16 code unit.
     //# UTF-16 code units for high or low surrogates MUST be compared individually,
     //# and the Unicode scalar value represented by a surrogate pair MUST NOT be compared.
+    // 
+    // The ComputeSetToOrderedSequence may be passed `char`s that cannot be encoded as "UTF-16 Binary Order".
+    // ex. uint8 `1`.
+    // In this case, these `char`s should NOT be UTF encoded.
+    // 
     // This order is kept here so that it is clear that this order is incorrect in this case
     // var expected := ["&", "Љ", "ᝀ", "｡", "𐀂", "𐐷", "🂡"];
     expect output == expected;
