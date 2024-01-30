@@ -15,21 +15,6 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
 
   import opened UTF8
 
-  function SubSets(ec: map<Types.Utf8Bytes, Types.Utf8Bytes>, keys: seq<Types.Utf8Bytes>)
-    : set<map<Types.Utf8Bytes, Types.Utf8Bytes>>
-    requires keys == SortedSets.ComputeSetToOrderedSequence2(ec.Keys, (a, b) => a < b)
-  {
-    if |ec| == 0 then
-      {map[]}
-    else
-      var subsets := SubSets(ec - {keys[0]}, keys[1..]);
-      subsets
-      + (set
-           s <- subsets
-           ::
-             s + map[keys[0] := ec[keys[0]]])
-  }
-
   const a := UTF8.Encode("a").value
   const b := UTF8.Encode("b").value
   const c := UTF8.Encode("c").value
@@ -51,13 +36,13 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
       encryptionContext <- encryptionContextsToTest,
       requiredEncryptionContextKeys
       <- set
-           s <- SubSets(
+           s <- AllDefaultCmm.SubSets(
                   encryptionContext,
                   SortedSets.ComputeSetToOrderedSequence2(encryptionContext.Keys, (a, b) => a < b))
            :: s.Keys,
       reproducedEncryptionContext
       <- set
-           s <- SubSets(
+           s <- AllDefaultCmm.SubSets(
                   encryptionContext,
                   SortedSets.ComputeSetToOrderedSequence2(encryptionContext.Keys, (a, b) => a < b))
            | s.Keys * requiredEncryptionContextKeys == requiredEncryptionContextKeys
@@ -79,20 +64,20 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
       encryptionContext <- encryptionContextsToTest,
       requiredEncryptionContextKeys
       <- set
-           s <- SubSets(
+           s <- AllDefaultCmm.SubSets(
                   encryptionContext,
                   SortedSets.ComputeSetToOrderedSequence2(encryptionContext.Keys, (a, b) => a < b))
            :: s.Keys,
       incorrectEncryptionContext
       <- set
-           s <- SubSets(
+           s <- AllDefaultCmm.SubSets(
                   disjointEncryptionContext,
                   SortedSets.ComputeSetToOrderedSequence2(disjointEncryptionContext.Keys, (a, b) => a < b))
            | s != map[]
            :: s,
       reproducedEncryptionContext
       <- set
-           s <- SubSets(
+           s <- AllDefaultCmm.SubSets(
                   encryptionContext,
                   SortedSets.ComputeSetToOrderedSequence2(encryptionContext.Keys, (a, b) => a < b))
            :: s + incorrectEncryptionContext
