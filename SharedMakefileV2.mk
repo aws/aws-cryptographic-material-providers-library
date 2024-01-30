@@ -237,6 +237,7 @@ _polymorph:
 	@: $(if ${CODEGEN_CLI_ROOT},,$(error You must pass the path CODEGEN_CLI_ROOT: CODEGEN_CLI_ROOT=/[path]/[to]/smithy-dafny/codegen/smithy-dafny-codegen-cli));
 	cd $(CODEGEN_CLI_ROOT); \
 	./../gradlew run --args="\
+	$(DAFNY_VERSION_OPTION) \
 	$(OUTPUT_DAFNY) \
 	$(OUTPUT_JAVA) \
 	$(OUTPUT_DOTNET) \
