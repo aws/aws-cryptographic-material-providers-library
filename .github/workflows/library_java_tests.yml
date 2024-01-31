@@ -57,6 +57,8 @@ jobs:
           dafny-version: ${{ inputs.dafny }}
 
       - name: Update project.properties
+        env:
+            DAFNY_VERSION: ${{ env.DAFNY_VERSION }}
         run: |
           make generate_properties_file
 
