@@ -57,7 +57,7 @@ jobs:
 
       - name: Update project.properties
         run: |
-          make update_propject_properties 
+          make update_project_properties 
 
       - name: Setup Java 8
         uses: actions/setup-java@v3
