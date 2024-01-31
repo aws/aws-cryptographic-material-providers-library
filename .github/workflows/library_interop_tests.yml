@@ -88,6 +88,11 @@ jobs:
         run:
           make test_generate_vectors_${{ matrix.languages }}
       
+      - name: Create Encrypt Manifests
+        working-directory: ./${{ matrix.library }}
+        run:
+          make test_encrypt_vectors_${{ matrix.languages }}
+
       - name: Upload Encrypt Manifest and keys.json files
         uses: actions/upload-artifact@v4
         with:
