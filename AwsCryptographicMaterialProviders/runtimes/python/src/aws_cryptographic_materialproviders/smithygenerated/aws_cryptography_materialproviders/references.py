@@ -82,12 +82,12 @@ class BranchKeyIdSupplier(IBranchKeyIdSupplier):
         Do not use.
         This method allows custom implementations of this interface to interact with generated code.
         '''
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.DafnyToSmithy_aws_cryptography_materialproviders_GetBranchKeyIdInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetBranchKeyIdInput(
             dafny_input
         )
         try:
             native_output = self.get_branch_key_id(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.SmithyToDafny_aws_cryptography_materialproviders_GetBranchKeyIdOutput(
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_GetBranchKeyIdOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -138,12 +138,12 @@ class ClientSupplier(IClientSupplier):
         Do not use.
         This method allows custom implementations of this interface to interact with generated code.
         '''
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.DafnyToSmithy_aws_cryptography_materialproviders_GetClientInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetClientInput(
             dafny_input
         )
         try:
             native_output = self.get_client(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.SmithyToDafny_aws_cryptography_materialproviders_GetClientOutput(
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_GetClientOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -215,12 +215,12 @@ class CryptographicMaterialsCache(ICryptographicMaterialsCache):
         Do not use.
         This method allows custom implementations of this interface to interact with generated code.
         '''
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.DafnyToSmithy_aws_cryptography_materialproviders_PutCacheEntryInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_PutCacheEntryInput(
             dafny_input
         )
         try:
             native_output = self.put_cache_entry(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.SmithyToDafny_smithy_api_Unit(
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_smithy_api_Unit(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -235,12 +235,12 @@ class CryptographicMaterialsCache(ICryptographicMaterialsCache):
         Do not use.
         This method allows custom implementations of this interface to interact with generated code.
         '''
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.DafnyToSmithy_aws_cryptography_materialproviders_GetCacheEntryInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetCacheEntryInput(
             dafny_input
         )
         try:
             native_output = self.get_cache_entry(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.SmithyToDafny_aws_cryptography_materialproviders_GetCacheEntryOutput(
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_GetCacheEntryOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -255,12 +255,12 @@ class CryptographicMaterialsCache(ICryptographicMaterialsCache):
         Do not use.
         This method allows custom implementations of this interface to interact with generated code.
         '''
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.DafnyToSmithy_aws_cryptography_materialproviders_UpdateUsageMetadataInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_UpdateUsageMetadataInput(
             dafny_input
         )
         try:
             native_output = self.update_usage_metadata(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.SmithyToDafny_smithy_api_Unit(
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_smithy_api_Unit(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -275,12 +275,12 @@ class CryptographicMaterialsCache(ICryptographicMaterialsCache):
         Do not use.
         This method allows custom implementations of this interface to interact with generated code.
         '''
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.DafnyToSmithy_aws_cryptography_materialproviders_DeleteCacheEntryInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_DeleteCacheEntryInput(
             dafny_input
         )
         try:
             native_output = self.delete_cache_entry(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.SmithyToDafny_smithy_api_Unit(
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_smithy_api_Unit(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -334,12 +334,12 @@ class CryptographicMaterialsManager(ICryptographicMaterialsManager):
         Do not use.
         This method allows custom implementations of this interface to interact with generated code.
         '''
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.DafnyToSmithy_aws_cryptography_materialproviders_GetEncryptionMaterialsInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetEncryptionMaterialsInput(
             dafny_input
         )
         try:
             native_output = self.get_encryption_materials(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.SmithyToDafny_aws_cryptography_materialproviders_GetEncryptionMaterialsOutput(
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_GetEncryptionMaterialsOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -354,12 +354,12 @@ class CryptographicMaterialsManager(ICryptographicMaterialsManager):
         Do not use.
         This method allows custom implementations of this interface to interact with generated code.
         '''
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.DafnyToSmithy_aws_cryptography_materialproviders_DecryptMaterialsInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_DecryptMaterialsInput(
             dafny_input
         )
         try:
             native_output = self.decrypt_materials(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.SmithyToDafny_aws_cryptography_materialproviders_DecryptMaterialsOutput(
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DecryptMaterialsOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -413,12 +413,12 @@ class Keyring(IKeyring):
         Do not use.
         This method allows custom implementations of this interface to interact with generated code.
         '''
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.DafnyToSmithy_aws_cryptography_materialproviders_OnEncryptInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_OnEncryptInput(
             dafny_input
         )
         try:
             native_output = self.on_encrypt(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.SmithyToDafny_aws_cryptography_materialproviders_OnEncryptOutput(
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_OnEncryptOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -433,12 +433,12 @@ class Keyring(IKeyring):
         Do not use.
         This method allows custom implementations of this interface to interact with generated code.
         '''
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.DafnyToSmithy_aws_cryptography_materialproviders_OnDecryptInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_OnDecryptInput(
             dafny_input
         )
         try:
             native_output = self.on_decrypt(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.SmithyToDafny_aws_cryptography_materialproviders_OnDecryptOutput(
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_OnDecryptOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
