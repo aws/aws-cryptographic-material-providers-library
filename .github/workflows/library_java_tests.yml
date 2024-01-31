@@ -12,6 +12,7 @@ on:
 jobs:
   testJava:
     strategy:
+      fail-fast: false
       matrix:
         library:
           [
