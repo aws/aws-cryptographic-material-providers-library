@@ -77,11 +77,11 @@ class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
     code: Literal["KeyStoreException"] = "KeyStoreException"
     message: str
 
-class DynamoDB_20120810(ApiError[Literal["DynamoDB_20120810"]]):
-    DynamoDB_20120810: Any
+class ComAmazonawsDynamodb(ApiError[Literal["ComAmazonawsDynamodb"]]):
+    ComAmazonawsDynamodb: Any
 
-class TrentService(ApiError[Literal["TrentService"]]):
-    TrentService: Any
+class ComAmazonawsKms(ApiError[Literal["ComAmazonawsKms"]]):
+    ComAmazonawsKms: Any
 
 class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
     code: Literal["CollectionOfErrors"] = "CollectionOfErrors"

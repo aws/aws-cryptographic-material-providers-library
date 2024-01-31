@@ -24,6 +24,8 @@ from .errors import (
     AwsCryptographicMaterialProvidersException,
     AwsCryptographicPrimitives,
     CollectionOfErrors,
+    ComAmazonawsDynamodb,
+    ComAmazonawsKms,
     EntryAlreadyExists,
     EntryDoesNotExist,
     InvalidAlgorithmSuiteInfo,
@@ -39,6 +41,12 @@ from .errors import (
 )
 from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.deserialize import (
     _deserialize_error as aws_cryptography_primitives_deserialize_error,
+)
+from com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.shim import (
+    sdk_error_to_dafny_error as com_amazonaws_dynamodb_sdk_error_to_dafny_error,
+)
+from com_amazonaws_kms.smithygenerated.com_amazonaws_kms.shim import (
+    sdk_error_to_dafny_error as com_amazonaws_kms_sdk_error_to_dafny_error,
 )
 
 from ..aws_cryptography_keystore.deserialize import (
@@ -224,5 +232,9 @@ async def _deserialize_error(error: Error) -> ServiceError:
         return AwsCryptographicPrimitives(await aws_cryptography_primitives_deserialize_error(error.AwsCryptographicPrimitives))
     elif error.is_KeyStore:
         return KeyStore(await aws_cryptography_keystore_deserialize_error(error.KeyStore))
+    elif error.is_ComAmazonawsKms:
+        return ComAmazonawsKms(com_amazonaws_kms_sdk_error_to_dafny_error(error.ComAmazonawsKms.obj))
+    elif error.is_ComAmazonawsDynamodb:
+        return ComAmazonawsDynamodb(com_amazonaws_dynamodb_sdk_error_to_dafny_error(error.ComAmazonawsDynamodb.obj))
     else:
         return OpaqueError(obj=error)

@@ -16,7 +16,20 @@ from software_amazon_cryptography_keystore_internaldafny_types import (
 from typing import Any
 
 from .dafny_protocol import DafnyResponse
-from .errors import CollectionOfErrors, KeyStoreException, OpaqueError, ServiceError
+from .errors import (
+    CollectionOfErrors,
+    ComAmazonawsDynamodb,
+    ComAmazonawsKms,
+    KeyStoreException,
+    OpaqueError,
+    ServiceError,
+)
+from com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.shim import (
+    sdk_error_to_dafny_error as com_amazonaws_dynamodb_sdk_error_to_dafny_error,
+)
+from com_amazonaws_kms.smithygenerated.com_amazonaws_kms.shim import (
+    sdk_error_to_dafny_error as com_amazonaws_kms_sdk_error_to_dafny_error,
+)
 
 from .config import Config
 
@@ -70,5 +83,9 @@ async def _deserialize_error(error: Error) -> ServiceError:
       return CollectionOfErrors(message=error.message, list=error.list)
     elif error.is_KeyStoreException:
       return KeyStoreException(message=error.message)
+    elif error.is_ComAmazonawsKms:
+        return ComAmazonawsKms(com_amazonaws_kms_sdk_error_to_dafny_error(error.ComAmazonawsKms.obj))
+    elif error.is_ComAmazonawsDynamodb:
+        return ComAmazonawsDynamodb(com_amazonaws_dynamodb_sdk_error_to_dafny_error(error.ComAmazonawsDynamodb.obj))
     else:
         return OpaqueError(obj=error)
