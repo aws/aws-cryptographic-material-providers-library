@@ -96,7 +96,7 @@ class BranchKeyIdSupplier(IBranchKeyIdSupplier):
             return asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetBranchKeyIdOutput(dafny_output)(dafny_output.value)
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetBranchKeyIdOutput(dafny_output.value)
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> 'BranchKeyIdSupplier':
@@ -156,7 +156,7 @@ class ClientSupplier(IClientSupplier):
             return asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetClientOutput(dafny_output)(dafny_output.value)
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetClientOutput(dafny_output.value)
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> 'ClientSupplier':
@@ -285,7 +285,7 @@ class CryptographicMaterialsCache(ICryptographicMaterialsCache):
             return asyncio.run(smithy_api_deserialize_error(dafny_output.error))
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_smithy_api_Unit()(dafny_output.value)
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_smithy_api_Unit()
 
     def get_cache_entry(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetCacheEntryInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetCacheEntryOutput':
         dafny_output = self._impl.GetCacheEntry(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_GetCacheEntryInput(input))
@@ -293,7 +293,7 @@ class CryptographicMaterialsCache(ICryptographicMaterialsCache):
             return asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetCacheEntryOutput(dafny_output)(dafny_output.value)
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetCacheEntryOutput(dafny_output.value)
 
     def update_usage_metadata(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.UpdateUsageMetadataInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.Unit':
         dafny_output = self._impl.UpdateUsageMetadata(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_UpdateUsageMetadataInput(input))
@@ -301,7 +301,7 @@ class CryptographicMaterialsCache(ICryptographicMaterialsCache):
             return asyncio.run(smithy_api_deserialize_error(dafny_output.error))
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_smithy_api_Unit()(dafny_output.value)
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_smithy_api_Unit()
 
     def delete_cache_entry(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DeleteCacheEntryInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.Unit':
         dafny_output = self._impl.DeleteCacheEntry(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DeleteCacheEntryInput(input))
@@ -309,7 +309,7 @@ class CryptographicMaterialsCache(ICryptographicMaterialsCache):
             return asyncio.run(smithy_api_deserialize_error(dafny_output.error))
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_smithy_api_Unit()(dafny_output.value)
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_smithy_api_Unit()
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> 'CryptographicMaterialsCache':
@@ -388,7 +388,7 @@ class CryptographicMaterialsManager(ICryptographicMaterialsManager):
             return asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetEncryptionMaterialsOutput(dafny_output)(dafny_output.value)
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetEncryptionMaterialsOutput(dafny_output.value)
 
     def decrypt_materials(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptMaterialsInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptMaterialsOutput':
         dafny_output = self._impl.DecryptMaterials(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DecryptMaterialsInput(input))
@@ -396,7 +396,7 @@ class CryptographicMaterialsManager(ICryptographicMaterialsManager):
             return asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_DecryptMaterialsOutput(dafny_output)(dafny_output.value)
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_DecryptMaterialsOutput(dafny_output.value)
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> 'CryptographicMaterialsManager':
@@ -475,7 +475,7 @@ class Keyring(IKeyring):
             return asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_OnEncryptOutput(dafny_output)(dafny_output.value)
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_OnEncryptOutput(dafny_output.value)
 
     def on_decrypt(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnDecryptInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnDecryptOutput':
         dafny_output = self._impl.OnDecrypt(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_OnDecryptInput(input))
@@ -483,7 +483,7 @@ class Keyring(IKeyring):
             return asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_OnDecryptOutput(dafny_output)(dafny_output.value)
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_OnDecryptOutput(dafny_output.value)
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> 'Keyring':
