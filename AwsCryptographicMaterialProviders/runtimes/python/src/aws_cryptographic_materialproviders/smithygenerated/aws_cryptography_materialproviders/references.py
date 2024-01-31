@@ -19,7 +19,7 @@ class IBranchKeyIdSupplier(metaclass=abc.ABCMeta):
         )
 
     @abc.abstractmethod
-    def GetBranchKeyId(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetBranchKeyIdInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetBranchKeyIdOutput':
+    def get_branch_key_id(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetBranchKeyIdInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetBranchKeyIdOutput':
         """Given the Encryption Context associated with this encryption or decryption,
         returns the branch key that should be responsible for unwrapping or wrapping the
         data key.
@@ -65,7 +65,7 @@ class IClientSupplier(metaclass=abc.ABCMeta):
         )
 
     @abc.abstractmethod
-    def GetClient(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetClientInput') -> 'botocore.client.BaseClient':
+    def get_client(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetClientInput') -> 'botocore.client.BaseClient':
         """Returns an AWS KMS Client.
         :param input: Inputs for getting a AWS KMS Client.
         """
@@ -104,19 +104,19 @@ class ICryptographicMaterialsCache(metaclass=abc.ABCMeta):
         )
 
     @abc.abstractmethod
-    def PutCacheEntry(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.PutCacheEntryInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.Unit':
+    def put_cache_entry(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.PutCacheEntryInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.Unit':
         raise NotImplementedError
 
     @abc.abstractmethod
-    def GetCacheEntry(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetCacheEntryInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetCacheEntryOutput':
+    def get_cache_entry(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetCacheEntryInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetCacheEntryOutput':
         raise NotImplementedError
 
     @abc.abstractmethod
-    def UpdateUsageMetadata(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.UpdateUsageMetadataInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.Unit':
+    def update_usage_metadata(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.UpdateUsageMetadataInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.Unit':
         raise NotImplementedError
 
     @abc.abstractmethod
-    def DeleteCacheEntry(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DeleteCacheEntryInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.Unit':
+    def delete_cache_entry(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DeleteCacheEntryInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.Unit':
         raise NotImplementedError
 
 class CryptographicMaterialsCache(ICryptographicMaterialsCache):
@@ -159,11 +159,11 @@ class ICryptographicMaterialsManager(metaclass=abc.ABCMeta):
         )
 
     @abc.abstractmethod
-    def GetEncryptionMaterials(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetEncryptionMaterialsInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetEncryptionMaterialsOutput':
+    def get_encryption_materials(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetEncryptionMaterialsInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetEncryptionMaterialsOutput':
         raise NotImplementedError
 
     @abc.abstractmethod
-    def DecryptMaterials(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptMaterialsInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptMaterialsOutput':
+    def decrypt_materials(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptMaterialsInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptMaterialsOutput':
         raise NotImplementedError
 
 class CryptographicMaterialsManager(ICryptographicMaterialsManager):
@@ -198,11 +198,11 @@ class IKeyring(metaclass=abc.ABCMeta):
         )
 
     @abc.abstractmethod
-    def OnEncrypt(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnEncryptInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnEncryptOutput':
+    def on_encrypt(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnEncryptInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnEncryptOutput':
         raise NotImplementedError
 
     @abc.abstractmethod
-    def OnDecrypt(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnDecryptInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnDecryptOutput':
+    def on_decrypt(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnDecryptInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnDecryptOutput':
         raise NotImplementedError
 
 class Keyring(IKeyring):

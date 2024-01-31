@@ -482,7 +482,11 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsMultiKeyringInp
     )
 
 def SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input):
-    return input._impl
+    if hasattr(input, '_impl'):
+        return input._impl
+
+    else:
+        return input
 
 def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsDiscoveryMultiKeyringInput(input):
     return DafnyCreateAwsKmsDiscoveryMultiKeyringInput(
@@ -533,7 +537,11 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateAwsKmsHierarchicalKey
     )
 
 def SmithyToDafny_aws_cryptography_materialproviders_BranchKeyIdSupplierReference(input):
-    return input._impl
+    if hasattr(input, '_impl'):
+        return input._impl
+
+    else:
+        return input
 
 def SmithyToDafny_aws_cryptography_materialproviders_KeyStoreReference(input):
     return input._config.dafnyImplInterface.impl
@@ -593,7 +601,11 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateMultiKeyringInput(inp
     )
 
 def SmithyToDafny_aws_cryptography_materialproviders_KeyringReference(input):
-    return input._impl
+    if hasattr(input, '_impl'):
+        return input._impl
+
+    else:
+        return input
 
 def SmithyToDafny_aws_cryptography_materialproviders_CreateRawAesKeyringInput(input):
     return DafnyCreateRawAesKeyringInput(
@@ -666,7 +678,11 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateRequiredEncryptionCon
     )
 
 def SmithyToDafny_aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(input):
-    return input._impl
+    if hasattr(input, '_impl'):
+        return input._impl
+
+    else:
+        return input
 
 def SmithyToDafny_aws_cryptography_materialproviders_CreateCryptographicMaterialsCacheInput(input):
     return DafnyCreateCryptographicMaterialsCacheInput(
@@ -733,7 +749,11 @@ def SmithyToDafny_aws_cryptography_materialproviders_CreateCryptographicMaterial
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CryptographicMaterialsCacheReference(input)
 
 def SmithyToDafny_aws_cryptography_materialproviders_CryptographicMaterialsCacheReference(input):
-    return input._impl
+    if hasattr(input, '_impl'):
+        return input._impl
+
+    else:
+        return input
 
 def SmithyToDafny_aws_cryptography_materialproviders_CreateDefaultClientSupplierOutput(input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_ClientSupplierReference(input)
