@@ -14,7 +14,7 @@ module {:options "-functionSyntax:4"} AllRequiredEncryptionContextCmm {
   import AllDefaultCmm
 
   import opened UTF8
-  
+
   const a := UTF8.Encode("a").value
   const b := UTF8.Encode("b").value
   const c := UTF8.Encode("c").value

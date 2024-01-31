@@ -74,31 +74,28 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 7.2
-      
-      # Test Vectors need to call KMS 
+
+      # Test Vectors need to call KMS
       - name: Configure AWS Credentials for Tests
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
           role-session-name: InterOpTests
-      
+
       - name: Create Manifests
         working-directory: ./${{ matrix.library }}
-        run:
-          make test_generate_vectors_${{ matrix.languages }}
-      
+        run: make test_generate_vectors_${{ matrix.languages }}
+
       - name: Create Encrypt Manifests
         working-directory: ./${{ matrix.library }}
-        run:
-          make test_encrypt_vectors_${{ matrix.languages }}
+        run: make test_encrypt_vectors_${{ matrix.languages }}
 
       - name: Upload Encrypt Manifest and keys.json files
         uses: actions/upload-artifact@v4
         with:
-          name: vector_artifact
+          name: ${{matrix.os}}_vector_artifact
           path: ./${{matrix.library}}/runtimes/${{matrix.languages}}/*.json
-
 
   # testInteroperablity:
   #   strategy:
