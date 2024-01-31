@@ -10,7 +10,7 @@ on:
         type: string
 
 jobs:
-  setup:
+  generateEncryptVectors:
     strategy:
       matrix:
         library: [TestVectorsAwsCryptographicMaterialProviders]
@@ -74,27 +74,8 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 7.2
-  
-  generateEncryptManifests:
-    needs: setup
-    strategy:
-      matrix:
-        library: [TestVectorsAwsCryptographicMaterialProviders]
-        os: [
-            # TODO just test on mac and ubuntu for now
-            # windows-latest,
-            ubuntu-latest,
-            macos-latest,
-          ]
-        languages: [java, net]
-        dotnet-version: ["6.0.x"]
-    runs-on: ${{ matrix.os }}
-    permissions:
-      id-token: write
-      contents: read
-    
-    steps: 
-        # Test Vectors need to call KMS 
+      
+      # Test Vectors need to call KMS 
       - name: Configure AWS Credentials for Tests
         uses: aws-actions/configure-aws-credentials@v2
         with:
