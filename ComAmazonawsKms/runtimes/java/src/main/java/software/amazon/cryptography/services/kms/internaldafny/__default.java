@@ -99,7 +99,7 @@ public class __default
     // have no way to determine what region it is
     // configured with.
     if (shim.region() == null) {
-      return WrappersInterop.CreateBooleanNone());
+      return WrappersInterop.CreateBooleanNone();
     }
 
     // Otherwise we kept record of the region
