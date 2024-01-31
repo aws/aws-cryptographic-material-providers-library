@@ -76,7 +76,7 @@ duvet_report:
 		--html specification_compliance_report.html
 
 # Generate the top-level project.properties file using smithy-dafny.
-# This is currently only used in the nightly Dafny CI,
+# This is for the benefit of the nightly Dafny CI,
 # to verify that everything works with the latest Dafny prerelease.
 # We use smithy-dafny rather than just cat-ing the file directly
 # because smithy-dafny currently maintains the knowledge
@@ -85,7 +85,7 @@ duvet_report:
 generate_properties_file: 
 	cd smithy-dafny/codegen/smithy-dafny-codegen-cli; \
 	./../gradlew run --args="\
-	$(DAFNY_VERSION_OPTION) \
+	--dafny-version ${DAFNY_VERSION} \
 	--model $(PROJECT_ROOT)/StandardLibrary/Model \
 	--dependent-model $(PROJECT_ROOT)/StandardLibrary/Model \
 	--namespace aws.polymorph \
