@@ -94,7 +94,7 @@ jobs:
       - name: Upload Encrypt Manifest and keys.json files
         uses: actions/upload-artifact@v4
         with:
-          name: ${{matrix.os}}_vector_artifact
+          name: ${{matrix.os}}_vector_artifact_${{matrix.languages}}
           path: ./${{matrix.library}}/runtimes/${{matrix.languages}}/*.json
 
   # testInteroperablity:
