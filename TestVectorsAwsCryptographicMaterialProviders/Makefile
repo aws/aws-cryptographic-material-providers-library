@@ -55,3 +55,15 @@ SERVICE_DEPS_KeyVectors := \
 	ComAmazonawsDynamodb \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographicMaterialProviders \
+
+# Commands to generate and test test vectors
+test_generate_vectors_java:
+	gradle -p runtimes/java run --args="encrypt-manifest --encrypt-manifest-output ."
+	gradle -p runtimes/java copyKeysJSONCurr
+
+test_generate_vectors_net:
+	dotnet restore runtimes/net
+	dotnet build runtimes/net
+	dotnet run --project runtimes/net --framework net6.0 encrypt-manifest --encrypt-manifest-output runtimes/net
+	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/net
+
