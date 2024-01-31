@@ -67,3 +67,10 @@ test_generate_vectors_net:
 	dotnet run --project runtimes/net --framework net6.0 encrypt-manifest --encrypt-manifest-output runtimes/net
 	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/net
 
+test_encrypt_vectors_java:
+	gradle -p runtimes/java run --args="encrypt --manifest-path . --decrypt-manifest-path ."
+
+test_encrypt_vectors_net:
+	dotnet restore runtimes/net
+	dotnet build runtimes/net
+	dotnet run --project runtimes/net --framework net6.0 encrypt --manifest-path runtimes/net --decrypt-manifest-path runtimes/net

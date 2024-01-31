@@ -87,6 +87,12 @@ jobs:
         working-directory: ./${{ matrix.library }}
         run:
           make test_generate_vectors_${{ matrix.languages }}
+      
+      - name: Upload Encrypt Manifest and keys.json files
+        uses: actions/upload-artifact@v4
+        with:
+          name: vector_artifact
+          path: ./${{matrix.library}}/runtimes/${{matrix.languages}}/*.json
 
 
   # testInteroperablity:
