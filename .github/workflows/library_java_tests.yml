@@ -52,13 +52,11 @@ jobs:
       - run: git submodule update --init smithy-dafny
 
       - name: Setup Dafny
-        uses: dafny-lang/setup-dafny-action@v1.6.1
+        uses: dafny-lang/setup-dafny-action@v1.7.0
         with:
           dafny-version: ${{ inputs.dafny }}
 
       - name: Update project.properties
-        env:
-            DAFNY_VERSION: ${{ env.DAFNY_VERSION }}
         run: |
           make generate_properties_file
 
