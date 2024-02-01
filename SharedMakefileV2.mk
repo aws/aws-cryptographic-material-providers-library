@@ -61,6 +61,10 @@ SMITHY_MODEL_ROOT := $(LIBRARY_ROOT)/Model
 # for now we know this will work across the three environmnets we test in (windows, macos, ubuntu)
 COMPILE_SUFFIX_OPTION := -compileSuffix:1
 
+# The path to the smithy-dafny code generation CLI.
+# Defaults to the copy in the smithy-dafny submodule but can be overridden.
+CODEGEN_CLI_ROOT := $(PROJECT_ROOT)/smithy-dafny/codegen/smithy-dafny-codegen-cli
+
 ########################## Dafny targets
 
 # Proof of correctness for the math below
@@ -234,10 +238,9 @@ transpile_dependencies:
 # a single target can decide what parts it wants to build.
 
 _polymorph:
-	@: $(if ${CODEGEN_CLI_ROOT},,$(error You must pass the path CODEGEN_CLI_ROOT: CODEGEN_CLI_ROOT=/[path]/[to]/smithy-dafny/codegen/smithy-dafny-codegen-cli));
 	cd $(CODEGEN_CLI_ROOT); \
 	./../gradlew run --args="\
-	$(DAFNY_VERSION_OPTION) \
+	--dafny-version $(DAFNY_VERSION) \
 	$(OUTPUT_DAFNY) \
 	$(OUTPUT_JAVA) \
 	$(OUTPUT_DOTNET) \

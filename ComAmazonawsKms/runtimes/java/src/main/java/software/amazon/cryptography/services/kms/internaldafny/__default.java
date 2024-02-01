@@ -7,6 +7,7 @@ import static software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSe
 import static software.amazon.smithy.dafny.conversion.ToNative.Simple.String;
 
 import StandardLibraryInterop_Compile.WrappersInterop;
+
 import Wrappers_Compile.Option;
 import Wrappers_Compile.Result;
 import dafny.DafnySequence;
@@ -44,7 +45,7 @@ public class __default
       return CreateSuccessOfClient(shim);
     } catch (Exception e) {
       Error dafny_error = Error.create_KMSInternalException(
-        Option.create_Some(CharacterSequence(e.getMessage()))
+        WrappersInterop.CreateStringSome(CharacterSequence(e.getMessage()))
       );
       return CreateFailureOfError(dafny_error);
     }
@@ -80,7 +81,7 @@ public class __default
       return CreateSuccessOfClient(shim);
     } catch (Exception e) {
       Error dafny_error = Error.create_KMSInternalException(
-        Option.create_Some(CharacterSequence(e.getMessage()))
+        WrappersInterop.CreateStringSome(CharacterSequence(e.getMessage()))
       );
       return CreateFailureOfError(dafny_error);
     }
