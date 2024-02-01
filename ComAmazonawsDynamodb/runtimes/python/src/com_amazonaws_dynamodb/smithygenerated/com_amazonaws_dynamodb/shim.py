@@ -117,7 +117,7 @@ import Wrappers
 from botocore.exceptions import ClientError
 import software_amazon_cryptography_services_dynamodb_internaldafny_types
 
-def sdk_error_to_dafny_error(e: ClientError):
+def _sdk_error_to_dafny_error(e: ClientError):
     '''
     Converts the provided native Smithy-modelled error
     into the corresponding Dafny error.
@@ -230,7 +230,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.batch_execute_statement(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_BatchExecuteStatementOutput(boto_response_dict))
 
@@ -239,7 +239,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.batch_get_item(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_BatchGetItemOutput(boto_response_dict))
 
@@ -248,7 +248,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.batch_write_item(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_BatchWriteItemOutput(boto_response_dict))
 
@@ -257,7 +257,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.create_backup(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_CreateBackupOutput(boto_response_dict))
 
@@ -266,7 +266,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.create_global_table(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_CreateGlobalTableOutput(boto_response_dict))
 
@@ -275,7 +275,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.create_table(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_CreateTableOutput(boto_response_dict))
 
@@ -284,7 +284,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.delete_backup(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_DeleteBackupOutput(boto_response_dict))
 
@@ -293,7 +293,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.delete_item(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_DeleteItemOutput(boto_response_dict))
 
@@ -302,7 +302,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.delete_table(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_DeleteTableOutput(boto_response_dict))
 
@@ -311,7 +311,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.describe_backup(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_DescribeBackupOutput(boto_response_dict))
 
@@ -320,7 +320,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.describe_continuous_backups(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_DescribeContinuousBackupsOutput(boto_response_dict))
 
@@ -329,7 +329,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.describe_contributor_insights(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_DescribeContributorInsightsOutput(boto_response_dict))
 
@@ -338,7 +338,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.describe_endpoints(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_DescribeEndpointsResponse(boto_response_dict))
 
@@ -347,7 +347,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.describe_export(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_DescribeExportOutput(boto_response_dict))
 
@@ -356,7 +356,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.describe_global_table(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_DescribeGlobalTableOutput(boto_response_dict))
 
@@ -365,7 +365,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.describe_global_table_settings(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_DescribeGlobalTableSettingsOutput(boto_response_dict))
 
@@ -374,7 +374,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.describe_import(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_DescribeImportOutput(boto_response_dict))
 
@@ -383,7 +383,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.describe_kinesis_streaming_destination(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationOutput(boto_response_dict))
 
@@ -392,7 +392,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.describe_limits(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_DescribeLimitsOutput(boto_response_dict))
 
@@ -401,7 +401,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.describe_table(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_DescribeTableOutput(boto_response_dict))
 
@@ -410,7 +410,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.describe_table_replica_auto_scaling(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingOutput(boto_response_dict))
 
@@ -419,7 +419,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.describe_time_to_live(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_DescribeTimeToLiveOutput(boto_response_dict))
 
@@ -428,7 +428,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.disable_kinesis_streaming_destination(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput(boto_response_dict))
 
@@ -437,7 +437,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.enable_kinesis_streaming_destination(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput(boto_response_dict))
 
@@ -446,7 +446,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.execute_statement(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_ExecuteStatementOutput(boto_response_dict))
 
@@ -455,7 +455,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.execute_transaction(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_ExecuteTransactionOutput(boto_response_dict))
 
@@ -464,7 +464,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.export_table_to_point_in_time(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_ExportTableToPointInTimeOutput(boto_response_dict))
 
@@ -473,7 +473,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.get_item(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_GetItemOutput(boto_response_dict))
 
@@ -482,7 +482,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.import_table(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_ImportTableOutput(boto_response_dict))
 
@@ -491,7 +491,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.list_backups(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_ListBackupsOutput(boto_response_dict))
 
@@ -500,7 +500,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.list_contributor_insights(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_ListContributorInsightsOutput(boto_response_dict))
 
@@ -509,7 +509,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.list_exports(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_ListExportsOutput(boto_response_dict))
 
@@ -518,7 +518,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.list_global_tables(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_ListGlobalTablesOutput(boto_response_dict))
 
@@ -527,7 +527,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.list_imports(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_ListImportsOutput(boto_response_dict))
 
@@ -536,7 +536,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.list_tables(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_ListTablesOutput(boto_response_dict))
 
@@ -545,7 +545,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.list_tags_of_resource(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_ListTagsOfResourceOutput(boto_response_dict))
 
@@ -554,7 +554,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.put_item(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_PutItemOutput(boto_response_dict))
 
@@ -563,7 +563,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.query(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_QueryOutput(boto_response_dict))
 
@@ -572,7 +572,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.restore_table_from_backup(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_RestoreTableFromBackupOutput(boto_response_dict))
 
@@ -581,7 +581,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.restore_table_to_point_in_time(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_RestoreTableToPointInTimeOutput(boto_response_dict))
 
@@ -590,7 +590,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.scan(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_ScanOutput(boto_response_dict))
 
@@ -599,7 +599,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.tag_resource(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(None)
 
@@ -608,7 +608,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.transact_get_items(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_TransactGetItemsOutput(boto_response_dict))
 
@@ -617,7 +617,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.transact_write_items(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_TransactWriteItemsOutput(boto_response_dict))
 
@@ -626,7 +626,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.untag_resource(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(None)
 
@@ -635,7 +635,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.update_continuous_backups(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_UpdateContinuousBackupsOutput(boto_response_dict))
 
@@ -644,7 +644,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.update_contributor_insights(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_UpdateContributorInsightsOutput(boto_response_dict))
 
@@ -653,7 +653,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.update_global_table(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_UpdateGlobalTableOutput(boto_response_dict))
 
@@ -662,7 +662,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.update_global_table_settings(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_UpdateGlobalTableSettingsOutput(boto_response_dict))
 
@@ -671,7 +671,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.update_item(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_UpdateItemOutput(boto_response_dict))
 
@@ -680,7 +680,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.update_table(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_UpdateTableOutput(boto_response_dict))
 
@@ -689,7 +689,7 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.update_table_replica_auto_scaling(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingOutput(boto_response_dict))
 
@@ -698,6 +698,6 @@ class DynamoDBClientShim:
         try:
             boto_response_dict = self._impl.update_time_to_live(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_dynamodb_UpdateTimeToLiveOutput(boto_response_dict))

@@ -90,7 +90,7 @@ import Wrappers
 from botocore.exceptions import ClientError
 import software_amazon_cryptography_services_kms_internaldafny_types
 
-def sdk_error_to_dafny_error(e: ClientError):
+def _sdk_error_to_dafny_error(e: ClientError):
     '''
     Converts the provided native Smithy-modelled error
     into the corresponding Dafny error.
@@ -206,7 +206,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.cancel_key_deletion(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CancelKeyDeletionResponse(boto_response_dict))
 
@@ -215,7 +215,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.connect_custom_key_store(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_ConnectCustomKeyStoreResponse(boto_response_dict))
 
@@ -224,7 +224,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.create_alias(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(None)
 
@@ -233,7 +233,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.create_custom_key_store(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CreateCustomKeyStoreResponse(boto_response_dict))
 
@@ -242,7 +242,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.create_grant(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CreateGrantResponse(boto_response_dict))
 
@@ -251,7 +251,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.create_key(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_CreateKeyResponse(boto_response_dict))
 
@@ -260,7 +260,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.decrypt(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_DecryptResponse(boto_response_dict))
 
@@ -269,7 +269,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.delete_alias(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(None)
 
@@ -278,7 +278,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.delete_custom_key_store(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_DeleteCustomKeyStoreResponse(boto_response_dict))
 
@@ -287,7 +287,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.delete_imported_key_material(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(None)
 
@@ -296,7 +296,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.describe_custom_key_stores(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_DescribeCustomKeyStoresResponse(boto_response_dict))
 
@@ -305,7 +305,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.describe_key(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_DescribeKeyResponse(boto_response_dict))
 
@@ -314,7 +314,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.disable_key(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(None)
 
@@ -323,7 +323,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.disable_key_rotation(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(None)
 
@@ -332,7 +332,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.disconnect_custom_key_store(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_DisconnectCustomKeyStoreResponse(boto_response_dict))
 
@@ -341,7 +341,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.enable_key(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(None)
 
@@ -350,7 +350,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.enable_key_rotation(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(None)
 
@@ -359,7 +359,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.encrypt(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_EncryptResponse(boto_response_dict))
 
@@ -368,7 +368,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.generate_data_key(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_GenerateDataKeyResponse(boto_response_dict))
 
@@ -377,7 +377,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.generate_data_key_pair(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_GenerateDataKeyPairResponse(boto_response_dict))
 
@@ -386,7 +386,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.generate_data_key_pair_without_plaintext(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextResponse(boto_response_dict))
 
@@ -395,7 +395,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.generate_data_key_without_plaintext(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_GenerateDataKeyWithoutPlaintextResponse(boto_response_dict))
 
@@ -404,7 +404,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.generate_random(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_GenerateRandomResponse(boto_response_dict))
 
@@ -413,7 +413,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.get_key_policy(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_GetKeyPolicyResponse(boto_response_dict))
 
@@ -422,7 +422,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.get_key_rotation_status(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_GetKeyRotationStatusResponse(boto_response_dict))
 
@@ -431,7 +431,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.get_parameters_for_import(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_GetParametersForImportResponse(boto_response_dict))
 
@@ -440,7 +440,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.get_public_key(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_GetPublicKeyResponse(boto_response_dict))
 
@@ -449,7 +449,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.import_key_material(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_ImportKeyMaterialResponse(boto_response_dict))
 
@@ -458,7 +458,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.list_aliases(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_ListAliasesResponse(boto_response_dict))
 
@@ -467,7 +467,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.list_grants(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_ListGrantsResponse(boto_response_dict))
 
@@ -476,7 +476,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.list_key_policies(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_ListKeyPoliciesResponse(boto_response_dict))
 
@@ -485,7 +485,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.list_resource_tags(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_ListResourceTagsResponse(boto_response_dict))
 
@@ -494,7 +494,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.put_key_policy(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(None)
 
@@ -503,7 +503,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.re_encrypt(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_ReEncryptResponse(boto_response_dict))
 
@@ -512,7 +512,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.replicate_key(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_ReplicateKeyResponse(boto_response_dict))
 
@@ -521,7 +521,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.retire_grant(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(None)
 
@@ -530,7 +530,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.revoke_grant(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(None)
 
@@ -539,7 +539,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.schedule_key_deletion(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_ScheduleKeyDeletionResponse(boto_response_dict))
 
@@ -548,7 +548,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.sign(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_SignResponse(boto_response_dict))
 
@@ -557,7 +557,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.tag_resource(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(None)
 
@@ -566,7 +566,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.untag_resource(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(None)
 
@@ -575,7 +575,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.update_alias(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(None)
 
@@ -584,7 +584,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.update_custom_key_store(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_UpdateCustomKeyStoreResponse(boto_response_dict))
 
@@ -593,7 +593,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.update_key_description(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(None)
 
@@ -602,7 +602,7 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.update_primary_region(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(None)
 
@@ -611,6 +611,6 @@ class KMSClientShim:
         try:
             boto_response_dict = self._impl.verify(**boto_request_dict)
         except ClientError as e:
-            return Wrappers.Result_Failure(sdk_error_to_dafny_error(e))
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_VerifyResponse(boto_response_dict))
