@@ -96,6 +96,13 @@ jobs:
         with:
           name: ${{matrix.os}}_vector_artifact_${{matrix.languages}}
           path: ./${{matrix.library}}/runtimes/${{matrix.languages}}/*.json
+      
+      - name: test
+        run: |
+          for i in ${{matrix.languages}}
+          do
+            echo $i
+          done 
 
   testInteroperablity:
     needs: generateEncryptVectors
@@ -164,13 +171,18 @@ jobs:
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_net
-      
+
       - name: Download Encrypt Manifest Artifact
         uses: actions/download-artifact@v4
         with:
           name: ${{matrix.os}}_vector_artifact_${{matrix.languages}}
           path: ./${{matrix.library}}/runtimes/${{matrix.languages}}
-      
+
       - name: Decrypt Encrypt Manifest
         working-directory: ./${{ matrix.library }}
-        run: make test_decrypt_encrypt_vectors_${{matrix.languages}}
+        run: |
+          for i in ${{matrix.languages}}
+          do
+            echo $i
+          done 
+          make test_decrypt_encrypt_vectors_${{matrix.languages}}
