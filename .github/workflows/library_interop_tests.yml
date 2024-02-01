@@ -96,10 +96,10 @@ jobs:
         with:
           name: ${{matrix.os}}_vector_artifact_${{matrix.languages}}
           path: ./${{matrix.library}}/runtimes/${{matrix.languages}}/*.json
-      
+
       - name: test
         run: |
-          for i in ${{matrix.languages}}
+          for i in ${{fromJSON(matrix.languages)}}
           do
             echo $i
           done 
@@ -181,8 +181,4 @@ jobs:
       - name: Decrypt Encrypt Manifest
         working-directory: ./${{ matrix.library }}
         run: |
-          for i in ${{matrix.languages}}
-          do
-            echo $i
-          done 
           make test_decrypt_encrypt_vectors_${{matrix.languages}}
