@@ -20,7 +20,7 @@ jobs:
             ubuntu-latest,
             macos-latest,
           ]
-        languages: [java, net]
+        language: [java, net]
         dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
     permissions:
@@ -39,11 +39,13 @@ jobs:
       # Set up runtimes
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v3
+        if: ${{ matrix.language }} == 'net'
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Setup Java 17
         uses: actions/setup-java@v3
+        if: ${{ matrix.language }} == 'java'
         with:
           distribution: "corretto"
           java-version: 17
@@ -53,17 +55,11 @@ jobs:
         with:
           dafny-version: ${{ inputs.dafny }}
 
-      - name: test
-        run: |
-          languages="java net"
-          for i in $languages; do
-            echo $i
-          done
-
       # Build implementation for each runtime
       - name: Build ${{ matrix.library }} implementation in Java
         shell: bash
         working-directory: ./${{ matrix.library }}
+        if: ${{ matrix.language }} == 'java'
         run: |
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
@@ -72,6 +68,7 @@ jobs:
       - name: Build ${{ matrix.library }} implementation in .NET
         shell: bash
         working-directory: ./${{ matrix.library }}
+        if: ${{ matrix.language }} == 'net'
         run: |
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
@@ -79,6 +76,7 @@ jobs:
 
       - name: Setup gradle
         uses: gradle/gradle-build-action@v2
+        if: ${{ matrix.language }} == 'java'
         with:
           gradle-version: 7.2
 
@@ -92,17 +90,17 @@ jobs:
 
       - name: Create Manifests
         working-directory: ./${{ matrix.library }}
-        run: make test_generate_vectors_${{ matrix.languages }}
+        run: make test_generate_vectors_${{ matrix.language }}
 
       - name: Create Encrypt Manifests
         working-directory: ./${{ matrix.library }}
-        run: make test_encrypt_vectors_${{ matrix.languages }}
+        run: make test_encrypt_vectors_${{ matrix.language }}
 
       - name: Upload Encrypt Manifest and keys.json files
         uses: actions/upload-artifact@v4
         with:
-          name: ${{matrix.os}}_vector_artifact_${{matrix.languages}}
-          path: ./${{matrix.library}}/runtimes/${{matrix.languages}}/*.json
+          name: ${{matrix.os}}_vector_artifact_${{matrix.language}}
+          path: ./${{matrix.library}}/runtimes/${{matrix.language}}/*.json
 
   testInteroperablity:
     needs: generateEncryptVectors
@@ -115,7 +113,8 @@ jobs:
             ubuntu-latest,
             macos-latest,
           ]
-        languages: [java, net]
+        encrypting_language: [java, net]
+        decrypting_language: [java, net]
         dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
     permissions:
@@ -141,11 +140,13 @@ jobs:
       # Set up runtimes
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v3
+        if: ${{ matrix.decrypting_language }} == 'net'
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Setup Java 17
         uses: actions/setup-java@v3
+        if: ${{ matrix.decrypting_language }} == 'java'
         with:
           distribution: "corretto"
           java-version: 17
@@ -159,6 +160,7 @@ jobs:
       - name: Build ${{ matrix.library }} implementation in Java
         shell: bash
         working-directory: ./${{ matrix.library }}
+        if: ${{ matrix.decrypting_language }} == 'java'
         run: |
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
@@ -167,6 +169,7 @@ jobs:
       - name: Build ${{ matrix.library }} implementation in .NET
         shell: bash
         working-directory: ./${{ matrix.library }}
+        if: ${{ matrix.decrypting_language }} == 'net'
         run: |
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
@@ -175,9 +178,9 @@ jobs:
       - name: Download Encrypt Manifest Artifact
         uses: actions/download-artifact@v4
         with:
-          name: ${{matrix.os}}_vector_artifact_${{matrix.languages}}
-          path: ./${{matrix.library}}/runtimes/${{matrix.languages}}
+          name: ${{matrix.os}}_vector_artifact_${{matrix.encrypting_language}}
+          path: ./${{matrix.library}}/runtimes/${{matrix.encrypting_language}}
 
       - name: Decrypt Encrypt Manifest
         working-directory: ./${{ matrix.library }}
-        run: make test_decrypt_encrypt_vectors_${{matrix.languages}}
+        run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
