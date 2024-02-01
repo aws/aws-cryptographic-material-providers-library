@@ -7,7 +7,6 @@ import static software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSe
 import static software.amazon.smithy.dafny.conversion.ToNative.Simple.String;
 
 import StandardLibraryInterop_Compile.WrappersInterop;
-
 import Wrappers_Compile.Option;
 import Wrappers_Compile.Result;
 import dafny.DafnySequence;
