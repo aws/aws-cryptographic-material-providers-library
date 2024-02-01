@@ -99,10 +99,10 @@ jobs:
 
       - name: test
         run: |
-          for i in ${{fromJSON(matrix.languages)}}
+          for i in $(seq java net);
           do
             echo $i
-          done 
+          done
 
   testInteroperablity:
     needs: generateEncryptVectors
@@ -181,4 +181,7 @@ jobs:
       - name: Decrypt Encrypt Manifest
         working-directory: ./${{ matrix.library }}
         run: |
-          make test_decrypt_encrypt_vectors_${{matrix.languages}}
+          for i in $(seq java net);
+          do
+            make test_decrypt_encrypt_vectors_$i
+          done
