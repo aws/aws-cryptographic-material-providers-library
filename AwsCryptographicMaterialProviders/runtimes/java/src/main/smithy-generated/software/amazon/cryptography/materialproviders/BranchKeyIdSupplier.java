@@ -99,17 +99,9 @@ public final class BranchKeyIdSupplier implements IBranchKeyIdSupplier {
           this._impl.GetBranchKeyId(nativeInput);
         software.amazon.cryptography.materialproviders.internaldafny.types.GetBranchKeyIdOutput dafnyOutput =
           ToDafny.GetBranchKeyIdOutput(nativeOutput);
-        return Result.create_Success(
-          software.amazon.cryptography.materialproviders.internaldafny.types.GetBranchKeyIdOutput._typeDescriptor(),
-          Error._typeDescriptor(),
-          dafnyOutput
-        );
+        return Result.create_Success(dafnyOutput);
       } catch (RuntimeException ex) {
-        return Result.create_Failure(
-          software.amazon.cryptography.materialproviders.internaldafny.types.GetBranchKeyIdOutput._typeDescriptor(),
-          Error._typeDescriptor(),
-          ToDafny.Error(ex)
-        );
+        return Result.create_Failure(ToDafny.Error(ex));
       }
     }
 

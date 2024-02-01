@@ -4,7 +4,6 @@
 package software.amazon.cryptography.materialproviders;
 
 import Wrappers_Compile.Result;
-import dafny.TypeDescriptor;
 import java.lang.IllegalArgumentException;
 import java.lang.RuntimeException;
 import java.util.Objects;
@@ -94,17 +93,9 @@ public final class ClientSupplier implements IClientSupplier {
       try {
         KmsClient nativeOutput = this._impl.GetClient(nativeInput);
         IKMSClient dafnyOutput = new Shim(nativeOutput, null);
-        return Result.create_Success(
-          TypeDescriptor.reference(IKMSClient.class),
-          Error._typeDescriptor(),
-          dafnyOutput
-        );
+        return Result.create_Success(dafnyOutput);
       } catch (RuntimeException ex) {
-        return Result.create_Failure(
-          TypeDescriptor.reference(IKMSClient.class),
-          Error._typeDescriptor(),
-          ToDafny.Error(ex)
-        );
+        return Result.create_Failure(ToDafny.Error(ex));
       }
     }
 

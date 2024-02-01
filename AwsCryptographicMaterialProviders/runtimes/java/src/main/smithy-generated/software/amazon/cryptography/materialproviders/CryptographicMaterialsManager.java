@@ -113,17 +113,9 @@ public final class CryptographicMaterialsManager
           this._impl.DecryptMaterials(nativeInput);
         software.amazon.cryptography.materialproviders.internaldafny.types.DecryptMaterialsOutput dafnyOutput =
           ToDafny.DecryptMaterialsOutput(nativeOutput);
-        return Result.create_Success(
-          software.amazon.cryptography.materialproviders.internaldafny.types.DecryptMaterialsOutput._typeDescriptor(),
-          Error._typeDescriptor(),
-          dafnyOutput
-        );
+        return Result.create_Success(dafnyOutput);
       } catch (RuntimeException ex) {
-        return Result.create_Failure(
-          software.amazon.cryptography.materialproviders.internaldafny.types.DecryptMaterialsOutput._typeDescriptor(),
-          Error._typeDescriptor(),
-          ToDafny.Error(ex)
-        );
+        return Result.create_Failure(ToDafny.Error(ex));
       }
     }
 
@@ -149,17 +141,9 @@ public final class CryptographicMaterialsManager
           this._impl.GetEncryptionMaterials(nativeInput);
         software.amazon.cryptography.materialproviders.internaldafny.types.GetEncryptionMaterialsOutput dafnyOutput =
           ToDafny.GetEncryptionMaterialsOutput(nativeOutput);
-        return Result.create_Success(
-          software.amazon.cryptography.materialproviders.internaldafny.types.GetEncryptionMaterialsOutput._typeDescriptor(),
-          Error._typeDescriptor(),
-          dafnyOutput
-        );
+        return Result.create_Success(dafnyOutput);
       } catch (RuntimeException ex) {
-        return Result.create_Failure(
-          software.amazon.cryptography.materialproviders.internaldafny.types.GetEncryptionMaterialsOutput._typeDescriptor(),
-          Error._typeDescriptor(),
-          ToDafny.Error(ex)
-        );
+        return Result.create_Failure(ToDafny.Error(ex));
       }
     }
 
