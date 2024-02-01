@@ -20,14 +20,14 @@ module
   method MaterialProviders(config: MaterialProvidersConfig)
     returns (res: Result<IAwsCryptographicMaterialProvidersClient, Error>)
     ensures res.Success? ==>
-      && res.value is MaterialProvidersClient
+              && res.value is MaterialProvidersClient
   {
     var maybeCrypto := Primitives.AtomicPrimitives();
     var cryptoPrimitivesX : Crypto.IAwsCryptographicPrimitivesClient :- maybeCrypto
     .MapFailure(e => Types.AwsCryptographyPrimitives(e));
     assert cryptoPrimitivesX is Primitives.AtomicPrimitivesClient;
     var cryptoPrimitives := cryptoPrimitivesX as Primitives.AtomicPrimitivesClient;
-    
+
     var client := new MaterialProvidersClient(Operations.Config( crypto := cryptoPrimitives ));
     return Success(client as IAwsCryptographicMaterialProvidersClient);
   }

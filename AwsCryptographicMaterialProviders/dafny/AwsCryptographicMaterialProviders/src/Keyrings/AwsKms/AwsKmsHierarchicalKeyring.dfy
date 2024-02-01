@@ -694,7 +694,7 @@ module AwsKmsHierarchicalKeyring {
       // down the line. This is ok because the only state tracked is the client's history.
       var maybeCrypto := Primitives.AtomicPrimitives();
       var cryptoPrimitivesX : Crypto.IAwsCryptographicPrimitivesClient :- maybeCrypto
-        .MapFailure(e => Types.AwsCryptographyPrimitives(e));
+      .MapFailure(e => Types.AwsCryptographyPrimitives(e));
       assert cryptoPrimitivesX is Primitives.AtomicPrimitivesClient;
       var cryptoPrimitives := cryptoPrimitivesX as Primitives.AtomicPrimitivesClient;
 
