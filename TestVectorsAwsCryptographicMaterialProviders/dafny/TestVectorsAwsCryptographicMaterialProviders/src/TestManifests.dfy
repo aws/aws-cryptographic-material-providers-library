@@ -43,7 +43,7 @@ module {:options "-functionSyntax:4"} TestManifests {
     var _ := TestDecrypts(decryptTests);
   }
 
-  method TestEncrypts(tests: seq<TestVectors.EncryptTest>, keys: KeyVectors.KeyVectorsClient)
+  method TestEncrypts(tests: seq<TestVectors.EncryptTest>, keys: KeyVectorsTypes.IKeyVectorsClient)
     returns (output: seq<TestVectors.DecryptTest>)
     requires keys.ValidState()
     modifies keys.Modifies
@@ -106,7 +106,7 @@ module {:options "-functionSyntax:4"} TestManifests {
     manifest := ToJSONDecryptManifiest(tests);
   }
 
-  method ToEncryptTests(keys: KeyVectors.KeyVectorsClient, encryptVectors: seq<TestVectors.EncryptTestVector>)
+  method ToEncryptTests(keys: KeyVectorsTypes.IKeyVectorsClient, encryptVectors: seq<TestVectors.EncryptTestVector>)
     returns (output: Result<seq<TestVectors.EncryptTest>, string>)
     requires keys.ValidState()
     modifies keys.Modifies

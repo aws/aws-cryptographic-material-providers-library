@@ -21,7 +21,7 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
   }
 
   method KeyVectors(config: KeyVectorsConfig)
-    returns (res: Result<KeyVectorsClient, Error>)
+    returns (res: Result<IKeyVectorsClient, Error>)
   {
     var keysManifestBv :- expect FileIO.ReadBytesFromFile(config.keyManifiestPath);
     var keysManifestBytes := BvToBytes(keysManifestBv);
