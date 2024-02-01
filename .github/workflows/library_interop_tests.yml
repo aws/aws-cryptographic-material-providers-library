@@ -38,14 +38,14 @@ jobs:
 
       # Set up runtimes
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v3
         if: ${{ matrix.language }} == 'net'
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Setup Java 17
-        uses: actions/setup-java@v3
         if: ${{ matrix.language }} == 'java'
+        uses: actions/setup-java@v3
         with:
           distribution: "corretto"
           java-version: 17
@@ -57,26 +57,26 @@ jobs:
 
       # Build implementation for each runtime
       - name: Build ${{ matrix.library }} implementation in Java
+        if: ${{ matrix.language }} == 'java'
         shell: bash
         working-directory: ./${{ matrix.library }}
-        if: ${{ matrix.language }} == 'java'
         run: |
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
           make build_java CORES=$CORES
 
       - name: Build ${{ matrix.library }} implementation in .NET
+        if: ${{ matrix.language }} == 'net'
         shell: bash
         working-directory: ./${{ matrix.library }}
-        if: ${{ matrix.language }} == 'net'
         run: |
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_net
 
       - name: Setup gradle
-        uses: gradle/gradle-build-action@v2
         if: ${{ matrix.language }} == 'java'
+        uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 7.2
 
@@ -139,14 +139,14 @@ jobs:
 
       # Set up runtimes
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v3
         if: ${{ matrix.decrypting_language }} == 'net'
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Setup Java 17
-        uses: actions/setup-java@v3
         if: ${{ matrix.decrypting_language }} == 'java'
+        uses: actions/setup-java@v3
         with:
           distribution: "corretto"
           java-version: 17
@@ -158,18 +158,18 @@ jobs:
 
       # Build implementation for each runtime
       - name: Build ${{ matrix.library }} implementation in Java
-        shell: bash
-        working-directory: ./${{ matrix.library }}
         if: ${{ matrix.decrypting_language }} == 'java'
+        working-directory: ./${{ matrix.library }}
+        shell: bash
         run: |
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
           make build_java CORES=$CORES
 
       - name: Build ${{ matrix.library }} implementation in .NET
-        shell: bash
-        working-directory: ./${{ matrix.library }}
         if: ${{ matrix.decrypting_language }} == 'net'
+        working-directory: ./${{ matrix.library }}
+        shell: bash
         run: |
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
@@ -179,7 +179,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{matrix.os}}_vector_artifact_${{matrix.encrypting_language}}
-          path: ./${{matrix.library}}/runtimes/${{matrix.encrypting_language}}
+          path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest
         working-directory: ./${{ matrix.library }}
