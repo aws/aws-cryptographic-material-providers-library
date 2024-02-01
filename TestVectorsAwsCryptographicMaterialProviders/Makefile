@@ -74,3 +74,11 @@ test_encrypt_vectors_net:
 	dotnet restore runtimes/net
 	dotnet build runtimes/net
 	dotnet run --project runtimes/net --framework net6.0 encrypt --manifest-path runtimes/net --decrypt-manifest-path runtimes/net
+
+test_decrypt_encrypt_vectors_java:
+	gradle -p runtimes/java run --args="decrypt --manifest-path ."
+
+test_decrypt_encrypt_vectors_net:
+	dotnet restore runtimes/net
+	dotnet build runtimes/net
+	dotnet run --project runtimes/net --framework net6.0 decrypt --manifest-path runtimes/net
