@@ -52,6 +52,13 @@ jobs:
         uses: dafny-lang/setup-dafny-action@v1.6.1
         with:
           dafny-version: ${{ inputs.dafny }}
+      
+      - name: test
+        run: |
+          languages="java net"
+          for i in $languages; do
+            echo $i
+          done
 
       # Build implementation for each runtime
       - name: Build ${{ matrix.library }} implementation in Java
@@ -97,12 +104,6 @@ jobs:
           name: ${{matrix.os}}_vector_artifact_${{matrix.languages}}
           path: ./${{matrix.library}}/runtimes/${{matrix.languages}}/*.json
 
-      - name: test
-        run: |
-          for i in $(seq java net);
-          do
-            echo $i
-          done
 
   testInteroperablity:
     needs: generateEncryptVectors
@@ -181,7 +182,7 @@ jobs:
       - name: Decrypt Encrypt Manifest
         working-directory: ./${{ matrix.library }}
         run: |
-          for i in $(seq java net);
-          do
+          languages="java net"
+          for i in $languages; do
             make test_decrypt_encrypt_vectors_$i
           done
