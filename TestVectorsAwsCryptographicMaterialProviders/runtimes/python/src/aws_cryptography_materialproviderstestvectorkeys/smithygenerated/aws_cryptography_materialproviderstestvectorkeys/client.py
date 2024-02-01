@@ -2,8 +2,8 @@
 
 import asyncio
 from asyncio import sleep
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references
 from copy import deepcopy
-import null.smithygenerated.aws_cryptography_materialproviders.references
 from software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types import (
     IKeyVectorsClient,
 )
@@ -19,7 +19,8 @@ from smithy_python.interfaces.retries import RetryErrorInfo, RetryErrorType
 from .config import Plugin
 from .deserialize import (
     _deserialize_create_test_vector_keyring,
-    _deserialize_create_wapped_test_vector_keyring,
+    _deserialize_create_wrapped_test_vector_cmm,
+    _deserialize_create_wrapped_test_vector_keyring,
     _deserialize_get_key_description,
     _deserialize_serialize_key_description,
 )
@@ -29,11 +30,13 @@ from .models import (
     GetKeyDescriptionOutput,
     SerializeKeyDescriptionInput,
     SerializeKeyDescriptionOutput,
+    TestVectorCmmInput,
     TestVectorKeyringInput,
 )
 from .serialize import (
     _serialize_create_test_vector_keyring,
-    _serialize_create_wapped_test_vector_keyring,
+    _serialize_create_wrapped_test_vector_cmm,
+    _serialize_create_wrapped_test_vector_keyring,
     _serialize_get_key_description,
     _serialize_serialize_key_description,
 )
@@ -67,7 +70,7 @@ class KeyVectors:
         if dafny_client is not None:
             self._config.dafnyImplInterface.impl = dafny_client
 
-    def create_test_vector_keyring(self, input: TestVectorKeyringInput) -> 'null.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+    def create_test_vector_keyring(self, input: TestVectorKeyringInput) -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
         """Invokes the CreateTestVectorKeyring operation.
 
         :param input: The operation's input.
@@ -81,18 +84,32 @@ class KeyVectors:
             operation_name="CreateTestVectorKeyring",
         ))
 
-    def create_wapped_test_vector_keyring(self, input: TestVectorKeyringInput) -> 'null.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
-        """Invokes the CreateWappedTestVectorKeyring operation.
+    def create_wrapped_test_vector_keyring(self, input: TestVectorKeyringInput) -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+        """Invokes the CreateWrappedTestVectorKeyring operation.
 
         :param input: The operation's input.
         """
         return asyncio.run(self._execute_operation(
             input=input,
             plugins=[],
-            serialize=_serialize_create_wapped_test_vector_keyring,
-            deserialize=_deserialize_create_wapped_test_vector_keyring,
+            serialize=_serialize_create_wrapped_test_vector_keyring,
+            deserialize=_deserialize_create_wrapped_test_vector_keyring,
             config=self._config,
-            operation_name="CreateWappedTestVectorKeyring",
+            operation_name="CreateWrappedTestVectorKeyring",
+        ))
+
+    def create_wrapped_test_vector_cmm(self, input: TestVectorCmmInput) -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsManager':
+        """Invokes the CreateWrappedTestVectorCmm operation.
+
+        :param input: The operation's input.
+        """
+        return asyncio.run(self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_wrapped_test_vector_cmm,
+            deserialize=_deserialize_create_wrapped_test_vector_cmm,
+            config=self._config,
+            operation_name="CreateWrappedTestVectorCmm",
         ))
 
     def get_key_description(self, input: GetKeyDescriptionInput) -> GetKeyDescriptionOutput:

@@ -4,6 +4,7 @@ import module_
 from software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types import (
     GetKeyDescriptionInput_GetKeyDescriptionInput as DafnyGetKeyDescriptionInput,
     SerializeKeyDescriptionInput_SerializeKeyDescriptionInput as DafnySerializeKeyDescriptionInput,
+    TestVectorCmmInput_TestVectorCmmInput as DafnyTestVectorCmmInput,
     TestVectorKeyringInput_TestVectorKeyringInput as DafnyTestVectorKeyringInput,
 )
 
@@ -20,6 +21,7 @@ class DafnyRequest:
         DafnyGetKeyDescriptionInput,
         DafnySerializeKeyDescriptionInput,
         DafnyTestVectorKeyringInput,
+        DafnyTestVectorCmmInput,
     ]
 
     def __init__(self, operation_name, dafny_operation_input):

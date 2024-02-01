@@ -60,12 +60,12 @@ class IBranchKeyIdSupplier(metaclass=abc.ABCMeta):
         Do not use.
         This method allows custom implementations of this interface to interact with generated code.
         '''
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetBranchKeyIdInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_GetBranchKeyIdInput(
             dafny_input
         )
         try:
             native_output = self.get_branch_key_id(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_GetBranchKeyIdOutput(
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_GetBranchKeyIdOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -91,12 +91,12 @@ class BranchKeyIdSupplier(IBranchKeyIdSupplier):
         :returns: Outputs for the Branch Key responsible for wrapping or unwrapping the
         data key in this encryption or decryption.
         """
-        dafny_output = self._impl.GetBranchKeyId(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_GetBranchKeyIdInput(input))
+        dafny_output = self._impl.GetBranchKeyId(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_GetBranchKeyIdInput(input))
         if dafny_output.IsFailure():
             raise asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetBranchKeyIdOutput(dafny_output.value)
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_GetBranchKeyIdOutput(dafny_output.value)
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> 'BranchKeyIdSupplier':
@@ -125,12 +125,12 @@ class IClientSupplier(metaclass=abc.ABCMeta):
         Do not use.
         This method allows custom implementations of this interface to interact with generated code.
         '''
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetClientInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_GetClientInput(
             dafny_input
         )
         try:
             native_output = self.get_client(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_GetClientOutput(
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_GetClientOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -151,12 +151,12 @@ class ClientSupplier(IClientSupplier):
         """Returns an AWS KMS Client.
         :param input: Inputs for getting a AWS KMS Client.
         """
-        dafny_output = self._impl.GetClient(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_GetClientInput(input))
+        dafny_output = self._impl.GetClient(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_GetClientInput(input))
         if dafny_output.IsFailure():
             raise asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetClientOutput(dafny_output.value)
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_GetClientOutput(dafny_output.value)
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> 'ClientSupplier':
@@ -197,12 +197,12 @@ class ICryptographicMaterialsCache(metaclass=abc.ABCMeta):
         Do not use.
         This method allows custom implementations of this interface to interact with generated code.
         '''
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_PutCacheEntryInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_PutCacheEntryInput(
             dafny_input
         )
         try:
             native_output = self.put_cache_entry(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_smithy_api_Unit(
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.smithy_api_Unit(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -217,12 +217,12 @@ class ICryptographicMaterialsCache(metaclass=abc.ABCMeta):
         Do not use.
         This method allows custom implementations of this interface to interact with generated code.
         '''
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetCacheEntryInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_GetCacheEntryInput(
             dafny_input
         )
         try:
             native_output = self.get_cache_entry(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_GetCacheEntryOutput(
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_GetCacheEntryOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -237,12 +237,12 @@ class ICryptographicMaterialsCache(metaclass=abc.ABCMeta):
         Do not use.
         This method allows custom implementations of this interface to interact with generated code.
         '''
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_UpdateUsageMetadataInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_UpdateUsageMetadataInput(
             dafny_input
         )
         try:
             native_output = self.update_usage_metadata(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_smithy_api_Unit(
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.smithy_api_Unit(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -257,12 +257,12 @@ class ICryptographicMaterialsCache(metaclass=abc.ABCMeta):
         Do not use.
         This method allows custom implementations of this interface to interact with generated code.
         '''
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_DeleteCacheEntryInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DeleteCacheEntryInput(
             dafny_input
         )
         try:
             native_output = self.delete_cache_entry(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_smithy_api_Unit(
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.smithy_api_Unit(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -280,36 +280,36 @@ class CryptographicMaterialsCache(ICryptographicMaterialsCache):
         self._impl = _impl
 
     def put_cache_entry(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.PutCacheEntryInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.Unit':
-        dafny_output = self._impl.PutCacheEntry(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_PutCacheEntryInput(input))
+        dafny_output = self._impl.PutCacheEntry(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_PutCacheEntryInput(input))
         if dafny_output.IsFailure():
             raise asyncio.run(smithy_api_deserialize_error(dafny_output.error))
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_smithy_api_Unit()
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.smithy_api_Unit()
 
     def get_cache_entry(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetCacheEntryInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetCacheEntryOutput':
-        dafny_output = self._impl.GetCacheEntry(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_GetCacheEntryInput(input))
+        dafny_output = self._impl.GetCacheEntry(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_GetCacheEntryInput(input))
         if dafny_output.IsFailure():
             raise asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetCacheEntryOutput(dafny_output.value)
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_GetCacheEntryOutput(dafny_output.value)
 
     def update_usage_metadata(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.UpdateUsageMetadataInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.Unit':
-        dafny_output = self._impl.UpdateUsageMetadata(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_UpdateUsageMetadataInput(input))
+        dafny_output = self._impl.UpdateUsageMetadata(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_UpdateUsageMetadataInput(input))
         if dafny_output.IsFailure():
             raise asyncio.run(smithy_api_deserialize_error(dafny_output.error))
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_smithy_api_Unit()
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.smithy_api_Unit()
 
     def delete_cache_entry(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DeleteCacheEntryInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.Unit':
-        dafny_output = self._impl.DeleteCacheEntry(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DeleteCacheEntryInput(input))
+        dafny_output = self._impl.DeleteCacheEntry(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_DeleteCacheEntryInput(input))
         if dafny_output.IsFailure():
             raise asyncio.run(smithy_api_deserialize_error(dafny_output.error))
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_smithy_api_Unit()
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.smithy_api_Unit()
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> 'CryptographicMaterialsCache':
@@ -340,12 +340,12 @@ class ICryptographicMaterialsManager(metaclass=abc.ABCMeta):
         Do not use.
         This method allows custom implementations of this interface to interact with generated code.
         '''
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetEncryptionMaterialsInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_GetEncryptionMaterialsInput(
             dafny_input
         )
         try:
             native_output = self.get_encryption_materials(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_GetEncryptionMaterialsOutput(
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_GetEncryptionMaterialsOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -360,12 +360,12 @@ class ICryptographicMaterialsManager(metaclass=abc.ABCMeta):
         Do not use.
         This method allows custom implementations of this interface to interact with generated code.
         '''
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_DecryptMaterialsInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DecryptMaterialsInput(
             dafny_input
         )
         try:
             native_output = self.decrypt_materials(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DecryptMaterialsOutput(
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_DecryptMaterialsOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -383,20 +383,20 @@ class CryptographicMaterialsManager(ICryptographicMaterialsManager):
         self._impl = _impl
 
     def get_encryption_materials(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetEncryptionMaterialsInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetEncryptionMaterialsOutput':
-        dafny_output = self._impl.GetEncryptionMaterials(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_GetEncryptionMaterialsInput(input))
+        dafny_output = self._impl.GetEncryptionMaterials(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_GetEncryptionMaterialsInput(input))
         if dafny_output.IsFailure():
             raise asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetEncryptionMaterialsOutput(dafny_output.value)
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_GetEncryptionMaterialsOutput(dafny_output.value)
 
     def decrypt_materials(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptMaterialsInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptMaterialsOutput':
-        dafny_output = self._impl.DecryptMaterials(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DecryptMaterialsInput(input))
+        dafny_output = self._impl.DecryptMaterials(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_DecryptMaterialsInput(input))
         if dafny_output.IsFailure():
             raise asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_DecryptMaterialsOutput(dafny_output.value)
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DecryptMaterialsOutput(dafny_output.value)
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> 'CryptographicMaterialsManager':
@@ -427,12 +427,12 @@ class IKeyring(metaclass=abc.ABCMeta):
         Do not use.
         This method allows custom implementations of this interface to interact with generated code.
         '''
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_OnEncryptInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_OnEncryptInput(
             dafny_input
         )
         try:
             native_output = self.on_encrypt(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_OnEncryptOutput(
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_OnEncryptOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -447,12 +447,12 @@ class IKeyring(metaclass=abc.ABCMeta):
         Do not use.
         This method allows custom implementations of this interface to interact with generated code.
         '''
-        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_OnDecryptInput(
+        native_input = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_OnDecryptInput(
             dafny_input
         )
         try:
             native_output = self.on_decrypt(native_input)
-            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_OnDecryptOutput(
+            dafny_output = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_OnDecryptOutput(
                 native_output
             )
             return Wrappers.Result_Success(dafny_output)
@@ -470,20 +470,20 @@ class Keyring(IKeyring):
         self._impl = _impl
 
     def on_encrypt(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnEncryptInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnEncryptOutput':
-        dafny_output = self._impl.OnEncrypt(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_OnEncryptInput(input))
+        dafny_output = self._impl.OnEncrypt(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_OnEncryptInput(input))
         if dafny_output.IsFailure():
             raise asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_OnEncryptOutput(dafny_output.value)
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_OnEncryptOutput(dafny_output.value)
 
     def on_decrypt(self, input: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnDecryptInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnDecryptOutput':
-        dafny_output = self._impl.OnDecrypt(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_OnDecryptInput(input))
+        dafny_output = self._impl.OnDecrypt(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_OnDecryptInput(input))
         if dafny_output.IsFailure():
             raise asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:
-            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_OnDecryptOutput(dafny_output.value)
+            return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_OnDecryptOutput(dafny_output.value)
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> 'Keyring':

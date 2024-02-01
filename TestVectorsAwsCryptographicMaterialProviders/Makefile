@@ -57,3 +57,13 @@ SERVICE_DEPS_KeyVectors := \
 	ComAmazonawsDynamodb \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographicMaterialProviders \
+
+# TODO-Python-PYTHONPATH: Remove this.
+# This is a workaround to map a Smithy namespace to its wrapping Python module name.
+# This information will be in doo files.
+PYTHON_DEPENDENCY_MODULE_NAMES := \
+	--dependency-module-name=aws.cryptography.primitives=aws_cryptography_primitives \
+	--dependency-module-name=com.amazonaws.kms=com_amazonaws_kms \
+	--dependency-module-name=com.amazonaws.dynamodb=com_amazonaws_dynamodb \
+	--dependency-module-name=aws.cryptography.materialProviders=aws_cryptographic_materialproviders \
+	--dependency-module-name=aws.cryptography.keyStore=aws_cryptographic_materialproviders \

@@ -99,11 +99,11 @@ def dafny_config_to_smithy_config(dafny_config) -> KeyStoreConfig:
     Converts the provided Dafny shape for this localService's config
     into the corresponding Smithy-modelled shape.
     '''
-    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.DafnyToSmithy_aws_cryptography_keystore_KeyStoreConfig(dafny_config)
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_KeyStoreConfig(dafny_config)
 
 def smithy_config_to_dafny_config(smithy_config) -> DafnyKeyStoreConfig:
     '''
     Converts the provided Smithy-modelled shape for this localService's config
     into the corresponding Dafny shape.
     '''
-    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_KeyStoreConfig(smithy_config)
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_KeyStoreConfig(smithy_config)

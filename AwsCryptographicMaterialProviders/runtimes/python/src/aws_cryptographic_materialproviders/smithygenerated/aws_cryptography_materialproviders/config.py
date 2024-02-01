@@ -66,11 +66,11 @@ def dafny_config_to_smithy_config(dafny_config) -> MaterialProvidersConfig:
     Converts the provided Dafny shape for this localService's config
     into the corresponding Smithy-modelled shape.
     '''
-    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_MaterialProvidersConfig(dafny_config)
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_MaterialProvidersConfig(dafny_config)
 
 def smithy_config_to_dafny_config(smithy_config) -> DafnyMaterialProvidersConfig:
     '''
     Converts the provided Smithy-modelled shape for this localService's config
     into the corresponding Dafny shape.
     '''
-    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_MaterialProvidersConfig(smithy_config)
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_MaterialProvidersConfig(smithy_config)

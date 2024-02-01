@@ -30,50 +30,50 @@ from software_amazon_cryptography_services_dynamodb_internaldafny_types import (
 from software_amazon_cryptography_services_kms_internaldafny_types import IKMSClient
 
 
-def SmithyToDafny_smithy_api_Unit(input):
+def smithy_api_Unit(input):
     return None
 
-def SmithyToDafny_aws_cryptography_keystore_CreateKeyStoreInput(input):
+def aws_cryptography_keystore_CreateKeyStoreInput(input):
     return DafnyCreateKeyStoreInput(
     )
 
-def SmithyToDafny_aws_cryptography_keystore_CreateKeyInput(input):
+def aws_cryptography_keystore_CreateKeyInput(input):
     return DafnyCreateKeyInput(
         branchKeyIdentifier=((Option_Some(Seq(input.branch_key_identifier))) if (input.branch_key_identifier is not None) else (Option_None())),
         encryptionContext=((Option_Some(Map({Seq(list(ord(c) for c in key)): Seq(list(ord(c) for c in value)) for (key, value) in input.encryption_context.items() }))) if (input.encryption_context is not None) else (Option_None())),
     )
 
-def SmithyToDafny_aws_cryptography_keystore_VersionKeyInput(input):
+def aws_cryptography_keystore_VersionKeyInput(input):
     return DafnyVersionKeyInput(
         branchKeyIdentifier=Seq(input.branch_key_identifier),
     )
 
-def SmithyToDafny_aws_cryptography_keystore_GetActiveBranchKeyInput(input):
+def aws_cryptography_keystore_GetActiveBranchKeyInput(input):
     return DafnyGetActiveBranchKeyInput(
         branchKeyIdentifier=Seq(input.branch_key_identifier),
     )
 
-def SmithyToDafny_aws_cryptography_keystore_GetBranchKeyVersionInput(input):
+def aws_cryptography_keystore_GetBranchKeyVersionInput(input):
     return DafnyGetBranchKeyVersionInput(
         branchKeyIdentifier=Seq(input.branch_key_identifier),
         branchKeyVersion=Seq(input.branch_key_version),
     )
 
-def SmithyToDafny_aws_cryptography_keystore_GetBeaconKeyInput(input):
+def aws_cryptography_keystore_GetBeaconKeyInput(input):
     return DafnyGetBeaconKeyInput(
         branchKeyIdentifier=Seq(input.branch_key_identifier),
     )
 
-def SmithyToDafny_aws_cryptography_keystore_GetKeyStoreInfoOutput(input):
+def aws_cryptography_keystore_GetKeyStoreInfoOutput(input):
     return DafnyGetKeyStoreInfoOutput(
         keyStoreId=Seq(input.key_store_id),
         keyStoreName=Seq(input.key_store_name),
         logicalKeyStoreName=Seq(input.logical_key_store_name),
         grantTokens=Seq([Seq(list_element) for list_element in input.grant_tokens]),
-        kmsConfiguration=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_KMSConfiguration(input.kms_configuration),
+        kmsConfiguration=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_KMSConfiguration(input.kms_configuration),
     )
 
-def SmithyToDafny_aws_cryptography_keystore_KMSConfiguration(input):
+def aws_cryptography_keystore_KMSConfiguration(input):
     if isinstance(input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationKmsKeyArn):
         KMSConfiguration_union_value = KMSConfiguration_kmsKeyArn(Seq(input.value))
     else:
@@ -81,26 +81,26 @@ def SmithyToDafny_aws_cryptography_keystore_KMSConfiguration(input):
 
     return KMSConfiguration_union_value
 
-def SmithyToDafny_aws_cryptography_keystore_CreateKeyStoreOutput(input):
+def aws_cryptography_keystore_CreateKeyStoreOutput(input):
     return DafnyCreateKeyStoreOutput(
         tableArn=Seq(input.table_arn),
     )
 
-def SmithyToDafny_aws_cryptography_keystore_CreateKeyOutput(input):
+def aws_cryptography_keystore_CreateKeyOutput(input):
     return DafnyCreateKeyOutput(
         branchKeyIdentifier=Seq(input.branch_key_identifier),
     )
 
-def SmithyToDafny_aws_cryptography_keystore_VersionKeyOutput(input):
+def aws_cryptography_keystore_VersionKeyOutput(input):
     return DafnyVersionKeyOutput(
     )
 
-def SmithyToDafny_aws_cryptography_keystore_GetActiveBranchKeyOutput(input):
+def aws_cryptography_keystore_GetActiveBranchKeyOutput(input):
     return DafnyGetActiveBranchKeyOutput(
-        branchKeyMaterials=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_BranchKeyMaterials(input.branch_key_materials),
+        branchKeyMaterials=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_BranchKeyMaterials(input.branch_key_materials),
     )
 
-def SmithyToDafny_aws_cryptography_keystore_BranchKeyMaterials(input):
+def aws_cryptography_keystore_BranchKeyMaterials(input):
     return DafnyBranchKeyMaterials(
         branchKeyIdentifier=Seq(input.branch_key_identifier),
         branchKeyVersion=Seq(list(ord(c) for c in input.branch_key_version)),
@@ -108,17 +108,17 @@ def SmithyToDafny_aws_cryptography_keystore_BranchKeyMaterials(input):
         branchKey=Seq(input.branch_key),
     )
 
-def SmithyToDafny_aws_cryptography_keystore_GetBranchKeyVersionOutput(input):
+def aws_cryptography_keystore_GetBranchKeyVersionOutput(input):
     return DafnyGetBranchKeyVersionOutput(
-        branchKeyMaterials=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_BranchKeyMaterials(input.branch_key_materials),
+        branchKeyMaterials=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_BranchKeyMaterials(input.branch_key_materials),
     )
 
-def SmithyToDafny_aws_cryptography_keystore_GetBeaconKeyOutput(input):
+def aws_cryptography_keystore_GetBeaconKeyOutput(input):
     return DafnyGetBeaconKeyOutput(
-        beaconKeyMaterials=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_BeaconKeyMaterials(input.beacon_key_materials),
+        beaconKeyMaterials=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_BeaconKeyMaterials(input.beacon_key_materials),
     )
 
-def SmithyToDafny_aws_cryptography_keystore_BeaconKeyMaterials(input):
+def aws_cryptography_keystore_BeaconKeyMaterials(input):
     return DafnyBeaconKeyMaterials(
         beaconKeyIdentifier=Seq(input.beacon_key_identifier),
         encryptionContext=Map({Seq(list(ord(c) for c in key)): Seq(list(ord(c) for c in value)) for (key, value) in input.encryption_context.items() }),
@@ -126,24 +126,24 @@ def SmithyToDafny_aws_cryptography_keystore_BeaconKeyMaterials(input):
         hmacKeys=((Option_Some(Map({Seq(key): Seq(value) for (key, value) in input.hmac_keys.items() }))) if (input.hmac_keys is not None) else (Option_None())),
     )
 
-def SmithyToDafny_aws_cryptography_keystore_KeyStoreConfig(input):
+def aws_cryptography_keystore_KeyStoreConfig(input):
     return DafnyKeyStoreConfig(
         ddbTableName=Seq(input.ddb_table_name),
-        kmsConfiguration=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_KMSConfiguration(input.kms_configuration),
+        kmsConfiguration=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_KMSConfiguration(input.kms_configuration),
         logicalKeyStoreName=Seq(input.logical_key_store_name),
         id=((Option_Some(Seq(input.id))) if (input.id is not None) else (Option_None())),
         grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in input.grant_tokens]))) if (input.grant_tokens is not None) else (Option_None())),
-        ddbClient=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_DdbClientReference(input.ddb_client))) if ((input.ddb_client is not None) and (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_DdbClientReference(input.ddb_client) is not None)) else (Option_None())),
-        kmsClient=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_KmsClientReference(input.kms_client))) if ((input.kms_client is not None) and (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.SmithyToDafny_aws_cryptography_keystore_KmsClientReference(input.kms_client) is not None)) else (Option_None())),
+        ddbClient=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_DdbClientReference(input.ddb_client))) if ((input.ddb_client is not None) and (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_DdbClientReference(input.ddb_client) is not None)) else (Option_None())),
+        kmsClient=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_KmsClientReference(input.kms_client))) if ((input.kms_client is not None) and (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_KmsClientReference(input.kms_client) is not None)) else (Option_None())),
     )
 
-def SmithyToDafny_aws_cryptography_keystore_DdbClientReference(input):
+def aws_cryptography_keystore_DdbClientReference(input):
     import software_amazon_cryptography_services_dynamodb_internaldafny
     client = software_amazon_cryptography_services_dynamodb_internaldafny.default__.DynamoDBClient(boto_client = input)
     client.value.impl = input
     return client.value
 
-def SmithyToDafny_aws_cryptography_keystore_KmsClientReference(input):
+def aws_cryptography_keystore_KmsClientReference(input):
     import software_amazon_cryptography_services_kms_internaldafny
     client = software_amazon_cryptography_services_kms_internaldafny.default__.KMSClient(boto_client = input)
     client.value.impl = input

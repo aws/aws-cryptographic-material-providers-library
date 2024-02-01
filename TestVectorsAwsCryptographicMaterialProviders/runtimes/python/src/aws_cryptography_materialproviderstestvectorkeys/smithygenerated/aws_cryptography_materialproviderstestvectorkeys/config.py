@@ -51,17 +51,17 @@ class KeyVectorsConfig(Config):
     '''
     Smithy-modelled localService Config shape for this localService.
     '''
-    key_manifiest_path: str
+    key_manifest_path: str
 
     def __init__(
         self,
-        key_manifiest_path: str,
+        key_manifest_path: str,
     ):
         """Constructor for KeyVectorsConfig.
 
         """
         super().__init__()
-        self.key_manifiest_path = key_manifiest_path
+        self.key_manifest_path = key_manifest_path
 
 def dafny_config_to_smithy_config(dafny_config) -> KeyVectorsConfig:
     '''

@@ -17,7 +17,8 @@ class DafnyImplInterface:
         if self.operation_map is None:
             self.operation_map = {
                 "CreateTestVectorKeyring": self.impl.CreateTestVectorKeyring,
-                "CreateWappedTestVectorKeyring": self.impl.CreateWappedTestVectorKeyring,
+                "CreateWrappedTestVectorKeyring": self.impl.CreateWrappedTestVectorKeyring,
+                "CreateWrappedTestVectorCmm": self.impl.CreateWrappedTestVectorCmm,
                 "GetKeyDescription": self.impl.GetKeyDescription,
                 "SerializeKeyDescription": self.impl.SerializeKeyDescription,
             }
