@@ -572,7 +572,7 @@ def AwsSdkToDafny_com_amazonaws_dynamodb_AttributeValue(input):
     elif "BOOL" in input.keys():
         AttributeValue_union_value = AttributeValue_BOOL(input["BOOL"])
     else:
-        raise ValueError("No recognized union value in union type: " + input)
+        raise ValueError("No recognized union value in union type: " + str(input))
 
     return AttributeValue_union_value
 

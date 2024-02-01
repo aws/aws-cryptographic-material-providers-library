@@ -349,9 +349,6 @@ class RawRSA:
         provider_id: str,
         padding: str,
     ):
-        """
-        :param padding: ///////
-        """
         self.key_id = key_id
         self.provider_id = provider_id
         self.padding = padding

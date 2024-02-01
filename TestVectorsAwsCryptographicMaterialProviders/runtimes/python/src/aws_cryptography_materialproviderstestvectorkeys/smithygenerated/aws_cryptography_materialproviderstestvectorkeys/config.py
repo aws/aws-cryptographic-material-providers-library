@@ -68,11 +68,11 @@ def dafny_config_to_smithy_config(dafny_config) -> KeyVectorsConfig:
     Converts the provided Dafny shape for this localService's config
     into the corresponding Smithy-modelled shape.
     '''
-    return aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviderstestvectorkeys_KeyVectorsConfig(dafny_config)
+    return aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy.aws_cryptography_materialproviderstestvectorkeys_KeyVectorsConfig(dafny_config)
 
 def smithy_config_to_dafny_config(smithy_config) -> DafnyKeyVectorsConfig:
     '''
     Converts the provided Smithy-modelled shape for this localService's config
     into the corresponding Dafny shape.
     '''
-    return aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviderstestvectorkeys_KeyVectorsConfig(smithy_config)
+    return aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_KeyVectorsConfig(smithy_config)

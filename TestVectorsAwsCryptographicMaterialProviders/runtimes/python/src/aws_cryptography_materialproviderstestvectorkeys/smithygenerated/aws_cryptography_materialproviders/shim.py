@@ -120,178 +120,178 @@ class MaterialProvidersShim(software_amazon_cryptography_materialproviders_inter
         self._impl = _impl
 
     def CreateAwsKmsKeyring(self, input):
-        smithy_client_request: CreateAwsKmsKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_CreateAwsKmsKeyringInput(input)
+        smithy_client_request: CreateAwsKmsKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsKeyringInput(input)
         try:
             smithy_client_response = self._impl.create_aws_kms_keyring(smithy_client_request)
         except ServiceError as e:
             return Wrappers.Result_Failure(smithy_error_to_dafny_error(e))
 
-        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
+        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
 
     def CreateAwsKmsDiscoveryKeyring(self, input):
-        smithy_client_request: CreateAwsKmsDiscoveryKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_CreateAwsKmsDiscoveryKeyringInput(input)
+        smithy_client_request: CreateAwsKmsDiscoveryKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsDiscoveryKeyringInput(input)
         try:
             smithy_client_response = self._impl.create_aws_kms_discovery_keyring(smithy_client_request)
         except ServiceError as e:
             return Wrappers.Result_Failure(smithy_error_to_dafny_error(e))
 
-        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
+        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
 
     def CreateAwsKmsMultiKeyring(self, input):
-        smithy_client_request: CreateAwsKmsMultiKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_CreateAwsKmsMultiKeyringInput(input)
+        smithy_client_request: CreateAwsKmsMultiKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsMultiKeyringInput(input)
         try:
             smithy_client_response = self._impl.create_aws_kms_multi_keyring(smithy_client_request)
         except ServiceError as e:
             return Wrappers.Result_Failure(smithy_error_to_dafny_error(e))
 
-        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
+        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
 
     def CreateAwsKmsDiscoveryMultiKeyring(self, input):
-        smithy_client_request: CreateAwsKmsDiscoveryMultiKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_CreateAwsKmsDiscoveryMultiKeyringInput(input)
+        smithy_client_request: CreateAwsKmsDiscoveryMultiKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsDiscoveryMultiKeyringInput(input)
         try:
             smithy_client_response = self._impl.create_aws_kms_discovery_multi_keyring(smithy_client_request)
         except ServiceError as e:
             return Wrappers.Result_Failure(smithy_error_to_dafny_error(e))
 
-        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
+        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
 
     def CreateAwsKmsMrkKeyring(self, input):
-        smithy_client_request: CreateAwsKmsMrkKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_CreateAwsKmsMrkKeyringInput(input)
+        smithy_client_request: CreateAwsKmsMrkKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsMrkKeyringInput(input)
         try:
             smithy_client_response = self._impl.create_aws_kms_mrk_keyring(smithy_client_request)
         except ServiceError as e:
             return Wrappers.Result_Failure(smithy_error_to_dafny_error(e))
 
-        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
+        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
 
     def CreateAwsKmsMrkMultiKeyring(self, input):
-        smithy_client_request: CreateAwsKmsMrkMultiKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_CreateAwsKmsMrkMultiKeyringInput(input)
+        smithy_client_request: CreateAwsKmsMrkMultiKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsMrkMultiKeyringInput(input)
         try:
             smithy_client_response = self._impl.create_aws_kms_mrk_multi_keyring(smithy_client_request)
         except ServiceError as e:
             return Wrappers.Result_Failure(smithy_error_to_dafny_error(e))
 
-        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
+        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
 
     def CreateAwsKmsMrkDiscoveryKeyring(self, input):
-        smithy_client_request: CreateAwsKmsMrkDiscoveryKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryKeyringInput(input)
+        smithy_client_request: CreateAwsKmsMrkDiscoveryKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryKeyringInput(input)
         try:
             smithy_client_response = self._impl.create_aws_kms_mrk_discovery_keyring(smithy_client_request)
         except ServiceError as e:
             return Wrappers.Result_Failure(smithy_error_to_dafny_error(e))
 
-        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
+        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
 
     def CreateAwsKmsMrkDiscoveryMultiKeyring(self, input):
-        smithy_client_request: CreateAwsKmsMrkDiscoveryMultiKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput(input)
+        smithy_client_request: CreateAwsKmsMrkDiscoveryMultiKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput(input)
         try:
             smithy_client_response = self._impl.create_aws_kms_mrk_discovery_multi_keyring(smithy_client_request)
         except ServiceError as e:
             return Wrappers.Result_Failure(smithy_error_to_dafny_error(e))
 
-        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
+        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
 
     def CreateAwsKmsHierarchicalKeyring(self, input):
-        smithy_client_request: CreateAwsKmsHierarchicalKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_CreateAwsKmsHierarchicalKeyringInput(input)
+        smithy_client_request: CreateAwsKmsHierarchicalKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsHierarchicalKeyringInput(input)
         try:
             smithy_client_response = self._impl.create_aws_kms_hierarchical_keyring(smithy_client_request)
         except ServiceError as e:
             return Wrappers.Result_Failure(smithy_error_to_dafny_error(e))
 
-        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
+        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
 
     def CreateMultiKeyring(self, input):
-        smithy_client_request: CreateMultiKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_CreateMultiKeyringInput(input)
+        smithy_client_request: CreateMultiKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateMultiKeyringInput(input)
         try:
             smithy_client_response = self._impl.create_multi_keyring(smithy_client_request)
         except ServiceError as e:
             return Wrappers.Result_Failure(smithy_error_to_dafny_error(e))
 
-        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
+        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
 
     def CreateRawAesKeyring(self, input):
-        smithy_client_request: CreateRawAesKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_CreateRawAesKeyringInput(input)
+        smithy_client_request: CreateRawAesKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateRawAesKeyringInput(input)
         try:
             smithy_client_response = self._impl.create_raw_aes_keyring(smithy_client_request)
         except ServiceError as e:
             return Wrappers.Result_Failure(smithy_error_to_dafny_error(e))
 
-        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
+        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
 
     def CreateRawRsaKeyring(self, input):
-        smithy_client_request: CreateRawRsaKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_CreateRawRsaKeyringInput(input)
+        smithy_client_request: CreateRawRsaKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateRawRsaKeyringInput(input)
         try:
             smithy_client_response = self._impl.create_raw_rsa_keyring(smithy_client_request)
         except ServiceError as e:
             return Wrappers.Result_Failure(smithy_error_to_dafny_error(e))
 
-        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
+        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
 
     def CreateAwsKmsRsaKeyring(self, input):
-        smithy_client_request: CreateAwsKmsRsaKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(input)
+        smithy_client_request: CreateAwsKmsRsaKeyringInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(input)
         try:
             smithy_client_response = self._impl.create_aws_kms_rsa_keyring(smithy_client_request)
         except ServiceError as e:
             return Wrappers.Result_Failure(smithy_error_to_dafny_error(e))
 
-        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
+        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
 
     def CreateDefaultCryptographicMaterialsManager(self, input):
-        smithy_client_request: CreateDefaultCryptographicMaterialsManagerInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_CreateDefaultCryptographicMaterialsManagerInput(input)
+        smithy_client_request: CreateDefaultCryptographicMaterialsManagerInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateDefaultCryptographicMaterialsManagerInput(input)
         try:
             smithy_client_response = self._impl.create_default_cryptographic_materials_manager(smithy_client_request)
         except ServiceError as e:
             return Wrappers.Result_Failure(smithy_error_to_dafny_error(e))
 
-        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CreateCryptographicMaterialsManagerOutput(smithy_client_response))
+        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateCryptographicMaterialsManagerOutput(smithy_client_response))
 
     def CreateRequiredEncryptionContextCMM(self, input):
-        smithy_client_request: CreateRequiredEncryptionContextCMMInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMInput(input)
+        smithy_client_request: CreateRequiredEncryptionContextCMMInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMInput(input)
         try:
             smithy_client_response = self._impl.create_required_encryption_context_cmm(smithy_client_request)
         except ServiceError as e:
             return Wrappers.Result_Failure(smithy_error_to_dafny_error(e))
 
-        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMOutput(smithy_client_response))
+        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMOutput(smithy_client_response))
 
     def CreateCryptographicMaterialsCache(self, input):
-        smithy_client_request: CreateCryptographicMaterialsCacheInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_CreateCryptographicMaterialsCacheInput(input)
+        smithy_client_request: CreateCryptographicMaterialsCacheInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateCryptographicMaterialsCacheInput(input)
         try:
             smithy_client_response = self._impl.create_cryptographic_materials_cache(smithy_client_request)
         except ServiceError as e:
             return Wrappers.Result_Failure(smithy_error_to_dafny_error(e))
 
-        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CreateCryptographicMaterialsCacheOutput(smithy_client_response))
+        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateCryptographicMaterialsCacheOutput(smithy_client_response))
 
     def CreateDefaultClientSupplier(self, input):
-        smithy_client_request: CreateDefaultClientSupplierInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_CreateDefaultClientSupplierInput(input)
+        smithy_client_request: CreateDefaultClientSupplierInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateDefaultClientSupplierInput(input)
         try:
             smithy_client_response = self._impl.create_default_client_supplier(smithy_client_request)
         except ServiceError as e:
             return Wrappers.Result_Failure(smithy_error_to_dafny_error(e))
 
-        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_CreateDefaultClientSupplierOutput(smithy_client_response))
+        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateDefaultClientSupplierOutput(smithy_client_response))
 
     def InitializeEncryptionMaterials(self, input):
-        smithy_client_request: InitializeEncryptionMaterialsInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_InitializeEncryptionMaterialsInput(input)
+        smithy_client_request: InitializeEncryptionMaterialsInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_InitializeEncryptionMaterialsInput(input)
         try:
             smithy_client_response = self._impl.initialize_encryption_materials(smithy_client_request)
         except ServiceError as e:
             return Wrappers.Result_Failure(smithy_error_to_dafny_error(e))
 
-        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_EncryptionMaterials(smithy_client_response))
+        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_EncryptionMaterials(smithy_client_response))
 
     def InitializeDecryptionMaterials(self, input):
-        smithy_client_request: InitializeDecryptionMaterialsInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_InitializeDecryptionMaterialsInput(input)
+        smithy_client_request: InitializeDecryptionMaterialsInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_InitializeDecryptionMaterialsInput(input)
         try:
             smithy_client_response = self._impl.initialize_decryption_materials(smithy_client_request)
         except ServiceError as e:
             return Wrappers.Result_Failure(smithy_error_to_dafny_error(e))
 
-        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_DecryptionMaterials(smithy_client_response))
+        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_DecryptionMaterials(smithy_client_response))
 
     def ValidEncryptionMaterialsTransition(self, input):
-        smithy_client_request: ValidEncryptionMaterialsTransitionInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_ValidEncryptionMaterialsTransitionInput(input)
+        smithy_client_request: ValidEncryptionMaterialsTransitionInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ValidEncryptionMaterialsTransitionInput(input)
         try:
             smithy_client_response = self._impl.valid_encryption_materials_transition(smithy_client_request)
         except ServiceError as e:
@@ -300,7 +300,7 @@ class MaterialProvidersShim(software_amazon_cryptography_materialproviders_inter
         return Wrappers.Result_Success(None)
 
     def ValidDecryptionMaterialsTransition(self, input):
-        smithy_client_request: ValidDecryptionMaterialsTransitionInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_ValidDecryptionMaterialsTransitionInput(input)
+        smithy_client_request: ValidDecryptionMaterialsTransitionInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ValidDecryptionMaterialsTransitionInput(input)
         try:
             smithy_client_response = self._impl.valid_decryption_materials_transition(smithy_client_request)
         except ServiceError as e:
@@ -309,7 +309,7 @@ class MaterialProvidersShim(software_amazon_cryptography_materialproviders_inter
         return Wrappers.Result_Success(None)
 
     def EncryptionMaterialsHasPlaintextDataKey(self, input):
-        smithy_client_request: EncryptionMaterials = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_EncryptionMaterials(input)
+        smithy_client_request: EncryptionMaterials = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptionMaterials(input)
         try:
             smithy_client_response = self._impl.encryption_materials_has_plaintext_data_key(smithy_client_request)
         except ServiceError as e:
@@ -318,7 +318,7 @@ class MaterialProvidersShim(software_amazon_cryptography_materialproviders_inter
         return Wrappers.Result_Success(None)
 
     def DecryptionMaterialsWithPlaintextDataKey(self, input):
-        smithy_client_request: DecryptionMaterials = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_DecryptionMaterials(input)
+        smithy_client_request: DecryptionMaterials = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_DecryptionMaterials(input)
         try:
             smithy_client_response = self._impl.decryption_materials_with_plaintext_data_key(smithy_client_request)
         except ServiceError as e:
@@ -327,16 +327,16 @@ class MaterialProvidersShim(software_amazon_cryptography_materialproviders_inter
         return Wrappers.Result_Success(None)
 
     def GetAlgorithmSuiteInfo(self, input):
-        smithy_client_request: GetAlgorithmSuiteInfoInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_GetAlgorithmSuiteInfoInput(input)
+        smithy_client_request: GetAlgorithmSuiteInfoInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_GetAlgorithmSuiteInfoInput(input)
         try:
             smithy_client_response = self._impl.get_algorithm_suite_info(smithy_client_request)
         except ServiceError as e:
             return Wrappers.Result_Failure(smithy_error_to_dafny_error(e))
 
-        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.SmithyToDafny_aws_cryptography_materialproviders_AlgorithmSuiteInfo(smithy_client_response))
+        return Wrappers.Result_Success(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_AlgorithmSuiteInfo(smithy_client_response))
 
     def ValidAlgorithmSuiteInfo(self, input):
-        smithy_client_request: AlgorithmSuiteInfo = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_AlgorithmSuiteInfo(input)
+        smithy_client_request: AlgorithmSuiteInfo = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteInfo(input)
         try:
             smithy_client_response = self._impl.valid_algorithm_suite_info(smithy_client_request)
         except ServiceError as e:
@@ -345,7 +345,7 @@ class MaterialProvidersShim(software_amazon_cryptography_materialproviders_inter
         return Wrappers.Result_Success(None)
 
     def ValidateCommitmentPolicyOnEncrypt(self, input):
-        smithy_client_request: ValidateCommitmentPolicyOnEncryptInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_ValidateCommitmentPolicyOnEncryptInput(input)
+        smithy_client_request: ValidateCommitmentPolicyOnEncryptInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ValidateCommitmentPolicyOnEncryptInput(input)
         try:
             smithy_client_response = self._impl.validate_commitment_policy_on_encrypt(smithy_client_request)
         except ServiceError as e:
@@ -354,7 +354,7 @@ class MaterialProvidersShim(software_amazon_cryptography_materialproviders_inter
         return Wrappers.Result_Success(None)
 
     def ValidateCommitmentPolicyOnDecrypt(self, input):
-        smithy_client_request: ValidateCommitmentPolicyOnDecryptInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.DafnyToSmithy_aws_cryptography_materialproviders_ValidateCommitmentPolicyOnDecryptInput(input)
+        smithy_client_request: ValidateCommitmentPolicyOnDecryptInput = aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_ValidateCommitmentPolicyOnDecryptInput(input)
         try:
             smithy_client_response = self._impl.validate_commitment_policy_on_decrypt(smithy_client_request)
         except ServiceError as e:
