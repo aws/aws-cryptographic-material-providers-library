@@ -93,11 +93,14 @@ public class ToDafny {
     beaconKey =
       Objects.nonNull(nativeValue.beaconKey())
         ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.beaconKey()
           )
         )
-        : Option.create_None();
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
+        );
     Option<
       DafnyMap<
         ? extends DafnySequence<? extends Character>,
@@ -107,8 +110,19 @@ public class ToDafny {
     hmacKeys =
       (Objects.nonNull(nativeValue.hmacKeys()) &&
           nativeValue.hmacKeys().size() > 0)
-        ? Option.create_Some(ToDafny.HmacKeyMap(nativeValue.hmacKeys()))
-        : Option.create_None();
+        ? Option.create_Some(
+          DafnyMap._typeDescriptor(
+            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+            DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
+          ),
+          ToDafny.HmacKeyMap(nativeValue.hmacKeys())
+        )
+        : Option.create_None(
+          DafnyMap._typeDescriptor(
+            DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+            DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
+          )
+        );
     return new BeaconKeyMaterials(
       beaconKeyIdentifier,
       encryptionContext,
@@ -156,11 +170,14 @@ public class ToDafny {
     branchKeyIdentifier =
       Objects.nonNull(nativeValue.branchKeyIdentifier())
         ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.branchKeyIdentifier()
           )
         )
-        : Option.create_None();
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
     Option<
       DafnyMap<
         ? extends DafnySequence<? extends Byte>,
@@ -171,9 +188,18 @@ public class ToDafny {
       (Objects.nonNull(nativeValue.encryptionContext()) &&
           nativeValue.encryptionContext().size() > 0)
         ? Option.create_Some(
+          DafnyMap._typeDescriptor(
+            DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
+            DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
+          ),
           ToDafny.EncryptionContext(nativeValue.encryptionContext())
         )
-        : Option.create_None();
+        : Option.create_None(
+          DafnyMap._typeDescriptor(
+            DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
+            DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
+          )
+        );
     return new CreateKeyInput(branchKeyIdentifier, encryptionContext);
   }
 
@@ -320,37 +346,51 @@ public class ToDafny {
     id =
       Objects.nonNull(nativeValue.id())
         ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
             nativeValue.id()
           )
         )
-        : Option.create_None();
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
     Option<
       DafnySequence<? extends DafnySequence<? extends Character>>
     > grantTokens;
     grantTokens =
       (Objects.nonNull(nativeValue.grantTokens()) &&
           nativeValue.grantTokens().size() > 0)
-        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
-        : Option.create_None();
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(
+            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+          ),
+          ToDafny.GrantTokenList(nativeValue.grantTokens())
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(
+            DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+          )
+        );
     Option<IDynamoDBClient> ddbClient;
     ddbClient =
       Objects.nonNull(nativeValue.ddbClient())
         ? Option.create_Some(
+          TypeDescriptor.reference(IDynamoDBClient.class),
           software.amazon.cryptography.services.dynamodb.internaldafny.ToDafny.DynamoDB_20120810(
             nativeValue.ddbClient()
           )
         )
-        : Option.create_None();
+        : Option.create_None(TypeDescriptor.reference(IDynamoDBClient.class));
     Option<IKMSClient> kmsClient;
     kmsClient =
       Objects.nonNull(nativeValue.kmsClient())
         ? Option.create_Some(
+          TypeDescriptor.reference(IKMSClient.class),
           software.amazon.cryptography.services.kms.internaldafny.ToDafny.TrentService(
             nativeValue.kmsClient()
           )
         )
-        : Option.create_None();
+        : Option.create_None(TypeDescriptor.reference(IKMSClient.class));
     return new KeyStoreConfig(
       ddbTableName,
       kmsConfiguration,

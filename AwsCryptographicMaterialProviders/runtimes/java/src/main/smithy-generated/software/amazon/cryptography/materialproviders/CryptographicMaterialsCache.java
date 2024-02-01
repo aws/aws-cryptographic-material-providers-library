@@ -121,9 +121,17 @@ public final class CryptographicMaterialsCache
       );
       try {
         this._impl.DeleteCacheEntry(nativeInput);
-        return Result.create_Success(Tuple0.create());
+        return Result.create_Success(
+          dafny.Tuple0._typeDescriptor(),
+          Error._typeDescriptor(),
+          Tuple0.create()
+        );
       } catch (RuntimeException ex) {
-        return Result.create_Failure(ToDafny.Error(ex));
+        return Result.create_Failure(
+          dafny.Tuple0._typeDescriptor(),
+          Error._typeDescriptor(),
+          ToDafny.Error(ex)
+        );
       }
     }
 
@@ -145,9 +153,17 @@ public final class CryptographicMaterialsCache
           this._impl.GetCacheEntry(nativeInput);
         software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheEntryOutput dafnyOutput =
           ToDafny.GetCacheEntryOutput(nativeOutput);
-        return Result.create_Success(dafnyOutput);
+        return Result.create_Success(
+          software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheEntryOutput._typeDescriptor(),
+          Error._typeDescriptor(),
+          dafnyOutput
+        );
       } catch (RuntimeException ex) {
-        return Result.create_Failure(ToDafny.Error(ex));
+        return Result.create_Failure(
+          software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheEntryOutput._typeDescriptor(),
+          Error._typeDescriptor(),
+          ToDafny.Error(ex)
+        );
       }
     }
 
@@ -166,9 +182,17 @@ public final class CryptographicMaterialsCache
       PutCacheEntryInput nativeInput = ToNative.PutCacheEntryInput(dafnyInput);
       try {
         this._impl.PutCacheEntry(nativeInput);
-        return Result.create_Success(Tuple0.create());
+        return Result.create_Success(
+          dafny.Tuple0._typeDescriptor(),
+          Error._typeDescriptor(),
+          Tuple0.create()
+        );
       } catch (RuntimeException ex) {
-        return Result.create_Failure(ToDafny.Error(ex));
+        return Result.create_Failure(
+          dafny.Tuple0._typeDescriptor(),
+          Error._typeDescriptor(),
+          ToDafny.Error(ex)
+        );
       }
     }
 
@@ -186,9 +210,17 @@ public final class CryptographicMaterialsCache
       );
       try {
         this._impl.UpdateUsageMetadata(nativeInput);
-        return Result.create_Success(Tuple0.create());
+        return Result.create_Success(
+          dafny.Tuple0._typeDescriptor(),
+          Error._typeDescriptor(),
+          Tuple0.create()
+        );
       } catch (RuntimeException ex) {
-        return Result.create_Failure(ToDafny.Error(ex));
+        return Result.create_Failure(
+          dafny.Tuple0._typeDescriptor(),
+          Error._typeDescriptor(),
+          ToDafny.Error(ex)
+        );
       }
     }
 

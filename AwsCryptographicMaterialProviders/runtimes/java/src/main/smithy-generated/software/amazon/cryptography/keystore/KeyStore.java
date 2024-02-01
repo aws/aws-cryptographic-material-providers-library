@@ -6,7 +6,6 @@ package software.amazon.cryptography.keystore;
 import Wrappers_Compile.Result;
 import java.lang.IllegalArgumentException;
 import java.util.Objects;
-import software.amazon.cryptography.keystore.internaldafny.KeyStoreClient;
 import software.amazon.cryptography.keystore.internaldafny.__default;
 import software.amazon.cryptography.keystore.internaldafny.types.Error;
 import software.amazon.cryptography.keystore.internaldafny.types.IKeyStoreClient;
@@ -33,7 +32,7 @@ public class KeyStore {
     KeyStoreConfig input = builder.KeyStoreConfig();
     software.amazon.cryptography.keystore.internaldafny.types.KeyStoreConfig dafnyValue =
       ToDafny.KeyStoreConfig(input);
-    Result<KeyStoreClient, Error> result = __default.KeyStore(dafnyValue);
+    Result<IKeyStoreClient, Error> result = __default.KeyStore(dafnyValue);
     if (result.is_Failure()) {
       throw ToNative.Error(result.dtor_error());
     }
