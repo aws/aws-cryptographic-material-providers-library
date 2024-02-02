@@ -17,3 +17,12 @@ module_root_dir = '/'.join(__file__.split("/")[:-1])
 
 sys.path.append(module_root_dir + "/internaldafny/extern")
 sys.path.append(module_root_dir + "/internaldafny/generated")
+
+# Export user-friendly access paths
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders as mpl
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders as keystore
+
+__all__ = [
+    mpl,
+    keystore
+]
