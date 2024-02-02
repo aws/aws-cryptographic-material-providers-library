@@ -62,6 +62,7 @@ jobs:
           make generate_properties_file
       
       # TODO: Should probably be a top-level make target
+      # TODO: Check Dafny code in library_dafny_verification.yml instead
       - name: Regenerate code using smithy-dafny
         working-directory: ./${{ matrix.library }}
         run: |
@@ -71,7 +72,7 @@ jobs:
           cd ..
           make setup_prettier
           make format_java_misc
-          git diff --exit-code || (echo "ERROR" && exit 1)
+          git diff --exit-code runtimes/java || (echo "ERROR" && exit 1)
 
       - name: Setup Java 8
         uses: actions/setup-java@v3
