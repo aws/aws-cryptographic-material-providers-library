@@ -69,6 +69,7 @@ jobs:
           make format_dafny
           make polymorph_java
           cd ..
+          make setup_prettier
           make format_java_misc
 
       - name: Setup Java 8
