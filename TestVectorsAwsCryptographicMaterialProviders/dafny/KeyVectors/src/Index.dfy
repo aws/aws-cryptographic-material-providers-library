@@ -13,6 +13,7 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
   import opened JSONHelpers
   import KeyMaterial
   import MaterialProviders
+  import MPLTypes = AwsCryptographyMaterialProvidersTypes
 
   function method DefaultKeyVectorsConfig() : KeyVectorsConfig {
     KeyVectorsConfig(
@@ -36,7 +37,9 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
     expect keysObject.Object?;
 
     var maybeMpl := MaterialProviders.MaterialProviders();
-    var mpl :- maybeMpl.MapFailure(e => AwsCryptographyMaterialProviders(e));
+    var mplX : MPLTypes.IAwsCryptographicMaterialProvidersClient :- maybeMpl
+      .MapFailure(e => AwsCryptographyMaterialProviders(e));
+    var mpl := mplX as MaterialProviders.MaterialProvidersClient;
 
     var keys :- KeyMaterial.BuildKeyMaterials(mpl, keysObject.obj)
     .MapFailure((e) => KeyVectorException(
