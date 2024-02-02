@@ -38,7 +38,7 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
 
     var maybeMpl := MaterialProviders.MaterialProviders();
     var mplX : MPLTypes.IAwsCryptographicMaterialProvidersClient :- maybeMpl
-      .MapFailure(e => AwsCryptographyMaterialProviders(e));
+    .MapFailure(e => AwsCryptographyMaterialProviders(e));
     var mpl := mplX as MaterialProviders.MaterialProvidersClient;
 
     var keys :- KeyMaterial.BuildKeyMaterials(mpl, keysObject.obj)

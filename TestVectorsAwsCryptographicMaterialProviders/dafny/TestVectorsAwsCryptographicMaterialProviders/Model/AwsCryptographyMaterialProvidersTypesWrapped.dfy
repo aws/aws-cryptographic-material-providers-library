@@ -3,9 +3,9 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 include "../../../../StandardLibrary/src/Index.dfy"
 include "../src/Index.dfy"
-// BEGIN MANUAL EDIT
+  // BEGIN MANUAL EDIT
 include "../../../../AwsCryptographicMaterialProviders/dafny/AwsCryptographicMaterialProviders/src/Index.dfy"
-// END MANUAL EDIT
+  // END MANUAL EDIT
 abstract module WrappedAbstractAwsCryptographyMaterialProvidersService {
   import opened Wrappers
   import opened StandardLibrary.UInt
@@ -21,7 +21,7 @@ abstract module WrappedAbstractAwsCryptographyMaterialProvidersService {
               && fresh(res.value.Modifies)
               && fresh(res.value.History)
               && res.value.ValidState()
-              // BEGIN MANUAL EDIT
+                 // BEGIN MANUAL EDIT
               && res.value is MaterialProviders.MaterialProvidersClient
-              // END MANUAL EDIT
+  // END MANUAL EDIT
 }
