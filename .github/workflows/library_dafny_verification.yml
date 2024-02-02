@@ -48,6 +48,11 @@ jobs:
         with:
           dotnet-version: "6.0.x"
 
+      - name: Check regenerated code using smithy-dafny
+        working-directory: ./${{ matrix.library }}
+        run: |
+          make check_polymorph_diff_dafny
+
       - name: Verify ${{ matrix.library }} Dafny code
         shell: bash
         working-directory: ./${{ matrix.library }}
