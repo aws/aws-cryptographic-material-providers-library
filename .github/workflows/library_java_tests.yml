@@ -72,6 +72,7 @@ jobs:
           cd ..
           make setup_prettier
           make format_java_misc
+          cd ${{ matrix.library }}
           git diff --exit-code runtimes/java || (echo "ERROR" && exit 1)
 
       - name: Setup Java 8
