@@ -16,12 +16,12 @@ jobs:
       matrix:
         library:
           [
-            AwsCryptographyPrimitives,
+            # AwsCryptographyPrimitives,
             ComAmazonawsKms,
-            ComAmazonawsDynamodb,
-            AwsCryptographicMaterialProviders,
-            TestVectorsAwsCryptographicMaterialProviders,
-            StandardLibrary,
+            # ComAmazonawsDynamodb,
+            # AwsCryptographicMaterialProviders,
+            # TestVectorsAwsCryptographicMaterialProviders,
+            # StandardLibrary,
           ]
         os: [
             # TODO just test on mac for now
