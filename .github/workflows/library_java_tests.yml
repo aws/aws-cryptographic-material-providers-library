@@ -16,12 +16,12 @@ jobs:
       matrix:
         library:
           [
-            # AwsCryptographyPrimitives,
+            AwsCryptographyPrimitives,
             ComAmazonawsKms,
-            # ComAmazonawsDynamodb,
-            # AwsCryptographicMaterialProviders,
-            # TestVectorsAwsCryptographicMaterialProviders,
-            # StandardLibrary,
+            ComAmazonawsDynamodb,
+            AwsCryptographicMaterialProviders,
+            TestVectorsAwsCryptographicMaterialProviders,
+            StandardLibrary,
           ]
         os: [
             # TODO just test on mac for now
@@ -71,6 +71,7 @@ jobs:
           cd ..
           make setup_prettier
           make format_java_misc
+          git diff --exit-code || (echo "ERROR" && exit 1)
 
       - name: Setup Java 8
         uses: actions/setup-java@v3
