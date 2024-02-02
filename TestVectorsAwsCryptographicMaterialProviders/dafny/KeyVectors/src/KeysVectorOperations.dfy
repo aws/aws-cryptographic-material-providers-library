@@ -51,9 +51,7 @@ module {:options "-functionSyntax:4"} KeysVectorOperations refines AbstractAwsCr
     );
 
     var maybeMpl := MaterialProviders.MaterialProviders();
-    var mplX : MPL.IAwsCryptographicMaterialProvidersClient :- maybeMpl
-    .MapFailure(e => AwsCryptographyMaterialProviders(e));
-    var mpl := mplX as MaterialProviders.MaterialProvidersClient;
+    var mpl :- maybeMpl.MapFailure(e => AwsCryptographyMaterialProviders(e));
 
     output := KeyringFromKeyDescription.ToKeyring(mpl, config.keys, input.keyDescription);
   }
@@ -71,10 +69,7 @@ module {:options "-functionSyntax:4"} KeysVectorOperations refines AbstractAwsCr
     );
 
     var maybeMpl := WrappedMaterialProviders.WrappedMaterialProviders();
-    var wrappedMPLX : MPL.IAwsCryptographicMaterialProvidersClient :- maybeMpl
-    .MapFailure(e => AwsCryptographyMaterialProviders(e));
-    assert wrappedMPLX is MaterialProviders.MaterialProvidersClient;
-    var wrappedMPL := wrappedMPLX as MaterialProviders.MaterialProvidersClient;
+    var wrappedMPL :- maybeMpl.MapFailure(e => AwsCryptographyMaterialProviders(e));
 
     output := KeyringFromKeyDescription.ToKeyring(wrappedMPL, config.keys, input.keyDescription);
   }
@@ -88,10 +83,7 @@ module {:options "-functionSyntax:4"} KeysVectorOperations refines AbstractAwsCr
     returns (output: Result<AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager, Error>)
   {
     var maybeMpl := WrappedMaterialProviders.WrappedMaterialProviders();
-    var wrappedMPLX : MPL.IAwsCryptographicMaterialProvidersClient :- maybeMpl
-    .MapFailure(e => AwsCryptographyMaterialProviders(e));
-    assert wrappedMPLX is MaterialProviders.MaterialProvidersClient;
-    var wrappedMPL := wrappedMPLX as MaterialProviders.MaterialProvidersClient;
+    var wrappedMPL :- maybeMpl.MapFailure(e => AwsCryptographyMaterialProviders(e));
 
     output := CmmFromKeyDescription.ToCmm(wrappedMPL, config.keys, input.keyDescription, input.forOperation);
   }
