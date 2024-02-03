@@ -9,7 +9,7 @@ on:
         required: true
         type: string
       diff-generated-code:
-        description: "Whether to check that regenerated code matches what's checked in"
+        description: "Diff regenerated code against committed state"
         required: false
         default: true
         type: boolean
