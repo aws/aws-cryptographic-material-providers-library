@@ -289,11 +289,10 @@ _polymorph_dafny: INPUT_DAFNY=\
 	--include-dafny $(PROJECT_ROOT)/$(STD_LIBRARY)/src/Index.dfy
 _polymorph_dafny: _polymorph
 
-check_polymorph_diff_dafny: MODEL_ROOT=$(if $(DIR_STRUCTURE_V2), $(LIBRARY_ROOT)/dafny/$(SERVICE)/Model, $(LIBRARY_ROOT)/Model)
 check_polymorph_diff_dafny:
 	make polymorph_dafny
 	make format_dafny
-	git diff --exit-code $(MODEL_ROOT) || (echo "ERROR" && exit 1)
+	git diff --exit-code $(LIBRARY_ROOT) || (echo "ERROR" && exit 1)
 
 # Generates dotnet code for all namespaces in this project
 .PHONY: polymorph_dotnet
@@ -309,11 +308,10 @@ _polymorph_dotnet: OUTPUT_DOTNET=\
     $(if $(DIR_STRUCTURE_V2), --output-dotnet $(LIBRARY_ROOT)/runtimes/net/Generated/$(SERVICE)/, --output-dotnet $(LIBRARY_ROOT)/runtimes/net/Generated/)
 _polymorph_dotnet: _polymorph
 
-check_polymorph_diff_dotnet: GENERATED_DOTNET=$(if $(DIR_STRUCTURE_V2), $(LIBRARY_ROOT)/runtimes/net/Generated/$(SERVICE)/, $(LIBRARY_ROOT)/runtimes/net/Generated/)
 check_polymorph_diff_dotnet:
 	make polymorph_net
 	make format_dotnet
-	git diff --exit-code $(GENERATED_DOTNET) || (echo "ERROR" && exit 1)
+	git diff --exit-code $(LIBRARY_ROOT)/runtimes/net/Generated || (echo "ERROR" && exit 1)
 
 # Generates java code for all namespaces in this project
 .PHONY: polymorph_java
@@ -328,7 +326,6 @@ polymorph_java:
 _polymorph_java: OUTPUT_JAVA=--output-java $(LIBRARY_ROOT)/runtimes/java/src/main/smithy-generated
 _polymorph_java: _polymorph
 
-check_polymorph_diff_java: MODEL_ROOT=$(if $(DIR_STRUCTURE_V2), $(LIBRARY_ROOT)/dafny/$(SERVICE)/Model, $(LIBRARY_ROOT)/Model)
 check_polymorph_diff_java:
 	make polymorph_java
 	make -C .. setup_prettier
