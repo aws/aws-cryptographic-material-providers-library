@@ -12,6 +12,7 @@ on:
 jobs:
   testDotNet:
     strategy:
+      fail-fast: false
       matrix:
         library:
           [

@@ -11,6 +11,7 @@ on:
 jobs:
   verification:
     strategy:
+      fail-fast: false
       matrix:
         library:
           [
