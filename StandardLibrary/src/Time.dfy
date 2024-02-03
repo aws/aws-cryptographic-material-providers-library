@@ -25,7 +25,7 @@ module {:extern "Time"} Time {
   // avoiding direct references to generic datatype constructors
   // since their calling pattern is different between different versions of Dafny
   // (i.e. after 4.2, explicit type descriptors are required).
-  
+
   function method CreateGetCurrentTimeStampSuccess(value: string): Result<string, string> {
     Success(value)
   }

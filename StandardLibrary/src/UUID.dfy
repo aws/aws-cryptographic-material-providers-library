@@ -26,7 +26,7 @@ module {:extern "UUID"} UUID {
   // avoiding direct references to generic datatype constructors
   // since their calling pattern is different between different versions of Dafny
   // (i.e. after 4.2, explicit type descriptors are required).
-  
+
   function method CreateBytesSuccess(bytes: seq<uint8>): Result<seq<uint8>, string> {
     Success(bytes)
   }

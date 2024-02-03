@@ -322,7 +322,7 @@ polymorph_java:
 _polymorph_java: OUTPUT_JAVA=--output-java $(LIBRARY_ROOT)/runtimes/java/src/main/smithy-generated
 _polymorph_java: _polymorph
 
-check_polymorph_diff_java:
+check_polymorph_java_diff:
 	git diff --exit-code $(LIBRARY_ROOT)/runtimes/java/src/main/smithy-generated || (echo "ERROR" && exit 1)
 
 ########################## .NET targets

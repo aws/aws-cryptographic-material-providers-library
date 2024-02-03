@@ -37,7 +37,7 @@ module {:extern "UTF8"} UTF8 {
   // avoiding direct references to generic datatype constructors
   // since their calling pattern is different between different versions of Dafny
   // (i.e. after 4.2, explicit type descriptors are required).
-  
+
   function method CreateEncodeSuccess(bytes: ValidUTF8Bytes): Result<ValidUTF8Bytes, string> {
     Success(bytes)
   }
