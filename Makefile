@@ -73,6 +73,7 @@ duvet_report:
 		--source-pattern "AwsCryptographicMaterialProviders/compliance_exceptions/**/*.txt" \
 		--source-pattern "TestVectorsAwsCryptographicMaterialProviders/compliance_exceptions/**/*.txt" \
 		--source-pattern "(# //=,# //#).github/workflows/duvet.yaml" \
+		--source-pattern "TestVectorsAwsCryptographicMaterialProviders/dafny/**/src/**/*.dfy" \
 		--html specification_compliance_report.html
 
 # Generate the top-level project.properties file using smithy-dafny.

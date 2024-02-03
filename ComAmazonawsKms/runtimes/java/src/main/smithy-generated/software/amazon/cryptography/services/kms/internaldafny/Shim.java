@@ -152,53 +152,21 @@ public class Shim implements IKMSClient {
         _impl.cancelKeyDeletion(converted);
       CancelKeyDeletionResponse dafnyResponse =
         ToDafny.CancelKeyDeletionResponse(result);
-      return Result.create_Success(
-        CancelKeyDeletionResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        CancelKeyDeletionResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        CancelKeyDeletionResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        CancelKeyDeletionResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        CancelKeyDeletionResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        CancelKeyDeletionResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        CancelKeyDeletionResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        CancelKeyDeletionResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -213,53 +181,21 @@ public class Shim implements IKMSClient {
         _impl.connectCustomKeyStore(converted);
       ConnectCustomKeyStoreResponse dafnyResponse =
         ToDafny.ConnectCustomKeyStoreResponse(result);
-      return Result.create_Success(
-        ConnectCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (CloudHsmClusterInvalidConfigurationException ex) {
-      return Result.create_Failure(
-        ConnectCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (CloudHsmClusterNotActiveException ex) {
-      return Result.create_Failure(
-        ConnectCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (CustomKeyStoreInvalidStateException ex) {
-      return Result.create_Failure(
-        ConnectCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (CustomKeyStoreNotFoundException ex) {
-      return Result.create_Failure(
-        ConnectCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        ConnectCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        ConnectCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        ConnectCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -269,65 +205,25 @@ public class Shim implements IKMSClient {
       ToNative.CreateAliasRequest(input);
     try {
       _impl.createAlias(converted);
-      return Result.create_Success(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Tuple0.create()
-      );
+      return Result.create_Success(Tuple0.create());
     } catch (AlreadyExistsException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidAliasNameException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -342,65 +238,25 @@ public class Shim implements IKMSClient {
         _impl.createCustomKeyStore(converted);
       CreateCustomKeyStoreResponse dafnyResponse =
         ToDafny.CreateCustomKeyStoreResponse(result);
-      return Result.create_Success(
-        CreateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (CloudHsmClusterInUseException ex) {
-      return Result.create_Failure(
-        CreateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (CloudHsmClusterInvalidConfigurationException ex) {
-      return Result.create_Failure(
-        CreateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (CloudHsmClusterNotActiveException ex) {
-      return Result.create_Failure(
-        CreateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (CloudHsmClusterNotFoundException ex) {
-      return Result.create_Failure(
-        CreateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (CustomKeyStoreNameInUseException ex) {
-      return Result.create_Failure(
-        CreateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (IncorrectTrustAnchorException ex) {
-      return Result.create_Failure(
-        CreateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        CreateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        CreateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        CreateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -414,71 +270,27 @@ public class Shim implements IKMSClient {
       software.amazon.awssdk.services.kms.model.CreateGrantResponse result =
         _impl.createGrant(converted);
       CreateGrantResponse dafnyResponse = ToDafny.CreateGrantResponse(result);
-      return Result.create_Success(
-        CreateGrantResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        CreateGrantResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
-      return Result.create_Failure(
-        CreateGrantResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        CreateGrantResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantTokenException ex) {
-      return Result.create_Failure(
-        CreateGrantResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        CreateGrantResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        CreateGrantResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(
-        CreateGrantResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        CreateGrantResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        CreateGrantResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        CreateGrantResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -490,83 +302,31 @@ public class Shim implements IKMSClient {
       software.amazon.awssdk.services.kms.model.CreateKeyResponse result =
         _impl.createKey(converted);
       CreateKeyResponse dafnyResponse = ToDafny.CreateKeyResponse(result);
-      return Result.create_Success(
-        CreateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (CloudHsmClusterInvalidConfigurationException ex) {
-      return Result.create_Failure(
-        CreateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (CustomKeyStoreInvalidStateException ex) {
-      return Result.create_Failure(
-        CreateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (CustomKeyStoreNotFoundException ex) {
-      return Result.create_Failure(
-        CreateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        CreateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        CreateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        CreateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(
-        CreateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (MalformedPolicyDocumentException ex) {
-      return Result.create_Failure(
-        CreateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (TagException ex) {
-      return Result.create_Failure(
-        CreateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (UnsupportedOperationException ex) {
-      return Result.create_Failure(
-        CreateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        CreateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        CreateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -578,83 +338,31 @@ public class Shim implements IKMSClient {
       software.amazon.awssdk.services.kms.model.DecryptResponse result =
         _impl.decrypt(converted);
       DecryptResponse dafnyResponse = ToDafny.DecryptResponse(result);
-      return Result.create_Success(
-        DecryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        DecryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
-      return Result.create_Failure(
-        DecryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (IncorrectKeyException ex) {
-      return Result.create_Failure(
-        DecryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidCiphertextException ex) {
-      return Result.create_Failure(
-        DecryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantTokenException ex) {
-      return Result.create_Failure(
-        DecryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidKeyUsageException ex) {
-      return Result.create_Failure(
-        DecryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KeyUnavailableException ex) {
-      return Result.create_Failure(
-        DecryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        DecryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        DecryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        DecryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        DecryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        DecryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -664,47 +372,19 @@ public class Shim implements IKMSClient {
       ToNative.DeleteAliasRequest(input);
     try {
       _impl.deleteAlias(converted);
-      return Result.create_Success(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Tuple0.create()
-      );
+      return Result.create_Success(Tuple0.create());
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -719,47 +399,19 @@ public class Shim implements IKMSClient {
         _impl.deleteCustomKeyStore(converted);
       DeleteCustomKeyStoreResponse dafnyResponse =
         ToDafny.DeleteCustomKeyStoreResponse(result);
-      return Result.create_Success(
-        DeleteCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (CustomKeyStoreHasCmKsException ex) {
-      return Result.create_Failure(
-        DeleteCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (CustomKeyStoreInvalidStateException ex) {
-      return Result.create_Failure(
-        DeleteCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (CustomKeyStoreNotFoundException ex) {
-      return Result.create_Failure(
-        DeleteCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        DeleteCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        DeleteCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        DeleteCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -771,59 +423,23 @@ public class Shim implements IKMSClient {
       ToNative.DeleteImportedKeyMaterialRequest(input);
     try {
       _impl.deleteImportedKeyMaterial(converted);
-      return Result.create_Success(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Tuple0.create()
-      );
+      return Result.create_Success(Tuple0.create());
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (UnsupportedOperationException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -838,41 +454,17 @@ public class Shim implements IKMSClient {
         _impl.describeCustomKeyStores(converted);
       DescribeCustomKeyStoresResponse dafnyResponse =
         ToDafny.DescribeCustomKeyStoresResponse(result);
-      return Result.create_Success(
-        DescribeCustomKeyStoresResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (CustomKeyStoreNotFoundException ex) {
-      return Result.create_Failure(
-        DescribeCustomKeyStoresResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidMarkerException ex) {
-      return Result.create_Failure(
-        DescribeCustomKeyStoresResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        DescribeCustomKeyStoresResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        DescribeCustomKeyStoresResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        DescribeCustomKeyStoresResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -886,47 +478,19 @@ public class Shim implements IKMSClient {
       software.amazon.awssdk.services.kms.model.DescribeKeyResponse result =
         _impl.describeKey(converted);
       DescribeKeyResponse dafnyResponse = ToDafny.DescribeKeyResponse(result);
-      return Result.create_Success(
-        DescribeKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        DescribeKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        DescribeKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        DescribeKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        DescribeKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        DescribeKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        DescribeKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -936,53 +500,21 @@ public class Shim implements IKMSClient {
       ToNative.DisableKeyRequest(input);
     try {
       _impl.disableKey(converted);
-      return Result.create_Success(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Tuple0.create()
-      );
+      return Result.create_Success(Tuple0.create());
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -994,65 +526,25 @@ public class Shim implements IKMSClient {
       ToNative.DisableKeyRotationRequest(input);
     try {
       _impl.disableKeyRotation(converted);
-      return Result.create_Success(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Tuple0.create()
-      );
+      return Result.create_Success(Tuple0.create());
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (UnsupportedOperationException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -1068,41 +560,17 @@ public class Shim implements IKMSClient {
         _impl.disconnectCustomKeyStore(converted);
       DisconnectCustomKeyStoreResponse dafnyResponse =
         ToDafny.DisconnectCustomKeyStoreResponse(result);
-      return Result.create_Success(
-        DisconnectCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (CustomKeyStoreInvalidStateException ex) {
-      return Result.create_Failure(
-        DisconnectCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (CustomKeyStoreNotFoundException ex) {
-      return Result.create_Failure(
-        DisconnectCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        DisconnectCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        DisconnectCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        DisconnectCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -1112,59 +580,23 @@ public class Shim implements IKMSClient {
       ToNative.EnableKeyRequest(input);
     try {
       _impl.enableKey(converted);
-      return Result.create_Success(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Tuple0.create()
-      );
+      return Result.create_Success(Tuple0.create());
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -1176,65 +608,25 @@ public class Shim implements IKMSClient {
       ToNative.EnableKeyRotationRequest(input);
     try {
       _impl.enableKeyRotation(converted);
-      return Result.create_Success(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Tuple0.create()
-      );
+      return Result.create_Success(Tuple0.create());
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (UnsupportedOperationException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -1246,71 +638,27 @@ public class Shim implements IKMSClient {
       software.amazon.awssdk.services.kms.model.EncryptResponse result =
         _impl.encrypt(converted);
       EncryptResponse dafnyResponse = ToDafny.EncryptResponse(result);
-      return Result.create_Success(
-        EncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        EncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
-      return Result.create_Failure(
-        EncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantTokenException ex) {
-      return Result.create_Failure(
-        EncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidKeyUsageException ex) {
-      return Result.create_Failure(
-        EncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KeyUnavailableException ex) {
-      return Result.create_Failure(
-        EncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        EncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        EncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        EncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        EncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        EncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -1326,71 +674,27 @@ public class Shim implements IKMSClient {
       GenerateDataKeyResponse dafnyResponse = ToDafny.GenerateDataKeyResponse(
         result
       );
-      return Result.create_Success(
-        GenerateDataKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantTokenException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidKeyUsageException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KeyUnavailableException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        GenerateDataKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -1405,77 +709,29 @@ public class Shim implements IKMSClient {
         _impl.generateDataKeyPair(converted);
       GenerateDataKeyPairResponse dafnyResponse =
         ToDafny.GenerateDataKeyPairResponse(result);
-      return Result.create_Success(
-        GenerateDataKeyPairResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantTokenException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidKeyUsageException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KeyUnavailableException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (UnsupportedOperationException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -1493,77 +749,29 @@ public class Shim implements IKMSClient {
         _impl.generateDataKeyPairWithoutPlaintext(converted);
       GenerateDataKeyPairWithoutPlaintextResponse dafnyResponse =
         ToDafny.GenerateDataKeyPairWithoutPlaintextResponse(result);
-      return Result.create_Success(
-        GenerateDataKeyPairWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantTokenException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidKeyUsageException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KeyUnavailableException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (UnsupportedOperationException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        GenerateDataKeyPairWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -1581,71 +789,27 @@ public class Shim implements IKMSClient {
         _impl.generateDataKeyWithoutPlaintext(converted);
       GenerateDataKeyWithoutPlaintextResponse dafnyResponse =
         ToDafny.GenerateDataKeyWithoutPlaintextResponse(result);
-      return Result.create_Success(
-        GenerateDataKeyWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantTokenException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidKeyUsageException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KeyUnavailableException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        GenerateDataKeyWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        GenerateDataKeyWithoutPlaintextResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -1661,47 +825,19 @@ public class Shim implements IKMSClient {
       GenerateRandomResponse dafnyResponse = ToDafny.GenerateRandomResponse(
         result
       );
-      return Result.create_Success(
-        GenerateRandomResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (CustomKeyStoreInvalidStateException ex) {
-      return Result.create_Failure(
-        GenerateRandomResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (CustomKeyStoreNotFoundException ex) {
-      return Result.create_Failure(
-        GenerateRandomResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        GenerateRandomResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        GenerateRandomResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        GenerateRandomResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        GenerateRandomResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -1715,53 +851,21 @@ public class Shim implements IKMSClient {
       software.amazon.awssdk.services.kms.model.GetKeyPolicyResponse result =
         _impl.getKeyPolicy(converted);
       GetKeyPolicyResponse dafnyResponse = ToDafny.GetKeyPolicyResponse(result);
-      return Result.create_Success(
-        GetKeyPolicyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        GetKeyPolicyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        GetKeyPolicyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        GetKeyPolicyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        GetKeyPolicyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        GetKeyPolicyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        GetKeyPolicyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        GetKeyPolicyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -1776,59 +880,23 @@ public class Shim implements IKMSClient {
         _impl.getKeyRotationStatus(converted);
       GetKeyRotationStatusResponse dafnyResponse =
         ToDafny.GetKeyRotationStatusResponse(result);
-      return Result.create_Success(
-        GetKeyRotationStatusResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        GetKeyRotationStatusResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        GetKeyRotationStatusResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        GetKeyRotationStatusResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        GetKeyRotationStatusResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        GetKeyRotationStatusResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (UnsupportedOperationException ex) {
-      return Result.create_Failure(
-        GetKeyRotationStatusResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        GetKeyRotationStatusResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        GetKeyRotationStatusResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -1843,59 +911,23 @@ public class Shim implements IKMSClient {
         _impl.getParametersForImport(converted);
       GetParametersForImportResponse dafnyResponse =
         ToDafny.GetParametersForImportResponse(result);
-      return Result.create_Success(
-        GetParametersForImportResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        GetParametersForImportResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        GetParametersForImportResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        GetParametersForImportResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        GetParametersForImportResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        GetParametersForImportResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (UnsupportedOperationException ex) {
-      return Result.create_Failure(
-        GetParametersForImportResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        GetParametersForImportResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        GetParametersForImportResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -1909,83 +941,31 @@ public class Shim implements IKMSClient {
       software.amazon.awssdk.services.kms.model.GetPublicKeyResponse result =
         _impl.getPublicKey(converted);
       GetPublicKeyResponse dafnyResponse = ToDafny.GetPublicKeyResponse(result);
-      return Result.create_Success(
-        GetPublicKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        GetPublicKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
-      return Result.create_Failure(
-        GetPublicKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        GetPublicKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantTokenException ex) {
-      return Result.create_Failure(
-        GetPublicKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidKeyUsageException ex) {
-      return Result.create_Failure(
-        GetPublicKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KeyUnavailableException ex) {
-      return Result.create_Failure(
-        GetPublicKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        GetPublicKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        GetPublicKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        GetPublicKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (UnsupportedOperationException ex) {
-      return Result.create_Failure(
-        GetPublicKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        GetPublicKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        GetPublicKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -2000,83 +980,31 @@ public class Shim implements IKMSClient {
         _impl.importKeyMaterial(converted);
       ImportKeyMaterialResponse dafnyResponse =
         ToDafny.ImportKeyMaterialResponse(result);
-      return Result.create_Success(
-        ImportKeyMaterialResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        ImportKeyMaterialResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (ExpiredImportTokenException ex) {
-      return Result.create_Failure(
-        ImportKeyMaterialResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (IncorrectKeyMaterialException ex) {
-      return Result.create_Failure(
-        ImportKeyMaterialResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        ImportKeyMaterialResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidCiphertextException ex) {
-      return Result.create_Failure(
-        ImportKeyMaterialResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidImportTokenException ex) {
-      return Result.create_Failure(
-        ImportKeyMaterialResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        ImportKeyMaterialResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        ImportKeyMaterialResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        ImportKeyMaterialResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (UnsupportedOperationException ex) {
-      return Result.create_Failure(
-        ImportKeyMaterialResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        ImportKeyMaterialResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        ImportKeyMaterialResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -2090,53 +1018,21 @@ public class Shim implements IKMSClient {
       software.amazon.awssdk.services.kms.model.ListAliasesResponse result =
         _impl.listAliases(converted);
       ListAliasesResponse dafnyResponse = ToDafny.ListAliasesResponse(result);
-      return Result.create_Success(
-        ListAliasesResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        ListAliasesResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        ListAliasesResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidMarkerException ex) {
-      return Result.create_Failure(
-        ListAliasesResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        ListAliasesResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        ListAliasesResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        ListAliasesResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        ListAliasesResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -2148,65 +1044,25 @@ public class Shim implements IKMSClient {
       software.amazon.awssdk.services.kms.model.ListGrantsResponse result =
         _impl.listGrants(converted);
       ListGrantsResponse dafnyResponse = ToDafny.ListGrantsResponse(result);
-      return Result.create_Success(
-        ListGrantsResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        ListGrantsResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        ListGrantsResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantIdException ex) {
-      return Result.create_Failure(
-        ListGrantsResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidMarkerException ex) {
-      return Result.create_Failure(
-        ListGrantsResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        ListGrantsResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        ListGrantsResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        ListGrantsResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        ListGrantsResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        ListGrantsResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -2222,53 +1078,21 @@ public class Shim implements IKMSClient {
       ListKeyPoliciesResponse dafnyResponse = ToDafny.ListKeyPoliciesResponse(
         result
       );
-      return Result.create_Success(
-        ListKeyPoliciesResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        ListKeyPoliciesResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        ListKeyPoliciesResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        ListKeyPoliciesResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        ListKeyPoliciesResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        ListKeyPoliciesResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        ListKeyPoliciesResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        ListKeyPoliciesResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -2284,47 +1108,19 @@ public class Shim implements IKMSClient {
       ListResourceTagsResponse dafnyResponse = ToDafny.ListResourceTagsResponse(
         result
       );
-      return Result.create_Success(
-        ListResourceTagsResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        ListResourceTagsResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidMarkerException ex) {
-      return Result.create_Failure(
-        ListResourceTagsResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        ListResourceTagsResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        ListResourceTagsResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        ListResourceTagsResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        ListResourceTagsResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -2334,71 +1130,27 @@ public class Shim implements IKMSClient {
       ToNative.PutKeyPolicyRequest(input);
     try {
       _impl.putKeyPolicy(converted);
-      return Result.create_Success(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Tuple0.create()
-      );
+      return Result.create_Success(Tuple0.create());
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (MalformedPolicyDocumentException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (UnsupportedOperationException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -2410,83 +1162,31 @@ public class Shim implements IKMSClient {
       software.amazon.awssdk.services.kms.model.ReEncryptResponse result =
         _impl.reEncrypt(converted);
       ReEncryptResponse dafnyResponse = ToDafny.ReEncryptResponse(result);
-      return Result.create_Success(
-        ReEncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        ReEncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
-      return Result.create_Failure(
-        ReEncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (IncorrectKeyException ex) {
-      return Result.create_Failure(
-        ReEncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidCiphertextException ex) {
-      return Result.create_Failure(
-        ReEncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantTokenException ex) {
-      return Result.create_Failure(
-        ReEncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidKeyUsageException ex) {
-      return Result.create_Failure(
-        ReEncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KeyUnavailableException ex) {
-      return Result.create_Failure(
-        ReEncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        ReEncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        ReEncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        ReEncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        ReEncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        ReEncryptResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -2500,83 +1200,31 @@ public class Shim implements IKMSClient {
       software.amazon.awssdk.services.kms.model.ReplicateKeyResponse result =
         _impl.replicateKey(converted);
       ReplicateKeyResponse dafnyResponse = ToDafny.ReplicateKeyResponse(result);
-      return Result.create_Success(
-        ReplicateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (AlreadyExistsException ex) {
-      return Result.create_Failure(
-        ReplicateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
-      return Result.create_Failure(
-        ReplicateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        ReplicateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        ReplicateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        ReplicateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(
-        ReplicateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (MalformedPolicyDocumentException ex) {
-      return Result.create_Failure(
-        ReplicateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        ReplicateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (TagException ex) {
-      return Result.create_Failure(
-        ReplicateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (UnsupportedOperationException ex) {
-      return Result.create_Failure(
-        ReplicateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        ReplicateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        ReplicateKeyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -2586,65 +1234,25 @@ public class Shim implements IKMSClient {
       ToNative.RetireGrantRequest(input);
     try {
       _impl.retireGrant(converted);
-      return Result.create_Success(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Tuple0.create()
-      );
+      return Result.create_Success(Tuple0.create());
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantIdException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantTokenException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -2654,59 +1262,23 @@ public class Shim implements IKMSClient {
       ToNative.RevokeGrantRequest(input);
     try {
       _impl.revokeGrant(converted);
-      return Result.create_Success(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Tuple0.create()
-      );
+      return Result.create_Success(Tuple0.create());
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantIdException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -2721,53 +1293,21 @@ public class Shim implements IKMSClient {
         _impl.scheduleKeyDeletion(converted);
       ScheduleKeyDeletionResponse dafnyResponse =
         ToDafny.ScheduleKeyDeletionResponse(result);
-      return Result.create_Success(
-        ScheduleKeyDeletionResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        ScheduleKeyDeletionResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        ScheduleKeyDeletionResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        ScheduleKeyDeletionResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        ScheduleKeyDeletionResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        ScheduleKeyDeletionResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        ScheduleKeyDeletionResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        ScheduleKeyDeletionResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -2779,71 +1319,27 @@ public class Shim implements IKMSClient {
       software.amazon.awssdk.services.kms.model.SignResponse result =
         _impl.sign(converted);
       SignResponse dafnyResponse = ToDafny.SignResponse(result);
-      return Result.create_Success(
-        SignResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        SignResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
-      return Result.create_Failure(
-        SignResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantTokenException ex) {
-      return Result.create_Failure(
-        SignResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidKeyUsageException ex) {
-      return Result.create_Failure(
-        SignResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KeyUnavailableException ex) {
-      return Result.create_Failure(
-        SignResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        SignResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        SignResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        SignResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        SignResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        SignResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -2853,59 +1349,23 @@ public class Shim implements IKMSClient {
       ToNative.TagResourceRequest(input);
     try {
       _impl.tagResource(converted);
-      return Result.create_Success(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Tuple0.create()
-      );
+      return Result.create_Success(Tuple0.create());
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (TagException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -2915,53 +1375,21 @@ public class Shim implements IKMSClient {
       ToNative.UntagResourceRequest(input);
     try {
       _impl.untagResource(converted);
-      return Result.create_Success(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Tuple0.create()
-      );
+      return Result.create_Success(Tuple0.create());
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (TagException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -2971,53 +1399,21 @@ public class Shim implements IKMSClient {
       ToNative.UpdateAliasRequest(input);
     try {
       _impl.updateAlias(converted);
-      return Result.create_Success(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Tuple0.create()
-      );
+      return Result.create_Success(Tuple0.create());
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -3032,71 +1428,27 @@ public class Shim implements IKMSClient {
         _impl.updateCustomKeyStore(converted);
       UpdateCustomKeyStoreResponse dafnyResponse =
         ToDafny.UpdateCustomKeyStoreResponse(result);
-      return Result.create_Success(
-        UpdateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (CloudHsmClusterInvalidConfigurationException ex) {
-      return Result.create_Failure(
-        UpdateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (CloudHsmClusterNotActiveException ex) {
-      return Result.create_Failure(
-        UpdateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (CloudHsmClusterNotFoundException ex) {
-      return Result.create_Failure(
-        UpdateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (CloudHsmClusterNotRelatedException ex) {
-      return Result.create_Failure(
-        UpdateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (CustomKeyStoreInvalidStateException ex) {
-      return Result.create_Failure(
-        UpdateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (CustomKeyStoreNameInUseException ex) {
-      return Result.create_Failure(
-        UpdateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (CustomKeyStoreNotFoundException ex) {
-      return Result.create_Failure(
-        UpdateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        UpdateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        UpdateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        UpdateCustomKeyStoreResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -3108,53 +1460,21 @@ public class Shim implements IKMSClient {
       ToNative.UpdateKeyDescriptionRequest(input);
     try {
       _impl.updateKeyDescription(converted);
-      return Result.create_Success(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Tuple0.create()
-      );
+      return Result.create_Success(Tuple0.create());
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -3166,59 +1486,23 @@ public class Shim implements IKMSClient {
       ToNative.UpdatePrimaryRegionRequest(input);
     try {
       _impl.updatePrimaryRegion(converted);
-      return Result.create_Success(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Tuple0.create()
-      );
+      return Result.create_Success(Tuple0.create());
     } catch (DisabledException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (UnsupportedOperationException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        dafny.Tuple0._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 
@@ -3230,77 +1514,29 @@ public class Shim implements IKMSClient {
       software.amazon.awssdk.services.kms.model.VerifyResponse result =
         _impl.verify(converted);
       VerifyResponse dafnyResponse = ToDafny.VerifyResponse(result);
-      return Result.create_Success(
-        VerifyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        dafnyResponse
-      );
+      return Result.create_Success(dafnyResponse);
     } catch (DependencyTimeoutException ex) {
-      return Result.create_Failure(
-        VerifyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
-      return Result.create_Failure(
-        VerifyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantTokenException ex) {
-      return Result.create_Failure(
-        VerifyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidKeyUsageException ex) {
-      return Result.create_Failure(
-        VerifyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KeyUnavailableException ex) {
-      return Result.create_Failure(
-        VerifyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
-      return Result.create_Failure(
-        VerifyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidSignatureException ex) {
-      return Result.create_Failure(
-        VerifyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInvalidStateException ex) {
-      return Result.create_Failure(
-        VerifyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (NotFoundException ex) {
-      return Result.create_Failure(
-        VerifyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
-      return Result.create_Failure(
-        VerifyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        ToDafny.Error(ex)
-      );
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(
-        VerifyResponse._typeDescriptor(),
-        Error._typeDescriptor(),
-        Error.create_Opaque(ex.toString())
-      );
+      return Result.create_Failure(Error.create_Opaque(ex.toString()));
     }
   }
 }

@@ -61,10 +61,6 @@ SMITHY_MODEL_ROOT := $(LIBRARY_ROOT)/Model
 # for now we know this will work across the three environmnets we test in (windows, macos, ubuntu)
 COMPILE_SUFFIX_OPTION := -compileSuffix:1
 
-# The path to the smithy-dafny code generation CLI.
-# Defaults to the copy in the smithy-dafny submodule but can be overridden.
-CODEGEN_CLI_ROOT := $(PROJECT_ROOT)/smithy-dafny/codegen/smithy-dafny-codegen-cli
-
 ########################## Dafny targets
 
 # Proof of correctness for the math below
@@ -238,10 +234,13 @@ transpile_dependencies:
 # a single target can decide what parts it wants to build.
 
 _polymorph:
+	@: $(if ${CODEGEN_CLI_ROOT},,$(error You must pass the path CODEGEN_CLI_ROOT: CODEGEN_CLI_ROOT=/[path]/[to]/smithy-dafny/codegen/smithy-dafny-codegen-cli));
+	@: $(if ${DAFNY_VERSION},,$(error You must pass the value DAFNY_VERSION : DAFNY_VERSION=4.1));
 	cd $(CODEGEN_CLI_ROOT); \
 	./../gradlew run --args="\
 	--dafny-version $(DAFNY_VERSION) \
 	$(OUTPUT_DAFNY) \
+	$(INPUT_DAFNY) \
 	$(OUTPUT_JAVA) \
 	$(OUTPUT_DOTNET) \
 	--model $(if $(DIR_STRUCTURE_V2), $(LIBRARY_ROOT)/dafny/$(SERVICE)/Model, $(SMITHY_MODEL_ROOT)) \
@@ -263,7 +262,8 @@ polymorph_code_gen:
 	done
 
 _polymorph_code_gen: OUTPUT_DAFNY=\
-    --output-dafny $(if $(DIR_STRUCTURE_V2), $(LIBRARY_ROOT)/dafny/$(SERVICE)/Model, $(LIBRARY_ROOT)/Model) \
+    --output-dafny $(if $(DIR_STRUCTURE_V2), $(LIBRARY_ROOT)/dafny/$(SERVICE)/Model, $(LIBRARY_ROOT)/Model)
+_polymorph_code_gen: INPUT_DAFNY=\
 	--include-dafny $(PROJECT_ROOT)/$(STD_LIBRARY)/src/Index.dfy
 _polymorph_code_gen: OUTPUT_DOTNET=\
 	$(if $(DIR_STRUCTURE_V2), --output-dotnet $(LIBRARY_ROOT)/runtimes/net/Generated/$(SERVICE)/, --output-dotnet $(LIBRARY_ROOT)/runtimes/net/Generated/)
@@ -281,15 +281,10 @@ polymorph_dafny:
 	done
 
 _polymorph_dafny: OUTPUT_DAFNY=\
-    --output-dafny $(if $(DIR_STRUCTURE_V2), $(LIBRARY_ROOT)/dafny/$(SERVICE)/Model, $(LIBRARY_ROOT)/Model) \
+    --output-dafny $(if $(DIR_STRUCTURE_V2), $(LIBRARY_ROOT)/dafny/$(SERVICE)/Model, $(LIBRARY_ROOT)/Model)
+_polymorph_dafny: INPUT_DAFNY=\
 	--include-dafny $(PROJECT_ROOT)/$(STD_LIBRARY)/src/Index.dfy
 _polymorph_dafny: _polymorph
-
-check_polymorph_diff_dafny: MODEL_ROOT=$(if $(DIR_STRUCTURE_V2), $(LIBRARY_ROOT)/dafny/$(SERVICE)/Model, $(LIBRARY_ROOT)/Model)
-check_polymorph_diff_dafny:
-	make polymorph_dafny
-	make format_dafny
-	git diff --exit-code $(MODEL_ROOT) || (echo "ERROR" && exit 1)
 
 # Generates dotnet code for all namespaces in this project
 .PHONY: polymorph_dotnet
@@ -305,12 +300,6 @@ _polymorph_dotnet: OUTPUT_DOTNET=\
     $(if $(DIR_STRUCTURE_V2), --output-dotnet $(LIBRARY_ROOT)/runtimes/net/Generated/$(SERVICE)/, --output-dotnet $(LIBRARY_ROOT)/runtimes/net/Generated/)
 _polymorph_dotnet: _polymorph
 
-check_polymorph_diff_dotnet: GENERATED_DOTNET=$(if $(DIR_STRUCTURE_V2), $(LIBRARY_ROOT)/runtimes/net/Generated/$(SERVICE)/, $(LIBRARY_ROOT)/runtimes/net/Generated/)
-check_polymorph_diff_dotnet:
-	make polymorph_net
-	make format_dotnet
-	git diff --exit-code $(GENERATED_DOTNET) || (echo "ERROR" && exit 1)
-
 # Generates java code for all namespaces in this project
 .PHONY: polymorph_java
 polymorph_java:
@@ -323,13 +312,6 @@ polymorph_java:
 
 _polymorph_java: OUTPUT_JAVA=--output-java $(LIBRARY_ROOT)/runtimes/java/src/main/smithy-generated
 _polymorph_java: _polymorph
-
-check_polymorph_diff_java: MODEL_ROOT=$(if $(DIR_STRUCTURE_V2), $(LIBRARY_ROOT)/dafny/$(SERVICE)/Model, $(LIBRARY_ROOT)/Model)
-check_polymorph_diff_java:
-	make polymorph_java
-	make -C .. setup_prettier
-	make -C .. format_java_misc
-	git diff --exit-code $(LIBRARY_ROOT)/runtimes/java/src/main/smithy-generated || (echo "ERROR" && exit 1)
 
 ########################## .NET targets
 
