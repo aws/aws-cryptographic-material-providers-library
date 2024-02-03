@@ -8,6 +8,12 @@ on:
         description: "The Dafny version to run"
         required: true
         type: string
+      diff-generated-code:
+        description: "Whether to check that regenerated code matches what's checked in"
+        required: false
+        default: true
+        type: boolean
+
 jobs:
   verification:
     strategy:
@@ -50,10 +56,17 @@ jobs:
         with:
           dotnet-version: "6.0.x"
 
-      - name: Check regenerated code using smithy-dafny
+      - name: Regenerate code using smithy-dafny
         working-directory: ./${{ matrix.library }}
         run: |
-          make check_polymorph_diff_dafny
+          make polymorph_dafny
+          make format_dafny
+
+      - name: Check regenerated code against commited code
+        if: inputs.diff-generated-code
+        working-directory: ./${{ matrix.library }}
+        run: |
+          make check_polymorph_dafny_diff
 
       - name: Verify ${{ matrix.library }} Dafny code
         shell: bash

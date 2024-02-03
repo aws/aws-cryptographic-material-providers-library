@@ -289,9 +289,7 @@ _polymorph_dafny: INPUT_DAFNY=\
 	--include-dafny $(PROJECT_ROOT)/$(STD_LIBRARY)/src/Index.dfy
 _polymorph_dafny: _polymorph
 
-check_polymorph_diff_dafny:
-	make polymorph_dafny
-	make format_dafny
+check_polymorph_dafny_diff:
 	git diff --exit-code $(LIBRARY_ROOT) || (echo "ERROR" && exit 1)
 
 # Generates dotnet code for all namespaces in this project
@@ -308,9 +306,7 @@ _polymorph_dotnet: OUTPUT_DOTNET=\
     $(if $(DIR_STRUCTURE_V2), --output-dotnet $(LIBRARY_ROOT)/runtimes/net/Generated/$(SERVICE)/, --output-dotnet $(LIBRARY_ROOT)/runtimes/net/Generated/)
 _polymorph_dotnet: _polymorph
 
-check_polymorph_diff_dotnet:
-	make polymorph_net
-	make format_dotnet
+check_polymorph_dotnet_diff:
 	git diff --exit-code $(LIBRARY_ROOT)/runtimes/net/Generated || (echo "ERROR" && exit 1)
 
 # Generates java code for all namespaces in this project
@@ -327,9 +323,6 @@ _polymorph_java: OUTPUT_JAVA=--output-java $(LIBRARY_ROOT)/runtimes/java/src/mai
 _polymorph_java: _polymorph
 
 check_polymorph_diff_java:
-	make polymorph_java
-	make -C .. setup_prettier
-	make -C .. format_java_misc
 	git diff --exit-code $(LIBRARY_ROOT)/runtimes/java/src/main/smithy-generated || (echo "ERROR" && exit 1)
 
 ########################## .NET targets

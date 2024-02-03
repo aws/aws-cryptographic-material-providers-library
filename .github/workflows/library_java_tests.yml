@@ -8,6 +8,11 @@ on:
         description: "The Dafny version to run"
         required: true
         type: string
+      diff-generated-code:
+        description: "Whether to check that regenerated code matches what's checked in"
+        required: false
+        default: true
+        type: boolean
 
 jobs:
   testJava:
@@ -61,10 +66,19 @@ jobs:
         run: |
           make generate_properties_file
 
-      - name: Check regenerated code using smithy-dafny
+      - name: Regenerate code using smithy-dafny
         working-directory: ./${{ matrix.library }}
         run: |
-          make check_polymorph_diff_java
+          make polymorph_dafny
+          make polymorph_java
+          make -C .. setup_prettier
+          make -C .. format_java_misc
+
+      - name: Check regenerated code against commited code
+        if: inputs.diff-generated-code
+        working-directory: ./${{ matrix.library }}
+        run: |
+          make check_polymorph_java_diff
 
       - name: Setup Java 8
         uses: actions/setup-java@v3
