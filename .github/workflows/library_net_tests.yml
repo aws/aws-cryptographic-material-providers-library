@@ -8,6 +8,11 @@ on:
         description: "The Dafny version to run"
         required: true
         type: string
+      diff-generated-code:
+        description: "Diff regenerated code against committed state"
+        required: false
+        default: true
+        type: boolean
 
 jobs:
   testDotNet:
@@ -58,6 +63,23 @@ jobs:
         uses: dafny-lang/setup-dafny-action@v1.7.0
         with:
           dafny-version: ${{ inputs.dafny }}
+
+      - name: Update top-level project.properties file
+        run: |
+          make generate_properties_file
+
+      - name: Regenerate code using smithy-dafny
+        working-directory: ./${{ matrix.library }}
+        run: |
+          make polymorph_dafny
+          make polymorph_net
+          make format_net
+
+      - name: Check regenerated code against commited code
+        if: inputs.diff-generated-code
+        working-directory: ./${{ matrix.library }}
+        run: |
+          make check_polymorph_dotnet_diff
 
       - name: Download Dependencies
         working-directory: ./${{ matrix.library }}
