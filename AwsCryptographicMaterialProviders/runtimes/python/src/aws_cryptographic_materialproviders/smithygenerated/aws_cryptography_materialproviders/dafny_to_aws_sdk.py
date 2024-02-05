@@ -8,7 +8,7 @@ from software_amazon_cryptography_services_kms_internaldafny_types import (
 )
 
 
-def DafnyToAwsSdk_com_amazonaws_kms_EncryptionAlgorithmSpec(input):
+def com_amazonaws_kms_EncryptionAlgorithmSpec(input):
     # Convert EncryptionAlgorithmSpec
     if isinstance(input, EncryptionAlgorithmSpec_SYMMETRIC__DEFAULT):
         return "SYMMETRIC_DEFAULT"

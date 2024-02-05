@@ -1211,7 +1211,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(input):
             (bytes(input.publicKey.value)) if (input.publicKey.is_Some) else None
         ),
         kms_key_id=input.kmsKeyId.VerbatimString(False),
-        encryption_algorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_kms_EncryptionAlgorithmSpec(
+        encryption_algorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EncryptionAlgorithmSpec(
             input.encryptionAlgorithm
         ),
         kms_client=(

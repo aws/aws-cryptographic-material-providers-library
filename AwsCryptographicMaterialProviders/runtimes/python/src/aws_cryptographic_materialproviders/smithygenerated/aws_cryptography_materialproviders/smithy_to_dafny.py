@@ -1393,7 +1393,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(input):
             else (Option_None())
         ),
         kmsKeyId=Seq(input.kms_key_id),
-        encryptionAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.AwsSdkToDafny_com_amazonaws_kms_EncryptionAlgorithmSpec(
+        encryptionAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
             input.encryption_algorithm
         ),
         kmsClient=(
