@@ -4,27 +4,36 @@ from typing import Any, Dict, Generic, List, Literal, TypeVar
 
 
 class ServiceError(Exception):
-    """Base error for all errors in the service.
-    """
+    """Base error for all errors in the service."""
+
     pass
 
-T = TypeVar('T')
+
+T = TypeVar("T")
+
+
 class ApiError(ServiceError, Generic[T]):
-    """Base error for all api errors in the service.
-    """
+    """Base error for all api errors in the service."""
+
     code: T
+
     def __init__(self, message: str):
         super().__init__(message)
         self.message = message
 
-class UnknownApiError(ApiError[Literal['Unknown']]):
-    """Error representing any unknown api errors
-    """
-    code: Literal['Unknown'] = 'Unknown'
 
-class AwsCryptographicPrimitivesError(ApiError[Literal["AwsCryptographicPrimitivesError"]]):
+class UnknownApiError(ApiError[Literal["Unknown"]]):
+    """Error representing any unknown api errors"""
+
+    code: Literal["Unknown"] = "Unknown"
+
+
+class AwsCryptographicPrimitivesError(
+    ApiError[Literal["AwsCryptographicPrimitivesError"]]
+):
     code: Literal["AwsCryptographicPrimitivesError"] = "AwsCryptographicPrimitivesError"
     message: str
+
     def __init__(
         self,
         *,
@@ -39,8 +48,8 @@ class AwsCryptographicPrimitivesError(ApiError[Literal["AwsCryptographicPrimitiv
         keys to be mostly compatible with boto3.
         """
         return {
-            'message': self.message,
-            'code': self.code,
+            "message": self.message,
+            "code": self.code,
         }
 
     @staticmethod
@@ -51,14 +60,14 @@ class AwsCryptographicPrimitivesError(ApiError[Literal["AwsCryptographicPrimitiv
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
+            "message": d["message"],
         }
 
         return AwsCryptographicPrimitivesError(**kwargs)
 
     def __repr__(self) -> str:
         result = "AwsCryptographicPrimitivesError("
-        result += f'message={self.message},'
+        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
 
@@ -67,27 +76,26 @@ class AwsCryptographicPrimitivesError(ApiError[Literal["AwsCryptographicPrimitiv
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, AwsCryptographicPrimitivesError):
             return False
-        attributes: list[str] = ['message','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
-class AwsCryptographicPrimitivesError(ApiError[Literal["AwsCryptographicPrimitivesError"]]):
+
+class AwsCryptographicPrimitivesError(
+    ApiError[Literal["AwsCryptographicPrimitivesError"]]
+):
     code: Literal["AwsCryptographicPrimitivesError"] = "AwsCryptographicPrimitivesError"
     message: str
+
 
 class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
     code: Literal["CollectionOfErrors"] = "CollectionOfErrors"
     message: str
     list: List[ServiceError]
 
-    def __init__(
-        self,
-        *,
-        message: str,
-        list
-    ):
+    def __init__(self, *, message: str, list):
         super().__init__(message)
         self.list = list
 
@@ -98,9 +106,9 @@ class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
         keys to be mostly compatible with boto3.
         """
         return {
-            'message': self.message,
-            'code': self.code,
-            'list': self.list,
+            "message": self.message,
+            "code": self.code,
+            "list": self.list,
         }
 
     @staticmethod
@@ -110,19 +118,16 @@ class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
         The dictionary is expected to use the modeled shape names rather than the
         parameter names as keys to be mostly compatible with boto3.
         """
-        kwargs: Dict[str, Any] = {
-            'message': d['message'],
-            'list': d['list']
-        }
+        kwargs: Dict[str, Any] = {"message": d["message"], "list": d["list"]}
 
         return CollectionOfErrors(**kwargs)
 
     def __repr__(self) -> str:
         result = "CollectionOfErrors("
-        result += f'message={self.message},'
+        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
-        result += f'list={self.list}'
+        result += f"list={self.list}"
         result += ")"
         return result
 
@@ -131,21 +136,15 @@ class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
             return False
         if not (self.list == other.list):
             return False
-        attributes: list[str] = ['message','message']
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = ["message", "message"]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class OpaqueError(ApiError[Literal["OpaqueError"]]):
     code: Literal["OpaqueError"] = "OpaqueError"
     obj: Any  # As an OpaqueError, type of obj is unknown
 
-    def __init__(
-        self,
-        *,
-        obj
-    ):
+    def __init__(self, *, obj):
         super().__init__("")
         self.obj = obj
 
@@ -156,9 +155,9 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
         keys to be mostly compatible with boto3.
         """
         return {
-            'message': self.message,
-            'code': self.code,
-            'obj': self.obj,
+            "message": self.message,
+            "code": self.code,
+            "obj": self.obj,
         }
 
     @staticmethod
@@ -168,19 +167,16 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
         The dictionary is expected to use the modeled shape names rather than the
         parameter names as keys to be mostly compatible with boto3.
         """
-        kwargs: Dict[str, Any] = {
-            'message': d['message'],
-            'obj': d['obj']
-        }
+        kwargs: Dict[str, Any] = {"message": d["message"], "obj": d["obj"]}
 
         return OpaqueError(**kwargs)
 
     def __repr__(self) -> str:
         result = "OpaqueError("
-        result += f'message={self.message},'
+        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
-        result += f'obj={self.obj}'
+        result += f"obj={self.obj}"
         result += ")"
         return result
 
@@ -189,8 +185,5 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
             return False
         if not (self.obj == other.obj):
             return False
-        attributes: list[str] = ['message','message']
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = ["message", "message"]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
