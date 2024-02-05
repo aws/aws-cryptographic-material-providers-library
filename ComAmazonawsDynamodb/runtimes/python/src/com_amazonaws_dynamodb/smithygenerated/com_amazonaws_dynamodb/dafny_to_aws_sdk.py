@@ -154,213 +154,249 @@ from software_amazon_cryptography_services_dynamodb_internaldafny_types import (
 )
 
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_BackupInUseException(input):
+def com_amazonaws_dynamodb_BackupInUseException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_BackupNotFoundException(input):
+
+def com_amazonaws_dynamodb_BackupNotFoundException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ConditionalCheckFailedException(input):
+
+def com_amazonaws_dynamodb_ConditionalCheckFailedException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ContinuousBackupsUnavailableException(input):
+
+def com_amazonaws_dynamodb_ContinuousBackupsUnavailableException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DuplicateItemException(input):
+
+def com_amazonaws_dynamodb_DuplicateItemException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ExportConflictException(input):
+
+def com_amazonaws_dynamodb_ExportConflictException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ExportNotFoundException(input):
+
+def com_amazonaws_dynamodb_ExportNotFoundException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalTableAlreadyExistsException(input):
+
+def com_amazonaws_dynamodb_GlobalTableAlreadyExistsException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalTableNotFoundException(input):
+
+def com_amazonaws_dynamodb_GlobalTableNotFoundException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_IdempotentParameterMismatchException(input):
+
+def com_amazonaws_dynamodb_IdempotentParameterMismatchException(input):
     output = {}
     if input.Message.is_Some:
         output["Message"] = input.Message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ImportConflictException(input):
+
+def com_amazonaws_dynamodb_ImportConflictException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ImportNotFoundException(input):
+
+def com_amazonaws_dynamodb_ImportNotFoundException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_IndexNotFoundException(input):
+
+def com_amazonaws_dynamodb_IndexNotFoundException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_InternalServerError(input):
+
+def com_amazonaws_dynamodb_InternalServerError(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_InvalidEndpointException(input):
+
+def com_amazonaws_dynamodb_InvalidEndpointException(input):
     output = {}
     if input.Message.is_Some:
         output["Message"] = input.Message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_InvalidExportTimeException(input):
+
+def com_amazonaws_dynamodb_InvalidExportTimeException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_InvalidRestoreTimeException(input):
+
+def com_amazonaws_dynamodb_InvalidRestoreTimeException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ItemCollectionSizeLimitExceededException(input):
+
+def com_amazonaws_dynamodb_ItemCollectionSizeLimitExceededException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_LimitExceededException(input):
+
+def com_amazonaws_dynamodb_LimitExceededException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_PointInTimeRecoveryUnavailableException(input):
+
+def com_amazonaws_dynamodb_PointInTimeRecoveryUnavailableException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughputExceededException(input):
+
+def com_amazonaws_dynamodb_ProvisionedThroughputExceededException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaAlreadyExistsException(input):
+
+def com_amazonaws_dynamodb_ReplicaAlreadyExistsException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaNotFoundException(input):
+
+def com_amazonaws_dynamodb_ReplicaNotFoundException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_RequestLimitExceeded(input):
+
+def com_amazonaws_dynamodb_RequestLimitExceeded(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ResourceInUseException(input):
+
+def com_amazonaws_dynamodb_ResourceInUseException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ResourceNotFoundException(input):
+
+def com_amazonaws_dynamodb_ResourceNotFoundException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TableAlreadyExistsException(input):
+
+def com_amazonaws_dynamodb_TableAlreadyExistsException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TableInUseException(input):
+
+def com_amazonaws_dynamodb_TableInUseException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TableNotFoundException(input):
+
+def com_amazonaws_dynamodb_TableNotFoundException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_CancellationReason(input):
+
+def com_amazonaws_dynamodb_CancellationReason(input):
     output = {}
     if input.Item.is_Some:
-        output["Item"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.Item.value.items }
+        output["Item"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.Item.value.items
+        }
 
     if input.Code.is_Some:
         output["Code"] = input.Code.value.VerbatimString(False)
@@ -370,7 +406,8 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_CancellationReason(input):
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(input):
+
+def com_amazonaws_dynamodb_AttributeValue(input):
     # Convert AttributeValue
     if isinstance(input, AttributeValue_S):
         AttributeValue_union_value = {"S": input.S.VerbatimString(False)}
@@ -379,15 +416,37 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(input):
     elif isinstance(input, AttributeValue_B):
         AttributeValue_union_value = {"B": bytes(input.B)}
     elif isinstance(input, AttributeValue_SS):
-        AttributeValue_union_value = {"SS": [list_element.VerbatimString(False) for list_element in input.SS]}
+        AttributeValue_union_value = {
+            "SS": [list_element.VerbatimString(False) for list_element in input.SS]
+        }
     elif isinstance(input, AttributeValue_NS):
-        AttributeValue_union_value = {"NS": [list_element.VerbatimString(False) for list_element in input.NS]}
+        AttributeValue_union_value = {
+            "NS": [list_element.VerbatimString(False) for list_element in input.NS]
+        }
     elif isinstance(input, AttributeValue_BS):
-        AttributeValue_union_value = {"BS": [bytes(list_element) for list_element in input.BS]}
+        AttributeValue_union_value = {
+            "BS": [bytes(list_element) for list_element in input.BS]
+        }
     elif isinstance(input, AttributeValue_M):
-        AttributeValue_union_value = {"M": {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.M.items }}
+        AttributeValue_union_value = {
+            "M": {
+                key.VerbatimString(
+                    False
+                ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                    value
+                )
+                for (key, value) in input.M.items
+            }
+        }
     elif isinstance(input, AttributeValue_L):
-        AttributeValue_union_value = {"L": [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(list_element) for list_element in input.L]}
+        AttributeValue_union_value = {
+            "L": [
+                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                    list_element
+                )
+                for list_element in input.L
+            ]
+        }
     elif isinstance(input, AttributeValue_NULL):
         AttributeValue_union_value = {"NULL": input.NULL}
     elif isinstance(input, AttributeValue_BOOL):
@@ -397,42 +456,57 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(input):
 
     return AttributeValue_union_value
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TransactionCanceledException(input):
+
+def com_amazonaws_dynamodb_TransactionCanceledException(input):
     output = {}
     if input.Message.is_Some:
         output["Message"] = input.Message.value.VerbatimString(False)
 
     if input.CancellationReasons.is_Some:
-        output["CancellationReasons"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_CancellationReason(list_element) for list_element in input.CancellationReasons.value]
+        output["CancellationReasons"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_CancellationReason(
+                list_element
+            )
+            for list_element in input.CancellationReasons.value
+        ]
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TransactionConflictException(input):
+
+def com_amazonaws_dynamodb_TransactionConflictException(input):
     output = {}
     if input.message.is_Some:
         output["message"] = input.message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TransactionInProgressException(input):
+
+def com_amazonaws_dynamodb_TransactionInProgressException(input):
     output = {}
     if input.Message.is_Some:
         output["Message"] = input.Message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_BatchStatementRequest(input):
+
+def com_amazonaws_dynamodb_BatchStatementRequest(input):
     output = {}
     output["Statement"] = input.Statement.VerbatimString(False)
     if input.Parameters.is_Some:
-        output["Parameters"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(list_element) for list_element in input.Parameters.value]
+        output["Parameters"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                list_element
+            )
+            for list_element in input.Parameters.value
+        ]
 
     if input.ConsistentRead.is_Some:
         output["ConsistentRead"] = input.ConsistentRead.value
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnConsumedCapacity(input):
+
+def com_amazonaws_dynamodb_ReturnConsumedCapacity(input):
     # Convert ReturnConsumedCapacity
     if isinstance(input, ReturnConsumedCapacity_INDEXES):
         return "INDEXES"
@@ -446,38 +520,66 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnConsumedCapacity(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_BatchExecuteStatementInput(input):
+
+def com_amazonaws_dynamodb_BatchExecuteStatementInput(input):
     output = {}
-    output["Statements"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BatchStatementRequest(list_element) for list_element in input.Statements]
+    output["Statements"] = [
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BatchStatementRequest(
+            list_element
+        )
+        for list_element in input.Statements
+    ]
     if input.ReturnConsumedCapacity.is_Some:
-        output["ReturnConsumedCapacity"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnConsumedCapacity(input.ReturnConsumedCapacity.value)
+        output["ReturnConsumedCapacity"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                input.ReturnConsumedCapacity.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_BatchStatementResponse(input):
+
+def com_amazonaws_dynamodb_BatchStatementResponse(input):
     output = {}
     if input.Error.is_Some:
-        output["Error"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BatchStatementError(input.Error.value)
+        output["Error"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BatchStatementError(
+                input.Error.value
+            )
+        )
 
     if input.TableName.is_Some:
         output["TableName"] = input.TableName.value.VerbatimString(False)
 
     if input.Item.is_Some:
-        output["Item"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.Item.value.items }
+        output["Item"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.Item.value.items
+        }
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_BatchStatementError(input):
+
+def com_amazonaws_dynamodb_BatchStatementError(input):
     output = {}
     if input.Code.is_Some:
-        output["Code"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BatchStatementErrorCodeEnum(input.Code.value)
+        output["Code"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BatchStatementErrorCodeEnum(
+                input.Code.value
+            )
+        )
 
     if input.Message.is_Some:
         output["Message"] = input.Message.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_BatchStatementErrorCodeEnum(input):
+
+def com_amazonaws_dynamodb_BatchStatementErrorCodeEnum(input):
     # Convert BatchStatementErrorCodeEnum
     if isinstance(input, BatchStatementErrorCodeEnum_ConditionalCheckFailed):
         return "ConditionalCheckFailed"
@@ -515,7 +617,8 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_BatchStatementErrorCodeEnum(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ConsumedCapacity(input):
+
+def com_amazonaws_dynamodb_ConsumedCapacity(input):
     output = {}
     if input.TableName.is_Some:
         output["TableName"] = input.TableName.value.VerbatimString(False)
@@ -530,17 +633,36 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ConsumedCapacity(input):
         output["WriteCapacityUnits"] = input.WriteCapacityUnits.value
 
     if input.Table.is_Some:
-        output["Table"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Capacity(input.Table.value)
+        output["Table"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Capacity(
+                input.Table.value
+            )
+        )
 
     if input.LocalSecondaryIndexes.is_Some:
-        output["LocalSecondaryIndexes"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Capacity(value) for (key, value) in input.LocalSecondaryIndexes.value.items }
+        output["LocalSecondaryIndexes"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Capacity(
+                value
+            )
+            for (key, value) in input.LocalSecondaryIndexes.value.items
+        }
 
     if input.GlobalSecondaryIndexes.is_Some:
-        output["GlobalSecondaryIndexes"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Capacity(value) for (key, value) in input.GlobalSecondaryIndexes.value.items }
+        output["GlobalSecondaryIndexes"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Capacity(
+                value
+            )
+            for (key, value) in input.GlobalSecondaryIndexes.value.items
+        }
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_Capacity(input):
+
+def com_amazonaws_dynamodb_Capacity(input):
     output = {}
     if input.ReadCapacityUnits.is_Some:
         output["ReadCapacityUnits"] = input.ReadCapacityUnits.value
@@ -553,75 +675,169 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_Capacity(input):
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_BatchExecuteStatementOutput(input):
+
+def com_amazonaws_dynamodb_BatchExecuteStatementOutput(input):
     output = {}
     if input.Responses.is_Some:
-        output["Responses"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BatchStatementResponse(list_element) for list_element in input.Responses.value]
+        output["Responses"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BatchStatementResponse(
+                list_element
+            )
+            for list_element in input.Responses.value
+        ]
 
     if input.ConsumedCapacity.is_Some:
-        output["ConsumedCapacity"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ConsumedCapacity(list_element) for list_element in input.ConsumedCapacity.value]
+        output["ConsumedCapacity"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ConsumedCapacity(
+                list_element
+            )
+            for list_element in input.ConsumedCapacity.value
+        ]
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_KeysAndAttributes(input):
+
+def com_amazonaws_dynamodb_KeysAndAttributes(input):
     output = {}
-    output["Keys"] = [{key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in list_element.items } for list_element in input.Keys]
+    output["Keys"] = [
+        {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in list_element.items
+        }
+        for list_element in input.Keys
+    ]
     if input.AttributesToGet.is_Some:
-        output["AttributesToGet"] = [list_element.VerbatimString(False) for list_element in input.AttributesToGet.value]
+        output["AttributesToGet"] = [
+            list_element.VerbatimString(False)
+            for list_element in input.AttributesToGet.value
+        ]
 
     if input.ConsistentRead.is_Some:
         output["ConsistentRead"] = input.ConsistentRead.value
 
     if input.ProjectionExpression.is_Some:
-        output["ProjectionExpression"] = input.ProjectionExpression.value.VerbatimString(False)
+        output["ProjectionExpression"] = (
+            input.ProjectionExpression.value.VerbatimString(False)
+        )
 
     if input.ExpressionAttributeNames.is_Some:
-        output["ExpressionAttributeNames"] = {key.VerbatimString(False): value.VerbatimString(False) for (key, value) in input.ExpressionAttributeNames.value.items }
+        output["ExpressionAttributeNames"] = {
+            key.VerbatimString(False): value.VerbatimString(False)
+            for (key, value) in input.ExpressionAttributeNames.value.items
+        }
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_BatchGetItemInput(input):
+
+def com_amazonaws_dynamodb_BatchGetItemInput(input):
     output = {}
-    output["RequestItems"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_KeysAndAttributes(value) for (key, value) in input.RequestItems.items }
+    output["RequestItems"] = {
+        key.VerbatimString(
+            False
+        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_KeysAndAttributes(
+            value
+        )
+        for (key, value) in input.RequestItems.items
+    }
     if input.ReturnConsumedCapacity.is_Some:
-        output["ReturnConsumedCapacity"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnConsumedCapacity(input.ReturnConsumedCapacity.value)
+        output["ReturnConsumedCapacity"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                input.ReturnConsumedCapacity.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_BatchGetItemOutput(input):
+
+def com_amazonaws_dynamodb_BatchGetItemOutput(input):
     output = {}
     if input.Responses.is_Some:
-        output["Responses"] = {key.VerbatimString(False): [{key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in list_element.items } for list_element in value] for (key, value) in input.Responses.value.items }
+        output["Responses"] = {
+            key.VerbatimString(False): [
+                {
+                    key.VerbatimString(
+                        False
+                    ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                        value
+                    )
+                    for (key, value) in list_element.items
+                }
+                for list_element in value
+            ]
+            for (key, value) in input.Responses.value.items
+        }
 
     if input.UnprocessedKeys.is_Some:
-        output["UnprocessedKeys"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_KeysAndAttributes(value) for (key, value) in input.UnprocessedKeys.value.items }
+        output["UnprocessedKeys"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_KeysAndAttributes(
+                value
+            )
+            for (key, value) in input.UnprocessedKeys.value.items
+        }
 
     if input.ConsumedCapacity.is_Some:
-        output["ConsumedCapacity"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ConsumedCapacity(list_element) for list_element in input.ConsumedCapacity.value]
+        output["ConsumedCapacity"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ConsumedCapacity(
+                list_element
+            )
+            for list_element in input.ConsumedCapacity.value
+        ]
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_WriteRequest(input):
+
+def com_amazonaws_dynamodb_WriteRequest(input):
     output = {}
     if input.PutRequest.is_Some:
-        output["PutRequest"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_PutRequest(input.PutRequest.value)
+        output["PutRequest"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_PutRequest(
+                input.PutRequest.value
+            )
+        )
 
     if input.DeleteRequest.is_Some:
-        output["DeleteRequest"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_DeleteRequest(input.DeleteRequest.value)
+        output["DeleteRequest"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DeleteRequest(
+                input.DeleteRequest.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_PutRequest(input):
+
+def com_amazonaws_dynamodb_PutRequest(input):
     output = {}
-    output["Item"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.Item.items }
+    output["Item"] = {
+        key.VerbatimString(
+            False
+        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+            value
+        )
+        for (key, value) in input.Item.items
+    }
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DeleteRequest(input):
+
+def com_amazonaws_dynamodb_DeleteRequest(input):
     output = {}
-    output["Key"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.Key.items }
+    output["Key"] = {
+        key.VerbatimString(
+            False
+        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+            value
+        )
+        for (key, value) in input.Key.items
+    }
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnItemCollectionMetrics(input):
+
+def com_amazonaws_dynamodb_ReturnItemCollectionMetrics(input):
     # Convert ReturnItemCollectionMetrics
     if isinstance(input, ReturnItemCollectionMetrics_SIZE):
         return "SIZE"
@@ -632,62 +848,122 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnItemCollectionMetrics(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_BatchWriteItemInput(input):
+
+def com_amazonaws_dynamodb_BatchWriteItemInput(input):
     output = {}
-    output["RequestItems"] = {key.VerbatimString(False): [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_WriteRequest(list_element) for list_element in value] for (key, value) in input.RequestItems.items }
+    output["RequestItems"] = {
+        key.VerbatimString(False): [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_WriteRequest(
+                list_element
+            )
+            for list_element in value
+        ]
+        for (key, value) in input.RequestItems.items
+    }
     if input.ReturnConsumedCapacity.is_Some:
-        output["ReturnConsumedCapacity"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnConsumedCapacity(input.ReturnConsumedCapacity.value)
+        output["ReturnConsumedCapacity"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                input.ReturnConsumedCapacity.value
+            )
+        )
 
     if input.ReturnItemCollectionMetrics.is_Some:
-        output["ReturnItemCollectionMetrics"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnItemCollectionMetrics(input.ReturnItemCollectionMetrics.value)
+        output["ReturnItemCollectionMetrics"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnItemCollectionMetrics(
+                input.ReturnItemCollectionMetrics.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ItemCollectionMetrics(input):
+
+def com_amazonaws_dynamodb_ItemCollectionMetrics(input):
     output = {}
     if input.ItemCollectionKey.is_Some:
-        output["ItemCollectionKey"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.ItemCollectionKey.value.items }
+        output["ItemCollectionKey"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.ItemCollectionKey.value.items
+        }
 
     if input.SizeEstimateRangeGB.is_Some:
-        output["SizeEstimateRangeGB"] = [list_element for list_element in input.SizeEstimateRangeGB.value]
+        output["SizeEstimateRangeGB"] = [
+            list_element for list_element in input.SizeEstimateRangeGB.value
+        ]
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_BatchWriteItemOutput(input):
+
+def com_amazonaws_dynamodb_BatchWriteItemOutput(input):
     output = {}
     if input.UnprocessedItems.is_Some:
-        output["UnprocessedItems"] = {key.VerbatimString(False): [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_WriteRequest(list_element) for list_element in value] for (key, value) in input.UnprocessedItems.value.items }
+        output["UnprocessedItems"] = {
+            key.VerbatimString(False): [
+                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_WriteRequest(
+                    list_element
+                )
+                for list_element in value
+            ]
+            for (key, value) in input.UnprocessedItems.value.items
+        }
 
     if input.ItemCollectionMetrics.is_Some:
-        output["ItemCollectionMetrics"] = {key.VerbatimString(False): [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ItemCollectionMetrics(list_element) for list_element in value] for (key, value) in input.ItemCollectionMetrics.value.items }
+        output["ItemCollectionMetrics"] = {
+            key.VerbatimString(False): [
+                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ItemCollectionMetrics(
+                    list_element
+                )
+                for list_element in value
+            ]
+            for (key, value) in input.ItemCollectionMetrics.value.items
+        }
 
     if input.ConsumedCapacity.is_Some:
-        output["ConsumedCapacity"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ConsumedCapacity(list_element) for list_element in input.ConsumedCapacity.value]
+        output["ConsumedCapacity"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ConsumedCapacity(
+                list_element
+            )
+            for list_element in input.ConsumedCapacity.value
+        ]
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_CreateBackupInput(input):
+
+def com_amazonaws_dynamodb_CreateBackupInput(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
     output["BackupName"] = input.BackupName.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_BackupDetails(input):
+
+def com_amazonaws_dynamodb_BackupDetails(input):
     output = {}
     output["BackupArn"] = input.BackupArn.VerbatimString(False)
     output["BackupName"] = input.BackupName.VerbatimString(False)
     if input.BackupSizeBytes.is_Some:
         output["BackupSizeBytes"] = input.BackupSizeBytes.value
 
-    output["BackupStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BackupStatus(input.BackupStatus)
-    output["BackupType"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BackupType(input.BackupType)
+    output["BackupStatus"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BackupStatus(
+            input.BackupStatus
+        )
+    )
+    output["BackupType"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BackupType(
+            input.BackupType
+        )
+    )
     output["BackupCreationDateTime"] = TypeError("TimestampShape not supported")
     if input.BackupExpiryDateTime.is_Some:
         output["BackupExpiryDateTime"] = TypeError("TimestampShape not supported")
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_BackupStatus(input):
+
+def com_amazonaws_dynamodb_BackupStatus(input):
     # Convert BackupStatus
     if isinstance(input, BackupStatus_CREATING):
         return "CREATING"
@@ -701,7 +977,8 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_BackupStatus(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_BackupType(input):
+
+def com_amazonaws_dynamodb_BackupType(input):
     # Convert BackupType
     if isinstance(input, BackupType_USER):
         return "USER"
@@ -715,30 +992,48 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_BackupType(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_CreateBackupOutput(input):
+
+def com_amazonaws_dynamodb_CreateBackupOutput(input):
     output = {}
     if input.BackupDetails.is_Some:
-        output["BackupDetails"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BackupDetails(input.BackupDetails.value)
+        output["BackupDetails"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BackupDetails(
+                input.BackupDetails.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_Replica(input):
+
+def com_amazonaws_dynamodb_Replica(input):
     output = {}
     if input.RegionName.is_Some:
         output["RegionName"] = input.RegionName.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_CreateGlobalTableInput(input):
+
+def com_amazonaws_dynamodb_CreateGlobalTableInput(input):
     output = {}
     output["GlobalTableName"] = input.GlobalTableName.VerbatimString(False)
-    output["ReplicationGroup"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Replica(list_element) for list_element in input.ReplicationGroup]
+    output["ReplicationGroup"] = [
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Replica(
+            list_element
+        )
+        for list_element in input.ReplicationGroup
+    ]
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalTableDescription(input):
+
+def com_amazonaws_dynamodb_GlobalTableDescription(input):
     output = {}
     if input.ReplicationGroup.is_Some:
-        output["ReplicationGroup"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaDescription(list_element) for list_element in input.ReplicationGroup.value]
+        output["ReplicationGroup"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReplicaDescription(
+                list_element
+            )
+            for list_element in input.ReplicationGroup.value
+        ]
 
     if input.GlobalTableArn.is_Some:
         output["GlobalTableArn"] = input.GlobalTableArn.value.VerbatimString(False)
@@ -747,45 +1042,74 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalTableDescription(input):
         output["CreationDateTime"] = TypeError("TimestampShape not supported")
 
     if input.GlobalTableStatus.is_Some:
-        output["GlobalTableStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalTableStatus(input.GlobalTableStatus.value)
+        output["GlobalTableStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_GlobalTableStatus(
+                input.GlobalTableStatus.value
+            )
+        )
 
     if input.GlobalTableName.is_Some:
         output["GlobalTableName"] = input.GlobalTableName.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaDescription(input):
+
+def com_amazonaws_dynamodb_ReplicaDescription(input):
     output = {}
     if input.RegionName.is_Some:
         output["RegionName"] = input.RegionName.value.VerbatimString(False)
 
     if input.ReplicaStatus.is_Some:
-        output["ReplicaStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaStatus(input.ReplicaStatus.value)
+        output["ReplicaStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReplicaStatus(
+                input.ReplicaStatus.value
+            )
+        )
 
     if input.ReplicaStatusDescription.is_Some:
-        output["ReplicaStatusDescription"] = input.ReplicaStatusDescription.value.VerbatimString(False)
+        output["ReplicaStatusDescription"] = (
+            input.ReplicaStatusDescription.value.VerbatimString(False)
+        )
 
     if input.ReplicaStatusPercentProgress.is_Some:
-        output["ReplicaStatusPercentProgress"] = input.ReplicaStatusPercentProgress.value.VerbatimString(False)
+        output["ReplicaStatusPercentProgress"] = (
+            input.ReplicaStatusPercentProgress.value.VerbatimString(False)
+        )
 
     if input.KMSMasterKeyId.is_Some:
         output["KMSMasterKeyId"] = input.KMSMasterKeyId.value.VerbatimString(False)
 
     if input.ProvisionedThroughputOverride.is_Some:
-        output["ProvisionedThroughputOverride"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughputOverride(input.ProvisionedThroughputOverride.value)
+        output["ProvisionedThroughputOverride"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ProvisionedThroughputOverride(
+                input.ProvisionedThroughputOverride.value
+            )
+        )
 
     if input.GlobalSecondaryIndexes.is_Some:
-        output["GlobalSecondaryIndexes"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription(list_element) for list_element in input.GlobalSecondaryIndexes.value]
+        output["GlobalSecondaryIndexes"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription(
+                list_element
+            )
+            for list_element in input.GlobalSecondaryIndexes.value
+        ]
 
     if input.ReplicaInaccessibleDateTime.is_Some:
-        output["ReplicaInaccessibleDateTime"] = TypeError("TimestampShape not supported")
+        output["ReplicaInaccessibleDateTime"] = TypeError(
+            "TimestampShape not supported"
+        )
 
     if input.ReplicaTableClassSummary.is_Some:
-        output["ReplicaTableClassSummary"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableClassSummary(input.ReplicaTableClassSummary.value)
+        output["ReplicaTableClassSummary"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableClassSummary(
+                input.ReplicaTableClassSummary.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalTableStatus(input):
+
+def com_amazonaws_dynamodb_GlobalTableStatus(input):
     # Convert GlobalTableStatus
     if isinstance(input, GlobalTableStatus_CREATING):
         return "CREATING"
@@ -802,7 +1126,8 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalTableStatus(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaStatus(input):
+
+def com_amazonaws_dynamodb_ReplicaStatus(input):
     # Convert ReplicaStatus
     if isinstance(input, ReplicaStatus_CREATING):
         return "CREATING"
@@ -828,34 +1153,46 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaStatus(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughputOverride(input):
+
+def com_amazonaws_dynamodb_ProvisionedThroughputOverride(input):
     output = {}
     if input.ReadCapacityUnits.is_Some:
         output["ReadCapacityUnits"] = input.ReadCapacityUnits.value
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription(input):
+
+def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription(input):
     output = {}
     if input.IndexName.is_Some:
         output["IndexName"] = input.IndexName.value.VerbatimString(False)
 
     if input.ProvisionedThroughputOverride.is_Some:
-        output["ProvisionedThroughputOverride"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughputOverride(input.ProvisionedThroughputOverride.value)
+        output["ProvisionedThroughputOverride"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ProvisionedThroughputOverride(
+                input.ProvisionedThroughputOverride.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TableClassSummary(input):
+
+def com_amazonaws_dynamodb_TableClassSummary(input):
     output = {}
     if input.TableClass.is_Some:
-        output["TableClass"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableClass(input.TableClass.value)
+        output["TableClass"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableClass(
+                input.TableClass.value
+            )
+        )
 
     if input.LastUpdateDateTime.is_Some:
         output["LastUpdateDateTime"] = TypeError("TimestampShape not supported")
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TableClass(input):
+
+def com_amazonaws_dynamodb_TableClass(input):
     # Convert TableClass
     if isinstance(input, TableClass_STANDARD):
         return "STANDARD"
@@ -866,20 +1203,31 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_TableClass(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_CreateGlobalTableOutput(input):
+
+def com_amazonaws_dynamodb_CreateGlobalTableOutput(input):
     output = {}
     if input.GlobalTableDescription.is_Some:
-        output["GlobalTableDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalTableDescription(input.GlobalTableDescription.value)
+        output["GlobalTableDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_GlobalTableDescription(
+                input.GlobalTableDescription.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeDefinition(input):
+
+def com_amazonaws_dynamodb_AttributeDefinition(input):
     output = {}
     output["AttributeName"] = input.AttributeName.VerbatimString(False)
-    output["AttributeType"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ScalarAttributeType(input.AttributeType)
+    output["AttributeType"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ScalarAttributeType(
+            input.AttributeType
+        )
+    )
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ScalarAttributeType(input):
+
+def com_amazonaws_dynamodb_ScalarAttributeType(input):
     # Convert ScalarAttributeType
     if isinstance(input, ScalarAttributeType_S):
         return "S"
@@ -893,13 +1241,19 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ScalarAttributeType(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_KeySchemaElement(input):
+
+def com_amazonaws_dynamodb_KeySchemaElement(input):
     output = {}
     output["AttributeName"] = input.AttributeName.VerbatimString(False)
-    output["KeyType"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_KeyType(input.KeyType)
+    output["KeyType"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_KeyType(
+            input.KeyType
+        )
+    )
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_KeyType(input):
+
+def com_amazonaws_dynamodb_KeyType(input):
     # Convert KeyType
     if isinstance(input, KeyType_HASH):
         return "HASH"
@@ -910,24 +1264,43 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_KeyType(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_LocalSecondaryIndex(input):
+
+def com_amazonaws_dynamodb_LocalSecondaryIndex(input):
     output = {}
     output["IndexName"] = input.IndexName.VerbatimString(False)
-    output["KeySchema"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_KeySchemaElement(list_element) for list_element in input.KeySchema]
-    output["Projection"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Projection(input.Projection)
+    output["KeySchema"] = [
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_KeySchemaElement(
+            list_element
+        )
+        for list_element in input.KeySchema
+    ]
+    output["Projection"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Projection(
+            input.Projection
+        )
+    )
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_Projection(input):
+
+def com_amazonaws_dynamodb_Projection(input):
     output = {}
     if input.ProjectionType.is_Some:
-        output["ProjectionType"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ProjectionType(input.ProjectionType.value)
+        output["ProjectionType"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ProjectionType(
+                input.ProjectionType.value
+            )
+        )
 
     if input.NonKeyAttributes.is_Some:
-        output["NonKeyAttributes"] = [list_element.VerbatimString(False) for list_element in input.NonKeyAttributes.value]
+        output["NonKeyAttributes"] = [
+            list_element.VerbatimString(False)
+            for list_element in input.NonKeyAttributes.value
+        ]
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ProjectionType(input):
+
+def com_amazonaws_dynamodb_ProjectionType(input):
     # Convert ProjectionType
     if isinstance(input, ProjectionType_ALL):
         return "ALL"
@@ -941,23 +1314,39 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ProjectionType(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalSecondaryIndex(input):
+
+def com_amazonaws_dynamodb_GlobalSecondaryIndex(input):
     output = {}
     output["IndexName"] = input.IndexName.VerbatimString(False)
-    output["KeySchema"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_KeySchemaElement(list_element) for list_element in input.KeySchema]
-    output["Projection"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Projection(input.Projection)
+    output["KeySchema"] = [
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_KeySchemaElement(
+            list_element
+        )
+        for list_element in input.KeySchema
+    ]
+    output["Projection"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Projection(
+            input.Projection
+        )
+    )
     if input.ProvisionedThroughput.is_Some:
-        output["ProvisionedThroughput"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughput(input.ProvisionedThroughput.value)
+        output["ProvisionedThroughput"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ProvisionedThroughput(
+                input.ProvisionedThroughput.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughput(input):
+
+def com_amazonaws_dynamodb_ProvisionedThroughput(input):
     output = {}
     output["ReadCapacityUnits"] = input.ReadCapacityUnits
     output["WriteCapacityUnits"] = input.WriteCapacityUnits
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_BillingMode(input):
+
+def com_amazonaws_dynamodb_BillingMode(input):
     # Convert BillingMode
     if isinstance(input, BillingMode_PROVISIONED):
         return "PROVISIONED"
@@ -968,15 +1357,21 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_BillingMode(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_StreamSpecification(input):
+
+def com_amazonaws_dynamodb_StreamSpecification(input):
     output = {}
     output["StreamEnabled"] = input.StreamEnabled
     if input.StreamViewType.is_Some:
-        output["StreamViewType"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_StreamViewType(input.StreamViewType.value)
+        output["StreamViewType"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_StreamViewType(
+                input.StreamViewType.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_StreamViewType(input):
+
+def com_amazonaws_dynamodb_StreamViewType(input):
     # Convert StreamViewType
     if isinstance(input, StreamViewType_NEW__IMAGE):
         return "NEW_IMAGE"
@@ -993,20 +1388,26 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_StreamViewType(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_SSESpecification(input):
+
+def com_amazonaws_dynamodb_SSESpecification(input):
     output = {}
     if input.Enabled.is_Some:
         output["Enabled"] = input.Enabled.value
 
     if input.SSEType.is_Some:
-        output["SSEType"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_SSEType(input.SSEType.value)
+        output["SSEType"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_SSEType(
+                input.SSEType.value
+            )
+        )
 
     if input.KMSMasterKeyId.is_Some:
         output["KMSMasterKeyId"] = input.KMSMasterKeyId.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_SSEType(input):
+
+def com_amazonaws_dynamodb_SSEType(input):
     # Convert SSEType
     if isinstance(input, SSEType_AES256):
         return "AES256"
@@ -1017,62 +1418,128 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_SSEType(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_Tag(input):
+
+def com_amazonaws_dynamodb_Tag(input):
     output = {}
     output["Key"] = input.Key.VerbatimString(False)
     output["Value"] = input.Value.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_CreateTableInput(input):
+
+def com_amazonaws_dynamodb_CreateTableInput(input):
     output = {}
-    output["AttributeDefinitions"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeDefinition(list_element) for list_element in input.AttributeDefinitions]
+    output["AttributeDefinitions"] = [
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeDefinition(
+            list_element
+        )
+        for list_element in input.AttributeDefinitions
+    ]
     output["TableName"] = input.TableName.VerbatimString(False)
-    output["KeySchema"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_KeySchemaElement(list_element) for list_element in input.KeySchema]
+    output["KeySchema"] = [
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_KeySchemaElement(
+            list_element
+        )
+        for list_element in input.KeySchema
+    ]
     if input.LocalSecondaryIndexes.is_Some:
-        output["LocalSecondaryIndexes"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_LocalSecondaryIndex(list_element) for list_element in input.LocalSecondaryIndexes.value]
+        output["LocalSecondaryIndexes"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_LocalSecondaryIndex(
+                list_element
+            )
+            for list_element in input.LocalSecondaryIndexes.value
+        ]
 
     if input.GlobalSecondaryIndexes.is_Some:
-        output["GlobalSecondaryIndexes"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalSecondaryIndex(list_element) for list_element in input.GlobalSecondaryIndexes.value]
+        output["GlobalSecondaryIndexes"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_GlobalSecondaryIndex(
+                list_element
+            )
+            for list_element in input.GlobalSecondaryIndexes.value
+        ]
 
     if input.BillingMode.is_Some:
-        output["BillingMode"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BillingMode(input.BillingMode.value)
+        output["BillingMode"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BillingMode(
+                input.BillingMode.value
+            )
+        )
 
     if input.ProvisionedThroughput.is_Some:
-        output["ProvisionedThroughput"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughput(input.ProvisionedThroughput.value)
+        output["ProvisionedThroughput"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ProvisionedThroughput(
+                input.ProvisionedThroughput.value
+            )
+        )
 
     if input.StreamSpecification.is_Some:
-        output["StreamSpecification"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_StreamSpecification(input.StreamSpecification.value)
+        output["StreamSpecification"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_StreamSpecification(
+                input.StreamSpecification.value
+            )
+        )
 
     if input.SSESpecification.is_Some:
-        output["SSESpecification"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_SSESpecification(input.SSESpecification.value)
+        output["SSESpecification"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_SSESpecification(
+                input.SSESpecification.value
+            )
+        )
 
     if input.Tags.is_Some:
-        output["Tags"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Tag(list_element) for list_element in input.Tags.value]
+        output["Tags"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Tag(
+                list_element
+            )
+            for list_element in input.Tags.value
+        ]
 
     if input.TableClass.is_Some:
-        output["TableClass"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableClass(input.TableClass.value)
+        output["TableClass"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableClass(
+                input.TableClass.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TableDescription(input):
+
+def com_amazonaws_dynamodb_TableDescription(input):
     output = {}
     if input.AttributeDefinitions.is_Some:
-        output["AttributeDefinitions"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeDefinition(list_element) for list_element in input.AttributeDefinitions.value]
+        output["AttributeDefinitions"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeDefinition(
+                list_element
+            )
+            for list_element in input.AttributeDefinitions.value
+        ]
 
     if input.TableName.is_Some:
         output["TableName"] = input.TableName.value.VerbatimString(False)
 
     if input.KeySchema.is_Some:
-        output["KeySchema"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_KeySchemaElement(list_element) for list_element in input.KeySchema.value]
+        output["KeySchema"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_KeySchemaElement(
+                list_element
+            )
+            for list_element in input.KeySchema.value
+        ]
 
     if input.TableStatus.is_Some:
-        output["TableStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableStatus(input.TableStatus.value)
+        output["TableStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableStatus(
+                input.TableStatus.value
+            )
+        )
 
     if input.CreationDateTime.is_Some:
         output["CreationDateTime"] = TypeError("TimestampShape not supported")
 
     if input.ProvisionedThroughput.is_Some:
-        output["ProvisionedThroughput"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughputDescription(input.ProvisionedThroughput.value)
+        output["ProvisionedThroughput"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ProvisionedThroughputDescription(
+                input.ProvisionedThroughput.value
+            )
+        )
 
     if input.TableSizeBytes.is_Some:
         output["TableSizeBytes"] = input.TableSizeBytes.value
@@ -1087,44 +1554,88 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_TableDescription(input):
         output["TableId"] = input.TableId.value.VerbatimString(False)
 
     if input.BillingModeSummary.is_Some:
-        output["BillingModeSummary"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BillingModeSummary(input.BillingModeSummary.value)
+        output["BillingModeSummary"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BillingModeSummary(
+                input.BillingModeSummary.value
+            )
+        )
 
     if input.LocalSecondaryIndexes.is_Some:
-        output["LocalSecondaryIndexes"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_LocalSecondaryIndexDescription(list_element) for list_element in input.LocalSecondaryIndexes.value]
+        output["LocalSecondaryIndexes"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_LocalSecondaryIndexDescription(
+                list_element
+            )
+            for list_element in input.LocalSecondaryIndexes.value
+        ]
 
     if input.GlobalSecondaryIndexes.is_Some:
-        output["GlobalSecondaryIndexes"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalSecondaryIndexDescription(list_element) for list_element in input.GlobalSecondaryIndexes.value]
+        output["GlobalSecondaryIndexes"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_GlobalSecondaryIndexDescription(
+                list_element
+            )
+            for list_element in input.GlobalSecondaryIndexes.value
+        ]
 
     if input.StreamSpecification.is_Some:
-        output["StreamSpecification"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_StreamSpecification(input.StreamSpecification.value)
+        output["StreamSpecification"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_StreamSpecification(
+                input.StreamSpecification.value
+            )
+        )
 
     if input.LatestStreamLabel.is_Some:
-        output["LatestStreamLabel"] = input.LatestStreamLabel.value.VerbatimString(False)
+        output["LatestStreamLabel"] = input.LatestStreamLabel.value.VerbatimString(
+            False
+        )
 
     if input.LatestStreamArn.is_Some:
         output["LatestStreamArn"] = input.LatestStreamArn.value.VerbatimString(False)
 
     if input.GlobalTableVersion.is_Some:
-        output["GlobalTableVersion"] = input.GlobalTableVersion.value.VerbatimString(False)
+        output["GlobalTableVersion"] = input.GlobalTableVersion.value.VerbatimString(
+            False
+        )
 
     if input.Replicas.is_Some:
-        output["Replicas"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaDescription(list_element) for list_element in input.Replicas.value]
+        output["Replicas"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReplicaDescription(
+                list_element
+            )
+            for list_element in input.Replicas.value
+        ]
 
     if input.RestoreSummary.is_Some:
-        output["RestoreSummary"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_RestoreSummary(input.RestoreSummary.value)
+        output["RestoreSummary"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_RestoreSummary(
+                input.RestoreSummary.value
+            )
+        )
 
     if input.SSEDescription.is_Some:
-        output["SSEDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_SSEDescription(input.SSEDescription.value)
+        output["SSEDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_SSEDescription(
+                input.SSEDescription.value
+            )
+        )
 
     if input.ArchivalSummary.is_Some:
-        output["ArchivalSummary"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ArchivalSummary(input.ArchivalSummary.value)
+        output["ArchivalSummary"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ArchivalSummary(
+                input.ArchivalSummary.value
+            )
+        )
 
     if input.TableClassSummary.is_Some:
-        output["TableClassSummary"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableClassSummary(input.TableClassSummary.value)
+        output["TableClassSummary"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableClassSummary(
+                input.TableClassSummary.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TableStatus(input):
+
+def com_amazonaws_dynamodb_TableStatus(input):
     # Convert TableStatus
     if isinstance(input, TableStatus_CREATING):
         return "CREATING"
@@ -1150,7 +1661,8 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_TableStatus(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughputDescription(input):
+
+def com_amazonaws_dynamodb_ProvisionedThroughputDescription(input):
     output = {}
     if input.LastIncreaseDateTime.is_Some:
         output["LastIncreaseDateTime"] = TypeError("TimestampShape not supported")
@@ -1169,26 +1681,43 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughputDescription(input)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_BillingModeSummary(input):
+
+def com_amazonaws_dynamodb_BillingModeSummary(input):
     output = {}
     if input.BillingMode.is_Some:
-        output["BillingMode"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BillingMode(input.BillingMode.value)
+        output["BillingMode"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BillingMode(
+                input.BillingMode.value
+            )
+        )
 
     if input.LastUpdateToPayPerRequestDateTime.is_Some:
-        output["LastUpdateToPayPerRequestDateTime"] = TypeError("TimestampShape not supported")
+        output["LastUpdateToPayPerRequestDateTime"] = TypeError(
+            "TimestampShape not supported"
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_LocalSecondaryIndexDescription(input):
+
+def com_amazonaws_dynamodb_LocalSecondaryIndexDescription(input):
     output = {}
     if input.IndexName.is_Some:
         output["IndexName"] = input.IndexName.value.VerbatimString(False)
 
     if input.KeySchema.is_Some:
-        output["KeySchema"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_KeySchemaElement(list_element) for list_element in input.KeySchema.value]
+        output["KeySchema"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_KeySchemaElement(
+                list_element
+            )
+            for list_element in input.KeySchema.value
+        ]
 
     if input.Projection.is_Some:
-        output["Projection"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Projection(input.Projection.value)
+        output["Projection"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Projection(
+                input.Projection.value
+            )
+        )
 
     if input.IndexSizeBytes.is_Some:
         output["IndexSizeBytes"] = input.IndexSizeBytes.value
@@ -1201,25 +1730,43 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_LocalSecondaryIndexDescription(input):
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalSecondaryIndexDescription(input):
+
+def com_amazonaws_dynamodb_GlobalSecondaryIndexDescription(input):
     output = {}
     if input.IndexName.is_Some:
         output["IndexName"] = input.IndexName.value.VerbatimString(False)
 
     if input.KeySchema.is_Some:
-        output["KeySchema"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_KeySchemaElement(list_element) for list_element in input.KeySchema.value]
+        output["KeySchema"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_KeySchemaElement(
+                list_element
+            )
+            for list_element in input.KeySchema.value
+        ]
 
     if input.Projection.is_Some:
-        output["Projection"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Projection(input.Projection.value)
+        output["Projection"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Projection(
+                input.Projection.value
+            )
+        )
 
     if input.IndexStatus.is_Some:
-        output["IndexStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_IndexStatus(input.IndexStatus.value)
+        output["IndexStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_IndexStatus(
+                input.IndexStatus.value
+            )
+        )
 
     if input.Backfilling.is_Some:
         output["Backfilling"] = input.Backfilling.value
 
     if input.ProvisionedThroughput.is_Some:
-        output["ProvisionedThroughput"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughputDescription(input.ProvisionedThroughput.value)
+        output["ProvisionedThroughput"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ProvisionedThroughputDescription(
+                input.ProvisionedThroughput.value
+            )
+        )
 
     if input.IndexSizeBytes.is_Some:
         output["IndexSizeBytes"] = input.IndexSizeBytes.value
@@ -1232,7 +1779,8 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalSecondaryIndexDescription(input):
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_RestoreSummary(input):
+
+def com_amazonaws_dynamodb_RestoreSummary(input):
     output = {}
     if input.SourceBackupArn.is_Some:
         output["SourceBackupArn"] = input.SourceBackupArn.value.VerbatimString(False)
@@ -1244,23 +1792,35 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_RestoreSummary(input):
     output["RestoreInProgress"] = input.RestoreInProgress
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_SSEDescription(input):
+
+def com_amazonaws_dynamodb_SSEDescription(input):
     output = {}
     if input.Status.is_Some:
-        output["Status"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_SSEStatus(input.Status.value)
+        output["Status"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_SSEStatus(
+                input.Status.value
+            )
+        )
 
     if input.SSEType.is_Some:
-        output["SSEType"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_SSEType(input.SSEType.value)
+        output["SSEType"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_SSEType(
+                input.SSEType.value
+            )
+        )
 
     if input.KMSMasterKeyArn.is_Some:
         output["KMSMasterKeyArn"] = input.KMSMasterKeyArn.value.VerbatimString(False)
 
     if input.InaccessibleEncryptionDateTime.is_Some:
-        output["InaccessibleEncryptionDateTime"] = TypeError("TimestampShape not supported")
+        output["InaccessibleEncryptionDateTime"] = TypeError(
+            "TimestampShape not supported"
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ArchivalSummary(input):
+
+def com_amazonaws_dynamodb_ArchivalSummary(input):
     output = {}
     if input.ArchivalDateTime.is_Some:
         output["ArchivalDateTime"] = TypeError("TimestampShape not supported")
@@ -1269,11 +1829,14 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ArchivalSummary(input):
         output["ArchivalReason"] = input.ArchivalReason.value.VerbatimString(False)
 
     if input.ArchivalBackupArn.is_Some:
-        output["ArchivalBackupArn"] = input.ArchivalBackupArn.value.VerbatimString(False)
+        output["ArchivalBackupArn"] = input.ArchivalBackupArn.value.VerbatimString(
+            False
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_IndexStatus(input):
+
+def com_amazonaws_dynamodb_IndexStatus(input):
     # Convert IndexStatus
     if isinstance(input, IndexStatus_CREATING):
         return "CREATING"
@@ -1290,7 +1853,8 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_IndexStatus(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_SSEStatus(input):
+
+def com_amazonaws_dynamodb_SSEStatus(input):
     # Convert SSEStatus
     if isinstance(input, SSEStatus_ENABLING):
         return "ENABLING"
@@ -1310,32 +1874,52 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_SSEStatus(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_CreateTableOutput(input):
+
+def com_amazonaws_dynamodb_CreateTableOutput(input):
     output = {}
     if input.TableDescription.is_Some:
-        output["TableDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableDescription(input.TableDescription.value)
+        output["TableDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableDescription(
+                input.TableDescription.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DeleteBackupInput(input):
+
+def com_amazonaws_dynamodb_DeleteBackupInput(input):
     output = {}
     output["BackupArn"] = input.BackupArn.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_BackupDescription(input):
+
+def com_amazonaws_dynamodb_BackupDescription(input):
     output = {}
     if input.BackupDetails.is_Some:
-        output["BackupDetails"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BackupDetails(input.BackupDetails.value)
+        output["BackupDetails"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BackupDetails(
+                input.BackupDetails.value
+            )
+        )
 
     if input.SourceTableDetails.is_Some:
-        output["SourceTableDetails"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_SourceTableDetails(input.SourceTableDetails.value)
+        output["SourceTableDetails"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_SourceTableDetails(
+                input.SourceTableDetails.value
+            )
+        )
 
     if input.SourceTableFeatureDetails.is_Some:
-        output["SourceTableFeatureDetails"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_SourceTableFeatureDetails(input.SourceTableFeatureDetails.value)
+        output["SourceTableFeatureDetails"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_SourceTableFeatureDetails(
+                input.SourceTableFeatureDetails.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_SourceTableDetails(input):
+
+def com_amazonaws_dynamodb_SourceTableDetails(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
     output["TableId"] = input.TableId.VerbatimString(False)
@@ -1345,76 +1929,142 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_SourceTableDetails(input):
     if input.TableSizeBytes.is_Some:
         output["TableSizeBytes"] = input.TableSizeBytes.value
 
-    output["KeySchema"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_KeySchemaElement(list_element) for list_element in input.KeySchema]
+    output["KeySchema"] = [
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_KeySchemaElement(
+            list_element
+        )
+        for list_element in input.KeySchema
+    ]
     output["TableCreationDateTime"] = TypeError("TimestampShape not supported")
-    output["ProvisionedThroughput"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughput(input.ProvisionedThroughput)
+    output["ProvisionedThroughput"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ProvisionedThroughput(
+            input.ProvisionedThroughput
+        )
+    )
     if input.ItemCount.is_Some:
         output["ItemCount"] = input.ItemCount.value
 
     if input.BillingMode.is_Some:
-        output["BillingMode"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BillingMode(input.BillingMode.value)
+        output["BillingMode"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BillingMode(
+                input.BillingMode.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_SourceTableFeatureDetails(input):
+
+def com_amazonaws_dynamodb_SourceTableFeatureDetails(input):
     output = {}
     if input.LocalSecondaryIndexes.is_Some:
-        output["LocalSecondaryIndexes"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_LocalSecondaryIndexInfo(list_element) for list_element in input.LocalSecondaryIndexes.value]
+        output["LocalSecondaryIndexes"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_LocalSecondaryIndexInfo(
+                list_element
+            )
+            for list_element in input.LocalSecondaryIndexes.value
+        ]
 
     if input.GlobalSecondaryIndexes.is_Some:
-        output["GlobalSecondaryIndexes"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalSecondaryIndexInfo(list_element) for list_element in input.GlobalSecondaryIndexes.value]
+        output["GlobalSecondaryIndexes"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_GlobalSecondaryIndexInfo(
+                list_element
+            )
+            for list_element in input.GlobalSecondaryIndexes.value
+        ]
 
     if input.StreamDescription.is_Some:
-        output["StreamDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_StreamSpecification(input.StreamDescription.value)
+        output["StreamDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_StreamSpecification(
+                input.StreamDescription.value
+            )
+        )
 
     if input.TimeToLiveDescription.is_Some:
-        output["TimeToLiveDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TimeToLiveDescription(input.TimeToLiveDescription.value)
+        output["TimeToLiveDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TimeToLiveDescription(
+                input.TimeToLiveDescription.value
+            )
+        )
 
     if input.SSEDescription.is_Some:
-        output["SSEDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_SSEDescription(input.SSEDescription.value)
+        output["SSEDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_SSEDescription(
+                input.SSEDescription.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_LocalSecondaryIndexInfo(input):
+
+def com_amazonaws_dynamodb_LocalSecondaryIndexInfo(input):
     output = {}
     if input.IndexName.is_Some:
         output["IndexName"] = input.IndexName.value.VerbatimString(False)
 
     if input.KeySchema.is_Some:
-        output["KeySchema"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_KeySchemaElement(list_element) for list_element in input.KeySchema.value]
+        output["KeySchema"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_KeySchemaElement(
+                list_element
+            )
+            for list_element in input.KeySchema.value
+        ]
 
     if input.Projection.is_Some:
-        output["Projection"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Projection(input.Projection.value)
+        output["Projection"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Projection(
+                input.Projection.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalSecondaryIndexInfo(input):
+
+def com_amazonaws_dynamodb_GlobalSecondaryIndexInfo(input):
     output = {}
     if input.IndexName.is_Some:
         output["IndexName"] = input.IndexName.value.VerbatimString(False)
 
     if input.KeySchema.is_Some:
-        output["KeySchema"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_KeySchemaElement(list_element) for list_element in input.KeySchema.value]
+        output["KeySchema"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_KeySchemaElement(
+                list_element
+            )
+            for list_element in input.KeySchema.value
+        ]
 
     if input.Projection.is_Some:
-        output["Projection"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Projection(input.Projection.value)
+        output["Projection"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Projection(
+                input.Projection.value
+            )
+        )
 
     if input.ProvisionedThroughput.is_Some:
-        output["ProvisionedThroughput"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughput(input.ProvisionedThroughput.value)
+        output["ProvisionedThroughput"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ProvisionedThroughput(
+                input.ProvisionedThroughput.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TimeToLiveDescription(input):
+
+def com_amazonaws_dynamodb_TimeToLiveDescription(input):
     output = {}
     if input.TimeToLiveStatus.is_Some:
-        output["TimeToLiveStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TimeToLiveStatus(input.TimeToLiveStatus.value)
+        output["TimeToLiveStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TimeToLiveStatus(
+                input.TimeToLiveStatus.value
+            )
+        )
 
     if input.AttributeName.is_Some:
         output["AttributeName"] = input.AttributeName.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TimeToLiveStatus(input):
+
+def com_amazonaws_dynamodb_TimeToLiveStatus(input):
     # Convert TimeToLiveStatus
     if isinstance(input, TimeToLiveStatus_ENABLING):
         return "ENABLING"
@@ -1431,30 +2081,50 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_TimeToLiveStatus(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DeleteBackupOutput(input):
+
+def com_amazonaws_dynamodb_DeleteBackupOutput(input):
     output = {}
     if input.BackupDescription.is_Some:
-        output["BackupDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BackupDescription(input.BackupDescription.value)
+        output["BackupDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BackupDescription(
+                input.BackupDescription.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ExpectedAttributeValue(input):
+
+def com_amazonaws_dynamodb_ExpectedAttributeValue(input):
     output = {}
     if input.Value.is_Some:
-        output["Value"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(input.Value.value)
+        output["Value"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                input.Value.value
+            )
+        )
 
     if input.Exists.is_Some:
         output["Exists"] = input.Exists.value
 
     if input.ComparisonOperator.is_Some:
-        output["ComparisonOperator"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ComparisonOperator(input.ComparisonOperator.value)
+        output["ComparisonOperator"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ComparisonOperator(
+                input.ComparisonOperator.value
+            )
+        )
 
     if input.AttributeValueList.is_Some:
-        output["AttributeValueList"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(list_element) for list_element in input.AttributeValueList.value]
+        output["AttributeValueList"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                list_element
+            )
+            for list_element in input.AttributeValueList.value
+        ]
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ComparisonOperator(input):
+
+def com_amazonaws_dynamodb_ComparisonOperator(input):
     # Convert ComparisonOperator
     if isinstance(input, ComparisonOperator_EQ):
         return "EQ"
@@ -1498,7 +2168,8 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ComparisonOperator(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ConditionalOperator(input):
+
+def com_amazonaws_dynamodb_ConditionalOperator(input):
     # Convert ConditionalOperator
     if isinstance(input, ConditionalOperator_AND):
         return "AND"
@@ -1509,7 +2180,8 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ConditionalOperator(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnValue(input):
+
+def com_amazonaws_dynamodb_ReturnValue(input):
     # Convert ReturnValue
     if isinstance(input, ReturnValue_NONE):
         return "NONE"
@@ -1529,87 +2201,169 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnValue(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DeleteItemInput(input):
+
+def com_amazonaws_dynamodb_DeleteItemInput(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
-    output["Key"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.Key.items }
+    output["Key"] = {
+        key.VerbatimString(
+            False
+        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+            value
+        )
+        for (key, value) in input.Key.items
+    }
     if input.Expected.is_Some:
-        output["Expected"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ExpectedAttributeValue(value) for (key, value) in input.Expected.value.items }
+        output["Expected"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ExpectedAttributeValue(
+                value
+            )
+            for (key, value) in input.Expected.value.items
+        }
 
     if input.ConditionalOperator.is_Some:
-        output["ConditionalOperator"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ConditionalOperator(input.ConditionalOperator.value)
+        output["ConditionalOperator"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ConditionalOperator(
+                input.ConditionalOperator.value
+            )
+        )
 
     if input.ReturnValues.is_Some:
-        output["ReturnValues"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnValue(input.ReturnValues.value)
+        output["ReturnValues"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnValue(
+                input.ReturnValues.value
+            )
+        )
 
     if input.ReturnConsumedCapacity.is_Some:
-        output["ReturnConsumedCapacity"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnConsumedCapacity(input.ReturnConsumedCapacity.value)
+        output["ReturnConsumedCapacity"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                input.ReturnConsumedCapacity.value
+            )
+        )
 
     if input.ReturnItemCollectionMetrics.is_Some:
-        output["ReturnItemCollectionMetrics"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnItemCollectionMetrics(input.ReturnItemCollectionMetrics.value)
+        output["ReturnItemCollectionMetrics"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnItemCollectionMetrics(
+                input.ReturnItemCollectionMetrics.value
+            )
+        )
 
     if input.ConditionExpression.is_Some:
-        output["ConditionExpression"] = input.ConditionExpression.value.VerbatimString(False)
+        output["ConditionExpression"] = input.ConditionExpression.value.VerbatimString(
+            False
+        )
 
     if input.ExpressionAttributeNames.is_Some:
-        output["ExpressionAttributeNames"] = {key.VerbatimString(False): value.VerbatimString(False) for (key, value) in input.ExpressionAttributeNames.value.items }
+        output["ExpressionAttributeNames"] = {
+            key.VerbatimString(False): value.VerbatimString(False)
+            for (key, value) in input.ExpressionAttributeNames.value.items
+        }
 
     if input.ExpressionAttributeValues.is_Some:
-        output["ExpressionAttributeValues"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.ExpressionAttributeValues.value.items }
+        output["ExpressionAttributeValues"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.ExpressionAttributeValues.value.items
+        }
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DeleteItemOutput(input):
+
+def com_amazonaws_dynamodb_DeleteItemOutput(input):
     output = {}
     if input.Attributes.is_Some:
-        output["Attributes"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.Attributes.value.items }
+        output["Attributes"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.Attributes.value.items
+        }
 
     if input.ConsumedCapacity.is_Some:
-        output["ConsumedCapacity"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ConsumedCapacity(input.ConsumedCapacity.value)
+        output["ConsumedCapacity"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ConsumedCapacity(
+                input.ConsumedCapacity.value
+            )
+        )
 
     if input.ItemCollectionMetrics.is_Some:
-        output["ItemCollectionMetrics"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ItemCollectionMetrics(input.ItemCollectionMetrics.value)
+        output["ItemCollectionMetrics"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ItemCollectionMetrics(
+                input.ItemCollectionMetrics.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DeleteTableInput(input):
+
+def com_amazonaws_dynamodb_DeleteTableInput(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DeleteTableOutput(input):
+
+def com_amazonaws_dynamodb_DeleteTableOutput(input):
     output = {}
     if input.TableDescription.is_Some:
-        output["TableDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableDescription(input.TableDescription.value)
+        output["TableDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableDescription(
+                input.TableDescription.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeBackupInput(input):
+
+def com_amazonaws_dynamodb_DescribeBackupInput(input):
     output = {}
     output["BackupArn"] = input.BackupArn.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeBackupOutput(input):
+
+def com_amazonaws_dynamodb_DescribeBackupOutput(input):
     output = {}
     if input.BackupDescription.is_Some:
-        output["BackupDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BackupDescription(input.BackupDescription.value)
+        output["BackupDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BackupDescription(
+                input.BackupDescription.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeContinuousBackupsInput(input):
+
+def com_amazonaws_dynamodb_DescribeContinuousBackupsInput(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ContinuousBackupsDescription(input):
+
+def com_amazonaws_dynamodb_ContinuousBackupsDescription(input):
     output = {}
-    output["ContinuousBackupsStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ContinuousBackupsStatus(input.ContinuousBackupsStatus)
+    output["ContinuousBackupsStatus"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ContinuousBackupsStatus(
+            input.ContinuousBackupsStatus
+        )
+    )
     if input.PointInTimeRecoveryDescription.is_Some:
-        output["PointInTimeRecoveryDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_PointInTimeRecoveryDescription(input.PointInTimeRecoveryDescription.value)
+        output["PointInTimeRecoveryDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_PointInTimeRecoveryDescription(
+                input.PointInTimeRecoveryDescription.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ContinuousBackupsStatus(input):
+
+def com_amazonaws_dynamodb_ContinuousBackupsStatus(input):
     # Convert ContinuousBackupsStatus
     if isinstance(input, ContinuousBackupsStatus_ENABLED):
         return "ENABLED"
@@ -1620,10 +2374,15 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ContinuousBackupsStatus(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_PointInTimeRecoveryDescription(input):
+
+def com_amazonaws_dynamodb_PointInTimeRecoveryDescription(input):
     output = {}
     if input.PointInTimeRecoveryStatus.is_Some:
-        output["PointInTimeRecoveryStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_PointInTimeRecoveryStatus(input.PointInTimeRecoveryStatus.value)
+        output["PointInTimeRecoveryStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_PointInTimeRecoveryStatus(
+                input.PointInTimeRecoveryStatus.value
+            )
+        )
 
     if input.EarliestRestorableDateTime.is_Some:
         output["EarliestRestorableDateTime"] = TypeError("TimestampShape not supported")
@@ -1633,7 +2392,8 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_PointInTimeRecoveryDescription(input):
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_PointInTimeRecoveryStatus(input):
+
+def com_amazonaws_dynamodb_PointInTimeRecoveryStatus(input):
     # Convert PointInTimeRecoveryStatus
     if isinstance(input, PointInTimeRecoveryStatus_ENABLED):
         return "ENABLED"
@@ -1644,14 +2404,20 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_PointInTimeRecoveryStatus(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeContinuousBackupsOutput(input):
+
+def com_amazonaws_dynamodb_DescribeContinuousBackupsOutput(input):
     output = {}
     if input.ContinuousBackupsDescription.is_Some:
-        output["ContinuousBackupsDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ContinuousBackupsDescription(input.ContinuousBackupsDescription.value)
+        output["ContinuousBackupsDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ContinuousBackupsDescription(
+                input.ContinuousBackupsDescription.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeContributorInsightsInput(input):
+
+def com_amazonaws_dynamodb_DescribeContributorInsightsInput(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
     if input.IndexName.is_Some:
@@ -1659,7 +2425,8 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeContributorInsightsInput(input)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ContributorInsightsStatus(input):
+
+def com_amazonaws_dynamodb_ContributorInsightsStatus(input):
     # Convert ContributorInsightsStatus
     if isinstance(input, ContributorInsightsStatus_ENABLING):
         return "ENABLING"
@@ -1679,17 +2446,21 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ContributorInsightsStatus(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_FailureException(input):
+
+def com_amazonaws_dynamodb_FailureException(input):
     output = {}
     if input.ExceptionName.is_Some:
         output["ExceptionName"] = input.ExceptionName.value.VerbatimString(False)
 
     if input.ExceptionDescription.is_Some:
-        output["ExceptionDescription"] = input.ExceptionDescription.value.VerbatimString(False)
+        output["ExceptionDescription"] = (
+            input.ExceptionDescription.value.VerbatimString(False)
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeContributorInsightsOutput(input):
+
+def com_amazonaws_dynamodb_DescribeContributorInsightsOutput(input):
     output = {}
     if input.TableName.is_Some:
         output["TableName"] = input.TableName.value.VerbatimString(False)
@@ -1698,46 +2469,71 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeContributorInsightsOutput(input
         output["IndexName"] = input.IndexName.value.VerbatimString(False)
 
     if input.ContributorInsightsRuleList.is_Some:
-        output["ContributorInsightsRuleList"] = [list_element.VerbatimString(False) for list_element in input.ContributorInsightsRuleList.value]
+        output["ContributorInsightsRuleList"] = [
+            list_element.VerbatimString(False)
+            for list_element in input.ContributorInsightsRuleList.value
+        ]
 
     if input.ContributorInsightsStatus.is_Some:
-        output["ContributorInsightsStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ContributorInsightsStatus(input.ContributorInsightsStatus.value)
+        output["ContributorInsightsStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ContributorInsightsStatus(
+                input.ContributorInsightsStatus.value
+            )
+        )
 
     if input.LastUpdateDateTime.is_Some:
         output["LastUpdateDateTime"] = TypeError("TimestampShape not supported")
 
     if input.FailureException.is_Some:
-        output["FailureException"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_FailureException(input.FailureException.value)
+        output["FailureException"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_FailureException(
+                input.FailureException.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeEndpointsRequest(input):
+
+def com_amazonaws_dynamodb_DescribeEndpointsRequest(input):
     output = {}
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_Endpoint(input):
+
+def com_amazonaws_dynamodb_Endpoint(input):
     output = {}
     output["Address"] = input.Address.VerbatimString(False)
     output["CachePeriodInMinutes"] = input.CachePeriodInMinutes
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeEndpointsResponse(input):
+
+def com_amazonaws_dynamodb_DescribeEndpointsResponse(input):
     output = {}
-    output["Endpoints"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Endpoint(list_element) for list_element in input.Endpoints]
+    output["Endpoints"] = [
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Endpoint(
+            list_element
+        )
+        for list_element in input.Endpoints
+    ]
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeExportInput(input):
+
+def com_amazonaws_dynamodb_DescribeExportInput(input):
     output = {}
     output["ExportArn"] = input.ExportArn.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ExportDescription(input):
+
+def com_amazonaws_dynamodb_ExportDescription(input):
     output = {}
     if input.ExportArn.is_Some:
         output["ExportArn"] = input.ExportArn.value.VerbatimString(False)
 
     if input.ExportStatus.is_Some:
-        output["ExportStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ExportStatus(input.ExportStatus.value)
+        output["ExportStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ExportStatus(
+                input.ExportStatus.value
+            )
+        )
 
     if input.StartTime.is_Some:
         output["StartTime"] = TypeError("TimestampShape not supported")
@@ -1770,7 +2566,11 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ExportDescription(input):
         output["S3Prefix"] = input.S3Prefix.value.VerbatimString(False)
 
     if input.S3SseAlgorithm.is_Some:
-        output["S3SseAlgorithm"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_S3SseAlgorithm(input.S3SseAlgorithm.value)
+        output["S3SseAlgorithm"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_S3SseAlgorithm(
+                input.S3SseAlgorithm.value
+            )
+        )
 
     if input.S3SseKmsKeyId.is_Some:
         output["S3SseKmsKeyId"] = input.S3SseKmsKeyId.value.VerbatimString(False)
@@ -1782,7 +2582,11 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ExportDescription(input):
         output["FailureMessage"] = input.FailureMessage.value.VerbatimString(False)
 
     if input.ExportFormat.is_Some:
-        output["ExportFormat"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ExportFormat(input.ExportFormat.value)
+        output["ExportFormat"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ExportFormat(
+                input.ExportFormat.value
+            )
+        )
 
     if input.BilledSizeBytes.is_Some:
         output["BilledSizeBytes"] = input.BilledSizeBytes.value
@@ -1792,7 +2596,8 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ExportDescription(input):
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ExportStatus(input):
+
+def com_amazonaws_dynamodb_ExportStatus(input):
     # Convert ExportStatus
     if isinstance(input, ExportStatus_IN__PROGRESS):
         return "IN_PROGRESS"
@@ -1806,7 +2611,8 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ExportStatus(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_S3SseAlgorithm(input):
+
+def com_amazonaws_dynamodb_S3SseAlgorithm(input):
     # Convert S3SseAlgorithm
     if isinstance(input, S3SseAlgorithm_AES256):
         return "AES256"
@@ -1817,7 +2623,8 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_S3SseAlgorithm(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ExportFormat(input):
+
+def com_amazonaws_dynamodb_ExportFormat(input):
     # Convert ExportFormat
     if isinstance(input, ExportFormat_DYNAMODB__JSON):
         return "DYNAMODB_JSON"
@@ -1828,60 +2635,103 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ExportFormat(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeExportOutput(input):
+
+def com_amazonaws_dynamodb_DescribeExportOutput(input):
     output = {}
     if input.ExportDescription.is_Some:
-        output["ExportDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ExportDescription(input.ExportDescription.value)
+        output["ExportDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ExportDescription(
+                input.ExportDescription.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeGlobalTableInput(input):
+
+def com_amazonaws_dynamodb_DescribeGlobalTableInput(input):
     output = {}
     output["GlobalTableName"] = input.GlobalTableName.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeGlobalTableOutput(input):
+
+def com_amazonaws_dynamodb_DescribeGlobalTableOutput(input):
     output = {}
     if input.GlobalTableDescription.is_Some:
-        output["GlobalTableDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalTableDescription(input.GlobalTableDescription.value)
+        output["GlobalTableDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_GlobalTableDescription(
+                input.GlobalTableDescription.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeGlobalTableSettingsInput(input):
+
+def com_amazonaws_dynamodb_DescribeGlobalTableSettingsInput(input):
     output = {}
     output["GlobalTableName"] = input.GlobalTableName.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaSettingsDescription(input):
+
+def com_amazonaws_dynamodb_ReplicaSettingsDescription(input):
     output = {}
     output["RegionName"] = input.RegionName.VerbatimString(False)
     if input.ReplicaStatus.is_Some:
-        output["ReplicaStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaStatus(input.ReplicaStatus.value)
+        output["ReplicaStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReplicaStatus(
+                input.ReplicaStatus.value
+            )
+        )
 
     if input.ReplicaBillingModeSummary.is_Some:
-        output["ReplicaBillingModeSummary"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BillingModeSummary(input.ReplicaBillingModeSummary.value)
+        output["ReplicaBillingModeSummary"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BillingModeSummary(
+                input.ReplicaBillingModeSummary.value
+            )
+        )
 
     if input.ReplicaProvisionedReadCapacityUnits.is_Some:
-        output["ReplicaProvisionedReadCapacityUnits"] = input.ReplicaProvisionedReadCapacityUnits.value
+        output["ReplicaProvisionedReadCapacityUnits"] = (
+            input.ReplicaProvisionedReadCapacityUnits.value
+        )
 
     if input.ReplicaProvisionedReadCapacityAutoScalingSettings.is_Some:
-        output["ReplicaProvisionedReadCapacityAutoScalingSettings"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingSettingsDescription(input.ReplicaProvisionedReadCapacityAutoScalingSettings.value)
+        output["ReplicaProvisionedReadCapacityAutoScalingSettings"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
+                input.ReplicaProvisionedReadCapacityAutoScalingSettings.value
+            )
+        )
 
     if input.ReplicaProvisionedWriteCapacityUnits.is_Some:
-        output["ReplicaProvisionedWriteCapacityUnits"] = input.ReplicaProvisionedWriteCapacityUnits.value
+        output["ReplicaProvisionedWriteCapacityUnits"] = (
+            input.ReplicaProvisionedWriteCapacityUnits.value
+        )
 
     if input.ReplicaProvisionedWriteCapacityAutoScalingSettings.is_Some:
-        output["ReplicaProvisionedWriteCapacityAutoScalingSettings"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingSettingsDescription(input.ReplicaProvisionedWriteCapacityAutoScalingSettings.value)
+        output["ReplicaProvisionedWriteCapacityAutoScalingSettings"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
+                input.ReplicaProvisionedWriteCapacityAutoScalingSettings.value
+            )
+        )
 
     if input.ReplicaGlobalSecondaryIndexSettings.is_Some:
-        output["ReplicaGlobalSecondaryIndexSettings"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsDescription(list_element) for list_element in input.ReplicaGlobalSecondaryIndexSettings.value]
+        output["ReplicaGlobalSecondaryIndexSettings"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsDescription(
+                list_element
+            )
+            for list_element in input.ReplicaGlobalSecondaryIndexSettings.value
+        ]
 
     if input.ReplicaTableClassSummary.is_Some:
-        output["ReplicaTableClassSummary"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableClassSummary(input.ReplicaTableClassSummary.value)
+        output["ReplicaTableClassSummary"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableClassSummary(
+                input.ReplicaTableClassSummary.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingSettingsDescription(input):
+
+def com_amazonaws_dynamodb_AutoScalingSettingsDescription(input):
     output = {}
     if input.MinimumUnits.is_Some:
         output["MinimumUnits"] = input.MinimumUnits.value
@@ -1893,44 +2743,76 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingSettingsDescription(input):
         output["AutoScalingDisabled"] = input.AutoScalingDisabled.value
 
     if input.AutoScalingRoleArn.is_Some:
-        output["AutoScalingRoleArn"] = input.AutoScalingRoleArn.value.VerbatimString(False)
+        output["AutoScalingRoleArn"] = input.AutoScalingRoleArn.value.VerbatimString(
+            False
+        )
 
     if input.ScalingPolicies.is_Some:
-        output["ScalingPolicies"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingPolicyDescription(list_element) for list_element in input.ScalingPolicies.value]
+        output["ScalingPolicies"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AutoScalingPolicyDescription(
+                list_element
+            )
+            for list_element in input.ScalingPolicies.value
+        ]
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsDescription(input):
+
+def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsDescription(input):
     output = {}
     output["IndexName"] = input.IndexName.VerbatimString(False)
     if input.IndexStatus.is_Some:
-        output["IndexStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_IndexStatus(input.IndexStatus.value)
+        output["IndexStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_IndexStatus(
+                input.IndexStatus.value
+            )
+        )
 
     if input.ProvisionedReadCapacityUnits.is_Some:
-        output["ProvisionedReadCapacityUnits"] = input.ProvisionedReadCapacityUnits.value
+        output["ProvisionedReadCapacityUnits"] = (
+            input.ProvisionedReadCapacityUnits.value
+        )
 
     if input.ProvisionedReadCapacityAutoScalingSettings.is_Some:
-        output["ProvisionedReadCapacityAutoScalingSettings"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingSettingsDescription(input.ProvisionedReadCapacityAutoScalingSettings.value)
+        output["ProvisionedReadCapacityAutoScalingSettings"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
+                input.ProvisionedReadCapacityAutoScalingSettings.value
+            )
+        )
 
     if input.ProvisionedWriteCapacityUnits.is_Some:
-        output["ProvisionedWriteCapacityUnits"] = input.ProvisionedWriteCapacityUnits.value
+        output["ProvisionedWriteCapacityUnits"] = (
+            input.ProvisionedWriteCapacityUnits.value
+        )
 
     if input.ProvisionedWriteCapacityAutoScalingSettings.is_Some:
-        output["ProvisionedWriteCapacityAutoScalingSettings"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingSettingsDescription(input.ProvisionedWriteCapacityAutoScalingSettings.value)
+        output["ProvisionedWriteCapacityAutoScalingSettings"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
+                input.ProvisionedWriteCapacityAutoScalingSettings.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingPolicyDescription(input):
+
+def com_amazonaws_dynamodb_AutoScalingPolicyDescription(input):
     output = {}
     if input.PolicyName.is_Some:
         output["PolicyName"] = input.PolicyName.value.VerbatimString(False)
 
     if input.TargetTrackingScalingPolicyConfiguration.is_Some:
-        output["TargetTrackingScalingPolicyConfiguration"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingTargetTrackingScalingPolicyConfigurationDescription(input.TargetTrackingScalingPolicyConfiguration.value)
+        output["TargetTrackingScalingPolicyConfiguration"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AutoScalingTargetTrackingScalingPolicyConfigurationDescription(
+                input.TargetTrackingScalingPolicyConfiguration.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingTargetTrackingScalingPolicyConfigurationDescription(input):
+
+def com_amazonaws_dynamodb_AutoScalingTargetTrackingScalingPolicyConfigurationDescription(
+    input,
+):
     output = {}
     if input.DisableScaleIn.is_Some:
         output["DisableScaleIn"] = input.DisableScaleIn.value
@@ -1944,28 +2826,40 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingTargetTrackingScalingPolicyC
     output["TargetValue"] = input.TargetValue
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeGlobalTableSettingsOutput(input):
+
+def com_amazonaws_dynamodb_DescribeGlobalTableSettingsOutput(input):
     output = {}
     if input.GlobalTableName.is_Some:
         output["GlobalTableName"] = input.GlobalTableName.value.VerbatimString(False)
 
     if input.ReplicaSettings.is_Some:
-        output["ReplicaSettings"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaSettingsDescription(list_element) for list_element in input.ReplicaSettings.value]
+        output["ReplicaSettings"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReplicaSettingsDescription(
+                list_element
+            )
+            for list_element in input.ReplicaSettings.value
+        ]
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeImportInput(input):
+
+def com_amazonaws_dynamodb_DescribeImportInput(input):
     output = {}
     output["ImportArn"] = input.ImportArn.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ImportTableDescription(input):
+
+def com_amazonaws_dynamodb_ImportTableDescription(input):
     output = {}
     if input.ImportArn.is_Some:
         output["ImportArn"] = input.ImportArn.value.VerbatimString(False)
 
     if input.ImportStatus.is_Some:
-        output["ImportStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ImportStatus(input.ImportStatus.value)
+        output["ImportStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ImportStatus(
+                input.ImportStatus.value
+            )
+        )
 
     if input.TableArn.is_Some:
         output["TableArn"] = input.TableArn.value.VerbatimString(False)
@@ -1977,25 +2871,47 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ImportTableDescription(input):
         output["ClientToken"] = input.ClientToken.value.VerbatimString(False)
 
     if input.S3BucketSource.is_Some:
-        output["S3BucketSource"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_S3BucketSource(input.S3BucketSource.value)
+        output["S3BucketSource"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_S3BucketSource(
+                input.S3BucketSource.value
+            )
+        )
 
     if input.ErrorCount.is_Some:
         output["ErrorCount"] = input.ErrorCount.value
 
     if input.CloudWatchLogGroupArn.is_Some:
-        output["CloudWatchLogGroupArn"] = input.CloudWatchLogGroupArn.value.VerbatimString(False)
+        output["CloudWatchLogGroupArn"] = (
+            input.CloudWatchLogGroupArn.value.VerbatimString(False)
+        )
 
     if input.InputFormat.is_Some:
-        output["InputFormat"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_InputFormat(input.InputFormat.value)
+        output["InputFormat"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_InputFormat(
+                input.InputFormat.value
+            )
+        )
 
     if input.InputFormatOptions.is_Some:
-        output["InputFormatOptions"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_InputFormatOptions(input.InputFormatOptions.value)
+        output["InputFormatOptions"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_InputFormatOptions(
+                input.InputFormatOptions.value
+            )
+        )
 
     if input.InputCompressionType.is_Some:
-        output["InputCompressionType"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_InputCompressionType(input.InputCompressionType.value)
+        output["InputCompressionType"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_InputCompressionType(
+                input.InputCompressionType.value
+            )
+        )
 
     if input.TableCreationParameters.is_Some:
-        output["TableCreationParameters"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableCreationParameters(input.TableCreationParameters.value)
+        output["TableCreationParameters"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableCreationParameters(
+                input.TableCreationParameters.value
+            )
+        )
 
     if input.StartTime.is_Some:
         output["StartTime"] = TypeError("TimestampShape not supported")
@@ -2020,7 +2936,8 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ImportTableDescription(input):
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ImportStatus(input):
+
+def com_amazonaws_dynamodb_ImportStatus(input):
     # Convert ImportStatus
     if isinstance(input, ImportStatus_IN__PROGRESS):
         return "IN_PROGRESS"
@@ -2040,7 +2957,8 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ImportStatus(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_S3BucketSource(input):
+
+def com_amazonaws_dynamodb_S3BucketSource(input):
     output = {}
     if input.S3BucketOwner.is_Some:
         output["S3BucketOwner"] = input.S3BucketOwner.value.VerbatimString(False)
@@ -2051,7 +2969,8 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_S3BucketSource(input):
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_InputFormat(input):
+
+def com_amazonaws_dynamodb_InputFormat(input):
     # Convert InputFormat
     if isinstance(input, InputFormat_DYNAMODB__JSON):
         return "DYNAMODB_JSON"
@@ -2065,14 +2984,20 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_InputFormat(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_InputFormatOptions(input):
+
+def com_amazonaws_dynamodb_InputFormatOptions(input):
     output = {}
     if input.Csv.is_Some:
-        output["Csv"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_CsvOptions(input.Csv.value)
+        output["Csv"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_CsvOptions(
+                input.Csv.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_InputCompressionType(input):
+
+def com_amazonaws_dynamodb_InputCompressionType(input):
     # Convert InputCompressionType
     if isinstance(input, InputCompressionType_GZIP):
         return "GZIP"
@@ -2086,59 +3011,105 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_InputCompressionType(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TableCreationParameters(input):
+
+def com_amazonaws_dynamodb_TableCreationParameters(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
-    output["AttributeDefinitions"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeDefinition(list_element) for list_element in input.AttributeDefinitions]
-    output["KeySchema"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_KeySchemaElement(list_element) for list_element in input.KeySchema]
+    output["AttributeDefinitions"] = [
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeDefinition(
+            list_element
+        )
+        for list_element in input.AttributeDefinitions
+    ]
+    output["KeySchema"] = [
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_KeySchemaElement(
+            list_element
+        )
+        for list_element in input.KeySchema
+    ]
     if input.BillingMode.is_Some:
-        output["BillingMode"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BillingMode(input.BillingMode.value)
+        output["BillingMode"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BillingMode(
+                input.BillingMode.value
+            )
+        )
 
     if input.ProvisionedThroughput.is_Some:
-        output["ProvisionedThroughput"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughput(input.ProvisionedThroughput.value)
+        output["ProvisionedThroughput"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ProvisionedThroughput(
+                input.ProvisionedThroughput.value
+            )
+        )
 
     if input.SSESpecification.is_Some:
-        output["SSESpecification"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_SSESpecification(input.SSESpecification.value)
+        output["SSESpecification"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_SSESpecification(
+                input.SSESpecification.value
+            )
+        )
 
     if input.GlobalSecondaryIndexes.is_Some:
-        output["GlobalSecondaryIndexes"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalSecondaryIndex(list_element) for list_element in input.GlobalSecondaryIndexes.value]
+        output["GlobalSecondaryIndexes"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_GlobalSecondaryIndex(
+                list_element
+            )
+            for list_element in input.GlobalSecondaryIndexes.value
+        ]
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_CsvOptions(input):
+
+def com_amazonaws_dynamodb_CsvOptions(input):
     output = {}
     if input.Delimiter.is_Some:
         output["Delimiter"] = input.Delimiter.value.VerbatimString(False)
 
     if input.HeaderList.is_Some:
-        output["HeaderList"] = [list_element.VerbatimString(False) for list_element in input.HeaderList.value]
+        output["HeaderList"] = [
+            list_element.VerbatimString(False)
+            for list_element in input.HeaderList.value
+        ]
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeImportOutput(input):
+
+def com_amazonaws_dynamodb_DescribeImportOutput(input):
     output = {}
-    output["ImportTableDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ImportTableDescription(input.ImportTableDescription)
+    output["ImportTableDescription"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ImportTableDescription(
+            input.ImportTableDescription
+        )
+    )
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationInput(input):
+
+def com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationInput(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_KinesisDataStreamDestination(input):
+
+def com_amazonaws_dynamodb_KinesisDataStreamDestination(input):
     output = {}
     if input.StreamArn.is_Some:
         output["StreamArn"] = input.StreamArn.value.VerbatimString(False)
 
     if input.DestinationStatus.is_Some:
-        output["DestinationStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_DestinationStatus(input.DestinationStatus.value)
+        output["DestinationStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DestinationStatus(
+                input.DestinationStatus.value
+            )
+        )
 
     if input.DestinationStatusDescription.is_Some:
-        output["DestinationStatusDescription"] = input.DestinationStatusDescription.value.VerbatimString(False)
+        output["DestinationStatusDescription"] = (
+            input.DestinationStatusDescription.value.VerbatimString(False)
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DestinationStatus(input):
+
+def com_amazonaws_dynamodb_DestinationStatus(input):
     # Convert DestinationStatus
     if isinstance(input, DestinationStatus_ENABLING):
         return "ENABLING"
@@ -2158,27 +3129,37 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_DestinationStatus(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationOutput(input):
+
+def com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationOutput(input):
     output = {}
     if input.TableName.is_Some:
         output["TableName"] = input.TableName.value.VerbatimString(False)
 
     if input.KinesisDataStreamDestinations.is_Some:
-        output["KinesisDataStreamDestinations"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_KinesisDataStreamDestination(list_element) for list_element in input.KinesisDataStreamDestinations.value]
+        output["KinesisDataStreamDestinations"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_KinesisDataStreamDestination(
+                list_element
+            )
+            for list_element in input.KinesisDataStreamDestinations.value
+        ]
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeLimitsInput(input):
+
+def com_amazonaws_dynamodb_DescribeLimitsInput(input):
     output = {}
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeLimitsOutput(input):
+
+def com_amazonaws_dynamodb_DescribeLimitsOutput(input):
     output = {}
     if input.AccountMaxReadCapacityUnits.is_Some:
         output["AccountMaxReadCapacityUnits"] = input.AccountMaxReadCapacityUnits.value
 
     if input.AccountMaxWriteCapacityUnits.is_Some:
-        output["AccountMaxWriteCapacityUnits"] = input.AccountMaxWriteCapacityUnits.value
+        output["AccountMaxWriteCapacityUnits"] = (
+            input.AccountMaxWriteCapacityUnits.value
+        )
 
     if input.TableMaxReadCapacityUnits.is_Some:
         output["TableMaxReadCapacityUnits"] = input.TableMaxReadCapacityUnits.value
@@ -2188,97 +3169,158 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeLimitsOutput(input):
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeTableInput(input):
+
+def com_amazonaws_dynamodb_DescribeTableInput(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeTableOutput(input):
+
+def com_amazonaws_dynamodb_DescribeTableOutput(input):
     output = {}
     if input.Table.is_Some:
-        output["Table"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableDescription(input.Table.value)
+        output["Table"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableDescription(
+                input.Table.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingInput(input):
+
+def com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingInput(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TableAutoScalingDescription(input):
+
+def com_amazonaws_dynamodb_TableAutoScalingDescription(input):
     output = {}
     if input.TableName.is_Some:
         output["TableName"] = input.TableName.value.VerbatimString(False)
 
     if input.TableStatus.is_Some:
-        output["TableStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableStatus(input.TableStatus.value)
+        output["TableStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableStatus(
+                input.TableStatus.value
+            )
+        )
 
     if input.Replicas.is_Some:
-        output["Replicas"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaAutoScalingDescription(list_element) for list_element in input.Replicas.value]
+        output["Replicas"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReplicaAutoScalingDescription(
+                list_element
+            )
+            for list_element in input.Replicas.value
+        ]
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaAutoScalingDescription(input):
+
+def com_amazonaws_dynamodb_ReplicaAutoScalingDescription(input):
     output = {}
     if input.RegionName.is_Some:
         output["RegionName"] = input.RegionName.value.VerbatimString(False)
 
     if input.GlobalSecondaryIndexes.is_Some:
-        output["GlobalSecondaryIndexes"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingDescription(list_element) for list_element in input.GlobalSecondaryIndexes.value]
+        output["GlobalSecondaryIndexes"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingDescription(
+                list_element
+            )
+            for list_element in input.GlobalSecondaryIndexes.value
+        ]
 
     if input.ReplicaProvisionedReadCapacityAutoScalingSettings.is_Some:
-        output["ReplicaProvisionedReadCapacityAutoScalingSettings"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingSettingsDescription(input.ReplicaProvisionedReadCapacityAutoScalingSettings.value)
+        output["ReplicaProvisionedReadCapacityAutoScalingSettings"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
+                input.ReplicaProvisionedReadCapacityAutoScalingSettings.value
+            )
+        )
 
     if input.ReplicaProvisionedWriteCapacityAutoScalingSettings.is_Some:
-        output["ReplicaProvisionedWriteCapacityAutoScalingSettings"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingSettingsDescription(input.ReplicaProvisionedWriteCapacityAutoScalingSettings.value)
+        output["ReplicaProvisionedWriteCapacityAutoScalingSettings"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
+                input.ReplicaProvisionedWriteCapacityAutoScalingSettings.value
+            )
+        )
 
     if input.ReplicaStatus.is_Some:
-        output["ReplicaStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaStatus(input.ReplicaStatus.value)
+        output["ReplicaStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReplicaStatus(
+                input.ReplicaStatus.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingDescription(input):
+
+def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingDescription(input):
     output = {}
     if input.IndexName.is_Some:
         output["IndexName"] = input.IndexName.value.VerbatimString(False)
 
     if input.IndexStatus.is_Some:
-        output["IndexStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_IndexStatus(input.IndexStatus.value)
+        output["IndexStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_IndexStatus(
+                input.IndexStatus.value
+            )
+        )
 
     if input.ProvisionedReadCapacityAutoScalingSettings.is_Some:
-        output["ProvisionedReadCapacityAutoScalingSettings"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingSettingsDescription(input.ProvisionedReadCapacityAutoScalingSettings.value)
+        output["ProvisionedReadCapacityAutoScalingSettings"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
+                input.ProvisionedReadCapacityAutoScalingSettings.value
+            )
+        )
 
     if input.ProvisionedWriteCapacityAutoScalingSettings.is_Some:
-        output["ProvisionedWriteCapacityAutoScalingSettings"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingSettingsDescription(input.ProvisionedWriteCapacityAutoScalingSettings.value)
+        output["ProvisionedWriteCapacityAutoScalingSettings"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
+                input.ProvisionedWriteCapacityAutoScalingSettings.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingOutput(input):
+
+def com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingOutput(input):
     output = {}
     if input.TableAutoScalingDescription.is_Some:
-        output["TableAutoScalingDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableAutoScalingDescription(input.TableAutoScalingDescription.value)
+        output["TableAutoScalingDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableAutoScalingDescription(
+                input.TableAutoScalingDescription.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeTimeToLiveInput(input):
+
+def com_amazonaws_dynamodb_DescribeTimeToLiveInput(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DescribeTimeToLiveOutput(input):
+
+def com_amazonaws_dynamodb_DescribeTimeToLiveOutput(input):
     output = {}
     if input.TimeToLiveDescription.is_Some:
-        output["TimeToLiveDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TimeToLiveDescription(input.TimeToLiveDescription.value)
+        output["TimeToLiveDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TimeToLiveDescription(
+                input.TimeToLiveDescription.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput(input):
+
+def com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
     output["StreamArn"] = input.StreamArn.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput(input):
+
+def com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput(input):
     output = {}
     if input.TableName.is_Some:
         output["TableName"] = input.TableName.value.VerbatimString(False)
@@ -2287,17 +3329,23 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutpu
         output["StreamArn"] = input.StreamArn.value.VerbatimString(False)
 
     if input.DestinationStatus.is_Some:
-        output["DestinationStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_DestinationStatus(input.DestinationStatus.value)
+        output["DestinationStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DestinationStatus(
+                input.DestinationStatus.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_EnableKinesisStreamingDestinationInput(input):
+
+def com_amazonaws_dynamodb_EnableKinesisStreamingDestinationInput(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
     output["StreamArn"] = input.StreamArn.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput(input):
+
+def com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput(input):
     output = {}
     if input.TableName.is_Some:
         output["TableName"] = input.TableName.value.VerbatimString(False)
@@ -2306,15 +3354,25 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput
         output["StreamArn"] = input.StreamArn.value.VerbatimString(False)
 
     if input.DestinationStatus.is_Some:
-        output["DestinationStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_DestinationStatus(input.DestinationStatus.value)
+        output["DestinationStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DestinationStatus(
+                input.DestinationStatus.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ExecuteStatementInput(input):
+
+def com_amazonaws_dynamodb_ExecuteStatementInput(input):
     output = {}
     output["Statement"] = input.Statement.VerbatimString(False)
     if input.Parameters.is_Some:
-        output["Parameters"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(list_element) for list_element in input.Parameters.value]
+        output["Parameters"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                list_element
+            )
+            for list_element in input.Parameters.value
+        ]
 
     if input.ConsistentRead.is_Some:
         output["ConsistentRead"] = input.ConsistentRead.value
@@ -2323,66 +3381,130 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ExecuteStatementInput(input):
         output["NextToken"] = input.NextToken.value.VerbatimString(False)
 
     if input.ReturnConsumedCapacity.is_Some:
-        output["ReturnConsumedCapacity"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnConsumedCapacity(input.ReturnConsumedCapacity.value)
+        output["ReturnConsumedCapacity"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                input.ReturnConsumedCapacity.value
+            )
+        )
 
     if input.Limit.is_Some:
         output["Limit"] = input.Limit.value
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ExecuteStatementOutput(input):
+
+def com_amazonaws_dynamodb_ExecuteStatementOutput(input):
     output = {}
     if input.Items.is_Some:
-        output["Items"] = [{key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in list_element.items } for list_element in input.Items.value]
+        output["Items"] = [
+            {
+                key.VerbatimString(
+                    False
+                ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                    value
+                )
+                for (key, value) in list_element.items
+            }
+            for list_element in input.Items.value
+        ]
 
     if input.NextToken.is_Some:
         output["NextToken"] = input.NextToken.value.VerbatimString(False)
 
     if input.ConsumedCapacity.is_Some:
-        output["ConsumedCapacity"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ConsumedCapacity(input.ConsumedCapacity.value)
+        output["ConsumedCapacity"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ConsumedCapacity(
+                input.ConsumedCapacity.value
+            )
+        )
 
     if input.LastEvaluatedKey.is_Some:
-        output["LastEvaluatedKey"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.LastEvaluatedKey.value.items }
+        output["LastEvaluatedKey"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.LastEvaluatedKey.value.items
+        }
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ParameterizedStatement(input):
+
+def com_amazonaws_dynamodb_ParameterizedStatement(input):
     output = {}
     output["Statement"] = input.Statement.VerbatimString(False)
     if input.Parameters.is_Some:
-        output["Parameters"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(list_element) for list_element in input.Parameters.value]
+        output["Parameters"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                list_element
+            )
+            for list_element in input.Parameters.value
+        ]
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ExecuteTransactionInput(input):
+
+def com_amazonaws_dynamodb_ExecuteTransactionInput(input):
     output = {}
-    output["TransactStatements"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ParameterizedStatement(list_element) for list_element in input.TransactStatements]
+    output["TransactStatements"] = [
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ParameterizedStatement(
+            list_element
+        )
+        for list_element in input.TransactStatements
+    ]
     if input.ClientRequestToken.is_Some:
-        output["ClientRequestToken"] = input.ClientRequestToken.value.VerbatimString(False)
+        output["ClientRequestToken"] = input.ClientRequestToken.value.VerbatimString(
+            False
+        )
 
     if input.ReturnConsumedCapacity.is_Some:
-        output["ReturnConsumedCapacity"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnConsumedCapacity(input.ReturnConsumedCapacity.value)
+        output["ReturnConsumedCapacity"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                input.ReturnConsumedCapacity.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ItemResponse(input):
+
+def com_amazonaws_dynamodb_ItemResponse(input):
     output = {}
     if input.Item.is_Some:
-        output["Item"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.Item.value.items }
+        output["Item"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.Item.value.items
+        }
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ExecuteTransactionOutput(input):
+
+def com_amazonaws_dynamodb_ExecuteTransactionOutput(input):
     output = {}
     if input.Responses.is_Some:
-        output["Responses"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ItemResponse(list_element) for list_element in input.Responses.value]
+        output["Responses"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ItemResponse(
+                list_element
+            )
+            for list_element in input.Responses.value
+        ]
 
     if input.ConsumedCapacity.is_Some:
-        output["ConsumedCapacity"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ConsumedCapacity(list_element) for list_element in input.ConsumedCapacity.value]
+        output["ConsumedCapacity"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ConsumedCapacity(
+                list_element
+            )
+            for list_element in input.ConsumedCapacity.value
+        ]
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ExportTableToPointInTimeInput(input):
+
+def com_amazonaws_dynamodb_ExportTableToPointInTimeInput(input):
     output = {}
     output["TableArn"] = input.TableArn.VerbatimString(False)
     if input.ExportTime.is_Some:
@@ -2399,76 +3521,148 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ExportTableToPointInTimeInput(input):
         output["S3Prefix"] = input.S3Prefix.value.VerbatimString(False)
 
     if input.S3SseAlgorithm.is_Some:
-        output["S3SseAlgorithm"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_S3SseAlgorithm(input.S3SseAlgorithm.value)
+        output["S3SseAlgorithm"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_S3SseAlgorithm(
+                input.S3SseAlgorithm.value
+            )
+        )
 
     if input.S3SseKmsKeyId.is_Some:
         output["S3SseKmsKeyId"] = input.S3SseKmsKeyId.value.VerbatimString(False)
 
     if input.ExportFormat.is_Some:
-        output["ExportFormat"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ExportFormat(input.ExportFormat.value)
+        output["ExportFormat"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ExportFormat(
+                input.ExportFormat.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ExportTableToPointInTimeOutput(input):
+
+def com_amazonaws_dynamodb_ExportTableToPointInTimeOutput(input):
     output = {}
     if input.ExportDescription.is_Some:
-        output["ExportDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ExportDescription(input.ExportDescription.value)
+        output["ExportDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ExportDescription(
+                input.ExportDescription.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_GetItemInput(input):
+
+def com_amazonaws_dynamodb_GetItemInput(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
-    output["Key"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.Key.items }
+    output["Key"] = {
+        key.VerbatimString(
+            False
+        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+            value
+        )
+        for (key, value) in input.Key.items
+    }
     if input.AttributesToGet.is_Some:
-        output["AttributesToGet"] = [list_element.VerbatimString(False) for list_element in input.AttributesToGet.value]
+        output["AttributesToGet"] = [
+            list_element.VerbatimString(False)
+            for list_element in input.AttributesToGet.value
+        ]
 
     if input.ConsistentRead.is_Some:
         output["ConsistentRead"] = input.ConsistentRead.value
 
     if input.ReturnConsumedCapacity.is_Some:
-        output["ReturnConsumedCapacity"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnConsumedCapacity(input.ReturnConsumedCapacity.value)
+        output["ReturnConsumedCapacity"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                input.ReturnConsumedCapacity.value
+            )
+        )
 
     if input.ProjectionExpression.is_Some:
-        output["ProjectionExpression"] = input.ProjectionExpression.value.VerbatimString(False)
+        output["ProjectionExpression"] = (
+            input.ProjectionExpression.value.VerbatimString(False)
+        )
 
     if input.ExpressionAttributeNames.is_Some:
-        output["ExpressionAttributeNames"] = {key.VerbatimString(False): value.VerbatimString(False) for (key, value) in input.ExpressionAttributeNames.value.items }
+        output["ExpressionAttributeNames"] = {
+            key.VerbatimString(False): value.VerbatimString(False)
+            for (key, value) in input.ExpressionAttributeNames.value.items
+        }
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_GetItemOutput(input):
+
+def com_amazonaws_dynamodb_GetItemOutput(input):
     output = {}
     if input.Item.is_Some:
-        output["Item"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.Item.value.items }
+        output["Item"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.Item.value.items
+        }
 
     if input.ConsumedCapacity.is_Some:
-        output["ConsumedCapacity"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ConsumedCapacity(input.ConsumedCapacity.value)
+        output["ConsumedCapacity"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ConsumedCapacity(
+                input.ConsumedCapacity.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ImportTableInput(input):
+
+def com_amazonaws_dynamodb_ImportTableInput(input):
     output = {}
     if input.ClientToken.is_Some:
         output["ClientToken"] = input.ClientToken.value.VerbatimString(False)
 
-    output["S3BucketSource"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_S3BucketSource(input.S3BucketSource)
-    output["InputFormat"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_InputFormat(input.InputFormat)
+    output["S3BucketSource"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_S3BucketSource(
+            input.S3BucketSource
+        )
+    )
+    output["InputFormat"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_InputFormat(
+            input.InputFormat
+        )
+    )
     if input.InputFormatOptions.is_Some:
-        output["InputFormatOptions"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_InputFormatOptions(input.InputFormatOptions.value)
+        output["InputFormatOptions"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_InputFormatOptions(
+                input.InputFormatOptions.value
+            )
+        )
 
     if input.InputCompressionType.is_Some:
-        output["InputCompressionType"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_InputCompressionType(input.InputCompressionType.value)
+        output["InputCompressionType"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_InputCompressionType(
+                input.InputCompressionType.value
+            )
+        )
 
-    output["TableCreationParameters"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableCreationParameters(input.TableCreationParameters)
+    output["TableCreationParameters"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableCreationParameters(
+            input.TableCreationParameters
+        )
+    )
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ImportTableOutput(input):
+
+def com_amazonaws_dynamodb_ImportTableOutput(input):
     output = {}
-    output["ImportTableDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ImportTableDescription(input.ImportTableDescription)
+    output["ImportTableDescription"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ImportTableDescription(
+            input.ImportTableDescription
+        )
+    )
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_BackupTypeFilter(input):
+
+def com_amazonaws_dynamodb_BackupTypeFilter(input):
     # Convert BackupTypeFilter
     if isinstance(input, BackupTypeFilter_USER):
         return "USER"
@@ -2485,7 +3679,8 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_BackupTypeFilter(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ListBackupsInput(input):
+
+def com_amazonaws_dynamodb_ListBackupsInput(input):
     output = {}
     if input.TableName.is_Some:
         output["TableName"] = input.TableName.value.VerbatimString(False)
@@ -2500,14 +3695,21 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ListBackupsInput(input):
         output["TimeRangeUpperBound"] = TypeError("TimestampShape not supported")
 
     if input.ExclusiveStartBackupArn.is_Some:
-        output["ExclusiveStartBackupArn"] = input.ExclusiveStartBackupArn.value.VerbatimString(False)
+        output["ExclusiveStartBackupArn"] = (
+            input.ExclusiveStartBackupArn.value.VerbatimString(False)
+        )
 
     if input.BackupType.is_Some:
-        output["BackupType"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BackupTypeFilter(input.BackupType.value)
+        output["BackupType"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BackupTypeFilter(
+                input.BackupType.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_BackupSummary(input):
+
+def com_amazonaws_dynamodb_BackupSummary(input):
     output = {}
     if input.TableName.is_Some:
         output["TableName"] = input.TableName.value.VerbatimString(False)
@@ -2531,27 +3733,44 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_BackupSummary(input):
         output["BackupExpiryDateTime"] = TypeError("TimestampShape not supported")
 
     if input.BackupStatus.is_Some:
-        output["BackupStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BackupStatus(input.BackupStatus.value)
+        output["BackupStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BackupStatus(
+                input.BackupStatus.value
+            )
+        )
 
     if input.BackupType.is_Some:
-        output["BackupType"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BackupType(input.BackupType.value)
+        output["BackupType"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BackupType(
+                input.BackupType.value
+            )
+        )
 
     if input.BackupSizeBytes.is_Some:
         output["BackupSizeBytes"] = input.BackupSizeBytes.value
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ListBackupsOutput(input):
+
+def com_amazonaws_dynamodb_ListBackupsOutput(input):
     output = {}
     if input.BackupSummaries.is_Some:
-        output["BackupSummaries"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BackupSummary(list_element) for list_element in input.BackupSummaries.value]
+        output["BackupSummaries"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BackupSummary(
+                list_element
+            )
+            for list_element in input.BackupSummaries.value
+        ]
 
     if input.LastEvaluatedBackupArn.is_Some:
-        output["LastEvaluatedBackupArn"] = input.LastEvaluatedBackupArn.value.VerbatimString(False)
+        output["LastEvaluatedBackupArn"] = (
+            input.LastEvaluatedBackupArn.value.VerbatimString(False)
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ListContributorInsightsInput(input):
+
+def com_amazonaws_dynamodb_ListContributorInsightsInput(input):
     output = {}
     if input.TableName.is_Some:
         output["TableName"] = input.TableName.value.VerbatimString(False)
@@ -2564,7 +3783,8 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ListContributorInsightsInput(input):
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ContributorInsightsSummary(input):
+
+def com_amazonaws_dynamodb_ContributorInsightsSummary(input):
     output = {}
     if input.TableName.is_Some:
         output["TableName"] = input.TableName.value.VerbatimString(False)
@@ -2573,21 +3793,32 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ContributorInsightsSummary(input):
         output["IndexName"] = input.IndexName.value.VerbatimString(False)
 
     if input.ContributorInsightsStatus.is_Some:
-        output["ContributorInsightsStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ContributorInsightsStatus(input.ContributorInsightsStatus.value)
+        output["ContributorInsightsStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ContributorInsightsStatus(
+                input.ContributorInsightsStatus.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ListContributorInsightsOutput(input):
+
+def com_amazonaws_dynamodb_ListContributorInsightsOutput(input):
     output = {}
     if input.ContributorInsightsSummaries.is_Some:
-        output["ContributorInsightsSummaries"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ContributorInsightsSummary(list_element) for list_element in input.ContributorInsightsSummaries.value]
+        output["ContributorInsightsSummaries"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ContributorInsightsSummary(
+                list_element
+            )
+            for list_element in input.ContributorInsightsSummaries.value
+        ]
 
     if input.NextToken.is_Some:
         output["NextToken"] = input.NextToken.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ListExportsInput(input):
+
+def com_amazonaws_dynamodb_ListExportsInput(input):
     output = {}
     if input.TableArn.is_Some:
         output["TableArn"] = input.TableArn.value.VerbatimString(False)
@@ -2600,30 +3831,44 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ListExportsInput(input):
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ExportSummary(input):
+
+def com_amazonaws_dynamodb_ExportSummary(input):
     output = {}
     if input.ExportArn.is_Some:
         output["ExportArn"] = input.ExportArn.value.VerbatimString(False)
 
     if input.ExportStatus.is_Some:
-        output["ExportStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ExportStatus(input.ExportStatus.value)
+        output["ExportStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ExportStatus(
+                input.ExportStatus.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ListExportsOutput(input):
+
+def com_amazonaws_dynamodb_ListExportsOutput(input):
     output = {}
     if input.ExportSummaries.is_Some:
-        output["ExportSummaries"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ExportSummary(list_element) for list_element in input.ExportSummaries.value]
+        output["ExportSummaries"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ExportSummary(
+                list_element
+            )
+            for list_element in input.ExportSummaries.value
+        ]
 
     if input.NextToken.is_Some:
         output["NextToken"] = input.NextToken.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ListGlobalTablesInput(input):
+
+def com_amazonaws_dynamodb_ListGlobalTablesInput(input):
     output = {}
     if input.ExclusiveStartGlobalTableName.is_Some:
-        output["ExclusiveStartGlobalTableName"] = input.ExclusiveStartGlobalTableName.value.VerbatimString(False)
+        output["ExclusiveStartGlobalTableName"] = (
+            input.ExclusiveStartGlobalTableName.value.VerbatimString(False)
+        )
 
     if input.Limit.is_Some:
         output["Limit"] = input.Limit.value
@@ -2633,27 +3878,42 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ListGlobalTablesInput(input):
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalTable(input):
+
+def com_amazonaws_dynamodb_GlobalTable(input):
     output = {}
     if input.GlobalTableName.is_Some:
         output["GlobalTableName"] = input.GlobalTableName.value.VerbatimString(False)
 
     if input.ReplicationGroup.is_Some:
-        output["ReplicationGroup"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Replica(list_element) for list_element in input.ReplicationGroup.value]
+        output["ReplicationGroup"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Replica(
+                list_element
+            )
+            for list_element in input.ReplicationGroup.value
+        ]
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ListGlobalTablesOutput(input):
+
+def com_amazonaws_dynamodb_ListGlobalTablesOutput(input):
     output = {}
     if input.GlobalTables.is_Some:
-        output["GlobalTables"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalTable(list_element) for list_element in input.GlobalTables.value]
+        output["GlobalTables"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_GlobalTable(
+                list_element
+            )
+            for list_element in input.GlobalTables.value
+        ]
 
     if input.LastEvaluatedGlobalTableName.is_Some:
-        output["LastEvaluatedGlobalTableName"] = input.LastEvaluatedGlobalTableName.value.VerbatimString(False)
+        output["LastEvaluatedGlobalTableName"] = (
+            input.LastEvaluatedGlobalTableName.value.VerbatimString(False)
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ListImportsInput(input):
+
+def com_amazonaws_dynamodb_ListImportsInput(input):
     output = {}
     if input.TableArn.is_Some:
         output["TableArn"] = input.TableArn.value.VerbatimString(False)
@@ -2666,25 +3926,40 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ListImportsInput(input):
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ImportSummary(input):
+
+def com_amazonaws_dynamodb_ImportSummary(input):
     output = {}
     if input.ImportArn.is_Some:
         output["ImportArn"] = input.ImportArn.value.VerbatimString(False)
 
     if input.ImportStatus.is_Some:
-        output["ImportStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ImportStatus(input.ImportStatus.value)
+        output["ImportStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ImportStatus(
+                input.ImportStatus.value
+            )
+        )
 
     if input.TableArn.is_Some:
         output["TableArn"] = input.TableArn.value.VerbatimString(False)
 
     if input.S3BucketSource.is_Some:
-        output["S3BucketSource"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_S3BucketSource(input.S3BucketSource.value)
+        output["S3BucketSource"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_S3BucketSource(
+                input.S3BucketSource.value
+            )
+        )
 
     if input.CloudWatchLogGroupArn.is_Some:
-        output["CloudWatchLogGroupArn"] = input.CloudWatchLogGroupArn.value.VerbatimString(False)
+        output["CloudWatchLogGroupArn"] = (
+            input.CloudWatchLogGroupArn.value.VerbatimString(False)
+        )
 
     if input.InputFormat.is_Some:
-        output["InputFormat"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_InputFormat(input.InputFormat.value)
+        output["InputFormat"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_InputFormat(
+                input.InputFormat.value
+            )
+        )
 
     if input.StartTime.is_Some:
         output["StartTime"] = TypeError("TimestampShape not supported")
@@ -2694,37 +3969,53 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ImportSummary(input):
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ListImportsOutput(input):
+
+def com_amazonaws_dynamodb_ListImportsOutput(input):
     output = {}
     if input.ImportSummaryList.is_Some:
-        output["ImportSummaryList"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ImportSummary(list_element) for list_element in input.ImportSummaryList.value]
+        output["ImportSummaryList"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ImportSummary(
+                list_element
+            )
+            for list_element in input.ImportSummaryList.value
+        ]
 
     if input.NextToken.is_Some:
         output["NextToken"] = input.NextToken.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ListTablesInput(input):
+
+def com_amazonaws_dynamodb_ListTablesInput(input):
     output = {}
     if input.ExclusiveStartTableName.is_Some:
-        output["ExclusiveStartTableName"] = input.ExclusiveStartTableName.value.VerbatimString(False)
+        output["ExclusiveStartTableName"] = (
+            input.ExclusiveStartTableName.value.VerbatimString(False)
+        )
 
     if input.Limit.is_Some:
         output["Limit"] = input.Limit.value
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ListTablesOutput(input):
+
+def com_amazonaws_dynamodb_ListTablesOutput(input):
     output = {}
     if input.TableNames.is_Some:
-        output["TableNames"] = [list_element.VerbatimString(False) for list_element in input.TableNames.value]
+        output["TableNames"] = [
+            list_element.VerbatimString(False)
+            for list_element in input.TableNames.value
+        ]
 
     if input.LastEvaluatedTableName.is_Some:
-        output["LastEvaluatedTableName"] = input.LastEvaluatedTableName.value.VerbatimString(False)
+        output["LastEvaluatedTableName"] = (
+            input.LastEvaluatedTableName.value.VerbatimString(False)
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ListTagsOfResourceInput(input):
+
+def com_amazonaws_dynamodb_ListTagsOfResourceInput(input):
     output = {}
     output["ResourceArn"] = input.ResourceArn.VerbatimString(False)
     if input.NextToken.is_Some:
@@ -2732,60 +4023,126 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ListTagsOfResourceInput(input):
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ListTagsOfResourceOutput(input):
+
+def com_amazonaws_dynamodb_ListTagsOfResourceOutput(input):
     output = {}
     if input.Tags.is_Some:
-        output["Tags"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Tag(list_element) for list_element in input.Tags.value]
+        output["Tags"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Tag(
+                list_element
+            )
+            for list_element in input.Tags.value
+        ]
 
     if input.NextToken.is_Some:
         output["NextToken"] = input.NextToken.value.VerbatimString(False)
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_PutItemInput(input):
+
+def com_amazonaws_dynamodb_PutItemInput(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
-    output["Item"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.Item.items }
+    output["Item"] = {
+        key.VerbatimString(
+            False
+        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+            value
+        )
+        for (key, value) in input.Item.items
+    }
     if input.Expected.is_Some:
-        output["Expected"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ExpectedAttributeValue(value) for (key, value) in input.Expected.value.items }
+        output["Expected"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ExpectedAttributeValue(
+                value
+            )
+            for (key, value) in input.Expected.value.items
+        }
 
     if input.ReturnValues.is_Some:
-        output["ReturnValues"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnValue(input.ReturnValues.value)
+        output["ReturnValues"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnValue(
+                input.ReturnValues.value
+            )
+        )
 
     if input.ReturnConsumedCapacity.is_Some:
-        output["ReturnConsumedCapacity"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnConsumedCapacity(input.ReturnConsumedCapacity.value)
+        output["ReturnConsumedCapacity"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                input.ReturnConsumedCapacity.value
+            )
+        )
 
     if input.ReturnItemCollectionMetrics.is_Some:
-        output["ReturnItemCollectionMetrics"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnItemCollectionMetrics(input.ReturnItemCollectionMetrics.value)
+        output["ReturnItemCollectionMetrics"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnItemCollectionMetrics(
+                input.ReturnItemCollectionMetrics.value
+            )
+        )
 
     if input.ConditionalOperator.is_Some:
-        output["ConditionalOperator"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ConditionalOperator(input.ConditionalOperator.value)
+        output["ConditionalOperator"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ConditionalOperator(
+                input.ConditionalOperator.value
+            )
+        )
 
     if input.ConditionExpression.is_Some:
-        output["ConditionExpression"] = input.ConditionExpression.value.VerbatimString(False)
+        output["ConditionExpression"] = input.ConditionExpression.value.VerbatimString(
+            False
+        )
 
     if input.ExpressionAttributeNames.is_Some:
-        output["ExpressionAttributeNames"] = {key.VerbatimString(False): value.VerbatimString(False) for (key, value) in input.ExpressionAttributeNames.value.items }
+        output["ExpressionAttributeNames"] = {
+            key.VerbatimString(False): value.VerbatimString(False)
+            for (key, value) in input.ExpressionAttributeNames.value.items
+        }
 
     if input.ExpressionAttributeValues.is_Some:
-        output["ExpressionAttributeValues"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.ExpressionAttributeValues.value.items }
+        output["ExpressionAttributeValues"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.ExpressionAttributeValues.value.items
+        }
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_PutItemOutput(input):
+
+def com_amazonaws_dynamodb_PutItemOutput(input):
     output = {}
     if input.Attributes.is_Some:
-        output["Attributes"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.Attributes.value.items }
+        output["Attributes"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.Attributes.value.items
+        }
 
     if input.ConsumedCapacity.is_Some:
-        output["ConsumedCapacity"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ConsumedCapacity(input.ConsumedCapacity.value)
+        output["ConsumedCapacity"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ConsumedCapacity(
+                input.ConsumedCapacity.value
+            )
+        )
 
     if input.ItemCollectionMetrics.is_Some:
-        output["ItemCollectionMetrics"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ItemCollectionMetrics(input.ItemCollectionMetrics.value)
+        output["ItemCollectionMetrics"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ItemCollectionMetrics(
+                input.ItemCollectionMetrics.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_Select(input):
+
+def com_amazonaws_dynamodb_Select(input):
     # Convert Select
     if isinstance(input, Select_ALL__ATTRIBUTES):
         return "ALL_ATTRIBUTES"
@@ -2802,25 +4159,43 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_Select(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_Condition(input):
+
+def com_amazonaws_dynamodb_Condition(input):
     output = {}
     if input.AttributeValueList.is_Some:
-        output["AttributeValueList"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(list_element) for list_element in input.AttributeValueList.value]
+        output["AttributeValueList"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                list_element
+            )
+            for list_element in input.AttributeValueList.value
+        ]
 
-    output["ComparisonOperator"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ComparisonOperator(input.ComparisonOperator)
+    output["ComparisonOperator"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ComparisonOperator(
+            input.ComparisonOperator
+        )
+    )
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_QueryInput(input):
+
+def com_amazonaws_dynamodb_QueryInput(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
     if input.IndexName.is_Some:
         output["IndexName"] = input.IndexName.value.VerbatimString(False)
 
     if input.Select.is_Some:
-        output["Select"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Select(input.Select.value)
+        output["Select"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Select(
+                input.Select.value
+            )
+        )
 
     if input.AttributesToGet.is_Some:
-        output["AttributesToGet"] = [list_element.VerbatimString(False) for list_element in input.AttributesToGet.value]
+        output["AttributesToGet"] = [
+            list_element.VerbatimString(False)
+            for list_element in input.AttributesToGet.value
+        ]
 
     if input.Limit.is_Some:
         output["Limit"] = input.Limit.value
@@ -2829,44 +4204,98 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_QueryInput(input):
         output["ConsistentRead"] = input.ConsistentRead.value
 
     if input.KeyConditions.is_Some:
-        output["KeyConditions"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Condition(value) for (key, value) in input.KeyConditions.value.items }
+        output["KeyConditions"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Condition(
+                value
+            )
+            for (key, value) in input.KeyConditions.value.items
+        }
 
     if input.QueryFilter.is_Some:
-        output["QueryFilter"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Condition(value) for (key, value) in input.QueryFilter.value.items }
+        output["QueryFilter"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Condition(
+                value
+            )
+            for (key, value) in input.QueryFilter.value.items
+        }
 
     if input.ConditionalOperator.is_Some:
-        output["ConditionalOperator"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ConditionalOperator(input.ConditionalOperator.value)
+        output["ConditionalOperator"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ConditionalOperator(
+                input.ConditionalOperator.value
+            )
+        )
 
     if input.ScanIndexForward.is_Some:
         output["ScanIndexForward"] = input.ScanIndexForward.value
 
     if input.ExclusiveStartKey.is_Some:
-        output["ExclusiveStartKey"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.ExclusiveStartKey.value.items }
+        output["ExclusiveStartKey"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.ExclusiveStartKey.value.items
+        }
 
     if input.ReturnConsumedCapacity.is_Some:
-        output["ReturnConsumedCapacity"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnConsumedCapacity(input.ReturnConsumedCapacity.value)
+        output["ReturnConsumedCapacity"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                input.ReturnConsumedCapacity.value
+            )
+        )
 
     if input.ProjectionExpression.is_Some:
-        output["ProjectionExpression"] = input.ProjectionExpression.value.VerbatimString(False)
+        output["ProjectionExpression"] = (
+            input.ProjectionExpression.value.VerbatimString(False)
+        )
 
     if input.FilterExpression.is_Some:
         output["FilterExpression"] = input.FilterExpression.value.VerbatimString(False)
 
     if input.KeyConditionExpression.is_Some:
-        output["KeyConditionExpression"] = input.KeyConditionExpression.value.VerbatimString(False)
+        output["KeyConditionExpression"] = (
+            input.KeyConditionExpression.value.VerbatimString(False)
+        )
 
     if input.ExpressionAttributeNames.is_Some:
-        output["ExpressionAttributeNames"] = {key.VerbatimString(False): value.VerbatimString(False) for (key, value) in input.ExpressionAttributeNames.value.items }
+        output["ExpressionAttributeNames"] = {
+            key.VerbatimString(False): value.VerbatimString(False)
+            for (key, value) in input.ExpressionAttributeNames.value.items
+        }
 
     if input.ExpressionAttributeValues.is_Some:
-        output["ExpressionAttributeValues"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.ExpressionAttributeValues.value.items }
+        output["ExpressionAttributeValues"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.ExpressionAttributeValues.value.items
+        }
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_QueryOutput(input):
+
+def com_amazonaws_dynamodb_QueryOutput(input):
     output = {}
     if input.Items.is_Some:
-        output["Items"] = [{key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in list_element.items } for list_element in input.Items.value]
+        output["Items"] = [
+            {
+                key.VerbatimString(
+                    False
+                ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                    value
+                )
+                for (key, value) in list_element.items
+            }
+            for list_element in input.Items.value
+        ]
 
     if input.Count.is_Some:
         output["Count"] = input.Count.value
@@ -2875,42 +4304,82 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_QueryOutput(input):
         output["ScannedCount"] = input.ScannedCount.value
 
     if input.LastEvaluatedKey.is_Some:
-        output["LastEvaluatedKey"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.LastEvaluatedKey.value.items }
+        output["LastEvaluatedKey"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.LastEvaluatedKey.value.items
+        }
 
     if input.ConsumedCapacity.is_Some:
-        output["ConsumedCapacity"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ConsumedCapacity(input.ConsumedCapacity.value)
+        output["ConsumedCapacity"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ConsumedCapacity(
+                input.ConsumedCapacity.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_RestoreTableFromBackupInput(input):
+
+def com_amazonaws_dynamodb_RestoreTableFromBackupInput(input):
     output = {}
     output["TargetTableName"] = input.TargetTableName.VerbatimString(False)
     output["BackupArn"] = input.BackupArn.VerbatimString(False)
     if input.BillingModeOverride.is_Some:
-        output["BillingModeOverride"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BillingMode(input.BillingModeOverride.value)
+        output["BillingModeOverride"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BillingMode(
+                input.BillingModeOverride.value
+            )
+        )
 
     if input.GlobalSecondaryIndexOverride.is_Some:
-        output["GlobalSecondaryIndexOverride"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalSecondaryIndex(list_element) for list_element in input.GlobalSecondaryIndexOverride.value]
+        output["GlobalSecondaryIndexOverride"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_GlobalSecondaryIndex(
+                list_element
+            )
+            for list_element in input.GlobalSecondaryIndexOverride.value
+        ]
 
     if input.LocalSecondaryIndexOverride.is_Some:
-        output["LocalSecondaryIndexOverride"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_LocalSecondaryIndex(list_element) for list_element in input.LocalSecondaryIndexOverride.value]
+        output["LocalSecondaryIndexOverride"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_LocalSecondaryIndex(
+                list_element
+            )
+            for list_element in input.LocalSecondaryIndexOverride.value
+        ]
 
     if input.ProvisionedThroughputOverride.is_Some:
-        output["ProvisionedThroughputOverride"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughput(input.ProvisionedThroughputOverride.value)
+        output["ProvisionedThroughputOverride"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ProvisionedThroughput(
+                input.ProvisionedThroughputOverride.value
+            )
+        )
 
     if input.SSESpecificationOverride.is_Some:
-        output["SSESpecificationOverride"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_SSESpecification(input.SSESpecificationOverride.value)
+        output["SSESpecificationOverride"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_SSESpecification(
+                input.SSESpecificationOverride.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_RestoreTableFromBackupOutput(input):
+
+def com_amazonaws_dynamodb_RestoreTableFromBackupOutput(input):
     output = {}
     if input.TableDescription.is_Some:
-        output["TableDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableDescription(input.TableDescription.value)
+        output["TableDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableDescription(
+                input.TableDescription.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_RestoreTableToPointInTimeInput(input):
+
+def com_amazonaws_dynamodb_RestoreTableToPointInTimeInput(input):
     output = {}
     if input.SourceTableArn.is_Some:
         output["SourceTableArn"] = input.SourceTableArn.value.VerbatimString(False)
@@ -2926,55 +4395,112 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_RestoreTableToPointInTimeInput(input):
         output["RestoreDateTime"] = TypeError("TimestampShape not supported")
 
     if input.BillingModeOverride.is_Some:
-        output["BillingModeOverride"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BillingMode(input.BillingModeOverride.value)
+        output["BillingModeOverride"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BillingMode(
+                input.BillingModeOverride.value
+            )
+        )
 
     if input.GlobalSecondaryIndexOverride.is_Some:
-        output["GlobalSecondaryIndexOverride"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalSecondaryIndex(list_element) for list_element in input.GlobalSecondaryIndexOverride.value]
+        output["GlobalSecondaryIndexOverride"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_GlobalSecondaryIndex(
+                list_element
+            )
+            for list_element in input.GlobalSecondaryIndexOverride.value
+        ]
 
     if input.LocalSecondaryIndexOverride.is_Some:
-        output["LocalSecondaryIndexOverride"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_LocalSecondaryIndex(list_element) for list_element in input.LocalSecondaryIndexOverride.value]
+        output["LocalSecondaryIndexOverride"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_LocalSecondaryIndex(
+                list_element
+            )
+            for list_element in input.LocalSecondaryIndexOverride.value
+        ]
 
     if input.ProvisionedThroughputOverride.is_Some:
-        output["ProvisionedThroughputOverride"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughput(input.ProvisionedThroughputOverride.value)
+        output["ProvisionedThroughputOverride"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ProvisionedThroughput(
+                input.ProvisionedThroughputOverride.value
+            )
+        )
 
     if input.SSESpecificationOverride.is_Some:
-        output["SSESpecificationOverride"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_SSESpecification(input.SSESpecificationOverride.value)
+        output["SSESpecificationOverride"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_SSESpecification(
+                input.SSESpecificationOverride.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_RestoreTableToPointInTimeOutput(input):
+
+def com_amazonaws_dynamodb_RestoreTableToPointInTimeOutput(input):
     output = {}
     if input.TableDescription.is_Some:
-        output["TableDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableDescription(input.TableDescription.value)
+        output["TableDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableDescription(
+                input.TableDescription.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ScanInput(input):
+
+def com_amazonaws_dynamodb_ScanInput(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
     if input.IndexName.is_Some:
         output["IndexName"] = input.IndexName.value.VerbatimString(False)
 
     if input.AttributesToGet.is_Some:
-        output["AttributesToGet"] = [list_element.VerbatimString(False) for list_element in input.AttributesToGet.value]
+        output["AttributesToGet"] = [
+            list_element.VerbatimString(False)
+            for list_element in input.AttributesToGet.value
+        ]
 
     if input.Limit.is_Some:
         output["Limit"] = input.Limit.value
 
     if input.Select.is_Some:
-        output["Select"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Select(input.Select.value)
+        output["Select"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Select(
+                input.Select.value
+            )
+        )
 
     if input.ScanFilter.is_Some:
-        output["ScanFilter"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Condition(value) for (key, value) in input.ScanFilter.value.items }
+        output["ScanFilter"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Condition(
+                value
+            )
+            for (key, value) in input.ScanFilter.value.items
+        }
 
     if input.ConditionalOperator.is_Some:
-        output["ConditionalOperator"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ConditionalOperator(input.ConditionalOperator.value)
+        output["ConditionalOperator"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ConditionalOperator(
+                input.ConditionalOperator.value
+            )
+        )
 
     if input.ExclusiveStartKey.is_Some:
-        output["ExclusiveStartKey"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.ExclusiveStartKey.value.items }
+        output["ExclusiveStartKey"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.ExclusiveStartKey.value.items
+        }
 
     if input.ReturnConsumedCapacity.is_Some:
-        output["ReturnConsumedCapacity"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnConsumedCapacity(input.ReturnConsumedCapacity.value)
+        output["ReturnConsumedCapacity"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                input.ReturnConsumedCapacity.value
+            )
+        )
 
     if input.TotalSegments.is_Some:
         output["TotalSegments"] = input.TotalSegments.value
@@ -2983,26 +4509,49 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ScanInput(input):
         output["Segment"] = input.Segment.value
 
     if input.ProjectionExpression.is_Some:
-        output["ProjectionExpression"] = input.ProjectionExpression.value.VerbatimString(False)
+        output["ProjectionExpression"] = (
+            input.ProjectionExpression.value.VerbatimString(False)
+        )
 
     if input.FilterExpression.is_Some:
         output["FilterExpression"] = input.FilterExpression.value.VerbatimString(False)
 
     if input.ExpressionAttributeNames.is_Some:
-        output["ExpressionAttributeNames"] = {key.VerbatimString(False): value.VerbatimString(False) for (key, value) in input.ExpressionAttributeNames.value.items }
+        output["ExpressionAttributeNames"] = {
+            key.VerbatimString(False): value.VerbatimString(False)
+            for (key, value) in input.ExpressionAttributeNames.value.items
+        }
 
     if input.ExpressionAttributeValues.is_Some:
-        output["ExpressionAttributeValues"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.ExpressionAttributeValues.value.items }
+        output["ExpressionAttributeValues"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.ExpressionAttributeValues.value.items
+        }
 
     if input.ConsistentRead.is_Some:
         output["ConsistentRead"] = input.ConsistentRead.value
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ScanOutput(input):
+
+def com_amazonaws_dynamodb_ScanOutput(input):
     output = {}
     if input.Items.is_Some:
-        output["Items"] = [{key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in list_element.items } for list_element in input.Items.value]
+        output["Items"] = [
+            {
+                key.VerbatimString(
+                    False
+                ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                    value
+                )
+                for (key, value) in list_element.items
+            }
+            for list_element in input.Items.value
+        ]
 
     if input.Count.is_Some:
         output["Count"] = input.Count.value
@@ -3011,142 +4560,310 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ScanOutput(input):
         output["ScannedCount"] = input.ScannedCount.value
 
     if input.LastEvaluatedKey.is_Some:
-        output["LastEvaluatedKey"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.LastEvaluatedKey.value.items }
+        output["LastEvaluatedKey"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.LastEvaluatedKey.value.items
+        }
 
     if input.ConsumedCapacity.is_Some:
-        output["ConsumedCapacity"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ConsumedCapacity(input.ConsumedCapacity.value)
+        output["ConsumedCapacity"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ConsumedCapacity(
+                input.ConsumedCapacity.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TagResourceInput(input):
+
+def com_amazonaws_dynamodb_TagResourceInput(input):
     output = {}
     output["ResourceArn"] = input.ResourceArn.VerbatimString(False)
-    output["Tags"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Tag(list_element) for list_element in input.Tags]
+    output["Tags"] = [
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Tag(
+            list_element
+        )
+        for list_element in input.Tags
+    ]
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TransactGetItem(input):
+
+def com_amazonaws_dynamodb_TransactGetItem(input):
     output = {}
-    output["Get"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Get(input.Get)
+    output["Get"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Get(
+            input.Get
+        )
+    )
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_Get(input):
+
+def com_amazonaws_dynamodb_Get(input):
     output = {}
-    output["Key"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.Key.items }
+    output["Key"] = {
+        key.VerbatimString(
+            False
+        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+            value
+        )
+        for (key, value) in input.Key.items
+    }
     output["TableName"] = input.TableName.VerbatimString(False)
     if input.ProjectionExpression.is_Some:
-        output["ProjectionExpression"] = input.ProjectionExpression.value.VerbatimString(False)
+        output["ProjectionExpression"] = (
+            input.ProjectionExpression.value.VerbatimString(False)
+        )
 
     if input.ExpressionAttributeNames.is_Some:
-        output["ExpressionAttributeNames"] = {key.VerbatimString(False): value.VerbatimString(False) for (key, value) in input.ExpressionAttributeNames.value.items }
+        output["ExpressionAttributeNames"] = {
+            key.VerbatimString(False): value.VerbatimString(False)
+            for (key, value) in input.ExpressionAttributeNames.value.items
+        }
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TransactGetItemsInput(input):
+
+def com_amazonaws_dynamodb_TransactGetItemsInput(input):
     output = {}
-    output["TransactItems"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TransactGetItem(list_element) for list_element in input.TransactItems]
+    output["TransactItems"] = [
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TransactGetItem(
+            list_element
+        )
+        for list_element in input.TransactItems
+    ]
     if input.ReturnConsumedCapacity.is_Some:
-        output["ReturnConsumedCapacity"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnConsumedCapacity(input.ReturnConsumedCapacity.value)
+        output["ReturnConsumedCapacity"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                input.ReturnConsumedCapacity.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TransactGetItemsOutput(input):
+
+def com_amazonaws_dynamodb_TransactGetItemsOutput(input):
     output = {}
     if input.ConsumedCapacity.is_Some:
-        output["ConsumedCapacity"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ConsumedCapacity(list_element) for list_element in input.ConsumedCapacity.value]
+        output["ConsumedCapacity"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ConsumedCapacity(
+                list_element
+            )
+            for list_element in input.ConsumedCapacity.value
+        ]
 
     if input.Responses.is_Some:
-        output["Responses"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ItemResponse(list_element) for list_element in input.Responses.value]
+        output["Responses"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ItemResponse(
+                list_element
+            )
+            for list_element in input.Responses.value
+        ]
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TransactWriteItem(input):
+
+def com_amazonaws_dynamodb_TransactWriteItem(input):
     output = {}
     if input.ConditionCheck.is_Some:
-        output["ConditionCheck"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ConditionCheck(input.ConditionCheck.value)
+        output["ConditionCheck"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ConditionCheck(
+                input.ConditionCheck.value
+            )
+        )
 
     if input.Put.is_Some:
-        output["Put"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Put(input.Put.value)
+        output["Put"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Put(
+                input.Put.value
+            )
+        )
 
     if input.Delete.is_Some:
-        output["Delete"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Delete(input.Delete.value)
+        output["Delete"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Delete(
+                input.Delete.value
+            )
+        )
 
     if input.Update.is_Some:
-        output["Update"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Update(input.Update.value)
+        output["Update"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Update(
+                input.Update.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ConditionCheck(input):
+
+def com_amazonaws_dynamodb_ConditionCheck(input):
     output = {}
-    output["Key"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.Key.items }
+    output["Key"] = {
+        key.VerbatimString(
+            False
+        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+            value
+        )
+        for (key, value) in input.Key.items
+    }
     output["TableName"] = input.TableName.VerbatimString(False)
     output["ConditionExpression"] = input.ConditionExpression.VerbatimString(False)
     if input.ExpressionAttributeNames.is_Some:
-        output["ExpressionAttributeNames"] = {key.VerbatimString(False): value.VerbatimString(False) for (key, value) in input.ExpressionAttributeNames.value.items }
+        output["ExpressionAttributeNames"] = {
+            key.VerbatimString(False): value.VerbatimString(False)
+            for (key, value) in input.ExpressionAttributeNames.value.items
+        }
 
     if input.ExpressionAttributeValues.is_Some:
-        output["ExpressionAttributeValues"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.ExpressionAttributeValues.value.items }
+        output["ExpressionAttributeValues"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.ExpressionAttributeValues.value.items
+        }
 
     if input.ReturnValuesOnConditionCheckFailure.is_Some:
-        output["ReturnValuesOnConditionCheckFailure"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(input.ReturnValuesOnConditionCheckFailure.value)
+        output["ReturnValuesOnConditionCheckFailure"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
+                input.ReturnValuesOnConditionCheckFailure.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_Put(input):
+
+def com_amazonaws_dynamodb_Put(input):
     output = {}
-    output["Item"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.Item.items }
+    output["Item"] = {
+        key.VerbatimString(
+            False
+        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+            value
+        )
+        for (key, value) in input.Item.items
+    }
     output["TableName"] = input.TableName.VerbatimString(False)
     if input.ConditionExpression.is_Some:
-        output["ConditionExpression"] = input.ConditionExpression.value.VerbatimString(False)
+        output["ConditionExpression"] = input.ConditionExpression.value.VerbatimString(
+            False
+        )
 
     if input.ExpressionAttributeNames.is_Some:
-        output["ExpressionAttributeNames"] = {key.VerbatimString(False): value.VerbatimString(False) for (key, value) in input.ExpressionAttributeNames.value.items }
+        output["ExpressionAttributeNames"] = {
+            key.VerbatimString(False): value.VerbatimString(False)
+            for (key, value) in input.ExpressionAttributeNames.value.items
+        }
 
     if input.ExpressionAttributeValues.is_Some:
-        output["ExpressionAttributeValues"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.ExpressionAttributeValues.value.items }
+        output["ExpressionAttributeValues"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.ExpressionAttributeValues.value.items
+        }
 
     if input.ReturnValuesOnConditionCheckFailure.is_Some:
-        output["ReturnValuesOnConditionCheckFailure"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(input.ReturnValuesOnConditionCheckFailure.value)
+        output["ReturnValuesOnConditionCheckFailure"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
+                input.ReturnValuesOnConditionCheckFailure.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_Delete(input):
+
+def com_amazonaws_dynamodb_Delete(input):
     output = {}
-    output["Key"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.Key.items }
+    output["Key"] = {
+        key.VerbatimString(
+            False
+        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+            value
+        )
+        for (key, value) in input.Key.items
+    }
     output["TableName"] = input.TableName.VerbatimString(False)
     if input.ConditionExpression.is_Some:
-        output["ConditionExpression"] = input.ConditionExpression.value.VerbatimString(False)
+        output["ConditionExpression"] = input.ConditionExpression.value.VerbatimString(
+            False
+        )
 
     if input.ExpressionAttributeNames.is_Some:
-        output["ExpressionAttributeNames"] = {key.VerbatimString(False): value.VerbatimString(False) for (key, value) in input.ExpressionAttributeNames.value.items }
+        output["ExpressionAttributeNames"] = {
+            key.VerbatimString(False): value.VerbatimString(False)
+            for (key, value) in input.ExpressionAttributeNames.value.items
+        }
 
     if input.ExpressionAttributeValues.is_Some:
-        output["ExpressionAttributeValues"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.ExpressionAttributeValues.value.items }
+        output["ExpressionAttributeValues"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.ExpressionAttributeValues.value.items
+        }
 
     if input.ReturnValuesOnConditionCheckFailure.is_Some:
-        output["ReturnValuesOnConditionCheckFailure"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(input.ReturnValuesOnConditionCheckFailure.value)
+        output["ReturnValuesOnConditionCheckFailure"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
+                input.ReturnValuesOnConditionCheckFailure.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_Update(input):
+
+def com_amazonaws_dynamodb_Update(input):
     output = {}
-    output["Key"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.Key.items }
+    output["Key"] = {
+        key.VerbatimString(
+            False
+        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+            value
+        )
+        for (key, value) in input.Key.items
+    }
     output["UpdateExpression"] = input.UpdateExpression.VerbatimString(False)
     output["TableName"] = input.TableName.VerbatimString(False)
     if input.ConditionExpression.is_Some:
-        output["ConditionExpression"] = input.ConditionExpression.value.VerbatimString(False)
+        output["ConditionExpression"] = input.ConditionExpression.value.VerbatimString(
+            False
+        )
 
     if input.ExpressionAttributeNames.is_Some:
-        output["ExpressionAttributeNames"] = {key.VerbatimString(False): value.VerbatimString(False) for (key, value) in input.ExpressionAttributeNames.value.items }
+        output["ExpressionAttributeNames"] = {
+            key.VerbatimString(False): value.VerbatimString(False)
+            for (key, value) in input.ExpressionAttributeNames.value.items
+        }
 
     if input.ExpressionAttributeValues.is_Some:
-        output["ExpressionAttributeValues"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.ExpressionAttributeValues.value.items }
+        output["ExpressionAttributeValues"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.ExpressionAttributeValues.value.items
+        }
 
     if input.ReturnValuesOnConditionCheckFailure.is_Some:
-        output["ReturnValuesOnConditionCheckFailure"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(input.ReturnValuesOnConditionCheckFailure.value)
+        output["ReturnValuesOnConditionCheckFailure"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
+                input.ReturnValuesOnConditionCheckFailure.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(input):
+
+def com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(input):
     # Convert ReturnValuesOnConditionCheckFailure
     if isinstance(input, ReturnValuesOnConditionCheckFailure_ALL__OLD):
         return "ALL_OLD"
@@ -3157,55 +4874,100 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(inp
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TransactWriteItemsInput(input):
+
+def com_amazonaws_dynamodb_TransactWriteItemsInput(input):
     output = {}
-    output["TransactItems"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TransactWriteItem(list_element) for list_element in input.TransactItems]
+    output["TransactItems"] = [
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TransactWriteItem(
+            list_element
+        )
+        for list_element in input.TransactItems
+    ]
     if input.ReturnConsumedCapacity.is_Some:
-        output["ReturnConsumedCapacity"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnConsumedCapacity(input.ReturnConsumedCapacity.value)
+        output["ReturnConsumedCapacity"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                input.ReturnConsumedCapacity.value
+            )
+        )
 
     if input.ReturnItemCollectionMetrics.is_Some:
-        output["ReturnItemCollectionMetrics"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnItemCollectionMetrics(input.ReturnItemCollectionMetrics.value)
+        output["ReturnItemCollectionMetrics"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnItemCollectionMetrics(
+                input.ReturnItemCollectionMetrics.value
+            )
+        )
 
     if input.ClientRequestToken.is_Some:
-        output["ClientRequestToken"] = input.ClientRequestToken.value.VerbatimString(False)
+        output["ClientRequestToken"] = input.ClientRequestToken.value.VerbatimString(
+            False
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TransactWriteItemsOutput(input):
+
+def com_amazonaws_dynamodb_TransactWriteItemsOutput(input):
     output = {}
     if input.ConsumedCapacity.is_Some:
-        output["ConsumedCapacity"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ConsumedCapacity(list_element) for list_element in input.ConsumedCapacity.value]
+        output["ConsumedCapacity"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ConsumedCapacity(
+                list_element
+            )
+            for list_element in input.ConsumedCapacity.value
+        ]
 
     if input.ItemCollectionMetrics.is_Some:
-        output["ItemCollectionMetrics"] = {key.VerbatimString(False): [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ItemCollectionMetrics(list_element) for list_element in value] for (key, value) in input.ItemCollectionMetrics.value.items }
+        output["ItemCollectionMetrics"] = {
+            key.VerbatimString(False): [
+                com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ItemCollectionMetrics(
+                    list_element
+                )
+                for list_element in value
+            ]
+            for (key, value) in input.ItemCollectionMetrics.value.items
+        }
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_UntagResourceInput(input):
+
+def com_amazonaws_dynamodb_UntagResourceInput(input):
     output = {}
     output["ResourceArn"] = input.ResourceArn.VerbatimString(False)
-    output["TagKeys"] = [list_element.VerbatimString(False) for list_element in input.TagKeys]
+    output["TagKeys"] = [
+        list_element.VerbatimString(False) for list_element in input.TagKeys
+    ]
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_PointInTimeRecoverySpecification(input):
+
+def com_amazonaws_dynamodb_PointInTimeRecoverySpecification(input):
     output = {}
     output["PointInTimeRecoveryEnabled"] = input.PointInTimeRecoveryEnabled
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateContinuousBackupsInput(input):
+
+def com_amazonaws_dynamodb_UpdateContinuousBackupsInput(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
-    output["PointInTimeRecoverySpecification"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_PointInTimeRecoverySpecification(input.PointInTimeRecoverySpecification)
+    output["PointInTimeRecoverySpecification"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_PointInTimeRecoverySpecification(
+            input.PointInTimeRecoverySpecification
+        )
+    )
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateContinuousBackupsOutput(input):
+
+def com_amazonaws_dynamodb_UpdateContinuousBackupsOutput(input):
     output = {}
     if input.ContinuousBackupsDescription.is_Some:
-        output["ContinuousBackupsDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ContinuousBackupsDescription(input.ContinuousBackupsDescription.value)
+        output["ContinuousBackupsDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ContinuousBackupsDescription(
+                input.ContinuousBackupsDescription.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ContributorInsightsAction(input):
+
+def com_amazonaws_dynamodb_ContributorInsightsAction(input):
     # Convert ContributorInsightsAction
     if isinstance(input, ContributorInsightsAction_ENABLE):
         return "ENABLE"
@@ -3216,16 +4978,22 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_ContributorInsightsAction(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateContributorInsightsInput(input):
+
+def com_amazonaws_dynamodb_UpdateContributorInsightsInput(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
     if input.IndexName.is_Some:
         output["IndexName"] = input.IndexName.value.VerbatimString(False)
 
-    output["ContributorInsightsAction"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ContributorInsightsAction(input.ContributorInsightsAction)
+    output["ContributorInsightsAction"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ContributorInsightsAction(
+            input.ContributorInsightsAction
+        )
+    )
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateContributorInsightsOutput(input):
+
+def com_amazonaws_dynamodb_UpdateContributorInsightsOutput(input):
     output = {}
     if input.TableName.is_Some:
         output["TableName"] = input.TableName.value.VerbatimString(False)
@@ -3234,44 +5002,71 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateContributorInsightsOutput(input):
         output["IndexName"] = input.IndexName.value.VerbatimString(False)
 
     if input.ContributorInsightsStatus.is_Some:
-        output["ContributorInsightsStatus"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ContributorInsightsStatus(input.ContributorInsightsStatus.value)
+        output["ContributorInsightsStatus"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ContributorInsightsStatus(
+                input.ContributorInsightsStatus.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaUpdate(input):
+
+def com_amazonaws_dynamodb_ReplicaUpdate(input):
     output = {}
     if input.Create.is_Some:
-        output["Create"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_CreateReplicaAction(input.Create.value)
+        output["Create"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_CreateReplicaAction(
+                input.Create.value
+            )
+        )
 
     if input.Delete.is_Some:
-        output["Delete"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_DeleteReplicaAction(input.Delete.value)
+        output["Delete"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DeleteReplicaAction(
+                input.Delete.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_CreateReplicaAction(input):
+
+def com_amazonaws_dynamodb_CreateReplicaAction(input):
     output = {}
     output["RegionName"] = input.RegionName.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DeleteReplicaAction(input):
+
+def com_amazonaws_dynamodb_DeleteReplicaAction(input):
     output = {}
     output["RegionName"] = input.RegionName.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateGlobalTableInput(input):
+
+def com_amazonaws_dynamodb_UpdateGlobalTableInput(input):
     output = {}
     output["GlobalTableName"] = input.GlobalTableName.VerbatimString(False)
-    output["ReplicaUpdates"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaUpdate(list_element) for list_element in input.ReplicaUpdates]
+    output["ReplicaUpdates"] = [
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReplicaUpdate(
+            list_element
+        )
+        for list_element in input.ReplicaUpdates
+    ]
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateGlobalTableOutput(input):
+
+def com_amazonaws_dynamodb_UpdateGlobalTableOutput(input):
     output = {}
     if input.GlobalTableDescription.is_Some:
-        output["GlobalTableDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalTableDescription(input.GlobalTableDescription.value)
+        output["GlobalTableDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_GlobalTableDescription(
+                input.GlobalTableDescription.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingSettingsUpdate(input):
+
+def com_amazonaws_dynamodb_AutoScalingSettingsUpdate(input):
     output = {}
     if input.MinimumUnits.is_Some:
         output["MinimumUnits"] = input.MinimumUnits.value
@@ -3283,22 +5078,36 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingSettingsUpdate(input):
         output["AutoScalingDisabled"] = input.AutoScalingDisabled.value
 
     if input.AutoScalingRoleArn.is_Some:
-        output["AutoScalingRoleArn"] = input.AutoScalingRoleArn.value.VerbatimString(False)
+        output["AutoScalingRoleArn"] = input.AutoScalingRoleArn.value.VerbatimString(
+            False
+        )
 
     if input.ScalingPolicyUpdate.is_Some:
-        output["ScalingPolicyUpdate"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingPolicyUpdate(input.ScalingPolicyUpdate.value)
+        output["ScalingPolicyUpdate"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AutoScalingPolicyUpdate(
+                input.ScalingPolicyUpdate.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingPolicyUpdate(input):
+
+def com_amazonaws_dynamodb_AutoScalingPolicyUpdate(input):
     output = {}
     if input.PolicyName.is_Some:
         output["PolicyName"] = input.PolicyName.value.VerbatimString(False)
 
-    output["TargetTrackingScalingPolicyConfiguration"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingTargetTrackingScalingPolicyConfigurationUpdate(input.TargetTrackingScalingPolicyConfiguration)
+    output["TargetTrackingScalingPolicyConfiguration"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AutoScalingTargetTrackingScalingPolicyConfigurationUpdate(
+            input.TargetTrackingScalingPolicyConfiguration
+        )
+    )
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingTargetTrackingScalingPolicyConfigurationUpdate(input):
+
+def com_amazonaws_dynamodb_AutoScalingTargetTrackingScalingPolicyConfigurationUpdate(
+    input,
+):
     output = {}
     if input.DisableScaleIn.is_Some:
         output["DisableScaleIn"] = input.DisableScaleIn.value
@@ -3312,86 +5121,153 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingTargetTrackingScalingPolicyC
     output["TargetValue"] = input.TargetValue
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalTableGlobalSecondaryIndexSettingsUpdate(input):
+
+def com_amazonaws_dynamodb_GlobalTableGlobalSecondaryIndexSettingsUpdate(input):
     output = {}
     output["IndexName"] = input.IndexName.VerbatimString(False)
     if input.ProvisionedWriteCapacityUnits.is_Some:
-        output["ProvisionedWriteCapacityUnits"] = input.ProvisionedWriteCapacityUnits.value
+        output["ProvisionedWriteCapacityUnits"] = (
+            input.ProvisionedWriteCapacityUnits.value
+        )
 
     if input.ProvisionedWriteCapacityAutoScalingSettingsUpdate.is_Some:
-        output["ProvisionedWriteCapacityAutoScalingSettingsUpdate"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingSettingsUpdate(input.ProvisionedWriteCapacityAutoScalingSettingsUpdate.value)
+        output["ProvisionedWriteCapacityAutoScalingSettingsUpdate"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
+                input.ProvisionedWriteCapacityAutoScalingSettingsUpdate.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaSettingsUpdate(input):
+
+def com_amazonaws_dynamodb_ReplicaSettingsUpdate(input):
     output = {}
     output["RegionName"] = input.RegionName.VerbatimString(False)
     if input.ReplicaProvisionedReadCapacityUnits.is_Some:
-        output["ReplicaProvisionedReadCapacityUnits"] = input.ReplicaProvisionedReadCapacityUnits.value
+        output["ReplicaProvisionedReadCapacityUnits"] = (
+            input.ReplicaProvisionedReadCapacityUnits.value
+        )
 
     if input.ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate.is_Some:
-        output["ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingSettingsUpdate(input.ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate.value)
+        output["ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
+                input.ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate.value
+            )
+        )
 
     if input.ReplicaGlobalSecondaryIndexSettingsUpdate.is_Some:
-        output["ReplicaGlobalSecondaryIndexSettingsUpdate"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsUpdate(list_element) for list_element in input.ReplicaGlobalSecondaryIndexSettingsUpdate.value]
+        output["ReplicaGlobalSecondaryIndexSettingsUpdate"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsUpdate(
+                list_element
+            )
+            for list_element in input.ReplicaGlobalSecondaryIndexSettingsUpdate.value
+        ]
 
     if input.ReplicaTableClass.is_Some:
-        output["ReplicaTableClass"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableClass(input.ReplicaTableClass.value)
+        output["ReplicaTableClass"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableClass(
+                input.ReplicaTableClass.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsUpdate(input):
+
+def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsUpdate(input):
     output = {}
     output["IndexName"] = input.IndexName.VerbatimString(False)
     if input.ProvisionedReadCapacityUnits.is_Some:
-        output["ProvisionedReadCapacityUnits"] = input.ProvisionedReadCapacityUnits.value
+        output["ProvisionedReadCapacityUnits"] = (
+            input.ProvisionedReadCapacityUnits.value
+        )
 
     if input.ProvisionedReadCapacityAutoScalingSettingsUpdate.is_Some:
-        output["ProvisionedReadCapacityAutoScalingSettingsUpdate"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingSettingsUpdate(input.ProvisionedReadCapacityAutoScalingSettingsUpdate.value)
+        output["ProvisionedReadCapacityAutoScalingSettingsUpdate"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
+                input.ProvisionedReadCapacityAutoScalingSettingsUpdate.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateGlobalTableSettingsInput(input):
+
+def com_amazonaws_dynamodb_UpdateGlobalTableSettingsInput(input):
     output = {}
     output["GlobalTableName"] = input.GlobalTableName.VerbatimString(False)
     if input.GlobalTableBillingMode.is_Some:
-        output["GlobalTableBillingMode"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BillingMode(input.GlobalTableBillingMode.value)
+        output["GlobalTableBillingMode"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BillingMode(
+                input.GlobalTableBillingMode.value
+            )
+        )
 
     if input.GlobalTableProvisionedWriteCapacityUnits.is_Some:
-        output["GlobalTableProvisionedWriteCapacityUnits"] = input.GlobalTableProvisionedWriteCapacityUnits.value
+        output["GlobalTableProvisionedWriteCapacityUnits"] = (
+            input.GlobalTableProvisionedWriteCapacityUnits.value
+        )
 
     if input.GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate.is_Some:
-        output["GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingSettingsUpdate(input.GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate.value)
+        output["GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
+                input.GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate.value
+            )
+        )
 
     if input.GlobalTableGlobalSecondaryIndexSettingsUpdate.is_Some:
-        output["GlobalTableGlobalSecondaryIndexSettingsUpdate"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalTableGlobalSecondaryIndexSettingsUpdate(list_element) for list_element in input.GlobalTableGlobalSecondaryIndexSettingsUpdate.value]
+        output["GlobalTableGlobalSecondaryIndexSettingsUpdate"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_GlobalTableGlobalSecondaryIndexSettingsUpdate(
+                list_element
+            )
+            for list_element in input.GlobalTableGlobalSecondaryIndexSettingsUpdate.value
+        ]
 
     if input.ReplicaSettingsUpdate.is_Some:
-        output["ReplicaSettingsUpdate"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaSettingsUpdate(list_element) for list_element in input.ReplicaSettingsUpdate.value]
+        output["ReplicaSettingsUpdate"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReplicaSettingsUpdate(
+                list_element
+            )
+            for list_element in input.ReplicaSettingsUpdate.value
+        ]
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateGlobalTableSettingsOutput(input):
+
+def com_amazonaws_dynamodb_UpdateGlobalTableSettingsOutput(input):
     output = {}
     if input.GlobalTableName.is_Some:
         output["GlobalTableName"] = input.GlobalTableName.value.VerbatimString(False)
 
     if input.ReplicaSettings.is_Some:
-        output["ReplicaSettings"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaSettingsDescription(list_element) for list_element in input.ReplicaSettings.value]
+        output["ReplicaSettings"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReplicaSettingsDescription(
+                list_element
+            )
+            for list_element in input.ReplicaSettings.value
+        ]
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValueUpdate(input):
+
+def com_amazonaws_dynamodb_AttributeValueUpdate(input):
     output = {}
     if input.Value.is_Some:
-        output["Value"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(input.Value.value)
+        output["Value"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                input.Value.value
+            )
+        )
 
     if input.Action.is_Some:
-        output["Action"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeAction(input.Action.value)
+        output["Action"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeAction(
+                input.Action.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeAction(input):
+
+def com_amazonaws_dynamodb_AttributeAction(input):
     # Convert AttributeAction
     if isinstance(input, AttributeAction_ADD):
         return "ADD"
@@ -3405,252 +5281,490 @@ def DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeAction(input):
     else:
         raise ValueError("No recognized enum value in enum type: " + input)
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateItemInput(input):
+
+def com_amazonaws_dynamodb_UpdateItemInput(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
-    output["Key"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.Key.items }
+    output["Key"] = {
+        key.VerbatimString(
+            False
+        ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+            value
+        )
+        for (key, value) in input.Key.items
+    }
     if input.AttributeUpdates.is_Some:
-        output["AttributeUpdates"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValueUpdate(value) for (key, value) in input.AttributeUpdates.value.items }
+        output["AttributeUpdates"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValueUpdate(
+                value
+            )
+            for (key, value) in input.AttributeUpdates.value.items
+        }
 
     if input.Expected.is_Some:
-        output["Expected"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ExpectedAttributeValue(value) for (key, value) in input.Expected.value.items }
+        output["Expected"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ExpectedAttributeValue(
+                value
+            )
+            for (key, value) in input.Expected.value.items
+        }
 
     if input.ConditionalOperator.is_Some:
-        output["ConditionalOperator"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ConditionalOperator(input.ConditionalOperator.value)
+        output["ConditionalOperator"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ConditionalOperator(
+                input.ConditionalOperator.value
+            )
+        )
 
     if input.ReturnValues.is_Some:
-        output["ReturnValues"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnValue(input.ReturnValues.value)
+        output["ReturnValues"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnValue(
+                input.ReturnValues.value
+            )
+        )
 
     if input.ReturnConsumedCapacity.is_Some:
-        output["ReturnConsumedCapacity"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnConsumedCapacity(input.ReturnConsumedCapacity.value)
+        output["ReturnConsumedCapacity"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnConsumedCapacity(
+                input.ReturnConsumedCapacity.value
+            )
+        )
 
     if input.ReturnItemCollectionMetrics.is_Some:
-        output["ReturnItemCollectionMetrics"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReturnItemCollectionMetrics(input.ReturnItemCollectionMetrics.value)
+        output["ReturnItemCollectionMetrics"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReturnItemCollectionMetrics(
+                input.ReturnItemCollectionMetrics.value
+            )
+        )
 
     if input.UpdateExpression.is_Some:
         output["UpdateExpression"] = input.UpdateExpression.value.VerbatimString(False)
 
     if input.ConditionExpression.is_Some:
-        output["ConditionExpression"] = input.ConditionExpression.value.VerbatimString(False)
+        output["ConditionExpression"] = input.ConditionExpression.value.VerbatimString(
+            False
+        )
 
     if input.ExpressionAttributeNames.is_Some:
-        output["ExpressionAttributeNames"] = {key.VerbatimString(False): value.VerbatimString(False) for (key, value) in input.ExpressionAttributeNames.value.items }
+        output["ExpressionAttributeNames"] = {
+            key.VerbatimString(False): value.VerbatimString(False)
+            for (key, value) in input.ExpressionAttributeNames.value.items
+        }
 
     if input.ExpressionAttributeValues.is_Some:
-        output["ExpressionAttributeValues"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.ExpressionAttributeValues.value.items }
+        output["ExpressionAttributeValues"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.ExpressionAttributeValues.value.items
+        }
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateItemOutput(input):
+
+def com_amazonaws_dynamodb_UpdateItemOutput(input):
     output = {}
     if input.Attributes.is_Some:
-        output["Attributes"] = {key.VerbatimString(False): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeValue(value) for (key, value) in input.Attributes.value.items }
+        output["Attributes"] = {
+            key.VerbatimString(
+                False
+            ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeValue(
+                value
+            )
+            for (key, value) in input.Attributes.value.items
+        }
 
     if input.ConsumedCapacity.is_Some:
-        output["ConsumedCapacity"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ConsumedCapacity(input.ConsumedCapacity.value)
+        output["ConsumedCapacity"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ConsumedCapacity(
+                input.ConsumedCapacity.value
+            )
+        )
 
     if input.ItemCollectionMetrics.is_Some:
-        output["ItemCollectionMetrics"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ItemCollectionMetrics(input.ItemCollectionMetrics.value)
+        output["ItemCollectionMetrics"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ItemCollectionMetrics(
+                input.ItemCollectionMetrics.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalSecondaryIndexUpdate(input):
+
+def com_amazonaws_dynamodb_GlobalSecondaryIndexUpdate(input):
     output = {}
     if input.Update.is_Some:
-        output["Update"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction(input.Update.value)
+        output["Update"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction(
+                input.Update.value
+            )
+        )
 
     if input.Create.is_Some:
-        output["Create"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction(input.Create.value)
+        output["Create"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction(
+                input.Create.value
+            )
+        )
 
     if input.Delete.is_Some:
-        output["Delete"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_DeleteGlobalSecondaryIndexAction(input.Delete.value)
+        output["Delete"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DeleteGlobalSecondaryIndexAction(
+                input.Delete.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction(input):
+
+def com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction(input):
     output = {}
     output["IndexName"] = input.IndexName.VerbatimString(False)
-    output["ProvisionedThroughput"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughput(input.ProvisionedThroughput)
+    output["ProvisionedThroughput"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ProvisionedThroughput(
+            input.ProvisionedThroughput
+        )
+    )
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction(input):
+
+def com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction(input):
     output = {}
     output["IndexName"] = input.IndexName.VerbatimString(False)
-    output["KeySchema"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_KeySchemaElement(list_element) for list_element in input.KeySchema]
-    output["Projection"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_Projection(input.Projection)
+    output["KeySchema"] = [
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_KeySchemaElement(
+            list_element
+        )
+        for list_element in input.KeySchema
+    ]
+    output["Projection"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_Projection(
+            input.Projection
+        )
+    )
     if input.ProvisionedThroughput.is_Some:
-        output["ProvisionedThroughput"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughput(input.ProvisionedThroughput.value)
+        output["ProvisionedThroughput"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ProvisionedThroughput(
+                input.ProvisionedThroughput.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DeleteGlobalSecondaryIndexAction(input):
+
+def com_amazonaws_dynamodb_DeleteGlobalSecondaryIndexAction(input):
     output = {}
     output["IndexName"] = input.IndexName.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicationGroupUpdate(input):
+
+def com_amazonaws_dynamodb_ReplicationGroupUpdate(input):
     output = {}
     if input.Create.is_Some:
-        output["Create"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_CreateReplicationGroupMemberAction(input.Create.value)
+        output["Create"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_CreateReplicationGroupMemberAction(
+                input.Create.value
+            )
+        )
 
     if input.Update.is_Some:
-        output["Update"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateReplicationGroupMemberAction(input.Update.value)
+        output["Update"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_UpdateReplicationGroupMemberAction(
+                input.Update.value
+            )
+        )
 
     if input.Delete.is_Some:
-        output["Delete"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_DeleteReplicationGroupMemberAction(input.Delete.value)
+        output["Delete"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_DeleteReplicationGroupMemberAction(
+                input.Delete.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_CreateReplicationGroupMemberAction(input):
+
+def com_amazonaws_dynamodb_CreateReplicationGroupMemberAction(input):
     output = {}
     output["RegionName"] = input.RegionName.VerbatimString(False)
     if input.KMSMasterKeyId.is_Some:
         output["KMSMasterKeyId"] = input.KMSMasterKeyId.value.VerbatimString(False)
 
     if input.ProvisionedThroughputOverride.is_Some:
-        output["ProvisionedThroughputOverride"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughputOverride(input.ProvisionedThroughputOverride.value)
+        output["ProvisionedThroughputOverride"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ProvisionedThroughputOverride(
+                input.ProvisionedThroughputOverride.value
+            )
+        )
 
     if input.GlobalSecondaryIndexes.is_Some:
-        output["GlobalSecondaryIndexes"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndex(list_element) for list_element in input.GlobalSecondaryIndexes.value]
+        output["GlobalSecondaryIndexes"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndex(
+                list_element
+            )
+            for list_element in input.GlobalSecondaryIndexes.value
+        ]
 
     if input.TableClassOverride.is_Some:
-        output["TableClassOverride"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableClass(input.TableClassOverride.value)
+        output["TableClassOverride"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableClass(
+                input.TableClassOverride.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateReplicationGroupMemberAction(input):
+
+def com_amazonaws_dynamodb_UpdateReplicationGroupMemberAction(input):
     output = {}
     output["RegionName"] = input.RegionName.VerbatimString(False)
     if input.KMSMasterKeyId.is_Some:
         output["KMSMasterKeyId"] = input.KMSMasterKeyId.value.VerbatimString(False)
 
     if input.ProvisionedThroughputOverride.is_Some:
-        output["ProvisionedThroughputOverride"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughputOverride(input.ProvisionedThroughputOverride.value)
+        output["ProvisionedThroughputOverride"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ProvisionedThroughputOverride(
+                input.ProvisionedThroughputOverride.value
+            )
+        )
 
     if input.GlobalSecondaryIndexes.is_Some:
-        output["GlobalSecondaryIndexes"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndex(list_element) for list_element in input.GlobalSecondaryIndexes.value]
+        output["GlobalSecondaryIndexes"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndex(
+                list_element
+            )
+            for list_element in input.GlobalSecondaryIndexes.value
+        ]
 
     if input.TableClassOverride.is_Some:
-        output["TableClassOverride"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableClass(input.TableClassOverride.value)
+        output["TableClassOverride"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableClass(
+                input.TableClassOverride.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_DeleteReplicationGroupMemberAction(input):
+
+def com_amazonaws_dynamodb_DeleteReplicationGroupMemberAction(input):
     output = {}
     output["RegionName"] = input.RegionName.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndex(input):
+
+def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndex(input):
     output = {}
     output["IndexName"] = input.IndexName.VerbatimString(False)
     if input.ProvisionedThroughputOverride.is_Some:
-        output["ProvisionedThroughputOverride"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughputOverride(input.ProvisionedThroughputOverride.value)
+        output["ProvisionedThroughputOverride"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ProvisionedThroughputOverride(
+                input.ProvisionedThroughputOverride.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateTableInput(input):
+
+def com_amazonaws_dynamodb_UpdateTableInput(input):
     output = {}
     if input.AttributeDefinitions.is_Some:
-        output["AttributeDefinitions"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AttributeDefinition(list_element) for list_element in input.AttributeDefinitions.value]
+        output["AttributeDefinitions"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AttributeDefinition(
+                list_element
+            )
+            for list_element in input.AttributeDefinitions.value
+        ]
 
     output["TableName"] = input.TableName.VerbatimString(False)
     if input.BillingMode.is_Some:
-        output["BillingMode"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_BillingMode(input.BillingMode.value)
+        output["BillingMode"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_BillingMode(
+                input.BillingMode.value
+            )
+        )
 
     if input.ProvisionedThroughput.is_Some:
-        output["ProvisionedThroughput"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ProvisionedThroughput(input.ProvisionedThroughput.value)
+        output["ProvisionedThroughput"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ProvisionedThroughput(
+                input.ProvisionedThroughput.value
+            )
+        )
 
     if input.GlobalSecondaryIndexUpdates.is_Some:
-        output["GlobalSecondaryIndexUpdates"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalSecondaryIndexUpdate(list_element) for list_element in input.GlobalSecondaryIndexUpdates.value]
+        output["GlobalSecondaryIndexUpdates"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_GlobalSecondaryIndexUpdate(
+                list_element
+            )
+            for list_element in input.GlobalSecondaryIndexUpdates.value
+        ]
 
     if input.StreamSpecification.is_Some:
-        output["StreamSpecification"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_StreamSpecification(input.StreamSpecification.value)
+        output["StreamSpecification"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_StreamSpecification(
+                input.StreamSpecification.value
+            )
+        )
 
     if input.SSESpecification.is_Some:
-        output["SSESpecification"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_SSESpecification(input.SSESpecification.value)
+        output["SSESpecification"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_SSESpecification(
+                input.SSESpecification.value
+            )
+        )
 
     if input.ReplicaUpdates.is_Some:
-        output["ReplicaUpdates"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicationGroupUpdate(list_element) for list_element in input.ReplicaUpdates.value]
+        output["ReplicaUpdates"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReplicationGroupUpdate(
+                list_element
+            )
+            for list_element in input.ReplicaUpdates.value
+        ]
 
     if input.TableClass.is_Some:
-        output["TableClass"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableClass(input.TableClass.value)
+        output["TableClass"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableClass(
+                input.TableClass.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateTableOutput(input):
+
+def com_amazonaws_dynamodb_UpdateTableOutput(input):
     output = {}
     if input.TableDescription.is_Some:
-        output["TableDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableDescription(input.TableDescription.value)
+        output["TableDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableDescription(
+                input.TableDescription.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalSecondaryIndexAutoScalingUpdate(input):
+
+def com_amazonaws_dynamodb_GlobalSecondaryIndexAutoScalingUpdate(input):
     output = {}
     if input.IndexName.is_Some:
         output["IndexName"] = input.IndexName.value.VerbatimString(False)
 
     if input.ProvisionedWriteCapacityAutoScalingUpdate.is_Some:
-        output["ProvisionedWriteCapacityAutoScalingUpdate"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingSettingsUpdate(input.ProvisionedWriteCapacityAutoScalingUpdate.value)
+        output["ProvisionedWriteCapacityAutoScalingUpdate"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
+                input.ProvisionedWriteCapacityAutoScalingUpdate.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaAutoScalingUpdate(input):
+
+def com_amazonaws_dynamodb_ReplicaAutoScalingUpdate(input):
     output = {}
     output["RegionName"] = input.RegionName.VerbatimString(False)
     if input.ReplicaGlobalSecondaryIndexUpdates.is_Some:
-        output["ReplicaGlobalSecondaryIndexUpdates"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingUpdate(list_element) for list_element in input.ReplicaGlobalSecondaryIndexUpdates.value]
+        output["ReplicaGlobalSecondaryIndexUpdates"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingUpdate(
+                list_element
+            )
+            for list_element in input.ReplicaGlobalSecondaryIndexUpdates.value
+        ]
 
     if input.ReplicaProvisionedReadCapacityAutoScalingUpdate.is_Some:
-        output["ReplicaProvisionedReadCapacityAutoScalingUpdate"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingSettingsUpdate(input.ReplicaProvisionedReadCapacityAutoScalingUpdate.value)
+        output["ReplicaProvisionedReadCapacityAutoScalingUpdate"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
+                input.ReplicaProvisionedReadCapacityAutoScalingUpdate.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingUpdate(input):
+
+def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingUpdate(input):
     output = {}
     if input.IndexName.is_Some:
         output["IndexName"] = input.IndexName.value.VerbatimString(False)
 
     if input.ProvisionedReadCapacityAutoScalingUpdate.is_Some:
-        output["ProvisionedReadCapacityAutoScalingUpdate"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingSettingsUpdate(input.ProvisionedReadCapacityAutoScalingUpdate.value)
+        output["ProvisionedReadCapacityAutoScalingUpdate"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
+                input.ProvisionedReadCapacityAutoScalingUpdate.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingInput(input):
+
+def com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingInput(input):
     output = {}
     if input.GlobalSecondaryIndexUpdates.is_Some:
-        output["GlobalSecondaryIndexUpdates"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_GlobalSecondaryIndexAutoScalingUpdate(list_element) for list_element in input.GlobalSecondaryIndexUpdates.value]
+        output["GlobalSecondaryIndexUpdates"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_GlobalSecondaryIndexAutoScalingUpdate(
+                list_element
+            )
+            for list_element in input.GlobalSecondaryIndexUpdates.value
+        ]
 
     output["TableName"] = input.TableName.VerbatimString(False)
     if input.ProvisionedWriteCapacityAutoScalingUpdate.is_Some:
-        output["ProvisionedWriteCapacityAutoScalingUpdate"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_AutoScalingSettingsUpdate(input.ProvisionedWriteCapacityAutoScalingUpdate.value)
+        output["ProvisionedWriteCapacityAutoScalingUpdate"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
+                input.ProvisionedWriteCapacityAutoScalingUpdate.value
+            )
+        )
 
     if input.ReplicaUpdates.is_Some:
-        output["ReplicaUpdates"] = [com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_ReplicaAutoScalingUpdate(list_element) for list_element in input.ReplicaUpdates.value]
+        output["ReplicaUpdates"] = [
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ReplicaAutoScalingUpdate(
+                list_element
+            )
+            for list_element in input.ReplicaUpdates.value
+        ]
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingOutput(input):
+
+def com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingOutput(input):
     output = {}
     if input.TableAutoScalingDescription.is_Some:
-        output["TableAutoScalingDescription"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TableAutoScalingDescription(input.TableAutoScalingDescription.value)
+        output["TableAutoScalingDescription"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TableAutoScalingDescription(
+                input.TableAutoScalingDescription.value
+            )
+        )
 
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_TimeToLiveSpecification(input):
+
+def com_amazonaws_dynamodb_TimeToLiveSpecification(input):
     output = {}
     output["Enabled"] = input.Enabled
     output["AttributeName"] = input.AttributeName.VerbatimString(False)
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateTimeToLiveInput(input):
+
+def com_amazonaws_dynamodb_UpdateTimeToLiveInput(input):
     output = {}
     output["TableName"] = input.TableName.VerbatimString(False)
-    output["TimeToLiveSpecification"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TimeToLiveSpecification(input.TimeToLiveSpecification)
+    output["TimeToLiveSpecification"] = (
+        com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TimeToLiveSpecification(
+            input.TimeToLiveSpecification
+        )
+    )
     return output
 
-def DafnyToAwsSdk_com_amazonaws_dynamodb_UpdateTimeToLiveOutput(input):
+
+def com_amazonaws_dynamodb_UpdateTimeToLiveOutput(input):
     output = {}
     if input.TimeToLiveSpecification.is_Some:
-        output["TimeToLiveSpecification"] = com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.DafnyToAwsSdk_com_amazonaws_dynamodb_TimeToLiveSpecification(input.TimeToLiveSpecification.value)
+        output["TimeToLiveSpecification"] = (
+            com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_TimeToLiveSpecification(
+                input.TimeToLiveSpecification.value
+            )
+        )
 
     return output
