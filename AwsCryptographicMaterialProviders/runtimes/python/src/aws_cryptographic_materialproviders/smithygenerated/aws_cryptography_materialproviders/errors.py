@@ -4,27 +4,38 @@ from typing import Any, Dict, Generic, List, Literal, TypeVar
 
 
 class ServiceError(Exception):
-    """Base error for all errors in the service.
-    """
+    """Base error for all errors in the service."""
+
     pass
 
-T = TypeVar('T')
+
+T = TypeVar("T")
+
+
 class ApiError(ServiceError, Generic[T]):
-    """Base error for all api errors in the service.
-    """
+    """Base error for all api errors in the service."""
+
     code: T
+
     def __init__(self, message: str):
         super().__init__(message)
         self.message = message
 
-class UnknownApiError(ApiError[Literal['Unknown']]):
-    """Error representing any unknown api errors
-    """
-    code: Literal['Unknown'] = 'Unknown'
 
-class AwsCryptographicMaterialProvidersException(ApiError[Literal["AwsCryptographicMaterialProvidersException"]]):
-    code: Literal["AwsCryptographicMaterialProvidersException"] = "AwsCryptographicMaterialProvidersException"
+class UnknownApiError(ApiError[Literal["Unknown"]]):
+    """Error representing any unknown api errors"""
+
+    code: Literal["Unknown"] = "Unknown"
+
+
+class AwsCryptographicMaterialProvidersException(
+    ApiError[Literal["AwsCryptographicMaterialProvidersException"]]
+):
+    code: Literal["AwsCryptographicMaterialProvidersException"] = (
+        "AwsCryptographicMaterialProvidersException"
+    )
     message: str
+
     def __init__(
         self,
         *,
@@ -39,8 +50,8 @@ class AwsCryptographicMaterialProvidersException(ApiError[Literal["AwsCryptograp
         keys to be mostly compatible with boto3.
         """
         return {
-            'message': self.message,
-            'code': self.code,
+            "message": self.message,
+            "code": self.code,
         }
 
     @staticmethod
@@ -51,14 +62,14 @@ class AwsCryptographicMaterialProvidersException(ApiError[Literal["AwsCryptograp
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
+            "message": d["message"],
         }
 
         return AwsCryptographicMaterialProvidersException(**kwargs)
 
     def __repr__(self) -> str:
         result = "AwsCryptographicMaterialProvidersException("
-        result += f'message={self.message},'
+        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
 
@@ -67,15 +78,17 @@ class AwsCryptographicMaterialProvidersException(ApiError[Literal["AwsCryptograp
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, AwsCryptographicMaterialProvidersException):
             return False
-        attributes: list[str] = ['message','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class InvalidDecryptionMaterials(ApiError[Literal["InvalidDecryptionMaterials"]]):
     code: Literal["InvalidDecryptionMaterials"] = "InvalidDecryptionMaterials"
     message: str
+
     def __init__(
         self,
         *,
@@ -90,8 +103,8 @@ class InvalidDecryptionMaterials(ApiError[Literal["InvalidDecryptionMaterials"]]
         keys to be mostly compatible with boto3.
         """
         return {
-            'message': self.message,
-            'code': self.code,
+            "message": self.message,
+            "code": self.code,
         }
 
     @staticmethod
@@ -102,14 +115,14 @@ class InvalidDecryptionMaterials(ApiError[Literal["InvalidDecryptionMaterials"]]
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
+            "message": d["message"],
         }
 
         return InvalidDecryptionMaterials(**kwargs)
 
     def __repr__(self) -> str:
         result = "InvalidDecryptionMaterials("
-        result += f'message={self.message},'
+        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
 
@@ -118,15 +131,17 @@ class InvalidDecryptionMaterials(ApiError[Literal["InvalidDecryptionMaterials"]]
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidDecryptionMaterials):
             return False
-        attributes: list[str] = ['message','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class InvalidEncryptionMaterials(ApiError[Literal["InvalidEncryptionMaterials"]]):
     code: Literal["InvalidEncryptionMaterials"] = "InvalidEncryptionMaterials"
     message: str
+
     def __init__(
         self,
         *,
@@ -141,8 +156,8 @@ class InvalidEncryptionMaterials(ApiError[Literal["InvalidEncryptionMaterials"]]
         keys to be mostly compatible with boto3.
         """
         return {
-            'message': self.message,
-            'code': self.code,
+            "message": self.message,
+            "code": self.code,
         }
 
     @staticmethod
@@ -153,14 +168,14 @@ class InvalidEncryptionMaterials(ApiError[Literal["InvalidEncryptionMaterials"]]
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
+            "message": d["message"],
         }
 
         return InvalidEncryptionMaterials(**kwargs)
 
     def __repr__(self) -> str:
         result = "InvalidEncryptionMaterials("
-        result += f'message={self.message},'
+        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
 
@@ -169,15 +184,17 @@ class InvalidEncryptionMaterials(ApiError[Literal["InvalidEncryptionMaterials"]]
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidEncryptionMaterials):
             return False
-        attributes: list[str] = ['message','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class InvalidAlgorithmSuiteInfo(ApiError[Literal["InvalidAlgorithmSuiteInfo"]]):
     code: Literal["InvalidAlgorithmSuiteInfo"] = "InvalidAlgorithmSuiteInfo"
     message: str
+
     def __init__(
         self,
         *,
@@ -192,8 +209,8 @@ class InvalidAlgorithmSuiteInfo(ApiError[Literal["InvalidAlgorithmSuiteInfo"]]):
         keys to be mostly compatible with boto3.
         """
         return {
-            'message': self.message,
-            'code': self.code,
+            "message": self.message,
+            "code": self.code,
         }
 
     @staticmethod
@@ -204,14 +221,14 @@ class InvalidAlgorithmSuiteInfo(ApiError[Literal["InvalidAlgorithmSuiteInfo"]]):
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
+            "message": d["message"],
         }
 
         return InvalidAlgorithmSuiteInfo(**kwargs)
 
     def __repr__(self) -> str:
         result = "InvalidAlgorithmSuiteInfo("
-        result += f'message={self.message},'
+        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
 
@@ -220,15 +237,21 @@ class InvalidAlgorithmSuiteInfo(ApiError[Literal["InvalidAlgorithmSuiteInfo"]]):
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidAlgorithmSuiteInfo):
             return False
-        attributes: list[str] = ['message','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
-class InvalidAlgorithmSuiteInfoOnDecrypt(ApiError[Literal["InvalidAlgorithmSuiteInfoOnDecrypt"]]):
-    code: Literal["InvalidAlgorithmSuiteInfoOnDecrypt"] = "InvalidAlgorithmSuiteInfoOnDecrypt"
+
+class InvalidAlgorithmSuiteInfoOnDecrypt(
+    ApiError[Literal["InvalidAlgorithmSuiteInfoOnDecrypt"]]
+):
+    code: Literal["InvalidAlgorithmSuiteInfoOnDecrypt"] = (
+        "InvalidAlgorithmSuiteInfoOnDecrypt"
+    )
     message: str
+
     def __init__(
         self,
         *,
@@ -243,8 +266,8 @@ class InvalidAlgorithmSuiteInfoOnDecrypt(ApiError[Literal["InvalidAlgorithmSuite
         keys to be mostly compatible with boto3.
         """
         return {
-            'message': self.message,
-            'code': self.code,
+            "message": self.message,
+            "code": self.code,
         }
 
     @staticmethod
@@ -255,14 +278,14 @@ class InvalidAlgorithmSuiteInfoOnDecrypt(ApiError[Literal["InvalidAlgorithmSuite
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
+            "message": d["message"],
         }
 
         return InvalidAlgorithmSuiteInfoOnDecrypt(**kwargs)
 
     def __repr__(self) -> str:
         result = "InvalidAlgorithmSuiteInfoOnDecrypt("
-        result += f'message={self.message},'
+        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
 
@@ -271,15 +294,21 @@ class InvalidAlgorithmSuiteInfoOnDecrypt(ApiError[Literal["InvalidAlgorithmSuite
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidAlgorithmSuiteInfoOnDecrypt):
             return False
-        attributes: list[str] = ['message','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
-class InvalidAlgorithmSuiteInfoOnEncrypt(ApiError[Literal["InvalidAlgorithmSuiteInfoOnEncrypt"]]):
-    code: Literal["InvalidAlgorithmSuiteInfoOnEncrypt"] = "InvalidAlgorithmSuiteInfoOnEncrypt"
+
+class InvalidAlgorithmSuiteInfoOnEncrypt(
+    ApiError[Literal["InvalidAlgorithmSuiteInfoOnEncrypt"]]
+):
+    code: Literal["InvalidAlgorithmSuiteInfoOnEncrypt"] = (
+        "InvalidAlgorithmSuiteInfoOnEncrypt"
+    )
     message: str
+
     def __init__(
         self,
         *,
@@ -294,8 +323,8 @@ class InvalidAlgorithmSuiteInfoOnEncrypt(ApiError[Literal["InvalidAlgorithmSuite
         keys to be mostly compatible with boto3.
         """
         return {
-            'message': self.message,
-            'code': self.code,
+            "message": self.message,
+            "code": self.code,
         }
 
     @staticmethod
@@ -306,14 +335,14 @@ class InvalidAlgorithmSuiteInfoOnEncrypt(ApiError[Literal["InvalidAlgorithmSuite
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
+            "message": d["message"],
         }
 
         return InvalidAlgorithmSuiteInfoOnEncrypt(**kwargs)
 
     def __repr__(self) -> str:
         result = "InvalidAlgorithmSuiteInfoOnEncrypt("
-        result += f'message={self.message},'
+        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
 
@@ -322,15 +351,21 @@ class InvalidAlgorithmSuiteInfoOnEncrypt(ApiError[Literal["InvalidAlgorithmSuite
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidAlgorithmSuiteInfoOnEncrypt):
             return False
-        attributes: list[str] = ['message','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
-class InvalidDecryptionMaterialsTransition(ApiError[Literal["InvalidDecryptionMaterialsTransition"]]):
-    code: Literal["InvalidDecryptionMaterialsTransition"] = "InvalidDecryptionMaterialsTransition"
+
+class InvalidDecryptionMaterialsTransition(
+    ApiError[Literal["InvalidDecryptionMaterialsTransition"]]
+):
+    code: Literal["InvalidDecryptionMaterialsTransition"] = (
+        "InvalidDecryptionMaterialsTransition"
+    )
     message: str
+
     def __init__(
         self,
         *,
@@ -345,8 +380,8 @@ class InvalidDecryptionMaterialsTransition(ApiError[Literal["InvalidDecryptionMa
         keys to be mostly compatible with boto3.
         """
         return {
-            'message': self.message,
-            'code': self.code,
+            "message": self.message,
+            "code": self.code,
         }
 
     @staticmethod
@@ -357,14 +392,14 @@ class InvalidDecryptionMaterialsTransition(ApiError[Literal["InvalidDecryptionMa
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
+            "message": d["message"],
         }
 
         return InvalidDecryptionMaterialsTransition(**kwargs)
 
     def __repr__(self) -> str:
         result = "InvalidDecryptionMaterialsTransition("
-        result += f'message={self.message},'
+        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
 
@@ -373,15 +408,21 @@ class InvalidDecryptionMaterialsTransition(ApiError[Literal["InvalidDecryptionMa
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidDecryptionMaterialsTransition):
             return False
-        attributes: list[str] = ['message','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
-class InvalidEncryptionMaterialsTransition(ApiError[Literal["InvalidEncryptionMaterialsTransition"]]):
-    code: Literal["InvalidEncryptionMaterialsTransition"] = "InvalidEncryptionMaterialsTransition"
+
+class InvalidEncryptionMaterialsTransition(
+    ApiError[Literal["InvalidEncryptionMaterialsTransition"]]
+):
+    code: Literal["InvalidEncryptionMaterialsTransition"] = (
+        "InvalidEncryptionMaterialsTransition"
+    )
     message: str
+
     def __init__(
         self,
         *,
@@ -396,8 +437,8 @@ class InvalidEncryptionMaterialsTransition(ApiError[Literal["InvalidEncryptionMa
         keys to be mostly compatible with boto3.
         """
         return {
-            'message': self.message,
-            'code': self.code,
+            "message": self.message,
+            "code": self.code,
         }
 
     @staticmethod
@@ -408,14 +449,14 @@ class InvalidEncryptionMaterialsTransition(ApiError[Literal["InvalidEncryptionMa
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            'message': d['message'],
+            "message": d["message"],
         }
 
         return InvalidEncryptionMaterialsTransition(**kwargs)
 
     def __repr__(self) -> str:
         result = "InvalidEncryptionMaterialsTransition("
-        result += f'message={self.message},'
+        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
 
@@ -424,75 +465,105 @@ class InvalidEncryptionMaterialsTransition(ApiError[Literal["InvalidEncryptionMa
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InvalidEncryptionMaterialsTransition):
             return False
-        attributes: list[str] = ['message','message',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
-class AwsCryptographicMaterialProvidersException(ApiError[Literal["AwsCryptographicMaterialProvidersException"]]):
-    code: Literal["AwsCryptographicMaterialProvidersException"] = "AwsCryptographicMaterialProvidersException"
+
+class AwsCryptographicMaterialProvidersException(
+    ApiError[Literal["AwsCryptographicMaterialProvidersException"]]
+):
+    code: Literal["AwsCryptographicMaterialProvidersException"] = (
+        "AwsCryptographicMaterialProvidersException"
+    )
     message: str
+
 
 class EntryAlreadyExists(ApiError[Literal["EntryAlreadyExists"]]):
     code: Literal["EntryAlreadyExists"] = "EntryAlreadyExists"
     message: str
 
+
 class EntryDoesNotExist(ApiError[Literal["EntryDoesNotExist"]]):
     code: Literal["EntryDoesNotExist"] = "EntryDoesNotExist"
     message: str
+
 
 class InvalidAlgorithmSuiteInfo(ApiError[Literal["InvalidAlgorithmSuiteInfo"]]):
     code: Literal["InvalidAlgorithmSuiteInfo"] = "InvalidAlgorithmSuiteInfo"
     message: str
 
-class InvalidAlgorithmSuiteInfoOnDecrypt(ApiError[Literal["InvalidAlgorithmSuiteInfoOnDecrypt"]]):
-    code: Literal["InvalidAlgorithmSuiteInfoOnDecrypt"] = "InvalidAlgorithmSuiteInfoOnDecrypt"
+
+class InvalidAlgorithmSuiteInfoOnDecrypt(
+    ApiError[Literal["InvalidAlgorithmSuiteInfoOnDecrypt"]]
+):
+    code: Literal["InvalidAlgorithmSuiteInfoOnDecrypt"] = (
+        "InvalidAlgorithmSuiteInfoOnDecrypt"
+    )
     message: str
 
-class InvalidAlgorithmSuiteInfoOnEncrypt(ApiError[Literal["InvalidAlgorithmSuiteInfoOnEncrypt"]]):
-    code: Literal["InvalidAlgorithmSuiteInfoOnEncrypt"] = "InvalidAlgorithmSuiteInfoOnEncrypt"
+
+class InvalidAlgorithmSuiteInfoOnEncrypt(
+    ApiError[Literal["InvalidAlgorithmSuiteInfoOnEncrypt"]]
+):
+    code: Literal["InvalidAlgorithmSuiteInfoOnEncrypt"] = (
+        "InvalidAlgorithmSuiteInfoOnEncrypt"
+    )
     message: str
+
 
 class InvalidDecryptionMaterials(ApiError[Literal["InvalidDecryptionMaterials"]]):
     code: Literal["InvalidDecryptionMaterials"] = "InvalidDecryptionMaterials"
     message: str
 
-class InvalidDecryptionMaterialsTransition(ApiError[Literal["InvalidDecryptionMaterialsTransition"]]):
-    code: Literal["InvalidDecryptionMaterialsTransition"] = "InvalidDecryptionMaterialsTransition"
+
+class InvalidDecryptionMaterialsTransition(
+    ApiError[Literal["InvalidDecryptionMaterialsTransition"]]
+):
+    code: Literal["InvalidDecryptionMaterialsTransition"] = (
+        "InvalidDecryptionMaterialsTransition"
+    )
     message: str
+
 
 class InvalidEncryptionMaterials(ApiError[Literal["InvalidEncryptionMaterials"]]):
     code: Literal["InvalidEncryptionMaterials"] = "InvalidEncryptionMaterials"
     message: str
 
-class InvalidEncryptionMaterialsTransition(ApiError[Literal["InvalidEncryptionMaterialsTransition"]]):
-    code: Literal["InvalidEncryptionMaterialsTransition"] = "InvalidEncryptionMaterialsTransition"
+
+class InvalidEncryptionMaterialsTransition(
+    ApiError[Literal["InvalidEncryptionMaterialsTransition"]]
+):
+    code: Literal["InvalidEncryptionMaterialsTransition"] = (
+        "InvalidEncryptionMaterialsTransition"
+    )
     message: str
+
 
 class AwsCryptographicPrimitives(ApiError[Literal["AwsCryptographicPrimitives"]]):
     AwsCryptographicPrimitives: Any
 
+
 class ComAmazonawsDynamodb(ApiError[Literal["ComAmazonawsDynamodb"]]):
     ComAmazonawsDynamodb: Any
+
 
 class ComAmazonawsKms(ApiError[Literal["ComAmazonawsKms"]]):
     ComAmazonawsKms: Any
 
+
 class KeyStore(ApiError[Literal["KeyStore"]]):
     KeyStore: Any
+
 
 class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
     code: Literal["CollectionOfErrors"] = "CollectionOfErrors"
     message: str
     list: List[ServiceError]
 
-    def __init__(
-        self,
-        *,
-        message: str,
-        list
-    ):
+    def __init__(self, *, message: str, list):
         super().__init__(message)
         self.list = list
 
@@ -503,9 +574,9 @@ class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
         keys to be mostly compatible with boto3.
         """
         return {
-            'message': self.message,
-            'code': self.code,
-            'list': self.list,
+            "message": self.message,
+            "code": self.code,
+            "list": self.list,
         }
 
     @staticmethod
@@ -515,19 +586,16 @@ class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
         The dictionary is expected to use the modeled shape names rather than the
         parameter names as keys to be mostly compatible with boto3.
         """
-        kwargs: Dict[str, Any] = {
-            'message': d['message'],
-            'list': d['list']
-        }
+        kwargs: Dict[str, Any] = {"message": d["message"], "list": d["list"]}
 
         return CollectionOfErrors(**kwargs)
 
     def __repr__(self) -> str:
         result = "CollectionOfErrors("
-        result += f'message={self.message},'
+        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
-        result += f'list={self.list}'
+        result += f"list={self.list}"
         result += ")"
         return result
 
@@ -536,21 +604,15 @@ class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
             return False
         if not (self.list == other.list):
             return False
-        attributes: list[str] = ['message','message']
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = ["message", "message"]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class OpaqueError(ApiError[Literal["OpaqueError"]]):
     code: Literal["OpaqueError"] = "OpaqueError"
     obj: Any  # As an OpaqueError, type of obj is unknown
 
-    def __init__(
-        self,
-        *,
-        obj
-    ):
+    def __init__(self, *, obj):
         super().__init__("")
         self.obj = obj
 
@@ -561,9 +623,9 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
         keys to be mostly compatible with boto3.
         """
         return {
-            'message': self.message,
-            'code': self.code,
-            'obj': self.obj,
+            "message": self.message,
+            "code": self.code,
+            "obj": self.obj,
         }
 
     @staticmethod
@@ -573,19 +635,16 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
         The dictionary is expected to use the modeled shape names rather than the
         parameter names as keys to be mostly compatible with boto3.
         """
-        kwargs: Dict[str, Any] = {
-            'message': d['message'],
-            'obj': d['obj']
-        }
+        kwargs: Dict[str, Any] = {"message": d["message"], "obj": d["obj"]}
 
         return OpaqueError(**kwargs)
 
     def __repr__(self) -> str:
         result = "OpaqueError("
-        result += f'message={self.message},'
+        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
-        result += f'obj={self.obj}'
+        result += f"obj={self.obj}"
         result += ")"
         return result
 
@@ -594,8 +653,5 @@ class OpaqueError(ApiError[Literal["OpaqueError"]]):
             return False
         if not (self.obj == other.obj):
             return False
-        attributes: list[str] = ['message','message']
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = ["message", "message"]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)

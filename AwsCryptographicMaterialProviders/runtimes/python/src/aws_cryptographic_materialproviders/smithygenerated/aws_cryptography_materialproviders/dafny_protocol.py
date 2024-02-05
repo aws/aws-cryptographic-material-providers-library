@@ -34,6 +34,7 @@ from software_amazon_cryptography_materialproviders_internaldafny_types import (
 import Wrappers
 from typing import Union
 
+
 class DafnyRequest:
     operation_name: str
 
@@ -71,6 +72,7 @@ class DafnyRequest:
     def __init__(self, operation_name, dafny_operation_input):
         self.operation_name = operation_name
         self.dafny_operation_input = dafny_operation_input
+
 
 class DafnyResponse(Wrappers.Result):
     def __init__(self):

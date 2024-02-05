@@ -45,15 +45,17 @@ from .serialize import (
 Input = TypeVar("Input")
 Output = TypeVar("Output")
 
+
 class KeyVectors:
     """//////////
 
     :param config: Configuration for the client.
     """
+
     def __init__(
         self,
         config: KeyVectorsConfig | None = None,
-        dafny_client: IKeyVectorsClient | None = None
+        dafny_client: IKeyVectorsClient | None = None,
     ):
         if config is None:
             self._config = Config()
@@ -70,75 +72,95 @@ class KeyVectors:
         if dafny_client is not None:
             self._config.dafnyImplInterface.impl = dafny_client
 
-    def create_test_vector_keyring(self, input: TestVectorKeyringInput) -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+    def create_test_vector_keyring(
+        self, input: TestVectorKeyringInput
+    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
         """Invokes the CreateTestVectorKeyring operation.
 
         :param input: The operation's input.
         """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_create_test_vector_keyring,
-            deserialize=_deserialize_create_test_vector_keyring,
-            config=self._config,
-            operation_name="CreateTestVectorKeyring",
-        ))
+        return asyncio.run(
+            self._execute_operation(
+                input=input,
+                plugins=[],
+                serialize=_serialize_create_test_vector_keyring,
+                deserialize=_deserialize_create_test_vector_keyring,
+                config=self._config,
+                operation_name="CreateTestVectorKeyring",
+            )
+        )
 
-    def create_wrapped_test_vector_keyring(self, input: TestVectorKeyringInput) -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+    def create_wrapped_test_vector_keyring(
+        self, input: TestVectorKeyringInput
+    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
         """Invokes the CreateWrappedTestVectorKeyring operation.
 
         :param input: The operation's input.
         """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_create_wrapped_test_vector_keyring,
-            deserialize=_deserialize_create_wrapped_test_vector_keyring,
-            config=self._config,
-            operation_name="CreateWrappedTestVectorKeyring",
-        ))
+        return asyncio.run(
+            self._execute_operation(
+                input=input,
+                plugins=[],
+                serialize=_serialize_create_wrapped_test_vector_keyring,
+                deserialize=_deserialize_create_wrapped_test_vector_keyring,
+                config=self._config,
+                operation_name="CreateWrappedTestVectorKeyring",
+            )
+        )
 
-    def create_wrapped_test_vector_cmm(self, input: TestVectorCmmInput) -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsManager':
+    def create_wrapped_test_vector_cmm(
+        self, input: TestVectorCmmInput
+    ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsManager":
         """Invokes the CreateWrappedTestVectorCmm operation.
 
         :param input: The operation's input.
         """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_create_wrapped_test_vector_cmm,
-            deserialize=_deserialize_create_wrapped_test_vector_cmm,
-            config=self._config,
-            operation_name="CreateWrappedTestVectorCmm",
-        ))
+        return asyncio.run(
+            self._execute_operation(
+                input=input,
+                plugins=[],
+                serialize=_serialize_create_wrapped_test_vector_cmm,
+                deserialize=_deserialize_create_wrapped_test_vector_cmm,
+                config=self._config,
+                operation_name="CreateWrappedTestVectorCmm",
+            )
+        )
 
-    def get_key_description(self, input: GetKeyDescriptionInput) -> GetKeyDescriptionOutput:
+    def get_key_description(
+        self, input: GetKeyDescriptionInput
+    ) -> GetKeyDescriptionOutput:
         """Invokes the GetKeyDescription operation.
 
         :param input: The operation's input.
         """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_get_key_description,
-            deserialize=_deserialize_get_key_description,
-            config=self._config,
-            operation_name="GetKeyDescription",
-        ))
+        return asyncio.run(
+            self._execute_operation(
+                input=input,
+                plugins=[],
+                serialize=_serialize_get_key_description,
+                deserialize=_deserialize_get_key_description,
+                config=self._config,
+                operation_name="GetKeyDescription",
+            )
+        )
 
-    def serialize_key_description(self, input: SerializeKeyDescriptionInput) -> SerializeKeyDescriptionOutput:
+    def serialize_key_description(
+        self, input: SerializeKeyDescriptionInput
+    ) -> SerializeKeyDescriptionOutput:
         """Invokes the SerializeKeyDescription operation.
 
         :param input: The operation's input.
         """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_serialize_key_description,
-            deserialize=_deserialize_serialize_key_description,
-            config=self._config,
-            operation_name="SerializeKeyDescription",
-        ))
+        return asyncio.run(
+            self._execute_operation(
+                input=input,
+                plugins=[],
+                serialize=_serialize_serialize_key_description,
+                deserialize=_deserialize_serialize_key_description,
+                config=self._config,
+                operation_name="SerializeKeyDescription",
+            )
+        )
 
     async def _execute_operation(
         self,
@@ -177,7 +199,8 @@ class KeyVectors:
         )
         _client_interceptors = config.interceptors
         client_interceptors = cast(
-            list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]], _client_interceptors
+            list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
+            _client_interceptors,
         )
         interceptors = client_interceptors
 
@@ -261,7 +284,7 @@ class KeyVectors:
                             error_info=RetryErrorInfo(
                                 # TODO: Determine the error type.
                                 error_type=RetryErrorType.CLIENT_ERROR,
-                            )
+                            ),
                         )
                     except SmithyRetryException:
                         raise context_with_response.response
@@ -271,16 +294,16 @@ class KeyVectors:
                     retry_strategy.record_success(token=retry_token)
                     break
         except Exception as e:
-            if context.response is not None:
-                # config.logger.exception(f"Exception occurred while handling: {context.response}")
-                pass
             context._response = e
 
         # At this point, the context's request will have been definitively set, and
         # The response will be set either with the modeled output or an exception. The
         # transport_request and transport_response may be set or None.
         execution_context = cast(
-            InterceptorContext[Input, Output, DafnyRequest | None, DafnyResponse | None], context
+            InterceptorContext[
+                Input, Output, DafnyRequest | None, DafnyResponse | None
+            ],
+            context,
         )
         return await self._finalize_execution(interceptors, execution_context)
 
@@ -305,8 +328,10 @@ class KeyVectors:
                 InterceptorContext[Input, None, DafnyRequest, DafnyResponse], context
             )
 
-            context_with_response._transport_response = config.dafnyImplInterface.handle_request(
-                input=context_with_response.transport_request
+            context_with_response._transport_response = (
+                config.dafnyImplInterface.handle_request(
+                    input=context_with_response.transport_request
+                )
             )
 
             # Step 7n: Invoke read_after_transmit
@@ -336,9 +361,6 @@ class KeyVectors:
             for interceptor in interceptors:
                 interceptor.read_after_deserialization(context_with_output)
         except Exception as e:
-            if context.response is not None:
-                # config.logger.exception(f"Exception occurred while handling: {context.response}")
-                pass
             context._response = e
 
         # At this point, the context's request and transport_request have definitively been set,
@@ -346,7 +368,8 @@ class KeyVectors:
         # None. This will also be true after _finalize_attempt because there is no opportunity
         # there to set the transport_response.
         attempt_context = cast(
-            InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None], context
+            InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None],
+            context,
         )
         return await self._finalize_attempt(interceptors, attempt_context)
 
@@ -362,9 +385,6 @@ class KeyVectors:
                     context
                 )
         except Exception as e:
-            if context.response is not None:
-                # config.logger.exception(f"Exception occurred while handling: {context.response}")
-                pass
             context._response = e
 
         # Step 7t: Invoke read_after_attempt
@@ -372,9 +392,6 @@ class KeyVectors:
             try:
                 interceptor.read_after_attempt(context)
             except Exception as e:
-                if context.response is not None:
-                    # config.logger.exception(f"Exception occurred while handling: {context.response}")
-                    pass
                 context._response = e
 
         return context
@@ -382,7 +399,9 @@ class KeyVectors:
     async def _finalize_execution(
         self,
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
-        context: InterceptorContext[Input, Output, DafnyRequest | None, DafnyResponse | None],
+        context: InterceptorContext[
+            Input, Output, DafnyRequest | None, DafnyResponse | None
+        ],
     ) -> Output:
         try:
             # Step 9: Invoke modify_before_completion
@@ -390,9 +409,6 @@ class KeyVectors:
                 context._response = interceptor.modify_before_completion(context)
 
         except Exception as e:
-            if context.response is not None:
-                # config.logger.exception(f"Exception occurred while handling: {context.response}")
-                pass
             context._response = e
 
         # Step 11: Invoke read_after_execution
@@ -400,9 +416,6 @@ class KeyVectors:
             try:
                 interceptor.read_after_execution(context)
             except Exception as e:
-                if context.response is not None:
-                    # config.logger.exception(f"Exception occurred while handling: {context.response}")
-                    pass
                 context._response = e
 
         # Step 12: Return / throw

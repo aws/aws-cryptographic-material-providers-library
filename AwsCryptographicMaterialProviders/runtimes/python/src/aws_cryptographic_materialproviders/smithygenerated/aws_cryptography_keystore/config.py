@@ -18,6 +18,8 @@ from .models import KMSConfiguration
 
 
 _ServiceInterceptor = Any
+
+
 @dataclass(init=False)
 class Config:
     """Configuration for KeyStore."""
@@ -47,13 +49,16 @@ class Config:
         self.retry_strategy = retry_strategy or SimpleRetryStrategy()
         self.dafnyImplInterface = dafnyImplInterface
 
+
 # A callable that allows customizing the config object on each request.
 Plugin: TypeAlias = Callable[[Config], None]
 
+
 class KeyStoreConfig(Config):
-    '''
+    """
     Smithy-modelled localService Config shape for this localService.
-    '''
+    """
+
     ddb_table_name: str
     kms_configuration: KMSConfiguration
     logical_key_store_name: str
@@ -94,16 +99,22 @@ class KeyStoreConfig(Config):
         self.ddb_client = ddb_client
         self.kms_client = kms_client
 
+
 def dafny_config_to_smithy_config(dafny_config) -> KeyStoreConfig:
-    '''
+    """
     Converts the provided Dafny shape for this localService's config
     into the corresponding Smithy-modelled shape.
-    '''
-    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_KeyStoreConfig(dafny_config)
+    """
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_KeyStoreConfig(
+        dafny_config
+    )
+
 
 def smithy_config_to_dafny_config(smithy_config) -> DafnyKeyStoreConfig:
-    '''
+    """
     Converts the provided Smithy-modelled shape for this localService's config
     into the corresponding Dafny shape.
-    '''
-    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_KeyStoreConfig(smithy_config)
+    """
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_KeyStoreConfig(
+        smithy_config
+    )

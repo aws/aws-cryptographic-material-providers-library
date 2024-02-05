@@ -8,6 +8,7 @@ class BeaconKeyMaterials:
     encryption_context: dict[str, str]
     beacon_key: Optional[bytes | bytearray]
     hmac_keys: Optional[dict[str, bytes | bytearray]]
+
     def __init__(
         self,
         *,
@@ -79,17 +80,21 @@ class BeaconKeyMaterials:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, BeaconKeyMaterials):
             return False
-        attributes: list[str] = ['beacon_key_identifier','encryption_context','beacon_key','hmac_keys',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "beacon_key_identifier",
+            "encryption_context",
+            "beacon_key",
+            "hmac_keys",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class BranchKeyMaterials:
     branch_key_identifier: str
     branch_key_version: str
     encryption_context: dict[str, str]
     branch_key: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -151,15 +156,19 @@ class BranchKeyMaterials:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, BranchKeyMaterials):
             return False
-        attributes: list[str] = ['branch_key_identifier','branch_key_version','encryption_context','branch_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "branch_key_identifier",
+            "branch_key_version",
+            "encryption_context",
+            "branch_key",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class CreateKeyInput:
     branch_key_identifier: Optional[str]
     encryption_context: Optional[dict[str, str]]
+
     def __init__(
         self,
         *,
@@ -219,14 +228,16 @@ class CreateKeyInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateKeyInput):
             return False
-        attributes: list[str] = ['branch_key_identifier','encryption_context',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "branch_key_identifier",
+            "encryption_context",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class CreateKeyOutput:
     branch_key_identifier: str
+
     def __init__(
         self,
         *,
@@ -271,11 +282,11 @@ class CreateKeyOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateKeyOutput):
             return False
-        attributes: list[str] = ['branch_key_identifier',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "branch_key_identifier",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class CreateKeyStoreInput:
     def as_dict(self) -> Dict[str, Any]:
@@ -303,8 +314,10 @@ class CreateKeyStoreInput:
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, CreateKeyStoreInput)
 
+
 class CreateKeyStoreOutput:
     table_arn: str
+
     def __init__(
         self,
         *,
@@ -349,14 +362,15 @@ class CreateKeyStoreOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateKeyStoreOutput):
             return False
-        attributes: list[str] = ['table_arn',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "table_arn",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GetActiveBranchKeyInput:
     branch_key_identifier: str
+
     def __init__(
         self,
         *,
@@ -402,14 +416,15 @@ class GetActiveBranchKeyInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GetActiveBranchKeyInput):
             return False
-        attributes: list[str] = ['branch_key_identifier',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "branch_key_identifier",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GetActiveBranchKeyOutput:
     branch_key_materials: BranchKeyMaterials
+
     def __init__(
         self,
         *,
@@ -439,7 +454,9 @@ class GetActiveBranchKeyOutput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "branch_key_materials": BranchKeyMaterials.from_dict(d["branchKeyMaterials"]),
+            "branch_key_materials": BranchKeyMaterials.from_dict(
+                d["branchKeyMaterials"]
+            ),
         }
 
         return GetActiveBranchKeyOutput(**kwargs)
@@ -454,14 +471,15 @@ class GetActiveBranchKeyOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GetActiveBranchKeyOutput):
             return False
-        attributes: list[str] = ['branch_key_materials',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "branch_key_materials",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GetBeaconKeyInput:
     branch_key_identifier: str
+
     def __init__(
         self,
         *,
@@ -507,14 +525,15 @@ class GetBeaconKeyInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GetBeaconKeyInput):
             return False
-        attributes: list[str] = ['branch_key_identifier',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "branch_key_identifier",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GetBeaconKeyOutput:
     beacon_key_materials: BeaconKeyMaterials
+
     def __init__(
         self,
         *,
@@ -544,7 +563,9 @@ class GetBeaconKeyOutput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "beacon_key_materials": BeaconKeyMaterials.from_dict(d["beaconKeyMaterials"]),
+            "beacon_key_materials": BeaconKeyMaterials.from_dict(
+                d["beaconKeyMaterials"]
+            ),
         }
 
         return GetBeaconKeyOutput(**kwargs)
@@ -559,15 +580,16 @@ class GetBeaconKeyOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GetBeaconKeyOutput):
             return False
-        attributes: list[str] = ['beacon_key_materials',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "beacon_key_materials",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GetBranchKeyVersionInput:
     branch_key_identifier: str
     branch_key_version: str
+
     def __init__(
         self,
         *,
@@ -621,14 +643,16 @@ class GetBranchKeyVersionInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GetBranchKeyVersionInput):
             return False
-        attributes: list[str] = ['branch_key_identifier','branch_key_version',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "branch_key_identifier",
+            "branch_key_version",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GetBranchKeyVersionOutput:
     branch_key_materials: BranchKeyMaterials
+
     def __init__(
         self,
         *,
@@ -658,7 +682,9 @@ class GetBranchKeyVersionOutput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "branch_key_materials": BranchKeyMaterials.from_dict(d["branchKeyMaterials"]),
+            "branch_key_materials": BranchKeyMaterials.from_dict(
+                d["branchKeyMaterials"]
+            ),
         }
 
         return GetBranchKeyVersionOutput(**kwargs)
@@ -673,13 +699,13 @@ class GetBranchKeyVersionOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GetBranchKeyVersionOutput):
             return False
-        attributes: list[str] = ['branch_key_materials',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "branch_key_materials",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
-class KMSConfigurationKmsKeyArn():
+
+class KMSConfigurationKmsKeyArn:
     def __init__(self, value: str):
         self.value = value
 
@@ -688,7 +714,7 @@ class KMSConfigurationKmsKeyArn():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "KMSConfigurationKmsKeyArn":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return KMSConfigurationKmsKeyArn(d["kmsKeyArn"])
@@ -701,7 +727,8 @@ class KMSConfigurationKmsKeyArn():
             return False
         return self.value == other.value
 
-class KMSConfiguration():
+
+class KMSConfiguration:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -718,19 +745,23 @@ class KMSConfiguration():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "KMSConfiguration":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return KMSConfiguration(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
         return f"KMSConfiguration(tag={self.tag})"
 
+
 KMSConfiguration = Union[KMSConfigurationKmsKeyArn, KMSConfiguration]
+
+
 def _kms_configuration_from_dict(d: Dict[str, Any]) -> KMSConfiguration:
     if "kmsKeyArn" in d:
         return KMSConfigurationKmsKeyArn.from_dict(d)
 
-    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
+    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
 
 class GetKeyStoreInfoOutput:
     key_store_id: str
@@ -738,6 +769,7 @@ class GetKeyStoreInfoOutput:
     logical_key_store_name: str
     grant_tokens: list[str]
     kms_configuration: KMSConfiguration
+
     def __init__(
         self,
         *,
@@ -816,14 +848,19 @@ class GetKeyStoreInfoOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GetKeyStoreInfoOutput):
             return False
-        attributes: list[str] = ['key_store_id','key_store_name','logical_key_store_name','grant_tokens','kms_configuration',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "key_store_id",
+            "key_store_name",
+            "logical_key_store_name",
+            "grant_tokens",
+            "kms_configuration",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class VersionKeyInput:
     branch_key_identifier: str
+
     def __init__(
         self,
         *,
@@ -868,15 +905,15 @@ class VersionKeyInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, VersionKeyInput):
             return False
-        attributes: list[str] = ['branch_key_identifier',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "branch_key_identifier",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class VersionKeyOutput:
-    """Outputs for versioning a Branch Key.
-    """
+    """Outputs for versioning a Branch Key."""
+
     def as_dict(self) -> Dict[str, Any]:
         """Converts the VersionKeyOutput to a dictionary.
 
@@ -901,6 +938,7 @@ class VersionKeyOutput:
 
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, VersionKeyOutput)
+
 
 class Unit:
     pass

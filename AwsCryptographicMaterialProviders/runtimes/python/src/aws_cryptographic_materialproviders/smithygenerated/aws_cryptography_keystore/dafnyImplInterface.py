@@ -3,6 +3,7 @@
 from software_amazon_cryptography_keystore_internaldafny import KeyStoreClient
 from .dafny_protocol import DafnyRequest
 
+
 class DafnyImplInterface:
     impl: KeyStoreClient | None = None
 
@@ -25,9 +26,9 @@ class DafnyImplInterface:
                 "GetBeaconKey": self.impl.GetBeaconKey,
             }
 
-         # This logic is where a typical Smithy client would expect the "server" to be.
-         # This code can be thought of as logic our Dafny "server" uses
-         #   to route incoming client requests to the correct request handler code.
+        # This logic is where a typical Smithy client would expect the "server" to be.
+        # This code can be thought of as logic our Dafny "server" uses
+        #   to route incoming client requests to the correct request handler code.
         if input.dafny_operation_input is None:
             return self.operation_map[input.operation_name]()
         else:

@@ -15,6 +15,8 @@ from smithy_python.interfaces.retries import RetryStrategy
 
 
 _ServiceInterceptor = Any
+
+
 @dataclass(init=False)
 class Config:
     """Configuration for AwsCryptographicMaterialProviders."""
@@ -44,33 +46,38 @@ class Config:
         self.retry_strategy = retry_strategy or SimpleRetryStrategy()
         self.dafnyImplInterface = dafnyImplInterface
 
+
 # A callable that allows customizing the config object on each request.
 Plugin: TypeAlias = Callable[[Config], None]
 
+
 class MaterialProvidersConfig(Config):
-    '''
+    """
     Smithy-modelled localService Config shape for this localService.
-    '''
+    """
 
     def __init__(
         self,
-
     ):
-        """Constructor for MaterialProvidersConfig.
-
-        """
+        """Constructor for MaterialProvidersConfig."""
         super().__init__()
 
+
 def dafny_config_to_smithy_config(dafny_config) -> MaterialProvidersConfig:
-    '''
+    """
     Converts the provided Dafny shape for this localService's config
     into the corresponding Smithy-modelled shape.
-    '''
-    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_MaterialProvidersConfig(dafny_config)
+    """
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_MaterialProvidersConfig(
+        dafny_config
+    )
+
 
 def smithy_config_to_dafny_config(smithy_config) -> DafnyMaterialProvidersConfig:
-    '''
+    """
     Converts the provided Smithy-modelled shape for this localService's config
     into the corresponding Dafny shape.
-    '''
-    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_MaterialProvidersConfig(smithy_config)
+    """
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_MaterialProvidersConfig(
+        smithy_config
+    )
