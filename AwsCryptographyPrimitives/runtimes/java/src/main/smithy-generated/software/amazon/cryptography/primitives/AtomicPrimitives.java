@@ -41,8 +41,10 @@ public class AtomicPrimitives {
 
   protected AtomicPrimitives(BuilderImpl builder) {
     CryptoConfig input = builder.CryptoConfig();
-    software.amazon.cryptography.primitives.internaldafny.types.CryptoConfig dafnyValue = ToDafny.CryptoConfig(input);
-    Result<IAwsCryptographicPrimitivesClient, Error> result = __default.AtomicPrimitives(dafnyValue);
+    software.amazon.cryptography.primitives.internaldafny.types.CryptoConfig dafnyValue =
+      ToDafny.CryptoConfig(input);
+    Result<IAwsCryptographicPrimitivesClient, Error> result =
+      __default.AtomicPrimitives(dafnyValue);
     if (result.is_Failure()) {
       throw ToNative.Error(result.dtor_error());
     }

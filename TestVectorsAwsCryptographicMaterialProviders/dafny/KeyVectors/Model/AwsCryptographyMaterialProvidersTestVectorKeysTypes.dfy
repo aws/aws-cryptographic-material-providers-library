@@ -146,12 +146,19 @@ module {:extern "software_amazon_cryptography_materialproviderstestvectorkeys_in
   datatype KmsMrkAwareDiscovery = | KmsMrkAwareDiscovery (
     nameonly keyId: string ,
     nameonly defaultMrkRegion: string ,
-    nameonly awsKmsDiscoveryFilter: Option<AwsCryptographyMaterialProvidersTypes.DiscoveryFilter>
+    nameonly awsKmsDiscoveryFilter: Option<AwsCryptographyMaterialProvidersTypes.DiscoveryFilter> := Option.None
   )
   datatype KmsRsaKeyring = | KmsRsaKeyring (
     nameonly keyId: string ,
     nameonly encryptionAlgorithm: ComAmazonawsKmsTypes.EncryptionAlgorithmSpec
   )
+<<<<<<< HEAD
+=======
+  datatype MultiKeyring = | MultiKeyring (
+    nameonly generator: Option<KeyDescription> := Option.None ,
+    nameonly childKeyrings: KeyDescriptionList
+  )
+>>>>>>> main
   datatype RawAES = | RawAES (
     nameonly keyId: string ,
     nameonly providerId: string
@@ -209,6 +216,7 @@ module {:extern "software_amazon_cryptography_materialproviderstestvectorkeys_in
     | Opaque(obj: object)
   type OpaqueError = e: Error | e.Opaque? witness *
 }
+<<<<<<< HEAD
  abstract module AbstractAwsCryptographyMaterialProvidersTestVectorKeysService
  {
  import opened Wrappers
@@ -224,7 +232,31 @@ module {:extern "software_amazon_cryptography_materialproviderstestvectorkeys_in
  && fresh(res.value.Modifies)
  && fresh(res.value.History)
  && res.value.ValidState()
+=======
+abstract module AbstractAwsCryptographyMaterialProvidersTestVectorKeysService
+{
+  import opened Wrappers
+  import opened StandardLibrary.UInt
+  import opened UTF8
+  import opened Types = AwsCryptographyMaterialProvidersTestVectorKeysTypes
+  import Operations : AbstractAwsCryptographyMaterialProvidersTestVectorKeysOperations
+  function method DefaultKeyVectorsConfig(): KeyVectorsConfig
+  method KeyVectors(config: KeyVectorsConfig := DefaultKeyVectorsConfig())
+    returns (res: Result<IKeyVectorsClient, Error>)
+    ensures res.Success? ==>
+              && fresh(res.value)
+              && fresh(res.value.Modifies)
+              && fresh(res.value.History)
+              && res.value.ValidState()
+>>>>>>> main
 
+  // Helper function for the benefit of native code to create a Success(client) without referring to Dafny internals
+  function method CreateSuccessOfClient(client: IKeyVectorsClient): Result<IKeyVectorsClient, Error> {
+    Success(client)
+  } // Helper function for the benefit of native code to create a Failure(error) without referring to Dafny internals
+  function method CreateFailureOfError(error: Error): Result<IKeyVectorsClient, Error> {
+    Failure(error)
+  }
   class KeyVectorsClient extends IKeyVectorsClient
   {
     constructor(config: Operations.InternalConfig)

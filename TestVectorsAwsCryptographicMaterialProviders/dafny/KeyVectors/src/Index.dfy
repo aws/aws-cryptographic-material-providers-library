@@ -22,6 +22,11 @@ module {:extern "software_amazon_cryptography_materialproviderstestvectorkeys_in
 
   method KeyVectors(config: KeyVectorsConfig)
     returns (res: Result<IKeyVectorsClient, Error>)
+<<<<<<< HEAD
+=======
+    ensures res.Success? ==>
+              res.value is KeyVectorsClient
+>>>>>>> main
   {
     var keysManifestBv :- expect FileIO.ReadBytesFromFile(config.keyManifestPath);
     var keysManifestBytes := BvToBytes(keysManifestBv);
@@ -47,7 +52,7 @@ module {:extern "software_amazon_cryptography_materialproviderstestvectorkeys_in
     );
     var client := new KeyVectorsClient(config);
 
-    res := Success(client);
+    res := Success(client as IKeyVectorsClient);
   }
 
   class KeyVectorsClient... {

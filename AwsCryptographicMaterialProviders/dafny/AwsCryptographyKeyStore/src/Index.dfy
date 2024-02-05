@@ -34,11 +34,15 @@ module {:extern "software_amazon_cryptography_keystore_internaldafny"}
   method KeyStore(config: KeyStoreConfig)
     returns (res: Result<IKeyStoreClient, Error>)
     ensures res.Success? ==>
-              && KMS.IsValid_KeyIdType(config.kmsConfiguration.kmsKeyArn)
+              && res.value is KeyStoreClient
+              && var rconfig := (res.value as KeyStoreClient).config;
+              && KMS.IsValid_KeyIdType(rconfig.kmsConfiguration.kmsKeyArn)
               && DDB.IsValid_TableName(config.ddbTableName)
               && GetValidGrantTokens(config.grantTokens).Success?
-                                             && config.kmsClient.value.ValidState()
-                                             && config.ddbClient.value.ValidState()
+              && (config.kmsClient.Some? ==> rconfig.kmsClient == config.kmsClient.value)
+              && (config.ddbClient.Some? ==> rconfig.ddbClient == config.ddbClient.value
+                                             && rconfig.kmsClient.ValidState()
+                                             && rconfig.ddbClient.ValidState())
     ensures
       && !DDB.IsValid_TableName(config.ddbTableName)
       && !KMS.IsValid_KeyIdType(config.kmsConfiguration.kmsKeyArn)
@@ -119,7 +123,7 @@ module {:extern "software_amazon_cryptography_keystore_internaldafny"}
       ddbClient := ddbClient
       )
     );
-    return Success(client);
+    return Success(client as IKeyStoreClient);
   }
 
   class KeyStoreClient... {
