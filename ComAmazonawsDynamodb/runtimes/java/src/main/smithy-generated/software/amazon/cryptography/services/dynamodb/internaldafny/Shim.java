@@ -280,15 +280,35 @@ public class Shim implements IDynamoDBClient {
       );
       BatchExecuteStatementOutput dafnyResponse =
         ToDafny.BatchExecuteStatementOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        BatchExecuteStatementOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        BatchExecuteStatementOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        BatchExecuteStatementOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        BatchExecuteStatementOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        BatchExecuteStatementOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -300,19 +320,47 @@ public class Shim implements IDynamoDBClient {
     try {
       BatchGetItemResponse result = _impl.batchGetItem(converted);
       BatchGetItemOutput dafnyResponse = ToDafny.BatchGetItemOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        BatchGetItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        BatchGetItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        BatchGetItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        BatchGetItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        BatchGetItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        BatchGetItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        BatchGetItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -324,21 +372,53 @@ public class Shim implements IDynamoDBClient {
     try {
       BatchWriteItemResponse result = _impl.batchWriteItem(converted);
       BatchWriteItemOutput dafnyResponse = ToDafny.BatchWriteItemOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        BatchWriteItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        BatchWriteItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ItemCollectionSizeLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        BatchWriteItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        BatchWriteItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        BatchWriteItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        BatchWriteItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        BatchWriteItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        BatchWriteItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -350,23 +430,59 @@ public class Shim implements IDynamoDBClient {
     try {
       CreateBackupResponse result = _impl.createBackup(converted);
       CreateBackupOutput dafnyResponse = ToDafny.CreateBackupOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        CreateBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (BackupInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        CreateBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ContinuousBackupsUnavailableException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        CreateBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        CreateBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        CreateBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TableInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        CreateBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        CreateBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        CreateBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        CreateBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -380,19 +496,47 @@ public class Shim implements IDynamoDBClient {
       CreateGlobalTableOutput dafnyResponse = ToDafny.CreateGlobalTableOutput(
         result
       );
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        CreateGlobalTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (GlobalTableAlreadyExistsException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        CreateGlobalTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        CreateGlobalTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        CreateGlobalTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        CreateGlobalTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        CreateGlobalTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        CreateGlobalTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -402,17 +546,41 @@ public class Shim implements IDynamoDBClient {
     try {
       CreateTableResponse result = _impl.createTable(converted);
       CreateTableOutput dafnyResponse = ToDafny.CreateTableOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        CreateTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        CreateTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        CreateTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        CreateTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        CreateTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        CreateTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -424,19 +592,47 @@ public class Shim implements IDynamoDBClient {
     try {
       DeleteBackupResponse result = _impl.deleteBackup(converted);
       DeleteBackupOutput dafnyResponse = ToDafny.DeleteBackupOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        DeleteBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (BackupInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DeleteBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (BackupNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DeleteBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DeleteBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DeleteBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DeleteBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        DeleteBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -446,25 +642,65 @@ public class Shim implements IDynamoDBClient {
     try {
       DeleteItemResponse result = _impl.deleteItem(converted);
       DeleteItemOutput dafnyResponse = ToDafny.DeleteItemOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        DeleteItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (ConditionalCheckFailedException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DeleteItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DeleteItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ItemCollectionSizeLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DeleteItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DeleteItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DeleteItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DeleteItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TransactionConflictException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DeleteItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DeleteItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        DeleteItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -474,19 +710,47 @@ public class Shim implements IDynamoDBClient {
     try {
       DeleteTableResponse result = _impl.deleteTable(converted);
       DeleteTableOutput dafnyResponse = ToDafny.DeleteTableOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        DeleteTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DeleteTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DeleteTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DeleteTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DeleteTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DeleteTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        DeleteTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -498,15 +762,35 @@ public class Shim implements IDynamoDBClient {
     try {
       DescribeBackupResponse result = _impl.describeBackup(converted);
       DescribeBackupOutput dafnyResponse = ToDafny.DescribeBackupOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        DescribeBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (BackupNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        DescribeBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -522,15 +806,35 @@ public class Shim implements IDynamoDBClient {
         _impl.describeContinuousBackups(converted);
       DescribeContinuousBackupsOutput dafnyResponse =
         ToDafny.DescribeContinuousBackupsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        DescribeContinuousBackupsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeContinuousBackupsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeContinuousBackupsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeContinuousBackupsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        DescribeContinuousBackupsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -546,15 +850,35 @@ public class Shim implements IDynamoDBClient {
         _impl.describeContributorInsights(converted);
       DescribeContributorInsightsOutput dafnyResponse =
         ToDafny.DescribeContributorInsightsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        DescribeContributorInsightsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeContributorInsightsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeContributorInsightsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeContributorInsightsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        DescribeContributorInsightsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -569,11 +893,23 @@ public class Shim implements IDynamoDBClient {
         _impl.describeEndpoints(converted);
       DescribeEndpointsResponse dafnyResponse =
         ToDafny.DescribeEndpointsResponse(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        DescribeEndpointsResponse._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeEndpointsResponse._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        DescribeEndpointsResponse._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -585,17 +921,41 @@ public class Shim implements IDynamoDBClient {
     try {
       DescribeExportResponse result = _impl.describeExport(converted);
       DescribeExportOutput dafnyResponse = ToDafny.DescribeExportOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        DescribeExportOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (ExportNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeExportOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeExportOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeExportOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeExportOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        DescribeExportOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -610,15 +970,35 @@ public class Shim implements IDynamoDBClient {
       DescribeGlobalTableResponse result = _impl.describeGlobalTable(converted);
       DescribeGlobalTableOutput dafnyResponse =
         ToDafny.DescribeGlobalTableOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        DescribeGlobalTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (GlobalTableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeGlobalTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeGlobalTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeGlobalTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        DescribeGlobalTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -634,15 +1014,35 @@ public class Shim implements IDynamoDBClient {
         _impl.describeGlobalTableSettings(converted);
       DescribeGlobalTableSettingsOutput dafnyResponse =
         ToDafny.DescribeGlobalTableSettingsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        DescribeGlobalTableSettingsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (GlobalTableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeGlobalTableSettingsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeGlobalTableSettingsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeGlobalTableSettingsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        DescribeGlobalTableSettingsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -654,13 +1054,29 @@ public class Shim implements IDynamoDBClient {
     try {
       DescribeImportResponse result = _impl.describeImport(converted);
       DescribeImportOutput dafnyResponse = ToDafny.DescribeImportOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        DescribeImportOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (ImportNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeImportOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeImportOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        DescribeImportOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -678,15 +1094,35 @@ public class Shim implements IDynamoDBClient {
         _impl.describeKinesisStreamingDestination(converted);
       DescribeKinesisStreamingDestinationOutput dafnyResponse =
         ToDafny.DescribeKinesisStreamingDestinationOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        DescribeKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        DescribeKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -698,13 +1134,29 @@ public class Shim implements IDynamoDBClient {
     try {
       DescribeLimitsResponse result = _impl.describeLimits(converted);
       DescribeLimitsOutput dafnyResponse = ToDafny.DescribeLimitsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        DescribeLimitsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeLimitsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeLimitsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        DescribeLimitsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -716,15 +1168,35 @@ public class Shim implements IDynamoDBClient {
     try {
       DescribeTableResponse result = _impl.describeTable(converted);
       DescribeTableOutput dafnyResponse = ToDafny.DescribeTableOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        DescribeTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        DescribeTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -742,15 +1214,35 @@ public class Shim implements IDynamoDBClient {
         _impl.describeTableReplicaAutoScaling(converted);
       DescribeTableReplicaAutoScalingOutput dafnyResponse =
         ToDafny.DescribeTableReplicaAutoScalingOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        DescribeTableReplicaAutoScalingOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeTableReplicaAutoScalingOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeTableReplicaAutoScalingOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeTableReplicaAutoScalingOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        DescribeTableReplicaAutoScalingOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -766,15 +1258,35 @@ public class Shim implements IDynamoDBClient {
       DescribeTimeToLiveOutput dafnyResponse = ToDafny.DescribeTimeToLiveOutput(
         result
       );
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        DescribeTimeToLiveOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeTimeToLiveOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeTimeToLiveOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DescribeTimeToLiveOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        DescribeTimeToLiveOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -792,19 +1304,47 @@ public class Shim implements IDynamoDBClient {
         _impl.disableKinesisStreamingDestination(converted);
       DisableKinesisStreamingDestinationOutput dafnyResponse =
         ToDafny.DisableKinesisStreamingDestinationOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        DisableKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DisableKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DisableKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DisableKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DisableKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        DisableKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        DisableKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -822,19 +1362,47 @@ public class Shim implements IDynamoDBClient {
         _impl.enableKinesisStreamingDestination(converted);
       EnableKinesisStreamingDestinationOutput dafnyResponse =
         ToDafny.EnableKinesisStreamingDestinationOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        EnableKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        EnableKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        EnableKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        EnableKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        EnableKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        EnableKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        EnableKinesisStreamingDestinationOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -848,27 +1416,71 @@ public class Shim implements IDynamoDBClient {
       ExecuteStatementOutput dafnyResponse = ToDafny.ExecuteStatementOutput(
         result
       );
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        ExecuteStatementOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (ConditionalCheckFailedException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExecuteStatementOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DuplicateItemException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExecuteStatementOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExecuteStatementOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ItemCollectionSizeLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExecuteStatementOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExecuteStatementOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExecuteStatementOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExecuteStatementOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TransactionConflictException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExecuteStatementOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExecuteStatementOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        ExecuteStatementOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -884,25 +1496,65 @@ public class Shim implements IDynamoDBClient {
       ExecuteTransactionOutput dafnyResponse = ToDafny.ExecuteTransactionOutput(
         result
       );
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        ExecuteTransactionOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (IdempotentParameterMismatchException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExecuteTransactionOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExecuteTransactionOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExecuteTransactionOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExecuteTransactionOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExecuteTransactionOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TransactionCanceledException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExecuteTransactionOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TransactionInProgressException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExecuteTransactionOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExecuteTransactionOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        ExecuteTransactionOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -918,23 +1570,59 @@ public class Shim implements IDynamoDBClient {
       );
       ExportTableToPointInTimeOutput dafnyResponse =
         ToDafny.ExportTableToPointInTimeOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        ExportTableToPointInTimeOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (ExportConflictException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExportTableToPointInTimeOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExportTableToPointInTimeOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (InvalidExportTimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExportTableToPointInTimeOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExportTableToPointInTimeOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (PointInTimeRecoveryUnavailableException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExportTableToPointInTimeOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExportTableToPointInTimeOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ExportTableToPointInTimeOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        ExportTableToPointInTimeOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -944,19 +1632,47 @@ public class Shim implements IDynamoDBClient {
     try {
       GetItemResponse result = _impl.getItem(converted);
       GetItemOutput dafnyResponse = ToDafny.GetItemOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        GetItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        GetItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        GetItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        GetItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        GetItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        GetItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        GetItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -966,17 +1682,41 @@ public class Shim implements IDynamoDBClient {
     try {
       ImportTableResponse result = _impl.importTable(converted);
       ImportTableOutput dafnyResponse = ToDafny.ImportTableOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        ImportTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (ImportConflictException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ImportTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ImportTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ImportTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ImportTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        ImportTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -986,13 +1726,29 @@ public class Shim implements IDynamoDBClient {
     try {
       ListBackupsResponse result = _impl.listBackups(converted);
       ListBackupsOutput dafnyResponse = ToDafny.ListBackupsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        ListBackupsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ListBackupsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ListBackupsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        ListBackupsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1008,15 +1764,35 @@ public class Shim implements IDynamoDBClient {
       );
       ListContributorInsightsOutput dafnyResponse =
         ToDafny.ListContributorInsightsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        ListContributorInsightsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ListContributorInsightsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ListContributorInsightsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ListContributorInsightsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        ListContributorInsightsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1026,15 +1802,35 @@ public class Shim implements IDynamoDBClient {
     try {
       ListExportsResponse result = _impl.listExports(converted);
       ListExportsOutput dafnyResponse = ToDafny.ListExportsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        ListExportsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ListExportsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ListExportsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ListExportsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        ListExportsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1048,13 +1844,29 @@ public class Shim implements IDynamoDBClient {
       ListGlobalTablesOutput dafnyResponse = ToDafny.ListGlobalTablesOutput(
         result
       );
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        ListGlobalTablesOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ListGlobalTablesOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ListGlobalTablesOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        ListGlobalTablesOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1064,13 +1876,29 @@ public class Shim implements IDynamoDBClient {
     try {
       ListImportsResponse result = _impl.listImports(converted);
       ListImportsOutput dafnyResponse = ToDafny.ListImportsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        ListImportsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ListImportsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ListImportsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        ListImportsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1080,13 +1908,29 @@ public class Shim implements IDynamoDBClient {
     try {
       ListTablesResponse result = _impl.listTables(converted);
       ListTablesOutput dafnyResponse = ToDafny.ListTablesOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        ListTablesOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ListTablesOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ListTablesOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        ListTablesOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1102,15 +1946,35 @@ public class Shim implements IDynamoDBClient {
       ListTagsOfResourceOutput dafnyResponse = ToDafny.ListTagsOfResourceOutput(
         result
       );
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        ListTagsOfResourceOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ListTagsOfResourceOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ListTagsOfResourceOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ListTagsOfResourceOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        ListTagsOfResourceOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1120,25 +1984,65 @@ public class Shim implements IDynamoDBClient {
     try {
       PutItemResponse result = _impl.putItem(converted);
       PutItemOutput dafnyResponse = ToDafny.PutItemOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        PutItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (ConditionalCheckFailedException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        PutItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        PutItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ItemCollectionSizeLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        PutItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        PutItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        PutItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        PutItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TransactionConflictException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        PutItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        PutItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        PutItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1148,19 +2052,47 @@ public class Shim implements IDynamoDBClient {
     try {
       QueryResponse result = _impl.query(converted);
       QueryOutput dafnyResponse = ToDafny.QueryOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        QueryOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        QueryOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        QueryOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        QueryOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        QueryOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        QueryOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        QueryOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1176,23 +2108,59 @@ public class Shim implements IDynamoDBClient {
       );
       RestoreTableFromBackupOutput dafnyResponse =
         ToDafny.RestoreTableFromBackupOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        RestoreTableFromBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (BackupInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        RestoreTableFromBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (BackupNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        RestoreTableFromBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        RestoreTableFromBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        RestoreTableFromBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TableAlreadyExistsException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        RestoreTableFromBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TableInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        RestoreTableFromBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        RestoreTableFromBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        RestoreTableFromBackupOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1208,25 +2176,65 @@ public class Shim implements IDynamoDBClient {
         _impl.restoreTableToPointInTime(converted);
       RestoreTableToPointInTimeOutput dafnyResponse =
         ToDafny.RestoreTableToPointInTimeOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        RestoreTableToPointInTimeOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        RestoreTableToPointInTimeOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (InvalidRestoreTimeException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        RestoreTableToPointInTimeOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        RestoreTableToPointInTimeOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (PointInTimeRecoveryUnavailableException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        RestoreTableToPointInTimeOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TableAlreadyExistsException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        RestoreTableToPointInTimeOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TableInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        RestoreTableToPointInTimeOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        RestoreTableToPointInTimeOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        RestoreTableToPointInTimeOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        RestoreTableToPointInTimeOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1236,19 +2244,47 @@ public class Shim implements IDynamoDBClient {
     try {
       ScanResponse result = _impl.scan(converted);
       ScanOutput dafnyResponse = ToDafny.ScanOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        ScanOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ScanOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ScanOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ScanOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ScanOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        ScanOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        ScanOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1257,19 +2293,47 @@ public class Shim implements IDynamoDBClient {
     TagResourceRequest converted = ToNative.TagResourceInput(input);
     try {
       _impl.tagResource(converted);
-      return Result.create_Success(Tuple0.create());
+      return Result.create_Success(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        Tuple0.create()
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1283,21 +2347,53 @@ public class Shim implements IDynamoDBClient {
       TransactGetItemsOutput dafnyResponse = ToDafny.TransactGetItemsOutput(
         result
       );
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        TransactGetItemsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TransactGetItemsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TransactGetItemsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TransactGetItemsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TransactGetItemsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TransactionCanceledException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TransactGetItemsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TransactGetItemsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        TransactGetItemsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1313,25 +2409,65 @@ public class Shim implements IDynamoDBClient {
       TransactWriteItemsOutput dafnyResponse = ToDafny.TransactWriteItemsOutput(
         result
       );
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        TransactWriteItemsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (IdempotentParameterMismatchException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TransactWriteItemsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TransactWriteItemsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TransactWriteItemsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TransactWriteItemsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TransactWriteItemsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TransactionCanceledException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TransactWriteItemsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TransactionInProgressException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TransactWriteItemsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        TransactWriteItemsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        TransactWriteItemsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1340,19 +2476,47 @@ public class Shim implements IDynamoDBClient {
     UntagResourceRequest converted = ToNative.UntagResourceInput(input);
     try {
       _impl.untagResource(converted);
-      return Result.create_Success(Tuple0.create());
+      return Result.create_Success(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        Tuple0.create()
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        dafny.Tuple0._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1368,17 +2532,41 @@ public class Shim implements IDynamoDBClient {
       );
       UpdateContinuousBackupsOutput dafnyResponse =
         ToDafny.UpdateContinuousBackupsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        UpdateContinuousBackupsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (ContinuousBackupsUnavailableException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateContinuousBackupsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateContinuousBackupsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateContinuousBackupsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateContinuousBackupsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        UpdateContinuousBackupsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1394,15 +2582,35 @@ public class Shim implements IDynamoDBClient {
         _impl.updateContributorInsights(converted);
       UpdateContributorInsightsOutput dafnyResponse =
         ToDafny.UpdateContributorInsightsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        UpdateContributorInsightsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateContributorInsightsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateContributorInsightsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateContributorInsightsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        UpdateContributorInsightsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1416,21 +2624,53 @@ public class Shim implements IDynamoDBClient {
       UpdateGlobalTableOutput dafnyResponse = ToDafny.UpdateGlobalTableOutput(
         result
       );
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        UpdateGlobalTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (GlobalTableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateGlobalTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateGlobalTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ReplicaAlreadyExistsException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateGlobalTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ReplicaNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateGlobalTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateGlobalTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateGlobalTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        UpdateGlobalTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1446,23 +2686,59 @@ public class Shim implements IDynamoDBClient {
         _impl.updateGlobalTableSettings(converted);
       UpdateGlobalTableSettingsOutput dafnyResponse =
         ToDafny.UpdateGlobalTableSettingsOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        UpdateGlobalTableSettingsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (GlobalTableNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateGlobalTableSettingsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (IndexNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateGlobalTableSettingsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateGlobalTableSettingsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateGlobalTableSettingsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ReplicaNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateGlobalTableSettingsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateGlobalTableSettingsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateGlobalTableSettingsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        UpdateGlobalTableSettingsOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1472,25 +2748,65 @@ public class Shim implements IDynamoDBClient {
     try {
       UpdateItemResponse result = _impl.updateItem(converted);
       UpdateItemOutput dafnyResponse = ToDafny.UpdateItemOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        UpdateItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (ConditionalCheckFailedException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ItemCollectionSizeLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ProvisionedThroughputExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (RequestLimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (TransactionConflictException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        UpdateItemOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1500,19 +2816,47 @@ public class Shim implements IDynamoDBClient {
     try {
       UpdateTableResponse result = _impl.updateTable(converted);
       UpdateTableOutput dafnyResponse = ToDafny.UpdateTableOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        UpdateTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        UpdateTableOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1528,19 +2872,47 @@ public class Shim implements IDynamoDBClient {
         _impl.updateTableReplicaAutoScaling(converted);
       UpdateTableReplicaAutoScalingOutput dafnyResponse =
         ToDafny.UpdateTableReplicaAutoScalingOutput(result);
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        UpdateTableReplicaAutoScalingOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateTableReplicaAutoScalingOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateTableReplicaAutoScalingOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateTableReplicaAutoScalingOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateTableReplicaAutoScalingOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateTableReplicaAutoScalingOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        UpdateTableReplicaAutoScalingOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 
@@ -1554,19 +2926,47 @@ public class Shim implements IDynamoDBClient {
       UpdateTimeToLiveOutput dafnyResponse = ToDafny.UpdateTimeToLiveOutput(
         result
       );
-      return Result.create_Success(dafnyResponse);
+      return Result.create_Success(
+        UpdateTimeToLiveOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyResponse
+      );
     } catch (InternalServerErrorException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateTimeToLiveOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (LimitExceededException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateTimeToLiveOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceInUseException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateTimeToLiveOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (ResourceNotFoundException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateTimeToLiveOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (DynamoDbException ex) {
-      return Result.create_Failure(ToDafny.Error(ex));
+      return Result.create_Failure(
+        UpdateTimeToLiveOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(
+        UpdateTimeToLiveOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        Error.create_Opaque(ex.toString())
+      );
     }
   }
 }
