@@ -29,7 +29,7 @@ module {:options "-functionSyntax:4"} ParseJsonManifests {
     // This is *ONLY* because this is wrapping the MPL
   import AlgorithmSuites
 
-  function BuildEncryptTestVector(keys: KeyVectorsTypes.IKeyVectorsClient, obj: seq<(string, JSON)>)
+  function BuildEncryptTestVector(keys: KeyVectors.KeyVectorsClient, obj: seq<(string, JSON)>)
     : Result<seq<EncryptTestVector>, string>
   {
     if |obj| == 0 then
@@ -69,7 +69,7 @@ module {:options "-functionSyntax:4"} ParseJsonManifests {
     return Success(vectors);
   }
 
-  function ToEncryptTestVector(keys: KeyVectorsTypes.IKeyVectorsClient, name: string, obj: JSON)
+  function ToEncryptTestVector(keys: KeyVectors.KeyVectorsClient, name: string, obj: JSON)
     : Result<EncryptTestVector, string>
   {
     :- Need(obj.Object?, "EncryptTestVector not an object");
