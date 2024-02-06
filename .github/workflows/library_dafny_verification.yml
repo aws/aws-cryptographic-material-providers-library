@@ -60,7 +60,6 @@ jobs:
         working-directory: ./${{ matrix.library }}
         run: |
           make polymorph_dafny
-          make format_dafny
 
       - name: Check regenerated code against commited code
         if: inputs.diff-generated-code

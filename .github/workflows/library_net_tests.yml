@@ -73,8 +73,7 @@ jobs:
         working-directory: ./${{ matrix.library }}
         run: |
           make polymorph_dafny
-          make polymorph_net
-          make format_net
+          make polymorph_dotnet
 
       - name: Check regenerated code against commited code
         if: inputs.diff-generated-code

@@ -70,9 +70,8 @@ jobs:
         working-directory: ./${{ matrix.library }}
         run: |
           make polymorph_dafny
-          make polymorph_java
           make -C .. setup_prettier
-          make -C .. format_java_misc
+          make polymorph_java
 
       - name: Check regenerated code against commited code
         if: inputs.diff-generated-code
