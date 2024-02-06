@@ -41,7 +41,7 @@ module {:options "-functionSyntax:4"} TestManifests {
     output := Success(());
   }
 
-  method TestEncrypts(tests: seq<TestVectors.EncryptTest>, keys: KeyVectorsTypes.IKeyVectorsClient)
+  method TestEncrypts(tests: seq<TestVectors.EncryptTest>, keys: KeyVectors.KeyVectorsClient)
     returns (output: seq<TestVectors.DecryptTestVector>)
     requires keys.ValidState()
     modifies keys.Modifies
@@ -113,7 +113,7 @@ module {:options "-functionSyntax:4"} TestManifests {
     expect !hasFailure;
   }
 
-  method ToEncryptTests(keys: KeyVectorsTypes.IKeyVectorsClient, encryptVectors: seq<TestVectors.EncryptTestVector>)
+  method ToEncryptTests(keys: KeyVectors.KeyVectorsClient, encryptVectors: seq<TestVectors.EncryptTestVector>)
     returns (output: Result<seq<TestVectors.EncryptTest>, string>)
     requires keys.ValidState()
     modifies keys.Modifies
