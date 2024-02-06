@@ -42,7 +42,7 @@ module {:options "-functionSyntax:4"} TestManifests {
   }
 
   method TestEncrypts(tests: seq<TestVectors.EncryptTest>, keys: KeyVectorsTypes.IKeyVectorsClient)
-    returns (output: seq<TestVectors.DecryptTest>)
+    returns (output: seq<TestVectors.DecryptTestVector>)
     requires keys.ValidState()
     modifies keys.Modifies
     ensures keys.ValidState()

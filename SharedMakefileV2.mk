@@ -252,6 +252,7 @@ _polymorph:
 	--namespace $($(namespace_var)) \
 	$(AWS_SDK_CMD) \
 	$(OUTPUT_LOCAL_SERVICE_$(SERVICE)) \
+	--patch-files-dir $(LIBRARY_ROOT)/codegen-patches \
 	";
 
 # Generates all target runtime code for all namespaces in this project.
