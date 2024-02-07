@@ -66,7 +66,7 @@ jobs:
           make build_java CORES=$CORES
 
       - name: Build ${{ matrix.library }} implementation in .NET
-        if:  matrix.language == 'net'
+        if: matrix.language == 'net'
         shell: bash
         working-directory: ./${{ matrix.library }}
         run: |
