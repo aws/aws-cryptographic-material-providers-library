@@ -55,6 +55,12 @@ jobs:
         with:
           dafny-version: ${{ inputs.dafny }}
 
+      - name: Copy over keys.json so that it is discoverable by the tests
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: copyKeysJSON
+          build-root-directory: ./TestVectorsAwsCryptographicMaterialProviders/runtimes/java
+
       - name: Setup Java 8
         uses: actions/setup-java@v3
         with:
