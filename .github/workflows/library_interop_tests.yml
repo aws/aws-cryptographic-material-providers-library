@@ -133,8 +133,8 @@ jobs:
           role-session-name: InterOpTests
 
       - uses: actions/checkout@v3
-      # The specification submodule is private so we don't have access, but we don't need
-      # it to verify the Dafny code. Instead we manually pull the submodule we DO need.
+      #  Not all submodules are needed.
+      # We manually pull the submodule we DO need.
       - run: git submodule update --init libraries
 
       # Set up runtimes
