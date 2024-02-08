@@ -357,6 +357,7 @@ format_net-check:
 
 ########################## Java targets
 
+# https://taskei.amazon.dev/tasks/CrypTool-5285
 build_java: transpile_java
 	./runtimes/java/gradlew -p runtimes/java build
 
