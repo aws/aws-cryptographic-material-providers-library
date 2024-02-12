@@ -30,7 +30,9 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   )
   datatype CreateKeyInput = | CreateKeyInput (
     nameonly branchKeyIdentifier: Option<string> := Option.None ,
-    nameonly encryptionContext: Option<EncryptionContext> := Option.None
+    nameonly encryptionContext: Option<EncryptionContext> := Option.None ,
+    nameonly arn: Option<ComAmazonawsKmsTypes.KeyIdType> := Option.None ,
+    nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
   datatype CreateKeyOutput = | CreateKeyOutput (
     nameonly branchKeyIdentifier: string
@@ -41,6 +43,9 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   datatype CreateKeyStoreOutput = | CreateKeyStoreOutput (
     nameonly tableArn: ComAmazonawsDynamodbTypes.TableArn
   )
+  datatype Discovery = | Discovery (
+
+                       )
   type EncryptionContext = map<Utf8Bytes, Utf8Bytes>
   datatype GetActiveBranchKeyInput = | GetActiveBranchKeyInput (
     nameonly branchKeyIdentifier: string
@@ -232,10 +237,13 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   )
   datatype KMSConfiguration =
     | kmsKeyArn(kmsKeyArn: ComAmazonawsKmsTypes.KeyIdType)
+    | discovery(discovery: Discovery)
   type Secret = seq<uint8>
   type Utf8Bytes = ValidUTF8Bytes
   datatype VersionKeyInput = | VersionKeyInput (
-    nameonly branchKeyIdentifier: string
+    nameonly branchKeyIdentifier: string ,
+    nameonly arn: Option<ComAmazonawsKmsTypes.KeyIdType> := Option.None ,
+    nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
   datatype VersionKeyOutput = | VersionKeyOutput (
 
