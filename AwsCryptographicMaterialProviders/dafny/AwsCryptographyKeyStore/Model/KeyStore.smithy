@@ -76,7 +76,7 @@ structure KeyStoreConfig {
   @javadoc("The DynamoDB table name that backs this Key Store.")
   ddbTableName: TableName,
   @required
-  @javadoc("The AWS KMS Key that protects this Key Store.")
+  @javadoc("Configures how the Key Store determines which KMS Key ARN to use")
   kmsConfiguration: KMSConfiguration,
   @required
   @javadoc("The logical name for this Key Store, which is cryptographically bound to the keys it holds.")
@@ -94,6 +94,10 @@ structure KeyStoreConfig {
   @javadoc("An identifier for this Key Store.")
   id: String,
   @javadoc("The AWS KMS grant tokens that are used when this Key Store calls to AWS KMS.")
+  @deprecated(
+    message: "A Static Grant Token List is not sensible and should be removed. Instead, pass Grant Tokens in the CreateKey and VersionKey operations.",
+    since: "1.3.0" // TODO : Postal Horn : verify release version is 1.3.0
+  )
   grantTokens: GrantTokenList,
   @javadoc("The DynamoDB client this Key Store uses to call Amazon DynamoDB.")
   ddbClient: DdbClientReference,
@@ -102,8 +106,16 @@ structure KeyStoreConfig {
 }
 
 union KMSConfiguration {
+  @javadoc("Key Store only uses this KMS Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown.")
+  // The Key Store (released on 2023-07-24) only allowed for this.
   kmsKeyArn: com.amazonaws.kms#KeyIdType
+
+  @javadoc("Key Store can use ANY KMS Key ARN. The VersionKey and CreateKey Operations will need the KMS Key ARN arguement set.")
+  // Creates a Discovery Key Store
+  discovery: Discovery
 }
+
+structure Discovery {}
 
 @javadoc("Returns the configuration information for a Key Store.")
 operation GetKeyStoreInfo {
@@ -123,9 +135,13 @@ structure GetKeyStoreInfoOutput {
   logicalKeyStoreName: String,
   @required
   @javadoc("The AWS KMS grant tokens that are used when this Key Store calls to AWS KMS.")
+  @deprecated(
+    message: "A Static Grant Token List is not sensible and should be removed. Instead, pass Grant Tokens in the CreateKey and VersionKey operations.",
+    since: "1.3.0" // TODO : Postal Horn : verify release version is 1.3.0
+  )
   grantTokens: GrantTokenList,
   @required
-  @javadoc("The AWS KMS Key that protects this Key Store.")
+  @javadoc("Configures how the Key Store determines which KMS Key ARN to use.")
   kmsConfiguration: KMSConfiguration
 }
 
@@ -165,8 +181,14 @@ structure CreateKeyInput {
   @javadoc("The identifier for the created Branch Key.")
   branchKeyIdentifier: String
 
-  @javadoc("Custom encryption context for the Branch Key.")
+  @javadoc("Custom encryption context for the Branch Key. Required if branchKeyIdentifier is set.")
   encryptionContext: EncryptionContext
+
+  @javadoc("KMS Key ARN to protect this Branch Key. Required if Key Store's kmsConfiguration is Discovery.")
+  arn: com.amazonaws.kms#KeyIdType
+
+  @javadoc("A List of Grant Tokens to include in KMS requests for Branch Key Creation. This augments the list on the Key Store.")
+  grantTokens: GrantTokenList
 }
 
 @javadoc("Outputs for Branch Key creation.")
@@ -195,6 +217,12 @@ structure VersionKeyInput {
   @required
   @javadoc("The identifier for the Branch Key to be versioned.")
   branchKeyIdentifier: String
+
+  @javadoc("KMS Key ARN to protect this Branch Key. Required if Key Store's kmsConfiguration is Discovery.")
+  arn: com.amazonaws.kms#KeyIdType
+
+  @javadoc("A List of Grant Tokens to include in KMS requests for Branch Key Versioning. This augments the list on the Key Store.")
+  grantTokens: GrantTokenList
 }
 
 @javadoc("Outputs for versioning a Branch Key.")
