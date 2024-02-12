@@ -87,6 +87,7 @@ generate_properties_file:
 	cd smithy-dafny/codegen/smithy-dafny-codegen-cli; \
 	./../gradlew run --args="\
 	--dafny-version ${DAFNY_VERSION} \
+	--library-root $(PROJECT_ROOT)/StandardLibrary \
 	--model $(PROJECT_ROOT)/StandardLibrary/Model \
 	--dependent-model $(PROJECT_ROOT)/StandardLibrary/Model \
 	--namespace aws.polymorph \
