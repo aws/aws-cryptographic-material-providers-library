@@ -3,6 +3,11 @@ name: Release MPL Libary
 
 on:
   workflow_dispatch:
+    inputs:
+      dafny:
+        description: "The Dafny version to use"
+        required: true
+        type: string
 
 jobs:
   getVersion:
