@@ -30,6 +30,10 @@ jobs:
           ]
         os: [macos-latest-large]
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./${{ matrix.library }}
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
       DOTNET_NOLOGO: 1
@@ -57,19 +61,15 @@ jobs:
           dotnet-version: "6.0.x"
 
       - name: Regenerate code using smithy-dafny
-        working-directory: ./${{ matrix.library }}
         run: |
           make polymorph_dafny
 
       - name: Check regenerated code against commited code
         if: inputs.diff-generated-code
-        working-directory: ./${{ matrix.library }}
         run: |
           make check_polymorph_diff
 
       - name: Verify ${{ matrix.library }} Dafny code
-        shell: bash
-        working-directory: ./${{ matrix.library }}
         run: |
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
@@ -77,7 +77,5 @@ jobs:
 
       - name: Check solver resource use
         if: success() || failure()
-        shell: bash
-        working-directory: ./${{ matrix.library }}
         run: |
           make dafny-reportgenerator

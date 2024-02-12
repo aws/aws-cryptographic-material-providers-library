@@ -26,6 +26,10 @@ jobs:
           ]
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./${{ matrix.library }}
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
       DOTNET_NOLOGO: 1
@@ -45,16 +49,12 @@ jobs:
           dafny-version: ${{ inputs.dafny }}
 
       - name: Check format of ${{ matrix.library }} Dafny code
-        shell: bash
-        working-directory: ./${{ matrix.library }}
         run: |
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
           make format_dafny-check
 
       - name: Check format of ${{ matrix.library }} Net code
-        shell: bash
-        working-directory: ./${{ matrix.library }}
         run: |
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
