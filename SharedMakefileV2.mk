@@ -274,6 +274,10 @@ _polymorph_code_gen: OUTPUT_DOTNET=\
 _polymorph_code_gen: OUTPUT_JAVA=--output-java $(LIBRARY_ROOT)/runtimes/java/src/main/smithy-generated
 _polymorph_code_gen: _polymorph
 
+# TODO: Suggest target for extracting diff
+check_polymorph_diff:
+	git diff --exit-code $(LIBRARY_ROOT) || (echo "ERROR: polymorph-generated code does not match the committed code - see above for diff." && exit 1)
+
 # Generates dafny code for all namespaces in this project
 .PHONY: polymorph_dafny
 polymorph_dafny:

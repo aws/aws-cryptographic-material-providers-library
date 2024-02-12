@@ -79,7 +79,7 @@ jobs:
         if: inputs.diff-generated-code
         working-directory: ./${{ matrix.library }}
         run: |
-          make check_polymorph_dotnet_diff
+          make check_polymorph_diff
 
       - name: Download Dependencies
         working-directory: ./${{ matrix.library }}

@@ -65,7 +65,7 @@ jobs:
         if: inputs.diff-generated-code
         working-directory: ./${{ matrix.library }}
         run: |
-          make check_polymorph_dafny_diff
+          make check_polymorph_diff
 
       - name: Verify ${{ matrix.library }} Dafny code
         shell: bash
