@@ -37,7 +37,8 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
   predicate ValidInternalConfig?(config: InternalConfig)
   {
     && DDB.IsValid_TableName(config.ddbTableName)
-    && KMS.IsValid_KeyIdType(config.kmsConfiguration.kmsKeyArn)
+    && (config.kmsConfiguration.kmsKeyArn? ==>
+          KMS.IsValid_KeyIdType(config.kmsConfiguration.kmsKeyArn))
     && config.kmsClient.ValidState()
     && config.ddbClient.ValidState()
     && config.ddbClient.Modifies !! config.kmsClient.Modifies
