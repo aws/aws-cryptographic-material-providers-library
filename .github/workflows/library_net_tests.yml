@@ -34,7 +34,6 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./${{ matrix.library }}
     permissions:
       id-token: write
       contents: read
@@ -70,25 +69,27 @@ jobs:
           dafny-version: ${{ inputs.dafny }}
 
       - name: Update top-level project.properties file
-        working-directory: .
         run: |
           make generate_properties_file
 
       - name: Regenerate code using smithy-dafny
+        working-directory: ./${{ matrix.library }}
         run: |
           make polymorph_dafny
           make polymorph_dotnet
 
       - name: Check regenerated code against commited code
         if: inputs.diff-generated-code
+        working-directory: ./${{ matrix.library }}
         run: |
           make check_polymorph_diff
 
       - name: Download Dependencies
+        working-directory: ./${{ matrix.library }}
         run: make setup_net
 
       - name: Compile ${{ matrix.library }} implementation
-        shell: bash
+        working-directory: ./${{ matrix.library }}
         run: |
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')

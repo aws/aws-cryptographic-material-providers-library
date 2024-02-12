@@ -41,7 +41,6 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./${{ matrix.library }}
     steps:
       - name: Support longpaths on Git checkout
         run: |
@@ -67,11 +66,11 @@ jobs:
           dafny-version: ${{ inputs.dafny }}
 
       - name: Update top-level project.properties file
-        working-directory: .
         run: |
           make generate_properties_file
 
       - name: Regenerate code using smithy-dafny
+        working-directory: ./${{ matrix.library }}
         run: |
           make polymorph_dafny
           make -C .. setup_prettier
@@ -79,6 +78,7 @@ jobs:
 
       - name: Check regenerated code against commited code
         if: inputs.diff-generated-code
+        working-directory: ./${{ matrix.library }}
         run: |
           make check_polymorph_diff
 
@@ -89,13 +89,14 @@ jobs:
           java-version: 8
 
       - name: Build ${{ matrix.library }} implementation
-        shell: bash
+        working-directory: ./${{ matrix.library }}
         run: |
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
           make build_java CORES=$CORES
 
       - name: Test ${{ matrix.library }}
+        working-directory: ./${{ matrix.library }}
         run: |
           make test_java
 
