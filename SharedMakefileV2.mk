@@ -258,11 +258,11 @@ _polymorph:
 # Generates all target runtime code for all namespaces in this project.
 .PHONY: polymorph_code_gen
 polymorph_code_gen:
-	for service in $(PROJECT_SERVICES) ; do \
+	set -e; for service in $(PROJECT_SERVICES) ; do \
 		export service_deps_var=SERVICE_DEPS_$${service} ; \
 		export namespace_var=SERVICE_NAMESPACE_$${service} ; \
 		export SERVICE=$${service} ; \
-		$(MAKE) _polymorph_code_gen || exit 1; \
+		$(MAKE) _polymorph_code_gen ; \
 	done
 
 _polymorph_code_gen: OUTPUT_DAFNY=\
@@ -281,11 +281,11 @@ check_polymorph_diff:
 # Generates dafny code for all namespaces in this project
 .PHONY: polymorph_dafny
 polymorph_dafny:
-	for service in $(PROJECT_SERVICES) ; do \
+	set -e; for service in $(PROJECT_SERVICES) ; do \
 		export service_deps_var=SERVICE_DEPS_$${service} ; \
 		export namespace_var=SERVICE_NAMESPACE_$${service} ; \
 		export SERVICE=$${service} ; \
-		$(MAKE) _polymorph_dafny || exit 1; \
+		$(MAKE) _polymorph_dafny ; \
 	done
 
 _polymorph_dafny: OUTPUT_DAFNY=\
@@ -294,41 +294,32 @@ _polymorph_dafny: INPUT_DAFNY=\
 	--include-dafny $(PROJECT_ROOT)/$(STD_LIBRARY)/src/Index.dfy
 _polymorph_dafny: _polymorph
 
-check_polymorph_dafny_diff:
-	git diff --exit-code $(LIBRARY_ROOT) || (echo "ERROR" && exit 1)
-
 # Generates dotnet code for all namespaces in this project
 .PHONY: polymorph_dotnet
 polymorph_dotnet:
-	for service in $(PROJECT_SERVICES) ; do \
+	set -e; for service in $(PROJECT_SERVICES) ; do \
 		export service_deps_var=SERVICE_DEPS_$${service} ; \
 		export namespace_var=SERVICE_NAMESPACE_$${service} ; \
 		export SERVICE=$${service} ; \
-		$(MAKE) _polymorph_dotnet || exit 1; \
+		$(MAKE) _polymorph_dotnet ; \
 	done
 
 _polymorph_dotnet: OUTPUT_DOTNET=\
     $(if $(DIR_STRUCTURE_V2), --output-dotnet $(LIBRARY_ROOT)/runtimes/net/Generated/$(SERVICE)/, --output-dotnet $(LIBRARY_ROOT)/runtimes/net/Generated/)
 _polymorph_dotnet: _polymorph
 
-check_polymorph_dotnet_diff:
-	git diff --exit-code $(LIBRARY_ROOT)/runtimes/net/Generated || (echo "ERROR" && exit 1)
-
 # Generates java code for all namespaces in this project
 .PHONY: polymorph_java
 polymorph_java:
-	for service in $(PROJECT_SERVICES) ; do \
+	set -e; for service in $(PROJECT_SERVICES) ; do \
 		export service_deps_var=SERVICE_DEPS_$${service} ; \
 		export namespace_var=SERVICE_NAMESPACE_$${service} ; \
 		export SERVICE=$${service} ; \
-		$(MAKE) _polymorph_java || exit 1; \
+		$(MAKE) _polymorph_java ; \
 	done
 
 _polymorph_java: OUTPUT_JAVA=--output-java $(LIBRARY_ROOT)/runtimes/java/src/main/smithy-generated
 _polymorph_java: _polymorph
-
-check_polymorph_java_diff:
-	git diff --exit-code $(LIBRARY_ROOT)/runtimes/java/src/main/smithy-generated || (echo "ERROR" && exit 1)
 
 ########################## .NET targets
 
