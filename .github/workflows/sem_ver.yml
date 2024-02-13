@@ -1,5 +1,5 @@
 # This workflow runs semantic release in dry run mode
-name: Semantic Release Dry Run Mode
+name: Semantic Release Test Installation
 
 on:
   pull_request:
