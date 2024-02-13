@@ -111,12 +111,58 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       && input.branchKeyIdentifier.Some?
       && input.encryptionContext.None?
       ==> output.Failure?
+
+    // If a KMS Key ARN is passed, 
+    // it MUST be valid.
+    ensures
+      && input.arn.Some?
+      && output.Success?
+      ==> KMS.IsValid_KeyIdType(input.arn.value)
+      
+    // If the KeyStore's kmsConfiguration is Discovery,
+    // CreateKey requires an ARN
+    ensures
+      && config.kmsConfiguration.discovery?
+      && input.arn.None?
+      ==> output.Failure?
+
+    // If the KeyStore's kmsConfiguration is a KMS Key ARN,
+    // and CreateKey is provided an ARN,
+    // the provided ARN and Key Store's configured
+    // ARN MUST be the same.
+    ensures
+      && config.kmsConfiguration.kmsKeyArn?
+      && input.arn.Some?
+      && config.kmsConfiguration.kmsKeyArn != input.arn.value
+      ==> output.Failure?
   {
 
     :- Need(input.branchKeyIdentifier.Some? ==>
               && input.encryptionContext.Some?
               && 0 < |input.encryptionContext.value|,
-            Types.KeyStoreException(message := "Custom branch key id requires custom encryption context."));
+              Types.KeyStoreException(message := "Custom branch key id requires custom encryption context."));
+
+    :- Need(
+      config.kmsConfiguration.discovery? ==> input.arn.Some?,
+      Types.KeyStoreException(
+        message := "Key Store's kmsConfiguration is Discovery, a KMS Key ARN is required to Create a Branch Key."
+      )
+    );
+
+    :- Need(
+      config.kmsConfiguration.kmsKeyArn? && input.arn.Some? ==>
+      input.arn.value == config.kmsConfiguration.kmsKeyArn,
+      Types.KeyStoreException(
+        message := "Key Store's kmsConfiguration's KMS Key ARN differs from KMS Key ARN in request."
+      )
+    );
+
+    :- Need(
+      input.arn.Some? ==> KMS.IsValid_KeyIdType(input.arn.value),
+      Types.KeyStoreException(
+        message := "KMS Key ARN is invalid."
+      )
+    );
 
     var branchKeyIdentifier: string;
 
@@ -167,7 +213,8 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
                 && encoded.Success?
                 && i.2 == encoded.value
            ,
-            Types.KeyStoreException( message :="Unable to encode string"));
+           // TODO Postal Horn: Improve this error message
+           Types.KeyStoreException( message :="Unable to encode string"));
 
     output := CreateKeys.CreateBranchAndBeaconKeys(
       branchKeyIdentifier,

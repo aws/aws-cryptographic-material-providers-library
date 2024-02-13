@@ -27,6 +27,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
   //#
   //# - `branchKeyId`: The identifier
   //# - `encryptionContext`: Additional encryption context to bind to the created keys
+  //  - `kmsKeyArn`: KMS key ARN used to create keys
   method CreateBranchAndBeaconKeys(
     branchKeyIdentifier: string,
     customEncryptionContext: map<string, string>,
