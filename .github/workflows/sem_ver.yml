@@ -31,3 +31,9 @@ jobs:
         uses: aws-actions/aws-secretsmanager-get-secrets@v2
         with:
           secret-ids: arn:aws:secretsmanager:us-west-2:587316601012:secret:Github/aws-crypto-tools-ci-bot-AGUB3U
+    
+      # Log in as the CI Bot
+      - name: Log in as CI Bot
+        run: |
+            gh auth login --with-token < GITHUB_AWS_CRYPTO_TOOLS_CI_BOT
+            gh auth status
