@@ -53,5 +53,4 @@ jobs:
             ref: main
       - run: |
             make setup_semantic_release
-            git checkout origin main 
             make dry_run_semantic_release
