@@ -1,5 +1,5 @@
 # This workflow runs semantic release in dry run mode
-name: Library format check
+name: Semantic Release Dry Run Mode
 
 on:
   pull_request:
