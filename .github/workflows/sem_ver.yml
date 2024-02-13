@@ -43,12 +43,10 @@ jobs:
         with:
           secret-ids: Github/aws-crypto-tools-ci-bot
           parse-json-secrets: true
-    
+
       # Log in as the CI Bot
-    #   - name: Log in as CI Bot
-    #     run: |
-    #         gh auth status
-    #         echo $GITHUB_AWS_CRYPTO_TOOLS_CI_BOT > token.txt
-    #         gh auth login --with-token < token.txt 
-    #         gh auth status
+      - name: Log in as CI Bot
+        run: |
+            gh auth login --with-token < echo $GITHUB_AWS_CRYPTO_TOOLS_CI_BOT_PERSONAL_ACCESS_TOKEN__NEW_TOKEN_FORMAT_ 
+            gh auth status
 
