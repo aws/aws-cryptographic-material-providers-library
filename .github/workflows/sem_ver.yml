@@ -31,16 +31,18 @@ jobs:
         with: 
             node-version: 20
 
-      - name: Run Semantic Release in dry run mode
-        run: |
-            make setup_semantic_release
-            make dry_run_semantic_release
+    #   - name: Run Semantic Release in dry run mode
+    #     run: |
+    #         make setup_semantic_release
+    #         git checkout -b dry
+    #         make dry_run_semantic_release
 
       # Use AWS Secrets Manger GHA to retrieve CI Bot Creds
       - name: Get CI Bot Creds Secret
         uses: aws-actions/aws-secretsmanager-get-secrets@v2
         with:
-          secret-ids: Github/aws-crypto-tools-ci-bot:ESDK Release Token
+          secret-ids: Github/aws-crypto-tools-ci-bot
+          parse-json-secrets: true
     
       # Log in as the CI Bot
     #   - name: Log in as CI Bot
