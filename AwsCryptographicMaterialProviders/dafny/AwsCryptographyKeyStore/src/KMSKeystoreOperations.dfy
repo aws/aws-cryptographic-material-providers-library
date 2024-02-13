@@ -13,28 +13,34 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   import UTF8
   import Structure
 
-
-  predicate AttemptKmsOperation?(kmsConfiguration: Types.KMSConfiguration, encryptionContext: Structure.BranchKeyContext)
+  // TODO Postal Horn: REMOVE, do not ship with this!!!
+  predicate AttemptKmsOperationOLD?(kmsConfiguration: Types.KMSConfiguration, encryptionContext: Structure.BranchKeyContext)
   {
     match kmsConfiguration
     case kmsKeyArn(arn) => arn == encryptionContext[Structure.KMS_FIELD]
+    case discovery => true
+  }
+  
+  predicate AttemptKmsOperation?(arn: KMS.KeyIdType, encryptionContext: Structure.BranchKeyContext)
+  {
+    arn == encryptionContext[Structure.KMS_FIELD]
   }
 
   method GenerateKey(
     encryptionContext: Structure.BranchKeyContext,
-    kmsConfiguration: Types.KMSConfiguration,
+    kmsKeyArn: KMS.KeyIdType,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
   )
     returns (res: Result<KMS.GenerateDataKeyWithoutPlaintextResponse, Types.Error>)
-    requires AttemptKmsOperation?(kmsConfiguration, encryptionContext)
+    requires AttemptKmsOperation?(kmsKeyArn, encryptionContext)
     requires kmsClient.ValidState()
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
     ensures
       && |kmsClient.History.GenerateDataKeyWithoutPlaintext| == |old(kmsClient.History.GenerateDataKeyWithoutPlaintext)| + 1
       && KMS.GenerateDataKeyWithoutPlaintextRequest(
-           KeyId := kmsConfiguration.kmsKeyArn,
+           KeyId := kmsKeyArn,
            EncryptionContext := Some(encryptionContext),
            KeySpec := None,
            NumberOfBytes := Some(32),
@@ -53,7 +59,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
               && kmsOperationOutput.value == res.value
   {
     var generatorRequest := KMS.GenerateDataKeyWithoutPlaintextRequest(
-      KeyId := kmsConfiguration.kmsKeyArn,
+      KeyId := kmsKeyArn,
       EncryptionContext := Some(encryptionContext),
       KeySpec := None,
       NumberOfBytes := Some(32),
@@ -84,7 +90,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ciphertext: seq<uint8>,
     sourceEncryptionContext: Structure.BranchKeyContext,
     destinationEncryptionContext: Structure.BranchKeyContext,
-    kmsConfiguration: Types.KMSConfiguration,
+    kmsKeyArn: KMS.KeyIdType,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
   )
@@ -98,7 +104,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
            && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in sourceEncryptionContext
            && destinationEncryptionContext == Structure.ActiveBranchKeyEncryptionContext(sourceEncryptionContext)
          )
-    requires AttemptKmsOperation?(kmsConfiguration, destinationEncryptionContext)
+    requires AttemptKmsOperation?(kmsKeyArn, destinationEncryptionContext)
     requires kmsClient.ValidState()
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
@@ -108,8 +114,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && KMS.ReEncryptRequest(
            CiphertextBlob := ciphertext,
            SourceEncryptionContext := Some(sourceEncryptionContext),
-           SourceKeyId := Some(kmsConfiguration.kmsKeyArn),
-           DestinationKeyId := kmsConfiguration.kmsKeyArn,
+           SourceKeyId := Some(kmsKeyArn),
+           DestinationKeyId := kmsKeyArn,
            DestinationEncryptionContext := Some(destinationEncryptionContext),
            SourceEncryptionAlgorithm := None,
            DestinationEncryptionAlgorithm := None,
@@ -123,8 +129,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
               && res.value.CiphertextBlob.Some?
               && res.value.SourceKeyId.Some?
               && res.value.KeyId.Some?
-              && res.value.SourceKeyId.value == kmsConfiguration.kmsKeyArn
-              && res.value.KeyId.value == kmsConfiguration.kmsKeyArn
+              && res.value.SourceKeyId.value == kmsKeyArn
+              && res.value.KeyId.value == kmsKeyArn
               && KMS.IsValid_CiphertextType(res.value.CiphertextBlob.value)
               && var kmsOperationOutput := Seq.Last(kmsClient.History.ReEncrypt).output;
               && kmsOperationOutput.Success?
@@ -133,8 +139,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     var reEncryptRequest := KMS.ReEncryptRequest(
       CiphertextBlob := ciphertext,
       SourceEncryptionContext := Some(sourceEncryptionContext),
-      SourceKeyId := Some(kmsConfiguration.kmsKeyArn),
-      DestinationKeyId := kmsConfiguration.kmsKeyArn,
+      SourceKeyId := Some(kmsKeyArn),
+      DestinationKeyId := kmsKeyArn,
       DestinationEncryptionContext := Some(destinationEncryptionContext),
       SourceEncryptionAlgorithm := None,
       DestinationEncryptionAlgorithm := None,
@@ -148,8 +154,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     :- Need(
       && reEncryptResponse.SourceKeyId.Some?
       && reEncryptResponse.KeyId.Some?
-      && reEncryptResponse.SourceKeyId.value == kmsConfiguration.kmsKeyArn
-      && reEncryptResponse.KeyId.value == kmsConfiguration.kmsKeyArn,
+      && reEncryptResponse.SourceKeyId.value == kmsKeyArn
+      && reEncryptResponse.KeyId.value == kmsKeyArn,
       Types.KeyStoreException(
         message := "Invalid response from KMS GenerateDataKey:: Invalid Key Id")
     );
@@ -167,12 +173,12 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   method DecryptKey(
     encryptionContext: Structure.BranchKeyContext,
     item: Structure.BranchKeyItem,
-    kmsConfiguration: Types.KMSConfiguration,
+    kmsKeyArn: KMS.KeyIdType,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
   )
     returns (output: Result<KMS.DecryptResponse, Types.Error>)
-    requires AttemptKmsOperation?(kmsConfiguration, encryptionContext)
+    requires AttemptKmsOperation?(kmsKeyArn, encryptionContext)
     requires item == Structure.ToAttributeMap(encryptionContext, item[Structure.BRANCH_KEY_FIELD].B)
 
     requires kmsClient.ValidState()
@@ -185,7 +191,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
            CiphertextBlob := item[Structure.BRANCH_KEY_FIELD].B,
            EncryptionContext := Some(encryptionContext),
            GrantTokens := Some(grantTokens),
-           KeyId := Some(kmsConfiguration.kmsKeyArn),
+           KeyId := Some(kmsKeyArn),
            EncryptionAlgorithm := None
          )
          == Seq.Last(kmsClient.History.Decrypt).input
@@ -202,7 +208,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
         CiphertextBlob := item[Structure.BRANCH_KEY_FIELD].B,
         EncryptionContext := Some(encryptionContext),
         GrantTokens := Some(grantTokens),
-        KeyId := Some(kmsConfiguration.kmsKeyArn),
+        KeyId := Some(kmsKeyArn),
         EncryptionAlgorithm := None
       )
     );
