@@ -25,6 +25,11 @@ jobs:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::587316601012:role/GitHub-CI-CI-Bot-Credential-Access-Role-us-west-2
           role-session-name: CI_Bot_Release
+    
+      - name: Run Semantic Release in dry run mode
+        run: |
+            make setup_semantic_release
+            make dry_run_semantic_release
 
       # Use AWS Secrets Manger GHA to retrieve CI Bot Creds
       - name: Get CI Bot Creds Secret
@@ -39,3 +44,4 @@ jobs:
     #         echo $GITHUB_AWS_CRYPTO_TOOLS_CI_BOT > token.txt
     #         gh auth login --with-token < token.txt 
     #         gh auth status
+
