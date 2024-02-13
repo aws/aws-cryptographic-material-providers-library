@@ -1,0 +1,24 @@
+diff --git a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
+index 9084fae1..880ddcae 100644
+--- a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
++++ b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
+@@ -4179,16 +4179,9 @@ public class ToDafny {
+   }
+ 
+   public static Error Error(KmsException nativeValue) {
+-    Option<DafnySequence<? extends Character>> message;
+-    message =
+-      Objects.nonNull(nativeValue.getMessage())
+-        ? Option.create_Some(
+-          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+-            nativeValue.getMessage()
+-          )
+-        )
+-        : Option.create_None();
+-    return new Error_Opaque(message);
++    // BEGIN MANUAL EDIT
++    return new Error_Opaque(nativeValue);
++    // END MANUAL EDIT
+   }
+ 
+   public static IKMSClient TrentService(KmsClient nativeValue) {
