@@ -26,6 +26,11 @@ jobs:
           role-to-assume: arn:aws:iam::587316601012:role/GitHub-CI-CI-Bot-Credential-Access-Role-us-west-2
           role-session-name: CI_Bot_Release
     
+      - name: Upgrade Node
+        uses: actions/setup-node@v4
+        with: 
+            node-version: 20
+
       - name: Run Semantic Release in dry run mode
         run: |
             make setup_semantic_release
