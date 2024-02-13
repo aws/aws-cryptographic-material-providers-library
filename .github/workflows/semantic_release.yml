@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       dry-run:
-        description: "Are you releasing a new version? (Y/n)"
+        description: "Are you releasing a new version? (y/n)"
         required: true
         type: string
 
@@ -65,6 +65,6 @@ jobs:
 
       # Run semantic release if input matches
       - name: Run Semantic Release
-        if: ${{inputs.dry-run == 'Y'}}
+        if: ${{inputs.dry-run == 'y'}}
         run: |
           make run_semantic_release
