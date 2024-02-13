@@ -35,8 +35,6 @@ jobs:
       # Log in as the CI Bot
       - name: Log in as CI Bot
         run: |
-            git config --global user.name "aws-crypto-tools-ci-bot"
-            git config --global user.email "no-reply@noemail.local"
             echo $GITHUB_AWS_CRYPTO_TOOLS_CI_BOT > token.txt
             gh auth login --with-token < token.txt 
             gh auth status
