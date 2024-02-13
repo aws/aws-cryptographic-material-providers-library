@@ -47,5 +47,5 @@ jobs:
       # Log in as the CI Bot
       - name: Log in as CI Bot
         run: |
-            gh auth login --with-token < echo "${{env.GITHUB_AWS_CRYPTO_TOOLS_CI_BOT_PERSONAL_ACCESS_TOKEN__NEW_TOKEN_FORMAT_}}"
+            gh auth login --with-token < "${{env.GITHUB_AWS_CRYPTO_TOOLS_CI_BOT_PERSONAL_ACCESS_TOKEN__NEW_TOKEN_FORMAT_}}"
             gh auth status
