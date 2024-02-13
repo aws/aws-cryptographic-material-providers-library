@@ -47,7 +47,7 @@ jobs:
           gh auth status
 
       # Test to see if we can setup semantic release
-      - name: Run Semantic Release in dry run mode
+      - name: Test Semantic Release Installation
         uses: actions/checkout@v4
         with:
           ref: main
