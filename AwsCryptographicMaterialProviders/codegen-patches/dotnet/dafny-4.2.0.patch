@@ -1,0 +1,30 @@
+diff --git b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographicMaterialProviders/TypeConversion.cs a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographicMaterialProviders/TypeConversion.cs
+index 1a26a2c7..b6a4e7be 100644
+--- b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographicMaterialProviders/TypeConversion.cs
++++ a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographicMaterialProviders/TypeConversion.cs
+@@ -3432,7 +3432,9 @@ namespace AWS.Cryptography.MaterialProviders
+             dafnyVal._AwsCryptographyPrimitives
+           );
+         case software.amazon.cryptography.materialproviders.internaldafny.types.Error_ComAmazonawsKms dafnyVal:
+-          return Com.Amazonaws.KMS.TypeConversion.FromDafny_CommonError(
++          // BEGIN MANUAL EDIT
++          return Com.Amazonaws.Kms.TypeConversion.FromDafny_CommonError(
++            // END MANUAL EDIT
+             dafnyVal._ComAmazonawsKms
+           );
+         case software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographyKeyStore dafnyVal:
+diff --git b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/TypeConversion.cs a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/TypeConversion.cs
+index f8d94708..423e26c3 100644
+--- b/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/TypeConversion.cs
++++ a/AwsCryptographicMaterialProviders/runtimes/net/Generated/AwsCryptographyKeyStore/TypeConversion.cs
+@@ -625,7 +625,9 @@ namespace AWS.Cryptography.KeyStore
+       switch (value)
+       {
+         case software.amazon.cryptography.keystore.internaldafny.types.Error_ComAmazonawsKms dafnyVal:
+-          return Com.Amazonaws.KMS.TypeConversion.FromDafny_CommonError(
++          // BEGIN MANUAL EDIT
++          return Com.Amazonaws.Kms.TypeConversion.FromDafny_CommonError(
++          // END MANUAL EDIT
+             dafnyVal._ComAmazonawsKms
+           );
+         case software.amazon.cryptography.keystore.internaldafny.types.Error_ComAmazonawsDynamodb dafnyVal:
