@@ -50,5 +50,5 @@ jobs:
       - name: Run Semantic Release in dry run mode
         run: |
             make setup_semantic_release
-            git checkout main 
+            git checkout origin main 
             make dry_run_semantic_release
