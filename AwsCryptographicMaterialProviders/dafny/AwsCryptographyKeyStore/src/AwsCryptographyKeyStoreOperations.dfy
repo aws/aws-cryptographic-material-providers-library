@@ -112,13 +112,13 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       && input.encryptionContext.None?
       ==> output.Failure?
 
-    // If a KMS Key ARN is passed, 
+    // If a KMS Key ARN is passed,
     // it MUST be valid.
     ensures
       && input.arn.Some?
       && output.Success?
       ==> KMS.IsValid_KeyIdType(input.arn.value)
-      
+
     // If the KeyStore's kmsConfiguration is Discovery,
     // CreateKey requires an ARN
     ensures
@@ -140,7 +140,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
     :- Need(input.branchKeyIdentifier.Some? ==>
               && input.encryptionContext.Some?
               && 0 < |input.encryptionContext.value|,
-              Types.KeyStoreException(message := "Custom branch key id requires custom encryption context."));
+            Types.KeyStoreException(message := "Custom branch key id requires custom encryption context."));
 
     :- Need(
       config.kmsConfiguration.discovery? ==> input.arn.Some?,
@@ -151,7 +151,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
 
     :- Need(
       config.kmsConfiguration.kmsKeyArn? && input.arn.Some? ==>
-      input.arn.value == config.kmsConfiguration.kmsKeyArn,
+        input.arn.value == config.kmsConfiguration.kmsKeyArn,
       Types.KeyStoreException(
         message := "Key Store's kmsConfiguration's KMS Key ARN differs from KMS Key ARN in request."
       )
@@ -213,8 +213,8 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
                 && encoded.Success?
                 && i.2 == encoded.value
            ,
-           // TODO Postal Horn: Improve this error message
-           Types.KeyStoreException( message :="Unable to encode string"));
+            // TODO Postal Horn: Improve this error message
+            Types.KeyStoreException( message :="Unable to encode string"));
 
     output := CreateKeys.CreateBranchAndBeaconKeys(
       branchKeyIdentifier,
