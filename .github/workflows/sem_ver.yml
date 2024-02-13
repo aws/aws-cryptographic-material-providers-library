@@ -1,4 +1,4 @@
-# This workflow runs semantic release in dry run mode
+# This workflow tests the installation of semantic release
 name: Semantic Release Test Installation
 
 on:
