@@ -72,7 +72,6 @@ jobs:
       - name: Regenerate code using smithy-dafny
         working-directory: ./${{ matrix.library }}
         run: |
-          make polymorph_dafny
           make -C .. setup_prettier
           make polymorph_java
 

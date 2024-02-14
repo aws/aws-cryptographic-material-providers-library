@@ -75,7 +75,6 @@ jobs:
       - name: Regenerate code using smithy-dafny
         working-directory: ./${{ matrix.library }}
         run: |
-          make polymorph_dafny
           make polymorph_dotnet
 
       - name: Check regenerated code against commited code
