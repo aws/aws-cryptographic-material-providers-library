@@ -3386,10 +3386,6 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
     {
       switch (value)
       {
-        case software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographyPrimitives dafnyVal:
-          return AWS.Cryptography.Primitives.TypeConversion.FromDafny_CommonError(
-            dafnyVal._AwsCryptographyPrimitives
-          );
         case software.amazon.cryptography.materialproviders.internaldafny.types.Error_ComAmazonawsDynamodb dafnyVal:
           return Com.Amazonaws.Dynamodb.TypeConversion.FromDafny_CommonError(
             dafnyVal._ComAmazonawsDynamodb
@@ -3403,6 +3399,10 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
         case software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographyKeyStore dafnyVal:
           return AWS.Cryptography.KeyStore.TypeConversion.FromDafny_CommonError(
             dafnyVal._AwsCryptographyKeyStore
+          );
+        case software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographyPrimitives dafnyVal:
+          return AWS.Cryptography.Primitives.TypeConversion.FromDafny_CommonError(
+            dafnyVal._AwsCryptographyPrimitives
           );
         case software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException dafnyVal:
           return FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S42_AwsCryptographicMaterialProvidersException(dafnyVal);
