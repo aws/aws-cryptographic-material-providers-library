@@ -23,7 +23,38 @@ Resources:
           - Effect: Allow
             Action:
               - secretsmanager:GetSecretValue
-            Resource: "arn:aws:secretsmanager:us-west-2:587316601012:secret:Github/aws-crypto-tools-ci-bot-AGUB3U"
+            Resource: 
+              - "arn:aws:secretsmanager:us-west-2:587316601012:secret:Github/aws-crypto-tools-ci-bot-AGUB3U"
+              - "arn:aws:secretsmanager:us-west-2:587316601012:secret:Maven-GPG-Keys-Release-Credentials-WgJanS"
+              - "arn:aws:secretsmanager:us-west-2:587316601012:secret:Maven-GPG-Keys-Release-haLIjZ"
+  
+  CodeArtifactAccess:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      Description: "Allow access to AWS CodeArtifact repos"
+      ManagedPolicyName: !Sub "CryptoTools-CodeArtifact-${ProjectName}"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - codeartifact:ReadFromRepository
+              - codeartifact:PutPackageMetadata
+            Resource: 
+              - "arn:aws:codeartifact:us-east-1:587316601012:repository/crypto-tools-internal/java-mpl-staging"
+              - "arn:aws:codeartifact:us-east-1:587316601012:repository/crypto-tools-internal/mpl-net-staging"
+              - "arn:aws:codeartifact:us-east-1:587316601012:repository/crypto-tools-internal/esdk-net-staging"
+              - "arn:aws:codeartifact:us-east-1:587316601012:repository/crypto-tools-internal/java-dbesdk-ddb-staging"
+              - "arn:aws:codeartifact:us-east-1:587316601012:repository/crypto-tools-internal/dbesdk-net-staging"
+          - Effect: Allow
+            Action:
+              - codeartifact:PublishPackageVersion
+            Resource: 
+              - "arn:aws:codeartifact:us-east-1:587316601012:package/crypto-tools-internal/java-mpl-staging/*"
+              - "arn:aws:codeartifact:us-east-1:587316601012:package/crypto-tools-internal/mpl-net-staging/*"
+              - "arn:aws:codeartifact:us-east-1:587316601012:package/crypto-tools-internal/esdk-net-staging/*"
+              - "arn:aws:codeartifact:us-east-1:587316601012:package/crypto-tools-internal/java-dbesdk-ddb-staging/*"
+              - "arn:aws:codeartifact:us-east-1:587316601012:package/crypto-tools-internal/dbesdk-net-staging/*"
 
   GitHubCIRole:
     Type: "AWS::IAM::Role"
@@ -32,6 +63,7 @@ Resources:
       Description: "Allow the Danfy repositories read access to CI Bot creds through GitHub OIDC"
       ManagedPolicyArns:
         - !Ref GetCIBotCredsPolicy
+        - !Ref CodeArtifactAccess
       AssumeRolePolicyDocument: !Sub |
         {
           "Version": "2012-10-17",   

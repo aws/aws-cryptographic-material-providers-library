@@ -37,7 +37,7 @@ jobs:
           role-session-name: CI_Bot_Release
 
       # Use AWS Secrets Manger GHA to retrieve CI Bot Creds
-      - name: Get CI Bot Creds Secret
-        uses: aws-actions/aws-secretsmanager-get-secrets@v2
-        with:
-          secret-ids: arn:aws:secretsmanager:us-west-2:587316601012:secret:Github/aws-crypto-tools-ci-bot-AGUB3U
+      # - name: Get CI Bot Creds Secret
+      #   uses: aws-actions/aws-secretsmanager-get-secrets@v2
+      #   with:
+      #     secret-ids: arn:aws:secretsmanager:us-west-2:587316601012:secret:Github/aws-crypto-tools-ci-bot-AGUB3U
