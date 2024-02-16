@@ -10,11 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       
       - name: Get Files changed
         shell: bash
         run:
-          $FILE_DIFF=$(git diff --name-only HEAD);
+          FILE_DIFF=$(git diff --name-only HEAD);
           echo $FILE_DIFF
 
       
