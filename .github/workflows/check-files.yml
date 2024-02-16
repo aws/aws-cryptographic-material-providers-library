@@ -18,6 +18,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run:
-          gh pr diff
+          git diff --name-only origin/main origin/${GITHUB_HEAD_REF}
 
       
