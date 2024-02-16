@@ -22,7 +22,7 @@ jobs:
       
       - name: Check if approver count is met for modified files and that they are CODEOWNERS
         run: |
-          $GITHUB_ENV
+          $FILES
 
 
       
