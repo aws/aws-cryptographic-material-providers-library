@@ -18,6 +18,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run:
-          git diff --name-only origin/main origin/${GITHUB_HEAD_REF}
+          FILES=$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF})
+          echo $FILES
 
       
