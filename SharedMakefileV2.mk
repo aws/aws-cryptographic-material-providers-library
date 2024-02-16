@@ -243,6 +243,7 @@ _polymorph:
 	./../gradlew run --args="\
 	--dafny-version $(DAFNY_VERSION) \
 	--library-root $(LIBRARY_ROOT) \
+	--patch-files-dir $(if $(DIR_STRUCTURE_V2),$(LIBRARY_ROOT)/codegen-patches/$(SERVICE),$(LIBRARY_ROOT)/codegen-patches) \
 	$(OUTPUT_DAFNY) \
 	$(INPUT_DAFNY) \
 	$(OUTPUT_JAVA) \
@@ -253,6 +254,7 @@ _polymorph:
 	--namespace $($(namespace_var)) \
 	$(AWS_SDK_CMD) \
 	$(OUTPUT_LOCAL_SERVICE_$(SERVICE)) \
+	$(POLYMORPH_OPTIONS) \
 	";
 
 # Generates all target runtime code for all namespaces in this project.
