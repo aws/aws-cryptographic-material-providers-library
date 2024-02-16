@@ -16,7 +16,7 @@ jobs:
       - name: Get Files changed
         shell: bash
         run:
-          FILE_DIFF=$(git diff --name-only origin/HEAD);
+          FILE_DIFF=$(git diff --name-only main);
           echo $FILE_DIFF
 
       
