@@ -17,6 +17,12 @@ Parameters:
     Type: String
     Description: The https GitHub URL for the project
     Default: "https://github.com/aws/aws-cryptographic-material-providers-library.git"
+  NumberOfBuildsInBatch:
+    Type: Number
+    MaxValue: 100
+    MinValue: 1
+    Default: 16
+    Description: The number of builds you expect to run in a batch
 Metadata:
   "AWS::CloudFormation::Interface":
     ParameterGroups:
@@ -31,7 +37,7 @@ Resources:
     Type: "AWS::CodeBuild::Project"
     Properties:
       Name: !Sub "${ProjectName}-Release"
-      Description: !Sub "CodeBuild project for ${ProjectName}" 
+      Description: !Sub "CodeBuild project for ${ProjectName}"
       Source:
         Location: !Ref SourceLocation
         BuildSpec: codebuild/release/release.yml
