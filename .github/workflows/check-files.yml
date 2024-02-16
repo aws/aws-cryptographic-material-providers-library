@@ -1,0 +1,20 @@
+# This workflow checks if specfic files were modified,
+# if they were they require more than one approval from CODEOWNERS
+name: Check Files
+
+on:
+  pull_request:
+
+jobs:
+  checkFiles:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Get Files changed
+        shell: bash
+        run:
+          export $FILE_DIFF=$(git diff --name-only origin/HEAD)
+          echo $FILE_DIFF
+
+      
