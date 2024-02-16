@@ -15,9 +15,9 @@ jobs:
       
       - name: Get Files changed
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run:
           gh pr diff
-          FILE_DIFF=$(git diff --name-only main);
-          echo $FILE_DIFF
 
       
