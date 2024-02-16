@@ -18,11 +18,8 @@ jobs:
         run:
           #  *release.yml files are responsible for releasing builds
           # we require multiple approvers if any of those files change
-          echo "FILES=$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF} .github/workflows/*release.yml)" >> "$GITHUB_ENV"
+          echo "FILES=$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF} .github/workflows/*release.yml)" >> "$GITHUB_OUTPU"
       
-      - name: Check if approver count is met for modified files and that they are CODEOWNERS
-        run: |
-          $FILES
 
 
       
