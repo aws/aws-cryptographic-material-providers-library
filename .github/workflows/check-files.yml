@@ -24,6 +24,6 @@ jobs:
       - name: Check if FILES is not empty
         env:
           FILES: ${{ steps.file-changes.outputs.FILES }}
-        if: ${{env.FILES == ' '}}
+        if: ${{env.FILES == ''}}
         run:
           echo "empty string"
