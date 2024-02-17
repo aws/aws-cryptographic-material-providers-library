@@ -18,7 +18,8 @@ jobs:
         run:
           #  *release.yml files are responsible for releasing builds
           # we require multiple approvers if any of those files change
-          echo "FILES=$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF} .github/workflows/*release.yml) | tr '\n' ' ' ">> "$GITHUB_OUTPUT"
+          FILES=$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF} .github/workflows/*release.yml)
+          echo "MOD=($FILES | tr '\n' ' ')" >> "$GTIHUB_OUTPUT"
       
 
 
