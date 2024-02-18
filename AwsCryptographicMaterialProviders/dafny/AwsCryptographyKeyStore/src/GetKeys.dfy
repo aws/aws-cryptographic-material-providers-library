@@ -62,12 +62,15 @@ module GetKeys {
               && activeItem[Structure.HIERARCHY_VERSION].N?
               && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD in activeItem
 
-              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, Structure.ToBranchKeyContext(activeItem, logicalKeyStoreName))
+              && KMSKeystoreOperations.AttemptKmsOperationOLD?(kmsConfiguration, Structure.ToBranchKeyContext(activeItem, logicalKeyStoreName))
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
               //= type=implication
               //# The operation MUST decrypt the branch key according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
+              // TODO Postal Horn: Revise the spec below to ensure
+              // KMS is either called with the configured arn
+              // or the read arn, depending if discovery or not
               && AwsKmsBranchKeyDecryption?(
                    Seq.Last(ddbClient.History.GetItem),
                    Seq.Last(kmsClient.History.Decrypt),
@@ -126,18 +129,37 @@ module GetKeys {
     var encryptionContext := Structure.ToBranchKeyContext(branchKeyItem, logicalKeyStoreName);
 
     :- Need(
-      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext),
+      KMSKeystoreOperations.AttemptKmsOperationOLD?(kmsConfiguration, encryptionContext),
       Types.KeyStoreException( message := "AWS KMS Key ARN does not match configured value")
     );
+    // TODO Postal Horn: Consider pulling match/kmsDecrypt into helper method
+    var keyId: KMS.KeyIdType;
+    match kmsConfiguration {
+      case kmsKeyArn(arn) => keyId := arn;
+      case discovery =>
+        var maybeArn := branchKeyItem[Structure.KMS_FIELD].S;
+        :- Need(
+          KMS.IsValid_KeyIdType(maybeArn),
+          Types.KeyStoreException( message :=
+            "Active Branch Key read from Key Store Table has a malformed KMS Key ID.")
+        );
+        
+        keyId := maybeArn;
+        :- Need(
+          KMSKeystoreOperations.AttemptKmsOperation?(keyId, encryptionContext),
+          Types.KeyStoreException( message :=
+            "Active Branch Key read from Key Store Table is malformed.")
+        );
+    }
 
-    var branchKey :- KMSKeystoreOperations.DecryptKey(
+    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
       encryptionContext,
       branchKeyItem,
-      kmsConfiguration,
+      keyId,
       grantTokens,
       kmsClient
     );
-
+      
     var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
       encryptionContext,
       branchKey.Plaintext.value
@@ -191,7 +213,7 @@ module GetKeys {
               && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in versionItem
               && Structure.BRANCH_KEY_TYPE_PREFIX < versionItem[Structure.TYPE_FIELD].S
 
-              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, Structure.ToBranchKeyContext(versionItem, logicalKeyStoreName))
+              && KMSKeystoreOperations.AttemptKmsOperationOLD?(kmsConfiguration, Structure.ToBranchKeyContext(versionItem, logicalKeyStoreName))
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
@@ -258,18 +280,37 @@ module GetKeys {
     var encryptionContext := Structure.ToBranchKeyContext(branchKeyItem, logicalKeyStoreName);
 
     :- Need(
-      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext),
+      KMSKeystoreOperations.AttemptKmsOperationOLD?(kmsConfiguration, encryptionContext),
       Types.KeyStoreException( message := "AWS KMS Key ARN does not match configured value")
     );
+    // TODO Postal Horn: Consider pulling match/kmsDecrypt into helper method
+    var keyId: KMS.KeyIdType;
+    match kmsConfiguration {
+      case kmsKeyArn(arn) => keyId := arn;
+      case discovery =>
+        var maybeArn := branchKeyItem[Structure.KMS_FIELD].S;
+        :- Need(
+          KMS.IsValid_KeyIdType(maybeArn),
+          Types.KeyStoreException( message :=
+            "Active Branch Key read from Key Store Table has a malformed KMS Key ID.")
+        );
+        
+        keyId := maybeArn;
+        :- Need(
+          KMSKeystoreOperations.AttemptKmsOperation?(keyId, encryptionContext),
+          Types.KeyStoreException( message :=
+            "Active Branch Key read from Key Store Table is malformed.")
+        );
+    }
 
-    var branchKey :- KMSKeystoreOperations.DecryptKey(
+    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
       encryptionContext,
       branchKeyItem,
-      kmsConfiguration,
+      keyId,
       grantTokens,
       kmsClient
     );
-
+    
     var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
       encryptionContext,
       branchKey.Plaintext.value
@@ -321,7 +362,7 @@ module GetKeys {
               && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in versionItem
               && versionItem[Structure.TYPE_FIELD].S == Structure.BEACON_KEY_TYPE_VALUE
 
-              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, Structure.ToBranchKeyContext(versionItem, logicalKeyStoreName))
+              && KMSKeystoreOperations.AttemptKmsOperationOLD?(kmsConfiguration, Structure.ToBranchKeyContext(versionItem, logicalKeyStoreName))
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbeaconkey
@@ -385,14 +426,34 @@ module GetKeys {
     var encryptionContext := Structure.ToBranchKeyContext(branchKeyItem, logicalKeyStoreName);
 
     :- Need(
-      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext),
+      KMSKeystoreOperations.AttemptKmsOperationOLD?(kmsConfiguration, encryptionContext),
       Types.KeyStoreException( message := "AWS KMS Key ARN does not match configured value")
     );
 
-    var branchKey :- KMSKeystoreOperations.DecryptKey(
+    // TODO Postal Horn: Consider pulling match/kmsDecrypt into helper method
+    var keyId: KMS.KeyIdType;
+    match kmsConfiguration {
+      case kmsKeyArn(arn) => keyId := arn;
+      case discovery =>
+        var maybeArn := branchKeyItem[Structure.KMS_FIELD].S;
+        :- Need(
+          KMS.IsValid_KeyIdType(maybeArn),
+          Types.KeyStoreException( message :=
+            "Active Branch Key read from Key Store Table has a malformed KMS Key ID.")
+        );
+        
+        keyId := maybeArn;
+        :- Need(
+          KMSKeystoreOperations.AttemptKmsOperation?(keyId, encryptionContext),
+          Types.KeyStoreException( message :=
+            "Active Branch Key read from Key Store Table is malformed.")
+        );
+    }
+
+    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
       encryptionContext,
       branchKeyItem,
-      kmsConfiguration,
+      keyId,
       grantTokens,
       kmsClient
     );
@@ -475,8 +536,12 @@ module GetKeys {
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
     //= type=implication
     //# - `KeyId` MUST be the configured `AWS KMS Key ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore
-    && decryptRequest.KeyId == Some(kmsConfiguration.kmsKeyArn)
+    // TODO Postal Horn: Update Spec for Discovery
+    && (kmsConfiguration.kmsKeyArn? ==> decryptRequest.KeyId == Some(kmsConfiguration.kmsKeyArn))
 
+    // TODO Postal Horn: Add validating KMS Key ARN to Spec
+    && (kmsConfiguration.discovery? ==> KMS.IsValid_KeyIdType(versionItem[Structure.KMS_FIELD].S))
+    
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
     //= type=implication
     //# - `CiphertextBlob` MUST be the `enc` attribute value on the AWS DDB response item
