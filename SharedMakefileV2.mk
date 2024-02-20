@@ -257,6 +257,12 @@ _polymorph:
 	$(POLYMORPH_OPTIONS) \
 	";
 
+_polymorph_dependencies:
+	@$(foreach dependency, \
+		$(PROJECT_DEPENDENCIES), \
+		$(MAKE) -C $(PROJECT_ROOT)/$(dependency) polymorph_$(POLYMORPH_LANGUAGE_TARGET); \
+	)
+
 # Generates all target runtime code for all namespaces in this project.
 .PHONY: polymorph_code_gen
 polymorph_code_gen:
@@ -275,6 +281,8 @@ _polymorph_code_gen: OUTPUT_DOTNET=\
 	$(if $(DIR_STRUCTURE_V2), --output-dotnet $(LIBRARY_ROOT)/runtimes/net/Generated/$(SERVICE)/, --output-dotnet $(LIBRARY_ROOT)/runtimes/net/Generated/)
 _polymorph_code_gen: OUTPUT_JAVA=--output-java $(LIBRARY_ROOT)/runtimes/java/src/main/smithy-generated
 _polymorph_code_gen: _polymorph
+_polymorph_code_gen: POLYMORPH_LANGUAGE_TARGET=code_gen
+_polymorph_code_gen: _polymorph_dependencies
 
 # TODO: Suggest target for extracting diff
 check_polymorph_diff:
@@ -295,6 +303,8 @@ _polymorph_dafny: OUTPUT_DAFNY=\
 _polymorph_dafny: INPUT_DAFNY=\
 	--include-dafny $(PROJECT_ROOT)/$(STD_LIBRARY)/src/Index.dfy
 _polymorph_dafny: _polymorph
+_polymorph_dafny: POLYMORPH_LANGUAGE_TARGET=dafny
+_polymorph_dafny: _polymorph_dependencies
 
 # Generates dotnet code for all namespaces in this project
 .PHONY: polymorph_dotnet
@@ -309,6 +319,8 @@ polymorph_dotnet:
 _polymorph_dotnet: OUTPUT_DOTNET=\
     $(if $(DIR_STRUCTURE_V2), --output-dotnet $(LIBRARY_ROOT)/runtimes/net/Generated/$(SERVICE)/, --output-dotnet $(LIBRARY_ROOT)/runtimes/net/Generated/)
 _polymorph_dotnet: _polymorph
+_polymorph_dotnet: POLYMORPH_LANGUAGE_TARGET=net
+_polymorph_dotnet: _polymorph_dependencies
 
 create_dotnet_patch:
 	mkdir -p $(LIBRARY_ROOT)/codegen-patches/dotnet
@@ -326,6 +338,8 @@ polymorph_java:
 
 _polymorph_java: OUTPUT_JAVA=--output-java $(LIBRARY_ROOT)/runtimes/java/src/main/smithy-generated
 _polymorph_java: _polymorph
+_polymorph_java: POLYMORPH_LANGUAGE_TARGET=java
+_polymorph_java: _polymorph_dependencies
 
 create_java_patch:
 	mkdir -p $(LIBRARY_ROOT)/codegen-patches/java

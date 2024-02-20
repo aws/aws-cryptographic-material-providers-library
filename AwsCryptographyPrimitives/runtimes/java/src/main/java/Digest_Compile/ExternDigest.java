@@ -1,5 +1,6 @@
 package Digest_Compile;
 
+import Dafny.Aws.Cryptography.Primitives.Types.InternalResult;
 import Wrappers_Compile.Result;
 import dafny.Array;
 import dafny.DafnySequence;
@@ -9,28 +10,29 @@ import software.amazon.cryptography.primitives.ToDafny;
 import software.amazon.cryptography.primitives.internaldafny.types.DigestAlgorithm;
 import software.amazon.cryptography.primitives.internaldafny.types.Error;
 import software.amazon.cryptography.primitives.model.AwsCryptographicPrimitivesError;
+import ExternDigest._ExternBase___default;
 
 public class ExternDigest {
 
-  public static class __default {
+  public static class __default extends _ExternBase___default {
 
     public static Result<DafnySequence<? extends Byte>, Error> Digest(
       DigestAlgorithm digestAlgorithm,
       DafnySequence<? extends Byte> dtor_message
     ) {
-      final Result<byte[], Error> maybeDigest = internalDigest(
+      final InternalResult<byte[], Error> maybeDigest = internalDigest(
         digestAlgorithm,
         dtor_message
       );
-      if (maybeDigest.is_Failure()) {
-        return Result.create_Failure(maybeDigest.dtor_error());
+      if (maybeDigest.isFailure()) {
+        return CreateDigestFailure(maybeDigest.error());
       }
-      return Result.create_Success(
-        DafnySequence.fromBytes(maybeDigest.dtor_value())
+      return CreateDigestSuccess(
+        DafnySequence.fromBytes(maybeDigest.value())
       );
     }
 
-    public static Result<byte[], Error> internalDigest(
+    public static InternalResult<byte[], Error> internalDigest(
       DigestAlgorithm digestAlgorithm,
       DafnySequence<? extends Byte> dtor_message
     ) {
@@ -41,7 +43,7 @@ public class ExternDigest {
         );
         hash.update(messageBytes);
         final byte[] digest = hash.digest();
-        return Result.create_Success(digest);
+        return InternalResult.success(digest);
       } catch (NoSuchAlgorithmException ex) {
         final Error err = ToDafny.Error(
           AwsCryptographicPrimitivesError
@@ -50,7 +52,7 @@ public class ExternDigest {
             .cause(ex)
             .build()
         );
-        return Result.create_Failure(err);
+        return InternalResult.failure(err);
       }
     }
 

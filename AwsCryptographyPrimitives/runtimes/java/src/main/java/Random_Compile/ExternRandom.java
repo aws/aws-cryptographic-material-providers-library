@@ -9,10 +9,11 @@ import java.security.SecureRandom;
 import software.amazon.cryptography.primitives.ToDafny;
 import software.amazon.cryptography.primitives.internaldafny.types.Error;
 import software.amazon.cryptography.primitives.model.OpaqueError;
+import ExternRandom._ExternBase___default;
 
 public class ExternRandom {
 
-  public static class __default {
+  public static class __default extends _ExternBase___default {
 
     public static Result<DafnySequence<? extends Byte>, Error> GenerateBytes(
       final int len
@@ -23,9 +24,9 @@ public class ExternRandom {
         final byte[] result = new byte[len];
         final SecureRandom secureRandom = getSecureRandom();
         secureRandom.nextBytes(result);
-        return Result.create_Success(DafnySequence.fromBytes(result));
+        return CreateGenerateBytesSuccess(DafnySequence.fromBytes(result));
       } catch (Exception e) {
-        return Result.create_Failure(
+        return CreateGenerateBytesFailure(
           ToDafny.Error(
             OpaqueError
               .builder()
