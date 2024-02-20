@@ -1,11 +1,12 @@
 package software.amazon.cryptography.internaldafny.StormTrackingCMC;
 
+import static software.amazon.cryptography.internaldafny.StormTrackingCMC._ExternBase___default.CreateGetCacheEntryFailure;
+import static software.amazon.cryptography.internaldafny.StormTrackingCMC._ExternBase___default.CreateGetCacheEntrySuccess;
+
 import StormTracker_Compile.CacheState;
 import StormTracker_Compile.StormTracker;
 import software.amazon.cryptography.materialproviders.internaldafny.*;
 import software.amazon.cryptography.materialproviders.internaldafny.types.*;
-import static software.amazon.cryptography.internaldafny.StormTrackingCMC._ExternBase___default.CreateGetCacheEntryFailure;
-import static software.amazon.cryptography.internaldafny.StormTrackingCMC._ExternBase___default.CreateGetCacheEntrySuccess;
 
 @SuppressWarnings({ "unchecked", "deprecation" })
 public class StormTrackingCMC
@@ -98,9 +99,7 @@ public class StormTrackingCMC
       if (result.is_Failure()) {
         return CreateGetCacheEntryFailure((result).dtor_error());
       } else if (result.dtor_value().is_Full()) {
-        return CreateGetCacheEntrySuccess(
-          result.dtor_value().dtor_data()
-        );
+        return CreateGetCacheEntrySuccess(result.dtor_value().dtor_data());
       } else if (result.dtor_value().is_EmptyFetch()) {
         return CreateGetCacheEntryFailure(
           software.amazon.cryptography.materialproviders.internaldafny.types.Error.create_EntryDoesNotExist(
