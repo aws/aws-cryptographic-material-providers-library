@@ -319,7 +319,7 @@ polymorph_dotnet:
 _polymorph_dotnet: OUTPUT_DOTNET=\
     $(if $(DIR_STRUCTURE_V2), --output-dotnet $(LIBRARY_ROOT)/runtimes/net/Generated/$(SERVICE)/, --output-dotnet $(LIBRARY_ROOT)/runtimes/net/Generated/)
 _polymorph_dotnet: _polymorph
-_polymorph_dotnet: POLYMORPH_LANGUAGE_TARGET=net
+_polymorph_dotnet: POLYMORPH_LANGUAGE_TARGET=dotnet
 _polymorph_dotnet: _polymorph_dependencies
 
 create_dotnet_patch:
