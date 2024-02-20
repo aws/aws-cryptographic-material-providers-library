@@ -1,6 +1,7 @@
 package Digest_Compile;
 
 import Dafny.Aws.Cryptography.Primitives.Types.InternalResult;
+import ExternDigest._ExternBase___default;
 import Wrappers_Compile.Result;
 import dafny.Array;
 import dafny.DafnySequence;
@@ -10,7 +11,6 @@ import software.amazon.cryptography.primitives.ToDafny;
 import software.amazon.cryptography.primitives.internaldafny.types.DigestAlgorithm;
 import software.amazon.cryptography.primitives.internaldafny.types.Error;
 import software.amazon.cryptography.primitives.model.AwsCryptographicPrimitivesError;
-import ExternDigest._ExternBase___default;
 
 public class ExternDigest {
 
@@ -27,9 +27,7 @@ public class ExternDigest {
       if (maybeDigest.isFailure()) {
         return CreateDigestFailure(maybeDigest.error());
       }
-      return CreateDigestSuccess(
-        DafnySequence.fromBytes(maybeDigest.value())
-      );
+      return CreateDigestSuccess(DafnySequence.fromBytes(maybeDigest.value()));
     }
 
     public static InternalResult<byte[], Error> internalDigest(

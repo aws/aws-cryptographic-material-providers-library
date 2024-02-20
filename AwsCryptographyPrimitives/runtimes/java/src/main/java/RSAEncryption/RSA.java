@@ -88,7 +88,9 @@ public class RSA extends _ExternBase___default {
     try {
       byte[] pemBytes = (byte[]) Array.unwrap(dtor_publicKey.toArray());
       RSAKeyParameters keyParams = ParsePublicRsaPemBytes(pemBytes);
-      return CreateGetRSAKeyModulusLengthExternSuccess(keyParams.getModulus().bitLength());
+      return CreateGetRSAKeyModulusLengthExternSuccess(
+        keyParams.getModulus().bitLength()
+      );
     } catch (Exception e) {
       return CreateGetRSAKeyModulusLengthExternFailure(
         ToDafny.Error(

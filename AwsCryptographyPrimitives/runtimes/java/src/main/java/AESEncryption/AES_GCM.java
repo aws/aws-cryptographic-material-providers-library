@@ -109,7 +109,9 @@ public class AES_GCM extends _ExternBase___default {
         cipher_.updateAAD(aadBytes);
       }
       byte[] cipherOutput = cipher_.doFinal(ciphertextAndTag);
-      return CreateAESDecryptExternSuccess(DafnySequence.fromBytes(cipherOutput));
+      return CreateAESDecryptExternSuccess(
+        DafnySequence.fromBytes(cipherOutput)
+      );
     } catch (GeneralSecurityException e) {
       return CreateAESDecryptExternFailure(
         ToDafny.Error(OpaqueError.builder().obj(e).build())

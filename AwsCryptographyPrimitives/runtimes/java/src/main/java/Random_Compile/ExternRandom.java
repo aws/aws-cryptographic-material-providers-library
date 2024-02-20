@@ -3,13 +3,13 @@
 
 package Random_Compile;
 
+import ExternRandom._ExternBase___default;
 import Wrappers_Compile.Result;
 import dafny.DafnySequence;
 import java.security.SecureRandom;
 import software.amazon.cryptography.primitives.ToDafny;
 import software.amazon.cryptography.primitives.internaldafny.types.Error;
 import software.amazon.cryptography.primitives.model.OpaqueError;
-import ExternRandom._ExternBase___default;
 
 public class ExternRandom {
 

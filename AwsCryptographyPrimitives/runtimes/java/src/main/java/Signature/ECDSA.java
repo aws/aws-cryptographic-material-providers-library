@@ -187,10 +187,8 @@ public class ECDSA extends _ExternBase___default {
     }
     final SignatureAlgorithm algorithm = maybeSignatureAlgorithm.value();
 
-    InternalResult<ECPublicKey, Error> maybePublicKey = PublicKeyUtils.decodePublicKey(
-      algorithm,
-      dtor_verificationKey
-    );
+    InternalResult<ECPublicKey, Error> maybePublicKey =
+      PublicKeyUtils.decodePublicKey(algorithm, dtor_verificationKey);
     if (maybePublicKey.isFailure()) {
       return CreateVerifyFailure(maybePublicKey.error());
     }
