@@ -126,7 +126,6 @@ verify_service:
 format_dafny:
 	dafny format \
 		--function-syntax 3 \
-		--quantifier-syntax 3 \
 		--unicode-char false \
 		`find . -name '*.dfy'`
 
@@ -134,7 +133,6 @@ format_dafny-check:
 	dafny format \
 		--check \
 		--function-syntax 3 \
-		--quantifier-syntax 3 \
 		--unicode-char false \
 		`find . -name '*.dfy'`
 
