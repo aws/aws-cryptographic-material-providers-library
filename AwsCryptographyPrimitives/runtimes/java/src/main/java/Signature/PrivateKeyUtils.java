@@ -53,9 +53,10 @@ class PrivateKeyUtils {
       // or something equivalent.
       // "generatePrivate" is a misnomer;
       // it's really a deterministic factory method.
-      privateKey = (ECPrivateKey) KeyFactory.getInstance(
-        ECDSA.ELLIPTIC_CURVE_ALGORITHM
-      ).generatePrivate(privateKeySpec);
+      privateKey =
+        (ECPrivateKey) KeyFactory
+          .getInstance(ECDSA.ELLIPTIC_CURVE_ALGORITHM)
+          .generatePrivate(privateKeySpec);
     } catch (
       NoSuchAlgorithmException
       | InvalidParameterSpecException

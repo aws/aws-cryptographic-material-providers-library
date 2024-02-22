@@ -101,7 +101,8 @@ public class ECDSA {
     } catch (NoSuchAlgorithmException ex) {
       return Result.create_Failure(
         ToDafny.Error(
-          AwsCryptographicPrimitivesError.builder()
+          AwsCryptographicPrimitivesError
+            .builder()
             .message(
               String.format(
                 "Requested Signature Algorithm is not supported. Requested %s.",
@@ -136,7 +137,8 @@ public class ECDSA {
     } catch (InvalidKeyException ex) {
       return Result.create_Failure(
         ToDafny.Error(
-          AwsCryptographicPrimitivesError.builder()
+          AwsCryptographicPrimitivesError
+            .builder()
             .message(
               String.format(
                 "Signature Cipher does not support provided key." +
@@ -154,12 +156,13 @@ public class ECDSA {
 
     final byte[] signatureBytes;
     try {
-      signatureBytes = SignUtils.generateEcdsaFixedLengthSignature(
-        digest,
-        signatureCipher,
-        privateKey,
-        algorithm.expectedSignatureLength
-      );
+      signatureBytes =
+        SignUtils.generateEcdsaFixedLengthSignature(
+          digest,
+          signatureCipher,
+          privateKey,
+          algorithm.expectedSignatureLength
+        );
     } catch (SignatureException e) {
       return Result.create_Failure(
         ToDafny.Error(
@@ -198,7 +201,8 @@ public class ECDSA {
     } catch (NoSuchAlgorithmException ex) {
       return Result.create_Failure(
         ToDafny.Error(
-          AwsCryptographicPrimitivesError.builder()
+          AwsCryptographicPrimitivesError
+            .builder()
             .message(
               String.format(
                 "Requested Signature Algorithm is not supported. Requested %s.",
@@ -216,7 +220,8 @@ public class ECDSA {
     } catch (InvalidKeyException ex) {
       return Result.create_Failure(
         ToDafny.Error(
-          AwsCryptographicPrimitivesError.builder()
+          AwsCryptographicPrimitivesError
+            .builder()
             .message(
               String.format(
                 "Signature does not support provided key." +
@@ -271,7 +276,8 @@ public class ECDSA {
     } catch (SignatureException ex) {
       return Result.create_Failure(
         ToDafny.Error(
-          AwsCryptographicPrimitivesError.builder()
+          AwsCryptographicPrimitivesError
+            .builder()
             .message(
               String.format(
                 "Signature Cipher does not support provided key." +

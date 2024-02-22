@@ -20,7 +20,8 @@ public class __default
   public static Result<IDynamoDBClient, Error> DynamoDBClient() {
     try {
       Region region = new DefaultAwsRegionProviderChain().getRegion();
-      final DynamoDbClient ddbClient = DynamoDbClient.builder()
+      final DynamoDbClient ddbClient = DynamoDbClient
+        .builder()
         .region(region)
         .build();
 
@@ -41,7 +42,8 @@ public class __default
       final String regionString = new String(
         (char[]) region.toArray().unwrap()
       );
-      final DynamoDbClient ddbClient = DynamoDbClient.builder()
+      final DynamoDbClient ddbClient = DynamoDbClient
+        .builder()
         .region(Region.of(regionString))
         .build();
 

@@ -30,7 +30,8 @@ public class __default
       final String region = regionProvider.getRegion().toString();
       final KmsClient client = builder
         .overrideConfiguration(
-          ClientOverrideConfiguration.builder()
+          ClientOverrideConfiguration
+            .builder()
             .putAdvancedOption(
               SdkAdvancedClientOption.USER_AGENT_SUFFIX,
               UserAgentSuffix()
@@ -65,7 +66,8 @@ public class __default
       final KmsClient client = builder
         .region(Region.of(regionString))
         .overrideConfiguration(
-          ClientOverrideConfiguration.builder()
+          ClientOverrideConfiguration
+            .builder()
             .putAdvancedOption(
               SdkAdvancedClientOption.USER_AGENT_SUFFIX,
               UserAgentSuffix()

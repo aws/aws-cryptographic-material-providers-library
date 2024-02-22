@@ -87,27 +87,28 @@ public class ToDafny {
       ? extends DafnySequence<? extends Byte>,
       ? extends DafnySequence<? extends Byte>
     > encryptionContext;
-    encryptionContext = ToDafny.EncryptionContext(
-      nativeValue.encryptionContext()
-    );
+    encryptionContext =
+      ToDafny.EncryptionContext(nativeValue.encryptionContext());
     Option<DafnySequence<? extends Byte>> beaconKey;
-    beaconKey = Objects.nonNull(nativeValue.beaconKey())
-      ? Option.create_Some(
-        software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-          nativeValue.beaconKey()
+    beaconKey =
+      Objects.nonNull(nativeValue.beaconKey())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+            nativeValue.beaconKey()
+          )
         )
-      )
-      : Option.create_None();
+        : Option.create_None();
     Option<
       DafnyMap<
         ? extends DafnySequence<? extends Character>,
         ? extends DafnySequence<? extends Byte>
       >
     > hmacKeys;
-    hmacKeys = (Objects.nonNull(nativeValue.hmacKeys()) &&
-        nativeValue.hmacKeys().size() > 0)
-      ? Option.create_Some(ToDafny.HmacKeyMap(nativeValue.hmacKeys()))
-      : Option.create_None();
+    hmacKeys =
+      (Objects.nonNull(nativeValue.hmacKeys()) &&
+          nativeValue.hmacKeys().size() > 0)
+        ? Option.create_Some(ToDafny.HmacKeyMap(nativeValue.hmacKeys()))
+        : Option.create_None();
     return new BeaconKeyMaterials(
       beaconKeyIdentifier,
       encryptionContext,
@@ -133,9 +134,8 @@ public class ToDafny {
       ? extends DafnySequence<? extends Byte>,
       ? extends DafnySequence<? extends Byte>
     > encryptionContext;
-    encryptionContext = ToDafny.EncryptionContext(
-      nativeValue.encryptionContext()
-    );
+    encryptionContext =
+      ToDafny.EncryptionContext(nativeValue.encryptionContext());
     DafnySequence<? extends Byte> branchKey;
     branchKey =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
@@ -153,25 +153,27 @@ public class ToDafny {
     software.amazon.cryptography.keystore.model.CreateKeyInput nativeValue
   ) {
     Option<DafnySequence<? extends Character>> branchKeyIdentifier;
-    branchKeyIdentifier = Objects.nonNull(nativeValue.branchKeyIdentifier())
-      ? Option.create_Some(
-        software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-          nativeValue.branchKeyIdentifier()
+    branchKeyIdentifier =
+      Objects.nonNull(nativeValue.branchKeyIdentifier())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.branchKeyIdentifier()
+          )
         )
-      )
-      : Option.create_None();
+        : Option.create_None();
     Option<
       DafnyMap<
         ? extends DafnySequence<? extends Byte>,
         ? extends DafnySequence<? extends Byte>
       >
     > encryptionContext;
-    encryptionContext = (Objects.nonNull(nativeValue.encryptionContext()) &&
-        nativeValue.encryptionContext().size() > 0)
-      ? Option.create_Some(
-        ToDafny.EncryptionContext(nativeValue.encryptionContext())
-      )
-      : Option.create_None();
+    encryptionContext =
+      (Objects.nonNull(nativeValue.encryptionContext()) &&
+          nativeValue.encryptionContext().size() > 0)
+        ? Option.create_Some(
+          ToDafny.EncryptionContext(nativeValue.encryptionContext())
+        )
+        : Option.create_None();
     return new CreateKeyInput(branchKeyIdentifier, encryptionContext);
   }
 
@@ -218,9 +220,8 @@ public class ToDafny {
     software.amazon.cryptography.keystore.model.GetActiveBranchKeyOutput nativeValue
   ) {
     BranchKeyMaterials branchKeyMaterials;
-    branchKeyMaterials = ToDafny.BranchKeyMaterials(
-      nativeValue.branchKeyMaterials()
-    );
+    branchKeyMaterials =
+      ToDafny.BranchKeyMaterials(nativeValue.branchKeyMaterials());
     return new GetActiveBranchKeyOutput(branchKeyMaterials);
   }
 
@@ -239,9 +240,8 @@ public class ToDafny {
     software.amazon.cryptography.keystore.model.GetBeaconKeyOutput nativeValue
   ) {
     BeaconKeyMaterials beaconKeyMaterials;
-    beaconKeyMaterials = ToDafny.BeaconKeyMaterials(
-      nativeValue.beaconKeyMaterials()
-    );
+    beaconKeyMaterials =
+      ToDafny.BeaconKeyMaterials(nativeValue.beaconKeyMaterials());
     return new GetBeaconKeyOutput(beaconKeyMaterials);
   }
 
@@ -265,9 +265,8 @@ public class ToDafny {
     software.amazon.cryptography.keystore.model.GetBranchKeyVersionOutput nativeValue
   ) {
     BranchKeyMaterials branchKeyMaterials;
-    branchKeyMaterials = ToDafny.BranchKeyMaterials(
-      nativeValue.branchKeyMaterials()
-    );
+    branchKeyMaterials =
+      ToDafny.BranchKeyMaterials(nativeValue.branchKeyMaterials());
     return new GetBranchKeyVersionOutput(branchKeyMaterials);
   }
 
@@ -318,36 +317,40 @@ public class ToDafny {
         nativeValue.logicalKeyStoreName()
       );
     Option<DafnySequence<? extends Character>> id;
-    id = Objects.nonNull(nativeValue.id())
-      ? Option.create_Some(
-        software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-          nativeValue.id()
+    id =
+      Objects.nonNull(nativeValue.id())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.id()
+          )
         )
-      )
-      : Option.create_None();
+        : Option.create_None();
     Option<
       DafnySequence<? extends DafnySequence<? extends Character>>
     > grantTokens;
-    grantTokens = (Objects.nonNull(nativeValue.grantTokens()) &&
-        nativeValue.grantTokens().size() > 0)
-      ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
-      : Option.create_None();
+    grantTokens =
+      (Objects.nonNull(nativeValue.grantTokens()) &&
+          nativeValue.grantTokens().size() > 0)
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
     Option<IDynamoDBClient> ddbClient;
-    ddbClient = Objects.nonNull(nativeValue.ddbClient())
-      ? Option.create_Some(
-        software.amazon.cryptography.services.dynamodb.internaldafny.ToDafny.DynamoDB_20120810(
-          nativeValue.ddbClient()
+    ddbClient =
+      Objects.nonNull(nativeValue.ddbClient())
+        ? Option.create_Some(
+          software.amazon.cryptography.services.dynamodb.internaldafny.ToDafny.DynamoDB_20120810(
+            nativeValue.ddbClient()
+          )
         )
-      )
-      : Option.create_None();
+        : Option.create_None();
     Option<IKMSClient> kmsClient;
-    kmsClient = Objects.nonNull(nativeValue.kmsClient())
-      ? Option.create_Some(
-        software.amazon.cryptography.services.kms.internaldafny.ToDafny.TrentService(
-          nativeValue.kmsClient()
+    kmsClient =
+      Objects.nonNull(nativeValue.kmsClient())
+        ? Option.create_Some(
+          software.amazon.cryptography.services.kms.internaldafny.ToDafny.TrentService(
+            nativeValue.kmsClient()
+          )
         )
-      )
-      : Option.create_None();
+        : Option.create_None();
     return new KeyStoreConfig(
       ddbTableName,
       kmsConfiguration,

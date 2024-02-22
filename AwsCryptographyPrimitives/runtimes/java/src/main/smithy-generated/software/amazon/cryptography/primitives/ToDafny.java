@@ -107,9 +107,10 @@ public class ToDafny {
     AES__GCM encAlg;
     encAlg = ToDafny.AES_GCM(nativeValue.encAlg());
     DafnySequence<? extends Byte> key;
-    key = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue.key()
-    );
+    key =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.key()
+      );
     DafnySequence<? extends Byte> cipherTxt;
     cipherTxt =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
@@ -121,13 +122,15 @@ public class ToDafny {
         nativeValue.authTag()
       );
     DafnySequence<? extends Byte> iv;
-    iv = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue.iv()
-    );
+    iv =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.iv()
+      );
     DafnySequence<? extends Byte> aad;
-    aad = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue.aad()
-    );
+    aad =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.aad()
+      );
     return new AESDecryptInput(encAlg, key, cipherTxt, authTag, iv, aad);
   }
 
@@ -148,21 +151,25 @@ public class ToDafny {
     AES__GCM encAlg;
     encAlg = ToDafny.AES_GCM(nativeValue.encAlg());
     DafnySequence<? extends Byte> iv;
-    iv = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue.iv()
-    );
+    iv =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.iv()
+      );
     DafnySequence<? extends Byte> key;
-    key = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue.key()
-    );
+    key =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.key()
+      );
     DafnySequence<? extends Byte> msg;
-    msg = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue.msg()
-    );
+    msg =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.msg()
+      );
     DafnySequence<? extends Byte> aad;
-    aad = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue.aad()
-    );
+    aad =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.aad()
+      );
     return new AESEncryptInput(encAlg, iv, key, msg, aad);
   }
 
@@ -186,19 +193,21 @@ public class ToDafny {
     software.amazon.cryptography.primitives.model.AesKdfCtrInput nativeValue
   ) {
     DafnySequence<? extends Byte> ikm;
-    ikm = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue.ikm()
-    );
+    ikm =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.ikm()
+      );
     Integer expectedLength;
     expectedLength = (nativeValue.expectedLength());
     Option<DafnySequence<? extends Byte>> nonce;
-    nonce = Objects.nonNull(nativeValue.nonce())
-      ? Option.create_Some(
-        software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-          nativeValue.nonce()
+    nonce =
+      Objects.nonNull(nativeValue.nonce())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+            nativeValue.nonce()
+          )
         )
-      )
-      : Option.create_None();
+        : Option.create_None();
     return new AesKdfCtrInput(ikm, expectedLength, nonce);
   }
 
@@ -206,9 +215,10 @@ public class ToDafny {
     ByteBuffer nativeValue
   ) {
     DafnySequence<? extends Byte> okm;
-    okm = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue
-    );
+    okm =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue
+      );
     return okm;
   }
 
@@ -246,9 +256,8 @@ public class ToDafny {
     software.amazon.cryptography.primitives.model.ECDSASignInput nativeValue
   ) {
     ECDSASignatureAlgorithm signatureAlgorithm;
-    signatureAlgorithm = ToDafny.ECDSASignatureAlgorithm(
-      nativeValue.signatureAlgorithm()
-    );
+    signatureAlgorithm =
+      ToDafny.ECDSASignatureAlgorithm(nativeValue.signatureAlgorithm());
     DafnySequence<? extends Byte> signingKey;
     signingKey =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
@@ -277,9 +286,8 @@ public class ToDafny {
     software.amazon.cryptography.primitives.model.ECDSAVerifyInput nativeValue
   ) {
     ECDSASignatureAlgorithm signatureAlgorithm;
-    signatureAlgorithm = ToDafny.ECDSASignatureAlgorithm(
-      nativeValue.signatureAlgorithm()
-    );
+    signatureAlgorithm =
+      ToDafny.ECDSASignatureAlgorithm(nativeValue.signatureAlgorithm());
     DafnySequence<? extends Byte> verificationKey;
     verificationKey =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
@@ -313,9 +321,8 @@ public class ToDafny {
     software.amazon.cryptography.primitives.model.GenerateECDSASignatureKeyInput nativeValue
   ) {
     ECDSASignatureAlgorithm signatureAlgorithm;
-    signatureAlgorithm = ToDafny.ECDSASignatureAlgorithm(
-      nativeValue.signatureAlgorithm()
-    );
+    signatureAlgorithm =
+      ToDafny.ECDSASignatureAlgorithm(nativeValue.signatureAlgorithm());
     return new GenerateECDSASignatureKeyInput(signatureAlgorithm);
   }
 
@@ -323,9 +330,8 @@ public class ToDafny {
     software.amazon.cryptography.primitives.model.GenerateECDSASignatureKeyOutput nativeValue
   ) {
     ECDSASignatureAlgorithm signatureAlgorithm;
-    signatureAlgorithm = ToDafny.ECDSASignatureAlgorithm(
-      nativeValue.signatureAlgorithm()
-    );
+    signatureAlgorithm =
+      ToDafny.ECDSASignatureAlgorithm(nativeValue.signatureAlgorithm());
     DafnySequence<? extends Byte> verificationKey;
     verificationKey =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
@@ -355,9 +361,10 @@ public class ToDafny {
     ByteBuffer nativeValue
   ) {
     DafnySequence<? extends Byte> data;
-    data = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue
-    );
+    data =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue
+      );
     return data;
   }
 
@@ -404,13 +411,15 @@ public class ToDafny {
     DigestAlgorithm digestAlgorithm;
     digestAlgorithm = ToDafny.DigestAlgorithm(nativeValue.digestAlgorithm());
     DafnySequence<? extends Byte> prk;
-    prk = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue.prk()
-    );
+    prk =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.prk()
+      );
     DafnySequence<? extends Byte> info;
-    info = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue.info()
-    );
+    info =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.info()
+      );
     Integer expectedLength;
     expectedLength = (nativeValue.expectedLength());
     return new HkdfExpandInput(digestAlgorithm, prk, info, expectedLength);
@@ -420,9 +429,10 @@ public class ToDafny {
     ByteBuffer nativeValue
   ) {
     DafnySequence<? extends Byte> okm;
-    okm = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue
-    );
+    okm =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue
+      );
     return okm;
   }
 
@@ -432,17 +442,19 @@ public class ToDafny {
     DigestAlgorithm digestAlgorithm;
     digestAlgorithm = ToDafny.DigestAlgorithm(nativeValue.digestAlgorithm());
     Option<DafnySequence<? extends Byte>> salt;
-    salt = Objects.nonNull(nativeValue.salt())
-      ? Option.create_Some(
-        software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-          nativeValue.salt()
+    salt =
+      Objects.nonNull(nativeValue.salt())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+            nativeValue.salt()
+          )
         )
-      )
-      : Option.create_None();
+        : Option.create_None();
     DafnySequence<? extends Byte> ikm;
-    ikm = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue.ikm()
-    );
+    ikm =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.ikm()
+      );
     return new HkdfExtractInput(digestAlgorithm, salt, ikm);
   }
 
@@ -450,9 +462,10 @@ public class ToDafny {
     ByteBuffer nativeValue
   ) {
     DafnySequence<? extends Byte> prk;
-    prk = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue
-    );
+    prk =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue
+      );
     return prk;
   }
 
@@ -462,21 +475,24 @@ public class ToDafny {
     DigestAlgorithm digestAlgorithm;
     digestAlgorithm = ToDafny.DigestAlgorithm(nativeValue.digestAlgorithm());
     Option<DafnySequence<? extends Byte>> salt;
-    salt = Objects.nonNull(nativeValue.salt())
-      ? Option.create_Some(
-        software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-          nativeValue.salt()
+    salt =
+      Objects.nonNull(nativeValue.salt())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+            nativeValue.salt()
+          )
         )
-      )
-      : Option.create_None();
+        : Option.create_None();
     DafnySequence<? extends Byte> ikm;
-    ikm = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue.ikm()
-    );
+    ikm =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.ikm()
+      );
     DafnySequence<? extends Byte> info;
-    info = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue.info()
-    );
+    info =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.info()
+      );
     Integer expectedLength;
     expectedLength = (nativeValue.expectedLength());
     return new HkdfInput(digestAlgorithm, salt, ikm, info, expectedLength);
@@ -486,9 +502,10 @@ public class ToDafny {
     ByteBuffer nativeValue
   ) {
     DafnySequence<? extends Byte> okm;
-    okm = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue
-    );
+    okm =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue
+      );
     return okm;
   }
 
@@ -498,9 +515,10 @@ public class ToDafny {
     DigestAlgorithm digestAlgorithm;
     digestAlgorithm = ToDafny.DigestAlgorithm(nativeValue.digestAlgorithm());
     DafnySequence<? extends Byte> key;
-    key = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue.key()
-    );
+    key =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.key()
+      );
     DafnySequence<? extends Byte> message;
     message =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
@@ -526,27 +544,30 @@ public class ToDafny {
     DigestAlgorithm digestAlgorithm;
     digestAlgorithm = ToDafny.DigestAlgorithm(nativeValue.digestAlgorithm());
     DafnySequence<? extends Byte> ikm;
-    ikm = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue.ikm()
-    );
+    ikm =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.ikm()
+      );
     Integer expectedLength;
     expectedLength = (nativeValue.expectedLength());
     Option<DafnySequence<? extends Byte>> purpose;
-    purpose = Objects.nonNull(nativeValue.purpose())
-      ? Option.create_Some(
-        software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-          nativeValue.purpose()
+    purpose =
+      Objects.nonNull(nativeValue.purpose())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+            nativeValue.purpose()
+          )
         )
-      )
-      : Option.create_None();
+        : Option.create_None();
     Option<DafnySequence<? extends Byte>> nonce;
-    nonce = Objects.nonNull(nativeValue.nonce())
-      ? Option.create_Some(
-        software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-          nativeValue.nonce()
+    nonce =
+      Objects.nonNull(nativeValue.nonce())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+            nativeValue.nonce()
+          )
         )
-      )
-      : Option.create_None();
+        : Option.create_None();
     return new KdfCtrInput(
       digestAlgorithm,
       ikm,
@@ -560,9 +581,10 @@ public class ToDafny {
     ByteBuffer nativeValue
   ) {
     DafnySequence<? extends Byte> okm;
-    okm = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue
-    );
+    okm =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue
+      );
     return okm;
   }
 
@@ -630,9 +652,10 @@ public class ToDafny {
     Integer lengthBits;
     lengthBits = (nativeValue.lengthBits());
     DafnySequence<? extends Byte> pem;
-    pem = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue.pem()
-    );
+    pem =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.pem()
+      );
     return new RSAPrivateKey(lengthBits, pem);
   }
 
@@ -642,9 +665,10 @@ public class ToDafny {
     Integer lengthBits;
     lengthBits = (nativeValue.lengthBits());
     DafnySequence<? extends Byte> pem;
-    pem = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-      nativeValue.pem()
-    );
+    pem =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.pem()
+      );
     return new RSAPublicKey(lengthBits, pem);
   }
 
@@ -661,22 +685,26 @@ public class ToDafny {
     software.amazon.cryptography.primitives.model.DigestAlgorithm nativeValue
   ) {
     switch (nativeValue) {
-      case SHA_512: {
-        return DigestAlgorithm.create_SHA__512();
-      }
-      case SHA_384: {
-        return DigestAlgorithm.create_SHA__384();
-      }
-      case SHA_256: {
-        return DigestAlgorithm.create_SHA__256();
-      }
-      default: {
-        throw new RuntimeException(
-          "Cannot convert " +
-          nativeValue +
-          " to software.amazon.cryptography.primitives.internaldafny.types.DigestAlgorithm."
-        );
-      }
+      case SHA_512:
+        {
+          return DigestAlgorithm.create_SHA__512();
+        }
+      case SHA_384:
+        {
+          return DigestAlgorithm.create_SHA__384();
+        }
+      case SHA_256:
+        {
+          return DigestAlgorithm.create_SHA__256();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.primitives.internaldafny.types.DigestAlgorithm."
+          );
+        }
     }
   }
 
@@ -684,19 +712,22 @@ public class ToDafny {
     software.amazon.cryptography.primitives.model.ECDSASignatureAlgorithm nativeValue
   ) {
     switch (nativeValue) {
-      case ECDSA_P384: {
-        return ECDSASignatureAlgorithm.create_ECDSA__P384();
-      }
-      case ECDSA_P256: {
-        return ECDSASignatureAlgorithm.create_ECDSA__P256();
-      }
-      default: {
-        throw new RuntimeException(
-          "Cannot convert " +
-          nativeValue +
-          " to software.amazon.cryptography.primitives.internaldafny.types.ECDSASignatureAlgorithm."
-        );
-      }
+      case ECDSA_P384:
+        {
+          return ECDSASignatureAlgorithm.create_ECDSA__P384();
+        }
+      case ECDSA_P256:
+        {
+          return ECDSASignatureAlgorithm.create_ECDSA__P256();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.primitives.internaldafny.types.ECDSASignatureAlgorithm."
+          );
+        }
     }
   }
 
@@ -704,28 +735,34 @@ public class ToDafny {
     software.amazon.cryptography.primitives.model.RSAPaddingMode nativeValue
   ) {
     switch (nativeValue) {
-      case PKCS1: {
-        return RSAPaddingMode.create_PKCS1();
-      }
-      case OAEP_SHA1: {
-        return RSAPaddingMode.create_OAEP__SHA1();
-      }
-      case OAEP_SHA256: {
-        return RSAPaddingMode.create_OAEP__SHA256();
-      }
-      case OAEP_SHA384: {
-        return RSAPaddingMode.create_OAEP__SHA384();
-      }
-      case OAEP_SHA512: {
-        return RSAPaddingMode.create_OAEP__SHA512();
-      }
-      default: {
-        throw new RuntimeException(
-          "Cannot convert " +
-          nativeValue +
-          " to software.amazon.cryptography.primitives.internaldafny.types.RSAPaddingMode."
-        );
-      }
+      case PKCS1:
+        {
+          return RSAPaddingMode.create_PKCS1();
+        }
+      case OAEP_SHA1:
+        {
+          return RSAPaddingMode.create_OAEP__SHA1();
+        }
+      case OAEP_SHA256:
+        {
+          return RSAPaddingMode.create_OAEP__SHA256();
+        }
+      case OAEP_SHA384:
+        {
+          return RSAPaddingMode.create_OAEP__SHA384();
+        }
+      case OAEP_SHA512:
+        {
+          return RSAPaddingMode.create_OAEP__SHA512();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.primitives.internaldafny.types.RSAPaddingMode."
+          );
+        }
     }
   }
 

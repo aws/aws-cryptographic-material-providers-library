@@ -17,10 +17,12 @@ public class __default extends _ExternBase___default {
     software.amazon.cryptography.materialproviders.model.MaterialProvidersConfig wrappedConfig =
       ToNative.MaterialProvidersConfig(config);
     software.amazon.cryptography.materialproviders.MaterialProviders impl =
-      MaterialProviders.builder()
+      MaterialProviders
+        .builder()
         .MaterialProvidersConfig(wrappedConfig)
         .build();
-    TestMaterialProviders wrappedClient = TestMaterialProviders.builder()
+    TestMaterialProviders wrappedClient = TestMaterialProviders
+      .builder()
       .impl(impl)
       .build();
     return Result.create_Success(wrappedClient);
