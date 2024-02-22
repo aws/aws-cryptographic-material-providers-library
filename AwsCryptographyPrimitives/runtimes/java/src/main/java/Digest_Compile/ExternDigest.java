@@ -44,8 +44,7 @@ public class ExternDigest {
         return Result.create_Success(digest);
       } catch (NoSuchAlgorithmException ex) {
         final Error err = ToDafny.Error(
-          AwsCryptographicPrimitivesError
-            .builder()
+          AwsCryptographicPrimitivesError.builder()
             .message("Requested digest Algorithm is not supported.")
             .cause(ex)
             .build()

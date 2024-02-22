@@ -77,10 +77,9 @@ public class ToDafny {
     software.amazon.cryptography.materialproviderstestvectorkeys.model.GetKeyDescriptionInput nativeValue
   ) {
     DafnySequence<? extends Byte> json;
-    json =
-      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-        nativeValue.json()
-      );
+    json = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+      nativeValue.json()
+    );
     return new GetKeyDescriptionInput(json);
   }
 
@@ -150,14 +149,13 @@ public class ToDafny {
         nativeValue.defaultMrkRegion()
       );
     Option<DiscoveryFilter> awsKmsDiscoveryFilter;
-    awsKmsDiscoveryFilter =
-      Objects.nonNull(nativeValue.awsKmsDiscoveryFilter())
-        ? Option.create_Some(
-          software.amazon.cryptography.materialproviders.ToDafny.DiscoveryFilter(
-            nativeValue.awsKmsDiscoveryFilter()
-          )
+    awsKmsDiscoveryFilter = Objects.nonNull(nativeValue.awsKmsDiscoveryFilter())
+      ? Option.create_Some(
+        software.amazon.cryptography.materialproviders.ToDafny.DiscoveryFilter(
+          nativeValue.awsKmsDiscoveryFilter()
         )
-        : Option.create_None();
+      )
+      : Option.create_None();
     return new KmsMrkAwareDiscovery(
       keyId,
       defaultMrkRegion,
@@ -185,10 +183,9 @@ public class ToDafny {
     software.amazon.cryptography.materialproviderstestvectorkeys.model.MultiKeyring nativeValue
   ) {
     Option<KeyDescription> generator;
-    generator =
-      Objects.nonNull(nativeValue.generator())
-        ? Option.create_Some(ToDafny.KeyDescription(nativeValue.generator()))
-        : Option.create_None();
+    generator = Objects.nonNull(nativeValue.generator())
+      ? Option.create_Some(ToDafny.KeyDescription(nativeValue.generator()))
+      : Option.create_None();
     DafnySequence<? extends KeyDescription> childKeyrings;
     childKeyrings = ToDafny.KeyDescriptionList(nativeValue.childKeyrings());
     return new MultiKeyring(generator, childKeyrings);
@@ -261,10 +258,9 @@ public class ToDafny {
     software.amazon.cryptography.materialproviderstestvectorkeys.model.SerializeKeyDescriptionOutput nativeValue
   ) {
     DafnySequence<? extends Byte> json;
-    json =
-      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-        nativeValue.json()
-      );
+    json = software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+      nativeValue.json()
+    );
     return new SerializeKeyDescriptionOutput(json);
   }
 
@@ -310,22 +306,19 @@ public class ToDafny {
     software.amazon.cryptography.materialproviderstestvectorkeys.model.CmmOperation nativeValue
   ) {
     switch (nativeValue) {
-      case ENCRYPT:
-        {
-          return CmmOperation.create_ENCRYPT();
-        }
-      case DECRYPT:
-        {
-          return CmmOperation.create_DECRYPT();
-        }
-      default:
-        {
-          throw new RuntimeException(
-            "Cannot convert " +
-            nativeValue +
-            " to software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.CmmOperation."
-          );
-        }
+      case ENCRYPT: {
+        return CmmOperation.create_ENCRYPT();
+      }
+      case DECRYPT: {
+        return CmmOperation.create_DECRYPT();
+      }
+      default: {
+        throw new RuntimeException(
+          "Cannot convert " +
+          nativeValue +
+          " to software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.CmmOperation."
+        );
+      }
     }
   }
 

@@ -27,8 +27,7 @@ public class ExternRandom {
       } catch (Exception e) {
         return Result.create_Failure(
           ToDafny.Error(
-            OpaqueError
-              .builder()
+            OpaqueError.builder()
               .obj(e)
               .cause(e)
               .message(e.getMessage())

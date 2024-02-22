@@ -38,10 +38,9 @@ class SignUtils {
         ASN1Sequence seq = ASN1Sequence.getInstance(signatureBytes);
         ASN1Integer r = (ASN1Integer) seq.getObjectAt(0);
         ASN1Integer s = (ASN1Integer) seq.getObjectAt(1);
-        s =
-          new ASN1Integer(
-            ecKey.getParams().getOrder().subtract(s.getPositiveValue())
-          );
+        s = new ASN1Integer(
+          ecKey.getParams().getOrder().subtract(s.getPositiveValue())
+        );
         seq = new DERSequence(new ASN1Encodable[] { r, s });
         try {
           signatureBytes = seq.getEncoded();

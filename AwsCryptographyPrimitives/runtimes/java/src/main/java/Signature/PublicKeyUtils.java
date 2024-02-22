@@ -127,15 +127,13 @@ class PublicKeyUtils {
       // or something equivalent.
       // "generatePublic" is a misnomer;
       // it's really a deterministic factory method.
-      publicKey =
-        (ECPublicKey) KeyFactory
-          .getInstance(ECDSA.ELLIPTIC_CURVE_ALGORITHM)
-          .generatePublic(publicKeySpec);
+      publicKey = (ECPublicKey) KeyFactory.getInstance(
+        ECDSA.ELLIPTIC_CURVE_ALGORITHM
+      ).generatePublic(publicKeySpec);
     } catch (ECDecodingException ex) {
       return Result.create_Failure(
         ToDafny.Error(
-          AwsCryptographicPrimitivesError
-            .builder()
+          AwsCryptographicPrimitivesError.builder()
             .message(
               String.format(
                 "Could not decode Elliptic Curve point due to: %s.",

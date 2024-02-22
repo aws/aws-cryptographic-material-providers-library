@@ -23,21 +23,19 @@ import software.amazon.cryptography.materialproviders.model.PutCacheEntryInput;
 
 public class LocalCMCTests {
 
-  private static final ICryptographicMaterialsCache test = MaterialProviders
-    .builder()
-    .MaterialProvidersConfig(MaterialProvidersConfig.builder().build())
-    .build()
-    .CreateCryptographicMaterialsCache(
-      CreateCryptographicMaterialsCacheInput
-        .builder()
-        .cache(
-          CacheType
-            .builder()
-            .Default(DefaultCache.builder().entryCapacity(10).build())
-            .build()
-        )
-        .build()
-    );
+  private static final ICryptographicMaterialsCache test =
+    MaterialProviders.builder()
+      .MaterialProvidersConfig(MaterialProvidersConfig.builder().build())
+      .build()
+      .CreateCryptographicMaterialsCache(
+        CreateCryptographicMaterialsCacheInput.builder()
+          .cache(
+            CacheType.builder()
+              .Default(DefaultCache.builder().entryCapacity(10).build())
+              .build()
+          )
+          .build()
+      );
   private static final List<String> identifies = Collections.unmodifiableList(
     Arrays.asList(
       "one",
@@ -74,8 +72,7 @@ public class LocalCMCTests {
       beaconKeyIdentifier.getBytes(StandardCharsets.UTF_8)
     );
 
-    GetCacheEntryInput getCacheEntryInput = GetCacheEntryInput
-      .builder()
+    GetCacheEntryInput getCacheEntryInput = GetCacheEntryInput.builder()
       .identifier(cacheIdentifier)
       .build();
 
@@ -88,11 +85,9 @@ public class LocalCMCTests {
       // stringData);
       //      System.out.println("are equal");
     } catch (EntryDoesNotExist ex) {
-      Materials materials = Materials
-        .builder()
+      Materials materials = Materials.builder()
         .BeaconKey(
-          BeaconKeyMaterials
-            .builder()
+          BeaconKeyMaterials.builder()
             .beaconKeyIdentifier(beaconKeyIdentifier)
             // The cacheIdentifier is used as the material
             // because we are not testing the cryptography here.
@@ -102,8 +97,7 @@ public class LocalCMCTests {
         )
         .build();
 
-      PutCacheEntryInput putCacheEntryInput = PutCacheEntryInput
-        .builder()
+      PutCacheEntryInput putCacheEntryInput = PutCacheEntryInput.builder()
         .identifier(cacheIdentifier)
         .creationTime(Instant.now().getEpochSecond())
         .expiryTime(Instant.now().getEpochSecond() + 1)

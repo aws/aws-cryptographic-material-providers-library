@@ -65,8 +65,7 @@ public enum SignatureAlgorithm {
     } else {
       return Result.create_Failure(
         ToDafny.Error(
-          AwsCryptographicPrimitivesError
-            .builder()
+          AwsCryptographicPrimitivesError.builder()
             .message(
               String.format(
                 "Requested Curve is not supported. Requested %s.",
