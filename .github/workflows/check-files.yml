@@ -40,7 +40,7 @@ jobs:
       - name: Get Reviewers
         id: approver_status
         env:
-          PR: ${{ github.event.pull_request.id }}
+          PR: ${{ fromJson(github.event.pull_request) }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo $PR
