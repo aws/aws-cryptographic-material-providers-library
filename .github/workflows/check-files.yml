@@ -5,7 +5,7 @@ name: Check Files
 on:
   pull_request:
   pull_request_review:
-  
+
 jobs:
   require-approvals:
     runs-on: ubuntu-latest
@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      
+
       - name: Get Files changed
         id: file-changes
         shell: bash
@@ -28,7 +28,7 @@ jobs:
           # when adding any release file, it must be appended with *release
           # we also want to check if there are changes to this file
           echo "FILES=$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF} .github/workflows/*release.yml .github/workflows/check-files.yml | tr '\n' ' ')" >> "$GITHUB_OUTPUT"
-      
+
       - name: Check if FILES is not empty
         id: comment
         env:
@@ -40,7 +40,7 @@ jobs:
           COMMENT="Detected changes to the release files or to the check-files action"
           COMMENT_URL="https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments"
           curl -s -H "Authorization: token ${GITHUB_TOKEN}" -X POST $COMMENT_URL -d "{\"body\":\"$COMMENT\"}"
-      
+
       - name: Check Approvers
         id: approvers
         if: steps.comment.outcome == 'success'
@@ -50,7 +50,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           min-required: 2
           required-approvers-list: ${{env.maintainers}}
-      
+
       - name: Post Approvers Result
         if: steps.approvers.outcome == 'failure'
         env:
@@ -61,4 +61,3 @@ jobs:
           COMMENT_URL="https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments"
           curl -s -H "Authorization: token ${GITHUB_TOKEN}" -X POST $COMMENT_URL -d "{\"body\":\"$COMMENT\"}"
           exit 1
-          
