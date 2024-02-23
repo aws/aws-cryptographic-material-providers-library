@@ -21,6 +21,6 @@ jobs:
         with:
           requirements: |
             - patterns:
-                - ".github/workflows/*release.yml"
+                - ".github/**/**"
               requiredApprovals: 2
           github-token: ${{ secrets.GITHUB_TOKEN }}
