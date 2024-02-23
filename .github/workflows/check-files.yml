@@ -1,6 +1,6 @@
 # This workflow checks if specfic files were modified,
 # if they were they require more than one approval from CODEOWNERS
-name: Check Files
+name: Check Release Files
 
 on:
   pull_request:
@@ -13,6 +13,8 @@ jobs:
       issues: write
       pull-requests: write
     env:
+      # unfortunately we can't check if the approver is part of the CODEOWNERS. This is a subset of aws/aws-crypto-tools-team
+      # to add more allowlisted approvers just modify this env variable
       maintainers: seebees, texastony, ShubhamChaturvedi7, lucasmcdonald3, josecorella, imabhichow, rishav-karanjit, antonf-amzn, justplaz, ajewellamz
     steps:
       - uses: actions/checkout@v3
@@ -44,7 +46,11 @@ jobs:
       - name: Check Approvers
         id: approvers
         if: steps.comment.outcome == 'success'
+        # if this step fails we want to continue to post a message on the PR.
         continue-on-error: true
+        # we are using this action because it does the heavy lifting for us, it uses the github_token enabled
+        # for github actions, this is ok because tokens are created for every workflow run and they expire at the end
+        # of the job
         uses: peternied/required-approval@v1.3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
