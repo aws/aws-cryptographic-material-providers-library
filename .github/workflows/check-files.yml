@@ -4,13 +4,15 @@ name: Check Files
 
 on:
   pull_request:
-
+  
 jobs:
   require-approvals:
     runs-on: ubuntu-latest
     permissions:
       issues: write
       pull-requests: write
+    env:
+      maintainers: seebees, texastony, ShubhamChaturvedi7, lucasmcdonald3, josecorella, imabhichow, rishav-karanjit, antonf-amzn, justplaz, ajewellamz
     steps:
       - uses: actions/checkout@v3
         with:
@@ -26,7 +28,7 @@ jobs:
           echo "FILES=$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF} .github/workflows/*release.yml | tr '\n' ' ')" >> "$GITHUB_OUTPUT"
       
       - name: Check if FILES is not empty
-        id: change
+        id: comment
         env:
           PR_NUMBER: ${{ github.event.number }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -37,12 +39,11 @@ jobs:
           COMMENT_URL="https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments"
           curl -s -H "Authorization: token ${GITHUB_TOKEN}" -X POST $COMMENT_URL -d "{\"body\":\"$COMMENT\"}"
       
-      - name: Get Reviewers
-        id: approver_status
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo ${{ github.event.pull_request}}
-
+      - name: Check Approvers
+        if: steps.comment.outcome == 'success'
+        uses: peternied/required-approval@v1.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-required: 2
+          required-approvers-list: ${{env.maintainers}}
           
-
