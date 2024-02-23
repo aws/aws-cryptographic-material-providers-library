@@ -4,9 +4,10 @@ name: Check Files
 
 on:
   pull_request:
+  pull_request_review:
 
 jobs:
-  checkFiles:
+  checkRequiredApprovalsReleaseFiles:
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -15,39 +16,11 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      
-      - name: Get Files changed
-        id: file-changes
-        shell: bash
-        run:
-          #  *release.yml files are responsible for releasing builds
-          # we require multiple approvers if any of those files change
-          # when adding any release file, it must be appended with *release
-          echo "FILES=$(git diff --name-only origin/main origin/${GITHUB_HEAD_REF} .github/workflows/*release.yml | tr '\n' ' ')" >> "$GITHUB_OUTPUT"
-      
-      - name: Check if FILES is not empty
-        id: change
-        env:
-          PR_NUMBER: ${{ github.event.number }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FILES: ${{ steps.file-changes.outputs.FILES }}
-        if: ${{env.FILES != ''}}
-        run: |
-          COMMENT="Detected changes to the release files"
-          COMMENT_URL="https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments"
-          curl -s -H "Authorization: token ${GITHUB_TOKEN}" -X POST $COMMENT_URL -d "{\"body\":\"$COMMENT\"}"
-      
-      - name: Get Reviewers
-        id: approver_status
-        env:
-          PR_NUMBER: ${{ github.event.number }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          PULL_URL="https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}"
-          COMMENT_URL="https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments"
-          PR_DETAILS=$(curl -L -H "Authorization: token ${GITHUB_TOKEN}" -H "Accept: application/vnd.github.text+json" $PULL_URL)
-          echo $PR_DETAILS
-          curl -s -H "Authorization: token ${GITHUB_TOKEN}" -X POST $COMMENT_URL -d "{\"body\":\"$PR_DETAILS\"}"
-
-          
-
+      - name: Check required approvals
+        uses: weetbix/configurable-required-approvals@v1.0.1
+        with:
+          requirements: |
+            - patterns:
+                - ".github/workflows/*release.yml"
+              requiredApprovals: 2
+          github-token: ${{ secrets.GITHUB_TOKEN }}
