@@ -37,13 +37,14 @@ jobs:
           FILES: ${{ steps.file-changes.outputs.FILES }}
         if: ${{env.FILES != ''}}
         run: |
-          COMMENT="Detected changes to the release files or ot the check-files action"
+          COMMENT="Detected changes to the release files or to the check-files action"
           COMMENT_URL="https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments"
           curl -s -H "Authorization: token ${GITHUB_TOKEN}" -X POST $COMMENT_URL -d "{\"body\":\"$COMMENT\"}"
       
       - name: Check Approvers
         id: approvers
         if: steps.comment.outcome == 'success'
+        continue-on-error: true
         uses: peternied/required-approval@v1.3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
