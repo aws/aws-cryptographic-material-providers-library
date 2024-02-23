@@ -1,5 +1,5 @@
 # This workflow is triggered manually
-name: Release MPL Libary
+name: MPL-Release
 
 on:
   workflow_dispatch:
