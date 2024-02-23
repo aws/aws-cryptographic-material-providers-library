@@ -17,7 +17,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Check required approvals
-        uses: weetbix/configurable-required-approvals@v1.0.1
+        uses: weetbix/configurable-required-approvals@v1
         with:
           requirements: |
             - patterns:
