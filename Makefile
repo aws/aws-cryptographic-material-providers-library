@@ -39,7 +39,7 @@ format_java_misc-check:
 	npx prettier --plugin=prettier-plugin-java . --check
 
 setup_prettier:
-	npm i --no-save prettier prettier-plugin-java
+	npm i --no-save prettier prettier-plugin-java@2.5.0
 
 polymorph_code_gen:
 	$(foreach PROJECT, $(PROJECTS), \
