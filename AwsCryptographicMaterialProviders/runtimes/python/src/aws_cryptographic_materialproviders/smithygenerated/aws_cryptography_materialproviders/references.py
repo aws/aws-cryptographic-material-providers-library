@@ -43,12 +43,12 @@ class IBranchKeyIdSupplier(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def get_branch_key_id(
         self,
-        input: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetBranchKeyIdInput",
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetBranchKeyIdInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetBranchKeyIdOutput":
         """Given the Encryption Context associated with this encryption or decryption,
         returns the branch key that should be responsible for unwrapping or wrapping the
         data key.
-        :param input: Inputs for determining the Branch Key which should be used to wrap
+        :param param: Inputs for determining the Branch Key which should be used to wrap
         or unwrap the data key for this encryption or decryption
         :returns: Outputs for the Branch Key responsible for wrapping or unwrapping the
         data key in this encryption or decryption.
@@ -90,19 +90,19 @@ class BranchKeyIdSupplier(IBranchKeyIdSupplier):
 
     def get_branch_key_id(
         self,
-        input: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetBranchKeyIdInput",
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetBranchKeyIdInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetBranchKeyIdOutput":
         """Given the Encryption Context associated with this encryption or decryption,
         returns the branch key that should be responsible for unwrapping or wrapping the
         data key.
-        :param input: Inputs for determining the Branch Key which should be used to wrap
+        :param param: Inputs for determining the Branch Key which should be used to wrap
         or unwrap the data key for this encryption or decryption
         :returns: Outputs for the Branch Key responsible for wrapping or unwrapping the
         data key in this encryption or decryption.
         """
         dafny_output = self._impl.GetBranchKeyId(
             aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_GetBranchKeyIdInput(
-                input
+                param
             )
         )
         if dafny_output.IsFailure():
@@ -132,10 +132,10 @@ class IClientSupplier(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def get_client(
         self,
-        input: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetClientInput",
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetClientInput",
     ) -> "botocore.client.BaseClient":
         """Returns an AWS KMS Client.
-        :param input: Inputs for getting a AWS KMS Client.
+        :param param: Inputs for getting a AWS KMS Client.
         """
         raise NotImplementedError
 
@@ -172,14 +172,14 @@ class ClientSupplier(IClientSupplier):
 
     def get_client(
         self,
-        input: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetClientInput",
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetClientInput",
     ) -> "botocore.client.BaseClient":
         """Returns an AWS KMS Client.
-        :param input: Inputs for getting a AWS KMS Client.
+        :param param: Inputs for getting a AWS KMS Client.
         """
         dafny_output = self._impl.GetClient(
             aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_GetClientInput(
-                input
+                param
             )
         )
         if dafny_output.IsFailure():
@@ -218,28 +218,28 @@ class ICryptographicMaterialsCache(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def put_cache_entry(
         self,
-        input: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.PutCacheEntryInput",
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.PutCacheEntryInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.Unit":
         raise NotImplementedError
 
     @abc.abstractmethod
     def get_cache_entry(
         self,
-        input: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetCacheEntryInput",
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetCacheEntryInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetCacheEntryOutput":
         raise NotImplementedError
 
     @abc.abstractmethod
     def update_usage_metadata(
         self,
-        input: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.UpdateUsageMetadataInput",
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.UpdateUsageMetadataInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.Unit":
         raise NotImplementedError
 
     @abc.abstractmethod
     def delete_cache_entry(
         self,
-        input: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DeleteCacheEntryInput",
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DeleteCacheEntryInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.Unit":
         raise NotImplementedError
 
@@ -334,11 +334,11 @@ class CryptographicMaterialsCache(ICryptographicMaterialsCache):
 
     def put_cache_entry(
         self,
-        input: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.PutCacheEntryInput",
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.PutCacheEntryInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.Unit":
         dafny_output = self._impl.PutCacheEntry(
             aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_PutCacheEntryInput(
-                input
+                param
             )
         )
         if dafny_output.IsFailure():
@@ -351,11 +351,11 @@ class CryptographicMaterialsCache(ICryptographicMaterialsCache):
 
     def get_cache_entry(
         self,
-        input: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetCacheEntryInput",
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetCacheEntryInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetCacheEntryOutput":
         dafny_output = self._impl.GetCacheEntry(
             aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_GetCacheEntryInput(
-                input
+                param
             )
         )
         if dafny_output.IsFailure():
@@ -370,11 +370,11 @@ class CryptographicMaterialsCache(ICryptographicMaterialsCache):
 
     def update_usage_metadata(
         self,
-        input: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.UpdateUsageMetadataInput",
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.UpdateUsageMetadataInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.Unit":
         dafny_output = self._impl.UpdateUsageMetadata(
             aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_UpdateUsageMetadataInput(
-                input
+                param
             )
         )
         if dafny_output.IsFailure():
@@ -387,11 +387,11 @@ class CryptographicMaterialsCache(ICryptographicMaterialsCache):
 
     def delete_cache_entry(
         self,
-        input: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DeleteCacheEntryInput",
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DeleteCacheEntryInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.Unit":
         dafny_output = self._impl.DeleteCacheEntry(
             aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_DeleteCacheEntryInput(
-                input
+                param
             )
         )
         if dafny_output.IsFailure():
@@ -424,14 +424,14 @@ class ICryptographicMaterialsManager(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def get_encryption_materials(
         self,
-        input: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetEncryptionMaterialsInput",
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetEncryptionMaterialsInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetEncryptionMaterialsOutput":
         raise NotImplementedError
 
     @abc.abstractmethod
     def decrypt_materials(
         self,
-        input: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptMaterialsInput",
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptMaterialsInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptMaterialsOutput":
         raise NotImplementedError
 
@@ -490,11 +490,11 @@ class CryptographicMaterialsManager(ICryptographicMaterialsManager):
 
     def get_encryption_materials(
         self,
-        input: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetEncryptionMaterialsInput",
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetEncryptionMaterialsInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetEncryptionMaterialsOutput":
         dafny_output = self._impl.GetEncryptionMaterials(
             aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_GetEncryptionMaterialsInput(
-                input
+                param
             )
         )
         if dafny_output.IsFailure():
@@ -509,11 +509,11 @@ class CryptographicMaterialsManager(ICryptographicMaterialsManager):
 
     def decrypt_materials(
         self,
-        input: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptMaterialsInput",
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptMaterialsInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptMaterialsOutput":
         dafny_output = self._impl.DecryptMaterials(
             aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_DecryptMaterialsInput(
-                input
+                param
             )
         )
         if dafny_output.IsFailure():
@@ -548,14 +548,14 @@ class IKeyring(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def on_encrypt(
         self,
-        input: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnEncryptInput",
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnEncryptInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnEncryptOutput":
         raise NotImplementedError
 
     @abc.abstractmethod
     def on_decrypt(
         self,
-        input: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnDecryptInput",
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnDecryptInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnDecryptOutput":
         raise NotImplementedError
 
@@ -608,11 +608,11 @@ class Keyring(IKeyring):
 
     def on_encrypt(
         self,
-        input: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnEncryptInput",
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnEncryptInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnEncryptOutput":
         dafny_output = self._impl.OnEncrypt(
             aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_OnEncryptInput(
-                input
+                param
             )
         )
         if dafny_output.IsFailure():
@@ -627,11 +627,11 @@ class Keyring(IKeyring):
 
     def on_decrypt(
         self,
-        input: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnDecryptInput",
+        param: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnDecryptInput",
     ) -> "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnDecryptOutput":
         dafny_output = self._impl.OnDecrypt(
             aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_OnDecryptInput(
-                input
+                param
             )
         )
         if dafny_output.IsFailure():
