@@ -57,7 +57,8 @@ jobs:
           PR_NUMBER: ${{ github.event.number }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          COMMENT="Not enough approvals. Requires 2 and ${{steps.approvers.outputs.specific-approvals.value}} were found."
+          COMMENT="Changes to the release files or the check-files action requires 2 approvals from CODEOWNERS"
           COMMENT_URL="https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments"
           curl -s -H "Authorization: token ${GITHUB_TOKEN}" -X POST $COMMENT_URL -d "{\"body\":\"$COMMENT\"}"
+          exit 1
           
