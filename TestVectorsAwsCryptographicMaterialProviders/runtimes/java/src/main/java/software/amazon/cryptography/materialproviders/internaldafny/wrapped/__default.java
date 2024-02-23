@@ -25,6 +25,8 @@ public class __default extends _ExternBase___default {
       .builder()
       .impl(impl)
       .build();
-    return software.amazon.cryptography.materialproviders.internaldafny.__default.CreateSuccessOfClient(wrappedClient);
+    return software.amazon.cryptography.materialproviders.internaldafny.__default.CreateSuccessOfClient(
+      wrappedClient
+    );
   }
 }
