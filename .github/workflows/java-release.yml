@@ -14,8 +14,7 @@ jobs:
     strategy:
       matrix:
         library: [AwsCryptographicMaterialProviders]
-        os: [macos-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
     permissions:
       id-token: write
       contents: read
@@ -28,13 +27,9 @@ jobs:
       # We only pull in the submodules we need to build the library
       - run: git submodule update --init libraries
 
-      # We need access to the role that is able to get CI Bot Creds
-      - name: Configure AWS Credentials for Release
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-region: us-west-2
-          role-to-assume: arn:aws:iam::587316601012:role/GitHub-CI-CI-Bot-Credential-Access-Role-us-west-2
-          role-session-name: CI_Bot_Release
+      - name: Test
+        run: |
+          echo "Hello from CodeBuild Runner"
 
       # Use AWS Secrets Manger GHA to retrieve CI Bot Creds
       # - name: Get CI Bot Creds Secret
