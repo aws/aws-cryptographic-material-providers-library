@@ -56,7 +56,7 @@ module {:options "-functionSyntax:4"} {:extern "HMAC"} HMAC {
       ensures this.GetKey() == old(this.GetKey())
       ensures this.HashSignature(old(this.GetInputSoFar()), s)
 
-    predicate {:axiom} HashSignature(message: seq<uint8>, s: seq<uint8>)
+   ghost predicate {:axiom} HashSignature(message: seq<uint8>, s: seq<uint8>)
 
     // The next two functions are for the benefit of the extern implementation to call,
     // avoiding direct references to generic datatype constructors
