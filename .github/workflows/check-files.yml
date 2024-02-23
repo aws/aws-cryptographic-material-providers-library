@@ -1,26 +1,25 @@
-# This workflow checks if specfic files were modified,
-# if they were they require more than one approval from CODEOWNERS
-name: Check Files
+name: PR Approval Workflow
 
 on:
   pull_request:
+    branches:
+      - main
   pull_request_review:
+    types: [submitted]
 
 jobs:
-  checkRequiredApprovalsReleaseFiles:
+  check-approvals:
     runs-on: ubuntu-latest
     permissions:
-      issues: write
-      pull-requests: write
+      id-token: write
+      contents: read
+      pull-requests: read
     steps:
-      - uses: actions/checkout@v3
+      - name: Check for required approvals
+        id: check-approvals
+        uses: skymoore/required-approvals@main
         with:
-          fetch-depth: 0
-      - name: Check required approvals
-        uses: weetbix/configurable-required-approvals@v1
-        with:
-          requirements: |
-            - patterns:
-                - ".github/**/**"
-              requiredApprovals: 2
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          read_org_scoped_token: ${{ secrets.GITHUB_TOKEN  }}
+          org_name: aws
+          min_approvals: 2
