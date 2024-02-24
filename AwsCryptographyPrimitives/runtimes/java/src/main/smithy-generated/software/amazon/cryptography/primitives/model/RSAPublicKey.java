@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class RSAPublicKey {
-
   private final int lengthBits;
 
   private final ByteBuffer pem;
@@ -46,14 +45,14 @@ public class RSAPublicKey {
   }
 
   static class BuilderImpl implements Builder {
-
     protected int lengthBits;
 
     private boolean _lengthBitsSet = false;
 
     protected ByteBuffer pem;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(RSAPublicKey model) {
       this.lengthBits = model.lengthBits();
@@ -82,19 +81,13 @@ public class RSAPublicKey {
 
     public RSAPublicKey build() {
       if (!this._lengthBitsSet) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `lengthBits`"
-        );
+        throw new IllegalArgumentException("Missing value for required field `lengthBits`");
       }
       if (this._lengthBitsSet && this.lengthBits() < 81) {
-        throw new IllegalArgumentException(
-          "`lengthBits` must be greater than or equal to 81"
-        );
+        throw new IllegalArgumentException("`lengthBits` must be greater than or equal to 81");
       }
-      if (Objects.isNull(this.pem())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `pem`"
-        );
+      if (Objects.isNull(this.pem()))  {
+        throw new IllegalArgumentException("Missing value for required field `pem`");
       }
       return new RSAPublicKey(this);
     }

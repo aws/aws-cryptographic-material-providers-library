@@ -94,7 +94,7 @@ module {:options "-functionSyntax:4"} TestVectors {
     }
   }
 
-  method ToEncryptTest(keys: KeyVectors.KeyVectorsClient, vector: EncryptTestVector)
+  method ToEncryptTest(keys: KeyVectorsTypes.IKeyVectorsClient, vector: EncryptTestVector)
     returns (output: Result<EncryptTest, string>)
     requires keys.ValidState()
     modifies keys.Modifies
@@ -151,6 +151,9 @@ module {:options "-functionSyntax:4"} TestVectors {
                    ));
   }
 
+<<<<<<< HEAD
+  method ToDecryptTest(keys: KeyVectorsTypes.IKeyVectorsClient, test: EncryptTest, materials: Types.EncryptionMaterials)
+=======
   function EncryptTestToDecryptVector(test: EncryptTest, materials: Types.EncryptionMaterials)
     : (output: DecryptTestVector)
     requires test.vector.PositiveEncryptKeyringVector? || test.vector.PositiveEncryptNegativeDecryptKeyringVector?
@@ -198,6 +201,7 @@ module {:options "-functionSyntax:4"} TestVectors {
   }
 
   method DecryptVectorToDecryptTest(keys: KeyVectors.KeyVectorsClient, vector: DecryptTestVector)
+>>>>>>> main
     returns (output: Result<DecryptTest, string>)
     requires keys.ValidState()
     modifies keys.Modifies

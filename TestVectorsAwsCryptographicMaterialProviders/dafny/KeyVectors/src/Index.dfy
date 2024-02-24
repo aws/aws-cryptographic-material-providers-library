@@ -5,7 +5,7 @@ include "KeysVectorOperations.dfy"
 include "../../TestVectorsAwsCryptographicMaterialProviders/src/JSONHelpers.dfy"
 include "KeyMaterial.dfy"
 
-module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny"} KeyVectors refines AbstractAwsCryptographyMaterialProvidersTestVectorKeysService {
+module {:extern "software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny"} KeyVectors refines AbstractAwsCryptographyMaterialProvidersTestVectorKeysService {
   import Operations = KeysVectorOperations
   import JSON.API
   import JSON.Errors
@@ -22,8 +22,11 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
 
   method KeyVectors(config: KeyVectorsConfig)
     returns (res: Result<IKeyVectorsClient, Error>)
+<<<<<<< HEAD
+=======
     ensures res.Success? ==>
               res.value is KeyVectorsClient
+>>>>>>> main
   {
     var keysManifestBv :- expect FileIO.ReadBytesFromFile(config.keyManifestPath);
     var keysManifestBytes := BvToBytes(keysManifestBv);

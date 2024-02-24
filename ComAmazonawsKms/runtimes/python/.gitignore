@@ -1,0 +1,14 @@
+# Python build artifacts
+__pycache__
+**/__pycache__
+*.pyc
+src/**.egg-info/
+build
+poetry.lock
+**/poetry.lock
+dist
+
+# Python test artifacts
+.tox
+.pytest_cache
+

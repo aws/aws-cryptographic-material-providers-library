@@ -62,7 +62,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   import RequiredEncryptionContextCMM
 
   datatype Config = Config(
-    nameonly crypto: Primitives.AtomicPrimitivesClient
+    nameonly crypto: Crypto.IAwsCryptographicPrimitivesClient
   )
 
   type InternalConfig = Config

@@ -37,7 +37,7 @@ module RawAESKeyring {
       Keyring.VerifiableInterface,
       Types.IKeyring
   {
-    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
+    const cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
 
     predicate ValidState()
       ensures ValidState() ==> History in Modifies
@@ -79,7 +79,7 @@ module RawAESKeyring {
       name: UTF8.ValidUTF8Bytes,
       key: seq<uint8>,
       wrappingAlgorithm: Crypto.AES_GCM,
-      cryptoPrimitives: Primitives.AtomicPrimitivesClient
+      cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
     )
       requires |namespace| < UINT16_LIMIT
       requires |name| < UINT16_LIMIT
@@ -527,12 +527,12 @@ module RawAESKeyring {
   {
     const wrappingKey: seq<uint8>
     const wrappingAlgorithm: Crypto.AES_GCM
-    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
+    const cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
 
     constructor(
       wrappingKey: seq<uint8>,
       wrappingAlgorithm: Crypto.AES_GCM,
-      cryptoPrimitives: Primitives.AtomicPrimitivesClient
+      cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
     )
       requires cryptoPrimitives.ValidState()
       ensures
@@ -628,13 +628,13 @@ module RawAESKeyring {
     const wrappingKey: seq<uint8>
     const wrappingAlgorithm: Crypto.AES_GCM
     const iv: seq<uint8>
-    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
+    const cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
 
     constructor(
       wrappingKey: seq<uint8>,
       wrappingAlgorithm: Crypto.AES_GCM,
       iv: seq<uint8>,
-      cryptoPrimitives: Primitives.AtomicPrimitivesClient
+      cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
     )
       requires cryptoPrimitives.ValidState()
       requires |iv| == wrappingAlgorithm.ivLength as nat
