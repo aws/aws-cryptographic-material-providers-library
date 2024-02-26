@@ -4,17 +4,18 @@ name: MPL-Release
 on:
   workflow_dispatch:
     inputs:
-      dafny:
-        description: "The Dafny version to use"
+      version:
+        description: "What version are you publishing"
         required: true
         type: string
 
 jobs:
   getVersion:
+    if: contains('["seebees","ShubhamChaturvedi7","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","justplaz","ajewellamz"]', github.actor)
     uses: ./.github/workflows/dafny_version.yaml
-  java-release:
-    if: contains('["seebees","texastony","ShubhamChaturvedi7","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","justplaz","ajewellamz"]', github.actor)
-    needs: getVersion
-    uses: ./.github/workflows/java-release.yml
-    with:
-      dafny: ${{needs.getVersion.outputs.version}}
+  # java-release:
+  #   needs: getVersion
+  #   uses: ./.github/workflows/java-release.yml
+  #   with:
+  #     dafny: ${{needs.getVersion.outputs.version}}
+  #     version: ${{inputs.version}}

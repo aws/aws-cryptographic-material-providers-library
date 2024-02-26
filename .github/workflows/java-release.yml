@@ -8,16 +8,26 @@ on:
         description: "The Dafny version to run"
         required: true
         type: string
+      version:
+          description: "The version being released"
+          required: true
+          type: string
 
 jobs:
-  releaseJava:
+  releaseToCA:
     strategy:
       matrix:
         library: [AwsCryptographicMaterialProviders]
+        dotnet-version: ["6.0.x"]
     runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
     permissions:
       id-token: write
       contents: read
+    env:
+      REGION: us-east-1
+      DOMAIN: crypto-tools-internal
+      REPOSITORY: java-mpl-staging
+      CODEARTIFACT_REPO_URL: https://crypto-tools-internal-587316601012.d.codeartifact.us-east-1.amazonaws.com/maven/java-mpl-staging/
     steps:
       - name: Support longpaths on Git checkout
         run: |
@@ -26,13 +36,316 @@ jobs:
       - uses: actions/checkout@v3
       # We only pull in the submodules we need to build the library
       - run: git submodule update --init libraries
+      
+      - name: Retrieve User and Password for Signing Keys in SecretsManager
+        uses: aws-actions/aws-secretsmanager-get-secrets@v2
+        with:
+          secret-ids: arn:aws:secretsmanager:us-west-2:587316601012:secret:Maven-GPG-Keys-Release-Credentials-WgJanS
+          parse-json-secrets: true
 
-      - name: Test
+      - name: Retrieve Keys from SecretsManager and add keys to KeyChain
         run: |
-          echo "Hello from CodeBuild Runner"
+          sudo apt-get install gnupg2 -y
+          aws secretsmanager get-secret-value --region us-west-2 --secret-id Maven-GPG-Keys-Release --query SecretBinary --output text | base64 -d > ~/mvn_gpg.tgz
+          tar -xvf ~/mvn_gpg.tgz -C ~
+          mkdir /root/.gnupg
+          printf "use-agent\npinentry-mode loopback" >> ~/mvn_gpg/gpg.conf
+          printf "allow-loopback-pinentry" >> ~/mvn_gpg/gpg-agent.conf
+          mv -v ~/mvn_gpg/* /root/.gnupg/
+          cat /root/.gnupg/gpg.conf
 
-      # Use AWS Secrets Manger GHA to retrieve CI Bot Creds
-      # - name: Get CI Bot Creds Secret
-      #   uses: aws-actions/aws-secretsmanager-get-secrets@v2
-      #   with:
-      #     secret-ids: arn:aws:secretsmanager:us-west-2:587316601012:secret:Github/aws-crypto-tools-ci-bot-AGUB3U
+      - name: Configure AWS Credentials for Tests
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
+          role-session-name: CB-TestVectors
+      
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      
+      - name: Setup Dafny
+        uses: dafny-lang/setup-dafny-action@v1.6.1
+        with:
+          dafny-version: ${{ inputs.dafny }}
+
+      - name: Setup Java 8
+        uses: actions/setup-java@v3
+        with:
+          distribution: "corretto"
+          java-version: 8
+
+      - name: Build ${{ matrix.library }} implementation
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          # This works because `node` is installed by default on GHA runners
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make build_java CORES=$CORES
+
+      - name: Test ${{ matrix.library }}
+        working-directory: ./${{ matrix.library }}
+        run: |
+          make test_java
+      
+      - name: Build TestVectorsAwsCryptographicMaterialProviders implementation
+        shell: bash
+        working-directory: ./TestVectorsAwsCryptographicMaterialProviders
+        run: |
+          # This works because `node` is installed by default on GHA runners
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make build_java CORES=$CORES
+      
+      - name: Test TestVectorsAwsCryptographicMaterialProviders
+        working-directory: ./TestVectorsAwsCryptographicMaterialProviders
+        run: |
+          make test_java
+      
+      - name: Publish Staging Artifact to AWS CodeArtifact
+        id: publish-staging
+        working-directory: ./${{ matrix.library }}
+        run: |
+          unset AWS_ACCESS_KEY_ID; unset AWS_SECRET_ACCESS_KEY; unset AWS_SESSION_TOKEN;
+          export CODEARTIFACT_TOKEN=$(aws codeartifact get-authorization-token --domain crypto-tools-internal --domain-owner 587316601012 --region us-east-1 --query authorizationToken --output text)
+          make mvn_staging_deploy
+  
+  validateStaging:
+    needs: releaseToCA
+    strategy:
+      matrix:
+        library: [TestVectorsAwsCryptographicMaterialProviders]
+        dotnet-version: ["6.0.x"]
+    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      REGION: us-east-1
+      DOMAIN: crypto-tools-internal
+      REPOSITORY: java-mpl-staging
+      CODEARTIFACT_REPO_URL: https://crypto-tools-internal-587316601012.d.codeartifact.us-east-1.amazonaws.com/maven/java-mpl-staging/
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+      
+      - uses: actions/checkout@v3
+      # We only pull in the submodules we need to build the library
+      - run: git submodule update --init libraries
+      
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      
+      - name: Setup Dafny
+        uses: dafny-lang/setup-dafny-action@v1.6.1
+        with:
+          dafny-version: ${{ inputs.dafny }}
+
+      - name: Setup Java 8
+        uses: actions/setup-java@v3
+        with:
+          distribution: "corretto"
+          java-version: 8
+      
+      - name: Update Gradle
+        uses: gradle/gradle-build-action@v3
+        with:
+          gradle-version: 8.6
+
+      - name: Build ${{ matrix.library }} implementation
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          export CODEARTIFACT_TOKEN=$(aws codeartifact get-authorization-token --domain crypto-tools-internal --domain-owner 587316601012 --region us-east-1 --query authorizationToken --output text)
+          make transpile_implementation_java
+          make transpile_test_java
+          # force gradle to ignore cache and rebuild dependencies; guarantess we are using the published artifact
+          gradle -p runtimes/java build --refresh-dependencies
+          
+          # assume role manually 
+          TMP_ROLE=$(aws sts assume-role --role-arn "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2" --role-session-name "CB-TestVectorResources")
+          export TMP_ROLE
+          export AWS_ACCESS_KEY_ID=$(echo "${TMP_ROLE}" | jq -r '.Credentials.AccessKeyId')
+          export AWS_SECRET_ACCESS_KEY=$(echo "${TMP_ROLE}" | jq -r '.Credentials.SecretAccessKey')
+          export AWS_SESSION_TOKEN=$(echo "${TMP_ROLE}" | jq -r '.Credentials.SessionToken')
+          aws sts get-caller-identity
+          
+          make test_java
+  
+  publishToProd:
+    needs: validateStaging
+    strategy:
+      matrix:
+        library: [AwsCryptographicMaterialProviders]
+        dotnet-version: ["6.0.x"]
+    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+      
+      - uses: actions/checkout@v3
+      # We only pull in the submodules we need to build the library
+      - run: git submodule update --init libraries
+      
+      - name: Retrieve User and Password for Signing Keys in SecretsManager
+        uses: aws-actions/aws-secretsmanager-get-secrets@v2
+        with:
+          secret-ids: |
+            arn:aws:secretsmanager:us-west-2:587316601012:secret:Maven-GPG-Keys-Release-Credentials-WgJanS
+            arn:aws:secretsmanager:us-west-2:587316601012:secret:Sonatype-Team-Account-0tWvZm
+          parse-json-secrets: true
+
+      - name: Retrieve Keys from SecretsManager and add keys to KeyChain
+        run: |
+          sudo apt-get install gnupg2 -y
+          aws secretsmanager get-secret-value --region us-west-2 --secret-id Maven-GPG-Keys-Release --query SecretBinary --output text | base64 -d > ~/mvn_gpg.tgz
+          tar -xvf ~/mvn_gpg.tgz -C ~
+          mkdir /root/.gnupg
+          printf "use-agent\npinentry-mode loopback" >> ~/mvn_gpg/gpg.conf
+          printf "allow-loopback-pinentry" >> ~/mvn_gpg/gpg-agent.conf
+          mv -v ~/mvn_gpg/* /root/.gnupg/
+          cat /root/.gnupg/gpg.conf
+
+      - name: Configure AWS Credentials for Tests
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
+          role-session-name: CB-TestVectors
+      
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      
+      - name: Setup Dafny
+        uses: dafny-lang/setup-dafny-action@v1.6.1
+        with:
+          dafny-version: ${{ inputs.dafny }}
+
+      - name: Setup Java 8
+        uses: actions/setup-java@v3
+        with:
+          distribution: "corretto"
+          java-version: 8
+
+      - name: Build ${{ matrix.library }} implementation
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          # This works because `node` is installed by default on GHA runners
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make build_java CORES=$CORES
+
+      - name: Test ${{ matrix.library }}
+        working-directory: ./${{ matrix.library }}
+        run: |
+          make test_java
+      
+      - name: Build TestVectorsAwsCryptographicMaterialProviders implementation
+        shell: bash
+        working-directory: ./TestVectorsAwsCryptographicMaterialProviders
+        run: |
+          # This works because `node` is installed by default on GHA runners
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make build_java CORES=$CORES
+      
+      - name: Test TestVectorsAwsCryptographicMaterialProviders
+        working-directory: ./TestVectorsAwsCryptographicMaterialProviders
+        run: |
+          make test_java
+      
+      - name: Update Gradle
+        uses: gradle/gradle-build-action@v3
+        with:
+          gradle-version: 7.6
+      
+      - name: Publish MPL to Sonatype
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          gradle -p runtimes/java publishMavenPublicationToSonatypeRepository closeSonatypeStagingRepository
+          gradle -p runtimes/java findSonatypeStagingRepository releaseSonatypeStagingRepository
+  
+  waitForIndexToUpdate:
+    needs: publishToProd
+    runs-on: macos-latest
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+      
+      - uses: actions/checkout@v3
+      # We only pull in the submodules we need to build the library
+      - run: git submodule update --init libraries
+      
+      - name: Look for published version
+        shell: bash
+        run: |
+          ./look_4_version.sh ${{inputs.version}}
+  
+  verifyProd:
+    needs: waitForIndexToUpdate
+    strategy:
+      matrix:
+        library: [TestVectorsAwsCryptographicMaterialProviders]
+        dotnet-version: ["6.0.x"]
+    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+      
+      - uses: actions/checkout@v3
+      # We only pull in the submodules we need to build the library
+      - run: git submodule update --init libraries
+      
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      
+      - name: Setup Dafny
+        uses: dafny-lang/setup-dafny-action@v1.6.1
+        with:
+          dafny-version: ${{ inputs.dafny }}
+
+      - name: Setup Java 8
+        uses: actions/setup-java@v3
+        with:
+          distribution: "corretto"
+          java-version: 8
+      
+      - name: Update Gradle
+        uses: gradle/gradle-build-action@v3
+        with:
+          gradle-version: 8.6
+
+      - name: Configure AWS Credentials for Tests
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
+          role-session-name: CB-TestVectors
+      
+      - name: Build ${{ matrix.library }} implementation
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          export CODEARTIFACT_TOKEN=$(aws codeartifact get-authorization-token --domain crypto-tools-internal --domain-owner 587316601012 --region us-east-1 --query authorizationToken --output text)
+          make transpile_implementation_java
+          make transpile_test_java
+          # force gradle to ignore cache and rebuild dependencies; guarantess we are using the published artifact
+          gradle -p runtimes/java build --refresh-dependencies
+          make test_java
