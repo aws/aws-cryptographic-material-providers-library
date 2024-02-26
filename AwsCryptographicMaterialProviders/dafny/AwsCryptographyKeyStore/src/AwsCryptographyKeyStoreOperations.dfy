@@ -160,10 +160,20 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
     :- Need(
       input.arn.Some? ==> KMS.IsValid_KeyIdType(input.arn.value),
       Types.KeyStoreException(
-        message := "KMS Key ARN is invalid."
+        message := "KMS Key ARN in request is invalid."
       )
     );
 
+    var kmsKeyArn: KMS.KeyIdType;
+    if input.arn.Some? {
+      kmsKeyArn := input.arn.value;
+    } else if config.kmsConfiguration.kmsKeyArn? {
+      kmsKeyArn := config.kmsConfiguration.kmsKeyArn;
+    } else {
+      // How did you get here?
+      return Failure(Types.KeyStoreException(message := "KMS Key ARN is invalid"));
+    }
+    
     var branchKeyIdentifier: string;
 
     if input.branchKeyIdentifier.None? {
@@ -223,7 +233,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       branchKeyVersion,
       config.ddbTableName,
       config.logicalKeyStoreName,
-      config.kmsConfiguration,
+      kmsKeyArn,
       config.grantTokens,
       config.kmsClient,
       config.ddbClient
