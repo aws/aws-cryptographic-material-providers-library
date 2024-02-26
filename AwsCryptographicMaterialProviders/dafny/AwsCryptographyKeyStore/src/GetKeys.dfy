@@ -141,14 +141,14 @@ module GetKeys {
         :- Need(
           KMS.IsValid_KeyIdType(maybeArn),
           Types.KeyStoreException( message :=
-            "Active Branch Key read from Key Store Table has a malformed KMS Key ID.")
+                                     "Active Branch Key read from Key Store Table has a malformed KMS Key ID.")
         );
-        
+
         keyId := maybeArn;
         :- Need(
           KMSKeystoreOperations.AttemptKmsOperation?(keyId, encryptionContext),
           Types.KeyStoreException( message :=
-            "Active Branch Key read from Key Store Table is malformed.")
+                                     "Active Branch Key read from Key Store Table is malformed.")
         );
     }
 
@@ -159,7 +159,7 @@ module GetKeys {
       grantTokens,
       kmsClient
     );
-      
+
     var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
       encryptionContext,
       branchKey.Plaintext.value
@@ -292,14 +292,14 @@ module GetKeys {
         :- Need(
           KMS.IsValid_KeyIdType(maybeArn),
           Types.KeyStoreException( message :=
-            "Active Branch Key read from Key Store Table has a malformed KMS Key ID.")
+                                     "Active Branch Key read from Key Store Table has a malformed KMS Key ID.")
         );
-        
+
         keyId := maybeArn;
         :- Need(
           KMSKeystoreOperations.AttemptKmsOperation?(keyId, encryptionContext),
           Types.KeyStoreException( message :=
-            "Active Branch Key read from Key Store Table is malformed.")
+                                     "Active Branch Key read from Key Store Table is malformed.")
         );
     }
 
@@ -310,7 +310,7 @@ module GetKeys {
       grantTokens,
       kmsClient
     );
-    
+
     var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
       encryptionContext,
       branchKey.Plaintext.value
@@ -439,14 +439,14 @@ module GetKeys {
         :- Need(
           KMS.IsValid_KeyIdType(maybeArn),
           Types.KeyStoreException( message :=
-            "Active Branch Key read from Key Store Table has a malformed KMS Key ID.")
+                                     "Active Branch Key read from Key Store Table has a malformed KMS Key ID.")
         );
-        
+
         keyId := maybeArn;
         :- Need(
           KMSKeystoreOperations.AttemptKmsOperation?(keyId, encryptionContext),
           Types.KeyStoreException( message :=
-            "Active Branch Key read from Key Store Table is malformed.")
+                                     "Active Branch Key read from Key Store Table is malformed.")
         );
     }
 
@@ -541,7 +541,7 @@ module GetKeys {
 
     // TODO Postal Horn: Add validating KMS Key ARN to Spec
     && (kmsConfiguration.discovery? ==> KMS.IsValid_KeyIdType(versionItem[Structure.KMS_FIELD].S))
-    
+
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
     //= type=implication
     //# - `CiphertextBlob` MUST be the `enc` attribute value on the AWS DDB response item

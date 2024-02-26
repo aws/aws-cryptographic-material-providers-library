@@ -173,7 +173,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       // How did you get here?
       return Failure(Types.KeyStoreException(message := "KMS Key ARN is invalid"));
     }
-    
+
     var branchKeyIdentifier: string;
 
     if input.branchKeyIdentifier.None? {

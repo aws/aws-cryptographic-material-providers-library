@@ -20,7 +20,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     case kmsKeyArn(arn) => arn == encryptionContext[Structure.KMS_FIELD]
     case discovery => true
   }
-  
+
   predicate AttemptKmsOperation?(arn: KMS.KeyIdType, encryptionContext: Structure.BranchKeyContext)
   {
     arn == encryptionContext[Structure.KMS_FIELD]

@@ -342,13 +342,13 @@ module {:options "/functionSyntax:4" } CreateKeys {
               // TODO Postal Horn: Update the Duvet Implcation above and the specification
               && (kmsConfig.kmsKeyArn? ==> reEncryptInput.SourceKeyId == Some(kmsConfig.kmsKeyArn))
               && (kmsConfig.discovery? ==>
-                && KMS.IsValid_KeyIdType(oldActiveItem[Structure.KMS_FIELD].S)
-                && reEncryptInput.SourceKeyId == Some(oldActiveItem[Structure.KMS_FIELD].S))
-             // && var kmsKeyArn: KMS.KeyIdType := match kmsConfig {
-              //   case kmsKeyArn(arn) => arn
-              //   case discovery => oldActiveItem[Structure.KMS_FIELD].S
-              // };
-              // && reEncryptInput.SourceKeyId == Some(kmsKeyArn)
+                    && KMS.IsValid_KeyIdType(oldActiveItem[Structure.KMS_FIELD].S)
+                    && reEncryptInput.SourceKeyId == Some(oldActiveItem[Structure.KMS_FIELD].S))
+                 // && var kmsKeyArn: KMS.KeyIdType := match kmsConfig {
+                 //   case kmsKeyArn(arn) => arn
+                 //   case discovery => oldActiveItem[Structure.KMS_FIELD].S
+                 // };
+                 // && reEncryptInput.SourceKeyId == Some(kmsKeyArn)
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-keystore-item
               //= type=implication
@@ -475,7 +475,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     // TODO Postal Horn: Consider pulling match/kmsDecrypt into helper method
     var kmsKeyArn: KMS.KeyIdType := match kmsConfig {
       case kmsKeyArn(arn) => arn
-      case discovery => oldActiveItem[Structure.KMS_FIELD].S        
+      case discovery => oldActiveItem[Structure.KMS_FIELD].S
     };
 
     if kmsConfig.discovery? {
@@ -485,13 +485,13 @@ module {:options "/functionSyntax:4" } CreateKeys {
       :- Need(
         KMS.IsValid_KeyIdType(kmsKeyArn),
         Types.KeyStoreException( message :=
-        "Active Branch Key read from Key Store Table has a malformed KMS Key ID.")
+                                   "Active Branch Key read from Key Store Table has a malformed KMS Key ID.")
       );
     }
-    
-    // TODO Postal Horn: Add Duvet Implcation and specification for below;
-    // This (already existing) logic MAY validate
-    // the Branch Key Record's KMS Key ID aligns with the requests.
+
+      // TODO Postal Horn: Add Duvet Implcation and specification for below;
+      // This (already existing) logic MAY validate
+      // the Branch Key Record's KMS Key ID aligns with the requests.
     :- Need(
       && KMSKeystoreOperations.AttemptKmsOperation?(kmsKeyArn, oldActiveEncryptionContext),
       Types.KeyStoreException(
