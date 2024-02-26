@@ -277,9 +277,8 @@ _polymorph_code_gen: OUTPUT_DOTNET=\
 _polymorph_code_gen: OUTPUT_JAVA=--output-java $(LIBRARY_ROOT)/runtimes/java/src/main/smithy-generated
 _polymorph_code_gen: _polymorph
 
-# TODO: Suggest target for extracting diff
 check_polymorph_diff:
-	git diff --exit-code $(LIBRARY_ROOT) || (echo "ERROR: polymorph-generated code does not match the committed code - see above for diff. Either commit the changes or run `make create_<lang>_patch`." && exit 1)
+	git diff --exit-code $(LIBRARY_ROOT) || (echo "ERROR: polymorph-generated code does not match the committed code - see above for diff. Either commit the changes or regenerate with `POLYMORPH_OPTIONS=--update-patch-files`." && exit 1)
 
 # Generates dafny code for all namespaces in this project
 .PHONY: polymorph_dafny
@@ -315,10 +314,6 @@ _polymorph_dotnet: OUTPUT_DOTNET=\
     $(if $(DIR_STRUCTURE_V2), --output-dotnet $(LIBRARY_ROOT)/runtimes/net/Generated/$(SERVICE)/, --output-dotnet $(LIBRARY_ROOT)/runtimes/net/Generated/)
 _polymorph_dotnet: _polymorph
 
-create_dotnet_patch:
-	mkdir -p $(LIBRARY_ROOT)/codegen-patches/dotnet
-	git diff -R $(LIBRARY_ROOT)/runtimes/net/Generated > $(LIBRARY_ROOT)/codegen-patches/dotnet/dafny-$(DAFNY_VERSION).patch
-
 # Generates java code for all namespaces in this project
 .PHONY: polymorph_java
 polymorph_java: POLYMORPH_LANGUAGE_TARGET=java
@@ -333,10 +328,6 @@ polymorph_java:
 
 _polymorph_java: OUTPUT_JAVA=--output-java $(LIBRARY_ROOT)/runtimes/java/src/main/smithy-generated
 _polymorph_java: _polymorph
-
-create_java_patch:
-	mkdir -p $(LIBRARY_ROOT)/codegen-patches/java
-	git diff -R $(LIBRARY_ROOT)/runtimes/java/src/main/smithy-generated > $(LIBRARY_ROOT)/codegen-patches/java/dafny-$(DAFNY_VERSION).patch
 
 ########################## .NET targets
 
