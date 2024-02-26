@@ -186,8 +186,8 @@ nexusPublishing {
         sonatype {
             nexusUrl.set(uri("https://aws.oss.sonatype.org/service/local/"))
             snapshotRepositoryUrl.set(uri("https://aws.oss.sonatype.org/content/repositories/snapshots/"))
-            username.set(System.getenv("SONA_USERNAME"))
-            password.set(System.getenv("SONA_PASSWORD"))
+            username.set(System.getenv("SONATYPE_TEAM_ACCOUNT_USERNAME"))
+            password.set(System.getenv("SONATYPE_TEAM_ACCOUNT_PASSWORD"))
         }
     }
 }
@@ -200,8 +200,8 @@ signing {
     project.ext.set("signing.gnupg.useLegacyGpg" , "true")
     project.ext.set("signing.gnupg.homeDir", System.getenv("HOME") + "/.gnupg/")
     project.ext.set("signing.gnupg.optionsFile", System.getenv("HOME") + "/.gnupg/gpg.conf")
-    project.ext.set("signing.gnupg.keyName", System.getenv("GPG_KEY"))
-    project.ext.set("signing.gnupg.passphrase", System.getenv("GPG_PASS"))
+    project.ext.set("signing.gnupg.keyName", System.getenv("MAVEN_GPG_KEYS_RELEASE_CREDENTIALS_KEYNAME"))
+    project.ext.set("signing.gnupg.passphrase", System.getenv("MAVEN_GPG_KEYS_RELEASE_CREDENTIALS_PASSPHRASE"))
 
     // Signing is required if building a release version and if we're going to publish it.
     // Otherwise if doing a maven publication we will sign
