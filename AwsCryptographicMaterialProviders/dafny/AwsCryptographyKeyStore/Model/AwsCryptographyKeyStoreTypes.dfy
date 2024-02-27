@@ -242,7 +242,6 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   type Utf8Bytes = ValidUTF8Bytes
   datatype VersionKeyInput = | VersionKeyInput (
     nameonly branchKeyIdentifier: string ,
-    nameonly arn: Option<ComAmazonawsKmsTypes.KeyIdType> := Option.None ,
     nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
   datatype VersionKeyOutput = | VersionKeyOutput (

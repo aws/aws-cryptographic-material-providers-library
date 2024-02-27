@@ -218,9 +218,6 @@ structure VersionKeyInput {
   @javadoc("The identifier for the Branch Key to be versioned.")
   branchKeyIdentifier: String
 
-  @javadoc("KMS Key ARN to protect this Branch Key. Required if Key Store's kmsConfiguration is Discovery.")
-  arn: com.amazonaws.kms#KeyIdType
-
   @javadoc("A List of Grant Tokens to include in KMS requests for Branch Key Versioning. This augments the list on the Key Store.")
   grantTokens: GrantTokenList
 }
