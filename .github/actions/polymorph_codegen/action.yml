@@ -63,7 +63,8 @@ runs:
         make polymorph_code_gen
 
     - name: Check regenerated code against commited code
-      if: inputs.diff-generated-code
+      # Composite action inputs seem to not actually support booleans for some reason
+      if: inputs.diff-generated-code == 'true'
       working-directory: ./${{ inputs.library }}
       shell: bash
       run: |
