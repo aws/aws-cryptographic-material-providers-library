@@ -8,10 +8,10 @@ on:
         description: "The Dafny version to run"
         required: true
         type: string
-      diff-generated-code:
-        description: "Diff regenerated code against committed state"
+      regenerate-code:
+        description: "Regenerate code using smithy-dafny"
         required: false
-        default: true
+        default: false
         type: boolean
 
 jobs:
