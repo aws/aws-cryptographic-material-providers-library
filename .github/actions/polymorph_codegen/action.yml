@@ -22,15 +22,15 @@
 #    so that subsequent steps can work correctly.
 #
 
-name: 'Polymorph code generation'
-description: 'Regenerates code using smithy-dafny, and optionally checks that the result matches the checked in state'
+name: "Polymorph code generation"
+description: "Regenerates code using smithy-dafny, and optionally checks that the result matches the checked in state"
 inputs:
   dafny:
     description: "The Dafny version to run"
     required: true
     type: string
   library:
-    description: 'Name of the library to regenerate code for'
+    description: "Name of the library to regenerate code for"
     required: true
     type: string
   diff-generated-code:
