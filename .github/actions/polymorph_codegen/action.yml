@@ -49,11 +49,13 @@ runs:
     - name: Update top-level project.properties file
       env:
         DAFNY_VERSION: ${{ inputs.dafny }}
+      shell: bash
       run: |
         make generate_properties_file
 
     - name: Regenerate all code using smithy-dafny
       working-directory: ./${{ inputs.library }}
+      shell: bash
       # smithy-dafny also formats generated code itself now,
       # so prettier is a necessary dependency.
       run: |
@@ -63,5 +65,6 @@ runs:
     - name: Check regenerated code against commited code
       if: inputs.diff-generated-code
       working-directory: ./${{ inputs.library }}
+      shell: bash
       run: |
         make check_polymorph_diff
