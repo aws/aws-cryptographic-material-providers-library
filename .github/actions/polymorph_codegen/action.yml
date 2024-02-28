@@ -53,6 +53,8 @@ runs:
       run: |
         make generate_properties_file
 
+    - uses: actions/setup-node@v3
+    
     - name: Setup dependencies
       working-directory: ./${{ inputs.library }}
       shell: bash
