@@ -53,14 +53,34 @@ runs:
       run: |
         make generate_properties_file
 
-    - name: Regenerate all code using smithy-dafny
+    - name: Setup dependencies
       working-directory: ./${{ inputs.library }}
       shell: bash
       # smithy-dafny also formats generated code itself now,
       # so prettier is a necessary dependency.
       run: |
         make -C .. setup_prettier
-        make polymorph_code_gen
+
+    - name: Regenerate Dafny code using smithy-dafny
+      # Unfortunately Dafny codegen doesn't work on Windows:
+      # https://github.com/smithy-lang/smithy-dafny/issues/317
+      if: runner.os != "Windows"
+      working-directory: ./${{ inputs.library }}
+      shell: bash
+      run: |
+        make polymorph_dafny
+    
+    - name: Regenerate Java code using smithy-dafny
+      working-directory: ./${{ inputs.library }}
+      shell: bash
+      run: |
+        make polymorph_java
+
+    - name: Regenerate .NET code using smithy-dafny
+      working-directory: ./${{ inputs.library }}
+      shell: bash
+      run: |
+        make polymorph_dotnet
 
     - name: Check regenerated code against commited code
       # Composite action inputs seem to not actually support booleans for some reason
