@@ -1,0 +1,67 @@
+#
+# This local action serves two purposes:
+#
+# 1. For core workflows like pull.yml and push.yml,
+#    it is uses to check that the checked in copy of generated code
+#    matches what the current submodule version of smithy-dafny generates.
+#    This is important to ensure whenever someone changes the models
+#    or needs to regenerate to pick up smithy-dafny improvements,
+#    they don't have to deal with unpleasant surprises.
+#
+# 2. For workflows that check compatibility with other Dafny versions,
+#    such as nightly_dafny.yml, it is necessary to regenerate the code
+#    for that version of Dafny first.
+#    This is ultimately because some of the code smithy-dafny generates
+#    is tightly coupled to what code Dafny itself generates.
+#    A concrete example is that Dafny 4.3 added TypeDescriptors
+#    as parameters when constructing datatypes like Option and Result.
+#
+#    This is why this is a composite action instead of a reusable workflow:
+#    the latter executes in a separate runner environment,
+#    but here we need to actually overwrite the generated code in place
+#    so that subsequent steps can work correctly.
+#
+
+name: 'Polymorph code generation'
+description: 'Regenerates code using smithy-dafny, and optionally checks that the result matches what's checked in'
+inputs:
+  dafny:
+    description: "The Dafny version to run"
+    required: true
+    type: string
+  library:
+    description: 'Name of the library to regenerate code for'
+    required: true
+    type: string
+  diff-generated-code:
+    description: "Diff regenerated code against committed state"
+    required: true
+    type: boolean
+outputs:
+  random-number:
+    description: "Random number"
+    value: ${{ steps.random-number-generator.outputs.random-number }}
+runs:
+  using: "composite"
+  steps:
+    # Replace the project.properties file so that we pick up the right runtimes etc.,
+    # in cases where inputs.dafny is different from the current value in that file.
+    - name: Update top-level project.properties file
+      env:
+        DAFNY_VERSION: ${{ inputs.dafny }}
+      run: |
+        make generate_properties_file
+
+    - name: Regenerate all code using smithy-dafny
+      working-directory: ./${{ inputs.library }}
+      # smithy-dafny also formats generated code itself now,
+      # so prettier is a necessary dependency.
+      run: |
+        make -C .. setup_prettier
+        make polymorph_code_gen
+
+    - name: Check regenerated code against commited code
+      if: inputs.diff-generated-code
+      working-directory: ./${{ inputs.library }}
+      run: |
+        make check_polymorph_diff

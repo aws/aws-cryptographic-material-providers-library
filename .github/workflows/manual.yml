@@ -10,8 +10,8 @@ on:
         description: "The Dafny version to use"
         required: true
         type: string
-      diff-generated-code:
-        description: "Diff regenerated code against committed state"
+      regenerate-code:
+        description: "Regenerate code using smithy-dafny"
         required: false
         default: true
         type: boolean
@@ -25,14 +25,14 @@ jobs:
     uses: ./.github/workflows/library_dafny_verification.yml
     with:
       dafny: ${{ inputs.dafny }}
-      diff-generated-code: ${{ inputs.diff-generated-code }}
+      regenerate-code: ${{ inputs.regenerate-code }}
   manual-ci-java:
     uses: ./.github/workflows/library_java_tests.yml
     with:
       dafny: ${{ inputs.dafny }}
-      diff-generated-code: ${{ inputs.diff-generated-code }}
+      regenerate-code: ${{ inputs.regenerate-code }}
   manual-ci-net:
     uses: ./.github/workflows/library_net_tests.yml
     with:
       dafny: ${{ inputs.dafny }}
-      diff-generated-code: ${{ inputs.diff-generated-code }}
+      regenerate-code: ${{ inputs.regenerate-code }}
