@@ -278,7 +278,7 @@ _polymorph_code_gen: OUTPUT_JAVA=--output-java $(LIBRARY_ROOT)/runtimes/java/src
 _polymorph_code_gen: _polymorph
 
 check_polymorph_diff:
-	git diff --exit-code $(LIBRARY_ROOT) || (echo "ERROR: polymorph-generated code does not match the committed code - see above for diff. Either commit the changes or regenerate with `POLYMORPH_OPTIONS=--update-patch-files`." && exit 1)
+	git diff --exit-code $(LIBRARY_ROOT) || (echo "ERROR: polymorph-generated code does not match the committed code - see above for diff. Either commit the changes or regenerate with 'POLYMORPH_OPTIONS=--update-patch-files'." && exit 1)
 
 # Generates dafny code for all namespaces in this project
 .PHONY: polymorph_dafny
