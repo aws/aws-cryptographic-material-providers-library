@@ -23,7 +23,7 @@
 #
 
 name: 'Polymorph code generation'
-description: 'Regenerates code using smithy-dafny, and optionally checks that the result matches what's checked in'
+description: 'Regenerates code using smithy-dafny, and optionally checks that the result matches the checked in state'
 inputs:
   dafny:
     description: "The Dafny version to run"
