@@ -64,7 +64,7 @@ runs:
     - name: Regenerate Dafny code using smithy-dafny
       # Unfortunately Dafny codegen doesn't work on Windows:
       # https://github.com/smithy-lang/smithy-dafny/issues/317
-      if: runner.os != "Windows"
+      if: runner.os != 'Windows'
       working-directory: ./${{ inputs.library }}
       shell: bash
       run: |
