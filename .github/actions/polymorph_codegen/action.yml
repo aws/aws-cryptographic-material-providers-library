@@ -21,6 +21,8 @@
 #    but here we need to actually overwrite the generated code in place
 #    so that subsequent steps can work correctly.
 #
+# This action assumes that the given version of Dafny and .NET 6.0.x
+# have already been set up, since they are used to format generated code.
 
 name: "Polymorph code generation"
 description: "Regenerates code using smithy-dafny, and optionally checks that the result matches the checked in state"
@@ -81,7 +83,7 @@ runs:
         make polymorph_dotnet
 
     - name: Check regenerated code against commited code
-      # Composite action inputs seem to not actually support booleans for some reason
+      # Composite action inputs seem to not actually support booleans properly for some reason
       if: inputs.diff-generated-code == 'true'
       working-directory: ./${{ inputs.library }}
       shell: bash
