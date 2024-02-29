@@ -43,6 +43,6 @@ jobs:
 
       - uses: ./.github/actions/polymorph_codegen
         with:
-          dafny-version: ${{ inputs.dafny }}
+          dafny: ${{ inputs.dafny }}
           library: ${{ matrix.library }}
           diff-generated-code: true
