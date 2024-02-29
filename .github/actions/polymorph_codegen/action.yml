@@ -61,7 +61,7 @@ runs:
       shell: bash
       run: |
         make polymorph_dafny
-    
+
     - name: Regenerate Java code using smithy-dafny
       # npx seems to be unavailable on Windows GHA runners,
       # so we don't regenerate Java code on them either.
