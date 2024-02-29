@@ -53,16 +53,6 @@ runs:
       run: |
         make generate_properties_file
 
-    - uses: actions/setup-node@v3
-    
-    - name: Setup dependencies
-      working-directory: ./${{ inputs.library }}
-      shell: bash
-      # smithy-dafny also formats generated code itself now,
-      # so prettier is a necessary dependency.
-      run: |
-        make -C .. setup_prettier
-
     - name: Regenerate Dafny code using smithy-dafny
       # Unfortunately Dafny codegen doesn't work on Windows:
       # https://github.com/smithy-lang/smithy-dafny/issues/317
@@ -73,9 +63,15 @@ runs:
         make polymorph_dafny
     
     - name: Regenerate Java code using smithy-dafny
+      # npx seems to be unavailable on Windows GHA runners,
+      # so we don't regenerate Java code on them either.
+      if: runner.os != 'Windows'
       working-directory: ./${{ inputs.library }}
       shell: bash
+      # smithy-dafny also formats generated code itself now,
+      # so prettier is a necessary dependency.
       run: |
+        make -C .. setup_prettier
         make polymorph_java
 
     - name: Regenerate .NET code using smithy-dafny
