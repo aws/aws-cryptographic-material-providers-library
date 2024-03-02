@@ -19,3 +19,9 @@ jobs:
   #   with:
   #     dafny: ${{needs.getVersion.outputs.version}}
   #     version: ${{inputs.version}}
+  net-release:
+    needs: getVersion
+    uses: ./.github/workflows/net-release.yml
+    with:
+      dafny: ${{needs.getVersion.outputs.version}}
+      version: ${{inputs.version}}

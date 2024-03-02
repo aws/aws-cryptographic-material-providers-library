@@ -1,0 +1,58 @@
+# This workflow performs MPL Java release
+name: MPL-Release-Net
+
+on:
+  workflow_call:
+    inputs:
+      dafny:
+        description: "The Dafny version to run"
+        required: true
+        type: string
+      version:
+          description: "The version being released"
+          required: true
+          type: string
+
+jobs:
+  # To release in .NET, we release each module separately. 
+  # Since other modules depend on other's there is an order in which we must release
+  # 1. StandardLibrary, 2. AwsCryptographyPrimitives, ComAmazonawsKms, ComAmazonawsDynamodb, 3. AwsCryptographicMaterialProviders
+  StandardLibrary:
+    uses: ./.github/workflows/net/net-lib-release.yml
+    with:
+      dafny: ${{inputs.dafny}}
+      version: ${{inputs.version}}
+      project: "StandardLibrary"
+
+  Primitives:
+    needs: StandardLibrary
+    uses: ./.github/workflows/net/net-lib-release.yml
+    with:
+      dafny: ${{inputs.dafny}}
+      version: ${{inputs.version}}
+      project: "AwsCryptographyPrimitives"
+
+  Kms:
+    needs: StandardLibrary
+    uses: ./.github/workflows/net/net-lib-release.yml
+    with:
+      dafny: ${{inputs.dafny}}
+      version: ${{inputs.version}}
+      project: "ComAmazonawsKms"
+
+  DynamoDb:
+    needs: StandardLibrary
+    uses: ./.github/workflows/net/net-lib-release.yml
+    with:
+      dafny: ${{inputs.dafny}}
+      version: ${{inputs.version}}
+      project: "ComAmazonawsDynamodb"
+
+  MPL:
+    needs: [StandardLibrary, Primitives, Kms, DynamoDb ]
+    uses: ./.github/workflows/net/net-lib-release.yml
+    with:
+      dafny: ${{inputs.dafny}}
+      version: ${{inputs.version}}
+      project: "AwsCryptographicMaterialProviders"
+      

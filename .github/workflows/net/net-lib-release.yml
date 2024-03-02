@@ -1,0 +1,94 @@
+# This workflow performs MPL NET release
+name: MPL-Release-Net-Lib
+
+on:
+  workflow_call:
+    inputs:
+      dafny:
+        description: "The Dafny version to run"
+        required: true
+        type: string
+      version:
+          description: "The version being released"
+          required: true
+          type: string
+      project:
+          description: "The project being released"
+          required: true
+          type: string
+jobs:
+  sign:
+    strategy:
+      matrix:
+        library: ${{inputs.project}}
+        dotnet-version: ["6.0.x"]
+    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+  
+  verify:
+    needs: sign
+    strategy:
+      matrix:
+        library: ${{inputs.project}}
+        dotnet-version: ["6.0.x"]
+    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+  
+  releaseToCA:
+    needs: verify
+    strategy:
+      matrix:
+        library: ${{inputs.project}}
+        dotnet-version: ["6.0.x"]
+    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+  
+  releaseToProd:
+    needs: [verify, releaseToCA]
+    strategy:
+      matrix:
+        library: ${{inputs.project}}
+        dotnet-version: ["6.0.x"]
+    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+  
+  testProd:
+    needs: releaseToProd
+    strategy:
+      matrix:
+        library: ${{inputs.project}}
+        dotnet-version: ["6.0.x"]
+    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+    
+    
