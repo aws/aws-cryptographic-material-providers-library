@@ -10,12 +10,24 @@ on:
         type: string
 
 jobs:
+  allowList:
+    uses: ./.github/workflows/validate_user.yml
   getVersion:
-    if: contains('["seebees","ShubhamChaturvedi7","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","justplaz","ajewellamz"]', github.actor)
+    needs: [allowList]
     uses: ./.github/workflows/dafny_version.yaml
-  # java-release:
-  #   needs: getVersion
-  #   uses: ./.github/workflows/java-release.yml
-  #   with:
-  #     dafny: ${{needs.getVersion.outputs.version}}
-  #     version: ${{inputs.version}}
+  getUniqueId:
+    needs: [allowList]
+    uses: ./.github/workflows/create_unique_id.yml
+  java-release:
+    needs: getVersion
+    uses: ./.github/workflows/java-release.yml
+    with:
+      dafny: ${{needs.getVersion.outputs.version}}
+      version: ${{inputs.version}}
+  net-release:
+    needs: [getVersion, getUniqueId]
+    uses: ./.github/workflows/net-release.yml
+    with:
+      dafny: ${{needs.getVersion.outputs.version}}
+      version: ${{inputs.version}}
+      unique-id: ${{needs.getUniqueId.outputs.unique-id}}

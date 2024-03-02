@@ -1,0 +1,395 @@
+# This workflow performs MPL NET release
+name: MPL-Release-Net-Lib
+
+on:
+  workflow_call:
+    inputs:
+      dafny:
+        description: "The Dafny version to run"
+        required: true
+        type: string
+      version:
+          description: "The version being released"
+          required: true
+          type: string
+      unique-id:
+          description: "The unique signing id"
+          required: true
+          type: string
+      project:
+          description: "The project being released"
+          required: true
+          type: string
+      csproj:
+          description: "The csproj file name"
+          required: true
+          type: string
+      test_csproj:
+          description: "The csproj test file name"
+          required: true
+          type: string
+      assembly_name:
+          description: "Assembly File Name for project"
+          required: true
+          type: string
+  
+  workflow_dispatch:
+    inputs:
+      dafny:
+        description: "The Dafny version to run"
+        required: true
+        type: string
+      version:
+          description: "The version being released"
+          required: true
+          type: string
+      unique-id:
+          description: "The unique signing id"
+          required: true
+          type: string
+      project:
+          description: "The project being released"
+          required: true
+          type: string
+      csproj:
+          description: "The csproj file name"
+          required: true
+          type: string
+      test_csproj:
+          description: "The csproj test file name"
+          required: true
+          type: string
+      assembly_name:
+          description: "Assembly File Name for project"
+          required: true
+          type: string
+
+jobs:
+  allowList:
+    uses: ./.github/workflows/validate_user.yml
+  sign:
+    needs: [allowList]
+    strategy:
+      matrix:
+        dotnet-version: ["6.0.x"]
+    runs-on: codebuild-AWS-MPL-Release-${{ github.run_id }}-${{ github.run_attempt }}-ubuntu-5.0-large
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      UNIQUE_ID: ${{inputs.unique-id}}
+      CSPROJ: ${{inputs.csproj}}
+      TEST_CSPROJ: ${{inputs.test_csproj}}
+      ASSEMBLY_NAME: ${{inputs.assembly_name}}
+      FILE_NAME: ${{inputs.assembly_name}} 
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+      
+      - uses: actions/checkout@v4
+      # The specification submodule is private so we don't have access, but we don't need
+      # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
+      - run: git submodule update --init libraries
+      - run: git submodule update --init smithy-dafny
+      
+      - name: Configure AWS Credentials for Tests
+        uses: aws-actions/configure-aws-credentials@v4
+        if: inputs.project == 'ComAmazonawsKms' || inputs.project == 'ComAmazonawsDynamodb' || inputs.project == 'AwsCryptographicMaterialProviders'
+        with:
+          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
+          role-session-name: NetReleaseTests
+
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'     
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Setup Dafny
+        uses: dafny-lang/setup-dafny-action@v1.7.0
+        with:
+          dafny-version: ${{ inputs.dafny }}
+      - name: Export signing ID
+        shell: bash
+        run: |
+          export UNIQUE_ID=${{inputs.unique-id}};
+      - name: make ${{inputs.project}}
+        shell: bash
+        working-directory: ./${{inputs.project}}
+        run: |
+          make transpile_net
+          make test_net FRAMEWORK=net6.0
+      - name: Unset AWS Creds
+        shell: bash
+        run: |
+          echo "AWS_ACCESS_KEY_ID=" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=" >> $GITHUB_ENV
+          echo "AWS_SESSION_TOKEN=" >> $GITHUB_ENV
+          echo "AWS_DEFAULT_REGION=" >> $GITHUB_ENV
+          echo "AWS_REGION=" >> $GITHUB_ENV
+      - name: Build ${{inputs.project}}
+        shell: bash
+        working-directory: ./${{inputs.project}}
+        run: |
+          dotnet build runtimes/net /p:Configuration=Release -nowarn:CS0162,CS0168
+
+      - name: Upload ${{inputs.project}} DLL to signing bucket
+        shell: bash
+        working-directory: ./${{inputs.project}}
+        run: |
+          pip install boto3
+          export BASE=../codebuild/net
+          python $BASE/upload_assembly.py --target net6.0 --unique-id $UNIQUE_ID
+          python $BASE/upload_assembly.py --target net48 --unique-id $UNIQUE_ID
+          ## Retrieve the signed assembly. We're not going to use it, but this
+          ## ensures that the signing process is complete
+          python $BASE/retrieve_signed_assembly.py --target net6.0 --unique-id $UNIQUE_ID
+          python $BASE/retrieve_signed_assembly.py --target net48 --unique-id $UNIQUE_ID
+  
+  verify:
+    needs: sign
+    strategy:
+      matrix:
+        dotnet-version: ["6.0.x"]
+        dotnet-target: [net48, net6.0]
+    env:
+      UNIQUE_ID: ${{inputs.unique-id}}
+      CSPROJ: ${{inputs.csproj}}
+      TEST_CSPROJ: ${{inputs.test_csproj}}
+      ASSEMBLY_NAME: ${{inputs.assembly_name}}
+      FILE_NAME: ${{inputs.assembly_name}} 
+    runs-on: codebuild-AWS-MPL-Release-${{ github.run_id }}-${{ github.run_attempt }}-windows-3.0-large
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+      
+      - uses: actions/checkout@v4
+      # The specification submodule is private so we don't have access, but we don't need
+      # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
+      - run: git submodule update --init libraries
+      - run: git submodule update --init smithy-dafny
+
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'     
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      
+      - name: Check Signatures for ${{inputs.project}} ${{matrix.dotnet-target}}
+        run: |
+          pip install boto3
+          mkdir ${{matrix.dotnet-target}}
+          python codebuild/net/retrieve_signed_assembly.py --target ${{matrix.dotnet-target}} --unique-id $Env:UNIQUE_ID --output ${{matrix.dotnet-target}}
+          $sig = Get-AuthenticodeSignature -FilePath ${{matrix.dotnet-target}}/$Env:FILE_NAME
+          $sig | Format-List -Property *
+  
+  releaseToCA:
+    needs: verify
+    strategy:
+      matrix:
+        dotnet-version: ["6.0.x"]
+    env:
+      UNIQUE_ID: ${{inputs.unique-id}}
+      CSPROJ: ${{inputs.csproj}}
+      TEST_CSPROJ: ${{inputs.test_csproj}}
+      ASSEMBLY_NAME: ${{inputs.assembly_name}}
+    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+      
+      - uses: actions/checkout@v4
+      # The specification submodule is private so we don't have access, but we don't need
+      # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
+      - run: git submodule update --init libraries
+
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'     
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Setup Dafny
+        uses: dafny-lang/setup-dafny-action@v1.7.0
+        with:
+          dafny-version: ${{ inputs.dafny }}
+      - name: Test make build and dotnet build
+        shell: bash
+        working-directory: ./${{inputs.project}}
+        run: |
+          make transpile_net
+          dotnet build runtimes/net /p:Configuration=Release -nowarn:CS0162,CS0168
+      
+      - name: Get Signed DLL for ${{inputs.project}}
+        env:
+          BASE: "../codebuild/net"
+        working-directory: ./${{inputs.project}}
+        run: |
+          pip install boto3
+          python $BASE/retrieve_signed_assembly.py --target net6.0 --unique-id $UNIQUE_ID
+          python $BASE/retrieve_signed_assembly.py --target net48 --unique-id $UNIQUE_ID
+      
+      - name: Export Version
+        working-directory: ./${{inputs.project}}
+        shell: bash
+        run: |
+          export VERSION=`grep '<Version>' runtimes/net/$CSPROJ | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
+          echo "RELEASE_VERSION=$VERSION" >> "$GITHUB_ENV"
+          
+      - name: Upload ${{inputs.project}} to AWS CA
+        working-directory: ./${{inputs.project}}
+        shell: bash
+        run: |
+          mkdir build
+          aws codeartifact login \
+            --tool dotnet \
+            --repository mpl-net-staging \
+            --domain crypto-tools-internal \
+            --domain-owner 587316601012 \
+            --region us-east-1
+          
+          sed "s/<Version>\(.*\)<\/Version>/<Version>${RELEASE_VERSION}<\/Version>/g" runtimes/net/$CSPROJ > runtimes/net/tmp-$CSPROJ
+          mv runtimes/net/tmp-$CSPROJ runtimes/net/$CSPROJ
+
+          dotnet pack runtimes/net/$CSPROJ  --no-build /p:Configuration=Release --output build
+          if [ "${{inputs.project}}" == "AwsCryptographicMaterialProviders" ]; then
+            dotnet nuget push build/AWS.Cryptography.MaterialProviders.$RELEASE_VERSION.nupkg --source crypto-tools-internal/mpl-net-staging
+          else
+            dotnet nuget push build/AWS.Cryptography.Internal.${{inputs.project}}.$RELEASE_VERSION.nupkg --source crypto-tools-internal/mpl-net-staging
+          fi
+
+      - name: Pull Down AWS CA Published Artifact
+        working-directory: ./${{inputs.project}}
+        shell: bash
+        run: |
+          sed -i.backup  "/\<ProjectReference Include=\"..\/${CSPROJ}\" \/>/d" runtimes/net/tests/$TEST_CSPROJ
+          if [ "${{inputs.project}}" == "AwsCryptographicMaterialProviders" ]; then
+            dotnet add runtimes/net/tests/$TEST_CSPROJ package AWS.Cryptography.MaterialProviders --version $RELEASE_VERSION
+          else
+            dotnet add runtimes/net/tests/$TEST_CSPROJ package AWS.Cryptography.Internal.${{inputs.project}} --version $RELEASE_VERSION
+          fi
+      
+      - name: Configure AWS Credentials for Tests
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
+          role-session-name: NetReleaseTests
+      
+      - name: Test AWS CA Published Artifact
+        working-directory: ./${{inputs.project}}
+        shell: bash
+        run: |
+          make test_net FRAMEWORK=net6.0
+
+      - name: Test MPL TestVectors
+        if: inputs.project == 'AwsCryptographicMaterialProviders'
+        working-directory: ./TestVectorsAwsCryptographicMaterialProviders
+        shell: bash
+        run: |
+          sed -i.backup  "/\<ProjectReference Include=\"..\/..\/..\/AwsCryptographicMaterialProviders\/runtimes\/net\/MPL.csproj\" \/>/d" runtimes/net/TestVectors.csproj
+          dotnet add runtimes/net/TestVectors.csproj package AWS.Cryptography.MaterialProviders --version $RELEASE_VERSION
+          make transpile_net
+          make test_net FRAMEWORK=net6.0
+  
+  releaseToProd:
+    needs: releaseToCA
+    strategy:
+      matrix:
+        dotnet-version: ["6.0.x"]
+    env:
+      UNIQUE_ID: ${{inputs.unique-id}}
+      CSPROJ: ${{inputs.csproj}}
+      TEST_CSPROJ: ${{inputs.test_csproj}}
+      ASSEMBLY_NAME: ${{inputs.assembly_name}}
+    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+      
+      - uses: actions/checkout@v4
+      # The specification submodule is private so we don't have access, but we don't need
+      # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
+      - run: git submodule update --init libraries
+
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'     
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Setup Dafny
+        uses: dafny-lang/setup-dafny-action@v1.7.0
+        with:
+          dafny-version: ${{ inputs.dafny }}
+      - name: Test make build and dotnet build
+        shell: bash
+        working-directory: ./${{inputs.project}}
+        run: |
+          make transpile_net
+          dotnet build runtimes/net /p:Configuration=Release -nowarn:CS0162,CS0168
+      - name: Get Signed DLL for ${{inputs.project}}
+        env:
+          BASE: "../codebuild/net"
+        working-directory: ./${{inputs.project}}
+        run: |
+          pip install boto3
+          python $BASE/retrieve_signed_assembly.py --target net6.0 --unique-id $UNIQUE_ID
+          python $BASE/retrieve_signed_assembly.py --target net48 --unique-id $UNIQUE_ID
+      
+      - name: Export Version
+        working-directory: ./${{inputs.project}}
+        shell: bash
+        run: |
+          export VERSION=`grep '<Version>' runtimes/net/$CSPROJ | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
+          echo "RELEASE_VERSION=$VERSION" >> "$GITHUB_ENV"
+      
+      - name: Release ${{inputs.project}} to NuGet
+        working-directory: ./${{inputs.project}}
+        env:
+          BASE: "../codebuild/net"
+        shell: bash
+        run: |
+          mkdir build
+          dotnet pack runtimes/net/$CSPROJ  --no-build /p:Configuration=Release --output build
+          export API_ACCESS_KEY=$(python $BASE/retrieve_api_access_key.py)
+          if [ "${{inputs.project}}" == "AwsCryptographicMaterialProviders" ]; then
+            dotnet nuget push build/AWS.Cryptography.MaterialProviders.$RELEASE_VERSION.nupkg --api-key "$API_ACCESS_KEY" --source https://api.nuget.org/v3/index.json
+          else
+            dotnet nuget push build/AWS.Cryptography.Internal.${{inputs.project}}.$RELEASE_VERSION.nupkg --api-key "$API_ACCESS_KEY" --source https://api.nuget.org/v3/index.json
+          fi
+  
+  testProd:
+    needs: releaseToProd
+    uses: ./.github/workflows/net-lib-test-prod.yml
+    with:
+      dafny: ${{inputs.dafny}}
+      version: ${{inputs.version}}
+      unique-id: ${{inputs.unique-id}}
+      project: ${{inputs.project}} 
+      csproj: ${{inputs.csproj}}
+      test_csproj: ${{inputs.test_csproj}}
+      assembly_name: ${{inputs.assembly_name}}  

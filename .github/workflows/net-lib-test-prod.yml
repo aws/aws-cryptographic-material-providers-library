@@ -1,0 +1,145 @@
+# This workflow only tests the publihsed artifact from NuGet
+on:
+  workflow_call:
+    inputs:
+      dafny:
+        description: "The Dafny version to run"
+        required: true
+        type: string
+      version:
+          description: "The version being released"
+          required: true
+          type: string
+      unique-id:
+          description: "The unique signing id"
+          required: true
+          type: string
+      project:
+          description: "The project being released"
+          required: true
+          type: string
+      csproj:
+          description: "The csproj file name"
+          required: true
+          type: string
+      test_csproj:
+          description: "The csproj test file name"
+          required: true
+          type: string
+      assembly_name:
+          description: "Assembly File Name for project"
+          required: true
+          type: string
+  workflow_dispatch:
+    inputs:
+      dafny:
+        description: "The Dafny version to run"
+        required: true
+        type: string
+      version:
+          description: "The version being released"
+          required: true
+          type: string
+      unique-id:
+          description: "The unique signing id"
+          required: true
+          type: string
+      project:
+          description: "The project being released"
+          required: true
+          type: string
+      csproj:
+          description: "The csproj file name"
+          required: true
+          type: string
+      test_csproj:
+          description: "The csproj test file name"
+          required: true
+          type: string
+      assembly_name:
+          description: "Assembly File Name for project"
+          required: true
+          type: string
+
+jobs:
+  testProd:
+    strategy:
+      matrix:
+        dotnet-version: ["6.0.x"]
+    env:
+      UNIQUE_ID: ${{inputs.unique-id}}
+      CSPROJ: ${{inputs.csproj}}
+      TEST_CSPROJ: ${{inputs.test_csproj}}
+      ASSEMBLY_NAME: ${{inputs.assembly_name}}
+    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+      
+      - uses: actions/checkout@v4
+      # The specification submodule is private so we don't have access, but we don't need
+      # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
+      - run: git submodule update --init libraries
+
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'     
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Setup Dafny
+        uses: dafny-lang/setup-dafny-action@v1.7.0
+        with:
+          dafny-version: ${{ inputs.dafny }}
+      
+      - name: Build Test Project
+        working-directory: ./${{inputs.project}}
+        run: |
+          make transpile_net
+      
+      - name: Export Version
+        working-directory: ./${{inputs.project}}
+        shell: bash
+        run: |
+          export VERSION=`grep '<Version>' runtimes/net/$CSPROJ | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
+          echo "RELEASE_VERSION=$VERSION" >> "$GITHUB_ENV"
+      
+      - name: Add Published Artifact
+        working-directory: ./${{inputs.project}}
+        shell: bash
+        run: |
+          sed -i.backup  "/\<ProjectReference Include=\"..\/${CSPROJ}\" \/>/d" runtimes/net/tests/$TEST_CSPROJ
+          if [ "${{inputs.project}}" == "AwsCryptographicMaterialProviders" ]; then
+            dotnet add runtimes/net/tests/$TEST_CSPROJ package AWS.Cryptography.MaterialProviders --version $RELEASE_VERSION
+          else
+            dotnet add runtimes/net/tests/$TEST_CSPROJ package AWS.Cryptography.Internal.${{inputs.project}} --version $RELEASE_VERSION
+          fi
+      
+      - name: Configure AWS Credentials for Tests
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
+          role-session-name: NetReleaseTests
+      
+      - name: Test Published Artifact
+        working-directory: ./${{inputs.project}}
+        shell: bash
+        run: |
+          make test_net FRAMEWORK=net6.0
+
+      - name: Test MPL TestVectors
+        if: inputs.project == 'AwsCryptographicMaterialProviders'
+        working-directory: ./TestVectorsAwsCryptographicMaterialProviders
+        shell: bash
+        run: |
+          sed -i.backup  "/\<ProjectReference Include=\"..\/..\/..\/AwsCryptographicMaterialProviders\/runtimes\/net\/MPL.csproj\" \/>/d" runtimes/net/TestVectors.csproj
+          dotnet add runtimes/net/TestVectors.csproj package AWS.Cryptography.MaterialProviders --version $RELEASE_VERSION
+          make transpile_net
+          make test_net FRAMEWORK=net6.0

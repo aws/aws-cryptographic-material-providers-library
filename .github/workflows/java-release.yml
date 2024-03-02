@@ -12,14 +12,29 @@ on:
           description: "The version being released"
           required: true
           type: string
+  # Useful to run this action by itself since sometimes to apply hot patches
+  # to just java we need to only release a jva build
+  workflow_dispatch:
+    inputs:
+      dafny:
+        description: "The Dafny version to run"
+        required: true
+        type: string
+      version:
+          description: "The version being released"
+          required: true
+          type: string
 
 jobs:
+  allowList:
+    uses: ./.github/workflows/validate_user.yml
   releaseToCA:
+    needs: allowList
     strategy:
       matrix:
         library: [AwsCryptographicMaterialProviders]
         dotnet-version: ["6.0.x"]
-    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    runs-on: codebuild-AWS-MPL-Release-${{ github.run_id }}-${{ github.run_attempt }}-ubuntu-5.0-large
     permissions:
       id-token: write
       contents: read
@@ -117,7 +132,7 @@ jobs:
       matrix:
         library: [TestVectorsAwsCryptographicMaterialProviders]
         dotnet-version: ["6.0.x"]
-    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    runs-on: codebuild-AWS-MPL-Release-${{ github.run_id }}-${{ github.run_attempt }}-ubuntu-5.0-large
     permissions:
       id-token: write
       contents: read
@@ -182,7 +197,7 @@ jobs:
       matrix:
         library: [AwsCryptographicMaterialProviders]
         dotnet-version: ["6.0.x"]
-    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    runs-on: codebuild-AWS-MPL-Release-${{ github.run_id }}-${{ github.run_attempt }}-ubuntu-5.0-large
     permissions:
       id-token: write
       contents: read
@@ -298,7 +313,7 @@ jobs:
       matrix:
         library: [TestVectorsAwsCryptographicMaterialProviders]
         dotnet-version: ["6.0.x"]
-    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    runs-on: codebuild-AWS-MPL-Release-${{ github.run_id }}-${{ github.run_attempt }}-ubuntu-5.0-large
     permissions:
       id-token: write
       contents: read

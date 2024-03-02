@@ -1,0 +1,105 @@
+# This workflow performs MPL Java release
+name: MPL-Release-Net
+
+on:
+  # If you want to release MPL to all its languages you should check which
+  # workflow uses `` 
+  workflow_call:
+    inputs:
+      dafny:
+        description: "The Dafny version to run"
+        required: true
+        type: string
+      version:
+          description: "The version being released"
+          required: true
+          type: string
+      unique-id: 
+          description: "The Unique Signing ID"
+          required: true
+          type: string
+  # If you only want to release MPL .NET you should run MPL-Release-Net
+  workflow_dispatch:
+    inputs:
+      dafny:
+        description: "The Dafny version to run"
+        required: true
+        type: string
+      version:
+          description: "The version being released"
+          required: true
+          type: string
+      unique-id: 
+          description: "The Unique Signing ID"
+          required: true
+          type: string
+        
+
+jobs:
+  allowList:
+    uses: ./.github/workflows/validate_user.yml
+  # To release in .NET, we release each module separately. 
+  # Since other modules depend on other's there is an order in which we must release
+  # 1. StandardLibrary, 2. AwsCryptographyPrimitives, ComAmazonawsKms, ComAmazonawsDynamodb, 3. AwsCryptographicMaterialProviders
+  StandardLibrary:
+    needs: allowList
+    uses: ./.github/workflows/net-lib-release.yml
+    if: contains('["seebees","ShubhamChaturvedi7","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","justplaz","ajewellamz"]', github.actor)
+    with:
+      dafny: ${{inputs.dafny}}
+      version: ${{inputs.version}}
+      unique-id: ${{inputs.unique-id}}
+      project: "StandardLibrary"
+      csproj: "STD.csproj"
+      test_csproj: "Test-STD.csproj"
+      assembly_name: "AWS.Cryptography.Internal.StandardLibrary.dll"
+
+  Primitives:
+    needs: StandardLibrary
+    uses: ./.github/workflows/net-lib-release.yml
+    with:
+      dafny: ${{inputs.dafny}}
+      version: ${{inputs.version}}
+      unique-id: ${{inputs.unique-id}}
+      project: "AwsCryptographyPrimitives"
+      csproj: "Crypto.csproj"
+      test_csproj: "Test-Crypto.csproj"
+      assembly_name: "AWS.Cryptography.Internal.AwsCryptographyPrimitives.dll"
+
+  Kms:
+    needs: StandardLibrary
+    uses: ./.github/workflows/net-lib-release.yml
+    with:
+      dafny: ${{inputs.dafny}}
+      version: ${{inputs.version}}
+      unique-id: ${{inputs.unique-id}}
+      project: "ComAmazonawsKms"
+      csproj: "AWS-KMS.csproj"
+      test_csproj: "Test-AWS-KMS.csproj"
+      assembly_name: "AWS.Cryptography.Internal.ComAmazonawsKms.dll"
+
+  DynamoDb:
+    needs: StandardLibrary
+    uses: ./.github/workflows/net-lib-release.yml
+    with:
+      dafny: ${{inputs.dafny}}
+      version: ${{inputs.version}}
+      unique-id: ${{inputs.unique-id}}
+      project: "ComAmazonawsDynamodb"
+      csproj: "ComAmazonawsDynamodb.csproj"
+      test_csproj: "TestComAmazonawsDynamodb.csproj"
+      assembly_name: "AWS.Cryptography.Internal.ComAmazonawsDynamodb.dll"
+
+  MPL:
+    needs: [StandardLibrary, Primitives, Kms, DynamoDb ]
+    uses: ./.github/workflows/net-lib-release.yml
+    with:
+      dafny: ${{inputs.dafny}}
+      version: ${{inputs.version}}
+      unique-id: ${{inputs.unique-id}}
+      project: "AwsCryptographicMaterialProviders"
+      csproj: "MPL.csproj"
+      test_csproj: "Test-MPL.csproj"
+      assembly_name: "AWS.Cryptography.MaterialProviders.dll"
+
+      
