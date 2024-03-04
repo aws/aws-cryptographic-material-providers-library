@@ -7,3 +7,6 @@
 [submodule "submodules/smithy-python"]
 	path = submodules/smithy-python
 	url = https://github.com/lucasmcdonald3/smithy-python
+[submodule "smithy-dafny"]
+	path = smithy-dafny
+	url = https://robin-aws@github.com/smithy-lang/smithy-dafny.git
