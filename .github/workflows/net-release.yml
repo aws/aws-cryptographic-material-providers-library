@@ -18,7 +18,7 @@ jobs:
   # Since other modules depend on other's there is an order in which we must release
   # 1. StandardLibrary, 2. AwsCryptographyPrimitives, ComAmazonawsKms, ComAmazonawsDynamodb, 3. AwsCryptographicMaterialProviders
   StandardLibrary:
-    uses: ./.github/workflows/net/net-lib-release.yml
+    uses: ./.github/workflows/net-lib-release.yml
     with:
       dafny: ${{inputs.dafny}}
       version: ${{inputs.version}}
@@ -26,7 +26,7 @@ jobs:
 
   Primitives:
     needs: StandardLibrary
-    uses: ./.github/workflows/net/net-lib-release.yml
+    uses: ./.github/workflows/net-lib-release.yml
     with:
       dafny: ${{inputs.dafny}}
       version: ${{inputs.version}}
@@ -34,7 +34,7 @@ jobs:
 
   Kms:
     needs: StandardLibrary
-    uses: ./.github/workflows/net/net-lib-release.yml
+    uses: ./.github/workflows/net-lib-release.yml
     with:
       dafny: ${{inputs.dafny}}
       version: ${{inputs.version}}
@@ -42,7 +42,7 @@ jobs:
 
   DynamoDb:
     needs: StandardLibrary
-    uses: ./.github/workflows/net/net-lib-release.yml
+    uses: ./.github/workflows/net-lib-release.yml
     with:
       dafny: ${{inputs.dafny}}
       version: ${{inputs.version}}
@@ -50,7 +50,7 @@ jobs:
 
   MPL:
     needs: [StandardLibrary, Primitives, Kms, DynamoDb ]
-    uses: ./.github/workflows/net/net-lib-release.yml
+    uses: ./.github/workflows/net-lib-release.yml
     with:
       dafny: ${{inputs.dafny}}
       version: ${{inputs.version}}
