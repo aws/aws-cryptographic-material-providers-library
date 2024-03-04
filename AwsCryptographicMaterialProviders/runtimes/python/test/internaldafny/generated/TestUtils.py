@@ -12,15 +12,15 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software.amazon.cryptography.services.dynamodb.internaldafny.types
-import software.amazon.cryptography.services.kms.internaldafny.types
-import software.amazon.cryptography.keystore.internaldafny.types
+import software_amazon_cryptography_services_dynamodb_internaldafny_types
+import software_amazon_cryptography_services_kms_internaldafny_types
+import software_amazon_cryptography_keystore_internaldafny_types
 import Relations
 import Seq_MergeSort
 import Math
 import Seq
-import software.amazon.cryptography.primitives.internaldafny.types
-import software.amazon.cryptography.materialproviders.internaldafny.types
+import software_amazon_cryptography_primitives_internaldafny_types
+import software_amazon_cryptography_materialproviders_internaldafny_types
 import AwsArnParsing
 import Actions
 import AwsKmsMrkMatchForDecrypt
@@ -213,7 +213,7 @@ class default__:
 
     @staticmethod
     def GenerateMockEncryptedDataKey(keyProviderId, keyProviderInfo):
-        edk: software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey = software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey.default()()
+        edk: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey = software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey.default()()
         d_216_encodedkeyProviderId_: _dafny.Seq
         d_217_valueOrError0_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
         d_217_valueOrError0_ = UTF8.default__.Encode(keyProviderId)
@@ -232,7 +232,7 @@ class default__:
         if not(not((d_221_valueOrError2_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestUtils.dfy(115,23): " + _dafny.string_of(d_221_valueOrError2_))
         d_220_fakeCiphertext_ = (d_221_valueOrError2_).Extract()
-        edk = software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey_EncryptedDataKey(d_216_encodedkeyProviderId_, d_218_encodedKeyProviderInfo_, d_220_fakeCiphertext_)
+        edk = software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey_EncryptedDataKey(d_216_encodedkeyProviderId_, d_218_encodedKeyProviderInfo_, d_220_fakeCiphertext_)
         return edk
         return edk
 

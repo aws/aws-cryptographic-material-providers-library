@@ -12,15 +12,15 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software.amazon.cryptography.services.dynamodb.internaldafny.types
-import software.amazon.cryptography.services.kms.internaldafny.types
-import software.amazon.cryptography.keystore.internaldafny.types
+import software_amazon_cryptography_services_dynamodb_internaldafny_types
+import software_amazon_cryptography_services_kms_internaldafny_types
+import software_amazon_cryptography_keystore_internaldafny_types
 import Relations
 import Seq_MergeSort
 import Math
 import Seq
-import software.amazon.cryptography.primitives.internaldafny.types
-import software.amazon.cryptography.materialproviders.internaldafny.types
+import software_amazon_cryptography_primitives_internaldafny_types
+import software_amazon_cryptography_materialproviders_internaldafny_types
 import AwsArnParsing
 import Actions
 import AwsKmsMrkMatchForDecrypt
@@ -144,19 +144,19 @@ class default__:
 
     @staticmethod
     def MakeMat(data):
-        return software.amazon.cryptography.materialproviders.internaldafny.types.Materials_BranchKey(software.amazon.cryptography.keystore.internaldafny.types.BranchKeyMaterials_BranchKeyMaterials(_dafny.Seq("spoo"), data, _dafny.Map({}), data))
+        return software_amazon_cryptography_materialproviders_internaldafny_types.Materials_BranchKey(software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials_BranchKeyMaterials(_dafny.Seq("spoo"), data, _dafny.Map({}), data))
 
     @staticmethod
     def MakeGet(data):
-        return software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheEntryInput_GetCacheEntryInput(data, Wrappers.Option_None())
+        return software_amazon_cryptography_materialproviders_internaldafny_types.GetCacheEntryInput_GetCacheEntryInput(data, Wrappers.Option_None())
 
     @staticmethod
     def MakeDel(data):
-        return software.amazon.cryptography.materialproviders.internaldafny.types.DeleteCacheEntryInput_DeleteCacheEntryInput(data)
+        return software_amazon_cryptography_materialproviders_internaldafny_types.DeleteCacheEntryInput_DeleteCacheEntryInput(data)
 
     @staticmethod
     def MakePut(data, expiryTime):
-        return software.amazon.cryptography.materialproviders.internaldafny.types.PutCacheEntryInput_PutCacheEntryInput(data, default__.MakeMat(data), 123456789, expiryTime, Wrappers.Option_None(), Wrappers.Option_None())
+        return software_amazon_cryptography_materialproviders_internaldafny_types.PutCacheEntryInput_PutCacheEntryInput(data, default__.MakeMat(data), 123456789, expiryTime, Wrappers.Option_None(), Wrappers.Option_None())
 
     @staticmethod
     def StormTrackerBasics():
@@ -250,7 +250,7 @@ class default__:
             def iife25_(d_736_dt__update__tmp_h0_):
                 def iife26_(_pat_let12_0):
                     def iife27_(d_737_dt__update_hfanOut_h0_):
-                        return software.amazon.cryptography.materialproviders.internaldafny.types.StormTrackingCache_StormTrackingCache((d_736_dt__update__tmp_h0_).entryCapacity, (d_736_dt__update__tmp_h0_).entryPruningTailSize, (d_736_dt__update__tmp_h0_).gracePeriod, (d_736_dt__update__tmp_h0_).graceInterval, d_737_dt__update_hfanOut_h0_, (d_736_dt__update__tmp_h0_).inFlightTTL, (d_736_dt__update__tmp_h0_).sleepMilli)
+                        return software_amazon_cryptography_materialproviders_internaldafny_types.StormTrackingCache_StormTrackingCache((d_736_dt__update__tmp_h0_).entryCapacity, (d_736_dt__update__tmp_h0_).entryPruningTailSize, (d_736_dt__update__tmp_h0_).gracePeriod, (d_736_dt__update__tmp_h0_).graceInterval, d_737_dt__update_hfanOut_h0_, (d_736_dt__update__tmp_h0_).inFlightTTL, (d_736_dt__update__tmp_h0_).sleepMilli)
                     return iife27_(_pat_let12_0)
                 return iife26_(3)
             return iife25_(_pat_let11_0)
@@ -312,7 +312,7 @@ class default__:
                     def iife31_(d_749_dt__update_hinFlightTTL_h0_):
                         def iife32_(_pat_let15_0):
                             def iife33_(d_750_dt__update_hfanOut_h0_):
-                                return software.amazon.cryptography.materialproviders.internaldafny.types.StormTrackingCache_StormTrackingCache((d_748_dt__update__tmp_h0_).entryCapacity, (d_748_dt__update__tmp_h0_).entryPruningTailSize, (d_748_dt__update__tmp_h0_).gracePeriod, (d_748_dt__update__tmp_h0_).graceInterval, d_750_dt__update_hfanOut_h0_, d_749_dt__update_hinFlightTTL_h0_, (d_748_dt__update__tmp_h0_).sleepMilli)
+                                return software_amazon_cryptography_materialproviders_internaldafny_types.StormTrackingCache_StormTrackingCache((d_748_dt__update__tmp_h0_).entryCapacity, (d_748_dt__update__tmp_h0_).entryPruningTailSize, (d_748_dt__update__tmp_h0_).gracePeriod, (d_748_dt__update__tmp_h0_).graceInterval, d_750_dt__update_hfanOut_h0_, d_749_dt__update_hinFlightTTL_h0_, (d_748_dt__update__tmp_h0_).sleepMilli)
                             return iife33_(_pat_let15_0)
                         return iife32_(3)
                     return iife31_(_pat_let14_0)
@@ -401,7 +401,7 @@ class default__:
             def iife35_(d_764_dt__update__tmp_h0_):
                 def iife36_(_pat_let17_0):
                     def iife37_(d_765_dt__update_hgraceInterval_h0_):
-                        return software.amazon.cryptography.materialproviders.internaldafny.types.StormTrackingCache_StormTrackingCache((d_764_dt__update__tmp_h0_).entryCapacity, (d_764_dt__update__tmp_h0_).entryPruningTailSize, (d_764_dt__update__tmp_h0_).gracePeriod, d_765_dt__update_hgraceInterval_h0_, (d_764_dt__update__tmp_h0_).fanOut, (d_764_dt__update__tmp_h0_).inFlightTTL, (d_764_dt__update__tmp_h0_).sleepMilli)
+                        return software_amazon_cryptography_materialproviders_internaldafny_types.StormTrackingCache_StormTrackingCache((d_764_dt__update__tmp_h0_).entryCapacity, (d_764_dt__update__tmp_h0_).entryPruningTailSize, (d_764_dt__update__tmp_h0_).gracePeriod, d_765_dt__update_hgraceInterval_h0_, (d_764_dt__update__tmp_h0_).fanOut, (d_764_dt__update__tmp_h0_).inFlightTTL, (d_764_dt__update__tmp_h0_).sleepMilli)
                     return iife37_(_pat_let17_0)
                 return iife36_(3)
             return iife35_(_pat_let16_0)

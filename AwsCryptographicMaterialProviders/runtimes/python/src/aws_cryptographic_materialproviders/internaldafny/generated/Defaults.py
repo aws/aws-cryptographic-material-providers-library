@@ -12,9 +12,9 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software.amazon.cryptography.services.dynamodb.internaldafny.types
-import software.amazon.cryptography.services.kms.internaldafny.types
-import software.amazon.cryptography.primitives.internaldafny.types
+import software_amazon_cryptography_services_dynamodb_internaldafny_types
+import software_amazon_cryptography_services_kms_internaldafny_types
+import software_amazon_cryptography_primitives_internaldafny_types
 import ExternRandom
 import Random
 import AESEncryption
@@ -64,8 +64,8 @@ import Base64
 import Base64Lemmas
 import Actions
 import DafnyLibraries
-import software.amazon.cryptography.keystore.internaldafny.types
-import software.amazon.cryptography.materialproviders.internaldafny.types
+import software_amazon_cryptography_keystore_internaldafny_types
+import software_amazon_cryptography_materialproviders_internaldafny_types
 import AwsArnParsing
 import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
@@ -126,12 +126,12 @@ class default__:
             d_1144_c_ = d_1143___mcc_h0_
             source31_ = d_1144_c_
             if source31_.is_FORBID__ENCRYPT__ALLOW__DECRYPT:
-                return software.amazon.cryptography.materialproviders.internaldafny.types.AlgorithmSuiteId_ESDK(software.amazon.cryptography.materialproviders.internaldafny.types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384())
+                return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384())
             elif source31_.is_REQUIRE__ENCRYPT__ALLOW__DECRYPT:
-                return software.amazon.cryptography.materialproviders.internaldafny.types.AlgorithmSuiteId_ESDK(software.amazon.cryptography.materialproviders.internaldafny.types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384())
+                return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384())
             elif True:
-                return software.amazon.cryptography.materialproviders.internaldafny.types.AlgorithmSuiteId_ESDK(software.amazon.cryptography.materialproviders.internaldafny.types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384())
+                return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384())
         elif True:
             d_1145___mcc_h1_ = source30_.DBE
-            return software.amazon.cryptography.materialproviders.internaldafny.types.AlgorithmSuiteId_DBE(software.amazon.cryptography.materialproviders.internaldafny.types.DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384__SYMSIG__HMAC__SHA384())
+            return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId_DBE(software_amazon_cryptography_materialproviders_internaldafny_types.DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384__SYMSIG__HMAC__SHA384())
 

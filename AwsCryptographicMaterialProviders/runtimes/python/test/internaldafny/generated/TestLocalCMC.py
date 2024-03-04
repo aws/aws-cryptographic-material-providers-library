@@ -12,15 +12,15 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software.amazon.cryptography.services.dynamodb.internaldafny.types
-import software.amazon.cryptography.services.kms.internaldafny.types
-import software.amazon.cryptography.keystore.internaldafny.types
+import software_amazon_cryptography_services_dynamodb_internaldafny_types
+import software_amazon_cryptography_services_kms_internaldafny_types
+import software_amazon_cryptography_keystore_internaldafny_types
 import Relations
 import Seq_MergeSort
 import Math
 import Seq
-import software.amazon.cryptography.primitives.internaldafny.types
-import software.amazon.cryptography.materialproviders.internaldafny.types
+import software_amazon_cryptography_primitives_internaldafny_types
+import software_amazon_cryptography_materialproviders_internaldafny_types
 import AwsArnParsing
 import Actions
 import AwsKmsMrkMatchForDecrypt
@@ -143,19 +143,19 @@ class default__:
 
     @staticmethod
     def MakeMat(data):
-        return software.amazon.cryptography.materialproviders.internaldafny.types.Materials_BranchKey(software.amazon.cryptography.keystore.internaldafny.types.BranchKeyMaterials_BranchKeyMaterials(_dafny.Seq("spoo"), data, _dafny.Map({}), data))
+        return software_amazon_cryptography_materialproviders_internaldafny_types.Materials_BranchKey(software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials_BranchKeyMaterials(_dafny.Seq("spoo"), data, _dafny.Map({}), data))
 
     @staticmethod
     def MakeGet(data):
-        return software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheEntryInput_GetCacheEntryInput(data, Wrappers.Option_None())
+        return software_amazon_cryptography_materialproviders_internaldafny_types.GetCacheEntryInput_GetCacheEntryInput(data, Wrappers.Option_None())
 
     @staticmethod
     def MakeDel(data):
-        return software.amazon.cryptography.materialproviders.internaldafny.types.DeleteCacheEntryInput_DeleteCacheEntryInput(data)
+        return software_amazon_cryptography_materialproviders_internaldafny_types.DeleteCacheEntryInput_DeleteCacheEntryInput(data)
 
     @staticmethod
     def MakePut(data, expiryTime):
-        return software.amazon.cryptography.materialproviders.internaldafny.types.PutCacheEntryInput_PutCacheEntryInput(data, default__.MakeMat(data), 123456789, expiryTime, Wrappers.Option_None(), Wrappers.Option_None())
+        return software_amazon_cryptography_materialproviders_internaldafny_types.PutCacheEntryInput_PutCacheEntryInput(data, default__.MakeMat(data), 123456789, expiryTime, Wrappers.Option_None(), Wrappers.Option_None())
 
     @staticmethod
     def LocalCMCBasics():
@@ -190,7 +190,7 @@ class default__:
         if not(not((d_713_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(60,9): " + _dafny.string_of(d_713_valueOrError1_))
         d_711_res2_ = (d_713_valueOrError1_).Extract()
-        d_714_res3_: software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheEntryOutput
+        d_714_res3_: software_amazon_cryptography_materialproviders_internaldafny_types.GetCacheEntryOutput
         d_715_valueOrError2_: Wrappers.Result = None
         out283_: Wrappers.Result
         out283_ = (d_707_st_).GetCacheEntryWithTime(default__.MakeGet(d_708_abc_), 9999)

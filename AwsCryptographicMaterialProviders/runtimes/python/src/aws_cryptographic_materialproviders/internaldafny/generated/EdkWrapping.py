@@ -12,9 +12,9 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software.amazon.cryptography.services.dynamodb.internaldafny.types
-import software.amazon.cryptography.services.kms.internaldafny.types
-import software.amazon.cryptography.primitives.internaldafny.types
+import software_amazon_cryptography_services_dynamodb_internaldafny_types
+import software_amazon_cryptography_services_kms_internaldafny_types
+import software_amazon_cryptography_primitives_internaldafny_types
 import ExternRandom
 import Random
 import AESEncryption
@@ -64,8 +64,8 @@ import Base64
 import Base64Lemmas
 import Actions
 import DafnyLibraries
-import software.amazon.cryptography.keystore.internaldafny.types
-import software.amazon.cryptography.materialproviders.internaldafny.types
+import software_amazon_cryptography_keystore_internaldafny_types
+import software_amazon_cryptography_materialproviders_internaldafny_types
 import AwsArnParsing
 import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
@@ -104,7 +104,7 @@ class default__:
     def WrapEdkMaterial(encryptionMaterials, wrap, generateAndWrap):
         ret: Wrappers.Result = None
         d_484_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_484_valueOrError0_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterials(encryptionMaterials), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid materials for encryption.")))
+        d_484_valueOrError0_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterials(encryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid materials for encryption.")))
         if (d_484_valueOrError0_).IsFailure():
             ret = (d_484_valueOrError0_).PropagateFailure()
             return ret
@@ -146,7 +146,7 @@ class default__:
             return ret
         elif (((encryptionMaterials).plaintextDataKey).is_None) and ((((encryptionMaterials).algorithmSuite).edkWrapping).is_IntermediateKeyWrapping):
             d_491_valueOrError4_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_491_valueOrError4_ = Wrappers.default__.Need((((encryptionMaterials).algorithmSuite).commitment).is_HKDF, software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid algorithm suite: suites with intermediate key wrapping must use key commitment.")))
+            d_491_valueOrError4_ = Wrappers.default__.Need((((encryptionMaterials).algorithmSuite).commitment).is_HKDF, software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid algorithm suite: suites with intermediate key wrapping must use key commitment.")))
             if (d_491_valueOrError4_).IsFailure():
                 ret = (d_491_valueOrError4_).PropagateFailure()
                 return ret
@@ -169,7 +169,7 @@ class default__:
     def UnwrapEdkMaterial(wrappedMaterial, decryptionMaterials, unwrap):
         ret: Wrappers.Result = None
         d_494_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_494_valueOrError0_ = Wrappers.default__.Need(Materials.default__.ValidDecryptionMaterials(decryptionMaterials), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid materials for decryption.")))
+        d_494_valueOrError0_ = Wrappers.default__.Need(Materials.default__.ValidDecryptionMaterials(decryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid materials for decryption.")))
         if (d_494_valueOrError0_).IsFailure():
             ret = (d_494_valueOrError0_).PropagateFailure()
             return ret
@@ -187,7 +187,7 @@ class default__:
             return ret
         elif (((decryptionMaterials).algorithmSuite).edkWrapping).is_IntermediateKeyWrapping:
             d_497_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_497_valueOrError2_ = Wrappers.default__.Need((len(wrappedMaterial)) >= ((((((decryptionMaterials).algorithmSuite).encrypt).AES__GCM).keyLength) + (((((decryptionMaterials).algorithmSuite).encrypt).AES__GCM).tagLength)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid material for Intermediate Unwrapping")))
+            d_497_valueOrError2_ = Wrappers.default__.Need((len(wrappedMaterial)) >= ((((((decryptionMaterials).algorithmSuite).encrypt).AES__GCM).keyLength) + (((((decryptionMaterials).algorithmSuite).encrypt).AES__GCM).tagLength)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid material for Intermediate Unwrapping")))
             if (d_497_valueOrError2_).IsFailure():
                 ret = (d_497_valueOrError2_).PropagateFailure()
                 return ret
@@ -213,7 +213,7 @@ class default__:
         elif True:
             d_500_deserializedWrappedRes_ = IntermediateKeyWrapping.default__.DeserializeIntermediateWrappedMaterial(material, algSuite)
             if (d_500_deserializedWrappedRes_).is_Failure:
-                return Wrappers.Result_Failure(software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unable to deserialize Intermediate Key Wrapped material.")))
+                return Wrappers.Result_Failure(software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unable to deserialize Intermediate Key Wrapped material.")))
             elif True:
                 return Wrappers.Result_Success(((d_500_deserializedWrappedRes_).value).providerWrappedIkm)
 

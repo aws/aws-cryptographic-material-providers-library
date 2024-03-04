@@ -12,9 +12,9 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software.amazon.cryptography.services.dynamodb.internaldafny.types
-import software.amazon.cryptography.services.kms.internaldafny.types
-import software.amazon.cryptography.primitives.internaldafny.types
+import software_amazon_cryptography_services_dynamodb_internaldafny_types
+import software_amazon_cryptography_services_kms_internaldafny_types
+import software_amazon_cryptography_primitives_internaldafny_types
 import ExternRandom
 import Random
 import AESEncryption
@@ -64,8 +64,8 @@ import Base64
 import Base64Lemmas
 import Actions
 import DafnyLibraries
-import software.amazon.cryptography.keystore.internaldafny.types
-import software.amazon.cryptography.materialproviders.internaldafny.types
+import software_amazon_cryptography_keystore_internaldafny_types
+import software_amazon_cryptography_materialproviders_internaldafny_types
 import AwsArnParsing
 import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
@@ -118,7 +118,7 @@ class default__:
     @staticmethod
     def DeserializeEDKCiphertext(ciphertext, tagLen):
         d_1040_encryptedKeyLength_ = (len(ciphertext)) - (tagLen)
-        return software.amazon.cryptography.primitives.internaldafny.types.AESEncryptOutput_AESEncryptOutput(_dafny.Seq((ciphertext)[:d_1040_encryptedKeyLength_:]), _dafny.Seq((ciphertext)[d_1040_encryptedKeyLength_::]))
+        return software_amazon_cryptography_primitives_internaldafny_types.AESEncryptOutput_AESEncryptOutput(_dafny.Seq((ciphertext)[:d_1040_encryptedKeyLength_:]), _dafny.Seq((ciphertext)[d_1040_encryptedKeyLength_::]))
 
     @staticmethod
     def SerializeEDKCiphertext(encOutput):
@@ -131,11 +131,11 @@ class default__:
     def IV__LEN__LEN(instance):
         return 4
 
-class RawAESKeyring(Keyring.VerifiableInterface, software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring):
+class RawAESKeyring(Keyring.VerifiableInterface, software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring):
     def  __init__(self):
-        self._cryptoPrimitives: software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient = None
+        self._cryptoPrimitives: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient = None
         self._wrappingKey: _dafny.Seq = _dafny.Seq({})
-        self._wrappingAlgorithm: software.amazon.cryptography.primitives.internaldafny.types.AES__GCM = None
+        self._wrappingAlgorithm: software_amazon_cryptography_primitives_internaldafny_types.AES__GCM = None
         self._keyNamespace: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
         self._keyName: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
         pass
@@ -144,12 +144,12 @@ class RawAESKeyring(Keyring.VerifiableInterface, software.amazon.cryptography.ma
         return "RawAESKeyring.RawAESKeyring"
     def OnEncrypt(self, input):
         out193_: Wrappers.Result
-        out193_ = software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring.OnEncrypt(self, input)
+        out193_ = software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring.OnEncrypt(self, input)
         return out193_
 
     def OnDecrypt(self, input):
         out194_: Wrappers.Result
-        out194_ = software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring.OnDecrypt(self, input)
+        out194_ = software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring.OnDecrypt(self, input)
         return out194_
 
     def ctor__(self, namespace, name, key, wrappingAlgorithm, cryptoPrimitives):
@@ -161,9 +161,9 @@ class RawAESKeyring(Keyring.VerifiableInterface, software.amazon.cryptography.ma
 
     def OnEncrypt_k(self, input):
         output: Wrappers.Result = None
-        d_1041_materials_: software.amazon.cryptography.materialproviders.internaldafny.types.EncryptionMaterials
+        d_1041_materials_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptionMaterials
         d_1041_materials_ = (input).materials
-        d_1042_suite_: software.amazon.cryptography.materialproviders.internaldafny.types.AlgorithmSuiteInfo
+        d_1042_suite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo
         d_1042_suite_ = (d_1041_materials_).algorithmSuite
         d_1043_wrap_: AesWrapKeyMaterial
         nw45_ = AesWrapKeyMaterial()
@@ -184,36 +184,36 @@ class RawAESKeyring(Keyring.VerifiableInterface, software.amazon.cryptography.ma
         d_1045_wrapOutput_ = (d_1046_valueOrError0_).Extract()
         d_1047_symmetricSigningKeyList_: Wrappers.Option
         d_1047_symmetricSigningKeyList_ = (Wrappers.Option_Some(_dafny.Seq([((d_1045_wrapOutput_).symmetricSigningKey).value])) if ((d_1045_wrapOutput_).symmetricSigningKey).is_Some else Wrappers.Option_None())
-        d_1048_edk_: software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey
-        d_1048_edk_ = software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey_EncryptedDataKey((self).keyNamespace, (self).SerializeProviderInfo(((d_1045_wrapOutput_).wrapInfo).iv), (d_1045_wrapOutput_).wrappedMaterial)
+        d_1048_edk_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
+        d_1048_edk_ = software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey_EncryptedDataKey((self).keyNamespace, (self).SerializeProviderInfo(((d_1045_wrapOutput_).wrapInfo).iv), (d_1045_wrapOutput_).wrappedMaterial)
         if (d_1045_wrapOutput_).is_GenerateAndWrapEdkMaterialOutput:
-            d_1049_result_: software.amazon.cryptography.materialproviders.internaldafny.types.EncryptionMaterials
+            d_1049_result_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptionMaterials
             d_1050_valueOrError1_: Wrappers.Result = None
             d_1050_valueOrError1_ = Materials.default__.EncryptionMaterialAddDataKey(d_1041_materials_, (d_1045_wrapOutput_).plaintextDataKey, _dafny.Seq([d_1048_edk_]), d_1047_symmetricSigningKeyList_)
             if (d_1050_valueOrError1_).IsFailure():
                 output = (d_1050_valueOrError1_).PropagateFailure()
                 return output
             d_1049_result_ = (d_1050_valueOrError1_).Extract()
-            output = Wrappers.Result_Success(software.amazon.cryptography.materialproviders.internaldafny.types.OnEncryptOutput_OnEncryptOutput(d_1049_result_))
+            output = Wrappers.Result_Success(software_amazon_cryptography_materialproviders_internaldafny_types.OnEncryptOutput_OnEncryptOutput(d_1049_result_))
             return output
         elif (d_1045_wrapOutput_).is_WrapOnlyEdkMaterialOutput:
-            d_1051_result_: software.amazon.cryptography.materialproviders.internaldafny.types.EncryptionMaterials
+            d_1051_result_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptionMaterials
             d_1052_valueOrError2_: Wrappers.Result = None
             d_1052_valueOrError2_ = Materials.default__.EncryptionMaterialAddEncryptedDataKeys(d_1041_materials_, _dafny.Seq([d_1048_edk_]), d_1047_symmetricSigningKeyList_)
             if (d_1052_valueOrError2_).IsFailure():
                 output = (d_1052_valueOrError2_).PropagateFailure()
                 return output
             d_1051_result_ = (d_1052_valueOrError2_).Extract()
-            output = Wrappers.Result_Success(software.amazon.cryptography.materialproviders.internaldafny.types.OnEncryptOutput_OnEncryptOutput(d_1051_result_))
+            output = Wrappers.Result_Success(software_amazon_cryptography_materialproviders_internaldafny_types.OnEncryptOutput_OnEncryptOutput(d_1051_result_))
             return output
         return output
 
     def OnDecrypt_k(self, input):
         output: Wrappers.Result = None
-        d_1053_materials_: software.amazon.cryptography.materialproviders.internaldafny.types.DecryptionMaterials
+        d_1053_materials_: software_amazon_cryptography_materialproviders_internaldafny_types.DecryptionMaterials
         d_1053_materials_ = (input).materials
         d_1054_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1054_valueOrError0_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsWithoutPlaintextDataKey(d_1053_materials_), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Keyring received decryption materials that already contain a plaintext data key.")))
+        d_1054_valueOrError0_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsWithoutPlaintextDataKey(d_1053_materials_), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Keyring received decryption materials that already contain a plaintext data key.")))
         if (d_1054_valueOrError0_).IsFailure():
             output = (d_1054_valueOrError0_).PropagateFailure()
             return output
@@ -225,7 +225,7 @@ class RawAESKeyring(Keyring.VerifiableInterface, software.amazon.cryptography.ma
             return output
         d_1055_aad_ = (d_1056_valueOrError1_).Extract()
         d_1057_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1057_valueOrError2_ = Wrappers.default__.Need((len((self).wrappingKey)) == (((self).wrappingAlgorithm).keyLength), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("The wrapping key does not match the wrapping algorithm")))
+        d_1057_valueOrError2_ = Wrappers.default__.Need((len((self).wrappingKey)) == (((self).wrappingAlgorithm).keyLength), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("The wrapping key does not match the wrapping algorithm")))
         if (d_1057_valueOrError2_).IsFailure():
             output = (d_1057_valueOrError2_).PropagateFailure()
             return output
@@ -234,7 +234,7 @@ class RawAESKeyring(Keyring.VerifiableInterface, software.amazon.cryptography.ma
         hi8_ = len((input).encryptedDataKeys)
         for d_1059_i_ in range(0, hi8_):
             if (self).ShouldDecryptEDK(((input).encryptedDataKeys)[d_1059_i_]):
-                d_1060_edk_: software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey
+                d_1060_edk_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
                 d_1060_edk_ = ((input).encryptedDataKeys)[d_1059_i_]
                 d_1061_iv_: _dafny.Seq
                 d_1061_iv_ = (self).GetIvFromProvInfo((d_1060_edk_).keyProviderInfo)
@@ -247,22 +247,22 @@ class RawAESKeyring(Keyring.VerifiableInterface, software.amazon.cryptography.ma
                 out196_ = EdkWrapping.default__.UnwrapEdkMaterial((d_1060_edk_).ciphertext, d_1053_materials_, d_1062_unwrap_)
                 d_1063_unwrapOutput_ = out196_
                 if (d_1063_unwrapOutput_).is_Success:
-                    d_1064_result_: software.amazon.cryptography.materialproviders.internaldafny.types.DecryptionMaterials
+                    d_1064_result_: software_amazon_cryptography_materialproviders_internaldafny_types.DecryptionMaterials
                     d_1065_valueOrError3_: Wrappers.Result = None
                     d_1065_valueOrError3_ = Materials.default__.DecryptionMaterialsAddDataKey(d_1053_materials_, ((d_1063_unwrapOutput_).value).plaintextDataKey, ((d_1063_unwrapOutput_).value).symmetricSigningKey)
                     if (d_1065_valueOrError3_).IsFailure():
                         output = (d_1065_valueOrError3_).PropagateFailure()
                         return output
                     d_1064_result_ = (d_1065_valueOrError3_).Extract()
-                    d_1066_value_: software.amazon.cryptography.materialproviders.internaldafny.types.OnDecryptOutput
-                    d_1066_value_ = software.amazon.cryptography.materialproviders.internaldafny.types.OnDecryptOutput_OnDecryptOutput(d_1064_result_)
+                    d_1066_value_: software_amazon_cryptography_materialproviders_internaldafny_types.OnDecryptOutput
+                    d_1066_value_ = software_amazon_cryptography_materialproviders_internaldafny_types.OnDecryptOutput_OnDecryptOutput(d_1064_result_)
                     output = Wrappers.Result_Success(d_1066_value_)
                     return output
                 elif True:
                     d_1058_errors_ = (d_1058_errors_) + (_dafny.Seq([(d_1063_unwrapOutput_).error]))
             elif True:
-                d_1058_errors_ = (d_1058_errors_) + (_dafny.Seq([software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(((_dafny.Seq("EncrypedDataKey ")) + (StandardLibrary_String.default__.Base10Int2String(d_1059_i_))) + (_dafny.Seq(" did not match AESKeyring. ")))]))
-        output = Wrappers.Result_Failure(software.amazon.cryptography.materialproviders.internaldafny.types.Error_CollectionOfErrors(d_1058_errors_, _dafny.Seq("Raw AES Keyring was unable to decrypt any encrypted data key. The list of encountered Exceptions is avaible via `list`.")))
+                d_1058_errors_ = (d_1058_errors_) + (_dafny.Seq([software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(((_dafny.Seq("EncrypedDataKey ")) + (StandardLibrary_String.default__.Base10Int2String(d_1059_i_))) + (_dafny.Seq(" did not match AESKeyring. ")))]))
+        output = Wrappers.Result_Failure(software_amazon_cryptography_materialproviders_internaldafny_types.Error_CollectionOfErrors(d_1058_errors_, _dafny.Seq("Raw AES Keyring was unable to decrypt any encrypted data key. The list of encountered Exceptions is avaible via `list`.")))
         return output
         return output
 
@@ -349,12 +349,12 @@ class AesGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMaterial, Ac
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.GenerateAndWrapOutput.default(AesWrapInfo.default()))()
         d_1067_generateBytesResult_: Wrappers.Result
         out197_: Wrappers.Result
-        out197_ = (((self).wrap).cryptoPrimitives).GenerateRandomBytes(software.amazon.cryptography.primitives.internaldafny.types.GenerateRandomBytesInput_GenerateRandomBytesInput(AlgorithmSuites.default__.GetEncryptKeyLength((input).algorithmSuite)))
+        out197_ = (((self).wrap).cryptoPrimitives).GenerateRandomBytes(software_amazon_cryptography_primitives_internaldafny_types.GenerateRandomBytesInput_GenerateRandomBytesInput(AlgorithmSuites.default__.GetEncryptKeyLength((input).algorithmSuite)))
         d_1067_generateBytesResult_ = out197_
         d_1068_plaintextMaterial_: _dafny.Seq
         d_1069_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         def lambda84_(d_1070_e_):
-            return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographyPrimitives(d_1070_e_)
+            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_1070_e_)
 
         d_1069_valueOrError0_ = (d_1067_generateBytesResult_).MapFailure(lambda84_)
         if (d_1069_valueOrError0_).IsFailure():
@@ -380,8 +380,8 @@ class AesGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMaterial, Ac
 class AesWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
         self._wrappingKey: _dafny.Seq = _dafny.Seq({})
-        self._wrappingAlgorithm: software.amazon.cryptography.primitives.internaldafny.types.AES__GCM = None
-        self._cryptoPrimitives: software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient = None
+        self._wrappingAlgorithm: software_amazon_cryptography_primitives_internaldafny_types.AES__GCM = None
+        self._cryptoPrimitives: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -402,12 +402,12 @@ class AesWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionWithResult
         d_1073_aad_ = (d_1074_valueOrError0_).Extract()
         d_1075_randomIvResult_: Wrappers.Result
         out199_: Wrappers.Result
-        out199_ = ((self).cryptoPrimitives).GenerateRandomBytes(software.amazon.cryptography.primitives.internaldafny.types.GenerateRandomBytesInput_GenerateRandomBytesInput(((self).wrappingAlgorithm).ivLength))
+        out199_ = ((self).cryptoPrimitives).GenerateRandomBytes(software_amazon_cryptography_primitives_internaldafny_types.GenerateRandomBytesInput_GenerateRandomBytesInput(((self).wrappingAlgorithm).ivLength))
         d_1075_randomIvResult_ = out199_
         d_1076_iv_: _dafny.Seq
         d_1077_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         def lambda85_(d_1078_e_):
-            return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographyPrimitives(d_1078_e_)
+            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_1078_e_)
 
         d_1077_valueOrError1_ = (d_1075_randomIvResult_).MapFailure(lambda85_)
         if (d_1077_valueOrError1_).IsFailure():
@@ -416,12 +416,12 @@ class AesWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionWithResult
         d_1076_iv_ = (d_1077_valueOrError1_).Extract()
         d_1079_aesEncryptResult_: Wrappers.Result
         out200_: Wrappers.Result
-        out200_ = ((self).cryptoPrimitives).AESEncrypt(software.amazon.cryptography.primitives.internaldafny.types.AESEncryptInput_AESEncryptInput((self).wrappingAlgorithm, d_1076_iv_, (self).wrappingKey, (input).plaintextMaterial, d_1073_aad_))
+        out200_ = ((self).cryptoPrimitives).AESEncrypt(software_amazon_cryptography_primitives_internaldafny_types.AESEncryptInput_AESEncryptInput((self).wrappingAlgorithm, d_1076_iv_, (self).wrappingKey, (input).plaintextMaterial, d_1073_aad_))
         d_1079_aesEncryptResult_ = out200_
-        d_1080_wrappedMaterialResult_: software.amazon.cryptography.primitives.internaldafny.types.AESEncryptOutput
-        d_1081_valueOrError2_: Wrappers.Result = Wrappers.Result.default(software.amazon.cryptography.primitives.internaldafny.types.AESEncryptOutput.default())()
+        d_1080_wrappedMaterialResult_: software_amazon_cryptography_primitives_internaldafny_types.AESEncryptOutput
+        d_1081_valueOrError2_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_primitives_internaldafny_types.AESEncryptOutput.default())()
         def lambda86_(d_1082_e_):
-            return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographyPrimitives(d_1082_e_)
+            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_1082_e_)
 
         d_1081_valueOrError2_ = (d_1079_aesEncryptResult_).MapFailure(lambda86_)
         if (d_1081_valueOrError2_).IsFailure():
@@ -448,8 +448,8 @@ class AesUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWithRe
     def  __init__(self):
         self._wrappingKey: _dafny.Seq = _dafny.Seq({})
         self._iv: _dafny.Seq = _dafny.Seq({})
-        self._wrappingAlgorithm: software.amazon.cryptography.primitives.internaldafny.types.AES__GCM = None
-        self._cryptoPrimitives: software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient = None
+        self._wrappingAlgorithm: software_amazon_cryptography_primitives_internaldafny_types.AES__GCM = None
+        self._cryptoPrimitives: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -470,20 +470,20 @@ class AesUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWithRe
             return res
         d_1084_aad_ = (d_1085_valueOrError0_).Extract()
         d_1086_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1086_valueOrError1_ = Wrappers.default__.Need((((self).wrappingAlgorithm).tagLength) <= (len((input).wrappedMaterial)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Insufficient data to decrypt.")))
+        d_1086_valueOrError1_ = Wrappers.default__.Need((((self).wrappingAlgorithm).tagLength) <= (len((input).wrappedMaterial)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Insufficient data to decrypt.")))
         if (d_1086_valueOrError1_).IsFailure():
             res = (d_1086_valueOrError1_).PropagateFailure()
             return res
-        d_1087_encryptionOutput_: software.amazon.cryptography.primitives.internaldafny.types.AESEncryptOutput
+        d_1087_encryptionOutput_: software_amazon_cryptography_primitives_internaldafny_types.AESEncryptOutput
         d_1087_encryptionOutput_ = default__.DeserializeEDKCiphertext((input).wrappedMaterial, ((self).wrappingAlgorithm).tagLength)
         d_1088_maybePtKey_: Wrappers.Result
         out201_: Wrappers.Result
-        out201_ = ((self).cryptoPrimitives).AESDecrypt(software.amazon.cryptography.primitives.internaldafny.types.AESDecryptInput_AESDecryptInput((self).wrappingAlgorithm, (self).wrappingKey, (d_1087_encryptionOutput_).cipherText, (d_1087_encryptionOutput_).authTag, (self).iv, d_1084_aad_))
+        out201_ = ((self).cryptoPrimitives).AESDecrypt(software_amazon_cryptography_primitives_internaldafny_types.AESDecryptInput_AESDecryptInput((self).wrappingAlgorithm, (self).wrappingKey, (d_1087_encryptionOutput_).cipherText, (d_1087_encryptionOutput_).authTag, (self).iv, d_1084_aad_))
         d_1088_maybePtKey_ = out201_
         d_1089_ptKey_: _dafny.Seq
         d_1090_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         def lambda87_(d_1091_e_):
-            return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographyPrimitives(d_1091_e_)
+            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_1091_e_)
 
         d_1090_valueOrError2_ = (d_1088_maybePtKey_).MapFailure(lambda87_)
         if (d_1090_valueOrError2_).IsFailure():
@@ -491,7 +491,7 @@ class AesUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWithRe
             return res
         d_1089_ptKey_ = (d_1090_valueOrError2_).Extract()
         d_1092_valueOrError3_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1092_valueOrError3_ = Wrappers.default__.Need((AlgorithmSuites.default__.GetEncryptKeyLength((input).algorithmSuite)) == (len(d_1089_ptKey_)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Plaintext Data Key is not the expected length")))
+        d_1092_valueOrError3_ = Wrappers.default__.Need((AlgorithmSuites.default__.GetEncryptKeyLength((input).algorithmSuite)) == (len(d_1089_ptKey_)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Plaintext Data Key is not the expected length")))
         if (d_1092_valueOrError3_).IsFailure():
             res = (d_1092_valueOrError3_).PropagateFailure()
             return res

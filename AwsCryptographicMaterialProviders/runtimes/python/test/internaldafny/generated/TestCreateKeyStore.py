@@ -12,15 +12,15 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software.amazon.cryptography.services.dynamodb.internaldafny.types
-import software.amazon.cryptography.services.kms.internaldafny.types
-import software.amazon.cryptography.keystore.internaldafny.types
+import software_amazon_cryptography_services_dynamodb_internaldafny_types
+import software_amazon_cryptography_services_kms_internaldafny_types
+import software_amazon_cryptography_keystore_internaldafny_types
 import Relations
 import Seq_MergeSort
 import Math
 import Seq
-import software.amazon.cryptography.primitives.internaldafny.types
-import software.amazon.cryptography.materialproviders.internaldafny.types
+import software_amazon_cryptography_primitives_internaldafny_types
+import software_amazon_cryptography_materialproviders_internaldafny_types
 import AwsArnParsing
 import Actions
 import AwsKmsMrkMatchForDecrypt
@@ -128,7 +128,7 @@ class default__:
 
     @staticmethod
     def TestCreateKeyStore():
-        d_0_kmsClient_: software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient
+        d_0_kmsClient_: software_amazon_cryptography_services_kms_internaldafny_types.IKMSClient
         d_1_valueOrError0_: Wrappers.Result = None
         out0_: Wrappers.Result
         out0_ = software_amazon_cryptography_services_kms_internaldafny.default__.KMSClient()
@@ -136,7 +136,7 @@ class default__:
         if not(not((d_1_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographyKeyStore/test/TestCreateKeyStore.dfy(19,18): " + _dafny.string_of(d_1_valueOrError0_))
         d_0_kmsClient_ = (d_1_valueOrError0_).Extract()
-        d_2_ddbClient_: software.amazon.cryptography.services.dynamodb.internaldafny.types.IDynamoDBClient
+        d_2_ddbClient_: software_amazon_cryptography_services_dynamodb_internaldafny_types.IDynamoDBClient
         d_3_valueOrError1_: Wrappers.Result = None
         out1_: Wrappers.Result
         out1_ = software_amazon_cryptography_services_dynamodb_internaldafny.default__.DynamoDBClient()
@@ -144,11 +144,11 @@ class default__:
         if not(not((d_3_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographyKeyStore/test/TestCreateKeyStore.dfy(20,18): " + _dafny.string_of(d_3_valueOrError1_))
         d_2_ddbClient_ = (d_3_valueOrError1_).Extract()
-        d_4_kmsConfig_: software.amazon.cryptography.keystore.internaldafny.types.KMSConfiguration
-        d_4_kmsConfig_ = software.amazon.cryptography.keystore.internaldafny.types.KMSConfiguration_kmsKeyArn(Fixtures.default__.keyArn)
-        d_5_keyStoreConfig_: software.amazon.cryptography.keystore.internaldafny.types.KeyStoreConfig
-        d_5_keyStoreConfig_ = software.amazon.cryptography.keystore.internaldafny.types.KeyStoreConfig_KeyStoreConfig(Fixtures.default__.branchKeyStoreName, d_4_kmsConfig_, Fixtures.default__.logicalKeyStoreName, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_Some(d_2_ddbClient_), Wrappers.Option_Some(d_0_kmsClient_))
-        d_6_keyStore_: software.amazon.cryptography.keystore.internaldafny.types.IKeyStoreClient
+        d_4_kmsConfig_: software_amazon_cryptography_keystore_internaldafny_types.KMSConfiguration
+        d_4_kmsConfig_ = software_amazon_cryptography_keystore_internaldafny_types.KMSConfiguration_kmsKeyArn(Fixtures.default__.keyArn)
+        d_5_keyStoreConfig_: software_amazon_cryptography_keystore_internaldafny_types.KeyStoreConfig
+        d_5_keyStoreConfig_ = software_amazon_cryptography_keystore_internaldafny_types.KeyStoreConfig_KeyStoreConfig(Fixtures.default__.branchKeyStoreName, d_4_kmsConfig_, Fixtures.default__.logicalKeyStoreName, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_Some(d_2_ddbClient_), Wrappers.Option_Some(d_0_kmsClient_))
+        d_6_keyStore_: software_amazon_cryptography_keystore_internaldafny_types.IKeyStoreClient
         d_7_valueOrError2_: Wrappers.Result = None
         out2_: Wrappers.Result
         out2_ = software_amazon_cryptography_keystore_internaldafny.default__.KeyStore(d_5_keyStoreConfig_)
@@ -156,10 +156,10 @@ class default__:
         if not(not((d_7_valueOrError2_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographyKeyStore/test/TestCreateKeyStore.dfy(33,17): " + _dafny.string_of(d_7_valueOrError2_))
         d_6_keyStore_ = (d_7_valueOrError2_).Extract()
-        d_8_keyStoreArn_: software.amazon.cryptography.keystore.internaldafny.types.CreateKeyStoreOutput
-        d_9_valueOrError3_: Wrappers.Result = Wrappers.Result.default(software.amazon.cryptography.keystore.internaldafny.types.CreateKeyStoreOutput.default())()
+        d_8_keyStoreArn_: software_amazon_cryptography_keystore_internaldafny_types.CreateKeyStoreOutput
+        d_9_valueOrError3_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.CreateKeyStoreOutput.default())()
         out3_: Wrappers.Result
-        out3_ = (d_6_keyStore_).CreateKeyStore(software.amazon.cryptography.keystore.internaldafny.types.CreateKeyStoreInput_CreateKeyStoreInput())
+        out3_ = (d_6_keyStore_).CreateKeyStore(software_amazon_cryptography_keystore_internaldafny_types.CreateKeyStoreInput_CreateKeyStoreInput())
         d_9_valueOrError3_ = out3_
         if not(not((d_9_valueOrError3_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographyKeyStore/test/TestCreateKeyStore.dfy(36,20): " + _dafny.string_of(d_9_valueOrError3_))

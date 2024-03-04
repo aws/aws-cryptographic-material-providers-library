@@ -12,9 +12,9 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software.amazon.cryptography.services.dynamodb.internaldafny.types
-import software.amazon.cryptography.services.kms.internaldafny.types
-import software.amazon.cryptography.primitives.internaldafny.types
+import software_amazon_cryptography_services_dynamodb_internaldafny_types
+import software_amazon_cryptography_services_kms_internaldafny_types
+import software_amazon_cryptography_primitives_internaldafny_types
 import ExternRandom
 import Random
 import AESEncryption
@@ -64,8 +64,8 @@ import Base64
 import Base64Lemmas
 import Actions
 import DafnyLibraries
-import software.amazon.cryptography.keystore.internaldafny.types
-import software.amazon.cryptography.materialproviders.internaldafny.types
+import software_amazon_cryptography_keystore_internaldafny_types
+import software_amazon_cryptography_materialproviders_internaldafny_types
 import AwsArnParsing
 import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
@@ -97,7 +97,7 @@ import Aws
 class GenerateAndWrapInput:
     @classmethod
     def default(cls, ):
-        return lambda: GenerateAndWrapInput_GenerateAndWrapInput(software.amazon.cryptography.materialproviders.internaldafny.types.AlgorithmSuiteInfo.default()(), _dafny.Map({}))
+        return lambda: GenerateAndWrapInput_GenerateAndWrapInput(software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo.default()(), _dafny.Map({}))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -135,7 +135,7 @@ class GenerateAndWrapOutput_GenerateAndWrapOutput(GenerateAndWrapOutput, NamedTu
 class WrapInput:
     @classmethod
     def default(cls, ):
-        return lambda: WrapInput_WrapInput(_dafny.Seq({}), software.amazon.cryptography.materialproviders.internaldafny.types.AlgorithmSuiteInfo.default()(), _dafny.Map({}))
+        return lambda: WrapInput_WrapInput(_dafny.Seq({}), software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo.default()(), _dafny.Map({}))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -173,7 +173,7 @@ class WrapOutput_WrapOutput(WrapOutput, NamedTuple('WrapOutput', [('wrappedMater
 class UnwrapInput:
     @classmethod
     def default(cls, ):
-        return lambda: UnwrapInput_UnwrapInput(_dafny.Seq({}), software.amazon.cryptography.materialproviders.internaldafny.types.AlgorithmSuiteInfo.default()(), _dafny.Map({}))
+        return lambda: UnwrapInput_UnwrapInput(_dafny.Seq({}), software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo.default()(), _dafny.Map({}))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property

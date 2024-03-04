@@ -12,9 +12,9 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software.amazon.cryptography.services.dynamodb.internaldafny.types
-import software.amazon.cryptography.services.kms.internaldafny.types
-import software.amazon.cryptography.primitives.internaldafny.types
+import software_amazon_cryptography_services_dynamodb_internaldafny_types
+import software_amazon_cryptography_services_kms_internaldafny_types
+import software_amazon_cryptography_primitives_internaldafny_types
 import ExternRandom
 import Random
 import AESEncryption
@@ -64,8 +64,8 @@ import Base64
 import Base64Lemmas
 import Actions
 import DafnyLibraries
-import software.amazon.cryptography.keystore.internaldafny.types
-import software.amazon.cryptography.materialproviders.internaldafny.types
+import software_amazon_cryptography_keystore_internaldafny_types
+import software_amazon_cryptography_materialproviders_internaldafny_types
 import AwsArnParsing
 import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
@@ -140,10 +140,10 @@ class default__:
             d_584_arn_ = (d_585_valueOrError1_).Extract()
             d_586_region_: Wrappers.Option
             d_586_region_ = AwsArnParsing.default__.GetRegion(d_584_arn_)
-            d_587_client_: software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient
+            d_587_client_: software_amazon_cryptography_services_kms_internaldafny_types.IKMSClient
             d_588_valueOrError2_: Wrappers.Result = None
             out90_: Wrappers.Result
-            out90_ = (clientSupplier).GetClient(software.amazon.cryptography.materialproviders.internaldafny.types.GetClientInput_GetClientInput((d_586_region_).UnwrapOr(_dafny.Seq(""))))
+            out90_ = (clientSupplier).GetClient(software_amazon_cryptography_materialproviders_internaldafny_types.GetClientInput_GetClientInput((d_586_region_).UnwrapOr(_dafny.Seq(""))))
             d_588_valueOrError2_ = out90_
             if (d_588_valueOrError2_).IsFailure():
                 output = (d_588_valueOrError2_).PropagateFailure()
@@ -175,10 +175,10 @@ class default__:
                 d_595_info_ = (d_596_valueOrError3_).Extract()
                 d_597_region_: Wrappers.Option
                 d_597_region_ = AwsArnParsing.default__.GetRegion(d_595_info_)
-                d_598_client_: software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient
+                d_598_client_: software_amazon_cryptography_services_kms_internaldafny_types.IKMSClient
                 d_599_valueOrError4_: Wrappers.Result = None
                 out91_: Wrappers.Result
-                out91_ = (clientSupplier).GetClient(software.amazon.cryptography.materialproviders.internaldafny.types.GetClientInput_GetClientInput((d_597_region_).UnwrapOr(_dafny.Seq(""))))
+                out91_ = (clientSupplier).GetClient(software_amazon_cryptography_materialproviders_internaldafny_types.GetClientInput_GetClientInput((d_597_region_).UnwrapOr(_dafny.Seq(""))))
                 d_599_valueOrError4_ = out91_
                 if (d_599_valueOrError4_).IsFailure():
                     output = (d_599_valueOrError4_).PropagateFailure()
@@ -190,7 +190,7 @@ class default__:
                 d_600_keyring_ = nw7_
                 d_590_children_ = (d_590_children_) + (_dafny.Seq([d_600_keyring_]))
         d_601_valueOrError5_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_601_valueOrError5_ = Wrappers.default__.Need(((d_581_generatorKeyring_).is_Some) or ((len(d_590_children_)) > (0)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("generatorKeyring or child Keryings needed to create a multi keyring")))
+        d_601_valueOrError5_ = Wrappers.default__.Need(((d_581_generatorKeyring_).is_Some) or ((len(d_590_children_)) > (0)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("generatorKeyring or child Keryings needed to create a multi keyring")))
         if (d_601_valueOrError5_).IsFailure():
             output = (d_601_valueOrError5_).PropagateFailure()
             return output

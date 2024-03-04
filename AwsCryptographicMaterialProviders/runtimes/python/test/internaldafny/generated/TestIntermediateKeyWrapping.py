@@ -12,15 +12,15 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software.amazon.cryptography.services.dynamodb.internaldafny.types
-import software.amazon.cryptography.services.kms.internaldafny.types
-import software.amazon.cryptography.keystore.internaldafny.types
+import software_amazon_cryptography_services_dynamodb_internaldafny_types
+import software_amazon_cryptography_services_kms_internaldafny_types
+import software_amazon_cryptography_keystore_internaldafny_types
 import Relations
 import Seq_MergeSort
 import Math
 import Seq
-import software.amazon.cryptography.primitives.internaldafny.types
-import software.amazon.cryptography.materialproviders.internaldafny.types
+import software_amazon_cryptography_primitives_internaldafny_types
+import software_amazon_cryptography_materialproviders_internaldafny_types
 import AwsArnParsing
 import Actions
 import AwsKmsMrkMatchForDecrypt
@@ -254,7 +254,7 @@ class TestGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMaterial, A
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.GenerateAndWrapOutput.default(TestInfo.default()))()
         d_241_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_241_valueOrError0_ = Wrappers.default__.Need(((input).algorithmSuite) == (default__.TEST__ALG__SUITE), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unexpected input on TestGenerateAndWrapMaterial")))
+        d_241_valueOrError0_ = Wrappers.default__.Need(((input).algorithmSuite) == (default__.TEST__ALG__SUITE), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unexpected input on TestGenerateAndWrapMaterial")))
         if (d_241_valueOrError0_).IsFailure():
             res = (d_241_valueOrError0_).PropagateFailure()
             return res
@@ -276,12 +276,12 @@ class TestUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWithR
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.UnwrapOutput.default(TestInfo.default()))()
         d_242_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_242_valueOrError0_ = Wrappers.default__.Need(((input).wrappedMaterial) == (default__.WRAPPED__MAT), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unexpected input on TestUnwrapMaterial")))
+        d_242_valueOrError0_ = Wrappers.default__.Need(((input).wrappedMaterial) == (default__.WRAPPED__MAT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unexpected input on TestUnwrapMaterial")))
         if (d_242_valueOrError0_).IsFailure():
             res = (d_242_valueOrError0_).PropagateFailure()
             return res
         d_243_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_243_valueOrError1_ = Wrappers.default__.Need(((input).algorithmSuite) == (default__.TEST__ALG__SUITE), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unexpected input on TestUnwrapMaterial")))
+        d_243_valueOrError1_ = Wrappers.default__.Need(((input).algorithmSuite) == (default__.TEST__ALG__SUITE), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unexpected input on TestUnwrapMaterial")))
         if (d_243_valueOrError1_).IsFailure():
             res = (d_243_valueOrError1_).PropagateFailure()
             return res

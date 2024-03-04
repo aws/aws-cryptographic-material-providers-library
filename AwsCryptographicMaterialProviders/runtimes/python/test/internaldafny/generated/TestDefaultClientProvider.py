@@ -12,15 +12,15 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software.amazon.cryptography.services.dynamodb.internaldafny.types
-import software.amazon.cryptography.services.kms.internaldafny.types
-import software.amazon.cryptography.keystore.internaldafny.types
+import software_amazon_cryptography_services_dynamodb_internaldafny_types
+import software_amazon_cryptography_services_kms_internaldafny_types
+import software_amazon_cryptography_keystore_internaldafny_types
 import Relations
 import Seq_MergeSort
 import Math
 import Seq
-import software.amazon.cryptography.primitives.internaldafny.types
-import software.amazon.cryptography.materialproviders.internaldafny.types
+import software_amazon_cryptography_primitives_internaldafny_types
+import software_amazon_cryptography_materialproviders_internaldafny_types
 import AwsArnParsing
 import Actions
 import AwsKmsMrkMatchForDecrypt
@@ -136,7 +136,7 @@ class default__:
 
     @staticmethod
     def GetUsWestTwo():
-        d_244_mpl_: software.amazon.cryptography.materialproviders.internaldafny.types.IAwsCryptographicMaterialProvidersClient
+        d_244_mpl_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
         d_245_valueOrError0_: Wrappers.Result = None
         out81_: Wrappers.Result
         out81_ = software_amazon_cryptography_materialproviders_internaldafny.default__.MaterialProviders(software_amazon_cryptography_materialproviders_internaldafny.default__.DefaultMaterialProvidersConfig())
@@ -144,26 +144,26 @@ class default__:
         if not(not((d_245_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestDefaultClientProvider.dfy(18,12): " + _dafny.string_of(d_245_valueOrError0_))
         d_244_mpl_ = (d_245_valueOrError0_).Extract()
-        d_246_clientSupplier_: software.amazon.cryptography.materialproviders.internaldafny.types.IClientSupplier
+        d_246_clientSupplier_: software_amazon_cryptography_materialproviders_internaldafny_types.IClientSupplier
         d_247_valueOrError1_: Wrappers.Result = None
         out82_: Wrappers.Result
-        out82_ = (d_244_mpl_).CreateDefaultClientSupplier(software.amazon.cryptography.materialproviders.internaldafny.types.CreateDefaultClientSupplierInput_CreateDefaultClientSupplierInput())
+        out82_ = (d_244_mpl_).CreateDefaultClientSupplier(software_amazon_cryptography_materialproviders_internaldafny_types.CreateDefaultClientSupplierInput_CreateDefaultClientSupplierInput())
         d_247_valueOrError1_ = out82_
         if not(not((d_247_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestDefaultClientProvider.dfy(20,23): " + _dafny.string_of(d_247_valueOrError1_))
         d_246_clientSupplier_ = (d_247_valueOrError1_).Extract()
-        d_248_client_: software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient
+        d_248_client_: software_amazon_cryptography_services_kms_internaldafny_types.IKMSClient
         d_249_valueOrError2_: Wrappers.Result = None
         out83_: Wrappers.Result
-        out83_ = (d_246_clientSupplier_).GetClient(software.amazon.cryptography.materialproviders.internaldafny.types.GetClientInput_GetClientInput(_dafny.Seq("us-west-2")))
+        out83_ = (d_246_clientSupplier_).GetClient(software_amazon_cryptography_materialproviders_internaldafny_types.GetClientInput_GetClientInput(_dafny.Seq("us-west-2")))
         d_249_valueOrError2_ = out83_
         if not(not((d_249_valueOrError2_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestDefaultClientProvider.dfy(22,15): " + _dafny.string_of(d_249_valueOrError2_))
         d_248_client_ = (d_249_valueOrError2_).Extract()
-        d_250_kmsRequest_: software.amazon.cryptography.services.kms.internaldafny.types.GenerateDataKeyRequest
-        d_250_kmsRequest_ = software.amazon.cryptography.services.kms.internaldafny.types.GenerateDataKeyRequest_GenerateDataKeyRequest(TestUtils.default__.SHARED__TEST__KEY__ARN, Wrappers.Option_None(), Wrappers.Option_Some(24), Wrappers.Option_None(), Wrappers.Option_None())
-        d_251_kmsReply_: software.amazon.cryptography.services.kms.internaldafny.types.GenerateDataKeyResponse
-        d_252_valueOrError3_: Wrappers.Result = Wrappers.Result.default(software.amazon.cryptography.services.kms.internaldafny.types.GenerateDataKeyResponse.default())()
+        d_250_kmsRequest_: software_amazon_cryptography_services_kms_internaldafny_types.GenerateDataKeyRequest
+        d_250_kmsRequest_ = software_amazon_cryptography_services_kms_internaldafny_types.GenerateDataKeyRequest_GenerateDataKeyRequest(TestUtils.default__.SHARED__TEST__KEY__ARN, Wrappers.Option_None(), Wrappers.Option_Some(24), Wrappers.Option_None(), Wrappers.Option_None())
+        d_251_kmsReply_: software_amazon_cryptography_services_kms_internaldafny_types.GenerateDataKeyResponse
+        d_252_valueOrError3_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_services_kms_internaldafny_types.GenerateDataKeyResponse.default())()
         out84_: Wrappers.Result
         out84_ = (d_248_client_).GenerateDataKey(d_250_kmsRequest_)
         d_252_valueOrError3_ = out84_

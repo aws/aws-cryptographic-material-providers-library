@@ -12,9 +12,9 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software.amazon.cryptography.services.dynamodb.internaldafny.types
-import software.amazon.cryptography.services.kms.internaldafny.types
-import software.amazon.cryptography.primitives.internaldafny.types
+import software_amazon_cryptography_services_dynamodb_internaldafny_types
+import software_amazon_cryptography_services_kms_internaldafny_types
+import software_amazon_cryptography_primitives_internaldafny_types
 import ExternRandom
 import Random
 import AESEncryption
@@ -64,8 +64,8 @@ import Base64
 import Base64Lemmas
 import Actions
 import DafnyLibraries
-import software.amazon.cryptography.keystore.internaldafny.types
-import software.amazon.cryptography.materialproviders.internaldafny.types
+import software_amazon_cryptography_keystore_internaldafny_types
+import software_amazon_cryptography_materialproviders_internaldafny_types
 import AwsArnParsing
 import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
@@ -94,7 +94,7 @@ class default__:
         pat_let_tv123_ = input
         pat_let_tv124_ = input
         pat_let_tv125_ = input
-        d_299_valueOrError0_ = Wrappers.default__.Need((default__.EC__PUBLIC__KEY__FIELD) not in ((input).encryptionContext), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption Context ")))
+        d_299_valueOrError0_ = Wrappers.default__.Need((default__.EC__PUBLIC__KEY__FIELD) not in ((input).encryptionContext), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption Context ")))
         if (d_299_valueOrError0_).IsFailure():
             return (d_299_valueOrError0_).PropagateFailure()
         elif True:
@@ -102,16 +102,16 @@ class default__:
                 d_301_key_: _dafny.Seq = forall_var_8_
                 return not ((d_301_key_) in ((input).requiredEncryptionContextKeys)) or ((d_301_key_) in ((input).encryptionContext))
 
-            d_300_valueOrError1_ = Wrappers.default__.Need(_dafny.quantifier(((input).requiredEncryptionContextKeys).UniqueElements, True, lambda31_), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Required encryption context keys do not exist in provided encryption context.")))
+            d_300_valueOrError1_ = Wrappers.default__.Need(_dafny.quantifier(((input).requiredEncryptionContextKeys).UniqueElements, True, lambda31_), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Required encryption context keys do not exist in provided encryption context.")))
             if (d_300_valueOrError1_).IsFailure():
                 return (d_300_valueOrError1_).PropagateFailure()
             elif True:
                 d_302_suite_ = AlgorithmSuites.default__.GetSuite((input).algorithmSuiteId)
-                d_303_valueOrError2_ = Wrappers.default__.Need((((d_302_suite_).signature).is_ECDSA) == ((((input).signingKey).is_Some) and (((input).verificationKey).is_Some)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Missing signature key for signed suite.")))
+                d_303_valueOrError2_ = Wrappers.default__.Need((((d_302_suite_).signature).is_ECDSA) == ((((input).signingKey).is_Some) and (((input).verificationKey).is_Some)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Missing signature key for signed suite.")))
                 if (d_303_valueOrError2_).IsFailure():
                     return (d_303_valueOrError2_).PropagateFailure()
                 elif True:
-                    d_304_valueOrError3_ = Wrappers.default__.Need((((d_302_suite_).signature).is_None) == ((((input).signingKey).is_None) and (((input).verificationKey).is_None)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Signature key not allowed for non-signed suites.")))
+                    d_304_valueOrError3_ = Wrappers.default__.Need((((d_302_suite_).signature).is_None) == ((((input).signingKey).is_None) and (((input).verificationKey).is_None)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Signature key not allowed for non-signed suites.")))
                     if (d_304_valueOrError3_).IsFailure():
                         return (d_304_valueOrError3_).PropagateFailure()
                     elif True:
@@ -120,7 +120,7 @@ class default__:
                                 d_306___mcc_h0_ = source17_.ECDSA
                                 d_307_curve_ = d_306___mcc_h0_
                                 def lambda33_(d_309_e_):
-                                    return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(d_309_e_)
+                                    return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(d_309_e_)
 
                                 d_308_valueOrError5_ = (UTF8.default__.Encode(Base64.default__.Encode(((pat_let_tv123_).verificationKey).value))).MapFailure(lambda33_)
                                 if (d_308_valueOrError5_).IsFailure():
@@ -138,7 +138,7 @@ class default__:
                             return (d_305_valueOrError4_).PropagateFailure()
                         elif True:
                             d_313_encryptionContext_ = (d_305_valueOrError4_).Extract()
-                            return Wrappers.Result_Success(software.amazon.cryptography.materialproviders.internaldafny.types.EncryptionMaterials_EncryptionMaterials(d_302_suite_, d_313_encryptionContext_, _dafny.Seq([]), (input).requiredEncryptionContextKeys, Wrappers.Option_None(), (input).signingKey, (Wrappers.Option_None() if ((d_302_suite_).symmetricSignature).is_None else Wrappers.Option_Some(_dafny.Seq([])))))
+                            return Wrappers.Result_Success(software_amazon_cryptography_materialproviders_internaldafny_types.EncryptionMaterials_EncryptionMaterials(d_302_suite_, d_313_encryptionContext_, _dafny.Seq([]), (input).requiredEncryptionContextKeys, Wrappers.Option_None(), (input).signingKey, (Wrappers.Option_None() if ((d_302_suite_).symmetricSignature).is_None else Wrappers.Option_Some(_dafny.Seq([])))))
 
     @staticmethod
     def InitializeDecryptionMaterials(input):
@@ -146,16 +146,16 @@ class default__:
             d_315_key_: _dafny.Seq = forall_var_9_
             return not ((d_315_key_) in ((input).requiredEncryptionContextKeys)) or ((d_315_key_) in ((input).encryptionContext))
 
-        d_314_valueOrError0_ = Wrappers.default__.Need(_dafny.quantifier(((input).requiredEncryptionContextKeys).UniqueElements, True, lambda34_), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Reporoduced encryption context key did not exist in provided encryption context.")))
+        d_314_valueOrError0_ = Wrappers.default__.Need(_dafny.quantifier(((input).requiredEncryptionContextKeys).UniqueElements, True, lambda34_), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Reporoduced encryption context key did not exist in provided encryption context.")))
         if (d_314_valueOrError0_).IsFailure():
             return (d_314_valueOrError0_).PropagateFailure()
         elif True:
             d_316_suite_ = AlgorithmSuites.default__.GetSuite((input).algorithmSuiteId)
-            d_317_valueOrError1_ = Wrappers.default__.Need((((d_316_suite_).signature).is_ECDSA) == ((default__.EC__PUBLIC__KEY__FIELD) in ((input).encryptionContext)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption Context missing verification key.")))
+            d_317_valueOrError1_ = Wrappers.default__.Need((((d_316_suite_).signature).is_ECDSA) == ((default__.EC__PUBLIC__KEY__FIELD) in ((input).encryptionContext)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption Context missing verification key.")))
             if (d_317_valueOrError1_).IsFailure():
                 return (d_317_valueOrError1_).PropagateFailure()
             elif True:
-                d_318_valueOrError2_ = Wrappers.default__.Need((((d_316_suite_).signature).is_None) == ((default__.EC__PUBLIC__KEY__FIELD) not in ((input).encryptionContext)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Verification key can not exist in non-signed Algorithm Suites.")))
+                d_318_valueOrError2_ = Wrappers.default__.Need((((d_316_suite_).signature).is_None) == ((default__.EC__PUBLIC__KEY__FIELD) not in ((input).encryptionContext)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Verification key can not exist in non-signed Algorithm Suites.")))
                 if (d_318_valueOrError2_).IsFailure():
                     return (d_318_valueOrError2_).PropagateFailure()
                 elif True:
@@ -164,14 +164,14 @@ class default__:
                         return (d_319_valueOrError3_).PropagateFailure()
                     elif True:
                         d_320_verificationKey_ = (d_319_valueOrError3_).Extract()
-                        return Wrappers.Result_Success(software.amazon.cryptography.materialproviders.internaldafny.types.DecryptionMaterials_DecryptionMaterials(d_316_suite_, (input).encryptionContext, (input).requiredEncryptionContextKeys, Wrappers.Option_None(), d_320_verificationKey_, Wrappers.Option_None()))
+                        return Wrappers.Result_Success(software_amazon_cryptography_materialproviders_internaldafny_types.DecryptionMaterials_DecryptionMaterials(d_316_suite_, (input).encryptionContext, (input).requiredEncryptionContextKeys, Wrappers.Option_None(), d_320_verificationKey_, Wrappers.Option_None()))
 
     @staticmethod
     def DecodeVerificationKey(encryptionContext):
         if (default__.EC__PUBLIC__KEY__FIELD) in (encryptionContext):
             d_321_utf8Key_ = (encryptionContext)[default__.EC__PUBLIC__KEY__FIELD]
             def lambda35_(d_323_e_):
-                return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(d_323_e_)
+                return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(d_323_e_)
 
             d_322_valueOrError0_ = (UTF8.default__.Decode(d_321_utf8Key_)).MapFailure(lambda35_)
             if (d_322_valueOrError0_).IsFailure():
@@ -179,7 +179,7 @@ class default__:
             elif True:
                 d_324_base64Key_ = (d_322_valueOrError0_).Extract()
                 def lambda36_(d_326_e_):
-                    return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(d_326_e_)
+                    return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(d_326_e_)
 
                 d_325_valueOrError1_ = (Base64.default__.Decode(d_324_base64Key_)).MapFailure(lambda36_)
                 if (d_325_valueOrError1_).IsFailure():
@@ -228,50 +228,50 @@ class default__:
 
     @staticmethod
     def EncryptionMaterialAddEncryptedDataKeys(encryptionMaterials, encryptedDataKeysToAdd, symmetricSigningKeysToAdd):
-        d_330_valueOrError0_ = Wrappers.default__.Need(default__.ValidEncryptionMaterials(encryptionMaterials), software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Attempt to modify invalid encryption material.")))
+        d_330_valueOrError0_ = Wrappers.default__.Need(default__.ValidEncryptionMaterials(encryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Attempt to modify invalid encryption material.")))
         if (d_330_valueOrError0_).IsFailure():
             return (d_330_valueOrError0_).PropagateFailure()
         elif True:
-            d_331_valueOrError1_ = Wrappers.default__.Need(((encryptionMaterials).plaintextDataKey).is_Some, software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Adding encrypted data keys without a plaintext data key is not allowed.")))
+            d_331_valueOrError1_ = Wrappers.default__.Need(((encryptionMaterials).plaintextDataKey).is_Some, software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Adding encrypted data keys without a plaintext data key is not allowed.")))
             if (d_331_valueOrError1_).IsFailure():
                 return (d_331_valueOrError1_).PropagateFailure()
             elif True:
-                d_332_valueOrError2_ = Wrappers.default__.Need(not ((symmetricSigningKeysToAdd).is_None) or ((((encryptionMaterials).algorithmSuite).symmetricSignature).is_None), software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Adding encrypted data keys without a symmetric signing key when using symmetric signing is not allowed.")))
+                d_332_valueOrError2_ = Wrappers.default__.Need(not ((symmetricSigningKeysToAdd).is_None) or ((((encryptionMaterials).algorithmSuite).symmetricSignature).is_None), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Adding encrypted data keys without a symmetric signing key when using symmetric signing is not allowed.")))
                 if (d_332_valueOrError2_).IsFailure():
                     return (d_332_valueOrError2_).PropagateFailure()
                 elif True:
-                    d_333_valueOrError3_ = Wrappers.default__.Need(not ((symmetricSigningKeysToAdd).is_Some) or (not((((encryptionMaterials).algorithmSuite).symmetricSignature).is_None)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Adding encrypted data keys with a symmetric signing key when not using symmetric signing is not allowed.")))
+                    d_333_valueOrError3_ = Wrappers.default__.Need(not ((symmetricSigningKeysToAdd).is_Some) or (not((((encryptionMaterials).algorithmSuite).symmetricSignature).is_None)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Adding encrypted data keys with a symmetric signing key when not using symmetric signing is not allowed.")))
                     if (d_333_valueOrError3_).IsFailure():
                         return (d_333_valueOrError3_).PropagateFailure()
                     elif True:
                         d_334_symmetricSigningKeys_ = ((encryptionMaterials).symmetricSigningKeys if (symmetricSigningKeysToAdd).is_None else Wrappers.Option_Some((((encryptionMaterials).symmetricSigningKeys).value) + ((symmetricSigningKeysToAdd).value)))
-                        return Wrappers.Result_Success(software.amazon.cryptography.materialproviders.internaldafny.types.EncryptionMaterials_EncryptionMaterials((encryptionMaterials).algorithmSuite, (encryptionMaterials).encryptionContext, ((encryptionMaterials).encryptedDataKeys) + (encryptedDataKeysToAdd), (encryptionMaterials).requiredEncryptionContextKeys, (encryptionMaterials).plaintextDataKey, (encryptionMaterials).signingKey, d_334_symmetricSigningKeys_))
+                        return Wrappers.Result_Success(software_amazon_cryptography_materialproviders_internaldafny_types.EncryptionMaterials_EncryptionMaterials((encryptionMaterials).algorithmSuite, (encryptionMaterials).encryptionContext, ((encryptionMaterials).encryptedDataKeys) + (encryptedDataKeysToAdd), (encryptionMaterials).requiredEncryptionContextKeys, (encryptionMaterials).plaintextDataKey, (encryptionMaterials).signingKey, d_334_symmetricSigningKeys_))
 
     @staticmethod
     def EncryptionMaterialAddDataKey(encryptionMaterials, plaintextDataKey, encryptedDataKeysToAdd, symmetricSigningKeysToAdd):
         d_335_suite_ = (encryptionMaterials).algorithmSuite
-        d_336_valueOrError0_ = Wrappers.default__.Need(default__.ValidEncryptionMaterials(encryptionMaterials), software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Attempt to modify invalid encryption material.")))
+        d_336_valueOrError0_ = Wrappers.default__.Need(default__.ValidEncryptionMaterials(encryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Attempt to modify invalid encryption material.")))
         if (d_336_valueOrError0_).IsFailure():
             return (d_336_valueOrError0_).PropagateFailure()
         elif True:
-            d_337_valueOrError1_ = Wrappers.default__.Need(((encryptionMaterials).plaintextDataKey).is_None, software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Attempt to modify plaintextDataKey.")))
+            d_337_valueOrError1_ = Wrappers.default__.Need(((encryptionMaterials).plaintextDataKey).is_None, software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Attempt to modify plaintextDataKey.")))
             if (d_337_valueOrError1_).IsFailure():
                 return (d_337_valueOrError1_).PropagateFailure()
             elif True:
-                d_338_valueOrError2_ = Wrappers.default__.Need((AlgorithmSuites.default__.GetEncryptKeyLength(d_335_suite_)) == (len(plaintextDataKey)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("plaintextDataKey does not match Algorithm Suite specification.")))
+                d_338_valueOrError2_ = Wrappers.default__.Need((AlgorithmSuites.default__.GetEncryptKeyLength(d_335_suite_)) == (len(plaintextDataKey)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("plaintextDataKey does not match Algorithm Suite specification.")))
                 if (d_338_valueOrError2_).IsFailure():
                     return (d_338_valueOrError2_).PropagateFailure()
                 elif True:
-                    d_339_valueOrError3_ = Wrappers.default__.Need(((symmetricSigningKeysToAdd).is_None) == ((((encryptionMaterials).algorithmSuite).symmetricSignature).is_None), software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Adding encrypted data keys without a symmetric signing key when using symmetric signing is not allowed.")))
+                    d_339_valueOrError3_ = Wrappers.default__.Need(((symmetricSigningKeysToAdd).is_None) == ((((encryptionMaterials).algorithmSuite).symmetricSignature).is_None), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Adding encrypted data keys without a symmetric signing key when using symmetric signing is not allowed.")))
                     if (d_339_valueOrError3_).IsFailure():
                         return (d_339_valueOrError3_).PropagateFailure()
                     elif True:
-                        d_340_valueOrError4_ = Wrappers.default__.Need(((symmetricSigningKeysToAdd).is_Some) == (not((((encryptionMaterials).algorithmSuite).symmetricSignature).is_None)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Adding encrypted data keys with a symmetric signing key when not using symmetric signing is not allowed.")))
+                        d_340_valueOrError4_ = Wrappers.default__.Need(((symmetricSigningKeysToAdd).is_Some) == (not((((encryptionMaterials).algorithmSuite).symmetricSignature).is_None)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Adding encrypted data keys with a symmetric signing key when not using symmetric signing is not allowed.")))
                         if (d_340_valueOrError4_).IsFailure():
                             return (d_340_valueOrError4_).PropagateFailure()
                         elif True:
                             d_341_symmetricSigningKeys_ = ((encryptionMaterials).symmetricSigningKeys if (symmetricSigningKeysToAdd).is_None else Wrappers.Option_Some((((encryptionMaterials).symmetricSigningKeys).value) + ((symmetricSigningKeysToAdd).value)))
-                            return Wrappers.Result_Success(software.amazon.cryptography.materialproviders.internaldafny.types.EncryptionMaterials_EncryptionMaterials((encryptionMaterials).algorithmSuite, (encryptionMaterials).encryptionContext, ((encryptionMaterials).encryptedDataKeys) + (encryptedDataKeysToAdd), (encryptionMaterials).requiredEncryptionContextKeys, Wrappers.Option_Some(plaintextDataKey), (encryptionMaterials).signingKey, d_341_symmetricSigningKeys_))
+                            return Wrappers.Result_Success(software_amazon_cryptography_materialproviders_internaldafny_types.EncryptionMaterials_EncryptionMaterials((encryptionMaterials).algorithmSuite, (encryptionMaterials).encryptionContext, ((encryptionMaterials).encryptedDataKeys) + (encryptedDataKeysToAdd), (encryptionMaterials).requiredEncryptionContextKeys, Wrappers.Option_Some(plaintextDataKey), (encryptionMaterials).signingKey, d_341_symmetricSigningKeys_))
 
     @staticmethod
     def DecryptionMaterialsTransitionIsValid(oldMat, newMat):
@@ -303,27 +303,27 @@ class default__:
     @staticmethod
     def DecryptionMaterialsAddDataKey(decryptionMaterials, plaintextDataKey, symmetricSigningKey):
         d_344_suite_ = (decryptionMaterials).algorithmSuite
-        d_345_valueOrError0_ = Wrappers.default__.Need(default__.ValidDecryptionMaterials(decryptionMaterials), software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("Attempt to modify invalid decryption material.")))
+        d_345_valueOrError0_ = Wrappers.default__.Need(default__.ValidDecryptionMaterials(decryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("Attempt to modify invalid decryption material.")))
         if (d_345_valueOrError0_).IsFailure():
             return (d_345_valueOrError0_).PropagateFailure()
         elif True:
-            d_346_valueOrError1_ = Wrappers.default__.Need(((decryptionMaterials).plaintextDataKey).is_None, software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("Attempt to modify plaintextDataKey.")))
+            d_346_valueOrError1_ = Wrappers.default__.Need(((decryptionMaterials).plaintextDataKey).is_None, software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("Attempt to modify plaintextDataKey.")))
             if (d_346_valueOrError1_).IsFailure():
                 return (d_346_valueOrError1_).PropagateFailure()
             elif True:
-                d_347_valueOrError2_ = Wrappers.default__.Need((AlgorithmSuites.default__.GetEncryptKeyLength(d_344_suite_)) == (len(plaintextDataKey)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("plaintextDataKey does not match Algorithm Suite specification.")))
+                d_347_valueOrError2_ = Wrappers.default__.Need((AlgorithmSuites.default__.GetEncryptKeyLength(d_344_suite_)) == (len(plaintextDataKey)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("plaintextDataKey does not match Algorithm Suite specification.")))
                 if (d_347_valueOrError2_).IsFailure():
                     return (d_347_valueOrError2_).PropagateFailure()
                 elif True:
-                    d_348_valueOrError3_ = Wrappers.default__.Need(((symmetricSigningKey).is_Some) == (not((((decryptionMaterials).algorithmSuite).symmetricSignature).is_None)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("symmetric signature key must be added with plaintextDataKey if using an algorithm suite with symmetric signing.")))
+                    d_348_valueOrError3_ = Wrappers.default__.Need(((symmetricSigningKey).is_Some) == (not((((decryptionMaterials).algorithmSuite).symmetricSignature).is_None)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("symmetric signature key must be added with plaintextDataKey if using an algorithm suite with symmetric signing.")))
                     if (d_348_valueOrError3_).IsFailure():
                         return (d_348_valueOrError3_).PropagateFailure()
                     elif True:
-                        d_349_valueOrError4_ = Wrappers.default__.Need(((symmetricSigningKey).is_None) == ((((decryptionMaterials).algorithmSuite).symmetricSignature).is_None), software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("symmetric signature key cannot be added with plaintextDataKey if using an algorithm suite without symmetric signing.")))
+                        d_349_valueOrError4_ = Wrappers.default__.Need(((symmetricSigningKey).is_None) == ((((decryptionMaterials).algorithmSuite).symmetricSignature).is_None), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("symmetric signature key cannot be added with plaintextDataKey if using an algorithm suite without symmetric signing.")))
                         if (d_349_valueOrError4_).IsFailure():
                             return (d_349_valueOrError4_).PropagateFailure()
                         elif True:
-                            return Wrappers.Result_Success(software.amazon.cryptography.materialproviders.internaldafny.types.DecryptionMaterials_DecryptionMaterials((decryptionMaterials).algorithmSuite, (decryptionMaterials).encryptionContext, (decryptionMaterials).requiredEncryptionContextKeys, Wrappers.Option_Some(plaintextDataKey), (decryptionMaterials).verificationKey, symmetricSigningKey))
+                            return Wrappers.Result_Success(software_amazon_cryptography_materialproviders_internaldafny_types.DecryptionMaterials_DecryptionMaterials((decryptionMaterials).algorithmSuite, (decryptionMaterials).encryptionContext, (decryptionMaterials).requiredEncryptionContextKeys, Wrappers.Option_Some(plaintextDataKey), (decryptionMaterials).verificationKey, symmetricSigningKey))
 
     @staticmethod
     def DecryptionMaterialsWithoutPlaintextDataKey(decryptionMaterials):
@@ -347,7 +347,7 @@ class DecryptionMaterialsPendingPlaintextDataKey:
 
     @staticmethod
     def default():
-        return software.amazon.cryptography.materialproviders.internaldafny.types.DecryptionMaterials.default()()
+        return software_amazon_cryptography_materialproviders_internaldafny_types.DecryptionMaterials.default()()
 
 class SealedDecryptionMaterials:
     def  __init__(self):
@@ -355,4 +355,4 @@ class SealedDecryptionMaterials:
 
     @staticmethod
     def default():
-        return software.amazon.cryptography.materialproviders.internaldafny.types.DecryptionMaterials.default()()
+        return software_amazon_cryptography_materialproviders_internaldafny_types.DecryptionMaterials.default()()

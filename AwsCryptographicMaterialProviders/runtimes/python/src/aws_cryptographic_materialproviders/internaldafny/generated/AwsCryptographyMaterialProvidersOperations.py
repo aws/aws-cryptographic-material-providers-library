@@ -12,9 +12,9 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software.amazon.cryptography.services.dynamodb.internaldafny.types
-import software.amazon.cryptography.services.kms.internaldafny.types
-import software.amazon.cryptography.primitives.internaldafny.types
+import software_amazon_cryptography_services_dynamodb_internaldafny_types
+import software_amazon_cryptography_services_kms_internaldafny_types
+import software_amazon_cryptography_primitives_internaldafny_types
 import ExternRandom
 import Random
 import AESEncryption
@@ -64,8 +64,8 @@ import Base64
 import Base64Lemmas
 import Actions
 import DafnyLibraries
-import software.amazon.cryptography.keystore.internaldafny.types
-import software.amazon.cryptography.materialproviders.internaldafny.types
+import software_amazon_cryptography_keystore_internaldafny_types
+import software_amazon_cryptography_materialproviders_internaldafny_types
 import AwsArnParsing
 import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
@@ -189,10 +189,10 @@ class default__:
             out221_ = StrictMultiKeyring.default__.StrictMultiKeyring((input).generator, (input).kmsKeyIds, ((input).clientSupplier).value, Wrappers.Option_Some(d_1210_grantTokens_))
             output = out221_
         elif True:
-            d_1212_clientSupplier_: software.amazon.cryptography.materialproviders.internaldafny.types.IClientSupplier
+            d_1212_clientSupplier_: software_amazon_cryptography_materialproviders_internaldafny_types.IClientSupplier
             d_1213_valueOrError1_: Wrappers.Result = None
             out222_: Wrappers.Result
-            out222_ = default__.CreateDefaultClientSupplier(config, software.amazon.cryptography.materialproviders.internaldafny.types.CreateDefaultClientSupplierInput_CreateDefaultClientSupplierInput())
+            out222_ = default__.CreateDefaultClientSupplier(config, software_amazon_cryptography_materialproviders_internaldafny_types.CreateDefaultClientSupplierInput_CreateDefaultClientSupplierInput())
             d_1213_valueOrError1_ = out222_
             if (d_1213_valueOrError1_).IsFailure():
                 output = (d_1213_valueOrError1_).PropagateFailure()
@@ -213,11 +213,11 @@ class default__:
             output = (d_1215_valueOrError0_).PropagateFailure()
             return output
         d_1214_grantTokens_ = (d_1215_valueOrError0_).Extract()
-        d_1216_clientSupplier_: software.amazon.cryptography.materialproviders.internaldafny.types.IClientSupplier = None
+        d_1216_clientSupplier_: software_amazon_cryptography_materialproviders_internaldafny_types.IClientSupplier = None
         if ((input).clientSupplier).is_None:
             d_1217_valueOrError1_: Wrappers.Result = None
             out224_: Wrappers.Result
-            out224_ = default__.CreateDefaultClientSupplier(config, software.amazon.cryptography.materialproviders.internaldafny.types.CreateDefaultClientSupplierInput_CreateDefaultClientSupplierInput())
+            out224_ = default__.CreateDefaultClientSupplier(config, software_amazon_cryptography_materialproviders_internaldafny_types.CreateDefaultClientSupplierInput_CreateDefaultClientSupplierInput())
             d_1217_valueOrError1_ = out224_
             if (d_1217_valueOrError1_).IsFailure():
                 output = (d_1217_valueOrError1_).PropagateFailure()
@@ -265,11 +265,11 @@ class default__:
             output = (d_1224_valueOrError0_).PropagateFailure()
             return output
         d_1223_grantTokens_ = (d_1224_valueOrError0_).Extract()
-        d_1225_clientSupplier_: software.amazon.cryptography.materialproviders.internaldafny.types.IClientSupplier = None
+        d_1225_clientSupplier_: software_amazon_cryptography_materialproviders_internaldafny_types.IClientSupplier = None
         if ((input).clientSupplier).is_None:
             d_1226_valueOrError1_: Wrappers.Result = None
             out226_: Wrappers.Result
-            out226_ = default__.CreateDefaultClientSupplier(config, software.amazon.cryptography.materialproviders.internaldafny.types.CreateDefaultClientSupplierInput_CreateDefaultClientSupplierInput())
+            out226_ = default__.CreateDefaultClientSupplier(config, software_amazon_cryptography_materialproviders_internaldafny_types.CreateDefaultClientSupplierInput_CreateDefaultClientSupplierInput())
             d_1226_valueOrError1_ = out226_
             if (d_1226_valueOrError1_).IsFailure():
                 output = (d_1226_valueOrError1_).PropagateFailure()
@@ -296,7 +296,7 @@ class default__:
         d_1229_regionMatch_: Wrappers.Option
         d_1229_regionMatch_ = software_amazon_cryptography_services_kms_internaldafny.default__.RegionMatch((input).kmsClient, (input).region)
         d_1230_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1230_valueOrError1_ = Wrappers.default__.Need((d_1229_regionMatch_) != (Wrappers.Option_Some(False)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Provided client and region do not match")))
+        d_1230_valueOrError1_ = Wrappers.default__.Need((d_1229_regionMatch_) != (Wrappers.Option_Some(False)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Provided client and region do not match")))
         if (d_1230_valueOrError1_).IsFailure():
             output = (d_1230_valueOrError1_).PropagateFailure()
             return output
@@ -325,11 +325,11 @@ class default__:
             output = (d_1235_valueOrError0_).PropagateFailure()
             return output
         d_1234_grantTokens_ = (d_1235_valueOrError0_).Extract()
-        d_1236_clientSupplier_: software.amazon.cryptography.materialproviders.internaldafny.types.IClientSupplier = None
+        d_1236_clientSupplier_: software_amazon_cryptography_materialproviders_internaldafny_types.IClientSupplier = None
         if ((input).clientSupplier).is_None:
             d_1237_valueOrError1_: Wrappers.Result = None
             out228_: Wrappers.Result
-            out228_ = default__.CreateDefaultClientSupplier(config, software.amazon.cryptography.materialproviders.internaldafny.types.CreateDefaultClientSupplierInput_CreateDefaultClientSupplierInput())
+            out228_ = default__.CreateDefaultClientSupplier(config, software_amazon_cryptography_materialproviders_internaldafny_types.CreateDefaultClientSupplierInput_CreateDefaultClientSupplierInput())
             d_1237_valueOrError1_ = out228_
             if (d_1237_valueOrError1_).IsFailure():
                 output = (d_1237_valueOrError1_).PropagateFailure()
@@ -346,22 +346,22 @@ class default__:
     def CreateAwsKmsHierarchicalKeyring(config, input):
         output: Wrappers.Result = None
         d_1238_maxCacheSize_: int = int(0)
-        d_1239_cache_: software.amazon.cryptography.materialproviders.internaldafny.types.CacheType
-        d_1239_cache_ = (((input).cache).value if ((input).cache).is_Some else software.amazon.cryptography.materialproviders.internaldafny.types.CacheType_Default(software.amazon.cryptography.materialproviders.internaldafny.types.DefaultCache_DefaultCache(1000)))
+        d_1239_cache_: software_amazon_cryptography_materialproviders_internaldafny_types.CacheType
+        d_1239_cache_ = (((input).cache).value if ((input).cache).is_Some else software_amazon_cryptography_materialproviders_internaldafny_types.CacheType_Default(software_amazon_cryptography_materialproviders_internaldafny_types.DefaultCache_DefaultCache(1000)))
         d_1240_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1240_valueOrError0_ = Wrappers.default__.Need((((input).branchKeyId).is_None) or (((input).branchKeyIdSupplier).is_None), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Cannot initialize keyring with both a branchKeyId and BranchKeyIdSupplier.")))
+        d_1240_valueOrError0_ = Wrappers.default__.Need((((input).branchKeyId).is_None) or (((input).branchKeyIdSupplier).is_None), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Cannot initialize keyring with both a branchKeyId and BranchKeyIdSupplier.")))
         if (d_1240_valueOrError0_).IsFailure():
             output = (d_1240_valueOrError0_).PropagateFailure()
             return output
         d_1241_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1241_valueOrError1_ = Wrappers.default__.Need((((input).branchKeyId).is_Some) or (((input).branchKeyIdSupplier).is_Some), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Must initialize keyring with either branchKeyId or BranchKeyIdSupplier.")))
+        d_1241_valueOrError1_ = Wrappers.default__.Need((((input).branchKeyId).is_Some) or (((input).branchKeyIdSupplier).is_Some), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Must initialize keyring with either branchKeyId or BranchKeyIdSupplier.")))
         if (d_1241_valueOrError1_).IsFailure():
             output = (d_1241_valueOrError1_).PropagateFailure()
             return output
-        d_1242_cmc_: software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsCache
+        d_1242_cmc_: software_amazon_cryptography_materialproviders_internaldafny_types.ICryptographicMaterialsCache
         d_1243_valueOrError2_: Wrappers.Result = None
         out230_: Wrappers.Result
-        out230_ = default__.CreateCryptographicMaterialsCache(config, software.amazon.cryptography.materialproviders.internaldafny.types.CreateCryptographicMaterialsCacheInput_CreateCryptographicMaterialsCacheInput(d_1239_cache_))
+        out230_ = default__.CreateCryptographicMaterialsCache(config, software_amazon_cryptography_materialproviders_internaldafny_types.CreateCryptographicMaterialsCacheInput_CreateCryptographicMaterialsCacheInput(d_1239_cache_))
         d_1243_valueOrError2_ = out230_
         if (d_1243_valueOrError2_).IsFailure():
             output = (d_1243_valueOrError2_).PropagateFailure()
@@ -379,7 +379,7 @@ class default__:
     def CreateMultiKeyring(config, input):
         output: Wrappers.Result = None
         d_1245_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1245_valueOrError0_ = Wrappers.default__.Need((((input).generator).is_Some) or ((len((input).childKeyrings)) > (0)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Must include a generator keyring and/or at least one child keyring")))
+        d_1245_valueOrError0_ = Wrappers.default__.Need((((input).generator).is_Some) or ((len((input).childKeyrings)) > (0)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Must include a generator keyring and/or at least one child keyring")))
         if (d_1245_valueOrError0_).IsFailure():
             output = (d_1245_valueOrError0_).PropagateFailure()
             return output
@@ -395,18 +395,18 @@ class default__:
     def CreateRawAesKeyring(config, input):
         output: Wrappers.Result = None
         d_1247_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1247_valueOrError0_ = Wrappers.default__.Need(((input).keyNamespace) != (_dafny.Seq("aws-kms")), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("keyNamespace must not be `aws-kms`")))
+        d_1247_valueOrError0_ = Wrappers.default__.Need(((input).keyNamespace) != (_dafny.Seq("aws-kms")), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("keyNamespace must not be `aws-kms`")))
         if (d_1247_valueOrError0_).IsFailure():
             output = (d_1247_valueOrError0_).PropagateFailure()
             return output
-        d_1248_wrappingAlg_: software.amazon.cryptography.primitives.internaldafny.types.AES__GCM
+        d_1248_wrappingAlg_: software_amazon_cryptography_primitives_internaldafny_types.AES__GCM
         def lambda100_(source32_):
             if source32_.is_ALG__AES128__GCM__IV12__TAG16:
-                return software.amazon.cryptography.primitives.internaldafny.types.AES__GCM_AES__GCM(16, 16, 12)
+                return software_amazon_cryptography_primitives_internaldafny_types.AES__GCM_AES__GCM(16, 16, 12)
             elif source32_.is_ALG__AES192__GCM__IV12__TAG16:
-                return software.amazon.cryptography.primitives.internaldafny.types.AES__GCM_AES__GCM(24, 16, 12)
+                return software_amazon_cryptography_primitives_internaldafny_types.AES__GCM_AES__GCM(24, 16, 12)
             elif True:
-                return software.amazon.cryptography.primitives.internaldafny.types.AES__GCM_AES__GCM(32, 16, 12)
+                return software_amazon_cryptography_primitives_internaldafny_types.AES__GCM_AES__GCM(32, 16, 12)
 
         d_1248_wrappingAlg_ = lambda100_((input).wrappingAlg)
         d_1249_namespaceAndName_: tuple
@@ -420,12 +420,12 @@ class default__:
         d_1251_namespace_ = let_tmp_rhs5_[0]
         d_1252_name_ = let_tmp_rhs5_[1]
         d_1253_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1253_valueOrError2_ = Wrappers.default__.Need((((len((input).wrappingKey)) == (16)) or ((len((input).wrappingKey)) == (24))) or ((len((input).wrappingKey)) == (32)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid wrapping key length")))
+        d_1253_valueOrError2_ = Wrappers.default__.Need((((len((input).wrappingKey)) == (16)) or ((len((input).wrappingKey)) == (24))) or ((len((input).wrappingKey)) == (32)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid wrapping key length")))
         if (d_1253_valueOrError2_).IsFailure():
             output = (d_1253_valueOrError2_).PropagateFailure()
             return output
         d_1254_valueOrError3_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1254_valueOrError3_ = Wrappers.default__.Need((len((input).wrappingKey)) == ((d_1248_wrappingAlg_).keyLength), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Wrapping key length does not match specified wrapping algorithm")))
+        d_1254_valueOrError3_ = Wrappers.default__.Need((len((input).wrappingKey)) == ((d_1248_wrappingAlg_).keyLength), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Wrapping key length does not match specified wrapping algorithm")))
         if (d_1254_valueOrError3_).IsFailure():
             output = (d_1254_valueOrError3_).PropagateFailure()
             return output
@@ -441,27 +441,27 @@ class default__:
     def CreateRawRsaKeyring(config, input):
         output: Wrappers.Result = None
         d_1256_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1256_valueOrError0_ = Wrappers.default__.Need(((input).keyNamespace) != (_dafny.Seq("aws-kms")), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("keyNamespace must not be `aws-kms`")))
+        d_1256_valueOrError0_ = Wrappers.default__.Need(((input).keyNamespace) != (_dafny.Seq("aws-kms")), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("keyNamespace must not be `aws-kms`")))
         if (d_1256_valueOrError0_).IsFailure():
             output = (d_1256_valueOrError0_).PropagateFailure()
             return output
         d_1257_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1257_valueOrError1_ = Wrappers.default__.Need((((input).publicKey).is_Some) or (((input).privateKey).is_Some), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("A publicKey or a privateKey is required")))
+        d_1257_valueOrError1_ = Wrappers.default__.Need((((input).publicKey).is_Some) or (((input).privateKey).is_Some), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("A publicKey or a privateKey is required")))
         if (d_1257_valueOrError1_).IsFailure():
             output = (d_1257_valueOrError1_).PropagateFailure()
             return output
-        d_1258_padding_: software.amazon.cryptography.primitives.internaldafny.types.RSAPaddingMode
+        d_1258_padding_: software_amazon_cryptography_primitives_internaldafny_types.RSAPaddingMode
         def lambda101_(source33_):
             if source33_.is_PKCS1:
-                return software.amazon.cryptography.primitives.internaldafny.types.RSAPaddingMode_PKCS1()
+                return software_amazon_cryptography_primitives_internaldafny_types.RSAPaddingMode_PKCS1()
             elif source33_.is_OAEP__SHA1__MGF1:
-                return software.amazon.cryptography.primitives.internaldafny.types.RSAPaddingMode_OAEP__SHA1()
+                return software_amazon_cryptography_primitives_internaldafny_types.RSAPaddingMode_OAEP__SHA1()
             elif source33_.is_OAEP__SHA256__MGF1:
-                return software.amazon.cryptography.primitives.internaldafny.types.RSAPaddingMode_OAEP__SHA256()
+                return software_amazon_cryptography_primitives_internaldafny_types.RSAPaddingMode_OAEP__SHA256()
             elif source33_.is_OAEP__SHA384__MGF1:
-                return software.amazon.cryptography.primitives.internaldafny.types.RSAPaddingMode_OAEP__SHA384()
+                return software_amazon_cryptography_primitives_internaldafny_types.RSAPaddingMode_OAEP__SHA384()
             elif True:
-                return software.amazon.cryptography.primitives.internaldafny.types.RSAPaddingMode_OAEP__SHA512()
+                return software_amazon_cryptography_primitives_internaldafny_types.RSAPaddingMode_OAEP__SHA512()
 
         d_1258_padding_ = lambda101_((input).paddingScheme)
         d_1259_namespaceAndName_: tuple
@@ -486,27 +486,27 @@ class default__:
     def CreateAwsKmsRsaKeyring(config, input):
         output: Wrappers.Result = None
         d_1264_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1264_valueOrError0_ = Wrappers.default__.Need((((input).publicKey).is_Some) or (((input).kmsClient).is_Some), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("A publicKey or a kmsClient is required")))
+        d_1264_valueOrError0_ = Wrappers.default__.Need((((input).publicKey).is_Some) or (((input).kmsClient).is_Some), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("A publicKey or a kmsClient is required")))
         if (d_1264_valueOrError0_).IsFailure():
             output = (d_1264_valueOrError0_).PropagateFailure()
             return output
         d_1265_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1265_valueOrError1_ = Wrappers.default__.Need((((input).encryptionAlgorithm).is_RSAES__OAEP__SHA__1) or (((input).encryptionAlgorithm).is_RSAES__OAEP__SHA__256), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unsupported EncryptionAlgorithmSpec")))
+        d_1265_valueOrError1_ = Wrappers.default__.Need((((input).encryptionAlgorithm).is_RSAES__OAEP__SHA__1) or (((input).encryptionAlgorithm).is_RSAES__OAEP__SHA__256), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unsupported EncryptionAlgorithmSpec")))
         if (d_1265_valueOrError1_).IsFailure():
             output = (d_1265_valueOrError1_).PropagateFailure()
             return output
         d_1266_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1266_valueOrError2_ = Wrappers.default__.Need((software.amazon.cryptography.services.kms.internaldafny.types.default__.IsValid__KeyIdType((input).kmsKeyId)) and ((AwsArnParsing.default__.ParseAwsKmsArn((input).kmsKeyId)).is_Success), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Kms Key ID must be a KMS Key ARN")))
+        d_1266_valueOrError2_ = Wrappers.default__.Need((software_amazon_cryptography_services_kms_internaldafny_types.default__.IsValid__KeyIdType((input).kmsKeyId)) and ((AwsArnParsing.default__.ParseAwsKmsArn((input).kmsKeyId)).is_Success), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Kms Key ID must be a KMS Key ARN")))
         if (d_1266_valueOrError2_).IsFailure():
             output = (d_1266_valueOrError2_).PropagateFailure()
             return output
         if ((input).publicKey).is_Some:
             d_1267_lengthOutputRes_: Wrappers.Result
-            d_1267_lengthOutputRes_ = ((config).crypto).GetRSAKeyModulusLength(software.amazon.cryptography.primitives.internaldafny.types.GetRSAKeyModulusLengthInput_GetRSAKeyModulusLengthInput(((input).publicKey).value))
-            d_1268_lengthOutput_: software.amazon.cryptography.primitives.internaldafny.types.GetRSAKeyModulusLengthOutput
+            d_1267_lengthOutputRes_ = ((config).crypto).GetRSAKeyModulusLength(software_amazon_cryptography_primitives_internaldafny_types.GetRSAKeyModulusLengthInput_GetRSAKeyModulusLengthInput(((input).publicKey).value))
+            d_1268_lengthOutput_: software_amazon_cryptography_primitives_internaldafny_types.GetRSAKeyModulusLengthOutput
             d_1269_valueOrError3_: Wrappers.Result = None
             def lambda102_(d_1270_e_):
-                return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographyPrimitives(d_1270_e_)
+                return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_1270_e_)
 
             d_1269_valueOrError3_ = (d_1267_lengthOutputRes_).MapFailure(lambda102_)
             if (d_1269_valueOrError3_).IsFailure():
@@ -514,7 +514,7 @@ class default__:
                 return output
             d_1268_lengthOutput_ = (d_1269_valueOrError3_).Extract()
             d_1271_valueOrError4_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_1271_valueOrError4_ = Wrappers.default__.Need(((d_1268_lengthOutput_).length) >= (AwsKmsRsaKeyring.default__.MIN__KMS__RSA__KEY__LEN), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid public key length")))
+            d_1271_valueOrError4_ = Wrappers.default__.Need(((d_1268_lengthOutput_).length) >= (AwsKmsRsaKeyring.default__.MIN__KMS__RSA__KEY__LEN), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid public key length")))
             if (d_1271_valueOrError4_).IsFailure():
                 output = (d_1271_valueOrError4_).PropagateFailure()
                 return output
@@ -553,7 +553,7 @@ class default__:
 
     @staticmethod
     def CmpError(s):
-        return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(s)
+        return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(s)
 
     @staticmethod
     def CreateRequiredEncryptionContextCMM(config, input):
@@ -595,12 +595,12 @@ class default__:
             d_1283___mcc_h0_ = source34_.Default
             d_1284_c_ = d_1283___mcc_h0_
             pat_let_tv162_ = d_1284_c_
-            d_1285_cache_: software.amazon.cryptography.materialproviders.internaldafny.types.StormTrackingCache
+            d_1285_cache_: software_amazon_cryptography_materialproviders_internaldafny_types.StormTrackingCache
             def iife33_(_pat_let11_0):
                 def iife34_(d_1286_dt__update__tmp_h0_):
                     def iife35_(_pat_let12_0):
                         def iife36_(d_1287_dt__update_hentryCapacity_h0_):
-                            return software.amazon.cryptography.materialproviders.internaldafny.types.StormTrackingCache_StormTrackingCache(d_1287_dt__update_hentryCapacity_h0_, (d_1286_dt__update__tmp_h0_).entryPruningTailSize, (d_1286_dt__update__tmp_h0_).gracePeriod, (d_1286_dt__update__tmp_h0_).graceInterval, (d_1286_dt__update__tmp_h0_).fanOut, (d_1286_dt__update__tmp_h0_).inFlightTTL, (d_1286_dt__update__tmp_h0_).sleepMilli)
+                            return software_amazon_cryptography_materialproviders_internaldafny_types.StormTrackingCache_StormTrackingCache(d_1287_dt__update_hentryCapacity_h0_, (d_1286_dt__update__tmp_h0_).entryPruningTailSize, (d_1286_dt__update__tmp_h0_).gracePeriod, (d_1286_dt__update__tmp_h0_).graceInterval, (d_1286_dt__update__tmp_h0_).fanOut, (d_1286_dt__update__tmp_h0_).inFlightTTL, (d_1286_dt__update__tmp_h0_).sleepMilli)
                         return iife36_(_pat_let12_0)
                     return iife35_((pat_let_tv162_).entryCapacity)
                 return iife34_(_pat_let11_0)
@@ -653,7 +653,7 @@ class default__:
                 def iife38_(d_1302_dt__update__tmp_h1_):
                     def iife39_(_pat_let14_0):
                         def iife40_(d_1303_dt__update_hentryPruningTailSize_h0_):
-                            return software.amazon.cryptography.materialproviders.internaldafny.types.StormTrackingCache_StormTrackingCache((d_1302_dt__update__tmp_h1_).entryCapacity, d_1303_dt__update_hentryPruningTailSize_h0_, (d_1302_dt__update__tmp_h1_).gracePeriod, (d_1302_dt__update__tmp_h1_).graceInterval, (d_1302_dt__update__tmp_h1_).fanOut, (d_1302_dt__update__tmp_h1_).inFlightTTL, (d_1302_dt__update__tmp_h1_).sleepMilli)
+                            return software_amazon_cryptography_materialproviders_internaldafny_types.StormTrackingCache_StormTrackingCache((d_1302_dt__update__tmp_h1_).entryCapacity, d_1303_dt__update_hentryPruningTailSize_h0_, (d_1302_dt__update__tmp_h1_).gracePeriod, (d_1302_dt__update__tmp_h1_).graceInterval, (d_1302_dt__update__tmp_h1_).fanOut, (d_1302_dt__update__tmp_h1_).inFlightTTL, (d_1302_dt__update__tmp_h1_).sleepMilli)
                         return iife40_(_pat_let14_0)
                     return iife39_(default__.OptionalCountingNumber((pat_let_tv163_).entryPruningTailSize))
                 return iife38_(_pat_let13_0)
@@ -694,7 +694,7 @@ class default__:
 
     @staticmethod
     def ValidEncryptionMaterialsTransition(config, input):
-        d_1306_valueOrError0_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterialsTransition((input).start, (input).stop), software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Invalid Encryption Materials Transition")))
+        d_1306_valueOrError0_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterialsTransition((input).start, (input).stop), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Invalid Encryption Materials Transition")))
         if (d_1306_valueOrError0_).IsFailure():
             return (d_1306_valueOrError0_).PropagateFailure()
         elif True:
@@ -702,7 +702,7 @@ class default__:
 
     @staticmethod
     def ValidDecryptionMaterialsTransition(config, input):
-        d_1307_valueOrError0_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsTransitionIsValid((input).start, (input).stop), software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("Invalid Decryption Materials Transition")))
+        d_1307_valueOrError0_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsTransitionIsValid((input).start, (input).stop), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("Invalid Decryption Materials Transition")))
         if (d_1307_valueOrError0_).IsFailure():
             return (d_1307_valueOrError0_).PropagateFailure()
         elif True:
@@ -710,7 +710,7 @@ class default__:
 
     @staticmethod
     def EncryptionMaterialsHasPlaintextDataKey(config, input):
-        d_1308_valueOrError0_ = Wrappers.default__.Need(Materials.default__.EncryptionMaterialsHasPlaintextDataKey(input), software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidDecryptionMaterials(_dafny.Seq("Invalid Encryption Materials")))
+        d_1308_valueOrError0_ = Wrappers.default__.Need(Materials.default__.EncryptionMaterialsHasPlaintextDataKey(input), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidDecryptionMaterials(_dafny.Seq("Invalid Encryption Materials")))
         if (d_1308_valueOrError0_).IsFailure():
             return (d_1308_valueOrError0_).PropagateFailure()
         elif True:
@@ -718,7 +718,7 @@ class default__:
 
     @staticmethod
     def DecryptionMaterialsWithPlaintextDataKey(config, input):
-        d_1309_valueOrError0_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsWithPlaintextDataKey(input), software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidDecryptionMaterials(_dafny.Seq("Invalid Decryption Materials")))
+        d_1309_valueOrError0_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsWithPlaintextDataKey(input), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidDecryptionMaterials(_dafny.Seq("Invalid Decryption Materials")))
         if (d_1309_valueOrError0_).IsFailure():
             return (d_1309_valueOrError0_).PropagateFailure()
         elif True:
@@ -730,7 +730,7 @@ class default__:
 
     @staticmethod
     def ValidAlgorithmSuiteInfo(config, input):
-        d_1310_valueOrError0_ = Wrappers.default__.Need(AlgorithmSuites.default__.AlgorithmSuite_q(input), software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidAlgorithmSuiteInfo(_dafny.Seq("Invalid AlgorithmSuiteInfo")))
+        d_1310_valueOrError0_ = Wrappers.default__.Need(AlgorithmSuites.default__.AlgorithmSuite_q(input), software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidAlgorithmSuiteInfo(_dafny.Seq("Invalid AlgorithmSuiteInfo")))
         if (d_1310_valueOrError0_).IsFailure():
             return (d_1310_valueOrError0_).PropagateFailure()
         elif True:

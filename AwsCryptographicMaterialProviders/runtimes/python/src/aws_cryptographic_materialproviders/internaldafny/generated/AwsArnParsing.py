@@ -12,9 +12,9 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software.amazon.cryptography.services.dynamodb.internaldafny.types
-import software.amazon.cryptography.services.kms.internaldafny.types
-import software.amazon.cryptography.primitives.internaldafny.types
+import software_amazon_cryptography_services_dynamodb_internaldafny_types
+import software_amazon_cryptography_services_kms_internaldafny_types
+import software_amazon_cryptography_primitives_internaldafny_types
 import ExternRandom
 import Random
 import AESEncryption
@@ -64,8 +64,8 @@ import Base64
 import Base64Lemmas
 import Actions
 import DafnyLibraries
-import software.amazon.cryptography.keystore.internaldafny.types
-import software.amazon.cryptography.materialproviders.internaldafny.types
+import software_amazon_cryptography_keystore_internaldafny_types
+import software_amazon_cryptography_materialproviders_internaldafny_types
 
 # Module: AwsArnParsing
 
@@ -125,7 +125,7 @@ class default__:
         elif True:
             d_10_resourceType_ = ((d_8_info_).value)[0]
             d_11_value_ = ((d_8_info_).value)[1]
-            d_12_valueOrError1_ = Wrappers.default__.Need(software.amazon.cryptography.services.dynamodb.internaldafny.types.default__.IsValid__TableName(d_11_value_), (_dafny.Seq("Table Name invalid: ")) + (identifier))
+            d_12_valueOrError1_ = Wrappers.default__.Need(software_amazon_cryptography_services_dynamodb_internaldafny_types.default__.IsValid__TableName(d_11_value_), (_dafny.Seq("Table Name invalid: ")) + (identifier))
             if (d_12_valueOrError1_).IsFailure():
                 return (d_12_valueOrError1_).PropagateFailure()
             elif True:
@@ -247,7 +247,7 @@ class default__:
 
     @staticmethod
     def Error(s):
-        return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(s)
+        return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(s)
 
     @staticmethod
     def ValidateDdbTableArn(tableArn):
@@ -256,11 +256,11 @@ class default__:
             return (d_44_valueOrError0_).PropagateFailure()
         elif True:
             d_45___v1_ = (d_44_valueOrError0_).Extract()
-            d_46_valueOrError1_ = Wrappers.default__.Need(UTF8.default__.IsASCIIString(tableArn), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Table Arn is not ASCII")))
+            d_46_valueOrError1_ = Wrappers.default__.Need(UTF8.default__.IsASCIIString(tableArn), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Table Arn is not ASCII")))
             if (d_46_valueOrError1_).IsFailure():
                 return (d_46_valueOrError1_).PropagateFailure()
             elif True:
-                d_47_valueOrError2_ = Wrappers.default__.Need(software.amazon.cryptography.services.dynamodb.internaldafny.types.default__.IsValid__TableName((default__.ParseAmazonDynamodbTableName(tableArn)).value), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Table Name is too long")))
+                d_47_valueOrError2_ = Wrappers.default__.Need(software_amazon_cryptography_services_dynamodb_internaldafny_types.default__.IsValid__TableName((default__.ParseAmazonDynamodbTableName(tableArn)).value), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Table Name is too long")))
                 if (d_47_valueOrError2_).IsFailure():
                     return (d_47_valueOrError2_).PropagateFailure()
                 elif True:

@@ -12,9 +12,9 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software.amazon.cryptography.services.dynamodb.internaldafny.types
-import software.amazon.cryptography.services.kms.internaldafny.types
-import software.amazon.cryptography.primitives.internaldafny.types
+import software_amazon_cryptography_services_dynamodb_internaldafny_types
+import software_amazon_cryptography_services_kms_internaldafny_types
+import software_amazon_cryptography_primitives_internaldafny_types
 import ExternRandom
 import Random
 import AESEncryption
@@ -64,8 +64,8 @@ import Base64
 import Base64Lemmas
 import Actions
 import DafnyLibraries
-import software.amazon.cryptography.keystore.internaldafny.types
-import software.amazon.cryptography.materialproviders.internaldafny.types
+import software_amazon_cryptography_keystore_internaldafny_types
+import software_amazon_cryptography_materialproviders_internaldafny_types
 import AwsArnParsing
 import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
@@ -110,12 +110,12 @@ class default__:
     def MrkAwareDiscoveryMultiKeyring(regions, discoveryFilter, clientSupplier, grantTokens):
         output: Wrappers.Result = None
         d_683_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_683_valueOrError0_ = Wrappers.default__.Need((len(regions)) > (0), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("No regions passed.")))
+        d_683_valueOrError0_ = Wrappers.default__.Need((len(regions)) > (0), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("No regions passed.")))
         if (d_683_valueOrError0_).IsFailure():
             output = (d_683_valueOrError0_).PropagateFailure()
             return output
         d_684_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_684_valueOrError1_ = Wrappers.default__.Need((Seq.default__.IndexOfOption(regions, _dafny.Seq(""))).is_None, software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Empty string is not a valid region.")))
+        d_684_valueOrError1_ = Wrappers.default__.Need((Seq.default__.IndexOfOption(regions, _dafny.Seq(""))).is_None, software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Empty string is not a valid region.")))
         if (d_684_valueOrError1_).IsFailure():
             output = (d_684_valueOrError1_).PropagateFailure()
             return output
@@ -125,10 +125,10 @@ class default__:
         for d_686_i_ in range(0, hi4_):
             d_687_region_: _dafny.Seq
             d_687_region_ = (regions)[d_686_i_]
-            d_688_client_: software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient
+            d_688_client_: software_amazon_cryptography_services_kms_internaldafny_types.IKMSClient
             d_689_valueOrError2_: Wrappers.Result = None
             out104_: Wrappers.Result
-            out104_ = (clientSupplier).GetClient(software.amazon.cryptography.materialproviders.internaldafny.types.GetClientInput_GetClientInput(d_687_region_))
+            out104_ = (clientSupplier).GetClient(software_amazon_cryptography_materialproviders_internaldafny_types.GetClientInput_GetClientInput(d_687_region_))
             d_689_valueOrError2_ = out104_
             if (d_689_valueOrError2_).IsFailure():
                 output = (d_689_valueOrError2_).PropagateFailure()

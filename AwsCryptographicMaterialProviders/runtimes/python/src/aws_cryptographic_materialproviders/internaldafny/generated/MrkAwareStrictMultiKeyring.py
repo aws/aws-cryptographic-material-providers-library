@@ -12,9 +12,9 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software.amazon.cryptography.services.dynamodb.internaldafny.types
-import software.amazon.cryptography.services.kms.internaldafny.types
-import software.amazon.cryptography.primitives.internaldafny.types
+import software_amazon_cryptography_services_dynamodb_internaldafny_types
+import software_amazon_cryptography_services_kms_internaldafny_types
+import software_amazon_cryptography_primitives_internaldafny_types
 import ExternRandom
 import Random
 import AESEncryption
@@ -64,8 +64,8 @@ import Base64
 import Base64Lemmas
 import Actions
 import DafnyLibraries
-import software.amazon.cryptography.keystore.internaldafny.types
-import software.amazon.cryptography.materialproviders.internaldafny.types
+import software_amazon_cryptography_keystore_internaldafny_types
+import software_amazon_cryptography_materialproviders_internaldafny_types
 import AwsArnParsing
 import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
@@ -151,10 +151,10 @@ class default__:
             d_738_arn_ = (d_739_valueOrError2_).Extract()
             d_740_region_: Wrappers.Option
             d_740_region_ = AwsArnParsing.default__.GetRegion(d_738_arn_)
-            d_741_client_: software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient
+            d_741_client_: software_amazon_cryptography_services_kms_internaldafny_types.IKMSClient
             d_742_valueOrError3_: Wrappers.Result = None
             out111_: Wrappers.Result
-            out111_ = (clientSupplier).GetClient(software.amazon.cryptography.materialproviders.internaldafny.types.GetClientInput_GetClientInput((d_740_region_).UnwrapOr(_dafny.Seq(""))))
+            out111_ = (clientSupplier).GetClient(software_amazon_cryptography_materialproviders_internaldafny_types.GetClientInput_GetClientInput((d_740_region_).UnwrapOr(_dafny.Seq(""))))
             d_742_valueOrError3_ = out111_
             if (d_742_valueOrError3_).IsFailure():
                 output = (d_742_valueOrError3_).PropagateFailure()
@@ -186,10 +186,10 @@ class default__:
                 d_749_info_ = (d_750_valueOrError4_).Extract()
                 d_751_region_: Wrappers.Option
                 d_751_region_ = AwsArnParsing.default__.GetRegion(d_749_info_)
-                d_752_client_: software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient
+                d_752_client_: software_amazon_cryptography_services_kms_internaldafny_types.IKMSClient
                 d_753_valueOrError5_: Wrappers.Result = None
                 out112_: Wrappers.Result
-                out112_ = (clientSupplier).GetClient(software.amazon.cryptography.materialproviders.internaldafny.types.GetClientInput_GetClientInput((d_751_region_).UnwrapOr(_dafny.Seq(""))))
+                out112_ = (clientSupplier).GetClient(software_amazon_cryptography_materialproviders_internaldafny_types.GetClientInput_GetClientInput((d_751_region_).UnwrapOr(_dafny.Seq(""))))
                 d_753_valueOrError5_ = out112_
                 if (d_753_valueOrError5_).IsFailure():
                     output = (d_753_valueOrError5_).PropagateFailure()
@@ -201,7 +201,7 @@ class default__:
                 d_754_keyring_ = nw26_
                 d_744_children_ = (d_744_children_) + (_dafny.Seq([d_754_keyring_]))
         d_755_valueOrError6_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_755_valueOrError6_ = Wrappers.default__.Need(((d_735_generatorKeyring_).is_Some) or ((len(d_744_children_)) > (0)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("generatorKeyring or child Keyrings needed to create a multi keyring")))
+        d_755_valueOrError6_ = Wrappers.default__.Need(((d_735_generatorKeyring_).is_Some) or ((len(d_744_children_)) > (0)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("generatorKeyring or child Keyrings needed to create a multi keyring")))
         if (d_755_valueOrError6_).IsFailure():
             output = (d_755_valueOrError6_).PropagateFailure()
             return output

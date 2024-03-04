@@ -12,15 +12,15 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software.amazon.cryptography.services.dynamodb.internaldafny.types
-import software.amazon.cryptography.services.kms.internaldafny.types
-import software.amazon.cryptography.keystore.internaldafny.types
+import software_amazon_cryptography_services_dynamodb_internaldafny_types
+import software_amazon_cryptography_services_kms_internaldafny_types
+import software_amazon_cryptography_keystore_internaldafny_types
 import Relations
 import Seq_MergeSort
 import Math
 import Seq
-import software.amazon.cryptography.primitives.internaldafny.types
-import software.amazon.cryptography.materialproviders.internaldafny.types
+import software_amazon_cryptography_primitives_internaldafny_types
+import software_amazon_cryptography_materialproviders_internaldafny_types
 import AwsArnParsing
 import Actions
 import AwsKmsMrkMatchForDecrypt
@@ -133,17 +133,17 @@ class default__:
     def DeleteVersion(branchKeyIdentifier, branchKeyVersion, ddbClient):
         d_93___v0_: Wrappers.Result
         out38_: Wrappers.Result
-        out38_ = (ddbClient).DeleteItem(software.amazon.cryptography.services.dynamodb.internaldafny.types.DeleteItemInput_DeleteItemInput(Fixtures.default__.branchKeyStoreName, _dafny.Map({Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD: software.amazon.cryptography.services.dynamodb.internaldafny.types.AttributeValue_S(branchKeyIdentifier), Structure.default__.TYPE__FIELD: software.amazon.cryptography.services.dynamodb.internaldafny.types.AttributeValue_S((Structure.default__.BRANCH__KEY__TYPE__PREFIX) + (branchKeyVersion))}), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None()))
+        out38_ = (ddbClient).DeleteItem(software_amazon_cryptography_services_dynamodb_internaldafny_types.DeleteItemInput_DeleteItemInput(Fixtures.default__.branchKeyStoreName, _dafny.Map({Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD: software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(branchKeyIdentifier), Structure.default__.TYPE__FIELD: software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S((Structure.default__.BRANCH__KEY__TYPE__PREFIX) + (branchKeyVersion))}), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None()))
         d_93___v0_ = out38_
 
     @staticmethod
     def DeleteActive(branchKeyIdentifier, ddbClient):
         d_94___v1_: Wrappers.Result
         out39_: Wrappers.Result
-        out39_ = (ddbClient).DeleteItem(software.amazon.cryptography.services.dynamodb.internaldafny.types.DeleteItemInput_DeleteItemInput(Fixtures.default__.branchKeyStoreName, _dafny.Map({Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD: software.amazon.cryptography.services.dynamodb.internaldafny.types.AttributeValue_S(branchKeyIdentifier), Structure.default__.TYPE__FIELD: software.amazon.cryptography.services.dynamodb.internaldafny.types.AttributeValue_S(Structure.default__.BRANCH__KEY__ACTIVE__TYPE)}), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None()))
+        out39_ = (ddbClient).DeleteItem(software_amazon_cryptography_services_dynamodb_internaldafny_types.DeleteItemInput_DeleteItemInput(Fixtures.default__.branchKeyStoreName, _dafny.Map({Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD: software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(branchKeyIdentifier), Structure.default__.TYPE__FIELD: software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(Structure.default__.BRANCH__KEY__ACTIVE__TYPE)}), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None()))
         d_94___v1_ = out39_
         d_95___v2_: Wrappers.Result
         out40_: Wrappers.Result
-        out40_ = (ddbClient).DeleteItem(software.amazon.cryptography.services.dynamodb.internaldafny.types.DeleteItemInput_DeleteItemInput(Fixtures.default__.branchKeyStoreName, _dafny.Map({Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD: software.amazon.cryptography.services.dynamodb.internaldafny.types.AttributeValue_S(branchKeyIdentifier), Structure.default__.TYPE__FIELD: software.amazon.cryptography.services.dynamodb.internaldafny.types.AttributeValue_S(Structure.default__.BEACON__KEY__TYPE__VALUE)}), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None()))
+        out40_ = (ddbClient).DeleteItem(software_amazon_cryptography_services_dynamodb_internaldafny_types.DeleteItemInput_DeleteItemInput(Fixtures.default__.branchKeyStoreName, _dafny.Map({Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD: software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(branchKeyIdentifier), Structure.default__.TYPE__FIELD: software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(Structure.default__.BEACON__KEY__TYPE__VALUE)}), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None()))
         d_95___v2_ = out40_
 
