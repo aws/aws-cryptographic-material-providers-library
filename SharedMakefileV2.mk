@@ -7,5 +7,6 @@
 PROJECT_ROOT := $(abspath $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
 SMITHY_DAFNY_ROOT := $(PROJECT_ROOT)/smithy-dafny
+GRADLEW := ./runtimes/java/gradlew
 
 include $(SMITHY_DAFNY_ROOT)/SmithyDafnyMakefile.mk
