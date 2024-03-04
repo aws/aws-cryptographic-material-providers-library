@@ -47,7 +47,7 @@ import Base64
 import Base64Lemmas
 import Actions
 import DafnyLibraries
-import software.amazon.cryptography.primitives.internaldafny.types
+import software_amazon_cryptography_primitives_internaldafny_types
 import ExternRandom
 import Random
 import AESEncryption
@@ -85,7 +85,7 @@ class default__:
             return res
         d_27_value_ = (d_28_valueOrError0_).Extract()
         d_29_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_29_valueOrError1_ = Wrappers.default__.Need((len(d_27_value_)) == (default__.Length(d_25_digestAlgorithm_)), software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect length digest from ExternDigest.")))
+        d_29_valueOrError1_ = Wrappers.default__.Need((len(d_27_value_)) == (default__.Length(d_25_digestAlgorithm_)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect length digest from ExternDigest.")))
         if (d_29_valueOrError1_).IsFailure():
             res = (d_29_valueOrError1_).PropagateFailure()
             return res

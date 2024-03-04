@@ -47,7 +47,7 @@ import Base64
 import Base64Lemmas
 import Actions
 import DafnyLibraries
-import software.amazon.cryptography.primitives.internaldafny.types
+import software_amazon_cryptography_primitives_internaldafny_types
 import ExternRandom
 import Random
 import AESEncryption
@@ -122,12 +122,12 @@ class default__:
     @staticmethod
     def AesKdfCounterMode(config, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        output = Wrappers.Result_Failure(software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Implement")))
+        output = Wrappers.Result_Failure(software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Implement")))
         return output
 
     @staticmethod
     def AESEncrypt(config, input):
-        output: Wrappers.Result = Wrappers.Result.default(software.amazon.cryptography.primitives.internaldafny.types.AESEncryptOutput.default())()
+        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_primitives_internaldafny_types.AESEncryptOutput.default())()
         out28_: Wrappers.Result
         out28_ = AESEncryption.default__.AESEncrypt(input)
         output = out28_
@@ -144,14 +144,14 @@ class default__:
     @staticmethod
     def GenerateRSAKeyPair(config, input):
         output: Wrappers.Result = None
-        d_100_publicKey_: software.amazon.cryptography.primitives.internaldafny.types.RSAPublicKey
-        d_101_privateKey_: software.amazon.cryptography.primitives.internaldafny.types.RSAPrivateKey
-        out30_: software.amazon.cryptography.primitives.internaldafny.types.RSAPublicKey
-        out31_: software.amazon.cryptography.primitives.internaldafny.types.RSAPrivateKey
+        d_100_publicKey_: software_amazon_cryptography_primitives_internaldafny_types.RSAPublicKey
+        d_101_privateKey_: software_amazon_cryptography_primitives_internaldafny_types.RSAPrivateKey
+        out30_: software_amazon_cryptography_primitives_internaldafny_types.RSAPublicKey
+        out31_: software_amazon_cryptography_primitives_internaldafny_types.RSAPrivateKey
         out30_, out31_ = RSAEncryption.default__.GenerateKeyPair((input).lengthBits)
         d_100_publicKey_ = out30_
         d_101_privateKey_ = out31_
-        output = Wrappers.Result_Success(software.amazon.cryptography.primitives.internaldafny.types.GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput(d_100_publicKey_, d_101_privateKey_))
+        output = Wrappers.Result_Success(software_amazon_cryptography_primitives_internaldafny_types.GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput(d_100_publicKey_, d_101_privateKey_))
         return output
 
     @staticmethod
@@ -161,7 +161,7 @@ class default__:
             return (d_102_valueOrError0_).PropagateFailure()
         elif True:
             d_103_length_ = (d_102_valueOrError0_).Extract()
-            return Wrappers.Result_Success(software.amazon.cryptography.primitives.internaldafny.types.GetRSAKeyModulusLengthOutput_GetRSAKeyModulusLengthOutput(d_103_length_))
+            return Wrappers.Result_Success(software_amazon_cryptography_primitives_internaldafny_types.GetRSAKeyModulusLengthOutput_GetRSAKeyModulusLengthOutput(d_103_length_))
 
     @staticmethod
     def RSADecrypt(config, input):
@@ -181,7 +181,7 @@ class default__:
 
     @staticmethod
     def GenerateECDSASignatureKey(config, input):
-        output: Wrappers.Result = Wrappers.Result.default(software.amazon.cryptography.primitives.internaldafny.types.GenerateECDSASignatureKeyOutput.default())()
+        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_primitives_internaldafny_types.GenerateECDSASignatureKeyOutput.default())()
         out34_: Wrappers.Result
         out34_ = Signature.default__.KeyGen(input)
         output = out34_

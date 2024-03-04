@@ -12,7 +12,7 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software.amazon.cryptography.primitives.internaldafny.types
+import software_amazon_cryptography_primitives_internaldafny_types
 import ExternRandom
 import Random
 import AESEncryption
@@ -83,15 +83,15 @@ class default__:
 
     @staticmethod
     def AESDecryptTests():
-        default__.BasicAESDecryptTest(software.amazon.cryptography.primitives.internaldafny.types.AESDecryptInput_AESDecryptInput(software.amazon.cryptography.primitives.internaldafny.types.AES__GCM_AES__GCM(32, 16, 12), _dafny.Seq([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]), _dafny.Seq([102, 165, 173, 47]), _dafny.Seq([54, 200, 18, 56, 172, 194, 174, 23, 239, 151, 47, 180, 143, 232, 142, 184]), _dafny.Seq([2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]), _dafny.Seq([3, 3, 3, 3])), _dafny.Seq([97, 115, 100, 102]))
+        default__.BasicAESDecryptTest(software_amazon_cryptography_primitives_internaldafny_types.AESDecryptInput_AESDecryptInput(software_amazon_cryptography_primitives_internaldafny_types.AES__GCM_AES__GCM(32, 16, 12), _dafny.Seq([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]), _dafny.Seq([102, 165, 173, 47]), _dafny.Seq([54, 200, 18, 56, 172, 194, 174, 23, 239, 151, 47, 180, 143, 232, 142, 184]), _dafny.Seq([2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]), _dafny.Seq([3, 3, 3, 3])), _dafny.Seq([97, 115, 100, 102]))
 
     @staticmethod
     def AESEncryptTests():
-        default__.BasicAESEncryptTest(software.amazon.cryptography.primitives.internaldafny.types.AESEncryptInput_AESEncryptInput(software.amazon.cryptography.primitives.internaldafny.types.AES__GCM_AES__GCM(32, 16, 12), _dafny.Seq([2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]), _dafny.Seq([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]), _dafny.Seq([97, 115, 100, 102]), _dafny.Seq([3, 3, 3, 3])))
+        default__.BasicAESEncryptTest(software_amazon_cryptography_primitives_internaldafny_types.AESEncryptInput_AESEncryptInput(software_amazon_cryptography_primitives_internaldafny_types.AES__GCM_AES__GCM(32, 16, 12), _dafny.Seq([2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]), _dafny.Seq([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]), _dafny.Seq([97, 115, 100, 102]), _dafny.Seq([3, 3, 3, 3])))
 
     @staticmethod
     def BasicAESDecryptTest(input, expectedOutput):
-        d_113_client_: software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient
+        d_113_client_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
         d_114_valueOrError0_: Wrappers.Result = None
         out21_: Wrappers.Result
         out21_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
@@ -112,7 +112,7 @@ class default__:
 
     @staticmethod
     def BasicAESEncryptTest(input):
-        d_117_client_: software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient
+        d_117_client_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
         d_118_valueOrError0_: Wrappers.Result = None
         out23_: Wrappers.Result
         out23_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
@@ -120,15 +120,15 @@ class default__:
         if not(not((d_118_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("test/TestAES.dfy(108,15): " + _dafny.string_of(d_118_valueOrError0_))
         d_117_client_ = (d_118_valueOrError0_).Extract()
-        d_119_output_: software.amazon.cryptography.primitives.internaldafny.types.AESEncryptOutput
-        d_120_valueOrError1_: Wrappers.Result = Wrappers.Result.default(software.amazon.cryptography.primitives.internaldafny.types.AESEncryptOutput.default())()
+        d_119_output_: software_amazon_cryptography_primitives_internaldafny_types.AESEncryptOutput
+        d_120_valueOrError1_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_primitives_internaldafny_types.AESEncryptOutput.default())()
         out24_: Wrappers.Result
         out24_ = (d_117_client_).AESEncrypt(input)
         d_120_valueOrError1_ = out24_
         if not(not((d_120_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("test/TestAES.dfy(109,15): " + _dafny.string_of(d_120_valueOrError1_))
         d_119_output_ = (d_120_valueOrError1_).Extract()
-        d_121_decryptInput_: software.amazon.cryptography.primitives.internaldafny.types.AESDecryptInput
-        d_121_decryptInput_ = software.amazon.cryptography.primitives.internaldafny.types.AESDecryptInput_AESDecryptInput((input).encAlg, (input).key, (d_119_output_).cipherText, (d_119_output_).authTag, (input).iv, (input).aad)
+        d_121_decryptInput_: software_amazon_cryptography_primitives_internaldafny_types.AESDecryptInput
+        d_121_decryptInput_ = software_amazon_cryptography_primitives_internaldafny_types.AESDecryptInput_AESDecryptInput((input).encAlg, (input).key, (d_119_output_).cipherText, (d_119_output_).authTag, (input).iv, (input).aad)
         default__.BasicAESDecryptTest(d_121_decryptInput_, (input).msg)
 

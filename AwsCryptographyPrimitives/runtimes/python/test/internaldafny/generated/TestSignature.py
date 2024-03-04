@@ -12,7 +12,7 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software.amazon.cryptography.primitives.internaldafny.types
+import software_amazon_cryptography_primitives_internaldafny_types
 import ExternRandom
 import Random
 import AESEncryption
@@ -109,8 +109,8 @@ class default__:
         if not(not((d_5_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("test/TestSignature.dfy(39,16): " + _dafny.string_of(d_5_valueOrError0_))
         d_4_message_ = (d_5_valueOrError0_).Extract()
-        d_6_genInput_: software.amazon.cryptography.primitives.internaldafny.types.GenerateECDSASignatureKeyInput
-        d_6_genInput_ = software.amazon.cryptography.primitives.internaldafny.types.GenerateECDSASignatureKeyInput_GenerateECDSASignatureKeyInput(alg)
+        d_6_genInput_: software_amazon_cryptography_primitives_internaldafny_types.GenerateECDSASignatureKeyInput
+        d_6_genInput_ = software_amazon_cryptography_primitives_internaldafny_types.GenerateECDSASignatureKeyInput_GenerateECDSASignatureKeyInput(alg)
         d_7_keys_: Signature.SignatureKeyPair
         d_8_valueOrError1_: Wrappers.Result = Wrappers.Result.default(Signature.SignatureKeyPair.default())()
         out1_: Wrappers.Result
@@ -163,7 +163,7 @@ class default__:
 
     @_dafny.classproperty
     def P384(instance):
-        return software.amazon.cryptography.primitives.internaldafny.types.ECDSASignatureAlgorithm_ECDSA__P384()
+        return software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P384()
     @_dafny.classproperty
     def P256(instance):
-        return software.amazon.cryptography.primitives.internaldafny.types.ECDSASignatureAlgorithm_ECDSA__P256()
+        return software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P256()

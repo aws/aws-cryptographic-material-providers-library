@@ -47,7 +47,7 @@ import Base64
 import Base64Lemmas
 import Actions
 import DafnyLibraries
-import software.amazon.cryptography.primitives.internaldafny.types
+import software_amazon_cryptography_primitives_internaldafny_types
 import ExternRandom
 import Random
 import AESEncryption
@@ -82,7 +82,7 @@ class default__:
 
     @staticmethod
     def KeyGen(input):
-        res: Wrappers.Result = Wrappers.Result.default(software.amazon.cryptography.primitives.internaldafny.types.GenerateECDSASignatureKeyOutput.default())()
+        res: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_primitives_internaldafny_types.GenerateECDSASignatureKeyOutput.default())()
         d_68_sigKeyPair_: SignatureKeyPair
         d_69_valueOrError0_: Wrappers.Result = Wrappers.Result.default(SignatureKeyPair.default())()
         out14_: Wrappers.Result
@@ -93,11 +93,11 @@ class default__:
             return res
         d_68_sigKeyPair_ = (d_69_valueOrError0_).Extract()
         d_70_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_70_valueOrError1_ = Wrappers.default__.Need((len((d_68_sigKeyPair_).verificationKey)) == (default__.FieldSize((input).signatureAlgorithm)), software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect verification-key length from ExternKeyGen.")))
+        d_70_valueOrError1_ = Wrappers.default__.Need((len((d_68_sigKeyPair_).verificationKey)) == (default__.FieldSize((input).signatureAlgorithm)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect verification-key length from ExternKeyGen.")))
         if (d_70_valueOrError1_).IsFailure():
             res = (d_70_valueOrError1_).PropagateFailure()
             return res
-        res = Wrappers.Result_Success(software.amazon.cryptography.primitives.internaldafny.types.GenerateECDSASignatureKeyOutput_GenerateECDSASignatureKeyOutput((input).signatureAlgorithm, (d_68_sigKeyPair_).verificationKey, (d_68_sigKeyPair_).signingKey))
+        res = Wrappers.Result_Success(software_amazon_cryptography_primitives_internaldafny_types.GenerateECDSASignatureKeyOutput_GenerateECDSASignatureKeyOutput((input).signatureAlgorithm, (d_68_sigKeyPair_).verificationKey, (d_68_sigKeyPair_).signingKey))
         return res
         return res
 

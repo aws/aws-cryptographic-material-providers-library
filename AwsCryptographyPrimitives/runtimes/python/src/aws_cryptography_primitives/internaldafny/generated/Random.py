@@ -47,7 +47,7 @@ import Base64
 import Base64Lemmas
 import Actions
 import DafnyLibraries
-import software.amazon.cryptography.primitives.internaldafny.types
+import software_amazon_cryptography_primitives_internaldafny_types
 import ExternRandom
 
 # Module: Random
@@ -69,7 +69,7 @@ class default__:
             return res
         d_0_value_ = (d_1_valueOrError0_).Extract()
         d_2_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_2_valueOrError1_ = Wrappers.default__.Need((len(d_0_value_)) == (i), software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect length from ExternRandom.")))
+        d_2_valueOrError1_ = Wrappers.default__.Need((len(d_0_value_)) == (i), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect length from ExternRandom.")))
         if (d_2_valueOrError1_).IsFailure():
             res = (d_2_valueOrError1_).PropagateFailure()
             return res

@@ -47,7 +47,7 @@ import Base64
 import Base64Lemmas
 import Actions
 import DafnyLibraries
-import software.amazon.cryptography.primitives.internaldafny.types
+import software_amazon_cryptography_primitives_internaldafny_types
 import ExternRandom
 import Random
 import AESEncryption
@@ -69,7 +69,7 @@ class default__:
     def KdfCounterMode(input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_71_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_71_valueOrError0_ = Wrappers.default__.Need((((((((input).digestAlgorithm) == (software.amazon.cryptography.primitives.internaldafny.types.DigestAlgorithm_SHA__256())) and ((len((input).ikm)) == (32))) and (((input).nonce).is_Some)) and ((len(((input).nonce).value)) == (16))) and (((input).expectedLength) == (32))) and (((0) < (((input).expectedLength) * (8))) and ((((input).expectedLength) * (8)) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT))), software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Kdf in Counter Mode input is invalid.")))
+        d_71_valueOrError0_ = Wrappers.default__.Need((((((((input).digestAlgorithm) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256())) and ((len((input).ikm)) == (32))) and (((input).nonce).is_Some)) and ((len(((input).nonce).value)) == (16))) and (((input).expectedLength) == (32))) and (((0) < (((input).expectedLength) * (8))) and ((((input).expectedLength) * (8)) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT))), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Kdf in Counter Mode input is invalid.")))
         if (d_71_valueOrError0_).IsFailure():
             output = (d_71_valueOrError0_).PropagateFailure()
             return output
@@ -84,7 +84,7 @@ class default__:
         d_76_internalLength_: int
         d_76_internalLength_ = ((4) + (len(default__.SEPARATION__INDICATOR))) + (4)
         d_77_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_77_valueOrError1_ = Wrappers.default__.Need((True) and ((((d_76_internalLength_) + (len(d_73_label___))) + (len(d_74_info_))) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT)), software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Input Length exceeds INT32_MAX_LIMIT")))
+        d_77_valueOrError1_ = Wrappers.default__.Need((True) and ((((d_76_internalLength_) + (len(d_73_label___))) + (len(d_74_info_))) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Input Length exceeds INT32_MAX_LIMIT")))
         if (d_77_valueOrError1_).IsFailure():
             output = (d_77_valueOrError1_).PropagateFailure()
             return output
@@ -93,7 +93,7 @@ class default__:
         d_79_explicitInfo_: _dafny.Seq
         d_79_explicitInfo_ = (((d_73_label___) + (default__.SEPARATION__INDICATOR)) + (d_74_info_)) + (d_78_lengthBits_)
         d_80_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_80_valueOrError2_ = Wrappers.default__.Need(((4) + (len(d_79_explicitInfo_))) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT), software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("PRF input length exceeds INT32_MAX_LIMIT.")))
+        d_80_valueOrError2_ = Wrappers.default__.Need(((4) + (len(d_79_explicitInfo_))) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("PRF input length exceeds INT32_MAX_LIMIT.")))
         if (d_80_valueOrError2_).IsFailure():
             output = (d_80_valueOrError2_).PropagateFailure()
             return output
@@ -112,8 +112,8 @@ class default__:
     @staticmethod
     def RawDerive(ikm, explicitInfo, length, offset):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        d_82_derivationMac_: software.amazon.cryptography.primitives.internaldafny.types.DigestAlgorithm
-        d_82_derivationMac_ = software.amazon.cryptography.primitives.internaldafny.types.DigestAlgorithm_SHA__256()
+        d_82_derivationMac_: software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm
+        d_82_derivationMac_ = software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256()
         d_83_hmac_: HMAC.HMac
         d_84_valueOrError0_: Wrappers.Result = None
         out16_: Wrappers.Result
@@ -148,7 +148,7 @@ class default__:
                 return output
             d_88_i_ = (d_91_valueOrError1_).Extract()
         d_92_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_92_valueOrError2_ = Wrappers.default__.Need((len(d_87_buffer_)) >= (length), software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Failed to derive key of requested length")))
+        d_92_valueOrError2_ = Wrappers.default__.Need((len(d_87_buffer_)) >= (length), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Failed to derive key of requested length")))
         if (d_92_valueOrError2_).IsFailure():
             output = (d_92_valueOrError2_).PropagateFailure()
             return output
@@ -167,7 +167,7 @@ class default__:
         elif ((x)[0]) < (255):
             return Wrappers.Result_Success(_dafny.Seq([((x)[0]) + (1), 0, 0, 0]))
         elif True:
-            return Wrappers.Result_Failure(software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Unable to derive key material; may have exceeded limit.")))
+            return Wrappers.Result_Failure(software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Unable to derive key material; may have exceeded limit.")))
 
     @_dafny.classproperty
     def SEPARATION__INDICATOR(instance):

@@ -12,7 +12,7 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software.amazon.cryptography.primitives.internaldafny.types
+import software_amazon_cryptography_primitives_internaldafny_types
 import ExternRandom
 import Random
 import AESEncryption
@@ -75,8 +75,8 @@ class default__:
 
     @staticmethod
     def TestCase1():
-        d_15_hash_: software.amazon.cryptography.primitives.internaldafny.types.DigestAlgorithm
-        d_15_hash_ = software.amazon.cryptography.primitives.internaldafny.types.DigestAlgorithm_SHA__256()
+        d_15_hash_: software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm
+        d_15_hash_ = software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256()
         d_16_IKM_: _dafny.Seq
         d_16_IKM_ = _dafny.Seq([11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11])
         d_17_salt_: _dafny.Seq
@@ -89,13 +89,13 @@ class default__:
         d_20_PRK_ = _dafny.Seq([7, 119, 9, 54, 44, 46, 50, 223, 13, 220, 63, 13, 196, 123, 186, 99, 144, 182, 199, 59, 181, 15, 156, 49, 34, 236, 132, 74, 215, 194, 179, 229])
         d_21_OKM_: _dafny.Seq
         d_21_OKM_ = _dafny.Seq([60, 178, 95, 37, 250, 172, 213, 122, 144, 67, 79, 100, 208, 54, 47, 42, 45, 45, 10, 144, 207, 26, 90, 76, 93, 176, 45, 86, 236, 196, 197, 191, 52, 0, 114, 8, 213, 184, 135, 24, 88, 101])
-        default__.BasicExtractTest(software.amazon.cryptography.primitives.internaldafny.types.HkdfExtractInput_HkdfExtractInput(d_15_hash_, Wrappers.Option_Some(d_17_salt_), d_16_IKM_), d_20_PRK_)
-        default__.BasicExpandTest(software.amazon.cryptography.primitives.internaldafny.types.HkdfExpandInput_HkdfExpandInput(d_15_hash_, d_20_PRK_, d_18_info_, d_19_L_), d_21_OKM_)
-        default__.BasicHkdfTest(software.amazon.cryptography.primitives.internaldafny.types.HkdfInput_HkdfInput(d_15_hash_, Wrappers.Option_Some(d_17_salt_), d_16_IKM_, d_18_info_, d_19_L_), d_21_OKM_)
+        default__.BasicExtractTest(software_amazon_cryptography_primitives_internaldafny_types.HkdfExtractInput_HkdfExtractInput(d_15_hash_, Wrappers.Option_Some(d_17_salt_), d_16_IKM_), d_20_PRK_)
+        default__.BasicExpandTest(software_amazon_cryptography_primitives_internaldafny_types.HkdfExpandInput_HkdfExpandInput(d_15_hash_, d_20_PRK_, d_18_info_, d_19_L_), d_21_OKM_)
+        default__.BasicHkdfTest(software_amazon_cryptography_primitives_internaldafny_types.HkdfInput_HkdfInput(d_15_hash_, Wrappers.Option_Some(d_17_salt_), d_16_IKM_, d_18_info_, d_19_L_), d_21_OKM_)
 
     @staticmethod
     def BasicExtractTest(input, expectedPRK):
-        d_22_client_: software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient
+        d_22_client_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
         d_23_valueOrError0_: Wrappers.Result = None
         out3_: Wrappers.Result
         out3_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
@@ -118,7 +118,7 @@ class default__:
 
     @staticmethod
     def BasicExpandTest(input, expectedOKM):
-        d_26_client_: software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient
+        d_26_client_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
         d_27_valueOrError0_: Wrappers.Result = None
         out5_: Wrappers.Result
         out5_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
@@ -141,7 +141,7 @@ class default__:
 
     @staticmethod
     def BasicHkdfTest(input, expectedOKM):
-        d_30_client_: software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient
+        d_30_client_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
         d_31_valueOrError0_: Wrappers.Result = None
         out7_: Wrappers.Result
         out7_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
