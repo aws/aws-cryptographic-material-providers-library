@@ -17,7 +17,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -30,6 +29,7 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
@@ -40,11 +40,13 @@ import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
+import DafnyLibraries
 import JSON_Utils_Views_Core
 
 # Module: JSON_Utils_Views_Writers
@@ -63,46 +65,46 @@ class Chain:
     def is_Chain(self) -> bool:
         return isinstance(self, Chain_Chain)
     def Length(self):
-        d_331___accumulator_ = 0
+        d_416___accumulator_ = 0
         _this = self
         while True:
             with _dafny.label():
                 if (_this).is_Empty:
-                    return (0) + (d_331___accumulator_)
+                    return (0) + (d_416___accumulator_)
                 elif True:
-                    d_331___accumulator_ = (((_this).v).Length()) + (d_331___accumulator_)
-                    in81_ = (_this).previous
-                    _this = in81_
+                    d_416___accumulator_ = (((_this).v).Length()) + (d_416___accumulator_)
+                    in184_ = (_this).previous
+                    _this = in184_
                     
                     raise _dafny.TailCall()
                 break
 
     def Count(self):
-        d_332___accumulator_ = 0
+        d_417___accumulator_ = 0
         _this = self
         while True:
             with _dafny.label():
                 if (_this).is_Empty:
-                    return (0) + (d_332___accumulator_)
+                    return (0) + (d_417___accumulator_)
                 elif True:
-                    d_332___accumulator_ = (1) + (d_332___accumulator_)
-                    in82_ = (_this).previous
-                    _this = in82_
+                    d_417___accumulator_ = (1) + (d_417___accumulator_)
+                    in185_ = (_this).previous
+                    _this = in185_
                     
                     raise _dafny.TailCall()
                 break
 
     def Bytes(self):
-        d_333___accumulator_ = _dafny.Seq([])
+        d_418___accumulator_ = _dafny.Seq([])
         _this = self
         while True:
             with _dafny.label():
                 if (_this).is_Empty:
-                    return (_dafny.Seq([])) + (d_333___accumulator_)
+                    return (_dafny.Seq([])) + (d_418___accumulator_)
                 elif True:
-                    d_333___accumulator_ = (((_this).v).Bytes()) + (d_333___accumulator_)
-                    in83_ = (_this).previous
-                    _this = in83_
+                    d_418___accumulator_ = (((_this).v).Bytes()) + (d_418___accumulator_)
+                    in186_ = (_this).previous
+                    _this = in186_
                     
                     raise _dafny.TailCall()
                 break
@@ -118,16 +120,16 @@ class Chain:
         while True:
             with _dafny.label():
                 if (_this).is_Chain:
-                    d_334_end_: int
-                    d_334_end_ = (end) - (((_this).v).Length())
-                    ((_this).v).CopyTo(dest, d_334_end_)
-                    in84_ = (_this).previous
-                    in85_ = dest
-                    in86_ = d_334_end_
-                    _this = in84_
+                    d_419_end_: int
+                    d_419_end_ = (end) - (((_this).v).Length())
+                    ((_this).v).CopyTo(dest, d_419_end_)
+                    in187_ = (_this).previous
+                    in188_ = dest
+                    in189_ = d_419_end_
+                    _this = in187_
                     
-                    dest = in85_
-                    end = in86_
+                    dest = in188_
+                    end = in189_
                     raise _dafny.TailCall()
                 break
 

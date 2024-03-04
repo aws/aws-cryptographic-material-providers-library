@@ -17,7 +17,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -30,6 +29,7 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
@@ -40,11 +40,13 @@ import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
+import DafnyLibraries
 import JSON_Utils_Views_Core
 import JSON_Utils_Views_Writers
 import JSON_Utils_Views
@@ -81,16 +83,16 @@ class default__:
 
     @staticmethod
     def String(str):
-        d_454_valueOrError0_ = JSON_Spec.default__.EscapeToUTF8(str, 0)
-        if (d_454_valueOrError0_).IsFailure():
-            return (d_454_valueOrError0_).PropagateFailure()
+        d_539_valueOrError0_ = JSON_Spec.default__.EscapeToUTF8(str, 0)
+        if (d_539_valueOrError0_).IsFailure():
+            return (d_539_valueOrError0_).PropagateFailure()
         elif True:
-            d_455_bs_ = (d_454_valueOrError0_).Extract()
-            d_456_valueOrError1_ = default__.CheckLength(d_455_bs_, JSON_Errors.SerializationError_StringTooLong(str))
-            if (d_456_valueOrError1_).IsFailure():
-                return (d_456_valueOrError1_).PropagateFailure()
+            d_540_bs_ = (d_539_valueOrError0_).Extract()
+            d_541_valueOrError1_ = default__.CheckLength(d_540_bs_, JSON_Errors.SerializationError_StringTooLong(str))
+            if (d_541_valueOrError1_).IsFailure():
+                return (d_541_valueOrError1_).PropagateFailure()
             elif True:
-                return Wrappers.Result_Success(JSON_Grammar.jstring_JString(JSON_Grammar.default__.DOUBLEQUOTE, JSON_Utils_Views_Core.View__.OfBytes(d_455_bs_), JSON_Grammar.default__.DOUBLEQUOTE))
+                return Wrappers.Result_Success(JSON_Grammar.jstring_JString(JSON_Grammar.default__.DOUBLEQUOTE, JSON_Utils_Views_Core.View__.OfBytes(d_540_bs_), JSON_Grammar.default__.DOUBLEQUOTE))
 
     @staticmethod
     def Sign(n):
@@ -102,46 +104,46 @@ class default__:
 
     @staticmethod
     def Int(n):
-        d_457_bs_ = default__.Int_k(n)
-        d_458_valueOrError0_ = default__.CheckLength(d_457_bs_, JSON_Errors.SerializationError_IntTooLarge(n))
-        if (d_458_valueOrError0_).IsFailure():
-            return (d_458_valueOrError0_).PropagateFailure()
+        d_542_bs_ = default__.Int_k(n)
+        d_543_valueOrError0_ = default__.CheckLength(d_542_bs_, JSON_Errors.SerializationError_IntTooLarge(n))
+        if (d_543_valueOrError0_).IsFailure():
+            return (d_543_valueOrError0_).PropagateFailure()
         elif True:
-            return Wrappers.Result_Success(JSON_Utils_Views_Core.View__.OfBytes(d_457_bs_))
+            return Wrappers.Result_Success(JSON_Utils_Views_Core.View__.OfBytes(d_542_bs_))
 
     @staticmethod
     def Number(dec):
-        pat_let_tv4_ = dec
-        pat_let_tv5_ = dec
-        d_459_minus_ = default__.Sign((dec).n)
-        d_460_valueOrError0_ = default__.Int(Math.default__.Abs((dec).n))
-        if (d_460_valueOrError0_).IsFailure():
-            return (d_460_valueOrError0_).PropagateFailure()
+        pat_let_tv6_ = dec
+        pat_let_tv7_ = dec
+        d_544_minus_ = default__.Sign((dec).n)
+        d_545_valueOrError0_ = default__.Int(Math.default__.Abs((dec).n))
+        if (d_545_valueOrError0_).IsFailure():
+            return (d_545_valueOrError0_).PropagateFailure()
         elif True:
-            d_461_num_ = (d_460_valueOrError0_).Extract()
-            d_462_frac_ = JSON_Grammar.Maybe_Empty()
-            def iife4_(_pat_let2_0):
-                def iife5_(d_464_e_):
-                    def iife6_(_pat_let3_0):
-                        def iife7_(d_465_sign_):
-                            def iife8_(_pat_let4_0):
-                                def iife9_(d_466_valueOrError2_):
-                                    def iife10_(_pat_let5_0):
-                                        def iife11_(d_467_num_):
-                                            return Wrappers.Result_Success(JSON_Grammar.Maybe_NonEmpty(JSON_Grammar.jexp_JExp(d_464_e_, d_465_sign_, d_467_num_)))
-                                        return iife11_(_pat_let5_0)
-                                    return ((d_466_valueOrError2_).PropagateFailure() if (d_466_valueOrError2_).IsFailure() else iife10_((d_466_valueOrError2_).Extract()))
-                                return iife9_(_pat_let4_0)
-                            return iife8_(default__.Int(Math.default__.Abs((pat_let_tv5_).e10)))
-                        return iife7_(_pat_let3_0)
-                    return iife6_(default__.Sign((pat_let_tv4_).e10))
-                return iife5_(_pat_let2_0)
-            d_463_valueOrError1_ = (Wrappers.Result_Success(JSON_Grammar.Maybe_Empty()) if ((dec).e10) == (0) else iife4_(JSON_Utils_Views_Core.View__.OfBytes(_dafny.Seq([ord('e')]))))
-            if (d_463_valueOrError1_).IsFailure():
-                return (d_463_valueOrError1_).PropagateFailure()
+            d_546_num_ = (d_545_valueOrError0_).Extract()
+            d_547_frac_ = JSON_Grammar.Maybe_Empty()
+            def iife14_(_pat_let7_0):
+                def iife15_(d_549_e_):
+                    def iife16_(_pat_let8_0):
+                        def iife17_(d_550_sign_):
+                            def iife18_(_pat_let9_0):
+                                def iife19_(d_551_valueOrError2_):
+                                    def iife20_(_pat_let10_0):
+                                        def iife21_(d_552_num_):
+                                            return Wrappers.Result_Success(JSON_Grammar.Maybe_NonEmpty(JSON_Grammar.jexp_JExp(d_549_e_, d_550_sign_, d_552_num_)))
+                                        return iife21_(_pat_let10_0)
+                                    return ((d_551_valueOrError2_).PropagateFailure() if (d_551_valueOrError2_).IsFailure() else iife20_((d_551_valueOrError2_).Extract()))
+                                return iife19_(_pat_let9_0)
+                            return iife18_(default__.Int(Math.default__.Abs((pat_let_tv7_).e10)))
+                        return iife17_(_pat_let8_0)
+                    return iife16_(default__.Sign((pat_let_tv6_).e10))
+                return iife15_(_pat_let7_0)
+            d_548_valueOrError1_ = (Wrappers.Result_Success(JSON_Grammar.Maybe_Empty()) if ((dec).e10) == (0) else iife14_(JSON_Utils_Views_Core.View__.OfBytes(_dafny.Seq([ord('e')]))))
+            if (d_548_valueOrError1_).IsFailure():
+                return (d_548_valueOrError1_).PropagateFailure()
             elif True:
-                d_468_exp_ = (d_463_valueOrError1_).Extract()
-                return Wrappers.Result_Success(JSON_Grammar.jnumber_JNumber(d_459_minus_, d_461_num_, JSON_Grammar.Maybe_Empty(), d_468_exp_))
+                d_553_exp_ = (d_548_valueOrError1_).Extract()
+                return Wrappers.Result_Success(JSON_Grammar.jnumber_JNumber(d_544_minus_, d_546_num_, JSON_Grammar.Maybe_Empty(), d_553_exp_))
 
     @staticmethod
     def MkStructural(v):
@@ -149,67 +151,67 @@ class default__:
 
     @staticmethod
     def KeyValue(kv):
-        d_469_valueOrError0_ = default__.String((kv)[0])
-        if (d_469_valueOrError0_).IsFailure():
-            return (d_469_valueOrError0_).PropagateFailure()
+        d_554_valueOrError0_ = default__.String((kv)[0])
+        if (d_554_valueOrError0_).IsFailure():
+            return (d_554_valueOrError0_).PropagateFailure()
         elif True:
-            d_470_k_ = (d_469_valueOrError0_).Extract()
-            d_471_valueOrError1_ = default__.Value((kv)[1])
-            if (d_471_valueOrError1_).IsFailure():
-                return (d_471_valueOrError1_).PropagateFailure()
+            d_555_k_ = (d_554_valueOrError0_).Extract()
+            d_556_valueOrError1_ = default__.Value((kv)[1])
+            if (d_556_valueOrError1_).IsFailure():
+                return (d_556_valueOrError1_).PropagateFailure()
             elif True:
-                d_472_v_ = (d_471_valueOrError1_).Extract()
-                return Wrappers.Result_Success(JSON_Grammar.jKeyValue_KeyValue(d_470_k_, default__.COLON, d_472_v_))
+                d_557_v_ = (d_556_valueOrError1_).Extract()
+                return Wrappers.Result_Success(JSON_Grammar.jKeyValue_KeyValue(d_555_k_, default__.COLON, d_557_v_))
 
     @staticmethod
     def MkSuffixedSequence(ds, suffix, start):
-        d_473___accumulator_ = _dafny.Seq([])
+        d_558___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (start) >= (len(ds)):
-                    return (d_473___accumulator_) + (_dafny.Seq([]))
+                    return (d_558___accumulator_) + (_dafny.Seq([]))
                 elif (start) == ((len(ds)) - (1)):
-                    return (d_473___accumulator_) + (_dafny.Seq([JSON_Grammar.Suffixed_Suffixed((ds)[start], JSON_Grammar.Maybe_Empty())]))
+                    return (d_558___accumulator_) + (_dafny.Seq([JSON_Grammar.Suffixed_Suffixed((ds)[start], JSON_Grammar.Maybe_Empty())]))
                 elif True:
-                    d_473___accumulator_ = (d_473___accumulator_) + (_dafny.Seq([JSON_Grammar.Suffixed_Suffixed((ds)[start], JSON_Grammar.Maybe_NonEmpty(suffix))]))
-                    in105_ = ds
-                    in106_ = suffix
-                    in107_ = (start) + (1)
-                    ds = in105_
-                    suffix = in106_
-                    start = in107_
+                    d_558___accumulator_ = (d_558___accumulator_) + (_dafny.Seq([JSON_Grammar.Suffixed_Suffixed((ds)[start], JSON_Grammar.Maybe_NonEmpty(suffix))]))
+                    in208_ = ds
+                    in209_ = suffix
+                    in210_ = (start) + (1)
+                    ds = in208_
+                    suffix = in209_
+                    start = in210_
                     raise _dafny.TailCall()
                 break
 
     @staticmethod
     def Object(obj):
-        def lambda31_(d_475_obj_):
-            def lambda32_(d_476_v_):
-                return default__.KeyValue(d_476_v_)
-
-            return lambda32_
-
-        d_474_valueOrError0_ = Seq.default__.MapWithResult(lambda31_(obj), obj)
-        if (d_474_valueOrError0_).IsFailure():
-            return (d_474_valueOrError0_).PropagateFailure()
-        elif True:
-            d_477_items_ = (d_474_valueOrError0_).Extract()
-            return Wrappers.Result_Success(JSON_Grammar.Bracketed_Bracketed(default__.MkStructural(JSON_Grammar.default__.LBRACE), default__.MkSuffixedSequence(d_477_items_, default__.COMMA, 0), default__.MkStructural(JSON_Grammar.default__.RBRACE)))
-
-    @staticmethod
-    def Array(arr):
-        def lambda33_(d_479_arr_):
-            def lambda34_(d_480_v_):
-                return default__.Value(d_480_v_)
+        def lambda33_(d_560_obj_):
+            def lambda34_(d_561_v_):
+                return default__.KeyValue(d_561_v_)
 
             return lambda34_
 
-        d_478_valueOrError0_ = Seq.default__.MapWithResult(lambda33_(arr), arr)
-        if (d_478_valueOrError0_).IsFailure():
-            return (d_478_valueOrError0_).PropagateFailure()
+        d_559_valueOrError0_ = Seq.default__.MapWithResult(lambda33_(obj), obj)
+        if (d_559_valueOrError0_).IsFailure():
+            return (d_559_valueOrError0_).PropagateFailure()
         elif True:
-            d_481_items_ = (d_478_valueOrError0_).Extract()
-            return Wrappers.Result_Success(JSON_Grammar.Bracketed_Bracketed(default__.MkStructural(JSON_Grammar.default__.LBRACKET), default__.MkSuffixedSequence(d_481_items_, default__.COMMA, 0), default__.MkStructural(JSON_Grammar.default__.RBRACKET)))
+            d_562_items_ = (d_559_valueOrError0_).Extract()
+            return Wrappers.Result_Success(JSON_Grammar.Bracketed_Bracketed(default__.MkStructural(JSON_Grammar.default__.LBRACE), default__.MkSuffixedSequence(d_562_items_, default__.COMMA, 0), default__.MkStructural(JSON_Grammar.default__.RBRACE)))
+
+    @staticmethod
+    def Array(arr):
+        def lambda35_(d_564_arr_):
+            def lambda36_(d_565_v_):
+                return default__.Value(d_565_v_)
+
+            return lambda36_
+
+        d_563_valueOrError0_ = Seq.default__.MapWithResult(lambda35_(arr), arr)
+        if (d_563_valueOrError0_).IsFailure():
+            return (d_563_valueOrError0_).PropagateFailure()
+        elif True:
+            d_566_items_ = (d_563_valueOrError0_).Extract()
+            return Wrappers.Result_Success(JSON_Grammar.Bracketed_Bracketed(default__.MkStructural(JSON_Grammar.default__.LBRACKET), default__.MkSuffixedSequence(d_566_items_, default__.COMMA, 0), default__.MkStructural(JSON_Grammar.default__.RBRACKET)))
 
     @staticmethod
     def Value(js):
@@ -217,54 +219,54 @@ class default__:
         if source12_.is_Null:
             return Wrappers.Result_Success(JSON_Grammar.Value_Null(JSON_Utils_Views_Core.View__.OfBytes(JSON_Grammar.default__.NULL)))
         elif source12_.is_Bool:
-            d_482___mcc_h0_ = source12_.b
-            d_483_b_ = d_482___mcc_h0_
-            return Wrappers.Result_Success(JSON_Grammar.Value_Bool(default__.Bool(d_483_b_)))
+            d_567___mcc_h0_ = source12_.b
+            d_568_b_ = d_567___mcc_h0_
+            return Wrappers.Result_Success(JSON_Grammar.Value_Bool(default__.Bool(d_568_b_)))
         elif source12_.is_String:
-            d_484___mcc_h1_ = source12_.str
-            d_485_str_ = d_484___mcc_h1_
-            d_486_valueOrError0_ = default__.String(d_485_str_)
-            if (d_486_valueOrError0_).IsFailure():
-                return (d_486_valueOrError0_).PropagateFailure()
+            d_569___mcc_h1_ = source12_.str
+            d_570_str_ = d_569___mcc_h1_
+            d_571_valueOrError0_ = default__.String(d_570_str_)
+            if (d_571_valueOrError0_).IsFailure():
+                return (d_571_valueOrError0_).PropagateFailure()
             elif True:
-                d_487_s_ = (d_486_valueOrError0_).Extract()
-                return Wrappers.Result_Success(JSON_Grammar.Value_String(d_487_s_))
+                d_572_s_ = (d_571_valueOrError0_).Extract()
+                return Wrappers.Result_Success(JSON_Grammar.Value_String(d_572_s_))
         elif source12_.is_Number:
-            d_488___mcc_h2_ = source12_.num
-            d_489_dec_ = d_488___mcc_h2_
-            d_490_valueOrError1_ = default__.Number(d_489_dec_)
-            if (d_490_valueOrError1_).IsFailure():
-                return (d_490_valueOrError1_).PropagateFailure()
+            d_573___mcc_h2_ = source12_.num
+            d_574_dec_ = d_573___mcc_h2_
+            d_575_valueOrError1_ = default__.Number(d_574_dec_)
+            if (d_575_valueOrError1_).IsFailure():
+                return (d_575_valueOrError1_).PropagateFailure()
             elif True:
-                d_491_n_ = (d_490_valueOrError1_).Extract()
-                return Wrappers.Result_Success(JSON_Grammar.Value_Number(d_491_n_))
+                d_576_n_ = (d_575_valueOrError1_).Extract()
+                return Wrappers.Result_Success(JSON_Grammar.Value_Number(d_576_n_))
         elif source12_.is_Object:
-            d_492___mcc_h3_ = source12_.obj
-            d_493_obj_ = d_492___mcc_h3_
-            d_494_valueOrError2_ = default__.Object(d_493_obj_)
-            if (d_494_valueOrError2_).IsFailure():
-                return (d_494_valueOrError2_).PropagateFailure()
+            d_577___mcc_h3_ = source12_.obj
+            d_578_obj_ = d_577___mcc_h3_
+            d_579_valueOrError2_ = default__.Object(d_578_obj_)
+            if (d_579_valueOrError2_).IsFailure():
+                return (d_579_valueOrError2_).PropagateFailure()
             elif True:
-                d_495_o_ = (d_494_valueOrError2_).Extract()
-                return Wrappers.Result_Success(JSON_Grammar.Value_Object(d_495_o_))
+                d_580_o_ = (d_579_valueOrError2_).Extract()
+                return Wrappers.Result_Success(JSON_Grammar.Value_Object(d_580_o_))
         elif True:
-            d_496___mcc_h4_ = source12_.arr
-            d_497_arr_ = d_496___mcc_h4_
-            d_498_valueOrError3_ = default__.Array(d_497_arr_)
-            if (d_498_valueOrError3_).IsFailure():
-                return (d_498_valueOrError3_).PropagateFailure()
+            d_581___mcc_h4_ = source12_.arr
+            d_582_arr_ = d_581___mcc_h4_
+            d_583_valueOrError3_ = default__.Array(d_582_arr_)
+            if (d_583_valueOrError3_).IsFailure():
+                return (d_583_valueOrError3_).PropagateFailure()
             elif True:
-                d_499_a_ = (d_498_valueOrError3_).Extract()
-                return Wrappers.Result_Success(JSON_Grammar.Value_Array(d_499_a_))
+                d_584_a_ = (d_583_valueOrError3_).Extract()
+                return Wrappers.Result_Success(JSON_Grammar.Value_Array(d_584_a_))
 
     @staticmethod
     def JSON(js):
-        d_500_valueOrError0_ = default__.Value(js)
-        if (d_500_valueOrError0_).IsFailure():
-            return (d_500_valueOrError0_).PropagateFailure()
+        d_585_valueOrError0_ = default__.Value(js)
+        if (d_585_valueOrError0_).IsFailure():
+            return (d_585_valueOrError0_).PropagateFailure()
         elif True:
-            d_501_val_ = (d_500_valueOrError0_).Extract()
-            return Wrappers.Result_Success(default__.MkStructural(d_501_val_))
+            d_586_val_ = (d_585_valueOrError0_).Extract()
+            return Wrappers.Result_Success(default__.MkStructural(d_586_val_))
 
     @_dafny.classproperty
     def DIGITS(instance):

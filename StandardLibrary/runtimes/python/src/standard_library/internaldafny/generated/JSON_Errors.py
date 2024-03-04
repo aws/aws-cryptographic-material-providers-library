@@ -17,7 +17,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -30,6 +29,7 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
@@ -40,11 +40,13 @@ import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
+import DafnyLibraries
 import JSON_Utils_Views_Core
 import JSON_Utils_Views_Writers
 import JSON_Utils_Views
@@ -104,9 +106,9 @@ class DeserializationError:
         if source9_.is_UnterminatedSequence:
             return _dafny.Seq("Unterminated sequence")
         elif source9_.is_UnsupportedEscape:
-            d_394___mcc_h0_ = source9_.str
-            d_395_str_ = d_394___mcc_h0_
-            return (_dafny.Seq("Unsupported escape sequence: ")) + (d_395_str_)
+            d_479___mcc_h0_ = source9_.str
+            d_480_str_ = d_479___mcc_h0_
+            return (_dafny.Seq("Unsupported escape sequence: ")) + (d_480_str_)
         elif source9_.is_EscapeAtEOS:
             return _dafny.Seq("Escape character at end of string")
         elif source9_.is_EmptyNumber:
@@ -118,20 +120,20 @@ class DeserializationError:
         elif source9_.is_ReachedEOF:
             return _dafny.Seq("Reached EOF")
         elif source9_.is_ExpectingByte:
-            d_396___mcc_h1_ = source9_.expected
-            d_397___mcc_h2_ = source9_.b
-            d_398_b_ = d_397___mcc_h2_
-            d_399_b0_ = d_396___mcc_h1_
-            d_400_c_ = (((_dafny.Seq("'")) + (_dafny.Seq([chr(d_398_b_)]))) + (_dafny.Seq("'")) if (d_398_b_) > (0) else _dafny.Seq("EOF"))
-            return (((_dafny.Seq("Expecting '")) + (_dafny.Seq([chr(d_399_b0_)]))) + (_dafny.Seq("', read "))) + (d_400_c_)
+            d_481___mcc_h1_ = source9_.expected
+            d_482___mcc_h2_ = source9_.b
+            d_483_b_ = d_482___mcc_h2_
+            d_484_b0_ = d_481___mcc_h1_
+            d_485_c_ = (((_dafny.Seq("'")) + (_dafny.Seq([chr(d_483_b_)]))) + (_dafny.Seq("'")) if (d_483_b_) > (0) else _dafny.Seq("EOF"))
+            return (((_dafny.Seq("Expecting '")) + (_dafny.Seq([chr(d_484_b0_)]))) + (_dafny.Seq("', read "))) + (d_485_c_)
         elif source9_.is_ExpectingAnyByte:
-            d_401___mcc_h3_ = source9_.expected__sq
-            d_402___mcc_h4_ = source9_.b
-            d_403_b_ = d_402___mcc_h4_
-            d_404_bs0_ = d_401___mcc_h3_
-            d_405_c_ = (((_dafny.Seq("'")) + (_dafny.Seq([chr(d_403_b_)]))) + (_dafny.Seq("'")) if (d_403_b_) > (0) else _dafny.Seq("EOF"))
-            d_406_c0s_ = _dafny.Seq([chr((d_404_bs0_)[d_407_idx_]) for d_407_idx_ in range(len(d_404_bs0_))])
-            return (((_dafny.Seq("Expecting one of '")) + (d_406_c0s_)) + (_dafny.Seq("', read "))) + (d_405_c_)
+            d_486___mcc_h3_ = source9_.expected__sq
+            d_487___mcc_h4_ = source9_.b
+            d_488_b_ = d_487___mcc_h4_
+            d_489_bs0_ = d_486___mcc_h3_
+            d_490_c_ = (((_dafny.Seq("'")) + (_dafny.Seq([chr(d_488_b_)]))) + (_dafny.Seq("'")) if (d_488_b_) > (0) else _dafny.Seq("EOF"))
+            d_491_c0s_ = _dafny.Seq([chr((d_489_bs0_)[d_492_idx_]) for d_492_idx_ in range(len(d_489_bs0_))])
+            return (((_dafny.Seq("Expecting one of '")) + (d_491_c0s_)) + (_dafny.Seq("', read "))) + (d_490_c_)
         elif True:
             return _dafny.Seq("Invalid Unicode sequence")
 
@@ -240,13 +242,13 @@ class SerializationError:
         if source10_.is_OutOfMemory:
             return _dafny.Seq("Out of memory")
         elif source10_.is_IntTooLarge:
-            d_408___mcc_h0_ = source10_.i
-            d_409_i_ = d_408___mcc_h0_
-            return (_dafny.Seq("Integer too large: ")) + (JSON_Utils_Str.default__.OfInt(d_409_i_, 10))
+            d_493___mcc_h0_ = source10_.i
+            d_494_i_ = d_493___mcc_h0_
+            return (_dafny.Seq("Integer too large: ")) + (JSON_Utils_Str.default__.OfInt(d_494_i_, 10))
         elif source10_.is_StringTooLong:
-            d_410___mcc_h1_ = source10_.s
-            d_411_s_ = d_410___mcc_h1_
-            return (_dafny.Seq("String too long: ")) + (d_411_s_)
+            d_495___mcc_h1_ = source10_.s
+            d_496_s_ = d_495___mcc_h1_
+            return (_dafny.Seq("String too long: ")) + (d_496_s_)
         elif True:
             return _dafny.Seq("Invalid Unicode sequence")
 

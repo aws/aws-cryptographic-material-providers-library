@@ -17,7 +17,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -30,6 +29,7 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
@@ -40,11 +40,13 @@ import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
+import DafnyLibraries
 import JSON_Utils_Views_Core
 import JSON_Utils_Views_Writers
 import JSON_Utils_Views
@@ -65,41 +67,41 @@ class default__:
         if (n) == (0):
             return _dafny.Seq([])
         elif True:
-            d_374_digits_k_ = default__.Digits(_dafny.euclidian_division(n, base), base)
-            d_375_digits_ = (d_374_digits_k_) + (_dafny.Seq([_dafny.euclidian_modulus(n, base)]))
-            return d_375_digits_
+            d_459_digits_k_ = default__.Digits(_dafny.euclidian_division(n, base), base)
+            d_460_digits_ = (d_459_digits_k_) + (_dafny.Seq([_dafny.euclidian_modulus(n, base)]))
+            return d_460_digits_
 
     @staticmethod
     def OfDigits(digits, chars):
-        d_376___accumulator_ = _dafny.Seq([])
+        d_461___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (digits) == (_dafny.Seq([])):
-                    return (d_376___accumulator_) + (_dafny.Seq([]))
+                    return (d_461___accumulator_) + (_dafny.Seq([]))
                 elif True:
-                    d_376___accumulator_ = (d_376___accumulator_) + (_dafny.Seq([(chars)[(digits)[0]]]))
-                    in90_ = _dafny.Seq((digits)[1::])
-                    in91_ = chars
-                    digits = in90_
-                    chars = in91_
+                    d_461___accumulator_ = (d_461___accumulator_) + (_dafny.Seq([(chars)[(digits)[0]]]))
+                    in193_ = _dafny.Seq((digits)[1::])
+                    in194_ = chars
+                    digits = in193_
+                    chars = in194_
                     raise _dafny.TailCall()
                 break
 
     @staticmethod
     def OfNat__any(n, chars):
-        d_377_base_ = len(chars)
+        d_462_base_ = len(chars)
         if (n) == (0):
             return _dafny.Seq([(chars)[0]])
         elif True:
-            return default__.OfDigits(default__.Digits(n, d_377_base_), chars)
+            return default__.OfDigits(default__.Digits(n, d_462_base_), chars)
 
     @staticmethod
     def NumberStr(str, minus, is__digit):
-        def lambda26_(forall_var_6_):
-            d_378_c_: str = forall_var_6_
-            return not ((d_378_c_) in (_dafny.Seq((str)[1::]))) or (is__digit(d_378_c_))
+        def lambda28_(forall_var_6_):
+            d_463_c_: str = forall_var_6_
+            return not ((d_463_c_) in (_dafny.Seq((str)[1::]))) or (is__digit(d_463_c_))
 
-        return not ((str) != (_dafny.Seq([]))) or (((((str)[0]) == (minus)) or (is__digit((str)[0]))) and (_dafny.quantifier((_dafny.Seq((str)[1::])).UniqueElements, True, lambda26_)))
+        return not ((str) != (_dafny.Seq([]))) or (((((str)[0]) == (minus)) or (is__digit((str)[0]))) and (_dafny.quantifier((_dafny.Seq((str)[1::])).UniqueElements, True, lambda28_)))
 
     @staticmethod
     def OfInt__any(n, chars, minus):

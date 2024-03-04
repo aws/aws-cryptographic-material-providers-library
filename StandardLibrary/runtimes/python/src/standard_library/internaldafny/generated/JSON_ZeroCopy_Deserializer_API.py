@@ -17,7 +17,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -30,6 +29,7 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
@@ -40,11 +40,13 @@ import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
+import DafnyLibraries
 import JSON_Utils_Views_Core
 import JSON_Utils_Views_Writers
 import JSON_Utils_Views
@@ -94,21 +96,21 @@ class default__:
         if source20_.is_EOF:
             return JSON_Errors.DeserializationError_ReachedEOF()
         elif source20_.is_ExpectingByte:
-            d_798___mcc_h0_ = source20_.expected
-            d_799___mcc_h1_ = source20_.b
-            d_800_b_ = d_799___mcc_h1_
-            d_801_expected_ = d_798___mcc_h0_
-            return JSON_Errors.DeserializationError_ExpectingByte(d_801_expected_, d_800_b_)
+            d_883___mcc_h0_ = source20_.expected
+            d_884___mcc_h1_ = source20_.b
+            d_885_b_ = d_884___mcc_h1_
+            d_886_expected_ = d_883___mcc_h0_
+            return JSON_Errors.DeserializationError_ExpectingByte(d_886_expected_, d_885_b_)
         elif source20_.is_ExpectingAnyByte:
-            d_802___mcc_h2_ = source20_.expected__sq
-            d_803___mcc_h3_ = source20_.b
-            d_804_b_ = d_803___mcc_h3_
-            d_805_expected__sq_ = d_802___mcc_h2_
-            return JSON_Errors.DeserializationError_ExpectingAnyByte(d_805_expected__sq_, d_804_b_)
+            d_887___mcc_h2_ = source20_.expected__sq
+            d_888___mcc_h3_ = source20_.b
+            d_889_b_ = d_888___mcc_h3_
+            d_890_expected__sq_ = d_887___mcc_h2_
+            return JSON_Errors.DeserializationError_ExpectingAnyByte(d_890_expected__sq_, d_889_b_)
         elif True:
-            d_806___mcc_h4_ = source20_.err
-            d_807_err_ = d_806___mcc_h4_
-            return d_807_err_
+            d_891___mcc_h4_ = source20_.err
+            d_892_err_ = d_891___mcc_h4_
+            return d_892_err_
 
     @staticmethod
     def JSON(cs):
@@ -116,24 +118,24 @@ class default__:
 
     @staticmethod
     def Text(v):
-        d_808_valueOrError0_ = default__.JSON(JSON_Utils_Cursors.Cursor__.OfView(v))
-        if (d_808_valueOrError0_).IsFailure():
-            return (d_808_valueOrError0_).PropagateFailure()
+        d_893_valueOrError0_ = default__.JSON(JSON_Utils_Cursors.Cursor__.OfView(v))
+        if (d_893_valueOrError0_).IsFailure():
+            return (d_893_valueOrError0_).PropagateFailure()
         elif True:
-            let_tmp_rhs23_ = (d_808_valueOrError0_).Extract()
-            d_809_text_ = let_tmp_rhs23_.t
-            d_810_cs_ = let_tmp_rhs23_.cs
-            d_811_valueOrError1_ = Wrappers.default__.Need((d_810_cs_).EOF_q, JSON_Errors.DeserializationError_ExpectingEOF())
-            if (d_811_valueOrError1_).IsFailure():
-                return (d_811_valueOrError1_).PropagateFailure()
+            let_tmp_rhs29_ = (d_893_valueOrError0_).Extract()
+            d_894_text_ = let_tmp_rhs29_.t
+            d_895_cs_ = let_tmp_rhs29_.cs
+            d_896_valueOrError1_ = Wrappers.default__.Need((d_895_cs_).EOF_q, JSON_Errors.DeserializationError_ExpectingEOF())
+            if (d_896_valueOrError1_).IsFailure():
+                return (d_896_valueOrError1_).PropagateFailure()
             elif True:
-                return Wrappers.Result_Success(d_809_text_)
+                return Wrappers.Result_Success(d_894_text_)
 
     @staticmethod
     def OfBytes(bs):
-        d_812_valueOrError0_ = Wrappers.default__.Need((len(bs)) < (BoundedInts.default__.TWO__TO__THE__32), JSON_Errors.DeserializationError_IntOverflow())
-        if (d_812_valueOrError0_).IsFailure():
-            return (d_812_valueOrError0_).PropagateFailure()
+        d_897_valueOrError0_ = Wrappers.default__.Need((len(bs)) < (BoundedInts.default__.TWO__TO__THE__32), JSON_Errors.DeserializationError_IntOverflow())
+        if (d_897_valueOrError0_).IsFailure():
+            return (d_897_valueOrError0_).PropagateFailure()
         elif True:
             return default__.Text(JSON_Utils_Views_Core.View__.OfBytes(bs))
 

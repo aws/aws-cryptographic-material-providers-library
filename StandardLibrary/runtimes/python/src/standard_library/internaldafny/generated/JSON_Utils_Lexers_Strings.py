@@ -17,7 +17,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -30,6 +29,7 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
@@ -40,11 +40,13 @@ import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
+import DafnyLibraries
 import JSON_Utils_Views_Core
 import JSON_Utils_Views_Writers
 import JSON_Utils_Views
@@ -74,11 +76,11 @@ class default__:
             elif True:
                 return JSON_Utils_Lexers_Core.LexerResult_Reject(_dafny.Seq("String must start with double quote"))
         elif source6_.is_Body:
-            d_335___mcc_h0_ = source6_.escaped
-            d_336_escaped_ = d_335___mcc_h0_
+            d_420___mcc_h0_ = source6_.escaped
+            d_421_escaped_ = d_420___mcc_h0_
             if (byte) == (ord('\\')):
-                return JSON_Utils_Lexers_Core.LexerResult_Partial(StringLexerState_Body(not(d_336_escaped_)))
-            elif ((byte) == (ord('\"'))) and (not(d_336_escaped_)):
+                return JSON_Utils_Lexers_Core.LexerResult_Partial(StringLexerState_Body(not(d_421_escaped_)))
+            elif ((byte) == (ord('\"'))) and (not(d_421_escaped_)):
                 return JSON_Utils_Lexers_Core.LexerResult_Partial(StringLexerState_End())
             elif True:
                 return JSON_Utils_Lexers_Core.LexerResult_Partial(StringLexerState_Body(False))

@@ -17,7 +17,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -30,6 +29,7 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
@@ -40,11 +40,13 @@ import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
+import DafnyLibraries
 import JSON_Utils_Views_Core
 import JSON_Utils_Views_Writers
 import JSON_Utils_Views
@@ -70,60 +72,60 @@ class default__:
 
     @staticmethod
     def EscapeUnicode(c):
-        d_412_sStr_ = JSON_Utils_Str.default__.OfNat(c, 16)
-        d_413_s_ = UnicodeStrings.default__.ASCIIToUTF16(d_412_sStr_)
-        return (d_413_s_) + (_dafny.Seq([ord(' ') for d_414___v0_ in range((4) - (len(d_413_s_)))]))
+        d_497_sStr_ = JSON_Utils_Str.default__.OfNat(c, 16)
+        d_498_s_ = UnicodeStrings.default__.ASCIIToUTF16(d_497_sStr_)
+        return (d_498_s_) + (_dafny.Seq([ord(' ') for d_499___v0_ in range((4) - (len(d_498_s_)))]))
 
     @staticmethod
     def Escape(str, start):
-        d_415___accumulator_ = _dafny.Seq([])
+        d_500___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
-                pat_let_tv2_ = str
-                pat_let_tv3_ = start
+                pat_let_tv4_ = str
+                pat_let_tv5_ = start
                 if (start) >= (len(str)):
-                    return (d_415___accumulator_) + (_dafny.Seq([]))
+                    return (d_500___accumulator_) + (_dafny.Seq([]))
                 elif True:
-                    def iife2_(_pat_let1_0):
-                        def iife3_(d_416_c_):
-                            return ((UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\u"))) + (default__.EscapeUnicode(d_416_c_)) if (d_416_c_) < (31) else _dafny.Seq([(pat_let_tv2_)[pat_let_tv3_]]))
-                        return iife3_(_pat_let1_0)
-                    d_415___accumulator_ = (d_415___accumulator_) + ((UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\\"")) if ((str)[start]) == (34) else (UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\\\")) if ((str)[start]) == (92) else (UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\b")) if ((str)[start]) == (8) else (UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\f")) if ((str)[start]) == (12) else (UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\n")) if ((str)[start]) == (10) else (UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\r")) if ((str)[start]) == (13) else (UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\t")) if ((str)[start]) == (9) else iife2_((str)[start])))))))))
-                    in101_ = str
-                    in102_ = (start) + (1)
-                    str = in101_
-                    start = in102_
+                    def iife12_(_pat_let6_0):
+                        def iife13_(d_501_c_):
+                            return ((UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\u"))) + (default__.EscapeUnicode(d_501_c_)) if (d_501_c_) < (31) else _dafny.Seq([(pat_let_tv4_)[pat_let_tv5_]]))
+                        return iife13_(_pat_let6_0)
+                    d_500___accumulator_ = (d_500___accumulator_) + ((UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\\"")) if ((str)[start]) == (34) else (UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\\\")) if ((str)[start]) == (92) else (UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\b")) if ((str)[start]) == (8) else (UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\f")) if ((str)[start]) == (12) else (UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\n")) if ((str)[start]) == (10) else (UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\r")) if ((str)[start]) == (13) else (UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\t")) if ((str)[start]) == (9) else iife12_((str)[start])))))))))
+                    in204_ = str
+                    in205_ = (start) + (1)
+                    str = in204_
+                    start = in205_
                     raise _dafny.TailCall()
                 break
 
     @staticmethod
     def EscapeToUTF8(str, start):
-        d_417_valueOrError0_ = (UnicodeStrings.default__.ToUTF16Checked(str)).ToResult_k(JSON_Errors.SerializationError_InvalidUnicode())
-        if (d_417_valueOrError0_).IsFailure():
-            return (d_417_valueOrError0_).PropagateFailure()
+        d_502_valueOrError0_ = (UnicodeStrings.default__.ToUTF16Checked(str)).ToResult_k(JSON_Errors.SerializationError_InvalidUnicode())
+        if (d_502_valueOrError0_).IsFailure():
+            return (d_502_valueOrError0_).PropagateFailure()
         elif True:
-            d_418_utf16_ = (d_417_valueOrError0_).Extract()
-            d_419_escaped_ = default__.Escape(d_418_utf16_, 0)
-            d_420_valueOrError1_ = (UnicodeStrings.default__.FromUTF16Checked(d_419_escaped_)).ToResult_k(JSON_Errors.SerializationError_InvalidUnicode())
-            if (d_420_valueOrError1_).IsFailure():
-                return (d_420_valueOrError1_).PropagateFailure()
+            d_503_utf16_ = (d_502_valueOrError0_).Extract()
+            d_504_escaped_ = default__.Escape(d_503_utf16_, 0)
+            d_505_valueOrError1_ = (UnicodeStrings.default__.FromUTF16Checked(d_504_escaped_)).ToResult_k(JSON_Errors.SerializationError_InvalidUnicode())
+            if (d_505_valueOrError1_).IsFailure():
+                return (d_505_valueOrError1_).PropagateFailure()
             elif True:
-                d_421_utf32_ = (d_420_valueOrError1_).Extract()
-                return (UnicodeStrings.default__.ToUTF8Checked(d_421_utf32_)).ToResult_k(JSON_Errors.SerializationError_InvalidUnicode())
+                d_506_utf32_ = (d_505_valueOrError1_).Extract()
+                return (UnicodeStrings.default__.ToUTF8Checked(d_506_utf32_)).ToResult_k(JSON_Errors.SerializationError_InvalidUnicode())
 
     @staticmethod
     def String(str):
-        d_422_valueOrError0_ = default__.EscapeToUTF8(str, 0)
-        if (d_422_valueOrError0_).IsFailure():
-            return (d_422_valueOrError0_).PropagateFailure()
+        d_507_valueOrError0_ = default__.EscapeToUTF8(str, 0)
+        if (d_507_valueOrError0_).IsFailure():
+            return (d_507_valueOrError0_).PropagateFailure()
         elif True:
-            d_423_inBytes_ = (d_422_valueOrError0_).Extract()
-            return Wrappers.Result_Success(((UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq("\""))) + (d_423_inBytes_)) + (UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq("\""))))
+            d_508_inBytes_ = (d_507_valueOrError0_).Extract()
+            return Wrappers.Result_Success(((UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq("\""))) + (d_508_inBytes_)) + (UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq("\""))))
 
     @staticmethod
     def IntToBytes(n):
-        d_424_s_ = JSON_Utils_Str.default__.OfInt(n, 10)
-        return UnicodeStrings.default__.ASCIIToUTF8(d_424_s_)
+        d_509_s_ = JSON_Utils_Str.default__.OfInt(n, 10)
+        return UnicodeStrings.default__.ASCIIToUTF8(d_509_s_)
 
     @staticmethod
     def Number(dec):
@@ -131,55 +133,55 @@ class default__:
 
     @staticmethod
     def KeyValue(kv):
-        d_425_valueOrError0_ = default__.String((kv)[0])
-        if (d_425_valueOrError0_).IsFailure():
-            return (d_425_valueOrError0_).PropagateFailure()
+        d_510_valueOrError0_ = default__.String((kv)[0])
+        if (d_510_valueOrError0_).IsFailure():
+            return (d_510_valueOrError0_).PropagateFailure()
         elif True:
-            d_426_key_ = (d_425_valueOrError0_).Extract()
-            d_427_valueOrError1_ = default__.JSON((kv)[1])
-            if (d_427_valueOrError1_).IsFailure():
-                return (d_427_valueOrError1_).PropagateFailure()
+            d_511_key_ = (d_510_valueOrError0_).Extract()
+            d_512_valueOrError1_ = default__.JSON((kv)[1])
+            if (d_512_valueOrError1_).IsFailure():
+                return (d_512_valueOrError1_).PropagateFailure()
             elif True:
-                d_428_value_ = (d_427_valueOrError1_).Extract()
-                return Wrappers.Result_Success(((d_426_key_) + (UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq(":")))) + (d_428_value_))
+                d_513_value_ = (d_512_valueOrError1_).Extract()
+                return Wrappers.Result_Success(((d_511_key_) + (UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq(":")))) + (d_513_value_))
 
     @staticmethod
     def Join(sep, items):
         if (len(items)) == (0):
             return Wrappers.Result_Success(_dafny.Seq([]))
         elif True:
-            d_429_valueOrError0_ = (items)[0]
-            if (d_429_valueOrError0_).IsFailure():
-                return (d_429_valueOrError0_).PropagateFailure()
+            d_514_valueOrError0_ = (items)[0]
+            if (d_514_valueOrError0_).IsFailure():
+                return (d_514_valueOrError0_).PropagateFailure()
             elif True:
-                d_430_first_ = (d_429_valueOrError0_).Extract()
+                d_515_first_ = (d_514_valueOrError0_).Extract()
                 if (len(items)) == (1):
-                    return Wrappers.Result_Success(d_430_first_)
+                    return Wrappers.Result_Success(d_515_first_)
                 elif True:
-                    d_431_valueOrError1_ = default__.Join(sep, _dafny.Seq((items)[1::]))
-                    if (d_431_valueOrError1_).IsFailure():
-                        return (d_431_valueOrError1_).PropagateFailure()
+                    d_516_valueOrError1_ = default__.Join(sep, _dafny.Seq((items)[1::]))
+                    if (d_516_valueOrError1_).IsFailure():
+                        return (d_516_valueOrError1_).PropagateFailure()
                     elif True:
-                        d_432_rest_ = (d_431_valueOrError1_).Extract()
-                        return Wrappers.Result_Success(((d_430_first_) + (sep)) + (d_432_rest_))
+                        d_517_rest_ = (d_516_valueOrError1_).Extract()
+                        return Wrappers.Result_Success(((d_515_first_) + (sep)) + (d_517_rest_))
 
     @staticmethod
     def Object(obj):
-        d_433_valueOrError0_ = default__.Join(UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq(",")), _dafny.Seq([default__.KeyValue((obj)[d_434_i_]) for d_434_i_ in range(len(obj))]))
-        if (d_433_valueOrError0_).IsFailure():
-            return (d_433_valueOrError0_).PropagateFailure()
+        d_518_valueOrError0_ = default__.Join(UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq(",")), _dafny.Seq([default__.KeyValue((obj)[d_519_i_]) for d_519_i_ in range(len(obj))]))
+        if (d_518_valueOrError0_).IsFailure():
+            return (d_518_valueOrError0_).PropagateFailure()
         elif True:
-            d_435_middle_ = (d_433_valueOrError0_).Extract()
-            return Wrappers.Result_Success(((UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq("{"))) + (d_435_middle_)) + (UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq("}"))))
+            d_520_middle_ = (d_518_valueOrError0_).Extract()
+            return Wrappers.Result_Success(((UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq("{"))) + (d_520_middle_)) + (UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq("}"))))
 
     @staticmethod
     def Array(arr):
-        d_436_valueOrError0_ = default__.Join(UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq(",")), _dafny.Seq([default__.JSON((arr)[d_437_i_]) for d_437_i_ in range(len(arr))]))
-        if (d_436_valueOrError0_).IsFailure():
-            return (d_436_valueOrError0_).PropagateFailure()
+        d_521_valueOrError0_ = default__.Join(UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq(",")), _dafny.Seq([default__.JSON((arr)[d_522_i_]) for d_522_i_ in range(len(arr))]))
+        if (d_521_valueOrError0_).IsFailure():
+            return (d_521_valueOrError0_).PropagateFailure()
         elif True:
-            d_438_middle_ = (d_436_valueOrError0_).Extract()
-            return Wrappers.Result_Success(((UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq("["))) + (d_438_middle_)) + (UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq("]"))))
+            d_523_middle_ = (d_521_valueOrError0_).Extract()
+            return Wrappers.Result_Success(((UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq("["))) + (d_523_middle_)) + (UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq("]"))))
 
     @staticmethod
     def JSON(js):
@@ -187,23 +189,23 @@ class default__:
         if source11_.is_Null:
             return Wrappers.Result_Success(UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq("null")))
         elif source11_.is_Bool:
-            d_439___mcc_h0_ = source11_.b
-            d_440_b_ = d_439___mcc_h0_
-            return Wrappers.Result_Success((UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq("true")) if d_440_b_ else UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq("false"))))
+            d_524___mcc_h0_ = source11_.b
+            d_525_b_ = d_524___mcc_h0_
+            return Wrappers.Result_Success((UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq("true")) if d_525_b_ else UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq("false"))))
         elif source11_.is_String:
-            d_441___mcc_h1_ = source11_.str
-            d_442_str_ = d_441___mcc_h1_
-            return default__.String(d_442_str_)
+            d_526___mcc_h1_ = source11_.str
+            d_527_str_ = d_526___mcc_h1_
+            return default__.String(d_527_str_)
         elif source11_.is_Number:
-            d_443___mcc_h2_ = source11_.num
-            d_444_dec_ = d_443___mcc_h2_
-            return default__.Number(d_444_dec_)
+            d_528___mcc_h2_ = source11_.num
+            d_529_dec_ = d_528___mcc_h2_
+            return default__.Number(d_529_dec_)
         elif source11_.is_Object:
-            d_445___mcc_h3_ = source11_.obj
-            d_446_obj_ = d_445___mcc_h3_
-            return default__.Object(d_446_obj_)
+            d_530___mcc_h3_ = source11_.obj
+            d_531_obj_ = d_530___mcc_h3_
+            return default__.Object(d_531_obj_)
         elif True:
-            d_447___mcc_h4_ = source11_.arr
-            d_448_arr_ = d_447___mcc_h4_
-            return default__.Array(d_448_arr_)
+            d_532___mcc_h4_ = source11_.arr
+            d_533_arr_ = d_532___mcc_h4_
+            return default__.Array(d_533_arr_)
 

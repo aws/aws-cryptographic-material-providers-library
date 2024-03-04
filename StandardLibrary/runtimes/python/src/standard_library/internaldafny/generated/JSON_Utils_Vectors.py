@@ -17,7 +17,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -30,6 +29,7 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
@@ -40,11 +40,13 @@ import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
+import DafnyLibraries
 import JSON_Utils_Views_Core
 import JSON_Utils_Views_Writers
 import JSON_Utils_Views
@@ -104,13 +106,13 @@ class Vector:
         (self)._a = a0
         (self).size = 0
         (self).capacity = initial__capacity
-        def lambda27_(d_386_a0_):
-            def lambda28_(d_387___v0_):
-                return d_386_a0_
+        def lambda29_(d_471_a0_):
+            def lambda30_(d_472___v0_):
+                return d_471_a0_
 
-            return lambda28_
+            return lambda30_
 
-        init2_ = lambda27_(a0)
+        init2_ = lambda29_(a0)
         nw5_ = _dafny.Array(None, initial__capacity)
         for i0_2_ in range(nw5_.length(0)):
             nw5_[i0_2_] = init2_(i0_2_)
@@ -128,21 +130,21 @@ class Vector:
 
     def CopyFrom(self, new__data, count):
         hi8_ = count
-        for d_388_idx_ in range(0, hi8_):
+        for d_473_idx_ in range(0, hi8_):
             arr1_ = self.data
-            arr1_[(d_388_idx_)] = (new__data)[d_388_idx_]
+            arr1_[(d_473_idx_)] = (new__data)[d_473_idx_]
 
     def Realloc(self, new__capacity):
-        d_389_old__data_: _dafny.Array
-        d_390_old__capacity_: int
+        d_474_old__data_: _dafny.Array
+        d_475_old__capacity_: int
         rhs6_ = self.data
         rhs7_ = self.capacity
-        d_389_old__data_ = rhs6_
-        d_390_old__capacity_ = rhs7_
-        def lambda29_(d_391___v1_):
+        d_474_old__data_ = rhs6_
+        d_475_old__capacity_ = rhs7_
+        def lambda31_(d_476___v1_):
             return (self).a
 
-        init3_ = lambda29_
+        init3_ = lambda31_
         nw6_ = _dafny.Array(None, new__capacity)
         for i0_3_ in range(nw6_.length(0)):
             nw6_[i0_3_] = init3_(i0_3_)
@@ -152,7 +154,7 @@ class Vector:
         lhs5_ = self
         lhs4_.data = rhs8_
         lhs5_.capacity = rhs9_
-        (self).CopyFrom(d_389_old__data_, d_390_old__capacity_)
+        (self).CopyFrom(d_474_old__data_, d_475_old__capacity_)
 
     def DefaultNewCapacity(self, capacity):
         if (capacity) < ((self).MAX__CAPACITY__BEFORE__DOUBLING):
@@ -178,11 +180,11 @@ class Vector:
         if (reserved) <= ((self.capacity) - (self.size)):
             o = Wrappers.Outcome_Pass()
             return o
-        d_392_new__capacity_: int
-        d_392_new__capacity_ = self.capacity
-        while (reserved) > ((d_392_new__capacity_) - (self.size)):
-            d_392_new__capacity_ = (self).DefaultNewCapacity(d_392_new__capacity_)
-        (self).Realloc(d_392_new__capacity_)
+        d_477_new__capacity_: int
+        d_477_new__capacity_ = self.capacity
+        while (reserved) > ((d_477_new__capacity_) - (self.size)):
+            d_477_new__capacity_ = (self).DefaultNewCapacity(d_477_new__capacity_)
+        (self).Realloc(d_477_new__capacity_)
         o = Wrappers.Outcome_Pass()
         return o
         return o
@@ -199,12 +201,12 @@ class Vector:
     def Push(self, a):
         o: Wrappers.Outcome = Wrappers.Outcome.default()()
         if (self.size) == (self.capacity):
-            d_393_d_: Wrappers.Outcome
+            d_478_d_: Wrappers.Outcome
             out23_: Wrappers.Outcome
             out23_ = (self).ReallocDefault()
-            d_393_d_ = out23_
-            if (d_393_d_).is_Fail:
-                o = d_393_d_
+            d_478_d_ = out23_
+            if (d_478_d_).is_Fail:
+                o = d_478_d_
                 return o
         (self).PushFast(a)
         o = Wrappers.Outcome_Pass()

@@ -29,24 +29,29 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
-import StandardLibraryInterop
-import StandardLibrary_UInt
-import StandardLibrary_String
-import StandardLibrary
-import UUID
-import UTF8
 
-# Module: Time
+# Module: StandardLibraryInterop
 
-class default__:
+
+class WrappersInterop:
     def  __init__(self):
         pass
 
+    def __dafnystr__(self) -> str:
+        return "StandardLibraryInterop.WrappersInterop"
     @staticmethod
-    def CreateGetCurrentTimeStampSuccess(value):
-        return Wrappers.Result_Success(value)
+    def CreateStringSome(s):
+        return Wrappers.Option_Some(s)
 
     @staticmethod
-    def CreateGetCurrentTimeStampFailure(error):
-        return Wrappers.Result_Failure(error)
+    def CreateStringNone():
+        return Wrappers.Option_None()
+
+    @staticmethod
+    def CreateBooleanSome(b):
+        return Wrappers.Option_Some(b)
+
+    @staticmethod
+    def CreateBooleanNone():
+        return Wrappers.Option_None()
 

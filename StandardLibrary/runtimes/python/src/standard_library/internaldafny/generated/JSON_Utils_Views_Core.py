@@ -17,7 +17,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -30,6 +29,7 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
@@ -40,11 +40,13 @@ import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
+import DafnyLibraries
 
 # Module: JSON_Utils_Views_Core
 
@@ -58,9 +60,9 @@ class default__:
 
     @staticmethod
     def Merge(lv, rv):
-        d_327_dt__update__tmp_h0_ = lv
-        d_328_dt__update_hend_h0_ = (rv).end
-        return View___View((d_327_dt__update__tmp_h0_).s, (d_327_dt__update__tmp_h0_).beg, d_328_dt__update_hend_h0_)
+        d_412_dt__update__tmp_h0_ = lv
+        d_413_dt__update_hend_h0_ = (rv).end
+        return View___View((d_412_dt__update__tmp_h0_).s, (d_412_dt__update__tmp_h0_).beg, d_413_dt__update_hend_h0_)
 
 
 class View:
@@ -92,7 +94,7 @@ class View__:
 
     @staticmethod
     def OfString(s):
-        return _dafny.Seq([ord((s)[d_329_i_]) for d_329_i_ in range(len(s))])
+        return _dafny.Seq([ord((s)[d_414_i_]) for d_414_i_ in range(len(s))])
 
     def Byte_q(self, c):
         hresult_: bool = False
@@ -114,9 +116,9 @@ class View__:
 
     def CopyTo(self, dest, start):
         hi7_ = (self).Length()
-        for d_330_idx_ in range(0, hi7_):
-            index0_ = (start) + (d_330_idx_)
-            (dest)[index0_] = ((self).s)[((self).beg) + (d_330_idx_)]
+        for d_415_idx_ in range(0, hi7_):
+            index0_ = (start) + (d_415_idx_)
+            (dest)[index0_] = ((self).s)[((self).beg) + (d_415_idx_)]
 
     @_dafny.classproperty
     def Empty(instance):

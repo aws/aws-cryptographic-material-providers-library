@@ -17,7 +17,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -30,6 +29,7 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
@@ -40,11 +40,13 @@ import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
+import DafnyLibraries
 import JSON_Utils_Views_Core
 import JSON_Utils_Views_Writers
 import JSON_Utils_Views
@@ -96,17 +98,17 @@ class default__:
 
     @staticmethod
     def ConcatBytes(ts, fT):
-        d_573___accumulator_ = _dafny.Seq([])
+        d_658___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (len(ts)) == (0):
-                    return (d_573___accumulator_) + (_dafny.Seq([]))
+                    return (d_658___accumulator_) + (_dafny.Seq([]))
                 elif True:
-                    d_573___accumulator_ = (d_573___accumulator_) + (fT((ts)[0]))
-                    in121_ = _dafny.Seq((ts)[1::])
-                    in122_ = fT
-                    ts = in121_
-                    fT = in122_
+                    d_658___accumulator_ = (d_658___accumulator_) + (fT((ts)[0]))
+                    in224_ = _dafny.Seq((ts)[1::])
+                    in225_ = fT
+                    ts = in224_
+                    fT = in225_
                     raise _dafny.TailCall()
                 break
 
@@ -148,51 +150,51 @@ class default__:
 
     @staticmethod
     def Object(obj):
-        def lambda43_(d_574_obj_):
-            def lambda44_(d_575_d_):
-                return default__.Member(d_575_d_)
-
-            return lambda44_
-
-        return default__.Bracketed(obj, lambda43_(obj))
-
-    @staticmethod
-    def Array(arr):
-        def lambda45_(d_576_arr_):
-            def lambda46_(d_577_d_):
-                return default__.Item(d_577_d_)
+        def lambda45_(d_659_obj_):
+            def lambda46_(d_660_d_):
+                return default__.Member(d_660_d_)
 
             return lambda46_
 
-        return default__.Bracketed(arr, lambda45_(arr))
+        return default__.Bracketed(obj, lambda45_(obj))
+
+    @staticmethod
+    def Array(arr):
+        def lambda47_(d_661_arr_):
+            def lambda48_(d_662_d_):
+                return default__.Item(d_662_d_)
+
+            return lambda48_
+
+        return default__.Bracketed(arr, lambda47_(arr))
 
     @staticmethod
     def Value(self):
         source18_ = self
         if source18_.is_Null:
-            d_578___mcc_h0_ = source18_.n
-            d_579_n_ = d_578___mcc_h0_
-            return default__.View(d_579_n_)
+            d_663___mcc_h0_ = source18_.n
+            d_664_n_ = d_663___mcc_h0_
+            return default__.View(d_664_n_)
         elif source18_.is_Bool:
-            d_580___mcc_h1_ = source18_.b
-            d_581_b_ = d_580___mcc_h1_
-            return default__.View(d_581_b_)
+            d_665___mcc_h1_ = source18_.b
+            d_666_b_ = d_665___mcc_h1_
+            return default__.View(d_666_b_)
         elif source18_.is_String:
-            d_582___mcc_h2_ = source18_.str
-            d_583_str_ = d_582___mcc_h2_
-            return default__.String(d_583_str_)
+            d_667___mcc_h2_ = source18_.str
+            d_668_str_ = d_667___mcc_h2_
+            return default__.String(d_668_str_)
         elif source18_.is_Number:
-            d_584___mcc_h3_ = source18_.num
-            d_585_num_ = d_584___mcc_h3_
-            return default__.Number(d_585_num_)
+            d_669___mcc_h3_ = source18_.num
+            d_670_num_ = d_669___mcc_h3_
+            return default__.Number(d_670_num_)
         elif source18_.is_Object:
-            d_586___mcc_h4_ = source18_.obj
-            d_587_obj_ = d_586___mcc_h4_
-            return default__.Object(d_587_obj_)
+            d_671___mcc_h4_ = source18_.obj
+            d_672_obj_ = d_671___mcc_h4_
+            return default__.Object(d_672_obj_)
         elif True:
-            d_588___mcc_h5_ = source18_.arr
-            d_589_arr_ = d_588___mcc_h5_
-            return default__.Array(d_589_arr_)
+            d_673___mcc_h5_ = source18_.arr
+            d_674_arr_ = d_673___mcc_h5_
+            return default__.Array(d_674_arr_)
 
     @staticmethod
     def JSON(js):

@@ -17,7 +17,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -30,6 +29,7 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
@@ -40,6 +40,22 @@ import UUID
 class default__:
     def  __init__(self):
         pass
+
+    @staticmethod
+    def CreateEncodeSuccess(bytes):
+        return Wrappers.Result_Success(bytes)
+
+    @staticmethod
+    def CreateEncodeFailure(error):
+        return Wrappers.Result_Failure(error)
+
+    @staticmethod
+    def CreateDecodeSuccess(s):
+        return Wrappers.Result_Success(s)
+
+    @staticmethod
+    def CreateDecodeFailure(error):
+        return Wrappers.Result_Failure(error)
 
     @staticmethod
     def IsASCIIString(s):
