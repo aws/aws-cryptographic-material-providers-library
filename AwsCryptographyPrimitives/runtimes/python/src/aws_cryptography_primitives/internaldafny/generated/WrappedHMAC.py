@@ -17,7 +17,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -30,6 +29,7 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
@@ -40,12 +40,14 @@ import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
-import software_amazon_cryptography_primitives_internaldafny_types
+import DafnyLibraries
+import software.amazon.cryptography.primitives.internaldafny.types
 import ExternRandom
 import Random
 import AESEncryption
@@ -61,11 +63,11 @@ class default__:
 
     @staticmethod
     def Digest(input):
-        d_30_valueOrError0_ = Wrappers.default__.Need((0) < (len((input).key)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Key MUST NOT be 0 bytes.")))
+        d_30_valueOrError0_ = Wrappers.default__.Need((0) < (len((input).key)), software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Key MUST NOT be 0 bytes.")))
         if (d_30_valueOrError0_).IsFailure():
             return (d_30_valueOrError0_).PropagateFailure()
         elif True:
-            d_31_valueOrError1_ = Wrappers.default__.Need((len((input).message)) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Message over INT32_MAX_LIMIT")))
+            d_31_valueOrError1_ = Wrappers.default__.Need((len((input).message)) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT), software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Message over INT32_MAX_LIMIT")))
             if (d_31_valueOrError1_).IsFailure():
                 return (d_31_valueOrError1_).PropagateFailure()
             elif True:

@@ -17,7 +17,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -30,6 +29,7 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
@@ -40,12 +40,14 @@ import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
-import software_amazon_cryptography_primitives_internaldafny_types
+import DafnyLibraries
+import software.amazon.cryptography.primitives.internaldafny.types
 import ExternRandom
 import Random
 import AESEncryption
@@ -65,7 +67,7 @@ class default__:
     def Extract(input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_46_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_46_valueOrError0_ = Wrappers.default__.Need(((((input).salt).is_None) or ((len(((input).salt).value)) != (0))) and ((len((input).ikm)) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("HKDF Extract needs a salt and reasonable ikm.")))
+        d_46_valueOrError0_ = Wrappers.default__.Need(((((input).salt).is_None) or ((len(((input).salt).value)) != (0))) and ((len((input).ikm)) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT)), software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("HKDF Extract needs a salt and reasonable ikm.")))
         if (d_46_valueOrError0_).IsFailure():
             output = (d_46_valueOrError0_).PropagateFailure()
             return output
@@ -94,7 +96,7 @@ class default__:
     def Expand(input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_53_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_53_valueOrError0_ = Wrappers.default__.Need(((((1) <= ((input).expectedLength)) and (((input).expectedLength) <= ((255) * (Digest.default__.Length((input).digestAlgorithm))))) and ((len((input).info)) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT))) and ((Digest.default__.Length((input).digestAlgorithm)) == (len((input).prk))), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("HKDF Expand needs valid input.")))
+        d_53_valueOrError0_ = Wrappers.default__.Need(((((1) <= ((input).expectedLength)) and (((input).expectedLength) <= ((255) * (Digest.default__.Length((input).digestAlgorithm))))) and ((len((input).info)) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT))) and ((Digest.default__.Length((input).digestAlgorithm)) == (len((input).prk))), software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("HKDF Expand needs valid input.")))
         if (d_53_valueOrError0_).IsFailure():
             output = (d_53_valueOrError0_).PropagateFailure()
             return output
@@ -124,7 +126,7 @@ class default__:
     def Hkdf(input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_61_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_61_valueOrError0_ = Wrappers.default__.Need((((((1) <= ((input).expectedLength)) and (((input).expectedLength) <= ((255) * (Digest.default__.Length((input).digestAlgorithm))))) and ((((input).salt).is_None) or ((len(((input).salt).value)) != (0)))) and ((len((input).info)) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT))) and ((len((input).ikm)) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Wrapped Hkdf input is invalid.")))
+        d_61_valueOrError0_ = Wrappers.default__.Need((((((1) <= ((input).expectedLength)) and (((input).expectedLength) <= ((255) * (Digest.default__.Length((input).digestAlgorithm))))) and ((((input).salt).is_None) or ((len(((input).salt).value)) != (0)))) and ((len((input).info)) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT))) and ((len((input).ikm)) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT)), software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Wrapped Hkdf input is invalid.")))
         if (d_61_valueOrError0_).IsFailure():
             output = (d_61_valueOrError0_).PropagateFailure()
             return output

@@ -12,25 +12,39 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_keystore_internaldafny_types
-import software_amazon_cryptography_primitives_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
-import Base64
-import AlgorithmSuites
-import Materials
-import Keyring
+import software.amazon.cryptography.services.dynamodb.internaldafny.types
+import software.amazon.cryptography.services.kms.internaldafny.types
+import software.amazon.cryptography.keystore.internaldafny.types
 import Relations
 import Seq_MergeSort
 import Math
 import Seq
-import MultiKeyring
+import software.amazon.cryptography.primitives.internaldafny.types
+import software.amazon.cryptography.materialproviders.internaldafny.types
 import AwsArnParsing
-import AwsKmsMrkAreUnique
 import Actions
 import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
+import Structure
+import KMSKeystoreOperations
+import DDBKeystoreOperations
+import CreateKeys
+import CreateKeyStoreTable
+import GetKeys
+import UUID
+import Time
+import AwsCryptographyKeyStoreOperations
+import software_amazon_cryptography_services_kms_internaldafny
+import software_amazon_cryptography_services_dynamodb_internaldafny
+import Com_Amazonaws
+import Com
+import software_amazon_cryptography_keystore_internaldafny
+import Base64
+import AlgorithmSuites
+import Materials
+import Keyring
+import MultiKeyring
+import AwsKmsMrkAreUnique
 import Constants
 import ExternRandom
 import Random
@@ -55,23 +69,17 @@ import EdkWrapping
 import AwsKmsKeyring
 import StrictMultiKeyring
 import AwsKmsDiscoveryKeyring
-import software_amazon_cryptography_services_kms_internaldafny
-import software_amazon_cryptography_services_dynamodb_internaldafny
-import Com_Amazonaws
-import Com
 import DiscoveryMultiKeyring
 import AwsKmsMrkDiscoveryKeyring
 import MrkAwareDiscoveryMultiKeyring
 import AwsKmsMrkKeyring
 import MrkAwareStrictMultiKeyring
 import DafnyLibraries
-import Time
 import LocalCMC
 import software_amazon_cryptography_internaldafny_SynchronizedLocalCMC
 import SortedSets
 import StormTracker
 import software_amazon_cryptography_internaldafny_StormTrackingCMC
-import UUID
 import AwsKmsHierarchicalKeyring
 import AwsKmsRsaKeyring
 import RawAESKeyring
@@ -84,14 +92,7 @@ import DefaultClientSupplier
 import RequiredEncryptionContextCMM
 import AwsCryptographyMaterialProvidersOperations
 import software_amazon_cryptography_materialproviders_internaldafny
-import Structure
-import KMSKeystoreOperations
-import DDBKeystoreOperations
-import CreateKeys
-import CreateKeyStoreTable
-import GetKeys
-import AwsCryptographyKeyStoreOperations
-import software_amazon_cryptography_keystore_internaldafny
+import AesKdfCtr
 import Unicode
 import Functions
 import Utf8EncodingForm
@@ -109,9 +110,11 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import Streams
 import Sorting
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64Lemmas
@@ -140,19 +143,19 @@ class default__:
 
     @staticmethod
     def MakeMat(data):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.Materials_BranchKey(software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials_BranchKeyMaterials(_dafny.Seq("spoo"), data, _dafny.Map({}), data))
+        return software.amazon.cryptography.materialproviders.internaldafny.types.Materials_BranchKey(software.amazon.cryptography.keystore.internaldafny.types.BranchKeyMaterials_BranchKeyMaterials(_dafny.Seq("spoo"), data, _dafny.Map({}), data))
 
     @staticmethod
     def MakeGet(data):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.GetCacheEntryInput_GetCacheEntryInput(data, Wrappers.Option_None())
+        return software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheEntryInput_GetCacheEntryInput(data, Wrappers.Option_None())
 
     @staticmethod
     def MakeDel(data):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.DeleteCacheEntryInput_DeleteCacheEntryInput(data)
+        return software.amazon.cryptography.materialproviders.internaldafny.types.DeleteCacheEntryInput_DeleteCacheEntryInput(data)
 
     @staticmethod
     def MakePut(data, expiryTime):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.PutCacheEntryInput_PutCacheEntryInput(data, default__.MakeMat(data), 123456789, expiryTime, Wrappers.Option_None(), Wrappers.Option_None())
+        return software.amazon.cryptography.materialproviders.internaldafny.types.PutCacheEntryInput_PutCacheEntryInput(data, default__.MakeMat(data), 123456789, expiryTime, Wrappers.Option_None(), Wrappers.Option_None())
 
     @staticmethod
     def LocalCMCBasics():
@@ -187,7 +190,7 @@ class default__:
         if not(not((d_713_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(60,9): " + _dafny.string_of(d_713_valueOrError1_))
         d_711_res2_ = (d_713_valueOrError1_).Extract()
-        d_714_res3_: software_amazon_cryptography_materialproviders_internaldafny_types.GetCacheEntryOutput
+        d_714_res3_: software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheEntryOutput
         d_715_valueOrError2_: Wrappers.Result = None
         out283_: Wrappers.Result
         out283_ = (d_707_st_).GetCacheEntryWithTime(default__.MakeGet(d_708_abc_), 9999)

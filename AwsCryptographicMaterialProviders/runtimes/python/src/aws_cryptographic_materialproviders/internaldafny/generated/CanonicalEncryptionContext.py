@@ -12,9 +12,9 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_primitives_internaldafny_types
+import software.amazon.cryptography.services.dynamodb.internaldafny.types
+import software.amazon.cryptography.services.kms.internaldafny.types
+import software.amazon.cryptography.primitives.internaldafny.types
 import ExternRandom
 import Random
 import AESEncryption
@@ -28,6 +28,7 @@ import Signature
 import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
+import AesKdfCtr
 import Relations
 import Seq_MergeSort
 import Math
@@ -37,7 +38,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -50,19 +50,22 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import UUID
 import Time
 import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
-import software_amazon_cryptography_keystore_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
+import DafnyLibraries
+import software.amazon.cryptography.keystore.internaldafny.types
+import software.amazon.cryptography.materialproviders.internaldafny.types
 import AwsArnParsing
 import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
@@ -97,7 +100,7 @@ class default__:
 
     @staticmethod
     def EncryptionContextToAAD(encryptionContext):
-        d_392_valueOrError0_ = Wrappers.default__.Need((len(encryptionContext)) < (StandardLibrary_UInt.default__.UINT16__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption Context is too large")))
+        d_392_valueOrError0_ = Wrappers.default__.Need((len(encryptionContext)) < (StandardLibrary_UInt.default__.UINT16__LIMIT), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption Context is too large")))
         if (d_392_valueOrError0_).IsFailure():
             return (d_392_valueOrError0_).PropagateFailure()
         elif True:
@@ -113,7 +116,7 @@ class default__:
                                     def iife19_(d_398_valueOrError1_):
                                         return ((d_398_valueOrError1_).PropagateFailure() if (d_398_valueOrError1_).IsFailure() else Wrappers.Result_Success((((StandardLibrary_UInt.default__.UInt16ToSeq(len(d_396_k_))) + (d_396_k_)) + (StandardLibrary_UInt.default__.UInt16ToSeq(len(d_397_v_)))) + (d_397_v_)))
                                     return iife19_(_pat_let4_0)
-                                return iife18_(Wrappers.default__.Need((StandardLibrary_UInt.default__.HasUint16Len(d_396_k_)) and (StandardLibrary_UInt.default__.HasUint16Len(d_397_v_)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unable to serialize encryption context"))))
+                                return iife18_(Wrappers.default__.Need((StandardLibrary_UInt.default__.HasUint16Len(d_396_k_)) and (StandardLibrary_UInt.default__.HasUint16Len(d_397_v_)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unable to serialize encryption context"))))
                             return iife17_(_pat_let3_0)
                         return iife16_((d_395_encryptionContext_)[d_396_k_])
 

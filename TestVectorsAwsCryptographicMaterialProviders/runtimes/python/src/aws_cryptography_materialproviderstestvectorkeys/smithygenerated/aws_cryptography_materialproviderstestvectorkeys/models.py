@@ -565,7 +565,7 @@ class SerializeKeyDescriptionOutput:
 
 
 class KeyDescriptionKms:
-    def __init__(self, value: KMSInfo):
+    def __init__(self, value: "KMSInfo"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -588,7 +588,7 @@ class KeyDescriptionKms:
 
 
 class KeyDescriptionKmsMrk:
-    def __init__(self, value: KmsMrkAware):
+    def __init__(self, value: "KmsMrkAware"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -611,7 +611,7 @@ class KeyDescriptionKmsMrk:
 
 
 class KeyDescriptionKmsMrkDiscovery:
-    def __init__(self, value: KmsMrkAwareDiscovery):
+    def __init__(self, value: "KmsMrkAwareDiscovery"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -636,7 +636,7 @@ class KeyDescriptionKmsMrkDiscovery:
 
 
 class KeyDescriptionRSA:
-    def __init__(self, value: RawRSA):
+    def __init__(self, value: "RawRSA"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -659,7 +659,7 @@ class KeyDescriptionRSA:
 
 
 class KeyDescriptionAES:
-    def __init__(self, value: RawAES):
+    def __init__(self, value: "RawAES"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -682,7 +682,7 @@ class KeyDescriptionAES:
 
 
 class KeyDescriptionStatic:
-    def __init__(self, value: StaticKeyring):
+    def __init__(self, value: "StaticKeyring"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -705,7 +705,7 @@ class KeyDescriptionStatic:
 
 
 class KeyDescriptionKmsRsa:
-    def __init__(self, value: KmsRsaKeyring):
+    def __init__(self, value: "KmsRsaKeyring"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -728,7 +728,7 @@ class KeyDescriptionKmsRsa:
 
 
 class KeyDescriptionHierarchy:
-    def __init__(self, value: HierarchyKeyring):
+    def __init__(self, value: "HierarchyKeyring"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -751,7 +751,7 @@ class KeyDescriptionHierarchy:
 
 
 class KeyDescriptionMulti:
-    def __init__(self, value: MultiKeyring):
+    def __init__(self, value: "MultiKeyring"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -774,7 +774,7 @@ class KeyDescriptionMulti:
 
 
 class KeyDescriptionRequiredEncryptionContext:
-    def __init__(self, value: RequiredEncryptionContextCMM):
+    def __init__(self, value: "RequiredEncryptionContextCMM"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:

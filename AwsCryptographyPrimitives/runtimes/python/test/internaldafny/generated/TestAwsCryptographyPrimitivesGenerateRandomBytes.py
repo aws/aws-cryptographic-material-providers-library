@@ -12,7 +12,7 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software_amazon_cryptography_primitives_internaldafny_types
+import software.amazon.cryptography.primitives.internaldafny.types
 import ExternRandom
 import Random
 import AESEncryption
@@ -26,6 +26,7 @@ import Signature
 import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
+import AesKdfCtr
 import Relations
 import Seq_MergeSort
 import Math
@@ -35,7 +36,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -48,17 +48,20 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import UUID
 import Time
 import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
+import DafnyLibraries
 import software_amazon_cryptography_primitives_internaldafny
 import Aws_Cryptography
 import Aws
@@ -73,7 +76,7 @@ class default__:
 
     @staticmethod
     def BasicGenerateRandomBytes():
-        d_34_client_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
+        d_34_client_: software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient
         d_35_valueOrError0_: Wrappers.Result = None
         out9_: Wrappers.Result
         out9_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
@@ -83,8 +86,8 @@ class default__:
         d_34_client_ = (d_35_valueOrError0_).Extract()
         d_36_length_: int
         d_36_length_ = 5
-        d_37_input_: software_amazon_cryptography_primitives_internaldafny_types.GenerateRandomBytesInput
-        d_37_input_ = software_amazon_cryptography_primitives_internaldafny_types.GenerateRandomBytesInput_GenerateRandomBytesInput(d_36_length_)
+        d_37_input_: software.amazon.cryptography.primitives.internaldafny.types.GenerateRandomBytesInput
+        d_37_input_ = software.amazon.cryptography.primitives.internaldafny.types.GenerateRandomBytesInput_GenerateRandomBytesInput(d_36_length_)
         d_38_output_: Wrappers.Result
         out10_: Wrappers.Result
         out10_ = (d_34_client_).GenerateRandomBytes(d_37_input_)

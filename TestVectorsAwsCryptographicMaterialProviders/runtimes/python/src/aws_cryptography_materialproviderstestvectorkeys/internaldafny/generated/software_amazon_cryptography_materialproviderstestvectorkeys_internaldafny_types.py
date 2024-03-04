@@ -92,6 +92,7 @@ import CreateKeyStoreTable
 import GetKeys
 import AwsCryptographyKeyStoreOperations
 import software_amazon_cryptography_keystore_internaldafny
+import AesKdfCtr
 import Unicode
 import Functions
 import Utf8EncodingForm
@@ -109,23 +110,17 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import Streams
 import Sorting
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64Lemmas
+import MplManifestOptions
+import AllAlgorithmSuites
 import software_amazon_cryptography_materialproviders_internaldafny_wrapped
-import TestVectorsUtils
-import TestVectorConstants
-import KeyringExpectations
-import CreateAwsKmsKeyrings
-import CreateAwsKmsMultiKeyrings
-import CreateAwsKmsMrkKeyrings
-import CreateAwsKmsMrkMultiKeyrings
-import CreateRawAesKeyrings
-import CreateRawRsaKeyrings
-import CreateKeyrings
 
 # Module: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types
 
@@ -145,6 +140,39 @@ class DafnyCallEvent_DafnyCallEvent(DafnyCallEvent, NamedTuple('DafnyCallEvent',
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.DafnyCallEvent.DafnyCallEvent({_dafny.string_of(self.input)}, {_dafny.string_of(self.output)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, DafnyCallEvent_DafnyCallEvent) and self.input == __o.input and self.output == __o.output
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class CmmOperation:
+    @_dafny.classproperty
+    def AllSingletonConstructors(cls):
+        return [CmmOperation_ENCRYPT(), CmmOperation_DECRYPT()]
+    @classmethod
+    def default(cls, ):
+        return lambda: CmmOperation_ENCRYPT()
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_ENCRYPT(self) -> bool:
+        return isinstance(self, CmmOperation_ENCRYPT)
+    @property
+    def is_DECRYPT(self) -> bool:
+        return isinstance(self, CmmOperation_DECRYPT)
+
+class CmmOperation_ENCRYPT(CmmOperation, NamedTuple('ENCRYPT', [])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.CmmOperation.ENCRYPT'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, CmmOperation_ENCRYPT)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class CmmOperation_DECRYPT(CmmOperation, NamedTuple('DECRYPT', [])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.CmmOperation.DECRYPT'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, CmmOperation_DECRYPT)
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -236,6 +264,12 @@ class KeyDescription:
     @property
     def is_Hierarchy(self) -> bool:
         return isinstance(self, KeyDescription_Hierarchy)
+    @property
+    def is_Multi(self) -> bool:
+        return isinstance(self, KeyDescription_Multi)
+    @property
+    def is_RequiredEncryptionContext(self) -> bool:
+        return isinstance(self, KeyDescription_RequiredEncryptionContext)
 
 class KeyDescription_Kms(KeyDescription, NamedTuple('Kms', [('Kms', Any)])):
     def __dafnystr__(self) -> str:
@@ -301,6 +335,22 @@ class KeyDescription_Hierarchy(KeyDescription, NamedTuple('Hierarchy', [('Hierar
     def __hash__(self) -> int:
         return super().__hash__()
 
+class KeyDescription_Multi(KeyDescription, NamedTuple('Multi', [('Multi', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription.Multi({_dafny.string_of(self.Multi)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KeyDescription_Multi) and self.Multi == __o.Multi
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class KeyDescription_RequiredEncryptionContext(KeyDescription, NamedTuple('RequiredEncryptionContext', [('RequiredEncryptionContext', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription.RequiredEncryptionContext({_dafny.string_of(self.RequiredEncryptionContext)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KeyDescription_RequiredEncryptionContext) and self.RequiredEncryptionContext == __o.RequiredEncryptionContext
+    def __hash__(self) -> int:
+        return super().__hash__()
+
 
 class IKeyVectorsClientCallHistory:
     def  __init__(self):
@@ -314,7 +364,10 @@ class IKeyVectorsClient:
     def CreateTestVectorKeyring(self, input):
         pass
 
-    def CreateWappedTestVectorKeyring(self, input):
+    def CreateWrappedTestVectorKeyring(self, input):
+        pass
+
+    def CreateWrappedTestVectorCmm(self, input):
         pass
 
 
@@ -328,11 +381,11 @@ class KeyVectorsConfig:
     def is_KeyVectorsConfig(self) -> bool:
         return isinstance(self, KeyVectorsConfig_KeyVectorsConfig)
 
-class KeyVectorsConfig_KeyVectorsConfig(KeyVectorsConfig, NamedTuple('KeyVectorsConfig', [('keyManifiestPath', Any)])):
+class KeyVectorsConfig_KeyVectorsConfig(KeyVectorsConfig, NamedTuple('KeyVectorsConfig', [('keyManifestPath', Any)])):
     def __dafnystr__(self) -> str:
-        return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyVectorsConfig.KeyVectorsConfig({_dafny.string_of(self.keyManifiestPath)})'
+        return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyVectorsConfig.KeyVectorsConfig({_dafny.string_of(self.keyManifestPath)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, KeyVectorsConfig_KeyVectorsConfig) and self.keyManifiestPath == __o.keyManifiestPath
+        return isinstance(__o, KeyVectorsConfig_KeyVectorsConfig) and self.keyManifestPath == __o.keyManifestPath
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -413,6 +466,25 @@ class KmsRsaKeyring_KmsRsaKeyring(KmsRsaKeyring, NamedTuple('KmsRsaKeyring', [('
         return super().__hash__()
 
 
+class MultiKeyring:
+    @classmethod
+    def default(cls, ):
+        return lambda: MultiKeyring_MultiKeyring(Wrappers.Option.default()(), _dafny.Seq({}))
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_MultiKeyring(self) -> bool:
+        return isinstance(self, MultiKeyring_MultiKeyring)
+
+class MultiKeyring_MultiKeyring(MultiKeyring, NamedTuple('MultiKeyring', [('generator', Any), ('childKeyrings', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.MultiKeyring.MultiKeyring({_dafny.string_of(self.generator)}, {_dafny.string_of(self.childKeyrings)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, MultiKeyring_MultiKeyring) and self.generator == __o.generator and self.childKeyrings == __o.childKeyrings
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
 class RawAES:
     @classmethod
     def default(cls, ):
@@ -447,6 +519,25 @@ class RawRSA_RawRSA(RawRSA, NamedTuple('RawRSA', [('keyId', Any), ('providerId',
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawRSA.RawRSA({_dafny.string_of(self.keyId)}, {_dafny.string_of(self.providerId)}, {_dafny.string_of(self.padding)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, RawRSA_RawRSA) and self.keyId == __o.keyId and self.providerId == __o.providerId and self.padding == __o.padding
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class RequiredEncryptionContextCMM:
+    @classmethod
+    def default(cls, ):
+        return lambda: RequiredEncryptionContextCMM_RequiredEncryptionContextCMM(KeyDescription.default()(), _dafny.Seq({}))
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_RequiredEncryptionContextCMM(self) -> bool:
+        return isinstance(self, RequiredEncryptionContextCMM_RequiredEncryptionContextCMM)
+
+class RequiredEncryptionContextCMM_RequiredEncryptionContextCMM(RequiredEncryptionContextCMM, NamedTuple('RequiredEncryptionContextCMM', [('underlying', Any), ('requiredEncryptionContextKeys', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.RequiredEncryptionContextCMM.RequiredEncryptionContextCMM({_dafny.string_of(self.underlying)}, {_dafny.string_of(self.requiredEncryptionContextKeys)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, RequiredEncryptionContextCMM_RequiredEncryptionContextCMM) and self.underlying == __o.underlying and self.requiredEncryptionContextKeys == __o.requiredEncryptionContextKeys
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -504,6 +595,25 @@ class StaticKeyring_StaticKeyring(StaticKeyring, NamedTuple('StaticKeyring', [('
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.StaticKeyring.StaticKeyring({_dafny.string_of(self.keyId)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, StaticKeyring_StaticKeyring) and self.keyId == __o.keyId
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class TestVectorCmmInput:
+    @classmethod
+    def default(cls, ):
+        return lambda: TestVectorCmmInput_TestVectorCmmInput(KeyDescription.default()(), CmmOperation.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_TestVectorCmmInput(self) -> bool:
+        return isinstance(self, TestVectorCmmInput_TestVectorCmmInput)
+
+class TestVectorCmmInput_TestVectorCmmInput(TestVectorCmmInput, NamedTuple('TestVectorCmmInput', [('keyDescription', Any), ('forOperation', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.TestVectorCmmInput.TestVectorCmmInput({_dafny.string_of(self.keyDescription)}, {_dafny.string_of(self.forOperation)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, TestVectorCmmInput_TestVectorCmmInput) and self.keyDescription == __o.keyDescription and self.forOperation == __o.forOperation
     def __hash__(self) -> int:
         return super().__hash__()
 

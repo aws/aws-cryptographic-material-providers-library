@@ -9,8 +9,8 @@ include ../SharedMakefileV2.mk
 PYTHON_MODULE_NAME=aws_cryptographic_materialproviders
 
 PROJECT_SERVICES := \
-	AwsCryptographicMaterialProviders \
 	AwsCryptographyKeyStore \
+	AwsCryptographicMaterialProviders \
 
 SERVICE_NAMESPACE_AwsCryptographicMaterialProviders=aws.cryptography.materialProviders
 SERVICE_NAMESPACE_AwsCryptographyKeyStore=aws.cryptography.keyStore

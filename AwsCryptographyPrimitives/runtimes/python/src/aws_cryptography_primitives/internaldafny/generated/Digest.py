@@ -17,7 +17,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -30,6 +29,7 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
@@ -40,12 +40,14 @@ import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
-import software_amazon_cryptography_primitives_internaldafny_types
+import DafnyLibraries
+import software.amazon.cryptography.primitives.internaldafny.types
 import ExternRandom
 import Random
 import AESEncryption
@@ -83,7 +85,7 @@ class default__:
             return res
         d_27_value_ = (d_28_valueOrError0_).Extract()
         d_29_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_29_valueOrError1_ = Wrappers.default__.Need((len(d_27_value_)) == (default__.Length(d_25_digestAlgorithm_)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect length digest from ExternDigest.")))
+        d_29_valueOrError1_ = Wrappers.default__.Need((len(d_27_value_)) == (default__.Length(d_25_digestAlgorithm_)), software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect length digest from ExternDigest.")))
         if (d_29_valueOrError1_).IsFailure():
             res = (d_29_valueOrError1_).PropagateFailure()
             return res

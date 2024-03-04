@@ -12,25 +12,39 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_keystore_internaldafny_types
-import software_amazon_cryptography_primitives_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
-import Base64
-import AlgorithmSuites
-import Materials
-import Keyring
+import software.amazon.cryptography.services.dynamodb.internaldafny.types
+import software.amazon.cryptography.services.kms.internaldafny.types
+import software.amazon.cryptography.keystore.internaldafny.types
 import Relations
 import Seq_MergeSort
 import Math
 import Seq
-import MultiKeyring
+import software.amazon.cryptography.primitives.internaldafny.types
+import software.amazon.cryptography.materialproviders.internaldafny.types
 import AwsArnParsing
-import AwsKmsMrkAreUnique
 import Actions
 import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
+import Structure
+import KMSKeystoreOperations
+import DDBKeystoreOperations
+import CreateKeys
+import CreateKeyStoreTable
+import GetKeys
+import UUID
+import Time
+import AwsCryptographyKeyStoreOperations
+import software_amazon_cryptography_services_kms_internaldafny
+import software_amazon_cryptography_services_dynamodb_internaldafny
+import Com_Amazonaws
+import Com
+import software_amazon_cryptography_keystore_internaldafny
+import Base64
+import AlgorithmSuites
+import Materials
+import Keyring
+import MultiKeyring
+import AwsKmsMrkAreUnique
 import Constants
 import ExternRandom
 import Random
@@ -55,23 +69,17 @@ import EdkWrapping
 import AwsKmsKeyring
 import StrictMultiKeyring
 import AwsKmsDiscoveryKeyring
-import software_amazon_cryptography_services_kms_internaldafny
-import software_amazon_cryptography_services_dynamodb_internaldafny
-import Com_Amazonaws
-import Com
 import DiscoveryMultiKeyring
 import AwsKmsMrkDiscoveryKeyring
 import MrkAwareDiscoveryMultiKeyring
 import AwsKmsMrkKeyring
 import MrkAwareStrictMultiKeyring
 import DafnyLibraries
-import Time
 import LocalCMC
 import software_amazon_cryptography_internaldafny_SynchronizedLocalCMC
 import SortedSets
 import StormTracker
 import software_amazon_cryptography_internaldafny_StormTrackingCMC
-import UUID
 import AwsKmsHierarchicalKeyring
 import AwsKmsRsaKeyring
 import RawAESKeyring
@@ -84,14 +92,7 @@ import DefaultClientSupplier
 import RequiredEncryptionContextCMM
 import AwsCryptographyMaterialProvidersOperations
 import software_amazon_cryptography_materialproviders_internaldafny
-import Structure
-import KMSKeystoreOperations
-import DDBKeystoreOperations
-import CreateKeys
-import CreateKeyStoreTable
-import GetKeys
-import AwsCryptographyKeyStoreOperations
-import software_amazon_cryptography_keystore_internaldafny
+import AesKdfCtr
 import Unicode
 import Functions
 import Utf8EncodingForm
@@ -109,9 +110,11 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import Streams
 import Sorting
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64Lemmas
@@ -139,16 +142,16 @@ class default__:
 
     @staticmethod
     def TestFailsNonKeyResource():
-        d_695_discoveryFilter_: software_amazon_cryptography_materialproviders_internaldafny_types.DiscoveryFilter
-        out270_: software_amazon_cryptography_materialproviders_internaldafny_types.DiscoveryFilter
+        d_695_discoveryFilter_: software.amazon.cryptography.materialproviders.internaldafny.types.DiscoveryFilter
+        out270_: software.amazon.cryptography.materialproviders.internaldafny.types.DiscoveryFilter
         out270_ = default__.GetDiscoveryFilter()
         d_695_discoveryFilter_ = out270_
         d_696_edkFilter_: AwsKmsDiscoveryKeyring.AwsKmsEncryptedDataKeyFilter
         nw7_ = AwsKmsDiscoveryKeyring.AwsKmsEncryptedDataKeyFilter()
         nw7_.ctor__(Wrappers.Option_Some(d_695_discoveryFilter_))
         d_696_edkFilter_ = nw7_
-        d_697_badEdk_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
-        out271_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
+        d_697_badEdk_: software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey
+        out271_: software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey
         out271_ = default__.GetNonKeyEncryptedDataKey()
         d_697_badEdk_ = out271_
         d_698_filterResult_: Wrappers.Result
@@ -157,7 +160,7 @@ class default__:
         d_698_filterResult_ = out272_
         if not((d_698_filterResult_).is_Failure):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/AwsKms/AwsKmsDiscoveryKeryring/TestAwsKmsEncryptedDataKeyFilter.dfy(32,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_699_test_: software_amazon_cryptography_materialproviders_internaldafny_types.Error
+        d_699_test_: software.amazon.cryptography.materialproviders.internaldafny.types.Error
         d_699_test_ = (d_698_filterResult_).error
         if not((d_699_test_).is_AwsCryptographicMaterialProvidersException):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/AwsKms/AwsKmsDiscoveryKeryring/TestAwsKmsEncryptedDataKeyFilter.dfy(34,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -166,24 +169,24 @@ class default__:
 
     @staticmethod
     def TestMatchesKeyringsConfiguration():
-        d_700_matchingEdk_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
-        out273_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
+        d_700_matchingEdk_: software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey
+        out273_: software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey
         out273_ = TestUtils.default__.GenerateMockEncryptedDataKey(_dafny.Seq("aws-kms"), TestUtils.default__.SHARED__TEST__KEY__ARN)
         d_700_matchingEdk_ = out273_
-        d_701_mismatchEdkPartition_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
-        out274_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
+        d_701_mismatchEdkPartition_: software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey
+        out274_: software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey
         out274_ = TestUtils.default__.GenerateMockEncryptedDataKey(_dafny.Seq("aws-kms"), _dafny.Seq("arn:aws-cn:kms:us-west-2:658956600833:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"))
         d_701_mismatchEdkPartition_ = out274_
-        d_702_mismatchEdkAccount_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
-        out275_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
+        d_702_mismatchEdkAccount_: software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey
+        out275_: software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey
         out275_ = TestUtils.default__.GenerateMockEncryptedDataKey(_dafny.Seq("aws-kms"), _dafny.Seq("arn:aws:kms:us-west-2:827585335069:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"))
         d_702_mismatchEdkAccount_ = out275_
-        d_703_mismatchEdkProviderId_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
-        out276_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
+        d_703_mismatchEdkProviderId_: software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey
+        out276_: software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey
         out276_ = TestUtils.default__.GenerateMockEncryptedDataKey(_dafny.Seq("aws"), TestUtils.default__.SHARED__TEST__KEY__ARN)
         d_703_mismatchEdkProviderId_ = out276_
-        d_704_discoveryFilter_: software_amazon_cryptography_materialproviders_internaldafny_types.DiscoveryFilter
-        out277_: software_amazon_cryptography_materialproviders_internaldafny_types.DiscoveryFilter
+        d_704_discoveryFilter_: software.amazon.cryptography.materialproviders.internaldafny.types.DiscoveryFilter
+        out277_: software.amazon.cryptography.materialproviders.internaldafny.types.DiscoveryFilter
         out277_ = default__.GetDiscoveryFilter()
         d_704_discoveryFilter_ = out277_
         d_705_edkFilter_: AwsKmsDiscoveryKeyring.AwsKmsEncryptedDataKeyFilter
@@ -203,15 +206,15 @@ class default__:
 
     @staticmethod
     def GetDiscoveryFilter():
-        discoveryFilter: software_amazon_cryptography_materialproviders_internaldafny_types.DiscoveryFilter = software_amazon_cryptography_materialproviders_internaldafny_types.DiscoveryFilter.default()()
-        discoveryFilter = software_amazon_cryptography_materialproviders_internaldafny_types.DiscoveryFilter_DiscoveryFilter(TestUtils.default__.ACCOUNT__IDS, TestUtils.default__.PARTITION)
+        discoveryFilter: software.amazon.cryptography.materialproviders.internaldafny.types.DiscoveryFilter = software.amazon.cryptography.materialproviders.internaldafny.types.DiscoveryFilter.default()()
+        discoveryFilter = software.amazon.cryptography.materialproviders.internaldafny.types.DiscoveryFilter_DiscoveryFilter(TestUtils.default__.ACCOUNT__IDS, TestUtils.default__.PARTITION)
         return discoveryFilter
         return discoveryFilter
 
     @staticmethod
     def GetNonKeyEncryptedDataKey():
-        edk: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey = software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey.default()()
-        out279_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
+        edk: software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey = software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey.default()()
+        out279_: software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey
         out279_ = TestUtils.default__.GenerateMockEncryptedDataKey(_dafny.Seq("aws-kms"), _dafny.Seq("arn:aws:kms:us-west-2:658956600833:alias/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"))
         edk = out279_
         return edk

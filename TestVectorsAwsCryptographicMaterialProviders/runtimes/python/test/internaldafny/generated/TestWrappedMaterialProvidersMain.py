@@ -81,14 +81,15 @@ import JSON_ZeroCopy
 import JSON_API
 import JSON
 import JSONHelpers
+import Base64
 import KeyDescription
 import HexStrings
-import Base64
 import KeyMaterial
 import CreateStaticKeyrings
 import CreateStaticKeyStores
 import AwsArnParsing
 import KeyringFromKeyDescription
+import CmmFromKeyDescription
 import AlgorithmSuites
 import Materials
 import Keyring
@@ -154,21 +155,25 @@ import software_amazon_cryptography_materialproviders_internaldafny_wrapped
 import KeysVectorOperations
 import FileIO
 import software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny
-import TestVectorsUtils
-import TestVectorConstants
-import KeyringExpectations
-import CreateAwsKmsKeyrings
-import CreateAwsKmsMultiKeyrings
-import CreateAwsKmsMrkKeyrings
-import CreateAwsKmsMrkMultiKeyrings
-import CreateRawAesKeyrings
-import CreateRawRsaKeyrings
-import CreateKeyrings
+import MplManifestOptions
+import AllAlgorithmSuites
 import TestVectors
+import AllHierarchy
+import AllKms
+import AllKmsMrkAware
+import AllKmsMrkAwareDiscovery
+import AllKmsRsa
+import AllRawAES
+import AllRawRSA
+import AllDefaultCmm
+import AllRequiredEncryptionContextCmm
+import AllMulti
+import WriteJsonManifests
 import CompleteVectors
 import ParseJsonManifests
 import TestManifests
 import WrappedMaterialProvidersMain
+import AesKdfCtr
 import Structure
 import KMSKeystoreOperations
 import DDBKeystoreOperations
@@ -177,8 +182,10 @@ import CreateKeyStoreTable
 import GetKeys
 import AwsCryptographyKeyStoreOperations
 import software_amazon_cryptography_keystore_internaldafny
+import StandardLibraryInterop
 import Streams
 import Sorting
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64Lemmas
@@ -190,11 +197,35 @@ class default__:
         pass
 
     @staticmethod
-    def ASDF():
-        CompleteVectors.default__.WriteStuff()
+    def TestGenerateEncryptManifest():
+        d_0_result_: Wrappers.Result
+        out0_: Wrappers.Result
+        out0_ = CompleteVectors.default__.WriteStuff(MplManifestOptions.ManifestOptions_EncryptManifest(_dafny.Seq("dafny/TestVectorsAwsCryptographicMaterialProviders/test/")))
+        d_0_result_ = out0_
+        if (d_0_result_).is_Failure:
+            _dafny.print(_dafny.string_of((d_0_result_).error))
+        if not((d_0_result_).is_Success):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/test/RunMain.dfy(25,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
-    def TestVectors():
-        WrappedMaterialProvidersMain.default__.EncryptTestVectors()
-        TestManifests.default__.StartEncrypt(_dafny.Seq("dafny/TestVectorsAwsCryptographicMaterialProviders/test/test.json"), _dafny.Seq("dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json"))
+    def TestEncryptManifest():
+        d_1_result_: Wrappers.Result
+        out1_: Wrappers.Result
+        out1_ = TestManifests.default__.StartEncrypt(MplManifestOptions.ManifestOptions_Encrypt(_dafny.Seq("dafny/TestVectorsAwsCryptographicMaterialProviders/test/"), _dafny.Seq("dafny/TestVectorsAwsCryptographicMaterialProviders/"), Wrappers.Option_None()))
+        d_1_result_ = out1_
+        if (d_1_result_).is_Failure:
+            _dafny.print(_dafny.string_of((d_1_result_).error))
+        if not((d_1_result_).is_Success):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/test/RunMain.dfy(39,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+
+    @staticmethod
+    def TestDecryptManifest():
+        d_2_result_: Wrappers.Result
+        out2_: Wrappers.Result
+        out2_ = TestManifests.default__.StartDecrypt(MplManifestOptions.ManifestOptions_Decrypt(_dafny.Seq("dafny/TestVectorsAwsCryptographicMaterialProviders/"), Wrappers.Option_None()))
+        d_2_result_ = out2_
+        if (d_2_result_).is_Failure:
+            _dafny.print(_dafny.string_of(d_2_result_))
+        if not((d_2_result_).is_Success):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/test/RunMain.dfy(51,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 

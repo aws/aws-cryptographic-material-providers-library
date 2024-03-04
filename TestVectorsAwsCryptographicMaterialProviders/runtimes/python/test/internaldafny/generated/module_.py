@@ -81,14 +81,15 @@ import JSON_ZeroCopy
 import JSON_API
 import JSON
 import JSONHelpers
+import Base64
 import KeyDescription
 import HexStrings
-import Base64
 import KeyMaterial
 import CreateStaticKeyrings
 import CreateStaticKeyStores
 import AwsArnParsing
 import KeyringFromKeyDescription
+import CmmFromKeyDescription
 import AlgorithmSuites
 import Materials
 import Keyring
@@ -154,21 +155,25 @@ import software_amazon_cryptography_materialproviders_internaldafny_wrapped
 import KeysVectorOperations
 import FileIO
 import software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny
-import TestVectorsUtils
-import TestVectorConstants
-import KeyringExpectations
-import CreateAwsKmsKeyrings
-import CreateAwsKmsMultiKeyrings
-import CreateAwsKmsMrkKeyrings
-import CreateAwsKmsMrkMultiKeyrings
-import CreateRawAesKeyrings
-import CreateRawRsaKeyrings
-import CreateKeyrings
+import MplManifestOptions
+import AllAlgorithmSuites
 import TestVectors
+import AllHierarchy
+import AllKms
+import AllKmsMrkAware
+import AllKmsMrkAwareDiscovery
+import AllKmsRsa
+import AllRawAES
+import AllRawRSA
+import AllDefaultCmm
+import AllRequiredEncryptionContextCmm
+import AllMulti
+import WriteJsonManifests
 import CompleteVectors
 import ParseJsonManifests
 import TestManifests
 import WrappedMaterialProvidersMain
+import AesKdfCtr
 import Structure
 import KMSKeystoreOperations
 import DDBKeystoreOperations
@@ -177,8 +182,10 @@ import CreateKeyStoreTable
 import GetKeys
 import AwsCryptographyKeyStoreOperations
 import software_amazon_cryptography_keystore_internaldafny
+import StandardLibraryInterop
 import Streams
 import Sorting
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64Lemmas
@@ -192,34 +199,47 @@ class default__:
 
     @staticmethod
     def Test____Main____(noArgsParameter__):
-        d_0_success_: bool
-        d_0_success_ = True
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestWrappedMaterialProvidersMain.ASDF: ")))
+        d_3_success_: bool
+        d_3_success_ = True
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestWrappedMaterialProvidersMain.TestGenerateEncryptManifest: ")))
         try:
             if True:
-                TestWrappedMaterialProvidersMain.default__.ASDF()
+                TestWrappedMaterialProvidersMain.default__.TestGenerateEncryptManifest()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_1_haltMessage_ = e.message
+            d_4_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_1_haltMessage_))
+                _dafny.print(_dafny.string_of(d_4_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_0_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestWrappedMaterialProvidersMain.TestVectors: ")))
+                d_3_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestWrappedMaterialProvidersMain.TestEncryptManifest: ")))
         try:
             if True:
-                TestWrappedMaterialProvidersMain.default__.TestVectors()
+                TestWrappedMaterialProvidersMain.default__.TestEncryptManifest()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_2_haltMessage_ = e.message
+            d_5_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_2_haltMessage_))
+                _dafny.print(_dafny.string_of(d_5_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_0_success_ = False
-        if not(d_0_success_):
+                d_3_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestWrappedMaterialProvidersMain.TestDecryptManifest: ")))
+        try:
+            if True:
+                TestWrappedMaterialProvidersMain.default__.TestDecryptManifest()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_6_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_6_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_3_success_ = False
+        if not(d_3_success_):
             raise _dafny.HaltException("<stdin>(1,0): " + _dafny.string_of(_dafny.Seq("Test failures occurred: see above.\n")))
 

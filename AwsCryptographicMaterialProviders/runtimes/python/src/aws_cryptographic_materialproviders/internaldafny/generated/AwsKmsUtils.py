@@ -12,9 +12,9 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_primitives_internaldafny_types
+import software.amazon.cryptography.services.dynamodb.internaldafny.types
+import software.amazon.cryptography.services.kms.internaldafny.types
+import software.amazon.cryptography.primitives.internaldafny.types
 import ExternRandom
 import Random
 import AESEncryption
@@ -28,6 +28,7 @@ import Signature
 import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
+import AesKdfCtr
 import Relations
 import Seq_MergeSort
 import Math
@@ -37,7 +38,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -50,19 +50,22 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import UUID
 import Time
 import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
-import software_amazon_cryptography_keystore_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
+import DafnyLibraries
+import software.amazon.cryptography.keystore.internaldafny.types
+import software.amazon.cryptography.materialproviders.internaldafny.types
 import AwsArnParsing
 import AwsKmsMrkMatchForDecrypt
 
@@ -92,7 +95,7 @@ class default__:
                 return ((d_66_r_) in ((d_64_stringifyResults_).values)) and ((d_66_r_).is_Failure)
 
             if _dafny.quantifier(((d_64_stringifyResults_).values).Elements, False, lambda0_):
-                return Wrappers.Result_Failure(software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption context contains invalid UTF8")))
+                return Wrappers.Result_Failure(software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption context contains invalid UTF8")))
             elif True:
                 def lambda1_(forall_var_0_):
                     def lambda2_(forall_var_1_):
@@ -104,7 +107,7 @@ class default__:
 
                 d_67_stringKeysUnique_ = _dafny.quantifier((d_64_stringifyResults_).keys.Elements, True, lambda1_)
                 if not(d_67_stringKeysUnique_):
-                    return Wrappers.Result_Failure(software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption context keys are not unique")))
+                    return Wrappers.Result_Failure(software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption context keys are not unique")))
                 elif True:
                     def iife1_():
                         coll1_ = _dafny.Map()
@@ -133,7 +136,7 @@ class default__:
 
     @staticmethod
     def WrapStringToError(e):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(e)
+        return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(e)
 
     @staticmethod
     def ValidateKmsKeyId(keyId):
@@ -142,11 +145,11 @@ class default__:
             return (d_75_valueOrError0_).PropagateFailure()
         elif True:
             d_76___v0_ = (d_75_valueOrError0_).Extract()
-            d_77_valueOrError1_ = Wrappers.default__.Need(UTF8.default__.IsASCIIString(keyId), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Key identifier is not ASCII")))
+            d_77_valueOrError1_ = Wrappers.default__.Need(UTF8.default__.IsASCIIString(keyId), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Key identifier is not ASCII")))
             if (d_77_valueOrError1_).IsFailure():
                 return (d_77_valueOrError1_).PropagateFailure()
             elif True:
-                d_78_valueOrError2_ = Wrappers.default__.Need(((0) < (len(keyId))) and ((len(keyId)) <= (AwsArnParsing.default__.MAX__AWS__KMS__IDENTIFIER__LENGTH)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Key identifier is too long")))
+                d_78_valueOrError2_ = Wrappers.default__.Need(((0) < (len(keyId))) and ((len(keyId)) <= (AwsArnParsing.default__.MAX__AWS__KMS__IDENTIFIER__LENGTH)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Key identifier is too long")))
                 if (d_78_valueOrError2_).IsFailure():
                     return (d_78_valueOrError2_).PropagateFailure()
                 elif True:
@@ -155,7 +158,7 @@ class default__:
     @staticmethod
     def GetValidGrantTokens(grantTokens):
         d_79_tokens_ = (grantTokens).UnwrapOr(_dafny.Seq([]))
-        d_80_valueOrError0_ = Wrappers.default__.Need(((0) <= (len(d_79_tokens_))) and ((len(d_79_tokens_)) <= (10)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Grant token list can have no more than 10 tokens")))
+        d_80_valueOrError0_ = Wrappers.default__.Need(((0) <= (len(d_79_tokens_))) and ((len(d_79_tokens_)) <= (10)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Grant token list can have no more than 10 tokens")))
         if (d_80_valueOrError0_).IsFailure():
             return (d_80_valueOrError0_).PropagateFailure()
         elif True:
@@ -163,7 +166,7 @@ class default__:
                 d_82_token_: _dafny.Seq = forall_var_2_
                 return not ((d_82_token_) in (d_79_tokens_)) or (((1) <= (len(d_82_token_))) and ((len(d_82_token_)) <= (8192)))
 
-            d_81_valueOrError1_ = Wrappers.default__.Need(_dafny.quantifier((d_79_tokens_).UniqueElements, True, lambda3_), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Grant token list contains a grant token with invalid length")))
+            d_81_valueOrError1_ = Wrappers.default__.Need(_dafny.quantifier((d_79_tokens_).UniqueElements, True, lambda3_), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Grant token list contains a grant token with invalid length")))
             if (d_81_valueOrError1_).IsFailure():
                 return (d_81_valueOrError1_).PropagateFailure()
             elif True:
@@ -172,26 +175,26 @@ class default__:
     @staticmethod
     def ParseKeyNamespaceAndName(keyNamespace, keyName):
         def lambda4_(d_84_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException((_dafny.Seq("Key namespace could not be UTF8-encoded")) + (d_84_e_))
+            return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException((_dafny.Seq("Key namespace could not be UTF8-encoded")) + (d_84_e_))
 
         d_83_valueOrError0_ = (UTF8.default__.Encode(keyNamespace)).MapFailure(lambda4_)
         if (d_83_valueOrError0_).IsFailure():
             return (d_83_valueOrError0_).PropagateFailure()
         elif True:
             d_85_namespace_ = (d_83_valueOrError0_).Extract()
-            d_86_valueOrError1_ = Wrappers.default__.Need((len(d_85_namespace_)) < (StandardLibrary_UInt.default__.UINT16__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Key namespace too long")))
+            d_86_valueOrError1_ = Wrappers.default__.Need((len(d_85_namespace_)) < (StandardLibrary_UInt.default__.UINT16__LIMIT), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Key namespace too long")))
             if (d_86_valueOrError1_).IsFailure():
                 return (d_86_valueOrError1_).PropagateFailure()
             elif True:
                 def lambda5_(d_88_e_):
-                    return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException((_dafny.Seq("Key name could not be UTF8-encoded")) + (d_88_e_))
+                    return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException((_dafny.Seq("Key name could not be UTF8-encoded")) + (d_88_e_))
 
                 d_87_valueOrError2_ = (UTF8.default__.Encode(keyName)).MapFailure(lambda5_)
                 if (d_87_valueOrError2_).IsFailure():
                     return (d_87_valueOrError2_).PropagateFailure()
                 elif True:
                     d_89_name_ = (d_87_valueOrError2_).Extract()
-                    d_90_valueOrError3_ = Wrappers.default__.Need((len(d_89_name_)) < (StandardLibrary_UInt.default__.UINT16__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Key name too long")))
+                    d_90_valueOrError3_ = Wrappers.default__.Need((len(d_89_name_)) < (StandardLibrary_UInt.default__.UINT16__LIMIT), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Key name too long")))
                     if (d_90_valueOrError3_).IsFailure():
                         return (d_90_valueOrError3_).PropagateFailure()
                     elif True:
@@ -199,7 +202,7 @@ class default__:
 
     @staticmethod
     def ValidateDiscoveryFilter(filter):
-        d_91_valueOrError0_ = Wrappers.default__.Need((len((filter).accountIds)) > (0), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Discovery filter must have at least one account ID")))
+        d_91_valueOrError0_ = Wrappers.default__.Need((len((filter).accountIds)) > (0), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Discovery filter must have at least one account ID")))
         if (d_91_valueOrError0_).IsFailure():
             return (d_91_valueOrError0_).PropagateFailure()
         elif True:
@@ -207,11 +210,11 @@ class default__:
                 d_93_accountId_: _dafny.Seq = forall_var_3_
                 return not ((d_93_accountId_) in ((filter).accountIds)) or ((len(d_93_accountId_)) > (0))
 
-            d_92_valueOrError1_ = Wrappers.default__.Need(_dafny.quantifier(((filter).accountIds).UniqueElements, True, lambda6_), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Discovery filter account IDs cannot be blank")))
+            d_92_valueOrError1_ = Wrappers.default__.Need(_dafny.quantifier(((filter).accountIds).UniqueElements, True, lambda6_), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Discovery filter account IDs cannot be blank")))
             if (d_92_valueOrError1_).IsFailure():
                 return (d_92_valueOrError1_).PropagateFailure()
             elif True:
-                d_94_valueOrError2_ = Wrappers.default__.Need((len((filter).partition)) > (0), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Discovery filter partition cannot be blank")))
+                d_94_valueOrError2_ = Wrappers.default__.Need((len((filter).partition)) > (0), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Discovery filter partition cannot be blank")))
                 if (d_94_valueOrError2_).IsFailure():
                     return (d_94_valueOrError2_).PropagateFailure()
                 elif True:
@@ -236,7 +239,7 @@ class OnDecryptMrkAwareEncryptedDataKeyFilter(Actions.DeterministicActionWithRes
             res = Wrappers.Result_Success(False)
             return res
         if not(UTF8.default__.ValidUTF8Seq((edk).keyProviderInfo)):
-            res = Wrappers.Result_Failure(software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid AWS KMS encoding, provider info is not UTF8.")))
+            res = Wrappers.Result_Failure(software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid AWS KMS encoding, provider info is not UTF8.")))
             return res
         d_95_keyId_: _dafny.Seq
         d_96_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()

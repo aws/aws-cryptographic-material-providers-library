@@ -17,7 +17,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -30,6 +29,7 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
@@ -40,12 +40,14 @@ import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
-import software_amazon_cryptography_primitives_internaldafny_types
+import DafnyLibraries
+import software.amazon.cryptography.primitives.internaldafny.types
 import ExternRandom
 import Random
 import AESEncryption
@@ -66,8 +68,8 @@ class default__:
 
     @staticmethod
     def GenerateKeyPair(lengthBits):
-        publicKey: software_amazon_cryptography_primitives_internaldafny_types.RSAPublicKey = None
-        privateKey: software_amazon_cryptography_primitives_internaldafny_types.RSAPrivateKey = None
+        publicKey: software.amazon.cryptography.primitives.internaldafny.types.RSAPublicKey = None
+        privateKey: software.amazon.cryptography.primitives.internaldafny.types.RSAPrivateKey = None
         d_93_pemPublic_: _dafny.Seq
         d_94_pemPrivate_: _dafny.Seq
         out18_: _dafny.Seq
@@ -75,8 +77,8 @@ class default__:
         out18_, out19_ = RSA.GenerateKeyPairExtern(lengthBits)
         d_93_pemPublic_ = out18_
         d_94_pemPrivate_ = out19_
-        privateKey = software_amazon_cryptography_primitives_internaldafny_types.RSAPrivateKey_RSAPrivateKey(lengthBits, d_94_pemPrivate_)
-        publicKey = software_amazon_cryptography_primitives_internaldafny_types.RSAPublicKey_RSAPublicKey(lengthBits, d_93_pemPublic_)
+        privateKey = software.amazon.cryptography.primitives.internaldafny.types.RSAPrivateKey_RSAPrivateKey(lengthBits, d_94_pemPrivate_)
+        publicKey = software.amazon.cryptography.primitives.internaldafny.types.RSAPublicKey_RSAPublicKey(lengthBits, d_93_pemPublic_)
         return publicKey, privateKey
 
     @staticmethod
@@ -86,7 +88,7 @@ class default__:
             return (d_95_valueOrError0_).PropagateFailure()
         elif True:
             d_96_length_ = (d_95_valueOrError0_).Extract()
-            d_97_valueOrError1_ = Wrappers.default__.Need(((81) <= (d_96_length_)) and ((d_96_length_) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Unsupported length for RSA modulus.")))
+            d_97_valueOrError1_ = Wrappers.default__.Need(((81) <= (d_96_length_)) and ((d_96_length_) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT)), software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Unsupported length for RSA modulus.")))
             if (d_97_valueOrError1_).IsFailure():
                 return (d_97_valueOrError1_).PropagateFailure()
             elif True:
@@ -96,7 +98,7 @@ class default__:
     def Decrypt(input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_98_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_98_valueOrError0_ = Wrappers.default__.Need(((0) < (len((input).privateKey))) and ((0) < (len((input).cipherText))), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("")))
+        d_98_valueOrError0_ = Wrappers.default__.Need(((0) < (len((input).privateKey))) and ((0) < (len((input).cipherText))), software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("")))
         if (d_98_valueOrError0_).IsFailure():
             output = (d_98_valueOrError0_).PropagateFailure()
             return output
@@ -109,7 +111,7 @@ class default__:
     def Encrypt(input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_99_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_99_valueOrError0_ = Wrappers.default__.Need(((0) < (len((input).publicKey))) and ((0) < (len((input).plaintext))), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("")))
+        d_99_valueOrError0_ = Wrappers.default__.Need(((0) < (len((input).publicKey))) and ((0) < (len((input).plaintext))), software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("")))
         if (d_99_valueOrError0_).IsFailure():
             output = (d_99_valueOrError0_).PropagateFailure()
             return output
@@ -117,4 +119,20 @@ class default__:
         out21_ = RSA.EncryptExtern((input).padding, (input).publicKey, (input).plaintext)
         output = out21_
         return output
+
+    @staticmethod
+    def CreateGetRSAKeyModulusLengthExternSuccess(output):
+        return Wrappers.Result_Success(output)
+
+    @staticmethod
+    def CreateGetRSAKeyModulusLengthExternFailure(error):
+        return Wrappers.Result_Failure(error)
+
+    @staticmethod
+    def CreateBytesSuccess(bytes):
+        return Wrappers.Result_Success(bytes)
+
+    @staticmethod
+    def CreateBytesFailure(error):
+        return Wrappers.Result_Failure(error)
 

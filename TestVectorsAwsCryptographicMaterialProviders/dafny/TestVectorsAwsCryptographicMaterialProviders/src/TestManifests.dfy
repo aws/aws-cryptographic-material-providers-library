@@ -41,13 +41,8 @@ module {:options "-functionSyntax:4"} TestManifests {
     output := Success(());
   }
 
-<<<<<<< HEAD
-  method TestEncrypts(tests: seq<TestVectors.EncryptTest>, keys: KeyVectorsTypes.IKeyVectorsClient)
-    returns (output: seq<TestVectors.DecryptTest>)
-=======
   method TestEncrypts(tests: seq<TestVectors.EncryptTest>, keys: KeyVectors.KeyVectorsClient)
     returns (output: seq<TestVectors.DecryptTestVector>)
->>>>>>> main
     requires keys.ValidState()
     modifies keys.Modifies
     ensures keys.ValidState()
@@ -141,9 +136,6 @@ module {:options "-functionSyntax:4"} TestManifests {
     return Success(encryptTests);
   }
 
-<<<<<<< HEAD
-  method ToDecryptTests(keys: KeyVectorsTypes.IKeyVectorsClient, tests: seq<(TestVectors.EncryptTest, Types.EncryptionMaterials)>)
-=======
   method ToDecryptTestVectors(keys: KeyVectors.KeyVectorsClient, tests: seq<(TestVectors.EncryptTest, Types.EncryptionMaterials)>)
     returns (output: Result<seq<TestVectors.DecryptTestVector>, string>)
     requires keys.ValidState()
@@ -169,7 +161,6 @@ module {:options "-functionSyntax:4"} TestManifests {
 
 
   method ToDecryptTests(keys: KeyVectors.KeyVectorsClient, vectors: seq<TestVectors.DecryptTestVector>)
->>>>>>> main
     returns (output: Result<seq<TestVectors.DecryptTest>, string>)
     requires keys.ValidState()
     modifies keys.Modifies

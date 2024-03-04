@@ -12,9 +12,9 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_primitives_internaldafny_types
+import software.amazon.cryptography.services.dynamodb.internaldafny.types
+import software.amazon.cryptography.services.kms.internaldafny.types
+import software.amazon.cryptography.primitives.internaldafny.types
 import ExternRandom
 import Random
 import AESEncryption
@@ -28,6 +28,7 @@ import Signature
 import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
+import AesKdfCtr
 import Relations
 import Seq_MergeSort
 import Math
@@ -37,7 +38,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -50,19 +50,22 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import UUID
 import Time
 import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
-import software_amazon_cryptography_keystore_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
+import DafnyLibraries
+import software.amazon.cryptography.keystore.internaldafny.types
+import software.amazon.cryptography.materialproviders.internaldafny.types
 import AwsArnParsing
 import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
@@ -123,30 +126,32 @@ class default__:
 
     @staticmethod
     def DefaultMaterialProvidersConfig():
-        return software_amazon_cryptography_materialproviders_internaldafny_types.MaterialProvidersConfig_MaterialProvidersConfig()
+        return software.amazon.cryptography.materialproviders.internaldafny.types.MaterialProvidersConfig_MaterialProvidersConfig()
 
     @staticmethod
     def MaterialProviders(config):
         res: Wrappers.Result = None
-        d_1310_maybeCrypto_: Wrappers.Result
+        d_1313_maybeCrypto_: Wrappers.Result
         out231_: Wrappers.Result
         out231_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
-        d_1310_maybeCrypto_ = out231_
-        d_1311_crypto_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
-        d_1312_valueOrError0_: Wrappers.Result = None
-        def lambda103_(d_1313_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_1313_e_)
+        d_1313_maybeCrypto_ = out231_
+        d_1314_cryptoPrimitivesX_: software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient
+        d_1315_valueOrError0_: Wrappers.Result = None
+        def lambda103_(d_1316_e_):
+            return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographyPrimitives(d_1316_e_)
 
-        d_1312_valueOrError0_ = (d_1310_maybeCrypto_).MapFailure(lambda103_)
-        if (d_1312_valueOrError0_).IsFailure():
-            res = (d_1312_valueOrError0_).PropagateFailure()
+        d_1315_valueOrError0_ = (d_1313_maybeCrypto_).MapFailure(lambda103_)
+        if (d_1315_valueOrError0_).IsFailure():
+            res = (d_1315_valueOrError0_).PropagateFailure()
             return res
-        d_1311_crypto_ = (d_1312_valueOrError0_).Extract()
-        d_1314_client_: MaterialProvidersClient
+        d_1314_cryptoPrimitivesX_ = (d_1315_valueOrError0_).Extract()
+        d_1317_cryptoPrimitives_: software_amazon_cryptography_primitives_internaldafny.AtomicPrimitivesClient
+        d_1317_cryptoPrimitives_ = d_1314_cryptoPrimitivesX_
+        d_1318_client_: MaterialProvidersClient
         nw72_ = MaterialProvidersClient()
-        nw72_.ctor__(AwsCryptographyMaterialProvidersOperations.Config_Config(d_1311_crypto_))
-        d_1314_client_ = nw72_
-        res = Wrappers.Result_Success(d_1314_client_)
+        nw72_.ctor__(AwsCryptographyMaterialProvidersOperations.Config_Config(d_1317_cryptoPrimitives_))
+        d_1318_client_ = nw72_
+        res = Wrappers.Result_Success(d_1318_client_)
         return res
         return res
 
@@ -159,7 +164,7 @@ class default__:
         return Wrappers.Result_Failure(error)
 
 
-class MaterialProvidersClient(software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient):
+class MaterialProvidersClient(software.amazon.cryptography.materialproviders.internaldafny.types.IAwsCryptographicMaterialProvidersClient):
     def  __init__(self):
         self._config: AwsCryptographyMaterialProvidersOperations.Config = None
         pass

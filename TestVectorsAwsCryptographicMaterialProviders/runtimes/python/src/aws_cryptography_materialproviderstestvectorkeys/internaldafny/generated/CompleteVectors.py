@@ -92,6 +92,7 @@ import CreateKeyStoreTable
 import GetKeys
 import AwsCryptographyKeyStoreOperations
 import software_amazon_cryptography_keystore_internaldafny
+import AesKdfCtr
 import Unicode
 import Functions
 import Utf8EncodingForm
@@ -109,23 +110,17 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import Streams
 import Sorting
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64Lemmas
+import MplManifestOptions
+import AllAlgorithmSuites
 import software_amazon_cryptography_materialproviders_internaldafny_wrapped
-import TestVectorsUtils
-import TestVectorConstants
-import KeyringExpectations
-import CreateAwsKmsKeyrings
-import CreateAwsKmsMultiKeyrings
-import CreateAwsKmsMrkKeyrings
-import CreateAwsKmsMrkMultiKeyrings
-import CreateRawAesKeyrings
-import CreateRawRsaKeyrings
-import CreateKeyrings
 import software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types
 import JSON_Utils_Views_Core
 import JSON_Utils_Views_Writers
@@ -175,9 +170,21 @@ import KeyMaterial
 import CreateStaticKeyrings
 import CreateStaticKeyStores
 import KeyringFromKeyDescription
+import CmmFromKeyDescription
 import KeysVectorOperations
 import software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny
 import TestVectors
+import AllHierarchy
+import AllKms
+import AllKmsMrkAware
+import AllKmsMrkAwareDiscovery
+import AllKmsRsa
+import AllRawAES
+import AllRawRSA
+import AllDefaultCmm
+import AllRequiredEncryptionContextCmm
+import AllMulti
+import WriteJsonManifests
 
 # Module: CompleteVectors
 
@@ -186,305 +193,134 @@ class default__:
         pass
 
     @staticmethod
-    def GetCompatableCommitmentPolicy(algorithmSuite):
-        source18_ = (algorithmSuite).id
-        if source18_.is_ESDK:
-            d_565___mcc_h0_ = source18_.ESDK
-            if ((algorithmSuite).commitment).is_None:
-                return software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKCommitmentPolicy_FORBID__ENCRYPT__ALLOW__DECRYPT())
-            elif True:
-                return software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKCommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT())
-        elif True:
-            d_566___mcc_h1_ = source18_.DBE
-            return software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy_DBE(software_amazon_cryptography_materialproviders_internaldafny_types.DBECommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT())
+    def WriteStuff(op):
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+        d_877_tests_: _dafny.Seq
+        d_877_tests_ = SortedSets.default__.SetToSequence(default__.AllPositiveKeyringTests)
+        d_878_testsJSON_: _dafny.Seq
+        d_878_testsJSON_ = _dafny.Seq([])
+        hi1_ = len(d_877_tests_)
+        for d_879_i_ in range(0, hi1_):
+            d_880_name_: _dafny.Seq
+            d_881_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+            out57_: Wrappers.Result
+            out57_ = UUID.default__.GenerateUUID()
+            d_881_valueOrError0_ = out57_
+            if (d_881_valueOrError0_).IsFailure():
+                output = (d_881_valueOrError0_).PropagateFailure()
+                return output
+            d_880_name_ = (d_881_valueOrError0_).Extract()
+            d_882_test_: JSON_Values.JSON
+            d_883_valueOrError1_: Wrappers.Result = Wrappers.Result.default(JSON_Values.JSON.default())()
+            d_883_valueOrError1_ = WriteJsonManifests.default__.EncryptTestVectorToJson((d_877_tests_)[d_879_i_])
+            if (d_883_valueOrError1_).IsFailure():
+                output = (d_883_valueOrError1_).PropagateFailure()
+                return output
+            d_882_test_ = (d_883_valueOrError1_).Extract()
+            d_878_testsJSON_ = (d_878_testsJSON_) + (_dafny.Seq([(d_880_name_, d_882_test_)]))
+        d_884_mplEncryptManifest_: JSON_Values.JSON
+        d_884_mplEncryptManifest_ = JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("manifest"), JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("version"), JSON_Values.JSON_Number(JSON_Values.default__.Int(4))), (_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("awses-mpl-encrypt")))]))), (_dafny.Seq("keys"), JSON_Values.JSON_String(_dafny.Seq("file://keys.json"))), (_dafny.Seq("tests"), JSON_Values.JSON_Object(d_878_testsJSON_))]))
+        d_885_mplEncryptManifestBytes_: _dafny.Seq
+        d_886_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        def lambda100_(d_887_e_):
+            return (d_887_e_).ToString()
+
+        d_886_valueOrError2_ = (JSON_API.default__.Serialize(d_884_mplEncryptManifest_)).MapFailure(lambda100_)
+        if (d_886_valueOrError2_).IsFailure():
+            output = (d_886_valueOrError2_).PropagateFailure()
+            return output
+        d_885_mplEncryptManifestBytes_ = (d_886_valueOrError2_).Extract()
+        d_888___v0_: tuple
+        d_889_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+        out58_: Wrappers.Result
+        out58_ = default__.WriteVectorsFile(((op).encryptManifestOutput) + (_dafny.Seq("manifest.json")), d_885_mplEncryptManifestBytes_)
+        d_889_valueOrError3_ = out58_
+        if (d_889_valueOrError3_).IsFailure():
+            output = (d_889_valueOrError3_).PropagateFailure()
+            return output
+        d_888___v0_ = (d_889_valueOrError3_).Extract()
+        output = Wrappers.Result_Success(())
+        return output
 
     @staticmethod
-    def WriteStuff():
-        d_567_tests_: _dafny.Seq
-        d_567_tests_ = SortedSets.default__.SetToSequence(default__.AllPositiveKeyringTests)
-        d_568_testsJSON_: _dafny.Seq
-        d_568_testsJSON_ = _dafny.Seq([])
-        hi6_ = len(d_567_tests_)
-        for d_569_i_ in range(0, hi6_):
-            d_570_name_: _dafny.Seq
-            d_571_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-            out78_: Wrappers.Result
-            out78_ = UUID.default__.GenerateUUID()
-            d_571_valueOrError0_ = out78_
-            if not(not((d_571_valueOrError0_).IsFailure())):
-                raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/CompleteVectors.dfy(281,15): " + _dafny.string_of(d_571_valueOrError0_))
-            d_570_name_ = (d_571_valueOrError0_).Extract()
-            d_568_testsJSON_ = (d_568_testsJSON_) + (_dafny.Seq([(d_570_name_, (d_567_tests_)[d_569_i_])]))
-        d_572_mplEncryptManifies_: JSON_Values.JSON
-        d_572_mplEncryptManifies_ = JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("tests"), JSON_Values.JSON_Object(d_568_testsJSON_))]))
-        d_573_mplEncryptManifiesBytes_: _dafny.Seq
-        d_574_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        d_574_valueOrError1_ = JSON_API.default__.Serialize(d_572_mplEncryptManifies_)
-        if not(not((d_574_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/CompleteVectors.dfy(290,32): " + _dafny.string_of(d_574_valueOrError1_))
-        d_573_mplEncryptManifiesBytes_ = (d_574_valueOrError1_).Extract()
-        d_575_mplEncryptManifiesBv_: _dafny.Seq
-        d_575_mplEncryptManifiesBv_ = JSONHelpers.default__.BytesBv(d_573_mplEncryptManifiesBytes_)
-        d_576___v3_: tuple
-        d_577_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
-        out79_: Wrappers.Result
-        out79_ = FileIO.default__.WriteBytesToFile(_dafny.Seq("dafny/TestVectorsAwsCryptographicMaterialProviders/test/test.json"), d_575_mplEncryptManifiesBv_)
-        d_577_valueOrError2_ = out79_
-        if not(not((d_577_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/CompleteVectors.dfy(293,10): " + _dafny.string_of(d_577_valueOrError2_))
-        d_576___v3_ = (d_577_valueOrError2_).Extract()
+    def WriteDecryptManifest(op, keys, tests):
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+        d_890_testsJSON_: _dafny.Seq
+        d_890_testsJSON_ = _dafny.Seq([])
+        hi2_ = len(tests)
+        for d_891_i_ in range(0, hi2_):
+            d_892_name_: _dafny.Seq
+            d_893_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+            out59_: Wrappers.Result
+            out59_ = UUID.default__.GenerateUUID()
+            d_893_valueOrError0_ = out59_
+            if (d_893_valueOrError0_).IsFailure():
+                output = (d_893_valueOrError0_).PropagateFailure()
+                return output
+            d_892_name_ = (d_893_valueOrError0_).Extract()
+            d_894_test_: JSON_Values.JSON
+            d_895_valueOrError1_: Wrappers.Result = Wrappers.Result.default(JSON_Values.JSON.default())()
+            d_895_valueOrError1_ = WriteJsonManifests.default__.DecryptTestVectorToJson((tests)[d_891_i_])
+            if (d_895_valueOrError1_).IsFailure():
+                output = (d_895_valueOrError1_).PropagateFailure()
+                return output
+            d_894_test_ = (d_895_valueOrError1_).Extract()
+            d_890_testsJSON_ = (d_890_testsJSON_) + (_dafny.Seq([(d_892_name_, d_894_test_)]))
+        d_896_mplDecryptManifest_: JSON_Values.JSON
+        d_896_mplDecryptManifest_ = JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("manifest"), JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("version"), JSON_Values.JSON_Number(JSON_Values.default__.Int(4))), (_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("awses-mpl-decrypt")))]))), (_dafny.Seq("client"), JSON_Values.JSON_String(_dafny.Seq("mpl-dafny"))), (_dafny.Seq("keys"), JSON_Values.JSON_String(_dafny.Seq("file://keys.json"))), (_dafny.Seq("tests"), JSON_Values.JSON_Object(d_890_testsJSON_))]))
+        d_897_mplDecryptManifestBytes_: _dafny.Seq
+        d_898_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        def lambda101_(d_899_e_):
+            return (d_899_e_).ToString()
 
-    @_dafny.classproperty
-    def ESDKAlgorithmSuites(instance):
-        def iife11_():
-            coll5_ = _dafny.Set()
-            compr_5_: software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId
-            for compr_5_ in software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId.AllSingletonConstructors:
-                d_578_id_: software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId = compr_5_
-                if True:
-                    coll5_ = coll5_.union(_dafny.Set([AlgorithmSuites.default__.GetESDKSuite(d_578_id_)]))
-            return _dafny.Set(coll5_)
-        return iife11_()
-        
-    @_dafny.classproperty
-    def DBEAlgorithmSuites(instance):
-        def iife12_():
-            coll6_ = _dafny.Set()
-            compr_6_: software_amazon_cryptography_materialproviders_internaldafny_types.DBEAlgorithmSuiteId
-            for compr_6_ in software_amazon_cryptography_materialproviders_internaldafny_types.DBEAlgorithmSuiteId.AllSingletonConstructors:
-                d_579_id_: software_amazon_cryptography_materialproviders_internaldafny_types.DBEAlgorithmSuiteId = compr_6_
-                if True:
-                    coll6_ = coll6_.union(_dafny.Set([AlgorithmSuites.default__.GetDBESuite(d_579_id_)]))
-            return _dafny.Set(coll6_)
-        return iife12_()
-        
-    @_dafny.classproperty
-    def aesPersistentKeyNames(instance):
-        return _dafny.Seq([_dafny.Seq("aes-128"), _dafny.Seq("aes-192"), _dafny.Seq("aes-256")])
-    @_dafny.classproperty
-    def AllRawAES(instance):
-        def iife13_():
-            coll7_ = _dafny.Set()
-            compr_7_: _dafny.Seq
-            for compr_7_ in (default__.aesPersistentKeyNames).Elements:
-                d_580_key_: _dafny.Seq = compr_7_
-                if (d_580_key_) in (default__.aesPersistentKeyNames):
-                    def iife14_(_pat_let3_0):
-                        def iife15_(d_581_keyDescription_):
-                            return PositiveKeyDescriptionJSON_PositiveKeyDescriptionJSON((_dafny.Seq("Generated RawAES ")) + (d_580_key_), d_581_keyDescription_, d_581_keyDescription_)
-                        return iife15_(_pat_let3_0)
-                    coll7_ = coll7_.union(_dafny.Set([iife14_(JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("raw"))), (_dafny.Seq("encryption-algorithm"), JSON_Values.JSON_String(_dafny.Seq("aes"))), (_dafny.Seq("provider-id"), JSON_Values.JSON_String((_dafny.Seq("aws-raw-vectors-persistent-")) + (d_580_key_))), (_dafny.Seq("key"), JSON_Values.JSON_String(d_580_key_))])))]))
-            return _dafny.Set(coll7_)
-        return iife13_()
-        
-    @_dafny.classproperty
-    def rsaPersistentKeyNamesWithoutPublicPrivate(instance):
-        return _dafny.Seq([_dafny.Seq("rsa-4096")])
-    @_dafny.classproperty
-    def AllRawRSA(instance):
-        def iife16_():
-            coll8_ = _dafny.Set()
-            compr_8_: _dafny.Seq
-            for compr_8_ in (default__.rsaPersistentKeyNamesWithoutPublicPrivate).Elements:
-                d_582_key_: _dafny.Seq = compr_8_
-                compr_9_: software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme
-                for compr_9_ in software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme.AllSingletonConstructors:
-                    d_583_padding_: software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme = compr_9_
-                    if (d_582_key_) in (default__.rsaPersistentKeyNamesWithoutPublicPrivate):
-                        def lambda37_(source19_):
-                            if source19_.is_PKCS1:
-                                return _dafny.Seq("pkcs1")
-                            elif source19_.is_OAEP__SHA1__MGF1:
-                                return _dafny.Seq("oaep-mgf1")
-                            elif source19_.is_OAEP__SHA256__MGF1:
-                                return _dafny.Seq("oaep-mgf1")
-                            elif source19_.is_OAEP__SHA384__MGF1:
-                                return _dafny.Seq("oaep-mgf1")
-                            elif True:
-                                return _dafny.Seq("oaep-mgf1")
+        d_898_valueOrError2_ = (JSON_API.default__.Serialize(d_896_mplDecryptManifest_)).MapFailure(lambda101_)
+        if (d_898_valueOrError2_).IsFailure():
+            output = (d_898_valueOrError2_).PropagateFailure()
+            return output
+        d_897_mplDecryptManifestBytes_ = (d_898_valueOrError2_).Extract()
+        d_900___v1_: tuple
+        d_901_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+        out60_: Wrappers.Result
+        out60_ = default__.WriteVectorsFile(((op).decryptManifestOutput) + (_dafny.Seq("manifest.json")), d_897_mplDecryptManifestBytes_)
+        d_901_valueOrError3_ = out60_
+        if (d_901_valueOrError3_).IsFailure():
+            output = (d_901_valueOrError3_).PropagateFailure()
+            return output
+        d_900___v1_ = (d_901_valueOrError3_).Extract()
+        d_902_keysJsonFileName_: _dafny.Seq
+        d_902_keysJsonFileName_ = _dafny.Seq("keys.json")
+        d_903_keysJsonBytes_: _dafny.Seq
+        d_904_valueOrError4_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        def lambda102_(d_905_e_):
+            return (d_905_e_).ToString()
 
-                        def lambda38_(source20_):
-                            if source20_.is_PKCS1:
-                                return _dafny.Seq("sha1")
-                            elif source20_.is_OAEP__SHA1__MGF1:
-                                return _dafny.Seq("sha1")
-                            elif source20_.is_OAEP__SHA256__MGF1:
-                                return _dafny.Seq("sha256")
-                            elif source20_.is_OAEP__SHA384__MGF1:
-                                return _dafny.Seq("sha384")
-                            elif True:
-                                return _dafny.Seq("sha512")
+        d_904_valueOrError4_ = (JSON_API.default__.Serialize(((keys).config).keysJson)).MapFailure(lambda102_)
+        if (d_904_valueOrError4_).IsFailure():
+            output = (d_904_valueOrError4_).PropagateFailure()
+            return output
+        d_903_keysJsonBytes_ = (d_904_valueOrError4_).Extract()
+        d_906___v2_: tuple
+        d_907_valueOrError5_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+        out61_: Wrappers.Result
+        out61_ = default__.WriteVectorsFile(((op).decryptManifestOutput) + (d_902_keysJsonFileName_), d_903_keysJsonBytes_)
+        d_907_valueOrError5_ = out61_
+        if (d_907_valueOrError5_).IsFailure():
+            output = (d_907_valueOrError5_).PropagateFailure()
+            return output
+        d_906___v2_ = (d_907_valueOrError5_).Extract()
+        output = Wrappers.Result_Success(())
+        return output
 
-                        def iife17_(_pat_let4_0):
-                            def iife18_(d_584_sharedOptions_):
-                                def lambda39_(source21_):
-                                    if source21_.is_PKCS1:
-                                        return _dafny.Seq("pkcs1-sha1")
-                                    elif source21_.is_OAEP__SHA1__MGF1:
-                                        return _dafny.Seq("oaep-mgf1-sha1")
-                                    elif source21_.is_OAEP__SHA256__MGF1:
-                                        return _dafny.Seq("oaep-mgf1-sha256")
-                                    elif source21_.is_OAEP__SHA384__MGF1:
-                                        return _dafny.Seq("oaep-mgf1-sha384")
-                                    elif True:
-                                        return _dafny.Seq("oaep-mgf1-sha512")
+    @staticmethod
+    def WriteVectorsFile(location, bytes):
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+        d_908_bv_: _dafny.Seq
+        d_908_bv_ = JSONHelpers.default__.BytesBv(bytes)
+        out62_: Wrappers.Result
+        out62_ = FileIO.default__.WriteBytesToFile(location, d_908_bv_)
+        output = out62_
+        return output
 
-                                return PositiveKeyDescriptionJSON_PositiveKeyDescriptionJSON((((_dafny.Seq("Generated RawRSA ")) + (d_582_key_)) + (_dafny.Seq(" "))) + (lambda39_(d_583_padding_)), JSON_Values.JSON_Object((d_584_sharedOptions_) + (_dafny.Seq([(_dafny.Seq("key"), JSON_Values.JSON_String((d_582_key_) + (_dafny.Seq("-public"))))]))), JSON_Values.JSON_Object((d_584_sharedOptions_) + (_dafny.Seq([(_dafny.Seq("key"), JSON_Values.JSON_String((d_582_key_) + (_dafny.Seq("-private"))))]))))
-                            return iife18_(_pat_let4_0)
-                        coll8_ = coll8_.union(_dafny.Set([iife17_(_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("raw"))), (_dafny.Seq("encryption-algorithm"), JSON_Values.JSON_String(_dafny.Seq("rsa"))), (_dafny.Seq("provider-id"), JSON_Values.JSON_String((_dafny.Seq("aws-raw-vectors-persistent-")) + (d_582_key_))), (_dafny.Seq("padding-algorithm"), JSON_Values.JSON_String(lambda37_(d_583_padding_))), (_dafny.Seq("padding-hash"), JSON_Values.JSON_String(lambda38_(d_583_padding_)))]))]))
-            return _dafny.Set(coll8_)
-        return iife16_()
-        
-    @_dafny.classproperty
-    def AllAwsKMSKeys(instance):
-        return _dafny.Seq([_dafny.Seq("us-west-2-decryptable"), _dafny.Seq("us-west-2-mrk")])
-    @_dafny.classproperty
-    def AllKMSInfo(instance):
-        def iife19_():
-            coll9_ = _dafny.Set()
-            compr_10_: _dafny.Seq
-            for compr_10_ in (default__.AllAwsKMSKeys).Elements:
-                d_585_key_: _dafny.Seq = compr_10_
-                if (d_585_key_) in (default__.AllAwsKMSKeys):
-                    def iife20_(_pat_let5_0):
-                        def iife21_(d_586_keyDescription_):
-                            return PositiveKeyDescriptionJSON_PositiveKeyDescriptionJSON((_dafny.Seq("Generated KMS ")) + (d_585_key_), d_586_keyDescription_, d_586_keyDescription_)
-                        return iife21_(_pat_let5_0)
-                    coll9_ = coll9_.union(_dafny.Set([iife20_(JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("aws-kms"))), (_dafny.Seq("key"), JSON_Values.JSON_String(d_585_key_))])))]))
-            return _dafny.Set(coll9_)
-        return iife19_()
-        
-    @_dafny.classproperty
-    def AllAwsKMSMrkKeys(instance):
-        return _dafny.Seq([_dafny.Seq("us-west-2-mrk"), _dafny.Seq("us-east-1-mrk")])
-    @_dafny.classproperty
-    def AllKmsMrkAware(instance):
-        def iife22_():
-            coll10_ = _dafny.Set()
-            compr_11_: _dafny.Seq
-            for compr_11_ in (default__.AllAwsKMSMrkKeys).Elements:
-                d_587_encryptKey_: _dafny.Seq = compr_11_
-                compr_12_: _dafny.Seq
-                for compr_12_ in (default__.AllAwsKMSMrkKeys).Elements:
-                    d_588_decryptKey_: _dafny.Seq = compr_12_
-                    if ((d_587_encryptKey_) in (default__.AllAwsKMSMrkKeys)) and ((d_588_decryptKey_) in (default__.AllAwsKMSMrkKeys)):
-                        coll10_ = coll10_.union(_dafny.Set([PositiveKeyDescriptionJSON_PositiveKeyDescriptionJSON((((_dafny.Seq("Generated KMS MRK ")) + (d_587_encryptKey_)) + (_dafny.Seq("->"))) + (d_588_decryptKey_), JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("aws-kms-mrk-aware"))), (_dafny.Seq("key"), JSON_Values.JSON_String(d_587_encryptKey_))])), JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("aws-kms-mrk-aware"))), (_dafny.Seq("key"), JSON_Values.JSON_String(d_588_decryptKey_))])))]))
-            return _dafny.Set(coll10_)
-        return iife22_()
-        
-    @_dafny.classproperty
-    def AllDiscoveryFilters(instance):
-        return _dafny.Set({Wrappers.Option_Some(software_amazon_cryptography_materialproviders_internaldafny_types.DiscoveryFilter_DiscoveryFilter(_dafny.Seq([_dafny.Seq("658956600833")]), _dafny.Seq("aws"))), Wrappers.Option_None()})
-    @_dafny.classproperty
-    def AllKmsMrkAwareDiscovery(instance):
-        def iife23_():
-            coll11_ = _dafny.Set()
-            compr_13_: _dafny.Seq
-            for compr_13_ in (default__.AllAwsKMSMrkKeys).Elements:
-                d_589_keyId_: _dafny.Seq = compr_13_
-                compr_14_: Wrappers.Option
-                for compr_14_ in (default__.AllDiscoveryFilters).Elements:
-                    d_590_filter_: Wrappers.Option = compr_14_
-                    if ((d_589_keyId_) in (default__.AllAwsKMSMrkKeys)) and ((d_590_filter_) in (default__.AllDiscoveryFilters)):
-                        def lambda40_(d_591_s_):
-                            return JSON_Values.JSON_String(d_591_s_)
-
-                        coll11_ = coll11_.union(_dafny.Set([PositiveKeyDescriptionJSON_PositiveKeyDescriptionJSON((((_dafny.Seq("Discovery KMS MRK ")) + (d_589_keyId_)) + (_dafny.Seq("->"))) + (((((_dafny.Seq("Filter ")) + (((d_590_filter_).value).partition)) + (_dafny.Seq(" "))) + (Seq.default__.Flatten(((d_590_filter_).value).accountIds)) if (d_590_filter_).is_Some else _dafny.Seq("No Filter"))), JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("aws-kms-mrk-aware"))), (_dafny.Seq("key"), JSON_Values.JSON_String(d_589_keyId_))])), (JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("aws-kms-mrk-aware-discovery"))), (_dafny.Seq("default-mrk-region"), JSON_Values.JSON_String(_dafny.Seq("us-west-2"))), (_dafny.Seq("aws-kms-discovery-filter"), JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("partition"), JSON_Values.JSON_String(((d_590_filter_).value).partition)), (_dafny.Seq("account-ids"), JSON_Values.JSON_Array(Seq.default__.Map(lambda40_, ((d_590_filter_).value).accountIds)))])))])) if (d_590_filter_).is_Some else JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("aws-kms-mrk-aware-discovery"))), (_dafny.Seq("default-mrk-region"), JSON_Values.JSON_String(_dafny.Seq("us-west-2")))]))))]))
-            return _dafny.Set(coll11_)
-        return iife23_()
-        
-    @_dafny.classproperty
-    def AllHierarchy(instance):
-        def iife24_():
-            coll12_ = _dafny.Set()
-            compr_15_: _dafny.Seq
-            for compr_15_ in (_dafny.Seq([_dafny.Seq("static-branch-key-1")])).Elements:
-                d_592_keyId_: _dafny.Seq = compr_15_
-                if (d_592_keyId_) in (_dafny.Seq([_dafny.Seq("static-branch-key-1")])):
-                    coll12_ = coll12_.union(_dafny.Set([PositiveKeyDescriptionJSON_PositiveKeyDescriptionJSON((_dafny.Seq("Hierarchy KMS ")) + (d_592_keyId_), JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("aws-kms-hierarchy"))), (_dafny.Seq("key"), JSON_Values.JSON_String(d_592_keyId_))])), JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("aws-kms-hierarchy"))), (_dafny.Seq("key"), JSON_Values.JSON_String(d_592_keyId_))])))]))
-            return _dafny.Set(coll12_)
-        return iife24_()
-        
-    @_dafny.classproperty
-    def AllKmsRsaKeys(instance):
-        return _dafny.Seq([_dafny.Seq("us-west-2-rsa-mrk")])
-    @_dafny.classproperty
-    def AllEncryptionAlgorithmSpec(instance):
-        def iife25_():
-            coll13_ = _dafny.Set()
-            compr_16_: software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec
-            for compr_16_ in software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec.AllSingletonConstructors:
-                d_593_e_: software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec = compr_16_
-                if not((d_593_e_).is_SYMMETRIC__DEFAULT):
-                    def lambda41_(source22_):
-                        if source22_.is_RSAES__OAEP__SHA__1:
-                            return _dafny.Seq("RSAES_OAEP_SHA_1")
-                        elif True:
-                            return _dafny.Seq("RSAES_OAEP_SHA_256")
-
-                    coll13_ = coll13_.union(_dafny.Set([lambda41_(d_593_e_)]))
-            return _dafny.Set(coll13_)
-        return iife25_()
-        
-    @_dafny.classproperty
-    def KmsRsa(instance):
-        return _dafny.Seq("KMS RSA ")
-    @_dafny.classproperty
-    def AllKmsRsa(instance):
-        def iife26_():
-            coll14_ = _dafny.Set()
-            compr_17_: _dafny.Seq
-            for compr_17_ in (default__.AllKmsRsaKeys).Elements:
-                d_594_keyId_: _dafny.Seq = compr_17_
-                compr_18_: _dafny.Seq
-                for compr_18_ in (default__.AllEncryptionAlgorithmSpec).Elements:
-                    d_595_algorithmSpec_: _dafny.Seq = compr_18_
-                    if ((d_594_keyId_) in (default__.AllKmsRsaKeys)) and ((d_595_algorithmSpec_) in (default__.AllEncryptionAlgorithmSpec)):
-                        coll14_ = coll14_.union(_dafny.Set([PositiveKeyDescriptionJSON_PositiveKeyDescriptionJSON((default__.KmsRsa) + (d_594_keyId_), JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("aws-kms-rsa"))), (_dafny.Seq("key"), JSON_Values.JSON_String(d_594_keyId_)), (_dafny.Seq("encryption-algorithm"), JSON_Values.JSON_String(d_595_algorithmSpec_))])), JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("aws-kms-rsa"))), (_dafny.Seq("key"), JSON_Values.JSON_String(d_594_keyId_)), (_dafny.Seq("encryption-algorithm"), JSON_Values.JSON_String(d_595_algorithmSpec_))])))]))
-            return _dafny.Set(coll14_)
-        return iife26_()
-        
     @_dafny.classproperty
     def AllPositiveKeyringTests(instance):
-        def iife27_():
-            coll15_ = _dafny.Set()
-            compr_19_: PositiveKeyDescriptionJSON
-            for compr_19_ in (((((((default__.AllKMSInfo) | (default__.AllKmsMrkAware)) | (default__.AllKmsMrkAwareDiscovery)) | (default__.AllRawAES)) | (default__.AllRawRSA)) | (default__.AllHierarchy)) | (default__.AllKmsRsa)).Elements:
-                d_596_postiveKeyDescription_: PositiveKeyDescriptionJSON = compr_19_
-                compr_20_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo
-                for compr_20_ in ((default__.ESDKAlgorithmSuites) | (default__.DBEAlgorithmSuites)).Elements:
-                    d_597_algorithmSuite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo = compr_20_
-                    if (((d_596_postiveKeyDescription_) in (((((((default__.AllKMSInfo) | (default__.AllKmsMrkAware)) | (default__.AllKmsMrkAwareDiscovery)) | (default__.AllRawAES)) | (default__.AllRawRSA)) | (default__.AllHierarchy)) | (default__.AllKmsRsa))) and ((d_597_algorithmSuite_) in ((default__.ESDKAlgorithmSuites) | (default__.DBEAlgorithmSuites)))) and (not(((_dafny.Seq(((d_596_postiveKeyDescription_).description)[:len(default__.KmsRsa):])) == (default__.KmsRsa)) and (((d_597_algorithmSuite_).signature).is_ECDSA))):
-                        def iife28_(_pat_let6_0):
-                            def iife29_(d_598_id_):
-                                return JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("positive-keyring"))), (_dafny.Seq("description"), JSON_Values.JSON_String((((d_596_postiveKeyDescription_).description) + (_dafny.Seq(" "))) + (d_598_id_))), (_dafny.Seq("algorithmSuiteId"), JSON_Values.JSON_String(d_598_id_)), (_dafny.Seq("encryptionContext"), JSON_Values.JSON_Object(_dafny.Seq([]))), (_dafny.Seq("requiredEncryptionContextKeys"), JSON_Values.JSON_Array(_dafny.Seq([]))), (_dafny.Seq("encryptKeyDescription"), (d_596_postiveKeyDescription_).encrypt), (_dafny.Seq("decryptKeyDescription"), (d_596_postiveKeyDescription_).decrypt)]))
-                            return iife29_(_pat_let6_0)
-                        coll15_ = coll15_.union(_dafny.Set([iife28_(HexStrings.default__.ToHexString((d_597_algorithmSuite_).binaryId))]))
-            return _dafny.Set(coll15_)
-        return iife27_()
-        
-    @_dafny.classproperty
-    def AwsPartitions(instance):
-        return _dafny.Seq([_dafny.Seq("aws")])
-    @_dafny.classproperty
-    def AWSAccounts(instance):
-        return _dafny.Seq([_dafny.Seq("658956600833")])
-
-class PositiveKeyDescriptionJSON:
-    @classmethod
-    def default(cls, ):
-        return lambda: PositiveKeyDescriptionJSON_PositiveKeyDescriptionJSON(_dafny.Seq({}), JSON_Values.JSON.default()(), JSON_Values.JSON.default()())
-    def __ne__(self, __o: object) -> bool:
-        return not self.__eq__(__o)
-    @property
-    def is_PositiveKeyDescriptionJSON(self) -> bool:
-        return isinstance(self, PositiveKeyDescriptionJSON_PositiveKeyDescriptionJSON)
-
-class PositiveKeyDescriptionJSON_PositiveKeyDescriptionJSON(PositiveKeyDescriptionJSON, NamedTuple('PositiveKeyDescriptionJSON', [('description', Any), ('encrypt', Any), ('decrypt', Any)])):
-    def __dafnystr__(self) -> str:
-        return f'CompleteVectors.PositiveKeyDescriptionJSON.PositiveKeyDescriptionJSON({_dafny.string_of(self.description)}, {_dafny.string_of(self.encrypt)}, {_dafny.string_of(self.decrypt)})'
-    def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, PositiveKeyDescriptionJSON_PositiveKeyDescriptionJSON) and self.description == __o.description and self.encrypt == __o.encrypt and self.decrypt == __o.decrypt
-    def __hash__(self) -> int:
-        return super().__hash__()
-
+        return ((((((((((_dafny.Set({})) | (AllDefaultCmm.default__.Tests)) | (AllHierarchy.default__.Tests)) | (AllKms.default__.Tests)) | (AllKmsMrkAware.default__.Tests)) | (AllKmsMrkAwareDiscovery.default__.Tests)) | (AllKmsRsa.default__.Tests)) | (AllRawAES.default__.Tests)) | (AllRawRSA.default__.Tests)) | (AllMulti.default__.Tests)) | (AllRequiredEncryptionContextCmm.default__.Tests)

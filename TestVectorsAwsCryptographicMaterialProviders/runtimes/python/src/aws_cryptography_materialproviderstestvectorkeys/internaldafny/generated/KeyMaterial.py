@@ -92,6 +92,7 @@ import CreateKeyStoreTable
 import GetKeys
 import AwsCryptographyKeyStoreOperations
 import software_amazon_cryptography_keystore_internaldafny
+import AesKdfCtr
 import Unicode
 import Functions
 import Utf8EncodingForm
@@ -109,23 +110,17 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import Streams
 import Sorting
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64Lemmas
+import MplManifestOptions
+import AllAlgorithmSuites
 import software_amazon_cryptography_materialproviders_internaldafny_wrapped
-import TestVectorsUtils
-import TestVectorConstants
-import KeyringExpectations
-import CreateAwsKmsKeyrings
-import CreateAwsKmsMultiKeyrings
-import CreateAwsKmsMrkKeyrings
-import CreateAwsKmsMrkMultiKeyrings
-import CreateRawAesKeyrings
-import CreateRawRsaKeyrings
-import CreateKeyrings
 import software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types
 import JSON_Utils_Views_Core
 import JSON_Utils_Views_Writers
@@ -183,242 +178,294 @@ class default__:
         if (len(obj)) == (0):
             return Wrappers.Result_Success(_dafny.Map({}))
         elif True:
-            d_214_name_ = ((obj)[0])[0]
-            d_215_valueOrError0_ = default__.ToKeyMaterial(mpl, d_214_name_, ((obj)[0])[1])
-            if (d_215_valueOrError0_).IsFailure():
-                return (d_215_valueOrError0_).PropagateFailure()
+            d_181_name_ = ((obj)[0])[0]
+            d_182_valueOrError0_ = default__.ToKeyMaterial(mpl, d_181_name_, ((obj)[0])[1])
+            if (d_182_valueOrError0_).IsFailure():
+                return (d_182_valueOrError0_).PropagateFailure()
             elif True:
-                d_216_keyMaterial_ = (d_215_valueOrError0_).Extract()
-                d_217_valueOrError1_ = default__.BuildKeyMaterials(mpl, _dafny.Seq((obj)[1::]))
-                if (d_217_valueOrError1_).IsFailure():
-                    return (d_217_valueOrError1_).PropagateFailure()
+                d_183_keyMaterial_ = (d_182_valueOrError0_).Extract()
+                d_184_valueOrError1_ = default__.BuildKeyMaterials(mpl, _dafny.Seq((obj)[1::]))
+                if (d_184_valueOrError1_).IsFailure():
+                    return (d_184_valueOrError1_).PropagateFailure()
                 elif True:
-                    d_218_tail_ = (d_217_valueOrError1_).Extract()
-                    return Wrappers.Result_Success((_dafny.Map({d_214_name_: d_216_keyMaterial_})) | (d_218_tail_))
+                    d_185_tail_ = (d_184_valueOrError1_).Extract()
+                    return Wrappers.Result_Success((_dafny.Map({d_181_name_: d_183_keyMaterial_})) | (d_185_tail_))
 
     @staticmethod
     def ToKeyMaterial(mpl, name, obj):
-        d_219_valueOrError0_ = Wrappers.default__.Need((obj).is_Object, _dafny.Seq("KeyDescription not an object"))
-        if (d_219_valueOrError0_).IsFailure():
-            return (d_219_valueOrError0_).PropagateFailure()
+        d_186_valueOrError0_ = Wrappers.default__.Need((obj).is_Object, _dafny.Seq("KeyDescription not an object"))
+        if (d_186_valueOrError0_).IsFailure():
+            return (d_186_valueOrError0_).PropagateFailure()
         elif True:
-            d_220_obj_ = (obj).obj
-            d_221_typString_ = _dafny.Seq("type")
-            d_222_valueOrError1_ = JSONHelpers.default__.GetString(d_221_typString_, d_220_obj_)
-            if (d_222_valueOrError1_).IsFailure():
-                return (d_222_valueOrError1_).PropagateFailure()
+            d_187_obj_ = (obj).obj
+            d_188_typString_ = _dafny.Seq("type")
+            d_189_valueOrError1_ = JSONHelpers.default__.GetString(d_188_typString_, d_187_obj_)
+            if (d_189_valueOrError1_).IsFailure():
+                return (d_189_valueOrError1_).PropagateFailure()
             elif True:
-                d_223_typ_ = (d_222_valueOrError1_).Extract()
-                d_224_valueOrError2_ = Wrappers.default__.Need(default__.KeyMaterialString_q(d_223_typ_), (_dafny.Seq("Unsupported KeyMaterial type:")) + (d_223_typ_))
-                if (d_224_valueOrError2_).IsFailure():
-                    return (d_224_valueOrError2_).PropagateFailure()
+                d_190_typ_ = (d_189_valueOrError1_).Extract()
+                d_191_valueOrError2_ = Wrappers.default__.Need(default__.KeyMaterialString_q(d_190_typ_), (_dafny.Seq("Unsupported KeyMaterial type:")) + (d_190_typ_))
+                if (d_191_valueOrError2_).IsFailure():
+                    return (d_191_valueOrError2_).PropagateFailure()
                 elif True:
-                    if (d_223_typ_) == (_dafny.Seq("static-material")):
-                        d_225_valueOrError3_ = JSONHelpers.default__.GetString(_dafny.Seq("algorithmSuiteId"), d_220_obj_)
-                        if (d_225_valueOrError3_).IsFailure():
-                            return (d_225_valueOrError3_).PropagateFailure()
-                        elif True:
-                            d_226_algorithmSuiteHex_ = (d_225_valueOrError3_).Extract()
-                            d_227_valueOrError4_ = Wrappers.default__.Need(HexStrings.default__.IsLooseHexString(d_226_algorithmSuiteHex_), _dafny.Seq("Not hex encoded binnary"))
-                            if (d_227_valueOrError4_).IsFailure():
-                                return (d_227_valueOrError4_).PropagateFailure()
-                            elif True:
-                                d_228_binaryId_ = HexStrings.default__.FromHexString(d_226_algorithmSuiteHex_)
-                                def lambda8_(d_230_algorithmSuiteHex_):
-                                    def lambda9_(d_231_e_):
-                                        return (_dafny.Seq("Invalid Suite:")) + (d_230_algorithmSuiteHex_)
-
-                                    return lambda9_
-
-                                d_229_valueOrError5_ = ((mpl).GetAlgorithmSuiteInfo(d_228_binaryId_)).MapFailure(lambda8_(d_226_algorithmSuiteHex_))
-                                if (d_229_valueOrError5_).IsFailure():
-                                    return (d_229_valueOrError5_).PropagateFailure()
-                                elif True:
-                                    d_232_algorithmSuite_ = (d_229_valueOrError5_).Extract()
-                                    d_233_valueOrError6_ = JSONHelpers.default__.SmallObjectToStringStringMap(_dafny.Seq("encryptionContext"), d_220_obj_)
-                                    if (d_233_valueOrError6_).IsFailure():
-                                        return (d_233_valueOrError6_).PropagateFailure()
-                                    elif True:
-                                        d_234_encryptionContextStrings_ = (d_233_valueOrError6_).Extract()
-                                        d_235_valueOrError7_ = JSONHelpers.default__.utf8EncodeMap(d_234_encryptionContextStrings_)
-                                        if (d_235_valueOrError7_).IsFailure():
-                                            return (d_235_valueOrError7_).PropagateFailure()
-                                        elif True:
-                                            d_236_encryptionContext_ = (d_235_valueOrError7_).Extract()
-                                            d_237_valueOrError8_ = JSONHelpers.default__.GetArrayString(_dafny.Seq("requiredEncryptionContextKeys"), d_220_obj_)
-                                            if (d_237_valueOrError8_).IsFailure():
-                                                return (d_237_valueOrError8_).PropagateFailure()
-                                            elif True:
-                                                d_238_keysAsStrings_ = (d_237_valueOrError8_).Extract()
-                                                d_239_valueOrError9_ = JSONHelpers.default__.utf8EncodeSeq(d_238_keysAsStrings_)
-                                                if (d_239_valueOrError9_).IsFailure():
-                                                    return (d_239_valueOrError9_).PropagateFailure()
-                                                elif True:
-                                                    d_240_requiredEncryptionContextKeys_ = (d_239_valueOrError9_).Extract()
-                                                    d_241_valueOrError10_ = JSONHelpers.default__.GetArrayObject(_dafny.Seq("encryptedDataKeys"), d_220_obj_)
-                                                    if (d_241_valueOrError10_).IsFailure():
-                                                        return (d_241_valueOrError10_).PropagateFailure()
-                                                    elif True:
-                                                        d_242_encryptedDataKeysJSON_ = (d_241_valueOrError10_).Extract()
-                                                        d_243_valueOrError11_ = Seq.default__.MapWithResult(default__.ToEncryptedDataKey, d_242_encryptedDataKeysJSON_)
-                                                        if (d_243_valueOrError11_).IsFailure():
-                                                            return (d_243_valueOrError11_).PropagateFailure()
-                                                        elif True:
-                                                            d_244_encryptedDataKeys_ = (d_243_valueOrError11_).Extract()
-                                                            d_245_valueOrError12_ = JSONHelpers.default__.GetOptionalString(_dafny.Seq("plaintextDataKey"), d_220_obj_)
-                                                            if (d_245_valueOrError12_).IsFailure():
-                                                                return (d_245_valueOrError12_).PropagateFailure()
-                                                            elif True:
-                                                                d_246_plaintextDataKeyEncoded_ = (d_245_valueOrError12_).Extract()
-                                                                def iife5_(_pat_let0_0):
-                                                                    def iife6_(d_248_result_):
-                                                                        return (Wrappers.Result_Success(Wrappers.Option_Some((d_248_result_).value)) if (d_248_result_).is_Success else Wrappers.Result_Failure((d_248_result_).error))
-                                                                    return iife6_(_pat_let0_0)
-                                                                d_247_valueOrError13_ = (iife5_(Base64.default__.Decode((d_246_plaintextDataKeyEncoded_).value)) if (d_246_plaintextDataKeyEncoded_).is_Some else Wrappers.Result_Success(Wrappers.Option_None()))
-                                                                if (d_247_valueOrError13_).IsFailure():
-                                                                    return (d_247_valueOrError13_).PropagateFailure()
-                                                                elif True:
-                                                                    d_249_plaintextDataKey_ = (d_247_valueOrError13_).Extract()
-                                                                    d_250_valueOrError14_ = JSONHelpers.default__.GetOptionalString(_dafny.Seq("signingKey"), d_220_obj_)
-                                                                    if (d_250_valueOrError14_).IsFailure():
-                                                                        return (d_250_valueOrError14_).PropagateFailure()
-                                                                    elif True:
-                                                                        d_251_signingKey_ = (d_250_valueOrError14_).Extract()
-                                                                        d_252_valueOrError15_ = JSONHelpers.default__.GetOptionalString(_dafny.Seq("verificationKey"), d_220_obj_)
-                                                                        if (d_252_valueOrError15_).IsFailure():
-                                                                            return (d_252_valueOrError15_).PropagateFailure()
-                                                                        elif True:
-                                                                            d_253_verificationKey_ = (d_252_valueOrError15_).Extract()
-                                                                            d_254_symmetricSigningKeys_ = (JSONHelpers.default__.GetArrayString(_dafny.Seq("symmetricSigningKeys"), d_220_obj_)).ToOption()
-                                                                            return Wrappers.Result_Success(KeyMaterial_StaticMaterial(name, d_232_algorithmSuite_, d_236_encryptionContext_, d_244_encryptedDataKeys_, d_240_requiredEncryptionContextKeys_, d_249_plaintextDataKey_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None()))
-                    elif (d_223_typ_) == (_dafny.Seq("static-branch-key")):
-                        d_255_valueOrError16_ = JSONHelpers.default__.GetString(_dafny.Seq("key-id"), d_220_obj_)
-                        if (d_255_valueOrError16_).IsFailure():
-                            return (d_255_valueOrError16_).PropagateFailure()
-                        elif True:
-                            d_256_keyIdentifier_ = (d_255_valueOrError16_).Extract()
-                            d_257_valueOrError17_ = JSONHelpers.default__.GetString(_dafny.Seq("branchKeyVersion"), d_220_obj_)
-                            if (d_257_valueOrError17_).IsFailure():
-                                return (d_257_valueOrError17_).PropagateFailure()
-                            elif True:
-                                d_258_branchKeyVersionEncoded_ = (d_257_valueOrError17_).Extract()
-                                d_259_valueOrError18_ = UTF8.default__.Encode(d_258_branchKeyVersionEncoded_)
-                                if (d_259_valueOrError18_).IsFailure():
-                                    return (d_259_valueOrError18_).PropagateFailure()
-                                elif True:
-                                    d_260_branchKeyVersion_ = (d_259_valueOrError18_).Extract()
-                                    d_261_valueOrError19_ = JSONHelpers.default__.GetString(_dafny.Seq("branchKey"), d_220_obj_)
-                                    if (d_261_valueOrError19_).IsFailure():
-                                        return (d_261_valueOrError19_).PropagateFailure()
-                                    elif True:
-                                        d_262_branchKeyEncoded_ = (d_261_valueOrError19_).Extract()
-                                        d_263_valueOrError20_ = Base64.default__.Decode(d_262_branchKeyEncoded_)
-                                        if (d_263_valueOrError20_).IsFailure():
-                                            return (d_263_valueOrError20_).PropagateFailure()
-                                        elif True:
-                                            d_264_branchKey_ = (d_263_valueOrError20_).Extract()
-                                            d_265_valueOrError21_ = JSONHelpers.default__.GetString(_dafny.Seq("beaconKey"), d_220_obj_)
-                                            if (d_265_valueOrError21_).IsFailure():
-                                                return (d_265_valueOrError21_).PropagateFailure()
-                                            elif True:
-                                                d_266_beaconKeyEncoded_ = (d_265_valueOrError21_).Extract()
-                                                d_267_valueOrError22_ = Base64.default__.Decode(d_266_beaconKeyEncoded_)
-                                                if (d_267_valueOrError22_).IsFailure():
-                                                    return (d_267_valueOrError22_).PropagateFailure()
-                                                elif True:
-                                                    d_268_beaconKey_ = (d_267_valueOrError22_).Extract()
-                                                    return Wrappers.Result_Success(KeyMaterial_StaticKeyStoreInformation(d_256_keyIdentifier_, d_260_branchKeyVersion_, d_264_branchKey_, d_268_beaconKey_))
+                    if (d_190_typ_) == (_dafny.Seq("static-material")):
+                        return default__.ToStaticMaterial(mpl, name, d_187_obj_)
+                    elif (d_190_typ_) == (_dafny.Seq("static-branch-key")):
+                        return default__.ToStaticBranchKey(mpl, name, d_187_obj_)
                     elif True:
-                        d_269_valueOrError23_ = JSONHelpers.default__.GetBool(_dafny.Seq("encrypt"), d_220_obj_)
-                        if (d_269_valueOrError23_).IsFailure():
-                            return (d_269_valueOrError23_).PropagateFailure()
+                        d_192_valueOrError3_ = JSONHelpers.default__.GetBool(_dafny.Seq("encrypt"), d_187_obj_)
+                        if (d_192_valueOrError3_).IsFailure():
+                            return (d_192_valueOrError3_).PropagateFailure()
                         elif True:
-                            d_270_encrypt_ = (d_269_valueOrError23_).Extract()
-                            d_271_valueOrError24_ = JSONHelpers.default__.GetBool(_dafny.Seq("decrypt"), d_220_obj_)
-                            if (d_271_valueOrError24_).IsFailure():
-                                return (d_271_valueOrError24_).PropagateFailure()
+                            d_193_encrypt_ = (d_192_valueOrError3_).Extract()
+                            d_194_valueOrError4_ = JSONHelpers.default__.GetBool(_dafny.Seq("decrypt"), d_187_obj_)
+                            if (d_194_valueOrError4_).IsFailure():
+                                return (d_194_valueOrError4_).PropagateFailure()
                             elif True:
-                                d_272_decrypt_ = (d_271_valueOrError24_).Extract()
-                                d_273_valueOrError25_ = JSONHelpers.default__.GetString(_dafny.Seq("key-id"), d_220_obj_)
-                                if (d_273_valueOrError25_).IsFailure():
-                                    return (d_273_valueOrError25_).PropagateFailure()
+                                d_195_decrypt_ = (d_194_valueOrError4_).Extract()
+                                d_196_valueOrError5_ = JSONHelpers.default__.GetOptionalString(_dafny.Seq("key-id"), d_187_obj_)
+                                if (d_196_valueOrError5_).IsFailure():
+                                    return (d_196_valueOrError5_).PropagateFailure()
                                 elif True:
-                                    d_274_keyIdentifier_ = (d_273_valueOrError25_).Extract()
-                                    if (d_223_typ_) == (_dafny.Seq("aws-kms")):
-                                        return Wrappers.Result_Success(KeyMaterial_KMS(name, d_270_encrypt_, d_272_decrypt_, d_274_keyIdentifier_))
+                                    d_197_keyIdentifierOption_ = (d_196_valueOrError5_).Extract()
+                                    d_198_keyIdentifier_ = (d_197_keyIdentifierOption_).UnwrapOr(name)
+                                    if (d_190_typ_) == (_dafny.Seq("aws-kms")):
+                                        return Wrappers.Result_Success(KeyMaterial_KMS(name, d_193_encrypt_, d_195_decrypt_, d_198_keyIdentifier_))
                                     elif True:
-                                        d_275_valueOrError26_ = JSONHelpers.default__.GetString(_dafny.Seq("algorithm"), d_220_obj_)
-                                        if (d_275_valueOrError26_).IsFailure():
-                                            return (d_275_valueOrError26_).PropagateFailure()
+                                        d_199_valueOrError6_ = JSONHelpers.default__.GetString(_dafny.Seq("algorithm"), d_187_obj_)
+                                        if (d_199_valueOrError6_).IsFailure():
+                                            return (d_199_valueOrError6_).PropagateFailure()
                                         elif True:
-                                            d_276_algorithm_ = (d_275_valueOrError26_).Extract()
-                                            d_277_valueOrError27_ = JSONHelpers.default__.GetNat(_dafny.Seq("bits"), d_220_obj_)
-                                            if (d_277_valueOrError27_).IsFailure():
-                                                return (d_277_valueOrError27_).PropagateFailure()
+                                            d_200_algorithm_ = (d_199_valueOrError6_).Extract()
+                                            d_201_valueOrError7_ = JSONHelpers.default__.GetNat(_dafny.Seq("bits"), d_187_obj_)
+                                            if (d_201_valueOrError7_).IsFailure():
+                                                return (d_201_valueOrError7_).PropagateFailure()
                                             elif True:
-                                                d_278_bits_ = (d_277_valueOrError27_).Extract()
-                                                d_279_valueOrError28_ = JSONHelpers.default__.GetString(_dafny.Seq("encoding"), d_220_obj_)
-                                                if (d_279_valueOrError28_).IsFailure():
-                                                    return (d_279_valueOrError28_).PropagateFailure()
+                                                d_202_bits_ = (d_201_valueOrError7_).Extract()
+                                                d_203_valueOrError8_ = JSONHelpers.default__.GetString(_dafny.Seq("encoding"), d_187_obj_)
+                                                if (d_203_valueOrError8_).IsFailure():
+                                                    return (d_203_valueOrError8_).PropagateFailure()
                                                 elif True:
-                                                    d_280_encoding_ = (d_279_valueOrError28_).Extract()
-                                                    d_281_valueOrError29_ = JSONHelpers.default__.GetString(_dafny.Seq("material"), d_220_obj_)
-                                                    if (d_281_valueOrError29_).IsFailure():
-                                                        return (d_281_valueOrError29_).PropagateFailure()
+                                                    d_204_encoding_ = (d_203_valueOrError8_).Extract()
+                                                    d_205_valueOrError9_ = JSONHelpers.default__.Get(_dafny.Seq("material"), d_187_obj_)
+                                                    if (d_205_valueOrError9_).IsFailure():
+                                                        return (d_205_valueOrError9_).PropagateFailure()
                                                     elif True:
-                                                        d_282_material_ = (d_281_valueOrError29_).Extract()
-                                                        if (d_223_typ_) == (_dafny.Seq("symmetric")):
-                                                            d_283_valueOrError30_ = Base64.default__.Decode(d_282_material_)
-                                                            if (d_283_valueOrError30_).IsFailure():
-                                                                return (d_283_valueOrError30_).PropagateFailure()
+                                                        d_206_material_q_ = (d_205_valueOrError9_).Extract()
+                                                        def lambda14_(source2_):
+                                                            if source2_.is_Null:
+                                                                return Wrappers.Result_Failure(_dafny.Seq("Unsupported material shape."))
+                                                            elif source2_.is_Bool:
+                                                                d_208___mcc_h0_ = source2_.b
+                                                                return Wrappers.Result_Failure(_dafny.Seq("Unsupported material shape."))
+                                                            elif source2_.is_String:
+                                                                d_209___mcc_h2_ = source2_.str
+                                                                d_210_str_ = d_209___mcc_h2_
+                                                                return Wrappers.Result_Success(d_210_str_)
+                                                            elif source2_.is_Number:
+                                                                d_211___mcc_h4_ = source2_.num
+                                                                return Wrappers.Result_Failure(_dafny.Seq("Unsupported material shape."))
+                                                            elif source2_.is_Object:
+                                                                d_212___mcc_h6_ = source2_.obj
+                                                                return Wrappers.Result_Failure(_dafny.Seq("Unsupported material shape."))
                                                             elif True:
-                                                                d_284_materialBytes_ = (d_283_valueOrError30_).Extract()
-                                                                return Wrappers.Result_Success(KeyMaterial_Symetric(name, d_270_encrypt_, d_272_decrypt_, d_276_algorithm_, d_278_bits_, d_280_encoding_, d_284_materialBytes_, d_274_keyIdentifier_))
-                                                        elif (d_223_typ_) == (_dafny.Seq("private")):
-                                                            return Wrappers.Result_Success(KeyMaterial_PrivateRSA(name, d_270_encrypt_, d_272_decrypt_, d_276_algorithm_, d_278_bits_, d_280_encoding_, d_282_material_, d_274_keyIdentifier_))
-                                                        elif (d_223_typ_) == (_dafny.Seq("public")):
-                                                            return Wrappers.Result_Success(KeyMaterial_PublicRSA(name, d_270_encrypt_, d_272_decrypt_, d_278_bits_, d_276_algorithm_, d_280_encoding_, d_282_material_, d_274_keyIdentifier_))
+                                                                d_213___mcc_h8_ = source2_.arr
+                                                                d_214_arr_ = d_213___mcc_h8_
+                                                                def lambda15_(forall_var_10_):
+                                                                    d_216_s_: JSON_Values.JSON = forall_var_10_
+                                                                    return not ((d_216_s_) in (d_214_arr_)) or ((d_216_s_).is_String)
+
+                                                                d_215_valueOrError11_ = Wrappers.default__.Need(((0) < (len(d_214_arr_))) and (_dafny.quantifier((d_214_arr_).UniqueElements, True, lambda15_)), _dafny.Seq("Unsupported material shape."))
+                                                                if (d_215_valueOrError11_).IsFailure():
+                                                                    return (d_215_valueOrError11_).PropagateFailure()
+                                                                elif True:
+                                                                    def lambda16_(d_218_s_):
+                                                                        return (d_218_s_).str
+
+                                                                    d_217_strings_ = Seq.default__.Map(lambda16_, d_214_arr_)
+                                                                    d_219_material_ = StandardLibrary.default__.Join(d_217_strings_, _dafny.Seq("\n"))
+                                                                    return Wrappers.Result_Success(d_219_material_)
+
+                                                        d_207_valueOrError10_ = lambda14_(d_206_material_q_)
+                                                        if (d_207_valueOrError10_).IsFailure():
+                                                            return (d_207_valueOrError10_).PropagateFailure()
                                                         elif True:
-                                                            d_285_valueOrError31_ = UTF8.default__.Encode(d_282_material_)
-                                                            if (d_285_valueOrError31_).IsFailure():
-                                                                return (d_285_valueOrError31_).PropagateFailure()
+                                                            d_220_material_ = (d_207_valueOrError10_).Extract()
+                                                            if (d_190_typ_) == (_dafny.Seq("symmetric")):
+                                                                d_221_valueOrError12_ = Base64.default__.Decode(d_220_material_)
+                                                                if (d_221_valueOrError12_).IsFailure():
+                                                                    return (d_221_valueOrError12_).PropagateFailure()
+                                                                elif True:
+                                                                    d_222_materialBytes_ = (d_221_valueOrError12_).Extract()
+                                                                    return Wrappers.Result_Success(KeyMaterial_Symetric(name, d_193_encrypt_, d_195_decrypt_, d_200_algorithm_, d_202_bits_, d_204_encoding_, d_222_materialBytes_, d_198_keyIdentifier_))
+                                                            elif (d_190_typ_) == (_dafny.Seq("private")):
+                                                                return Wrappers.Result_Success(KeyMaterial_PrivateRSA(name, d_193_encrypt_, d_195_decrypt_, d_200_algorithm_, d_202_bits_, d_204_encoding_, d_220_material_, d_198_keyIdentifier_))
+                                                            elif (d_190_typ_) == (_dafny.Seq("public")):
+                                                                return Wrappers.Result_Success(KeyMaterial_PublicRSA(name, d_193_encrypt_, d_195_decrypt_, d_202_bits_, d_200_algorithm_, d_204_encoding_, d_220_material_, d_198_keyIdentifier_))
                                                             elif True:
-                                                                d_286_publicKey_ = (d_285_valueOrError31_).Extract()
-                                                                return Wrappers.Result_Success(KeyMaterial_KMSAsymetric(name, d_270_encrypt_, d_272_decrypt_, d_274_keyIdentifier_, d_278_bits_, d_276_algorithm_, d_280_encoding_, d_286_publicKey_))
+                                                                d_223_valueOrError13_ = UTF8.default__.Encode(d_220_material_)
+                                                                if (d_223_valueOrError13_).IsFailure():
+                                                                    return (d_223_valueOrError13_).PropagateFailure()
+                                                                elif True:
+                                                                    d_224_publicKey_ = (d_223_valueOrError13_).Extract()
+                                                                    return Wrappers.Result_Success(KeyMaterial_KMSAsymetric(name, d_193_encrypt_, d_195_decrypt_, d_198_keyIdentifier_, d_202_bits_, d_200_algorithm_, d_204_encoding_, d_224_publicKey_))
+
+    @staticmethod
+    def ToStaticMaterial(mpl, name, obj):
+        d_225_valueOrError0_ = default__.GetAlgorithmSuiteInfo(mpl, obj)
+        if (d_225_valueOrError0_).IsFailure():
+            return (d_225_valueOrError0_).PropagateFailure()
+        elif True:
+            d_226_algorithmSuite_ = (d_225_valueOrError0_).Extract()
+            d_227_valueOrError1_ = JSONHelpers.default__.SmallObjectToStringStringMap(_dafny.Seq("encryptionContext"), obj)
+            if (d_227_valueOrError1_).IsFailure():
+                return (d_227_valueOrError1_).PropagateFailure()
+            elif True:
+                d_228_encryptionContextStrings_ = (d_227_valueOrError1_).Extract()
+                d_229_valueOrError2_ = JSONHelpers.default__.utf8EncodeMap(d_228_encryptionContextStrings_)
+                if (d_229_valueOrError2_).IsFailure():
+                    return (d_229_valueOrError2_).PropagateFailure()
+                elif True:
+                    d_230_encryptionContext_ = (d_229_valueOrError2_).Extract()
+                    d_231_valueOrError3_ = JSONHelpers.default__.GetArrayString(_dafny.Seq("requiredEncryptionContextKeys"), obj)
+                    if (d_231_valueOrError3_).IsFailure():
+                        return (d_231_valueOrError3_).PropagateFailure()
+                    elif True:
+                        d_232_keysAsStrings_ = (d_231_valueOrError3_).Extract()
+                        d_233_valueOrError4_ = JSONHelpers.default__.utf8EncodeSeq(d_232_keysAsStrings_)
+                        if (d_233_valueOrError4_).IsFailure():
+                            return (d_233_valueOrError4_).PropagateFailure()
+                        elif True:
+                            d_234_requiredEncryptionContextKeys_ = (d_233_valueOrError4_).Extract()
+                            d_235_valueOrError5_ = JSONHelpers.default__.GetArrayObject(_dafny.Seq("encryptedDataKeys"), obj)
+                            if (d_235_valueOrError5_).IsFailure():
+                                return (d_235_valueOrError5_).PropagateFailure()
+                            elif True:
+                                d_236_encryptedDataKeysJSON_ = (d_235_valueOrError5_).Extract()
+                                d_237_valueOrError6_ = Seq.default__.MapWithResult(default__.ToEncryptedDataKey, d_236_encryptedDataKeysJSON_)
+                                if (d_237_valueOrError6_).IsFailure():
+                                    return (d_237_valueOrError6_).PropagateFailure()
+                                elif True:
+                                    d_238_encryptedDataKeys_ = (d_237_valueOrError6_).Extract()
+                                    d_239_valueOrError7_ = JSONHelpers.default__.GetOptionalString(_dafny.Seq("plaintextDataKey"), obj)
+                                    if (d_239_valueOrError7_).IsFailure():
+                                        return (d_239_valueOrError7_).PropagateFailure()
+                                    elif True:
+                                        d_240_plaintextDataKeyEncoded_ = (d_239_valueOrError7_).Extract()
+                                        def iife18_(_pat_let6_0):
+                                            def iife19_(d_242_result_):
+                                                return (Wrappers.Result_Success(Wrappers.Option_Some((d_242_result_).value)) if (d_242_result_).is_Success else Wrappers.Result_Failure((d_242_result_).error))
+                                            return iife19_(_pat_let6_0)
+                                        d_241_valueOrError8_ = (iife18_(Base64.default__.Decode((d_240_plaintextDataKeyEncoded_).value)) if (d_240_plaintextDataKeyEncoded_).is_Some else Wrappers.Result_Success(Wrappers.Option_None()))
+                                        if (d_241_valueOrError8_).IsFailure():
+                                            return (d_241_valueOrError8_).PropagateFailure()
+                                        elif True:
+                                            d_243_plaintextDataKey_ = (d_241_valueOrError8_).Extract()
+                                            d_244_valueOrError9_ = JSONHelpers.default__.GetOptionalString(_dafny.Seq("signingKey"), obj)
+                                            if (d_244_valueOrError9_).IsFailure():
+                                                return (d_244_valueOrError9_).PropagateFailure()
+                                            elif True:
+                                                d_245_signingKey_ = (d_244_valueOrError9_).Extract()
+                                                d_246_valueOrError10_ = JSONHelpers.default__.GetOptionalString(_dafny.Seq("verificationKey"), obj)
+                                                if (d_246_valueOrError10_).IsFailure():
+                                                    return (d_246_valueOrError10_).PropagateFailure()
+                                                elif True:
+                                                    d_247_verificationKey_ = (d_246_valueOrError10_).Extract()
+                                                    d_248_symmetricSigningKeys_ = (JSONHelpers.default__.GetArrayString(_dafny.Seq("symmetricSigningKeys"), obj)).ToOption()
+                                                    return Wrappers.Result_Success(KeyMaterial_StaticMaterial(name, d_226_algorithmSuite_, d_230_encryptionContext_, d_238_encryptedDataKeys_, d_234_requiredEncryptionContextKeys_, d_243_plaintextDataKey_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None()))
+
+    @staticmethod
+    def ToStaticBranchKey(mpl, name, obj):
+        d_249_valueOrError0_ = JSONHelpers.default__.GetString(_dafny.Seq("key-id"), obj)
+        if (d_249_valueOrError0_).IsFailure():
+            return (d_249_valueOrError0_).PropagateFailure()
+        elif True:
+            d_250_keyIdentifier_ = (d_249_valueOrError0_).Extract()
+            d_251_valueOrError1_ = JSONHelpers.default__.GetString(_dafny.Seq("branchKeyVersion"), obj)
+            if (d_251_valueOrError1_).IsFailure():
+                return (d_251_valueOrError1_).PropagateFailure()
+            elif True:
+                d_252_branchKeyVersionEncoded_ = (d_251_valueOrError1_).Extract()
+                d_253_valueOrError2_ = UTF8.default__.Encode(d_252_branchKeyVersionEncoded_)
+                if (d_253_valueOrError2_).IsFailure():
+                    return (d_253_valueOrError2_).PropagateFailure()
+                elif True:
+                    d_254_branchKeyVersion_ = (d_253_valueOrError2_).Extract()
+                    d_255_valueOrError3_ = JSONHelpers.default__.GetString(_dafny.Seq("branchKey"), obj)
+                    if (d_255_valueOrError3_).IsFailure():
+                        return (d_255_valueOrError3_).PropagateFailure()
+                    elif True:
+                        d_256_branchKeyEncoded_ = (d_255_valueOrError3_).Extract()
+                        d_257_valueOrError4_ = Base64.default__.Decode(d_256_branchKeyEncoded_)
+                        if (d_257_valueOrError4_).IsFailure():
+                            return (d_257_valueOrError4_).PropagateFailure()
+                        elif True:
+                            d_258_branchKey_ = (d_257_valueOrError4_).Extract()
+                            d_259_valueOrError5_ = JSONHelpers.default__.GetString(_dafny.Seq("beaconKey"), obj)
+                            if (d_259_valueOrError5_).IsFailure():
+                                return (d_259_valueOrError5_).PropagateFailure()
+                            elif True:
+                                d_260_beaconKeyEncoded_ = (d_259_valueOrError5_).Extract()
+                                d_261_valueOrError6_ = Base64.default__.Decode(d_260_beaconKeyEncoded_)
+                                if (d_261_valueOrError6_).IsFailure():
+                                    return (d_261_valueOrError6_).PropagateFailure()
+                                elif True:
+                                    d_262_beaconKey_ = (d_261_valueOrError6_).Extract()
+                                    return Wrappers.Result_Success(KeyMaterial_StaticKeyStoreInformation(d_250_keyIdentifier_, d_254_branchKeyVersion_, d_258_branchKey_, d_262_beaconKey_))
 
     @staticmethod
     def ToEncryptedDataKey(obj):
-        d_287_valueOrError0_ = JSONHelpers.default__.GetString(_dafny.Seq("keyProviderId"), obj)
-        if (d_287_valueOrError0_).IsFailure():
-            return (d_287_valueOrError0_).PropagateFailure()
+        d_263_valueOrError0_ = JSONHelpers.default__.GetString(_dafny.Seq("keyProviderId"), obj)
+        if (d_263_valueOrError0_).IsFailure():
+            return (d_263_valueOrError0_).PropagateFailure()
         elif True:
-            d_288_keyProviderIdJSON_ = (d_287_valueOrError0_).Extract()
-            d_289_valueOrError1_ = JSONHelpers.default__.GetString(_dafny.Seq("keyProviderInfo"), obj)
-            if (d_289_valueOrError1_).IsFailure():
-                return (d_289_valueOrError1_).PropagateFailure()
+            d_264_keyProviderIdJSON_ = (d_263_valueOrError0_).Extract()
+            d_265_valueOrError1_ = JSONHelpers.default__.GetString(_dafny.Seq("keyProviderInfo"), obj)
+            if (d_265_valueOrError1_).IsFailure():
+                return (d_265_valueOrError1_).PropagateFailure()
             elif True:
-                d_290_keyProviderInfoJSON_ = (d_289_valueOrError1_).Extract()
-                d_291_valueOrError2_ = JSONHelpers.default__.GetString(_dafny.Seq("ciphertext"), obj)
-                if (d_291_valueOrError2_).IsFailure():
-                    return (d_291_valueOrError2_).PropagateFailure()
+                d_266_keyProviderInfoJSON_ = (d_265_valueOrError1_).Extract()
+                d_267_valueOrError2_ = JSONHelpers.default__.GetString(_dafny.Seq("ciphertext"), obj)
+                if (d_267_valueOrError2_).IsFailure():
+                    return (d_267_valueOrError2_).PropagateFailure()
                 elif True:
-                    d_292_ciphertextJSON_ = (d_291_valueOrError2_).Extract()
-                    d_293_valueOrError3_ = UTF8.default__.Encode(d_288_keyProviderIdJSON_)
-                    if (d_293_valueOrError3_).IsFailure():
-                        return (d_293_valueOrError3_).PropagateFailure()
+                    d_268_ciphertextJSON_ = (d_267_valueOrError2_).Extract()
+                    d_269_valueOrError3_ = UTF8.default__.Encode(d_264_keyProviderIdJSON_)
+                    if (d_269_valueOrError3_).IsFailure():
+                        return (d_269_valueOrError3_).PropagateFailure()
                     elif True:
-                        d_294_keyProviderId_ = (d_293_valueOrError3_).Extract()
-                        d_295_valueOrError4_ = Base64.default__.Decode(d_290_keyProviderInfoJSON_)
-                        if (d_295_valueOrError4_).IsFailure():
-                            return (d_295_valueOrError4_).PropagateFailure()
+                        d_270_keyProviderId_ = (d_269_valueOrError3_).Extract()
+                        d_271_valueOrError4_ = Base64.default__.Decode(d_266_keyProviderInfoJSON_)
+                        if (d_271_valueOrError4_).IsFailure():
+                            return (d_271_valueOrError4_).PropagateFailure()
                         elif True:
-                            d_296_keyProviderInfo_ = (d_295_valueOrError4_).Extract()
-                            d_297_valueOrError5_ = Base64.default__.Decode(d_292_ciphertextJSON_)
-                            if (d_297_valueOrError5_).IsFailure():
-                                return (d_297_valueOrError5_).PropagateFailure()
+                            d_272_keyProviderInfo_ = (d_271_valueOrError4_).Extract()
+                            d_273_valueOrError5_ = Base64.default__.Decode(d_268_ciphertextJSON_)
+                            if (d_273_valueOrError5_).IsFailure():
+                                return (d_273_valueOrError5_).PropagateFailure()
                             elif True:
-                                d_298_ciphertext_ = (d_297_valueOrError5_).Extract()
-                                return Wrappers.Result_Success(software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey_EncryptedDataKey(d_294_keyProviderId_, d_296_keyProviderInfo_, d_298_ciphertext_))
+                                d_274_ciphertext_ = (d_273_valueOrError5_).Extract()
+                                return Wrappers.Result_Success(software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey_EncryptedDataKey(d_270_keyProviderId_, d_272_keyProviderInfo_, d_274_ciphertext_))
+
+    @staticmethod
+    def GetAlgorithmSuiteInfo(mpl, obj):
+        d_275_valueOrError0_ = JSONHelpers.default__.GetString(_dafny.Seq("algorithmSuiteId"), obj)
+        if (d_275_valueOrError0_).IsFailure():
+            return (d_275_valueOrError0_).PropagateFailure()
+        elif True:
+            d_276_algorithmSuiteHex_ = (d_275_valueOrError0_).Extract()
+            d_277_valueOrError1_ = Wrappers.default__.Need(HexStrings.default__.IsLooseHexString(d_276_algorithmSuiteHex_), _dafny.Seq("Not hex encoded binary"))
+            if (d_277_valueOrError1_).IsFailure():
+                return (d_277_valueOrError1_).PropagateFailure()
+            elif True:
+                d_278_binaryId_ = HexStrings.default__.FromHexString(d_276_algorithmSuiteHex_)
+                def lambda17_(d_279_algorithmSuiteHex_):
+                    def lambda18_(d_280_e_):
+                        return (_dafny.Seq("Invalid Suite:")) + (d_279_algorithmSuiteHex_)
+
+                    return lambda18_
+
+                return ((mpl).GetAlgorithmSuiteInfo(d_278_binaryId_)).MapFailure(lambda17_(d_276_algorithmSuiteHex_))
 
     @staticmethod
     def KeyMaterialString_q(s):

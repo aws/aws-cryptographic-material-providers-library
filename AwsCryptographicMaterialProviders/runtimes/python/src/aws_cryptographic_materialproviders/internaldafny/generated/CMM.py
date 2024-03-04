@@ -12,9 +12,9 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_primitives_internaldafny_types
+import software.amazon.cryptography.services.dynamodb.internaldafny.types
+import software.amazon.cryptography.services.kms.internaldafny.types
+import software.amazon.cryptography.primitives.internaldafny.types
 import ExternRandom
 import Random
 import AESEncryption
@@ -28,6 +28,7 @@ import Signature
 import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
+import AesKdfCtr
 import Relations
 import Seq_MergeSort
 import Math
@@ -37,7 +38,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -50,19 +50,22 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import UUID
 import Time
 import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
-import software_amazon_cryptography_keystore_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
+import DafnyLibraries
+import software.amazon.cryptography.keystore.internaldafny.types
+import software.amazon.cryptography.materialproviders.internaldafny.types
 import AwsArnParsing
 import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
@@ -117,28 +120,28 @@ class default__:
     @staticmethod
     def RequiredEncryptionContextKeys_q(requiredEncryptionContextKeys, encryptionMaterials):
         def lambda91_(forall_var_12_):
-            d_1135_k_: _dafny.Seq = forall_var_12_
-            return not ((d_1135_k_) in ((requiredEncryptionContextKeys).UnwrapOr(_dafny.Seq([])))) or ((d_1135_k_) in ((encryptionMaterials).requiredEncryptionContextKeys))
+            d_1138_k_: _dafny.Seq = forall_var_12_
+            return not ((d_1138_k_) in ((requiredEncryptionContextKeys).UnwrapOr(_dafny.Seq([])))) or ((d_1138_k_) in ((encryptionMaterials).requiredEncryptionContextKeys))
 
         return _dafny.quantifier(((requiredEncryptionContextKeys).UnwrapOr(_dafny.Seq([]))).UniqueElements, True, lambda91_)
 
     @staticmethod
     def EncryptionContextComplete(input, decryptionMaterials):
-        d_1136_reproducedEncryptionContext_ = ((input).reproducedEncryptionContext).UnwrapOr(_dafny.Map({}))
+        d_1139_reproducedEncryptionContext_ = ((input).reproducedEncryptionContext).UnwrapOr(_dafny.Map({}))
         def lambda92_(forall_var_13_):
-            d_1137_k_: _dafny.Seq = forall_var_13_
-            return not ((d_1137_k_) in ((d_1136_reproducedEncryptionContext_).keys)) or (((d_1137_k_) in ((decryptionMaterials).encryptionContext)) and ((((decryptionMaterials).encryptionContext)[d_1137_k_]) == ((d_1136_reproducedEncryptionContext_)[d_1137_k_])))
+            d_1140_k_: _dafny.Seq = forall_var_13_
+            return not ((d_1140_k_) in ((d_1139_reproducedEncryptionContext_).keys)) or (((d_1140_k_) in ((decryptionMaterials).encryptionContext)) and ((((decryptionMaterials).encryptionContext)[d_1140_k_]) == ((d_1139_reproducedEncryptionContext_)[d_1140_k_])))
 
-        return _dafny.quantifier(((d_1136_reproducedEncryptionContext_).keys).Elements, True, lambda92_)
+        return _dafny.quantifier(((d_1139_reproducedEncryptionContext_).keys).Elements, True, lambda92_)
 
     @staticmethod
     def ReproducedEncryptionContext_q(input):
-        d_1138_reproducedEncryptionContext_ = ((input).reproducedEncryptionContext).UnwrapOr(_dafny.Map({}))
+        d_1141_reproducedEncryptionContext_ = ((input).reproducedEncryptionContext).UnwrapOr(_dafny.Map({}))
         def lambda93_(forall_var_14_):
-            d_1139_k_: _dafny.Seq = forall_var_14_
-            return not (((d_1139_k_) in ((d_1138_reproducedEncryptionContext_).keys)) and ((d_1139_k_) in ((input).encryptionContext))) or ((((input).encryptionContext)[d_1139_k_]) == ((d_1138_reproducedEncryptionContext_)[d_1139_k_]))
+            d_1142_k_: _dafny.Seq = forall_var_14_
+            return not (((d_1142_k_) in ((d_1141_reproducedEncryptionContext_).keys)) and ((d_1142_k_) in ((input).encryptionContext))) or ((((input).encryptionContext)[d_1142_k_]) == ((d_1141_reproducedEncryptionContext_)[d_1142_k_]))
 
-        return _dafny.quantifier(((d_1138_reproducedEncryptionContext_).keys).Elements, True, lambda93_)
+        return _dafny.quantifier(((d_1141_reproducedEncryptionContext_).keys).Elements, True, lambda93_)
 
 
 class VerifiableInterface:

@@ -12,9 +12,9 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_primitives_internaldafny_types
+import software.amazon.cryptography.services.dynamodb.internaldafny.types
+import software.amazon.cryptography.services.kms.internaldafny.types
+import software.amazon.cryptography.primitives.internaldafny.types
 import ExternRandom
 import Random
 import AESEncryption
@@ -28,6 +28,7 @@ import Signature
 import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
+import AesKdfCtr
 import Relations
 import Seq_MergeSort
 import Math
@@ -37,7 +38,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -50,19 +50,22 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import UUID
 import Time
 import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
-import software_amazon_cryptography_keystore_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
+import DafnyLibraries
+import software.amazon.cryptography.keystore.internaldafny.types
+import software.amazon.cryptography.materialproviders.internaldafny.types
 import AwsArnParsing
 import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
@@ -115,7 +118,7 @@ import DefaultCMM
 # Module: DefaultClientSupplier
 
 
-class DefaultClientSupplier(software_amazon_cryptography_materialproviders_internaldafny_types.IClientSupplier):
+class DefaultClientSupplier(software.amazon.cryptography.materialproviders.internaldafny.types.IClientSupplier):
     def  __init__(self):
         pass
 
@@ -123,7 +126,7 @@ class DefaultClientSupplier(software_amazon_cryptography_materialproviders_inter
         return "DefaultClientSupplier.DefaultClientSupplier"
     def GetClient(self, input):
         out215_: Wrappers.Result
-        out215_ = software_amazon_cryptography_materialproviders_internaldafny_types.IClientSupplier.GetClient(self, input)
+        out215_ = software.amazon.cryptography.materialproviders.internaldafny.types.IClientSupplier.GetClient(self, input)
         return out215_
 
     def ctor__(self):
@@ -132,14 +135,14 @@ class DefaultClientSupplier(software_amazon_cryptography_materialproviders_inter
 
     def GetClient_k(self, input):
         output: Wrappers.Result = None
-        d_1172_maybeClient_: Wrappers.Result
+        d_1175_maybeClient_: Wrappers.Result
         out216_: Wrappers.Result
         out216_ = software_amazon_cryptography_services_kms_internaldafny.default__.KMSClientForRegion((input).region)
-        d_1172_maybeClient_ = out216_
-        def lambda95_(d_1173_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_ComAmazonawsKms(d_1173_e_)
+        d_1175_maybeClient_ = out216_
+        def lambda95_(d_1176_e_):
+            return software.amazon.cryptography.materialproviders.internaldafny.types.Error_ComAmazonawsKms(d_1176_e_)
 
-        output = (d_1172_maybeClient_).MapFailure(lambda95_)
+        output = (d_1175_maybeClient_).MapFailure(lambda95_)
         return output
         return output
 

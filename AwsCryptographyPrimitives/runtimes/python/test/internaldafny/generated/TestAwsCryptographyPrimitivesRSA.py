@@ -12,7 +12,7 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software_amazon_cryptography_primitives_internaldafny_types
+import software.amazon.cryptography.primitives.internaldafny.types
 import ExternRandom
 import Random
 import AESEncryption
@@ -26,6 +26,7 @@ import Signature
 import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
+import AesKdfCtr
 import Relations
 import Seq_MergeSort
 import Math
@@ -35,7 +36,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -48,17 +48,20 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import UUID
 import Time
 import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
+import DafnyLibraries
 import software_amazon_cryptography_primitives_internaldafny
 import Aws_Cryptography
 import Aws
@@ -79,7 +82,7 @@ class default__:
 
     @staticmethod
     def RSAEncryptTests():
-        d_71_client_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
+        d_71_client_: software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient
         d_72_valueOrError0_: Wrappers.Result = None
         out14_: Wrappers.Result
         out14_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
@@ -89,15 +92,15 @@ class default__:
         d_71_client_ = (d_72_valueOrError0_).Extract()
         d_73_keys_: Wrappers.Result
         out15_: Wrappers.Result
-        out15_ = (d_71_client_).GenerateRSAKeyPair(software_amazon_cryptography_primitives_internaldafny_types.GenerateRSAKeyPairInput_GenerateRSAKeyPairInput(2048))
+        out15_ = (d_71_client_).GenerateRSAKeyPair(software.amazon.cryptography.primitives.internaldafny.types.GenerateRSAKeyPairInput_GenerateRSAKeyPairInput(2048))
         d_73_keys_ = out15_
         if not((d_73_keys_).is_Success):
             raise _dafny.HaltException("test/TestRSA.dfy(53,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        default__.BasicRSAEncryptTest(software_amazon_cryptography_primitives_internaldafny_types.RSAEncryptInput_RSAEncryptInput(software_amazon_cryptography_primitives_internaldafny_types.RSAPaddingMode_OAEP__SHA256(), (((d_73_keys_).value).publicKey).pem, _dafny.Seq([97, 115, 100, 102])), (d_73_keys_).value)
+        default__.BasicRSAEncryptTest(software.amazon.cryptography.primitives.internaldafny.types.RSAEncryptInput_RSAEncryptInput(software.amazon.cryptography.primitives.internaldafny.types.RSAPaddingMode_OAEP__SHA256(), (((d_73_keys_).value).publicKey).pem, _dafny.Seq([97, 115, 100, 102])), (d_73_keys_).value)
 
     @staticmethod
     def GetRSAKeyModulusLength():
-        d_74_client_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
+        d_74_client_: software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient
         d_75_valueOrError0_: Wrappers.Result = None
         out16_: Wrappers.Result
         out16_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
@@ -111,9 +114,9 @@ class default__:
         if not(not((d_77_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("test/TestRSA.dfy(71,22): " + _dafny.string_of(d_77_valueOrError1_))
         d_76_publicKey2048_ = (d_77_valueOrError1_).Extract()
-        d_78_length2048_: software_amazon_cryptography_primitives_internaldafny_types.GetRSAKeyModulusLengthOutput
+        d_78_length2048_: software.amazon.cryptography.primitives.internaldafny.types.GetRSAKeyModulusLengthOutput
         d_79_valueOrError2_: Wrappers.Result = None
-        d_79_valueOrError2_ = (d_74_client_).GetRSAKeyModulusLength(software_amazon_cryptography_primitives_internaldafny_types.GetRSAKeyModulusLengthInput_GetRSAKeyModulusLengthInput(d_76_publicKey2048_))
+        d_79_valueOrError2_ = (d_74_client_).GetRSAKeyModulusLength(software.amazon.cryptography.primitives.internaldafny.types.GetRSAKeyModulusLengthInput_GetRSAKeyModulusLengthInput(d_76_publicKey2048_))
         if not(not((d_79_valueOrError2_).IsFailure())):
             raise _dafny.HaltException("test/TestRSA.dfy(72,19): " + _dafny.string_of(d_79_valueOrError2_))
         d_78_length2048_ = (d_79_valueOrError2_).Extract()
@@ -125,9 +128,9 @@ class default__:
         if not(not((d_81_valueOrError3_).IsFailure())):
             raise _dafny.HaltException("test/TestRSA.dfy(77,22): " + _dafny.string_of(d_81_valueOrError3_))
         d_80_publicKey3072_ = (d_81_valueOrError3_).Extract()
-        d_82_length3072_: software_amazon_cryptography_primitives_internaldafny_types.GetRSAKeyModulusLengthOutput
+        d_82_length3072_: software.amazon.cryptography.primitives.internaldafny.types.GetRSAKeyModulusLengthOutput
         d_83_valueOrError4_: Wrappers.Result = None
-        d_83_valueOrError4_ = (d_74_client_).GetRSAKeyModulusLength(software_amazon_cryptography_primitives_internaldafny_types.GetRSAKeyModulusLengthInput_GetRSAKeyModulusLengthInput(d_80_publicKey3072_))
+        d_83_valueOrError4_ = (d_74_client_).GetRSAKeyModulusLength(software.amazon.cryptography.primitives.internaldafny.types.GetRSAKeyModulusLengthInput_GetRSAKeyModulusLengthInput(d_80_publicKey3072_))
         if not(not((d_83_valueOrError4_).IsFailure())):
             raise _dafny.HaltException("test/TestRSA.dfy(78,19): " + _dafny.string_of(d_83_valueOrError4_))
         d_82_length3072_ = (d_83_valueOrError4_).Extract()
@@ -139,9 +142,9 @@ class default__:
         if not(not((d_85_valueOrError5_).IsFailure())):
             raise _dafny.HaltException("test/TestRSA.dfy(83,22): " + _dafny.string_of(d_85_valueOrError5_))
         d_84_publicKey4096_ = (d_85_valueOrError5_).Extract()
-        d_86_length4096_: software_amazon_cryptography_primitives_internaldafny_types.GetRSAKeyModulusLengthOutput
+        d_86_length4096_: software.amazon.cryptography.primitives.internaldafny.types.GetRSAKeyModulusLengthOutput
         d_87_valueOrError6_: Wrappers.Result = None
-        d_87_valueOrError6_ = (d_74_client_).GetRSAKeyModulusLength(software_amazon_cryptography_primitives_internaldafny_types.GetRSAKeyModulusLengthInput_GetRSAKeyModulusLengthInput(d_84_publicKey4096_))
+        d_87_valueOrError6_ = (d_74_client_).GetRSAKeyModulusLength(software.amazon.cryptography.primitives.internaldafny.types.GetRSAKeyModulusLengthInput_GetRSAKeyModulusLengthInput(d_84_publicKey4096_))
         if not(not((d_87_valueOrError6_).IsFailure())):
             raise _dafny.HaltException("test/TestRSA.dfy(84,19): " + _dafny.string_of(d_87_valueOrError6_))
         d_86_length4096_ = (d_87_valueOrError6_).Extract()
@@ -150,7 +153,7 @@ class default__:
 
     @staticmethod
     def BasicRSADecryptTests(input, expectedOutput):
-        d_88_client_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
+        d_88_client_: software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient
         d_89_valueOrError0_: Wrappers.Result = None
         out17_: Wrappers.Result
         out17_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
@@ -171,7 +174,7 @@ class default__:
 
     @staticmethod
     def BasicRSAEncryptTest(input, keypair):
-        d_92_client_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
+        d_92_client_: software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient
         d_93_valueOrError0_: Wrappers.Result = None
         out19_: Wrappers.Result
         out19_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
@@ -187,8 +190,8 @@ class default__:
         if not(not((d_95_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("test/TestRSA.dfy(107,15): " + _dafny.string_of(d_95_valueOrError1_))
         d_94_output_ = (d_95_valueOrError1_).Extract()
-        d_96_decryptInput_: software_amazon_cryptography_primitives_internaldafny_types.RSADecryptInput
-        d_96_decryptInput_ = software_amazon_cryptography_primitives_internaldafny_types.RSADecryptInput_RSADecryptInput((input).padding, ((keypair).privateKey).pem, d_94_output_)
+        d_96_decryptInput_: software.amazon.cryptography.primitives.internaldafny.types.RSADecryptInput
+        d_96_decryptInput_ = software.amazon.cryptography.primitives.internaldafny.types.RSADecryptInput_RSADecryptInput((input).padding, ((keypair).privateKey).pem, d_94_output_)
         default__.BasicRSADecryptTests(d_96_decryptInput_, (input).plaintext)
 
     @staticmethod
@@ -196,9 +199,9 @@ class default__:
         d_97_allPadding_: _dafny.Set
         def iife0_():
             coll0_ = _dafny.Set()
-            compr_0_: software_amazon_cryptography_primitives_internaldafny_types.RSAPaddingMode
-            for compr_0_ in software_amazon_cryptography_primitives_internaldafny_types.RSAPaddingMode.AllSingletonConstructors:
-                d_98_p_: software_amazon_cryptography_primitives_internaldafny_types.RSAPaddingMode = compr_0_
+            compr_0_: software.amazon.cryptography.primitives.internaldafny.types.RSAPaddingMode
+            for compr_0_ in software.amazon.cryptography.primitives.internaldafny.types.RSAPaddingMode.AllSingletonConstructors:
+                d_98_p_: software.amazon.cryptography.primitives.internaldafny.types.RSAPaddingMode = compr_0_
                 if True:
                     coll0_ = coll0_.union(_dafny.Set([d_98_p_]))
             return _dafny.Set(coll0_)
@@ -216,19 +219,19 @@ class default__:
         if not(not((d_102_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("test/TestRSA.dfy(122,49): " + _dafny.string_of(d_102_valueOrError1_))
         d_101_PrivateKeyFromGenerateRSAKeyPairPemBytes_ = (d_102_valueOrError1_).Extract()
-        d_103_KeyFromGenerateRSAKeyPair_: software_amazon_cryptography_primitives_internaldafny_types.GenerateRSAKeyPairOutput
-        d_103_KeyFromGenerateRSAKeyPair_ = software_amazon_cryptography_primitives_internaldafny_types.GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput(software_amazon_cryptography_primitives_internaldafny_types.RSAPublicKey_RSAPublicKey(2048, d_99_PublicKeyFromGenerateRSAKeyPairPemBytes_), software_amazon_cryptography_primitives_internaldafny_types.RSAPrivateKey_RSAPrivateKey(2048, d_101_PrivateKeyFromGenerateRSAKeyPairPemBytes_))
+        d_103_KeyFromGenerateRSAKeyPair_: software.amazon.cryptography.primitives.internaldafny.types.GenerateRSAKeyPairOutput
+        d_103_KeyFromGenerateRSAKeyPair_ = software.amazon.cryptography.primitives.internaldafny.types.GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput(software.amazon.cryptography.primitives.internaldafny.types.RSAPublicKey_RSAPublicKey(2048, d_99_PublicKeyFromGenerateRSAKeyPairPemBytes_), software.amazon.cryptography.primitives.internaldafny.types.RSAPrivateKey_RSAPrivateKey(2048, d_101_PrivateKeyFromGenerateRSAKeyPairPemBytes_))
         while (d_97_allPadding_) != (_dafny.Set({})):
-            d_104_padding_: software_amazon_cryptography_primitives_internaldafny_types.RSAPaddingMode
+            d_104_padding_: software.amazon.cryptography.primitives.internaldafny.types.RSAPaddingMode
             with _dafny.label("_ASSIGN_SUCH_THAT_d_0"):
-                assign_such_that_0_: software_amazon_cryptography_primitives_internaldafny_types.RSAPaddingMode
+                assign_such_that_0_: software.amazon.cryptography.primitives.internaldafny.types.RSAPaddingMode
                 for assign_such_that_0_ in (d_97_allPadding_).Elements:
                     d_104_padding_ = assign_such_that_0_
                     if (d_104_padding_) in (d_97_allPadding_):
                         raise _dafny.Break("_ASSIGN_SUCH_THAT_d_0")
                 raise Exception("assign-such-that search produced no value (line 136)")
                 pass
-            default__.BasicRSAEncryptTest(software_amazon_cryptography_primitives_internaldafny_types.RSAEncryptInput_RSAEncryptInput(d_104_padding_, ((d_103_KeyFromGenerateRSAKeyPair_).publicKey).pem, _dafny.Seq([97, 115, 100, 102])), d_103_KeyFromGenerateRSAKeyPair_)
+            default__.BasicRSAEncryptTest(software.amazon.cryptography.primitives.internaldafny.types.RSAEncryptInput_RSAEncryptInput(d_104_padding_, ((d_103_KeyFromGenerateRSAKeyPair_).publicKey).pem, _dafny.Seq([97, 115, 100, 102])), d_103_KeyFromGenerateRSAKeyPair_)
             d_97_allPadding_ = (d_97_allPadding_) - (_dafny.Set({d_104_padding_}))
 
     @staticmethod
@@ -236,9 +239,9 @@ class default__:
         d_105_allPadding_: _dafny.Set
         def iife1_():
             coll1_ = _dafny.Set()
-            compr_1_: software_amazon_cryptography_primitives_internaldafny_types.RSAPaddingMode
-            for compr_1_ in software_amazon_cryptography_primitives_internaldafny_types.RSAPaddingMode.AllSingletonConstructors:
-                d_106_p_: software_amazon_cryptography_primitives_internaldafny_types.RSAPaddingMode = compr_1_
+            compr_1_: software.amazon.cryptography.primitives.internaldafny.types.RSAPaddingMode
+            for compr_1_ in software.amazon.cryptography.primitives.internaldafny.types.RSAPaddingMode.AllSingletonConstructors:
+                d_106_p_: software.amazon.cryptography.primitives.internaldafny.types.RSAPaddingMode = compr_1_
                 if True:
                     coll1_ = coll1_.union(_dafny.Set([d_106_p_]))
             return _dafny.Set(coll1_)
@@ -256,19 +259,19 @@ class default__:
         if not(not((d_110_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("test/TestRSA.dfy(155,42): " + _dafny.string_of(d_110_valueOrError1_))
         d_109_PrivateKeyFromTestVectorsPemBytes_ = (d_110_valueOrError1_).Extract()
-        d_111_KeyFromTestVectorsPair_: software_amazon_cryptography_primitives_internaldafny_types.GenerateRSAKeyPairOutput
-        d_111_KeyFromTestVectorsPair_ = software_amazon_cryptography_primitives_internaldafny_types.GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput(software_amazon_cryptography_primitives_internaldafny_types.RSAPublicKey_RSAPublicKey(4096, d_107_PublicKeyFromTestVectorsPemBytes_), software_amazon_cryptography_primitives_internaldafny_types.RSAPrivateKey_RSAPrivateKey(4096, d_109_PrivateKeyFromTestVectorsPemBytes_))
+        d_111_KeyFromTestVectorsPair_: software.amazon.cryptography.primitives.internaldafny.types.GenerateRSAKeyPairOutput
+        d_111_KeyFromTestVectorsPair_ = software.amazon.cryptography.primitives.internaldafny.types.GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput(software.amazon.cryptography.primitives.internaldafny.types.RSAPublicKey_RSAPublicKey(4096, d_107_PublicKeyFromTestVectorsPemBytes_), software.amazon.cryptography.primitives.internaldafny.types.RSAPrivateKey_RSAPrivateKey(4096, d_109_PrivateKeyFromTestVectorsPemBytes_))
         while (d_105_allPadding_) != (_dafny.Set({})):
-            d_112_padding_: software_amazon_cryptography_primitives_internaldafny_types.RSAPaddingMode
+            d_112_padding_: software.amazon.cryptography.primitives.internaldafny.types.RSAPaddingMode
             with _dafny.label("_ASSIGN_SUCH_THAT_d_1"):
-                assign_such_that_1_: software_amazon_cryptography_primitives_internaldafny_types.RSAPaddingMode
+                assign_such_that_1_: software.amazon.cryptography.primitives.internaldafny.types.RSAPaddingMode
                 for assign_such_that_1_ in (d_105_allPadding_).Elements:
                     d_112_padding_ = assign_such_that_1_
                     if (d_112_padding_) in (d_105_allPadding_):
                         raise _dafny.Break("_ASSIGN_SUCH_THAT_d_1")
                 raise Exception("assign-such-that search produced no value (line 169)")
                 pass
-            default__.BasicRSAEncryptTest(software_amazon_cryptography_primitives_internaldafny_types.RSAEncryptInput_RSAEncryptInput(d_112_padding_, ((d_111_KeyFromTestVectorsPair_).publicKey).pem, _dafny.Seq([97, 115, 100, 102])), d_111_KeyFromTestVectorsPair_)
+            default__.BasicRSAEncryptTest(software.amazon.cryptography.primitives.internaldafny.types.RSAEncryptInput_RSAEncryptInput(d_112_padding_, ((d_111_KeyFromTestVectorsPair_).publicKey).pem, _dafny.Seq([97, 115, 100, 102])), d_111_KeyFromTestVectorsPair_)
             d_105_allPadding_ = (d_105_allPadding_) - (_dafny.Set({d_112_padding_}))
 
     @staticmethod

@@ -12,9 +12,9 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_primitives_internaldafny_types
+import software.amazon.cryptography.services.dynamodb.internaldafny.types
+import software.amazon.cryptography.services.kms.internaldafny.types
+import software.amazon.cryptography.primitives.internaldafny.types
 import ExternRandom
 import Random
 import AESEncryption
@@ -28,6 +28,7 @@ import Signature
 import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
+import AesKdfCtr
 import Relations
 import Seq_MergeSort
 import Math
@@ -37,7 +38,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -50,19 +50,22 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import UUID
 import Time
 import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
-import software_amazon_cryptography_keystore_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
+import DafnyLibraries
+import software.amazon.cryptography.keystore.internaldafny.types
+import software.amazon.cryptography.materialproviders.internaldafny.types
 import AwsArnParsing
 import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
@@ -86,20 +89,20 @@ class default__:
 
     @staticmethod
     def DefaultKeyStoreConfig():
-        return software_amazon_cryptography_keystore_internaldafny_types.KeyStoreConfig_KeyStoreConfig(_dafny.Seq("None"), software_amazon_cryptography_keystore_internaldafny_types.KMSConfiguration_kmsKeyArn(_dafny.Seq("1234abcd-12ab-34cd-56ef-1234567890ab")), _dafny.Seq("None"), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
+        return software.amazon.cryptography.keystore.internaldafny.types.KeyStoreConfig_KeyStoreConfig(_dafny.Seq("None"), software.amazon.cryptography.keystore.internaldafny.types.KMSConfiguration_kmsKeyArn(_dafny.Seq("1234abcd-12ab-34cd-56ef-1234567890ab")), _dafny.Seq("None"), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
 
     @staticmethod
     def KeyStore(config):
         res: Wrappers.Result = None
         d_266_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_266_valueOrError0_ = Wrappers.default__.Need((software_amazon_cryptography_services_kms_internaldafny_types.default__.IsValid__KeyIdType(((config).kmsConfiguration).kmsKeyArn)) and ((AwsArnParsing.default__.ParseAwsKmsArn(((config).kmsConfiguration).kmsKeyArn)).is_Success), software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("Invalid AWS KMS Key Arn")))
+        d_266_valueOrError0_ = Wrappers.default__.Need((software.amazon.cryptography.services.kms.internaldafny.types.default__.IsValid__KeyIdType(((config).kmsConfiguration).kmsKeyArn)) and ((AwsArnParsing.default__.ParseAwsKmsArn(((config).kmsConfiguration).kmsKeyArn)).is_Success), software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStoreException(_dafny.Seq("Invalid AWS KMS Key Arn")))
         if (d_266_valueOrError0_).IsFailure():
             res = (d_266_valueOrError0_).PropagateFailure()
             return res
         d_267_grantTokens_: Wrappers.Result
         d_267_grantTokens_ = AwsKmsUtils.default__.GetValidGrantTokens((config).grantTokens)
         d_268_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_268_valueOrError1_ = Wrappers.default__.Need((True) and ((d_267_grantTokens_).is_Success), software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("CreateKey received invalid grant tokens")))
+        d_268_valueOrError1_ = Wrappers.default__.Need((True) and ((d_267_grantTokens_).is_Success), software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStoreException(_dafny.Seq("CreateKey received invalid grant tokens")))
         if (d_268_valueOrError1_).IsFailure():
             res = (d_268_valueOrError1_).PropagateFailure()
             return res
@@ -114,7 +117,7 @@ class default__:
             d_271_uuid_: _dafny.Seq
             d_272_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
             def lambda26_(d_273_e_):
-                return software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(d_273_e_)
+                return software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStoreException(d_273_e_)
 
             d_272_valueOrError2_ = (d_270_maybeUuid_).MapFailure(lambda26_)
             if (d_272_valueOrError2_).IsFailure():
@@ -122,8 +125,8 @@ class default__:
                 return res
             d_271_uuid_ = (d_272_valueOrError2_).Extract()
             d_269_keyStoreId_ = d_271_uuid_
-        d_274_kmsClient_: software_amazon_cryptography_services_kms_internaldafny_types.IKMSClient = None
-        d_275_ddbClient_: software_amazon_cryptography_services_dynamodb_internaldafny_types.IDynamoDBClient = None
+        d_274_kmsClient_: software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient = None
+        d_275_ddbClient_: software.amazon.cryptography.services.dynamodb.internaldafny.types.IDynamoDBClient = None
         d_276_keyArn_: Wrappers.Result
         d_276_keyArn_ = AwsArnParsing.default__.ParseAwsKmsIdentifier(((config).kmsConfiguration).kmsKeyArn)
         d_277_kmsRegion_: Wrappers.Option
@@ -135,7 +138,7 @@ class default__:
             d_278_maybeKmsClient_ = out45_
             d_279_valueOrError3_: Wrappers.Result = None
             def lambda27_(d_280_e_):
-                return software_amazon_cryptography_keystore_internaldafny_types.Error_ComAmazonawsKms(d_280_e_)
+                return software.amazon.cryptography.keystore.internaldafny.types.Error_ComAmazonawsKms(d_280_e_)
 
             d_279_valueOrError3_ = (d_278_maybeKmsClient_).MapFailure(lambda27_)
             if (d_279_valueOrError3_).IsFailure():
@@ -151,7 +154,7 @@ class default__:
             d_281_maybeDdbClient_ = out46_
             d_282_valueOrError4_: Wrappers.Result = None
             def lambda28_(d_283_e_):
-                return software_amazon_cryptography_keystore_internaldafny_types.Error_ComAmazonawsDynamodb(d_283_e_)
+                return software.amazon.cryptography.keystore.internaldafny.types.Error_ComAmazonawsDynamodb(d_283_e_)
 
             d_282_valueOrError4_ = (d_281_maybeDdbClient_).MapFailure(lambda28_)
             if (d_282_valueOrError4_).IsFailure():
@@ -161,7 +164,7 @@ class default__:
         elif True:
             d_275_ddbClient_ = ((config).ddbClient).value
         d_284_valueOrError5_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_284_valueOrError5_ = Wrappers.default__.Need(software_amazon_cryptography_services_dynamodb_internaldafny_types.default__.IsValid__TableName((config).ddbTableName), software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("Invalid Amazon DynamoDB Table Name")))
+        d_284_valueOrError5_ = Wrappers.default__.Need(software.amazon.cryptography.services.dynamodb.internaldafny.types.default__.IsValid__TableName((config).ddbTableName), software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStoreException(_dafny.Seq("Invalid Amazon DynamoDB Table Name")))
         if (d_284_valueOrError5_).IsFailure():
             res = (d_284_valueOrError5_).PropagateFailure()
             return res
@@ -182,7 +185,7 @@ class default__:
         return Wrappers.Result_Failure(error)
 
 
-class KeyStoreClient(software_amazon_cryptography_keystore_internaldafny_types.IKeyStoreClient):
+class KeyStoreClient(software.amazon.cryptography.keystore.internaldafny.types.IKeyStoreClient):
     def  __init__(self):
         self._config: AwsCryptographyKeyStoreOperations.Config = None
         pass
@@ -200,42 +203,42 @@ class KeyStoreClient(software_amazon_cryptography_keystore_internaldafny_types.I
         return output
 
     def CreateKeyStore(self, input):
-        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.CreateKeyStoreOutput.default())()
+        output: Wrappers.Result = Wrappers.Result.default(software.amazon.cryptography.keystore.internaldafny.types.CreateKeyStoreOutput.default())()
         out48_: Wrappers.Result
         out48_ = AwsCryptographyKeyStoreOperations.default__.CreateKeyStore((self).config, input)
         output = out48_
         return output
 
     def CreateKey(self, input):
-        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.CreateKeyOutput.default())()
+        output: Wrappers.Result = Wrappers.Result.default(software.amazon.cryptography.keystore.internaldafny.types.CreateKeyOutput.default())()
         out49_: Wrappers.Result
         out49_ = AwsCryptographyKeyStoreOperations.default__.CreateKey((self).config, input)
         output = out49_
         return output
 
     def VersionKey(self, input):
-        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.VersionKeyOutput.default())()
+        output: Wrappers.Result = Wrappers.Result.default(software.amazon.cryptography.keystore.internaldafny.types.VersionKeyOutput.default())()
         out50_: Wrappers.Result
         out50_ = AwsCryptographyKeyStoreOperations.default__.VersionKey((self).config, input)
         output = out50_
         return output
 
     def GetActiveBranchKey(self, input):
-        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.GetActiveBranchKeyOutput.default())()
+        output: Wrappers.Result = Wrappers.Result.default(software.amazon.cryptography.keystore.internaldafny.types.GetActiveBranchKeyOutput.default())()
         out51_: Wrappers.Result
         out51_ = AwsCryptographyKeyStoreOperations.default__.GetActiveBranchKey((self).config, input)
         output = out51_
         return output
 
     def GetBranchKeyVersion(self, input):
-        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.GetBranchKeyVersionOutput.default())()
+        output: Wrappers.Result = Wrappers.Result.default(software.amazon.cryptography.keystore.internaldafny.types.GetBranchKeyVersionOutput.default())()
         out52_: Wrappers.Result
         out52_ = AwsCryptographyKeyStoreOperations.default__.GetBranchKeyVersion((self).config, input)
         output = out52_
         return output
 
     def GetBeaconKey(self, input):
-        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.GetBeaconKeyOutput.default())()
+        output: Wrappers.Result = Wrappers.Result.default(software.amazon.cryptography.keystore.internaldafny.types.GetBeaconKeyOutput.default())()
         out53_: Wrappers.Result
         out53_ = AwsCryptographyKeyStoreOperations.default__.GetBeaconKey((self).config, input)
         output = out53_

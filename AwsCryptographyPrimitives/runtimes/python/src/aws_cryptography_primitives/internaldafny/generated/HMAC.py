@@ -17,7 +17,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -30,6 +29,7 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
@@ -40,12 +40,14 @@ import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
-import software_amazon_cryptography_primitives_internaldafny_types
+import DafnyLibraries
+import software.amazon.cryptography.primitives.internaldafny.types
 import ExternRandom
 import Random
 import AESEncryption
@@ -54,6 +56,18 @@ import Digest
 
 # Module: HMAC
 
+class default__:
+    def  __init__(self):
+        pass
+
+    @staticmethod
+    def CreateDigestSuccess(bytes):
+        return Wrappers.Result_Success(bytes)
+
+    @staticmethod
+    def CreateDigestFailure(error):
+        return Wrappers.Result_Failure(error)
+
 
 class HMac:
     def  __init__(self):
@@ -61,3 +75,11 @@ class HMac:
 
     def __dafnystr__(self) -> str:
         return "HMAC.HMac"
+    @staticmethod
+    def CreateHMacSuccess(hmac):
+        return Wrappers.Result_Success(hmac)
+
+    @staticmethod
+    def CreateHMacFailure(error):
+        return Wrappers.Result_Failure(error)
+

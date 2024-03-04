@@ -12,9 +12,9 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_primitives_internaldafny_types
+import software.amazon.cryptography.services.dynamodb.internaldafny.types
+import software.amazon.cryptography.services.kms.internaldafny.types
+import software.amazon.cryptography.primitives.internaldafny.types
 import ExternRandom
 import Random
 import AESEncryption
@@ -28,6 +28,7 @@ import Signature
 import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
+import AesKdfCtr
 import Relations
 import Seq_MergeSort
 import Math
@@ -37,7 +38,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -50,19 +50,22 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import UUID
 import Time
 import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
-import software_amazon_cryptography_keystore_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
+import DafnyLibraries
+import software.amazon.cryptography.keystore.internaldafny.types
+import software.amazon.cryptography.materialproviders.internaldafny.types
 import AwsArnParsing
 import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
@@ -106,41 +109,41 @@ class default__:
     @staticmethod
     def MrkAwareDiscoveryMultiKeyring(regions, discoveryFilter, clientSupplier, grantTokens):
         output: Wrappers.Result = None
-        d_681_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_681_valueOrError0_ = Wrappers.default__.Need((len(regions)) > (0), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("No regions passed.")))
-        if (d_681_valueOrError0_).IsFailure():
-            output = (d_681_valueOrError0_).PropagateFailure()
+        d_683_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_683_valueOrError0_ = Wrappers.default__.Need((len(regions)) > (0), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("No regions passed.")))
+        if (d_683_valueOrError0_).IsFailure():
+            output = (d_683_valueOrError0_).PropagateFailure()
             return output
-        d_682_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_682_valueOrError1_ = Wrappers.default__.Need((Seq.default__.IndexOfOption(regions, _dafny.Seq(""))).is_None, software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Empty string is not a valid region.")))
-        if (d_682_valueOrError1_).IsFailure():
-            output = (d_682_valueOrError1_).PropagateFailure()
+        d_684_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_684_valueOrError1_ = Wrappers.default__.Need((Seq.default__.IndexOfOption(regions, _dafny.Seq(""))).is_None, software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Empty string is not a valid region.")))
+        if (d_684_valueOrError1_).IsFailure():
+            output = (d_684_valueOrError1_).PropagateFailure()
             return output
-        d_683_children_: _dafny.Seq
-        d_683_children_ = _dafny.Seq([])
+        d_685_children_: _dafny.Seq
+        d_685_children_ = _dafny.Seq([])
         hi4_ = len(regions)
-        for d_684_i_ in range(0, hi4_):
-            d_685_region_: _dafny.Seq
-            d_685_region_ = (regions)[d_684_i_]
-            d_686_client_: software_amazon_cryptography_services_kms_internaldafny_types.IKMSClient
-            d_687_valueOrError2_: Wrappers.Result = None
+        for d_686_i_ in range(0, hi4_):
+            d_687_region_: _dafny.Seq
+            d_687_region_ = (regions)[d_686_i_]
+            d_688_client_: software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient
+            d_689_valueOrError2_: Wrappers.Result = None
             out104_: Wrappers.Result
-            out104_ = (clientSupplier).GetClient(software_amazon_cryptography_materialproviders_internaldafny_types.GetClientInput_GetClientInput(d_685_region_))
-            d_687_valueOrError2_ = out104_
-            if (d_687_valueOrError2_).IsFailure():
-                output = (d_687_valueOrError2_).PropagateFailure()
+            out104_ = (clientSupplier).GetClient(software.amazon.cryptography.materialproviders.internaldafny.types.GetClientInput_GetClientInput(d_687_region_))
+            d_689_valueOrError2_ = out104_
+            if (d_689_valueOrError2_).IsFailure():
+                output = (d_689_valueOrError2_).PropagateFailure()
                 return output
-            d_686_client_ = (d_687_valueOrError2_).Extract()
-            d_688_keyring_: AwsKmsMrkDiscoveryKeyring.AwsKmsMrkDiscoveryKeyring
+            d_688_client_ = (d_689_valueOrError2_).Extract()
+            d_690_keyring_: AwsKmsMrkDiscoveryKeyring.AwsKmsMrkDiscoveryKeyring
             nw18_ = AwsKmsMrkDiscoveryKeyring.AwsKmsMrkDiscoveryKeyring()
-            nw18_.ctor__(d_686_client_, d_685_region_, discoveryFilter, (grantTokens).UnwrapOr(_dafny.Seq([])))
-            d_688_keyring_ = nw18_
-            d_683_children_ = (d_683_children_) + (_dafny.Seq([d_688_keyring_]))
-        d_689_keyring_: MultiKeyring.MultiKeyring
+            nw18_.ctor__(d_688_client_, d_687_region_, discoveryFilter, (grantTokens).UnwrapOr(_dafny.Seq([])))
+            d_690_keyring_ = nw18_
+            d_685_children_ = (d_685_children_) + (_dafny.Seq([d_690_keyring_]))
+        d_691_keyring_: MultiKeyring.MultiKeyring
         nw19_ = MultiKeyring.MultiKeyring()
-        nw19_.ctor__(Wrappers.Option_None(), d_683_children_)
-        d_689_keyring_ = nw19_
-        output = Wrappers.Result_Success(d_689_keyring_)
+        nw19_.ctor__(Wrappers.Option_None(), d_685_children_)
+        d_691_keyring_ = nw19_
+        output = Wrappers.Result_Success(d_691_keyring_)
         return output
         return output
 

@@ -12,9 +12,9 @@ import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
 import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_primitives_internaldafny_types
+import software.amazon.cryptography.services.dynamodb.internaldafny.types
+import software.amazon.cryptography.services.kms.internaldafny.types
+import software.amazon.cryptography.primitives.internaldafny.types
 import ExternRandom
 import Random
 import AESEncryption
@@ -28,6 +28,7 @@ import Signature
 import KdfCtr
 import RSAEncryption
 import AwsCryptographyPrimitivesOperations
+import AesKdfCtr
 import Relations
 import Seq_MergeSort
 import Math
@@ -37,7 +38,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -50,19 +50,22 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import UUID
 import Time
 import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
-import software_amazon_cryptography_keystore_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
+import DafnyLibraries
+import software.amazon.cryptography.keystore.internaldafny.types
+import software.amazon.cryptography.materialproviders.internaldafny.types
 import AwsArnParsing
 import AwsKmsMrkMatchForDecrypt
 import AwsKmsUtils
@@ -103,277 +106,281 @@ class default__:
         out61_: Wrappers.Result
         out61_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
         d_402_maybeCrypto_ = out61_
-        d_403_cryptoPrimitives_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
+        d_403_cryptoPrimitivesX_: software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient
         d_404_valueOrError0_: Wrappers.Result = None
         def lambda44_(d_405_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_405_e_)
+            return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographyPrimitives(d_405_e_)
 
         d_404_valueOrError0_ = (d_402_maybeCrypto_).MapFailure(lambda44_)
         if (d_404_valueOrError0_).IsFailure():
             res = (d_404_valueOrError0_).PropagateFailure()
             return res
-        d_403_cryptoPrimitives_ = (d_404_valueOrError0_).Extract()
-        d_406_deserializedWrapped_: DeserializedIntermediateWrappedMaterial
-        d_407_valueOrError1_: Wrappers.Result = Wrappers.Result.default(DeserializedIntermediateWrappedMaterial.default())()
-        d_407_valueOrError1_ = default__.DeserializeIntermediateWrappedMaterial(wrappedMaterial, algorithmSuite)
-        if (d_407_valueOrError1_).IsFailure():
-            res = (d_407_valueOrError1_).PropagateFailure()
+        d_403_cryptoPrimitivesX_ = (d_404_valueOrError0_).Extract()
+        d_406_cryptoPrimitives_: software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient
+        d_406_cryptoPrimitives_ = d_403_cryptoPrimitivesX_
+        d_407_deserializedWrapped_: DeserializedIntermediateWrappedMaterial
+        d_408_valueOrError1_: Wrappers.Result = Wrappers.Result.default(DeserializedIntermediateWrappedMaterial.default())()
+        d_408_valueOrError1_ = default__.DeserializeIntermediateWrappedMaterial(wrappedMaterial, algorithmSuite)
+        if (d_408_valueOrError1_).IsFailure():
+            res = (d_408_valueOrError1_).PropagateFailure()
             return res
-        d_406_deserializedWrapped_ = (d_407_valueOrError1_).Extract()
-        let_tmp_rhs0_ = d_406_deserializedWrapped_
-        d_408_encryptedPdk_ = let_tmp_rhs0_.encryptedPdk
-        d_409_providerWrappedIkm_ = let_tmp_rhs0_.providerWrappedIkm
-        d_410_unwrapOutput_: MaterialWrapping.UnwrapOutput
-        d_411_valueOrError2_: Wrappers.Result = None
+        d_407_deserializedWrapped_ = (d_408_valueOrError1_).Extract()
+        let_tmp_rhs0_ = d_407_deserializedWrapped_
+        d_409_encryptedPdk_ = let_tmp_rhs0_.encryptedPdk
+        d_410_providerWrappedIkm_ = let_tmp_rhs0_.providerWrappedIkm
+        d_411_unwrapOutput_: MaterialWrapping.UnwrapOutput
+        d_412_valueOrError2_: Wrappers.Result = None
         out62_: Wrappers.Result
-        out62_ = (unwrap).Invoke(MaterialWrapping.UnwrapInput_UnwrapInput(d_409_providerWrappedIkm_, algorithmSuite, encryptionContext))
-        d_411_valueOrError2_ = out62_
-        if (d_411_valueOrError2_).IsFailure():
-            res = (d_411_valueOrError2_).PropagateFailure()
+        out62_ = (unwrap).Invoke(MaterialWrapping.UnwrapInput_UnwrapInput(d_410_providerWrappedIkm_, algorithmSuite, encryptionContext))
+        d_412_valueOrError2_ = out62_
+        if (d_412_valueOrError2_).IsFailure():
+            res = (d_412_valueOrError2_).PropagateFailure()
             return res
-        d_410_unwrapOutput_ = (d_411_valueOrError2_).Extract()
-        let_tmp_rhs1_ = d_410_unwrapOutput_
-        d_412_intermediateMaterial_ = let_tmp_rhs1_.unwrappedMaterial
-        d_413_unwrapInfo_ = let_tmp_rhs1_.unwrapInfo
-        d_414_derivedKeys_: PdkEncryptionAndSymmetricSigningKeys
-        d_415_valueOrError3_: Wrappers.Result = Wrappers.Result.default(PdkEncryptionAndSymmetricSigningKeys.default())()
+        d_411_unwrapOutput_ = (d_412_valueOrError2_).Extract()
+        let_tmp_rhs1_ = d_411_unwrapOutput_
+        d_413_intermediateMaterial_ = let_tmp_rhs1_.unwrappedMaterial
+        d_414_unwrapInfo_ = let_tmp_rhs1_.unwrapInfo
+        d_415_derivedKeys_: PdkEncryptionAndSymmetricSigningKeys
+        d_416_valueOrError3_: Wrappers.Result = Wrappers.Result.default(PdkEncryptionAndSymmetricSigningKeys.default())()
         out63_: Wrappers.Result
-        out63_ = default__.DeriveKeysFromIntermediateMaterial(d_412_intermediateMaterial_, algorithmSuite, encryptionContext, d_403_cryptoPrimitives_)
-        d_415_valueOrError3_ = out63_
-        if (d_415_valueOrError3_).IsFailure():
-            res = (d_415_valueOrError3_).PropagateFailure()
+        out63_ = default__.DeriveKeysFromIntermediateMaterial(d_413_intermediateMaterial_, algorithmSuite, encryptionContext, d_406_cryptoPrimitives_)
+        d_416_valueOrError3_ = out63_
+        if (d_416_valueOrError3_).IsFailure():
+            res = (d_416_valueOrError3_).PropagateFailure()
             return res
-        d_414_derivedKeys_ = (d_415_valueOrError3_).Extract()
-        let_tmp_rhs2_ = d_414_derivedKeys_
-        d_416_pdkEncryptionKey_ = let_tmp_rhs2_.pdkEncryptionKey
-        d_417_symmetricSigningKey_ = let_tmp_rhs2_.symmetricSigningKey
-        d_418_iv_: _dafny.Seq
-        d_418_iv_ = _dafny.Seq([0 for d_419___v0_ in range(AlgorithmSuites.default__.GetEncryptIvLength(algorithmSuite))])
-        d_420_tagIndex_: int
-        d_420_tagIndex_ = (len(d_408_encryptedPdk_)) - (AlgorithmSuites.default__.GetEncryptTagLength(algorithmSuite))
-        d_421_aad_: _dafny.Seq
-        d_422_valueOrError4_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        d_422_valueOrError4_ = CanonicalEncryptionContext.default__.EncryptionContextToAAD(encryptionContext)
-        if (d_422_valueOrError4_).IsFailure():
-            res = (d_422_valueOrError4_).PropagateFailure()
+        d_415_derivedKeys_ = (d_416_valueOrError3_).Extract()
+        let_tmp_rhs2_ = d_415_derivedKeys_
+        d_417_pdkEncryptionKey_ = let_tmp_rhs2_.pdkEncryptionKey
+        d_418_symmetricSigningKey_ = let_tmp_rhs2_.symmetricSigningKey
+        d_419_iv_: _dafny.Seq
+        d_419_iv_ = _dafny.Seq([0 for d_420___v0_ in range(AlgorithmSuites.default__.GetEncryptIvLength(algorithmSuite))])
+        d_421_tagIndex_: int
+        d_421_tagIndex_ = (len(d_409_encryptedPdk_)) - (AlgorithmSuites.default__.GetEncryptTagLength(algorithmSuite))
+        d_422_aad_: _dafny.Seq
+        d_423_valueOrError4_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_423_valueOrError4_ = CanonicalEncryptionContext.default__.EncryptionContextToAAD(encryptionContext)
+        if (d_423_valueOrError4_).IsFailure():
+            res = (d_423_valueOrError4_).PropagateFailure()
             return res
-        d_421_aad_ = (d_422_valueOrError4_).Extract()
-        d_423_decInput_: software_amazon_cryptography_primitives_internaldafny_types.AESDecryptInput
-        d_423_decInput_ = software_amazon_cryptography_primitives_internaldafny_types.AESDecryptInput_AESDecryptInput(((algorithmSuite).encrypt).AES__GCM, d_416_pdkEncryptionKey_, _dafny.Seq((d_408_encryptedPdk_)[:d_420_tagIndex_:]), _dafny.Seq((d_408_encryptedPdk_)[d_420_tagIndex_::]), d_418_iv_, d_421_aad_)
-        d_424_decOutR_: Wrappers.Result
+        d_422_aad_ = (d_423_valueOrError4_).Extract()
+        d_424_decInput_: software.amazon.cryptography.primitives.internaldafny.types.AESDecryptInput
+        d_424_decInput_ = software.amazon.cryptography.primitives.internaldafny.types.AESDecryptInput_AESDecryptInput(((algorithmSuite).encrypt).AES__GCM, d_417_pdkEncryptionKey_, _dafny.Seq((d_409_encryptedPdk_)[:d_421_tagIndex_:]), _dafny.Seq((d_409_encryptedPdk_)[d_421_tagIndex_::]), d_419_iv_, d_422_aad_)
+        d_425_decOutR_: Wrappers.Result
         out64_: Wrappers.Result
-        out64_ = (d_403_cryptoPrimitives_).AESDecrypt(d_423_decInput_)
-        d_424_decOutR_ = out64_
-        d_425_plaintextDataKey_: _dafny.Seq
-        d_426_valueOrError5_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        def lambda45_(d_427_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_427_e_)
+        out64_ = (d_406_cryptoPrimitives_).AESDecrypt(d_424_decInput_)
+        d_425_decOutR_ = out64_
+        d_426_plaintextDataKey_: _dafny.Seq
+        d_427_valueOrError5_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        def lambda45_(d_428_e_):
+            return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographyPrimitives(d_428_e_)
 
-        d_426_valueOrError5_ = (d_424_decOutR_).MapFailure(lambda45_)
-        if (d_426_valueOrError5_).IsFailure():
-            res = (d_426_valueOrError5_).PropagateFailure()
+        d_427_valueOrError5_ = (d_425_decOutR_).MapFailure(lambda45_)
+        if (d_427_valueOrError5_).IsFailure():
+            res = (d_427_valueOrError5_).PropagateFailure()
             return res
-        d_425_plaintextDataKey_ = (d_426_valueOrError5_).Extract()
-        d_428_valueOrError6_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_428_valueOrError6_ = Wrappers.default__.Need((len(d_425_plaintextDataKey_)) == (AlgorithmSuites.default__.GetEncryptKeyLength(algorithmSuite)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unexpected AES_GCM Decrypt length")))
-        if (d_428_valueOrError6_).IsFailure():
-            res = (d_428_valueOrError6_).PropagateFailure()
+        d_426_plaintextDataKey_ = (d_427_valueOrError5_).Extract()
+        d_429_valueOrError6_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_429_valueOrError6_ = Wrappers.default__.Need((len(d_426_plaintextDataKey_)) == (AlgorithmSuites.default__.GetEncryptKeyLength(algorithmSuite)), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unexpected AES_GCM Decrypt length")))
+        if (d_429_valueOrError6_).IsFailure():
+            res = (d_429_valueOrError6_).PropagateFailure()
             return res
-        res = Wrappers.Result_Success(IntermediateUnwrapOutput_IntermediateUnwrapOutput(d_425_plaintextDataKey_, d_417_symmetricSigningKey_, d_413_unwrapInfo_))
+        res = Wrappers.Result_Success(IntermediateUnwrapOutput_IntermediateUnwrapOutput(d_426_plaintextDataKey_, d_418_symmetricSigningKey_, d_414_unwrapInfo_))
         return res
         return res
 
     @staticmethod
     def IntermediateWrap(generateAndWrap, plaintextDataKey, algorithmSuite, encryptionContext):
         res: Wrappers.Result = None
-        d_429_maybeCrypto_: Wrappers.Result
+        d_430_maybeCrypto_: Wrappers.Result
         out65_: Wrappers.Result
         out65_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
-        d_429_maybeCrypto_ = out65_
-        d_430_cryptoPrimitives_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
-        d_431_valueOrError0_: Wrappers.Result = None
-        def lambda46_(d_432_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_432_e_)
+        d_430_maybeCrypto_ = out65_
+        d_431_cryptoPrimitivesX_: software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient
+        d_432_valueOrError0_: Wrappers.Result = None
+        def lambda46_(d_433_e_):
+            return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographyPrimitives(d_433_e_)
 
-        d_431_valueOrError0_ = (d_429_maybeCrypto_).MapFailure(lambda46_)
-        if (d_431_valueOrError0_).IsFailure():
-            res = (d_431_valueOrError0_).PropagateFailure()
+        d_432_valueOrError0_ = (d_430_maybeCrypto_).MapFailure(lambda46_)
+        if (d_432_valueOrError0_).IsFailure():
+            res = (d_432_valueOrError0_).PropagateFailure()
             return res
-        d_430_cryptoPrimitives_ = (d_431_valueOrError0_).Extract()
-        d_433_generateAndWrapOutput_: MaterialWrapping.GenerateAndWrapOutput
-        d_434_valueOrError1_: Wrappers.Result = None
+        d_431_cryptoPrimitivesX_ = (d_432_valueOrError0_).Extract()
+        d_434_cryptoPrimitives_: software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient
+        d_434_cryptoPrimitives_ = d_431_cryptoPrimitivesX_
+        d_435_generateAndWrapOutput_: MaterialWrapping.GenerateAndWrapOutput
+        d_436_valueOrError1_: Wrappers.Result = None
         out66_: Wrappers.Result
         out66_ = (generateAndWrap).Invoke(MaterialWrapping.GenerateAndWrapInput_GenerateAndWrapInput(algorithmSuite, encryptionContext))
-        d_434_valueOrError1_ = out66_
-        if (d_434_valueOrError1_).IsFailure():
-            res = (d_434_valueOrError1_).PropagateFailure()
+        d_436_valueOrError1_ = out66_
+        if (d_436_valueOrError1_).IsFailure():
+            res = (d_436_valueOrError1_).PropagateFailure()
             return res
-        d_433_generateAndWrapOutput_ = (d_434_valueOrError1_).Extract()
-        let_tmp_rhs3_ = d_433_generateAndWrapOutput_
-        d_435_intermediateMaterial_ = let_tmp_rhs3_.plaintextMaterial
-        d_436_providerWrappedIkm_ = let_tmp_rhs3_.wrappedMaterial
-        d_437_wrapInfo_ = let_tmp_rhs3_.wrapInfo
-        d_438_derivedKeys_: PdkEncryptionAndSymmetricSigningKeys
-        d_439_valueOrError2_: Wrappers.Result = Wrappers.Result.default(PdkEncryptionAndSymmetricSigningKeys.default())()
+        d_435_generateAndWrapOutput_ = (d_436_valueOrError1_).Extract()
+        let_tmp_rhs3_ = d_435_generateAndWrapOutput_
+        d_437_intermediateMaterial_ = let_tmp_rhs3_.plaintextMaterial
+        d_438_providerWrappedIkm_ = let_tmp_rhs3_.wrappedMaterial
+        d_439_wrapInfo_ = let_tmp_rhs3_.wrapInfo
+        d_440_derivedKeys_: PdkEncryptionAndSymmetricSigningKeys
+        d_441_valueOrError2_: Wrappers.Result = Wrappers.Result.default(PdkEncryptionAndSymmetricSigningKeys.default())()
         out67_: Wrappers.Result
-        out67_ = default__.DeriveKeysFromIntermediateMaterial(d_435_intermediateMaterial_, algorithmSuite, encryptionContext, d_430_cryptoPrimitives_)
-        d_439_valueOrError2_ = out67_
-        if (d_439_valueOrError2_).IsFailure():
-            res = (d_439_valueOrError2_).PropagateFailure()
+        out67_ = default__.DeriveKeysFromIntermediateMaterial(d_437_intermediateMaterial_, algorithmSuite, encryptionContext, d_434_cryptoPrimitives_)
+        d_441_valueOrError2_ = out67_
+        if (d_441_valueOrError2_).IsFailure():
+            res = (d_441_valueOrError2_).PropagateFailure()
             return res
-        d_438_derivedKeys_ = (d_439_valueOrError2_).Extract()
-        let_tmp_rhs4_ = d_438_derivedKeys_
-        d_440_pdkEncryptionKey_ = let_tmp_rhs4_.pdkEncryptionKey
-        d_441_symmetricSigningKey_ = let_tmp_rhs4_.symmetricSigningKey
-        d_442_iv_: _dafny.Seq
-        d_442_iv_ = _dafny.Seq([0 for d_443___v1_ in range(AlgorithmSuites.default__.GetEncryptIvLength(algorithmSuite))])
-        d_444_aad_: _dafny.Seq
-        d_445_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        d_445_valueOrError3_ = CanonicalEncryptionContext.default__.EncryptionContextToAAD(encryptionContext)
-        if (d_445_valueOrError3_).IsFailure():
-            res = (d_445_valueOrError3_).PropagateFailure()
+        d_440_derivedKeys_ = (d_441_valueOrError2_).Extract()
+        let_tmp_rhs4_ = d_440_derivedKeys_
+        d_442_pdkEncryptionKey_ = let_tmp_rhs4_.pdkEncryptionKey
+        d_443_symmetricSigningKey_ = let_tmp_rhs4_.symmetricSigningKey
+        d_444_iv_: _dafny.Seq
+        d_444_iv_ = _dafny.Seq([0 for d_445___v1_ in range(AlgorithmSuites.default__.GetEncryptIvLength(algorithmSuite))])
+        d_446_aad_: _dafny.Seq
+        d_447_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_447_valueOrError3_ = CanonicalEncryptionContext.default__.EncryptionContextToAAD(encryptionContext)
+        if (d_447_valueOrError3_).IsFailure():
+            res = (d_447_valueOrError3_).PropagateFailure()
             return res
-        d_444_aad_ = (d_445_valueOrError3_).Extract()
-        d_446_encInput_: software_amazon_cryptography_primitives_internaldafny_types.AESEncryptInput
-        d_446_encInput_ = software_amazon_cryptography_primitives_internaldafny_types.AESEncryptInput_AESEncryptInput(((algorithmSuite).encrypt).AES__GCM, d_442_iv_, d_440_pdkEncryptionKey_, plaintextDataKey, d_444_aad_)
-        d_447_encOutR_: Wrappers.Result
+        d_446_aad_ = (d_447_valueOrError3_).Extract()
+        d_448_encInput_: software.amazon.cryptography.primitives.internaldafny.types.AESEncryptInput
+        d_448_encInput_ = software.amazon.cryptography.primitives.internaldafny.types.AESEncryptInput_AESEncryptInput(((algorithmSuite).encrypt).AES__GCM, d_444_iv_, d_442_pdkEncryptionKey_, plaintextDataKey, d_446_aad_)
+        d_449_encOutR_: Wrappers.Result
         out68_: Wrappers.Result
-        out68_ = (d_430_cryptoPrimitives_).AESEncrypt(d_446_encInput_)
-        d_447_encOutR_ = out68_
-        d_448_encryptedPdk_: software_amazon_cryptography_primitives_internaldafny_types.AESEncryptOutput
-        d_449_valueOrError4_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_primitives_internaldafny_types.AESEncryptOutput.default())()
-        def lambda47_(d_450_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_450_e_)
+        out68_ = (d_434_cryptoPrimitives_).AESEncrypt(d_448_encInput_)
+        d_449_encOutR_ = out68_
+        d_450_encryptedPdk_: software.amazon.cryptography.primitives.internaldafny.types.AESEncryptOutput
+        d_451_valueOrError4_: Wrappers.Result = Wrappers.Result.default(software.amazon.cryptography.primitives.internaldafny.types.AESEncryptOutput.default())()
+        def lambda47_(d_452_e_):
+            return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographyPrimitives(d_452_e_)
 
-        d_449_valueOrError4_ = (d_447_encOutR_).MapFailure(lambda47_)
-        if (d_449_valueOrError4_).IsFailure():
-            res = (d_449_valueOrError4_).PropagateFailure()
+        d_451_valueOrError4_ = (d_449_encOutR_).MapFailure(lambda47_)
+        if (d_451_valueOrError4_).IsFailure():
+            res = (d_451_valueOrError4_).PropagateFailure()
             return res
-        d_448_encryptedPdk_ = (d_449_valueOrError4_).Extract()
-        d_451_valueOrError5_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_451_valueOrError5_ = Wrappers.default__.Need((len(((d_448_encryptedPdk_).cipherText) + ((d_448_encryptedPdk_).authTag))) == ((AlgorithmSuites.default__.GetEncryptKeyLength(algorithmSuite)) + (AlgorithmSuites.default__.GetEncryptTagLength(algorithmSuite))), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unexpected AES_GCM Encrypt length")))
-        if (d_451_valueOrError5_).IsFailure():
-            res = (d_451_valueOrError5_).PropagateFailure()
+        d_450_encryptedPdk_ = (d_451_valueOrError4_).Extract()
+        d_453_valueOrError5_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_453_valueOrError5_ = Wrappers.default__.Need((len(((d_450_encryptedPdk_).cipherText) + ((d_450_encryptedPdk_).authTag))) == ((AlgorithmSuites.default__.GetEncryptKeyLength(algorithmSuite)) + (AlgorithmSuites.default__.GetEncryptTagLength(algorithmSuite))), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unexpected AES_GCM Encrypt length")))
+        if (d_453_valueOrError5_).IsFailure():
+            res = (d_453_valueOrError5_).PropagateFailure()
             return res
-        d_452_serializedMaterial_: _dafny.Seq
-        d_452_serializedMaterial_ = (((d_448_encryptedPdk_).cipherText) + ((d_448_encryptedPdk_).authTag)) + (d_436_providerWrappedIkm_)
-        res = Wrappers.Result_Success(IntermediateWrapOutput_IntermediateWrapOutput(d_452_serializedMaterial_, d_441_symmetricSigningKey_, d_437_wrapInfo_))
+        d_454_serializedMaterial_: _dafny.Seq
+        d_454_serializedMaterial_ = (((d_450_encryptedPdk_).cipherText) + ((d_450_encryptedPdk_).authTag)) + (d_438_providerWrappedIkm_)
+        res = Wrappers.Result_Success(IntermediateWrapOutput_IntermediateWrapOutput(d_454_serializedMaterial_, d_443_symmetricSigningKey_, d_439_wrapInfo_))
         return res
         return res
 
     @staticmethod
     def IntermediateGenerateAndWrap(generateAndWrap, algorithmSuite, encryptionContext):
         res: Wrappers.Result = None
-        d_453_maybeCrypto_: Wrappers.Result
+        d_455_maybeCrypto_: Wrappers.Result
         out69_: Wrappers.Result
         out69_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
-        d_453_maybeCrypto_ = out69_
-        d_454_cryptoPrimitives_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
-        d_455_valueOrError0_: Wrappers.Result = None
-        def lambda48_(d_456_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_456_e_)
+        d_455_maybeCrypto_ = out69_
+        d_456_cryptoPrimitives_: software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient
+        d_457_valueOrError0_: Wrappers.Result = None
+        def lambda48_(d_458_e_):
+            return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographyPrimitives(d_458_e_)
 
-        d_455_valueOrError0_ = (d_453_maybeCrypto_).MapFailure(lambda48_)
-        if (d_455_valueOrError0_).IsFailure():
-            res = (d_455_valueOrError0_).PropagateFailure()
+        d_457_valueOrError0_ = (d_455_maybeCrypto_).MapFailure(lambda48_)
+        if (d_457_valueOrError0_).IsFailure():
+            res = (d_457_valueOrError0_).PropagateFailure()
             return res
-        d_454_cryptoPrimitives_ = (d_455_valueOrError0_).Extract()
-        d_457_generateBytesResult_: Wrappers.Result
+        d_456_cryptoPrimitives_ = (d_457_valueOrError0_).Extract()
+        d_459_generateBytesResult_: Wrappers.Result
         out70_: Wrappers.Result
-        out70_ = (d_454_cryptoPrimitives_).GenerateRandomBytes(software_amazon_cryptography_primitives_internaldafny_types.GenerateRandomBytesInput_GenerateRandomBytesInput(AlgorithmSuites.default__.GetEncryptKeyLength(algorithmSuite)))
-        d_457_generateBytesResult_ = out70_
-        d_458_plaintextDataKey_: _dafny.Seq
-        d_459_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        def lambda49_(d_460_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_460_e_)
+        out70_ = (d_456_cryptoPrimitives_).GenerateRandomBytes(software.amazon.cryptography.primitives.internaldafny.types.GenerateRandomBytesInput_GenerateRandomBytesInput(AlgorithmSuites.default__.GetEncryptKeyLength(algorithmSuite)))
+        d_459_generateBytesResult_ = out70_
+        d_460_plaintextDataKey_: _dafny.Seq
+        d_461_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        def lambda49_(d_462_e_):
+            return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographyPrimitives(d_462_e_)
 
-        d_459_valueOrError1_ = (d_457_generateBytesResult_).MapFailure(lambda49_)
-        if (d_459_valueOrError1_).IsFailure():
-            res = (d_459_valueOrError1_).PropagateFailure()
+        d_461_valueOrError1_ = (d_459_generateBytesResult_).MapFailure(lambda49_)
+        if (d_461_valueOrError1_).IsFailure():
+            res = (d_461_valueOrError1_).PropagateFailure()
             return res
-        d_458_plaintextDataKey_ = (d_459_valueOrError1_).Extract()
-        d_461_wrapOutput_: IntermediateWrapOutput
-        d_462_valueOrError2_: Wrappers.Result = None
+        d_460_plaintextDataKey_ = (d_461_valueOrError1_).Extract()
+        d_463_wrapOutput_: IntermediateWrapOutput
+        d_464_valueOrError2_: Wrappers.Result = None
         out71_: Wrappers.Result
-        out71_ = default__.IntermediateWrap(generateAndWrap, d_458_plaintextDataKey_, algorithmSuite, encryptionContext)
-        d_462_valueOrError2_ = out71_
-        if (d_462_valueOrError2_).IsFailure():
-            res = (d_462_valueOrError2_).PropagateFailure()
+        out71_ = default__.IntermediateWrap(generateAndWrap, d_460_plaintextDataKey_, algorithmSuite, encryptionContext)
+        d_464_valueOrError2_ = out71_
+        if (d_464_valueOrError2_).IsFailure():
+            res = (d_464_valueOrError2_).PropagateFailure()
             return res
-        d_461_wrapOutput_ = (d_462_valueOrError2_).Extract()
-        res = Wrappers.Result_Success(IntermediateGenerateAndWrapOutput_IntermediateGenerateAndWrapOutput(d_458_plaintextDataKey_, (d_461_wrapOutput_).wrappedMaterial, (d_461_wrapOutput_).symmetricSigningKey, (d_461_wrapOutput_).wrapInfo))
+        d_463_wrapOutput_ = (d_464_valueOrError2_).Extract()
+        res = Wrappers.Result_Success(IntermediateGenerateAndWrapOutput_IntermediateGenerateAndWrapOutput(d_460_plaintextDataKey_, (d_463_wrapOutput_).wrappedMaterial, (d_463_wrapOutput_).symmetricSigningKey, (d_463_wrapOutput_).wrapInfo))
         return res
         return res
 
     @staticmethod
     def DeserializeIntermediateWrappedMaterial(material, algSuite):
-        d_463_valueOrError0_ = Wrappers.default__.Need((len(material)) >= ((AlgorithmSuites.default__.GetEncryptKeyLength(algSuite)) + (AlgorithmSuites.default__.GetEncryptTagLength(algSuite))), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unable to deserialize Intermediate Key Wrapped material: too short.")))
-        if (d_463_valueOrError0_).IsFailure():
-            return (d_463_valueOrError0_).PropagateFailure()
+        d_465_valueOrError0_ = Wrappers.default__.Need((len(material)) >= ((AlgorithmSuites.default__.GetEncryptKeyLength(algSuite)) + (AlgorithmSuites.default__.GetEncryptTagLength(algSuite))), software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unable to deserialize Intermediate Key Wrapped material: too short.")))
+        if (d_465_valueOrError0_).IsFailure():
+            return (d_465_valueOrError0_).PropagateFailure()
         elif True:
-            d_464_encryptedPdkLen_ = (AlgorithmSuites.default__.GetEncryptKeyLength(algSuite)) + (AlgorithmSuites.default__.GetEncryptTagLength(algSuite))
-            return Wrappers.Result_Success(DeserializedIntermediateWrappedMaterial_DeserializedIntermediateWrappedMaterial(_dafny.Seq((material)[:d_464_encryptedPdkLen_:]), _dafny.Seq((material)[d_464_encryptedPdkLen_::])))
+            d_466_encryptedPdkLen_ = (AlgorithmSuites.default__.GetEncryptKeyLength(algSuite)) + (AlgorithmSuites.default__.GetEncryptTagLength(algSuite))
+            return Wrappers.Result_Success(DeserializedIntermediateWrappedMaterial_DeserializedIntermediateWrappedMaterial(_dafny.Seq((material)[:d_466_encryptedPdkLen_:]), _dafny.Seq((material)[d_466_encryptedPdkLen_::])))
 
     @staticmethod
     def DeriveKeysFromIntermediateMaterial(intermediateMaterial, algorithmSuite, encryptionContext, cryptoPrimitives):
         res: Wrappers.Result = Wrappers.Result.default(PdkEncryptionAndSymmetricSigningKeys.default())()
-        d_465_hkdfExtractInput_: software_amazon_cryptography_primitives_internaldafny_types.HkdfExtractInput
-        d_465_hkdfExtractInput_ = software_amazon_cryptography_primitives_internaldafny_types.HkdfExtractInput_HkdfExtractInput((((algorithmSuite).commitment).HKDF).hmac, Wrappers.Option_None(), intermediateMaterial)
-        d_466_maybePseudoRandomKey_: Wrappers.Result
+        d_467_hkdfExtractInput_: software.amazon.cryptography.primitives.internaldafny.types.HkdfExtractInput
+        d_467_hkdfExtractInput_ = software.amazon.cryptography.primitives.internaldafny.types.HkdfExtractInput_HkdfExtractInput((((algorithmSuite).commitment).HKDF).hmac, Wrappers.Option_None(), intermediateMaterial)
+        d_468_maybePseudoRandomKey_: Wrappers.Result
         out72_: Wrappers.Result
-        out72_ = (cryptoPrimitives).HkdfExtract(d_465_hkdfExtractInput_)
-        d_466_maybePseudoRandomKey_ = out72_
-        d_467_pseudoRandomKey_: _dafny.Seq
-        d_468_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        def lambda50_(d_469_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_469_e_)
+        out72_ = (cryptoPrimitives).HkdfExtract(d_467_hkdfExtractInput_)
+        d_468_maybePseudoRandomKey_ = out72_
+        d_469_pseudoRandomKey_: _dafny.Seq
+        d_470_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        def lambda50_(d_471_e_):
+            return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographyPrimitives(d_471_e_)
 
-        d_468_valueOrError0_ = (d_466_maybePseudoRandomKey_).MapFailure(lambda50_)
-        if (d_468_valueOrError0_).IsFailure():
-            res = (d_468_valueOrError0_).PropagateFailure()
+        d_470_valueOrError0_ = (d_468_maybePseudoRandomKey_).MapFailure(lambda50_)
+        if (d_470_valueOrError0_).IsFailure():
+            res = (d_470_valueOrError0_).PropagateFailure()
             return res
-        d_467_pseudoRandomKey_ = (d_468_valueOrError0_).Extract()
-        d_470_symmetricSigningKeyInput_: software_amazon_cryptography_primitives_internaldafny_types.HkdfExpandInput
-        d_470_symmetricSigningKeyInput_ = software_amazon_cryptography_primitives_internaldafny_types.HkdfExpandInput_HkdfExpandInput((((algorithmSuite).commitment).HKDF).hmac, d_467_pseudoRandomKey_, default__.KEYWRAP__MAC__INFO, (((algorithmSuite).commitment).HKDF).outputKeyLength)
-        d_471_pdkEncryptionKeyInput_: software_amazon_cryptography_primitives_internaldafny_types.HkdfExpandInput
+        d_469_pseudoRandomKey_ = (d_470_valueOrError0_).Extract()
+        d_472_symmetricSigningKeyInput_: software.amazon.cryptography.primitives.internaldafny.types.HkdfExpandInput
+        d_472_symmetricSigningKeyInput_ = software.amazon.cryptography.primitives.internaldafny.types.HkdfExpandInput_HkdfExpandInput((((algorithmSuite).commitment).HKDF).hmac, d_469_pseudoRandomKey_, default__.KEYWRAP__MAC__INFO, (((algorithmSuite).commitment).HKDF).outputKeyLength)
+        d_473_pdkEncryptionKeyInput_: software.amazon.cryptography.primitives.internaldafny.types.HkdfExpandInput
         def iife20_(_pat_let5_0):
-            def iife21_(d_472_dt__update__tmp_h0_):
+            def iife21_(d_474_dt__update__tmp_h0_):
                 def iife22_(_pat_let6_0):
-                    def iife23_(d_473_dt__update_hinfo_h0_):
-                        return software_amazon_cryptography_primitives_internaldafny_types.HkdfExpandInput_HkdfExpandInput((d_472_dt__update__tmp_h0_).digestAlgorithm, (d_472_dt__update__tmp_h0_).prk, d_473_dt__update_hinfo_h0_, (d_472_dt__update__tmp_h0_).expectedLength)
+                    def iife23_(d_475_dt__update_hinfo_h0_):
+                        return software.amazon.cryptography.primitives.internaldafny.types.HkdfExpandInput_HkdfExpandInput((d_474_dt__update__tmp_h0_).digestAlgorithm, (d_474_dt__update__tmp_h0_).prk, d_475_dt__update_hinfo_h0_, (d_474_dt__update__tmp_h0_).expectedLength)
                     return iife23_(_pat_let6_0)
                 return iife22_(default__.KEYWRAP__ENC__INFO)
             return iife21_(_pat_let5_0)
-        d_471_pdkEncryptionKeyInput_ = iife20_(d_470_symmetricSigningKeyInput_)
-        d_474_maybeSymmetricSigningKey_: Wrappers.Result
+        d_473_pdkEncryptionKeyInput_ = iife20_(d_472_symmetricSigningKeyInput_)
+        d_476_maybeSymmetricSigningKey_: Wrappers.Result
         out73_: Wrappers.Result
-        out73_ = (cryptoPrimitives).HkdfExpand(d_470_symmetricSigningKeyInput_)
-        d_474_maybeSymmetricSigningKey_ = out73_
-        d_475_symmetricSigningKey_: _dafny.Seq
-        d_476_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        def lambda51_(d_477_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_477_e_)
+        out73_ = (cryptoPrimitives).HkdfExpand(d_472_symmetricSigningKeyInput_)
+        d_476_maybeSymmetricSigningKey_ = out73_
+        d_477_symmetricSigningKey_: _dafny.Seq
+        d_478_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        def lambda51_(d_479_e_):
+            return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographyPrimitives(d_479_e_)
 
-        d_476_valueOrError1_ = (d_474_maybeSymmetricSigningKey_).MapFailure(lambda51_)
-        if (d_476_valueOrError1_).IsFailure():
-            res = (d_476_valueOrError1_).PropagateFailure()
+        d_478_valueOrError1_ = (d_476_maybeSymmetricSigningKey_).MapFailure(lambda51_)
+        if (d_478_valueOrError1_).IsFailure():
+            res = (d_478_valueOrError1_).PropagateFailure()
             return res
-        d_475_symmetricSigningKey_ = (d_476_valueOrError1_).Extract()
-        d_478_maybePdkEncryptionKey_: Wrappers.Result
+        d_477_symmetricSigningKey_ = (d_478_valueOrError1_).Extract()
+        d_480_maybePdkEncryptionKey_: Wrappers.Result
         out74_: Wrappers.Result
-        out74_ = (cryptoPrimitives).HkdfExpand(d_471_pdkEncryptionKeyInput_)
-        d_478_maybePdkEncryptionKey_ = out74_
-        d_479_pdkEncryptionKey_: _dafny.Seq
-        d_480_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        def lambda52_(d_481_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_481_e_)
+        out74_ = (cryptoPrimitives).HkdfExpand(d_473_pdkEncryptionKeyInput_)
+        d_480_maybePdkEncryptionKey_ = out74_
+        d_481_pdkEncryptionKey_: _dafny.Seq
+        d_482_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        def lambda52_(d_483_e_):
+            return software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographyPrimitives(d_483_e_)
 
-        d_480_valueOrError2_ = (d_478_maybePdkEncryptionKey_).MapFailure(lambda52_)
-        if (d_480_valueOrError2_).IsFailure():
-            res = (d_480_valueOrError2_).PropagateFailure()
+        d_482_valueOrError2_ = (d_480_maybePdkEncryptionKey_).MapFailure(lambda52_)
+        if (d_482_valueOrError2_).IsFailure():
+            res = (d_482_valueOrError2_).PropagateFailure()
             return res
-        d_479_pdkEncryptionKey_ = (d_480_valueOrError2_).Extract()
-        res = Wrappers.Result_Success(PdkEncryptionAndSymmetricSigningKeys_PdkEncryptionAndSymmetricSigningKeys(d_479_pdkEncryptionKey_, d_475_symmetricSigningKey_))
+        d_481_pdkEncryptionKey_ = (d_482_valueOrError2_).Extract()
+        res = Wrappers.Result_Success(PdkEncryptionAndSymmetricSigningKeys_PdkEncryptionAndSymmetricSigningKeys(d_481_pdkEncryptionKey_, d_477_symmetricSigningKey_))
         return res
         return res
 
