@@ -8,10 +8,16 @@ on:
         description: "The Dafny version to run"
         required: true
         type: string
+      regenerate-code:
+        description: "Regenerate code using smithy-dafny"
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   testJava:
     strategy:
+      fail-fast: false
       matrix:
         library:
           [
@@ -32,28 +38,40 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    defaults:
+      run:
+        shell: bash
     steps:
       - name: Support longpaths on Git checkout
         run: |
           git config --global core.longpaths true
       # KMS and MPL tests need to use credentials which can call KMS
       - name: Configure AWS Credentials for Tests
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         if: matrix.library == 'ComAmazonawsKms' || matrix.library == 'ComAmazonawsDynamodb' || matrix.library == 'AwsCryptographicMaterialProviders' || matrix.library == 'TestVectorsAwsCryptographicMaterialProviders'
         with:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
           role-session-name: JavaTests
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       # The specification submodule is private so we don't have access, but we don't need
-      # it to verify the Dafny code. Instead we manually pull the submodule we DO need.
+      # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
       - run: git submodule update --init libraries
+      - run: git submodule update --init smithy-dafny
 
       - name: Setup Dafny
-        uses: dafny-lang/setup-dafny-action@v1.6.1
+        uses: dafny-lang/setup-dafny-action@v1.7.0
         with:
           dafny-version: ${{ inputs.dafny }}
+
+      - name: Regenerate code using smithy-dafny if necessary
+        if: ${{ inputs.regenerate-code }}
+        uses: ./.github/actions/polymorph_codegen
+        with:
+          dafny: ${{ env.DAFNY_VERSION }}
+          library: ${{ matrix.library }}
+          diff-generated-code: false
 
       - name: Setup Java 8
         uses: actions/setup-java@v3
@@ -62,7 +80,6 @@ jobs:
           java-version: 8
 
       - name: Build ${{ matrix.library }} implementation
-        shell: bash
         working-directory: ./${{ matrix.library }}
         run: |
           # This works because `node` is installed by default on GHA runners
@@ -81,19 +98,19 @@ jobs:
           java-version: 11
 
       - name: Clean for next Java
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: clean
           build-root-directory: ./${{ matrix.library }}/runtimes/java
 
       - name: Compile Java 11
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: build
           build-root-directory: ./${{ matrix.library }}/runtimes/java
 
       - name: Test Java 11
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: runTests
           build-root-directory: ./${{ matrix.library }}/runtimes/java
@@ -105,19 +122,19 @@ jobs:
           java-version: 16
 
       - name: Clean for next Java
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: clean
           build-root-directory: ./${{ matrix.library }}/runtimes/java
 
       - name: Compile Java 16
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: build
           build-root-directory: ./${{ matrix.library }}/runtimes/java
 
       - name: Test Java 16
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: runTests
           build-root-directory: ./${{ matrix.library }}/runtimes/java
@@ -129,19 +146,19 @@ jobs:
           java-version: 17
 
       - name: Clean for next Java
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: clean
           build-root-directory: ./${{ matrix.library }}/runtimes/java
 
       - name: Compile Java 17
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: build
           build-root-directory: ./${{ matrix.library }}/runtimes/java
 
       - name: Test Java 17
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         with:
           arguments: runTests
           build-root-directory: ./${{ matrix.library }}/runtimes/java
