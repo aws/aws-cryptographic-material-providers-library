@@ -94,10 +94,6 @@ structure KeyStoreConfig {
   @javadoc("An identifier for this Key Store.")
   id: String,
   @javadoc("The AWS KMS grant tokens that are used when this Key Store calls to AWS KMS.")
-  @deprecated(
-    message: "A Static Grant Token List is not sensible and should be removed. Instead, pass Grant Tokens in the CreateKey and VersionKey operations.",
-    since: "1.3.0" // TODO : Postal Horn : verify release version is 1.3.0
-  )
   grantTokens: GrantTokenList,
   @javadoc("The DynamoDB client this Key Store uses to call Amazon DynamoDB.")
   ddbClient: DdbClientReference,
@@ -135,10 +131,6 @@ structure GetKeyStoreInfoOutput {
   logicalKeyStoreName: String,
   @required
   @javadoc("The AWS KMS grant tokens that are used when this Key Store calls to AWS KMS.")
-  @deprecated(
-    message: "A Static Grant Token List is not sensible and should be removed. Instead, pass Grant Tokens in the CreateKey and VersionKey operations.",
-    since: "1.3.0" // TODO : Postal Horn : verify release version is 1.3.0
-  )
   grantTokens: GrantTokenList,
   @required
   @javadoc("Configures how the Key Store determines which KMS Key ARN to use.")
