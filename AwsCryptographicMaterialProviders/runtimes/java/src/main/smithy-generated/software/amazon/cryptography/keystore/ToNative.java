@@ -24,6 +24,7 @@ import software.amazon.cryptography.keystore.model.CreateKeyInput;
 import software.amazon.cryptography.keystore.model.CreateKeyOutput;
 import software.amazon.cryptography.keystore.model.CreateKeyStoreInput;
 import software.amazon.cryptography.keystore.model.CreateKeyStoreOutput;
+import software.amazon.cryptography.keystore.model.Discovery;
 import software.amazon.cryptography.keystore.model.GetActiveBranchKeyInput;
 import software.amazon.cryptography.keystore.model.GetActiveBranchKeyOutput;
 import software.amazon.cryptography.keystore.model.GetBeaconKeyInput;
@@ -167,6 +168,18 @@ public class ToNative {
         )
       );
     }
+    if (dafnyValue.dtor_arn().is_Some()) {
+      nativeBuilder.arn(
+        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+          dafnyValue.dtor_arn().dtor_value()
+        )
+      );
+    }
+    if (dafnyValue.dtor_grantTokens().is_Some()) {
+      nativeBuilder.grantTokens(
+        ToNative.GrantTokenList(dafnyValue.dtor_grantTokens().dtor_value())
+      );
+    }
     return nativeBuilder.build();
   }
 
@@ -198,6 +211,13 @@ public class ToNative {
         dafnyValue.dtor_tableArn()
       )
     );
+    return nativeBuilder.build();
+  }
+
+  public static Discovery Discovery(
+    software.amazon.cryptography.keystore.internaldafny.types.Discovery dafnyValue
+  ) {
+    Discovery.Builder nativeBuilder = Discovery.builder();
     return nativeBuilder.build();
   }
 
@@ -360,6 +380,11 @@ public class ToNative {
         dafnyValue.dtor_branchKeyIdentifier()
       )
     );
+    if (dafnyValue.dtor_grantTokens().is_Some()) {
+      nativeBuilder.grantTokens(
+        ToNative.GrantTokenList(dafnyValue.dtor_grantTokens().dtor_value())
+      );
+    }
     return nativeBuilder.build();
   }
 
@@ -380,6 +405,9 @@ public class ToNative {
           dafnyValue.dtor_kmsKeyArn()
         )
       );
+    }
+    if (dafnyValue.is_discovery()) {
+      nativeBuilder.discovery(ToNative.Discovery(dafnyValue.dtor_discovery()));
     }
     return nativeBuilder.build();
   }

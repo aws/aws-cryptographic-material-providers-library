@@ -22,6 +22,7 @@ import software.amazon.cryptography.keystore.internaldafny.types.CreateKeyInput;
 import software.amazon.cryptography.keystore.internaldafny.types.CreateKeyOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.CreateKeyStoreInput;
 import software.amazon.cryptography.keystore.internaldafny.types.CreateKeyStoreOutput;
+import software.amazon.cryptography.keystore.internaldafny.types.Discovery;
 import software.amazon.cryptography.keystore.internaldafny.types.Error;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStoreException;
 import software.amazon.cryptography.keystore.internaldafny.types.GetActiveBranchKeyInput;
@@ -174,7 +175,29 @@ public class ToDafny {
           ToDafny.EncryptionContext(nativeValue.encryptionContext())
         )
         : Option.create_None();
-    return new CreateKeyInput(branchKeyIdentifier, encryptionContext);
+    Option<DafnySequence<? extends Character>> arn;
+    arn =
+      Objects.nonNull(nativeValue.arn())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.arn()
+          )
+        )
+        : Option.create_None();
+    Option<
+      DafnySequence<? extends DafnySequence<? extends Character>>
+    > grantTokens;
+    grantTokens =
+      (Objects.nonNull(nativeValue.grantTokens()) &&
+          nativeValue.grantTokens().size() > 0)
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
+    return new CreateKeyInput(
+      branchKeyIdentifier,
+      encryptionContext,
+      arn,
+      grantTokens
+    );
   }
 
   public static CreateKeyOutput CreateKeyOutput(
@@ -203,6 +226,12 @@ public class ToDafny {
         nativeValue.tableArn()
       );
     return new CreateKeyStoreOutput(tableArn);
+  }
+
+  public static Discovery Discovery(
+    software.amazon.cryptography.keystore.model.Discovery nativeValue
+  ) {
+    return new Discovery();
   }
 
   public static GetActiveBranchKeyInput GetActiveBranchKeyInput(
@@ -370,7 +399,15 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
         nativeValue.branchKeyIdentifier()
       );
-    return new VersionKeyInput(branchKeyIdentifier);
+    Option<
+      DafnySequence<? extends DafnySequence<? extends Character>>
+    > grantTokens;
+    grantTokens =
+      (Objects.nonNull(nativeValue.grantTokens()) &&
+          nativeValue.grantTokens().size() > 0)
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
+    return new VersionKeyInput(branchKeyIdentifier, grantTokens);
   }
 
   public static VersionKeyOutput VersionKeyOutput(
@@ -392,10 +429,15 @@ public class ToDafny {
     software.amazon.cryptography.keystore.model.KMSConfiguration nativeValue
   ) {
     if (Objects.nonNull(nativeValue.kmsKeyArn())) {
-      return KMSConfiguration.create(
+      return KMSConfiguration.create_kmsKeyArn(
         software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
           nativeValue.kmsKeyArn()
         )
+      );
+    }
+    if (Objects.nonNull(nativeValue.discovery())) {
+      return KMSConfiguration.create_discovery(
+        ToDafny.Discovery(nativeValue.discovery())
       );
     }
     throw new IllegalArgumentException(

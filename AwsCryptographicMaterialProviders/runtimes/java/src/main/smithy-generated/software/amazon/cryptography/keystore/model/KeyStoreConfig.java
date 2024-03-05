@@ -16,7 +16,7 @@ public class KeyStoreConfig {
   private final String ddbTableName;
 
   /**
-   * The AWS KMS Key that protects this Key Store.
+   * Configures how the Key Store determines which KMS Key ARN to use
    */
   private final KMSConfiguration kmsConfiguration;
 
@@ -63,7 +63,7 @@ public class KeyStoreConfig {
   }
 
   /**
-   * @return The AWS KMS Key that protects this Key Store.
+   * @return Configures how the Key Store determines which KMS Key ARN to use
    */
   public KMSConfiguration kmsConfiguration() {
     return this.kmsConfiguration;
@@ -124,12 +124,12 @@ public class KeyStoreConfig {
     String ddbTableName();
 
     /**
-     * @param kmsConfiguration The AWS KMS Key that protects this Key Store.
+     * @param kmsConfiguration Configures how the Key Store determines which KMS Key ARN to use
      */
     Builder kmsConfiguration(KMSConfiguration kmsConfiguration);
 
     /**
-     * @return The AWS KMS Key that protects this Key Store.
+     * @return Configures how the Key Store determines which KMS Key ARN to use
      */
     KMSConfiguration kmsConfiguration();
 
