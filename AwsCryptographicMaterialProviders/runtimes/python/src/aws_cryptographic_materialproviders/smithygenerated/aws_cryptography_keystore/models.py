@@ -706,7 +706,7 @@ class GetBranchKeyVersionOutput:
 
 
 class KMSConfigurationKmsKeyArn:
-    def __init__(self, value: str):
+    def __init__(self, value: "str"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
