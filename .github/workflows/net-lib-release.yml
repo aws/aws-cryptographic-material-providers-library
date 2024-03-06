@@ -59,7 +59,7 @@ jobs:
           git config --global core.longpaths true
   
   releaseToProd:
-    needs: [verify, releaseToCA]
+    needs: releaseToCA
     strategy:
       matrix:
         dotnet-version: ["6.0.x"]
