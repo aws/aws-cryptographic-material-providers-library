@@ -65,7 +65,7 @@ class FileIO:
 
     @staticmethod
     def dafny_string_to_path(path_as_dafny_string):
-        return Path("../../" + _dafny.string_of(path_as_dafny_string))
+        return Path(_dafny.string_of(path_as_dafny_string))
     
     @staticmethod
     def create_parent_dirs(native_path):
