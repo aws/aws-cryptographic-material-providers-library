@@ -7,6 +7,8 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from software_amazon_cryptography_primitives_internaldafny_types import Error_AwsCryptographicPrimitivesError
 from cryptography.exceptions import InvalidTag
 
+default__ = aws_cryptography_primitives.internaldafny.generated.AESEncryption.default__
+
 class AESEncryption:
 
     class AES_GCM:
