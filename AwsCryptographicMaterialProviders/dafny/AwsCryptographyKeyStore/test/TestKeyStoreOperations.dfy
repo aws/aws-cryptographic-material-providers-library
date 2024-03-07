@@ -22,7 +22,7 @@ module TestDiscoveryOperations {
   import DDBKeystoreOperations
   import UUID
   import ErrorMessages
-  
+
   method {:test} TestCreateKeyDiscoveryNoARNFails()
   {
     var kmsClient :- expect KMS.KMSClient();
@@ -44,7 +44,7 @@ module TestDiscoveryOperations {
         branchKeyIdentifier := None,
         encryptionContext := None,
         arn := None
-    ));
+      ));
     expect actual.Failure?;
     expect actual.error == Types.KeyStoreException(message := ErrorMessages.DISCOVERY_CREATE_KEY_NO_ARN_ERROR_MSG);
   }
@@ -64,13 +64,13 @@ module TestDiscoveryOperations {
       kmsClient := Some(kmsClient)
     );
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
-    
+
     var actual := keyStore.CreateKey(
       Types.CreateKeyInput(
         branchKeyIdentifier := None,
         encryptionContext := None,
         arn := Some(mkrKeyArn)
-    ));
+      ));
     expect actual.Failure?;
     expect actual.error == Types.KeyStoreException(message := ErrorMessages.CREATE_KEY_KMS_ARN_DISAGREEMENT);
   }
@@ -99,8 +99,8 @@ module TestDiscoveryOperations {
 
     activeResult :- expect keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
-      branchKeyIdentifier := postalHornBranchKeyId
-    ));
+        branchKeyIdentifier := postalHornBranchKeyId
+      ));
     expect activeResult.branchKeyMaterials.branchKeyIdentifier == postalHornBranchKeyId;
   }
 
@@ -123,7 +123,7 @@ module TestDiscoveryOperations {
     var activeResult := keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
         branchKeyIdentifier := postalHornBranchKeyId
-    ));
+      ));
     expect activeResult.Failure?;
     expect activeResult.error == Types.KeyStoreException(message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT);
   }

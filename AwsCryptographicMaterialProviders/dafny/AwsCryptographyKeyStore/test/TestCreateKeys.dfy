@@ -170,7 +170,7 @@ module TestCreateKeys {
 
   }
 
-  
+
   method {:test} TestCreateOptions()
   {
     var kmsClient :- expect KMS.KMSClient();
