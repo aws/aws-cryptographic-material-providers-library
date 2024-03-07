@@ -8,6 +8,7 @@ include "GetKeys.dfy"
 include "CreateKeyStoreTable.dfy"
 include "CreateKeys.dfy"
 include "Structure.dfy"
+include "ErrorMessages.dfy"
 
 module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStoreOperations {
   import opened AwsArnParsing
@@ -21,6 +22,8 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
   import UUID
   import Time
   import Structure
+  import ErrorMessages
+
 
   datatype Config = Config(
     nameonly id: string,
@@ -140,12 +143,12 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
     :- Need(input.branchKeyIdentifier.Some? ==>
               && input.encryptionContext.Some?
               && 0 < |input.encryptionContext.value|,
-            Types.KeyStoreException(message := "Custom branch key id requires custom encryption context."));
+            Types.KeyStoreException(message := ErrorMessages.CUSTOM_BRANCH_KEY_ID_NEED_EC));
 
     :- Need(
       config.kmsConfiguration.discovery? ==> input.arn.Some?,
       Types.KeyStoreException(
-        message := "Key Store's kmsConfiguration is Discovery, a KMS Key ARN is required to Create a Branch Key."
+        message := ErrorMessages.DISCOVERY_CREATE_KEY_NO_ARN_ERROR_MSG
       )
     );
 
@@ -153,14 +156,14 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       config.kmsConfiguration.kmsKeyArn? && input.arn.Some? ==>
         input.arn.value == config.kmsConfiguration.kmsKeyArn,
       Types.KeyStoreException(
-        message := "Key Store's kmsConfiguration's KMS Key ARN differs from KMS Key ARN in request."
+        message := ErrorMessages.CREATE_KEY_KMS_ARN_DISAGREEMENT
       )
     );
 
     :- Need(
       input.arn.Some? ==> KMS.IsValid_KeyIdType(input.arn.value),
       Types.KeyStoreException(
-        message := "KMS Key ARN in request is invalid."
+        message := ErrorMessages.KMS_KEY_ARN_INVALID
       )
     );
 
@@ -171,7 +174,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       kmsKeyArn := config.kmsConfiguration.kmsKeyArn;
     } else {
       // How did you get here?
-      return Failure(Types.KeyStoreException(message := "KMS Key ARN is invalid"));
+      return Failure(Types.KeyStoreException(message := ErrorMessages.KMS_KEY_ARN_INVALID ));
     }
 
     var branchKeyIdentifier: string;
