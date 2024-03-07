@@ -136,7 +136,8 @@ class ECDSA:
     return Wrappers.Result_Success(True)
 
 # TODO-Python-PYTHONPATH: Remove, refactor
-Signature.ECDSA = ECDSA
+aws_cryptography_primitives.internaldafny.generated.Signature.ECDSA = ECDSA
+
 
 class SignatureAlgorithm:
   def __init__(self, curve, message_digest_algorithm, raw_signature_algorithm, expected_signature_length):
