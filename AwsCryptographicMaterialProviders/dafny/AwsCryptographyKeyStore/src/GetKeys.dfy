@@ -5,6 +5,7 @@ include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "Structure.dfy"
 include "DDBKeystoreOperations.dfy"
 include "KMSKeystoreOperations.dfy"
+include "ErrorMessages.dfy"
 
 module GetKeys {
   import opened StandardLibrary
@@ -14,6 +15,7 @@ module GetKeys {
   import Structure
   import KMSKeystoreOperations
   import DDBKeystoreOperations
+  import ErrorMessages
 
   import Types = AwsCryptographyKeyStoreTypes
   import DDB = ComAmazonawsDynamodbTypes
@@ -130,7 +132,7 @@ module GetKeys {
 
     :- Need(
       KMSKeystoreOperations.AttemptKmsOperationOLD?(kmsConfiguration, encryptionContext),
-      Types.KeyStoreException( message := "AWS KMS Key ARN does not match configured value")
+      Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
     );
     // TODO Postal Horn: Consider pulling match/kmsDecrypt into helper method
     var keyId: KMS.KeyIdType;

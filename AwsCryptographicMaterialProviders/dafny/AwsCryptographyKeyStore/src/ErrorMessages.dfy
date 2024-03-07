@@ -13,4 +13,7 @@ module {:options "/functionSyntax:4" } ErrorMessages {
 
   const CUSTOM_BRANCH_KEY_ID_NEED_EC :=
     "Custom branch key id requires custom encryption context."
+
+  const GET_KEY_ARN_DISAGREEMENT :=
+    "AWS KMS Key ARN does not match configured value"
 }

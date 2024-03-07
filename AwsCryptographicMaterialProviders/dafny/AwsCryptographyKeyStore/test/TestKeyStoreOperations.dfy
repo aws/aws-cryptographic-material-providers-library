@@ -7,7 +7,7 @@ include "../src/Structure.dfy"
 include "CleanupItems.dfy"
 include "../src/ErrorMessages.dfy"
 
-module TestKeyStoreOperations {
+module TestDiscoveryOperations {
   import Types = AwsCryptographyKeyStoreTypes
   import ComAmazonawsKmsTypes
   import ComAmazonawsDynamodbTypes
@@ -75,8 +75,36 @@ module TestKeyStoreOperations {
     expect actual.error == Types.KeyStoreException(message := ErrorMessages.CREATE_KEY_KMS_ARN_DISAGREEMENT);
   }
 
-  // TODO: refactor to method that takes kmsConfig
-  method {:test} TestCreateKeyInvalidArn()
+  method {:test} TestDiscoveryGetBranchKeyForTwoKMSArns()
+  {
+    var kmsClient :- expect KMS.KMSClient();
+    var ddbClient :- expect DDB.DynamoDBClient();
+    var kmsConfig := Types.KMSConfiguration.discovery(Types.Discovery());
+    var keyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient),
+      kmsClient := Some(kmsClient)
+    );
+    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+
+    var activeResult :- expect keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := branchKeyId
+      ));
+    expect activeResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId;
+
+    activeResult :- expect keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+      branchKeyIdentifier := postalHornBranchKeyId
+    ));
+    expect activeResult.branchKeyMaterials.branchKeyIdentifier == postalHornBranchKeyId;
+  }
+
+  method {:test} TestGetBranchKeyForWrongKmsKeyID()
   {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
@@ -91,64 +119,12 @@ module TestKeyStoreOperations {
       kmsClient := Some(kmsClient)
     );
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
-    
-    var actual := keyStore.CreateKey(
-      Types.CreateKeyInput(
-        branchKeyIdentifier := None,
-        encryptionContext := None,
-        arn := Some("robbie")
-    ));
-    expect actual.Failure?;
-    expect actual.error == Types.KeyStoreException(message := ErrorMessages.CREATE_KEY_KMS_ARN_DISAGREEMENT);
-    //expect actual.error == Types.KeyStoreException(message := ErrorMessages.KMS_KEY_ARN_INVALID);
-    // Error Message could be 
 
-    kmsConfig := Types.KMSConfiguration.discovery(Types.Discovery());
-    keyStoreConfig := Types.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := kmsConfig,
-      logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := Some(ddbClient),
-      kmsClient := Some(kmsClient)
-    );
-    keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
-    actual := keyStore.CreateKey(
-      Types.CreateKeyInput(
-        branchKeyIdentifier := None,
-        encryptionContext := None,
-        arn := Some("robbie")
+    var activeResult := keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := postalHornBranchKeyId
     ));
-    expect actual.Failure?;
-    expect actual.error == Types.KeyStoreException(message := ErrorMessages.KMS_KEY_ARN_INVALID);
+    expect activeResult.Failure?;
+    expect activeResult.error == Types.KeyStoreException(message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT);
   }
-
-  // method {:test} TestGetKey()
-  // {
-  //   var kmsClient :- expect KMS.KMSClient();
-  //   var ddbClient :- expect DDB.DynamoDBClient();
-  //   var kmsConfig := Types.KMSConfiguration.discovery(Types.Discovery());
-  //   var keyStoreConfig := Types.KeyStoreConfig(
-  //     id := None,
-  //     kmsConfiguration := kmsConfig,
-  //     logicalKeyStoreName := logicalKeyStoreName,
-  //     grantTokens := None,
-  //     ddbTableName := branchKeyStoreName,
-  //     ddbClient := Some(ddbClient),
-  //     kmsClient := Some(kmsClient)
-  //   );
-
-  //   var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
-  //   var actual := keyStore.CreateKey(
-  //     Types.CreateKeyInput(
-  //       branchKeyIdentifier := None,
-  //       encryptionContext := None,
-  //       arn := None
-  //   ));
-  //   expect actual.Failure?;
-  //   expect actual.error == Types.KeyStoreException(message := ErrorMessages.DISCOVERY_CREATE_KEY_NO_ARN_ERROR_MSG);
-  // }
-
-
 }

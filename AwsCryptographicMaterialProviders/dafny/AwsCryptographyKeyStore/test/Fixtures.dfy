@@ -24,5 +24,6 @@ module Fixtures {
   // mkrKeyArn is an RSA Key  
   const mkrKeyArn := "arn:aws:kms:us-west-2:370957321024:key/mrk-63d386cb70614ea59b32ad65c9315297"
   const keyId := "9d989aa2-2f9c-438c-a745-cc57d3ad0126"
-  const publicKeyArn := "arn:aws:kms:us-west-2:658956600833:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"
+  const postalHornKeyArn := "arn:aws:kms:us-west-2:370957321024:key/3b6454f3-096f-4720-b8ca-7c12dc08497d"
+  const postalHornBranchKeyId := "a72a1552-6df3-4e8b-83a9-18a741139045"
 }
