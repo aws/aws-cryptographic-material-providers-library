@@ -1,5 +1,6 @@
 import aws_cryptography_primitives
 from aws_cryptography_primitives.internaldafny.generated.Signature import *
+import aws_cryptography_primitives.internaldafny.generated.Signature
 from enum import Enum
 from software_amazon_cryptography_primitives_internaldafny_types import (
   DigestAlgorithm_SHA__256,
@@ -33,6 +34,8 @@ from cryptography.hazmat.primitives.asymmetric.utils import (
 )
 # TODO-Python-PYTHONPATH: Remove, redo some stuff... issues with extending classes with PYTHONPATH
 import Signature
+
+default__ = aws_cryptography_primitives.internaldafny.generated.Signature.default__
 
 class ECDSA:
 
