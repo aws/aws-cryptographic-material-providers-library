@@ -137,6 +137,8 @@ class ECDSA:
 
 # TODO-Python-PYTHONPATH: Remove, refactor
 aws_cryptography_primitives.internaldafny.generated.Signature.ECDSA = ECDSA
+# TODO-Python-PYTHONPATH: The fix here might be in our Dafny code...
+aws_cryptography_primitives.internaldafny.generated.Signature.Signature = Signature
 
 
 class SignatureAlgorithm:
