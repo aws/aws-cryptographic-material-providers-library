@@ -10,6 +10,10 @@ Parameters:
     Type: String
     Description: Key Store Test Table Name
     Default: KeyStoreTestTable
+  KeyStoreDdbTable:
+    Type: String
+    Description: Key Store DynamoDB Table Name
+    Default: KeyStoreDdbTable
   ProjectName:
     Type: String
     Description: A prefix that will be applied to any names
@@ -52,6 +56,34 @@ Resources:
           ProvisionedThroughput:
             ReadCapacityUnits: "5"
             WriteCapacityUnits: "5"
+        - IndexName: !Sub "Active-Keys-KeyStoreTestTable"
+          KeySchema:
+            - AttributeName: "branch-key-id"
+              KeyType: "HASH"
+            - AttributeName: "status"
+              KeyType: "RANGE"
+          Projection:
+            ProjectionType: "ALL"
+          ProvisionedThroughput:
+            ReadCapacityUnits: "5"
+            WriteCapacityUnits: "5"
+  KeyStoreTestDdbTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "branch-key-id"
+          AttributeType: "S"
+        - AttributeName: "type"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "branch-key-id"
+          KeyType: "HASH"
+        - AttributeName: "type"
+          KeyType: "RANGE"
+      ProvisionedThroughput:
+        ReadCapacityUnits: "5"
+        WriteCapacityUnits: "5"
+      TableName: !Ref KeyStoreDdbTable
 
   HierarchicalKeyringTestTable:
     Type: AWS::DynamoDB::Table
@@ -118,6 +150,19 @@ Resources:
             Resource:
               - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreTable}"
               - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreTable}/index/*"
+          - Effect: Allow
+            Action:
+              - dynamodb:DescribeTable
+              - dynamodb:CreateTable
+              - dynamodb:PutItem
+              - dynamodb:DeleteItem
+              - dynamodb:GetItem
+              - dynamodb:Query
+              - dynamodb:ConditionCheckItem
+              - dynamodb:UpdateItem
+            Resource:
+              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreDdbTable}"
+              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreDdbTable}/index/*"
 
   HierarchicalGitHubKMSKeyID:
     Type: "AWS::KMS::Key"
@@ -159,11 +204,16 @@ Resources:
               "Action": [
                 "kms:Decrypt",
                 "kms:GenerateDataKeyWithoutPlaintext",
-                "kms:ReEncrypt*"
+                "kms:ReEncrypt*",
+                "kms:DescribeKey",
+                "kms:CreateGrant",
+                "kms:ListGrant",
+                "kms:RevokeGrant"
               ],
               "Resource": [
                 "arn:aws:kms:*:${AWS::AccountId}:key/${HierarchicalGitHubKMSKeyID}",
                 "arn:aws:kms:*:${AWS::AccountId}:key/${HierarchicalGitHubKMSKeyIDTwo}",
+              ]
             }
           ]
         }
@@ -209,7 +259,7 @@ Resources:
         }
       ManagedPolicyName: RSA-GitHub-KMS-Key-Policy
 
-  # The MPL-Dafny Repo gets access to everything here
+  # The MPL-Dafny Repo get access to everything here
   # via the CI.yaml#GitHubCIRole
   GitHubCIRole:
     Type: "AWS::IAM::Role"
