@@ -212,7 +212,7 @@ Resources:
               ],
               "Resource": [
                 "arn:aws:kms:*:${AWS::AccountId}:key/${HierarchicalGitHubKMSKeyID}",
-                "arn:aws:kms:*:${AWS::AccountId}:key/${HierarchicalGitHubKMSKeyIDTwo}",
+                "arn:aws:kms:*:${AWS::AccountId}:key/${HierarchicalGitHubKMSKeyIDTwo}"
               ]
             }
           ]
