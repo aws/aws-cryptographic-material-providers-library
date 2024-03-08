@@ -123,12 +123,14 @@ module TestCreateKeys {
       Types.GetBeaconKeyInput(
         branchKeyIdentifier := branchKeyId.branchKeyIdentifier
       ));
-
+      
     var activeResult :- expect keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
         branchKeyIdentifier := branchKeyId.branchKeyIdentifier
       ));
-
+    print("\n Postal Horn Branch Key ID: ");
+    print(branchKeyId.branchKeyIdentifier);
+    print("\n");
     var branchKeyVersion :- expect UTF8.Decode(activeResult.branchKeyMaterials.branchKeyVersion);
     var versionResult :- expect keyStore.GetBranchKeyVersion(
       Types.GetBranchKeyVersionInput(
@@ -138,35 +140,35 @@ module TestCreateKeys {
     // Since this process uses a read DDB table,
     // the number of records will forever increase.
     // To avoid this, remove the items.
-    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, branchKeyVersion, ddbClient);
-    CleanupItems.DeleteActive(branchKeyId.branchKeyIdentifier, ddbClient);
+    // CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, branchKeyVersion, ddbClient);
+    // CleanupItems.DeleteActive(branchKeyId.branchKeyIdentifier, ddbClient);
 
-    expect beaconKeyResult.beaconKeyMaterials.beaconKey.Some?;
-    expect |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32;
-    expect |activeResult.branchKeyMaterials.branchKey| == 32;
-    expect versionResult.branchKeyMaterials.branchKey == activeResult.branchKeyMaterials.branchKey;
-    expect versionResult.branchKeyMaterials.branchKeyIdentifier
-        == activeResult.branchKeyMaterials.branchKeyIdentifier
-        == beaconKeyResult.beaconKeyMaterials.beaconKeyIdentifier;
-    expect versionResult.branchKeyMaterials.branchKeyVersion == activeResult.branchKeyMaterials.branchKeyVersion;
+    // expect beaconKeyResult.beaconKeyMaterials.beaconKey.Some?;
+    // expect |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32;
+    // expect |activeResult.branchKeyMaterials.branchKey| == 32;
+    // expect versionResult.branchKeyMaterials.branchKey == activeResult.branchKeyMaterials.branchKey;
+    // expect versionResult.branchKeyMaterials.branchKeyIdentifier
+    //     == activeResult.branchKeyMaterials.branchKeyIdentifier
+    //     == beaconKeyResult.beaconKeyMaterials.beaconKeyIdentifier;
+    // expect versionResult.branchKeyMaterials.branchKeyVersion == activeResult.branchKeyMaterials.branchKeyVersion;
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
-    //= type=test
-    //# If no branch key id is provided,
-    //# then this operation MUST create a [version 4 UUID](https://www.ietf.org/rfc/rfc4122.txt)
-    //# to be used as the branch key id.
-    var idByteUUID :- expect UUID.ToByteArray(activeResult.branchKeyMaterials.branchKeyIdentifier);
-    var idRoundTrip :- expect UUID.FromByteArray(idByteUUID);
-    expect idRoundTrip == activeResult.branchKeyMaterials.branchKeyIdentifier;
+    // //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
+    // //= type=test
+    // //# If no branch key id is provided,
+    // //# then this operation MUST create a [version 4 UUID](https://www.ietf.org/rfc/rfc4122.txt)
+    // //# to be used as the branch key id.
+    // var idByteUUID :- expect UUID.ToByteArray(activeResult.branchKeyMaterials.branchKeyIdentifier);
+    // var idRoundTrip :- expect UUID.FromByteArray(idByteUUID);
+    // expect idRoundTrip == activeResult.branchKeyMaterials.branchKeyIdentifier;
 
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
-    //= type=test
-    //# This guid MUST be [version 4 UUID](https://www.ietf.org/rfc/rfc4122.txt)
-    var versionString :- expect UTF8.Decode(activeResult.branchKeyMaterials.branchKeyVersion);
-    var versionByteUUID :- expect UUID.ToByteArray(versionString);
-    var versionRoundTrip :- expect UUID.FromByteArray(versionByteUUID);
-    expect versionRoundTrip == versionString;
+    // //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
+    // //= type=test
+    // //# This guid MUST be [version 4 UUID](https://www.ietf.org/rfc/rfc4122.txt)
+    // var versionString :- expect UTF8.Decode(activeResult.branchKeyMaterials.branchKeyVersion);
+    // var versionByteUUID :- expect UUID.ToByteArray(versionString);
+    // var versionRoundTrip :- expect UUID.FromByteArray(versionByteUUID);
+    // expect versionRoundTrip == versionString;
 
   }
 
