@@ -123,7 +123,7 @@ module TestCreateKeys {
       Types.GetBeaconKeyInput(
         branchKeyIdentifier := branchKeyId.branchKeyIdentifier
       ));
-      
+
     var activeResult :- expect keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
         branchKeyIdentifier := branchKeyId.branchKeyIdentifier
