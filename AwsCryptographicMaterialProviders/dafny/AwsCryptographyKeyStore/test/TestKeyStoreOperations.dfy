@@ -75,34 +75,34 @@ module TestDiscoveryOperations {
     expect actual.error == Types.KeyStoreException(message := ErrorMessages.CREATE_KEY_KMS_ARN_DISAGREEMENT);
   }
 
-  // method {:test} TestDiscoveryGetBranchKeyForTwoKMSArns()
-  // {
-  //   var kmsClient :- expect KMS.KMSClient();
-  //   var ddbClient :- expect DDB.DynamoDBClient();
-  //   var kmsConfig := Types.KMSConfiguration.discovery(Types.Discovery());
-  //   var keyStoreConfig := Types.KeyStoreConfig(
-  //     id := None,
-  //     kmsConfiguration := kmsConfig,
-  //     logicalKeyStoreName := logicalKeyStoreName,
-  //     grantTokens := None,
-  //     ddbTableName := branchKeyStoreName,
-  //     ddbClient := Some(ddbClient),
-  //     kmsClient := Some(kmsClient)
-  //   );
-  //   var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+  method {:test} TestDiscoveryGetBranchKeyForTwoKMSArns()
+  {
+    var kmsClient :- expect KMS.KMSClient();
+    var ddbClient :- expect DDB.DynamoDBClient();
+    var kmsConfig := Types.KMSConfiguration.discovery(Types.Discovery());
+    var keyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient),
+      kmsClient := Some(kmsClient)
+    );
+    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
 
-  //   var activeResult :- expect keyStore.GetActiveBranchKey(
-  //     Types.GetActiveBranchKeyInput(
-  //       branchKeyIdentifier := branchKeyId
-  //     ));
-  //   expect activeResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId;
+    var activeResult :- expect keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := branchKeyId
+      ));
+    expect activeResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId;
 
-  //   activeResult :- expect keyStore.GetActiveBranchKey(
-  //     Types.GetActiveBranchKeyInput(
-  //       branchKeyIdentifier := postalHornBranchKeyId
-  //     ));
-  //   expect activeResult.branchKeyMaterials.branchKeyIdentifier == postalHornBranchKeyId;
-  // }
+    activeResult :- expect keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := postalHornBranchKeyId
+      ));
+    expect activeResult.branchKeyMaterials.branchKeyIdentifier == postalHornBranchKeyId;
+  }
 
   method {:test} TestGetBranchKeyForWrongKmsKeyID()
   {
