@@ -71,7 +71,10 @@ async def _deserialize_error(error: Error) -> ServiceError:
     if error.is_Opaque:
         return OpaqueError(obj=error.obj)
     elif error.is_CollectionOfErrors:
-        return CollectionOfErrors(message=error.message, list=error.list)
+        return CollectionOfErrors(
+            message=_dafny.string_of(error.message),
+            list=[await _deserialize_error(dafny_e) for dafny_e in error.list],
+        )
     elif error.is_KeyVectorException:
         return KeyVectorException(message=_dafny.string_of(error.message))
     else:

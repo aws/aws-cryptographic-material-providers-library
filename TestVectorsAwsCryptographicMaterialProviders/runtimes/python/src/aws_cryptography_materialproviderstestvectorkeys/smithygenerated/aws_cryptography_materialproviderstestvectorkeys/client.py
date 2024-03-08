@@ -210,7 +210,6 @@ class KeyVectors:
                 interceptor.read_before_execution(context)
 
             # Step 1b: Run operation-level plugins
-            # config = deepcopy(config)
             for plugin in plugins:
                 plugin(config)
 

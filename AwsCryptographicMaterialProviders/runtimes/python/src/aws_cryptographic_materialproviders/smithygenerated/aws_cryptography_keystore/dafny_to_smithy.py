@@ -29,7 +29,7 @@ def aws_cryptography_keystore_CreateKeyInput(input):
         encryption_context=(
             (
                 {
-                    bytes(key): bytes(value)
+                    "".join([chr(a) for a in key]): "".join([chr(a) for a in value])
                     for (key, value) in input.encryptionContext.value.items
                 }
             )
@@ -111,9 +111,10 @@ def aws_cryptography_keystore_VersionKeyOutput(input):
 def aws_cryptography_keystore_BranchKeyMaterials(input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.BranchKeyMaterials(
         branch_key_identifier=input.branchKeyIdentifier.VerbatimString(False),
-        branch_key_version=bytes(input.branchKeyVersion),
+        branch_key_version="".join([chr(a) for a in input.branchKeyVersion]),
         encryption_context={
-            bytes(key): bytes(value) for (key, value) in input.encryptionContext.items
+            "".join([chr(a) for a in key]): "".join([chr(a) for a in value])
+            for (key, value) in input.encryptionContext.items
         },
         branch_key=bytes(input.branchKey),
     )
@@ -139,7 +140,8 @@ def aws_cryptography_keystore_BeaconKeyMaterials(input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.BeaconKeyMaterials(
         beacon_key_identifier=input.beaconKeyIdentifier.VerbatimString(False),
         encryption_context={
-            bytes(key): bytes(value) for (key, value) in input.encryptionContext.items
+            "".join([chr(a) for a in key]): "".join([chr(a) for a in value])
+            for (key, value) in input.encryptionContext.items
         },
         beacon_key=(
             (bytes(input.beaconKey.value)) if (input.beaconKey.is_Some) else None

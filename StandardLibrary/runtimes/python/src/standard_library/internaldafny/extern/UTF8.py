@@ -54,7 +54,13 @@ class default__(standard_library.internaldafny.generated.UTF8.default__):
   @staticmethod
   def Decode(s):
     try:
-      utf8_str = bytes(s).decode('utf-8')
+      out = []
+      for a in s:
+        out.append(a.to_bytes(2, "little"))
+      out2 = []
+      for a in out:
+        out2.append(a.decode("utf-8"))
+      utf8_str = ''.join(out2)
       unicode_escaped_utf8_str = default__._reverse_strict_tostring(utf8_str)
       return Wrappers.Result_Success(unicode_escaped_utf8_str)
     # Catch both UnicodeEncodeError and UnicodeDecodeError.

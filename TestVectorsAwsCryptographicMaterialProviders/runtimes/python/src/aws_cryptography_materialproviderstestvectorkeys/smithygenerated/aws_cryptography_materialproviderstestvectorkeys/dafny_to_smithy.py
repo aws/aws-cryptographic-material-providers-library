@@ -183,7 +183,8 @@ def aws_cryptography_materialproviderstestvectorkeys_RequiredEncryptionContextCM
             input.underlying
         ),
         required_encryption_context_keys=[
-            bytes(list_element) for list_element in input.requiredEncryptionContextKeys
+            "".join([chr(a) for a in list_element])
+            for list_element in input.requiredEncryptionContextKeys
         ],
     )
 
