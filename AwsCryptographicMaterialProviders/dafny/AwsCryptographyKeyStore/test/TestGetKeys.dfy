@@ -106,7 +106,7 @@ module TestGetKeys {
   method {:test} TestGetActiveKeyWithIncorrectKmsKeyArn() {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
-    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(mkrKeyArn);
+    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(mrkRsaKeyArn);
 
     var keyStoreConfig := Types.KeyStoreConfig(
       id := None,

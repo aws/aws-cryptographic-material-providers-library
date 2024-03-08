@@ -21,9 +21,10 @@ module Fixtures {
   ]
   // THESE ARE TESTING RESOURCES DO NOT USE IN A PRODUCTION ENVIRONMENT
   const keyArn := "arn:aws:kms:us-west-2:370957321024:key/9d989aa2-2f9c-438c-a745-cc57d3ad0126"
-  // mkrKeyArn is an RSA Key
-  const mkrKeyArn := "arn:aws:kms:us-west-2:370957321024:key/mrk-63d386cb70614ea59b32ad65c9315297"
+  // mrkRsaKeyArn is an RSA Key
+  const mrkRsaKeyArn := "arn:aws:kms:us-west-2:370957321024:key/mrk-63d386cb70614ea59b32ad65c9315297"
   const keyId := "9d989aa2-2f9c-438c-a745-cc57d3ad0126"
+  // TODO: replace postalHorn IDs with arn:aws:kms:us-west-2:370957321024:key/bc127593-f7da-452c-a1f3-cd34c46f81f8  
   const postalHornKeyArn := "arn:aws:kms:us-west-2:370957321024:key/3b6454f3-096f-4720-b8ca-7c12dc08497d"
   const postalHornBranchKeyId := "a72a1552-6df3-4e8b-83a9-18a741139045"
 }

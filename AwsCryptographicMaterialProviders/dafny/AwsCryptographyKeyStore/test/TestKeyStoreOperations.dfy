@@ -69,7 +69,7 @@ module TestDiscoveryOperations {
       Types.CreateKeyInput(
         branchKeyIdentifier := None,
         encryptionContext := None,
-        arn := Some(mkrKeyArn)
+        arn := Some(mrkRsaKeyArn)
       ));
     expect actual.Failure?;
     expect actual.error == Types.KeyStoreException(message := ErrorMessages.CREATE_KEY_KMS_ARN_DISAGREEMENT);
