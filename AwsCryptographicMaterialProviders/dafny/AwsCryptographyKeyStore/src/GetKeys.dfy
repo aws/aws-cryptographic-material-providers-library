@@ -70,9 +70,6 @@ module GetKeys {
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
               //= type=implication
               //# The operation MUST decrypt the branch key according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
-              // TODO Postal Horn: Revise the spec below to ensure
-              // KMS is either called with the configured arn
-              // or the read arn, depending if discovery or not
               && AwsKmsBranchKeyDecryption?(
                    Seq.Last(ddbClient.History.GetItem),
                    Seq.Last(kmsClient.History.Decrypt),
