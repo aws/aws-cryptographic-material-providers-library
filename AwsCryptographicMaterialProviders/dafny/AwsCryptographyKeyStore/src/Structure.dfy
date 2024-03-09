@@ -52,7 +52,7 @@ module {:options "/functionSyntax:4" } Structure {
        //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
        //= type=implication
        //# - MUST have a `kms-arn` attribute
-    && (KMS_FIELD in m)
+    && (KMS_FIELD in m) && KMS.IsValid_KeyIdType(m[KMS_FIELD])
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-keystore-item
     //# The key `enc` MUST NOT exist in the constructed [encryption context](#encryption-context).
@@ -110,6 +110,7 @@ module {:options "/functionSyntax:4" } Structure {
     encryptedKey: seq<uint8>
   ): (output: DDB.AttributeMap)
     requires KMS.IsValid_CiphertextType(encryptedKey)
+    requires KMS.IsValid_KeyIdType(encryptionContext[KMS_FIELD])
     ensures BranchKeyItem?(output)
     ensures ToBranchKeyContext(output, encryptionContext[TABLE_FIELD]) == encryptionContext
   {
@@ -123,7 +124,7 @@ module {:options "/functionSyntax:4" } Structure {
       :: k := if k == HIERARCHY_VERSION then
         DDB.AttributeValue.N(encryptionContext[HIERARCHY_VERSION])
       else if k == BRANCH_KEY_FIELD then
-        DDB.AttributeValue.B(encryptedKey)
+        DDB.AttributeValue.B(encryptedKey)  
       else
         DDB.AttributeValue.S(encryptionContext[k])
   }
@@ -297,6 +298,7 @@ module {:options "/functionSyntax:4" } Structure {
     requires 0 < |branchKeyId|
     requires 0 < |branchKeyVersion|
     requires forall k <- customEncryptionContext :: DDB.IsValid_AttributeName(ENCRYPTION_CONTEXT_PREFIX + k)
+    requires KMS.IsValid_KeyIdType(kmsKeyArn)
     ensures BranchKeyContext?(output)
     ensures BRANCH_KEY_TYPE_PREFIX < output[TYPE_FIELD]
     ensures BRANCH_KEY_ACTIVE_VERSION_FIELD !in output
@@ -395,7 +397,7 @@ module {:options "/functionSyntax:4" } Structure {
     && KEY_CREATE_TIME in m && m[KEY_CREATE_TIME].S?
     && HIERARCHY_VERSION in m && m[HIERARCHY_VERSION].N?
     && TABLE_FIELD !in m
-    && KMS_FIELD in m && m[KMS_FIELD].S?
+    && KMS_FIELD in m && m[KMS_FIELD].S? && KMS.IsValid_KeyIdType(m[KMS_FIELD].S)
     && BRANCH_KEY_FIELD in m && m[BRANCH_KEY_FIELD].B?
 
     && 0 < |m[BRANCH_KEY_IDENTIFIER_FIELD].S|
@@ -450,6 +452,7 @@ module {:options "/functionSyntax:4" } Structure {
     item: DDB.AttributeMap
   )
     requires KMS.IsValid_CiphertextType(encryptedKey)
+    requires KMS.IsValid_KeyIdType(encryptionContext[KMS_FIELD])
     requires item == ToAttributeMap(encryptionContext, encryptedKey)
 
     ensures item.Keys == encryptionContext.Keys + {BRANCH_KEY_FIELD} - {TABLE_FIELD}
@@ -515,7 +518,7 @@ module {:options "/functionSyntax:4" } Structure {
     requires 0 < |branchKeyId|
     requires 0 < |branchKeyVersion|
     requires forall k <- encryptionContext :: DDB.IsValid_AttributeName(ENCRYPTION_CONTEXT_PREFIX + k)
-
+    requires KMS.IsValid_KeyIdType(kmsKeyArn)
     ensures
       var decryptOnly := DecryptOnlyBranchKeyEncryptionContext(
                            branchKeyId, branchKeyVersion, timestamp, logicalKeyStoreName, kmsKeyArn, encryptionContext);
