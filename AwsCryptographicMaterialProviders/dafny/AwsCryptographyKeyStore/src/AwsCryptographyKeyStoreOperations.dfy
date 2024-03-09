@@ -115,12 +115,12 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       && input.encryptionContext.None?
       ==> output.Failure?
 
-    // If a KMS Key ARN is passed,
-    // it MUST be valid.
+    // If a KMS Key ARN is provided,
+    // it MUST be a full ARN.
     ensures
       && input.arn.Some?
       && output.Success?
-      ==> KMS.IsValid_KeyIdType(input.arn.value)
+      ==> ParseAwsKmsArn(input.arn.value).Success?
 
     // If the KeyStore's kmsConfiguration is Discovery,
     // CreateKey requires an ARN
@@ -160,21 +160,16 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       )
     );
 
-    :- Need(
-      input.arn.Some? ==> KMS.IsValid_KeyIdType(input.arn.value),
-      Types.KeyStoreException(
-        message := ErrorMessages.KMS_KEY_ARN_INVALID
-      )
-    );
-
     var kmsKeyArn: KMS.KeyIdType;
     if input.arn.Some? {
+      var parsedArn: Result<AwsKmsArn, string> := ParseAwsKmsArn(input.arn.value);
+      if (parsedArn.Failure?) {
+        return Failure(Types.KeyStoreException(
+                         message := ErrorMessages.KMS_KEY_ARN_INVALID + ". " + parsedArn.error));
+      }
       kmsKeyArn := input.arn.value;
     } else if config.kmsConfiguration.kmsKeyArn? {
       kmsKeyArn := config.kmsConfiguration.kmsKeyArn;
-    } else {
-      // How did you get here?
-      return Failure(Types.KeyStoreException(message := ErrorMessages.KMS_KEY_ARN_INVALID ));
     }
 
     var branchKeyIdentifier: string;
