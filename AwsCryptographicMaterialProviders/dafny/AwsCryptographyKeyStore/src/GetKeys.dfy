@@ -134,25 +134,11 @@ module GetKeys {
       KMSKeystoreOperations.AttemptKmsOperationOLD?(kmsConfiguration, encryptionContext),
       Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
     );
-    // TODO Postal Horn: Consider pulling match/kmsDecrypt into helper method
-    var keyId: KMS.KeyIdType;
-    match kmsConfiguration {
-      case kmsKeyArn(arn) => keyId := arn;
-      case discovery =>
-        var maybeArn := branchKeyItem[Structure.KMS_FIELD].S;
-        :- Need(
-          KMS.IsValid_KeyIdType(maybeArn),
-          Types.KeyStoreException( message :=
-                                     "Active Branch Key read from Key Store Table has a malformed KMS Key ID.")
-        );
 
-        keyId := maybeArn;
-        :- Need(
-          KMSKeystoreOperations.AttemptKmsOperation?(keyId, encryptionContext),
-          Types.KeyStoreException( message :=
-                                     "Active Branch Key read from Key Store Table is malformed.")
-        );
-    }
+    var keyId: KMS.KeyIdType := match kmsConfiguration {
+      case kmsKeyArn(arn) => arn
+      case discovery =>  branchKeyItem[Structure.KMS_FIELD].S
+    };
 
     var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
       encryptionContext,
@@ -285,25 +271,11 @@ module GetKeys {
       KMSKeystoreOperations.AttemptKmsOperationOLD?(kmsConfiguration, encryptionContext),
       Types.KeyStoreException( message := "AWS KMS Key ARN does not match configured value")
     );
-    // TODO Postal Horn: Consider pulling match/kmsDecrypt into helper method
-    var keyId: KMS.KeyIdType;
-    match kmsConfiguration {
-      case kmsKeyArn(arn) => keyId := arn;
-      case discovery =>
-        var maybeArn := branchKeyItem[Structure.KMS_FIELD].S;
-        :- Need(
-          KMS.IsValid_KeyIdType(maybeArn),
-          Types.KeyStoreException( message :=
-                                     "Active Branch Key read from Key Store Table has a malformed KMS Key ID.")
-        );
 
-        keyId := maybeArn;
-        :- Need(
-          KMSKeystoreOperations.AttemptKmsOperation?(keyId, encryptionContext),
-          Types.KeyStoreException( message :=
-                                     "Active Branch Key read from Key Store Table is malformed.")
-        );
-    }
+    var keyId: KMS.KeyIdType := match kmsConfiguration {
+      case kmsKeyArn(arn) => arn
+      case discovery =>  branchKeyItem[Structure.KMS_FIELD].S
+    };
 
     var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
       encryptionContext,
@@ -432,25 +404,10 @@ module GetKeys {
       Types.KeyStoreException( message := "AWS KMS Key ARN does not match configured value")
     );
 
-    // TODO Postal Horn: Consider pulling match/kmsDecrypt into helper method
-    var keyId: KMS.KeyIdType;
-    match kmsConfiguration {
-      case kmsKeyArn(arn) => keyId := arn;
-      case discovery =>
-        var maybeArn := branchKeyItem[Structure.KMS_FIELD].S;
-        :- Need(
-          KMS.IsValid_KeyIdType(maybeArn),
-          Types.KeyStoreException( message :=
-                                     "Active Branch Key read from Key Store Table has a malformed KMS Key ID.")
-        );
-
-        keyId := maybeArn;
-        :- Need(
-          KMSKeystoreOperations.AttemptKmsOperation?(keyId, encryptionContext),
-          Types.KeyStoreException( message :=
-                                     "Active Branch Key read from Key Store Table is malformed.")
-        );
-    }
+    var keyId: KMS.KeyIdType := match kmsConfiguration {
+      case kmsKeyArn(arn) => arn
+      case discovery =>  branchKeyItem[Structure.KMS_FIELD].S
+    };
 
     var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
       encryptionContext,
