@@ -124,7 +124,7 @@ module {:options "/functionSyntax:4" } Structure {
       :: k := if k == HIERARCHY_VERSION then
         DDB.AttributeValue.N(encryptionContext[HIERARCHY_VERSION])
       else if k == BRANCH_KEY_FIELD then
-        DDB.AttributeValue.B(encryptedKey)  
+        DDB.AttributeValue.B(encryptedKey)
       else
         DDB.AttributeValue.S(encryptionContext[k])
   }
