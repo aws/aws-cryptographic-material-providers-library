@@ -138,6 +138,13 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       && input.arn.Some?
       && config.kmsConfiguration.kmsKeyArn != input.arn.value
       ==> output.Failure?
+
+    // TODO: If the input includes Grant Tokens,
+    // they must be valid and used
+    ensures
+      && input.grantTokens.Some?
+      && GetValidGrantTokens(input.grantTokens).Failure?
+      ==> output.Falure?
   {
 
     :- Need(input.branchKeyIdentifier.Some? ==>
@@ -172,6 +179,13 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       kmsKeyArn := config.kmsConfiguration.kmsKeyArn;
     }
 
+    var grantTokens := GetValidGrantTokens(input.grantTokens);
+    :- Need(
+      && grantTokens.Success?,
+      Types.KeyStoreException(
+        message := "Grant Tokens passed to Create Key are invalid.")
+    );
+    //TODO still need to join grantTokens with Configs
     var branchKeyIdentifier: string;
 
     if input.branchKeyIdentifier.None? {
