@@ -176,7 +176,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
     }
 
     var grantTokens :- AugmentGrantTokens(config, input.grantTokens, "CreateKey");
-    
+
     var branchKeyIdentifier: string;
 
     if input.branchKeyIdentifier.None? {
@@ -330,9 +330,9 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
   ) returns (output: Result<GrantTokenList, Error>)
     // There are 10 or less Grant Tokens and they are all Valid
     ensures output.Success? ==>
-      var tokens := output.value;
-      && 0 <= |tokens| <= 10
-      && forall token | token in tokens :: 1 <= |token| <= 8192
+              var tokens := output.value;
+              && 0 <= |tokens| <= 10
+              && forall token | token in tokens :: 1 <= |token| <= 8192
     // TODO : Need Post Condition for actual augmentation,
     // i.e: if config.GT < 10 && there is a unique valid GT in input, it is added
   {
@@ -344,15 +344,15 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
     {
       var token := tokens[tokenIndex];
       :- Need(1 <= |token| <= 8192,
-        Types.KeyStoreException(message := "A Grant Token passed to " + operationName + " has invalid length")
+              Types.KeyStoreException(message := "A Grant Token passed to " + operationName + " has invalid length")
       );
       if token !in allGrantTokens {
         :- Need(|allGrantTokens| < 10,
-          Types.KeyStoreException(
-          message := ErrorMessages.AUGMENT_GRANT_TOKENS_EXCEEDS_TEN)
+                Types.KeyStoreException(
+                  message := ErrorMessages.AUGMENT_GRANT_TOKENS_EXCEEDS_TEN)
         );
         // TODO Postal Horn: this may create a new squence every iteration.
-        // If it does, we should refactor to use an array 
+        // If it does, we should refactor to use an array
         allGrantTokens := allGrantTokens + [token];
       }
       tokenIndex := tokenIndex + 1;

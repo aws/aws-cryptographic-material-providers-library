@@ -28,8 +28,8 @@ module TestAugmentGrantTokens {
     n: int,
     start: int
   ) returns (
-    grantTokens: GrantTokens
-  )
+      grantTokens: GrantTokens
+    )
     requires 0 < n < 8192
     requires 0 <= start < 8192
   {
@@ -68,11 +68,11 @@ module TestAugmentGrantTokens {
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
 
     var actual := keyStore.CreateKey(Types.CreateKeyInput(
-      branchKeyIdentifier := None,
-      encryptionContext := None,
-      arn := Some(mrkRsaKeyArn), // See Note
-      grantTokens := Some(requestGrantTokens)
-    ));
+                                       branchKeyIdentifier := None,
+                                       encryptionContext := None,
+                                       arn := Some(mrkRsaKeyArn), // See Note
+                                       grantTokens := Some(requestGrantTokens)
+                                     ));
     // Note: the RSA Key ARN will make the KMS call fail.
     // We like this, as it means a behavior failure will not create
     // records we do not need.
@@ -83,7 +83,7 @@ module TestAugmentGrantTokens {
     expect actual.error == Types.KeyStoreException(message := ErrorMessages.AUGMENT_GRANT_TOKENS_EXCEEDS_TEN);
   }
 
-  // Assert that VersionKey Fails if sum of Grant Tokens in Request and Config exceed 10 
+  // Assert that VersionKey Fails if sum of Grant Tokens in Request and Config exceed 10
   method {:test} TestVersionKeyRequestExceedTenGrantTokensFails()
   {
     var configGrantTokens := GetNGrantTokens(9, 0);
@@ -104,9 +104,9 @@ module TestAugmentGrantTokens {
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
 
     var actual := keyStore.VersionKey(Types.VersionKeyInput(
-      branchKeyIdentifier := branchKeyId,
-      grantTokens := Some(requestGrantTokens)
-    ));
+                                        branchKeyIdentifier := branchKeyId,
+                                        grantTokens := Some(requestGrantTokens)
+                                      ));
     // Note: the RSA Key ARN will make the KMS call fail.
     // We like this, as it means a behavior failure will not create
     // records we do not need.
@@ -137,11 +137,11 @@ module TestAugmentGrantTokens {
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
 
     var actual := keyStore.CreateKey(Types.CreateKeyInput(
-      branchKeyIdentifier := None,
-      encryptionContext := None,
-      arn := Some(mrkRsaKeyArn), // See Note
-      grantTokens := Some(requestGrantTokens)
-    ));
+                                       branchKeyIdentifier := None,
+                                       encryptionContext := None,
+                                       arn := Some(mrkRsaKeyArn), // See Note
+                                       grantTokens := Some(requestGrantTokens)
+                                     ));
     // Note: the RSA Key ARN will make the KMS call fail.
     // We like this, as it means a behavior failure will not create
     // records we do not need.
@@ -172,9 +172,9 @@ module TestAugmentGrantTokens {
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
 
     var actual := keyStore.VersionKey(Types.VersionKeyInput(
-      branchKeyIdentifier := branchKeyId,
-      grantTokens := Some(requestGrantTokens)
-    ));
+                                        branchKeyIdentifier := branchKeyId,
+                                        grantTokens := Some(requestGrantTokens)
+                                      ));
     // Note: the RSA Key ARN will make the KMS call fail.
     // We like this, as it means a behavior failure will not create
     // records we do not need.
