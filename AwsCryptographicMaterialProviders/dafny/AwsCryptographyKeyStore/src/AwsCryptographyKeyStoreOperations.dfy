@@ -141,10 +141,6 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
 
     // TODO: If the input includes Grant Tokens,
     // they must be valid and used
-    ensures
-      && input.grantTokens.Some?
-      && GetValidGrantTokens(input.grantTokens).Failure?
-      ==> output.Falure?
   {
 
     :- Need(input.branchKeyIdentifier.Some? ==>
@@ -179,13 +175,8 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       kmsKeyArn := config.kmsConfiguration.kmsKeyArn;
     }
 
-    var grantTokens := GetValidGrantTokens(input.grantTokens);
-    :- Need(
-      && grantTokens.Success?,
-      Types.KeyStoreException(
-        message := "Grant Tokens passed to Create Key are invalid.")
-    );
-    //TODO still need to join grantTokens with Configs
+    var grantTokens :- AugmentGrantTokens(config, input.grantTokens, "CreateKey");
+    
     var branchKeyIdentifier: string;
 
     if input.branchKeyIdentifier.None? {
@@ -246,7 +237,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       config.ddbTableName,
       config.logicalKeyStoreName,
       kmsKeyArn,
-      config.grantTokens,
+      grantTokens, // Missing Post Condition that CreateBranchAndBeaconKeys is called with all GrantTokens
       config.kmsClient,
       config.ddbClient
     );
@@ -259,7 +250,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
     returns (output: Result<VersionKeyOutput, Error>)
   {
     :- Need(0 < |input.branchKeyIdentifier|, Types.KeyStoreException(message := "Empty string not supported for identifier."));
-
+    var grantTokens :- AugmentGrantTokens(config, input.grantTokens, "VersionKey");
 
     var timestamp :- Time.GetCurrentTimeStamp()
     .MapFailure(e => Types.KeyStoreException(message := e));
@@ -275,7 +266,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       config.ddbTableName,
       config.logicalKeyStoreName,
       config.kmsConfiguration,
-      config.grantTokens,
+      grantTokens,
       config.kmsClient,
       config.ddbClient
     );
@@ -332,4 +323,40 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
     );
   }
 
+  method AugmentGrantTokens(
+    config: InternalConfig,
+    grantTokens: Option<GrantTokenList>,
+    operationName: string
+  ) returns (output: Result<GrantTokenList, Error>)
+    // There are 10 or less Grant Tokens and they are all Valid
+    ensures output.Success? ==>
+      var tokens := output.value;
+      && 0 <= |tokens| <= 10
+      && forall token | token in tokens :: 1 <= |token| <= 8192
+    // TODO : Need Post Condition for actual augmentation,
+    // i.e: if config.GT < 10 && there is a unique valid GT in input, it is added
+  {
+    var tokens: Types.GrantTokenList := grantTokens.UnwrapOr([]);
+    var allGrantTokens: KMS.GrantTokenList := config.grantTokens;
+    var tokenIndex := 0;
+    while tokenIndex < |tokens|
+      invariant |allGrantTokens| <= 10
+    {
+      var token := tokens[tokenIndex];
+      :- Need(1 <= |token| <= 8192,
+        Types.KeyStoreException(message := "A Grant Token passed to " + operationName + " has invalid length")
+      );
+      if token !in allGrantTokens {
+        :- Need(|allGrantTokens| < 10,
+          Types.KeyStoreException(
+          message := ErrorMessages.AUGMENT_GRANT_TOKENS_EXCEEDS_TEN)
+        );
+        // TODO Postal Horn: this may create a new squence every iteration.
+        // If it does, we should refactor to use an array 
+        allGrantTokens := allGrantTokens + [token];
+      }
+      tokenIndex := tokenIndex + 1;
+    }
+    return Success(allGrantTokens);
+  }
 }

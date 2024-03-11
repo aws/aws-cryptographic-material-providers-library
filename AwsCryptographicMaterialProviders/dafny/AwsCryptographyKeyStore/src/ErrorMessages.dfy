@@ -16,4 +16,7 @@ module {:options "/functionSyntax:4" } ErrorMessages {
 
   const GET_KEY_ARN_DISAGREEMENT :=
     "AWS KMS Key ARN does not match configured value"
+
+  const AUGMENT_GRANT_TOKENS_EXCEEDS_TEN :=
+    "Augmenting KeyStore's Config's Grant Tokens with Request's Grant Tokens exceeds 10 Token limit."
 }
