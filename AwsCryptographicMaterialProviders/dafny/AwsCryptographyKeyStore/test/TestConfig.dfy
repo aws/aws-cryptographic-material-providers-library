@@ -13,6 +13,7 @@ module TestConfig {
   import opened Wrappers
   import opened Fixtures
   import UUID
+  import ErrorMessages
 
   method {:test} TestInvalidKmsKeyArnConfig() {
     var kmsClient :- expect KMS.KMSClient();
@@ -31,7 +32,12 @@ module TestConfig {
 
     var keyStore := KeyStore.KeyStore(keyStoreConfig);
     expect keyStore.Failure?;
-    expect keyStore.error == Types.KeyStoreException(message := "Invalid AWS KMS Key Arn");
+    match keyStore.error {
+      case KeyStoreException(message) =>
+        expect |message| > |ErrorMessages.KMS_KEY_ARN_INVALID|;
+        expect message[..|ErrorMessages.KMS_KEY_ARN_INVALID|] == ErrorMessages.KMS_KEY_ARN_INVALID;
+      case _ => expect false, "Invalid KMS Key ARN should fail Key Store Construction";
+    }
   }
 
   method {:test} TestValidConfig() {

@@ -40,7 +40,7 @@ module TestAugmentGrantTokens {
     {
       var token: string := Base10Int2String(numbers[index]);
       assert KMSTypes.IsValid_GrantTokenType( token ) by {
-        assume 0 < |token| < 5; //Not going to bother prooving this generates a list of strings all of whom's length is gt 0, lt 8219
+        assume {:axiom}  0 < |token| < 5; //Not going to bother prooving this generates a list of strings all of whom's length is gt 0, lt 8219
       }
       grantTokens := grantTokens + [token];
       index := index + 1;
