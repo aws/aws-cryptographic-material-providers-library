@@ -1,7 +1,10 @@
 from pathlib import Path
 
-from standard_library.internaldafny.generated.DafnyLibraries import *
 import standard_library.internaldafny.generated.DafnyLibraries
+standard_library.internaldafny.generated.FileIO.DafnyLibraries = standard_library.internaldafny.generated.DafnyLibraries
+
+
+from standard_library.internaldafny.generated.DafnyLibraries import *
 import _dafny
 
 class MutableMap(standard_library.internaldafny.generated.DafnyLibraries.MutableMap):

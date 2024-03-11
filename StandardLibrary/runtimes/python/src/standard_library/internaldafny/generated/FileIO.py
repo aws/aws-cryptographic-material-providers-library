@@ -17,7 +17,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 
 # Module: FileIO
 
@@ -27,6 +26,7 @@ class default__:
 
     @staticmethod
     def ReadBytesFromFile(path):
+        import DafnyLibraries
         res: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_164_isError_: bool
         d_165_bytesRead_: _dafny.Seq
@@ -44,6 +44,7 @@ class default__:
 
     @staticmethod
     def WriteBytesToFile(path, bytes):
+        import DafnyLibraries
         res: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
         d_167_isError_: bool
         d_168_errorMsg_: _dafny.Seq

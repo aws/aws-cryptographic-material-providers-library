@@ -1,5 +1,7 @@
-from standard_library.internaldafny.generated.UTF8 import *
 import standard_library.internaldafny.generated.UTF8
+
+
+from standard_library.internaldafny.generated.UTF8 import *
 import _dafny
 import struct
 
