@@ -1,8 +1,6 @@
 from pathlib import Path
 
 import standard_library.internaldafny.generated.DafnyLibraries
-standard_library.internaldafny.generated.FileIO.DafnyLibraries = standard_library.internaldafny.generated.DafnyLibraries
-
 
 from standard_library.internaldafny.generated.DafnyLibraries import *
 import _dafny
