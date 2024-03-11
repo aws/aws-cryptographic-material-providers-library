@@ -24,7 +24,8 @@ class AESEncryption:
             key_bytes = bytes(key)
             iv_bytes = bytes(iv)
             plaintext_bytes = bytes(message)
-            aad_bytes = b"".join([chr(a) for a in aad])
+            aad_bytes = bytes(aad)
+            # aad_bytes = b"".join([chr(a) for a in aad])
 
             aesgcm = AESGCM(key_bytes)
             try:
@@ -52,6 +53,7 @@ class AESEncryption:
             ciphertext_bytes = bytes(ciphertext)
             tag_bytes = bytes(auth_tag)
             aad_bytes = bytes(aad)
+            # aad_bytes = b"".join([chr(a) for a in aad])
 
             ct_and_tag = ciphertext_bytes + tag_bytes
             aesgcm = AESGCM(key_bytes)

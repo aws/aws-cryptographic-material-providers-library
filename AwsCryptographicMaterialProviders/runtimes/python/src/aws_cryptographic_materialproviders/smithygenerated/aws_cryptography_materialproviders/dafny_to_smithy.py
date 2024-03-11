@@ -61,8 +61,7 @@ from software_amazon_cryptography_materialproviders_internaldafny_types import (
 def aws_cryptography_materialproviders_GetBranchKeyIdInput(input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetBranchKeyIdInput(
         encryption_context={
-            "".join([chr(a) for a in key]): "".join([chr(a) for a in value])
-            for (key, value) in input.encryptionContext.items
+            bytes(key): bytes(value) for (key, value) in input.encryptionContext.items
         },
     )
 
@@ -127,8 +126,7 @@ def aws_cryptography_materialproviders_EncryptionMaterials(input):
             input.algorithmSuite
         ),
         encryption_context={
-            "".join([chr(a) for a in key]): "".join([chr(a) for a in value])
-            for (key, value) in input.encryptionContext.items
+            bytes(key): bytes(value) for (key, value) in input.encryptionContext.items
         },
         encrypted_data_keys=[
             aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptedDataKey(
@@ -137,8 +135,7 @@ def aws_cryptography_materialproviders_EncryptionMaterials(input):
             for list_element in input.encryptedDataKeys
         ],
         required_encryption_context_keys=[
-            "".join([chr(a) for a in list_element])
-            for list_element in input.requiredEncryptionContextKeys
+            bytes(list_element) for list_element in input.requiredEncryptionContextKeys
         ],
         plaintext_data_key=(
             (bytes(input.plaintextDataKey.value))
@@ -162,12 +159,10 @@ def aws_cryptography_materialproviders_DecryptionMaterials(input):
             input.algorithmSuite
         ),
         encryption_context={
-            "".join([chr(a) for a in key]): "".join([chr(a) for a in value])
-            for (key, value) in input.encryptionContext.items
+            bytes(key): bytes(value) for (key, value) in input.encryptionContext.items
         },
         required_encryption_context_keys=[
-            "".join([chr(a) for a in list_element])
-            for list_element in input.requiredEncryptionContextKeys
+            bytes(list_element) for list_element in input.requiredEncryptionContextKeys
         ],
         plaintext_data_key=(
             (bytes(input.plaintextDataKey.value))
@@ -217,7 +212,7 @@ def aws_cryptography_materialproviders_AlgorithmSuiteInfo(input):
 
 def aws_cryptography_materialproviders_EncryptedDataKey(input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EncryptedDataKey(
-        key_provider_id="".join([chr(a) for a in input.keyProviderId]),
+        key_provider_id=bytes(input.keyProviderId),
         key_provider_info=bytes(input.keyProviderInfo),
         ciphertext=bytes(input.ciphertext),
     )
@@ -571,8 +566,7 @@ def aws_cryptography_materialproviders_DBECommitmentPolicy(input):
 def aws_cryptography_materialproviders_GetEncryptionMaterialsInput(input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetEncryptionMaterialsInput(
         encryption_context={
-            "".join([chr(a) for a in key]): "".join([chr(a) for a in value])
-            for (key, value) in input.encryptionContext.items
+            bytes(key): bytes(value) for (key, value) in input.encryptionContext.items
         },
         commitment_policy=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CommitmentPolicy(
             input.commitmentPolicy
@@ -594,7 +588,7 @@ def aws_cryptography_materialproviders_GetEncryptionMaterialsInput(input):
         required_encryption_context_keys=(
             (
                 [
-                    "".join([chr(a) for a in list_element])
+                    bytes(list_element)
                     for list_element in input.requiredEncryptionContextKeys.value
                 ]
             )
@@ -627,13 +621,12 @@ def aws_cryptography_materialproviders_DecryptMaterialsInput(input):
             for list_element in input.encryptedDataKeys
         ],
         encryption_context={
-            "".join([chr(a) for a in key]): "".join([chr(a) for a in value])
-            for (key, value) in input.encryptionContext.items
+            bytes(key): bytes(value) for (key, value) in input.encryptionContext.items
         },
         reproduced_encryption_context=(
             (
                 {
-                    "".join([chr(a) for a in key]): "".join([chr(a) for a in value])
+                    bytes(key): bytes(value)
                     for (key, value) in input.reproducedEncryptionContext.value.items
                 }
             )
@@ -1292,8 +1285,7 @@ def aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMInput(i
             else None
         ),
         required_encryption_context_keys=[
-            "".join([chr(a) for a in list_element])
-            for list_element in input.requiredEncryptionContextKeys
+            bytes(list_element) for list_element in input.requiredEncryptionContextKeys
         ],
     )
 
@@ -1318,12 +1310,10 @@ def aws_cryptography_materialproviders_InitializeEncryptionMaterialsInput(input)
             input.algorithmSuiteId
         ),
         encryption_context={
-            "".join([chr(a) for a in key]): "".join([chr(a) for a in value])
-            for (key, value) in input.encryptionContext.items
+            bytes(key): bytes(value) for (key, value) in input.encryptionContext.items
         },
         required_encryption_context_keys=[
-            "".join([chr(a) for a in list_element])
-            for list_element in input.requiredEncryptionContextKeys
+            bytes(list_element) for list_element in input.requiredEncryptionContextKeys
         ],
         signing_key=(
             (bytes(input.signingKey.value)) if (input.signingKey.is_Some) else None
@@ -1342,12 +1332,10 @@ def aws_cryptography_materialproviders_InitializeDecryptionMaterialsInput(input)
             input.algorithmSuiteId
         ),
         encryption_context={
-            "".join([chr(a) for a in key]): "".join([chr(a) for a in value])
-            for (key, value) in input.encryptionContext.items
+            bytes(key): bytes(value) for (key, value) in input.encryptionContext.items
         },
         required_encryption_context_keys=[
-            "".join([chr(a) for a in list_element])
-            for list_element in input.requiredEncryptionContextKeys
+            bytes(list_element) for list_element in input.requiredEncryptionContextKeys
         ],
     )
 
