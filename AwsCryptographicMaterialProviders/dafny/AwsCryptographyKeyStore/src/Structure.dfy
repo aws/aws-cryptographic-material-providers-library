@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
+include "../../../dafny/AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 
 module {:options "/functionSyntax:4" } Structure {
   import opened Wrappers
@@ -10,7 +11,7 @@ module {:options "/functionSyntax:4" } Structure {
   import DDB = ComAmazonawsDynamodbTypes
   import KMS = ComAmazonawsKmsTypes
   import UTF8
-
+  import AwsArnParsing
 
   const BRANCH_KEY_IDENTIFIER_FIELD := "branch-key-id"
   const TYPE_FIELD := "type"
@@ -298,7 +299,7 @@ module {:options "/functionSyntax:4" } Structure {
     requires 0 < |branchKeyId|
     requires 0 < |branchKeyVersion|
     requires forall k <- customEncryptionContext :: DDB.IsValid_AttributeName(ENCRYPTION_CONTEXT_PREFIX + k)
-    requires KMS.IsValid_KeyIdType(kmsKeyArn)
+    requires KMS.IsValid_KeyIdType(kmsKeyArn) && AwsArnParsing.ParseAwsKmsArn(kmsKeyArn).Success?
     ensures BranchKeyContext?(output)
     ensures BRANCH_KEY_TYPE_PREFIX < output[TYPE_FIELD]
     ensures BRANCH_KEY_ACTIVE_VERSION_FIELD !in output
@@ -518,7 +519,7 @@ module {:options "/functionSyntax:4" } Structure {
     requires 0 < |branchKeyId|
     requires 0 < |branchKeyVersion|
     requires forall k <- encryptionContext :: DDB.IsValid_AttributeName(ENCRYPTION_CONTEXT_PREFIX + k)
-    requires KMS.IsValid_KeyIdType(kmsKeyArn)
+    requires KMS.IsValid_KeyIdType(kmsKeyArn) && AwsArnParsing.ParseAwsKmsArn(kmsKeyArn).Success?
     ensures
       var decryptOnly := DecryptOnlyBranchKeyEncryptionContext(
                            branchKeyId, branchKeyVersion, timestamp, logicalKeyStoreName, kmsKeyArn, encryptionContext);
