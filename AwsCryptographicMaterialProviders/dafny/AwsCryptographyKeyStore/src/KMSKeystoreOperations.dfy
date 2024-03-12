@@ -39,9 +39,9 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ensures
       && |kmsClient.History.GenerateDataKeyWithoutPlaintext| == |old(kmsClient.History.GenerateDataKeyWithoutPlaintext)| + 1
       && var kmsKeyArn := match kmsConfiguration {
-         case kmsKeyArn(arn) => arn
-         case discovery => encryptionContext[Structure.KMS_FIELD]
-      };
+           case kmsKeyArn(arn) => arn
+           case discovery => encryptionContext[Structure.KMS_FIELD]
+         };
       && KMS.GenerateDataKeyWithoutPlaintextRequest(
            KeyId := kmsKeyArn,
            EncryptionContext := Some(encryptionContext),
@@ -62,8 +62,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
               && kmsOperationOutput.value == res.value
   {
     var kmsKeyArn := match kmsConfiguration {
-        case kmsKeyArn(arn) => arn
-        case discovery => encryptionContext[Structure.KMS_FIELD]
+      case kmsKeyArn(arn) => arn
+      case discovery => encryptionContext[Structure.KMS_FIELD]
     };
     var generatorRequest := KMS.GenerateDataKeyWithoutPlaintextRequest(
       KeyId := kmsKeyArn,
@@ -119,9 +119,9 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ensures
       && |kmsClient.History.ReEncrypt| == |old(kmsClient.History.ReEncrypt)| + 1
       && var kmsKeyArn := match kmsConfiguration {
-         case kmsKeyArn(arn) => arn
-         case discovery => destinationEncryptionContext[Structure.KMS_FIELD]
-      };
+           case kmsKeyArn(arn) => arn
+           case discovery => destinationEncryptionContext[Structure.KMS_FIELD]
+         };
       && KMS.ReEncryptRequest(
            CiphertextBlob := ciphertext,
            SourceEncryptionContext := Some(sourceEncryptionContext),
@@ -137,11 +137,11 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && old(kmsClient.History.GenerateDataKeyWithoutPlaintext) == kmsClient.History.GenerateDataKeyWithoutPlaintext
 
     ensures res.Success? ==>
-      && var kmsKeyArn := match kmsConfiguration {
-         case kmsKeyArn(arn) => arn
-         case discovery => destinationEncryptionContext[Structure.KMS_FIELD]
-      };
-      && res.value.CiphertextBlob.Some?
+              && var kmsKeyArn := match kmsConfiguration {
+                case kmsKeyArn(arn) => arn
+                case discovery => destinationEncryptionContext[Structure.KMS_FIELD]
+              };
+              && res.value.CiphertextBlob.Some?
               && res.value.SourceKeyId.Some?
               && res.value.KeyId.Some?
               && res.value.SourceKeyId.value == kmsKeyArn
@@ -154,7 +154,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     var kmsKeyArn := match kmsConfiguration {
       case kmsKeyArn(arn) => arn
       case discovery => destinationEncryptionContext[Structure.KMS_FIELD]
-    };    
+    };
     var reEncryptRequest := KMS.ReEncryptRequest(
       CiphertextBlob := ciphertext,
       SourceEncryptionContext := Some(sourceEncryptionContext),
@@ -207,16 +207,16 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ensures
       && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
       && var kmsKeyArn := match kmsConfiguration {
-         case kmsKeyArn(arn) => arn
-         case discovery => encryptionContext[Structure.KMS_FIELD]
-      };
+           case kmsKeyArn(arn) => arn
+           case discovery => encryptionContext[Structure.KMS_FIELD]
+         };
       && KMS.DecryptRequest(
-           CiphertextBlob := item[Structure.BRANCH_KEY_FIELD].B,
-           EncryptionContext := Some(encryptionContext),
-           GrantTokens := Some(grantTokens),
-           KeyId := Some(kmsKeyArn),
-           EncryptionAlgorithm := None
-         )
+        CiphertextBlob := item[Structure.BRANCH_KEY_FIELD].B,
+        EncryptionContext := Some(encryptionContext),
+        GrantTokens := Some(grantTokens),
+        KeyId := Some(kmsKeyArn),
+        EncryptionAlgorithm := None
+      )
          == Seq.Last(kmsClient.History.Decrypt).input
     ensures output.Success?
             ==>
