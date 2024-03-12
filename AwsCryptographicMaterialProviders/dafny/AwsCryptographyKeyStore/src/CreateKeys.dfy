@@ -47,6 +47,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     requires forall k <- customEncryptionContext :: DDB.IsValid_AttributeName(Structure.ENCRYPTION_CONTEXT_PREFIX + k)
     requires ddbClient.Modifies !! kmsClient.Modifies
     requires AwsArnParsing.ParseAwsKmsArn(kmsKeyArn).Success?
+    requires kmsConfiguration.kmsKeyArn? ==> kmsConfiguration.kmsKeyArn == kmsKeyArn
     requires kmsClient.ValidState() && ddbClient.ValidState()
     modifies ddbClient.Modifies, kmsClient.Modifies
     ensures ddbClient.ValidState() && kmsClient.ValidState()
@@ -90,6 +91,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
                    Seq.Last(Seq.DropLast(kmsClient.History.GenerateDataKeyWithoutPlaintext)),
                    Seq.Last(kmsClient.History.ReEncrypt),
                    kmsClient,
+                   kmsConfiguration,
                    kmsKeyArn,
                    grantTokens,
                    decryptOnlyEncryptionContext
@@ -226,11 +228,11 @@ module {:options "/functionSyntax:4" } CreateKeys {
     var activeEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyEncryptionContext);
     var beaconEncryptionContext := Structure.BeaconKeyEncryptionContext(decryptOnlyEncryptionContext);
     // TODO Postal Horn : This Need is suspicious, why is Structure not providing this?
-    :- Need(
-      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, decryptOnlyEncryptionContext),
-      Types.KeyStoreException(
-        message := "Branch Key Encryption Context could not be created correctly.")
-    );
+    // :- Need(
+    //   KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, decryptOnlyEncryptionContext),
+    //   Types.KeyStoreException(
+    //     message := "Branch Key Encryption Context could not be created correctly.")
+    // );
 
     var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.GenerateKey(
       decryptOnlyEncryptionContext,
@@ -393,6 +395,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
                    Seq.Last(kmsClient.History.GenerateDataKeyWithoutPlaintext),
                    Seq.Last(kmsClient.History.ReEncrypt),
                    kmsClient,
+                   kmsConfig,
                    kmsKeyArn,
                    grantTokens,
                    decryptOnlyEncryptionContext
@@ -554,6 +557,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     generateHistory: KMS.DafnyCallEvent<KMS.GenerateDataKeyWithoutPlaintextRequest, Result<KMS.GenerateDataKeyWithoutPlaintextResponse, KMS.Error>>,
     reEncryptHistory: KMS.DafnyCallEvent<KMS.ReEncryptRequest, Result<KMS.ReEncryptResponse, KMS.Error>>,
     kmsClient: KMS.IKMSClient,
+    kmsConfiguration: Types.KMSConfiguration,
     kmsKeyArn: KMS.KeyIdType,
     grantTokens: KMS.GrantTokenList,
     decryptOnlyEncryptionContext: map<string, string>
@@ -561,6 +565,10 @@ module {:options "/functionSyntax:4" } CreateKeys {
     reads kmsClient.History
     requires Structure.BranchKeyContext?(decryptOnlyEncryptionContext)
     requires Structure.BRANCH_KEY_TYPE_PREFIX < decryptOnlyEncryptionContext[Structure.TYPE_FIELD]
+    requires match kmsConfiguration {
+               case kmsKeyArn(arn) => arn == kmsKeyArn
+               case discovery => decryptOnlyEncryptionContext[Structure.KMS_FIELD] == kmsKeyArn
+             }
 
     // Ideally this be in "the things I added"
     // But I don't know how to express that yet.
@@ -571,6 +579,10 @@ module {:options "/functionSyntax:4" } CreateKeys {
     requires generateHistory in kmsClient.History.GenerateDataKeyWithoutPlaintext
     requires reEncryptHistory in kmsClient.History.ReEncrypt
   {
+    && match kmsConfiguration {
+         case kmsKeyArn(arn) => arn == kmsKeyArn
+         case discovery => decryptOnlyEncryptionContext[Structure.KMS_FIELD] == kmsKeyArn
+       }
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
     //= type=implication
