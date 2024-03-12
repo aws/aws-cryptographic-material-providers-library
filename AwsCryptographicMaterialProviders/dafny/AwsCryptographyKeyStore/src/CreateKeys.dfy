@@ -5,6 +5,7 @@ include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "Structure.dfy"
 include "DDBKeystoreOperations.dfy"
 include "KMSKeystoreOperations.dfy"
+include "../../../dafny/AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 
 module {:options "/functionSyntax:4" } CreateKeys {
   import opened StandardLibrary
@@ -19,7 +20,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
   import Types = AwsCryptographyKeyStoreTypes
   import DDB = ComAmazonawsDynamodbTypes
   import KMS = ComAmazonawsKmsTypes
-
+  import AwsArnParsing
 
   //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
   //= type=implication
@@ -45,7 +46,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     requires 0 < |branchKeyVersion|
     requires forall k <- customEncryptionContext :: DDB.IsValid_AttributeName(Structure.ENCRYPTION_CONTEXT_PREFIX + k)
     requires ddbClient.Modifies !! kmsClient.Modifies
-
+    requires AwsArnParsing.ParseAwsKmsArn(kmsKeyArn).Success?
     requires kmsClient.ValidState() && ddbClient.ValidState()
     modifies ddbClient.Modifies, kmsClient.Modifies
     ensures ddbClient.ValidState() && kmsClient.ValidState()
