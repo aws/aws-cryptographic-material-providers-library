@@ -41,7 +41,9 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
   {
     && DDB.IsValid_TableName(config.ddbTableName)
     && (config.kmsConfiguration.kmsKeyArn? ==>
-          KMS.IsValid_KeyIdType(config.kmsConfiguration.kmsKeyArn))
+          && KMS.IsValid_KeyIdType(config.kmsConfiguration.kmsKeyArn)
+          && ParseAwsKmsArn(config.kmsConfiguration.kmsKeyArn).Success?
+       )
     && config.kmsClient.ValidState()
     && config.ddbClient.ValidState()
     && config.ddbClient.Modifies !! config.kmsClient.Modifies
