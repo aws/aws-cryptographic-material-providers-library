@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "Structure.dfy"
+include "../../../dafny/AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 
 module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   import opened Wrappers
@@ -12,13 +13,14 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   import KMS = ComAmazonawsKmsTypes
   import UTF8
   import Structure
+  import opened AwsArnParsing
 
   // TODO Postal Horn: REMOVE, do not ship with this!!!
   predicate AttemptKmsOperationOLD?(kmsConfiguration: Types.KMSConfiguration, encryptionContext: Structure.BranchKeyContext)
   {
     match kmsConfiguration
     case kmsKeyArn(arn) => arn == encryptionContext[Structure.KMS_FIELD]
-    case discovery => true
+    case discovery => ParseAwsKmsArn(encryptionContext[Structure.KMS_FIELD]).Success?
   }
 
   predicate AttemptKmsOperation?(arn: KMS.KeyIdType, encryptionContext: Structure.BranchKeyContext)
