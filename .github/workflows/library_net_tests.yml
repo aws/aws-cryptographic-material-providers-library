@@ -87,16 +87,6 @@ jobs:
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_net CORES=$CORES
 
-      # .NET Framework is a software development framework
-      # for building and running applications on Windows.
-      # https://dotnet.microsoft.com/en-us/learn/dotnet/what-is-dotnet-framework
-      - name: Test ${{ matrix.library }} .NET Framework net48
-        if: matrix.os == 'windows-latest'
-        working-directory: ./${{ matrix.library }}
-        shell: bash
-        run: |
-          make test_net FRAMEWORK=net48
-
       - name: Test ${{ matrix.library }} .NET net6.0
         working-directory: ./${{ matrix.library }}
         shell: bash
@@ -117,6 +107,16 @@ jobs:
           dotnet test runtimes/net/tests/LocalCMC.Tests/ \
               --framework net6.0
 
+      # .NET Framework is a software development framework
+      # for building and running applications on Windows.
+      # https://dotnet.microsoft.com/en-us/learn/dotnet/what-is-dotnet-framework
+      - name: Test ${{ matrix.library }} .NET Framework net48
+        if: matrix.os == 'windows-latest'
+        working-directory: ./${{ matrix.library }}
+        shell: bash
+        run: |
+          make test_net FRAMEWORK=net48
+              
       # .NET Framework is a software development framework
       # for building and running applications on Windows.
       # https://dotnet.microsoft.com/en-us/learn/dotnet/what-is-dotnet-framework
