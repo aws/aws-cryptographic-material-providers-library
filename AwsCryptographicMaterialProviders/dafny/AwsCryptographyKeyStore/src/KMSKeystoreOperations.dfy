@@ -15,32 +15,33 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   import Structure
   import opened AwsArnParsing
 
-  // TODO Postal Horn: REMOVE, do not ship with this!!!
-  predicate AttemptKmsOperationOLD?(kmsConfiguration: Types.KMSConfiguration, encryptionContext: Structure.BranchKeyContext)
+  // TODO Postal Horn Spec : Duvet and Spec for:
+  // If KMS Configuration is kmsKeyArn, the Branch Key's KMS Field MUST equal the kmsKeyArn.
+  // If KMS Configuration is Discovery, the Branch Key's KMS Field MUST be a full arn.
+  predicate AttemptKmsOperation?(kmsConfiguration: Types.KMSConfiguration, encryptionContext: Structure.BranchKeyContext)
   {
     match kmsConfiguration
     case kmsKeyArn(arn) => arn == encryptionContext[Structure.KMS_FIELD]
     case discovery => ParseAwsKmsArn(encryptionContext[Structure.KMS_FIELD]).Success?
   }
 
-  predicate AttemptKmsOperation?(arn: KMS.KeyIdType, encryptionContext: Structure.BranchKeyContext)
-  {
-    arn == encryptionContext[Structure.KMS_FIELD]
-  }
-
   method GenerateKey(
     encryptionContext: Structure.BranchKeyContext,
-    kmsKeyArn: KMS.KeyIdType,
+    kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
   )
     returns (res: Result<KMS.GenerateDataKeyWithoutPlaintextResponse, Types.Error>)
-    requires AttemptKmsOperation?(kmsKeyArn, encryptionContext)
+    requires AttemptKmsOperation?(kmsConfiguration, encryptionContext)
     requires kmsClient.ValidState()
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
     ensures
       && |kmsClient.History.GenerateDataKeyWithoutPlaintext| == |old(kmsClient.History.GenerateDataKeyWithoutPlaintext)| + 1
+      && var kmsKeyArn := match kmsConfiguration {
+         case kmsKeyArn(arn) => arn
+         case discovery => encryptionContext[Structure.KMS_FIELD]
+      };
       && KMS.GenerateDataKeyWithoutPlaintextRequest(
            KeyId := kmsKeyArn,
            EncryptionContext := Some(encryptionContext),
@@ -60,6 +61,10 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
               && kmsOperationOutput.Success?
               && kmsOperationOutput.value == res.value
   {
+    var kmsKeyArn := match kmsConfiguration {
+        case kmsKeyArn(arn) => arn
+        case discovery => encryptionContext[Structure.KMS_FIELD]
+    };
     var generatorRequest := KMS.GenerateDataKeyWithoutPlaintextRequest(
       KeyId := kmsKeyArn,
       EncryptionContext := Some(encryptionContext),
@@ -92,7 +97,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ciphertext: seq<uint8>,
     sourceEncryptionContext: Structure.BranchKeyContext,
     destinationEncryptionContext: Structure.BranchKeyContext,
-    kmsKeyArn: KMS.KeyIdType,
+    kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
   )
@@ -106,13 +111,17 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
            && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in sourceEncryptionContext
            && destinationEncryptionContext == Structure.ActiveBranchKeyEncryptionContext(sourceEncryptionContext)
          )
-    requires AttemptKmsOperation?(kmsKeyArn, destinationEncryptionContext)
+    requires AttemptKmsOperation?(kmsConfiguration, destinationEncryptionContext)
     requires kmsClient.ValidState()
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
 
     ensures
       && |kmsClient.History.ReEncrypt| == |old(kmsClient.History.ReEncrypt)| + 1
+      && var kmsKeyArn := match kmsConfiguration {
+         case kmsKeyArn(arn) => arn
+         case discovery => destinationEncryptionContext[Structure.KMS_FIELD]
+      };
       && KMS.ReEncryptRequest(
            CiphertextBlob := ciphertext,
            SourceEncryptionContext := Some(sourceEncryptionContext),
@@ -128,7 +137,11 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && old(kmsClient.History.GenerateDataKeyWithoutPlaintext) == kmsClient.History.GenerateDataKeyWithoutPlaintext
 
     ensures res.Success? ==>
-              && res.value.CiphertextBlob.Some?
+      && var kmsKeyArn := match kmsConfiguration {
+         case kmsKeyArn(arn) => arn
+         case discovery => destinationEncryptionContext[Structure.KMS_FIELD]
+      };
+      && res.value.CiphertextBlob.Some?
               && res.value.SourceKeyId.Some?
               && res.value.KeyId.Some?
               && res.value.SourceKeyId.value == kmsKeyArn
@@ -138,6 +151,10 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
               && kmsOperationOutput.Success?
               && kmsOperationOutput.value == res.value
   {
+    var kmsKeyArn := match kmsConfiguration {
+      case kmsKeyArn(arn) => arn
+      case discovery => destinationEncryptionContext[Structure.KMS_FIELD]
+    };    
     var reEncryptRequest := KMS.ReEncryptRequest(
       CiphertextBlob := ciphertext,
       SourceEncryptionContext := Some(sourceEncryptionContext),
@@ -175,12 +192,12 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   method DecryptKey(
     encryptionContext: Structure.BranchKeyContext,
     item: Structure.BranchKeyItem,
-    kmsKeyArn: KMS.KeyIdType,
+    kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
   )
     returns (output: Result<KMS.DecryptResponse, Types.Error>)
-    requires AttemptKmsOperation?(kmsKeyArn, encryptionContext)
+    requires AttemptKmsOperation?(kmsConfiguration, encryptionContext)
     requires item == Structure.ToAttributeMap(encryptionContext, item[Structure.BRANCH_KEY_FIELD].B)
 
     requires kmsClient.ValidState()
@@ -189,6 +206,10 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
 
     ensures
       && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
+      && var kmsKeyArn := match kmsConfiguration {
+         case kmsKeyArn(arn) => arn
+         case discovery => encryptionContext[Structure.KMS_FIELD]
+      };
       && KMS.DecryptRequest(
            CiphertextBlob := item[Structure.BRANCH_KEY_FIELD].B,
            EncryptionContext := Some(encryptionContext),
@@ -204,7 +225,10 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
               && output.value.Plaintext.Some?
               && 32 == |output.value.Plaintext.value|
   {
-
+    var kmsKeyArn := match kmsConfiguration {
+      case kmsKeyArn(arn) => arn
+      case discovery => encryptionContext[Structure.KMS_FIELD]
+    };
     var maybeDecryptResponse := kmsClient.Decrypt(
       KMS.DecryptRequest(
         CiphertextBlob := item[Structure.BRANCH_KEY_FIELD].B,

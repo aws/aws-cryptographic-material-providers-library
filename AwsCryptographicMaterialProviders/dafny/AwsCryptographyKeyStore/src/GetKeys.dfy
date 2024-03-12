@@ -64,7 +64,7 @@ module GetKeys {
               && activeItem[Structure.HIERARCHY_VERSION].N?
               && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD in activeItem
 
-              && KMSKeystoreOperations.AttemptKmsOperationOLD?(kmsConfiguration, Structure.ToBranchKeyContext(activeItem, logicalKeyStoreName))
+              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, Structure.ToBranchKeyContext(activeItem, logicalKeyStoreName))
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
@@ -128,7 +128,7 @@ module GetKeys {
     var encryptionContext := Structure.ToBranchKeyContext(branchKeyItem, logicalKeyStoreName);
 
     :- Need(
-      KMSKeystoreOperations.AttemptKmsOperationOLD?(kmsConfiguration, encryptionContext),
+      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext),
       Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
     );
 
@@ -140,7 +140,7 @@ module GetKeys {
     var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
       encryptionContext,
       branchKeyItem,
-      keyId,
+      kmsConfiguration,
       grantTokens,
       kmsClient
     );
@@ -198,7 +198,7 @@ module GetKeys {
               && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in versionItem
               && Structure.BRANCH_KEY_TYPE_PREFIX < versionItem[Structure.TYPE_FIELD].S
 
-              && KMSKeystoreOperations.AttemptKmsOperationOLD?(kmsConfiguration, Structure.ToBranchKeyContext(versionItem, logicalKeyStoreName))
+              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, Structure.ToBranchKeyContext(versionItem, logicalKeyStoreName))
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
@@ -265,7 +265,7 @@ module GetKeys {
     var encryptionContext := Structure.ToBranchKeyContext(branchKeyItem, logicalKeyStoreName);
 
     :- Need(
-      KMSKeystoreOperations.AttemptKmsOperationOLD?(kmsConfiguration, encryptionContext),
+      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext),
       Types.KeyStoreException( message := "AWS KMS Key ARN does not match configured value")
     );
 
@@ -277,7 +277,7 @@ module GetKeys {
     var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
       encryptionContext,
       branchKeyItem,
-      keyId,
+      kmsConfiguration,
       grantTokens,
       kmsClient
     );
@@ -333,7 +333,7 @@ module GetKeys {
               && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in versionItem
               && versionItem[Structure.TYPE_FIELD].S == Structure.BEACON_KEY_TYPE_VALUE
 
-              && KMSKeystoreOperations.AttemptKmsOperationOLD?(kmsConfiguration, Structure.ToBranchKeyContext(versionItem, logicalKeyStoreName))
+              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, Structure.ToBranchKeyContext(versionItem, logicalKeyStoreName))
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbeaconkey
@@ -397,7 +397,7 @@ module GetKeys {
     var encryptionContext := Structure.ToBranchKeyContext(branchKeyItem, logicalKeyStoreName);
 
     :- Need(
-      KMSKeystoreOperations.AttemptKmsOperationOLD?(kmsConfiguration, encryptionContext),
+      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext),
       Types.KeyStoreException( message := "AWS KMS Key ARN does not match configured value")
     );
 
@@ -409,7 +409,7 @@ module GetKeys {
     var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
       encryptionContext,
       branchKeyItem,
-      keyId,
+      kmsConfiguration,
       grantTokens,
       kmsClient
     );

@@ -27,7 +27,6 @@ module {:options "/functionSyntax:4" } CreateKeys {
   //#
   //# - `branchKeyId`: The identifier
   //# - `encryptionContext`: Additional encryption context to bind to the created keys
-  //  - `kmsKeyArn`: KMS key ARN used to create keys
   method CreateBranchAndBeaconKeys(
     branchKeyIdentifier: string,
     customEncryptionContext: map<string, string>,
@@ -36,6 +35,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     ddbTableName: DDB.TableName,
     logicalKeyStoreName: string,
     kmsKeyArn: KMS.KeyIdType,
+    kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient,
     ddbClient: DDB.IDynamoDBClient
@@ -224,10 +224,16 @@ module {:options "/functionSyntax:4" } CreateKeys {
     );
     var activeEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyEncryptionContext);
     var beaconEncryptionContext := Structure.BeaconKeyEncryptionContext(decryptOnlyEncryptionContext);
+    // TODO Postal Horn : This Need is suspicious, why is Structure not providing this?
+    :- Need(
+      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, decryptOnlyEncryptionContext),
+      Types.KeyStoreException(
+        message := "Branch Key Encryption Context could not be created correctly.")
+    );
 
     var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.GenerateKey(
       decryptOnlyEncryptionContext,
-      kmsKeyArn,
+      kmsConfiguration,
       grantTokens,
       kmsClient
     );
@@ -235,13 +241,13 @@ module {:options "/functionSyntax:4" } CreateKeys {
       wrappedDecryptOnlyBranchKey.CiphertextBlob.value,
       decryptOnlyEncryptionContext,
       activeEncryptionContext,
-      kmsKeyArn,
+      kmsConfiguration,
       grantTokens,
       kmsClient
     );
     var wrappedBeaconKey :- KMSKeystoreOperations.GenerateKey(
       beaconEncryptionContext,
-      kmsKeyArn,
+      kmsConfiguration,
       grantTokens,
       kmsClient
     );
@@ -313,7 +319,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
               && Structure.BranchKeyItem?(oldActiveItem)
               && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD in oldActiveItem
 
-              && KMSKeystoreOperations.AttemptKmsOperationOLD?(kmsConfig, Structure.ToBranchKeyContext(oldActiveItem, logicalKeyStoreName))
+              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfig, Structure.ToBranchKeyContext(oldActiveItem, logicalKeyStoreName))
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
               //= type=implication
@@ -481,7 +487,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       // This (already existing) logic MAY validate
       // the Branch Key Record's KMS Key ID aligns with the requests.
     :- Need(
-      && KMSKeystoreOperations.AttemptKmsOperation?(kmsKeyArn, oldActiveEncryptionContext),
+      && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfig, oldActiveEncryptionContext),
       Types.KeyStoreException(
         message := "Wrapping AWS KMS key in dynamodb does not match configured AWS KMS information.")
     );
@@ -490,7 +496,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       oldActiveItem[Structure.BRANCH_KEY_FIELD].B,
       oldActiveEncryptionContext,
       oldActiveEncryptionContext,
-      kmsKeyArn,
+      kmsConfig,
       grantTokens,
       kmsClient
     );
@@ -505,7 +511,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
     var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.GenerateKey(
       decryptOnlyEncryptionContext,
-      kmsKeyArn,
+      kmsConfig,
       grantTokens,
       kmsClient
     );
@@ -513,7 +519,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       wrappedDecryptOnlyBranchKey.CiphertextBlob.value,
       decryptOnlyEncryptionContext,
       activeEncryptionContext,
-      kmsKeyArn,
+      kmsConfig,
       grantTokens,
       kmsClient
     );

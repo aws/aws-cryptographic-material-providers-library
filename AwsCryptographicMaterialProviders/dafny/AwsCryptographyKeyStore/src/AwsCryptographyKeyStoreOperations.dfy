@@ -237,6 +237,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       config.ddbTableName,
       config.logicalKeyStoreName,
       kmsKeyArn,
+      config.kmsConfiguration,
       grantTokens, // Missing Post Condition that CreateBranchAndBeaconKeys is called with all GrantTokens
       config.kmsClient,
       config.ddbClient
