@@ -40,6 +40,32 @@ module TestConfig {
     }
   }
 
+  method {:test} TestInvalidKmsKeyArnAliasConfig() {
+    var kmsClient :- expect KMS.KMSClient();
+    var ddbClient :- expect DDB.DynamoDBClient();
+    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(kmsKeyAlias);
+
+    var keyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient),
+      kmsClient := Some(kmsClient)
+    );
+
+    var keyStore := KeyStore.KeyStore(keyStoreConfig);
+    expect keyStore.Failure?;
+    match keyStore.error {
+      case KeyStoreException(message) =>
+        expect |message| > |ErrorMessages.KMS_KEY_ARN_INVALID|;
+        expect message[..|ErrorMessages.KMS_KEY_ARN_INVALID|] == ErrorMessages.KMS_KEY_ARN_INVALID;
+      case _ => expect false, "Invalid KMS Key ARN should fail Key Store Construction";
+    }
+  }
+
+
   method {:test} TestValidConfig() {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
