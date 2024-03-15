@@ -84,19 +84,19 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
 
     var kmsClient: KMS.IKMSClient;
     var ddbClient: DDB.IDynamoDBClient;
-    var region: Option<string> := None;
+    var inferredRegion: Option<string> := None;
 
     // If KMS Configuration is a KMS Key ARN,
     // try to get KMS && DDB Clients for that Key's Region
     if config.kmsConfiguration.kmsKeyArn? {
       var keyArn := ParseAwsKmsIdentifier(config.kmsConfiguration.kmsKeyArn);
-      region := GetRegion(keyArn.value);
+      inferredRegion := GetRegion(keyArn.value);
     }
 
     if config.kmsClient.Some? {
       kmsClient := config.kmsClient.value;
-    } else if config.kmsClient.None? && region.Some? {
-      var maybeKmsClient := KMSOperations.KMSClientForRegion(region.value);
+    } else if config.kmsClient.None? && inferredRegion.Some? {
+      var maybeKmsClient := KMSOperations.KMSClientForInferredRegion(inferredRegion.value);
       kmsClient :- maybeKmsClient
       .MapFailure(e => Types.ComAmazonawsKms(ComAmazonawsKms := e));
     } else {
@@ -107,8 +107,8 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
 
     if config.ddbClient.Some? {
       ddbClient := config.ddbClient.value;
-    } else if config.ddbClient.None? && region.Some? {
-      var maybeDdbClient := DDBOperations.DDBClientForRegion(region.value);
+    } else if config.ddbClient.None? && inferredRegion.Some? {
+      var maybeDdbClient := DDBOperations.DDBClientForInferredRegion(inferredRegion.value);
       ddbClient :- maybeDdbClient
       .MapFailure(e => Types.ComAmazonawsDynamodb(ComAmazonawsDynamodb := e));
     } else {
