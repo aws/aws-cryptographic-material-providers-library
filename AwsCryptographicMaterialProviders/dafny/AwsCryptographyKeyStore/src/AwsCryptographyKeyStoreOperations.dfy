@@ -131,7 +131,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
             Types.KeyStoreException(message := ErrorMessages.CUSTOM_BRANCH_KEY_ID_NEED_EC));
 
     :- Need(
-      config.kmsConfiguration.discovery?,
+      config.kmsConfiguration.kmsKeyArn? == true,
       Types.KeyStoreException(
         message := ErrorMessages.DISCOVERY_CREATE_KEY_NOT_SUPPORTED
       )
@@ -216,7 +216,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       ==> output.Failure?
   {
     :- Need(
-      config.kmsConfiguration.discovery?,
+      config.kmsConfiguration.kmsKeyArn? == true,
       Types.KeyStoreException(
         message := ErrorMessages.DISCOVERY_VERSION_KEY_NOT_SUPPORTED
       )

@@ -299,7 +299,8 @@ module {:options "/functionSyntax:4" } Structure {
     requires 0 < |branchKeyId|
     requires 0 < |branchKeyVersion|
     requires forall k <- customEncryptionContext :: DDB.IsValid_AttributeName(ENCRYPTION_CONTEXT_PREFIX + k)
-    requires KMS.IsValid_KeyIdType(kmsKeyArn) && AwsArnParsing.ParseAwsKmsArn(kmsKeyArn).Success?
+    requires KMS.IsValid_KeyIdType(kmsKeyArn)
+    requires AwsArnParsing.ParseAwsKmsArn(kmsKeyArn).Success?
     ensures BranchKeyContext?(output)
     ensures BRANCH_KEY_TYPE_PREFIX < output[TYPE_FIELD]
     ensures BRANCH_KEY_ACTIVE_VERSION_FIELD !in output
