@@ -19,4 +19,13 @@ module {:options "/functionSyntax:4" } ErrorMessages {
 
   const AUGMENT_GRANT_TOKENS_EXCEEDS_TEN :=
     "Augmenting KeyStore's Config's Grant Tokens with Request's Grant Tokens exceeds 10 Token limit."
+
+  const DISCOVERY_CREATE_KEY_NOT_SUPPORTED :=
+    "Key Store's kmsConfiguration MUST BE kmsKeyArn to Create Branch Keys."
+
+  const DISCOVERY_VERSION_KEY_NOT_SUPPORTED :=
+    "Key Store's kmsConfiguration MUST BE kmsKeyArn to Version Branch Keys."
+
+  const UTF8_ENCODING_ENCRYPTION_CONTEXT_ERROR :=
+    "Unable to UTF8 Encode element of Encryption Context."
 }

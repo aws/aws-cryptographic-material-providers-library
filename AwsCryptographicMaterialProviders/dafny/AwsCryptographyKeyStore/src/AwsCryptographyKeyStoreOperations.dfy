@@ -117,32 +117,12 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       && input.encryptionContext.None?
       ==> output.Failure?
 
-    // If a KMS Key ARN is provided,
-    // it MUST be a full ARN.
-    ensures
-      && input.arn.Some?
-      && output.Success?
-      ==> ParseAwsKmsArn(input.arn.value).Success?
-
     // If the KeyStore's kmsConfiguration is Discovery,
-    // CreateKey requires an ARN
+    // CreateKey MUST immediately fail.
+    // TODO Postal Horn : Ensure KMS is not called
     ensures
       && config.kmsConfiguration.discovery?
-      && input.arn.None?
       ==> output.Failure?
-
-    // If the KeyStore's kmsConfiguration is a KMS Key ARN,
-    // and CreateKey is provided an ARN,
-    // the provided ARN and Key Store's configured
-    // ARN MUST be the same.
-    ensures
-      && config.kmsConfiguration.kmsKeyArn?
-      && input.arn.Some?
-      && config.kmsConfiguration.kmsKeyArn != input.arn.value
-      ==> output.Failure?
-
-    // TODO: If the input includes Grant Tokens,
-    // they must be valid and used
   {
 
     :- Need(input.branchKeyIdentifier.Some? ==>
@@ -151,33 +131,11 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
             Types.KeyStoreException(message := ErrorMessages.CUSTOM_BRANCH_KEY_ID_NEED_EC));
 
     :- Need(
-      config.kmsConfiguration.discovery? ==> input.arn.Some?,
+      config.kmsConfiguration.discovery?,
       Types.KeyStoreException(
-        message := ErrorMessages.DISCOVERY_CREATE_KEY_NO_ARN_ERROR_MSG
+        message := ErrorMessages.DISCOVERY_CREATE_KEY_NOT_SUPPORTED
       )
     );
-
-    :- Need(
-      config.kmsConfiguration.kmsKeyArn? && input.arn.Some? ==>
-        input.arn.value == config.kmsConfiguration.kmsKeyArn,
-      Types.KeyStoreException(
-        message := ErrorMessages.CREATE_KEY_KMS_ARN_DISAGREEMENT
-      )
-    );
-
-    var kmsKeyArn: KMS.KeyIdType;
-    if input.arn.Some? {
-      var parsedArn: Result<AwsKmsArn, string> := ParseAwsKmsArn(input.arn.value);
-      if (parsedArn.Failure?) {
-        return Failure(Types.KeyStoreException(
-                         message := ErrorMessages.KMS_KEY_ARN_INVALID + ". " + parsedArn.error));
-      }
-      kmsKeyArn := input.arn.value;
-    } else if config.kmsConfiguration.kmsKeyArn? {
-      kmsKeyArn := config.kmsConfiguration.kmsKeyArn;
-    }
-
-    var grantTokens :- AugmentGrantTokens(config, input.grantTokens, "CreateKey");
 
     var branchKeyIdentifier: string;
 
@@ -229,7 +187,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
                 && i.2 == encoded.value
            ,
             // TODO Postal Horn: Improve this error message
-            Types.KeyStoreException( message :="Unable to encode string"));
+            Types.KeyStoreException( message := ErrorMessages.UTF8_ENCODING_ENCRYPTION_CONTEXT_ERROR));
 
     output := CreateKeys.CreateBranchAndBeaconKeys(
       branchKeyIdentifier,
@@ -238,9 +196,8 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       branchKeyVersion,
       config.ddbTableName,
       config.logicalKeyStoreName,
-      kmsKeyArn,
       config.kmsConfiguration,
-      grantTokens, // Missing Post Condition that CreateBranchAndBeaconKeys is called with all GrantTokens
+      config.grantTokens,
       config.kmsClient,
       config.ddbClient
     );
@@ -251,9 +208,21 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
 
   method VersionKey(config: InternalConfig, input: VersionKeyInput)
     returns (output: Result<VersionKeyOutput, Error>)
+
+    // If the KeyStore's kmsConfiguration is Discovery,
+    // VersionKey MUST immediately fail.
+    ensures
+      && config.kmsConfiguration.discovery?
+      ==> output.Failure?
   {
+    :- Need(
+      config.kmsConfiguration.discovery?,
+      Types.KeyStoreException(
+        message := ErrorMessages.DISCOVERY_VERSION_KEY_NOT_SUPPORTED
+      )
+    );
+
     :- Need(0 < |input.branchKeyIdentifier|, Types.KeyStoreException(message := "Empty string not supported for identifier."));
-    var grantTokens :- AugmentGrantTokens(config, input.grantTokens, "VersionKey");
 
     var timestamp :- Time.GetCurrentTimeStamp()
     .MapFailure(e => Types.KeyStoreException(message := e));
@@ -269,7 +238,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       config.ddbTableName,
       config.logicalKeyStoreName,
       config.kmsConfiguration,
-      grantTokens,
+      config.grantTokens,
       config.kmsClient,
       config.ddbClient
     );
@@ -324,42 +293,5 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       config.kmsClient,
       config.ddbClient
     );
-  }
-
-  method AugmentGrantTokens(
-    config: InternalConfig,
-    grantTokens: Option<GrantTokenList>,
-    operationName: string
-  ) returns (output: Result<GrantTokenList, Error>)
-    // There are 10 or less Grant Tokens and they are all Valid
-    ensures output.Success? ==>
-              var tokens := output.value;
-              && 0 <= |tokens| <= 10
-              && forall token | token in tokens :: 1 <= |token| <= 8192
-    // TODO : Need Post Condition for actual augmentation,
-    // i.e: if config.GT < 10 && there is a unique valid GT in input, it is added
-  {
-    var tokens: Types.GrantTokenList := grantTokens.UnwrapOr([]);
-    var allGrantTokens: KMS.GrantTokenList := config.grantTokens;
-    var tokenIndex := 0;
-    while tokenIndex < |tokens|
-      invariant |allGrantTokens| <= 10
-    {
-      var token := tokens[tokenIndex];
-      :- Need(1 <= |token| <= 8192,
-              Types.KeyStoreException(message := "A Grant Token passed to " + operationName + " has invalid length")
-      );
-      if token !in allGrantTokens {
-        :- Need(|allGrantTokens| < 10,
-                Types.KeyStoreException(
-                  message := ErrorMessages.AUGMENT_GRANT_TOKENS_EXCEEDS_TEN)
-        );
-        // TODO Postal Horn: this may create a new squence every iteration.
-        // If it does, we should refactor to use an array
-        allGrantTokens := allGrantTokens + [token];
-      }
-      tokenIndex := tokenIndex + 1;
-    }
-    return Success(allGrantTokens);
   }
 }
