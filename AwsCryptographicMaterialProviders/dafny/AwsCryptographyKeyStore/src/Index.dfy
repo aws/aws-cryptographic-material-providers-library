@@ -96,7 +96,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
     if config.kmsClient.Some? {
       kmsClient := config.kmsClient.value;
     } else if config.kmsClient.None? && inferredRegion.Some? {
-      var maybeKmsClient := KMSOperations.KMSClientForInferredRegion(inferredRegion.value);
+      var maybeKmsClient := KMSOperations.KMSClientForRegion(inferredRegion.value);
       kmsClient :- maybeKmsClient
       .MapFailure(e => Types.ComAmazonawsKms(ComAmazonawsKms := e));
     } else {
@@ -108,7 +108,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
     if config.ddbClient.Some? {
       ddbClient := config.ddbClient.value;
     } else if config.ddbClient.None? && inferredRegion.Some? {
-      var maybeDdbClient := DDBOperations.DDBClientForInferredRegion(inferredRegion.value);
+      var maybeDdbClient := DDBOperations.DDBClientForRegion(inferredRegion.value);
       ddbClient :- maybeDdbClient
       .MapFailure(e => Types.ComAmazonawsDynamodb(ComAmazonawsDynamodb := e));
     } else {
