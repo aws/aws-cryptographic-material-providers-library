@@ -3,6 +3,7 @@
 
 include "../src/Index.dfy"
 include "Fixtures.dfy"
+include "../src/ErrorMessages.dfy"
 
 module TestGetKeys {
   import Types = AwsCryptographyKeyStoreTypes
@@ -13,6 +14,7 @@ module TestGetKeys {
   import opened Wrappers
   import opened Fixtures
   import UTF8
+  import ErrorMessages
 
   const incorrectLogicalName := "MySuperAwesomeTableName"
 
@@ -106,7 +108,7 @@ module TestGetKeys {
   method {:test} TestGetActiveKeyWithIncorrectKmsKeyArn() {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
-    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(mrkRsaKeyArn);
+    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
 
     var keyStoreConfig := Types.KeyStoreConfig(
       id := None,
@@ -122,10 +124,10 @@ module TestGetKeys {
 
     var activeResult := keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
-        branchKeyIdentifier := branchKeyId
+        branchKeyIdentifier := postalHornBranchKeyId
       ));
-
     expect activeResult.Failure?;
+    expect activeResult.error == Types.KeyStoreException(message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT);
   }
 
   method {:test} TestGetActiveKeyWrongLogicalKeyStoreName() {
