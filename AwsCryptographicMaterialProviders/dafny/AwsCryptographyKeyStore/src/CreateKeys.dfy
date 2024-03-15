@@ -5,6 +5,7 @@ include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "Structure.dfy"
 include "DDBKeystoreOperations.dfy"
 include "KMSKeystoreOperations.dfy"
+include "ErrorMessages.dfy"
 include "../../../dafny/AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 
 module {:options "/functionSyntax:4" } CreateKeys {
@@ -14,6 +15,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
   import Structure
   import KMSKeystoreOperations
   import DDBKeystoreOperations
+  import ErrorMessages
 
   import opened Seq
   import opened UInt = StandardLibrary.UInt
@@ -35,7 +37,6 @@ module {:options "/functionSyntax:4" } CreateKeys {
     branchKeyVersion: string,
     ddbTableName: DDB.TableName,
     logicalKeyStoreName: string,
-    kmsKeyArn: KMS.KeyIdType,
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient,
@@ -46,8 +47,10 @@ module {:options "/functionSyntax:4" } CreateKeys {
     requires 0 < |branchKeyVersion|
     requires forall k <- customEncryptionContext :: DDB.IsValid_AttributeName(Structure.ENCRYPTION_CONTEXT_PREFIX + k)
     requires ddbClient.Modifies !! kmsClient.Modifies
-    requires AwsArnParsing.ParseAwsKmsArn(kmsKeyArn).Success?
-    requires kmsConfiguration.kmsKeyArn? ==> kmsConfiguration.kmsKeyArn == kmsKeyArn
+    // TODO Postal Horn Spec : Add the following two lines and Duvet
+    // This operation MUST only succeed if the KMSConfiguration is kmsKeyArn.
+    requires kmsConfiguration.kmsKeyArn?
+
     requires kmsClient.ValidState() && ddbClient.ValidState()
     modifies ddbClient.Modifies, kmsClient.Modifies
     ensures ddbClient.ValidState() && kmsClient.ValidState()
@@ -75,7 +78,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
                                                        branchKeyVersion,
                                                        timestamp,
                                                        logicalKeyStoreName,
-                                                       kmsKeyArn,
+                                                       kmsConfiguration.kmsKeyArn,
                                                        customEncryptionContext
                                                      );
 
@@ -92,7 +95,6 @@ module {:options "/functionSyntax:4" } CreateKeys {
                    Seq.Last(kmsClient.History.ReEncrypt),
                    kmsClient,
                    kmsConfiguration,
-                   kmsKeyArn,
                    grantTokens,
                    decryptOnlyEncryptionContext
                  )
@@ -105,8 +107,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
               //= type=implication
               //# - `KeyId` MUST be the configured `AWS KMS Key ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore
-              // TODO Postal Horn: Revise Duvet Implication above
-              && beaconKmsInput.KeyId == kmsKeyArn
+              && beaconKmsInput.KeyId == kmsConfiguration.kmsKeyArn
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
               //= type=implication
@@ -121,8 +122,6 @@ module {:options "/functionSyntax:4" } CreateKeys {
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
               //= type=implication
               //# - `GrantTokens` MUST be this keystore's [grant tokens](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token).
-              // TODO Postal Horn: Revise Duvet implication above to add requests Grant Tokens
-              // TODO Postal Horn: Revise Pre-condition below to augment with requests Grant Tokens
               && beaconKmsInput.GrantTokens == Some(grantTokens)
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
@@ -222,17 +221,11 @@ module {:options "/functionSyntax:4" } CreateKeys {
       branchKeyVersion,
       timestamp,
       logicalKeyStoreName,
-      kmsKeyArn,
+      kmsConfiguration.kmsKeyArn,
       customEncryptionContext
     );
     var activeEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyEncryptionContext);
     var beaconEncryptionContext := Structure.BeaconKeyEncryptionContext(decryptOnlyEncryptionContext);
-    // TODO Postal Horn : This Need is suspicious, why is Structure not providing this?
-    // :- Need(
-    //   KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, decryptOnlyEncryptionContext),
-    //   Types.KeyStoreException(
-    //     message := "Branch Key Encryption Context could not be created correctly.")
-    // );
 
     var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.GenerateKey(
       decryptOnlyEncryptionContext,
@@ -289,7 +282,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     branchKeyVersion: string,
     ddbTableName: DDB.TableName,
     logicalKeyStoreName: string,
-    kmsConfig: Types.KMSConfiguration,
+    kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient,
     ddbClient: DDB.IDynamoDBClient
@@ -297,6 +290,9 @@ module {:options "/functionSyntax:4" } CreateKeys {
     returns (output: Result<Types.VersionKeyOutput, Types.Error>)
     requires 0 < |input.branchKeyIdentifier| && 0 < |branchKeyVersion|
     requires ddbClient.Modifies !! kmsClient.Modifies
+    // TODO Postal Horn Spec : Add the following two lines and Duvet
+    // This operation MUST only succeed if the KMSConfiguration is kmsKeyArn.
+    requires kmsConfiguration.kmsKeyArn?
 
     requires kmsClient.ValidState() && ddbClient.ValidState()
     modifies ddbClient.Modifies, kmsClient.Modifies
@@ -322,7 +318,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
               && Structure.BranchKeyItem?(oldActiveItem)
               && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD in oldActiveItem
 
-              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfig, Structure.ToBranchKeyContext(oldActiveItem, logicalKeyStoreName))
+              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, Structure.ToBranchKeyContext(oldActiveItem, logicalKeyStoreName))
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
               //= type=implication
@@ -348,9 +344,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-keystore-item
               //= type=implication
               //# - `SourceKeyId` MUST be the configured `AWS KMS Key ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore
-              // TODO Postal Horn: Update the Duvet Implcation above and the specification
-              && (kmsConfig.kmsKeyArn? ==> reEncryptInput.SourceKeyId == Some(kmsConfig.kmsKeyArn))
-              && (kmsConfig.discovery? ==> reEncryptInput.SourceKeyId == Some(oldActiveItem[Structure.KMS_FIELD].S))
+              && reEncryptInput.SourceKeyId == Some(kmsConfiguration.kmsKeyArn)
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-keystore-item
               //= type=implication
@@ -360,15 +354,12 @@ module {:options "/functionSyntax:4" } CreateKeys {
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-keystore-item
               //= type=implication
               //# - `GrantTokens` MUST be the configured [grant tokens](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token).
-              // TODO Postal Horn: Update the Duvet Implcation above and the specification
               && reEncryptInput.GrantTokens == Some(grantTokens)
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-keystore-item
               //= type=implication
               //# - `DestinationKeyId` MUST be the configured `AWS KMS Key ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore
-              // TODO Postal Horn: Update the Duvet Implcation above and the specification
-              && (kmsConfig.kmsKeyArn? ==> reEncryptInput.DestinationKeyId == kmsConfig.kmsKeyArn)
-              && (kmsConfig.discovery? ==> reEncryptInput.DestinationKeyId == oldActiveItem[Structure.KMS_FIELD].S)
+              && reEncryptInput.DestinationKeyId == kmsConfiguration.kmsKeyArn
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-keystore-item
               //= type=implication
@@ -386,17 +377,11 @@ module {:options "/functionSyntax:4" } CreateKeys {
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
               //= type=implication
               //# The wrapped Branch Keys, DECRYPT_ONLY and ACTIVE, MUST be created according to [Wrapped Branch Key Creation](#wrapped-branch-key-creation).
-              // TODO Postal Horn: Add Duvet Implcation and specification for next 4 lines;
-              && var kmsKeyArn := match kmsConfig {
-                case kmsKeyArn(arn) => arn
-                case discovery => oldActiveItem[Structure.KMS_FIELD].S
-              };
               && WrappedBranchKeyCreation?(
                    Seq.Last(kmsClient.History.GenerateDataKeyWithoutPlaintext),
                    Seq.Last(kmsClient.History.ReEncrypt),
                    kmsClient,
-                   kmsConfig,
-                   kmsKeyArn,
+                   kmsConfiguration,
                    grantTokens,
                    decryptOnlyEncryptionContext
                  )
@@ -481,26 +466,17 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
     var oldActiveEncryptionContext := Structure.ToBranchKeyContext(oldActiveItem, logicalKeyStoreName);
 
-    // TODO Postal Horn: Consider pulling match/kmsDecrypt into helper method
-    var kmsKeyArn := match kmsConfig {
-      case kmsKeyArn(arn) => arn
-      case discovery => oldActiveItem[Structure.KMS_FIELD].S
-    };
-
-      // TODO Postal Horn: Add Duvet Implcation and specification for below;
-      // This (already existing) logic MAY validate
-      // the Branch Key Record's KMS Key ID aligns with the requests.
     :- Need(
-      && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfig, oldActiveEncryptionContext),
+      && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, oldActiveEncryptionContext),
       Types.KeyStoreException(
-        message := "Wrapping AWS KMS key in dynamodb does not match configured AWS KMS information.")
+        message := ErrorMessages.VERSION_KEY_KMS_KEY_ARN_DISAGREEMENT)
     );
 
     var _ :- KMSKeystoreOperations.ReEncryptKey(
       oldActiveItem[Structure.BRANCH_KEY_FIELD].B,
       oldActiveEncryptionContext,
       oldActiveEncryptionContext,
-      kmsConfig,
+      kmsConfiguration,
       grantTokens,
       kmsClient
     );
@@ -515,7 +491,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
     var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.GenerateKey(
       decryptOnlyEncryptionContext,
-      kmsConfig,
+      kmsConfiguration,
       grantTokens,
       kmsClient
     );
@@ -523,7 +499,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       wrappedDecryptOnlyBranchKey.CiphertextBlob.value,
       decryptOnlyEncryptionContext,
       activeEncryptionContext,
-      kmsConfig,
+      kmsConfiguration,
       grantTokens,
       kmsClient
     );
@@ -558,17 +534,16 @@ module {:options "/functionSyntax:4" } CreateKeys {
     reEncryptHistory: KMS.DafnyCallEvent<KMS.ReEncryptRequest, Result<KMS.ReEncryptResponse, KMS.Error>>,
     kmsClient: KMS.IKMSClient,
     kmsConfiguration: Types.KMSConfiguration,
-    kmsKeyArn: KMS.KeyIdType,
     grantTokens: KMS.GrantTokenList,
     decryptOnlyEncryptionContext: map<string, string>
   )
     reads kmsClient.History
+    // TODO Postal Horn Spec : Add the following two lines and Duvet
+    // This operation MUST only succeed if the KMSConfiguration is kmsKeyArn.
+    requires kmsConfiguration.kmsKeyArn?
+
     requires Structure.BranchKeyContext?(decryptOnlyEncryptionContext)
     requires Structure.BRANCH_KEY_TYPE_PREFIX < decryptOnlyEncryptionContext[Structure.TYPE_FIELD]
-    requires match kmsConfiguration {
-               case kmsKeyArn(arn) => arn == kmsKeyArn
-               case discovery => decryptOnlyEncryptionContext[Structure.KMS_FIELD] == kmsKeyArn
-             }
 
     // Ideally this be in "the things I added"
     // But I don't know how to express that yet.
@@ -579,10 +554,6 @@ module {:options "/functionSyntax:4" } CreateKeys {
     requires generateHistory in kmsClient.History.GenerateDataKeyWithoutPlaintext
     requires reEncryptHistory in kmsClient.History.ReEncrypt
   {
-    && match kmsConfiguration {
-         case kmsKeyArn(arn) => arn == kmsKeyArn
-         case discovery => decryptOnlyEncryptionContext[Structure.KMS_FIELD] == kmsKeyArn
-       }
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
     //= type=implication
@@ -592,8 +563,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
     //= type=implication
     //# - `KeyId` MUST be the configured `AWS KMS Key ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore
-    // TODO Postal Horn: Update the Duvet Implcation above and the specification
-    && decryptOnlyKmsInput.KeyId == kmsKeyArn
+    && decryptOnlyKmsInput.KeyId == kmsConfiguration.kmsKeyArn
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
     //= type=implication
@@ -622,20 +592,16 @@ module {:options "/functionSyntax:4" } CreateKeys {
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
     //= type=implication
     //# - `SourceKeyId` MUST be the configured `AWS KMS Key ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore
-    // TODO Postal Horn: Update the Duvet Implcation above and the specification
-    && activeInput.SourceKeyId == Some(kmsKeyArn)
+    && activeInput.SourceKeyId == Some(kmsConfiguration.kmsKeyArn)
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
     //= type=implication
     //# - `DestinationKeyId` MUST be the configured `AWS KMS Key ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore
-    // TODO Postal Horn: Update the Duvet Implcation above and the specification
-    && activeInput.DestinationKeyId == kmsKeyArn
+    && activeInput.DestinationKeyId == kmsConfiguration.kmsKeyArn
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
     //= type=implication
     //# - ReEncrypt `GrantTokens` MUST be this keystore's [grant tokens](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token).
-    // TODO Postal Horn: Update the Duvet Implcation above and the specification
-    // TODO Postal Horn: Update the Grant Tokens below to be augmented with requests Grant Tokens
     && activeInput.GrantTokens == Some(grantTokens)
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation

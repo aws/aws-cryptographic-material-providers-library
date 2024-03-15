@@ -28,4 +28,7 @@ module {:options "/functionSyntax:4" } ErrorMessages {
 
   const UTF8_ENCODING_ENCRYPTION_CONTEXT_ERROR :=
     "Unable to UTF8 Encode element of Encryption Context."
+
+  const VERSION_KEY_KMS_KEY_ARN_DISAGREEMENT :=
+    "Branch Key's AWS KMS Key ARN read from Dynamodb does not match configured AWS KMS Key ARN."
 }
