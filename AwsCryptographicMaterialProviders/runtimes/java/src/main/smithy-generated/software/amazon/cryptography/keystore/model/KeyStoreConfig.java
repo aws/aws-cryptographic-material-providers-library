@@ -16,7 +16,7 @@ public class KeyStoreConfig {
   private final String ddbTableName;
 
   /**
-   * Configures how the Key Store determines which KMS Key ARN to use
+   * Configures Key Store's KMS Key ARN restrictions.
    */
   private final KMSConfiguration kmsConfiguration;
 
@@ -63,7 +63,7 @@ public class KeyStoreConfig {
   }
 
   /**
-   * @return Configures how the Key Store determines which KMS Key ARN to use
+   * @return Configures Key Store's KMS Key ARN restrictions.
    */
   public KMSConfiguration kmsConfiguration() {
     return this.kmsConfiguration;
@@ -124,12 +124,12 @@ public class KeyStoreConfig {
     String ddbTableName();
 
     /**
-     * @param kmsConfiguration Configures how the Key Store determines which KMS Key ARN to use
+     * @param kmsConfiguration Configures Key Store's KMS Key ARN restrictions.
      */
     Builder kmsConfiguration(KMSConfiguration kmsConfiguration);
 
     /**
-     * @return Configures how the Key Store determines which KMS Key ARN to use
+     * @return Configures Key Store's KMS Key ARN restrictions.
      */
     KMSConfiguration kmsConfiguration();
 

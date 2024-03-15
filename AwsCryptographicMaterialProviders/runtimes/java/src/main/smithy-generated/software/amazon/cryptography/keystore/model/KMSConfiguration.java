@@ -8,12 +8,12 @@ import java.util.Objects;
 public class KMSConfiguration {
 
   /**
-   * Key Store only uses this KMS Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown.
+   * Key Store is restricted to only this KMS Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown. While a Multi-Region Key (MKR) may be provided, the whole ARN, including the Region, is persisted in Branch Keys and MUST strictly equal this value to be considered valid. As such, this is really a Single Region Key restriction.
    */
   private final String kmsKeyArn;
 
   /**
-   * Key Store can use ANY KMS Key ARN. The VersionKey and CreateKey Operations will need the KMS Key ARN arguement set.
+   * The Key Store can use ANY KMS Key ARN. The VersionKey and CreateKey Operations are NOT supported and will fail with a runtime exception. There is no Multi-Region logic to supported with this configuration; only the region configured on the KMS Client will be used. Thus, if a Multi-Region Key is encountered, and the region in the encountered ARN is not the region of the KMS Client, requests will Fail with KMS Exceptions.
    */
   private final Discovery discovery;
 
@@ -23,14 +23,14 @@ public class KMSConfiguration {
   }
 
   /**
-   * @return Key Store only uses this KMS Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown.
+   * @return Key Store is restricted to only this KMS Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown. While a Multi-Region Key (MKR) may be provided, the whole ARN, including the Region, is persisted in Branch Keys and MUST strictly equal this value to be considered valid. As such, this is really a Single Region Key restriction.
    */
   public String kmsKeyArn() {
     return this.kmsKeyArn;
   }
 
   /**
-   * @return Key Store can use ANY KMS Key ARN. The VersionKey and CreateKey Operations will need the KMS Key ARN arguement set.
+   * @return The Key Store can use ANY KMS Key ARN. The VersionKey and CreateKey Operations are NOT supported and will fail with a runtime exception. There is no Multi-Region logic to supported with this configuration; only the region configured on the KMS Client will be used. Thus, if a Multi-Region Key is encountered, and the region in the encountered ARN is not the region of the KMS Client, requests will Fail with KMS Exceptions.
    */
   public Discovery discovery() {
     return this.discovery;
@@ -46,22 +46,22 @@ public class KMSConfiguration {
 
   public interface Builder {
     /**
-     * @param kmsKeyArn Key Store only uses this KMS Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown.
+     * @param kmsKeyArn Key Store is restricted to only this KMS Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown. While a Multi-Region Key (MKR) may be provided, the whole ARN, including the Region, is persisted in Branch Keys and MUST strictly equal this value to be considered valid. As such, this is really a Single Region Key restriction.
      */
     Builder kmsKeyArn(String kmsKeyArn);
 
     /**
-     * @return Key Store only uses this KMS Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown.
+     * @return Key Store is restricted to only this KMS Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown. While a Multi-Region Key (MKR) may be provided, the whole ARN, including the Region, is persisted in Branch Keys and MUST strictly equal this value to be considered valid. As such, this is really a Single Region Key restriction.
      */
     String kmsKeyArn();
 
     /**
-     * @param discovery Key Store can use ANY KMS Key ARN. The VersionKey and CreateKey Operations will need the KMS Key ARN arguement set.
+     * @param discovery The Key Store can use ANY KMS Key ARN. The VersionKey and CreateKey Operations are NOT supported and will fail with a runtime exception. There is no Multi-Region logic to supported with this configuration; only the region configured on the KMS Client will be used. Thus, if a Multi-Region Key is encountered, and the region in the encountered ARN is not the region of the KMS Client, requests will Fail with KMS Exceptions.
      */
     Builder discovery(Discovery discovery);
 
     /**
-     * @return Key Store can use ANY KMS Key ARN. The VersionKey and CreateKey Operations will need the KMS Key ARN arguement set.
+     * @return The Key Store can use ANY KMS Key ARN. The VersionKey and CreateKey Operations are NOT supported and will fail with a runtime exception. There is no Multi-Region logic to supported with this configuration; only the region configured on the KMS Client will be used. Thus, if a Multi-Region Key is encountered, and the region in the encountered ARN is not the region of the KMS Client, requests will Fail with KMS Exceptions.
      */
     Discovery discovery();
 

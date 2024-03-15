@@ -3,9 +3,7 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.keystore.model;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class CreateKeyInput {
 
@@ -19,21 +17,9 @@ public class CreateKeyInput {
    */
   private final Map<String, String> encryptionContext;
 
-  /**
-   * KMS Key ARN to protect this Branch Key. Required if Key Store's kmsConfiguration is Discovery.
-   */
-  private final String arn;
-
-  /**
-   * A List of Grant Tokens to include in KMS requests for Branch Key Creation. This augments the list on the Key Store.
-   */
-  private final List<String> grantTokens;
-
   protected CreateKeyInput(BuilderImpl builder) {
     this.branchKeyIdentifier = builder.branchKeyIdentifier();
     this.encryptionContext = builder.encryptionContext();
-    this.arn = builder.arn();
-    this.grantTokens = builder.grantTokens();
   }
 
   /**
@@ -48,20 +34,6 @@ public class CreateKeyInput {
    */
   public Map<String, String> encryptionContext() {
     return this.encryptionContext;
-  }
-
-  /**
-   * @return KMS Key ARN to protect this Branch Key. Required if Key Store's kmsConfiguration is Discovery.
-   */
-  public String arn() {
-    return this.arn;
-  }
-
-  /**
-   * @return A List of Grant Tokens to include in KMS requests for Branch Key Creation. This augments the list on the Key Store.
-   */
-  public List<String> grantTokens() {
-    return this.grantTokens;
   }
 
   public Builder toBuilder() {
@@ -93,26 +65,6 @@ public class CreateKeyInput {
      */
     Map<String, String> encryptionContext();
 
-    /**
-     * @param arn KMS Key ARN to protect this Branch Key. Required if Key Store's kmsConfiguration is Discovery.
-     */
-    Builder arn(String arn);
-
-    /**
-     * @return KMS Key ARN to protect this Branch Key. Required if Key Store's kmsConfiguration is Discovery.
-     */
-    String arn();
-
-    /**
-     * @param grantTokens A List of Grant Tokens to include in KMS requests for Branch Key Creation. This augments the list on the Key Store.
-     */
-    Builder grantTokens(List<String> grantTokens);
-
-    /**
-     * @return A List of Grant Tokens to include in KMS requests for Branch Key Creation. This augments the list on the Key Store.
-     */
-    List<String> grantTokens();
-
     CreateKeyInput build();
   }
 
@@ -122,17 +74,11 @@ public class CreateKeyInput {
 
     protected Map<String, String> encryptionContext;
 
-    protected String arn;
-
-    protected List<String> grantTokens;
-
     protected BuilderImpl() {}
 
     protected BuilderImpl(CreateKeyInput model) {
       this.branchKeyIdentifier = model.branchKeyIdentifier();
       this.encryptionContext = model.encryptionContext();
-      this.arn = model.arn();
-      this.grantTokens = model.grantTokens();
     }
 
     public Builder branchKeyIdentifier(String branchKeyIdentifier) {
@@ -153,35 +99,7 @@ public class CreateKeyInput {
       return this.encryptionContext;
     }
 
-    public Builder arn(String arn) {
-      this.arn = arn;
-      return this;
-    }
-
-    public String arn() {
-      return this.arn;
-    }
-
-    public Builder grantTokens(List<String> grantTokens) {
-      this.grantTokens = grantTokens;
-      return this;
-    }
-
-    public List<String> grantTokens() {
-      return this.grantTokens;
-    }
-
     public CreateKeyInput build() {
-      if (Objects.nonNull(this.arn()) && this.arn().length() < 1) {
-        throw new IllegalArgumentException(
-          "The size of `arn` must be greater than or equal to 1"
-        );
-      }
-      if (Objects.nonNull(this.arn()) && this.arn().length() > 2048) {
-        throw new IllegalArgumentException(
-          "The size of `arn` must be less than or equal to 2048"
-        );
-      }
       return new CreateKeyInput(this);
     }
   }

@@ -168,18 +168,6 @@ public class ToNative {
         )
       );
     }
-    if (dafnyValue.dtor_arn().is_Some()) {
-      nativeBuilder.arn(
-        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-          dafnyValue.dtor_arn().dtor_value()
-        )
-      );
-    }
-    if (dafnyValue.dtor_grantTokens().is_Some()) {
-      nativeBuilder.grantTokens(
-        ToNative.GrantTokenList(dafnyValue.dtor_grantTokens().dtor_value())
-      );
-    }
     return nativeBuilder.build();
   }
 
@@ -380,11 +368,6 @@ public class ToNative {
         dafnyValue.dtor_branchKeyIdentifier()
       )
     );
-    if (dafnyValue.dtor_grantTokens().is_Some()) {
-      nativeBuilder.grantTokens(
-        ToNative.GrantTokenList(dafnyValue.dtor_grantTokens().dtor_value())
-      );
-    }
     return nativeBuilder.build();
   }
 

@@ -32,7 +32,7 @@ public class GetKeyStoreInfoOutput {
   private final List<String> grantTokens;
 
   /**
-   * Configures how the Key Store determines which KMS Key ARN to use.
+   * Configures Key Store's KMS Key ARN restrictions.
    */
   private final KMSConfiguration kmsConfiguration;
 
@@ -73,7 +73,7 @@ public class GetKeyStoreInfoOutput {
   }
 
   /**
-   * @return Configures how the Key Store determines which KMS Key ARN to use.
+   * @return Configures Key Store's KMS Key ARN restrictions.
    */
   public KMSConfiguration kmsConfiguration() {
     return this.kmsConfiguration;
@@ -129,12 +129,12 @@ public class GetKeyStoreInfoOutput {
     List<String> grantTokens();
 
     /**
-     * @param kmsConfiguration Configures how the Key Store determines which KMS Key ARN to use.
+     * @param kmsConfiguration Configures Key Store's KMS Key ARN restrictions.
      */
     Builder kmsConfiguration(KMSConfiguration kmsConfiguration);
 
     /**
-     * @return Configures how the Key Store determines which KMS Key ARN to use.
+     * @return Configures Key Store's KMS Key ARN restrictions.
      */
     KMSConfiguration kmsConfiguration();
 

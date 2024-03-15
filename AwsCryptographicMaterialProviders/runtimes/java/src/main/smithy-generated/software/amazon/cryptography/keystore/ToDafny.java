@@ -175,29 +175,7 @@ public class ToDafny {
           ToDafny.EncryptionContext(nativeValue.encryptionContext())
         )
         : Option.create_None();
-    Option<DafnySequence<? extends Character>> arn;
-    arn =
-      Objects.nonNull(nativeValue.arn())
-        ? Option.create_Some(
-          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-            nativeValue.arn()
-          )
-        )
-        : Option.create_None();
-    Option<
-      DafnySequence<? extends DafnySequence<? extends Character>>
-    > grantTokens;
-    grantTokens =
-      (Objects.nonNull(nativeValue.grantTokens()) &&
-          nativeValue.grantTokens().size() > 0)
-        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
-        : Option.create_None();
-    return new CreateKeyInput(
-      branchKeyIdentifier,
-      encryptionContext,
-      arn,
-      grantTokens
-    );
+    return new CreateKeyInput(branchKeyIdentifier, encryptionContext);
   }
 
   public static CreateKeyOutput CreateKeyOutput(
@@ -399,15 +377,7 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
         nativeValue.branchKeyIdentifier()
       );
-    Option<
-      DafnySequence<? extends DafnySequence<? extends Character>>
-    > grantTokens;
-    grantTokens =
-      (Objects.nonNull(nativeValue.grantTokens()) &&
-          nativeValue.grantTokens().size() > 0)
-        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
-        : Option.create_None();
-    return new VersionKeyInput(branchKeyIdentifier, grantTokens);
+    return new VersionKeyInput(branchKeyIdentifier);
   }
 
   public static VersionKeyOutput VersionKeyOutput(

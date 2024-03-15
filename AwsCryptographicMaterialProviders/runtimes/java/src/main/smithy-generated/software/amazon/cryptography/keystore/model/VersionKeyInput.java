@@ -3,7 +3,6 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.keystore.model;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -16,14 +15,8 @@ public class VersionKeyInput {
    */
   private final String branchKeyIdentifier;
 
-  /**
-   * A List of Grant Tokens to include in KMS requests for Branch Key Versioning. This augments the list on the Key Store.
-   */
-  private final List<String> grantTokens;
-
   protected VersionKeyInput(BuilderImpl builder) {
     this.branchKeyIdentifier = builder.branchKeyIdentifier();
-    this.grantTokens = builder.grantTokens();
   }
 
   /**
@@ -31,13 +24,6 @@ public class VersionKeyInput {
    */
   public String branchKeyIdentifier() {
     return this.branchKeyIdentifier;
-  }
-
-  /**
-   * @return A List of Grant Tokens to include in KMS requests for Branch Key Versioning. This augments the list on the Key Store.
-   */
-  public List<String> grantTokens() {
-    return this.grantTokens;
   }
 
   public Builder toBuilder() {
@@ -59,16 +45,6 @@ public class VersionKeyInput {
      */
     String branchKeyIdentifier();
 
-    /**
-     * @param grantTokens A List of Grant Tokens to include in KMS requests for Branch Key Versioning. This augments the list on the Key Store.
-     */
-    Builder grantTokens(List<String> grantTokens);
-
-    /**
-     * @return A List of Grant Tokens to include in KMS requests for Branch Key Versioning. This augments the list on the Key Store.
-     */
-    List<String> grantTokens();
-
     VersionKeyInput build();
   }
 
@@ -76,13 +52,10 @@ public class VersionKeyInput {
 
     protected String branchKeyIdentifier;
 
-    protected List<String> grantTokens;
-
     protected BuilderImpl() {}
 
     protected BuilderImpl(VersionKeyInput model) {
       this.branchKeyIdentifier = model.branchKeyIdentifier();
-      this.grantTokens = model.grantTokens();
     }
 
     public Builder branchKeyIdentifier(String branchKeyIdentifier) {
@@ -92,15 +65,6 @@ public class VersionKeyInput {
 
     public String branchKeyIdentifier() {
       return this.branchKeyIdentifier;
-    }
-
-    public Builder grantTokens(List<String> grantTokens) {
-      this.grantTokens = grantTokens;
-      return this;
-    }
-
-    public List<String> grantTokens() {
-      return this.grantTokens;
     }
 
     public VersionKeyInput build() {
