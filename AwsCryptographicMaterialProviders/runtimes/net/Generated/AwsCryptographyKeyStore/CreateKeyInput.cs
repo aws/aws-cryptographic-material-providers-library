@@ -9,8 +9,6 @@ namespace AWS.Cryptography.KeyStore
   {
     private string _branchKeyIdentifier;
     private System.Collections.Generic.Dictionary<string, string> _encryptionContext;
-    private string _arn;
-    private System.Collections.Generic.List<string> _grantTokens;
     public string BranchKeyIdentifier
     {
       get { return this._branchKeyIdentifier; }
@@ -28,24 +26,6 @@ namespace AWS.Cryptography.KeyStore
     public bool IsSetEncryptionContext()
     {
       return this._encryptionContext != null;
-    }
-    public string Arn
-    {
-      get { return this._arn; }
-      set { this._arn = value; }
-    }
-    public bool IsSetArn()
-    {
-      return this._arn != null;
-    }
-    public System.Collections.Generic.List<string> GrantTokens
-    {
-      get { return this._grantTokens; }
-      set { this._grantTokens = value; }
-    }
-    public bool IsSetGrantTokens()
-    {
-      return this._grantTokens != null;
     }
     public void Validate()
     {
