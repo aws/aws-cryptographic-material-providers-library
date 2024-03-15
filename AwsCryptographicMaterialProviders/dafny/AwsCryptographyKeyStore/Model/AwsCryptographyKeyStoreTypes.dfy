@@ -30,9 +30,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   )
   datatype CreateKeyInput = | CreateKeyInput (
     nameonly branchKeyIdentifier: Option<string> := Option.None ,
-    nameonly encryptionContext: Option<EncryptionContext> := Option.None ,
-    nameonly arn: Option<ComAmazonawsKmsTypes.KeyIdType> := Option.None ,
-    nameonly grantTokens: Option<GrantTokenList> := Option.None
+    nameonly encryptionContext: Option<EncryptionContext> := Option.None
   )
   datatype CreateKeyOutput = | CreateKeyOutput (
     nameonly branchKeyIdentifier: string
@@ -241,8 +239,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   type Secret = seq<uint8>
   type Utf8Bytes = ValidUTF8Bytes
   datatype VersionKeyInput = | VersionKeyInput (
-    nameonly branchKeyIdentifier: string ,
-    nameonly grantTokens: Option<GrantTokenList> := Option.None
+    nameonly branchKeyIdentifier: string
   )
   datatype VersionKeyOutput = | VersionKeyOutput (
 
