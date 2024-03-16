@@ -29,15 +29,12 @@ module {:options "/functionSyntax:4" } KmsArn {
     :- Need(KMS.IsValid_KeyIdType(input),
             Types.KeyStoreException(message := ErrorMessages.KMS_KEY_ARN_INVALID)
        );
-    var maybeParsedArn: Result<AwsArnParsing.AwsKmsArn, string> := AwsArnParsing.ParseAwsKmsArn(input);
-    if maybeParsedArn.Failure? then
-      Failure(Types.KeyStoreException(message := ErrorMessages.KMS_KEY_ARN_INVALID + ". " + maybeParsedArn.error))
-    else (
-           if maybeParsedArn.value.resource.resourceType != "key" then
-             Failure(Types.KeyStoreException(message := ErrorMessages.KMS_CONFIG_ALIAS_IS_NOT_ALLOWED))
-           else
-             Success(maybeParsedArn.value)
-         )
+    var arn :- AwsArnParsing.ParseAwsKmsArn(input).MapFailure(
+                 error => Types.KeyStoreException(message := ErrorMessages.KMS_KEY_ARN_INVALID + ". " + error));
+    if arn.resource.resourceType != "key" then
+      Failure(Types.KeyStoreException(message := ErrorMessages.KMS_CONFIG_ALIAS_IS_NOT_ALLOWED))
+    else
+      Success(arn)
   }
 
 }
