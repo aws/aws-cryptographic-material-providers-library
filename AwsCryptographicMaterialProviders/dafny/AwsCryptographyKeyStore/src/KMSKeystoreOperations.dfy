@@ -21,7 +21,9 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   predicate AttemptKmsOperation?(kmsConfiguration: Types.KMSConfiguration, encryptionContext: Structure.BranchKeyContext)
   {
     match kmsConfiguration
-    case kmsKeyArn(arn) => arn == encryptionContext[Structure.KMS_FIELD]
+    // texastony is not certain if ValidKmsArn? is needed, as it is enfored on the Key Store Internal Config,
+    // but it is hard for a human to guarentee that every method here will be called with that Config
+    case kmsKeyArn(arn) => (arn == encryptionContext[Structure.KMS_FIELD]) && KmsArn.ValidKmsArn?(arn)
     case discovery => KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD])
   }
 

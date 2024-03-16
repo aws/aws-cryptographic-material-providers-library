@@ -32,7 +32,7 @@ module {:options "/functionSyntax:4" } KmsArn {
     var arn :- AwsArnParsing.ParseAwsKmsArn(input).MapFailure(
                  error => Types.KeyStoreException(message := ErrorMessages.KMS_KEY_ARN_INVALID + ". " + error));
     if arn.resource.resourceType != "key" then
-      Failure(Types.KeyStoreException(message := ErrorMessages.ALIAS_IS_NOT_ALLOWED))
+      Failure(Types.KeyStoreException(message := ErrorMessages.ALIAS_NOT_ALLOWED))
     else
       Success(arn)
   }
