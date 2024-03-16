@@ -57,14 +57,6 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
     var inferredRegion: Option<string> := None;
 
     if config.kmsConfiguration.kmsKeyArn? {
-      // var maybeParsedArn: Result<AAP.AwsKmsArn, string> :=
-      //   AAP.ParseAwsKmsArn(config.kmsConfiguration.kmsKeyArn);
-      // if maybeParsedArn.Failure? {
-      //   return Failure(Types.KeyStoreException(message := ErrorMessages.KMS_KEY_ARN_INVALID + ". " + maybeParsedArn.error));
-      // }
-      // if maybeParsedArn.value.resource.resourceType != "key" {
-      //   return Failure(Types.KeyStoreException(message := ErrorMessages.KMS_CONFIG_ALIAS_IS_NOT_ALLOWED));
-    // }
       var parsedArn :- Operations.IsValidKmsKeyArn(config.kmsConfiguration.kmsKeyArn);
       // If KMS Configuration is a KMS Key ARN,
       // try to get KMS && DDB Clients for that Key's Region

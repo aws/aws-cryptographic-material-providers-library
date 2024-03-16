@@ -11,7 +11,7 @@ module TestAwsArnParsing {
   import opened AwsArnParsing
   import opened Fixtures
   import opened Wrappers
-  
+
   method {:test} ParseAwsKmsIdentifierAliasSuccess() {
     var actual :- expect ParseAwsKmsIdentifier(kmsKeyAlias);
   }

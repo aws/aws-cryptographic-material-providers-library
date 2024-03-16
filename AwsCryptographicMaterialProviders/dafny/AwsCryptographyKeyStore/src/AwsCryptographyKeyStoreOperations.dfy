@@ -45,7 +45,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
     && config.ddbClient.ValidState()
     && config.ddbClient.Modifies !! config.kmsClient.Modifies
   }
-  
+
   function ModifiesInternalConfig(config: InternalConfig) : set<object>
   {
     config.kmsClient.Modifies + config.ddbClient.Modifies
@@ -66,20 +66,20 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
     ensures res.Success? ==> ValidKmsArn?(input)
   {
     :- Need(KMS.IsValid_KeyIdType(input),
-      Types.KeyStoreException(message := ErrorMessages.KMS_KEY_ARN_INVALID)
-    );
+            Types.KeyStoreException(message := ErrorMessages.KMS_KEY_ARN_INVALID)
+       );
     var maybeParsedArn: Result<AwsKmsArn, string> := ParseAwsKmsArn(input);
     if maybeParsedArn.Failure? then
       Failure(Types.KeyStoreException(message := ErrorMessages.KMS_KEY_ARN_INVALID + ". " + maybeParsedArn.error))
-    else 
-      if maybeParsedArn.value.resource.resourceType != "key" then
-        Failure(Types.KeyStoreException(message := ErrorMessages.KMS_CONFIG_ALIAS_IS_NOT_ALLOWED))
-      else
-        Success(maybeParsedArn.value)
+    else
+    if maybeParsedArn.value.resource.resourceType != "key" then
+      Failure(Types.KeyStoreException(message := ErrorMessages.KMS_CONFIG_ALIAS_IS_NOT_ALLOWED))
+    else
+      Success(maybeParsedArn.value)
   }
 
-  
-  
+
+
   predicate GetKeyStoreInfoEnsuresPublicly(output: Result<GetKeyStoreInfoOutput, Error>)
   {true}
 
