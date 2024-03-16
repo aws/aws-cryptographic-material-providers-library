@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "Structure.dfy"
-include "../../../dafny/AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
+include "KmsArn.dfy"
 
 module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   import opened Wrappers
@@ -13,16 +13,16 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   import KMS = ComAmazonawsKmsTypes
   import UTF8
   import Structure
-  import opened AwsArnParsing
+  import KmsArn
 
   // TODO Postal Horn Spec : Duvet and Spec for:
   // If KMS Configuration is kmsKeyArn, the Branch Key's KMS Field MUST equal the kmsKeyArn.
-  // If KMS Configuration is Discovery, the Branch Key's KMS Field MUST be a full arn.
+  // If KMS Configuration is Discovery, the Branch Key's KMS Field MUST be a full Key Arn, not an alias.
   predicate AttemptKmsOperation?(kmsConfiguration: Types.KMSConfiguration, encryptionContext: Structure.BranchKeyContext)
   {
     match kmsConfiguration
     case kmsKeyArn(arn) => arn == encryptionContext[Structure.KMS_FIELD]
-    case discovery => ParseAwsKmsArn(encryptionContext[Structure.KMS_FIELD]).Success?
+    case discovery => KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD])
   }
 
   method GenerateKey(
