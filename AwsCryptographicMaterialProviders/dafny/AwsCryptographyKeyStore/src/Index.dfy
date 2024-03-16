@@ -2,14 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "AwsCryptographyKeyStoreOperations.dfy"
-include "../../../dafny/AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
-include "../../AwsCryptographicMaterialProviders/src/Keyrings/AwsKms/AwsKmsUtils.dfy"
+
 include "ErrorMessages.dfy"
+include "KmsArn.dfy"
 
 module {:extern "software.amazon.cryptography.keystore.internaldafny"}
   KeyStore refines AbstractAwsCryptographyKeyStoreService
 {
-  import AAP = AwsArnParsing
   import opened AwsKmsUtils
   import Operations = AwsCryptographyKeyStoreOperations
   import KMSOperations = Com.Amazonaws.Kms
@@ -18,6 +17,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
   import DDB = ComAmazonawsDynamodbTypes
   import UUID
   import ErrorMessages
+  import KmsArn
 
   // There is no sensible default, so define something that passes verification but will fail at runtime
   function method DefaultKeyStoreConfig(): KeyStoreConfig
@@ -38,7 +38,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
     ensures res.Success? ==>
               && res.value is KeyStoreClient
               && var rconfig := (res.value as KeyStoreClient).config;
-              && (rconfig.kmsConfiguration.kmsKeyArn? ==> Operations.ValidKmsArn?(rconfig.kmsConfiguration.kmsKeyArn))
+              && (rconfig.kmsConfiguration.kmsKeyArn? ==> KmsArn.ValidKmsArn?(rconfig.kmsConfiguration.kmsKeyArn))
               && DDB.IsValid_TableName(config.ddbTableName)
               && GetValidGrantTokens(config.grantTokens).Success?
               && (config.kmsClient.Some? ==> rconfig.kmsClient == config.kmsClient.value)
@@ -48,7 +48,6 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
     ensures
       && !DDB.IsValid_TableName(config.ddbTableName)
       && !KMS.IsValid_KeyIdType(config.kmsConfiguration.kmsKeyArn)
-      && AAP.ParseAwsKmsArn(config.kmsConfiguration.kmsKeyArn).Failure?
       ==>
         res.Failure?
   {
@@ -57,7 +56,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
     var inferredRegion: Option<string> := None;
 
     if config.kmsConfiguration.kmsKeyArn? {
-      var parsedArn :- Operations.IsValidKmsKeyArn(config.kmsConfiguration.kmsKeyArn);
+      var parsedArn :- KmsArn.IsValidKeyArn(config.kmsConfiguration.kmsKeyArn);
       // If KMS Configuration is a KMS Key ARN,
       // try to get KMS && DDB Clients for that Key's Region
       inferredRegion := Some(parsedArn.region);

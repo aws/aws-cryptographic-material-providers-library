@@ -1,7 +1,6 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
-include "../../AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 include "../../AwsCryptographicMaterialProviders/src/Keyrings/AwsKms/AwsKmsUtils.dfy"
 
 include "GetKeys.dfy"
@@ -9,9 +8,9 @@ include "CreateKeyStoreTable.dfy"
 include "CreateKeys.dfy"
 include "Structure.dfy"
 include "ErrorMessages.dfy"
+include "KmsArn.dfy"
 
 module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStoreOperations {
-  import opened AwsArnParsing
   import opened AwsKmsUtils
   import KMS = ComAmazonawsKmsTypes
   import DDB = ComAmazonawsDynamodbTypes
@@ -23,7 +22,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
   import Time
   import Structure
   import ErrorMessages
-
+  import KmsArn
 
   datatype Config = Config(
     nameonly id: string,
@@ -40,7 +39,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
   predicate ValidInternalConfig?(config: InternalConfig)
   {
     && DDB.IsValid_TableName(config.ddbTableName)
-    && (config.kmsConfiguration.kmsKeyArn? ==> ValidKmsArn?(config.kmsConfiguration.kmsKeyArn))
+    && (config.kmsConfiguration.kmsKeyArn? ==> KmsArn.ValidKmsArn?(config.kmsConfiguration.kmsKeyArn))
     && config.kmsClient.ValidState()
     && config.ddbClient.ValidState()
     && config.ddbClient.Modifies !! config.kmsClient.Modifies
@@ -50,35 +49,6 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
   {
     config.kmsClient.Modifies + config.ddbClient.Modifies
   }
-
-  // For the Key Store, a ValidKmsArn is a `key`, not an `alias`
-  predicate method ValidKmsArn?(input: string)
-  {
-    && KMS.IsValid_KeyIdType(input)
-    && var maybeParsed := AwsArnParsing.ParseAwsKmsArn(input);
-    && maybeParsed.Success?
-    && maybeParsed.value.resource.resourceType == "key"
-  }
-
-  function method IsValidKmsKeyArn(
-    input: string
-  ): (res: Result<AwsKmsArn, Error>)
-    ensures res.Success? ==> ValidKmsArn?(input)
-  {
-    :- Need(KMS.IsValid_KeyIdType(input),
-            Types.KeyStoreException(message := ErrorMessages.KMS_KEY_ARN_INVALID)
-       );
-    var maybeParsedArn: Result<AwsKmsArn, string> := ParseAwsKmsArn(input);
-    if maybeParsedArn.Failure? then
-      Failure(Types.KeyStoreException(message := ErrorMessages.KMS_KEY_ARN_INVALID + ". " + maybeParsedArn.error))
-    else
-    if maybeParsedArn.value.resource.resourceType != "key" then
-      Failure(Types.KeyStoreException(message := ErrorMessages.KMS_CONFIG_ALIAS_IS_NOT_ALLOWED))
-    else
-      Success(maybeParsedArn.value)
-  }
-
-
 
   predicate GetKeyStoreInfoEnsuresPublicly(output: Result<GetKeyStoreInfoOutput, Error>)
   {true}
