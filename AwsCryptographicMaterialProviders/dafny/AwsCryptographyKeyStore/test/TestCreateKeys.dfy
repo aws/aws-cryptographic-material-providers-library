@@ -24,7 +24,7 @@ module TestCreateKeys {
   {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
-    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(kmsKeyAlias);
+    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
 
     var keyStoreConfig := Types.KeyStoreConfig(
       id := None,
@@ -42,7 +42,6 @@ module TestCreateKeys {
                                                    branchKeyIdentifier := None,
                                                    encryptionContext := None
                                                  ));
-    print("\n kmsKeyAlias BranchKey ID: " + branchKeyId.branchKeyIdentifier + " .\n");
     var beaconKeyResult :- expect keyStore.GetBeaconKey(
       Types.GetBeaconKeyInput(
         branchKeyIdentifier := branchKeyId.branchKeyIdentifier

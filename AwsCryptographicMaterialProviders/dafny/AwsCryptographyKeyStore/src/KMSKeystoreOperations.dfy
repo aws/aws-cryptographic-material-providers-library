@@ -177,7 +177,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && reEncryptResponse.SourceKeyId.value == kmsKeyArn
       && reEncryptResponse.KeyId.value == kmsKeyArn,
       Types.KeyStoreException(
-        message := "Invalid response from KMS GenerateDataKey:: Invalid Key Id")
+        message := "Invalid response from KMS ReEncrypt:: Invalid Key Id")
     );
 
     :- Need(

@@ -22,4 +22,8 @@ module {:options "/functionSyntax:4" } ErrorMessages {
 
   // Leaving this here in case we decide we want a different error message
   const VERSION_KEY_KMS_KEY_ARN_DISAGREEMENT := GET_KEY_ARN_DISAGREEMENT
+
+  // Message assumes KMS resourceTypes are only [ alias, key ] 
+  const KMS_CONFIG_ALIAS_IS_NOT_ALLOWED :=
+    "Key Store's kmsConfiguration kmsKeyArn cannot be an alias, it MUST BE a key."
 }

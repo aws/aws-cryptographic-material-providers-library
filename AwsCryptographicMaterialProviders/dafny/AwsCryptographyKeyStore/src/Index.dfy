@@ -9,7 +9,7 @@ include "ErrorMessages.dfy"
 module {:extern "software.amazon.cryptography.keystore.internaldafny"}
   KeyStore refines AbstractAwsCryptographyKeyStoreService
 {
-  import opened AwsArnParsing
+  import AAP = AwsArnParsing
   import opened AwsKmsUtils
   import Operations = AwsCryptographyKeyStoreOperations
   import KMSOperations = Com.Amazonaws.Kms
@@ -24,7 +24,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
   {
     KeyStoreConfig(
       ddbTableName := "None",
-      kmsConfiguration := KMSConfiguration.kmsKeyArn("1234abcd-12ab-34cd-56ef-1234567890ab"),
+      kmsConfiguration := KMSConfiguration.kmsKeyArn("a"),
       logicalKeyStoreName := "None",
       id := None,
       grantTokens := None,
@@ -38,8 +38,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
     ensures res.Success? ==>
               && res.value is KeyStoreClient
               && var rconfig := (res.value as KeyStoreClient).config;
-              && (rconfig.kmsConfiguration.kmsKeyArn? ==>
-                    KMS.IsValid_KeyIdType(rconfig.kmsConfiguration.kmsKeyArn))
+              && (rconfig.kmsConfiguration.kmsKeyArn? ==> Operations.ValidKmsArn?(rconfig.kmsConfiguration.kmsKeyArn))
               && DDB.IsValid_TableName(config.ddbTableName)
               && GetValidGrantTokens(config.grantTokens).Success?
               && (config.kmsClient.Some? ==> rconfig.kmsClient == config.kmsClient.value)
@@ -49,15 +48,27 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
     ensures
       && !DDB.IsValid_TableName(config.ddbTableName)
       && !KMS.IsValid_KeyIdType(config.kmsConfiguration.kmsKeyArn)
-      && ParseAwsKmsArn(config.kmsConfiguration.kmsKeyArn).Failure?
+      && AAP.ParseAwsKmsArn(config.kmsConfiguration.kmsKeyArn).Failure?
       ==>
         res.Failure?
   {
+    var kmsClient: KMS.IKMSClient;
+    var ddbClient: DDB.IDynamoDBClient;
+    var inferredRegion: Option<string> := None;
+
     if config.kmsConfiguration.kmsKeyArn? {
-      var parsedArn: Result<AwsKmsArn, string> := ParseAwsKmsArn(config.kmsConfiguration.kmsKeyArn);
-      if parsedArn.Failure? {
-        return Failure(Types.KeyStoreException(message := ErrorMessages.KMS_KEY_ARN_INVALID + ". " + parsedArn.error));
-      }
+      // var maybeParsedArn: Result<AAP.AwsKmsArn, string> :=
+      //   AAP.ParseAwsKmsArn(config.kmsConfiguration.kmsKeyArn);
+      // if maybeParsedArn.Failure? {
+      //   return Failure(Types.KeyStoreException(message := ErrorMessages.KMS_KEY_ARN_INVALID + ". " + maybeParsedArn.error));
+      // }
+      // if maybeParsedArn.value.resource.resourceType != "key" {
+      //   return Failure(Types.KeyStoreException(message := ErrorMessages.KMS_CONFIG_ALIAS_IS_NOT_ALLOWED));
+    // }
+      var parsedArn :- Operations.IsValidKmsKeyArn(config.kmsConfiguration.kmsKeyArn);
+      // If KMS Configuration is a KMS Key ARN,
+      // try to get KMS && DDB Clients for that Key's Region
+      inferredRegion := Some(parsedArn.region);
     }
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#initialization
@@ -80,17 +91,6 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
       var uuid :- maybeUuid
       .MapFailure(e => Types.KeyStoreException(message := e));
       keyStoreId := uuid;
-    }
-
-    var kmsClient: KMS.IKMSClient;
-    var ddbClient: DDB.IDynamoDBClient;
-    var inferredRegion: Option<string> := None;
-
-    // If KMS Configuration is a KMS Key ARN,
-    // try to get KMS && DDB Clients for that Key's Region
-    if config.kmsConfiguration.kmsKeyArn? {
-      var keyArn := ParseAwsKmsIdentifier(config.kmsConfiguration.kmsKeyArn);
-      inferredRegion := GetRegion(keyArn.value);
     }
 
     if config.kmsClient.Some? {

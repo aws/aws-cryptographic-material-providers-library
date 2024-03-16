@@ -59,9 +59,9 @@ module TestConfig {
     expect keyStore.Failure?;
     match keyStore.error {
       case KeyStoreException(message) =>
-        expect |message| > |ErrorMessages.KMS_KEY_ARN_INVALID|;
-        expect message[..|ErrorMessages.KMS_KEY_ARN_INVALID|] == ErrorMessages.KMS_KEY_ARN_INVALID;
-      case _ => expect false, "Invalid KMS Key ARN should fail Key Store Construction";
+        expect |message| >= |ErrorMessages.KMS_CONFIG_ALIAS_IS_NOT_ALLOWED|;
+        expect message[..|ErrorMessages.KMS_CONFIG_ALIAS_IS_NOT_ALLOWED|] == ErrorMessages.KMS_CONFIG_ALIAS_IS_NOT_ALLOWED;
+      case _ => expect false, "Alias should fail Key Store Construction";
     }
   }
 

@@ -40,19 +40,46 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
   predicate ValidInternalConfig?(config: InternalConfig)
   {
     && DDB.IsValid_TableName(config.ddbTableName)
-    && (config.kmsConfiguration.kmsKeyArn? ==>
-          && KMS.IsValid_KeyIdType(config.kmsConfiguration.kmsKeyArn)
-          && ParseAwsKmsArn(config.kmsConfiguration.kmsKeyArn).Success?
-       )
+    && (config.kmsConfiguration.kmsKeyArn? ==> ValidKmsArn?(config.kmsConfiguration.kmsKeyArn))
     && config.kmsClient.ValidState()
     && config.ddbClient.ValidState()
     && config.ddbClient.Modifies !! config.kmsClient.Modifies
   }
-
+  
   function ModifiesInternalConfig(config: InternalConfig) : set<object>
   {
     config.kmsClient.Modifies + config.ddbClient.Modifies
   }
+
+  // For the Key Store, a ValidKmsArn is a `key`, not an `alias`
+  predicate method ValidKmsArn?(input: string)
+  {
+    && KMS.IsValid_KeyIdType(input)
+    && var maybeParsed := AwsArnParsing.ParseAwsKmsArn(input);
+    && maybeParsed.Success?
+    && maybeParsed.value.resource.resourceType == "key"
+  }
+
+  function method IsValidKmsKeyArn(
+    input: string
+  ): (res: Result<AwsKmsArn, Error>)
+    ensures res.Success? ==> ValidKmsArn?(input)
+  {
+    :- Need(KMS.IsValid_KeyIdType(input),
+      Types.KeyStoreException(message := ErrorMessages.KMS_KEY_ARN_INVALID)
+    );
+    var maybeParsedArn: Result<AwsKmsArn, string> := ParseAwsKmsArn(input);
+    if maybeParsedArn.Failure? then
+      Failure(Types.KeyStoreException(message := ErrorMessages.KMS_KEY_ARN_INVALID + ". " + maybeParsedArn.error))
+    else 
+      if maybeParsedArn.value.resource.resourceType != "key" then
+        Failure(Types.KeyStoreException(message := ErrorMessages.KMS_CONFIG_ALIAS_IS_NOT_ALLOWED))
+      else
+        Success(maybeParsedArn.value)
+  }
+
+  
+  
   predicate GetKeyStoreInfoEnsuresPublicly(output: Result<GetKeyStoreInfoOutput, Error>)
   {true}
 
