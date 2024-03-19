@@ -340,9 +340,19 @@ module AwsKmsHierarchicalKeyring {
       var filter := new OnDecryptHierarchyEncryptedDataKeyFilter(branchKeyIdForDecrypt);
       var edksToAttempt :- FilterWithResult(filter, input.encryptedDataKeys);
 
+      var providerWrappedMaterial := EdkWrapping.GetProviderWrappedMaterial(input.encryptedDataKeys[0].ciphertext, input.materials.algorithmSuite).Extract();
+      var EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX := 12 + 16;
+      var EDK_CIPHERTEXT_VERSION_INDEX := EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX + 16;
+      var branchKeyVersionUuid := providerWrappedMaterial[EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX .. EDK_CIPHERTEXT_VERSION_INDEX];
+
       :- Need(
         0 < |edksToAttempt|,
-        E("Unable to decrypt data key: No Encrypted Data Keys found to match.")
+        E("\n \t Unable to decrypt data key: No Encrypted Data Keys found to match." +
+          "\n \t \t Expected:" +
+          "\n \t \t \t KeyProviderId: " + UTF8.Decode(input.encryptedDataKeys[0].keyProviderId).Extract() +
+          "\n \t \t \t KeyProviderInfo: " + UTF8.Decode(input.encryptedDataKeys[0].keyProviderInfo).Extract() +
+          "\n \t \t \t BranchKeyVersion: " + UUID.FromByteArray(branchKeyVersionUuid).Extract()
+          )
       );
 
       var decryptClosure := new DecryptSingleEncryptedDataKey(
