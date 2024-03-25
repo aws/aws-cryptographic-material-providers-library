@@ -12,6 +12,11 @@ on:
           description: "The version being released"
           required: true
           type: string
+      unique-id: 
+          description: "The Unique Signing ID"
+          required: true
+          type: string
+        
 
 jobs:
   # To release in .NET, we release each module separately. 
@@ -22,6 +27,7 @@ jobs:
     with:
       dafny: ${{inputs.dafny}}
       version: ${{inputs.version}}
+      unique-id: ${{inputs.unique-id}}
       project: "StandardLibrary"
 
   Primitives:
@@ -30,6 +36,7 @@ jobs:
     with:
       dafny: ${{inputs.dafny}}
       version: ${{inputs.version}}
+      unique-id: ${{inputs.unique-id}}
       project: "AwsCryptographyPrimitives"
 
   Kms:
@@ -38,6 +45,7 @@ jobs:
     with:
       dafny: ${{inputs.dafny}}
       version: ${{inputs.version}}
+      unique-id: ${{inputs.unique-id}}
       project: "ComAmazonawsKms"
 
   DynamoDb:
@@ -46,6 +54,7 @@ jobs:
     with:
       dafny: ${{inputs.dafny}}
       version: ${{inputs.version}}
+      unique-id: ${{inputs.unique-id}}
       project: "ComAmazonawsDynamodb"
 
   MPL:
@@ -54,5 +63,6 @@ jobs:
     with:
       dafny: ${{inputs.dafny}}
       version: ${{inputs.version}}
+      unique-id: ${{inputs.unique-id}}
       project: "AwsCryptographicMaterialProviders"
       

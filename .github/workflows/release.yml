@@ -13,6 +13,8 @@ jobs:
   getVersion:
     if: contains('["seebees","ShubhamChaturvedi7","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","justplaz","ajewellamz"]', github.actor)
     uses: ./.github/workflows/dafny_version.yaml
+  getUniqeId:
+    uses: ./.github/workflows/get_unique_id.yml
   # java-release:
   #   needs: getVersion
   #   uses: ./.github/workflows/java-release.yml
@@ -20,8 +22,9 @@ jobs:
   #     dafny: ${{needs.getVersion.outputs.version}}
   #     version: ${{inputs.version}}
   net-release:
-    needs: getVersion
+    needs: [getVersion, getUniqueId]
     uses: ./.github/workflows/net-release.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
       version: ${{inputs.version}}
+      unique-id: ${{needs.getUniqueId.outputs.unique-id}}

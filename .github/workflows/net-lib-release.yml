@@ -12,6 +12,10 @@ on:
           description: "The version being released"
           required: true
           type: string
+      unique-id:
+          description: "The unique signing id"
+          required: true
+          type: string
       project:
           description: "The project being released"
           required: true
@@ -21,7 +25,7 @@ jobs:
     strategy:
       matrix:
         dotnet-version: ["6.0.x"]
-    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    runs-on: codebuild-AWS-MPL-Release-${{ github.run_id }}-${{ github.run_attempt }}-ubuntu-5.0-large
     permissions:
       id-token: write
       contents: read
@@ -29,13 +33,17 @@ jobs:
       - name: Support longpaths on Git checkout
         run: |
           git config --global core.longpaths true
+      - name: Using signing ID
+        shell: bash
+        run: |
+          echo unique-id; 
   
   verify:
     needs: sign
     strategy:
       matrix:
         dotnet-version: ["6.0.x"]
-    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    runs-on: codebuild-AWS-MPL-Release-${{ github.run_id }}-${{ github.run_attempt }}-ubuntu-5.0-large
     permissions:
       id-token: write
       contents: read
@@ -44,46 +52,46 @@ jobs:
         run: |
           git config --global core.longpaths true
   
-  releaseToCA:
-    needs: verify
-    strategy:
-      matrix:
-        dotnet-version: ["6.0.x"]
-    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-      - name: Support longpaths on Git checkout
-        run: |
-          git config --global core.longpaths true
+  # releaseToCA:
+  #   needs: verify
+  #   strategy:
+  #     matrix:
+  #       dotnet-version: ["6.0.x"]
+  #   runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+  #   permissions:
+  #     id-token: write
+  #     contents: read
+  #   steps:
+  #     - name: Support longpaths on Git checkout
+  #       run: |
+  #         git config --global core.longpaths true
   
-  releaseToProd:
-    needs: releaseToCA
-    strategy:
-      matrix:
-        dotnet-version: ["6.0.x"]
-    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-      - name: Support longpaths on Git checkout
-        run: |
-          git config --global core.longpaths true
+  # releaseToProd:
+  #   needs: releaseToCA
+  #   strategy:
+  #     matrix:
+  #       dotnet-version: ["6.0.x"]
+  #   runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+  #   permissions:
+  #     id-token: write
+  #     contents: read
+  #   steps:
+  #     - name: Support longpaths on Git checkout
+  #       run: |
+  #         git config --global core.longpaths true
   
-  testProd:
-    needs: releaseToProd
-    strategy:
-      matrix:
-        dotnet-version: ["6.0.x"]
-    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-      - name: Support longpaths on Git checkout
-        run: |
-          git config --global core.longpaths true
+  # testProd:
+  #   needs: releaseToProd
+  #   strategy:
+  #     matrix:
+  #       dotnet-version: ["6.0.x"]
+  #   runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+  #   permissions:
+  #     id-token: write
+  #     contents: read
+  #   steps:
+  #     - name: Support longpaths on Git checkout
+  #       run: |
+  #         git config --global core.longpaths true
     
     

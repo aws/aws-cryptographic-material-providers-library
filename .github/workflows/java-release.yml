@@ -19,7 +19,7 @@ jobs:
       matrix:
         library: [AwsCryptographicMaterialProviders]
         dotnet-version: ["6.0.x"]
-    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    runs-on: codebuild-AWS-MPL-Release-${{ github.run_id }}-${{ github.run_attempt }}-ubuntu-5.0-large
     permissions:
       id-token: write
       contents: read
@@ -117,7 +117,7 @@ jobs:
       matrix:
         library: [TestVectorsAwsCryptographicMaterialProviders]
         dotnet-version: ["6.0.x"]
-    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    runs-on: codebuild-AWS-MPL-Release-${{ github.run_id }}-${{ github.run_attempt }}-ubuntu-5.0-large
     permissions:
       id-token: write
       contents: read
@@ -182,7 +182,7 @@ jobs:
       matrix:
         library: [AwsCryptographicMaterialProviders]
         dotnet-version: ["6.0.x"]
-    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    runs-on: codebuild-AWS-MPL-Release-${{ github.run_id }}-${{ github.run_attempt }}-ubuntu-5.0-large
     permissions:
       id-token: write
       contents: read
@@ -298,7 +298,7 @@ jobs:
       matrix:
         library: [TestVectorsAwsCryptographicMaterialProviders]
         dotnet-version: ["6.0.x"]
-    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    runs-on: codebuild-AWS-MPL-Release-${{ github.run_id }}-${{ github.run_attempt }}-ubuntu-5.0-large
     permissions:
       id-token: write
       contents: read
