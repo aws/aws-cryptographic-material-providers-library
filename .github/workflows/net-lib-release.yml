@@ -24,7 +24,6 @@ jobs:
   sign:
     strategy:
       matrix:
-        library: ${{inputs.project}}
         dotnet-version: ["6.0.x"]
     runs-on: codebuild-AWS-MPL-Release-${{ github.run_id }}-${{ github.run_attempt }}-ubuntu-5.0-large
     permissions:
@@ -43,7 +42,7 @@ jobs:
       
       - name: Configure AWS Credentials for Tests
         uses: aws-actions/configure-aws-credentials@v4
-        if: matrix.library == 'ComAmazonawsKms' || matrix.library == 'ComAmazonawsDynamodb' || matrix.library == 'AwsCryptographicMaterialProviders'
+        if: inputs.project == 'ComAmazonawsKms' || inputs.project == 'ComAmazonawsDynamodb' || inputs.project == 'AwsCryptographicMaterialProviders'
         with:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
@@ -65,20 +64,20 @@ jobs:
         shell: bash
         run: |
           export UNIQUE_ID=${{inputs.unique-id}};
-      - name: Build ${{matrix.library}}
+      - name: Build ${{inputs.project}}
         shell: bash
-        working-directory: ./${{matrix.library}}
+        working-directory: ./${{inputs.project}}
         run: |
           make transpile_net
           make test_net FRAMEWORK=net6.0
-      - name: Build ${{matrix.library}}
+      - name: Build ${{inputs.project}}
         shell: bash
-        working-directory: ./${{matrix.library}}
+        working-directory: ./${{inputs.project}}
         run: |
           dotnet build runtimes/net /p:Configuration=Release -nowarn:CS0162,CS0168
-      - name: Upload ${{matrix.library}} DLL to signing bucket
+      - name: Upload ${{inputs.project}} DLL to signing bucket
         shell: bash
-        working-directory: ./${{matrix.library}}
+        working-directory: ./${{inputs.project}}
         run: |
           export ASSEMBLY_NAME="AWS.Cryptography.Internal.StandardLibrary.dll"
           export BASE=../codebuild/net
