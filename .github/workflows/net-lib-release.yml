@@ -33,10 +33,10 @@ jobs:
       - name: Support longpaths on Git checkout
         run: |
           git config --global core.longpaths true
-      - name: Using signing ID
+      - name: Export signing ID
         shell: bash
         run: |
-          echo unique-id; 
+          export UNIQUE_ID=${{inputs.unique-id}}; 
   
   verify:
     needs: sign
