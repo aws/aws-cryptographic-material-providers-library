@@ -79,6 +79,7 @@ jobs:
         shell: bash
         working-directory: ./${{inputs.project}}
         run: |
+          pip install boto3
           export ASSEMBLY_NAME="AWS.Cryptography.Internal.StandardLibrary.dll"
           export BASE=../codebuild/net
           python $BASE/upload_assembly.py --target net6.0 --unique-id $UNIQUE_ID
