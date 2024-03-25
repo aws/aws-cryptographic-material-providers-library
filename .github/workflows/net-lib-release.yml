@@ -24,6 +24,7 @@ jobs:
   sign:
     strategy:
       matrix:
+        library: ${{inputs.project}}
         dotnet-version: ["6.0.x"]
     runs-on: codebuild-AWS-MPL-Release-${{ github.run_id }}-${{ github.run_attempt }}-ubuntu-5.0-large
     permissions:
@@ -42,12 +43,16 @@ jobs:
       
       - name: Configure AWS Credentials for Tests
         uses: aws-actions/configure-aws-credentials@v4
-        if: inputs.project == 'ComAmazonawsKms' || inputs.project == 'ComAmazonawsDynamodb' || inputs.project == 'AwsCryptographicMaterialProviders'
+        if: matrix.library == 'ComAmazonawsKms' || matrix.library == 'ComAmazonawsDynamodb' || matrix.library == 'AwsCryptographicMaterialProviders'
         with:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
           role-session-name: NetReleaseTests
 
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'     
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v3
         with:
@@ -60,12 +65,30 @@ jobs:
         shell: bash
         run: |
           export UNIQUE_ID=${{inputs.unique-id}};
-      - name: Build ${{inputs.project}}
+      - name: Build ${{matrix.library}}
         shell: bash
-        working-directory: ./${{inputs.project}}
+        working-directory: ./${{matrix.library}}
         run: |
           make transpile_net
           make test_net FRAMEWORK=net6.0
+      - name: Build ${{matrix.library}}
+        shell: bash
+        working-directory: ./${{matrix.library}}
+        run: |
+          dotnet build runtimes/net /p:Configuration=Release -nowarn:CS0162,CS0168
+      - name: Upload ${{matrix.library}} DLL to signing bucket
+        shell: bash
+        working-directory: ./${{matrix.library}}
+        run: |
+          export ASSEMBLY_NAME="AWS.Cryptography.Internal.StandardLibrary.dll"
+          export BASE=../codebuild/net
+          python $BASE/upload_assembly.py --target net6.0 --unique-id $UNIQUE_ID
+          python $BASE/upload_assembly.py --target net48 --unique-id $UNIQUE_ID
+          ## Retrieve the signed assembly. We're not going to use it, but this
+          ## ensures that the signing process is complete
+          python $BASE/retrieve_signed_assembly.py --target net6.0 --unique-id $UNIQUE_ID
+          python $BASE/retrieve_signed_assembly.py --target net48 --unique-id $UNIQUE_ID
+
   
   verify:
     needs: sign
