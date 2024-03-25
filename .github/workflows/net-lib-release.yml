@@ -33,10 +33,39 @@ jobs:
       - name: Support longpaths on Git checkout
         run: |
           git config --global core.longpaths true
+      
+      - uses: actions/checkout@v4
+      # The specification submodule is private so we don't have access, but we don't need
+      # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
+      - run: git submodule update --init libraries
+      - run: git submodule update --init smithy-dafny
+      
+      - name: Configure AWS Credentials for Tests
+        uses: aws-actions/configure-aws-credentials@v4
+        if: inputs.project == 'ComAmazonawsKms' || inputs.project == 'ComAmazonawsDynamodb' || inputs.project == 'AwsCryptographicMaterialProviders'
+        with:
+          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
+          role-session-name: NetReleaseTests
+
+      - name: Setup Dafny
+        uses: dafny-lang/setup-dafny-action@v1.7.0
+        with:
+          dafny-version: ${{ inputs.dafny }}
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
       - name: Export signing ID
         shell: bash
         run: |
-          export UNIQUE_ID=${{inputs.unique-id}}; 
+          export UNIQUE_ID=${{inputs.unique-id}};
+      - name: Build ${{inputs.project}}
+        shell: bash
+        working-directory: ./${{inputs.project}}
+        run: |
+          make transpile_net
+          make test_net FRAMEWORK=net6.0
   
   verify:
     needs: sign
