@@ -130,27 +130,26 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
-      - name: Check Signatures on ${{matrix.dotnet-target}}
-        if: ${{inputs.project}} != 'AwsCryptographicMaterialProviders'
+      
+      - name: Set Environment Variables
+        if: ${{inputs.project}} == 'AwsCryptographicMaterialProviders'
+        run: |
+          echo "FILE_NAME="AWS.Cryptography.MaterialProviders.dll" | Out-File -FilePath $env:GITHUB_ENV -Append
+          echo "ASSEMBLY_NAME="AWS.Cryptography.MaterialProviders.dll" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Set Environment Variables
+        if: ${{inputs.project}} == 'AwsCryptographicMaterialProviders'
         run: |
           echo "FILE_NAME="AWS.Cryptography.Internal.${{inputs.project}}.dll" | Out-File -FilePath $env:GITHUB_ENV -Append
           echo "ASSEMBLY_NAME="AWS.Cryptography.Internal.${{inputs.project}}.dll" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Check Signatures for ${{matrix.dotnet-target}}
+        run: |
           pip install boto3
           mkdir ${{matrix.dotnet-target}}
           python codebuild/net/retrieve_signed_assembly.py --target ${{matrix.dotnet-target}} --unique-id $Env:UNIQUE_ID --output ${{matrix.dotnet-target}}
           $sig = Get-AuthenticodeSignature -FilePath ${{matrix.dotnet-target}}/$Env:FILE_NAME
           $sig | Format-List -Property *
-      
-      - name: Check Signatures on ${{matrix.dotnet-target}}
-        if: ${{inputs.project}} == 'AwsCryptographicMaterialProviders'
-        run: |
-          echo "FILE_NAME="AWS.Cryptography.MaterialProviders.dll" | Out-File -FilePath $env:GITHUB_ENV -Append
-          echo "ASSEMBLY_NAME="AWS.Cryptography.MaterialProviders.dll" | Out-File -FilePath $env:GITHUB_ENV -Append
-          pip install boto3
-          mkdir ${{matrix.dotnet-target}}
-          python codebuild/net/retrieve_signed_assembly.py --target ${{matrix.dotnet-target}} --unique-id $Env:UNIQUE_ID --output ${{matrix.dotnet-target}}
-          $sig = Get-AuthenticodeSignature -FilePath ${{matrix.dotnet-target}}/$Env:FILE_NAME
-          $sig | Format-List -Property *        
   
   # releaseToCA:
   #   needs: verify
