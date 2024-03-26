@@ -85,12 +85,33 @@ jobs:
         working-directory: ./${{inputs.project}}
         run: |
           dotnet build runtimes/net /p:Configuration=Release -nowarn:CS0162,CS0168
+
       - name: Upload ${{inputs.project}} DLL to signing bucket
+        if: inputs.project != 'AwsCryptographicMaterialProviders'
+        env:
+          FILE_NAME: "AWS.Cryptography.Internal.${{inputs.project}}.dll"
+          ASSEMBLY_NAME: "AWS.Cryptography.Internal.${{inputs.project}}.dll"
         shell: bash
         working-directory: ./${{inputs.project}}
         run: |
           pip install boto3
-          export ASSEMBLY_NAME="AWS.Cryptography.Internal.StandardLibrary.dll"
+          export BASE=../codebuild/net
+          python $BASE/upload_assembly.py --target net6.0 --unique-id $UNIQUE_ID
+          python $BASE/upload_assembly.py --target net48 --unique-id $UNIQUE_ID
+          ## Retrieve the signed assembly. We're not going to use it, but this
+          ## ensures that the signing process is complete
+          python $BASE/retrieve_signed_assembly.py --target net6.0 --unique-id $UNIQUE_ID
+          python $BASE/retrieve_signed_assembly.py --target net48 --unique-id $UNIQUE_ID
+      
+      - name: Upload ${{inputs.project}} DLL to signing bucket
+        if: inputs.project == 'AwsCryptographicMaterialProviders'
+        env:
+          FILE_NAME: "AWS.Cryptography.MaterialProviders.dll"
+          ASSEMBLY_NAME: "AWS.Cryptography.MaterialProviders.dll"
+        shell: bash
+        working-directory: ./${{inputs.project}}
+        run: |
+          pip install boto3
           export BASE=../codebuild/net
           python $BASE/upload_assembly.py --target net6.0 --unique-id $UNIQUE_ID
           python $BASE/upload_assembly.py --target net48 --unique-id $UNIQUE_ID
