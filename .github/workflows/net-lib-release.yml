@@ -113,7 +113,7 @@ jobs:
       # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
       - run: git submodule update --init libraries
       - run: git submodule update --init smithy-dafny
-      
+
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
@@ -124,7 +124,6 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
       - name: Check Signatures on ${{matrix.dotnet-target}}
         if: ${{inputs.project}} != 'AwsCryptographicMaterialProviders'
-        shell: bash
         run: |
           export FILE_NAME="AWS.Cryptography.Internal.${{inputs.project}}.dll"
           export ASSEMBLY_NAME="AWS.Cryptography.Internal.${{inputs.project}}.dll"
@@ -135,7 +134,6 @@ jobs:
       
       - name: Check Signatures on ${{matrix.dotnet-target}}
         if: ${{inputs.project}} == 'AwsCryptographicMaterialProviders'
-        shell: bash
         run: |
           export FILE_NAME="AWS.Cryptography.MaterialProviders.dll"
           export ASSEMBLY_NAME="AWS.Cryptography.MaterialProviders.dll"
