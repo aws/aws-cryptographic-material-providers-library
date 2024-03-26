@@ -90,14 +90,16 @@ jobs:
           ## ensures that the signing process is complete
           python $BASE/retrieve_signed_assembly.py --target net6.0 --unique-id $UNIQUE_ID
           python $BASE/retrieve_signed_assembly.py --target net48 --unique-id $UNIQUE_ID
-
   
   verify:
     needs: sign
     strategy:
       matrix:
         dotnet-version: ["6.0.x"]
-    runs-on: codebuild-AWS-MPL-Release-${{ github.run_id }}-${{ github.run_attempt }}-ubuntu-5.0-large
+        dotnet-target: [net48, net6.0]
+    env:
+      UNIQUE_ID: ${{inputs.unique-id}}
+    runs-on: codebuild-AWS-MPL-Release-${{ github.run_id }}-${{ github.run_attempt }}-windows-3.0-large
     permissions:
       id-token: write
       contents: read
@@ -105,6 +107,44 @@ jobs:
       - name: Support longpaths on Git checkout
         run: |
           git config --global core.longpaths true
+      
+      - uses: actions/checkout@v4
+      # The specification submodule is private so we don't have access, but we don't need
+      # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
+      - run: git submodule update --init libraries
+      - run: git submodule update --init smithy-dafny
+      
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'     
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Check Signatures on ${{matrix.dotnet-target}}
+        if: ${{inputs.project}} != 'AwsCryptographicMaterialProviders'
+        shell: bash
+        run: |
+          export FILE_NAME="AWS.Cryptography.Internal.${{inputs.project}}.dll"
+          export ASSEMBLY_NAME="AWS.Cryptography.Internal.${{inputs.project}}.dll"
+          mkdir ${{matrix.dotnet-target}}
+          python codebuild/net/retrieve_signed_assembly.py --target ${{matrix.dotnet-target}} --unique-id $Env:UNIQUE_ID --output ${{matrix.dotnet-target}}
+          $sig = Get-AuthenticodeSignature -FilePath ${{matrix.dotnet-target}}/$Env:FILE_NAME
+          $sig | Format-List -Property *
+      
+      - name: Check Signatures on ${{matrix.dotnet-target}}
+        if: ${{inputs.project}} == 'AwsCryptographicMaterialProviders'
+        shell: bash
+        run: |
+          export FILE_NAME="AWS.Cryptography.MaterialProviders.dll"
+          export ASSEMBLY_NAME="AWS.Cryptography.MaterialProviders.dll"
+          mkdir ${{matrix.dotnet-target}}
+          python codebuild/net/retrieve_signed_assembly.py --target ${{matrix.dotnet-target}} --unique-id $Env:UNIQUE_ID --output ${{matrix.dotnet-target}}
+          $sig = Get-AuthenticodeSignature -FilePath ${{matrix.dotnet-target}}/$Env:FILE_NAME
+          $sig | Format-List -Property *
+
+          
   
   # releaseToCA:
   #   needs: verify
