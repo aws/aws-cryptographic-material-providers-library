@@ -66,12 +66,20 @@ jobs:
         shell: bash
         run: |
           export UNIQUE_ID=${{inputs.unique-id}};
-      - name: Build ${{inputs.project}}
+      - name: make ${{inputs.project}}
         shell: bash
         working-directory: ./${{inputs.project}}
         run: |
           make transpile_net
           make test_net FRAMEWORK=net6.0
+      - name: Unset AWS Creds
+        shell: bash
+        run: |
+          echo "AWS_ACCESS_KEY_ID=" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=" >> $GITHUB_ENV
+          echo "AWS_SESSION_TOKEN=" >> $GITHUB_ENV
+          echo "AWS_DEFAULT_REGION=" >> $GITHUB_ENV
+          echo "AWS_REGION=" >> $GITHUB_ENV
       - name: Build ${{inputs.project}}
         shell: bash
         working-directory: ./${{inputs.project}}
@@ -140,9 +148,7 @@ jobs:
           mkdir ${{matrix.dotnet-target}}
           python codebuild/net/retrieve_signed_assembly.py --target ${{matrix.dotnet-target}} --unique-id $Env:UNIQUE_ID --output ${{matrix.dotnet-target}}
           $sig = Get-AuthenticodeSignature -FilePath ${{matrix.dotnet-target}}/$Env:FILE_NAME
-          $sig | Format-List -Property *
-
-          
+          $sig | Format-List -Property *        
   
   # releaseToCA:
   #   needs: verify
