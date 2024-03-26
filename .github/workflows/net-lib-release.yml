@@ -181,7 +181,6 @@ jobs:
     strategy:
       matrix:
         dotnet-version: ["6.0.x"]
-        dotnet-target: [net48, net6.0]
     env:
       UNIQUE_ID: ${{inputs.unique-id}}
     runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
@@ -277,7 +276,7 @@ jobs:
         
           export VERSION=`grep '<Version>' runtimes/net/$CSPROJ | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
           dotnet pack runtimes/net/$CSPROJ  --no-build /p:Configuration=Release --output build
-          dotnet nuget push build/AWS.Cryptography.Internal.${{inputs.project}}.$VERSION.nupkg --source crypto-tools-internal/mpl-net-staging
+          dotnet nuget push build/AWS.Cryptography.Internal.${{inputs.project}}.$VERSION-${{github.sha}}.nupkg --source crypto-tools-internal/mpl-net-staging
       
       - name: Upload MPL to AWS CA
         working-directory: ./${{inputs.project}}
@@ -294,10 +293,7 @@ jobs:
         
           export VERSION=`grep '<Version>' runtimes/net/$CSPROJ | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
           dotnet pack runtimes/net/$CSPROJ  --no-build /p:Configuration=Release --output build
-          dotnet nuget push build/AWS.Cryptography.MaterialProviders.$VERSION.nupkg --source crypto-tools-internal/mpl-net-staging
-
-
-        
+          dotnet nuget push build/AWS.Cryptography.MaterialProviders.$VERSION-${{github.sha}}.nupkg --source crypto-tools-internal/mpl-net-staging
   
   # releaseToProd:
   #   needs: releaseToCA
