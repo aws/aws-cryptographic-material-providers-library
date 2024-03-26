@@ -134,14 +134,14 @@ jobs:
       - name: Set Environment Variables
         if: ${{inputs.project}} == 'AwsCryptographicMaterialProviders'
         run: |
-          echo "FILE_NAME="AWS.Cryptography.MaterialProviders.dll" | Out-File -FilePath $env:GITHUB_ENV -Append
-          echo "ASSEMBLY_NAME="AWS.Cryptography.MaterialProviders.dll" | Out-File -FilePath $env:GITHUB_ENV -Append
+          echo "FILE_NAME="AWS.Cryptography.MaterialProviders.dll" >> "$GITHUB_OUTPUT"
+          echo "ASSEMBLY_NAME="AWS.Cryptography.MaterialProviders.dll" >> "$GITHUB_OUTPUT"
 
       - name: Set Environment Variables
-        if: ${{inputs.project}} == 'AwsCryptographicMaterialProviders'
+        if: ${{inputs.project}} != 'AwsCryptographicMaterialProviders'
         run: |
-          echo "FILE_NAME="AWS.Cryptography.Internal.${{inputs.project}}.dll" | Out-File -FilePath $env:GITHUB_ENV -Append
-          echo "ASSEMBLY_NAME="AWS.Cryptography.Internal.${{inputs.project}}.dll" | Out-File -FilePath $env:GITHUB_ENV -Append
+          echo "FILE_NAME="AWS.Cryptography.Internal.${{inputs.project}}.dll" >> "$GITHUB_OUTPUT"
+          echo "ASSEMBLY_NAME="AWS.Cryptography.Internal.${{inputs.project}}.dll" >> "$GITHUB_OUTPUT"
 
       - name: Check Signatures for ${{matrix.dotnet-target}}
         run: |
