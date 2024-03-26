@@ -133,8 +133,8 @@ jobs:
       - name: Check Signatures on ${{matrix.dotnet-target}}
         if: ${{inputs.project}} != 'AwsCryptographicMaterialProviders'
         run: |
-          export FILE_NAME="AWS.Cryptography.Internal.${{inputs.project}}.dll"
-          export ASSEMBLY_NAME="AWS.Cryptography.Internal.${{inputs.project}}.dll"
+          set FILE_NAME="AWS.Cryptography.Internal.${{inputs.project}}.dll"
+          set ASSEMBLY_NAME="AWS.Cryptography.Internal.${{inputs.project}}.dll"
           mkdir ${{matrix.dotnet-target}}
           python codebuild/net/retrieve_signed_assembly.py --target ${{matrix.dotnet-target}} --unique-id $Env:UNIQUE_ID --output ${{matrix.dotnet-target}}
           $sig = Get-AuthenticodeSignature -FilePath ${{matrix.dotnet-target}}/$Env:FILE_NAME
@@ -143,8 +143,8 @@ jobs:
       - name: Check Signatures on ${{matrix.dotnet-target}}
         if: ${{inputs.project}} == 'AwsCryptographicMaterialProviders'
         run: |
-          export FILE_NAME="AWS.Cryptography.MaterialProviders.dll"
-          export ASSEMBLY_NAME="AWS.Cryptography.MaterialProviders.dll"
+          set FILE_NAME="AWS.Cryptography.MaterialProviders.dll"
+          set ASSEMBLY_NAME="AWS.Cryptography.MaterialProviders.dll"
           mkdir ${{matrix.dotnet-target}}
           python codebuild/net/retrieve_signed_assembly.py --target ${{matrix.dotnet-target}} --unique-id $Env:UNIQUE_ID --output ${{matrix.dotnet-target}}
           $sig = Get-AuthenticodeSignature -FilePath ${{matrix.dotnet-target}}/$Env:FILE_NAME
