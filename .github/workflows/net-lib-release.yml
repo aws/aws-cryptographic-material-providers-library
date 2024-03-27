@@ -264,7 +264,6 @@ jobs:
       - name: Upload ${{inputs.project}} to AWS CA
         working-directory: ./${{inputs.project}}
         shell: bash
-        if: inputs.project == 'AwsCryptographicMaterialProviders'
         run: |
           mkdir build
           aws codeartifact login \
@@ -292,11 +291,11 @@ jobs:
         working-directory: ./${{inputs.project}}
         shell: bash
         run: |
-          sed -i.backup  "/\<ProjectReference Include=\"..\/${CSPROJ}\" \/>/d" runtimes/net/tests/TEST_CSPROJ
+          sed -i.backup  "/\<ProjectReference Include=\"..\/${CSPROJ}\" \/>/d" runtimes/net/tests/$TEST_CSPROJ
           if [ "${{inputs.project}}" == "AwsCryptographicMaterialProviders" ]; then
-            dotnet add runtimes/net/tests/TEST_CSPROJ package AWS.Cryptography.MaterialProviders --version $SHA_VERSION
+            dotnet add runtimes/net/tests/$TEST_CSPROJ package AWS.Cryptography.MaterialProviders --version $SHA_VERSION
           else
-            dotnet add runtimes/net/tests/TEST_CSPROJ package AWS.Cryptography.Internal.${{inputs.project}} --version $SHA_VERSION
+            dotnet add runtimes/net/tests/$TEST_CSPROJ package AWS.Cryptography.Internal.${{inputs.project}} --version $SHA_VERSION
           fi
       
       - name: Configure AWS Credentials for Tests
