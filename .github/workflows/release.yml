@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Is user allowlisted?
         id: allowList
-        if: ${{ contains('["seebees","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","justplaz","ajewellamz"]', github.actor)}}
+        if: ${{ contains('["seebees","ShubhamChaturvedi7","texastony","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","justplaz","ajewellamz"]', github.actor)}}
         run: |
           echo "User ${{github.actor}} is allowed to run this action"
       - name: Error if blocklisted

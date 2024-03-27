@@ -26,7 +26,22 @@ on:
           type: string
 
 jobs:
+  allowList:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Is user allowlisted?
+        id: allowList
+        if: ${{ contains('["seebees","ShubhamChaturvedi7","texastony","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","justplaz","ajewellamz"]', github.actor)}}
+        run: |
+          echo "User ${{github.actor}} is allowed to run this action"
+      - name: Error if blocklisted
+        if: ${{steps.allowList.conclusion ==  'failure' || steps.allowList.conclusion == 'skipped'}}
+        uses: actions/github-script@v3
+        with:
+          script: |
+              core.setFailed('User ${{github.actor}} is not allow listed to run this workflow')
   releaseToCA:
+    needs: allowList
     strategy:
       matrix:
         library: [AwsCryptographicMaterialProviders]

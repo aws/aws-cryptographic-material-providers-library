@@ -36,10 +36,25 @@ on:
         
 
 jobs:
+  allowList:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Is user allowlisted?
+        id: allowList
+        if: ${{ contains('["seebees","ShubhamChaturvedi7","texastony","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","justplaz","ajewellamz"]', github.actor)}}
+        run: |
+          echo "User ${{github.actor}} is allowed to run this action"
+      - name: Error if blocklisted
+        if: ${{steps.allowList.conclusion ==  'failure' || steps.allowList.conclusion == 'skipped'}}
+        uses: actions/github-script@v3
+        with:
+          script: |
+              core.setFailed('User ${{github.actor}} is not allow listed to run this workflow')
   # To release in .NET, we release each module separately. 
   # Since other modules depend on other's there is an order in which we must release
   # 1. StandardLibrary, 2. AwsCryptographyPrimitives, ComAmazonawsKms, ComAmazonawsDynamodb, 3. AwsCryptographicMaterialProviders
   StandardLibrary:
+    needs: allowList
     uses: ./.github/workflows/net-lib-release.yml
     if: contains('["seebees","ShubhamChaturvedi7","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","justplaz","ajewellamz"]', github.actor)
     with:
