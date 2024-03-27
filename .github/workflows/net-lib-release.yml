@@ -223,7 +223,7 @@ jobs:
             --domain-owner 587316601012 \
             --region us-east-1
           
-          export VERSION=`grep '<Version>' runtimes/net/$CSPROJ | sed 's/.*<Version>\(.*\)<\/Version>/\1/'
+          export VERSION=`grep '<Version>' runtimes/net/$CSPROJ | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
           echo "RELEASE_VERSION=$VERSION" >> "$GITHUB_ENV"
           
           sed "s/<Version>\(.*\)<\/Version>/<Version>${RELEASE_VERSION}<\/Version>/g" runtimes/net/$CSPROJ > runtimes/net/tmp-$CSPROJ
