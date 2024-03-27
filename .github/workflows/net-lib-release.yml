@@ -211,6 +211,13 @@ jobs:
           python $BASE/retrieve_signed_assembly.py --target net6.0 --unique-id $UNIQUE_ID
           python $BASE/retrieve_signed_assembly.py --target net48 --unique-id $UNIQUE_ID
       
+      - name: Export Version
+        working-directory: ./${{inputs.project}}
+        shell: bash
+        run: |
+          export VERSION=`grep '<Version>' runtimes/net/$CSPROJ | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
+          echo "RELEASE_VERSION=$VERSION" >> "$GITHUB_ENV"
+          
       - name: Upload ${{inputs.project}} to AWS CA
         working-directory: ./${{inputs.project}}
         shell: bash
@@ -222,9 +229,6 @@ jobs:
             --domain crypto-tools-internal \
             --domain-owner 587316601012 \
             --region us-east-1
-          
-          export VERSION=`grep '<Version>' runtimes/net/$CSPROJ | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
-          echo "RELEASE_VERSION=$VERSION" >> "$GITHUB_ENV"
           
           sed "s/<Version>\(.*\)<\/Version>/<Version>${RELEASE_VERSION}<\/Version>/g" runtimes/net/$CSPROJ > runtimes/net/tmp-$CSPROJ
           mv runtimes/net/tmp-$CSPROJ runtimes/net/$CSPROJ
