@@ -301,7 +301,7 @@ jobs:
           mv runtimes/net/tmp-$CSPROJ runtimes/net/$CSPROJ
 
           dotnet pack runtimes/net/$CSPROJ  --no-build /p:Configuration=Release --output build
-          dotnet nuget push build/AWS.Cryptography.MaterialProviders.$VERSION-${{github.sha}}.nupkg --source crypto-tools-internal/mpl-net-staging
+          dotnet nuget push build/AWS.Cryptography.MaterialProviders.$VERSION-$SHA.nupkg --source crypto-tools-internal/mpl-net-staging
   
   # releaseToProd:
   #   needs: releaseToCA
