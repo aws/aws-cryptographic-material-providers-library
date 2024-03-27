@@ -27,7 +27,6 @@ on:
 
 jobs:
   releaseToCA:
-    if: contains('["seebees","ShubhamChaturvedi7","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","justplaz","ajewellamz"]', github.actor)
     strategy:
       matrix:
         library: [AwsCryptographicMaterialProviders]
