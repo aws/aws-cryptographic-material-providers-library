@@ -275,7 +275,7 @@ jobs:
             --region us-east-1
           
           export VERSION=`grep '<Version>' runtimes/net/$CSPROJ | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
-          SHA=$(git rev-parse HEAD | awk '{print substr($0,0,6)}')
+          SHA=$(git rev-parse HEAD | awk '{print substr($0,0,7)}')
           sed "s/<Version>\(.*\)<\/Version>/<Version>${VERSION}-${SHA}<\/Version>/g" runtimes/net/$CSPROJ > runtimes/net/tmp-$CSPROJ
           mv runtimes/net/tmp-$CSPROJ runtimes/net/$CSPROJ
 
@@ -296,7 +296,7 @@ jobs:
             --region us-east-1
         
           export VERSION=`grep '<Version>' runtimes/net/$CSPROJ | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
-          SHA=$(git rev-parse HEAD | awk '{print substr($0,0,6)}')
+          SHA=$(git rev-parse HEAD | awk '{print substr($0,0,7)}')
           sed "s/<Version>\(.*\)<\/Version>/<Version>${VERSION}-${SHA}<\/Version>/g" runtimes/net/$CSPROJ > runtimes/net/tmp-$CSPROJ
           mv runtimes/net/tmp-$CSPROJ runtimes/net/$CSPROJ
 
