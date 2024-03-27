@@ -275,9 +275,12 @@ jobs:
             --region us-east-1
           
           export VERSION=`grep '<Version>' runtimes/net/$CSPROJ | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
-          sed 's/<Version>\(.*\)<\/Version>/<Version>$VERSION-${{github.sha}}<\/Version>/g' runtimes/net/STD.csproj > runtimes/net/tmp-$CSPROJ; mv runtimes/net/tmp-$CSPROJ runtimes/net/$CSPROJ
+          SHA=$(git rev-parse HEAD | awk '{print substr($0,0,6)}')
+          sed "s/<Version>\(.*\)<\/Version>/<Version>${VERSION}-${SHA}<\/Version>/g" runtimes/net/$CSPROJ > runtimes/net/tmp-$CSPROJ
+          mv runtimes/net/tmp-$CSPROJ runtimes/net/$CSPROJ
+
           dotnet pack runtimes/net/$CSPROJ  --no-build /p:Configuration=Release --output build
-          dotnet nuget push build/AWS.Cryptography.Internal.${{inputs.project}}.$VERSION-${{github.sha}}.nupkg --source crypto-tools-internal/mpl-net-staging
+          dotnet nuget push build/AWS.Cryptography.Internal.${{inputs.project}}.$VERSION-$SHA.nupkg --source crypto-tools-internal/mpl-net-staging
       
       - name: Upload MPL to AWS CA
         working-directory: ./${{inputs.project}}
@@ -293,7 +296,10 @@ jobs:
             --region us-east-1
         
           export VERSION=`grep '<Version>' runtimes/net/$CSPROJ | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
-          sed 's/<Version>\(.*\)<\/Version>/<Version>$VERSION-${{github.sha}}<\/Version>/g' runtimes/net/STD.csproj > runtimes/net/tmp-$CSPROJ; mv runtimes/net/tmp-$CSPROJ runtimes/net/$CSPROJ
+          SHA=$(git rev-parse HEAD | awk '{print substr($0,0,6)}')
+          sed "s/<Version>\(.*\)<\/Version>/<Version>${VERSION}-${SHA}<\/Version>/g" runtimes/net/$CSPROJ > runtimes/net/tmp-$CSPROJ
+          mv runtimes/net/tmp-$CSPROJ runtimes/net/$CSPROJ
+
           dotnet pack runtimes/net/$CSPROJ  --no-build /p:Configuration=Release --output build
           dotnet nuget push build/AWS.Cryptography.MaterialProviders.$VERSION-${{github.sha}}.nupkg --source crypto-tools-internal/mpl-net-staging
   
