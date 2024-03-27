@@ -54,6 +54,36 @@ module {:extern "UTF8"} UTF8 {
     Failure(error)
   }
 
+ // must be true for any correct UTF8 implementation
+  lemma {:axiom} Utf8EncodeUnique(x : string, y : string)
+    requires Encode(x).Success?
+    requires Encode(y).Success?
+    ensures x == y ==> Encode(x).value == Encode(y).value
+    ensures x != y ==> Encode(x).value != Encode(y).value
+    ensures x <= y ==> Encode(x).value <= Encode(y).value
+    ensures x <  y ==> Encode(x).value <  Encode(y).value
+    ensures y <= x ==> Encode(y).value <= Encode(x).value
+    ensures y <  x ==> Encode(y).value <  Encode(x).value
+    ensures !(x <= y) ==> !(Encode(x).value <= Encode(y).value)
+    ensures !(x <  y) ==> !(Encode(x).value <  Encode(y).value)
+    ensures !(y <= x) ==> !(Encode(y).value <= Encode(x).value)
+    ensures !(y <  x) ==> !(Encode(y).value <  Encode(x).value)
+
+  // must be true for any correct UTF8 implementation
+  lemma {:axiom} Utf8DecodeUnique(x : seq<uint8>, y : seq<uint8>)
+    requires Decode(x).Success?
+    requires Decode(y).Success?
+    ensures x == y ==> Decode(x).value == Decode(y).value
+    ensures x != y ==> Decode(x).value != Decode(y).value
+    ensures x <= y ==> Decode(x).value <= Decode(y).value
+    ensures x <  y ==> Decode(x).value <  Decode(y).value
+    ensures y <= x ==> Decode(y).value <= Decode(x).value
+    ensures y <  x ==> Decode(y).value <  Decode(x).value
+    ensures !(x <= y) ==> !(Decode(x).value <= Decode(y).value)
+    ensures !(x <  y) ==> !(Decode(x).value <  Decode(y).value)
+    ensures !(y <= x) ==> !(Decode(y).value <= Decode(x).value)
+    ensures !(y <  x) ==> !(Decode(y).value <  Decode(x).value)
+
   predicate method IsASCIIString(s: string) {
     forall i :: 0 <= i < |s| ==> s[i] as int < 128
   }
