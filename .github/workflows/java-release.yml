@@ -12,9 +12,22 @@ on:
           description: "The version being released"
           required: true
           type: string
+  # Useful to run this action by itself since sometimes to apply hot patches
+  # to just java we need to only release a jva build
+  workflow_dispatch:
+    inputs:
+      dafny:
+        description: "The Dafny version to run"
+        required: true
+        type: string
+      version:
+          description: "The version being released"
+          required: true
+          type: string
 
 jobs:
   releaseToCA:
+    if: contains('["seebees","ShubhamChaturvedi7","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","justplaz","ajewellamz"]', github.actor)
     strategy:
       matrix:
         library: [AwsCryptographicMaterialProviders]

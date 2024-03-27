@@ -32,8 +32,43 @@ on:
           description: "Assembly File Name for project"
           required: true
           type: string
+  # Sometimes you need to only run one release project of the MPL.
+  # Having this set up allows us to make releases from other branches where we
+  # have to apply hot patches without adding more commits to HEAD `main`
+  workflow_dispatch:
+    inputs:
+      dafny:
+        description: "The Dafny version to run"
+        required: true
+        type: string
+      version:
+          description: "The version being released"
+          required: true
+          type: string
+      unique-id:
+          description: "The unique signing id"
+          required: true
+          type: string
+      project:
+          description: "The project being released"
+          required: true
+          type: string
+      csproj:
+          description: "The csproj file name"
+          required: true
+          type: string
+      test_csproj:
+          description: "The csproj test file name"
+          required: true
+          type: string
+      assembly_name:
+          description: "Assembly File Name for project"
+          required: true
+          type: string
+
 jobs:
   sign:
+    if: contains('["seebees","ShubhamChaturvedi7","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","justplaz","ajewellamz"]', github.actor)
     strategy:
       matrix:
         dotnet-version: ["6.0.x"]
