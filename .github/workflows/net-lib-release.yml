@@ -272,8 +272,8 @@ jobs:
             --domain crypto-tools-internal \
             --domain-owner 587316601012 \
             --region us-east-1
-        
-          export VERSION=`grep '<Version>' runtimes/net/$CSPROJ | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
+          
+          echo "VERSION=`grep '<Version>' runtimes/net/$CSPROJ | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`" >> "$GITHUB_ENV"
           
           sed "s/<Version>\(.*\)<\/Version>/<Version>${VERSION}<\/Version>/g" runtimes/net/$CSPROJ > runtimes/net/tmp-$CSPROJ
           mv runtimes/net/tmp-$CSPROJ runtimes/net/$CSPROJ
