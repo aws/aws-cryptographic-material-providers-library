@@ -260,29 +260,8 @@ jobs:
             echo "Unknow Project\n";
             exit 1;
           fi
-
-      - name: Upload to AWS CA
-        working-directory: ./${{inputs.project}}
-        shell: bash
-        if: inputs.project != 'AwsCryptographicMaterialProviders'
-        run: |
-          mkdir build
-          aws codeartifact login \
-            --tool dotnet \
-            --repository mpl-net-staging \
-            --domain crypto-tools-internal \
-            --domain-owner 587316601012 \
-            --region us-east-1
-          
-          export VERSION=`grep '<Version>' runtimes/net/$CSPROJ | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
-          SHA=$(git rev-parse HEAD | awk '{print substr($0,0,7)}')
-          sed "s/<Version>\(.*\)<\/Version>/<Version>${VERSION}-${SHA}<\/Version>/g" runtimes/net/$CSPROJ > runtimes/net/tmp-$CSPROJ
-          mv runtimes/net/tmp-$CSPROJ runtimes/net/$CSPROJ
-
-          dotnet pack runtimes/net/$CSPROJ  --no-build /p:Configuration=Release --output build
-          dotnet nuget push build/AWS.Cryptography.Internal.${{inputs.project}}.$VERSION-$SHA.nupkg --source crypto-tools-internal/mpl-net-staging
       
-      - name: Upload MPL to AWS CA
+      - name: Upload ${{inputs.project}} to AWS CA
         working-directory: ./${{inputs.project}}
         shell: bash
         if: inputs.project == 'AwsCryptographicMaterialProviders'
@@ -297,11 +276,41 @@ jobs:
         
           export VERSION=`grep '<Version>' runtimes/net/$CSPROJ | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
           SHA=$(git rev-parse HEAD | awk '{print substr($0,0,7)}')
+          echo "SHA_VERSION=${VERSION}-${SHA}" >> "$GITHUB_ENV"
+          
           sed "s/<Version>\(.*\)<\/Version>/<Version>${VERSION}-${SHA}<\/Version>/g" runtimes/net/$CSPROJ > runtimes/net/tmp-$CSPROJ
           mv runtimes/net/tmp-$CSPROJ runtimes/net/$CSPROJ
 
           dotnet pack runtimes/net/$CSPROJ  --no-build /p:Configuration=Release --output build
-          dotnet nuget push build/AWS.Cryptography.MaterialProviders.$VERSION-$SHA.nupkg --source crypto-tools-internal/mpl-net-staging
+          if [ "${{inputs.project}}" == "AwsCryptographicMaterialProviders" ]; then
+            dotnet nuget push build/AWS.Cryptography.MaterialProviders.$VERSION-$SHA.nupkg --source crypto-tools-internal/mpl-net-staging
+          else
+            dotnet nuget push build/AWS.Cryptography.Internal.${{inputs.project}}.$VERSION-$SHA.nupkg --source crypto-tools-internal/mpl-net-staging
+          fi
+
+      - name: Pull Down AWS CA Published Artifact
+        working-directory: ./${{inputs.project}}
+        shell: bash
+        run: |
+          sed -i.backup  "/\<ProjectReference Include=\"..\/${CSPROJ}\" \/>/d" runtimes/net/tests/TEST_CSPROJ
+          if [ "${{inputs.project}}" == "AwsCryptographicMaterialProviders" ]; then
+            dotnet add runtimes/net/tests/TEST_CSPROJ package AWS.Cryptography.MaterialProviders --version $SHA_VERSION
+          else
+            dotnet add runtimes/net/tests/TEST_CSPROJ package AWS.Cryptography.Internal.${{inputs.project}} --version $SHA_VERSION
+          fi
+      
+      - name: Configure AWS Credentials for Tests
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
+          role-session-name: NetReleaseTests
+      
+      - name: Test AWS CA Published Artifact
+        working-directory: ./${{inputs.project}}
+        shell: bash
+        run: |
+          make test_net FRAMEWORK=net6.0
   
   # releaseToProd:
   #   needs: releaseToCA
