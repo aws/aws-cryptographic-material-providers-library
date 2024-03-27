@@ -54,7 +54,7 @@ module {:extern "UTF8"} UTF8 {
     Failure(error)
   }
 
- // must be true for any correct UTF8 implementation
+  // must be true for any correct UTF8 implementation
   lemma {:axiom} Utf8EncodeUnique(x : string, y : string)
     requires Encode(x).Success?
     requires Encode(y).Success?
