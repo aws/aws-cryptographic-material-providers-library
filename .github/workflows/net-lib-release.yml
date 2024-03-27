@@ -68,7 +68,6 @@ on:
 
 jobs:
   sign:
-    if: contains('["seebees","ShubhamChaturvedi7","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","justplaz","ajewellamz"]', github.actor)
     strategy:
       matrix:
         dotnet-version: ["6.0.x"]

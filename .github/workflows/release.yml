@@ -11,7 +11,7 @@ on:
 
 jobs:
   getVersion:
-    if: contains('["seebees","ShubhamChaturvedi7","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","justplaz","ajewellamz"]', github.actor)
+    if: contains('["seebees","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","justplaz","ajewellamz"]', github.actor)
     uses: ./.github/workflows/dafny_version.yaml
   getUniqueId:
     uses: ./.github/workflows/create_unique_id.yml
