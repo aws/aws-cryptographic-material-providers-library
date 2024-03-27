@@ -20,6 +20,18 @@ on:
           description: "The project being released"
           required: true
           type: string
+      csproj:
+          description: "The csproj file name"
+          required: true
+          type: string
+      test_csproj:
+          description: "The csproj test file name"
+          required: true
+          type: string
+      assembly_name:
+          description: "Assembly File Name for project"
+          required: true
+          type: string
 jobs:
   sign:
     strategy:
@@ -31,6 +43,10 @@ jobs:
       contents: read
     env:
       UNIQUE_ID: ${{inputs.unique-id}}
+      CSPROJ: ${{inputs.csproj}}
+      TEST_CSPROJ: ${{inputs.test_csproj}}
+      ASSEMBLY_NAME: ${{inputs.assembly_name}}
+      FILE_NAME: ${{inputs.assembly_name}} 
     steps:
       - name: Support longpaths on Git checkout
         run: |
@@ -87,27 +103,6 @@ jobs:
           dotnet build runtimes/net /p:Configuration=Release -nowarn:CS0162,CS0168
 
       - name: Upload ${{inputs.project}} DLL to signing bucket
-        if: inputs.project != 'AwsCryptographicMaterialProviders'
-        env:
-          FILE_NAME: "AWS.Cryptography.Internal.${{inputs.project}}.dll"
-          ASSEMBLY_NAME: "AWS.Cryptography.Internal.${{inputs.project}}.dll"
-        shell: bash
-        working-directory: ./${{inputs.project}}
-        run: |
-          pip install boto3
-          export BASE=../codebuild/net
-          python $BASE/upload_assembly.py --target net6.0 --unique-id $UNIQUE_ID
-          python $BASE/upload_assembly.py --target net48 --unique-id $UNIQUE_ID
-          ## Retrieve the signed assembly. We're not going to use it, but this
-          ## ensures that the signing process is complete
-          python $BASE/retrieve_signed_assembly.py --target net6.0 --unique-id $UNIQUE_ID
-          python $BASE/retrieve_signed_assembly.py --target net48 --unique-id $UNIQUE_ID
-      
-      - name: Upload ${{inputs.project}} DLL to signing bucket
-        if: inputs.project == 'AwsCryptographicMaterialProviders'
-        env:
-          FILE_NAME: "AWS.Cryptography.MaterialProviders.dll"
-          ASSEMBLY_NAME: "AWS.Cryptography.MaterialProviders.dll"
         shell: bash
         working-directory: ./${{inputs.project}}
         run: |
@@ -128,6 +123,10 @@ jobs:
         dotnet-target: [net48, net6.0]
     env:
       UNIQUE_ID: ${{inputs.unique-id}}
+      CSPROJ: ${{inputs.csproj}}
+      TEST_CSPROJ: ${{inputs.test_csproj}}
+      ASSEMBLY_NAME: ${{inputs.assembly_name}}
+      FILE_NAME: ${{inputs.assembly_name}} 
     runs-on: codebuild-AWS-MPL-Release-${{ github.run_id }}-${{ github.run_attempt }}-windows-3.0-large
     permissions:
       id-token: write
@@ -153,22 +152,6 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
       
       - name: Check Signatures for ${{inputs.project}} ${{matrix.dotnet-target}}
-        if: inputs.project != 'AwsCryptographicMaterialProviders'
-        env:
-          FILE_NAME: "AWS.Cryptography.Internal.${{inputs.project}}.dll"
-          ASSEMBLY_NAME: "AWS.Cryptography.Internal.${{inputs.project}}.dll"
-        run: |
-          pip install boto3
-          mkdir ${{matrix.dotnet-target}}
-          python codebuild/net/retrieve_signed_assembly.py --target ${{matrix.dotnet-target}} --unique-id $Env:UNIQUE_ID --output ${{matrix.dotnet-target}}
-          $sig = Get-AuthenticodeSignature -FilePath ${{matrix.dotnet-target}}/$Env:FILE_NAME
-          $sig | Format-List -Property *
-      
-      - name: Check Signatures for ${{inputs.project}} ${{matrix.dotnet-target}}
-        if: inputs.project == 'AwsCryptographicMaterialProviders'
-        env:
-          FILE_NAME: "AWS.Cryptography.MaterialProviders.dll"
-          ASSEMBLY_NAME: "AWS.Cryptography.MaterialProviders.dll"
         run: |
           pip install boto3
           mkdir ${{matrix.dotnet-target}}
@@ -183,6 +166,9 @@ jobs:
         dotnet-version: ["6.0.x"]
     env:
       UNIQUE_ID: ${{inputs.unique-id}}
+      CSPROJ: ${{inputs.csproj}}
+      TEST_CSPROJ: ${{inputs.test_csproj}}
+      ASSEMBLY_NAME: ${{inputs.assembly_name}}
     runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
     permissions:
       id-token: write
@@ -217,49 +203,13 @@ jobs:
           dotnet build runtimes/net /p:Configuration=Release -nowarn:CS0162,CS0168
       
       - name: Get Signed DLL for ${{inputs.project}}
-        if: inputs.project != 'AwsCryptographicMaterialProviders'
         env:
-          ASSEMBLY_NAME: "AWS.Cryptography.Internal.${{inputs.project}}.dll"
           BASE: "../codebuild/net"
         working-directory: ./${{inputs.project}}
         run: |
           pip install boto3
           python $BASE/retrieve_signed_assembly.py --target net6.0 --unique-id $UNIQUE_ID
           python $BASE/retrieve_signed_assembly.py --target net48 --unique-id $UNIQUE_ID
-      
-      - name: Get Signed DLL for ${{inputs.project}}
-        if: inputs.project == 'AwsCryptographicMaterialProviders'
-        env:
-          ASSEMBLY_NAME: "AWS.Cryptography.MaterialProviders.dll"
-          BASE: "../codebuild/net"
-        working-directory: ./${{inputs.project}}
-        run: |
-          pip install boto3
-          python $BASE/retrieve_signed_assembly.py --target net6.0 --unique-id $UNIQUE_ID
-          python $BASE/retrieve_signed_assembly.py --target net48 --unique-id $UNIQUE_ID
-        
-      - name: Determine .csproj
-        # It is unfortuante it looks like this.
-        run: |
-          if [ "${{inputs.project}}" == "StandardLibrary" ]; then
-            echo "CSPROJ=STD.csproj" >> "$GITHUB_ENV"
-            echo "TEST_CSPROJ=Test-STD.csproj" >> "$GITHUB_ENV"
-          elif [ "${{inputs.project}}" == "AwsCryptographyPrimitives" ]; then
-            echo "CSPROJ=Crypto.csproj" >> "$GITHUB_ENV"
-            echo "TEST_CSPROJ=Test-Crypto.csproj" >> "$GITHUB_ENV"
-          elif [ "${{inputs.project}}" == "ComAmazonawsKms" ]; then
-            echo "CSPROJ=AWS-KMS.csproj" >> "$GITHUB_ENV"
-            echo "TEST_CSPROJ=Test-AWS-KMS.csproj" >> "$GITHUB_ENV"
-          elif [ "${{inputs.project}}" == "ComAmazonawsDynamodb" ]; then
-            echo "CSPROJ=ComAmazonawsDynamodb.csproj" >> "$GITHUB_ENV"
-            echo "TEST_CSPROJ=TestComAmazonawsDynamodb.csproj" >> "$GITHUB_ENV"
-          elif [ "${{inputs.project}}" == "AwsCryptographicMaterialProviders" ]; then
-            echo "CSPROJ=MPL.csproj" >> "$GITHUB_ENV"
-            echo "TEST_CSPROJ=Test-MPL.csproj" >> "$GITHUB_ENV"
-          else
-            echo "Unknow Project\n";
-            exit 1;
-          fi
       
       - name: Upload ${{inputs.project}} to AWS CA
         working-directory: ./${{inputs.project}}
@@ -273,16 +223,17 @@ jobs:
             --domain-owner 587316601012 \
             --region us-east-1
           
-          echo "VERSION=`grep '<Version>' runtimes/net/$CSPROJ | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`" >> "$GITHUB_ENV"
+          export VERSION=`grep '<Version>' runtimes/net/$CSPROJ | sed 's/.*<Version>\(.*\)<\/Version>/\1/'
+          echo "RELEASE_VERSION=$VERSION" >> "$GITHUB_ENV"
           
-          sed "s/<Version>\(.*\)<\/Version>/<Version>${VERSION}<\/Version>/g" runtimes/net/$CSPROJ > runtimes/net/tmp-$CSPROJ
+          sed "s/<Version>\(.*\)<\/Version>/<Version>${RELEASE_VERSION}<\/Version>/g" runtimes/net/$CSPROJ > runtimes/net/tmp-$CSPROJ
           mv runtimes/net/tmp-$CSPROJ runtimes/net/$CSPROJ
 
           dotnet pack runtimes/net/$CSPROJ  --no-build /p:Configuration=Release --output build
           if [ "${{inputs.project}}" == "AwsCryptographicMaterialProviders" ]; then
-            dotnet nuget push build/AWS.Cryptography.MaterialProviders.$VERSION.nupkg --source crypto-tools-internal/mpl-net-staging
+            dotnet nuget push build/AWS.Cryptography.MaterialProviders.$RELEASE_VERSION.nupkg --source crypto-tools-internal/mpl-net-staging
           else
-            dotnet nuget push build/AWS.Cryptography.Internal.${{inputs.project}}.$VERSION.nupkg --source crypto-tools-internal/mpl-net-staging
+            dotnet nuget push build/AWS.Cryptography.Internal.${{inputs.project}}.$RELEASE_VERSION.nupkg --source crypto-tools-internal/mpl-net-staging
           fi
 
       - name: Pull Down AWS CA Published Artifact
@@ -291,9 +242,9 @@ jobs:
         run: |
           sed -i.backup  "/\<ProjectReference Include=\"..\/${CSPROJ}\" \/>/d" runtimes/net/tests/$TEST_CSPROJ
           if [ "${{inputs.project}}" == "AwsCryptographicMaterialProviders" ]; then
-            dotnet add runtimes/net/tests/$TEST_CSPROJ package AWS.Cryptography.MaterialProviders --version $VERSION
+            dotnet add runtimes/net/tests/$TEST_CSPROJ package AWS.Cryptography.MaterialProviders --version $RELEASE_VERSION
           else
-            dotnet add runtimes/net/tests/$TEST_CSPROJ package AWS.Cryptography.Internal.${{inputs.project}} --version $VERSION
+            dotnet add runtimes/net/tests/$TEST_CSPROJ package AWS.Cryptography.Internal.${{inputs.project}} --version $RELEASE_VERSION
           fi
       
       - name: Configure AWS Credentials for Tests

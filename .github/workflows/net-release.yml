@@ -29,6 +29,9 @@ jobs:
       version: ${{inputs.version}}
       unique-id: ${{inputs.unique-id}}
       project: "StandardLibrary"
+      csproj: "STD.csproj"
+      test_csproj: "Test-STD.csproj"
+      assembly_name: "AWS.Cryptography.Internal.StandardLibrary.dll"
 
   Primitives:
     needs: StandardLibrary
@@ -38,6 +41,9 @@ jobs:
       version: ${{inputs.version}}
       unique-id: ${{inputs.unique-id}}
       project: "AwsCryptographyPrimitives"
+      csproj: "Crypto.csproj"
+      test_csproj: "Test-Crypto.csproj"
+      assembly_name: "AWS.Cryptography.Internal.AwsCryptographyPrimitives.dll"
 
   Kms:
     needs: StandardLibrary
@@ -47,6 +53,9 @@ jobs:
       version: ${{inputs.version}}
       unique-id: ${{inputs.unique-id}}
       project: "ComAmazonawsKms"
+      csproj: "AWS-KMS.csproj"
+      test_csproj: "Test-AWS-KMS.csproj"
+      assembly_name: "AWS.Cryptography.Internal.ComAmazonawsKms.dll"
 
   DynamoDb:
     needs: StandardLibrary
@@ -56,6 +65,9 @@ jobs:
       version: ${{inputs.version}}
       unique-id: ${{inputs.unique-id}}
       project: "ComAmazonawsDynamodb"
+      csproj: "ComAmazonawsDynamodb.csproj"
+      test_csproj: "TestComAmazonawsDynamodb.csproj"
+      assembly_name: "AWS.Cryptography.Internal.ComAmazonawsDynamodb.dll"
 
   MPL:
     needs: [StandardLibrary, Primitives, Kms, DynamoDb ]
@@ -65,4 +77,8 @@ jobs:
       version: ${{inputs.version}}
       unique-id: ${{inputs.unique-id}}
       project: "AwsCryptographicMaterialProviders"
+      csproj: "MPL.csproj"
+      test_csproj: "Test-MPL.csproj"
+      assembly_name: "AWS.Cryptography.MaterialProviders.dll"
+
       
