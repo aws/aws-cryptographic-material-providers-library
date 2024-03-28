@@ -19,4 +19,4 @@ jobs:
         uses: actions/github-script@v3
         with:
           script: |
-              core.setFailed('${{github.actor}} is not allow listed to run this workflow')
+            core.setFailed('${{github.actor}} is not allow listed to run this workflow')

@@ -1,5 +1,5 @@
 # This workflow uses nodejs to create a unique id for the signing lambda
-name: Unique Signing ID 
+name: Unique Signing ID
 
 on:
   workflow_call:
@@ -14,11 +14,11 @@ jobs:
     outputs:
       unique-id: ${{steps.generate-id.outputs.UNIQUE_ID}}
     steps:
-        - uses: actions/checkout@v4
-        - uses: actions/setup-node@v4
-          with:
-            node-version: 18
-        - name: Generate a Unique ID
-          id: generate-id
-          run: |
-            echo "UNIQUE_ID=$(node -e 'console.log(crypto.randomUUID())')" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Generate a Unique ID
+        id: generate-id
+        run: |
+          echo "UNIQUE_ID=$(node -e 'console.log(crypto.randomUUID())')" >> "$GITHUB_OUTPUT"
