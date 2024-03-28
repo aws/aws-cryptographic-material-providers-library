@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "AwsCryptographyKeyStoreOperations.dfy"
-include "../../../dafny/AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
-include "../../AwsCryptographicMaterialProviders/src/Keyrings/AwsKms/AwsKmsUtils.dfy"
+
+include "ErrorMessages.dfy"
+include "KmsArn.dfy"
 
 module {:extern "software.amazon.cryptography.keystore.internaldafny"}
   KeyStore refines AbstractAwsCryptographyKeyStoreService
 {
-  import opened AwsArnParsing
   import opened AwsKmsUtils
   import Operations = AwsCryptographyKeyStoreOperations
   import KMSOperations = Com.Amazonaws.Kms
@@ -16,13 +16,15 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
   import KMS = ComAmazonawsKmsTypes
   import DDB = ComAmazonawsDynamodbTypes
   import UUID
+  import ErrorMessages
+  import KmsArn
 
   // There is no sensible default, so define something that passes verification but will fail at runtime
   function method DefaultKeyStoreConfig(): KeyStoreConfig
   {
     KeyStoreConfig(
       ddbTableName := "None",
-      kmsConfiguration := KMSConfiguration.kmsKeyArn("1234abcd-12ab-34cd-56ef-1234567890ab"),
+      kmsConfiguration := KMSConfiguration.kmsKeyArn("a"),
       logicalKeyStoreName := "None",
       id := None,
       grantTokens := None,
@@ -32,11 +34,11 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
   }
 
   method KeyStore(config: KeyStoreConfig)
-    returns (res: Result<IKeyStoreClient, Error>)
+    returns (res: Result<KeyStoreClient, Error>)
     ensures res.Success? ==>
               && res.value is KeyStoreClient
               && var rconfig := (res.value as KeyStoreClient).config;
-              && KMS.IsValid_KeyIdType(rconfig.kmsConfiguration.kmsKeyArn)
+              && (rconfig.kmsConfiguration.kmsKeyArn? ==> KmsArn.ValidKmsArn?(rconfig.kmsConfiguration.kmsKeyArn))
               && DDB.IsValid_TableName(config.ddbTableName)
               && GetValidGrantTokens(config.grantTokens).Success?
               && (config.kmsClient.Some? ==> rconfig.kmsClient == config.kmsClient.value)
@@ -46,16 +48,19 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
     ensures
       && !DDB.IsValid_TableName(config.ddbTableName)
       && !KMS.IsValid_KeyIdType(config.kmsConfiguration.kmsKeyArn)
-      && ParseAwsKmsArn(config.kmsConfiguration.kmsKeyArn).Failure?
       ==>
         res.Failure?
   {
-    :- Need(
-      && KMS.IsValid_KeyIdType(config.kmsConfiguration.kmsKeyArn)
-      && ParseAwsKmsArn(config.kmsConfiguration.kmsKeyArn).Success?,
-      Types.KeyStoreException(
-        message := "Invalid AWS KMS Key Arn")
-    );
+    var kmsClient: KMS.IKMSClient;
+    var ddbClient: DDB.IDynamoDBClient;
+    var inferredRegion: Option<string> := None;
+
+    if config.kmsConfiguration.kmsKeyArn? {
+      var parsedArn :- KmsArn.IsValidKeyArn(config.kmsConfiguration.kmsKeyArn);
+      // If KMS Configuration is a KMS Key ARN,
+      // try to get KMS && DDB Clients for that Key's Region
+      inferredRegion := Some(parsedArn.region);
+    }
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#initialization
     //# The following inputs MAY be specified to create a KeyStore:
@@ -63,7 +68,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
     :- Need(
       && grantTokens.Success?,
       Types.KeyStoreException(
-        message := "CreateKey received invalid grant tokens")
+        message := "Grant Tokens passed to Key Store configuration are invalid.")
     );
 
     var keyStoreId;
@@ -79,30 +84,32 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
       keyStoreId := uuid;
     }
 
-    var kmsClient: KMS.IKMSClient;
-    var ddbClient: DDB.IDynamoDBClient;
-
-    var keyArn := ParseAwsKmsIdentifier(config.kmsConfiguration.kmsKeyArn);
-    var kmsRegion := GetRegion(keyArn.value);
-
-    if config.kmsClient.None? {
-      var maybeKmsClient := KMSOperations.KMSClientForRegion(kmsRegion.value);
+    if config.kmsClient.Some? {
+      kmsClient := config.kmsClient.value;
+    } else if config.kmsClient.None? && inferredRegion.Some? {
+      var maybeKmsClient := KMSOperations.KMSClientForRegion(inferredRegion.value);
       kmsClient :- maybeKmsClient
       .MapFailure(e => Types.ComAmazonawsKms(ComAmazonawsKms := e));
     } else {
-      kmsClient := config.kmsClient.value;
+      var maybeKmsClient := KMSOperations.KMSClient();
+      kmsClient :- maybeKmsClient
+      .MapFailure(e => Types.ComAmazonawsKms(ComAmazonawsKms := e));
     }
 
-    if config.ddbClient.None? {
-      var maybeDdbClient := DDBOperations.DDBClientForRegion(kmsRegion.value);
+    if config.ddbClient.Some? {
+      ddbClient := config.ddbClient.value;
+    } else if config.ddbClient.None? && inferredRegion.Some? {
+      var maybeDdbClient := DDBOperations.DDBClientForRegion(inferredRegion.value);
       ddbClient :- maybeDdbClient
       .MapFailure(e => Types.ComAmazonawsDynamodb(ComAmazonawsDynamodb := e));
     } else {
-      ddbClient := config.ddbClient.value;
-
-      // This is true but to prove it requires changes to smithy-dafny.
-      assume {:axiom} ddbClient.Modifies !! kmsClient.Modifies;
+      var maybeDdbClient := DDBOperations.DynamoDBClient();
+      ddbClient :- maybeDdbClient
+      .MapFailure(e => Types.ComAmazonawsDynamodb(ComAmazonawsDynamodb := e));
     }
+
+    // This is true but to prove it requires changes to smithy-dafny.
+    assume {:axiom} ddbClient.Modifies !! kmsClient.Modifies;
 
       //= aws-encryption-sdk-specification/framework/branch-key-store.md#initialization
       //# The following inputs MUST be specified to create a KeyStore:
@@ -123,7 +130,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
       ddbClient := ddbClient
       )
     );
-    return Success(client as IKeyStoreClient);
+    return Success(client);
   }
 
   class KeyStoreClient... {
