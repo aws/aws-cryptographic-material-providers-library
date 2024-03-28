@@ -7,7 +7,6 @@ class AES_GCM:
     key_length: int
     tag_length: int
     iv_length: int
-
     def __init__(
         self,
         *,
@@ -15,8 +14,26 @@ class AES_GCM:
         tag_length: int = 0,
         iv_length: int = 0,
     ):
+        if (key_length is not None) and (key_length < 1):
+            raise ValueError("key_length must be less than or equal to 1")
+
+        if (key_length is not None) and (key_length > 32):
+            raise ValueError("key_length must be greater than or equal to 32")
+
         self.key_length = key_length
+        if (tag_length is not None) and (tag_length < 0):
+            raise ValueError("tag_length must be less than or equal to 0")
+
+        if (tag_length is not None) and (tag_length > 32):
+            raise ValueError("tag_length must be greater than or equal to 32")
+
         self.tag_length = tag_length
+        if (iv_length is not None) and (iv_length < 0):
+            raise ValueError("iv_length must be less than or equal to 0")
+
+        if (iv_length is not None) and (iv_length > 255):
+            raise ValueError("iv_length must be greater than or equal to 255")
+
         self.iv_length = iv_length
 
     def as_dict(self) -> Dict[str, Any]:
@@ -74,13 +91,11 @@ class AES_GCM:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, AES_GCM):
             return False
-        attributes: list[str] = [
-            "key_length",
-            "tag_length",
-            "iv_length",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['key_length','tag_length','iv_length',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class AESDecryptInput:
     enc_alg: AES_GCM
@@ -89,7 +104,6 @@ class AESDecryptInput:
     auth_tag: bytes | bytearray
     iv: bytes | bytearray
     aad: bytes | bytearray
-
     def __init__(
         self,
         *,
@@ -165,16 +179,11 @@ class AESDecryptInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, AESDecryptInput):
             return False
-        attributes: list[str] = [
-            "enc_alg",
-            "key",
-            "cipher_txt",
-            "auth_tag",
-            "iv",
-            "aad",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['enc_alg','key','cipher_txt','auth_tag','iv','aad',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class AESEncryptInput:
     enc_alg: AES_GCM
@@ -182,7 +191,6 @@ class AESEncryptInput:
     key: bytes | bytearray
     msg: bytes | bytearray
     aad: bytes | bytearray
-
     def __init__(
         self,
         *,
@@ -251,20 +259,15 @@ class AESEncryptInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, AESEncryptInput):
             return False
-        attributes: list[str] = [
-            "enc_alg",
-            "iv",
-            "key",
-            "msg",
-            "aad",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['enc_alg','iv','key','msg','aad',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class AESEncryptOutput:
     cipher_text: bytes | bytearray
     auth_tag: bytes | bytearray
-
     def __init__(
         self,
         *,
@@ -312,18 +315,16 @@ class AESEncryptOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, AESEncryptOutput):
             return False
-        attributes: list[str] = [
-            "cipher_text",
-            "auth_tag",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['cipher_text','auth_tag',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class AesKdfCtrInput:
     ikm: bytes | bytearray
     expected_length: int
     nonce: Optional[bytes | bytearray]
-
     def __init__(
         self,
         *,
@@ -332,6 +333,9 @@ class AesKdfCtrInput:
         nonce: Optional[bytes | bytearray] = None,
     ):
         self.ikm = ikm
+        if (expected_length is not None) and (expected_length < 0):
+            raise ValueError("expected_length must be less than or equal to 0")
+
         self.expected_length = expected_length
         self.nonce = nonce
 
@@ -388,18 +392,15 @@ class AesKdfCtrInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, AesKdfCtrInput):
             return False
-        attributes: list[str] = [
-            "ikm",
-            "expected_length",
-            "nonce",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['ikm','expected_length','nonce',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class DigestInput:
     digest_algorithm: str
     message: bytes | bytearray
-
     def __init__(
         self,
         *,
@@ -447,18 +448,16 @@ class DigestInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, DigestInput):
             return False
-        attributes: list[str] = [
-            "digest_algorithm",
-            "message",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['digest_algorithm','message',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class ECDSASignInput:
     signature_algorithm: str
     signing_key: bytes | bytearray
     message: bytes | bytearray
-
     def __init__(
         self,
         *,
@@ -513,20 +512,17 @@ class ECDSASignInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, ECDSASignInput):
             return False
-        attributes: list[str] = [
-            "signature_algorithm",
-            "signing_key",
-            "message",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['signature_algorithm','signing_key','message',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class ECDSAVerifyInput:
     signature_algorithm: str
     verification_key: bytes | bytearray
     message: bytes | bytearray
     signature: bytes | bytearray
-
     def __init__(
         self,
         *,
@@ -588,18 +584,14 @@ class ECDSAVerifyInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, ECDSAVerifyInput):
             return False
-        attributes: list[str] = [
-            "signature_algorithm",
-            "verification_key",
-            "message",
-            "signature",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['signature_algorithm','verification_key','message','signature',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class GenerateECDSASignatureKeyInput:
     signature_algorithm: str
-
     def __init__(
         self,
         *,
@@ -640,17 +632,16 @@ class GenerateECDSASignatureKeyInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GenerateECDSASignatureKeyInput):
             return False
-        attributes: list[str] = [
-            "signature_algorithm",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['signature_algorithm',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class GenerateECDSASignatureKeyOutput:
     signature_algorithm: str
     verification_key: bytes | bytearray
     signing_key: bytes | bytearray
-
     def __init__(
         self,
         *,
@@ -705,22 +696,22 @@ class GenerateECDSASignatureKeyOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GenerateECDSASignatureKeyOutput):
             return False
-        attributes: list[str] = [
-            "signature_algorithm",
-            "verification_key",
-            "signing_key",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['signature_algorithm','verification_key','signing_key',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class GenerateRandomBytesInput:
     length: int
-
     def __init__(
         self,
         *,
         length: int = 0,
     ):
+        if (length is not None) and (length < 0):
+            raise ValueError("length must be less than or equal to 0")
+
         self.length = length
 
     def as_dict(self) -> Dict[str, Any]:
@@ -760,20 +751,25 @@ class GenerateRandomBytesInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GenerateRandomBytesInput):
             return False
-        attributes: list[str] = [
-            "length",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['length',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class GenerateRSAKeyPairInput:
     length_bits: int
-
     def __init__(
         self,
         *,
         length_bits: int = 0,
     ):
+        if (length_bits is not None) and (length_bits < 81):
+            raise ValueError("length_bits must be less than or equal to 81")
+
+        if (length_bits is not None) and (length_bits > 4096):
+            raise ValueError("length_bits must be greater than or equal to 4096")
+
         self.length_bits = length_bits
 
     def as_dict(self) -> Dict[str, Any]:
@@ -813,16 +809,15 @@ class GenerateRSAKeyPairInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GenerateRSAKeyPairInput):
             return False
-        attributes: list[str] = [
-            "length_bits",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['length_bits',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class RSAPrivateKey:
     length_bits: int
     pem: bytes | bytearray
-
     def __init__(
         self,
         *,
@@ -830,6 +825,9 @@ class RSAPrivateKey:
         length_bits: int = 0,
     ):
         self.pem = pem
+        if (length_bits is not None) and (length_bits < 81):
+            raise ValueError("length_bits must be less than or equal to 81")
+
         self.length_bits = length_bits
 
     def as_dict(self) -> Dict[str, Any]:
@@ -876,17 +874,15 @@ class RSAPrivateKey:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, RSAPrivateKey):
             return False
-        attributes: list[str] = [
-            "length_bits",
-            "pem",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['length_bits','pem',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class RSAPublicKey:
     length_bits: int
     pem: bytes | bytearray
-
     def __init__(
         self,
         *,
@@ -894,6 +890,9 @@ class RSAPublicKey:
         length_bits: int = 0,
     ):
         self.pem = pem
+        if (length_bits is not None) and (length_bits < 81):
+            raise ValueError("length_bits must be less than or equal to 81")
+
         self.length_bits = length_bits
 
     def as_dict(self) -> Dict[str, Any]:
@@ -940,17 +939,15 @@ class RSAPublicKey:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, RSAPublicKey):
             return False
-        attributes: list[str] = [
-            "length_bits",
-            "pem",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['length_bits','pem',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class GenerateRSAKeyPairOutput:
     public_key: RSAPublicKey
     private_key: RSAPrivateKey
-
     def __init__(
         self,
         *,
@@ -998,16 +995,14 @@ class GenerateRSAKeyPairOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GenerateRSAKeyPairOutput):
             return False
-        attributes: list[str] = [
-            "public_key",
-            "private_key",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['public_key','private_key',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class GetRSAKeyModulusLengthInput:
     public_key: bytes | bytearray
-
     def __init__(
         self,
         *,
@@ -1048,20 +1043,22 @@ class GetRSAKeyModulusLengthInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GetRSAKeyModulusLengthInput):
             return False
-        attributes: list[str] = [
-            "public_key",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['public_key',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class GetRSAKeyModulusLengthOutput:
     length: int
-
     def __init__(
         self,
         *,
         length: int = 0,
     ):
+        if (length is not None) and (length < 81):
+            raise ValueError("length must be less than or equal to 81")
+
         self.length = length
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1101,11 +1098,11 @@ class GetRSAKeyModulusLengthOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GetRSAKeyModulusLengthOutput):
             return False
-        attributes: list[str] = [
-            "length",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['length',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class HkdfInput:
     digest_algorithm: str
@@ -1113,7 +1110,6 @@ class HkdfInput:
     ikm: bytes | bytearray
     info: bytes | bytearray
     expected_length: int
-
     def __init__(
         self,
         *,
@@ -1127,6 +1123,9 @@ class HkdfInput:
         self.ikm = ikm
         self.info = info
         self.salt = salt
+        if (expected_length is not None) and (expected_length < 0):
+            raise ValueError("expected_length must be less than or equal to 0")
+
         self.expected_length = expected_length
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1192,22 +1191,17 @@ class HkdfInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, HkdfInput):
             return False
-        attributes: list[str] = [
-            "digest_algorithm",
-            "salt",
-            "ikm",
-            "info",
-            "expected_length",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['digest_algorithm','salt','ikm','info','expected_length',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class HkdfExpandInput:
     digest_algorithm: str
     prk: bytes | bytearray
     info: bytes | bytearray
     expected_length: int
-
     def __init__(
         self,
         *,
@@ -1219,6 +1213,9 @@ class HkdfExpandInput:
         self.digest_algorithm = digest_algorithm
         self.prk = prk
         self.info = info
+        if (expected_length is not None) and (expected_length < 0):
+            raise ValueError("expected_length must be less than or equal to 0")
+
         self.expected_length = expected_length
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1275,20 +1272,16 @@ class HkdfExpandInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, HkdfExpandInput):
             return False
-        attributes: list[str] = [
-            "digest_algorithm",
-            "prk",
-            "info",
-            "expected_length",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['digest_algorithm','prk','info','expected_length',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class HkdfExtractInput:
     digest_algorithm: str
     salt: Optional[bytes | bytearray]
     ikm: bytes | bytearray
-
     def __init__(
         self,
         *,
@@ -1349,19 +1342,16 @@ class HkdfExtractInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, HkdfExtractInput):
             return False
-        attributes: list[str] = [
-            "digest_algorithm",
-            "salt",
-            "ikm",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['digest_algorithm','salt','ikm',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class HMacInput:
     digest_algorithm: str
     key: bytes | bytearray
     message: bytes | bytearray
-
     def __init__(
         self,
         *,
@@ -1416,13 +1406,11 @@ class HMacInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, HMacInput):
             return False
-        attributes: list[str] = [
-            "digest_algorithm",
-            "key",
-            "message",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['digest_algorithm','key','message',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class KdfCtrInput:
     digest_algorithm: str
@@ -1430,7 +1418,6 @@ class KdfCtrInput:
     expected_length: int
     purpose: Optional[bytes | bytearray]
     nonce: Optional[bytes | bytearray]
-
     def __init__(
         self,
         *,
@@ -1442,6 +1429,9 @@ class KdfCtrInput:
     ):
         self.digest_algorithm = digest_algorithm
         self.ikm = ikm
+        if (expected_length is not None) and (expected_length < 0):
+            raise ValueError("expected_length must be less than or equal to 0")
+
         self.expected_length = expected_length
         self.purpose = purpose
         self.nonce = nonce
@@ -1513,21 +1503,16 @@ class KdfCtrInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, KdfCtrInput):
             return False
-        attributes: list[str] = [
-            "digest_algorithm",
-            "ikm",
-            "expected_length",
-            "purpose",
-            "nonce",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['digest_algorithm','ikm','expected_length','purpose','nonce',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class RSADecryptInput:
     padding: str
     private_key: bytes | bytearray
     cipher_text: bytes | bytearray
-
     def __init__(
         self,
         *,
@@ -1582,19 +1567,16 @@ class RSADecryptInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, RSADecryptInput):
             return False
-        attributes: list[str] = [
-            "padding",
-            "private_key",
-            "cipher_text",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['padding','private_key','cipher_text',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class RSAEncryptInput:
     padding: str
     public_key: bytes | bytearray
     plaintext: bytes | bytearray
-
     def __init__(
         self,
         *,
@@ -1649,13 +1631,11 @@ class RSAEncryptInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, RSAEncryptInput):
             return False
-        attributes: list[str] = [
-            "padding",
-            "public_key",
-            "plaintext",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['padding','public_key','plaintext',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class Unit:
     pass

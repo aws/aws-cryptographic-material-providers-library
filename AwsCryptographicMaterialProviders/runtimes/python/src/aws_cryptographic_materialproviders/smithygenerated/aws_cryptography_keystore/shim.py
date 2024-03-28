@@ -4,14 +4,7 @@ import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keys
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny
-from com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.shim import (
-    _sdk_error_to_dafny_error as com_amazonaws_dynamodb_sdk_error_to_dafny_error,
-)
-from com_amazonaws_kms.smithygenerated.com_amazonaws_kms.shim import (
-    _sdk_error_to_dafny_error as com_amazonaws_kms_sdk_error_to_dafny_error,
-)
 import module_
-import software_amazon_cryptography_keystore_internaldafny_types
 from software_amazon_cryptography_keystore_internaldafny_types import (
     CreateKeyInput_CreateKeyInput as DafnyCreateKeyInput,
     CreateKeyOutput_CreateKeyOutput as DafnyCreateKeyOutput,
@@ -31,50 +24,15 @@ from typing import Any
 
 from .errors import (
     CollectionOfErrors,
-    ComAmazonawsDynamodb,
-    ComAmazonawsKms,
     OpaqueError,
     ServiceError,
+    _smithy_error_to_dafny_error,
 )
 
 
 import Wrappers
 import software_amazon_cryptography_keystore_internaldafny_types
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.client as client_impl
-
-
-def _smithy_error_to_dafny_error(e: ServiceError):
-    """
-    Converts the provided native Smithy-modeled error
-    into the corresponding Dafny error.
-    """
-    if isinstance(
-        e,
-        aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors.KeyStoreException,
-    ):
-        return software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(
-            message=e.message
-        )
-
-    if isinstance(e, ComAmazonawsDynamodb):
-        return software_amazon_cryptography_keystore_internaldafny_types.Error_ComAmazonawsDynamodb(
-            com_amazonaws_dynamodb_sdk_error_to_dafny_error(e.message)
-        )
-
-    if isinstance(e, ComAmazonawsKms):
-        return software_amazon_cryptography_keystore_internaldafny_types.Error_ComAmazonawsKms(
-            com_amazonaws_kms_sdk_error_to_dafny_error(e.message)
-        )
-
-    if isinstance(e, CollectionOfErrors):
-        return software_amazon_cryptography_keystore_internaldafny_types.Error_CollectionOfErrors(
-            message=e.message, list=e.list
-        )
-
-    if isinstance(e, OpaqueError):
-        return software_amazon_cryptography_keystore_internaldafny_types.Error_Opaque(
-            obj=e.obj
-        )
 
 
 class KeyStoreShim(

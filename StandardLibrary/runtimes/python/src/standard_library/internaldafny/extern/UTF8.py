@@ -51,7 +51,12 @@ class default__(standard_library.internaldafny.generated.UTF8.default__):
     :param s:
     :return:
     '''
-    return b''.join(ord(c).to_bytes(2, 'little') for c in dafny_ascii_string).decode("utf-16-le", errors = 'strict')
+    return b''\
+      .join([c.to_bytes(2, 'little') \
+             if isinstance(c, int) \
+             else ord(c).to_bytes(2, 'little') \
+             for c in dafny_ascii_string])\
+      .decode("utf-16-le", errors = 'strict')
 
   @staticmethod
   def Decode(s):

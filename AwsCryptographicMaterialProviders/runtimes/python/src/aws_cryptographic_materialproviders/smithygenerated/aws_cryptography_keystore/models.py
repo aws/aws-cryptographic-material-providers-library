@@ -790,6 +790,16 @@ class GetKeyStoreInfoOutput:
         :param kms_configuration: The AWS KMS Key that protects this Key Store.
         """
         self.key_store_id = key_store_id
+        if (key_store_name is not None) and (len(key_store_name) < 3):
+            raise ValueError(
+                "The size of key_store_name must be greater than or equal to 3"
+            )
+
+        if (key_store_name is not None) and (len(key_store_name) > 255):
+            raise ValueError(
+                "The size of key_store_name must be less than or equal to 255"
+            )
+
         self.key_store_name = key_store_name
         self.logical_key_store_name = logical_key_store_name
         self.grant_tokens = grant_tokens

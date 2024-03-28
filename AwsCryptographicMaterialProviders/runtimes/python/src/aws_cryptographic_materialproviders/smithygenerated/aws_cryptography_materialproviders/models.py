@@ -111,8 +111,23 @@ class HKDF:
         output_key_length: int = 0,
     ):
         self.hmac = hmac
+        if (salt_length is not None) and (salt_length < 0):
+            raise ValueError("salt_length must be less than or equal to 0")
+
         self.salt_length = salt_length
+        if (input_key_length is not None) and (input_key_length < 1):
+            raise ValueError("input_key_length must be less than or equal to 1")
+
+        if (input_key_length is not None) and (input_key_length > 32):
+            raise ValueError("input_key_length must be greater than or equal to 32")
+
         self.input_key_length = input_key_length
+        if (output_key_length is not None) and (output_key_length < 1):
+            raise ValueError("output_key_length must be less than or equal to 1")
+
+        if (output_key_length is not None) and (output_key_length > 32):
+            raise ValueError("output_key_length must be greater than or equal to 32")
+
         self.output_key_length = output_key_length
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1384,6 +1399,9 @@ class DefaultCache:
 
         :param entry_capacity: Maximum number of entries cached.
         """
+        if (entry_capacity is not None) and (entry_capacity < 1):
+            raise ValueError("entry_capacity must be less than or equal to 1")
+
         self.entry_capacity = entry_capacity
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1445,7 +1463,13 @@ class MultiThreadedCache:
         :param entry_capacity: Maximum number of entries cached.
         :param entry_pruning_tail_size: Number of entries to prune at a time.
         """
+        if (entry_capacity is not None) and (entry_capacity < 1):
+            raise ValueError("entry_capacity must be less than or equal to 1")
+
         self.entry_capacity = entry_capacity
+        if (entry_pruning_tail_size is not None) and (entry_pruning_tail_size < 1):
+            raise ValueError("entry_pruning_tail_size must be less than or equal to 1")
+
         self.entry_pruning_tail_size = entry_pruning_tail_size
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1545,7 +1569,13 @@ class SingleThreadedCache:
         :param entry_capacity: Maximum number of entries cached.
         :param entry_pruning_tail_size: Number of entries to prune at a time.
         """
+        if (entry_capacity is not None) and (entry_capacity < 1):
+            raise ValueError("entry_capacity must be less than or equal to 1")
+
         self.entry_capacity = entry_capacity
+        if (entry_pruning_tail_size is not None) and (entry_pruning_tail_size < 1):
+            raise ValueError("entry_pruning_tail_size must be less than or equal to 1")
+
         self.entry_pruning_tail_size = entry_pruning_tail_size
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1639,12 +1669,33 @@ class StormTrackingCache:
         :param sleep_milli: How many milliseconds should a thread sleep if fanOut is
         exceeded.
         """
+        if (entry_capacity is not None) and (entry_capacity < 1):
+            raise ValueError("entry_capacity must be less than or equal to 1")
+
         self.entry_capacity = entry_capacity
+        if (entry_pruning_tail_size is not None) and (entry_pruning_tail_size < 1):
+            raise ValueError("entry_pruning_tail_size must be less than or equal to 1")
+
         self.entry_pruning_tail_size = entry_pruning_tail_size
+        if (grace_period is not None) and (grace_period < 1):
+            raise ValueError("grace_period must be less than or equal to 1")
+
         self.grace_period = grace_period
+        if (grace_interval is not None) and (grace_interval < 1):
+            raise ValueError("grace_interval must be less than or equal to 1")
+
         self.grace_interval = grace_interval
+        if (fan_out is not None) and (fan_out < 1):
+            raise ValueError("fan_out must be less than or equal to 1")
+
         self.fan_out = fan_out
+        if (in_flight_ttl is not None) and (in_flight_ttl < 1):
+            raise ValueError("in_flight_ttl must be less than or equal to 1")
+
         self.in_flight_ttl = in_flight_ttl
+        if (sleep_milli is not None) and (sleep_milli < 1):
+            raise ValueError("sleep_milli must be less than or equal to 1")
+
         self.sleep_milli = sleep_milli
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1974,6 +2025,9 @@ class CreateAwsKmsHierarchicalKeyringInput:
         self.key_store = key_store
         self.branch_key_id = branch_key_id
         self.branch_key_id_supplier = branch_key_id_supplier
+        if (ttl_seconds is not None) and (ttl_seconds < 0):
+            raise ValueError("ttl_seconds must be less than or equal to 0")
+
         self.ttl_seconds = ttl_seconds
         self.cache = cache
 
@@ -3876,9 +3930,21 @@ class GetCacheEntryOutput:
         bytes_used: int = 0,
     ):
         self.materials = materials
+        if (creation_time is not None) and (creation_time < 0):
+            raise ValueError("creation_time must be less than or equal to 0")
+
         self.creation_time = creation_time
+        if (expiry_time is not None) and (expiry_time < 0):
+            raise ValueError("expiry_time must be less than or equal to 0")
+
         self.expiry_time = expiry_time
+        if (messages_used is not None) and (messages_used < 0):
+            raise ValueError("messages_used must be less than or equal to 0")
+
         self.messages_used = messages_used
+        if (bytes_used is not None) and (bytes_used < 0):
+            raise ValueError("bytes_used must be less than or equal to 0")
+
         self.bytes_used = bytes_used
 
     def as_dict(self) -> Dict[str, Any]:
@@ -3982,9 +4048,21 @@ class PutCacheEntryInput:
     ):
         self.identifier = identifier
         self.materials = materials
+        if (creation_time is not None) and (creation_time < 0):
+            raise ValueError("creation_time must be less than or equal to 0")
+
         self.creation_time = creation_time
+        if (expiry_time is not None) and (expiry_time < 0):
+            raise ValueError("expiry_time must be less than or equal to 0")
+
         self.expiry_time = expiry_time
+        if (messages_used is not None) and (messages_used < 0):
+            raise ValueError("messages_used must be less than or equal to 0")
+
         self.messages_used = messages_used
+        if (bytes_used is not None) and (bytes_used < 0):
+            raise ValueError("bytes_used must be less than or equal to 0")
+
         self.bytes_used = bytes_used
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4085,6 +4163,9 @@ class UpdateUsageMetadataInput:
         bytes_used: int = 0,
     ):
         self.identifier = identifier
+        if (bytes_used is not None) and (bytes_used < 0):
+            raise ValueError("bytes_used must be less than or equal to 0")
+
         self.bytes_used = bytes_used
 
     def as_dict(self) -> Dict[str, Any]:
