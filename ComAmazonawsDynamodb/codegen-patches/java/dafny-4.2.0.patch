@@ -1,5 +1,5 @@
 diff --git b/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToDafny.java a/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToDafny.java
-index 04e0401..c2f8787 100644
+index 04e0401a..c2f87875 100644
 --- b/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToDafny.java
 +++ a/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToDafny.java
 @@ -10489,16 +10489,9 @@ public class ToDafny {
@@ -23,7 +23,7 @@ index 04e0401..c2f8787 100644
  
    public static IDynamoDBClient DynamoDB_20120810(DynamoDbClient nativeValue) {
 diff --git b/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java a/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
-index e3fa41d..80bf84d 100644
+index e3fa41d0..80bf84d1 100644
 --- b/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
 +++ a/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
 @@ -109,6 +109,9 @@ import software.amazon.awssdk.services.dynamodb.model.DestinationStatus;
