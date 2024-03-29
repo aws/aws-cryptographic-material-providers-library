@@ -17,9 +17,11 @@ var props = Properties().apply {
     load(FileInputStream(File(rootProject.rootDir, "../../../project.properties")))
 }
 var dafnyVersion = props.getProperty("dafnyVersion")
+var mplJavaVersion = props.getProperty("mplJavaVersion")
+var smithyDafnyJavaConversionVersion = props.getProperty("smithyDafnyJavaConversionVersion")
 
 group = "software.amazon.cryptography"
-version = "1.0-SNAPSHOT"
+version = "${mplJavaVersion}"
 description = "TestAwsCryptographicMaterialProviders"
 
 java {
@@ -65,8 +67,8 @@ repositories {
 
 dependencies {
     implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
-    implementation("software.amazon.smithy.dafny:conversion:0.1")
-    implementation("software.amazon.cryptography:aws-cryptographic-material-providers:1.4.0")
+    implementation("software.amazon.smithy.dafny:conversion:${smithyDafnyJavaConversionVersion}")
+    implementation("software.amazon.cryptography:aws-cryptographic-material-providers:${mplJavaVersion}")
     implementation(platform("software.amazon.awssdk:bom:2.19.1"))
     implementation("software.amazon.awssdk:dynamodb")
     implementation("software.amazon.awssdk:dynamodb-enhanced")

@@ -46,14 +46,20 @@ outputs:
 runs:
   using: "composite"
   steps:
-    # Replace the project.properties file so that we pick up the right runtimes etc.,
+    # Update the project.properties file so that we pick up the right runtimes etc.,
     # in cases where inputs.dafny is different from the current value in that file.
-    - name: Update top-level project.properties file
+    - name: Generate smithy-dafny-project.properties file
       env:
         DAFNY_VERSION: ${{ inputs.dafny }}
       shell: bash
       run: |
         make generate_properties_file
+    - name: Update top-level project.properties file
+      shell: bash
+      run: |
+        awk -F= '!a[$1]++' smithy-dafny-project.properties project.properties > merged.properties
+        mv merged.properties project.properties
+        cat project.properties
 
     - name: Regenerate Dafny code using smithy-dafny
       # Unfortunately Dafny codegen doesn't work on Windows:

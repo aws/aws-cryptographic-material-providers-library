@@ -13,9 +13,11 @@ var props = Properties().apply {
     load(FileInputStream(File(rootProject.rootDir, "../../../project.properties")))
 }
 var dafnyVersion = props.getProperty("dafnyVersion")
+var mplJavaVersion = props.getProperty("mplJavaVersion")
+
 
 group = "software.amazon.cryptography"
-version = "1.0-SNAPSHOT"
+version = "${mplJavaVersion}"
 description = "StandardLibrary"
 
 java {

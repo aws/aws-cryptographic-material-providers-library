@@ -1,11 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+    <PropertyGroup>
+    <projectProperties>
+      $([System.IO.File]::ReadAllText('$(MSBuildProjectDirectory)/../../../project.properties'))
+    </projectProperties>
+    <dropBeforeMPLVersionProperty>
+      $([System.Text.RegularExpressions.Regex]::Split("$(projectProperties)", "mplNetVersion=")[1])
+    </dropBeforeMPLVersionProperty>
+    <MPLVersion>
+      $([System.Text.RegularExpressions.Regex]::Split("$(dropBeforeMPLVersionProperty)", "\n")[1])
+    </MPLVersion>
+  </PropertyGroup>
+
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <IsPackable>true</IsPackable>
-    
-    <Version>1.4.0</Version>
+  
+    <Version>$(MPLVersion)</Version>
+    <AssemblyVersion>$(MPLVersion)</AssemblyVersion>
 
     <AssemblyName>AWS.Cryptography.Internal.ComAmazonawsKms</AssemblyName>
     <PackageId>AWS.Cryptography.Internal.ComAmazonawsKms</PackageId>
