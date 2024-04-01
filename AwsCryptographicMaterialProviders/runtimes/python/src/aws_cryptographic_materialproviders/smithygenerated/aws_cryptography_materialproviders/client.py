@@ -3,7 +3,6 @@
 import asyncio
 from asyncio import sleep
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references
-from copy import deepcopy
 from software_amazon_cryptography_materialproviders_internaldafny_types import (
     IAwsCryptographicMaterialProvidersClient,
 )

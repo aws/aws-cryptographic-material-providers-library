@@ -75,7 +75,6 @@ class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
 
     def __repr__(self) -> str:
         result = "KeyStoreException("
-        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
 

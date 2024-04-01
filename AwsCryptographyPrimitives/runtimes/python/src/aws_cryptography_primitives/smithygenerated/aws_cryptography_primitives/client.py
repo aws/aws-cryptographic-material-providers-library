@@ -2,7 +2,6 @@
 
 import asyncio
 from asyncio import sleep
-from copy import deepcopy
 from software_amazon_cryptography_primitives_internaldafny_types import (
     IAwsCryptographicPrimitivesClient,
 )

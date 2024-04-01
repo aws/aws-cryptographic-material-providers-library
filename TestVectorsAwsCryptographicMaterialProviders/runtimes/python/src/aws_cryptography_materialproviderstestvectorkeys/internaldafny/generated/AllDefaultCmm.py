@@ -315,8 +315,8 @@ class default__:
         def iife61_():
             coll29_ = _dafny.Set()
             compr_49_: _dafny.Map
+            d_728_encryptionContext_: _dafny.Map = compr_49_
             for compr_49_ in (default__.encryptionContextsToTest).Elements:
-                d_728_encryptionContext_: _dafny.Map = compr_49_
                 def iife62_():
                     coll30_ = _dafny.Set()
                     def lambda64_(d_729_a_, d_730_b_):

@@ -60,7 +60,6 @@ class AwsCryptographicPrimitivesError(ApiError[Literal["AwsCryptographicPrimitiv
 
     def __repr__(self) -> str:
         result = "AwsCryptographicPrimitivesError("
-        result += f'message={self.message},'
         if self.message is not None:
             result += f"message={repr(self.message)}"
 

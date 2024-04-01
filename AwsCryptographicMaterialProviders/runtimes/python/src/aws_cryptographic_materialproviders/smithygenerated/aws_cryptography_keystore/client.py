@@ -2,7 +2,6 @@
 
 import asyncio
 from asyncio import sleep
-from copy import deepcopy
 from software_amazon_cryptography_keystore_internaldafny_types import IKeyStoreClient
 from typing import Awaitable, Callable, TypeVar, cast
 

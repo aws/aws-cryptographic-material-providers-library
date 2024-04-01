@@ -90,7 +90,6 @@ class AwsCryptographicMaterialProvidersException(
 
     def __repr__(self) -> str:
         result = "AwsCryptographicMaterialProvidersException("
-        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
 
@@ -143,7 +142,6 @@ class InvalidDecryptionMaterials(ApiError[Literal["InvalidDecryptionMaterials"]]
 
     def __repr__(self) -> str:
         result = "InvalidDecryptionMaterials("
-        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
 
@@ -196,7 +194,6 @@ class InvalidEncryptionMaterials(ApiError[Literal["InvalidEncryptionMaterials"]]
 
     def __repr__(self) -> str:
         result = "InvalidEncryptionMaterials("
-        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
 
@@ -249,7 +246,6 @@ class InvalidAlgorithmSuiteInfo(ApiError[Literal["InvalidAlgorithmSuiteInfo"]]):
 
     def __repr__(self) -> str:
         result = "InvalidAlgorithmSuiteInfo("
-        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
 
@@ -306,7 +302,6 @@ class InvalidAlgorithmSuiteInfoOnDecrypt(
 
     def __repr__(self) -> str:
         result = "InvalidAlgorithmSuiteInfoOnDecrypt("
-        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
 
@@ -363,7 +358,6 @@ class InvalidAlgorithmSuiteInfoOnEncrypt(
 
     def __repr__(self) -> str:
         result = "InvalidAlgorithmSuiteInfoOnEncrypt("
-        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
 
@@ -420,7 +414,6 @@ class InvalidDecryptionMaterialsTransition(
 
     def __repr__(self) -> str:
         result = "InvalidDecryptionMaterialsTransition("
-        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
 
@@ -477,7 +470,6 @@ class InvalidEncryptionMaterialsTransition(
 
     def __repr__(self) -> str:
         result = "InvalidEncryptionMaterialsTransition("
-        result += f"message={self.message},"
         if self.message is not None:
             result += f"message={repr(self.message)}"
 
