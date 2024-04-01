@@ -111,7 +111,7 @@ Output = TypeVar("Output")
 
 
 class AwsCryptographicMaterialProviders:
-    """//////////
+    """///////////
 
     :param config: Configuration for the client.
     """
