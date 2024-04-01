@@ -3,7 +3,6 @@
 import asyncio
 from asyncio import sleep
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references
-from copy import deepcopy
 from software_amazon_cryptography_materialproviders_internaldafny_types import (
     IAwsCryptographicMaterialProvidersClient,
 )
@@ -667,7 +666,6 @@ class AwsCryptographicMaterialProviders:
                 interceptor.read_before_execution(context)
 
             # Step 1b: Run operation-level plugins
-            # config = deepcopy(config)
             for plugin in plugins:
                 plugin(config)
 
