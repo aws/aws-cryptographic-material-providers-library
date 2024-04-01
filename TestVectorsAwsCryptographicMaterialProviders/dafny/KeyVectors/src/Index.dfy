@@ -21,7 +21,9 @@ module {:extern "software_amazon_cryptography_materialproviderstestvectorkeys_in
   }
 
   method KeyVectors(config: KeyVectorsConfig)
-    returns (res: Result<IKeyVectorsClient, Error>)
+    // BEGIN MANUAL FIX
+    returns (res: Result<KeyVectorsClient, Error>)
+    // END MANUAL FIX
     ensures res.Success? ==>
               res.value is KeyVectorsClient
   {
@@ -49,7 +51,9 @@ module {:extern "software_amazon_cryptography_materialproviderstestvectorkeys_in
     );
     var client := new KeyVectorsClient(config);
 
-    res := Success(client as IKeyVectorsClient);
+    // BEGIN MANUAL FIX
+    res := Success(client);
+    // END MANUAL FIX
   }
 
   class KeyVectorsClient... {
