@@ -96,2098 +96,2124 @@ from software_amazon_cryptography_services_kms_internaldafny_types import (
 )
 
 
-def com_amazonaws_kms_AlreadyExistsException(input):
+def com_amazonaws_kms_AlreadyExistsException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_CloudHsmClusterInUseException(input):
+def com_amazonaws_kms_CloudHsmClusterInUseException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException(input):
+def com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_CloudHsmClusterNotActiveException(input):
+def com_amazonaws_kms_CloudHsmClusterNotActiveException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_CloudHsmClusterNotFoundException(input):
+def com_amazonaws_kms_CloudHsmClusterNotFoundException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_CloudHsmClusterNotRelatedException(input):
+def com_amazonaws_kms_CloudHsmClusterNotRelatedException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_CustomKeyStoreHasCMKsException(input):
+def com_amazonaws_kms_CustomKeyStoreHasCMKsException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_CustomKeyStoreInvalidStateException(input):
+def com_amazonaws_kms_CustomKeyStoreInvalidStateException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_CustomKeyStoreNameInUseException(input):
+def com_amazonaws_kms_CustomKeyStoreNameInUseException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_CustomKeyStoreNotFoundException(input):
+def com_amazonaws_kms_CustomKeyStoreNotFoundException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_DependencyTimeoutException(input):
+def com_amazonaws_kms_DependencyTimeoutException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_DisabledException(input):
+def com_amazonaws_kms_DisabledException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_ExpiredImportTokenException(input):
+def com_amazonaws_kms_ExpiredImportTokenException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_IncorrectKeyException(input):
+def com_amazonaws_kms_IncorrectKeyException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_IncorrectKeyMaterialException(input):
+def com_amazonaws_kms_IncorrectKeyMaterialException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_IncorrectTrustAnchorException(input):
+def com_amazonaws_kms_IncorrectTrustAnchorException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_InvalidAliasNameException(input):
+def com_amazonaws_kms_InvalidAliasNameException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_InvalidArnException(input):
+def com_amazonaws_kms_InvalidArnException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_InvalidCiphertextException(input):
+def com_amazonaws_kms_InvalidCiphertextException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_InvalidGrantIdException(input):
+def com_amazonaws_kms_InvalidGrantIdException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_InvalidGrantTokenException(input):
+def com_amazonaws_kms_InvalidGrantTokenException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_InvalidImportTokenException(input):
+def com_amazonaws_kms_InvalidImportTokenException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_InvalidKeyUsageException(input):
+def com_amazonaws_kms_InvalidKeyUsageException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_InvalidMarkerException(input):
+def com_amazonaws_kms_InvalidMarkerException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_KeyUnavailableException(input):
+def com_amazonaws_kms_KeyUnavailableException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_KMSInternalException(input):
+def com_amazonaws_kms_KMSInternalException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_KMSInvalidSignatureException(input):
+def com_amazonaws_kms_KMSInvalidSignatureException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_KMSInvalidStateException(input):
+def com_amazonaws_kms_KMSInvalidStateException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_LimitExceededException(input):
+def com_amazonaws_kms_LimitExceededException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_MalformedPolicyDocumentException(input):
+def com_amazonaws_kms_MalformedPolicyDocumentException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_NotFoundException(input):
+def com_amazonaws_kms_NotFoundException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_TagException(input):
+def com_amazonaws_kms_TagException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_UnsupportedOperationException(input):
+def com_amazonaws_kms_UnsupportedOperationException(dafny_input):
     output = {}
-    if input.message.is_Some:
-        output["message"] = input.message.value.VerbatimString(False)
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_CancelKeyDeletionRequest(input):
+def com_amazonaws_kms_CancelKeyDeletionRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
     return output
 
 
-def com_amazonaws_kms_CancelKeyDeletionResponse(input):
+def com_amazonaws_kms_CancelKeyDeletionResponse(dafny_input):
     output = {}
-    if input.KeyId.is_Some:
-        output["KeyId"] = input.KeyId.value.VerbatimString(False)
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_ConnectCustomKeyStoreRequest(input):
+def com_amazonaws_kms_ConnectCustomKeyStoreRequest(dafny_input):
     output = {}
-    output["CustomKeyStoreId"] = input.CustomKeyStoreId.VerbatimString(False)
+    output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.VerbatimString(False)
     return output
 
 
-def com_amazonaws_kms_ConnectCustomKeyStoreResponse(input):
+def com_amazonaws_kms_ConnectCustomKeyStoreResponse(dafny_input):
     output = {}
     return output
 
 
-def com_amazonaws_kms_CreateAliasRequest(input):
+def com_amazonaws_kms_CreateAliasRequest(dafny_input):
     output = {}
-    output["AliasName"] = input.AliasName.VerbatimString(False)
-    output["TargetKeyId"] = input.TargetKeyId.VerbatimString(False)
+    output["AliasName"] = dafny_input.AliasName.VerbatimString(False)
+    output["TargetKeyId"] = dafny_input.TargetKeyId.VerbatimString(False)
     return output
 
 
-def com_amazonaws_kms_CreateCustomKeyStoreRequest(input):
+def com_amazonaws_kms_CreateCustomKeyStoreRequest(dafny_input):
     output = {}
-    output["CustomKeyStoreName"] = input.CustomKeyStoreName.VerbatimString(False)
-    output["CloudHsmClusterId"] = input.CloudHsmClusterId.VerbatimString(False)
-    output["TrustAnchorCertificate"] = input.TrustAnchorCertificate.VerbatimString(
-        False
+    output["CustomKeyStoreName"] = dafny_input.CustomKeyStoreName.VerbatimString(False)
+    output["CloudHsmClusterId"] = dafny_input.CloudHsmClusterId.VerbatimString(False)
+    output["TrustAnchorCertificate"] = (
+        dafny_input.TrustAnchorCertificate.VerbatimString(False)
     )
-    output["KeyStorePassword"] = input.KeyStorePassword.VerbatimString(False)
+    output["KeyStorePassword"] = dafny_input.KeyStorePassword.VerbatimString(False)
     return output
 
 
-def com_amazonaws_kms_CreateCustomKeyStoreResponse(input):
+def com_amazonaws_kms_CreateCustomKeyStoreResponse(dafny_input):
     output = {}
-    if input.CustomKeyStoreId.is_Some:
-        output["CustomKeyStoreId"] = input.CustomKeyStoreId.value.VerbatimString(False)
+    if dafny_input.CustomKeyStoreId.is_Some:
+        output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.value.VerbatimString(
+            False
+        )
 
     return output
 
 
-def com_amazonaws_kms_GrantOperation(input):
+def com_amazonaws_kms_GrantOperation(dafny_input):
     # Convert GrantOperation
-    if isinstance(input, GrantOperation_Decrypt):
+    if isinstance(dafny_input, GrantOperation_Decrypt):
         return "Decrypt"
 
-    elif isinstance(input, GrantOperation_Encrypt):
+    elif isinstance(dafny_input, GrantOperation_Encrypt):
         return "Encrypt"
 
-    elif isinstance(input, GrantOperation_GenerateDataKey):
+    elif isinstance(dafny_input, GrantOperation_GenerateDataKey):
         return "GenerateDataKey"
 
-    elif isinstance(input, GrantOperation_GenerateDataKeyWithoutPlaintext):
+    elif isinstance(dafny_input, GrantOperation_GenerateDataKeyWithoutPlaintext):
         return "GenerateDataKeyWithoutPlaintext"
 
-    elif isinstance(input, GrantOperation_ReEncryptFrom):
+    elif isinstance(dafny_input, GrantOperation_ReEncryptFrom):
         return "ReEncryptFrom"
 
-    elif isinstance(input, GrantOperation_ReEncryptTo):
+    elif isinstance(dafny_input, GrantOperation_ReEncryptTo):
         return "ReEncryptTo"
 
-    elif isinstance(input, GrantOperation_Sign):
+    elif isinstance(dafny_input, GrantOperation_Sign):
         return "Sign"
 
-    elif isinstance(input, GrantOperation_Verify):
+    elif isinstance(dafny_input, GrantOperation_Verify):
         return "Verify"
 
-    elif isinstance(input, GrantOperation_GetPublicKey):
+    elif isinstance(dafny_input, GrantOperation_GetPublicKey):
         return "GetPublicKey"
 
-    elif isinstance(input, GrantOperation_CreateGrant):
+    elif isinstance(dafny_input, GrantOperation_CreateGrant):
         return "CreateGrant"
 
-    elif isinstance(input, GrantOperation_RetireGrant):
+    elif isinstance(dafny_input, GrantOperation_RetireGrant):
         return "RetireGrant"
 
-    elif isinstance(input, GrantOperation_DescribeKey):
+    elif isinstance(dafny_input, GrantOperation_DescribeKey):
         return "DescribeKey"
 
-    elif isinstance(input, GrantOperation_GenerateDataKeyPair):
+    elif isinstance(dafny_input, GrantOperation_GenerateDataKeyPair):
         return "GenerateDataKeyPair"
 
-    elif isinstance(input, GrantOperation_GenerateDataKeyPairWithoutPlaintext):
+    elif isinstance(dafny_input, GrantOperation_GenerateDataKeyPairWithoutPlaintext):
         return "GenerateDataKeyPairWithoutPlaintext"
 
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
 
-def com_amazonaws_kms_GrantConstraints(input):
+def com_amazonaws_kms_GrantConstraints(dafny_input):
     output = {}
-    if input.EncryptionContextSubset.is_Some:
+    if dafny_input.EncryptionContextSubset.is_Some:
         output["EncryptionContextSubset"] = {
             key.VerbatimString(False): value.VerbatimString(False)
-            for (key, value) in input.EncryptionContextSubset.value.items
+            for (key, value) in dafny_input.EncryptionContextSubset.value.items
         }
 
-    if input.EncryptionContextEquals.is_Some:
+    if dafny_input.EncryptionContextEquals.is_Some:
         output["EncryptionContextEquals"] = {
             key.VerbatimString(False): value.VerbatimString(False)
-            for (key, value) in input.EncryptionContextEquals.value.items
+            for (key, value) in dafny_input.EncryptionContextEquals.value.items
         }
 
     return output
 
 
-def com_amazonaws_kms_CreateGrantRequest(input):
+def com_amazonaws_kms_CreateGrantRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    output["GranteePrincipal"] = input.GranteePrincipal.VerbatimString(False)
-    if input.RetiringPrincipal.is_Some:
-        output["RetiringPrincipal"] = input.RetiringPrincipal.value.VerbatimString(
-            False
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["GranteePrincipal"] = dafny_input.GranteePrincipal.VerbatimString(False)
+    if dafny_input.RetiringPrincipal.is_Some:
+        output["RetiringPrincipal"] = (
+            dafny_input.RetiringPrincipal.value.VerbatimString(False)
         )
 
     output["Operations"] = [
         com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GrantOperation(
             list_element
         )
-        for list_element in input.Operations
+        for list_element in dafny_input.Operations
     ]
-    if input.Constraints.is_Some:
+    if dafny_input.Constraints.is_Some:
         output["Constraints"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GrantConstraints(
-                input.Constraints.value
+                dafny_input.Constraints.value
             )
         )
 
-    if input.GrantTokens.is_Some:
+    if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
             list_element.VerbatimString(False)
-            for list_element in input.GrantTokens.value
+            for list_element in dafny_input.GrantTokens.value
         ]
 
-    if input.Name.is_Some:
-        output["Name"] = input.Name.value.VerbatimString(False)
+    if dafny_input.Name.is_Some:
+        output["Name"] = dafny_input.Name.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_CreateGrantResponse(input):
+def com_amazonaws_kms_CreateGrantResponse(dafny_input):
     output = {}
-    if input.GrantToken.is_Some:
-        output["GrantToken"] = input.GrantToken.value.VerbatimString(False)
+    if dafny_input.GrantToken.is_Some:
+        output["GrantToken"] = dafny_input.GrantToken.value.VerbatimString(False)
 
-    if input.GrantId.is_Some:
-        output["GrantId"] = input.GrantId.value.VerbatimString(False)
+    if dafny_input.GrantId.is_Some:
+        output["GrantId"] = dafny_input.GrantId.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_KeyUsageType(input):
+def com_amazonaws_kms_KeyUsageType(dafny_input):
     # Convert KeyUsageType
-    if isinstance(input, KeyUsageType_SIGN__VERIFY):
+    if isinstance(dafny_input, KeyUsageType_SIGN__VERIFY):
         return "SIGN_VERIFY"
 
-    elif isinstance(input, KeyUsageType_ENCRYPT__DECRYPT):
+    elif isinstance(dafny_input, KeyUsageType_ENCRYPT__DECRYPT):
         return "ENCRYPT_DECRYPT"
 
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
 
-def com_amazonaws_kms_CustomerMasterKeySpec(input):
+def com_amazonaws_kms_CustomerMasterKeySpec(dafny_input):
     # Convert CustomerMasterKeySpec
-    if isinstance(input, CustomerMasterKeySpec_RSA__2048):
+    if isinstance(dafny_input, CustomerMasterKeySpec_RSA__2048):
         return "RSA_2048"
 
-    elif isinstance(input, CustomerMasterKeySpec_RSA__3072):
+    elif isinstance(dafny_input, CustomerMasterKeySpec_RSA__3072):
         return "RSA_3072"
 
-    elif isinstance(input, CustomerMasterKeySpec_RSA__4096):
+    elif isinstance(dafny_input, CustomerMasterKeySpec_RSA__4096):
         return "RSA_4096"
 
-    elif isinstance(input, CustomerMasterKeySpec_ECC__NIST__P256):
+    elif isinstance(dafny_input, CustomerMasterKeySpec_ECC__NIST__P256):
         return "ECC_NIST_P256"
 
-    elif isinstance(input, CustomerMasterKeySpec_ECC__NIST__P384):
+    elif isinstance(dafny_input, CustomerMasterKeySpec_ECC__NIST__P384):
         return "ECC_NIST_P384"
 
-    elif isinstance(input, CustomerMasterKeySpec_ECC__NIST__P521):
+    elif isinstance(dafny_input, CustomerMasterKeySpec_ECC__NIST__P521):
         return "ECC_NIST_P521"
 
-    elif isinstance(input, CustomerMasterKeySpec_ECC__SECG__P256K1):
+    elif isinstance(dafny_input, CustomerMasterKeySpec_ECC__SECG__P256K1):
         return "ECC_SECG_P256K1"
 
-    elif isinstance(input, CustomerMasterKeySpec_SYMMETRIC__DEFAULT):
+    elif isinstance(dafny_input, CustomerMasterKeySpec_SYMMETRIC__DEFAULT):
         return "SYMMETRIC_DEFAULT"
 
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
 
-def com_amazonaws_kms_KeySpec(input):
+def com_amazonaws_kms_KeySpec(dafny_input):
     # Convert KeySpec
-    if isinstance(input, KeySpec_RSA__2048):
+    if isinstance(dafny_input, KeySpec_RSA__2048):
         return "RSA_2048"
 
-    elif isinstance(input, KeySpec_RSA__3072):
+    elif isinstance(dafny_input, KeySpec_RSA__3072):
         return "RSA_3072"
 
-    elif isinstance(input, KeySpec_RSA__4096):
+    elif isinstance(dafny_input, KeySpec_RSA__4096):
         return "RSA_4096"
 
-    elif isinstance(input, KeySpec_ECC__NIST__P256):
+    elif isinstance(dafny_input, KeySpec_ECC__NIST__P256):
         return "ECC_NIST_P256"
 
-    elif isinstance(input, KeySpec_ECC__NIST__P384):
+    elif isinstance(dafny_input, KeySpec_ECC__NIST__P384):
         return "ECC_NIST_P384"
 
-    elif isinstance(input, KeySpec_ECC__NIST__P521):
+    elif isinstance(dafny_input, KeySpec_ECC__NIST__P521):
         return "ECC_NIST_P521"
 
-    elif isinstance(input, KeySpec_ECC__SECG__P256K1):
+    elif isinstance(dafny_input, KeySpec_ECC__SECG__P256K1):
         return "ECC_SECG_P256K1"
 
-    elif isinstance(input, KeySpec_SYMMETRIC__DEFAULT):
+    elif isinstance(dafny_input, KeySpec_SYMMETRIC__DEFAULT):
         return "SYMMETRIC_DEFAULT"
 
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
 
-def com_amazonaws_kms_OriginType(input):
+def com_amazonaws_kms_OriginType(dafny_input):
     # Convert OriginType
-    if isinstance(input, OriginType_AWS__KMS):
+    if isinstance(dafny_input, OriginType_AWS__KMS):
         return "AWS_KMS"
 
-    elif isinstance(input, OriginType_EXTERNAL):
+    elif isinstance(dafny_input, OriginType_EXTERNAL):
         return "EXTERNAL"
 
-    elif isinstance(input, OriginType_AWS__CLOUDHSM):
+    elif isinstance(dafny_input, OriginType_AWS__CLOUDHSM):
         return "AWS_CLOUDHSM"
 
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
 
-def com_amazonaws_kms_Tag(input):
+def com_amazonaws_kms_Tag(dafny_input):
     output = {}
-    output["TagKey"] = input.TagKey.VerbatimString(False)
-    output["TagValue"] = input.TagValue.VerbatimString(False)
+    output["TagKey"] = dafny_input.TagKey.VerbatimString(False)
+    output["TagValue"] = dafny_input.TagValue.VerbatimString(False)
     return output
 
 
-def com_amazonaws_kms_CreateKeyRequest(input):
+def com_amazonaws_kms_CreateKeyRequest(dafny_input):
     output = {}
-    if input.Policy.is_Some:
-        output["Policy"] = input.Policy.value.VerbatimString(False)
+    if dafny_input.Policy.is_Some:
+        output["Policy"] = dafny_input.Policy.value.VerbatimString(False)
 
-    if input.Description.is_Some:
-        output["Description"] = input.Description.value.VerbatimString(False)
+    if dafny_input.Description.is_Some:
+        output["Description"] = dafny_input.Description.value.VerbatimString(False)
 
-    if input.KeyUsage.is_Some:
+    if dafny_input.KeyUsage.is_Some:
         output["KeyUsage"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_KeyUsageType(
-                input.KeyUsage.value
+                dafny_input.KeyUsage.value
             )
         )
 
-    if input.CustomerMasterKeySpec.is_Some:
+    if dafny_input.CustomerMasterKeySpec.is_Some:
         output["CustomerMasterKeySpec"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_CustomerMasterKeySpec(
-                input.CustomerMasterKeySpec.value
+                dafny_input.CustomerMasterKeySpec.value
             )
         )
 
-    if input.KeySpec.is_Some:
+    if dafny_input.KeySpec.is_Some:
         output["KeySpec"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_KeySpec(
-                input.KeySpec.value
+                dafny_input.KeySpec.value
             )
         )
 
-    if input.Origin.is_Some:
+    if dafny_input.Origin.is_Some:
         output["Origin"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_OriginType(
-                input.Origin.value
+                dafny_input.Origin.value
             )
         )
 
-    if input.CustomKeyStoreId.is_Some:
-        output["CustomKeyStoreId"] = input.CustomKeyStoreId.value.VerbatimString(False)
-
-    if input.BypassPolicyLockoutSafetyCheck.is_Some:
-        output["BypassPolicyLockoutSafetyCheck"] = (
-            input.BypassPolicyLockoutSafetyCheck.value
+    if dafny_input.CustomKeyStoreId.is_Some:
+        output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.value.VerbatimString(
+            False
         )
 
-    if input.Tags.is_Some:
+    if dafny_input.BypassPolicyLockoutSafetyCheck.is_Some:
+        output["BypassPolicyLockoutSafetyCheck"] = (
+            dafny_input.BypassPolicyLockoutSafetyCheck.value
+        )
+
+    if dafny_input.Tags.is_Some:
         output["Tags"] = [
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_Tag(
                 list_element
             )
-            for list_element in input.Tags.value
+            for list_element in dafny_input.Tags.value
         ]
 
-    if input.MultiRegion.is_Some:
-        output["MultiRegion"] = input.MultiRegion.value
+    if dafny_input.MultiRegion.is_Some:
+        output["MultiRegion"] = dafny_input.MultiRegion.value
 
     return output
 
 
-def com_amazonaws_kms_KeyMetadata(input):
+def com_amazonaws_kms_KeyMetadata(dafny_input):
     output = {}
-    if input.AWSAccountId.is_Some:
-        output["AWSAccountId"] = input.AWSAccountId.value.VerbatimString(False)
+    if dafny_input.AWSAccountId.is_Some:
+        output["AWSAccountId"] = dafny_input.AWSAccountId.value.VerbatimString(False)
 
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    if input.Arn.is_Some:
-        output["Arn"] = input.Arn.value.VerbatimString(False)
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    if dafny_input.Arn.is_Some:
+        output["Arn"] = dafny_input.Arn.value.VerbatimString(False)
 
-    if input.CreationDate.is_Some:
+    if dafny_input.CreationDate.is_Some:
         output["CreationDate"] = TypeError("TimestampShape not supported")
 
-    if input.Enabled.is_Some:
-        output["Enabled"] = input.Enabled.value
+    if dafny_input.Enabled.is_Some:
+        output["Enabled"] = dafny_input.Enabled.value
 
-    if input.Description.is_Some:
-        output["Description"] = input.Description.value.VerbatimString(False)
+    if dafny_input.Description.is_Some:
+        output["Description"] = dafny_input.Description.value.VerbatimString(False)
 
-    if input.KeyUsage.is_Some:
+    if dafny_input.KeyUsage.is_Some:
         output["KeyUsage"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_KeyUsageType(
-                input.KeyUsage.value
+                dafny_input.KeyUsage.value
             )
         )
 
-    if input.KeyState.is_Some:
+    if dafny_input.KeyState.is_Some:
         output["KeyState"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_KeyState(
-                input.KeyState.value
+                dafny_input.KeyState.value
             )
         )
 
-    if input.DeletionDate.is_Some:
+    if dafny_input.DeletionDate.is_Some:
         output["DeletionDate"] = TypeError("TimestampShape not supported")
 
-    if input.ValidTo.is_Some:
+    if dafny_input.ValidTo.is_Some:
         output["ValidTo"] = TypeError("TimestampShape not supported")
 
-    if input.Origin.is_Some:
+    if dafny_input.Origin.is_Some:
         output["Origin"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_OriginType(
-                input.Origin.value
+                dafny_input.Origin.value
             )
         )
 
-    if input.CustomKeyStoreId.is_Some:
-        output["CustomKeyStoreId"] = input.CustomKeyStoreId.value.VerbatimString(False)
-
-    if input.CloudHsmClusterId.is_Some:
-        output["CloudHsmClusterId"] = input.CloudHsmClusterId.value.VerbatimString(
+    if dafny_input.CustomKeyStoreId.is_Some:
+        output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.value.VerbatimString(
             False
         )
 
-    if input.ExpirationModel.is_Some:
+    if dafny_input.CloudHsmClusterId.is_Some:
+        output["CloudHsmClusterId"] = (
+            dafny_input.CloudHsmClusterId.value.VerbatimString(False)
+        )
+
+    if dafny_input.ExpirationModel.is_Some:
         output["ExpirationModel"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ExpirationModelType(
-                input.ExpirationModel.value
+                dafny_input.ExpirationModel.value
             )
         )
 
-    if input.KeyManager.is_Some:
+    if dafny_input.KeyManager.is_Some:
         output["KeyManager"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_KeyManagerType(
-                input.KeyManager.value
+                dafny_input.KeyManager.value
             )
         )
 
-    if input.CustomerMasterKeySpec.is_Some:
+    if dafny_input.CustomerMasterKeySpec.is_Some:
         output["CustomerMasterKeySpec"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_CustomerMasterKeySpec(
-                input.CustomerMasterKeySpec.value
+                dafny_input.CustomerMasterKeySpec.value
             )
         )
 
-    if input.KeySpec.is_Some:
+    if dafny_input.KeySpec.is_Some:
         output["KeySpec"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_KeySpec(
-                input.KeySpec.value
+                dafny_input.KeySpec.value
             )
         )
 
-    if input.EncryptionAlgorithms.is_Some:
+    if dafny_input.EncryptionAlgorithms.is_Some:
         output["EncryptionAlgorithms"] = [
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EncryptionAlgorithmSpec(
                 list_element
             )
-            for list_element in input.EncryptionAlgorithms.value
+            for list_element in dafny_input.EncryptionAlgorithms.value
         ]
 
-    if input.SigningAlgorithms.is_Some:
+    if dafny_input.SigningAlgorithms.is_Some:
         output["SigningAlgorithms"] = [
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_SigningAlgorithmSpec(
                 list_element
             )
-            for list_element in input.SigningAlgorithms.value
+            for list_element in dafny_input.SigningAlgorithms.value
         ]
 
-    if input.MultiRegion.is_Some:
-        output["MultiRegion"] = input.MultiRegion.value
+    if dafny_input.MultiRegion.is_Some:
+        output["MultiRegion"] = dafny_input.MultiRegion.value
 
-    if input.MultiRegionConfiguration.is_Some:
+    if dafny_input.MultiRegionConfiguration.is_Some:
         output["MultiRegionConfiguration"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_MultiRegionConfiguration(
-                input.MultiRegionConfiguration.value
+                dafny_input.MultiRegionConfiguration.value
             )
         )
 
-    if input.PendingDeletionWindowInDays.is_Some:
-        output["PendingDeletionWindowInDays"] = input.PendingDeletionWindowInDays.value
+    if dafny_input.PendingDeletionWindowInDays.is_Some:
+        output["PendingDeletionWindowInDays"] = (
+            dafny_input.PendingDeletionWindowInDays.value
+        )
 
     return output
 
 
-def com_amazonaws_kms_KeyState(input):
+def com_amazonaws_kms_KeyState(dafny_input):
     # Convert KeyState
-    if isinstance(input, KeyState_Creating):
+    if isinstance(dafny_input, KeyState_Creating):
         return "Creating"
 
-    elif isinstance(input, KeyState_Enabled):
+    elif isinstance(dafny_input, KeyState_Enabled):
         return "Enabled"
 
-    elif isinstance(input, KeyState_Disabled):
+    elif isinstance(dafny_input, KeyState_Disabled):
         return "Disabled"
 
-    elif isinstance(input, KeyState_PendingDeletion):
+    elif isinstance(dafny_input, KeyState_PendingDeletion):
         return "PendingDeletion"
 
-    elif isinstance(input, KeyState_PendingImport):
+    elif isinstance(dafny_input, KeyState_PendingImport):
         return "PendingImport"
 
-    elif isinstance(input, KeyState_PendingReplicaDeletion):
+    elif isinstance(dafny_input, KeyState_PendingReplicaDeletion):
         return "PendingReplicaDeletion"
 
-    elif isinstance(input, KeyState_Unavailable):
+    elif isinstance(dafny_input, KeyState_Unavailable):
         return "Unavailable"
 
-    elif isinstance(input, KeyState_Updating):
+    elif isinstance(dafny_input, KeyState_Updating):
         return "Updating"
 
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
 
-def com_amazonaws_kms_ExpirationModelType(input):
+def com_amazonaws_kms_ExpirationModelType(dafny_input):
     # Convert ExpirationModelType
-    if isinstance(input, ExpirationModelType_KEY__MATERIAL__EXPIRES):
+    if isinstance(dafny_input, ExpirationModelType_KEY__MATERIAL__EXPIRES):
         return "KEY_MATERIAL_EXPIRES"
 
-    elif isinstance(input, ExpirationModelType_KEY__MATERIAL__DOES__NOT__EXPIRE):
+    elif isinstance(dafny_input, ExpirationModelType_KEY__MATERIAL__DOES__NOT__EXPIRE):
         return "KEY_MATERIAL_DOES_NOT_EXPIRE"
 
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
 
-def com_amazonaws_kms_KeyManagerType(input):
+def com_amazonaws_kms_KeyManagerType(dafny_input):
     # Convert KeyManagerType
-    if isinstance(input, KeyManagerType_AWS):
+    if isinstance(dafny_input, KeyManagerType_AWS):
         return "AWS"
 
-    elif isinstance(input, KeyManagerType_CUSTOMER):
+    elif isinstance(dafny_input, KeyManagerType_CUSTOMER):
         return "CUSTOMER"
 
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
 
-def com_amazonaws_kms_EncryptionAlgorithmSpec(input):
+def com_amazonaws_kms_EncryptionAlgorithmSpec(dafny_input):
     # Convert EncryptionAlgorithmSpec
-    if isinstance(input, EncryptionAlgorithmSpec_SYMMETRIC__DEFAULT):
+    if isinstance(dafny_input, EncryptionAlgorithmSpec_SYMMETRIC__DEFAULT):
         return "SYMMETRIC_DEFAULT"
 
-    elif isinstance(input, EncryptionAlgorithmSpec_RSAES__OAEP__SHA__1):
+    elif isinstance(dafny_input, EncryptionAlgorithmSpec_RSAES__OAEP__SHA__1):
         return "RSAES_OAEP_SHA_1"
 
-    elif isinstance(input, EncryptionAlgorithmSpec_RSAES__OAEP__SHA__256):
+    elif isinstance(dafny_input, EncryptionAlgorithmSpec_RSAES__OAEP__SHA__256):
         return "RSAES_OAEP_SHA_256"
 
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
 
-def com_amazonaws_kms_SigningAlgorithmSpec(input):
+def com_amazonaws_kms_SigningAlgorithmSpec(dafny_input):
     # Convert SigningAlgorithmSpec
-    if isinstance(input, SigningAlgorithmSpec_RSASSA__PSS__SHA__256):
+    if isinstance(dafny_input, SigningAlgorithmSpec_RSASSA__PSS__SHA__256):
         return "RSASSA_PSS_SHA_256"
 
-    elif isinstance(input, SigningAlgorithmSpec_RSASSA__PSS__SHA__384):
+    elif isinstance(dafny_input, SigningAlgorithmSpec_RSASSA__PSS__SHA__384):
         return "RSASSA_PSS_SHA_384"
 
-    elif isinstance(input, SigningAlgorithmSpec_RSASSA__PSS__SHA__512):
+    elif isinstance(dafny_input, SigningAlgorithmSpec_RSASSA__PSS__SHA__512):
         return "RSASSA_PSS_SHA_512"
 
-    elif isinstance(input, SigningAlgorithmSpec_RSASSA__PKCS1__V1__5__SHA__256):
+    elif isinstance(dafny_input, SigningAlgorithmSpec_RSASSA__PKCS1__V1__5__SHA__256):
         return "RSASSA_PKCS1_V1_5_SHA_256"
 
-    elif isinstance(input, SigningAlgorithmSpec_RSASSA__PKCS1__V1__5__SHA__384):
+    elif isinstance(dafny_input, SigningAlgorithmSpec_RSASSA__PKCS1__V1__5__SHA__384):
         return "RSASSA_PKCS1_V1_5_SHA_384"
 
-    elif isinstance(input, SigningAlgorithmSpec_RSASSA__PKCS1__V1__5__SHA__512):
+    elif isinstance(dafny_input, SigningAlgorithmSpec_RSASSA__PKCS1__V1__5__SHA__512):
         return "RSASSA_PKCS1_V1_5_SHA_512"
 
-    elif isinstance(input, SigningAlgorithmSpec_ECDSA__SHA__256):
+    elif isinstance(dafny_input, SigningAlgorithmSpec_ECDSA__SHA__256):
         return "ECDSA_SHA_256"
 
-    elif isinstance(input, SigningAlgorithmSpec_ECDSA__SHA__384):
+    elif isinstance(dafny_input, SigningAlgorithmSpec_ECDSA__SHA__384):
         return "ECDSA_SHA_384"
 
-    elif isinstance(input, SigningAlgorithmSpec_ECDSA__SHA__512):
+    elif isinstance(dafny_input, SigningAlgorithmSpec_ECDSA__SHA__512):
         return "ECDSA_SHA_512"
 
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
 
-def com_amazonaws_kms_MultiRegionConfiguration(input):
+def com_amazonaws_kms_MultiRegionConfiguration(dafny_input):
     output = {}
-    if input.MultiRegionKeyType.is_Some:
+    if dafny_input.MultiRegionKeyType.is_Some:
         output["MultiRegionKeyType"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_MultiRegionKeyType(
-                input.MultiRegionKeyType.value
+                dafny_input.MultiRegionKeyType.value
             )
         )
 
-    if input.PrimaryKey.is_Some:
+    if dafny_input.PrimaryKey.is_Some:
         output["PrimaryKey"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_MultiRegionKey(
-                input.PrimaryKey.value
+                dafny_input.PrimaryKey.value
             )
         )
 
-    if input.ReplicaKeys.is_Some:
+    if dafny_input.ReplicaKeys.is_Some:
         output["ReplicaKeys"] = [
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_MultiRegionKey(
                 list_element
             )
-            for list_element in input.ReplicaKeys.value
+            for list_element in dafny_input.ReplicaKeys.value
         ]
 
     return output
 
 
-def com_amazonaws_kms_MultiRegionKeyType(input):
+def com_amazonaws_kms_MultiRegionKeyType(dafny_input):
     # Convert MultiRegionKeyType
-    if isinstance(input, MultiRegionKeyType_PRIMARY):
+    if isinstance(dafny_input, MultiRegionKeyType_PRIMARY):
         return "PRIMARY"
 
-    elif isinstance(input, MultiRegionKeyType_REPLICA):
+    elif isinstance(dafny_input, MultiRegionKeyType_REPLICA):
         return "REPLICA"
 
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
 
-def com_amazonaws_kms_MultiRegionKey(input):
+def com_amazonaws_kms_MultiRegionKey(dafny_input):
     output = {}
-    if input.Arn.is_Some:
-        output["Arn"] = input.Arn.value.VerbatimString(False)
+    if dafny_input.Arn.is_Some:
+        output["Arn"] = dafny_input.Arn.value.VerbatimString(False)
 
-    if input.Region.is_Some:
-        output["Region"] = input.Region.value.VerbatimString(False)
+    if dafny_input.Region.is_Some:
+        output["Region"] = dafny_input.Region.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_CreateKeyResponse(input):
+def com_amazonaws_kms_CreateKeyResponse(dafny_input):
     output = {}
-    if input.KeyMetadata.is_Some:
+    if dafny_input.KeyMetadata.is_Some:
         output["KeyMetadata"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_KeyMetadata(
-                input.KeyMetadata.value
+                dafny_input.KeyMetadata.value
             )
         )
 
     return output
 
 
-def com_amazonaws_kms_DecryptRequest(input):
+def com_amazonaws_kms_DecryptRequest(dafny_input):
     output = {}
-    output["CiphertextBlob"] = bytes(input.CiphertextBlob)
-    if input.EncryptionContext.is_Some:
+    output["CiphertextBlob"] = bytes(dafny_input.CiphertextBlob)
+    if dafny_input.EncryptionContext.is_Some:
         output["EncryptionContext"] = {
             key.VerbatimString(False): value.VerbatimString(False)
-            for (key, value) in input.EncryptionContext.value.items
+            for (key, value) in dafny_input.EncryptionContext.value.items
         }
 
-    if input.GrantTokens.is_Some:
+    if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
             list_element.VerbatimString(False)
-            for list_element in input.GrantTokens.value
+            for list_element in dafny_input.GrantTokens.value
         ]
 
-    if input.KeyId.is_Some:
-        output["KeyId"] = input.KeyId.value.VerbatimString(False)
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
 
-    if input.EncryptionAlgorithm.is_Some:
+    if dafny_input.EncryptionAlgorithm.is_Some:
         output["EncryptionAlgorithm"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EncryptionAlgorithmSpec(
-                input.EncryptionAlgorithm.value
+                dafny_input.EncryptionAlgorithm.value
             )
         )
 
     return output
 
 
-def com_amazonaws_kms_DecryptResponse(input):
+def com_amazonaws_kms_DecryptResponse(dafny_input):
     output = {}
-    if input.KeyId.is_Some:
-        output["KeyId"] = input.KeyId.value.VerbatimString(False)
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
 
-    if input.Plaintext.is_Some:
-        output["Plaintext"] = bytes(input.Plaintext.value)
+    if dafny_input.Plaintext.is_Some:
+        output["Plaintext"] = bytes(dafny_input.Plaintext.value)
 
-    if input.EncryptionAlgorithm.is_Some:
+    if dafny_input.EncryptionAlgorithm.is_Some:
         output["EncryptionAlgorithm"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EncryptionAlgorithmSpec(
-                input.EncryptionAlgorithm.value
+                dafny_input.EncryptionAlgorithm.value
             )
         )
 
     return output
 
 
-def com_amazonaws_kms_DeleteAliasRequest(input):
+def com_amazonaws_kms_DeleteAliasRequest(dafny_input):
     output = {}
-    output["AliasName"] = input.AliasName.VerbatimString(False)
+    output["AliasName"] = dafny_input.AliasName.VerbatimString(False)
     return output
 
 
-def com_amazonaws_kms_DeleteCustomKeyStoreRequest(input):
+def com_amazonaws_kms_DeleteCustomKeyStoreRequest(dafny_input):
     output = {}
-    output["CustomKeyStoreId"] = input.CustomKeyStoreId.VerbatimString(False)
+    output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.VerbatimString(False)
     return output
 
 
-def com_amazonaws_kms_DeleteCustomKeyStoreResponse(input):
+def com_amazonaws_kms_DeleteCustomKeyStoreResponse(dafny_input):
     output = {}
     return output
 
 
-def com_amazonaws_kms_DeleteImportedKeyMaterialRequest(input):
+def com_amazonaws_kms_DeleteImportedKeyMaterialRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
     return output
 
 
-def com_amazonaws_kms_DescribeCustomKeyStoresRequest(input):
+def com_amazonaws_kms_DescribeCustomKeyStoresRequest(dafny_input):
     output = {}
-    if input.CustomKeyStoreId.is_Some:
-        output["CustomKeyStoreId"] = input.CustomKeyStoreId.value.VerbatimString(False)
-
-    if input.CustomKeyStoreName.is_Some:
-        output["CustomKeyStoreName"] = input.CustomKeyStoreName.value.VerbatimString(
+    if dafny_input.CustomKeyStoreId.is_Some:
+        output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.value.VerbatimString(
             False
         )
 
-    if input.Limit.is_Some:
-        output["Limit"] = input.Limit.value
+    if dafny_input.CustomKeyStoreName.is_Some:
+        output["CustomKeyStoreName"] = (
+            dafny_input.CustomKeyStoreName.value.VerbatimString(False)
+        )
 
-    if input.Marker.is_Some:
-        output["Marker"] = input.Marker.value.VerbatimString(False)
+    if dafny_input.Limit.is_Some:
+        output["Limit"] = dafny_input.Limit.value
+
+    if dafny_input.Marker.is_Some:
+        output["Marker"] = dafny_input.Marker.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_CustomKeyStoresListEntry(input):
+def com_amazonaws_kms_CustomKeyStoresListEntry(dafny_input):
     output = {}
-    if input.CustomKeyStoreId.is_Some:
-        output["CustomKeyStoreId"] = input.CustomKeyStoreId.value.VerbatimString(False)
-
-    if input.CustomKeyStoreName.is_Some:
-        output["CustomKeyStoreName"] = input.CustomKeyStoreName.value.VerbatimString(
+    if dafny_input.CustomKeyStoreId.is_Some:
+        output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.value.VerbatimString(
             False
         )
 
-    if input.CloudHsmClusterId.is_Some:
-        output["CloudHsmClusterId"] = input.CloudHsmClusterId.value.VerbatimString(
-            False
+    if dafny_input.CustomKeyStoreName.is_Some:
+        output["CustomKeyStoreName"] = (
+            dafny_input.CustomKeyStoreName.value.VerbatimString(False)
         )
 
-    if input.TrustAnchorCertificate.is_Some:
+    if dafny_input.CloudHsmClusterId.is_Some:
+        output["CloudHsmClusterId"] = (
+            dafny_input.CloudHsmClusterId.value.VerbatimString(False)
+        )
+
+    if dafny_input.TrustAnchorCertificate.is_Some:
         output["TrustAnchorCertificate"] = (
-            input.TrustAnchorCertificate.value.VerbatimString(False)
+            dafny_input.TrustAnchorCertificate.value.VerbatimString(False)
         )
 
-    if input.ConnectionState.is_Some:
+    if dafny_input.ConnectionState.is_Some:
         output["ConnectionState"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ConnectionStateType(
-                input.ConnectionState.value
+                dafny_input.ConnectionState.value
             )
         )
 
-    if input.ConnectionErrorCode.is_Some:
+    if dafny_input.ConnectionErrorCode.is_Some:
         output["ConnectionErrorCode"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ConnectionErrorCodeType(
-                input.ConnectionErrorCode.value
+                dafny_input.ConnectionErrorCode.value
             )
         )
 
-    if input.CreationDate.is_Some:
+    if dafny_input.CreationDate.is_Some:
         output["CreationDate"] = TypeError("TimestampShape not supported")
 
     return output
 
 
-def com_amazonaws_kms_ConnectionStateType(input):
+def com_amazonaws_kms_ConnectionStateType(dafny_input):
     # Convert ConnectionStateType
-    if isinstance(input, ConnectionStateType_CONNECTED):
+    if isinstance(dafny_input, ConnectionStateType_CONNECTED):
         return "CONNECTED"
 
-    elif isinstance(input, ConnectionStateType_CONNECTING):
+    elif isinstance(dafny_input, ConnectionStateType_CONNECTING):
         return "CONNECTING"
 
-    elif isinstance(input, ConnectionStateType_FAILED):
+    elif isinstance(dafny_input, ConnectionStateType_FAILED):
         return "FAILED"
 
-    elif isinstance(input, ConnectionStateType_DISCONNECTED):
+    elif isinstance(dafny_input, ConnectionStateType_DISCONNECTED):
         return "DISCONNECTED"
 
-    elif isinstance(input, ConnectionStateType_DISCONNECTING):
+    elif isinstance(dafny_input, ConnectionStateType_DISCONNECTING):
         return "DISCONNECTING"
 
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
 
-def com_amazonaws_kms_ConnectionErrorCodeType(input):
+def com_amazonaws_kms_ConnectionErrorCodeType(dafny_input):
     # Convert ConnectionErrorCodeType
-    if isinstance(input, ConnectionErrorCodeType_INVALID__CREDENTIALS):
+    if isinstance(dafny_input, ConnectionErrorCodeType_INVALID__CREDENTIALS):
         return "INVALID_CREDENTIALS"
 
-    elif isinstance(input, ConnectionErrorCodeType_CLUSTER__NOT__FOUND):
+    elif isinstance(dafny_input, ConnectionErrorCodeType_CLUSTER__NOT__FOUND):
         return "CLUSTER_NOT_FOUND"
 
-    elif isinstance(input, ConnectionErrorCodeType_NETWORK__ERRORS):
+    elif isinstance(dafny_input, ConnectionErrorCodeType_NETWORK__ERRORS):
         return "NETWORK_ERRORS"
 
-    elif isinstance(input, ConnectionErrorCodeType_INTERNAL__ERROR):
+    elif isinstance(dafny_input, ConnectionErrorCodeType_INTERNAL__ERROR):
         return "INTERNAL_ERROR"
 
-    elif isinstance(input, ConnectionErrorCodeType_INSUFFICIENT__CLOUDHSM__HSMS):
+    elif isinstance(dafny_input, ConnectionErrorCodeType_INSUFFICIENT__CLOUDHSM__HSMS):
         return "INSUFFICIENT_CLOUDHSM_HSMS"
 
-    elif isinstance(input, ConnectionErrorCodeType_USER__LOCKED__OUT):
+    elif isinstance(dafny_input, ConnectionErrorCodeType_USER__LOCKED__OUT):
         return "USER_LOCKED_OUT"
 
-    elif isinstance(input, ConnectionErrorCodeType_USER__NOT__FOUND):
+    elif isinstance(dafny_input, ConnectionErrorCodeType_USER__NOT__FOUND):
         return "USER_NOT_FOUND"
 
-    elif isinstance(input, ConnectionErrorCodeType_USER__LOGGED__IN):
+    elif isinstance(dafny_input, ConnectionErrorCodeType_USER__LOGGED__IN):
         return "USER_LOGGED_IN"
 
-    elif isinstance(input, ConnectionErrorCodeType_SUBNET__NOT__FOUND):
+    elif isinstance(dafny_input, ConnectionErrorCodeType_SUBNET__NOT__FOUND):
         return "SUBNET_NOT_FOUND"
 
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
 
-def com_amazonaws_kms_DescribeCustomKeyStoresResponse(input):
+def com_amazonaws_kms_DescribeCustomKeyStoresResponse(dafny_input):
     output = {}
-    if input.CustomKeyStores.is_Some:
+    if dafny_input.CustomKeyStores.is_Some:
         output["CustomKeyStores"] = [
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_CustomKeyStoresListEntry(
                 list_element
             )
-            for list_element in input.CustomKeyStores.value
+            for list_element in dafny_input.CustomKeyStores.value
         ]
 
-    if input.NextMarker.is_Some:
-        output["NextMarker"] = input.NextMarker.value.VerbatimString(False)
+    if dafny_input.NextMarker.is_Some:
+        output["NextMarker"] = dafny_input.NextMarker.value.VerbatimString(False)
 
-    if input.Truncated.is_Some:
-        output["Truncated"] = input.Truncated.value
+    if dafny_input.Truncated.is_Some:
+        output["Truncated"] = dafny_input.Truncated.value
 
     return output
 
 
-def com_amazonaws_kms_DescribeKeyRequest(input):
+def com_amazonaws_kms_DescribeKeyRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    if input.GrantTokens.is_Some:
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
             list_element.VerbatimString(False)
-            for list_element in input.GrantTokens.value
+            for list_element in dafny_input.GrantTokens.value
         ]
 
     return output
 
 
-def com_amazonaws_kms_DescribeKeyResponse(input):
+def com_amazonaws_kms_DescribeKeyResponse(dafny_input):
     output = {}
-    if input.KeyMetadata.is_Some:
+    if dafny_input.KeyMetadata.is_Some:
         output["KeyMetadata"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_KeyMetadata(
-                input.KeyMetadata.value
+                dafny_input.KeyMetadata.value
             )
         )
 
     return output
 
 
-def com_amazonaws_kms_DisableKeyRequest(input):
+def com_amazonaws_kms_DisableKeyRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
     return output
 
 
-def com_amazonaws_kms_DisableKeyRotationRequest(input):
+def com_amazonaws_kms_DisableKeyRotationRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
     return output
 
 
-def com_amazonaws_kms_DisconnectCustomKeyStoreRequest(input):
+def com_amazonaws_kms_DisconnectCustomKeyStoreRequest(dafny_input):
     output = {}
-    output["CustomKeyStoreId"] = input.CustomKeyStoreId.VerbatimString(False)
+    output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.VerbatimString(False)
     return output
 
 
-def com_amazonaws_kms_DisconnectCustomKeyStoreResponse(input):
+def com_amazonaws_kms_DisconnectCustomKeyStoreResponse(dafny_input):
     output = {}
     return output
 
 
-def com_amazonaws_kms_EnableKeyRequest(input):
+def com_amazonaws_kms_EnableKeyRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
     return output
 
 
-def com_amazonaws_kms_EnableKeyRotationRequest(input):
+def com_amazonaws_kms_EnableKeyRotationRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
     return output
 
 
-def com_amazonaws_kms_EncryptRequest(input):
+def com_amazonaws_kms_EncryptRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    output["Plaintext"] = bytes(input.Plaintext)
-    if input.EncryptionContext.is_Some:
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["Plaintext"] = bytes(dafny_input.Plaintext)
+    if dafny_input.EncryptionContext.is_Some:
         output["EncryptionContext"] = {
             key.VerbatimString(False): value.VerbatimString(False)
-            for (key, value) in input.EncryptionContext.value.items
+            for (key, value) in dafny_input.EncryptionContext.value.items
         }
 
-    if input.GrantTokens.is_Some:
+    if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
             list_element.VerbatimString(False)
-            for list_element in input.GrantTokens.value
+            for list_element in dafny_input.GrantTokens.value
         ]
 
-    if input.EncryptionAlgorithm.is_Some:
+    if dafny_input.EncryptionAlgorithm.is_Some:
         output["EncryptionAlgorithm"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EncryptionAlgorithmSpec(
-                input.EncryptionAlgorithm.value
+                dafny_input.EncryptionAlgorithm.value
             )
         )
 
     return output
 
 
-def com_amazonaws_kms_EncryptResponse(input):
+def com_amazonaws_kms_EncryptResponse(dafny_input):
     output = {}
-    if input.CiphertextBlob.is_Some:
-        output["CiphertextBlob"] = bytes(input.CiphertextBlob.value)
+    if dafny_input.CiphertextBlob.is_Some:
+        output["CiphertextBlob"] = bytes(dafny_input.CiphertextBlob.value)
 
-    if input.KeyId.is_Some:
-        output["KeyId"] = input.KeyId.value.VerbatimString(False)
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
 
-    if input.EncryptionAlgorithm.is_Some:
+    if dafny_input.EncryptionAlgorithm.is_Some:
         output["EncryptionAlgorithm"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EncryptionAlgorithmSpec(
-                input.EncryptionAlgorithm.value
+                dafny_input.EncryptionAlgorithm.value
             )
         )
 
     return output
 
 
-def com_amazonaws_kms_DataKeySpec(input):
+def com_amazonaws_kms_DataKeySpec(dafny_input):
     # Convert DataKeySpec
-    if isinstance(input, DataKeySpec_AES__256):
+    if isinstance(dafny_input, DataKeySpec_AES__256):
         return "AES_256"
 
-    elif isinstance(input, DataKeySpec_AES__128):
+    elif isinstance(dafny_input, DataKeySpec_AES__128):
         return "AES_128"
 
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
 
-def com_amazonaws_kms_GenerateDataKeyRequest(input):
+def com_amazonaws_kms_GenerateDataKeyRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    if input.EncryptionContext.is_Some:
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    if dafny_input.EncryptionContext.is_Some:
         output["EncryptionContext"] = {
             key.VerbatimString(False): value.VerbatimString(False)
-            for (key, value) in input.EncryptionContext.value.items
+            for (key, value) in dafny_input.EncryptionContext.value.items
         }
 
-    if input.NumberOfBytes.is_Some:
-        output["NumberOfBytes"] = input.NumberOfBytes.value
+    if dafny_input.NumberOfBytes.is_Some:
+        output["NumberOfBytes"] = dafny_input.NumberOfBytes.value
 
-    if input.KeySpec.is_Some:
+    if dafny_input.KeySpec.is_Some:
         output["KeySpec"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DataKeySpec(
-                input.KeySpec.value
+                dafny_input.KeySpec.value
             )
         )
 
-    if input.GrantTokens.is_Some:
+    if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
             list_element.VerbatimString(False)
-            for list_element in input.GrantTokens.value
+            for list_element in dafny_input.GrantTokens.value
         ]
 
     return output
 
 
-def com_amazonaws_kms_GenerateDataKeyResponse(input):
+def com_amazonaws_kms_GenerateDataKeyResponse(dafny_input):
     output = {}
-    if input.CiphertextBlob.is_Some:
-        output["CiphertextBlob"] = bytes(input.CiphertextBlob.value)
+    if dafny_input.CiphertextBlob.is_Some:
+        output["CiphertextBlob"] = bytes(dafny_input.CiphertextBlob.value)
 
-    if input.Plaintext.is_Some:
-        output["Plaintext"] = bytes(input.Plaintext.value)
+    if dafny_input.Plaintext.is_Some:
+        output["Plaintext"] = bytes(dafny_input.Plaintext.value)
 
-    if input.KeyId.is_Some:
-        output["KeyId"] = input.KeyId.value.VerbatimString(False)
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_DataKeyPairSpec(input):
+def com_amazonaws_kms_DataKeyPairSpec(dafny_input):
     # Convert DataKeyPairSpec
-    if isinstance(input, DataKeyPairSpec_RSA__2048):
+    if isinstance(dafny_input, DataKeyPairSpec_RSA__2048):
         return "RSA_2048"
 
-    elif isinstance(input, DataKeyPairSpec_RSA__3072):
+    elif isinstance(dafny_input, DataKeyPairSpec_RSA__3072):
         return "RSA_3072"
 
-    elif isinstance(input, DataKeyPairSpec_RSA__4096):
+    elif isinstance(dafny_input, DataKeyPairSpec_RSA__4096):
         return "RSA_4096"
 
-    elif isinstance(input, DataKeyPairSpec_ECC__NIST__P256):
+    elif isinstance(dafny_input, DataKeyPairSpec_ECC__NIST__P256):
         return "ECC_NIST_P256"
 
-    elif isinstance(input, DataKeyPairSpec_ECC__NIST__P384):
+    elif isinstance(dafny_input, DataKeyPairSpec_ECC__NIST__P384):
         return "ECC_NIST_P384"
 
-    elif isinstance(input, DataKeyPairSpec_ECC__NIST__P521):
+    elif isinstance(dafny_input, DataKeyPairSpec_ECC__NIST__P521):
         return "ECC_NIST_P521"
 
-    elif isinstance(input, DataKeyPairSpec_ECC__SECG__P256K1):
+    elif isinstance(dafny_input, DataKeyPairSpec_ECC__SECG__P256K1):
         return "ECC_SECG_P256K1"
 
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
 
-def com_amazonaws_kms_GenerateDataKeyPairRequest(input):
+def com_amazonaws_kms_GenerateDataKeyPairRequest(dafny_input):
     output = {}
-    if input.EncryptionContext.is_Some:
+    if dafny_input.EncryptionContext.is_Some:
         output["EncryptionContext"] = {
             key.VerbatimString(False): value.VerbatimString(False)
-            for (key, value) in input.EncryptionContext.value.items
+            for (key, value) in dafny_input.EncryptionContext.value.items
         }
 
-    output["KeyId"] = input.KeyId.VerbatimString(False)
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
     output["KeyPairSpec"] = (
         com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DataKeyPairSpec(
-            input.KeyPairSpec
+            dafny_input.KeyPairSpec
         )
     )
-    if input.GrantTokens.is_Some:
+    if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
             list_element.VerbatimString(False)
-            for list_element in input.GrantTokens.value
+            for list_element in dafny_input.GrantTokens.value
         ]
 
     return output
 
 
-def com_amazonaws_kms_GenerateDataKeyPairResponse(input):
+def com_amazonaws_kms_GenerateDataKeyPairResponse(dafny_input):
     output = {}
-    if input.PrivateKeyCiphertextBlob.is_Some:
-        output["PrivateKeyCiphertextBlob"] = bytes(input.PrivateKeyCiphertextBlob.value)
+    if dafny_input.PrivateKeyCiphertextBlob.is_Some:
+        output["PrivateKeyCiphertextBlob"] = bytes(
+            dafny_input.PrivateKeyCiphertextBlob.value
+        )
 
-    if input.PrivateKeyPlaintext.is_Some:
-        output["PrivateKeyPlaintext"] = bytes(input.PrivateKeyPlaintext.value)
+    if dafny_input.PrivateKeyPlaintext.is_Some:
+        output["PrivateKeyPlaintext"] = bytes(dafny_input.PrivateKeyPlaintext.value)
 
-    if input.PublicKey.is_Some:
-        output["PublicKey"] = bytes(input.PublicKey.value)
+    if dafny_input.PublicKey.is_Some:
+        output["PublicKey"] = bytes(dafny_input.PublicKey.value)
 
-    if input.KeyId.is_Some:
-        output["KeyId"] = input.KeyId.value.VerbatimString(False)
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
 
-    if input.KeyPairSpec.is_Some:
+    if dafny_input.KeyPairSpec.is_Some:
         output["KeyPairSpec"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DataKeyPairSpec(
-                input.KeyPairSpec.value
+                dafny_input.KeyPairSpec.value
             )
         )
 
     return output
 
 
-def com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextRequest(input):
+def com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextRequest(dafny_input):
     output = {}
-    if input.EncryptionContext.is_Some:
+    if dafny_input.EncryptionContext.is_Some:
         output["EncryptionContext"] = {
             key.VerbatimString(False): value.VerbatimString(False)
-            for (key, value) in input.EncryptionContext.value.items
+            for (key, value) in dafny_input.EncryptionContext.value.items
         }
 
-    output["KeyId"] = input.KeyId.VerbatimString(False)
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
     output["KeyPairSpec"] = (
         com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DataKeyPairSpec(
-            input.KeyPairSpec
+            dafny_input.KeyPairSpec
         )
     )
-    if input.GrantTokens.is_Some:
+    if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
             list_element.VerbatimString(False)
-            for list_element in input.GrantTokens.value
+            for list_element in dafny_input.GrantTokens.value
         ]
 
     return output
 
 
-def com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextResponse(input):
+def com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextResponse(dafny_input):
     output = {}
-    if input.PrivateKeyCiphertextBlob.is_Some:
-        output["PrivateKeyCiphertextBlob"] = bytes(input.PrivateKeyCiphertextBlob.value)
+    if dafny_input.PrivateKeyCiphertextBlob.is_Some:
+        output["PrivateKeyCiphertextBlob"] = bytes(
+            dafny_input.PrivateKeyCiphertextBlob.value
+        )
 
-    if input.PublicKey.is_Some:
-        output["PublicKey"] = bytes(input.PublicKey.value)
+    if dafny_input.PublicKey.is_Some:
+        output["PublicKey"] = bytes(dafny_input.PublicKey.value)
 
-    if input.KeyId.is_Some:
-        output["KeyId"] = input.KeyId.value.VerbatimString(False)
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
 
-    if input.KeyPairSpec.is_Some:
+    if dafny_input.KeyPairSpec.is_Some:
         output["KeyPairSpec"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DataKeyPairSpec(
-                input.KeyPairSpec.value
+                dafny_input.KeyPairSpec.value
             )
         )
 
     return output
 
 
-def com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest(input):
+def com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    if input.EncryptionContext.is_Some:
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    if dafny_input.EncryptionContext.is_Some:
         output["EncryptionContext"] = {
             key.VerbatimString(False): value.VerbatimString(False)
-            for (key, value) in input.EncryptionContext.value.items
+            for (key, value) in dafny_input.EncryptionContext.value.items
         }
 
-    if input.KeySpec.is_Some:
+    if dafny_input.KeySpec.is_Some:
         output["KeySpec"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DataKeySpec(
-                input.KeySpec.value
+                dafny_input.KeySpec.value
             )
         )
 
-    if input.NumberOfBytes.is_Some:
-        output["NumberOfBytes"] = input.NumberOfBytes.value
+    if dafny_input.NumberOfBytes.is_Some:
+        output["NumberOfBytes"] = dafny_input.NumberOfBytes.value
 
-    if input.GrantTokens.is_Some:
+    if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
             list_element.VerbatimString(False)
-            for list_element in input.GrantTokens.value
+            for list_element in dafny_input.GrantTokens.value
         ]
 
     return output
 
 
-def com_amazonaws_kms_GenerateDataKeyWithoutPlaintextResponse(input):
+def com_amazonaws_kms_GenerateDataKeyWithoutPlaintextResponse(dafny_input):
     output = {}
-    if input.CiphertextBlob.is_Some:
-        output["CiphertextBlob"] = bytes(input.CiphertextBlob.value)
+    if dafny_input.CiphertextBlob.is_Some:
+        output["CiphertextBlob"] = bytes(dafny_input.CiphertextBlob.value)
 
-    if input.KeyId.is_Some:
-        output["KeyId"] = input.KeyId.value.VerbatimString(False)
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_GenerateRandomRequest(input):
+def com_amazonaws_kms_GenerateRandomRequest(dafny_input):
     output = {}
-    if input.NumberOfBytes.is_Some:
-        output["NumberOfBytes"] = input.NumberOfBytes.value
+    if dafny_input.NumberOfBytes.is_Some:
+        output["NumberOfBytes"] = dafny_input.NumberOfBytes.value
 
-    if input.CustomKeyStoreId.is_Some:
-        output["CustomKeyStoreId"] = input.CustomKeyStoreId.value.VerbatimString(False)
+    if dafny_input.CustomKeyStoreId.is_Some:
+        output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.value.VerbatimString(
+            False
+        )
 
     return output
 
 
-def com_amazonaws_kms_GenerateRandomResponse(input):
+def com_amazonaws_kms_GenerateRandomResponse(dafny_input):
     output = {}
-    if input.Plaintext.is_Some:
-        output["Plaintext"] = bytes(input.Plaintext.value)
+    if dafny_input.Plaintext.is_Some:
+        output["Plaintext"] = bytes(dafny_input.Plaintext.value)
 
     return output
 
 
-def com_amazonaws_kms_GetKeyPolicyRequest(input):
+def com_amazonaws_kms_GetKeyPolicyRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    output["PolicyName"] = input.PolicyName.VerbatimString(False)
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["PolicyName"] = dafny_input.PolicyName.VerbatimString(False)
     return output
 
 
-def com_amazonaws_kms_GetKeyPolicyResponse(input):
+def com_amazonaws_kms_GetKeyPolicyResponse(dafny_input):
     output = {}
-    if input.Policy.is_Some:
-        output["Policy"] = input.Policy.value.VerbatimString(False)
-
-    return output
-
-
-def com_amazonaws_kms_GetKeyRotationStatusRequest(input):
-    output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    return output
-
-
-def com_amazonaws_kms_GetKeyRotationStatusResponse(input):
-    output = {}
-    if input.KeyRotationEnabled.is_Some:
-        output["KeyRotationEnabled"] = input.KeyRotationEnabled.value
+    if dafny_input.Policy.is_Some:
+        output["Policy"] = dafny_input.Policy.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_AlgorithmSpec(input):
+def com_amazonaws_kms_GetKeyRotationStatusRequest(dafny_input):
+    output = {}
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    return output
+
+
+def com_amazonaws_kms_GetKeyRotationStatusResponse(dafny_input):
+    output = {}
+    if dafny_input.KeyRotationEnabled.is_Some:
+        output["KeyRotationEnabled"] = dafny_input.KeyRotationEnabled.value
+
+    return output
+
+
+def com_amazonaws_kms_AlgorithmSpec(dafny_input):
     # Convert AlgorithmSpec
-    if isinstance(input, AlgorithmSpec_RSAES__PKCS1__V1__5):
+    if isinstance(dafny_input, AlgorithmSpec_RSAES__PKCS1__V1__5):
         return "RSAES_PKCS1_V1_5"
 
-    elif isinstance(input, AlgorithmSpec_RSAES__OAEP__SHA__1):
+    elif isinstance(dafny_input, AlgorithmSpec_RSAES__OAEP__SHA__1):
         return "RSAES_OAEP_SHA_1"
 
-    elif isinstance(input, AlgorithmSpec_RSAES__OAEP__SHA__256):
+    elif isinstance(dafny_input, AlgorithmSpec_RSAES__OAEP__SHA__256):
         return "RSAES_OAEP_SHA_256"
 
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
 
-def com_amazonaws_kms_WrappingKeySpec(input):
+def com_amazonaws_kms_WrappingKeySpec(dafny_input):
     # Convert WrappingKeySpec
-    if isinstance(input, WrappingKeySpec_RSA__2048):
+    if isinstance(dafny_input, WrappingKeySpec_RSA__2048):
         return "RSA_2048"
 
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
 
-def com_amazonaws_kms_GetParametersForImportRequest(input):
+def com_amazonaws_kms_GetParametersForImportRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
     output["WrappingAlgorithm"] = (
         com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_AlgorithmSpec(
-            input.WrappingAlgorithm
+            dafny_input.WrappingAlgorithm
         )
     )
     output["WrappingKeySpec"] = (
         com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_WrappingKeySpec(
-            input.WrappingKeySpec
+            dafny_input.WrappingKeySpec
         )
     )
     return output
 
 
-def com_amazonaws_kms_GetParametersForImportResponse(input):
+def com_amazonaws_kms_GetParametersForImportResponse(dafny_input):
     output = {}
-    if input.KeyId.is_Some:
-        output["KeyId"] = input.KeyId.value.VerbatimString(False)
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
 
-    if input.ImportToken.is_Some:
-        output["ImportToken"] = bytes(input.ImportToken.value)
+    if dafny_input.ImportToken.is_Some:
+        output["ImportToken"] = bytes(dafny_input.ImportToken.value)
 
-    if input.PublicKey.is_Some:
-        output["PublicKey"] = bytes(input.PublicKey.value)
+    if dafny_input.PublicKey.is_Some:
+        output["PublicKey"] = bytes(dafny_input.PublicKey.value)
 
-    if input.ParametersValidTo.is_Some:
+    if dafny_input.ParametersValidTo.is_Some:
         output["ParametersValidTo"] = TypeError("TimestampShape not supported")
 
     return output
 
 
-def com_amazonaws_kms_GetPublicKeyRequest(input):
+def com_amazonaws_kms_GetPublicKeyRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    if input.GrantTokens.is_Some:
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
             list_element.VerbatimString(False)
-            for list_element in input.GrantTokens.value
+            for list_element in dafny_input.GrantTokens.value
         ]
 
     return output
 
 
-def com_amazonaws_kms_GetPublicKeyResponse(input):
+def com_amazonaws_kms_GetPublicKeyResponse(dafny_input):
     output = {}
-    if input.KeyId.is_Some:
-        output["KeyId"] = input.KeyId.value.VerbatimString(False)
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
 
-    if input.PublicKey.is_Some:
-        output["PublicKey"] = bytes(input.PublicKey.value)
+    if dafny_input.PublicKey.is_Some:
+        output["PublicKey"] = bytes(dafny_input.PublicKey.value)
 
-    if input.CustomerMasterKeySpec.is_Some:
+    if dafny_input.CustomerMasterKeySpec.is_Some:
         output["CustomerMasterKeySpec"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_CustomerMasterKeySpec(
-                input.CustomerMasterKeySpec.value
+                dafny_input.CustomerMasterKeySpec.value
             )
         )
 
-    if input.KeySpec.is_Some:
+    if dafny_input.KeySpec.is_Some:
         output["KeySpec"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_KeySpec(
-                input.KeySpec.value
+                dafny_input.KeySpec.value
             )
         )
 
-    if input.KeyUsage.is_Some:
+    if dafny_input.KeyUsage.is_Some:
         output["KeyUsage"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_KeyUsageType(
-                input.KeyUsage.value
+                dafny_input.KeyUsage.value
             )
         )
 
-    if input.EncryptionAlgorithms.is_Some:
+    if dafny_input.EncryptionAlgorithms.is_Some:
         output["EncryptionAlgorithms"] = [
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EncryptionAlgorithmSpec(
                 list_element
             )
-            for list_element in input.EncryptionAlgorithms.value
+            for list_element in dafny_input.EncryptionAlgorithms.value
         ]
 
-    if input.SigningAlgorithms.is_Some:
+    if dafny_input.SigningAlgorithms.is_Some:
         output["SigningAlgorithms"] = [
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_SigningAlgorithmSpec(
                 list_element
             )
-            for list_element in input.SigningAlgorithms.value
+            for list_element in dafny_input.SigningAlgorithms.value
         ]
 
     return output
 
 
-def com_amazonaws_kms_ImportKeyMaterialRequest(input):
+def com_amazonaws_kms_ImportKeyMaterialRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    output["ImportToken"] = bytes(input.ImportToken)
-    output["EncryptedKeyMaterial"] = bytes(input.EncryptedKeyMaterial)
-    if input.ValidTo.is_Some:
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["ImportToken"] = bytes(dafny_input.ImportToken)
+    output["EncryptedKeyMaterial"] = bytes(dafny_input.EncryptedKeyMaterial)
+    if dafny_input.ValidTo.is_Some:
         output["ValidTo"] = TypeError("TimestampShape not supported")
 
-    if input.ExpirationModel.is_Some:
+    if dafny_input.ExpirationModel.is_Some:
         output["ExpirationModel"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ExpirationModelType(
-                input.ExpirationModel.value
+                dafny_input.ExpirationModel.value
             )
         )
 
     return output
 
 
-def com_amazonaws_kms_ImportKeyMaterialResponse(input):
+def com_amazonaws_kms_ImportKeyMaterialResponse(dafny_input):
     output = {}
     return output
 
 
-def com_amazonaws_kms_ListAliasesRequest(input):
+def com_amazonaws_kms_ListAliasesRequest(dafny_input):
     output = {}
-    if input.KeyId.is_Some:
-        output["KeyId"] = input.KeyId.value.VerbatimString(False)
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
 
-    if input.Limit.is_Some:
-        output["Limit"] = input.Limit.value
+    if dafny_input.Limit.is_Some:
+        output["Limit"] = dafny_input.Limit.value
 
-    if input.Marker.is_Some:
-        output["Marker"] = input.Marker.value.VerbatimString(False)
+    if dafny_input.Marker.is_Some:
+        output["Marker"] = dafny_input.Marker.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_AliasListEntry(input):
+def com_amazonaws_kms_AliasListEntry(dafny_input):
     output = {}
-    if input.AliasName.is_Some:
-        output["AliasName"] = input.AliasName.value.VerbatimString(False)
+    if dafny_input.AliasName.is_Some:
+        output["AliasName"] = dafny_input.AliasName.value.VerbatimString(False)
 
-    if input.AliasArn.is_Some:
-        output["AliasArn"] = input.AliasArn.value.VerbatimString(False)
+    if dafny_input.AliasArn.is_Some:
+        output["AliasArn"] = dafny_input.AliasArn.value.VerbatimString(False)
 
-    if input.TargetKeyId.is_Some:
-        output["TargetKeyId"] = input.TargetKeyId.value.VerbatimString(False)
+    if dafny_input.TargetKeyId.is_Some:
+        output["TargetKeyId"] = dafny_input.TargetKeyId.value.VerbatimString(False)
 
-    if input.CreationDate.is_Some:
+    if dafny_input.CreationDate.is_Some:
         output["CreationDate"] = TypeError("TimestampShape not supported")
 
-    if input.LastUpdatedDate.is_Some:
+    if dafny_input.LastUpdatedDate.is_Some:
         output["LastUpdatedDate"] = TypeError("TimestampShape not supported")
 
     return output
 
 
-def com_amazonaws_kms_ListAliasesResponse(input):
+def com_amazonaws_kms_ListAliasesResponse(dafny_input):
     output = {}
-    if input.Aliases.is_Some:
+    if dafny_input.Aliases.is_Some:
         output["Aliases"] = [
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_AliasListEntry(
                 list_element
             )
-            for list_element in input.Aliases.value
+            for list_element in dafny_input.Aliases.value
         ]
 
-    if input.NextMarker.is_Some:
-        output["NextMarker"] = input.NextMarker.value.VerbatimString(False)
+    if dafny_input.NextMarker.is_Some:
+        output["NextMarker"] = dafny_input.NextMarker.value.VerbatimString(False)
 
-    if input.Truncated.is_Some:
-        output["Truncated"] = input.Truncated.value
-
-    return output
-
-
-def com_amazonaws_kms_ListGrantsRequest(input):
-    output = {}
-    if input.Limit.is_Some:
-        output["Limit"] = input.Limit.value
-
-    if input.Marker.is_Some:
-        output["Marker"] = input.Marker.value.VerbatimString(False)
-
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    if input.GrantId.is_Some:
-        output["GrantId"] = input.GrantId.value.VerbatimString(False)
-
-    if input.GranteePrincipal.is_Some:
-        output["GranteePrincipal"] = input.GranteePrincipal.value.VerbatimString(False)
+    if dafny_input.Truncated.is_Some:
+        output["Truncated"] = dafny_input.Truncated.value
 
     return output
 
 
-def com_amazonaws_kms_GrantListEntry(input):
+def com_amazonaws_kms_ListGrantsRequest(dafny_input):
     output = {}
-    if input.KeyId.is_Some:
-        output["KeyId"] = input.KeyId.value.VerbatimString(False)
+    if dafny_input.Limit.is_Some:
+        output["Limit"] = dafny_input.Limit.value
 
-    if input.GrantId.is_Some:
-        output["GrantId"] = input.GrantId.value.VerbatimString(False)
+    if dafny_input.Marker.is_Some:
+        output["Marker"] = dafny_input.Marker.value.VerbatimString(False)
 
-    if input.Name.is_Some:
-        output["Name"] = input.Name.value.VerbatimString(False)
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    if dafny_input.GrantId.is_Some:
+        output["GrantId"] = dafny_input.GrantId.value.VerbatimString(False)
 
-    if input.CreationDate.is_Some:
-        output["CreationDate"] = TypeError("TimestampShape not supported")
-
-    if input.GranteePrincipal.is_Some:
-        output["GranteePrincipal"] = input.GranteePrincipal.value.VerbatimString(False)
-
-    if input.RetiringPrincipal.is_Some:
-        output["RetiringPrincipal"] = input.RetiringPrincipal.value.VerbatimString(
+    if dafny_input.GranteePrincipal.is_Some:
+        output["GranteePrincipal"] = dafny_input.GranteePrincipal.value.VerbatimString(
             False
         )
 
-    if input.IssuingAccount.is_Some:
-        output["IssuingAccount"] = input.IssuingAccount.value.VerbatimString(False)
+    return output
 
-    if input.Operations.is_Some:
+
+def com_amazonaws_kms_GrantListEntry(dafny_input):
+    output = {}
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+
+    if dafny_input.GrantId.is_Some:
+        output["GrantId"] = dafny_input.GrantId.value.VerbatimString(False)
+
+    if dafny_input.Name.is_Some:
+        output["Name"] = dafny_input.Name.value.VerbatimString(False)
+
+    if dafny_input.CreationDate.is_Some:
+        output["CreationDate"] = TypeError("TimestampShape not supported")
+
+    if dafny_input.GranteePrincipal.is_Some:
+        output["GranteePrincipal"] = dafny_input.GranteePrincipal.value.VerbatimString(
+            False
+        )
+
+    if dafny_input.RetiringPrincipal.is_Some:
+        output["RetiringPrincipal"] = (
+            dafny_input.RetiringPrincipal.value.VerbatimString(False)
+        )
+
+    if dafny_input.IssuingAccount.is_Some:
+        output["IssuingAccount"] = dafny_input.IssuingAccount.value.VerbatimString(
+            False
+        )
+
+    if dafny_input.Operations.is_Some:
         output["Operations"] = [
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GrantOperation(
                 list_element
             )
-            for list_element in input.Operations.value
+            for list_element in dafny_input.Operations.value
         ]
 
-    if input.Constraints.is_Some:
+    if dafny_input.Constraints.is_Some:
         output["Constraints"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GrantConstraints(
-                input.Constraints.value
+                dafny_input.Constraints.value
             )
         )
 
     return output
 
 
-def com_amazonaws_kms_ListGrantsResponse(input):
+def com_amazonaws_kms_ListGrantsResponse(dafny_input):
     output = {}
-    if input.Grants.is_Some:
+    if dafny_input.Grants.is_Some:
         output["Grants"] = [
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GrantListEntry(
                 list_element
             )
-            for list_element in input.Grants.value
+            for list_element in dafny_input.Grants.value
         ]
 
-    if input.NextMarker.is_Some:
-        output["NextMarker"] = input.NextMarker.value.VerbatimString(False)
+    if dafny_input.NextMarker.is_Some:
+        output["NextMarker"] = dafny_input.NextMarker.value.VerbatimString(False)
 
-    if input.Truncated.is_Some:
-        output["Truncated"] = input.Truncated.value
-
-    return output
-
-
-def com_amazonaws_kms_ListKeyPoliciesRequest(input):
-    output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    if input.Limit.is_Some:
-        output["Limit"] = input.Limit.value
-
-    if input.Marker.is_Some:
-        output["Marker"] = input.Marker.value.VerbatimString(False)
+    if dafny_input.Truncated.is_Some:
+        output["Truncated"] = dafny_input.Truncated.value
 
     return output
 
 
-def com_amazonaws_kms_ListKeyPoliciesResponse(input):
+def com_amazonaws_kms_ListKeyPoliciesRequest(dafny_input):
     output = {}
-    if input.PolicyNames.is_Some:
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    if dafny_input.Limit.is_Some:
+        output["Limit"] = dafny_input.Limit.value
+
+    if dafny_input.Marker.is_Some:
+        output["Marker"] = dafny_input.Marker.value.VerbatimString(False)
+
+    return output
+
+
+def com_amazonaws_kms_ListKeyPoliciesResponse(dafny_input):
+    output = {}
+    if dafny_input.PolicyNames.is_Some:
         output["PolicyNames"] = [
             list_element.VerbatimString(False)
-            for list_element in input.PolicyNames.value
+            for list_element in dafny_input.PolicyNames.value
         ]
 
-    if input.NextMarker.is_Some:
-        output["NextMarker"] = input.NextMarker.value.VerbatimString(False)
+    if dafny_input.NextMarker.is_Some:
+        output["NextMarker"] = dafny_input.NextMarker.value.VerbatimString(False)
 
-    if input.Truncated.is_Some:
-        output["Truncated"] = input.Truncated.value
-
-    return output
-
-
-def com_amazonaws_kms_ListResourceTagsRequest(input):
-    output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    if input.Limit.is_Some:
-        output["Limit"] = input.Limit.value
-
-    if input.Marker.is_Some:
-        output["Marker"] = input.Marker.value.VerbatimString(False)
+    if dafny_input.Truncated.is_Some:
+        output["Truncated"] = dafny_input.Truncated.value
 
     return output
 
 
-def com_amazonaws_kms_ListResourceTagsResponse(input):
+def com_amazonaws_kms_ListResourceTagsRequest(dafny_input):
     output = {}
-    if input.Tags.is_Some:
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    if dafny_input.Limit.is_Some:
+        output["Limit"] = dafny_input.Limit.value
+
+    if dafny_input.Marker.is_Some:
+        output["Marker"] = dafny_input.Marker.value.VerbatimString(False)
+
+    return output
+
+
+def com_amazonaws_kms_ListResourceTagsResponse(dafny_input):
+    output = {}
+    if dafny_input.Tags.is_Some:
         output["Tags"] = [
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_Tag(
                 list_element
             )
-            for list_element in input.Tags.value
+            for list_element in dafny_input.Tags.value
         ]
 
-    if input.NextMarker.is_Some:
-        output["NextMarker"] = input.NextMarker.value.VerbatimString(False)
+    if dafny_input.NextMarker.is_Some:
+        output["NextMarker"] = dafny_input.NextMarker.value.VerbatimString(False)
 
-    if input.Truncated.is_Some:
-        output["Truncated"] = input.Truncated.value
+    if dafny_input.Truncated.is_Some:
+        output["Truncated"] = dafny_input.Truncated.value
 
     return output
 
 
-def com_amazonaws_kms_PutKeyPolicyRequest(input):
+def com_amazonaws_kms_PutKeyPolicyRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    output["PolicyName"] = input.PolicyName.VerbatimString(False)
-    output["Policy"] = input.Policy.VerbatimString(False)
-    if input.BypassPolicyLockoutSafetyCheck.is_Some:
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["PolicyName"] = dafny_input.PolicyName.VerbatimString(False)
+    output["Policy"] = dafny_input.Policy.VerbatimString(False)
+    if dafny_input.BypassPolicyLockoutSafetyCheck.is_Some:
         output["BypassPolicyLockoutSafetyCheck"] = (
-            input.BypassPolicyLockoutSafetyCheck.value
+            dafny_input.BypassPolicyLockoutSafetyCheck.value
         )
 
     return output
 
 
-def com_amazonaws_kms_ReEncryptRequest(input):
+def com_amazonaws_kms_ReEncryptRequest(dafny_input):
     output = {}
-    output["CiphertextBlob"] = bytes(input.CiphertextBlob)
-    if input.SourceEncryptionContext.is_Some:
+    output["CiphertextBlob"] = bytes(dafny_input.CiphertextBlob)
+    if dafny_input.SourceEncryptionContext.is_Some:
         output["SourceEncryptionContext"] = {
             key.VerbatimString(False): value.VerbatimString(False)
-            for (key, value) in input.SourceEncryptionContext.value.items
+            for (key, value) in dafny_input.SourceEncryptionContext.value.items
         }
 
-    if input.SourceKeyId.is_Some:
-        output["SourceKeyId"] = input.SourceKeyId.value.VerbatimString(False)
+    if dafny_input.SourceKeyId.is_Some:
+        output["SourceKeyId"] = dafny_input.SourceKeyId.value.VerbatimString(False)
 
-    output["DestinationKeyId"] = input.DestinationKeyId.VerbatimString(False)
-    if input.DestinationEncryptionContext.is_Some:
+    output["DestinationKeyId"] = dafny_input.DestinationKeyId.VerbatimString(False)
+    if dafny_input.DestinationEncryptionContext.is_Some:
         output["DestinationEncryptionContext"] = {
             key.VerbatimString(False): value.VerbatimString(False)
-            for (key, value) in input.DestinationEncryptionContext.value.items
+            for (key, value) in dafny_input.DestinationEncryptionContext.value.items
         }
 
-    if input.SourceEncryptionAlgorithm.is_Some:
+    if dafny_input.SourceEncryptionAlgorithm.is_Some:
         output["SourceEncryptionAlgorithm"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EncryptionAlgorithmSpec(
-                input.SourceEncryptionAlgorithm.value
+                dafny_input.SourceEncryptionAlgorithm.value
             )
         )
 
-    if input.DestinationEncryptionAlgorithm.is_Some:
+    if dafny_input.DestinationEncryptionAlgorithm.is_Some:
         output["DestinationEncryptionAlgorithm"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EncryptionAlgorithmSpec(
-                input.DestinationEncryptionAlgorithm.value
+                dafny_input.DestinationEncryptionAlgorithm.value
             )
         )
 
-    if input.GrantTokens.is_Some:
+    if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
             list_element.VerbatimString(False)
-            for list_element in input.GrantTokens.value
+            for list_element in dafny_input.GrantTokens.value
         ]
 
     return output
 
 
-def com_amazonaws_kms_ReEncryptResponse(input):
+def com_amazonaws_kms_ReEncryptResponse(dafny_input):
     output = {}
-    if input.CiphertextBlob.is_Some:
-        output["CiphertextBlob"] = bytes(input.CiphertextBlob.value)
+    if dafny_input.CiphertextBlob.is_Some:
+        output["CiphertextBlob"] = bytes(dafny_input.CiphertextBlob.value)
 
-    if input.SourceKeyId.is_Some:
-        output["SourceKeyId"] = input.SourceKeyId.value.VerbatimString(False)
+    if dafny_input.SourceKeyId.is_Some:
+        output["SourceKeyId"] = dafny_input.SourceKeyId.value.VerbatimString(False)
 
-    if input.KeyId.is_Some:
-        output["KeyId"] = input.KeyId.value.VerbatimString(False)
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
 
-    if input.SourceEncryptionAlgorithm.is_Some:
+    if dafny_input.SourceEncryptionAlgorithm.is_Some:
         output["SourceEncryptionAlgorithm"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EncryptionAlgorithmSpec(
-                input.SourceEncryptionAlgorithm.value
+                dafny_input.SourceEncryptionAlgorithm.value
             )
         )
 
-    if input.DestinationEncryptionAlgorithm.is_Some:
+    if dafny_input.DestinationEncryptionAlgorithm.is_Some:
         output["DestinationEncryptionAlgorithm"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EncryptionAlgorithmSpec(
-                input.DestinationEncryptionAlgorithm.value
+                dafny_input.DestinationEncryptionAlgorithm.value
             )
         )
 
     return output
 
 
-def com_amazonaws_kms_ReplicateKeyRequest(input):
+def com_amazonaws_kms_ReplicateKeyRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    output["ReplicaRegion"] = input.ReplicaRegion.VerbatimString(False)
-    if input.Policy.is_Some:
-        output["Policy"] = input.Policy.value.VerbatimString(False)
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["ReplicaRegion"] = dafny_input.ReplicaRegion.VerbatimString(False)
+    if dafny_input.Policy.is_Some:
+        output["Policy"] = dafny_input.Policy.value.VerbatimString(False)
 
-    if input.BypassPolicyLockoutSafetyCheck.is_Some:
+    if dafny_input.BypassPolicyLockoutSafetyCheck.is_Some:
         output["BypassPolicyLockoutSafetyCheck"] = (
-            input.BypassPolicyLockoutSafetyCheck.value
+            dafny_input.BypassPolicyLockoutSafetyCheck.value
         )
 
-    if input.Description.is_Some:
-        output["Description"] = input.Description.value.VerbatimString(False)
+    if dafny_input.Description.is_Some:
+        output["Description"] = dafny_input.Description.value.VerbatimString(False)
 
-    if input.Tags.is_Some:
+    if dafny_input.Tags.is_Some:
         output["Tags"] = [
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_Tag(
                 list_element
             )
-            for list_element in input.Tags.value
+            for list_element in dafny_input.Tags.value
         ]
 
     return output
 
 
-def com_amazonaws_kms_ReplicateKeyResponse(input):
+def com_amazonaws_kms_ReplicateKeyResponse(dafny_input):
     output = {}
-    if input.ReplicaKeyMetadata.is_Some:
+    if dafny_input.ReplicaKeyMetadata.is_Some:
         output["ReplicaKeyMetadata"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_KeyMetadata(
-                input.ReplicaKeyMetadata.value
+                dafny_input.ReplicaKeyMetadata.value
             )
         )
 
-    if input.ReplicaPolicy.is_Some:
-        output["ReplicaPolicy"] = input.ReplicaPolicy.value.VerbatimString(False)
+    if dafny_input.ReplicaPolicy.is_Some:
+        output["ReplicaPolicy"] = dafny_input.ReplicaPolicy.value.VerbatimString(False)
 
-    if input.ReplicaTags.is_Some:
+    if dafny_input.ReplicaTags.is_Some:
         output["ReplicaTags"] = [
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_Tag(
                 list_element
             )
-            for list_element in input.ReplicaTags.value
+            for list_element in dafny_input.ReplicaTags.value
         ]
 
     return output
 
 
-def com_amazonaws_kms_RetireGrantRequest(input):
+def com_amazonaws_kms_RetireGrantRequest(dafny_input):
     output = {}
-    if input.GrantToken.is_Some:
-        output["GrantToken"] = input.GrantToken.value.VerbatimString(False)
+    if dafny_input.GrantToken.is_Some:
+        output["GrantToken"] = dafny_input.GrantToken.value.VerbatimString(False)
 
-    if input.KeyId.is_Some:
-        output["KeyId"] = input.KeyId.value.VerbatimString(False)
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
 
-    if input.GrantId.is_Some:
-        output["GrantId"] = input.GrantId.value.VerbatimString(False)
+    if dafny_input.GrantId.is_Some:
+        output["GrantId"] = dafny_input.GrantId.value.VerbatimString(False)
 
     return output
 
 
-def com_amazonaws_kms_RevokeGrantRequest(input):
+def com_amazonaws_kms_RevokeGrantRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    output["GrantId"] = input.GrantId.VerbatimString(False)
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["GrantId"] = dafny_input.GrantId.VerbatimString(False)
     return output
 
 
-def com_amazonaws_kms_ScheduleKeyDeletionRequest(input):
+def com_amazonaws_kms_ScheduleKeyDeletionRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    if input.PendingWindowInDays.is_Some:
-        output["PendingWindowInDays"] = input.PendingWindowInDays.value
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    if dafny_input.PendingWindowInDays.is_Some:
+        output["PendingWindowInDays"] = dafny_input.PendingWindowInDays.value
 
     return output
 
 
-def com_amazonaws_kms_ScheduleKeyDeletionResponse(input):
+def com_amazonaws_kms_ScheduleKeyDeletionResponse(dafny_input):
     output = {}
-    if input.KeyId.is_Some:
-        output["KeyId"] = input.KeyId.value.VerbatimString(False)
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
 
-    if input.DeletionDate.is_Some:
+    if dafny_input.DeletionDate.is_Some:
         output["DeletionDate"] = TypeError("TimestampShape not supported")
 
-    if input.KeyState.is_Some:
+    if dafny_input.KeyState.is_Some:
         output["KeyState"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_KeyState(
-                input.KeyState.value
+                dafny_input.KeyState.value
             )
         )
 
-    if input.PendingWindowInDays.is_Some:
-        output["PendingWindowInDays"] = input.PendingWindowInDays.value
+    if dafny_input.PendingWindowInDays.is_Some:
+        output["PendingWindowInDays"] = dafny_input.PendingWindowInDays.value
 
     return output
 
 
-def com_amazonaws_kms_MessageType(input):
+def com_amazonaws_kms_MessageType(dafny_input):
     # Convert MessageType
-    if isinstance(input, MessageType_RAW):
+    if isinstance(dafny_input, MessageType_RAW):
         return "RAW"
 
-    elif isinstance(input, MessageType_DIGEST):
+    elif isinstance(dafny_input, MessageType_DIGEST):
         return "DIGEST"
 
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
 
-def com_amazonaws_kms_SignRequest(input):
+def com_amazonaws_kms_SignRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    output["Message"] = bytes(input.Message)
-    if input.MessageType.is_Some:
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["Message"] = bytes(dafny_input.Message)
+    if dafny_input.MessageType.is_Some:
         output["MessageType"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_MessageType(
-                input.MessageType.value
+                dafny_input.MessageType.value
             )
         )
 
-    if input.GrantTokens.is_Some:
+    if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
             list_element.VerbatimString(False)
-            for list_element in input.GrantTokens.value
+            for list_element in dafny_input.GrantTokens.value
         ]
 
     output["SigningAlgorithm"] = (
         com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_SigningAlgorithmSpec(
-            input.SigningAlgorithm
+            dafny_input.SigningAlgorithm
         )
     )
     return output
 
 
-def com_amazonaws_kms_SignResponse(input):
+def com_amazonaws_kms_SignResponse(dafny_input):
     output = {}
-    if input.KeyId.is_Some:
-        output["KeyId"] = input.KeyId.value.VerbatimString(False)
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
 
-    if input.Signature.is_Some:
-        output["Signature"] = bytes(input.Signature.value)
+    if dafny_input.Signature.is_Some:
+        output["Signature"] = bytes(dafny_input.Signature.value)
 
-    if input.SigningAlgorithm.is_Some:
+    if dafny_input.SigningAlgorithm.is_Some:
         output["SigningAlgorithm"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_SigningAlgorithmSpec(
-                input.SigningAlgorithm.value
+                dafny_input.SigningAlgorithm.value
             )
         )
 
     return output
 
 
-def com_amazonaws_kms_TagResourceRequest(input):
+def com_amazonaws_kms_TagResourceRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
     output["Tags"] = [
         com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_Tag(
             list_element
         )
-        for list_element in input.Tags
+        for list_element in dafny_input.Tags
     ]
     return output
 
 
-def com_amazonaws_kms_UntagResourceRequest(input):
+def com_amazonaws_kms_UntagResourceRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
     output["TagKeys"] = [
-        list_element.VerbatimString(False) for list_element in input.TagKeys
+        list_element.VerbatimString(False) for list_element in dafny_input.TagKeys
     ]
     return output
 
 
-def com_amazonaws_kms_UpdateAliasRequest(input):
+def com_amazonaws_kms_UpdateAliasRequest(dafny_input):
     output = {}
-    output["AliasName"] = input.AliasName.VerbatimString(False)
-    output["TargetKeyId"] = input.TargetKeyId.VerbatimString(False)
+    output["AliasName"] = dafny_input.AliasName.VerbatimString(False)
+    output["TargetKeyId"] = dafny_input.TargetKeyId.VerbatimString(False)
     return output
 
 
-def com_amazonaws_kms_UpdateCustomKeyStoreRequest(input):
+def com_amazonaws_kms_UpdateCustomKeyStoreRequest(dafny_input):
     output = {}
-    output["CustomKeyStoreId"] = input.CustomKeyStoreId.VerbatimString(False)
-    if input.NewCustomKeyStoreName.is_Some:
+    output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.VerbatimString(False)
+    if dafny_input.NewCustomKeyStoreName.is_Some:
         output["NewCustomKeyStoreName"] = (
-            input.NewCustomKeyStoreName.value.VerbatimString(False)
+            dafny_input.NewCustomKeyStoreName.value.VerbatimString(False)
         )
 
-    if input.KeyStorePassword.is_Some:
-        output["KeyStorePassword"] = input.KeyStorePassword.value.VerbatimString(False)
-
-    if input.CloudHsmClusterId.is_Some:
-        output["CloudHsmClusterId"] = input.CloudHsmClusterId.value.VerbatimString(
+    if dafny_input.KeyStorePassword.is_Some:
+        output["KeyStorePassword"] = dafny_input.KeyStorePassword.value.VerbatimString(
             False
         )
 
+    if dafny_input.CloudHsmClusterId.is_Some:
+        output["CloudHsmClusterId"] = (
+            dafny_input.CloudHsmClusterId.value.VerbatimString(False)
+        )
+
     return output
 
 
-def com_amazonaws_kms_UpdateCustomKeyStoreResponse(input):
+def com_amazonaws_kms_UpdateCustomKeyStoreResponse(dafny_input):
     output = {}
     return output
 
 
-def com_amazonaws_kms_UpdateKeyDescriptionRequest(input):
+def com_amazonaws_kms_UpdateKeyDescriptionRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    output["Description"] = input.Description.VerbatimString(False)
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["Description"] = dafny_input.Description.VerbatimString(False)
     return output
 
 
-def com_amazonaws_kms_UpdatePrimaryRegionRequest(input):
+def com_amazonaws_kms_UpdatePrimaryRegionRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    output["PrimaryRegion"] = input.PrimaryRegion.VerbatimString(False)
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["PrimaryRegion"] = dafny_input.PrimaryRegion.VerbatimString(False)
     return output
 
 
-def com_amazonaws_kms_VerifyRequest(input):
+def com_amazonaws_kms_VerifyRequest(dafny_input):
     output = {}
-    output["KeyId"] = input.KeyId.VerbatimString(False)
-    output["Message"] = bytes(input.Message)
-    if input.MessageType.is_Some:
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["Message"] = bytes(dafny_input.Message)
+    if dafny_input.MessageType.is_Some:
         output["MessageType"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_MessageType(
-                input.MessageType.value
+                dafny_input.MessageType.value
             )
         )
 
-    output["Signature"] = bytes(input.Signature)
+    output["Signature"] = bytes(dafny_input.Signature)
     output["SigningAlgorithm"] = (
         com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_SigningAlgorithmSpec(
-            input.SigningAlgorithm
+            dafny_input.SigningAlgorithm
         )
     )
-    if input.GrantTokens.is_Some:
+    if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [
             list_element.VerbatimString(False)
-            for list_element in input.GrantTokens.value
+            for list_element in dafny_input.GrantTokens.value
         ]
 
     return output
 
 
-def com_amazonaws_kms_VerifyResponse(input):
+def com_amazonaws_kms_VerifyResponse(dafny_input):
     output = {}
-    if input.KeyId.is_Some:
-        output["KeyId"] = input.KeyId.value.VerbatimString(False)
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
 
-    if input.SignatureValid.is_Some:
-        output["SignatureValid"] = input.SignatureValid.value
+    if dafny_input.SignatureValid.is_Some:
+        output["SignatureValid"] = dafny_input.SignatureValid.value
 
-    if input.SigningAlgorithm.is_Some:
+    if dafny_input.SigningAlgorithm.is_Some:
         output["SigningAlgorithm"] = (
             com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_SigningAlgorithmSpec(
-                input.SigningAlgorithm.value
+                dafny_input.SigningAlgorithm.value
             )
         )
 
