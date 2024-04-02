@@ -41,8 +41,23 @@ module {:options "-functionSyntax:4"} ParseJsonManifests {
   }
   by method {
     // This function ideally would be`{:tailrecursion}`
-    // but it is not simple to here is a method
-    // so that it does not explode with huge numbers of tests.
+    // immediately below is an example of how to make it tail recursive
+    // However, we're leaving this as "by method" to provide an example of how to do that
+
+    // function {:tailrecursion} BuildEncryptTestVector2(
+    //   keys: KeyVectors.KeyVectorsClient,
+    //   obj: seq<(string, JSON)>,
+    //   acc : seq<EncryptTestVector> := []
+    // )
+    //   : Result<seq<EncryptTestVector>, string>
+    // {
+    //   if |obj| == 0 then
+    //     Success(acc)
+    //   else
+    //     var encryptVector :- ToEncryptTestVector(keys, obj[0].0, obj[0].1);
+    //     BuildEncryptTestVector2(keys, obj[1..], acc + [encryptVector])
+    // }
+
     var i: nat := |obj|;
     var vectors := [];
 
