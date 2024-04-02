@@ -41,8 +41,10 @@ module {:options "-functionSyntax:4"} ParseJsonManifests {
   }
   by method {
     // This function ideally would be`{:tailrecursion}`
-    // immediately below is an example of how to make it tail recursive
-    // However, we're leaving this as "by method" to provide an example of how to do that
+    // at the time this did not seem simple.
+    // Here is an example of how to make it tail recursive that may work.
+    // However, we're leaving this as "by method"
+    // to avoid changing anything and to provide an example of how to do that
 
     // function {:tailrecursion} BuildEncryptTestVector2(
     //   keys: KeyVectors.KeyVectorsClient,
