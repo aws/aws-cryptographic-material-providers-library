@@ -342,7 +342,9 @@ module RawAESKeyring {
             Types.AwsCryptographicMaterialProvidersException(
               message :="EncrypedDataKey "
               + Base10Int2String(i)
-              + " did not match AESKeyring. " )
+              + " did not match AESKeyring."
+              + " Expected: " 
+              + input.encryptedDataKeys[i] + ". ")
           ];
         }
       }
