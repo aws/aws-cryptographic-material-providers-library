@@ -2,12 +2,10 @@
 
 import asyncio
 from asyncio import sleep
-from software_amazon_cryptography_primitives_internaldafny_types import (
-    IAwsCryptographicPrimitivesClient,
-)
+from software_amazon_cryptography_keystore_internaldafny_types import IKeyStoreClient
 from typing import Awaitable, Callable, TypeVar, cast
 
-from .config import Config, CryptoConfig
+from .config import Config, KeyStoreConfig
 from .dafny_protocol import DafnyRequest, DafnyResponse
 from .plugin import set_config_impl
 from smithy_python.exceptions import SmithyRetryException
@@ -16,81 +14,56 @@ from smithy_python.interfaces.retries import RetryErrorInfo, RetryErrorType
 
 from .config import Plugin
 from .deserialize import (
-    _deserialize_aes_decrypt,
-    _deserialize_aes_encrypt,
-    _deserialize_aes_kdf_counter_mode,
-    _deserialize_digest,
-    _deserialize_ecdsa_sign,
-    _deserialize_ecdsa_verify,
-    _deserialize_generate_ecdsa_signature_key,
-    _deserialize_generate_random_bytes,
-    _deserialize_generate_rsa_key_pair,
-    _deserialize_get_rsa_key_modulus_length,
-    _deserialize_h_mac,
-    _deserialize_hkdf,
-    _deserialize_hkdf_expand,
-    _deserialize_hkdf_extract,
-    _deserialize_kdf_counter_mode,
-    _deserialize_rsa_decrypt,
-    _deserialize_rsa_encrypt,
+    _deserialize_create_key,
+    _deserialize_create_key_store,
+    _deserialize_get_active_branch_key,
+    _deserialize_get_beacon_key,
+    _deserialize_get_branch_key_version,
+    _deserialize_get_key_store_info,
+    _deserialize_version_key,
 )
 from .errors import ServiceError
 from .models import (
-    AESDecryptInput,
-    AESEncryptInput,
-    AESEncryptOutput,
-    AesKdfCtrInput,
-    DigestInput,
-    ECDSASignInput,
-    ECDSAVerifyInput,
-    GenerateECDSASignatureKeyInput,
-    GenerateECDSASignatureKeyOutput,
-    GenerateRSAKeyPairInput,
-    GenerateRSAKeyPairOutput,
-    GenerateRandomBytesInput,
-    GetRSAKeyModulusLengthInput,
-    GetRSAKeyModulusLengthOutput,
-    HMacInput,
-    HkdfExpandInput,
-    HkdfExtractInput,
-    HkdfInput,
-    KdfCtrInput,
-    RSADecryptInput,
-    RSAEncryptInput,
+    CreateKeyInput,
+    CreateKeyOutput,
+    CreateKeyStoreInput,
+    CreateKeyStoreOutput,
+    GetActiveBranchKeyInput,
+    GetActiveBranchKeyOutput,
+    GetBeaconKeyInput,
+    GetBeaconKeyOutput,
+    GetBranchKeyVersionInput,
+    GetBranchKeyVersionOutput,
+    GetKeyStoreInfoOutput,
+    Unit,
+    VersionKeyInput,
+    VersionKeyOutput,
 )
 from .serialize import (
-    _serialize_aes_decrypt,
-    _serialize_aes_encrypt,
-    _serialize_aes_kdf_counter_mode,
-    _serialize_digest,
-    _serialize_ecdsa_sign,
-    _serialize_ecdsa_verify,
-    _serialize_generate_ecdsa_signature_key,
-    _serialize_generate_random_bytes,
-    _serialize_generate_rsa_key_pair,
-    _serialize_get_rsa_key_modulus_length,
-    _serialize_h_mac,
-    _serialize_hkdf,
-    _serialize_hkdf_expand,
-    _serialize_hkdf_extract,
-    _serialize_kdf_counter_mode,
-    _serialize_rsa_decrypt,
-    _serialize_rsa_encrypt,
+    _serialize_create_key,
+    _serialize_create_key_store,
+    _serialize_get_active_branch_key,
+    _serialize_get_beacon_key,
+    _serialize_get_branch_key_version,
+    _serialize_get_key_store_info,
+    _serialize_version_key,
 )
 
 
 Input = TypeVar("Input")
 Output = TypeVar("Output")
 
-class AwsCryptographicPrimitives:
-    """Client for AwsCryptographicPrimitives
+
+class KeyStore:
+    """Client for KeyStore
 
     :param config: Configuration for the client.
     """
+
     def __init__(
         self,
-        config: CryptoConfig | None = None,
-        dafny_client: IAwsCryptographicPrimitivesClient | None = None
+        config: KeyStoreConfig | None = None,
+        dafny_client: IKeyStoreClient | None = None,
     ):
         if config is None:
             self._config = Config()
@@ -107,243 +80,121 @@ class AwsCryptographicPrimitives:
         if dafny_client is not None:
             self._config.dafnyImplInterface.impl = dafny_client
 
-    def generate_random_bytes(self, input: GenerateRandomBytesInput) -> bytes | bytearray:
-        """Invokes the GenerateRandomBytes operation.
+    def get_key_store_info(self, input: Unit) -> GetKeyStoreInfoOutput:
+        """Returns the configuration information for a Key Store.
 
         :param input: The operation's input.
         """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_generate_random_bytes,
-            deserialize=_deserialize_generate_random_bytes,
-            config=self._config,
-            operation_name="GenerateRandomBytes",
-        ))
+        return asyncio.run(
+            self._execute_operation(
+                input=input,
+                plugins=[],
+                serialize=_serialize_get_key_store_info,
+                deserialize=_deserialize_get_key_store_info,
+                config=self._config,
+                operation_name="GetKeyStoreInfo",
+            )
+        )
 
-    def digest(self, input: DigestInput) -> bytes | bytearray:
-        """Invokes the Digest operation.
-
-        :param input: The operation's input.
-        """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_digest,
-            deserialize=_deserialize_digest,
-            config=self._config,
-            operation_name="Digest",
-        ))
-
-    def h_mac(self, input: HMacInput) -> bytes | bytearray:
-        """Invokes the HMac operation.
+    def create_key_store(self, input: CreateKeyStoreInput) -> CreateKeyStoreOutput:
+        """Create the DynamoDB table that backs this Key Store based on the Key Store configuration. If a table already exists, validate it is configured as expected.
 
         :param input: The operation's input.
         """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_h_mac,
-            deserialize=_deserialize_h_mac,
-            config=self._config,
-            operation_name="HMac",
-        ))
+        return asyncio.run(
+            self._execute_operation(
+                input=input,
+                plugins=[],
+                serialize=_serialize_create_key_store,
+                deserialize=_deserialize_create_key_store,
+                config=self._config,
+                operation_name="CreateKeyStore",
+            )
+        )
 
-    def hkdf_extract(self, input: HkdfExtractInput) -> bytes | bytearray:
-        """Invokes the HkdfExtract operation.
-
-        :param input: The operation's input.
-        """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_hkdf_extract,
-            deserialize=_deserialize_hkdf_extract,
-            config=self._config,
-            operation_name="HkdfExtract",
-        ))
-
-    def hkdf_expand(self, input: HkdfExpandInput) -> bytes | bytearray:
-        """Invokes the HkdfExpand operation.
+    def create_key(self, input: CreateKeyInput) -> CreateKeyOutput:
+        """Create a new Branch Key in the Key Store. Additionally create a Beacon Key that is tied to this Branch Key.
 
         :param input: The operation's input.
         """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_hkdf_expand,
-            deserialize=_deserialize_hkdf_expand,
-            config=self._config,
-            operation_name="HkdfExpand",
-        ))
+        return asyncio.run(
+            self._execute_operation(
+                input=input,
+                plugins=[],
+                serialize=_serialize_create_key,
+                deserialize=_deserialize_create_key,
+                config=self._config,
+                operation_name="CreateKey",
+            )
+        )
 
-    def hkdf(self, input: HkdfInput) -> bytes | bytearray:
-        """Invokes the Hkdf operation.
+    def version_key(self, input: VersionKeyInput) -> VersionKeyOutput:
+        """Create a new ACTIVE version of an existing Branch Key in the Key Store, and set the previously ACTIVE version to DECRYPT_ONLY.
 
-        :param input: The operation's input.
+        :param input: Inputs for versioning a Branch Key.
         """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_hkdf,
-            deserialize=_deserialize_hkdf,
-            config=self._config,
-            operation_name="Hkdf",
-        ))
+        return asyncio.run(
+            self._execute_operation(
+                input=input,
+                plugins=[],
+                serialize=_serialize_version_key,
+                deserialize=_deserialize_version_key,
+                config=self._config,
+                operation_name="VersionKey",
+            )
+        )
 
-    def kdf_counter_mode(self, input: KdfCtrInput) -> bytes | bytearray:
-        """Invokes the KdfCounterMode operation.
+    def get_active_branch_key(
+        self, input: GetActiveBranchKeyInput
+    ) -> GetActiveBranchKeyOutput:
+        """Get the ACTIVE version for a particular Branch Key from the Key Store.
 
-        :param input: The operation's input.
+        :param input: Inputs for getting a Branch Key's ACTIVE version.
         """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_kdf_counter_mode,
-            deserialize=_deserialize_kdf_counter_mode,
-            config=self._config,
-            operation_name="KdfCounterMode",
-        ))
+        return asyncio.run(
+            self._execute_operation(
+                input=input,
+                plugins=[],
+                serialize=_serialize_get_active_branch_key,
+                deserialize=_deserialize_get_active_branch_key,
+                config=self._config,
+                operation_name="GetActiveBranchKey",
+            )
+        )
 
-    def aes_kdf_counter_mode(self, input: AesKdfCtrInput) -> bytes | bytearray:
-        """Invokes the AesKdfCounterMode operation.
+    def get_branch_key_version(
+        self, input: GetBranchKeyVersionInput
+    ) -> GetBranchKeyVersionOutput:
+        """Get a particular version of a Branch Key from the Key Store.
 
-        :param input: The operation's input.
+        :param input: Inputs for getting a version of a Branch Key.
         """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_aes_kdf_counter_mode,
-            deserialize=_deserialize_aes_kdf_counter_mode,
-            config=self._config,
-            operation_name="AesKdfCounterMode",
-        ))
+        return asyncio.run(
+            self._execute_operation(
+                input=input,
+                plugins=[],
+                serialize=_serialize_get_branch_key_version,
+                deserialize=_deserialize_get_branch_key_version,
+                config=self._config,
+                operation_name="GetBranchKeyVersion",
+            )
+        )
 
-    def aes_encrypt(self, input: AESEncryptInput) -> AESEncryptOutput:
-        """Invokes the AESEncrypt operation.
+    def get_beacon_key(self, input: GetBeaconKeyInput) -> GetBeaconKeyOutput:
+        """Get a Beacon Key from the Key Store.
 
-        :param input: The operation's input.
+        :param input: Inputs for getting a Beacon Key
         """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_aes_encrypt,
-            deserialize=_deserialize_aes_encrypt,
-            config=self._config,
-            operation_name="AESEncrypt",
-        ))
-
-    def aes_decrypt(self, input: AESDecryptInput) -> bytes | bytearray:
-        """Invokes the AESDecrypt operation.
-
-        :param input: The operation's input.
-        """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_aes_decrypt,
-            deserialize=_deserialize_aes_decrypt,
-            config=self._config,
-            operation_name="AESDecrypt",
-        ))
-
-    def generate_rsa_key_pair(self, input: GenerateRSAKeyPairInput) -> GenerateRSAKeyPairOutput:
-        """Invokes the GenerateRSAKeyPair operation.
-
-        :param input: The operation's input.
-        """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_generate_rsa_key_pair,
-            deserialize=_deserialize_generate_rsa_key_pair,
-            config=self._config,
-            operation_name="GenerateRSAKeyPair",
-        ))
-
-    def get_rsa_key_modulus_length(self, input: GetRSAKeyModulusLengthInput) -> GetRSAKeyModulusLengthOutput:
-        """Invokes the GetRSAKeyModulusLength operation.
-
-        :param input: The operation's input.
-        """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_get_rsa_key_modulus_length,
-            deserialize=_deserialize_get_rsa_key_modulus_length,
-            config=self._config,
-            operation_name="GetRSAKeyModulusLength",
-        ))
-
-    def rsa_decrypt(self, input: RSADecryptInput) -> bytes | bytearray:
-        """Invokes the RSADecrypt operation.
-
-        :param input: The operation's input.
-        """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_rsa_decrypt,
-            deserialize=_deserialize_rsa_decrypt,
-            config=self._config,
-            operation_name="RSADecrypt",
-        ))
-
-    def rsa_encrypt(self, input: RSAEncryptInput) -> bytes | bytearray:
-        """Invokes the RSAEncrypt operation.
-
-        :param input: The operation's input.
-        """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_rsa_encrypt,
-            deserialize=_deserialize_rsa_encrypt,
-            config=self._config,
-            operation_name="RSAEncrypt",
-        ))
-
-    def generate_ecdsa_signature_key(self, input: GenerateECDSASignatureKeyInput) -> GenerateECDSASignatureKeyOutput:
-        """Invokes the GenerateECDSASignatureKey operation.
-
-        :param input: The operation's input.
-        """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_generate_ecdsa_signature_key,
-            deserialize=_deserialize_generate_ecdsa_signature_key,
-            config=self._config,
-            operation_name="GenerateECDSASignatureKey",
-        ))
-
-    def ecdsa_sign(self, input: ECDSASignInput) -> bytes | bytearray:
-        """Invokes the ECDSASign operation.
-
-        :param input: The operation's input.
-        """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_ecdsa_sign,
-            deserialize=_deserialize_ecdsa_sign,
-            config=self._config,
-            operation_name="ECDSASign",
-        ))
-
-    def ecdsa_verify(self, input: ECDSAVerifyInput) -> bool:
-        """Invokes the ECDSAVerify operation.
-
-        :param input: The operation's input.
-        """
-        return asyncio.run(self._execute_operation(
-            input=input,
-            plugins=[],
-            serialize=_serialize_ecdsa_verify,
-            deserialize=_deserialize_ecdsa_verify,
-            config=self._config,
-            operation_name="ECDSAVerify",
-        ))
+        return asyncio.run(
+            self._execute_operation(
+                input=input,
+                plugins=[],
+                serialize=_serialize_get_beacon_key,
+                deserialize=_deserialize_get_beacon_key,
+                config=self._config,
+                operation_name="GetBeaconKey",
+            )
+        )
 
     async def _execute_operation(
         self,
@@ -382,7 +233,8 @@ class AwsCryptographicPrimitives:
         )
         _client_interceptors = config.interceptors
         client_interceptors = cast(
-            list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]], _client_interceptors
+            list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
+            _client_interceptors,
         )
         interceptors = client_interceptors
 
@@ -465,7 +317,7 @@ class AwsCryptographicPrimitives:
                             error_info=RetryErrorInfo(
                                 # TODO: Determine the error type.
                                 error_type=RetryErrorType.CLIENT_ERROR,
-                            )
+                            ),
                         )
                     except SmithyRetryException:
                         raise context_with_response.response
@@ -481,7 +333,10 @@ class AwsCryptographicPrimitives:
         # The response will be set either with the modeled output or an exception. The
         # transport_request and transport_response may be set or None.
         execution_context = cast(
-            InterceptorContext[Input, Output, DafnyRequest | None, DafnyResponse | None], context
+            InterceptorContext[
+                Input, Output, DafnyRequest | None, DafnyResponse | None
+            ],
+            context,
         )
         return await self._finalize_execution(interceptors, execution_context)
 
@@ -506,8 +361,10 @@ class AwsCryptographicPrimitives:
                 InterceptorContext[Input, None, DafnyRequest, DafnyResponse], context
             )
 
-            context_with_response._transport_response = config.dafnyImplInterface.handle_request(
-                input=context_with_response.transport_request
+            context_with_response._transport_response = (
+                config.dafnyImplInterface.handle_request(
+                    input=context_with_response.transport_request
+                )
             )
 
             # Step 7n: Invoke read_after_transmit
@@ -544,7 +401,8 @@ class AwsCryptographicPrimitives:
         # None. This will also be true after _finalize_attempt because there is no opportunity
         # there to set the transport_response.
         attempt_context = cast(
-            InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None], context
+            InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None],
+            context,
         )
         return await self._finalize_attempt(interceptors, attempt_context)
 
@@ -574,7 +432,9 @@ class AwsCryptographicPrimitives:
     async def _finalize_execution(
         self,
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
-        context: InterceptorContext[Input, Output, DafnyRequest | None, DafnyResponse | None],
+        context: InterceptorContext[
+            Input, Output, DafnyRequest | None, DafnyResponse | None
+        ],
     ) -> Output:
         try:
             # Step 9: Invoke modify_before_completion
