@@ -137,7 +137,7 @@ class default__(aws_cryptography_primitives.internaldafny.generated.Signature.de
 
 # Export extern-extended class into generated class
 aws_cryptography_primitives.internaldafny.generated.Signature.default__ = default__
-# This seems like an issue with our Dafny code...
+# Issue with our Dafny extern declarations. Fix is WIP on lucmcdon/signature-extern branch.
 aws_cryptography_primitives.internaldafny.generated.Signature.Signature = aws_cryptography_primitives.internaldafny.generated.Signature
 
 class SignatureAlgorithm:
@@ -178,8 +178,9 @@ class SignatureAlgorithms(Enum):
       ))
     return Wrappers.Result_Success(signature_algorithm)
 
-# Again, issue with our Dafny code
+# Issue with our Dafny extern declarations. Fix is WIP on lucmcdon/signature-extern branch.
 aws_cryptography_primitives.internaldafny.generated.Signature.ECDSA = default__.ECDSA
+ECDSA = default__.ECDSA
 # Remove after https://github.com/dafny-lang/dafny/issues/4853
 aws_cryptography_primitives.internaldafny.generated.Signature.ECDSA_Verify = default__.ECDSA.Verify
 ECDSA_Verify = default__.ECDSA.Verify
@@ -245,16 +246,10 @@ def _ecc_static_length_signature(key, algorithm, digest):
   pre_hashed_algorithm = sign_algo
   signature = b""
   while len(signature) != algorithm.expected_signature_length:
-    # _LOGGER.debug(
-    #     "Signature length %d is not desired length %d.  Recalculating.", len(signature), algorithm.expected_signature_length
-    # )
     signature = key.sign(digest, pre_hashed_algorithm)
     if len(signature) != algorithm.expected_signature_length:
       # Most of the time, a signature of the wrong length can be fixed
       # by negating s in the signature relative to the group order.
-      # _LOGGER.debug(
-      #     "Signature length %d is not desired length %d.  Negating s.", len(signature), algorithm.expected_signature_length
-      # )
       r, s = decode_dss_signature(signature)
       s = _ECC_CURVE_PARAMETERS[algorithm.curve.name].order - s
       signature = encode_dss_signature(r, s)
