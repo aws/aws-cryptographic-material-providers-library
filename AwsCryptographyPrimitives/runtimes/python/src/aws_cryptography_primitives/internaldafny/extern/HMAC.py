@@ -7,8 +7,10 @@ import aws_cryptography_primitives.internaldafny.generated.Digest
 from software_amazon_cryptography_primitives_internaldafny_types import (
     HMacInput
 )
+import aws_cryptography_primitives.internaldafny.generated.HMAC
 
-class default__:
+# Extend generated class
+class default__(aws_cryptography_primitives.internaldafny.generated.HMAC.default__):
 
   @staticmethod
   def Digest(input: HMacInput):
@@ -21,7 +23,7 @@ class default__:
       output = hmac.GetResult()
       return Wrappers.Result_Success(_dafny.Seq(output))
 
-class HMac:
+class HMac(aws_cryptography_primitives.internaldafny.generated.HMAC.HMac):
 
     @staticmethod
     def Build(digest):
@@ -61,5 +63,6 @@ class HMac:
       self.hmac = self.initial_hmac.copy()
       return digest
 
+# Export extern-extended classes into generated classes
 aws_cryptography_primitives.internaldafny.generated.HMAC.default__ = default__
 aws_cryptography_primitives.internaldafny.generated.HMAC.HMac = HMac

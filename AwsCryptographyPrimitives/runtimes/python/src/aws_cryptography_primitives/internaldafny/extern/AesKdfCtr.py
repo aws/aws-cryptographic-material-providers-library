@@ -4,8 +4,10 @@ from cryptography.exceptions import AlreadyFinalized
 from software_amazon_cryptography_primitives_internaldafny_types import Error_AwsCryptographicPrimitivesError
 import Wrappers
 import _dafny
+import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr
 
-class default__:
+# Extend generated class
+class default__(aws_cryptography_primitives.internaldafny.generated.AesKdfCtr.default__):
 
   @staticmethod
   def AesKdfCtrStream(nonce, key, length):
@@ -25,3 +27,6 @@ class default__:
         message="Cannot update or finalize an encryptor which was already finalized"
       ))
     return Wrappers.Result_Success(_dafny.Seq(ciphertext))
+  
+# Export extern-extended class into generated class
+aws_cryptography_primitives.internaldafny.generated.AesKdfCtr.default__ = default__

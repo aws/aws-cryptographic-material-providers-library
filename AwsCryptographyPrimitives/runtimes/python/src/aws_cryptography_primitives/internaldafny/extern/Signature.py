@@ -32,114 +32,113 @@ from cryptography.hazmat.primitives.asymmetric.utils import (
   decode_dss_signature,
   encode_dss_signature
 )
-# TODO-Python-PYTHONPATH: Remove, redo some stuff... issues with extending classes with PYTHONPATH
-import Signature
 
-default__ = aws_cryptography_primitives.internaldafny.generated.Signature.default__
+aws_cryptography_primitives.internaldafny.generated.Signature.default__
 
-class ECDSA:
+# Extend generated class
+class default__(aws_cryptography_primitives.internaldafny.generated.Signature.default__):
+  class ECDSA:
 
-  @staticmethod
-  def ExternKeyGen(signature_algorithm):
-    maybe_signature_algorithm = SignatureAlgorithms.signatureAlgorithm(signature_algorithm)
-    if maybe_signature_algorithm.is_Failure:
-      return Wrappers.Result_Failure(maybe_signature_algorithm.error)
-    
-    private_key = ec.generate_private_key(
-      maybe_signature_algorithm.value.value.curve
-    )
+    @staticmethod
+    def ExternKeyGen(signature_algorithm):
+      maybe_signature_algorithm = SignatureAlgorithms.signatureAlgorithm(signature_algorithm)
+      if maybe_signature_algorithm.is_Failure:
+        return Wrappers.Result_Failure(maybe_signature_algorithm.error)
+      
+      private_key = ec.generate_private_key(
+        maybe_signature_algorithm.value.value.curve
+      )
 
-    private_key_pem_bytes = private_key.private_bytes(Encoding.PEM, PrivateFormat.PKCS8, NoEncryption())
-    public_key_pem_bytes = _ecc_encode_compressed_point(private_key)
+      private_key_pem_bytes = private_key.private_bytes(Encoding.PEM, PrivateFormat.PKCS8, NoEncryption())
+      public_key_pem_bytes = _ecc_encode_compressed_point(private_key)
 
-    return Wrappers.Result_Success(SignatureKeyPair_SignatureKeyPair(
-        verificationKey=_dafny.Seq(public_key_pem_bytes),
-        signingKey=_dafny.Seq(private_key_pem_bytes)
-    ))
-
-  @staticmethod
-  def Sign(signature_algorithm, signing_key, message):
-    maybe_signature_algorithm = SignatureAlgorithms.signatureAlgorithm(signature_algorithm)
-    if maybe_signature_algorithm.is_Failure:
-      return Wrappers.Result_Failure(maybe_signature_algorithm.error)
-    
-    try:
-      private_key = load_pem_private_key(bytes(signing_key), None)
-    except ValueError:
-      return Wrappers.Result_Failure(Error_AwsCryptographicPrimitivesError(
-        message="Could not decode signing_key"
-      ))
-    except TypeError:
-      return Wrappers.Result_Failure(Error_AwsCryptographicPrimitivesError(
-        message="Provided signing_key is encrypted, but encrypted signing_keys are not supported"
-      ))
-    except UnsupportedAlgorithm:
-      return Wrappers.Result_Failure(Error_AwsCryptographicPrimitivesError(
-        message="Serialized key type is not supported by OpenSSL version"
+      return Wrappers.Result_Success(SignatureKeyPair_SignatureKeyPair(
+          verificationKey=_dafny.Seq(public_key_pem_bytes),
+          signingKey=_dafny.Seq(private_key_pem_bytes)
       ))
 
-    maybe_digest = ExternDigest.default__.internal_digest(
-        maybe_signature_algorithm.value.value.message_digest_algorithm,
-        message
-    )
-    if maybe_digest.is_Failure:
-      return Wrappers.Result_Failure(maybe_digest.error)
-    digest = maybe_digest.value
+    @staticmethod
+    def Sign(signature_algorithm, signing_key, message):
+      maybe_signature_algorithm = SignatureAlgorithms.signatureAlgorithm(signature_algorithm)
+      if maybe_signature_algorithm.is_Failure:
+        return Wrappers.Result_Failure(maybe_signature_algorithm.error)
+      
+      try:
+        private_key = load_pem_private_key(bytes(signing_key), None)
+      except ValueError:
+        return Wrappers.Result_Failure(Error_AwsCryptographicPrimitivesError(
+          message="Could not decode signing_key"
+        ))
+      except TypeError:
+        return Wrappers.Result_Failure(Error_AwsCryptographicPrimitivesError(
+          message="Provided signing_key is encrypted, but encrypted signing_keys are not supported"
+        ))
+      except UnsupportedAlgorithm:
+        return Wrappers.Result_Failure(Error_AwsCryptographicPrimitivesError(
+          message="Serialized key type is not supported by OpenSSL version"
+        ))
 
-    signature_algorithm = maybe_signature_algorithm.value.value
-    signature = _ecc_static_length_signature(private_key, signature_algorithm, digest)
+      maybe_digest = ExternDigest.default__.internal_digest(
+          maybe_signature_algorithm.value.value.message_digest_algorithm,
+          message
+      )
+      if maybe_digest.is_Failure:
+        return Wrappers.Result_Failure(maybe_digest.error)
+      digest = maybe_digest.value
 
-    return Wrappers.Result_Success(_dafny.Seq(signature))
+      signature_algorithm = maybe_signature_algorithm.value.value
+      signature = _ecc_static_length_signature(private_key, signature_algorithm, digest)
 
-  @staticmethod
-  def Verify(signature_algorithm, verification_key, message, signature):
-    maybe_signature_algorithm = SignatureAlgorithms.signatureAlgorithm(signature_algorithm)
-    if maybe_signature_algorithm.is_Failure:
-      return Wrappers.Result_Failure(maybe_signature_algorithm.error)
-    
-    message_digest_algorithm = maybe_signature_algorithm.value.value.message_digest_algorithm
-    if message_digest_algorithm.is_SHA__256:
-      sign_algo = ec.ECDSA(hashes.SHA256())
-    elif message_digest_algorithm.is_SHA__384:
-      sign_algo = ec.ECDSA(hashes.SHA384())
-    else:
-      return Wrappers.Result_Failure(Error_AwsCryptographicPrimitivesError(
-        message=f"Requested Digest Algorithm is not supported. Requested {message_digest_algorithm}"
-      ))
+      return Wrappers.Result_Success(_dafny.Seq(signature))
 
-    curve = maybe_signature_algorithm.value.value.curve()
+    @staticmethod
+    def Verify(signature_algorithm, verification_key, message, signature):
+      maybe_signature_algorithm = SignatureAlgorithms.signatureAlgorithm(signature_algorithm)
+      if maybe_signature_algorithm.is_Failure:
+        return Wrappers.Result_Failure(maybe_signature_algorithm.error)
+      
+      message_digest_algorithm = maybe_signature_algorithm.value.value.message_digest_algorithm
+      if message_digest_algorithm.is_SHA__256:
+        sign_algo = ec.ECDSA(hashes.SHA256())
+      elif message_digest_algorithm.is_SHA__384:
+        sign_algo = ec.ECDSA(hashes.SHA384())
+      else:
+        return Wrappers.Result_Failure(Error_AwsCryptographicPrimitivesError(
+          message=f"Requested Digest Algorithm is not supported. Requested {message_digest_algorithm}"
+        ))
 
-    try:
-      public_key = _ecc_public_numbers_from_compressed_point(curve, verification_key).public_key()
-    except (TypeError, NotImplementedError) as e:
-      return Wrappers.Result_Failure(Error_AwsCryptographicPrimitivesError(
-        message=str(e)
-      ))
+      curve = maybe_signature_algorithm.value.value.curve()
 
-    maybe_digest = ExternDigest.default__.internal_digest(
-        maybe_signature_algorithm.value.value.message_digest_algorithm,
-        message
-    )
-    if maybe_digest.is_Failure:
-      return Wrappers.Result_Failure(maybe_digest.error)
-    digest = maybe_digest.value
+      try:
+        public_key = _ecc_public_numbers_from_compressed_point(curve, verification_key).public_key()
+      except (TypeError, NotImplementedError) as e:
+        return Wrappers.Result_Failure(Error_AwsCryptographicPrimitivesError(
+          message=str(e)
+        ))
 
-    try:
-      public_key.verify(bytes(signature),
-                        digest,
-                        sign_algo)
-    except InvalidSignature:
-      # If signature fails to validate, return Success(False)
-      return Wrappers.Result_Success(False)
-    
-    # If signature validates, return Success(True)
-    return Wrappers.Result_Success(True)
+      maybe_digest = ExternDigest.default__.internal_digest(
+          maybe_signature_algorithm.value.value.message_digest_algorithm,
+          message
+      )
+      if maybe_digest.is_Failure:
+        return Wrappers.Result_Failure(maybe_digest.error)
+      digest = maybe_digest.value
 
-# TODO-Python-PYTHONPATH: Remove, refactor
-aws_cryptography_primitives.internaldafny.generated.Signature.ECDSA = ECDSA
-# TODO-Python-PYTHONPATH: The fix here might be in our Dafny code...
-aws_cryptography_primitives.internaldafny.generated.Signature.Signature = Signature
+      try:
+        public_key.verify(bytes(signature),
+                          digest,
+                          sign_algo)
+      except InvalidSignature:
+        # If signature fails to validate, return Success(False)
+        return Wrappers.Result_Success(False)
+      
+      # If signature validates, return Success(True)
+      return Wrappers.Result_Success(True)
 
+# Export extern-extended class into generated class
+aws_cryptography_primitives.internaldafny.generated.Signature.default__ = default__
+# This seems like an issue with our Dafny code...
+aws_cryptography_primitives.internaldafny.generated.Signature.Signature = aws_cryptography_primitives.internaldafny.generated.Signature
 
 class SignatureAlgorithm:
   def __init__(self, curve, message_digest_algorithm, raw_signature_algorithm, expected_signature_length):
@@ -179,13 +178,15 @@ class SignatureAlgorithms(Enum):
       ))
     return Wrappers.Result_Success(signature_algorithm)
 
-aws_cryptography_primitives.internaldafny.generated.Signature.ECDSA = ECDSA
+# Again, issue with our Dafny code
+aws_cryptography_primitives.internaldafny.generated.Signature.ECDSA = default__.ECDSA
 # Remove after https://github.com/dafny-lang/dafny/issues/4853
-aws_cryptography_primitives.internaldafny.generated.Signature.ECDSA_Verify = ECDSA.Verify
-ECDSA_Verify = ECDSA.Verify
+aws_cryptography_primitives.internaldafny.generated.Signature.ECDSA_Verify = default__.ECDSA.Verify
+ECDSA_Verify = default__.ECDSA.Verify
 
-### Following are copied, modified, and pasted util functions/constant definitions
+### Following are copied, lightly modified, and pasted util functions/constant definitions
 ### from the AWS Encryption SDK for Python.
+### Reference: https://github.com/aws/aws-encryption-sdk-python/blob/ad6b02c69523d71181734ee42cc9a1debefb8631/src/aws_encryption_sdk/internal/crypto/elliptic_curve.py
 
 def _to_bytes(data):
   """Takes an input str or bytes object and returns an equivalent bytes object.

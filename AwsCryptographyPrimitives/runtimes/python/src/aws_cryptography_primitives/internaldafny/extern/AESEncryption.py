@@ -7,6 +7,7 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from software_amazon_cryptography_primitives_internaldafny_types import Error_AwsCryptographicPrimitivesError
 from cryptography.exceptions import InvalidTag
 
+# Get generated methods
 default__ = aws_cryptography_primitives.internaldafny.generated.AESEncryption.default__
 
 class AESEncryption:
@@ -25,7 +26,6 @@ class AESEncryption:
             iv_bytes = bytes(iv)
             plaintext_bytes = bytes(message)
             aad_bytes = bytes(aad)
-            # aad_bytes = b"".join([chr(a) for a in aad])
 
             aesgcm = AESGCM(key_bytes)
             try:
@@ -53,7 +53,6 @@ class AESEncryption:
             ciphertext_bytes = bytes(ciphertext)
             tag_bytes = bytes(auth_tag)
             aad_bytes = bytes(aad)
-            # aad_bytes = b"".join([chr(a) for a in aad])
 
             ct_and_tag = ciphertext_bytes + tag_bytes
             aesgcm = AESGCM(key_bytes)
@@ -66,4 +65,5 @@ class AESEncryption:
 
             return Wrappers.Result_Success(_dafny.Seq(plaintext))
 
+# Export externs into generated class so references to it have the externs
 aws_cryptography_primitives.internaldafny.generated.AESEncryption.AESEncryption = AESEncryption

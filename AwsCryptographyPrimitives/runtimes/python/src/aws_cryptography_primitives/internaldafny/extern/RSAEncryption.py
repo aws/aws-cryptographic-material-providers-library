@@ -12,7 +12,9 @@ from cryptography.hazmat.primitives.serialization import (
   load_pem_private_key,
 )
 from cryptography.hazmat.primitives import hashes
+import aws_cryptography_primitives.internaldafny.generated.RSAEncryption
 
+# No generated class to extend
 class RSA:
 
   RSA_KEY_LEN_MAX = 4096
@@ -96,7 +98,8 @@ class RSA:
     modulus_bit_length = public_key.key_size
     return Wrappers.Result_Success(modulus_bit_length)
 
+# Export extern class into the generated module
 aws_cryptography_primitives.internaldafny.generated.RSAEncryption.RSA = RSA
-# Remove after https://github.com/dafny-lang/dafny/issues/4853
+# Remove following lines after https://github.com/dafny-lang/dafny/issues/4853 is resolved
 aws_cryptography_primitives.internaldafny.generated.RSAEncryption.RSA_GetRSAKeyModulusLengthExtern = RSA.GetRSAKeyModulusLengthExtern
 RSA_GetRSAKeyModulusLengthExtern = RSA.GetRSAKeyModulusLengthExtern

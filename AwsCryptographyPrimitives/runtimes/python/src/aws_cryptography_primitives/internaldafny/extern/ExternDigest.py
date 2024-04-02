@@ -4,8 +4,10 @@ import _dafny
 import software_amazon_cryptography_primitives_internaldafny_types
 import aws_cryptography_primitives.internaldafny.generated.Digest
 from aws_cryptography_primitives.internaldafny.generated.Digest import *
+import aws_cryptography_primitives.internaldafny.generated.ExternDigest
 
-class default__:
+# Extend generated class
+class default__(aws_cryptography_primitives.internaldafny.generated.ExternDigest.default__):
 
   @staticmethod
   def get_hash(digest_algorithm):
@@ -41,4 +43,5 @@ class default__:
     else:
       return Wrappers.Result_Success(_dafny.Seq(maybe_digest.value))
 
+# Export extern-extended class into generated class
 aws_cryptography_primitives.internaldafny.generated.Digest.default__ = default__
