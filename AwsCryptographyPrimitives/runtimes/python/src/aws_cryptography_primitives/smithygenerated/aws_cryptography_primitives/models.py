@@ -16,24 +16,24 @@ class AES_GCM:
         iv_length: int = 0,
     ):
         if (key_length is not None) and (key_length < 1):
-            raise ValueError("key_length must be less than or equal to 1")
+            raise ValueError("key_length must be greater than or equal to 1")
 
         if (key_length is not None) and (key_length > 32):
-            raise ValueError("key_length must be greater than or equal to 32")
+            raise ValueError("key_length must be less than or equal to 32")
 
         self.key_length = key_length
         if (tag_length is not None) and (tag_length < 0):
-            raise ValueError("tag_length must be less than or equal to 0")
+            raise ValueError("tag_length must be greater than or equal to 0")
 
         if (tag_length is not None) and (tag_length > 32):
-            raise ValueError("tag_length must be greater than or equal to 32")
+            raise ValueError("tag_length must be less than or equal to 32")
 
         self.tag_length = tag_length
         if (iv_length is not None) and (iv_length < 0):
-            raise ValueError("iv_length must be less than or equal to 0")
+            raise ValueError("iv_length must be greater than or equal to 0")
 
         if (iv_length is not None) and (iv_length > 255):
-            raise ValueError("iv_length must be greater than or equal to 255")
+            raise ValueError("iv_length must be less than or equal to 255")
 
         self.iv_length = iv_length
 
@@ -351,7 +351,7 @@ class AesKdfCtrInput:
     ):
         self.ikm = ikm
         if (expected_length is not None) and (expected_length < 0):
-            raise ValueError("expected_length must be less than or equal to 0")
+            raise ValueError("expected_length must be greater than or equal to 0")
 
         self.expected_length = expected_length
         self.nonce = nonce
@@ -743,7 +743,7 @@ class GenerateRandomBytesInput:
         length: int = 0,
     ):
         if (length is not None) and (length < 0):
-            raise ValueError("length must be less than or equal to 0")
+            raise ValueError("length must be greater than or equal to 0")
 
         self.length = length
 
@@ -799,10 +799,10 @@ class GenerateRSAKeyPairInput:
         length_bits: int = 0,
     ):
         if (length_bits is not None) and (length_bits < 81):
-            raise ValueError("length_bits must be less than or equal to 81")
+            raise ValueError("length_bits must be greater than or equal to 81")
 
         if (length_bits is not None) and (length_bits > 4096):
-            raise ValueError("length_bits must be greater than or equal to 4096")
+            raise ValueError("length_bits must be less than or equal to 4096")
 
         self.length_bits = length_bits
 
@@ -861,7 +861,7 @@ class RSAPrivateKey:
     ):
         self.pem = pem
         if (length_bits is not None) and (length_bits < 81):
-            raise ValueError("length_bits must be less than or equal to 81")
+            raise ValueError("length_bits must be greater than or equal to 81")
 
         self.length_bits = length_bits
 
@@ -928,7 +928,7 @@ class RSAPublicKey:
     ):
         self.pem = pem
         if (length_bits is not None) and (length_bits < 81):
-            raise ValueError("length_bits must be less than or equal to 81")
+            raise ValueError("length_bits must be greater than or equal to 81")
 
         self.length_bits = length_bits
 
@@ -1099,7 +1099,7 @@ class GetRSAKeyModulusLengthOutput:
         length: int = 0,
     ):
         if (length is not None) and (length < 81):
-            raise ValueError("length must be less than or equal to 81")
+            raise ValueError("length must be greater than or equal to 81")
 
         self.length = length
 
@@ -1167,7 +1167,7 @@ class HkdfInput:
         self.info = info
         self.salt = salt
         if (expected_length is not None) and (expected_length < 0):
-            raise ValueError("expected_length must be less than or equal to 0")
+            raise ValueError("expected_length must be greater than or equal to 0")
 
         self.expected_length = expected_length
 
@@ -1262,7 +1262,7 @@ class HkdfExpandInput:
         self.prk = prk
         self.info = info
         if (expected_length is not None) and (expected_length < 0):
-            raise ValueError("expected_length must be less than or equal to 0")
+            raise ValueError("expected_length must be greater than or equal to 0")
 
         self.expected_length = expected_length
 
@@ -1488,7 +1488,7 @@ class KdfCtrInput:
         self.digest_algorithm = digest_algorithm
         self.ikm = ikm
         if (expected_length is not None) and (expected_length < 0):
-            raise ValueError("expected_length must be less than or equal to 0")
+            raise ValueError("expected_length must be greater than or equal to 0")
 
         self.expected_length = expected_length
         self.purpose = purpose
