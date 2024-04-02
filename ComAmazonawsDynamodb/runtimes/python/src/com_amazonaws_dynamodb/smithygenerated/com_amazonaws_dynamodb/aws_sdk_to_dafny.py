@@ -392,195 +392,195 @@ from software_amazon_cryptography_services_dynamodb_internaldafny_types import (
 )
 
 
-def com_amazonaws_dynamodb_BackupInUseException(input):
+def com_amazonaws_dynamodb_BackupInUseException(native_input):
     return Error_BackupInUseException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_BackupNotFoundException(input):
+def com_amazonaws_dynamodb_BackupNotFoundException(native_input):
     return Error_BackupNotFoundException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_ConditionalCheckFailedException(input):
+def com_amazonaws_dynamodb_ConditionalCheckFailedException(native_input):
     return Error_ConditionalCheckFailedException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_ContinuousBackupsUnavailableException(input):
+def com_amazonaws_dynamodb_ContinuousBackupsUnavailableException(native_input):
     return Error_ContinuousBackupsUnavailableException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_DuplicateItemException(input):
+def com_amazonaws_dynamodb_DuplicateItemException(native_input):
     return Error_DuplicateItemException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_ExportConflictException(input):
+def com_amazonaws_dynamodb_ExportConflictException(native_input):
     return Error_ExportConflictException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_ExportNotFoundException(input):
+def com_amazonaws_dynamodb_ExportNotFoundException(native_input):
     return Error_ExportNotFoundException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_GlobalTableAlreadyExistsException(input):
+def com_amazonaws_dynamodb_GlobalTableAlreadyExistsException(native_input):
     return Error_GlobalTableAlreadyExistsException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_GlobalTableNotFoundException(input):
+def com_amazonaws_dynamodb_GlobalTableNotFoundException(native_input):
     return Error_GlobalTableNotFoundException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_IdempotentParameterMismatchException(input):
+def com_amazonaws_dynamodb_IdempotentParameterMismatchException(native_input):
     return Error_IdempotentParameterMismatchException(
-        Message=Seq(input["Error"]["Message"]),
+        Message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_ImportConflictException(input):
+def com_amazonaws_dynamodb_ImportConflictException(native_input):
     return Error_ImportConflictException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_ImportNotFoundException(input):
+def com_amazonaws_dynamodb_ImportNotFoundException(native_input):
     return Error_ImportNotFoundException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_IndexNotFoundException(input):
+def com_amazonaws_dynamodb_IndexNotFoundException(native_input):
     return Error_IndexNotFoundException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_InternalServerError(input):
+def com_amazonaws_dynamodb_InternalServerError(native_input):
     return Error_InternalServerError(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_InvalidEndpointException(input):
+def com_amazonaws_dynamodb_InvalidEndpointException(native_input):
     return Error_InvalidEndpointException(
-        Message=Seq(input["Error"]["Message"]),
+        Message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_InvalidExportTimeException(input):
+def com_amazonaws_dynamodb_InvalidExportTimeException(native_input):
     return Error_InvalidExportTimeException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_InvalidRestoreTimeException(input):
+def com_amazonaws_dynamodb_InvalidRestoreTimeException(native_input):
     return Error_InvalidRestoreTimeException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_ItemCollectionSizeLimitExceededException(input):
+def com_amazonaws_dynamodb_ItemCollectionSizeLimitExceededException(native_input):
     return Error_ItemCollectionSizeLimitExceededException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_LimitExceededException(input):
+def com_amazonaws_dynamodb_LimitExceededException(native_input):
     return Error_LimitExceededException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_PointInTimeRecoveryUnavailableException(input):
+def com_amazonaws_dynamodb_PointInTimeRecoveryUnavailableException(native_input):
     return Error_PointInTimeRecoveryUnavailableException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_ProvisionedThroughputExceededException(input):
+def com_amazonaws_dynamodb_ProvisionedThroughputExceededException(native_input):
     return Error_ProvisionedThroughputExceededException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_ReplicaAlreadyExistsException(input):
+def com_amazonaws_dynamodb_ReplicaAlreadyExistsException(native_input):
     return Error_ReplicaAlreadyExistsException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_ReplicaNotFoundException(input):
+def com_amazonaws_dynamodb_ReplicaNotFoundException(native_input):
     return Error_ReplicaNotFoundException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_RequestLimitExceeded(input):
+def com_amazonaws_dynamodb_RequestLimitExceeded(native_input):
     return Error_RequestLimitExceeded(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_ResourceInUseException(input):
+def com_amazonaws_dynamodb_ResourceInUseException(native_input):
     return Error_ResourceInUseException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_ResourceNotFoundException(input):
+def com_amazonaws_dynamodb_ResourceNotFoundException(native_input):
     return Error_ResourceNotFoundException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_TableAlreadyExistsException(input):
+def com_amazonaws_dynamodb_TableAlreadyExistsException(native_input):
     return Error_TableAlreadyExistsException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_TableInUseException(input):
+def com_amazonaws_dynamodb_TableInUseException(native_input):
     return Error_TableInUseException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_TableNotFoundException(input):
+def com_amazonaws_dynamodb_TableNotFoundException(native_input):
     return Error_TableNotFoundException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_TransactionCanceledException(input):
+def com_amazonaws_dynamodb_TransactionCanceledException(native_input):
     return Error_TransactionCanceledException(
-        Message=Seq(input["Error"]["Message"]),
+        Message=Seq(native_input["Error"]["Message"]),
         CancellationReasons=Seq(
             [
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CancellationReason(
                     list_element
                 )
-                for list_element in input["CancellationReasons"]
+                for list_element in native_input["CancellationReasons"]
             ]
         ),
     )
 
 
-def com_amazonaws_dynamodb_CancellationReason(input):
+def com_amazonaws_dynamodb_CancellationReason(native_input):
     return DafnyCancellationReason(
         Item=(
             Option_Some(
@@ -591,44 +591,46 @@ def com_amazonaws_dynamodb_CancellationReason(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["Item"].items()
+                        for (key, value) in native_input["Item"].items()
                     }
                 )
             )
-            if "Item" in input.keys()
+            if "Item" in native_input.keys()
             else Option_None()
         ),
         Code=(
-            Option_Some(Seq(input["Code"])) if "Code" in input.keys() else Option_None()
+            Option_Some(Seq(native_input["Code"]))
+            if "Code" in native_input.keys()
+            else Option_None()
         ),
         Message=(
-            Option_Some(Seq(input["Message"]))
-            if "Message" in input.keys()
+            Option_Some(Seq(native_input["Message"]))
+            if "Message" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_AttributeValue(input):
-    if "S" in input.keys():
-        AttributeValue_union_value = AttributeValue_S(Seq(input["S"]))
-    elif "N" in input.keys():
-        AttributeValue_union_value = AttributeValue_N(Seq(input["N"]))
-    elif "B" in input.keys():
-        AttributeValue_union_value = AttributeValue_B(Seq(input["B"]))
-    elif "SS" in input.keys():
+def com_amazonaws_dynamodb_AttributeValue(native_input):
+    if "S" in native_input.keys():
+        AttributeValue_union_value = AttributeValue_S(Seq(native_input["S"]))
+    elif "N" in native_input.keys():
+        AttributeValue_union_value = AttributeValue_N(Seq(native_input["N"]))
+    elif "B" in native_input.keys():
+        AttributeValue_union_value = AttributeValue_B(Seq(native_input["B"]))
+    elif "SS" in native_input.keys():
         AttributeValue_union_value = AttributeValue_SS(
-            Seq([Seq(list_element) for list_element in input["SS"]])
+            Seq([Seq(list_element) for list_element in native_input["SS"]])
         )
-    elif "NS" in input.keys():
+    elif "NS" in native_input.keys():
         AttributeValue_union_value = AttributeValue_NS(
-            Seq([Seq(list_element) for list_element in input["NS"]])
+            Seq([Seq(list_element) for list_element in native_input["NS"]])
         )
-    elif "BS" in input.keys():
+    elif "BS" in native_input.keys():
         AttributeValue_union_value = AttributeValue_BS(
-            Seq([Seq(list_element) for list_element in input["BS"]])
+            Seq([Seq(list_element) for list_element in native_input["BS"]])
         )
-    elif "M" in input.keys():
+    elif "M" in native_input.keys():
         AttributeValue_union_value = AttributeValue_M(
             Map(
                 {
@@ -637,68 +639,70 @@ def com_amazonaws_dynamodb_AttributeValue(input):
                     ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                         value
                     )
-                    for (key, value) in input["M"].items()
+                    for (key, value) in native_input["M"].items()
                 }
             )
         )
-    elif "L" in input.keys():
+    elif "L" in native_input.keys():
         AttributeValue_union_value = AttributeValue_L(
             Seq(
                 [
                     com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                         list_element
                     )
-                    for list_element in input["L"]
+                    for list_element in native_input["L"]
                 ]
             )
         )
-    elif "NULL" in input.keys():
-        AttributeValue_union_value = AttributeValue_NULL(input["NULL"])
-    elif "BOOL" in input.keys():
-        AttributeValue_union_value = AttributeValue_BOOL(input["BOOL"])
+    elif "NULL" in native_input.keys():
+        AttributeValue_union_value = AttributeValue_NULL(native_input["NULL"])
+    elif "BOOL" in native_input.keys():
+        AttributeValue_union_value = AttributeValue_BOOL(native_input["BOOL"])
     else:
-        raise ValueError("No recognized union value in union type: " + str(input))
+        raise ValueError(
+            "No recognized union value in union type: " + str(native_input)
+        )
 
     return AttributeValue_union_value
 
 
-def com_amazonaws_dynamodb_TransactionConflictException(input):
+def com_amazonaws_dynamodb_TransactionConflictException(native_input):
     return Error_TransactionConflictException(
-        message=Seq(input["Error"]["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_TransactionInProgressException(input):
+def com_amazonaws_dynamodb_TransactionInProgressException(native_input):
     return Error_TransactionInProgressException(
-        Message=Seq(input["Error"]["Message"]),
+        Message=Seq(native_input["Error"]["Message"]),
     )
 
 
-def com_amazonaws_dynamodb_BatchExecuteStatementInput(input):
+def com_amazonaws_dynamodb_BatchExecuteStatementInput(native_input):
     return DafnyBatchExecuteStatementInput(
         Statements=Seq(
             [
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BatchStatementRequest(
                     list_element
                 )
-                for list_element in input["Statements"]
+                for list_element in native_input["Statements"]
             ]
         ),
         ReturnConsumedCapacity=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
-                    input["ReturnConsumedCapacity"]
+                    native_input["ReturnConsumedCapacity"]
                 )
             )
-            if "ReturnConsumedCapacity" in input.keys()
+            if "ReturnConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_BatchStatementRequest(input):
+def com_amazonaws_dynamodb_BatchStatementRequest(native_input):
     return DafnyBatchStatementRequest(
-        Statement=Seq(input["Statement"]),
+        Statement=Seq(native_input["Statement"]),
         Parameters=(
             Option_Some(
                 Seq(
@@ -706,34 +710,34 @@ def com_amazonaws_dynamodb_BatchStatementRequest(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             list_element
                         )
-                        for list_element in input["Parameters"]
+                        for list_element in native_input["Parameters"]
                     ]
                 )
             )
-            if "Parameters" in input.keys()
+            if "Parameters" in native_input.keys()
             else Option_None()
         ),
         ConsistentRead=(
-            Option_Some(input["ConsistentRead"])
-            if "ConsistentRead" in input.keys()
+            Option_Some(native_input["ConsistentRead"])
+            if "ConsistentRead" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ReturnConsumedCapacity(input):
+def com_amazonaws_dynamodb_ReturnConsumedCapacity(native_input):
     # Convert ReturnConsumedCapacity
-    if input == "INDEXES":
+    if native_input == "INDEXES":
         return ReturnConsumedCapacity_INDEXES()
-    elif input == "TOTAL":
+    elif native_input == "TOTAL":
         return ReturnConsumedCapacity_TOTAL()
-    elif input == "NONE":
+    elif native_input == "NONE":
         return ReturnConsumedCapacity_NONE()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_BatchExecuteStatementOutput(input):
+def com_amazonaws_dynamodb_BatchExecuteStatementOutput(native_input):
     return DafnyBatchExecuteStatementOutput(
         Responses=(
             Option_Some(
@@ -742,11 +746,11 @@ def com_amazonaws_dynamodb_BatchExecuteStatementOutput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BatchStatementResponse(
                             list_element
                         )
-                        for list_element in input["Responses"]
+                        for list_element in native_input["Responses"]
                     ]
                 )
             )
-            if "Responses" in input.keys()
+            if "Responses" in native_input.keys()
             else Option_None()
         ),
         ConsumedCapacity=(
@@ -756,30 +760,30 @@ def com_amazonaws_dynamodb_BatchExecuteStatementOutput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
                             list_element
                         )
-                        for list_element in input["ConsumedCapacity"]
+                        for list_element in native_input["ConsumedCapacity"]
                     ]
                 )
             )
-            if "ConsumedCapacity" in input.keys()
+            if "ConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_BatchStatementResponse(input):
+def com_amazonaws_dynamodb_BatchStatementResponse(native_input):
     return DafnyBatchStatementResponse(
         Error=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BatchStatementError(
-                    input["Error"]
+                    native_input["Error"]
                 )
             )
-            if "Error" in input.keys()
+            if "Error" in native_input.keys()
             else Option_None()
         ),
         TableName=(
-            Option_Some(Seq(input["TableName"]))
-            if "TableName" in input.keys()
+            Option_Some(Seq(native_input["TableName"]))
+            if "TableName" in native_input.keys()
             else Option_None()
         ),
         Item=(
@@ -791,92 +795,92 @@ def com_amazonaws_dynamodb_BatchStatementResponse(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["Item"].items()
+                        for (key, value) in native_input["Item"].items()
                     }
                 )
             )
-            if "Item" in input.keys()
+            if "Item" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_BatchStatementError(input):
+def com_amazonaws_dynamodb_BatchStatementError(native_input):
     return DafnyBatchStatementError(
         Code=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BatchStatementErrorCodeEnum(
-                    input["Code"]
+                    native_input["Code"]
                 )
             )
-            if "Code" in input.keys()
+            if "Code" in native_input.keys()
             else Option_None()
         ),
         Message=(
-            Option_Some(Seq(input["Message"]))
-            if "Message" in input.keys()
+            Option_Some(Seq(native_input["Message"]))
+            if "Message" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_BatchStatementErrorCodeEnum(input):
+def com_amazonaws_dynamodb_BatchStatementErrorCodeEnum(native_input):
     # Convert BatchStatementErrorCodeEnum
-    if input == "ConditionalCheckFailed":
+    if native_input == "ConditionalCheckFailed":
         return BatchStatementErrorCodeEnum_ConditionalCheckFailed()
-    elif input == "ItemCollectionSizeLimitExceeded":
+    elif native_input == "ItemCollectionSizeLimitExceeded":
         return BatchStatementErrorCodeEnum_ItemCollectionSizeLimitExceeded()
-    elif input == "RequestLimitExceeded":
+    elif native_input == "RequestLimitExceeded":
         return BatchStatementErrorCodeEnum_RequestLimitExceeded()
-    elif input == "ValidationError":
+    elif native_input == "ValidationError":
         return BatchStatementErrorCodeEnum_ValidationError()
-    elif input == "ProvisionedThroughputExceeded":
+    elif native_input == "ProvisionedThroughputExceeded":
         return BatchStatementErrorCodeEnum_ProvisionedThroughputExceeded()
-    elif input == "TransactionConflict":
+    elif native_input == "TransactionConflict":
         return BatchStatementErrorCodeEnum_TransactionConflict()
-    elif input == "ThrottlingError":
+    elif native_input == "ThrottlingError":
         return BatchStatementErrorCodeEnum_ThrottlingError()
-    elif input == "InternalServerError":
+    elif native_input == "InternalServerError":
         return BatchStatementErrorCodeEnum_InternalServerError()
-    elif input == "ResourceNotFound":
+    elif native_input == "ResourceNotFound":
         return BatchStatementErrorCodeEnum_ResourceNotFound()
-    elif input == "AccessDenied":
+    elif native_input == "AccessDenied":
         return BatchStatementErrorCodeEnum_AccessDenied()
-    elif input == "DuplicateItem":
+    elif native_input == "DuplicateItem":
         return BatchStatementErrorCodeEnum_DuplicateItem()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_ConsumedCapacity(input):
+def com_amazonaws_dynamodb_ConsumedCapacity(native_input):
     return DafnyConsumedCapacity(
         TableName=(
-            Option_Some(Seq(input["TableName"]))
-            if "TableName" in input.keys()
+            Option_Some(Seq(native_input["TableName"]))
+            if "TableName" in native_input.keys()
             else Option_None()
         ),
         CapacityUnits=(
-            Option_Some(input["CapacityUnits"])
-            if "CapacityUnits" in input.keys()
+            Option_Some(native_input["CapacityUnits"])
+            if "CapacityUnits" in native_input.keys()
             else Option_None()
         ),
         ReadCapacityUnits=(
-            Option_Some(input["ReadCapacityUnits"])
-            if "ReadCapacityUnits" in input.keys()
+            Option_Some(native_input["ReadCapacityUnits"])
+            if "ReadCapacityUnits" in native_input.keys()
             else Option_None()
         ),
         WriteCapacityUnits=(
-            Option_Some(input["WriteCapacityUnits"])
-            if "WriteCapacityUnits" in input.keys()
+            Option_Some(native_input["WriteCapacityUnits"])
+            if "WriteCapacityUnits" in native_input.keys()
             else Option_None()
         ),
         Table=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Capacity(
-                    input["Table"]
+                    native_input["Table"]
                 )
             )
-            if "Table" in input.keys()
+            if "Table" in native_input.keys()
             else Option_None()
         ),
         LocalSecondaryIndexes=(
@@ -888,11 +892,13 @@ def com_amazonaws_dynamodb_ConsumedCapacity(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Capacity(
                             value
                         )
-                        for (key, value) in input["LocalSecondaryIndexes"].items()
+                        for (key, value) in native_input[
+                            "LocalSecondaryIndexes"
+                        ].items()
                     }
                 )
             )
-            if "LocalSecondaryIndexes" in input.keys()
+            if "LocalSecondaryIndexes" in native_input.keys()
             else Option_None()
         ),
         GlobalSecondaryIndexes=(
@@ -904,37 +910,39 @@ def com_amazonaws_dynamodb_ConsumedCapacity(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Capacity(
                             value
                         )
-                        for (key, value) in input["GlobalSecondaryIndexes"].items()
+                        for (key, value) in native_input[
+                            "GlobalSecondaryIndexes"
+                        ].items()
                     }
                 )
             )
-            if "GlobalSecondaryIndexes" in input.keys()
+            if "GlobalSecondaryIndexes" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_Capacity(input):
+def com_amazonaws_dynamodb_Capacity(native_input):
     return DafnyCapacity(
         ReadCapacityUnits=(
-            Option_Some(input["ReadCapacityUnits"])
-            if "ReadCapacityUnits" in input.keys()
+            Option_Some(native_input["ReadCapacityUnits"])
+            if "ReadCapacityUnits" in native_input.keys()
             else Option_None()
         ),
         WriteCapacityUnits=(
-            Option_Some(input["WriteCapacityUnits"])
-            if "WriteCapacityUnits" in input.keys()
+            Option_Some(native_input["WriteCapacityUnits"])
+            if "WriteCapacityUnits" in native_input.keys()
             else Option_None()
         ),
         CapacityUnits=(
-            Option_Some(input["CapacityUnits"])
-            if "CapacityUnits" in input.keys()
+            Option_Some(native_input["CapacityUnits"])
+            if "CapacityUnits" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_BatchGetItemInput(input):
+def com_amazonaws_dynamodb_BatchGetItemInput(native_input):
     return DafnyBatchGetItemInput(
         RequestItems=Map(
             {
@@ -943,22 +951,22 @@ def com_amazonaws_dynamodb_BatchGetItemInput(input):
                 ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeysAndAttributes(
                     value
                 )
-                for (key, value) in input["RequestItems"].items()
+                for (key, value) in native_input["RequestItems"].items()
             }
         ),
         ReturnConsumedCapacity=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
-                    input["ReturnConsumedCapacity"]
+                    native_input["ReturnConsumedCapacity"]
                 )
             )
-            if "ReturnConsumedCapacity" in input.keys()
+            if "ReturnConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_KeysAndAttributes(input):
+def com_amazonaws_dynamodb_KeysAndAttributes(native_input):
     return DafnyKeysAndAttributes(
         Keys=Seq(
             [
@@ -972,24 +980,29 @@ def com_amazonaws_dynamodb_KeysAndAttributes(input):
                         for (key, value) in list_element.items()
                     }
                 )
-                for list_element in input["Keys"]
+                for list_element in native_input["Keys"]
             ]
         ),
         AttributesToGet=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in input["AttributesToGet"]])
+                Seq(
+                    [
+                        Seq(list_element)
+                        for list_element in native_input["AttributesToGet"]
+                    ]
+                )
             )
-            if "AttributesToGet" in input.keys()
+            if "AttributesToGet" in native_input.keys()
             else Option_None()
         ),
         ConsistentRead=(
-            Option_Some(input["ConsistentRead"])
-            if "ConsistentRead" in input.keys()
+            Option_Some(native_input["ConsistentRead"])
+            if "ConsistentRead" in native_input.keys()
             else Option_None()
         ),
         ProjectionExpression=(
-            Option_Some(Seq(input["ProjectionExpression"]))
-            if "ProjectionExpression" in input.keys()
+            Option_Some(Seq(native_input["ProjectionExpression"]))
+            if "ProjectionExpression" in native_input.keys()
             else Option_None()
         ),
         ExpressionAttributeNames=(
@@ -997,17 +1010,19 @@ def com_amazonaws_dynamodb_KeysAndAttributes(input):
                 Map(
                     {
                         Seq(key): Seq(value)
-                        for (key, value) in input["ExpressionAttributeNames"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeNames"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeNames" in input.keys()
+            if "ExpressionAttributeNames" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_BatchGetItemOutput(input):
+def com_amazonaws_dynamodb_BatchGetItemOutput(native_input):
     return DafnyBatchGetItemOutput(
         Responses=(
             Option_Some(
@@ -1028,11 +1043,11 @@ def com_amazonaws_dynamodb_BatchGetItemOutput(input):
                                 for list_element in value
                             ]
                         )
-                        for (key, value) in input["Responses"].items()
+                        for (key, value) in native_input["Responses"].items()
                     }
                 )
             )
-            if "Responses" in input.keys()
+            if "Responses" in native_input.keys()
             else Option_None()
         ),
         UnprocessedKeys=(
@@ -1044,11 +1059,11 @@ def com_amazonaws_dynamodb_BatchGetItemOutput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeysAndAttributes(
                             value
                         )
-                        for (key, value) in input["UnprocessedKeys"].items()
+                        for (key, value) in native_input["UnprocessedKeys"].items()
                     }
                 )
             )
-            if "UnprocessedKeys" in input.keys()
+            if "UnprocessedKeys" in native_input.keys()
             else Option_None()
         ),
         ConsumedCapacity=(
@@ -1058,17 +1073,17 @@ def com_amazonaws_dynamodb_BatchGetItemOutput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
                             list_element
                         )
-                        for list_element in input["ConsumedCapacity"]
+                        for list_element in native_input["ConsumedCapacity"]
                     ]
                 )
             )
-            if "ConsumedCapacity" in input.keys()
+            if "ConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_BatchWriteItemInput(input):
+def com_amazonaws_dynamodb_BatchWriteItemInput(native_input):
     return DafnyBatchWriteItemInput(
         RequestItems=Map(
             {
@@ -1080,54 +1095,54 @@ def com_amazonaws_dynamodb_BatchWriteItemInput(input):
                         for list_element in value
                     ]
                 )
-                for (key, value) in input["RequestItems"].items()
+                for (key, value) in native_input["RequestItems"].items()
             }
         ),
         ReturnConsumedCapacity=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
-                    input["ReturnConsumedCapacity"]
+                    native_input["ReturnConsumedCapacity"]
                 )
             )
-            if "ReturnConsumedCapacity" in input.keys()
+            if "ReturnConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
         ReturnItemCollectionMetrics=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnItemCollectionMetrics(
-                    input["ReturnItemCollectionMetrics"]
+                    native_input["ReturnItemCollectionMetrics"]
                 )
             )
-            if "ReturnItemCollectionMetrics" in input.keys()
+            if "ReturnItemCollectionMetrics" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_WriteRequest(input):
+def com_amazonaws_dynamodb_WriteRequest(native_input):
     return DafnyWriteRequest(
         PutRequest=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_PutRequest(
-                    input["PutRequest"]
+                    native_input["PutRequest"]
                 )
             )
-            if "PutRequest" in input.keys()
+            if "PutRequest" in native_input.keys()
             else Option_None()
         ),
         DeleteRequest=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DeleteRequest(
-                    input["DeleteRequest"]
+                    native_input["DeleteRequest"]
                 )
             )
-            if "DeleteRequest" in input.keys()
+            if "DeleteRequest" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_PutRequest(input):
+def com_amazonaws_dynamodb_PutRequest(native_input):
     return DafnyPutRequest(
         Item=Map(
             {
@@ -1136,13 +1151,13 @@ def com_amazonaws_dynamodb_PutRequest(input):
                 ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
-                for (key, value) in input["Item"].items()
+                for (key, value) in native_input["Item"].items()
             }
         ),
     )
 
 
-def com_amazonaws_dynamodb_DeleteRequest(input):
+def com_amazonaws_dynamodb_DeleteRequest(native_input):
     return DafnyDeleteRequest(
         Key=Map(
             {
@@ -1151,23 +1166,23 @@ def com_amazonaws_dynamodb_DeleteRequest(input):
                 ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
-                for (key, value) in input["Key"].items()
+                for (key, value) in native_input["Key"].items()
             }
         ),
     )
 
 
-def com_amazonaws_dynamodb_ReturnItemCollectionMetrics(input):
+def com_amazonaws_dynamodb_ReturnItemCollectionMetrics(native_input):
     # Convert ReturnItemCollectionMetrics
-    if input == "SIZE":
+    if native_input == "SIZE":
         return ReturnItemCollectionMetrics_SIZE()
-    elif input == "NONE":
+    elif native_input == "NONE":
         return ReturnItemCollectionMetrics_NONE()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_BatchWriteItemOutput(input):
+def com_amazonaws_dynamodb_BatchWriteItemOutput(native_input):
     return DafnyBatchWriteItemOutput(
         UnprocessedItems=(
             Option_Some(
@@ -1181,11 +1196,11 @@ def com_amazonaws_dynamodb_BatchWriteItemOutput(input):
                                 for list_element in value
                             ]
                         )
-                        for (key, value) in input["UnprocessedItems"].items()
+                        for (key, value) in native_input["UnprocessedItems"].items()
                     }
                 )
             )
-            if "UnprocessedItems" in input.keys()
+            if "UnprocessedItems" in native_input.keys()
             else Option_None()
         ),
         ItemCollectionMetrics=(
@@ -1200,11 +1215,13 @@ def com_amazonaws_dynamodb_BatchWriteItemOutput(input):
                                 for list_element in value
                             ]
                         )
-                        for (key, value) in input["ItemCollectionMetrics"].items()
+                        for (key, value) in native_input[
+                            "ItemCollectionMetrics"
+                        ].items()
                     }
                 )
             )
-            if "ItemCollectionMetrics" in input.keys()
+            if "ItemCollectionMetrics" in native_input.keys()
             else Option_None()
         ),
         ConsumedCapacity=(
@@ -1214,17 +1231,17 @@ def com_amazonaws_dynamodb_BatchWriteItemOutput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
                             list_element
                         )
-                        for list_element in input["ConsumedCapacity"]
+                        for list_element in native_input["ConsumedCapacity"]
                     ]
                 )
             )
-            if "ConsumedCapacity" in input.keys()
+            if "ConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ItemCollectionMetrics(input):
+def com_amazonaws_dynamodb_ItemCollectionMetrics(native_input):
     return DafnyItemCollectionMetrics(
         ItemCollectionKey=(
             Option_Some(
@@ -1235,131 +1252,136 @@ def com_amazonaws_dynamodb_ItemCollectionMetrics(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["ItemCollectionKey"].items()
+                        for (key, value) in native_input["ItemCollectionKey"].items()
                     }
                 )
             )
-            if "ItemCollectionKey" in input.keys()
+            if "ItemCollectionKey" in native_input.keys()
             else Option_None()
         ),
         SizeEstimateRangeGB=(
             Option_Some(
-                Seq([list_element for list_element in input["SizeEstimateRangeGB"]])
+                Seq(
+                    [
+                        list_element
+                        for list_element in native_input["SizeEstimateRangeGB"]
+                    ]
+                )
             )
-            if "SizeEstimateRangeGB" in input.keys()
+            if "SizeEstimateRangeGB" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_CreateBackupInput(input):
+def com_amazonaws_dynamodb_CreateBackupInput(native_input):
     return DafnyCreateBackupInput(
-        TableName=Seq(input["TableName"]),
-        BackupName=Seq(input["BackupName"]),
+        TableName=Seq(native_input["TableName"]),
+        BackupName=Seq(native_input["BackupName"]),
     )
 
 
-def com_amazonaws_dynamodb_CreateBackupOutput(input):
+def com_amazonaws_dynamodb_CreateBackupOutput(native_input):
     return DafnyCreateBackupOutput(
         BackupDetails=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupDetails(
-                    input["BackupDetails"]
+                    native_input["BackupDetails"]
                 )
             )
-            if "BackupDetails" in input.keys()
+            if "BackupDetails" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_BackupDetails(input):
+def com_amazonaws_dynamodb_BackupDetails(native_input):
     return DafnyBackupDetails(
-        BackupArn=Seq(input["BackupArn"]),
-        BackupName=Seq(input["BackupName"]),
+        BackupArn=Seq(native_input["BackupArn"]),
+        BackupName=Seq(native_input["BackupName"]),
         BackupSizeBytes=(
-            Option_Some(input["BackupSizeBytes"])
-            if "BackupSizeBytes" in input.keys()
+            Option_Some(native_input["BackupSizeBytes"])
+            if "BackupSizeBytes" in native_input.keys()
             else Option_None()
         ),
         BackupStatus=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupStatus(
-            input["BackupStatus"]
+            native_input["BackupStatus"]
         ),
         BackupType=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupType(
-            input["BackupType"]
+            native_input["BackupType"]
         ),
         BackupCreationDateTime=TypeError("TimestampShape not supported"),
         BackupExpiryDateTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "BackupExpiryDateTime" in input.keys()
+            if "BackupExpiryDateTime" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_BackupStatus(input):
+def com_amazonaws_dynamodb_BackupStatus(native_input):
     # Convert BackupStatus
-    if input == "CREATING":
+    if native_input == "CREATING":
         return BackupStatus_CREATING()
-    elif input == "DELETED":
+    elif native_input == "DELETED":
         return BackupStatus_DELETED()
-    elif input == "AVAILABLE":
+    elif native_input == "AVAILABLE":
         return BackupStatus_AVAILABLE()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_BackupType(input):
+def com_amazonaws_dynamodb_BackupType(native_input):
     # Convert BackupType
-    if input == "USER":
+    if native_input == "USER":
         return BackupType_USER()
-    elif input == "SYSTEM":
+    elif native_input == "SYSTEM":
         return BackupType_SYSTEM()
-    elif input == "AWS_BACKUP":
+    elif native_input == "AWS_BACKUP":
         return BackupType_AWS__BACKUP()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_CreateGlobalTableInput(input):
+def com_amazonaws_dynamodb_CreateGlobalTableInput(native_input):
     return DafnyCreateGlobalTableInput(
-        GlobalTableName=Seq(input["GlobalTableName"]),
+        GlobalTableName=Seq(native_input["GlobalTableName"]),
         ReplicationGroup=Seq(
             [
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Replica(
                     list_element
                 )
-                for list_element in input["ReplicationGroup"]
+                for list_element in native_input["ReplicationGroup"]
             ]
         ),
     )
 
 
-def com_amazonaws_dynamodb_Replica(input):
+def com_amazonaws_dynamodb_Replica(native_input):
     return DafnyReplica(
         RegionName=(
-            Option_Some(Seq(input["RegionName"]))
-            if "RegionName" in input.keys()
+            Option_Some(Seq(native_input["RegionName"]))
+            if "RegionName" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_CreateGlobalTableOutput(input):
+def com_amazonaws_dynamodb_CreateGlobalTableOutput(native_input):
     return DafnyCreateGlobalTableOutput(
         GlobalTableDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTableDescription(
-                    input["GlobalTableDescription"]
+                    native_input["GlobalTableDescription"]
                 )
             )
-            if "GlobalTableDescription" in input.keys()
+            if "GlobalTableDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_GlobalTableDescription(input):
+def com_amazonaws_dynamodb_GlobalTableDescription(native_input):
     return DafnyGlobalTableDescription(
         ReplicationGroup=(
             Option_Some(
@@ -1368,78 +1390,78 @@ def com_amazonaws_dynamodb_GlobalTableDescription(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaDescription(
                             list_element
                         )
-                        for list_element in input["ReplicationGroup"]
+                        for list_element in native_input["ReplicationGroup"]
                     ]
                 )
             )
-            if "ReplicationGroup" in input.keys()
+            if "ReplicationGroup" in native_input.keys()
             else Option_None()
         ),
         GlobalTableArn=(
-            Option_Some(Seq(input["GlobalTableArn"]))
-            if "GlobalTableArn" in input.keys()
+            Option_Some(Seq(native_input["GlobalTableArn"]))
+            if "GlobalTableArn" in native_input.keys()
             else Option_None()
         ),
         CreationDateTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "CreationDateTime" in input.keys()
+            if "CreationDateTime" in native_input.keys()
             else Option_None()
         ),
         GlobalTableStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTableStatus(
-                    input["GlobalTableStatus"]
+                    native_input["GlobalTableStatus"]
                 )
             )
-            if "GlobalTableStatus" in input.keys()
+            if "GlobalTableStatus" in native_input.keys()
             else Option_None()
         ),
         GlobalTableName=(
-            Option_Some(Seq(input["GlobalTableName"]))
-            if "GlobalTableName" in input.keys()
+            Option_Some(Seq(native_input["GlobalTableName"]))
+            if "GlobalTableName" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ReplicaDescription(input):
+def com_amazonaws_dynamodb_ReplicaDescription(native_input):
     return DafnyReplicaDescription(
         RegionName=(
-            Option_Some(Seq(input["RegionName"]))
-            if "RegionName" in input.keys()
+            Option_Some(Seq(native_input["RegionName"]))
+            if "RegionName" in native_input.keys()
             else Option_None()
         ),
         ReplicaStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaStatus(
-                    input["ReplicaStatus"]
+                    native_input["ReplicaStatus"]
                 )
             )
-            if "ReplicaStatus" in input.keys()
+            if "ReplicaStatus" in native_input.keys()
             else Option_None()
         ),
         ReplicaStatusDescription=(
-            Option_Some(Seq(input["ReplicaStatusDescription"]))
-            if "ReplicaStatusDescription" in input.keys()
+            Option_Some(Seq(native_input["ReplicaStatusDescription"]))
+            if "ReplicaStatusDescription" in native_input.keys()
             else Option_None()
         ),
         ReplicaStatusPercentProgress=(
-            Option_Some(Seq(input["ReplicaStatusPercentProgress"]))
-            if "ReplicaStatusPercentProgress" in input.keys()
+            Option_Some(Seq(native_input["ReplicaStatusPercentProgress"]))
+            if "ReplicaStatusPercentProgress" in native_input.keys()
             else Option_None()
         ),
         KMSMasterKeyId=(
-            Option_Some(Seq(input["KMSMasterKeyId"]))
-            if "KMSMasterKeyId" in input.keys()
+            Option_Some(Seq(native_input["KMSMasterKeyId"]))
+            if "KMSMasterKeyId" in native_input.keys()
             else Option_None()
         ),
         ProvisionedThroughputOverride=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputOverride(
-                    input["ProvisionedThroughputOverride"]
+                    native_input["ProvisionedThroughputOverride"]
                 )
             )
-            if "ProvisionedThroughputOverride" in input.keys()
+            if "ProvisionedThroughputOverride" in native_input.keys()
             else Option_None()
         ),
         GlobalSecondaryIndexes=(
@@ -1449,139 +1471,139 @@ def com_amazonaws_dynamodb_ReplicaDescription(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription(
                             list_element
                         )
-                        for list_element in input["GlobalSecondaryIndexes"]
+                        for list_element in native_input["GlobalSecondaryIndexes"]
                     ]
                 )
             )
-            if "GlobalSecondaryIndexes" in input.keys()
+            if "GlobalSecondaryIndexes" in native_input.keys()
             else Option_None()
         ),
         ReplicaInaccessibleDateTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "ReplicaInaccessibleDateTime" in input.keys()
+            if "ReplicaInaccessibleDateTime" in native_input.keys()
             else Option_None()
         ),
         ReplicaTableClassSummary=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClassSummary(
-                    input["ReplicaTableClassSummary"]
+                    native_input["ReplicaTableClassSummary"]
                 )
             )
-            if "ReplicaTableClassSummary" in input.keys()
+            if "ReplicaTableClassSummary" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_GlobalTableStatus(input):
+def com_amazonaws_dynamodb_GlobalTableStatus(native_input):
     # Convert GlobalTableStatus
-    if input == "CREATING":
+    if native_input == "CREATING":
         return GlobalTableStatus_CREATING()
-    elif input == "ACTIVE":
+    elif native_input == "ACTIVE":
         return GlobalTableStatus_ACTIVE()
-    elif input == "DELETING":
+    elif native_input == "DELETING":
         return GlobalTableStatus_DELETING()
-    elif input == "UPDATING":
+    elif native_input == "UPDATING":
         return GlobalTableStatus_UPDATING()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_ReplicaStatus(input):
+def com_amazonaws_dynamodb_ReplicaStatus(native_input):
     # Convert ReplicaStatus
-    if input == "CREATING":
+    if native_input == "CREATING":
         return ReplicaStatus_CREATING()
-    elif input == "CREATION_FAILED":
+    elif native_input == "CREATION_FAILED":
         return ReplicaStatus_CREATION__FAILED()
-    elif input == "UPDATING":
+    elif native_input == "UPDATING":
         return ReplicaStatus_UPDATING()
-    elif input == "DELETING":
+    elif native_input == "DELETING":
         return ReplicaStatus_DELETING()
-    elif input == "ACTIVE":
+    elif native_input == "ACTIVE":
         return ReplicaStatus_ACTIVE()
-    elif input == "REGION_DISABLED":
+    elif native_input == "REGION_DISABLED":
         return ReplicaStatus_REGION__DISABLED()
-    elif input == "INACCESSIBLE_ENCRYPTION_CREDENTIALS":
+    elif native_input == "INACCESSIBLE_ENCRYPTION_CREDENTIALS":
         return ReplicaStatus_INACCESSIBLE__ENCRYPTION__CREDENTIALS()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_ProvisionedThroughputOverride(input):
+def com_amazonaws_dynamodb_ProvisionedThroughputOverride(native_input):
     return DafnyProvisionedThroughputOverride(
         ReadCapacityUnits=(
-            Option_Some(input["ReadCapacityUnits"])
-            if "ReadCapacityUnits" in input.keys()
+            Option_Some(native_input["ReadCapacityUnits"])
+            if "ReadCapacityUnits" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription(input):
+def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexDescription(native_input):
     return DafnyReplicaGlobalSecondaryIndexDescription(
         IndexName=(
-            Option_Some(Seq(input["IndexName"]))
-            if "IndexName" in input.keys()
+            Option_Some(Seq(native_input["IndexName"]))
+            if "IndexName" in native_input.keys()
             else Option_None()
         ),
         ProvisionedThroughputOverride=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputOverride(
-                    input["ProvisionedThroughputOverride"]
+                    native_input["ProvisionedThroughputOverride"]
                 )
             )
-            if "ProvisionedThroughputOverride" in input.keys()
+            if "ProvisionedThroughputOverride" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_TableClassSummary(input):
+def com_amazonaws_dynamodb_TableClassSummary(native_input):
     return DafnyTableClassSummary(
         TableClass=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClass(
-                    input["TableClass"]
+                    native_input["TableClass"]
                 )
             )
-            if "TableClass" in input.keys()
+            if "TableClass" in native_input.keys()
             else Option_None()
         ),
         LastUpdateDateTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "LastUpdateDateTime" in input.keys()
+            if "LastUpdateDateTime" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_TableClass(input):
+def com_amazonaws_dynamodb_TableClass(native_input):
     # Convert TableClass
-    if input == "STANDARD":
+    if native_input == "STANDARD":
         return TableClass_STANDARD()
-    elif input == "STANDARD_INFREQUENT_ACCESS":
+    elif native_input == "STANDARD_INFREQUENT_ACCESS":
         return TableClass_STANDARD__INFREQUENT__ACCESS()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_CreateTableInput(input):
+def com_amazonaws_dynamodb_CreateTableInput(native_input):
     return DafnyCreateTableInput(
         AttributeDefinitions=Seq(
             [
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeDefinition(
                     list_element
                 )
-                for list_element in input["AttributeDefinitions"]
+                for list_element in native_input["AttributeDefinitions"]
             ]
         ),
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
         KeySchema=Seq(
             [
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                     list_element
                 )
-                for list_element in input["KeySchema"]
+                for list_element in native_input["KeySchema"]
             ]
         ),
         LocalSecondaryIndexes=(
@@ -1591,11 +1613,11 @@ def com_amazonaws_dynamodb_CreateTableInput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_LocalSecondaryIndex(
                             list_element
                         )
-                        for list_element in input["LocalSecondaryIndexes"]
+                        for list_element in native_input["LocalSecondaryIndexes"]
                     ]
                 )
             )
-            if "LocalSecondaryIndexes" in input.keys()
+            if "LocalSecondaryIndexes" in native_input.keys()
             else Option_None()
         ),
         GlobalSecondaryIndexes=(
@@ -1605,47 +1627,47 @@ def com_amazonaws_dynamodb_CreateTableInput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndex(
                             list_element
                         )
-                        for list_element in input["GlobalSecondaryIndexes"]
+                        for list_element in native_input["GlobalSecondaryIndexes"]
                     ]
                 )
             )
-            if "GlobalSecondaryIndexes" in input.keys()
+            if "GlobalSecondaryIndexes" in native_input.keys()
             else Option_None()
         ),
         BillingMode=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
-                    input["BillingMode"]
+                    native_input["BillingMode"]
                 )
             )
-            if "BillingMode" in input.keys()
+            if "BillingMode" in native_input.keys()
             else Option_None()
         ),
         ProvisionedThroughput=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
-                    input["ProvisionedThroughput"]
+                    native_input["ProvisionedThroughput"]
                 )
             )
-            if "ProvisionedThroughput" in input.keys()
+            if "ProvisionedThroughput" in native_input.keys()
             else Option_None()
         ),
         StreamSpecification=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_StreamSpecification(
-                    input["StreamSpecification"]
+                    native_input["StreamSpecification"]
                 )
             )
-            if "StreamSpecification" in input.keys()
+            if "StreamSpecification" in native_input.keys()
             else Option_None()
         ),
         SSESpecification=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSESpecification(
-                    input["SSESpecification"]
+                    native_input["SSESpecification"]
                 )
             )
-            if "SSESpecification" in input.keys()
+            if "SSESpecification" in native_input.keys()
             else Option_None()
         ),
         Tags=(
@@ -1655,243 +1677,248 @@ def com_amazonaws_dynamodb_CreateTableInput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Tag(
                             list_element
                         )
-                        for list_element in input["Tags"]
+                        for list_element in native_input["Tags"]
                     ]
                 )
             )
-            if "Tags" in input.keys()
+            if "Tags" in native_input.keys()
             else Option_None()
         ),
         TableClass=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClass(
-                    input["TableClass"]
+                    native_input["TableClass"]
                 )
             )
-            if "TableClass" in input.keys()
+            if "TableClass" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_AttributeDefinition(input):
+def com_amazonaws_dynamodb_AttributeDefinition(native_input):
     return DafnyAttributeDefinition(
-        AttributeName=Seq(input["AttributeName"]),
+        AttributeName=Seq(native_input["AttributeName"]),
         AttributeType=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ScalarAttributeType(
-            input["AttributeType"]
+            native_input["AttributeType"]
         ),
     )
 
 
-def com_amazonaws_dynamodb_ScalarAttributeType(input):
+def com_amazonaws_dynamodb_ScalarAttributeType(native_input):
     # Convert ScalarAttributeType
-    if input == "S":
+    if native_input == "S":
         return ScalarAttributeType_S()
-    elif input == "N":
+    elif native_input == "N":
         return ScalarAttributeType_N()
-    elif input == "B":
+    elif native_input == "B":
         return ScalarAttributeType_B()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_KeySchemaElement(input):
+def com_amazonaws_dynamodb_KeySchemaElement(native_input):
     return DafnyKeySchemaElement(
-        AttributeName=Seq(input["AttributeName"]),
+        AttributeName=Seq(native_input["AttributeName"]),
         KeyType=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeyType(
-            input["KeyType"]
+            native_input["KeyType"]
         ),
     )
 
 
-def com_amazonaws_dynamodb_KeyType(input):
+def com_amazonaws_dynamodb_KeyType(native_input):
     # Convert KeyType
-    if input == "HASH":
+    if native_input == "HASH":
         return KeyType_HASH()
-    elif input == "RANGE":
+    elif native_input == "RANGE":
         return KeyType_RANGE()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_LocalSecondaryIndex(input):
+def com_amazonaws_dynamodb_LocalSecondaryIndex(native_input):
     return DafnyLocalSecondaryIndex(
-        IndexName=Seq(input["IndexName"]),
+        IndexName=Seq(native_input["IndexName"]),
         KeySchema=Seq(
             [
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                     list_element
                 )
-                for list_element in input["KeySchema"]
+                for list_element in native_input["KeySchema"]
             ]
         ),
         Projection=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
-            input["Projection"]
+            native_input["Projection"]
         ),
     )
 
 
-def com_amazonaws_dynamodb_Projection(input):
+def com_amazonaws_dynamodb_Projection(native_input):
     return DafnyProjection(
         ProjectionType=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProjectionType(
-                    input["ProjectionType"]
+                    native_input["ProjectionType"]
                 )
             )
-            if "ProjectionType" in input.keys()
+            if "ProjectionType" in native_input.keys()
             else Option_None()
         ),
         NonKeyAttributes=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in input["NonKeyAttributes"]])
+                Seq(
+                    [
+                        Seq(list_element)
+                        for list_element in native_input["NonKeyAttributes"]
+                    ]
+                )
             )
-            if "NonKeyAttributes" in input.keys()
+            if "NonKeyAttributes" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ProjectionType(input):
+def com_amazonaws_dynamodb_ProjectionType(native_input):
     # Convert ProjectionType
-    if input == "ALL":
+    if native_input == "ALL":
         return ProjectionType_ALL()
-    elif input == "KEYS_ONLY":
+    elif native_input == "KEYS_ONLY":
         return ProjectionType_KEYS__ONLY()
-    elif input == "INCLUDE":
+    elif native_input == "INCLUDE":
         return ProjectionType_INCLUDE()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_GlobalSecondaryIndex(input):
+def com_amazonaws_dynamodb_GlobalSecondaryIndex(native_input):
     return DafnyGlobalSecondaryIndex(
-        IndexName=Seq(input["IndexName"]),
+        IndexName=Seq(native_input["IndexName"]),
         KeySchema=Seq(
             [
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                     list_element
                 )
-                for list_element in input["KeySchema"]
+                for list_element in native_input["KeySchema"]
             ]
         ),
         Projection=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
-            input["Projection"]
+            native_input["Projection"]
         ),
         ProvisionedThroughput=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
-                    input["ProvisionedThroughput"]
+                    native_input["ProvisionedThroughput"]
                 )
             )
-            if "ProvisionedThroughput" in input.keys()
+            if "ProvisionedThroughput" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ProvisionedThroughput(input):
+def com_amazonaws_dynamodb_ProvisionedThroughput(native_input):
     return DafnyProvisionedThroughput(
-        ReadCapacityUnits=input["ReadCapacityUnits"],
-        WriteCapacityUnits=input["WriteCapacityUnits"],
+        ReadCapacityUnits=native_input["ReadCapacityUnits"],
+        WriteCapacityUnits=native_input["WriteCapacityUnits"],
     )
 
 
-def com_amazonaws_dynamodb_BillingMode(input):
+def com_amazonaws_dynamodb_BillingMode(native_input):
     # Convert BillingMode
-    if input == "PROVISIONED":
+    if native_input == "PROVISIONED":
         return BillingMode_PROVISIONED()
-    elif input == "PAY_PER_REQUEST":
+    elif native_input == "PAY_PER_REQUEST":
         return BillingMode_PAY__PER__REQUEST()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_StreamSpecification(input):
+def com_amazonaws_dynamodb_StreamSpecification(native_input):
     return DafnyStreamSpecification(
-        StreamEnabled=input["StreamEnabled"],
+        StreamEnabled=native_input["StreamEnabled"],
         StreamViewType=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_StreamViewType(
-                    input["StreamViewType"]
+                    native_input["StreamViewType"]
                 )
             )
-            if "StreamViewType" in input.keys()
+            if "StreamViewType" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_StreamViewType(input):
+def com_amazonaws_dynamodb_StreamViewType(native_input):
     # Convert StreamViewType
-    if input == "NEW_IMAGE":
+    if native_input == "NEW_IMAGE":
         return StreamViewType_NEW__IMAGE()
-    elif input == "OLD_IMAGE":
+    elif native_input == "OLD_IMAGE":
         return StreamViewType_OLD__IMAGE()
-    elif input == "NEW_AND_OLD_IMAGES":
+    elif native_input == "NEW_AND_OLD_IMAGES":
         return StreamViewType_NEW__AND__OLD__IMAGES()
-    elif input == "KEYS_ONLY":
+    elif native_input == "KEYS_ONLY":
         return StreamViewType_KEYS__ONLY()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_SSESpecification(input):
+def com_amazonaws_dynamodb_SSESpecification(native_input):
     return DafnySSESpecification(
         Enabled=(
-            Option_Some(input["Enabled"])
-            if "Enabled" in input.keys()
+            Option_Some(native_input["Enabled"])
+            if "Enabled" in native_input.keys()
             else Option_None()
         ),
         SSEType=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSEType(
-                    input["SSEType"]
+                    native_input["SSEType"]
                 )
             )
-            if "SSEType" in input.keys()
+            if "SSEType" in native_input.keys()
             else Option_None()
         ),
         KMSMasterKeyId=(
-            Option_Some(Seq(input["KMSMasterKeyId"]))
-            if "KMSMasterKeyId" in input.keys()
+            Option_Some(Seq(native_input["KMSMasterKeyId"]))
+            if "KMSMasterKeyId" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_SSEType(input):
+def com_amazonaws_dynamodb_SSEType(native_input):
     # Convert SSEType
-    if input == "AES256":
+    if native_input == "AES256":
         return SSEType_AES256()
-    elif input == "KMS":
+    elif native_input == "KMS":
         return SSEType_KMS()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_Tag(input):
+def com_amazonaws_dynamodb_Tag(native_input):
     return DafnyTag(
-        Key=Seq(input["Key"]),
-        Value=Seq(input["Value"]),
+        Key=Seq(native_input["Key"]),
+        Value=Seq(native_input["Value"]),
     )
 
 
-def com_amazonaws_dynamodb_CreateTableOutput(input):
+def com_amazonaws_dynamodb_CreateTableOutput(native_input):
     return DafnyCreateTableOutput(
         TableDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableDescription(
-                    input["TableDescription"]
+                    native_input["TableDescription"]
                 )
             )
-            if "TableDescription" in input.keys()
+            if "TableDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_TableDescription(input):
+def com_amazonaws_dynamodb_TableDescription(native_input):
     return DafnyTableDescription(
         AttributeDefinitions=(
             Option_Some(
@@ -1900,16 +1927,16 @@ def com_amazonaws_dynamodb_TableDescription(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeDefinition(
                             list_element
                         )
-                        for list_element in input["AttributeDefinitions"]
+                        for list_element in native_input["AttributeDefinitions"]
                     ]
                 )
             )
-            if "AttributeDefinitions" in input.keys()
+            if "AttributeDefinitions" in native_input.keys()
             else Option_None()
         ),
         TableName=(
-            Option_Some(Seq(input["TableName"]))
-            if "TableName" in input.keys()
+            Option_Some(Seq(native_input["TableName"]))
+            if "TableName" in native_input.keys()
             else Option_None()
         ),
         KeySchema=(
@@ -1919,63 +1946,63 @@ def com_amazonaws_dynamodb_TableDescription(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                             list_element
                         )
-                        for list_element in input["KeySchema"]
+                        for list_element in native_input["KeySchema"]
                     ]
                 )
             )
-            if "KeySchema" in input.keys()
+            if "KeySchema" in native_input.keys()
             else Option_None()
         ),
         TableStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableStatus(
-                    input["TableStatus"]
+                    native_input["TableStatus"]
                 )
             )
-            if "TableStatus" in input.keys()
+            if "TableStatus" in native_input.keys()
             else Option_None()
         ),
         CreationDateTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "CreationDateTime" in input.keys()
+            if "CreationDateTime" in native_input.keys()
             else Option_None()
         ),
         ProvisionedThroughput=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputDescription(
-                    input["ProvisionedThroughput"]
+                    native_input["ProvisionedThroughput"]
                 )
             )
-            if "ProvisionedThroughput" in input.keys()
+            if "ProvisionedThroughput" in native_input.keys()
             else Option_None()
         ),
         TableSizeBytes=(
-            Option_Some(input["TableSizeBytes"])
-            if "TableSizeBytes" in input.keys()
+            Option_Some(native_input["TableSizeBytes"])
+            if "TableSizeBytes" in native_input.keys()
             else Option_None()
         ),
         ItemCount=(
-            Option_Some(input["ItemCount"])
-            if "ItemCount" in input.keys()
+            Option_Some(native_input["ItemCount"])
+            if "ItemCount" in native_input.keys()
             else Option_None()
         ),
         TableArn=(
-            Option_Some(Seq(input["TableArn"]))
-            if "TableArn" in input.keys()
+            Option_Some(Seq(native_input["TableArn"]))
+            if "TableArn" in native_input.keys()
             else Option_None()
         ),
         TableId=(
-            Option_Some(Seq(input["TableId"]))
-            if "TableId" in input.keys()
+            Option_Some(Seq(native_input["TableId"]))
+            if "TableId" in native_input.keys()
             else Option_None()
         ),
         BillingModeSummary=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingModeSummary(
-                    input["BillingModeSummary"]
+                    native_input["BillingModeSummary"]
                 )
             )
-            if "BillingModeSummary" in input.keys()
+            if "BillingModeSummary" in native_input.keys()
             else Option_None()
         ),
         LocalSecondaryIndexes=(
@@ -1985,11 +2012,11 @@ def com_amazonaws_dynamodb_TableDescription(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_LocalSecondaryIndexDescription(
                             list_element
                         )
-                        for list_element in input["LocalSecondaryIndexes"]
+                        for list_element in native_input["LocalSecondaryIndexes"]
                     ]
                 )
             )
-            if "LocalSecondaryIndexes" in input.keys()
+            if "LocalSecondaryIndexes" in native_input.keys()
             else Option_None()
         ),
         GlobalSecondaryIndexes=(
@@ -1999,35 +2026,35 @@ def com_amazonaws_dynamodb_TableDescription(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndexDescription(
                             list_element
                         )
-                        for list_element in input["GlobalSecondaryIndexes"]
+                        for list_element in native_input["GlobalSecondaryIndexes"]
                     ]
                 )
             )
-            if "GlobalSecondaryIndexes" in input.keys()
+            if "GlobalSecondaryIndexes" in native_input.keys()
             else Option_None()
         ),
         StreamSpecification=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_StreamSpecification(
-                    input["StreamSpecification"]
+                    native_input["StreamSpecification"]
                 )
             )
-            if "StreamSpecification" in input.keys()
+            if "StreamSpecification" in native_input.keys()
             else Option_None()
         ),
         LatestStreamLabel=(
-            Option_Some(Seq(input["LatestStreamLabel"]))
-            if "LatestStreamLabel" in input.keys()
+            Option_Some(Seq(native_input["LatestStreamLabel"]))
+            if "LatestStreamLabel" in native_input.keys()
             else Option_None()
         ),
         LatestStreamArn=(
-            Option_Some(Seq(input["LatestStreamArn"]))
-            if "LatestStreamArn" in input.keys()
+            Option_Some(Seq(native_input["LatestStreamArn"]))
+            if "LatestStreamArn" in native_input.keys()
             else Option_None()
         ),
         GlobalTableVersion=(
-            Option_Some(Seq(input["GlobalTableVersion"]))
-            if "GlobalTableVersion" in input.keys()
+            Option_Some(Seq(native_input["GlobalTableVersion"]))
+            if "GlobalTableVersion" in native_input.keys()
             else Option_None()
         ),
         Replicas=(
@@ -2037,126 +2064,126 @@ def com_amazonaws_dynamodb_TableDescription(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaDescription(
                             list_element
                         )
-                        for list_element in input["Replicas"]
+                        for list_element in native_input["Replicas"]
                     ]
                 )
             )
-            if "Replicas" in input.keys()
+            if "Replicas" in native_input.keys()
             else Option_None()
         ),
         RestoreSummary=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_RestoreSummary(
-                    input["RestoreSummary"]
+                    native_input["RestoreSummary"]
                 )
             )
-            if "RestoreSummary" in input.keys()
+            if "RestoreSummary" in native_input.keys()
             else Option_None()
         ),
         SSEDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSEDescription(
-                    input["SSEDescription"]
+                    native_input["SSEDescription"]
                 )
             )
-            if "SSEDescription" in input.keys()
+            if "SSEDescription" in native_input.keys()
             else Option_None()
         ),
         ArchivalSummary=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ArchivalSummary(
-                    input["ArchivalSummary"]
+                    native_input["ArchivalSummary"]
                 )
             )
-            if "ArchivalSummary" in input.keys()
+            if "ArchivalSummary" in native_input.keys()
             else Option_None()
         ),
         TableClassSummary=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClassSummary(
-                    input["TableClassSummary"]
+                    native_input["TableClassSummary"]
                 )
             )
-            if "TableClassSummary" in input.keys()
+            if "TableClassSummary" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_TableStatus(input):
+def com_amazonaws_dynamodb_TableStatus(native_input):
     # Convert TableStatus
-    if input == "CREATING":
+    if native_input == "CREATING":
         return TableStatus_CREATING()
-    elif input == "UPDATING":
+    elif native_input == "UPDATING":
         return TableStatus_UPDATING()
-    elif input == "DELETING":
+    elif native_input == "DELETING":
         return TableStatus_DELETING()
-    elif input == "ACTIVE":
+    elif native_input == "ACTIVE":
         return TableStatus_ACTIVE()
-    elif input == "INACCESSIBLE_ENCRYPTION_CREDENTIALS":
+    elif native_input == "INACCESSIBLE_ENCRYPTION_CREDENTIALS":
         return TableStatus_INACCESSIBLE__ENCRYPTION__CREDENTIALS()
-    elif input == "ARCHIVING":
+    elif native_input == "ARCHIVING":
         return TableStatus_ARCHIVING()
-    elif input == "ARCHIVED":
+    elif native_input == "ARCHIVED":
         return TableStatus_ARCHIVED()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_ProvisionedThroughputDescription(input):
+def com_amazonaws_dynamodb_ProvisionedThroughputDescription(native_input):
     return DafnyProvisionedThroughputDescription(
         LastIncreaseDateTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "LastIncreaseDateTime" in input.keys()
+            if "LastIncreaseDateTime" in native_input.keys()
             else Option_None()
         ),
         LastDecreaseDateTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "LastDecreaseDateTime" in input.keys()
+            if "LastDecreaseDateTime" in native_input.keys()
             else Option_None()
         ),
         NumberOfDecreasesToday=(
-            Option_Some(input["NumberOfDecreasesToday"])
-            if "NumberOfDecreasesToday" in input.keys()
+            Option_Some(native_input["NumberOfDecreasesToday"])
+            if "NumberOfDecreasesToday" in native_input.keys()
             else Option_None()
         ),
         ReadCapacityUnits=(
-            Option_Some(input["ReadCapacityUnits"])
-            if "ReadCapacityUnits" in input.keys()
+            Option_Some(native_input["ReadCapacityUnits"])
+            if "ReadCapacityUnits" in native_input.keys()
             else Option_None()
         ),
         WriteCapacityUnits=(
-            Option_Some(input["WriteCapacityUnits"])
-            if "WriteCapacityUnits" in input.keys()
+            Option_Some(native_input["WriteCapacityUnits"])
+            if "WriteCapacityUnits" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_BillingModeSummary(input):
+def com_amazonaws_dynamodb_BillingModeSummary(native_input):
     return DafnyBillingModeSummary(
         BillingMode=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
-                    input["BillingMode"]
+                    native_input["BillingMode"]
                 )
             )
-            if "BillingMode" in input.keys()
+            if "BillingMode" in native_input.keys()
             else Option_None()
         ),
         LastUpdateToPayPerRequestDateTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "LastUpdateToPayPerRequestDateTime" in input.keys()
+            if "LastUpdateToPayPerRequestDateTime" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_LocalSecondaryIndexDescription(input):
+def com_amazonaws_dynamodb_LocalSecondaryIndexDescription(native_input):
     return DafnyLocalSecondaryIndexDescription(
         IndexName=(
-            Option_Some(Seq(input["IndexName"]))
-            if "IndexName" in input.keys()
+            Option_Some(Seq(native_input["IndexName"]))
+            if "IndexName" in native_input.keys()
             else Option_None()
         ),
         KeySchema=(
@@ -2166,45 +2193,45 @@ def com_amazonaws_dynamodb_LocalSecondaryIndexDescription(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                             list_element
                         )
-                        for list_element in input["KeySchema"]
+                        for list_element in native_input["KeySchema"]
                     ]
                 )
             )
-            if "KeySchema" in input.keys()
+            if "KeySchema" in native_input.keys()
             else Option_None()
         ),
         Projection=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
-                    input["Projection"]
+                    native_input["Projection"]
                 )
             )
-            if "Projection" in input.keys()
+            if "Projection" in native_input.keys()
             else Option_None()
         ),
         IndexSizeBytes=(
-            Option_Some(input["IndexSizeBytes"])
-            if "IndexSizeBytes" in input.keys()
+            Option_Some(native_input["IndexSizeBytes"])
+            if "IndexSizeBytes" in native_input.keys()
             else Option_None()
         ),
         ItemCount=(
-            Option_Some(input["ItemCount"])
-            if "ItemCount" in input.keys()
+            Option_Some(native_input["ItemCount"])
+            if "ItemCount" in native_input.keys()
             else Option_None()
         ),
         IndexArn=(
-            Option_Some(Seq(input["IndexArn"]))
-            if "IndexArn" in input.keys()
+            Option_Some(Seq(native_input["IndexArn"]))
+            if "IndexArn" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_GlobalSecondaryIndexDescription(input):
+def com_amazonaws_dynamodb_GlobalSecondaryIndexDescription(native_input):
     return DafnyGlobalSecondaryIndexDescription(
         IndexName=(
-            Option_Some(Seq(input["IndexName"]))
-            if "IndexName" in input.keys()
+            Option_Some(Seq(native_input["IndexName"]))
+            if "IndexName" in native_input.keys()
             else Option_None()
         ),
         KeySchema=(
@@ -2214,227 +2241,227 @@ def com_amazonaws_dynamodb_GlobalSecondaryIndexDescription(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                             list_element
                         )
-                        for list_element in input["KeySchema"]
+                        for list_element in native_input["KeySchema"]
                     ]
                 )
             )
-            if "KeySchema" in input.keys()
+            if "KeySchema" in native_input.keys()
             else Option_None()
         ),
         Projection=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
-                    input["Projection"]
+                    native_input["Projection"]
                 )
             )
-            if "Projection" in input.keys()
+            if "Projection" in native_input.keys()
             else Option_None()
         ),
         IndexStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_IndexStatus(
-                    input["IndexStatus"]
+                    native_input["IndexStatus"]
                 )
             )
-            if "IndexStatus" in input.keys()
+            if "IndexStatus" in native_input.keys()
             else Option_None()
         ),
         Backfilling=(
-            Option_Some(input["Backfilling"])
-            if "Backfilling" in input.keys()
+            Option_Some(native_input["Backfilling"])
+            if "Backfilling" in native_input.keys()
             else Option_None()
         ),
         ProvisionedThroughput=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputDescription(
-                    input["ProvisionedThroughput"]
+                    native_input["ProvisionedThroughput"]
                 )
             )
-            if "ProvisionedThroughput" in input.keys()
+            if "ProvisionedThroughput" in native_input.keys()
             else Option_None()
         ),
         IndexSizeBytes=(
-            Option_Some(input["IndexSizeBytes"])
-            if "IndexSizeBytes" in input.keys()
+            Option_Some(native_input["IndexSizeBytes"])
+            if "IndexSizeBytes" in native_input.keys()
             else Option_None()
         ),
         ItemCount=(
-            Option_Some(input["ItemCount"])
-            if "ItemCount" in input.keys()
+            Option_Some(native_input["ItemCount"])
+            if "ItemCount" in native_input.keys()
             else Option_None()
         ),
         IndexArn=(
-            Option_Some(Seq(input["IndexArn"]))
-            if "IndexArn" in input.keys()
+            Option_Some(Seq(native_input["IndexArn"]))
+            if "IndexArn" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_RestoreSummary(input):
+def com_amazonaws_dynamodb_RestoreSummary(native_input):
     return DafnyRestoreSummary(
         SourceBackupArn=(
-            Option_Some(Seq(input["SourceBackupArn"]))
-            if "SourceBackupArn" in input.keys()
+            Option_Some(Seq(native_input["SourceBackupArn"]))
+            if "SourceBackupArn" in native_input.keys()
             else Option_None()
         ),
         SourceTableArn=(
-            Option_Some(Seq(input["SourceTableArn"]))
-            if "SourceTableArn" in input.keys()
+            Option_Some(Seq(native_input["SourceTableArn"]))
+            if "SourceTableArn" in native_input.keys()
             else Option_None()
         ),
         RestoreDateTime=TypeError("TimestampShape not supported"),
-        RestoreInProgress=input["RestoreInProgress"],
+        RestoreInProgress=native_input["RestoreInProgress"],
     )
 
 
-def com_amazonaws_dynamodb_SSEDescription(input):
+def com_amazonaws_dynamodb_SSEDescription(native_input):
     return DafnySSEDescription(
         Status=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSEStatus(
-                    input["Status"]
+                    native_input["Status"]
                 )
             )
-            if "Status" in input.keys()
+            if "Status" in native_input.keys()
             else Option_None()
         ),
         SSEType=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSEType(
-                    input["SSEType"]
+                    native_input["SSEType"]
                 )
             )
-            if "SSEType" in input.keys()
+            if "SSEType" in native_input.keys()
             else Option_None()
         ),
         KMSMasterKeyArn=(
-            Option_Some(Seq(input["KMSMasterKeyArn"]))
-            if "KMSMasterKeyArn" in input.keys()
+            Option_Some(Seq(native_input["KMSMasterKeyArn"]))
+            if "KMSMasterKeyArn" in native_input.keys()
             else Option_None()
         ),
         InaccessibleEncryptionDateTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "InaccessibleEncryptionDateTime" in input.keys()
+            if "InaccessibleEncryptionDateTime" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ArchivalSummary(input):
+def com_amazonaws_dynamodb_ArchivalSummary(native_input):
     return DafnyArchivalSummary(
         ArchivalDateTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "ArchivalDateTime" in input.keys()
+            if "ArchivalDateTime" in native_input.keys()
             else Option_None()
         ),
         ArchivalReason=(
-            Option_Some(Seq(input["ArchivalReason"]))
-            if "ArchivalReason" in input.keys()
+            Option_Some(Seq(native_input["ArchivalReason"]))
+            if "ArchivalReason" in native_input.keys()
             else Option_None()
         ),
         ArchivalBackupArn=(
-            Option_Some(Seq(input["ArchivalBackupArn"]))
-            if "ArchivalBackupArn" in input.keys()
+            Option_Some(Seq(native_input["ArchivalBackupArn"]))
+            if "ArchivalBackupArn" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_IndexStatus(input):
+def com_amazonaws_dynamodb_IndexStatus(native_input):
     # Convert IndexStatus
-    if input == "CREATING":
+    if native_input == "CREATING":
         return IndexStatus_CREATING()
-    elif input == "UPDATING":
+    elif native_input == "UPDATING":
         return IndexStatus_UPDATING()
-    elif input == "DELETING":
+    elif native_input == "DELETING":
         return IndexStatus_DELETING()
-    elif input == "ACTIVE":
+    elif native_input == "ACTIVE":
         return IndexStatus_ACTIVE()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_SSEStatus(input):
+def com_amazonaws_dynamodb_SSEStatus(native_input):
     # Convert SSEStatus
-    if input == "ENABLING":
+    if native_input == "ENABLING":
         return SSEStatus_ENABLING()
-    elif input == "ENABLED":
+    elif native_input == "ENABLED":
         return SSEStatus_ENABLED()
-    elif input == "DISABLING":
+    elif native_input == "DISABLING":
         return SSEStatus_DISABLING()
-    elif input == "DISABLED":
+    elif native_input == "DISABLED":
         return SSEStatus_DISABLED()
-    elif input == "UPDATING":
+    elif native_input == "UPDATING":
         return SSEStatus_UPDATING()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_DeleteBackupInput(input):
+def com_amazonaws_dynamodb_DeleteBackupInput(native_input):
     return DafnyDeleteBackupInput(
-        BackupArn=Seq(input["BackupArn"]),
+        BackupArn=Seq(native_input["BackupArn"]),
     )
 
 
-def com_amazonaws_dynamodb_DeleteBackupOutput(input):
+def com_amazonaws_dynamodb_DeleteBackupOutput(native_input):
     return DafnyDeleteBackupOutput(
         BackupDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupDescription(
-                    input["BackupDescription"]
+                    native_input["BackupDescription"]
                 )
             )
-            if "BackupDescription" in input.keys()
+            if "BackupDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_BackupDescription(input):
+def com_amazonaws_dynamodb_BackupDescription(native_input):
     return DafnyBackupDescription(
         BackupDetails=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupDetails(
-                    input["BackupDetails"]
+                    native_input["BackupDetails"]
                 )
             )
-            if "BackupDetails" in input.keys()
+            if "BackupDetails" in native_input.keys()
             else Option_None()
         ),
         SourceTableDetails=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SourceTableDetails(
-                    input["SourceTableDetails"]
+                    native_input["SourceTableDetails"]
                 )
             )
-            if "SourceTableDetails" in input.keys()
+            if "SourceTableDetails" in native_input.keys()
             else Option_None()
         ),
         SourceTableFeatureDetails=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SourceTableFeatureDetails(
-                    input["SourceTableFeatureDetails"]
+                    native_input["SourceTableFeatureDetails"]
                 )
             )
-            if "SourceTableFeatureDetails" in input.keys()
+            if "SourceTableFeatureDetails" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_SourceTableDetails(input):
+def com_amazonaws_dynamodb_SourceTableDetails(native_input):
     return DafnySourceTableDetails(
-        TableName=Seq(input["TableName"]),
-        TableId=Seq(input["TableId"]),
+        TableName=Seq(native_input["TableName"]),
+        TableId=Seq(native_input["TableId"]),
         TableArn=(
-            Option_Some(Seq(input["TableArn"]))
-            if "TableArn" in input.keys()
+            Option_Some(Seq(native_input["TableArn"]))
+            if "TableArn" in native_input.keys()
             else Option_None()
         ),
         TableSizeBytes=(
-            Option_Some(input["TableSizeBytes"])
-            if "TableSizeBytes" in input.keys()
+            Option_Some(native_input["TableSizeBytes"])
+            if "TableSizeBytes" in native_input.keys()
             else Option_None()
         ),
         KeySchema=Seq(
@@ -2442,31 +2469,31 @@ def com_amazonaws_dynamodb_SourceTableDetails(input):
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                     list_element
                 )
-                for list_element in input["KeySchema"]
+                for list_element in native_input["KeySchema"]
             ]
         ),
         TableCreationDateTime=TypeError("TimestampShape not supported"),
         ProvisionedThroughput=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
-            input["ProvisionedThroughput"]
+            native_input["ProvisionedThroughput"]
         ),
         ItemCount=(
-            Option_Some(input["ItemCount"])
-            if "ItemCount" in input.keys()
+            Option_Some(native_input["ItemCount"])
+            if "ItemCount" in native_input.keys()
             else Option_None()
         ),
         BillingMode=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
-                    input["BillingMode"]
+                    native_input["BillingMode"]
                 )
             )
-            if "BillingMode" in input.keys()
+            if "BillingMode" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_SourceTableFeatureDetails(input):
+def com_amazonaws_dynamodb_SourceTableFeatureDetails(native_input):
     return DafnySourceTableFeatureDetails(
         LocalSecondaryIndexes=(
             Option_Some(
@@ -2475,11 +2502,11 @@ def com_amazonaws_dynamodb_SourceTableFeatureDetails(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_LocalSecondaryIndexInfo(
                             list_element
                         )
-                        for list_element in input["LocalSecondaryIndexes"]
+                        for list_element in native_input["LocalSecondaryIndexes"]
                     ]
                 )
             )
-            if "LocalSecondaryIndexes" in input.keys()
+            if "LocalSecondaryIndexes" in native_input.keys()
             else Option_None()
         ),
         GlobalSecondaryIndexes=(
@@ -2489,48 +2516,48 @@ def com_amazonaws_dynamodb_SourceTableFeatureDetails(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndexInfo(
                             list_element
                         )
-                        for list_element in input["GlobalSecondaryIndexes"]
+                        for list_element in native_input["GlobalSecondaryIndexes"]
                     ]
                 )
             )
-            if "GlobalSecondaryIndexes" in input.keys()
+            if "GlobalSecondaryIndexes" in native_input.keys()
             else Option_None()
         ),
         StreamDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_StreamSpecification(
-                    input["StreamDescription"]
+                    native_input["StreamDescription"]
                 )
             )
-            if "StreamDescription" in input.keys()
+            if "StreamDescription" in native_input.keys()
             else Option_None()
         ),
         TimeToLiveDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TimeToLiveDescription(
-                    input["TimeToLiveDescription"]
+                    native_input["TimeToLiveDescription"]
                 )
             )
-            if "TimeToLiveDescription" in input.keys()
+            if "TimeToLiveDescription" in native_input.keys()
             else Option_None()
         ),
         SSEDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSEDescription(
-                    input["SSEDescription"]
+                    native_input["SSEDescription"]
                 )
             )
-            if "SSEDescription" in input.keys()
+            if "SSEDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_LocalSecondaryIndexInfo(input):
+def com_amazonaws_dynamodb_LocalSecondaryIndexInfo(native_input):
     return DafnyLocalSecondaryIndexInfo(
         IndexName=(
-            Option_Some(Seq(input["IndexName"]))
-            if "IndexName" in input.keys()
+            Option_Some(Seq(native_input["IndexName"]))
+            if "IndexName" in native_input.keys()
             else Option_None()
         ),
         KeySchema=(
@@ -2540,30 +2567,30 @@ def com_amazonaws_dynamodb_LocalSecondaryIndexInfo(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                             list_element
                         )
-                        for list_element in input["KeySchema"]
+                        for list_element in native_input["KeySchema"]
                     ]
                 )
             )
-            if "KeySchema" in input.keys()
+            if "KeySchema" in native_input.keys()
             else Option_None()
         ),
         Projection=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
-                    input["Projection"]
+                    native_input["Projection"]
                 )
             )
-            if "Projection" in input.keys()
+            if "Projection" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_GlobalSecondaryIndexInfo(input):
+def com_amazonaws_dynamodb_GlobalSecondaryIndexInfo(native_input):
     return DafnyGlobalSecondaryIndexInfo(
         IndexName=(
-            Option_Some(Seq(input["IndexName"]))
-            if "IndexName" in input.keys()
+            Option_Some(Seq(native_input["IndexName"]))
+            if "IndexName" in native_input.keys()
             else Option_None()
         ),
         KeySchema=(
@@ -2573,70 +2600,70 @@ def com_amazonaws_dynamodb_GlobalSecondaryIndexInfo(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                             list_element
                         )
-                        for list_element in input["KeySchema"]
+                        for list_element in native_input["KeySchema"]
                     ]
                 )
             )
-            if "KeySchema" in input.keys()
+            if "KeySchema" in native_input.keys()
             else Option_None()
         ),
         Projection=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
-                    input["Projection"]
+                    native_input["Projection"]
                 )
             )
-            if "Projection" in input.keys()
+            if "Projection" in native_input.keys()
             else Option_None()
         ),
         ProvisionedThroughput=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
-                    input["ProvisionedThroughput"]
+                    native_input["ProvisionedThroughput"]
                 )
             )
-            if "ProvisionedThroughput" in input.keys()
+            if "ProvisionedThroughput" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_TimeToLiveDescription(input):
+def com_amazonaws_dynamodb_TimeToLiveDescription(native_input):
     return DafnyTimeToLiveDescription(
         TimeToLiveStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TimeToLiveStatus(
-                    input["TimeToLiveStatus"]
+                    native_input["TimeToLiveStatus"]
                 )
             )
-            if "TimeToLiveStatus" in input.keys()
+            if "TimeToLiveStatus" in native_input.keys()
             else Option_None()
         ),
         AttributeName=(
-            Option_Some(Seq(input["AttributeName"]))
-            if "AttributeName" in input.keys()
+            Option_Some(Seq(native_input["AttributeName"]))
+            if "AttributeName" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_TimeToLiveStatus(input):
+def com_amazonaws_dynamodb_TimeToLiveStatus(native_input):
     # Convert TimeToLiveStatus
-    if input == "ENABLING":
+    if native_input == "ENABLING":
         return TimeToLiveStatus_ENABLING()
-    elif input == "DISABLING":
+    elif native_input == "DISABLING":
         return TimeToLiveStatus_DISABLING()
-    elif input == "ENABLED":
+    elif native_input == "ENABLED":
         return TimeToLiveStatus_ENABLED()
-    elif input == "DISABLED":
+    elif native_input == "DISABLED":
         return TimeToLiveStatus_DISABLED()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_DeleteItemInput(input):
+def com_amazonaws_dynamodb_DeleteItemInput(native_input):
     return DafnyDeleteItemInput(
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
         Key=Map(
             {
                 Seq(
@@ -2644,7 +2671,7 @@ def com_amazonaws_dynamodb_DeleteItemInput(input):
                 ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
-                for (key, value) in input["Key"].items()
+                for (key, value) in native_input["Key"].items()
             }
         ),
         Expected=(
@@ -2656,52 +2683,52 @@ def com_amazonaws_dynamodb_DeleteItemInput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExpectedAttributeValue(
                             value
                         )
-                        for (key, value) in input["Expected"].items()
+                        for (key, value) in native_input["Expected"].items()
                     }
                 )
             )
-            if "Expected" in input.keys()
+            if "Expected" in native_input.keys()
             else Option_None()
         ),
         ConditionalOperator=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConditionalOperator(
-                    input["ConditionalOperator"]
+                    native_input["ConditionalOperator"]
                 )
             )
-            if "ConditionalOperator" in input.keys()
+            if "ConditionalOperator" in native_input.keys()
             else Option_None()
         ),
         ReturnValues=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValue(
-                    input["ReturnValues"]
+                    native_input["ReturnValues"]
                 )
             )
-            if "ReturnValues" in input.keys()
+            if "ReturnValues" in native_input.keys()
             else Option_None()
         ),
         ReturnConsumedCapacity=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
-                    input["ReturnConsumedCapacity"]
+                    native_input["ReturnConsumedCapacity"]
                 )
             )
-            if "ReturnConsumedCapacity" in input.keys()
+            if "ReturnConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
         ReturnItemCollectionMetrics=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnItemCollectionMetrics(
-                    input["ReturnItemCollectionMetrics"]
+                    native_input["ReturnItemCollectionMetrics"]
                 )
             )
-            if "ReturnItemCollectionMetrics" in input.keys()
+            if "ReturnItemCollectionMetrics" in native_input.keys()
             else Option_None()
         ),
         ConditionExpression=(
-            Option_Some(Seq(input["ConditionExpression"]))
-            if "ConditionExpression" in input.keys()
+            Option_Some(Seq(native_input["ConditionExpression"]))
+            if "ConditionExpression" in native_input.keys()
             else Option_None()
         ),
         ExpressionAttributeNames=(
@@ -2709,11 +2736,13 @@ def com_amazonaws_dynamodb_DeleteItemInput(input):
                 Map(
                     {
                         Seq(key): Seq(value)
-                        for (key, value) in input["ExpressionAttributeNames"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeNames"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeNames" in input.keys()
+            if "ExpressionAttributeNames" in native_input.keys()
             else Option_None()
         ),
         ExpressionAttributeValues=(
@@ -2725,37 +2754,41 @@ def com_amazonaws_dynamodb_DeleteItemInput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["ExpressionAttributeValues"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeValues"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeValues" in input.keys()
+            if "ExpressionAttributeValues" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ExpectedAttributeValue(input):
+def com_amazonaws_dynamodb_ExpectedAttributeValue(native_input):
     return DafnyExpectedAttributeValue(
         Value=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
-                    input["Value"]
+                    native_input["Value"]
                 )
             )
-            if "Value" in input.keys()
+            if "Value" in native_input.keys()
             else Option_None()
         ),
         Exists=(
-            Option_Some(input["Exists"]) if "Exists" in input.keys() else Option_None()
+            Option_Some(native_input["Exists"])
+            if "Exists" in native_input.keys()
+            else Option_None()
         ),
         ComparisonOperator=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ComparisonOperator(
-                    input["ComparisonOperator"]
+                    native_input["ComparisonOperator"]
                 )
             )
-            if "ComparisonOperator" in input.keys()
+            if "ComparisonOperator" in native_input.keys()
             else Option_None()
         ),
         AttributeValueList=(
@@ -2765,75 +2798,75 @@ def com_amazonaws_dynamodb_ExpectedAttributeValue(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             list_element
                         )
-                        for list_element in input["AttributeValueList"]
+                        for list_element in native_input["AttributeValueList"]
                     ]
                 )
             )
-            if "AttributeValueList" in input.keys()
+            if "AttributeValueList" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ComparisonOperator(input):
+def com_amazonaws_dynamodb_ComparisonOperator(native_input):
     # Convert ComparisonOperator
-    if input == "EQ":
+    if native_input == "EQ":
         return ComparisonOperator_EQ()
-    elif input == "NE":
+    elif native_input == "NE":
         return ComparisonOperator_NE()
-    elif input == "IN":
+    elif native_input == "IN":
         return ComparisonOperator_IN()
-    elif input == "LE":
+    elif native_input == "LE":
         return ComparisonOperator_LE()
-    elif input == "LT":
+    elif native_input == "LT":
         return ComparisonOperator_LT()
-    elif input == "GE":
+    elif native_input == "GE":
         return ComparisonOperator_GE()
-    elif input == "GT":
+    elif native_input == "GT":
         return ComparisonOperator_GT()
-    elif input == "BETWEEN":
+    elif native_input == "BETWEEN":
         return ComparisonOperator_BETWEEN()
-    elif input == "NOT_NULL":
+    elif native_input == "NOT_NULL":
         return ComparisonOperator_NOT__NULL()
-    elif input == "NULL":
+    elif native_input == "NULL":
         return ComparisonOperator_NULL()
-    elif input == "CONTAINS":
+    elif native_input == "CONTAINS":
         return ComparisonOperator_CONTAINS()
-    elif input == "NOT_CONTAINS":
+    elif native_input == "NOT_CONTAINS":
         return ComparisonOperator_NOT__CONTAINS()
-    elif input == "BEGINS_WITH":
+    elif native_input == "BEGINS_WITH":
         return ComparisonOperator_BEGINS__WITH()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_ConditionalOperator(input):
+def com_amazonaws_dynamodb_ConditionalOperator(native_input):
     # Convert ConditionalOperator
-    if input == "AND":
+    if native_input == "AND":
         return ConditionalOperator_AND()
-    elif input == "OR":
+    elif native_input == "OR":
         return ConditionalOperator_OR()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_ReturnValue(input):
+def com_amazonaws_dynamodb_ReturnValue(native_input):
     # Convert ReturnValue
-    if input == "NONE":
+    if native_input == "NONE":
         return ReturnValue_NONE()
-    elif input == "ALL_OLD":
+    elif native_input == "ALL_OLD":
         return ReturnValue_ALL__OLD()
-    elif input == "UPDATED_OLD":
+    elif native_input == "UPDATED_OLD":
         return ReturnValue_UPDATED__OLD()
-    elif input == "ALL_NEW":
+    elif native_input == "ALL_NEW":
         return ReturnValue_ALL__NEW()
-    elif input == "UPDATED_NEW":
+    elif native_input == "UPDATED_NEW":
         return ReturnValue_UPDATED__NEW()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_DeleteItemOutput(input):
+def com_amazonaws_dynamodb_DeleteItemOutput(native_input):
     return DafnyDeleteItemOutput(
         Attributes=(
             Option_Some(
@@ -2844,176 +2877,176 @@ def com_amazonaws_dynamodb_DeleteItemOutput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["Attributes"].items()
+                        for (key, value) in native_input["Attributes"].items()
                     }
                 )
             )
-            if "Attributes" in input.keys()
+            if "Attributes" in native_input.keys()
             else Option_None()
         ),
         ConsumedCapacity=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
-                    input["ConsumedCapacity"]
+                    native_input["ConsumedCapacity"]
                 )
             )
-            if "ConsumedCapacity" in input.keys()
+            if "ConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
         ItemCollectionMetrics=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemCollectionMetrics(
-                    input["ItemCollectionMetrics"]
+                    native_input["ItemCollectionMetrics"]
                 )
             )
-            if "ItemCollectionMetrics" in input.keys()
+            if "ItemCollectionMetrics" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_DeleteTableInput(input):
+def com_amazonaws_dynamodb_DeleteTableInput(native_input):
     return DafnyDeleteTableInput(
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
     )
 
 
-def com_amazonaws_dynamodb_DeleteTableOutput(input):
+def com_amazonaws_dynamodb_DeleteTableOutput(native_input):
     return DafnyDeleteTableOutput(
         TableDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableDescription(
-                    input["TableDescription"]
+                    native_input["TableDescription"]
                 )
             )
-            if "TableDescription" in input.keys()
+            if "TableDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_DescribeBackupInput(input):
+def com_amazonaws_dynamodb_DescribeBackupInput(native_input):
     return DafnyDescribeBackupInput(
-        BackupArn=Seq(input["BackupArn"]),
+        BackupArn=Seq(native_input["BackupArn"]),
     )
 
 
-def com_amazonaws_dynamodb_DescribeBackupOutput(input):
+def com_amazonaws_dynamodb_DescribeBackupOutput(native_input):
     return DafnyDescribeBackupOutput(
         BackupDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupDescription(
-                    input["BackupDescription"]
+                    native_input["BackupDescription"]
                 )
             )
-            if "BackupDescription" in input.keys()
+            if "BackupDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_DescribeContinuousBackupsInput(input):
+def com_amazonaws_dynamodb_DescribeContinuousBackupsInput(native_input):
     return DafnyDescribeContinuousBackupsInput(
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
     )
 
 
-def com_amazonaws_dynamodb_DescribeContinuousBackupsOutput(input):
+def com_amazonaws_dynamodb_DescribeContinuousBackupsOutput(native_input):
     return DafnyDescribeContinuousBackupsOutput(
         ContinuousBackupsDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContinuousBackupsDescription(
-                    input["ContinuousBackupsDescription"]
+                    native_input["ContinuousBackupsDescription"]
                 )
             )
-            if "ContinuousBackupsDescription" in input.keys()
+            if "ContinuousBackupsDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ContinuousBackupsDescription(input):
+def com_amazonaws_dynamodb_ContinuousBackupsDescription(native_input):
     return DafnyContinuousBackupsDescription(
         ContinuousBackupsStatus=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContinuousBackupsStatus(
-            input["ContinuousBackupsStatus"]
+            native_input["ContinuousBackupsStatus"]
         ),
         PointInTimeRecoveryDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_PointInTimeRecoveryDescription(
-                    input["PointInTimeRecoveryDescription"]
+                    native_input["PointInTimeRecoveryDescription"]
                 )
             )
-            if "PointInTimeRecoveryDescription" in input.keys()
+            if "PointInTimeRecoveryDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ContinuousBackupsStatus(input):
+def com_amazonaws_dynamodb_ContinuousBackupsStatus(native_input):
     # Convert ContinuousBackupsStatus
-    if input == "ENABLED":
+    if native_input == "ENABLED":
         return ContinuousBackupsStatus_ENABLED()
-    elif input == "DISABLED":
+    elif native_input == "DISABLED":
         return ContinuousBackupsStatus_DISABLED()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_PointInTimeRecoveryDescription(input):
+def com_amazonaws_dynamodb_PointInTimeRecoveryDescription(native_input):
     return DafnyPointInTimeRecoveryDescription(
         PointInTimeRecoveryStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_PointInTimeRecoveryStatus(
-                    input["PointInTimeRecoveryStatus"]
+                    native_input["PointInTimeRecoveryStatus"]
                 )
             )
-            if "PointInTimeRecoveryStatus" in input.keys()
+            if "PointInTimeRecoveryStatus" in native_input.keys()
             else Option_None()
         ),
         EarliestRestorableDateTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "EarliestRestorableDateTime" in input.keys()
+            if "EarliestRestorableDateTime" in native_input.keys()
             else Option_None()
         ),
         LatestRestorableDateTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "LatestRestorableDateTime" in input.keys()
+            if "LatestRestorableDateTime" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_PointInTimeRecoveryStatus(input):
+def com_amazonaws_dynamodb_PointInTimeRecoveryStatus(native_input):
     # Convert PointInTimeRecoveryStatus
-    if input == "ENABLED":
+    if native_input == "ENABLED":
         return PointInTimeRecoveryStatus_ENABLED()
-    elif input == "DISABLED":
+    elif native_input == "DISABLED":
         return PointInTimeRecoveryStatus_DISABLED()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_DescribeContributorInsightsInput(input):
+def com_amazonaws_dynamodb_DescribeContributorInsightsInput(native_input):
     return DafnyDescribeContributorInsightsInput(
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
         IndexName=(
-            Option_Some(Seq(input["IndexName"]))
-            if "IndexName" in input.keys()
+            Option_Some(Seq(native_input["IndexName"]))
+            if "IndexName" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_DescribeContributorInsightsOutput(input):
+def com_amazonaws_dynamodb_DescribeContributorInsightsOutput(native_input):
     return DafnyDescribeContributorInsightsOutput(
         TableName=(
-            Option_Some(Seq(input["TableName"]))
-            if "TableName" in input.keys()
+            Option_Some(Seq(native_input["TableName"]))
+            if "TableName" in native_input.keys()
             else Option_None()
         ),
         IndexName=(
-            Option_Some(Seq(input["IndexName"]))
-            if "IndexName" in input.keys()
+            Option_Some(Seq(native_input["IndexName"]))
+            if "IndexName" in native_input.keys()
             else Option_None()
         ),
         ContributorInsightsRuleList=(
@@ -3021,289 +3054,289 @@ def com_amazonaws_dynamodb_DescribeContributorInsightsOutput(input):
                 Seq(
                     [
                         Seq(list_element)
-                        for list_element in input["ContributorInsightsRuleList"]
+                        for list_element in native_input["ContributorInsightsRuleList"]
                     ]
                 )
             )
-            if "ContributorInsightsRuleList" in input.keys()
+            if "ContributorInsightsRuleList" in native_input.keys()
             else Option_None()
         ),
         ContributorInsightsStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContributorInsightsStatus(
-                    input["ContributorInsightsStatus"]
+                    native_input["ContributorInsightsStatus"]
                 )
             )
-            if "ContributorInsightsStatus" in input.keys()
+            if "ContributorInsightsStatus" in native_input.keys()
             else Option_None()
         ),
         LastUpdateDateTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "LastUpdateDateTime" in input.keys()
+            if "LastUpdateDateTime" in native_input.keys()
             else Option_None()
         ),
         FailureException=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_FailureException(
-                    input["FailureException"]
+                    native_input["FailureException"]
                 )
             )
-            if "FailureException" in input.keys()
+            if "FailureException" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ContributorInsightsStatus(input):
+def com_amazonaws_dynamodb_ContributorInsightsStatus(native_input):
     # Convert ContributorInsightsStatus
-    if input == "ENABLING":
+    if native_input == "ENABLING":
         return ContributorInsightsStatus_ENABLING()
-    elif input == "ENABLED":
+    elif native_input == "ENABLED":
         return ContributorInsightsStatus_ENABLED()
-    elif input == "DISABLING":
+    elif native_input == "DISABLING":
         return ContributorInsightsStatus_DISABLING()
-    elif input == "DISABLED":
+    elif native_input == "DISABLED":
         return ContributorInsightsStatus_DISABLED()
-    elif input == "FAILED":
+    elif native_input == "FAILED":
         return ContributorInsightsStatus_FAILED()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_FailureException(input):
+def com_amazonaws_dynamodb_FailureException(native_input):
     return DafnyFailureException(
         ExceptionName=(
-            Option_Some(Seq(input["ExceptionName"]))
-            if "ExceptionName" in input.keys()
+            Option_Some(Seq(native_input["ExceptionName"]))
+            if "ExceptionName" in native_input.keys()
             else Option_None()
         ),
         ExceptionDescription=(
-            Option_Some(Seq(input["ExceptionDescription"]))
-            if "ExceptionDescription" in input.keys()
+            Option_Some(Seq(native_input["ExceptionDescription"]))
+            if "ExceptionDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_DescribeEndpointsRequest(input):
+def com_amazonaws_dynamodb_DescribeEndpointsRequest(native_input):
     return DafnyDescribeEndpointsRequest()
 
 
-def com_amazonaws_dynamodb_DescribeEndpointsResponse(input):
+def com_amazonaws_dynamodb_DescribeEndpointsResponse(native_input):
     return DafnyDescribeEndpointsResponse(
         Endpoints=Seq(
             [
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Endpoint(
                     list_element
                 )
-                for list_element in input["Endpoints"]
+                for list_element in native_input["Endpoints"]
             ]
         ),
     )
 
 
-def com_amazonaws_dynamodb_Endpoint(input):
+def com_amazonaws_dynamodb_Endpoint(native_input):
     return DafnyEndpoint(
-        Address=Seq(input["Address"]),
-        CachePeriodInMinutes=input["CachePeriodInMinutes"],
+        Address=Seq(native_input["Address"]),
+        CachePeriodInMinutes=native_input["CachePeriodInMinutes"],
     )
 
 
-def com_amazonaws_dynamodb_DescribeExportInput(input):
+def com_amazonaws_dynamodb_DescribeExportInput(native_input):
     return DafnyDescribeExportInput(
-        ExportArn=Seq(input["ExportArn"]),
+        ExportArn=Seq(native_input["ExportArn"]),
     )
 
 
-def com_amazonaws_dynamodb_DescribeExportOutput(input):
+def com_amazonaws_dynamodb_DescribeExportOutput(native_input):
     return DafnyDescribeExportOutput(
         ExportDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportDescription(
-                    input["ExportDescription"]
+                    native_input["ExportDescription"]
                 )
             )
-            if "ExportDescription" in input.keys()
+            if "ExportDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ExportDescription(input):
+def com_amazonaws_dynamodb_ExportDescription(native_input):
     return DafnyExportDescription(
         ExportArn=(
-            Option_Some(Seq(input["ExportArn"]))
-            if "ExportArn" in input.keys()
+            Option_Some(Seq(native_input["ExportArn"]))
+            if "ExportArn" in native_input.keys()
             else Option_None()
         ),
         ExportStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportStatus(
-                    input["ExportStatus"]
+                    native_input["ExportStatus"]
                 )
             )
-            if "ExportStatus" in input.keys()
+            if "ExportStatus" in native_input.keys()
             else Option_None()
         ),
         StartTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "StartTime" in input.keys()
+            if "StartTime" in native_input.keys()
             else Option_None()
         ),
         EndTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "EndTime" in input.keys()
+            if "EndTime" in native_input.keys()
             else Option_None()
         ),
         ExportManifest=(
-            Option_Some(Seq(input["ExportManifest"]))
-            if "ExportManifest" in input.keys()
+            Option_Some(Seq(native_input["ExportManifest"]))
+            if "ExportManifest" in native_input.keys()
             else Option_None()
         ),
         TableArn=(
-            Option_Some(Seq(input["TableArn"]))
-            if "TableArn" in input.keys()
+            Option_Some(Seq(native_input["TableArn"]))
+            if "TableArn" in native_input.keys()
             else Option_None()
         ),
         TableId=(
-            Option_Some(Seq(input["TableId"]))
-            if "TableId" in input.keys()
+            Option_Some(Seq(native_input["TableId"]))
+            if "TableId" in native_input.keys()
             else Option_None()
         ),
         ExportTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "ExportTime" in input.keys()
+            if "ExportTime" in native_input.keys()
             else Option_None()
         ),
         ClientToken=(
-            Option_Some(Seq(input["ClientToken"]))
-            if "ClientToken" in input.keys()
+            Option_Some(Seq(native_input["ClientToken"]))
+            if "ClientToken" in native_input.keys()
             else Option_None()
         ),
         S3Bucket=(
-            Option_Some(Seq(input["S3Bucket"]))
-            if "S3Bucket" in input.keys()
+            Option_Some(Seq(native_input["S3Bucket"]))
+            if "S3Bucket" in native_input.keys()
             else Option_None()
         ),
         S3BucketOwner=(
-            Option_Some(Seq(input["S3BucketOwner"]))
-            if "S3BucketOwner" in input.keys()
+            Option_Some(Seq(native_input["S3BucketOwner"]))
+            if "S3BucketOwner" in native_input.keys()
             else Option_None()
         ),
         S3Prefix=(
-            Option_Some(Seq(input["S3Prefix"]))
-            if "S3Prefix" in input.keys()
+            Option_Some(Seq(native_input["S3Prefix"]))
+            if "S3Prefix" in native_input.keys()
             else Option_None()
         ),
         S3SseAlgorithm=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_S3SseAlgorithm(
-                    input["S3SseAlgorithm"]
+                    native_input["S3SseAlgorithm"]
                 )
             )
-            if "S3SseAlgorithm" in input.keys()
+            if "S3SseAlgorithm" in native_input.keys()
             else Option_None()
         ),
         S3SseKmsKeyId=(
-            Option_Some(Seq(input["S3SseKmsKeyId"]))
-            if "S3SseKmsKeyId" in input.keys()
+            Option_Some(Seq(native_input["S3SseKmsKeyId"]))
+            if "S3SseKmsKeyId" in native_input.keys()
             else Option_None()
         ),
         FailureCode=(
-            Option_Some(Seq(input["FailureCode"]))
-            if "FailureCode" in input.keys()
+            Option_Some(Seq(native_input["FailureCode"]))
+            if "FailureCode" in native_input.keys()
             else Option_None()
         ),
         FailureMessage=(
-            Option_Some(Seq(input["FailureMessage"]))
-            if "FailureMessage" in input.keys()
+            Option_Some(Seq(native_input["FailureMessage"]))
+            if "FailureMessage" in native_input.keys()
             else Option_None()
         ),
         ExportFormat=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportFormat(
-                    input["ExportFormat"]
+                    native_input["ExportFormat"]
                 )
             )
-            if "ExportFormat" in input.keys()
+            if "ExportFormat" in native_input.keys()
             else Option_None()
         ),
         BilledSizeBytes=(
-            Option_Some(input["BilledSizeBytes"])
-            if "BilledSizeBytes" in input.keys()
+            Option_Some(native_input["BilledSizeBytes"])
+            if "BilledSizeBytes" in native_input.keys()
             else Option_None()
         ),
         ItemCount=(
-            Option_Some(input["ItemCount"])
-            if "ItemCount" in input.keys()
+            Option_Some(native_input["ItemCount"])
+            if "ItemCount" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ExportStatus(input):
+def com_amazonaws_dynamodb_ExportStatus(native_input):
     # Convert ExportStatus
-    if input == "IN_PROGRESS":
+    if native_input == "IN_PROGRESS":
         return ExportStatus_IN__PROGRESS()
-    elif input == "COMPLETED":
+    elif native_input == "COMPLETED":
         return ExportStatus_COMPLETED()
-    elif input == "FAILED":
+    elif native_input == "FAILED":
         return ExportStatus_FAILED()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_S3SseAlgorithm(input):
+def com_amazonaws_dynamodb_S3SseAlgorithm(native_input):
     # Convert S3SseAlgorithm
-    if input == "AES256":
+    if native_input == "AES256":
         return S3SseAlgorithm_AES256()
-    elif input == "KMS":
+    elif native_input == "KMS":
         return S3SseAlgorithm_KMS()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_ExportFormat(input):
+def com_amazonaws_dynamodb_ExportFormat(native_input):
     # Convert ExportFormat
-    if input == "DYNAMODB_JSON":
+    if native_input == "DYNAMODB_JSON":
         return ExportFormat_DYNAMODB__JSON()
-    elif input == "ION":
+    elif native_input == "ION":
         return ExportFormat_ION()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_DescribeGlobalTableInput(input):
+def com_amazonaws_dynamodb_DescribeGlobalTableInput(native_input):
     return DafnyDescribeGlobalTableInput(
-        GlobalTableName=Seq(input["GlobalTableName"]),
+        GlobalTableName=Seq(native_input["GlobalTableName"]),
     )
 
 
-def com_amazonaws_dynamodb_DescribeGlobalTableOutput(input):
+def com_amazonaws_dynamodb_DescribeGlobalTableOutput(native_input):
     return DafnyDescribeGlobalTableOutput(
         GlobalTableDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTableDescription(
-                    input["GlobalTableDescription"]
+                    native_input["GlobalTableDescription"]
                 )
             )
-            if "GlobalTableDescription" in input.keys()
+            if "GlobalTableDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_DescribeGlobalTableSettingsInput(input):
+def com_amazonaws_dynamodb_DescribeGlobalTableSettingsInput(native_input):
     return DafnyDescribeGlobalTableSettingsInput(
-        GlobalTableName=Seq(input["GlobalTableName"]),
+        GlobalTableName=Seq(native_input["GlobalTableName"]),
     )
 
 
-def com_amazonaws_dynamodb_DescribeGlobalTableSettingsOutput(input):
+def com_amazonaws_dynamodb_DescribeGlobalTableSettingsOutput(native_input):
     return DafnyDescribeGlobalTableSettingsOutput(
         GlobalTableName=(
-            Option_Some(Seq(input["GlobalTableName"]))
-            if "GlobalTableName" in input.keys()
+            Option_Some(Seq(native_input["GlobalTableName"]))
+            if "GlobalTableName" in native_input.keys()
             else Option_None()
         ),
         ReplicaSettings=(
@@ -3313,63 +3346,65 @@ def com_amazonaws_dynamodb_DescribeGlobalTableSettingsOutput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaSettingsDescription(
                             list_element
                         )
-                        for list_element in input["ReplicaSettings"]
+                        for list_element in native_input["ReplicaSettings"]
                     ]
                 )
             )
-            if "ReplicaSettings" in input.keys()
+            if "ReplicaSettings" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ReplicaSettingsDescription(input):
+def com_amazonaws_dynamodb_ReplicaSettingsDescription(native_input):
     return DafnyReplicaSettingsDescription(
-        RegionName=Seq(input["RegionName"]),
+        RegionName=Seq(native_input["RegionName"]),
         ReplicaStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaStatus(
-                    input["ReplicaStatus"]
+                    native_input["ReplicaStatus"]
                 )
             )
-            if "ReplicaStatus" in input.keys()
+            if "ReplicaStatus" in native_input.keys()
             else Option_None()
         ),
         ReplicaBillingModeSummary=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingModeSummary(
-                    input["ReplicaBillingModeSummary"]
+                    native_input["ReplicaBillingModeSummary"]
                 )
             )
-            if "ReplicaBillingModeSummary" in input.keys()
+            if "ReplicaBillingModeSummary" in native_input.keys()
             else Option_None()
         ),
         ReplicaProvisionedReadCapacityUnits=(
-            Option_Some(input["ReplicaProvisionedReadCapacityUnits"])
-            if "ReplicaProvisionedReadCapacityUnits" in input.keys()
+            Option_Some(native_input["ReplicaProvisionedReadCapacityUnits"])
+            if "ReplicaProvisionedReadCapacityUnits" in native_input.keys()
             else Option_None()
         ),
         ReplicaProvisionedReadCapacityAutoScalingSettings=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
-                    input["ReplicaProvisionedReadCapacityAutoScalingSettings"]
+                    native_input["ReplicaProvisionedReadCapacityAutoScalingSettings"]
                 )
             )
-            if "ReplicaProvisionedReadCapacityAutoScalingSettings" in input.keys()
+            if "ReplicaProvisionedReadCapacityAutoScalingSettings"
+            in native_input.keys()
             else Option_None()
         ),
         ReplicaProvisionedWriteCapacityUnits=(
-            Option_Some(input["ReplicaProvisionedWriteCapacityUnits"])
-            if "ReplicaProvisionedWriteCapacityUnits" in input.keys()
+            Option_Some(native_input["ReplicaProvisionedWriteCapacityUnits"])
+            if "ReplicaProvisionedWriteCapacityUnits" in native_input.keys()
             else Option_None()
         ),
         ReplicaProvisionedWriteCapacityAutoScalingSettings=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
-                    input["ReplicaProvisionedWriteCapacityAutoScalingSettings"]
+                    native_input["ReplicaProvisionedWriteCapacityAutoScalingSettings"]
                 )
             )
-            if "ReplicaProvisionedWriteCapacityAutoScalingSettings" in input.keys()
+            if "ReplicaProvisionedWriteCapacityAutoScalingSettings"
+            in native_input.keys()
             else Option_None()
         ),
         ReplicaGlobalSecondaryIndexSettings=(
@@ -3379,45 +3414,47 @@ def com_amazonaws_dynamodb_ReplicaSettingsDescription(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsDescription(
                             list_element
                         )
-                        for list_element in input["ReplicaGlobalSecondaryIndexSettings"]
+                        for list_element in native_input[
+                            "ReplicaGlobalSecondaryIndexSettings"
+                        ]
                     ]
                 )
             )
-            if "ReplicaGlobalSecondaryIndexSettings" in input.keys()
+            if "ReplicaGlobalSecondaryIndexSettings" in native_input.keys()
             else Option_None()
         ),
         ReplicaTableClassSummary=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClassSummary(
-                    input["ReplicaTableClassSummary"]
+                    native_input["ReplicaTableClassSummary"]
                 )
             )
-            if "ReplicaTableClassSummary" in input.keys()
+            if "ReplicaTableClassSummary" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_AutoScalingSettingsDescription(input):
+def com_amazonaws_dynamodb_AutoScalingSettingsDescription(native_input):
     return DafnyAutoScalingSettingsDescription(
         MinimumUnits=(
-            Option_Some(input["MinimumUnits"])
-            if "MinimumUnits" in input.keys()
+            Option_Some(native_input["MinimumUnits"])
+            if "MinimumUnits" in native_input.keys()
             else Option_None()
         ),
         MaximumUnits=(
-            Option_Some(input["MaximumUnits"])
-            if "MaximumUnits" in input.keys()
+            Option_Some(native_input["MaximumUnits"])
+            if "MaximumUnits" in native_input.keys()
             else Option_None()
         ),
         AutoScalingDisabled=(
-            Option_Some(input["AutoScalingDisabled"])
-            if "AutoScalingDisabled" in input.keys()
+            Option_Some(native_input["AutoScalingDisabled"])
+            if "AutoScalingDisabled" in native_input.keys()
             else Option_None()
         ),
         AutoScalingRoleArn=(
-            Option_Some(Seq(input["AutoScalingRoleArn"]))
-            if "AutoScalingRoleArn" in input.keys()
+            Option_Some(Seq(native_input["AutoScalingRoleArn"]))
+            if "AutoScalingRoleArn" in native_input.keys()
             else Option_None()
         ),
         ScalingPolicies=(
@@ -3427,318 +3464,318 @@ def com_amazonaws_dynamodb_AutoScalingSettingsDescription(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingPolicyDescription(
                             list_element
                         )
-                        for list_element in input["ScalingPolicies"]
+                        for list_element in native_input["ScalingPolicies"]
                     ]
                 )
             )
-            if "ScalingPolicies" in input.keys()
+            if "ScalingPolicies" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsDescription(input):
+def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsDescription(native_input):
     return DafnyReplicaGlobalSecondaryIndexSettingsDescription(
-        IndexName=Seq(input["IndexName"]),
+        IndexName=Seq(native_input["IndexName"]),
         IndexStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_IndexStatus(
-                    input["IndexStatus"]
+                    native_input["IndexStatus"]
                 )
             )
-            if "IndexStatus" in input.keys()
+            if "IndexStatus" in native_input.keys()
             else Option_None()
         ),
         ProvisionedReadCapacityUnits=(
-            Option_Some(input["ProvisionedReadCapacityUnits"])
-            if "ProvisionedReadCapacityUnits" in input.keys()
+            Option_Some(native_input["ProvisionedReadCapacityUnits"])
+            if "ProvisionedReadCapacityUnits" in native_input.keys()
             else Option_None()
         ),
         ProvisionedReadCapacityAutoScalingSettings=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
-                    input["ProvisionedReadCapacityAutoScalingSettings"]
+                    native_input["ProvisionedReadCapacityAutoScalingSettings"]
                 )
             )
-            if "ProvisionedReadCapacityAutoScalingSettings" in input.keys()
+            if "ProvisionedReadCapacityAutoScalingSettings" in native_input.keys()
             else Option_None()
         ),
         ProvisionedWriteCapacityUnits=(
-            Option_Some(input["ProvisionedWriteCapacityUnits"])
-            if "ProvisionedWriteCapacityUnits" in input.keys()
+            Option_Some(native_input["ProvisionedWriteCapacityUnits"])
+            if "ProvisionedWriteCapacityUnits" in native_input.keys()
             else Option_None()
         ),
         ProvisionedWriteCapacityAutoScalingSettings=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
-                    input["ProvisionedWriteCapacityAutoScalingSettings"]
+                    native_input["ProvisionedWriteCapacityAutoScalingSettings"]
                 )
             )
-            if "ProvisionedWriteCapacityAutoScalingSettings" in input.keys()
+            if "ProvisionedWriteCapacityAutoScalingSettings" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_AutoScalingPolicyDescription(input):
+def com_amazonaws_dynamodb_AutoScalingPolicyDescription(native_input):
     return DafnyAutoScalingPolicyDescription(
         PolicyName=(
-            Option_Some(Seq(input["PolicyName"]))
-            if "PolicyName" in input.keys()
+            Option_Some(Seq(native_input["PolicyName"]))
+            if "PolicyName" in native_input.keys()
             else Option_None()
         ),
         TargetTrackingScalingPolicyConfiguration=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingTargetTrackingScalingPolicyConfigurationDescription(
-                    input["TargetTrackingScalingPolicyConfiguration"]
+                    native_input["TargetTrackingScalingPolicyConfiguration"]
                 )
             )
-            if "TargetTrackingScalingPolicyConfiguration" in input.keys()
+            if "TargetTrackingScalingPolicyConfiguration" in native_input.keys()
             else Option_None()
         ),
     )
 
 
 def com_amazonaws_dynamodb_AutoScalingTargetTrackingScalingPolicyConfigurationDescription(
-    input,
+    native_input,
 ):
     return DafnyAutoScalingTargetTrackingScalingPolicyConfigurationDescription(
         DisableScaleIn=(
-            Option_Some(input["DisableScaleIn"])
-            if "DisableScaleIn" in input.keys()
+            Option_Some(native_input["DisableScaleIn"])
+            if "DisableScaleIn" in native_input.keys()
             else Option_None()
         ),
         ScaleInCooldown=(
-            Option_Some(input["ScaleInCooldown"])
-            if "ScaleInCooldown" in input.keys()
+            Option_Some(native_input["ScaleInCooldown"])
+            if "ScaleInCooldown" in native_input.keys()
             else Option_None()
         ),
         ScaleOutCooldown=(
-            Option_Some(input["ScaleOutCooldown"])
-            if "ScaleOutCooldown" in input.keys()
+            Option_Some(native_input["ScaleOutCooldown"])
+            if "ScaleOutCooldown" in native_input.keys()
             else Option_None()
         ),
-        TargetValue=input["TargetValue"],
+        TargetValue=native_input["TargetValue"],
     )
 
 
-def com_amazonaws_dynamodb_DescribeImportInput(input):
+def com_amazonaws_dynamodb_DescribeImportInput(native_input):
     return DafnyDescribeImportInput(
-        ImportArn=Seq(input["ImportArn"]),
+        ImportArn=Seq(native_input["ImportArn"]),
     )
 
 
-def com_amazonaws_dynamodb_DescribeImportOutput(input):
+def com_amazonaws_dynamodb_DescribeImportOutput(native_input):
     return DafnyDescribeImportOutput(
         ImportTableDescription=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportTableDescription(
-            input["ImportTableDescription"]
+            native_input["ImportTableDescription"]
         ),
     )
 
 
-def com_amazonaws_dynamodb_ImportTableDescription(input):
+def com_amazonaws_dynamodb_ImportTableDescription(native_input):
     return DafnyImportTableDescription(
         ImportArn=(
-            Option_Some(Seq(input["ImportArn"]))
-            if "ImportArn" in input.keys()
+            Option_Some(Seq(native_input["ImportArn"]))
+            if "ImportArn" in native_input.keys()
             else Option_None()
         ),
         ImportStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportStatus(
-                    input["ImportStatus"]
+                    native_input["ImportStatus"]
                 )
             )
-            if "ImportStatus" in input.keys()
+            if "ImportStatus" in native_input.keys()
             else Option_None()
         ),
         TableArn=(
-            Option_Some(Seq(input["TableArn"]))
-            if "TableArn" in input.keys()
+            Option_Some(Seq(native_input["TableArn"]))
+            if "TableArn" in native_input.keys()
             else Option_None()
         ),
         TableId=(
-            Option_Some(Seq(input["TableId"]))
-            if "TableId" in input.keys()
+            Option_Some(Seq(native_input["TableId"]))
+            if "TableId" in native_input.keys()
             else Option_None()
         ),
         ClientToken=(
-            Option_Some(Seq(input["ClientToken"]))
-            if "ClientToken" in input.keys()
+            Option_Some(Seq(native_input["ClientToken"]))
+            if "ClientToken" in native_input.keys()
             else Option_None()
         ),
         S3BucketSource=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_S3BucketSource(
-                    input["S3BucketSource"]
+                    native_input["S3BucketSource"]
                 )
             )
-            if "S3BucketSource" in input.keys()
+            if "S3BucketSource" in native_input.keys()
             else Option_None()
         ),
         ErrorCount=(
-            Option_Some(input["ErrorCount"])
-            if "ErrorCount" in input.keys()
+            Option_Some(native_input["ErrorCount"])
+            if "ErrorCount" in native_input.keys()
             else Option_None()
         ),
         CloudWatchLogGroupArn=(
-            Option_Some(Seq(input["CloudWatchLogGroupArn"]))
-            if "CloudWatchLogGroupArn" in input.keys()
+            Option_Some(Seq(native_input["CloudWatchLogGroupArn"]))
+            if "CloudWatchLogGroupArn" in native_input.keys()
             else Option_None()
         ),
         InputFormat=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputFormat(
-                    input["InputFormat"]
+                    native_input["InputFormat"]
                 )
             )
-            if "InputFormat" in input.keys()
+            if "InputFormat" in native_input.keys()
             else Option_None()
         ),
         InputFormatOptions=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputFormatOptions(
-                    input["InputFormatOptions"]
+                    native_input["InputFormatOptions"]
                 )
             )
-            if "InputFormatOptions" in input.keys()
+            if "InputFormatOptions" in native_input.keys()
             else Option_None()
         ),
         InputCompressionType=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputCompressionType(
-                    input["InputCompressionType"]
+                    native_input["InputCompressionType"]
                 )
             )
-            if "InputCompressionType" in input.keys()
+            if "InputCompressionType" in native_input.keys()
             else Option_None()
         ),
         TableCreationParameters=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableCreationParameters(
-                    input["TableCreationParameters"]
+                    native_input["TableCreationParameters"]
                 )
             )
-            if "TableCreationParameters" in input.keys()
+            if "TableCreationParameters" in native_input.keys()
             else Option_None()
         ),
         StartTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "StartTime" in input.keys()
+            if "StartTime" in native_input.keys()
             else Option_None()
         ),
         EndTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "EndTime" in input.keys()
+            if "EndTime" in native_input.keys()
             else Option_None()
         ),
         ProcessedSizeBytes=(
-            Option_Some(input["ProcessedSizeBytes"])
-            if "ProcessedSizeBytes" in input.keys()
+            Option_Some(native_input["ProcessedSizeBytes"])
+            if "ProcessedSizeBytes" in native_input.keys()
             else Option_None()
         ),
         ProcessedItemCount=(
-            Option_Some(input["ProcessedItemCount"])
-            if "ProcessedItemCount" in input.keys()
+            Option_Some(native_input["ProcessedItemCount"])
+            if "ProcessedItemCount" in native_input.keys()
             else Option_None()
         ),
         ImportedItemCount=(
-            Option_Some(input["ImportedItemCount"])
-            if "ImportedItemCount" in input.keys()
+            Option_Some(native_input["ImportedItemCount"])
+            if "ImportedItemCount" in native_input.keys()
             else Option_None()
         ),
         FailureCode=(
-            Option_Some(Seq(input["FailureCode"]))
-            if "FailureCode" in input.keys()
+            Option_Some(Seq(native_input["FailureCode"]))
+            if "FailureCode" in native_input.keys()
             else Option_None()
         ),
         FailureMessage=(
-            Option_Some(Seq(input["FailureMessage"]))
-            if "FailureMessage" in input.keys()
+            Option_Some(Seq(native_input["FailureMessage"]))
+            if "FailureMessage" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ImportStatus(input):
+def com_amazonaws_dynamodb_ImportStatus(native_input):
     # Convert ImportStatus
-    if input == "IN_PROGRESS":
+    if native_input == "IN_PROGRESS":
         return ImportStatus_IN__PROGRESS()
-    elif input == "COMPLETED":
+    elif native_input == "COMPLETED":
         return ImportStatus_COMPLETED()
-    elif input == "CANCELLING":
+    elif native_input == "CANCELLING":
         return ImportStatus_CANCELLING()
-    elif input == "CANCELLED":
+    elif native_input == "CANCELLED":
         return ImportStatus_CANCELLED()
-    elif input == "FAILED":
+    elif native_input == "FAILED":
         return ImportStatus_FAILED()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_S3BucketSource(input):
+def com_amazonaws_dynamodb_S3BucketSource(native_input):
     return DafnyS3BucketSource(
         S3BucketOwner=(
-            Option_Some(Seq(input["S3BucketOwner"]))
-            if "S3BucketOwner" in input.keys()
+            Option_Some(Seq(native_input["S3BucketOwner"]))
+            if "S3BucketOwner" in native_input.keys()
             else Option_None()
         ),
-        S3Bucket=Seq(input["S3Bucket"]),
+        S3Bucket=Seq(native_input["S3Bucket"]),
         S3KeyPrefix=(
-            Option_Some(Seq(input["S3KeyPrefix"]))
-            if "S3KeyPrefix" in input.keys()
+            Option_Some(Seq(native_input["S3KeyPrefix"]))
+            if "S3KeyPrefix" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_InputFormat(input):
+def com_amazonaws_dynamodb_InputFormat(native_input):
     # Convert InputFormat
-    if input == "DYNAMODB_JSON":
+    if native_input == "DYNAMODB_JSON":
         return InputFormat_DYNAMODB__JSON()
-    elif input == "ION":
+    elif native_input == "ION":
         return InputFormat_ION()
-    elif input == "CSV":
+    elif native_input == "CSV":
         return InputFormat_CSV()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_InputFormatOptions(input):
+def com_amazonaws_dynamodb_InputFormatOptions(native_input):
     return DafnyInputFormatOptions(
         Csv=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CsvOptions(
-                    input["Csv"]
+                    native_input["Csv"]
                 )
             )
-            if "Csv" in input.keys()
+            if "Csv" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_InputCompressionType(input):
+def com_amazonaws_dynamodb_InputCompressionType(native_input):
     # Convert InputCompressionType
-    if input == "GZIP":
+    if native_input == "GZIP":
         return InputCompressionType_GZIP()
-    elif input == "ZSTD":
+    elif native_input == "ZSTD":
         return InputCompressionType_ZSTD()
-    elif input == "NONE":
+    elif native_input == "NONE":
         return InputCompressionType_NONE()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_TableCreationParameters(input):
+def com_amazonaws_dynamodb_TableCreationParameters(native_input):
     return DafnyTableCreationParameters(
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
         AttributeDefinitions=Seq(
             [
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeDefinition(
                     list_element
                 )
-                for list_element in input["AttributeDefinitions"]
+                for list_element in native_input["AttributeDefinitions"]
             ]
         ),
         KeySchema=Seq(
@@ -3746,34 +3783,34 @@ def com_amazonaws_dynamodb_TableCreationParameters(input):
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                     list_element
                 )
-                for list_element in input["KeySchema"]
+                for list_element in native_input["KeySchema"]
             ]
         ),
         BillingMode=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
-                    input["BillingMode"]
+                    native_input["BillingMode"]
                 )
             )
-            if "BillingMode" in input.keys()
+            if "BillingMode" in native_input.keys()
             else Option_None()
         ),
         ProvisionedThroughput=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
-                    input["ProvisionedThroughput"]
+                    native_input["ProvisionedThroughput"]
                 )
             )
-            if "ProvisionedThroughput" in input.keys()
+            if "ProvisionedThroughput" in native_input.keys()
             else Option_None()
         ),
         SSESpecification=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSESpecification(
-                    input["SSESpecification"]
+                    native_input["SSESpecification"]
                 )
             )
-            if "SSESpecification" in input.keys()
+            if "SSESpecification" in native_input.keys()
             else Option_None()
         ),
         GlobalSecondaryIndexes=(
@@ -3783,44 +3820,44 @@ def com_amazonaws_dynamodb_TableCreationParameters(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndex(
                             list_element
                         )
-                        for list_element in input["GlobalSecondaryIndexes"]
+                        for list_element in native_input["GlobalSecondaryIndexes"]
                     ]
                 )
             )
-            if "GlobalSecondaryIndexes" in input.keys()
+            if "GlobalSecondaryIndexes" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_CsvOptions(input):
+def com_amazonaws_dynamodb_CsvOptions(native_input):
     return DafnyCsvOptions(
         Delimiter=(
-            Option_Some(Seq(input["Delimiter"]))
-            if "Delimiter" in input.keys()
+            Option_Some(Seq(native_input["Delimiter"]))
+            if "Delimiter" in native_input.keys()
             else Option_None()
         ),
         HeaderList=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in input["HeaderList"]])
+                Seq([Seq(list_element) for list_element in native_input["HeaderList"]])
             )
-            if "HeaderList" in input.keys()
+            if "HeaderList" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationInput(input):
+def com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationInput(native_input):
     return DafnyDescribeKinesisStreamingDestinationInput(
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
     )
 
 
-def com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationOutput(input):
+def com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationOutput(native_input):
     return DafnyDescribeKinesisStreamingDestinationOutput(
         TableName=(
-            Option_Some(Seq(input["TableName"]))
-            if "TableName" in input.keys()
+            Option_Some(Seq(native_input["TableName"]))
+            if "TableName" in native_input.keys()
             else Option_None()
         ),
         KinesisDataStreamDestinations=(
@@ -3830,139 +3867,141 @@ def com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationOutput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KinesisDataStreamDestination(
                             list_element
                         )
-                        for list_element in input["KinesisDataStreamDestinations"]
+                        for list_element in native_input[
+                            "KinesisDataStreamDestinations"
+                        ]
                     ]
                 )
             )
-            if "KinesisDataStreamDestinations" in input.keys()
+            if "KinesisDataStreamDestinations" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_KinesisDataStreamDestination(input):
+def com_amazonaws_dynamodb_KinesisDataStreamDestination(native_input):
     return DafnyKinesisDataStreamDestination(
         StreamArn=(
-            Option_Some(Seq(input["StreamArn"]))
-            if "StreamArn" in input.keys()
+            Option_Some(Seq(native_input["StreamArn"]))
+            if "StreamArn" in native_input.keys()
             else Option_None()
         ),
         DestinationStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DestinationStatus(
-                    input["DestinationStatus"]
+                    native_input["DestinationStatus"]
                 )
             )
-            if "DestinationStatus" in input.keys()
+            if "DestinationStatus" in native_input.keys()
             else Option_None()
         ),
         DestinationStatusDescription=(
-            Option_Some(Seq(input["DestinationStatusDescription"]))
-            if "DestinationStatusDescription" in input.keys()
+            Option_Some(Seq(native_input["DestinationStatusDescription"]))
+            if "DestinationStatusDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_DestinationStatus(input):
+def com_amazonaws_dynamodb_DestinationStatus(native_input):
     # Convert DestinationStatus
-    if input == "ENABLING":
+    if native_input == "ENABLING":
         return DestinationStatus_ENABLING()
-    elif input == "ACTIVE":
+    elif native_input == "ACTIVE":
         return DestinationStatus_ACTIVE()
-    elif input == "DISABLING":
+    elif native_input == "DISABLING":
         return DestinationStatus_DISABLING()
-    elif input == "DISABLED":
+    elif native_input == "DISABLED":
         return DestinationStatus_DISABLED()
-    elif input == "ENABLE_FAILED":
+    elif native_input == "ENABLE_FAILED":
         return DestinationStatus_ENABLE__FAILED()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_DescribeLimitsInput(input):
+def com_amazonaws_dynamodb_DescribeLimitsInput(native_input):
     return DafnyDescribeLimitsInput()
 
 
-def com_amazonaws_dynamodb_DescribeLimitsOutput(input):
+def com_amazonaws_dynamodb_DescribeLimitsOutput(native_input):
     return DafnyDescribeLimitsOutput(
         AccountMaxReadCapacityUnits=(
-            Option_Some(input["AccountMaxReadCapacityUnits"])
-            if "AccountMaxReadCapacityUnits" in input.keys()
+            Option_Some(native_input["AccountMaxReadCapacityUnits"])
+            if "AccountMaxReadCapacityUnits" in native_input.keys()
             else Option_None()
         ),
         AccountMaxWriteCapacityUnits=(
-            Option_Some(input["AccountMaxWriteCapacityUnits"])
-            if "AccountMaxWriteCapacityUnits" in input.keys()
+            Option_Some(native_input["AccountMaxWriteCapacityUnits"])
+            if "AccountMaxWriteCapacityUnits" in native_input.keys()
             else Option_None()
         ),
         TableMaxReadCapacityUnits=(
-            Option_Some(input["TableMaxReadCapacityUnits"])
-            if "TableMaxReadCapacityUnits" in input.keys()
+            Option_Some(native_input["TableMaxReadCapacityUnits"])
+            if "TableMaxReadCapacityUnits" in native_input.keys()
             else Option_None()
         ),
         TableMaxWriteCapacityUnits=(
-            Option_Some(input["TableMaxWriteCapacityUnits"])
-            if "TableMaxWriteCapacityUnits" in input.keys()
+            Option_Some(native_input["TableMaxWriteCapacityUnits"])
+            if "TableMaxWriteCapacityUnits" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_DescribeTableInput(input):
+def com_amazonaws_dynamodb_DescribeTableInput(native_input):
     return DafnyDescribeTableInput(
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
     )
 
 
-def com_amazonaws_dynamodb_DescribeTableOutput(input):
+def com_amazonaws_dynamodb_DescribeTableOutput(native_input):
     return DafnyDescribeTableOutput(
         Table=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableDescription(
-                    input["Table"]
+                    native_input["Table"]
                 )
             )
-            if "Table" in input.keys()
+            if "Table" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingInput(input):
+def com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingInput(native_input):
     return DafnyDescribeTableReplicaAutoScalingInput(
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
     )
 
 
-def com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingOutput(input):
+def com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingOutput(native_input):
     return DafnyDescribeTableReplicaAutoScalingOutput(
         TableAutoScalingDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableAutoScalingDescription(
-                    input["TableAutoScalingDescription"]
+                    native_input["TableAutoScalingDescription"]
                 )
             )
-            if "TableAutoScalingDescription" in input.keys()
+            if "TableAutoScalingDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_TableAutoScalingDescription(input):
+def com_amazonaws_dynamodb_TableAutoScalingDescription(native_input):
     return DafnyTableAutoScalingDescription(
         TableName=(
-            Option_Some(Seq(input["TableName"]))
-            if "TableName" in input.keys()
+            Option_Some(Seq(native_input["TableName"]))
+            if "TableName" in native_input.keys()
             else Option_None()
         ),
         TableStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableStatus(
-                    input["TableStatus"]
+                    native_input["TableStatus"]
                 )
             )
-            if "TableStatus" in input.keys()
+            if "TableStatus" in native_input.keys()
             else Option_None()
         ),
         Replicas=(
@@ -3972,21 +4011,21 @@ def com_amazonaws_dynamodb_TableAutoScalingDescription(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaAutoScalingDescription(
                             list_element
                         )
-                        for list_element in input["Replicas"]
+                        for list_element in native_input["Replicas"]
                     ]
                 )
             )
-            if "Replicas" in input.keys()
+            if "Replicas" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ReplicaAutoScalingDescription(input):
+def com_amazonaws_dynamodb_ReplicaAutoScalingDescription(native_input):
     return DafnyReplicaAutoScalingDescription(
         RegionName=(
-            Option_Some(Seq(input["RegionName"]))
-            if "RegionName" in input.keys()
+            Option_Some(Seq(native_input["RegionName"]))
+            if "RegionName" in native_input.keys()
             else Option_None()
         ),
         GlobalSecondaryIndexes=(
@@ -3996,165 +4035,169 @@ def com_amazonaws_dynamodb_ReplicaAutoScalingDescription(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingDescription(
                             list_element
                         )
-                        for list_element in input["GlobalSecondaryIndexes"]
+                        for list_element in native_input["GlobalSecondaryIndexes"]
                     ]
                 )
             )
-            if "GlobalSecondaryIndexes" in input.keys()
+            if "GlobalSecondaryIndexes" in native_input.keys()
             else Option_None()
         ),
         ReplicaProvisionedReadCapacityAutoScalingSettings=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
-                    input["ReplicaProvisionedReadCapacityAutoScalingSettings"]
+                    native_input["ReplicaProvisionedReadCapacityAutoScalingSettings"]
                 )
             )
-            if "ReplicaProvisionedReadCapacityAutoScalingSettings" in input.keys()
+            if "ReplicaProvisionedReadCapacityAutoScalingSettings"
+            in native_input.keys()
             else Option_None()
         ),
         ReplicaProvisionedWriteCapacityAutoScalingSettings=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
-                    input["ReplicaProvisionedWriteCapacityAutoScalingSettings"]
+                    native_input["ReplicaProvisionedWriteCapacityAutoScalingSettings"]
                 )
             )
-            if "ReplicaProvisionedWriteCapacityAutoScalingSettings" in input.keys()
+            if "ReplicaProvisionedWriteCapacityAutoScalingSettings"
+            in native_input.keys()
             else Option_None()
         ),
         ReplicaStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaStatus(
-                    input["ReplicaStatus"]
+                    native_input["ReplicaStatus"]
                 )
             )
-            if "ReplicaStatus" in input.keys()
+            if "ReplicaStatus" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingDescription(input):
+def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingDescription(
+    native_input,
+):
     return DafnyReplicaGlobalSecondaryIndexAutoScalingDescription(
         IndexName=(
-            Option_Some(Seq(input["IndexName"]))
-            if "IndexName" in input.keys()
+            Option_Some(Seq(native_input["IndexName"]))
+            if "IndexName" in native_input.keys()
             else Option_None()
         ),
         IndexStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_IndexStatus(
-                    input["IndexStatus"]
+                    native_input["IndexStatus"]
                 )
             )
-            if "IndexStatus" in input.keys()
+            if "IndexStatus" in native_input.keys()
             else Option_None()
         ),
         ProvisionedReadCapacityAutoScalingSettings=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
-                    input["ProvisionedReadCapacityAutoScalingSettings"]
+                    native_input["ProvisionedReadCapacityAutoScalingSettings"]
                 )
             )
-            if "ProvisionedReadCapacityAutoScalingSettings" in input.keys()
+            if "ProvisionedReadCapacityAutoScalingSettings" in native_input.keys()
             else Option_None()
         ),
         ProvisionedWriteCapacityAutoScalingSettings=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsDescription(
-                    input["ProvisionedWriteCapacityAutoScalingSettings"]
+                    native_input["ProvisionedWriteCapacityAutoScalingSettings"]
                 )
             )
-            if "ProvisionedWriteCapacityAutoScalingSettings" in input.keys()
+            if "ProvisionedWriteCapacityAutoScalingSettings" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_DescribeTimeToLiveInput(input):
+def com_amazonaws_dynamodb_DescribeTimeToLiveInput(native_input):
     return DafnyDescribeTimeToLiveInput(
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
     )
 
 
-def com_amazonaws_dynamodb_DescribeTimeToLiveOutput(input):
+def com_amazonaws_dynamodb_DescribeTimeToLiveOutput(native_input):
     return DafnyDescribeTimeToLiveOutput(
         TimeToLiveDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TimeToLiveDescription(
-                    input["TimeToLiveDescription"]
+                    native_input["TimeToLiveDescription"]
                 )
             )
-            if "TimeToLiveDescription" in input.keys()
+            if "TimeToLiveDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput(input):
+def com_amazonaws_dynamodb_DisableKinesisStreamingDestinationInput(native_input):
     return DafnyDisableKinesisStreamingDestinationInput(
-        TableName=Seq(input["TableName"]),
-        StreamArn=Seq(input["StreamArn"]),
+        TableName=Seq(native_input["TableName"]),
+        StreamArn=Seq(native_input["StreamArn"]),
     )
 
 
-def com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput(input):
+def com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput(native_input):
     return DafnyDisableKinesisStreamingDestinationOutput(
         TableName=(
-            Option_Some(Seq(input["TableName"]))
-            if "TableName" in input.keys()
+            Option_Some(Seq(native_input["TableName"]))
+            if "TableName" in native_input.keys()
             else Option_None()
         ),
         StreamArn=(
-            Option_Some(Seq(input["StreamArn"]))
-            if "StreamArn" in input.keys()
+            Option_Some(Seq(native_input["StreamArn"]))
+            if "StreamArn" in native_input.keys()
             else Option_None()
         ),
         DestinationStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DestinationStatus(
-                    input["DestinationStatus"]
+                    native_input["DestinationStatus"]
                 )
             )
-            if "DestinationStatus" in input.keys()
+            if "DestinationStatus" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_EnableKinesisStreamingDestinationInput(input):
+def com_amazonaws_dynamodb_EnableKinesisStreamingDestinationInput(native_input):
     return DafnyEnableKinesisStreamingDestinationInput(
-        TableName=Seq(input["TableName"]),
-        StreamArn=Seq(input["StreamArn"]),
+        TableName=Seq(native_input["TableName"]),
+        StreamArn=Seq(native_input["StreamArn"]),
     )
 
 
-def com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput(input):
+def com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput(native_input):
     return DafnyEnableKinesisStreamingDestinationOutput(
         TableName=(
-            Option_Some(Seq(input["TableName"]))
-            if "TableName" in input.keys()
+            Option_Some(Seq(native_input["TableName"]))
+            if "TableName" in native_input.keys()
             else Option_None()
         ),
         StreamArn=(
-            Option_Some(Seq(input["StreamArn"]))
-            if "StreamArn" in input.keys()
+            Option_Some(Seq(native_input["StreamArn"]))
+            if "StreamArn" in native_input.keys()
             else Option_None()
         ),
         DestinationStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DestinationStatus(
-                    input["DestinationStatus"]
+                    native_input["DestinationStatus"]
                 )
             )
-            if "DestinationStatus" in input.keys()
+            if "DestinationStatus" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ExecuteStatementInput(input):
+def com_amazonaws_dynamodb_ExecuteStatementInput(native_input):
     return DafnyExecuteStatementInput(
-        Statement=Seq(input["Statement"]),
+        Statement=Seq(native_input["Statement"]),
         Parameters=(
             Option_Some(
                 Seq(
@@ -4162,37 +4205,41 @@ def com_amazonaws_dynamodb_ExecuteStatementInput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             list_element
                         )
-                        for list_element in input["Parameters"]
+                        for list_element in native_input["Parameters"]
                     ]
                 )
             )
-            if "Parameters" in input.keys()
+            if "Parameters" in native_input.keys()
             else Option_None()
         ),
         ConsistentRead=(
-            Option_Some(input["ConsistentRead"])
-            if "ConsistentRead" in input.keys()
+            Option_Some(native_input["ConsistentRead"])
+            if "ConsistentRead" in native_input.keys()
             else Option_None()
         ),
         NextToken=(
-            Option_Some(Seq(input["NextToken"]))
-            if "NextToken" in input.keys()
+            Option_Some(Seq(native_input["NextToken"]))
+            if "NextToken" in native_input.keys()
             else Option_None()
         ),
         ReturnConsumedCapacity=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
-                    input["ReturnConsumedCapacity"]
+                    native_input["ReturnConsumedCapacity"]
                 )
             )
-            if "ReturnConsumedCapacity" in input.keys()
+            if "ReturnConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
-        Limit=Option_Some(input["Limit"]) if "Limit" in input.keys() else Option_None(),
+        Limit=(
+            Option_Some(native_input["Limit"])
+            if "Limit" in native_input.keys()
+            else Option_None()
+        ),
     )
 
 
-def com_amazonaws_dynamodb_ExecuteStatementOutput(input):
+def com_amazonaws_dynamodb_ExecuteStatementOutput(native_input):
     return DafnyExecuteStatementOutput(
         Items=(
             Option_Some(
@@ -4208,25 +4255,25 @@ def com_amazonaws_dynamodb_ExecuteStatementOutput(input):
                                 for (key, value) in list_element.items()
                             }
                         )
-                        for list_element in input["Items"]
+                        for list_element in native_input["Items"]
                     ]
                 )
             )
-            if "Items" in input.keys()
+            if "Items" in native_input.keys()
             else Option_None()
         ),
         NextToken=(
-            Option_Some(Seq(input["NextToken"]))
-            if "NextToken" in input.keys()
+            Option_Some(Seq(native_input["NextToken"]))
+            if "NextToken" in native_input.keys()
             else Option_None()
         ),
         ConsumedCapacity=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
-                    input["ConsumedCapacity"]
+                    native_input["ConsumedCapacity"]
                 )
             )
-            if "ConsumedCapacity" in input.keys()
+            if "ConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
         LastEvaluatedKey=(
@@ -4238,46 +4285,46 @@ def com_amazonaws_dynamodb_ExecuteStatementOutput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["LastEvaluatedKey"].items()
+                        for (key, value) in native_input["LastEvaluatedKey"].items()
                     }
                 )
             )
-            if "LastEvaluatedKey" in input.keys()
+            if "LastEvaluatedKey" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ExecuteTransactionInput(input):
+def com_amazonaws_dynamodb_ExecuteTransactionInput(native_input):
     return DafnyExecuteTransactionInput(
         TransactStatements=Seq(
             [
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ParameterizedStatement(
                     list_element
                 )
-                for list_element in input["TransactStatements"]
+                for list_element in native_input["TransactStatements"]
             ]
         ),
         ClientRequestToken=(
-            Option_Some(Seq(input["ClientRequestToken"]))
-            if "ClientRequestToken" in input.keys()
+            Option_Some(Seq(native_input["ClientRequestToken"]))
+            if "ClientRequestToken" in native_input.keys()
             else Option_None()
         ),
         ReturnConsumedCapacity=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
-                    input["ReturnConsumedCapacity"]
+                    native_input["ReturnConsumedCapacity"]
                 )
             )
-            if "ReturnConsumedCapacity" in input.keys()
+            if "ReturnConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ParameterizedStatement(input):
+def com_amazonaws_dynamodb_ParameterizedStatement(native_input):
     return DafnyParameterizedStatement(
-        Statement=Seq(input["Statement"]),
+        Statement=Seq(native_input["Statement"]),
         Parameters=(
             Option_Some(
                 Seq(
@@ -4285,17 +4332,17 @@ def com_amazonaws_dynamodb_ParameterizedStatement(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             list_element
                         )
-                        for list_element in input["Parameters"]
+                        for list_element in native_input["Parameters"]
                     ]
                 )
             )
-            if "Parameters" in input.keys()
+            if "Parameters" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ExecuteTransactionOutput(input):
+def com_amazonaws_dynamodb_ExecuteTransactionOutput(native_input):
     return DafnyExecuteTransactionOutput(
         Responses=(
             Option_Some(
@@ -4304,11 +4351,11 @@ def com_amazonaws_dynamodb_ExecuteTransactionOutput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemResponse(
                             list_element
                         )
-                        for list_element in input["Responses"]
+                        for list_element in native_input["Responses"]
                     ]
                 )
             )
-            if "Responses" in input.keys()
+            if "Responses" in native_input.keys()
             else Option_None()
         ),
         ConsumedCapacity=(
@@ -4318,17 +4365,17 @@ def com_amazonaws_dynamodb_ExecuteTransactionOutput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
                             list_element
                         )
-                        for list_element in input["ConsumedCapacity"]
+                        for list_element in native_input["ConsumedCapacity"]
                     ]
                 )
             )
-            if "ConsumedCapacity" in input.keys()
+            if "ConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ItemResponse(input):
+def com_amazonaws_dynamodb_ItemResponse(native_input):
     return DafnyItemResponse(
         Item=(
             Option_Some(
@@ -4339,83 +4386,83 @@ def com_amazonaws_dynamodb_ItemResponse(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["Item"].items()
+                        for (key, value) in native_input["Item"].items()
                     }
                 )
             )
-            if "Item" in input.keys()
+            if "Item" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ExportTableToPointInTimeInput(input):
+def com_amazonaws_dynamodb_ExportTableToPointInTimeInput(native_input):
     return DafnyExportTableToPointInTimeInput(
-        TableArn=Seq(input["TableArn"]),
+        TableArn=Seq(native_input["TableArn"]),
         ExportTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "ExportTime" in input.keys()
+            if "ExportTime" in native_input.keys()
             else Option_None()
         ),
         ClientToken=(
-            Option_Some(Seq(input["ClientToken"]))
-            if "ClientToken" in input.keys()
+            Option_Some(Seq(native_input["ClientToken"]))
+            if "ClientToken" in native_input.keys()
             else Option_None()
         ),
-        S3Bucket=Seq(input["S3Bucket"]),
+        S3Bucket=Seq(native_input["S3Bucket"]),
         S3BucketOwner=(
-            Option_Some(Seq(input["S3BucketOwner"]))
-            if "S3BucketOwner" in input.keys()
+            Option_Some(Seq(native_input["S3BucketOwner"]))
+            if "S3BucketOwner" in native_input.keys()
             else Option_None()
         ),
         S3Prefix=(
-            Option_Some(Seq(input["S3Prefix"]))
-            if "S3Prefix" in input.keys()
+            Option_Some(Seq(native_input["S3Prefix"]))
+            if "S3Prefix" in native_input.keys()
             else Option_None()
         ),
         S3SseAlgorithm=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_S3SseAlgorithm(
-                    input["S3SseAlgorithm"]
+                    native_input["S3SseAlgorithm"]
                 )
             )
-            if "S3SseAlgorithm" in input.keys()
+            if "S3SseAlgorithm" in native_input.keys()
             else Option_None()
         ),
         S3SseKmsKeyId=(
-            Option_Some(Seq(input["S3SseKmsKeyId"]))
-            if "S3SseKmsKeyId" in input.keys()
+            Option_Some(Seq(native_input["S3SseKmsKeyId"]))
+            if "S3SseKmsKeyId" in native_input.keys()
             else Option_None()
         ),
         ExportFormat=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportFormat(
-                    input["ExportFormat"]
+                    native_input["ExportFormat"]
                 )
             )
-            if "ExportFormat" in input.keys()
+            if "ExportFormat" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ExportTableToPointInTimeOutput(input):
+def com_amazonaws_dynamodb_ExportTableToPointInTimeOutput(native_input):
     return DafnyExportTableToPointInTimeOutput(
         ExportDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportDescription(
-                    input["ExportDescription"]
+                    native_input["ExportDescription"]
                 )
             )
-            if "ExportDescription" in input.keys()
+            if "ExportDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_GetItemInput(input):
+def com_amazonaws_dynamodb_GetItemInput(native_input):
     return DafnyGetItemInput(
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
         Key=Map(
             {
                 Seq(
@@ -4423,33 +4470,38 @@ def com_amazonaws_dynamodb_GetItemInput(input):
                 ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
-                for (key, value) in input["Key"].items()
+                for (key, value) in native_input["Key"].items()
             }
         ),
         AttributesToGet=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in input["AttributesToGet"]])
+                Seq(
+                    [
+                        Seq(list_element)
+                        for list_element in native_input["AttributesToGet"]
+                    ]
+                )
             )
-            if "AttributesToGet" in input.keys()
+            if "AttributesToGet" in native_input.keys()
             else Option_None()
         ),
         ConsistentRead=(
-            Option_Some(input["ConsistentRead"])
-            if "ConsistentRead" in input.keys()
+            Option_Some(native_input["ConsistentRead"])
+            if "ConsistentRead" in native_input.keys()
             else Option_None()
         ),
         ReturnConsumedCapacity=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
-                    input["ReturnConsumedCapacity"]
+                    native_input["ReturnConsumedCapacity"]
                 )
             )
-            if "ReturnConsumedCapacity" in input.keys()
+            if "ReturnConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
         ProjectionExpression=(
-            Option_Some(Seq(input["ProjectionExpression"]))
-            if "ProjectionExpression" in input.keys()
+            Option_Some(Seq(native_input["ProjectionExpression"]))
+            if "ProjectionExpression" in native_input.keys()
             else Option_None()
         ),
         ExpressionAttributeNames=(
@@ -4457,17 +4509,19 @@ def com_amazonaws_dynamodb_GetItemInput(input):
                 Map(
                     {
                         Seq(key): Seq(value)
-                        for (key, value) in input["ExpressionAttributeNames"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeNames"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeNames" in input.keys()
+            if "ExpressionAttributeNames" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_GetItemOutput(input):
+def com_amazonaws_dynamodb_GetItemOutput(native_input):
     return DafnyGetItemOutput(
         Item=(
             Option_Some(
@@ -4478,120 +4532,124 @@ def com_amazonaws_dynamodb_GetItemOutput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["Item"].items()
+                        for (key, value) in native_input["Item"].items()
                     }
                 )
             )
-            if "Item" in input.keys()
+            if "Item" in native_input.keys()
             else Option_None()
         ),
         ConsumedCapacity=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
-                    input["ConsumedCapacity"]
+                    native_input["ConsumedCapacity"]
                 )
             )
-            if "ConsumedCapacity" in input.keys()
+            if "ConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ImportTableInput(input):
+def com_amazonaws_dynamodb_ImportTableInput(native_input):
     return DafnyImportTableInput(
         ClientToken=(
-            Option_Some(Seq(input["ClientToken"]))
-            if "ClientToken" in input.keys()
+            Option_Some(Seq(native_input["ClientToken"]))
+            if "ClientToken" in native_input.keys()
             else Option_None()
         ),
         S3BucketSource=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_S3BucketSource(
-            input["S3BucketSource"]
+            native_input["S3BucketSource"]
         ),
         InputFormat=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputFormat(
-            input["InputFormat"]
+            native_input["InputFormat"]
         ),
         InputFormatOptions=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputFormatOptions(
-                    input["InputFormatOptions"]
+                    native_input["InputFormatOptions"]
                 )
             )
-            if "InputFormatOptions" in input.keys()
+            if "InputFormatOptions" in native_input.keys()
             else Option_None()
         ),
         InputCompressionType=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputCompressionType(
-                    input["InputCompressionType"]
+                    native_input["InputCompressionType"]
                 )
             )
-            if "InputCompressionType" in input.keys()
+            if "InputCompressionType" in native_input.keys()
             else Option_None()
         ),
         TableCreationParameters=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableCreationParameters(
-            input["TableCreationParameters"]
+            native_input["TableCreationParameters"]
         ),
     )
 
 
-def com_amazonaws_dynamodb_ImportTableOutput(input):
+def com_amazonaws_dynamodb_ImportTableOutput(native_input):
     return DafnyImportTableOutput(
         ImportTableDescription=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportTableDescription(
-            input["ImportTableDescription"]
+            native_input["ImportTableDescription"]
         ),
     )
 
 
-def com_amazonaws_dynamodb_ListBackupsInput(input):
+def com_amazonaws_dynamodb_ListBackupsInput(native_input):
     return DafnyListBackupsInput(
         TableName=(
-            Option_Some(Seq(input["TableName"]))
-            if "TableName" in input.keys()
+            Option_Some(Seq(native_input["TableName"]))
+            if "TableName" in native_input.keys()
             else Option_None()
         ),
-        Limit=Option_Some(input["Limit"]) if "Limit" in input.keys() else Option_None(),
+        Limit=(
+            Option_Some(native_input["Limit"])
+            if "Limit" in native_input.keys()
+            else Option_None()
+        ),
         TimeRangeLowerBound=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "TimeRangeLowerBound" in input.keys()
+            if "TimeRangeLowerBound" in native_input.keys()
             else Option_None()
         ),
         TimeRangeUpperBound=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "TimeRangeUpperBound" in input.keys()
+            if "TimeRangeUpperBound" in native_input.keys()
             else Option_None()
         ),
         ExclusiveStartBackupArn=(
-            Option_Some(Seq(input["ExclusiveStartBackupArn"]))
-            if "ExclusiveStartBackupArn" in input.keys()
+            Option_Some(Seq(native_input["ExclusiveStartBackupArn"]))
+            if "ExclusiveStartBackupArn" in native_input.keys()
             else Option_None()
         ),
         BackupType=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupTypeFilter(
-                    input["BackupType"]
+                    native_input["BackupType"]
                 )
             )
-            if "BackupType" in input.keys()
+            if "BackupType" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_BackupTypeFilter(input):
+def com_amazonaws_dynamodb_BackupTypeFilter(native_input):
     # Convert BackupTypeFilter
-    if input == "USER":
+    if native_input == "USER":
         return BackupTypeFilter_USER()
-    elif input == "SYSTEM":
+    elif native_input == "SYSTEM":
         return BackupTypeFilter_SYSTEM()
-    elif input == "AWS_BACKUP":
+    elif native_input == "AWS_BACKUP":
         return BackupTypeFilter_AWS__BACKUP()
-    elif input == "ALL":
+    elif native_input == "ALL":
         return BackupTypeFilter_ALL()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_ListBackupsOutput(input):
+def com_amazonaws_dynamodb_ListBackupsOutput(native_input):
     return DafnyListBackupsOutput(
         BackupSummaries=(
             Option_Some(
@@ -4600,105 +4658,105 @@ def com_amazonaws_dynamodb_ListBackupsOutput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupSummary(
                             list_element
                         )
-                        for list_element in input["BackupSummaries"]
+                        for list_element in native_input["BackupSummaries"]
                     ]
                 )
             )
-            if "BackupSummaries" in input.keys()
+            if "BackupSummaries" in native_input.keys()
             else Option_None()
         ),
         LastEvaluatedBackupArn=(
-            Option_Some(Seq(input["LastEvaluatedBackupArn"]))
-            if "LastEvaluatedBackupArn" in input.keys()
+            Option_Some(Seq(native_input["LastEvaluatedBackupArn"]))
+            if "LastEvaluatedBackupArn" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_BackupSummary(input):
+def com_amazonaws_dynamodb_BackupSummary(native_input):
     return DafnyBackupSummary(
         TableName=(
-            Option_Some(Seq(input["TableName"]))
-            if "TableName" in input.keys()
+            Option_Some(Seq(native_input["TableName"]))
+            if "TableName" in native_input.keys()
             else Option_None()
         ),
         TableId=(
-            Option_Some(Seq(input["TableId"]))
-            if "TableId" in input.keys()
+            Option_Some(Seq(native_input["TableId"]))
+            if "TableId" in native_input.keys()
             else Option_None()
         ),
         TableArn=(
-            Option_Some(Seq(input["TableArn"]))
-            if "TableArn" in input.keys()
+            Option_Some(Seq(native_input["TableArn"]))
+            if "TableArn" in native_input.keys()
             else Option_None()
         ),
         BackupArn=(
-            Option_Some(Seq(input["BackupArn"]))
-            if "BackupArn" in input.keys()
+            Option_Some(Seq(native_input["BackupArn"]))
+            if "BackupArn" in native_input.keys()
             else Option_None()
         ),
         BackupName=(
-            Option_Some(Seq(input["BackupName"]))
-            if "BackupName" in input.keys()
+            Option_Some(Seq(native_input["BackupName"]))
+            if "BackupName" in native_input.keys()
             else Option_None()
         ),
         BackupCreationDateTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "BackupCreationDateTime" in input.keys()
+            if "BackupCreationDateTime" in native_input.keys()
             else Option_None()
         ),
         BackupExpiryDateTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "BackupExpiryDateTime" in input.keys()
+            if "BackupExpiryDateTime" in native_input.keys()
             else Option_None()
         ),
         BackupStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupStatus(
-                    input["BackupStatus"]
+                    native_input["BackupStatus"]
                 )
             )
-            if "BackupStatus" in input.keys()
+            if "BackupStatus" in native_input.keys()
             else Option_None()
         ),
         BackupType=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupType(
-                    input["BackupType"]
+                    native_input["BackupType"]
                 )
             )
-            if "BackupType" in input.keys()
+            if "BackupType" in native_input.keys()
             else Option_None()
         ),
         BackupSizeBytes=(
-            Option_Some(input["BackupSizeBytes"])
-            if "BackupSizeBytes" in input.keys()
+            Option_Some(native_input["BackupSizeBytes"])
+            if "BackupSizeBytes" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ListContributorInsightsInput(input):
+def com_amazonaws_dynamodb_ListContributorInsightsInput(native_input):
     return DafnyListContributorInsightsInput(
         TableName=(
-            Option_Some(Seq(input["TableName"]))
-            if "TableName" in input.keys()
+            Option_Some(Seq(native_input["TableName"]))
+            if "TableName" in native_input.keys()
             else Option_None()
         ),
         NextToken=(
-            Option_Some(Seq(input["NextToken"]))
-            if "NextToken" in input.keys()
+            Option_Some(Seq(native_input["NextToken"]))
+            if "NextToken" in native_input.keys()
             else Option_None()
         ),
         MaxResults=(
-            Option_Some(input["MaxResults"])
-            if "MaxResults" in input.keys()
+            Option_Some(native_input["MaxResults"])
+            if "MaxResults" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ListContributorInsightsOutput(input):
+def com_amazonaws_dynamodb_ListContributorInsightsOutput(native_input):
     return DafnyListContributorInsightsOutput(
         ContributorInsightsSummaries=(
             Option_Some(
@@ -4707,66 +4765,66 @@ def com_amazonaws_dynamodb_ListContributorInsightsOutput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContributorInsightsSummary(
                             list_element
                         )
-                        for list_element in input["ContributorInsightsSummaries"]
+                        for list_element in native_input["ContributorInsightsSummaries"]
                     ]
                 )
             )
-            if "ContributorInsightsSummaries" in input.keys()
+            if "ContributorInsightsSummaries" in native_input.keys()
             else Option_None()
         ),
         NextToken=(
-            Option_Some(Seq(input["NextToken"]))
-            if "NextToken" in input.keys()
+            Option_Some(Seq(native_input["NextToken"]))
+            if "NextToken" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ContributorInsightsSummary(input):
+def com_amazonaws_dynamodb_ContributorInsightsSummary(native_input):
     return DafnyContributorInsightsSummary(
         TableName=(
-            Option_Some(Seq(input["TableName"]))
-            if "TableName" in input.keys()
+            Option_Some(Seq(native_input["TableName"]))
+            if "TableName" in native_input.keys()
             else Option_None()
         ),
         IndexName=(
-            Option_Some(Seq(input["IndexName"]))
-            if "IndexName" in input.keys()
+            Option_Some(Seq(native_input["IndexName"]))
+            if "IndexName" in native_input.keys()
             else Option_None()
         ),
         ContributorInsightsStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContributorInsightsStatus(
-                    input["ContributorInsightsStatus"]
+                    native_input["ContributorInsightsStatus"]
                 )
             )
-            if "ContributorInsightsStatus" in input.keys()
+            if "ContributorInsightsStatus" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ListExportsInput(input):
+def com_amazonaws_dynamodb_ListExportsInput(native_input):
     return DafnyListExportsInput(
         TableArn=(
-            Option_Some(Seq(input["TableArn"]))
-            if "TableArn" in input.keys()
+            Option_Some(Seq(native_input["TableArn"]))
+            if "TableArn" in native_input.keys()
             else Option_None()
         ),
         MaxResults=(
-            Option_Some(input["MaxResults"])
-            if "MaxResults" in input.keys()
+            Option_Some(native_input["MaxResults"])
+            if "MaxResults" in native_input.keys()
             else Option_None()
         ),
         NextToken=(
-            Option_Some(Seq(input["NextToken"]))
-            if "NextToken" in input.keys()
+            Option_Some(Seq(native_input["NextToken"]))
+            if "NextToken" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ListExportsOutput(input):
+def com_amazonaws_dynamodb_ListExportsOutput(native_input):
     return DafnyListExportsOutput(
         ExportSummaries=(
             Option_Some(
@@ -4775,57 +4833,61 @@ def com_amazonaws_dynamodb_ListExportsOutput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportSummary(
                             list_element
                         )
-                        for list_element in input["ExportSummaries"]
+                        for list_element in native_input["ExportSummaries"]
                     ]
                 )
             )
-            if "ExportSummaries" in input.keys()
+            if "ExportSummaries" in native_input.keys()
             else Option_None()
         ),
         NextToken=(
-            Option_Some(Seq(input["NextToken"]))
-            if "NextToken" in input.keys()
+            Option_Some(Seq(native_input["NextToken"]))
+            if "NextToken" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ExportSummary(input):
+def com_amazonaws_dynamodb_ExportSummary(native_input):
     return DafnyExportSummary(
         ExportArn=(
-            Option_Some(Seq(input["ExportArn"]))
-            if "ExportArn" in input.keys()
+            Option_Some(Seq(native_input["ExportArn"]))
+            if "ExportArn" in native_input.keys()
             else Option_None()
         ),
         ExportStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExportStatus(
-                    input["ExportStatus"]
+                    native_input["ExportStatus"]
                 )
             )
-            if "ExportStatus" in input.keys()
+            if "ExportStatus" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ListGlobalTablesInput(input):
+def com_amazonaws_dynamodb_ListGlobalTablesInput(native_input):
     return DafnyListGlobalTablesInput(
         ExclusiveStartGlobalTableName=(
-            Option_Some(Seq(input["ExclusiveStartGlobalTableName"]))
-            if "ExclusiveStartGlobalTableName" in input.keys()
+            Option_Some(Seq(native_input["ExclusiveStartGlobalTableName"]))
+            if "ExclusiveStartGlobalTableName" in native_input.keys()
             else Option_None()
         ),
-        Limit=Option_Some(input["Limit"]) if "Limit" in input.keys() else Option_None(),
+        Limit=(
+            Option_Some(native_input["Limit"])
+            if "Limit" in native_input.keys()
+            else Option_None()
+        ),
         RegionName=(
-            Option_Some(Seq(input["RegionName"]))
-            if "RegionName" in input.keys()
+            Option_Some(Seq(native_input["RegionName"]))
+            if "RegionName" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ListGlobalTablesOutput(input):
+def com_amazonaws_dynamodb_ListGlobalTablesOutput(native_input):
     return DafnyListGlobalTablesOutput(
         GlobalTables=(
             Option_Some(
@@ -4834,26 +4896,26 @@ def com_amazonaws_dynamodb_ListGlobalTablesOutput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTable(
                             list_element
                         )
-                        for list_element in input["GlobalTables"]
+                        for list_element in native_input["GlobalTables"]
                     ]
                 )
             )
-            if "GlobalTables" in input.keys()
+            if "GlobalTables" in native_input.keys()
             else Option_None()
         ),
         LastEvaluatedGlobalTableName=(
-            Option_Some(Seq(input["LastEvaluatedGlobalTableName"]))
-            if "LastEvaluatedGlobalTableName" in input.keys()
+            Option_Some(Seq(native_input["LastEvaluatedGlobalTableName"]))
+            if "LastEvaluatedGlobalTableName" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_GlobalTable(input):
+def com_amazonaws_dynamodb_GlobalTable(native_input):
     return DafnyGlobalTable(
         GlobalTableName=(
-            Option_Some(Seq(input["GlobalTableName"]))
-            if "GlobalTableName" in input.keys()
+            Option_Some(Seq(native_input["GlobalTableName"]))
+            if "GlobalTableName" in native_input.keys()
             else Option_None()
         ),
         ReplicationGroup=(
@@ -4863,37 +4925,37 @@ def com_amazonaws_dynamodb_GlobalTable(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Replica(
                             list_element
                         )
-                        for list_element in input["ReplicationGroup"]
+                        for list_element in native_input["ReplicationGroup"]
                     ]
                 )
             )
-            if "ReplicationGroup" in input.keys()
+            if "ReplicationGroup" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ListImportsInput(input):
+def com_amazonaws_dynamodb_ListImportsInput(native_input):
     return DafnyListImportsInput(
         TableArn=(
-            Option_Some(Seq(input["TableArn"]))
-            if "TableArn" in input.keys()
+            Option_Some(Seq(native_input["TableArn"]))
+            if "TableArn" in native_input.keys()
             else Option_None()
         ),
         PageSize=(
-            Option_Some(input["PageSize"])
-            if "PageSize" in input.keys()
+            Option_Some(native_input["PageSize"])
+            if "PageSize" in native_input.keys()
             else Option_None()
         ),
         NextToken=(
-            Option_Some(Seq(input["NextToken"]))
-            if "NextToken" in input.keys()
+            Option_Some(Seq(native_input["NextToken"]))
+            if "NextToken" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ListImportsOutput(input):
+def com_amazonaws_dynamodb_ListImportsOutput(native_input):
     return DafnyListImportsOutput(
         ImportSummaryList=(
             Option_Some(
@@ -4902,118 +4964,122 @@ def com_amazonaws_dynamodb_ListImportsOutput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportSummary(
                             list_element
                         )
-                        for list_element in input["ImportSummaryList"]
+                        for list_element in native_input["ImportSummaryList"]
                     ]
                 )
             )
-            if "ImportSummaryList" in input.keys()
+            if "ImportSummaryList" in native_input.keys()
             else Option_None()
         ),
         NextToken=(
-            Option_Some(Seq(input["NextToken"]))
-            if "NextToken" in input.keys()
+            Option_Some(Seq(native_input["NextToken"]))
+            if "NextToken" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ImportSummary(input):
+def com_amazonaws_dynamodb_ImportSummary(native_input):
     return DafnyImportSummary(
         ImportArn=(
-            Option_Some(Seq(input["ImportArn"]))
-            if "ImportArn" in input.keys()
+            Option_Some(Seq(native_input["ImportArn"]))
+            if "ImportArn" in native_input.keys()
             else Option_None()
         ),
         ImportStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ImportStatus(
-                    input["ImportStatus"]
+                    native_input["ImportStatus"]
                 )
             )
-            if "ImportStatus" in input.keys()
+            if "ImportStatus" in native_input.keys()
             else Option_None()
         ),
         TableArn=(
-            Option_Some(Seq(input["TableArn"]))
-            if "TableArn" in input.keys()
+            Option_Some(Seq(native_input["TableArn"]))
+            if "TableArn" in native_input.keys()
             else Option_None()
         ),
         S3BucketSource=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_S3BucketSource(
-                    input["S3BucketSource"]
+                    native_input["S3BucketSource"]
                 )
             )
-            if "S3BucketSource" in input.keys()
+            if "S3BucketSource" in native_input.keys()
             else Option_None()
         ),
         CloudWatchLogGroupArn=(
-            Option_Some(Seq(input["CloudWatchLogGroupArn"]))
-            if "CloudWatchLogGroupArn" in input.keys()
+            Option_Some(Seq(native_input["CloudWatchLogGroupArn"]))
+            if "CloudWatchLogGroupArn" in native_input.keys()
             else Option_None()
         ),
         InputFormat=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_InputFormat(
-                    input["InputFormat"]
+                    native_input["InputFormat"]
                 )
             )
-            if "InputFormat" in input.keys()
+            if "InputFormat" in native_input.keys()
             else Option_None()
         ),
         StartTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "StartTime" in input.keys()
+            if "StartTime" in native_input.keys()
             else Option_None()
         ),
         EndTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "EndTime" in input.keys()
+            if "EndTime" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ListTablesInput(input):
+def com_amazonaws_dynamodb_ListTablesInput(native_input):
     return DafnyListTablesInput(
         ExclusiveStartTableName=(
-            Option_Some(Seq(input["ExclusiveStartTableName"]))
-            if "ExclusiveStartTableName" in input.keys()
+            Option_Some(Seq(native_input["ExclusiveStartTableName"]))
+            if "ExclusiveStartTableName" in native_input.keys()
             else Option_None()
         ),
-        Limit=Option_Some(input["Limit"]) if "Limit" in input.keys() else Option_None(),
+        Limit=(
+            Option_Some(native_input["Limit"])
+            if "Limit" in native_input.keys()
+            else Option_None()
+        ),
     )
 
 
-def com_amazonaws_dynamodb_ListTablesOutput(input):
+def com_amazonaws_dynamodb_ListTablesOutput(native_input):
     return DafnyListTablesOutput(
         TableNames=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in input["TableNames"]])
+                Seq([Seq(list_element) for list_element in native_input["TableNames"]])
             )
-            if "TableNames" in input.keys()
+            if "TableNames" in native_input.keys()
             else Option_None()
         ),
         LastEvaluatedTableName=(
-            Option_Some(Seq(input["LastEvaluatedTableName"]))
-            if "LastEvaluatedTableName" in input.keys()
+            Option_Some(Seq(native_input["LastEvaluatedTableName"]))
+            if "LastEvaluatedTableName" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ListTagsOfResourceInput(input):
+def com_amazonaws_dynamodb_ListTagsOfResourceInput(native_input):
     return DafnyListTagsOfResourceInput(
-        ResourceArn=Seq(input["ResourceArn"]),
+        ResourceArn=Seq(native_input["ResourceArn"]),
         NextToken=(
-            Option_Some(Seq(input["NextToken"]))
-            if "NextToken" in input.keys()
+            Option_Some(Seq(native_input["NextToken"]))
+            if "NextToken" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ListTagsOfResourceOutput(input):
+def com_amazonaws_dynamodb_ListTagsOfResourceOutput(native_input):
     return DafnyListTagsOfResourceOutput(
         Tags=(
             Option_Some(
@@ -5022,24 +5088,24 @@ def com_amazonaws_dynamodb_ListTagsOfResourceOutput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Tag(
                             list_element
                         )
-                        for list_element in input["Tags"]
+                        for list_element in native_input["Tags"]
                     ]
                 )
             )
-            if "Tags" in input.keys()
+            if "Tags" in native_input.keys()
             else Option_None()
         ),
         NextToken=(
-            Option_Some(Seq(input["NextToken"]))
-            if "NextToken" in input.keys()
+            Option_Some(Seq(native_input["NextToken"]))
+            if "NextToken" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_PutItemInput(input):
+def com_amazonaws_dynamodb_PutItemInput(native_input):
     return DafnyPutItemInput(
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
         Item=Map(
             {
                 Seq(
@@ -5047,7 +5113,7 @@ def com_amazonaws_dynamodb_PutItemInput(input):
                 ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
-                for (key, value) in input["Item"].items()
+                for (key, value) in native_input["Item"].items()
             }
         ),
         Expected=(
@@ -5059,52 +5125,52 @@ def com_amazonaws_dynamodb_PutItemInput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExpectedAttributeValue(
                             value
                         )
-                        for (key, value) in input["Expected"].items()
+                        for (key, value) in native_input["Expected"].items()
                     }
                 )
             )
-            if "Expected" in input.keys()
+            if "Expected" in native_input.keys()
             else Option_None()
         ),
         ReturnValues=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValue(
-                    input["ReturnValues"]
+                    native_input["ReturnValues"]
                 )
             )
-            if "ReturnValues" in input.keys()
+            if "ReturnValues" in native_input.keys()
             else Option_None()
         ),
         ReturnConsumedCapacity=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
-                    input["ReturnConsumedCapacity"]
+                    native_input["ReturnConsumedCapacity"]
                 )
             )
-            if "ReturnConsumedCapacity" in input.keys()
+            if "ReturnConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
         ReturnItemCollectionMetrics=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnItemCollectionMetrics(
-                    input["ReturnItemCollectionMetrics"]
+                    native_input["ReturnItemCollectionMetrics"]
                 )
             )
-            if "ReturnItemCollectionMetrics" in input.keys()
+            if "ReturnItemCollectionMetrics" in native_input.keys()
             else Option_None()
         ),
         ConditionalOperator=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConditionalOperator(
-                    input["ConditionalOperator"]
+                    native_input["ConditionalOperator"]
                 )
             )
-            if "ConditionalOperator" in input.keys()
+            if "ConditionalOperator" in native_input.keys()
             else Option_None()
         ),
         ConditionExpression=(
-            Option_Some(Seq(input["ConditionExpression"]))
-            if "ConditionExpression" in input.keys()
+            Option_Some(Seq(native_input["ConditionExpression"]))
+            if "ConditionExpression" in native_input.keys()
             else Option_None()
         ),
         ExpressionAttributeNames=(
@@ -5112,11 +5178,13 @@ def com_amazonaws_dynamodb_PutItemInput(input):
                 Map(
                     {
                         Seq(key): Seq(value)
-                        for (key, value) in input["ExpressionAttributeNames"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeNames"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeNames" in input.keys()
+            if "ExpressionAttributeNames" in native_input.keys()
             else Option_None()
         ),
         ExpressionAttributeValues=(
@@ -5128,17 +5196,19 @@ def com_amazonaws_dynamodb_PutItemInput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["ExpressionAttributeValues"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeValues"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeValues" in input.keys()
+            if "ExpressionAttributeValues" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_PutItemOutput(input):
+def com_amazonaws_dynamodb_PutItemOutput(native_input):
     return DafnyPutItemOutput(
         Attributes=(
             Option_Some(
@@ -5149,62 +5219,71 @@ def com_amazonaws_dynamodb_PutItemOutput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["Attributes"].items()
+                        for (key, value) in native_input["Attributes"].items()
                     }
                 )
             )
-            if "Attributes" in input.keys()
+            if "Attributes" in native_input.keys()
             else Option_None()
         ),
         ConsumedCapacity=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
-                    input["ConsumedCapacity"]
+                    native_input["ConsumedCapacity"]
                 )
             )
-            if "ConsumedCapacity" in input.keys()
+            if "ConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
         ItemCollectionMetrics=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemCollectionMetrics(
-                    input["ItemCollectionMetrics"]
+                    native_input["ItemCollectionMetrics"]
                 )
             )
-            if "ItemCollectionMetrics" in input.keys()
+            if "ItemCollectionMetrics" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_QueryInput(input):
+def com_amazonaws_dynamodb_QueryInput(native_input):
     return DafnyQueryInput(
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
         IndexName=(
-            Option_Some(Seq(input["IndexName"]))
-            if "IndexName" in input.keys()
+            Option_Some(Seq(native_input["IndexName"]))
+            if "IndexName" in native_input.keys()
             else Option_None()
         ),
         Select=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Select(
-                    input["Select"]
+                    native_input["Select"]
                 )
             )
-            if "Select" in input.keys()
+            if "Select" in native_input.keys()
             else Option_None()
         ),
         AttributesToGet=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in input["AttributesToGet"]])
+                Seq(
+                    [
+                        Seq(list_element)
+                        for list_element in native_input["AttributesToGet"]
+                    ]
+                )
             )
-            if "AttributesToGet" in input.keys()
+            if "AttributesToGet" in native_input.keys()
             else Option_None()
         ),
-        Limit=Option_Some(input["Limit"]) if "Limit" in input.keys() else Option_None(),
+        Limit=(
+            Option_Some(native_input["Limit"])
+            if "Limit" in native_input.keys()
+            else Option_None()
+        ),
         ConsistentRead=(
-            Option_Some(input["ConsistentRead"])
-            if "ConsistentRead" in input.keys()
+            Option_Some(native_input["ConsistentRead"])
+            if "ConsistentRead" in native_input.keys()
             else Option_None()
         ),
         KeyConditions=(
@@ -5216,11 +5295,11 @@ def com_amazonaws_dynamodb_QueryInput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Condition(
                             value
                         )
-                        for (key, value) in input["KeyConditions"].items()
+                        for (key, value) in native_input["KeyConditions"].items()
                     }
                 )
             )
-            if "KeyConditions" in input.keys()
+            if "KeyConditions" in native_input.keys()
             else Option_None()
         ),
         QueryFilter=(
@@ -5232,25 +5311,25 @@ def com_amazonaws_dynamodb_QueryInput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Condition(
                             value
                         )
-                        for (key, value) in input["QueryFilter"].items()
+                        for (key, value) in native_input["QueryFilter"].items()
                     }
                 )
             )
-            if "QueryFilter" in input.keys()
+            if "QueryFilter" in native_input.keys()
             else Option_None()
         ),
         ConditionalOperator=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConditionalOperator(
-                    input["ConditionalOperator"]
+                    native_input["ConditionalOperator"]
                 )
             )
-            if "ConditionalOperator" in input.keys()
+            if "ConditionalOperator" in native_input.keys()
             else Option_None()
         ),
         ScanIndexForward=(
-            Option_Some(input["ScanIndexForward"])
-            if "ScanIndexForward" in input.keys()
+            Option_Some(native_input["ScanIndexForward"])
+            if "ScanIndexForward" in native_input.keys()
             else Option_None()
         ),
         ExclusiveStartKey=(
@@ -5262,35 +5341,35 @@ def com_amazonaws_dynamodb_QueryInput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["ExclusiveStartKey"].items()
+                        for (key, value) in native_input["ExclusiveStartKey"].items()
                     }
                 )
             )
-            if "ExclusiveStartKey" in input.keys()
+            if "ExclusiveStartKey" in native_input.keys()
             else Option_None()
         ),
         ReturnConsumedCapacity=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
-                    input["ReturnConsumedCapacity"]
+                    native_input["ReturnConsumedCapacity"]
                 )
             )
-            if "ReturnConsumedCapacity" in input.keys()
+            if "ReturnConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
         ProjectionExpression=(
-            Option_Some(Seq(input["ProjectionExpression"]))
-            if "ProjectionExpression" in input.keys()
+            Option_Some(Seq(native_input["ProjectionExpression"]))
+            if "ProjectionExpression" in native_input.keys()
             else Option_None()
         ),
         FilterExpression=(
-            Option_Some(Seq(input["FilterExpression"]))
-            if "FilterExpression" in input.keys()
+            Option_Some(Seq(native_input["FilterExpression"]))
+            if "FilterExpression" in native_input.keys()
             else Option_None()
         ),
         KeyConditionExpression=(
-            Option_Some(Seq(input["KeyConditionExpression"]))
-            if "KeyConditionExpression" in input.keys()
+            Option_Some(Seq(native_input["KeyConditionExpression"]))
+            if "KeyConditionExpression" in native_input.keys()
             else Option_None()
         ),
         ExpressionAttributeNames=(
@@ -5298,11 +5377,13 @@ def com_amazonaws_dynamodb_QueryInput(input):
                 Map(
                     {
                         Seq(key): Seq(value)
-                        for (key, value) in input["ExpressionAttributeNames"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeNames"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeNames" in input.keys()
+            if "ExpressionAttributeNames" in native_input.keys()
             else Option_None()
         ),
         ExpressionAttributeValues=(
@@ -5314,31 +5395,33 @@ def com_amazonaws_dynamodb_QueryInput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["ExpressionAttributeValues"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeValues"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeValues" in input.keys()
+            if "ExpressionAttributeValues" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_Select(input):
+def com_amazonaws_dynamodb_Select(native_input):
     # Convert Select
-    if input == "ALL_ATTRIBUTES":
+    if native_input == "ALL_ATTRIBUTES":
         return Select_ALL__ATTRIBUTES()
-    elif input == "ALL_PROJECTED_ATTRIBUTES":
+    elif native_input == "ALL_PROJECTED_ATTRIBUTES":
         return Select_ALL__PROJECTED__ATTRIBUTES()
-    elif input == "SPECIFIC_ATTRIBUTES":
+    elif native_input == "SPECIFIC_ATTRIBUTES":
         return Select_SPECIFIC__ATTRIBUTES()
-    elif input == "COUNT":
+    elif native_input == "COUNT":
         return Select_COUNT()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_Condition(input):
+def com_amazonaws_dynamodb_Condition(native_input):
     return DafnyCondition(
         AttributeValueList=(
             Option_Some(
@@ -5347,20 +5430,20 @@ def com_amazonaws_dynamodb_Condition(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             list_element
                         )
-                        for list_element in input["AttributeValueList"]
+                        for list_element in native_input["AttributeValueList"]
                     ]
                 )
             )
-            if "AttributeValueList" in input.keys()
+            if "AttributeValueList" in native_input.keys()
             else Option_None()
         ),
         ComparisonOperator=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ComparisonOperator(
-            input["ComparisonOperator"]
+            native_input["ComparisonOperator"]
         ),
     )
 
 
-def com_amazonaws_dynamodb_QueryOutput(input):
+def com_amazonaws_dynamodb_QueryOutput(native_input):
     return DafnyQueryOutput(
         Items=(
             Option_Some(
@@ -5376,17 +5459,21 @@ def com_amazonaws_dynamodb_QueryOutput(input):
                                 for (key, value) in list_element.items()
                             }
                         )
-                        for list_element in input["Items"]
+                        for list_element in native_input["Items"]
                     ]
                 )
             )
-            if "Items" in input.keys()
+            if "Items" in native_input.keys()
             else Option_None()
         ),
-        Count=Option_Some(input["Count"]) if "Count" in input.keys() else Option_None(),
+        Count=(
+            Option_Some(native_input["Count"])
+            if "Count" in native_input.keys()
+            else Option_None()
+        ),
         ScannedCount=(
-            Option_Some(input["ScannedCount"])
-            if "ScannedCount" in input.keys()
+            Option_Some(native_input["ScannedCount"])
+            if "ScannedCount" in native_input.keys()
             else Option_None()
         ),
         LastEvaluatedKey=(
@@ -5398,36 +5485,36 @@ def com_amazonaws_dynamodb_QueryOutput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["LastEvaluatedKey"].items()
+                        for (key, value) in native_input["LastEvaluatedKey"].items()
                     }
                 )
             )
-            if "LastEvaluatedKey" in input.keys()
+            if "LastEvaluatedKey" in native_input.keys()
             else Option_None()
         ),
         ConsumedCapacity=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
-                    input["ConsumedCapacity"]
+                    native_input["ConsumedCapacity"]
                 )
             )
-            if "ConsumedCapacity" in input.keys()
+            if "ConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_RestoreTableFromBackupInput(input):
+def com_amazonaws_dynamodb_RestoreTableFromBackupInput(native_input):
     return DafnyRestoreTableFromBackupInput(
-        TargetTableName=Seq(input["TargetTableName"]),
-        BackupArn=Seq(input["BackupArn"]),
+        TargetTableName=Seq(native_input["TargetTableName"]),
+        BackupArn=Seq(native_input["BackupArn"]),
         BillingModeOverride=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
-                    input["BillingModeOverride"]
+                    native_input["BillingModeOverride"]
                 )
             )
-            if "BillingModeOverride" in input.keys()
+            if "BillingModeOverride" in native_input.keys()
             else Option_None()
         ),
         GlobalSecondaryIndexOverride=(
@@ -5437,11 +5524,11 @@ def com_amazonaws_dynamodb_RestoreTableFromBackupInput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndex(
                             list_element
                         )
-                        for list_element in input["GlobalSecondaryIndexOverride"]
+                        for list_element in native_input["GlobalSecondaryIndexOverride"]
                     ]
                 )
             )
-            if "GlobalSecondaryIndexOverride" in input.keys()
+            if "GlobalSecondaryIndexOverride" in native_input.keys()
             else Option_None()
         ),
         LocalSecondaryIndexOverride=(
@@ -5451,78 +5538,78 @@ def com_amazonaws_dynamodb_RestoreTableFromBackupInput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_LocalSecondaryIndex(
                             list_element
                         )
-                        for list_element in input["LocalSecondaryIndexOverride"]
+                        for list_element in native_input["LocalSecondaryIndexOverride"]
                     ]
                 )
             )
-            if "LocalSecondaryIndexOverride" in input.keys()
+            if "LocalSecondaryIndexOverride" in native_input.keys()
             else Option_None()
         ),
         ProvisionedThroughputOverride=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
-                    input["ProvisionedThroughputOverride"]
+                    native_input["ProvisionedThroughputOverride"]
                 )
             )
-            if "ProvisionedThroughputOverride" in input.keys()
+            if "ProvisionedThroughputOverride" in native_input.keys()
             else Option_None()
         ),
         SSESpecificationOverride=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSESpecification(
-                    input["SSESpecificationOverride"]
+                    native_input["SSESpecificationOverride"]
                 )
             )
-            if "SSESpecificationOverride" in input.keys()
+            if "SSESpecificationOverride" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_RestoreTableFromBackupOutput(input):
+def com_amazonaws_dynamodb_RestoreTableFromBackupOutput(native_input):
     return DafnyRestoreTableFromBackupOutput(
         TableDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableDescription(
-                    input["TableDescription"]
+                    native_input["TableDescription"]
                 )
             )
-            if "TableDescription" in input.keys()
+            if "TableDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_RestoreTableToPointInTimeInput(input):
+def com_amazonaws_dynamodb_RestoreTableToPointInTimeInput(native_input):
     return DafnyRestoreTableToPointInTimeInput(
         SourceTableArn=(
-            Option_Some(Seq(input["SourceTableArn"]))
-            if "SourceTableArn" in input.keys()
+            Option_Some(Seq(native_input["SourceTableArn"]))
+            if "SourceTableArn" in native_input.keys()
             else Option_None()
         ),
         SourceTableName=(
-            Option_Some(Seq(input["SourceTableName"]))
-            if "SourceTableName" in input.keys()
+            Option_Some(Seq(native_input["SourceTableName"]))
+            if "SourceTableName" in native_input.keys()
             else Option_None()
         ),
-        TargetTableName=Seq(input["TargetTableName"]),
+        TargetTableName=Seq(native_input["TargetTableName"]),
         UseLatestRestorableTime=(
-            Option_Some(input["UseLatestRestorableTime"])
-            if "UseLatestRestorableTime" in input.keys()
+            Option_Some(native_input["UseLatestRestorableTime"])
+            if "UseLatestRestorableTime" in native_input.keys()
             else Option_None()
         ),
         RestoreDateTime=(
             Option_Some(TypeError("TimestampShape not supported"))
-            if "RestoreDateTime" in input.keys()
+            if "RestoreDateTime" in native_input.keys()
             else Option_None()
         ),
         BillingModeOverride=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
-                    input["BillingModeOverride"]
+                    native_input["BillingModeOverride"]
                 )
             )
-            if "BillingModeOverride" in input.keys()
+            if "BillingModeOverride" in native_input.keys()
             else Option_None()
         ),
         GlobalSecondaryIndexOverride=(
@@ -5532,11 +5619,11 @@ def com_amazonaws_dynamodb_RestoreTableToPointInTimeInput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndex(
                             list_element
                         )
-                        for list_element in input["GlobalSecondaryIndexOverride"]
+                        for list_element in native_input["GlobalSecondaryIndexOverride"]
                     ]
                 )
             )
-            if "GlobalSecondaryIndexOverride" in input.keys()
+            if "GlobalSecondaryIndexOverride" in native_input.keys()
             else Option_None()
         ),
         LocalSecondaryIndexOverride=(
@@ -5546,71 +5633,80 @@ def com_amazonaws_dynamodb_RestoreTableToPointInTimeInput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_LocalSecondaryIndex(
                             list_element
                         )
-                        for list_element in input["LocalSecondaryIndexOverride"]
+                        for list_element in native_input["LocalSecondaryIndexOverride"]
                     ]
                 )
             )
-            if "LocalSecondaryIndexOverride" in input.keys()
+            if "LocalSecondaryIndexOverride" in native_input.keys()
             else Option_None()
         ),
         ProvisionedThroughputOverride=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
-                    input["ProvisionedThroughputOverride"]
+                    native_input["ProvisionedThroughputOverride"]
                 )
             )
-            if "ProvisionedThroughputOverride" in input.keys()
+            if "ProvisionedThroughputOverride" in native_input.keys()
             else Option_None()
         ),
         SSESpecificationOverride=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSESpecification(
-                    input["SSESpecificationOverride"]
+                    native_input["SSESpecificationOverride"]
                 )
             )
-            if "SSESpecificationOverride" in input.keys()
+            if "SSESpecificationOverride" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_RestoreTableToPointInTimeOutput(input):
+def com_amazonaws_dynamodb_RestoreTableToPointInTimeOutput(native_input):
     return DafnyRestoreTableToPointInTimeOutput(
         TableDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableDescription(
-                    input["TableDescription"]
+                    native_input["TableDescription"]
                 )
             )
-            if "TableDescription" in input.keys()
+            if "TableDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ScanInput(input):
+def com_amazonaws_dynamodb_ScanInput(native_input):
     return DafnyScanInput(
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
         IndexName=(
-            Option_Some(Seq(input["IndexName"]))
-            if "IndexName" in input.keys()
+            Option_Some(Seq(native_input["IndexName"]))
+            if "IndexName" in native_input.keys()
             else Option_None()
         ),
         AttributesToGet=(
             Option_Some(
-                Seq([Seq(list_element) for list_element in input["AttributesToGet"]])
+                Seq(
+                    [
+                        Seq(list_element)
+                        for list_element in native_input["AttributesToGet"]
+                    ]
+                )
             )
-            if "AttributesToGet" in input.keys()
+            if "AttributesToGet" in native_input.keys()
             else Option_None()
         ),
-        Limit=Option_Some(input["Limit"]) if "Limit" in input.keys() else Option_None(),
+        Limit=(
+            Option_Some(native_input["Limit"])
+            if "Limit" in native_input.keys()
+            else Option_None()
+        ),
         Select=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Select(
-                    input["Select"]
+                    native_input["Select"]
                 )
             )
-            if "Select" in input.keys()
+            if "Select" in native_input.keys()
             else Option_None()
         ),
         ScanFilter=(
@@ -5622,20 +5718,20 @@ def com_amazonaws_dynamodb_ScanInput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Condition(
                             value
                         )
-                        for (key, value) in input["ScanFilter"].items()
+                        for (key, value) in native_input["ScanFilter"].items()
                     }
                 )
             )
-            if "ScanFilter" in input.keys()
+            if "ScanFilter" in native_input.keys()
             else Option_None()
         ),
         ConditionalOperator=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConditionalOperator(
-                    input["ConditionalOperator"]
+                    native_input["ConditionalOperator"]
                 )
             )
-            if "ConditionalOperator" in input.keys()
+            if "ConditionalOperator" in native_input.keys()
             else Option_None()
         ),
         ExclusiveStartKey=(
@@ -5647,40 +5743,40 @@ def com_amazonaws_dynamodb_ScanInput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["ExclusiveStartKey"].items()
+                        for (key, value) in native_input["ExclusiveStartKey"].items()
                     }
                 )
             )
-            if "ExclusiveStartKey" in input.keys()
+            if "ExclusiveStartKey" in native_input.keys()
             else Option_None()
         ),
         ReturnConsumedCapacity=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
-                    input["ReturnConsumedCapacity"]
+                    native_input["ReturnConsumedCapacity"]
                 )
             )
-            if "ReturnConsumedCapacity" in input.keys()
+            if "ReturnConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
         TotalSegments=(
-            Option_Some(input["TotalSegments"])
-            if "TotalSegments" in input.keys()
+            Option_Some(native_input["TotalSegments"])
+            if "TotalSegments" in native_input.keys()
             else Option_None()
         ),
         Segment=(
-            Option_Some(input["Segment"])
-            if "Segment" in input.keys()
+            Option_Some(native_input["Segment"])
+            if "Segment" in native_input.keys()
             else Option_None()
         ),
         ProjectionExpression=(
-            Option_Some(Seq(input["ProjectionExpression"]))
-            if "ProjectionExpression" in input.keys()
+            Option_Some(Seq(native_input["ProjectionExpression"]))
+            if "ProjectionExpression" in native_input.keys()
             else Option_None()
         ),
         FilterExpression=(
-            Option_Some(Seq(input["FilterExpression"]))
-            if "FilterExpression" in input.keys()
+            Option_Some(Seq(native_input["FilterExpression"]))
+            if "FilterExpression" in native_input.keys()
             else Option_None()
         ),
         ExpressionAttributeNames=(
@@ -5688,11 +5784,13 @@ def com_amazonaws_dynamodb_ScanInput(input):
                 Map(
                     {
                         Seq(key): Seq(value)
-                        for (key, value) in input["ExpressionAttributeNames"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeNames"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeNames" in input.keys()
+            if "ExpressionAttributeNames" in native_input.keys()
             else Option_None()
         ),
         ExpressionAttributeValues=(
@@ -5704,22 +5802,24 @@ def com_amazonaws_dynamodb_ScanInput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["ExpressionAttributeValues"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeValues"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeValues" in input.keys()
+            if "ExpressionAttributeValues" in native_input.keys()
             else Option_None()
         ),
         ConsistentRead=(
-            Option_Some(input["ConsistentRead"])
-            if "ConsistentRead" in input.keys()
+            Option_Some(native_input["ConsistentRead"])
+            if "ConsistentRead" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ScanOutput(input):
+def com_amazonaws_dynamodb_ScanOutput(native_input):
     return DafnyScanOutput(
         Items=(
             Option_Some(
@@ -5735,17 +5835,21 @@ def com_amazonaws_dynamodb_ScanOutput(input):
                                 for (key, value) in list_element.items()
                             }
                         )
-                        for list_element in input["Items"]
+                        for list_element in native_input["Items"]
                     ]
                 )
             )
-            if "Items" in input.keys()
+            if "Items" in native_input.keys()
             else Option_None()
         ),
-        Count=Option_Some(input["Count"]) if "Count" in input.keys() else Option_None(),
+        Count=(
+            Option_Some(native_input["Count"])
+            if "Count" in native_input.keys()
+            else Option_None()
+        ),
         ScannedCount=(
-            Option_Some(input["ScannedCount"])
-            if "ScannedCount" in input.keys()
+            Option_Some(native_input["ScannedCount"])
+            if "ScannedCount" in native_input.keys()
             else Option_None()
         ),
         LastEvaluatedKey=(
@@ -5757,70 +5861,70 @@ def com_amazonaws_dynamodb_ScanOutput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["LastEvaluatedKey"].items()
+                        for (key, value) in native_input["LastEvaluatedKey"].items()
                     }
                 )
             )
-            if "LastEvaluatedKey" in input.keys()
+            if "LastEvaluatedKey" in native_input.keys()
             else Option_None()
         ),
         ConsumedCapacity=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
-                    input["ConsumedCapacity"]
+                    native_input["ConsumedCapacity"]
                 )
             )
-            if "ConsumedCapacity" in input.keys()
+            if "ConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_TagResourceInput(input):
+def com_amazonaws_dynamodb_TagResourceInput(native_input):
     return DafnyTagResourceInput(
-        ResourceArn=Seq(input["ResourceArn"]),
+        ResourceArn=Seq(native_input["ResourceArn"]),
         Tags=Seq(
             [
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Tag(
                     list_element
                 )
-                for list_element in input["Tags"]
+                for list_element in native_input["Tags"]
             ]
         ),
     )
 
 
-def com_amazonaws_dynamodb_TransactGetItemsInput(input):
+def com_amazonaws_dynamodb_TransactGetItemsInput(native_input):
     return DafnyTransactGetItemsInput(
         TransactItems=Seq(
             [
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TransactGetItem(
                     list_element
                 )
-                for list_element in input["TransactItems"]
+                for list_element in native_input["TransactItems"]
             ]
         ),
         ReturnConsumedCapacity=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
-                    input["ReturnConsumedCapacity"]
+                    native_input["ReturnConsumedCapacity"]
                 )
             )
-            if "ReturnConsumedCapacity" in input.keys()
+            if "ReturnConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_TransactGetItem(input):
+def com_amazonaws_dynamodb_TransactGetItem(native_input):
     return DafnyTransactGetItem(
         Get=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Get(
-            input["Get"]
+            native_input["Get"]
         ),
     )
 
 
-def com_amazonaws_dynamodb_Get(input):
+def com_amazonaws_dynamodb_Get(native_input):
     return DafnyGet(
         Key=Map(
             {
@@ -5829,13 +5933,13 @@ def com_amazonaws_dynamodb_Get(input):
                 ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
-                for (key, value) in input["Key"].items()
+                for (key, value) in native_input["Key"].items()
             }
         ),
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
         ProjectionExpression=(
-            Option_Some(Seq(input["ProjectionExpression"]))
-            if "ProjectionExpression" in input.keys()
+            Option_Some(Seq(native_input["ProjectionExpression"]))
+            if "ProjectionExpression" in native_input.keys()
             else Option_None()
         ),
         ExpressionAttributeNames=(
@@ -5843,17 +5947,19 @@ def com_amazonaws_dynamodb_Get(input):
                 Map(
                     {
                         Seq(key): Seq(value)
-                        for (key, value) in input["ExpressionAttributeNames"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeNames"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeNames" in input.keys()
+            if "ExpressionAttributeNames" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_TransactGetItemsOutput(input):
+def com_amazonaws_dynamodb_TransactGetItemsOutput(native_input):
     return DafnyTransactGetItemsOutput(
         ConsumedCapacity=(
             Option_Some(
@@ -5862,11 +5968,11 @@ def com_amazonaws_dynamodb_TransactGetItemsOutput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
                             list_element
                         )
-                        for list_element in input["ConsumedCapacity"]
+                        for list_element in native_input["ConsumedCapacity"]
                     ]
                 )
             )
-            if "ConsumedCapacity" in input.keys()
+            if "ConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
         Responses=(
@@ -5876,94 +5982,94 @@ def com_amazonaws_dynamodb_TransactGetItemsOutput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemResponse(
                             list_element
                         )
-                        for list_element in input["Responses"]
+                        for list_element in native_input["Responses"]
                     ]
                 )
             )
-            if "Responses" in input.keys()
+            if "Responses" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_TransactWriteItemsInput(input):
+def com_amazonaws_dynamodb_TransactWriteItemsInput(native_input):
     return DafnyTransactWriteItemsInput(
         TransactItems=Seq(
             [
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TransactWriteItem(
                     list_element
                 )
-                for list_element in input["TransactItems"]
+                for list_element in native_input["TransactItems"]
             ]
         ),
         ReturnConsumedCapacity=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
-                    input["ReturnConsumedCapacity"]
+                    native_input["ReturnConsumedCapacity"]
                 )
             )
-            if "ReturnConsumedCapacity" in input.keys()
+            if "ReturnConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
         ReturnItemCollectionMetrics=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnItemCollectionMetrics(
-                    input["ReturnItemCollectionMetrics"]
+                    native_input["ReturnItemCollectionMetrics"]
                 )
             )
-            if "ReturnItemCollectionMetrics" in input.keys()
+            if "ReturnItemCollectionMetrics" in native_input.keys()
             else Option_None()
         ),
         ClientRequestToken=(
-            Option_Some(Seq(input["ClientRequestToken"]))
-            if "ClientRequestToken" in input.keys()
+            Option_Some(Seq(native_input["ClientRequestToken"]))
+            if "ClientRequestToken" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_TransactWriteItem(input):
+def com_amazonaws_dynamodb_TransactWriteItem(native_input):
     return DafnyTransactWriteItem(
         ConditionCheck=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConditionCheck(
-                    input["ConditionCheck"]
+                    native_input["ConditionCheck"]
                 )
             )
-            if "ConditionCheck" in input.keys()
+            if "ConditionCheck" in native_input.keys()
             else Option_None()
         ),
         Put=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Put(
-                    input["Put"]
+                    native_input["Put"]
                 )
             )
-            if "Put" in input.keys()
+            if "Put" in native_input.keys()
             else Option_None()
         ),
         Delete=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Delete(
-                    input["Delete"]
+                    native_input["Delete"]
                 )
             )
-            if "Delete" in input.keys()
+            if "Delete" in native_input.keys()
             else Option_None()
         ),
         Update=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Update(
-                    input["Update"]
+                    native_input["Update"]
                 )
             )
-            if "Update" in input.keys()
+            if "Update" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ConditionCheck(input):
+def com_amazonaws_dynamodb_ConditionCheck(native_input):
     return DafnyConditionCheck(
         Key=Map(
             {
@@ -5972,21 +6078,23 @@ def com_amazonaws_dynamodb_ConditionCheck(input):
                 ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
-                for (key, value) in input["Key"].items()
+                for (key, value) in native_input["Key"].items()
             }
         ),
-        TableName=Seq(input["TableName"]),
-        ConditionExpression=Seq(input["ConditionExpression"]),
+        TableName=Seq(native_input["TableName"]),
+        ConditionExpression=Seq(native_input["ConditionExpression"]),
         ExpressionAttributeNames=(
             Option_Some(
                 Map(
                     {
                         Seq(key): Seq(value)
-                        for (key, value) in input["ExpressionAttributeNames"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeNames"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeNames" in input.keys()
+            if "ExpressionAttributeNames" in native_input.keys()
             else Option_None()
         ),
         ExpressionAttributeValues=(
@@ -5998,26 +6106,28 @@ def com_amazonaws_dynamodb_ConditionCheck(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["ExpressionAttributeValues"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeValues"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeValues" in input.keys()
+            if "ExpressionAttributeValues" in native_input.keys()
             else Option_None()
         ),
         ReturnValuesOnConditionCheckFailure=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
-                    input["ReturnValuesOnConditionCheckFailure"]
+                    native_input["ReturnValuesOnConditionCheckFailure"]
                 )
             )
-            if "ReturnValuesOnConditionCheckFailure" in input.keys()
+            if "ReturnValuesOnConditionCheckFailure" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_Put(input):
+def com_amazonaws_dynamodb_Put(native_input):
     return DafnyPut(
         Item=Map(
             {
@@ -6026,13 +6136,13 @@ def com_amazonaws_dynamodb_Put(input):
                 ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
-                for (key, value) in input["Item"].items()
+                for (key, value) in native_input["Item"].items()
             }
         ),
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
         ConditionExpression=(
-            Option_Some(Seq(input["ConditionExpression"]))
-            if "ConditionExpression" in input.keys()
+            Option_Some(Seq(native_input["ConditionExpression"]))
+            if "ConditionExpression" in native_input.keys()
             else Option_None()
         ),
         ExpressionAttributeNames=(
@@ -6040,11 +6150,13 @@ def com_amazonaws_dynamodb_Put(input):
                 Map(
                     {
                         Seq(key): Seq(value)
-                        for (key, value) in input["ExpressionAttributeNames"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeNames"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeNames" in input.keys()
+            if "ExpressionAttributeNames" in native_input.keys()
             else Option_None()
         ),
         ExpressionAttributeValues=(
@@ -6056,26 +6168,28 @@ def com_amazonaws_dynamodb_Put(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["ExpressionAttributeValues"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeValues"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeValues" in input.keys()
+            if "ExpressionAttributeValues" in native_input.keys()
             else Option_None()
         ),
         ReturnValuesOnConditionCheckFailure=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
-                    input["ReturnValuesOnConditionCheckFailure"]
+                    native_input["ReturnValuesOnConditionCheckFailure"]
                 )
             )
-            if "ReturnValuesOnConditionCheckFailure" in input.keys()
+            if "ReturnValuesOnConditionCheckFailure" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_Delete(input):
+def com_amazonaws_dynamodb_Delete(native_input):
     return DafnyDelete(
         Key=Map(
             {
@@ -6084,13 +6198,13 @@ def com_amazonaws_dynamodb_Delete(input):
                 ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
-                for (key, value) in input["Key"].items()
+                for (key, value) in native_input["Key"].items()
             }
         ),
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
         ConditionExpression=(
-            Option_Some(Seq(input["ConditionExpression"]))
-            if "ConditionExpression" in input.keys()
+            Option_Some(Seq(native_input["ConditionExpression"]))
+            if "ConditionExpression" in native_input.keys()
             else Option_None()
         ),
         ExpressionAttributeNames=(
@@ -6098,11 +6212,13 @@ def com_amazonaws_dynamodb_Delete(input):
                 Map(
                     {
                         Seq(key): Seq(value)
-                        for (key, value) in input["ExpressionAttributeNames"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeNames"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeNames" in input.keys()
+            if "ExpressionAttributeNames" in native_input.keys()
             else Option_None()
         ),
         ExpressionAttributeValues=(
@@ -6114,26 +6230,28 @@ def com_amazonaws_dynamodb_Delete(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["ExpressionAttributeValues"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeValues"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeValues" in input.keys()
+            if "ExpressionAttributeValues" in native_input.keys()
             else Option_None()
         ),
         ReturnValuesOnConditionCheckFailure=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
-                    input["ReturnValuesOnConditionCheckFailure"]
+                    native_input["ReturnValuesOnConditionCheckFailure"]
                 )
             )
-            if "ReturnValuesOnConditionCheckFailure" in input.keys()
+            if "ReturnValuesOnConditionCheckFailure" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_Update(input):
+def com_amazonaws_dynamodb_Update(native_input):
     return DafnyUpdate(
         Key=Map(
             {
@@ -6142,14 +6260,14 @@ def com_amazonaws_dynamodb_Update(input):
                 ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
-                for (key, value) in input["Key"].items()
+                for (key, value) in native_input["Key"].items()
             }
         ),
-        UpdateExpression=Seq(input["UpdateExpression"]),
-        TableName=Seq(input["TableName"]),
+        UpdateExpression=Seq(native_input["UpdateExpression"]),
+        TableName=Seq(native_input["TableName"]),
         ConditionExpression=(
-            Option_Some(Seq(input["ConditionExpression"]))
-            if "ConditionExpression" in input.keys()
+            Option_Some(Seq(native_input["ConditionExpression"]))
+            if "ConditionExpression" in native_input.keys()
             else Option_None()
         ),
         ExpressionAttributeNames=(
@@ -6157,11 +6275,13 @@ def com_amazonaws_dynamodb_Update(input):
                 Map(
                     {
                         Seq(key): Seq(value)
-                        for (key, value) in input["ExpressionAttributeNames"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeNames"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeNames" in input.keys()
+            if "ExpressionAttributeNames" in native_input.keys()
             else Option_None()
         ),
         ExpressionAttributeValues=(
@@ -6173,36 +6293,38 @@ def com_amazonaws_dynamodb_Update(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["ExpressionAttributeValues"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeValues"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeValues" in input.keys()
+            if "ExpressionAttributeValues" in native_input.keys()
             else Option_None()
         ),
         ReturnValuesOnConditionCheckFailure=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
-                    input["ReturnValuesOnConditionCheckFailure"]
+                    native_input["ReturnValuesOnConditionCheckFailure"]
                 )
             )
-            if "ReturnValuesOnConditionCheckFailure" in input.keys()
+            if "ReturnValuesOnConditionCheckFailure" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(input):
+def com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(native_input):
     # Convert ReturnValuesOnConditionCheckFailure
-    if input == "ALL_OLD":
+    if native_input == "ALL_OLD":
         return ReturnValuesOnConditionCheckFailure_ALL__OLD()
-    elif input == "NONE":
+    elif native_input == "NONE":
         return ReturnValuesOnConditionCheckFailure_NONE()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_TransactWriteItemsOutput(input):
+def com_amazonaws_dynamodb_TransactWriteItemsOutput(native_input):
     return DafnyTransactWriteItemsOutput(
         ConsumedCapacity=(
             Option_Some(
@@ -6211,11 +6333,11 @@ def com_amazonaws_dynamodb_TransactWriteItemsOutput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
                             list_element
                         )
-                        for list_element in input["ConsumedCapacity"]
+                        for list_element in native_input["ConsumedCapacity"]
                     ]
                 )
             )
-            if "ConsumedCapacity" in input.keys()
+            if "ConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
         ItemCollectionMetrics=(
@@ -6230,190 +6352,192 @@ def com_amazonaws_dynamodb_TransactWriteItemsOutput(input):
                                 for list_element in value
                             ]
                         )
-                        for (key, value) in input["ItemCollectionMetrics"].items()
+                        for (key, value) in native_input[
+                            "ItemCollectionMetrics"
+                        ].items()
                     }
                 )
             )
-            if "ItemCollectionMetrics" in input.keys()
+            if "ItemCollectionMetrics" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_UntagResourceInput(input):
+def com_amazonaws_dynamodb_UntagResourceInput(native_input):
     return DafnyUntagResourceInput(
-        ResourceArn=Seq(input["ResourceArn"]),
-        TagKeys=Seq([Seq(list_element) for list_element in input["TagKeys"]]),
+        ResourceArn=Seq(native_input["ResourceArn"]),
+        TagKeys=Seq([Seq(list_element) for list_element in native_input["TagKeys"]]),
     )
 
 
-def com_amazonaws_dynamodb_UpdateContinuousBackupsInput(input):
+def com_amazonaws_dynamodb_UpdateContinuousBackupsInput(native_input):
     return DafnyUpdateContinuousBackupsInput(
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
         PointInTimeRecoverySpecification=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_PointInTimeRecoverySpecification(
-            input["PointInTimeRecoverySpecification"]
+            native_input["PointInTimeRecoverySpecification"]
         ),
     )
 
 
-def com_amazonaws_dynamodb_PointInTimeRecoverySpecification(input):
+def com_amazonaws_dynamodb_PointInTimeRecoverySpecification(native_input):
     return DafnyPointInTimeRecoverySpecification(
-        PointInTimeRecoveryEnabled=input["PointInTimeRecoveryEnabled"],
+        PointInTimeRecoveryEnabled=native_input["PointInTimeRecoveryEnabled"],
     )
 
 
-def com_amazonaws_dynamodb_UpdateContinuousBackupsOutput(input):
+def com_amazonaws_dynamodb_UpdateContinuousBackupsOutput(native_input):
     return DafnyUpdateContinuousBackupsOutput(
         ContinuousBackupsDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContinuousBackupsDescription(
-                    input["ContinuousBackupsDescription"]
+                    native_input["ContinuousBackupsDescription"]
                 )
             )
-            if "ContinuousBackupsDescription" in input.keys()
+            if "ContinuousBackupsDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_UpdateContributorInsightsInput(input):
+def com_amazonaws_dynamodb_UpdateContributorInsightsInput(native_input):
     return DafnyUpdateContributorInsightsInput(
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
         IndexName=(
-            Option_Some(Seq(input["IndexName"]))
-            if "IndexName" in input.keys()
+            Option_Some(Seq(native_input["IndexName"]))
+            if "IndexName" in native_input.keys()
             else Option_None()
         ),
         ContributorInsightsAction=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContributorInsightsAction(
-            input["ContributorInsightsAction"]
+            native_input["ContributorInsightsAction"]
         ),
     )
 
 
-def com_amazonaws_dynamodb_ContributorInsightsAction(input):
+def com_amazonaws_dynamodb_ContributorInsightsAction(native_input):
     # Convert ContributorInsightsAction
-    if input == "ENABLE":
+    if native_input == "ENABLE":
         return ContributorInsightsAction_ENABLE()
-    elif input == "DISABLE":
+    elif native_input == "DISABLE":
         return ContributorInsightsAction_DISABLE()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_UpdateContributorInsightsOutput(input):
+def com_amazonaws_dynamodb_UpdateContributorInsightsOutput(native_input):
     return DafnyUpdateContributorInsightsOutput(
         TableName=(
-            Option_Some(Seq(input["TableName"]))
-            if "TableName" in input.keys()
+            Option_Some(Seq(native_input["TableName"]))
+            if "TableName" in native_input.keys()
             else Option_None()
         ),
         IndexName=(
-            Option_Some(Seq(input["IndexName"]))
-            if "IndexName" in input.keys()
+            Option_Some(Seq(native_input["IndexName"]))
+            if "IndexName" in native_input.keys()
             else Option_None()
         ),
         ContributorInsightsStatus=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ContributorInsightsStatus(
-                    input["ContributorInsightsStatus"]
+                    native_input["ContributorInsightsStatus"]
                 )
             )
-            if "ContributorInsightsStatus" in input.keys()
+            if "ContributorInsightsStatus" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_UpdateGlobalTableInput(input):
+def com_amazonaws_dynamodb_UpdateGlobalTableInput(native_input):
     return DafnyUpdateGlobalTableInput(
-        GlobalTableName=Seq(input["GlobalTableName"]),
+        GlobalTableName=Seq(native_input["GlobalTableName"]),
         ReplicaUpdates=Seq(
             [
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaUpdate(
                     list_element
                 )
-                for list_element in input["ReplicaUpdates"]
+                for list_element in native_input["ReplicaUpdates"]
             ]
         ),
     )
 
 
-def com_amazonaws_dynamodb_ReplicaUpdate(input):
+def com_amazonaws_dynamodb_ReplicaUpdate(native_input):
     return DafnyReplicaUpdate(
         Create=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CreateReplicaAction(
-                    input["Create"]
+                    native_input["Create"]
                 )
             )
-            if "Create" in input.keys()
+            if "Create" in native_input.keys()
             else Option_None()
         ),
         Delete=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DeleteReplicaAction(
-                    input["Delete"]
+                    native_input["Delete"]
                 )
             )
-            if "Delete" in input.keys()
+            if "Delete" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_CreateReplicaAction(input):
+def com_amazonaws_dynamodb_CreateReplicaAction(native_input):
     return DafnyCreateReplicaAction(
-        RegionName=Seq(input["RegionName"]),
+        RegionName=Seq(native_input["RegionName"]),
     )
 
 
-def com_amazonaws_dynamodb_DeleteReplicaAction(input):
+def com_amazonaws_dynamodb_DeleteReplicaAction(native_input):
     return DafnyDeleteReplicaAction(
-        RegionName=Seq(input["RegionName"]),
+        RegionName=Seq(native_input["RegionName"]),
     )
 
 
-def com_amazonaws_dynamodb_UpdateGlobalTableOutput(input):
+def com_amazonaws_dynamodb_UpdateGlobalTableOutput(native_input):
     return DafnyUpdateGlobalTableOutput(
         GlobalTableDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTableDescription(
-                    input["GlobalTableDescription"]
+                    native_input["GlobalTableDescription"]
                 )
             )
-            if "GlobalTableDescription" in input.keys()
+            if "GlobalTableDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_UpdateGlobalTableSettingsInput(input):
+def com_amazonaws_dynamodb_UpdateGlobalTableSettingsInput(native_input):
     return DafnyUpdateGlobalTableSettingsInput(
-        GlobalTableName=Seq(input["GlobalTableName"]),
+        GlobalTableName=Seq(native_input["GlobalTableName"]),
         GlobalTableBillingMode=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
-                    input["GlobalTableBillingMode"]
+                    native_input["GlobalTableBillingMode"]
                 )
             )
-            if "GlobalTableBillingMode" in input.keys()
+            if "GlobalTableBillingMode" in native_input.keys()
             else Option_None()
         ),
         GlobalTableProvisionedWriteCapacityUnits=(
-            Option_Some(input["GlobalTableProvisionedWriteCapacityUnits"])
-            if "GlobalTableProvisionedWriteCapacityUnits" in input.keys()
+            Option_Some(native_input["GlobalTableProvisionedWriteCapacityUnits"])
+            if "GlobalTableProvisionedWriteCapacityUnits" in native_input.keys()
             else Option_None()
         ),
         GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
-                    input[
+                    native_input[
                         "GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate"
                     ]
                 )
             )
             if "GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate"
-            in input.keys()
+            in native_input.keys()
             else Option_None()
         ),
         GlobalTableGlobalSecondaryIndexSettingsUpdate=(
@@ -6423,13 +6547,13 @@ def com_amazonaws_dynamodb_UpdateGlobalTableSettingsInput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalTableGlobalSecondaryIndexSettingsUpdate(
                             list_element
                         )
-                        for list_element in input[
+                        for list_element in native_input[
                             "GlobalTableGlobalSecondaryIndexSettingsUpdate"
                         ]
                     ]
                 )
             )
-            if "GlobalTableGlobalSecondaryIndexSettingsUpdate" in input.keys()
+            if "GlobalTableGlobalSecondaryIndexSettingsUpdate" in native_input.keys()
             else Option_None()
         ),
         ReplicaSettingsUpdate=(
@@ -6439,121 +6563,125 @@ def com_amazonaws_dynamodb_UpdateGlobalTableSettingsInput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaSettingsUpdate(
                             list_element
                         )
-                        for list_element in input["ReplicaSettingsUpdate"]
+                        for list_element in native_input["ReplicaSettingsUpdate"]
                     ]
                 )
             )
-            if "ReplicaSettingsUpdate" in input.keys()
+            if "ReplicaSettingsUpdate" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_AutoScalingSettingsUpdate(input):
+def com_amazonaws_dynamodb_AutoScalingSettingsUpdate(native_input):
     return DafnyAutoScalingSettingsUpdate(
         MinimumUnits=(
-            Option_Some(input["MinimumUnits"])
-            if "MinimumUnits" in input.keys()
+            Option_Some(native_input["MinimumUnits"])
+            if "MinimumUnits" in native_input.keys()
             else Option_None()
         ),
         MaximumUnits=(
-            Option_Some(input["MaximumUnits"])
-            if "MaximumUnits" in input.keys()
+            Option_Some(native_input["MaximumUnits"])
+            if "MaximumUnits" in native_input.keys()
             else Option_None()
         ),
         AutoScalingDisabled=(
-            Option_Some(input["AutoScalingDisabled"])
-            if "AutoScalingDisabled" in input.keys()
+            Option_Some(native_input["AutoScalingDisabled"])
+            if "AutoScalingDisabled" in native_input.keys()
             else Option_None()
         ),
         AutoScalingRoleArn=(
-            Option_Some(Seq(input["AutoScalingRoleArn"]))
-            if "AutoScalingRoleArn" in input.keys()
+            Option_Some(Seq(native_input["AutoScalingRoleArn"]))
+            if "AutoScalingRoleArn" in native_input.keys()
             else Option_None()
         ),
         ScalingPolicyUpdate=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingPolicyUpdate(
-                    input["ScalingPolicyUpdate"]
+                    native_input["ScalingPolicyUpdate"]
                 )
             )
-            if "ScalingPolicyUpdate" in input.keys()
+            if "ScalingPolicyUpdate" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_AutoScalingPolicyUpdate(input):
+def com_amazonaws_dynamodb_AutoScalingPolicyUpdate(native_input):
     return DafnyAutoScalingPolicyUpdate(
         PolicyName=(
-            Option_Some(Seq(input["PolicyName"]))
-            if "PolicyName" in input.keys()
+            Option_Some(Seq(native_input["PolicyName"]))
+            if "PolicyName" in native_input.keys()
             else Option_None()
         ),
         TargetTrackingScalingPolicyConfiguration=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingTargetTrackingScalingPolicyConfigurationUpdate(
-            input["TargetTrackingScalingPolicyConfiguration"]
+            native_input["TargetTrackingScalingPolicyConfiguration"]
         ),
     )
 
 
 def com_amazonaws_dynamodb_AutoScalingTargetTrackingScalingPolicyConfigurationUpdate(
-    input,
+    native_input,
 ):
     return DafnyAutoScalingTargetTrackingScalingPolicyConfigurationUpdate(
         DisableScaleIn=(
-            Option_Some(input["DisableScaleIn"])
-            if "DisableScaleIn" in input.keys()
+            Option_Some(native_input["DisableScaleIn"])
+            if "DisableScaleIn" in native_input.keys()
             else Option_None()
         ),
         ScaleInCooldown=(
-            Option_Some(input["ScaleInCooldown"])
-            if "ScaleInCooldown" in input.keys()
+            Option_Some(native_input["ScaleInCooldown"])
+            if "ScaleInCooldown" in native_input.keys()
             else Option_None()
         ),
         ScaleOutCooldown=(
-            Option_Some(input["ScaleOutCooldown"])
-            if "ScaleOutCooldown" in input.keys()
+            Option_Some(native_input["ScaleOutCooldown"])
+            if "ScaleOutCooldown" in native_input.keys()
             else Option_None()
         ),
-        TargetValue=input["TargetValue"],
+        TargetValue=native_input["TargetValue"],
     )
 
 
-def com_amazonaws_dynamodb_GlobalTableGlobalSecondaryIndexSettingsUpdate(input):
+def com_amazonaws_dynamodb_GlobalTableGlobalSecondaryIndexSettingsUpdate(native_input):
     return DafnyGlobalTableGlobalSecondaryIndexSettingsUpdate(
-        IndexName=Seq(input["IndexName"]),
+        IndexName=Seq(native_input["IndexName"]),
         ProvisionedWriteCapacityUnits=(
-            Option_Some(input["ProvisionedWriteCapacityUnits"])
-            if "ProvisionedWriteCapacityUnits" in input.keys()
+            Option_Some(native_input["ProvisionedWriteCapacityUnits"])
+            if "ProvisionedWriteCapacityUnits" in native_input.keys()
             else Option_None()
         ),
         ProvisionedWriteCapacityAutoScalingSettingsUpdate=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
-                    input["ProvisionedWriteCapacityAutoScalingSettingsUpdate"]
+                    native_input["ProvisionedWriteCapacityAutoScalingSettingsUpdate"]
                 )
             )
-            if "ProvisionedWriteCapacityAutoScalingSettingsUpdate" in input.keys()
+            if "ProvisionedWriteCapacityAutoScalingSettingsUpdate"
+            in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ReplicaSettingsUpdate(input):
+def com_amazonaws_dynamodb_ReplicaSettingsUpdate(native_input):
     return DafnyReplicaSettingsUpdate(
-        RegionName=Seq(input["RegionName"]),
+        RegionName=Seq(native_input["RegionName"]),
         ReplicaProvisionedReadCapacityUnits=(
-            Option_Some(input["ReplicaProvisionedReadCapacityUnits"])
-            if "ReplicaProvisionedReadCapacityUnits" in input.keys()
+            Option_Some(native_input["ReplicaProvisionedReadCapacityUnits"])
+            if "ReplicaProvisionedReadCapacityUnits" in native_input.keys()
             else Option_None()
         ),
         ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
-                    input["ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate"]
+                    native_input[
+                        "ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate"
+                    ]
                 )
             )
-            if "ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate" in input.keys()
+            if "ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate"
+            in native_input.keys()
             else Option_None()
         ),
         ReplicaGlobalSecondaryIndexSettingsUpdate=(
@@ -6563,52 +6691,52 @@ def com_amazonaws_dynamodb_ReplicaSettingsUpdate(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsUpdate(
                             list_element
                         )
-                        for list_element in input[
+                        for list_element in native_input[
                             "ReplicaGlobalSecondaryIndexSettingsUpdate"
                         ]
                     ]
                 )
             )
-            if "ReplicaGlobalSecondaryIndexSettingsUpdate" in input.keys()
+            if "ReplicaGlobalSecondaryIndexSettingsUpdate" in native_input.keys()
             else Option_None()
         ),
         ReplicaTableClass=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClass(
-                    input["ReplicaTableClass"]
+                    native_input["ReplicaTableClass"]
                 )
             )
-            if "ReplicaTableClass" in input.keys()
+            if "ReplicaTableClass" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsUpdate(input):
+def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexSettingsUpdate(native_input):
     return DafnyReplicaGlobalSecondaryIndexSettingsUpdate(
-        IndexName=Seq(input["IndexName"]),
+        IndexName=Seq(native_input["IndexName"]),
         ProvisionedReadCapacityUnits=(
-            Option_Some(input["ProvisionedReadCapacityUnits"])
-            if "ProvisionedReadCapacityUnits" in input.keys()
+            Option_Some(native_input["ProvisionedReadCapacityUnits"])
+            if "ProvisionedReadCapacityUnits" in native_input.keys()
             else Option_None()
         ),
         ProvisionedReadCapacityAutoScalingSettingsUpdate=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
-                    input["ProvisionedReadCapacityAutoScalingSettingsUpdate"]
+                    native_input["ProvisionedReadCapacityAutoScalingSettingsUpdate"]
                 )
             )
-            if "ProvisionedReadCapacityAutoScalingSettingsUpdate" in input.keys()
+            if "ProvisionedReadCapacityAutoScalingSettingsUpdate" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_UpdateGlobalTableSettingsOutput(input):
+def com_amazonaws_dynamodb_UpdateGlobalTableSettingsOutput(native_input):
     return DafnyUpdateGlobalTableSettingsOutput(
         GlobalTableName=(
-            Option_Some(Seq(input["GlobalTableName"]))
-            if "GlobalTableName" in input.keys()
+            Option_Some(Seq(native_input["GlobalTableName"]))
+            if "GlobalTableName" in native_input.keys()
             else Option_None()
         ),
         ReplicaSettings=(
@@ -6618,19 +6746,19 @@ def com_amazonaws_dynamodb_UpdateGlobalTableSettingsOutput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaSettingsDescription(
                             list_element
                         )
-                        for list_element in input["ReplicaSettings"]
+                        for list_element in native_input["ReplicaSettings"]
                     ]
                 )
             )
-            if "ReplicaSettings" in input.keys()
+            if "ReplicaSettings" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_UpdateItemInput(input):
+def com_amazonaws_dynamodb_UpdateItemInput(native_input):
     return DafnyUpdateItemInput(
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
         Key=Map(
             {
                 Seq(
@@ -6638,7 +6766,7 @@ def com_amazonaws_dynamodb_UpdateItemInput(input):
                 ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                     value
                 )
-                for (key, value) in input["Key"].items()
+                for (key, value) in native_input["Key"].items()
             }
         ),
         AttributeUpdates=(
@@ -6650,11 +6778,11 @@ def com_amazonaws_dynamodb_UpdateItemInput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValueUpdate(
                             value
                         )
-                        for (key, value) in input["AttributeUpdates"].items()
+                        for (key, value) in native_input["AttributeUpdates"].items()
                     }
                 )
             )
-            if "AttributeUpdates" in input.keys()
+            if "AttributeUpdates" in native_input.keys()
             else Option_None()
         ),
         Expected=(
@@ -6666,57 +6794,57 @@ def com_amazonaws_dynamodb_UpdateItemInput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ExpectedAttributeValue(
                             value
                         )
-                        for (key, value) in input["Expected"].items()
+                        for (key, value) in native_input["Expected"].items()
                     }
                 )
             )
-            if "Expected" in input.keys()
+            if "Expected" in native_input.keys()
             else Option_None()
         ),
         ConditionalOperator=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConditionalOperator(
-                    input["ConditionalOperator"]
+                    native_input["ConditionalOperator"]
                 )
             )
-            if "ConditionalOperator" in input.keys()
+            if "ConditionalOperator" in native_input.keys()
             else Option_None()
         ),
         ReturnValues=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnValue(
-                    input["ReturnValues"]
+                    native_input["ReturnValues"]
                 )
             )
-            if "ReturnValues" in input.keys()
+            if "ReturnValues" in native_input.keys()
             else Option_None()
         ),
         ReturnConsumedCapacity=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnConsumedCapacity(
-                    input["ReturnConsumedCapacity"]
+                    native_input["ReturnConsumedCapacity"]
                 )
             )
-            if "ReturnConsumedCapacity" in input.keys()
+            if "ReturnConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
         ReturnItemCollectionMetrics=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReturnItemCollectionMetrics(
-                    input["ReturnItemCollectionMetrics"]
+                    native_input["ReturnItemCollectionMetrics"]
                 )
             )
-            if "ReturnItemCollectionMetrics" in input.keys()
+            if "ReturnItemCollectionMetrics" in native_input.keys()
             else Option_None()
         ),
         UpdateExpression=(
-            Option_Some(Seq(input["UpdateExpression"]))
-            if "UpdateExpression" in input.keys()
+            Option_Some(Seq(native_input["UpdateExpression"]))
+            if "UpdateExpression" in native_input.keys()
             else Option_None()
         ),
         ConditionExpression=(
-            Option_Some(Seq(input["ConditionExpression"]))
-            if "ConditionExpression" in input.keys()
+            Option_Some(Seq(native_input["ConditionExpression"]))
+            if "ConditionExpression" in native_input.keys()
             else Option_None()
         ),
         ExpressionAttributeNames=(
@@ -6724,11 +6852,13 @@ def com_amazonaws_dynamodb_UpdateItemInput(input):
                 Map(
                     {
                         Seq(key): Seq(value)
-                        for (key, value) in input["ExpressionAttributeNames"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeNames"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeNames" in input.keys()
+            if "ExpressionAttributeNames" in native_input.keys()
             else Option_None()
         ),
         ExpressionAttributeValues=(
@@ -6740,52 +6870,54 @@ def com_amazonaws_dynamodb_UpdateItemInput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["ExpressionAttributeValues"].items()
+                        for (key, value) in native_input[
+                            "ExpressionAttributeValues"
+                        ].items()
                     }
                 )
             )
-            if "ExpressionAttributeValues" in input.keys()
+            if "ExpressionAttributeValues" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_AttributeValueUpdate(input):
+def com_amazonaws_dynamodb_AttributeValueUpdate(native_input):
     return DafnyAttributeValueUpdate(
         Value=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
-                    input["Value"]
+                    native_input["Value"]
                 )
             )
-            if "Value" in input.keys()
+            if "Value" in native_input.keys()
             else Option_None()
         ),
         Action=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeAction(
-                    input["Action"]
+                    native_input["Action"]
                 )
             )
-            if "Action" in input.keys()
+            if "Action" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_AttributeAction(input):
+def com_amazonaws_dynamodb_AttributeAction(native_input):
     # Convert AttributeAction
-    if input == "ADD":
+    if native_input == "ADD":
         return AttributeAction_ADD()
-    elif input == "PUT":
+    elif native_input == "PUT":
         return AttributeAction_PUT()
-    elif input == "DELETE":
+    elif native_input == "DELETE":
         return AttributeAction_DELETE()
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + native_input)
 
 
-def com_amazonaws_dynamodb_UpdateItemOutput(input):
+def com_amazonaws_dynamodb_UpdateItemOutput(native_input):
     return DafnyUpdateItemOutput(
         Attributes=(
             Option_Some(
@@ -6796,35 +6928,35 @@ def com_amazonaws_dynamodb_UpdateItemOutput(input):
                         ): com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeValue(
                             value
                         )
-                        for (key, value) in input["Attributes"].items()
+                        for (key, value) in native_input["Attributes"].items()
                     }
                 )
             )
-            if "Attributes" in input.keys()
+            if "Attributes" in native_input.keys()
             else Option_None()
         ),
         ConsumedCapacity=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ConsumedCapacity(
-                    input["ConsumedCapacity"]
+                    native_input["ConsumedCapacity"]
                 )
             )
-            if "ConsumedCapacity" in input.keys()
+            if "ConsumedCapacity" in native_input.keys()
             else Option_None()
         ),
         ItemCollectionMetrics=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ItemCollectionMetrics(
-                    input["ItemCollectionMetrics"]
+                    native_input["ItemCollectionMetrics"]
                 )
             )
-            if "ItemCollectionMetrics" in input.keys()
+            if "ItemCollectionMetrics" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_UpdateTableInput(input):
+def com_amazonaws_dynamodb_UpdateTableInput(native_input):
     return DafnyUpdateTableInput(
         AttributeDefinitions=(
             Option_Some(
@@ -6833,30 +6965,30 @@ def com_amazonaws_dynamodb_UpdateTableInput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AttributeDefinition(
                             list_element
                         )
-                        for list_element in input["AttributeDefinitions"]
+                        for list_element in native_input["AttributeDefinitions"]
                     ]
                 )
             )
-            if "AttributeDefinitions" in input.keys()
+            if "AttributeDefinitions" in native_input.keys()
             else Option_None()
         ),
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
         BillingMode=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BillingMode(
-                    input["BillingMode"]
+                    native_input["BillingMode"]
                 )
             )
-            if "BillingMode" in input.keys()
+            if "BillingMode" in native_input.keys()
             else Option_None()
         ),
         ProvisionedThroughput=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
-                    input["ProvisionedThroughput"]
+                    native_input["ProvisionedThroughput"]
                 )
             )
-            if "ProvisionedThroughput" in input.keys()
+            if "ProvisionedThroughput" in native_input.keys()
             else Option_None()
         ),
         GlobalSecondaryIndexUpdates=(
@@ -6866,29 +6998,29 @@ def com_amazonaws_dynamodb_UpdateTableInput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndexUpdate(
                             list_element
                         )
-                        for list_element in input["GlobalSecondaryIndexUpdates"]
+                        for list_element in native_input["GlobalSecondaryIndexUpdates"]
                     ]
                 )
             )
-            if "GlobalSecondaryIndexUpdates" in input.keys()
+            if "GlobalSecondaryIndexUpdates" in native_input.keys()
             else Option_None()
         ),
         StreamSpecification=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_StreamSpecification(
-                    input["StreamSpecification"]
+                    native_input["StreamSpecification"]
                 )
             )
-            if "StreamSpecification" in input.keys()
+            if "StreamSpecification" in native_input.keys()
             else Option_None()
         ),
         SSESpecification=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_SSESpecification(
-                    input["SSESpecification"]
+                    native_input["SSESpecification"]
                 )
             )
-            if "SSESpecification" in input.keys()
+            if "SSESpecification" in native_input.keys()
             else Option_None()
         ),
         ReplicaUpdates=(
@@ -6898,145 +7030,145 @@ def com_amazonaws_dynamodb_UpdateTableInput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicationGroupUpdate(
                             list_element
                         )
-                        for list_element in input["ReplicaUpdates"]
+                        for list_element in native_input["ReplicaUpdates"]
                     ]
                 )
             )
-            if "ReplicaUpdates" in input.keys()
+            if "ReplicaUpdates" in native_input.keys()
             else Option_None()
         ),
         TableClass=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClass(
-                    input["TableClass"]
+                    native_input["TableClass"]
                 )
             )
-            if "TableClass" in input.keys()
+            if "TableClass" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_GlobalSecondaryIndexUpdate(input):
+def com_amazonaws_dynamodb_GlobalSecondaryIndexUpdate(native_input):
     return DafnyGlobalSecondaryIndexUpdate(
         Update=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction(
-                    input["Update"]
+                    native_input["Update"]
                 )
             )
-            if "Update" in input.keys()
+            if "Update" in native_input.keys()
             else Option_None()
         ),
         Create=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction(
-                    input["Create"]
+                    native_input["Create"]
                 )
             )
-            if "Create" in input.keys()
+            if "Create" in native_input.keys()
             else Option_None()
         ),
         Delete=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DeleteGlobalSecondaryIndexAction(
-                    input["Delete"]
+                    native_input["Delete"]
                 )
             )
-            if "Delete" in input.keys()
+            if "Delete" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction(input):
+def com_amazonaws_dynamodb_UpdateGlobalSecondaryIndexAction(native_input):
     return DafnyUpdateGlobalSecondaryIndexAction(
-        IndexName=Seq(input["IndexName"]),
+        IndexName=Seq(native_input["IndexName"]),
         ProvisionedThroughput=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
-            input["ProvisionedThroughput"]
+            native_input["ProvisionedThroughput"]
         ),
     )
 
 
-def com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction(input):
+def com_amazonaws_dynamodb_CreateGlobalSecondaryIndexAction(native_input):
     return DafnyCreateGlobalSecondaryIndexAction(
-        IndexName=Seq(input["IndexName"]),
+        IndexName=Seq(native_input["IndexName"]),
         KeySchema=Seq(
             [
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_KeySchemaElement(
                     list_element
                 )
-                for list_element in input["KeySchema"]
+                for list_element in native_input["KeySchema"]
             ]
         ),
         Projection=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_Projection(
-            input["Projection"]
+            native_input["Projection"]
         ),
         ProvisionedThroughput=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
-                    input["ProvisionedThroughput"]
+                    native_input["ProvisionedThroughput"]
                 )
             )
-            if "ProvisionedThroughput" in input.keys()
+            if "ProvisionedThroughput" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_DeleteGlobalSecondaryIndexAction(input):
+def com_amazonaws_dynamodb_DeleteGlobalSecondaryIndexAction(native_input):
     return DafnyDeleteGlobalSecondaryIndexAction(
-        IndexName=Seq(input["IndexName"]),
+        IndexName=Seq(native_input["IndexName"]),
     )
 
 
-def com_amazonaws_dynamodb_ReplicationGroupUpdate(input):
+def com_amazonaws_dynamodb_ReplicationGroupUpdate(native_input):
     return DafnyReplicationGroupUpdate(
         Create=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_CreateReplicationGroupMemberAction(
-                    input["Create"]
+                    native_input["Create"]
                 )
             )
-            if "Create" in input.keys()
+            if "Create" in native_input.keys()
             else Option_None()
         ),
         Update=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_UpdateReplicationGroupMemberAction(
-                    input["Update"]
+                    native_input["Update"]
                 )
             )
-            if "Update" in input.keys()
+            if "Update" in native_input.keys()
             else Option_None()
         ),
         Delete=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_DeleteReplicationGroupMemberAction(
-                    input["Delete"]
+                    native_input["Delete"]
                 )
             )
-            if "Delete" in input.keys()
+            if "Delete" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_CreateReplicationGroupMemberAction(input):
+def com_amazonaws_dynamodb_CreateReplicationGroupMemberAction(native_input):
     return DafnyCreateReplicationGroupMemberAction(
-        RegionName=Seq(input["RegionName"]),
+        RegionName=Seq(native_input["RegionName"]),
         KMSMasterKeyId=(
-            Option_Some(Seq(input["KMSMasterKeyId"]))
-            if "KMSMasterKeyId" in input.keys()
+            Option_Some(Seq(native_input["KMSMasterKeyId"]))
+            if "KMSMasterKeyId" in native_input.keys()
             else Option_None()
         ),
         ProvisionedThroughputOverride=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputOverride(
-                    input["ProvisionedThroughputOverride"]
+                    native_input["ProvisionedThroughputOverride"]
                 )
             )
-            if "ProvisionedThroughputOverride" in input.keys()
+            if "ProvisionedThroughputOverride" in native_input.keys()
             else Option_None()
         ),
         GlobalSecondaryIndexes=(
@@ -7046,40 +7178,40 @@ def com_amazonaws_dynamodb_CreateReplicationGroupMemberAction(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndex(
                             list_element
                         )
-                        for list_element in input["GlobalSecondaryIndexes"]
+                        for list_element in native_input["GlobalSecondaryIndexes"]
                     ]
                 )
             )
-            if "GlobalSecondaryIndexes" in input.keys()
+            if "GlobalSecondaryIndexes" in native_input.keys()
             else Option_None()
         ),
         TableClassOverride=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClass(
-                    input["TableClassOverride"]
+                    native_input["TableClassOverride"]
                 )
             )
-            if "TableClassOverride" in input.keys()
+            if "TableClassOverride" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_UpdateReplicationGroupMemberAction(input):
+def com_amazonaws_dynamodb_UpdateReplicationGroupMemberAction(native_input):
     return DafnyUpdateReplicationGroupMemberAction(
-        RegionName=Seq(input["RegionName"]),
+        RegionName=Seq(native_input["RegionName"]),
         KMSMasterKeyId=(
-            Option_Some(Seq(input["KMSMasterKeyId"]))
-            if "KMSMasterKeyId" in input.keys()
+            Option_Some(Seq(native_input["KMSMasterKeyId"]))
+            if "KMSMasterKeyId" in native_input.keys()
             else Option_None()
         ),
         ProvisionedThroughputOverride=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputOverride(
-                    input["ProvisionedThroughputOverride"]
+                    native_input["ProvisionedThroughputOverride"]
                 )
             )
-            if "ProvisionedThroughputOverride" in input.keys()
+            if "ProvisionedThroughputOverride" in native_input.keys()
             else Option_None()
         ),
         GlobalSecondaryIndexes=(
@@ -7089,61 +7221,61 @@ def com_amazonaws_dynamodb_UpdateReplicationGroupMemberAction(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndex(
                             list_element
                         )
-                        for list_element in input["GlobalSecondaryIndexes"]
+                        for list_element in native_input["GlobalSecondaryIndexes"]
                     ]
                 )
             )
-            if "GlobalSecondaryIndexes" in input.keys()
+            if "GlobalSecondaryIndexes" in native_input.keys()
             else Option_None()
         ),
         TableClassOverride=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableClass(
-                    input["TableClassOverride"]
+                    native_input["TableClassOverride"]
                 )
             )
-            if "TableClassOverride" in input.keys()
+            if "TableClassOverride" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_DeleteReplicationGroupMemberAction(input):
+def com_amazonaws_dynamodb_DeleteReplicationGroupMemberAction(native_input):
     return DafnyDeleteReplicationGroupMemberAction(
-        RegionName=Seq(input["RegionName"]),
+        RegionName=Seq(native_input["RegionName"]),
     )
 
 
-def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndex(input):
+def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndex(native_input):
     return DafnyReplicaGlobalSecondaryIndex(
-        IndexName=Seq(input["IndexName"]),
+        IndexName=Seq(native_input["IndexName"]),
         ProvisionedThroughputOverride=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughputOverride(
-                    input["ProvisionedThroughputOverride"]
+                    native_input["ProvisionedThroughputOverride"]
                 )
             )
-            if "ProvisionedThroughputOverride" in input.keys()
+            if "ProvisionedThroughputOverride" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_UpdateTableOutput(input):
+def com_amazonaws_dynamodb_UpdateTableOutput(native_input):
     return DafnyUpdateTableOutput(
         TableDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableDescription(
-                    input["TableDescription"]
+                    native_input["TableDescription"]
                 )
             )
-            if "TableDescription" in input.keys()
+            if "TableDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingInput(input):
+def com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingInput(native_input):
     return DafnyUpdateTableReplicaAutoScalingInput(
         GlobalSecondaryIndexUpdates=(
             Option_Some(
@@ -7152,21 +7284,21 @@ def com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingInput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_GlobalSecondaryIndexAutoScalingUpdate(
                             list_element
                         )
-                        for list_element in input["GlobalSecondaryIndexUpdates"]
+                        for list_element in native_input["GlobalSecondaryIndexUpdates"]
                     ]
                 )
             )
-            if "GlobalSecondaryIndexUpdates" in input.keys()
+            if "GlobalSecondaryIndexUpdates" in native_input.keys()
             else Option_None()
         ),
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
         ProvisionedWriteCapacityAutoScalingUpdate=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
-                    input["ProvisionedWriteCapacityAutoScalingUpdate"]
+                    native_input["ProvisionedWriteCapacityAutoScalingUpdate"]
                 )
             )
-            if "ProvisionedWriteCapacityAutoScalingUpdate" in input.keys()
+            if "ProvisionedWriteCapacityAutoScalingUpdate" in native_input.keys()
             else Option_None()
         ),
         ReplicaUpdates=(
@@ -7176,38 +7308,38 @@ def com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingInput(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaAutoScalingUpdate(
                             list_element
                         )
-                        for list_element in input["ReplicaUpdates"]
+                        for list_element in native_input["ReplicaUpdates"]
                     ]
                 )
             )
-            if "ReplicaUpdates" in input.keys()
+            if "ReplicaUpdates" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_GlobalSecondaryIndexAutoScalingUpdate(input):
+def com_amazonaws_dynamodb_GlobalSecondaryIndexAutoScalingUpdate(native_input):
     return DafnyGlobalSecondaryIndexAutoScalingUpdate(
         IndexName=(
-            Option_Some(Seq(input["IndexName"]))
-            if "IndexName" in input.keys()
+            Option_Some(Seq(native_input["IndexName"]))
+            if "IndexName" in native_input.keys()
             else Option_None()
         ),
         ProvisionedWriteCapacityAutoScalingUpdate=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
-                    input["ProvisionedWriteCapacityAutoScalingUpdate"]
+                    native_input["ProvisionedWriteCapacityAutoScalingUpdate"]
                 )
             )
-            if "ProvisionedWriteCapacityAutoScalingUpdate" in input.keys()
+            if "ProvisionedWriteCapacityAutoScalingUpdate" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ReplicaAutoScalingUpdate(input):
+def com_amazonaws_dynamodb_ReplicaAutoScalingUpdate(native_input):
     return DafnyReplicaAutoScalingUpdate(
-        RegionName=Seq(input["RegionName"]),
+        RegionName=Seq(native_input["RegionName"]),
         ReplicaGlobalSecondaryIndexUpdates=(
             Option_Some(
                 Seq(
@@ -7215,83 +7347,85 @@ def com_amazonaws_dynamodb_ReplicaAutoScalingUpdate(input):
                         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingUpdate(
                             list_element
                         )
-                        for list_element in input["ReplicaGlobalSecondaryIndexUpdates"]
+                        for list_element in native_input[
+                            "ReplicaGlobalSecondaryIndexUpdates"
+                        ]
                     ]
                 )
             )
-            if "ReplicaGlobalSecondaryIndexUpdates" in input.keys()
+            if "ReplicaGlobalSecondaryIndexUpdates" in native_input.keys()
             else Option_None()
         ),
         ReplicaProvisionedReadCapacityAutoScalingUpdate=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
-                    input["ReplicaProvisionedReadCapacityAutoScalingUpdate"]
+                    native_input["ReplicaProvisionedReadCapacityAutoScalingUpdate"]
                 )
             )
-            if "ReplicaProvisionedReadCapacityAutoScalingUpdate" in input.keys()
+            if "ReplicaProvisionedReadCapacityAutoScalingUpdate" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingUpdate(input):
+def com_amazonaws_dynamodb_ReplicaGlobalSecondaryIndexAutoScalingUpdate(native_input):
     return DafnyReplicaGlobalSecondaryIndexAutoScalingUpdate(
         IndexName=(
-            Option_Some(Seq(input["IndexName"]))
-            if "IndexName" in input.keys()
+            Option_Some(Seq(native_input["IndexName"]))
+            if "IndexName" in native_input.keys()
             else Option_None()
         ),
         ProvisionedReadCapacityAutoScalingUpdate=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_AutoScalingSettingsUpdate(
-                    input["ProvisionedReadCapacityAutoScalingUpdate"]
+                    native_input["ProvisionedReadCapacityAutoScalingUpdate"]
                 )
             )
-            if "ProvisionedReadCapacityAutoScalingUpdate" in input.keys()
+            if "ProvisionedReadCapacityAutoScalingUpdate" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingOutput(input):
+def com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingOutput(native_input):
     return DafnyUpdateTableReplicaAutoScalingOutput(
         TableAutoScalingDescription=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TableAutoScalingDescription(
-                    input["TableAutoScalingDescription"]
+                    native_input["TableAutoScalingDescription"]
                 )
             )
-            if "TableAutoScalingDescription" in input.keys()
+            if "TableAutoScalingDescription" in native_input.keys()
             else Option_None()
         ),
     )
 
 
-def com_amazonaws_dynamodb_UpdateTimeToLiveInput(input):
+def com_amazonaws_dynamodb_UpdateTimeToLiveInput(native_input):
     return DafnyUpdateTimeToLiveInput(
-        TableName=Seq(input["TableName"]),
+        TableName=Seq(native_input["TableName"]),
         TimeToLiveSpecification=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TimeToLiveSpecification(
-            input["TimeToLiveSpecification"]
+            native_input["TimeToLiveSpecification"]
         ),
     )
 
 
-def com_amazonaws_dynamodb_TimeToLiveSpecification(input):
+def com_amazonaws_dynamodb_TimeToLiveSpecification(native_input):
     return DafnyTimeToLiveSpecification(
-        Enabled=input["Enabled"],
-        AttributeName=Seq(input["AttributeName"]),
+        Enabled=native_input["Enabled"],
+        AttributeName=Seq(native_input["AttributeName"]),
     )
 
 
-def com_amazonaws_dynamodb_UpdateTimeToLiveOutput(input):
+def com_amazonaws_dynamodb_UpdateTimeToLiveOutput(native_input):
     return DafnyUpdateTimeToLiveOutput(
         TimeToLiveSpecification=(
             Option_Some(
                 com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_TimeToLiveSpecification(
-                    input["TimeToLiveSpecification"]
+                    native_input["TimeToLiveSpecification"]
                 )
             )
-            if "TimeToLiveSpecification" in input.keys()
+            if "TimeToLiveSpecification" in native_input.keys()
             else Option_None()
         ),
     )

@@ -8,16 +8,16 @@ from software_amazon_cryptography_services_kms_internaldafny_types import (
 )
 
 
-def com_amazonaws_kms_EncryptionAlgorithmSpec(input):
+def com_amazonaws_kms_EncryptionAlgorithmSpec(dafny_input):
     # Convert EncryptionAlgorithmSpec
-    if isinstance(input, EncryptionAlgorithmSpec_SYMMETRIC__DEFAULT):
+    if isinstance(dafny_input, EncryptionAlgorithmSpec_SYMMETRIC__DEFAULT):
         return "SYMMETRIC_DEFAULT"
 
-    elif isinstance(input, EncryptionAlgorithmSpec_RSAES__OAEP__SHA__1):
+    elif isinstance(dafny_input, EncryptionAlgorithmSpec_RSAES__OAEP__SHA__1):
         return "RSAES_OAEP_SHA_1"
 
-    elif isinstance(input, EncryptionAlgorithmSpec_RSAES__OAEP__SHA__256):
+    elif isinstance(dafny_input, EncryptionAlgorithmSpec_RSAES__OAEP__SHA__256):
         return "RSAES_OAEP_SHA_256"
 
     else:
-        raise ValueError("No recognized enum value in enum type: " + input)
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
