@@ -223,7 +223,12 @@ module AwsKmsDiscoveryKeyring {
 
       :- Need(0 < |edksToAttempt|,
               Types.AwsCryptographicMaterialProvidersException(
-                message := "Unable to decrypt data key: No Encrypted Data Keys found to match."));
+                message := "Unable to decrypt data key: No Encrypted Data Keys found to match." +
+                            "\n \t \t Expected:" +
+                            "\n \t \t \t KeyProviderId: " + UTF8.Decode(input.encryptedDataKeys[0].keyProviderId).Extract() +
+                            "\n \t \t \t KeyProviderInfo: " + UTF8.Decode(input.encryptedDataKeys[0].keyProviderInfo).Extract() +
+                            "\n \t \t \t BranchKeyVersion: " + UUID.FromByteArray(branchKeyVersionUuid).Extract()
+                ));
 
       // We want to make sure that the set of EDKs we're about to attempt
       // to decrypt all actually came from the original set of EDKs. This is useful
