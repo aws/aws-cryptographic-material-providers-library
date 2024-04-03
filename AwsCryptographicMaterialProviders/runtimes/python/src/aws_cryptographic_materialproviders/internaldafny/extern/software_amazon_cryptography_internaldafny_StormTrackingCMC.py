@@ -2,12 +2,11 @@ import software_amazon_cryptography_internaldafny_StormTrackingCMC
 import Wrappers
 import software_amazon_cryptography_materialproviders_internaldafny_types
 import time
-import threading
+from multiprocessing import Lock
 import functools
 
-# decorator that locks calls to a function
 def synchronized(wrapped):
-    lock = threading.Lock()
+    lock = Lock()
     @functools.wraps(wrapped)
     def _wrap(*args, **kwargs):
         with lock:
