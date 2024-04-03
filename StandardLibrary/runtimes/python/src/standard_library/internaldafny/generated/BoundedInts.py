@@ -122,6 +122,8 @@ class uint8:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        return True
 
 class uint16:
     def  __init__(self):
@@ -130,6 +132,8 @@ class uint16:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        return True
 
 class uint32:
     def  __init__(self):
@@ -138,6 +142,8 @@ class uint32:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        return True
 
 class uint64:
     def  __init__(self):
@@ -146,6 +152,8 @@ class uint64:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        return True
 
 class int8:
     def  __init__(self):
@@ -154,6 +162,8 @@ class int8:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        return True
 
 class int16:
     def  __init__(self):
@@ -162,6 +172,8 @@ class int16:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        return True
 
 class int32:
     def  __init__(self):
@@ -170,6 +182,8 @@ class int32:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        return True
 
 class int64:
     def  __init__(self):
@@ -178,6 +192,8 @@ class int64:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        return True
 
 class nat8:
     def  __init__(self):
@@ -186,6 +202,9 @@ class nat8:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_47_x_: int = source__
+        return ((0) <= (d_47_x_)) and ((d_47_x_) < (128))
 
 class nat16:
     def  __init__(self):
@@ -194,6 +213,9 @@ class nat16:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_48_x_: int = source__
+        return ((0) <= (d_48_x_)) and ((d_48_x_) < (32768))
 
 class nat32:
     def  __init__(self):
@@ -202,6 +224,9 @@ class nat32:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_49_x_: int = source__
+        return ((0) <= (d_49_x_)) and ((d_49_x_) < (2147483648))
 
 class nat64:
     def  __init__(self):
@@ -210,6 +235,9 @@ class nat64:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_50_x_: int = source__
+        return ((0) <= (d_50_x_)) and ((d_50_x_) < (9223372036854775808))
 
 class opt__byte:
     def  __init__(self):
@@ -218,3 +246,6 @@ class opt__byte:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_51_c_: int = source__
+        return ((-1) <= (d_51_c_)) and ((d_51_c_) < (default__.TWO__TO__THE__8))

@@ -66,11 +66,11 @@ class SeqReader:
             res = Wrappers.Result_Failure(_dafny.Seq("IO Error: Not enough elements left on stream."))
             return res
         elif True:
-            d_231_elements_: _dafny.Seq
+            d_248_elements_: _dafny.Seq
             out6_: _dafny.Seq
             out6_ = (self).ReadElements(n)
-            d_231_elements_ = out6_
-            res = Wrappers.Result_Success(d_231_elements_)
+            d_248_elements_ = out6_
+            res = Wrappers.Result_Success(d_248_elements_)
             return res
         return res
 
@@ -86,90 +86,90 @@ class ByteReader:
     def __dafnystr__(self) -> str:
         return "Streams.ByteReader"
     def ctor__(self, s):
-        d_232_mr_: SeqReader
+        d_249_mr_: SeqReader
         nw2_ = SeqReader()
         nw2_.ctor__(s)
-        d_232_mr_ = nw2_
-        (self)._reader = d_232_mr_
+        d_249_mr_ = nw2_
+        (self)._reader = d_249_mr_
 
     def ReadByte(self):
         res: Wrappers.Result = Wrappers.Result.default(BoundedInts.uint8.default)()
-        d_233_bytes_: _dafny.Seq
-        d_234_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_250_bytes_: _dafny.Seq
+        d_251_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out7_: Wrappers.Result
         out7_ = ((self).reader).ReadExact(1)
-        d_234_valueOrError0_ = out7_
-        if (d_234_valueOrError0_).IsFailure():
-            res = (d_234_valueOrError0_).PropagateFailure()
+        d_251_valueOrError0_ = out7_
+        if (d_251_valueOrError0_).IsFailure():
+            res = (d_251_valueOrError0_).PropagateFailure()
             return res
-        d_233_bytes_ = (d_234_valueOrError0_).Extract()
-        res = Wrappers.Result_Success((d_233_bytes_)[0])
+        d_250_bytes_ = (d_251_valueOrError0_).Extract()
+        res = Wrappers.Result_Success((d_250_bytes_)[0])
         return res
         return res
 
     def ReadBytes(self, n):
         res: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        d_235_bytes_: _dafny.Seq
-        d_236_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_252_bytes_: _dafny.Seq
+        d_253_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out8_: Wrappers.Result
         out8_ = ((self).reader).ReadExact(n)
-        d_236_valueOrError0_ = out8_
-        if (d_236_valueOrError0_).IsFailure():
-            res = (d_236_valueOrError0_).PropagateFailure()
+        d_253_valueOrError0_ = out8_
+        if (d_253_valueOrError0_).IsFailure():
+            res = (d_253_valueOrError0_).PropagateFailure()
             return res
-        d_235_bytes_ = (d_236_valueOrError0_).Extract()
-        res = Wrappers.Result_Success(d_235_bytes_)
+        d_252_bytes_ = (d_253_valueOrError0_).Extract()
+        res = Wrappers.Result_Success(d_252_bytes_)
         return res
         return res
 
     def ReadUInt16(self):
         res: Wrappers.Result = Wrappers.Result.default(BoundedInts.uint16.default)()
-        d_237_bytes_: _dafny.Seq
-        d_238_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_254_bytes_: _dafny.Seq
+        d_255_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out9_: Wrappers.Result
         out9_ = ((self).reader).ReadExact(2)
-        d_238_valueOrError0_ = out9_
-        if (d_238_valueOrError0_).IsFailure():
-            res = (d_238_valueOrError0_).PropagateFailure()
+        d_255_valueOrError0_ = out9_
+        if (d_255_valueOrError0_).IsFailure():
+            res = (d_255_valueOrError0_).PropagateFailure()
             return res
-        d_237_bytes_ = (d_238_valueOrError0_).Extract()
-        d_239_n_: int
-        d_239_n_ = StandardLibrary_UInt.default__.SeqToUInt16(d_237_bytes_)
-        res = Wrappers.Result_Success(d_239_n_)
+        d_254_bytes_ = (d_255_valueOrError0_).Extract()
+        d_256_n_: int
+        d_256_n_ = StandardLibrary_UInt.default__.SeqToUInt16(d_254_bytes_)
+        res = Wrappers.Result_Success(d_256_n_)
         return res
         return res
 
     def ReadUInt32(self):
         res: Wrappers.Result = Wrappers.Result.default(BoundedInts.uint32.default)()
-        d_240_bytes_: _dafny.Seq
-        d_241_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_257_bytes_: _dafny.Seq
+        d_258_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out10_: Wrappers.Result
         out10_ = ((self).reader).ReadExact(4)
-        d_241_valueOrError0_ = out10_
-        if (d_241_valueOrError0_).IsFailure():
-            res = (d_241_valueOrError0_).PropagateFailure()
+        d_258_valueOrError0_ = out10_
+        if (d_258_valueOrError0_).IsFailure():
+            res = (d_258_valueOrError0_).PropagateFailure()
             return res
-        d_240_bytes_ = (d_241_valueOrError0_).Extract()
-        d_242_n_: int
-        d_242_n_ = StandardLibrary_UInt.default__.SeqToUInt32(d_240_bytes_)
-        res = Wrappers.Result_Success(d_242_n_)
+        d_257_bytes_ = (d_258_valueOrError0_).Extract()
+        d_259_n_: int
+        d_259_n_ = StandardLibrary_UInt.default__.SeqToUInt32(d_257_bytes_)
+        res = Wrappers.Result_Success(d_259_n_)
         return res
         return res
 
     def ReadUInt64(self):
         res: Wrappers.Result = Wrappers.Result.default(BoundedInts.uint64.default)()
-        d_243_bytes_: _dafny.Seq
-        d_244_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_260_bytes_: _dafny.Seq
+        d_261_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out11_: Wrappers.Result
         out11_ = ((self).reader).ReadExact(8)
-        d_244_valueOrError0_ = out11_
-        if (d_244_valueOrError0_).IsFailure():
-            res = (d_244_valueOrError0_).PropagateFailure()
+        d_261_valueOrError0_ = out11_
+        if (d_261_valueOrError0_).IsFailure():
+            res = (d_261_valueOrError0_).PropagateFailure()
             return res
-        d_243_bytes_ = (d_244_valueOrError0_).Extract()
-        d_245_n_: int
-        d_245_n_ = StandardLibrary_UInt.default__.SeqToUInt64(d_243_bytes_)
-        res = Wrappers.Result_Success(d_245_n_)
+        d_260_bytes_ = (d_261_valueOrError0_).Extract()
+        d_262_n_: int
+        d_262_n_ = StandardLibrary_UInt.default__.SeqToUInt64(d_260_bytes_)
+        res = Wrappers.Result_Success(d_262_n_)
         return res
         return res
 
@@ -215,11 +215,11 @@ class ByteWriter:
     def __dafnystr__(self) -> str:
         return "Streams.ByteWriter"
     def ctor__(self):
-        d_246_mw_: SeqWriter
+        d_263_mw_: SeqWriter
         nw3_ = SeqWriter()
         nw3_.ctor__()
-        d_246_mw_ = nw3_
-        (self)._writer = d_246_mw_
+        d_263_mw_ = nw3_
+        (self)._writer = d_263_mw_
 
     def WriteByte(self, n):
         r: int = int(0)

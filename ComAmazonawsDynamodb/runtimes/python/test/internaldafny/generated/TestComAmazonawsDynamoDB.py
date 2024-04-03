@@ -22,7 +22,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -35,17 +34,20 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import UUID
 import Time
 import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
+import DafnyLibraries
 import software_amazon_cryptography_services_dynamodb_internaldafny
 import Com_Amazonaws
 import Com
@@ -64,7 +66,7 @@ class default__:
         out0_ = software_amazon_cryptography_services_dynamodb_internaldafny.default__.DynamoDBClient()
         d_1_valueOrError0_ = out0_
         if not(not((d_1_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsDynamodb.dfy(20,15): " + _dafny.string_of(d_1_valueOrError0_))
+            raise _dafny.HaltException("test/TestComAmazonawsDynamodb.dfy(20,18): " + _dafny.string_of(d_1_valueOrError0_))
         d_0_client_ = (d_1_valueOrError0_).Extract()
         d_2_item_: _dafny.Map
         d_2_item_ = _dafny.Map({_dafny.Seq("branch-key-id"): software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(_dafny.Seq("ddb-client-test")), _dafny.Seq("type"): software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(_dafny.Seq("ddb-client-test")), _dafny.Seq("status"): software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S(_dafny.Seq("ACTIVE"))})

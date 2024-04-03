@@ -41,190 +41,194 @@ from software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_
 )
 
 
-def aws_cryptography_materialproviderstestvectorkeys_TestVectorKeyringInput(input):
+def aws_cryptography_materialproviderstestvectorkeys_TestVectorKeyringInput(
+    native_input,
+):
     return DafnyTestVectorKeyringInput(
         keyDescription=aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_KeyDescription(
-            input.key_description
+            native_input.key_description
         ),
     )
 
 
-def aws_cryptography_materialproviderstestvectorkeys_KeyDescription(input):
+def aws_cryptography_materialproviderstestvectorkeys_KeyDescription(native_input):
     if isinstance(
-        input,
+        native_input,
         aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KeyDescriptionKms,
     ):
         KeyDescription_union_value = KeyDescription_Kms(
             aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_KMSInfo(
-                input.value
+                native_input.value
             )
         )
     elif isinstance(
-        input,
+        native_input,
         aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KeyDescriptionKmsMrk,
     ):
         KeyDescription_union_value = KeyDescription_KmsMrk(
             aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_KmsMrkAware(
-                input.value
+                native_input.value
             )
         )
     elif isinstance(
-        input,
+        native_input,
         aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KeyDescriptionKmsMrkDiscovery,
     ):
         KeyDescription_union_value = KeyDescription_KmsMrkDiscovery(
             aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_KmsMrkAwareDiscovery(
-                input.value
+                native_input.value
             )
         )
     elif isinstance(
-        input,
+        native_input,
         aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KeyDescriptionRSA,
     ):
         KeyDescription_union_value = KeyDescription_RSA(
             aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_RawRSA(
-                input.value
+                native_input.value
             )
         )
     elif isinstance(
-        input,
+        native_input,
         aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KeyDescriptionAES,
     ):
         KeyDescription_union_value = KeyDescription_AES(
             aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_RawAES(
-                input.value
+                native_input.value
             )
         )
     elif isinstance(
-        input,
+        native_input,
         aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KeyDescriptionStatic,
     ):
         KeyDescription_union_value = KeyDescription_Static(
             aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_StaticKeyring(
-                input.value
+                native_input.value
             )
         )
     elif isinstance(
-        input,
+        native_input,
         aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KeyDescriptionKmsRsa,
     ):
         KeyDescription_union_value = KeyDescription_KmsRsa(
             aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_KmsRsaKeyring(
-                input.value
+                native_input.value
             )
         )
     elif isinstance(
-        input,
+        native_input,
         aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KeyDescriptionHierarchy,
     ):
         KeyDescription_union_value = KeyDescription_Hierarchy(
             aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_HierarchyKeyring(
-                input.value
+                native_input.value
             )
         )
     elif isinstance(
-        input,
+        native_input,
         aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KeyDescriptionMulti,
     ):
         KeyDescription_union_value = KeyDescription_Multi(
             aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_MultiKeyring(
-                input.value
+                native_input.value
             )
         )
     elif isinstance(
-        input,
+        native_input,
         aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KeyDescriptionRequiredEncryptionContext,
     ):
         KeyDescription_union_value = KeyDescription_RequiredEncryptionContext(
             aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_RequiredEncryptionContextCMM(
-                input.value
+                native_input.value
             )
         )
     else:
-        raise ValueError("No recognized union value in union type: " + str(input))
+        raise ValueError(
+            "No recognized union value in union type: " + str(native_input)
+        )
 
     return KeyDescription_union_value
 
 
-def aws_cryptography_materialproviderstestvectorkeys_KMSInfo(input):
+def aws_cryptography_materialproviderstestvectorkeys_KMSInfo(native_input):
     return DafnyKMSInfo(
-        keyId=Seq(input.key_id),
+        keyId=Seq(native_input.key_id),
     )
 
 
-def aws_cryptography_materialproviderstestvectorkeys_KmsMrkAware(input):
+def aws_cryptography_materialproviderstestvectorkeys_KmsMrkAware(native_input):
     return DafnyKmsMrkAware(
-        keyId=Seq(input.key_id),
+        keyId=Seq(native_input.key_id),
     )
 
 
-def aws_cryptography_materialproviderstestvectorkeys_KmsMrkAwareDiscovery(input):
+def aws_cryptography_materialproviderstestvectorkeys_KmsMrkAwareDiscovery(native_input):
     return DafnyKmsMrkAwareDiscovery(
-        keyId=Seq(input.key_id),
-        defaultMrkRegion=Seq(input.default_mrk_region),
+        keyId=Seq(native_input.key_id),
+        defaultMrkRegion=Seq(native_input.default_mrk_region),
         awsKmsDiscoveryFilter=(
             (
                 Option_Some(
                     aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_DiscoveryFilter(
-                        input.aws_kms_discovery_filter
+                        native_input.aws_kms_discovery_filter
                     )
                 )
             )
-            if (input.aws_kms_discovery_filter is not None)
+            if (native_input.aws_kms_discovery_filter is not None)
             else (Option_None())
         ),
     )
 
 
-def aws_cryptography_materialproviderstestvectorkeys_RawRSA(input):
+def aws_cryptography_materialproviderstestvectorkeys_RawRSA(native_input):
     return DafnyRawRSA(
-        keyId=Seq(input.key_id),
-        providerId=Seq(input.provider_id),
+        keyId=Seq(native_input.key_id),
+        providerId=Seq(native_input.provider_id),
         padding=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_PaddingScheme(
-            input.padding
+            native_input.padding
         ),
     )
 
 
-def aws_cryptography_materialproviderstestvectorkeys_RawAES(input):
+def aws_cryptography_materialproviderstestvectorkeys_RawAES(native_input):
     return DafnyRawAES(
-        keyId=Seq(input.key_id),
-        providerId=Seq(input.provider_id),
+        keyId=Seq(native_input.key_id),
+        providerId=Seq(native_input.provider_id),
     )
 
 
-def aws_cryptography_materialproviderstestvectorkeys_StaticKeyring(input):
+def aws_cryptography_materialproviderstestvectorkeys_StaticKeyring(native_input):
     return DafnyStaticKeyring(
-        keyId=Seq(input.key_id),
+        keyId=Seq(native_input.key_id),
     )
 
 
-def aws_cryptography_materialproviderstestvectorkeys_KmsRsaKeyring(input):
+def aws_cryptography_materialproviderstestvectorkeys_KmsRsaKeyring(native_input):
     return DafnyKmsRsaKeyring(
-        keyId=Seq(input.key_id),
+        keyId=Seq(native_input.key_id),
         encryptionAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
-            input.encryption_algorithm
+            native_input.encryption_algorithm
         ),
     )
 
 
-def aws_cryptography_materialproviderstestvectorkeys_HierarchyKeyring(input):
+def aws_cryptography_materialproviderstestvectorkeys_HierarchyKeyring(native_input):
     return DafnyHierarchyKeyring(
-        keyId=Seq(input.key_id),
+        keyId=Seq(native_input.key_id),
     )
 
 
-def aws_cryptography_materialproviderstestvectorkeys_MultiKeyring(input):
+def aws_cryptography_materialproviderstestvectorkeys_MultiKeyring(native_input):
     return DafnyMultiKeyring(
         generator=(
             (
                 Option_Some(
                     aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_KeyDescription(
-                        input.generator
+                        native_input.generator
                     )
                 )
             )
-            if (input.generator is not None)
+            if (native_input.generator is not None)
             else (Option_None())
         ),
         childKeyrings=Seq(
@@ -232,91 +236,95 @@ def aws_cryptography_materialproviderstestvectorkeys_MultiKeyring(input):
                 aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_KeyDescription(
                     list_element
                 )
-                for list_element in input.child_keyrings
+                for list_element in native_input.child_keyrings
             ]
         ),
     )
 
 
 def aws_cryptography_materialproviderstestvectorkeys_RequiredEncryptionContextCMM(
-    input,
+    native_input,
 ):
     return DafnyRequiredEncryptionContextCMM(
         underlying=aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_KeyDescription(
-            input.underlying
+            native_input.underlying
         ),
         requiredEncryptionContextKeys=Seq(
             [
                 UTF8.default__.Encode(Seq(list_element)).value
-                for list_element in input.required_encryption_context_keys
+                for list_element in native_input.required_encryption_context_keys
             ]
         ),
     )
 
 
-def aws_cryptography_materialproviderstestvectorkeys_TestVectorCmmInput(input):
+def aws_cryptography_materialproviderstestvectorkeys_TestVectorCmmInput(native_input):
     return DafnyTestVectorCmmInput(
         keyDescription=aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_KeyDescription(
-            input.key_description
+            native_input.key_description
         ),
         forOperation=aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_CmmOperation(
-            input.for_operation
+            native_input.for_operation
         ),
     )
 
 
-def aws_cryptography_materialproviderstestvectorkeys_CmmOperation(input):
-    if input == "ENCRYPT":
+def aws_cryptography_materialproviderstestvectorkeys_CmmOperation(native_input):
+    if native_input == "ENCRYPT":
         return CmmOperation_ENCRYPT()
 
-    elif input == "DECRYPT":
+    elif native_input == "DECRYPT":
         return CmmOperation_DECRYPT()
 
     else:
-        raise ValueError(f"No recognized enum value in enum type: {input=}")
+        raise ValueError(f"No recognized enum value in enum type: {native_input=}")
 
 
-def aws_cryptography_materialproviderstestvectorkeys_GetKeyDescriptionInput(input):
+def aws_cryptography_materialproviderstestvectorkeys_GetKeyDescriptionInput(
+    native_input,
+):
     return DafnyGetKeyDescriptionInput(
-        json=Seq(input.json),
+        json=Seq(native_input.json),
     )
 
 
 def aws_cryptography_materialproviderstestvectorkeys_SerializeKeyDescriptionInput(
-    input,
+    native_input,
 ):
     return DafnySerializeKeyDescriptionInput(
         keyDescription=aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_KeyDescription(
-            input.key_description
+            native_input.key_description
         ),
     )
 
 
 def aws_cryptography_materialproviderstestvectorkeys_CreateWrappedTestVectorCmmOutput(
-    input,
+    native_input,
 ):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(
-        input
+        native_input
     )
 
 
-def aws_cryptography_materialproviderstestvectorkeys_GetKeyDescriptionOutput(input):
+def aws_cryptography_materialproviderstestvectorkeys_GetKeyDescriptionOutput(
+    native_input,
+):
     return DafnyGetKeyDescriptionOutput(
         keyDescription=aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_KeyDescription(
-            input.key_description
+            native_input.key_description
         ),
     )
 
 
 def aws_cryptography_materialproviderstestvectorkeys_SerializeKeyDescriptionOutput(
-    input,
+    native_input,
 ):
     return DafnySerializeKeyDescriptionOutput(
-        json=Seq(input.json),
+        json=Seq(native_input.json),
     )
 
 
-def aws_cryptography_materialproviderstestvectorkeys_KeyVectorsConfig(input):
+def aws_cryptography_materialproviderstestvectorkeys_KeyVectorsConfig(native_input):
     return DafnyKeyVectorsConfig(
-        keyManifestPath=Seq(input.key_manifest_path),
+        keyManifestPath=Seq(native_input.key_manifest_path),
     )

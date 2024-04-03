@@ -122,9 +122,9 @@ class default__:
     def GetAlgorithmSuiteForCommitmentPolicy(commitmentPolicy):
         source30_ = commitmentPolicy
         if source30_.is_ESDK:
-            d_1143___mcc_h0_ = source30_.ESDK
-            d_1144_c_ = d_1143___mcc_h0_
-            source31_ = d_1144_c_
+            d_1163___mcc_h0_ = source30_.ESDK
+            d_1164_c_ = d_1163___mcc_h0_
+            source31_ = d_1164_c_
             if source31_.is_FORBID__ENCRYPT__ALLOW__DECRYPT:
                 return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384())
             elif source31_.is_REQUIRE__ENCRYPT__ALLOW__DECRYPT:
@@ -132,6 +132,6 @@ class default__:
             elif True:
                 return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384())
         elif True:
-            d_1145___mcc_h1_ = source30_.DBE
+            d_1165___mcc_h1_ = source30_.DBE
             return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId_DBE(software_amazon_cryptography_materialproviders_internaldafny_types.DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384__SYMSIG__HMAC__SHA384())
 

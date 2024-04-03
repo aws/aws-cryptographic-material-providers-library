@@ -54,26 +54,26 @@ class default__:
 
     @staticmethod
     def SelectionSort(a, below):
-        d_247_m_: int
-        d_247_m_ = 0
-        while (d_247_m_) < ((a).length(0)):
-            d_248_mindex_: int
-            d_249_n_: int
-            rhs0_ = d_247_m_
-            rhs1_ = (d_247_m_) + (1)
-            d_248_mindex_ = rhs0_
-            d_249_n_ = rhs1_
-            while (d_249_n_) < ((a).length(0)):
-                if not(below((a)[d_248_mindex_], (a)[d_249_n_])):
-                    d_248_mindex_ = d_249_n_
-                d_249_n_ = (d_249_n_) + (1)
-            rhs2_ = (a)[d_248_mindex_]
-            rhs3_ = (a)[d_247_m_]
+        d_264_m_: int
+        d_264_m_ = 0
+        while (d_264_m_) < ((a).length(0)):
+            d_265_mindex_: int
+            d_266_n_: int
+            rhs0_ = d_264_m_
+            rhs1_ = (d_264_m_) + (1)
+            d_265_mindex_ = rhs0_
+            d_266_n_ = rhs1_
+            while (d_266_n_) < ((a).length(0)):
+                if not(below((a)[d_265_mindex_], (a)[d_266_n_])):
+                    d_265_mindex_ = d_266_n_
+                d_266_n_ = (d_266_n_) + (1)
+            rhs2_ = (a)[d_265_mindex_]
+            rhs3_ = (a)[d_264_m_]
             lhs0_ = a
-            lhs1_ = d_247_m_
+            lhs1_ = d_264_m_
             lhs2_ = a
-            lhs3_ = d_248_mindex_
+            lhs3_ = d_265_mindex_
             lhs0_[lhs1_] = rhs2_
             lhs2_[lhs3_] = rhs3_
-            d_247_m_ = (d_247_m_) + (1)
+            d_264_m_ = (d_264_m_) + (1)
 

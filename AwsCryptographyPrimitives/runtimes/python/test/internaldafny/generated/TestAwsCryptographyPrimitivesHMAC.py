@@ -90,13 +90,13 @@ class default__:
 
     @staticmethod
     def BasicHMACTest(digestAlgorithm, key, message, expectedDigest):
-        d_122_client_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
+        d_122_client_: software_amazon_cryptography_primitives_internaldafny.AtomicPrimitivesClient
         d_123_valueOrError0_: Wrappers.Result = None
         out25_: Wrappers.Result
         out25_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
         d_123_valueOrError0_ = out25_
         if not(not((d_123_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHMAC.dfy(66,15): " + _dafny.string_of(d_123_valueOrError0_))
+            raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHMAC.dfy(66,18): " + _dafny.string_of(d_123_valueOrError0_))
         d_122_client_ = (d_123_valueOrError0_).Extract()
         d_124_input_: software_amazon_cryptography_primitives_internaldafny_types.HMacInput
         d_124_input_ = software_amazon_cryptography_primitives_internaldafny_types.HMacInput_HMacInput(digestAlgorithm, key, message)
@@ -104,7 +104,7 @@ class default__:
         d_126_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_126_valueOrError1_ = (d_122_client_).HMac(d_124_input_)
         if not(not((d_126_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHMAC.dfy(74,15): " + _dafny.string_of(d_126_valueOrError1_))
+            raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHMAC.dfy(74,18): " + _dafny.string_of(d_126_valueOrError1_))
         d_125_output_ = (d_126_valueOrError1_).Extract()
         if not((len(d_125_output_)) == (Digest.default__.Length(digestAlgorithm))):
             raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHMAC.dfy(75,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))

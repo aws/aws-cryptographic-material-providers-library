@@ -83,21 +83,21 @@ class default__:
     @staticmethod
     def KeyGen(input):
         res: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_primitives_internaldafny_types.GenerateECDSASignatureKeyOutput.default())()
-        d_68_sigKeyPair_: SignatureKeyPair
-        d_69_valueOrError0_: Wrappers.Result = Wrappers.Result.default(SignatureKeyPair.default())()
+        d_75_sigKeyPair_: SignatureKeyPair
+        d_76_valueOrError0_: Wrappers.Result = Wrappers.Result.default(SignatureKeyPair.default())()
         out14_: Wrappers.Result
         out14_ = Signature.ECDSA.ExternKeyGen((input).signatureAlgorithm)
-        d_69_valueOrError0_ = out14_
-        if (d_69_valueOrError0_).IsFailure():
-            res = (d_69_valueOrError0_).PropagateFailure()
+        d_76_valueOrError0_ = out14_
+        if (d_76_valueOrError0_).IsFailure():
+            res = (d_76_valueOrError0_).PropagateFailure()
             return res
-        d_68_sigKeyPair_ = (d_69_valueOrError0_).Extract()
-        d_70_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_70_valueOrError1_ = Wrappers.default__.Need((len((d_68_sigKeyPair_).verificationKey)) == (default__.FieldSize((input).signatureAlgorithm)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect verification-key length from ExternKeyGen.")))
-        if (d_70_valueOrError1_).IsFailure():
-            res = (d_70_valueOrError1_).PropagateFailure()
+        d_75_sigKeyPair_ = (d_76_valueOrError0_).Extract()
+        d_77_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_77_valueOrError1_ = Wrappers.default__.Need((len((d_75_sigKeyPair_).verificationKey)) == (default__.FieldSize((input).signatureAlgorithm)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect verification-key length from ExternKeyGen.")))
+        if (d_77_valueOrError1_).IsFailure():
+            res = (d_77_valueOrError1_).PropagateFailure()
             return res
-        res = Wrappers.Result_Success(software_amazon_cryptography_primitives_internaldafny_types.GenerateECDSASignatureKeyOutput_GenerateECDSASignatureKeyOutput((input).signatureAlgorithm, (d_68_sigKeyPair_).verificationKey, (d_68_sigKeyPair_).signingKey))
+        res = Wrappers.Result_Success(software_amazon_cryptography_primitives_internaldafny_types.GenerateECDSASignatureKeyOutput_GenerateECDSASignatureKeyOutput((input).signatureAlgorithm, (d_75_sigKeyPair_).verificationKey, (d_75_sigKeyPair_).signingKey))
         return res
         return res
 

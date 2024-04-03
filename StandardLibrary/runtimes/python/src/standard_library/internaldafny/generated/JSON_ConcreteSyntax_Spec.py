@@ -98,13 +98,13 @@ class default__:
 
     @staticmethod
     def ConcatBytes(ts, fT):
-        d_658___accumulator_ = _dafny.Seq([])
+        d_684___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (len(ts)) == (0):
-                    return (d_658___accumulator_) + (_dafny.Seq([]))
+                    return (d_684___accumulator_) + (_dafny.Seq([]))
                 elif True:
-                    d_658___accumulator_ = (d_658___accumulator_) + (fT((ts)[0]))
+                    d_684___accumulator_ = (d_684___accumulator_) + (fT((ts)[0]))
                     in224_ = _dafny.Seq((ts)[1::])
                     in225_ = fT
                     ts = in224_
@@ -150,51 +150,51 @@ class default__:
 
     @staticmethod
     def Object(obj):
-        def lambda45_(d_659_obj_):
-            def lambda46_(d_660_d_):
-                return default__.Member(d_660_d_)
+        def lambda46_(d_685_obj_):
+            def lambda47_(d_686_d_):
+                return default__.Member(d_686_d_)
 
-            return lambda46_
+            return lambda47_
 
-        return default__.Bracketed(obj, lambda45_(obj))
+        return default__.Bracketed(obj, lambda46_(obj))
 
     @staticmethod
     def Array(arr):
-        def lambda47_(d_661_arr_):
-            def lambda48_(d_662_d_):
-                return default__.Item(d_662_d_)
+        def lambda48_(d_687_arr_):
+            def lambda49_(d_688_d_):
+                return default__.Item(d_688_d_)
 
-            return lambda48_
+            return lambda49_
 
-        return default__.Bracketed(arr, lambda47_(arr))
+        return default__.Bracketed(arr, lambda48_(arr))
 
     @staticmethod
     def Value(self):
         source18_ = self
         if source18_.is_Null:
-            d_663___mcc_h0_ = source18_.n
-            d_664_n_ = d_663___mcc_h0_
-            return default__.View(d_664_n_)
+            d_689___mcc_h0_ = source18_.n
+            d_690_n_ = d_689___mcc_h0_
+            return default__.View(d_690_n_)
         elif source18_.is_Bool:
-            d_665___mcc_h1_ = source18_.b
-            d_666_b_ = d_665___mcc_h1_
-            return default__.View(d_666_b_)
+            d_691___mcc_h1_ = source18_.b
+            d_692_b_ = d_691___mcc_h1_
+            return default__.View(d_692_b_)
         elif source18_.is_String:
-            d_667___mcc_h2_ = source18_.str
-            d_668_str_ = d_667___mcc_h2_
-            return default__.String(d_668_str_)
+            d_693___mcc_h2_ = source18_.str
+            d_694_str_ = d_693___mcc_h2_
+            return default__.String(d_694_str_)
         elif source18_.is_Number:
-            d_669___mcc_h3_ = source18_.num
-            d_670_num_ = d_669___mcc_h3_
-            return default__.Number(d_670_num_)
+            d_695___mcc_h3_ = source18_.num
+            d_696_num_ = d_695___mcc_h3_
+            return default__.Number(d_696_num_)
         elif source18_.is_Object:
-            d_671___mcc_h4_ = source18_.obj
-            d_672_obj_ = d_671___mcc_h4_
-            return default__.Object(d_672_obj_)
+            d_697___mcc_h4_ = source18_.obj
+            d_698_obj_ = d_697___mcc_h4_
+            return default__.Object(d_698_obj_)
         elif True:
-            d_673___mcc_h5_ = source18_.arr
-            d_674_arr_ = d_673___mcc_h5_
-            return default__.Array(d_674_arr_)
+            d_699___mcc_h5_ = source18_.arr
+            d_700_arr_ = d_699___mcc_h5_
+            return default__.Array(d_700_arr_)
 
     @staticmethod
     def JSON(js):

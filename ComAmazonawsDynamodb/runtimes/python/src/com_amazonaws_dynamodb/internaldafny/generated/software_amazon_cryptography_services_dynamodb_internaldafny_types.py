@@ -17,7 +17,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -30,6 +29,7 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
@@ -40,11 +40,13 @@ import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
+import DafnyLibraries
 
 # Module: software_amazon_cryptography_services_dynamodb_internaldafny_types
 
@@ -406,7 +408,7 @@ class AttributeAction_DELETE(AttributeAction, NamedTuple('DELETE', [])):
 class AttributeDefinition:
     @classmethod
     def default(cls, ):
-        return lambda: AttributeDefinition_AttributeDefinition(_dafny.Seq({}), ScalarAttributeType.default()())
+        return lambda: AttributeDefinition_AttributeDefinition(_dafny.Seq(""), ScalarAttributeType.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -428,7 +430,10 @@ class AttributeName:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_0_x_: _dafny.Seq = source__
+        return default__.IsValid__AttributeName(d_0_x_)
 
 class AttributeNameList:
     def  __init__(self):
@@ -437,11 +442,14 @@ class AttributeNameList:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_1_x_: _dafny.Seq = source__
+        return default__.IsValid__AttributeNameList(d_1_x_)
 
 class AttributeValue:
     @classmethod
     def default(cls, ):
-        return lambda: AttributeValue_S(_dafny.Seq({}))
+        return lambda: AttributeValue_S(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -600,7 +608,10 @@ class AutoScalingPolicyName:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_2_x_: _dafny.Seq = source__
+        return default__.IsValid__AutoScalingPolicyName(d_2_x_)
 
 class AutoScalingPolicyUpdate:
     @classmethod
@@ -627,7 +638,10 @@ class AutoScalingRoleArn:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_3_x_: _dafny.Seq = source__
+        return default__.IsValid__AutoScalingRoleArn(d_3_x_)
 
 class AutoScalingSettingsDescription:
     @classmethod
@@ -711,7 +725,10 @@ class BackupArn:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_4_x_: _dafny.Seq = source__
+        return default__.IsValid__BackupArn(d_4_x_)
 
 class BackupDescription:
     @classmethod
@@ -735,7 +752,7 @@ class BackupDescription_BackupDescription(BackupDescription, NamedTuple('BackupD
 class BackupDetails:
     @classmethod
     def default(cls, ):
-        return lambda: BackupDetails_BackupDetails(_dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()(), BackupStatus.default()(), BackupType.default()(), _dafny.Seq({}), Wrappers.Option.default()())
+        return lambda: BackupDetails_BackupDetails(_dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()(), BackupStatus.default()(), BackupType.default()(), _dafny.Seq(""), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -757,7 +774,10 @@ class BackupName:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_5_x_: _dafny.Seq = source__
+        return default__.IsValid__BackupName(d_5_x_)
 
 class BackupsInputLimit:
     def  __init__(self):
@@ -766,6 +786,11 @@ class BackupsInputLimit:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_6_x_: int = source__
+        if True:
+            return default__.IsValid__BackupsInputLimit(d_6_x_)
+        return False
 
 class BackupSizeBytes:
     def  __init__(self):
@@ -774,6 +799,11 @@ class BackupSizeBytes:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_7_x_: int = source__
+        if True:
+            return default__.IsValid__BackupSizeBytes(d_7_x_)
+        return False
 
 class BackupStatus:
     @_dafny.classproperty
@@ -1020,6 +1050,9 @@ class BatchGetRequestMap:
     @staticmethod
     def default():
         return _dafny.Map({})
+    def _Is(source__):
+        d_8_x_: _dafny.Map = source__
+        return default__.IsValid__BatchGetRequestMap(d_8_x_)
 
 class BatchStatementError:
     @classmethod
@@ -1175,7 +1208,7 @@ class BatchStatementErrorCodeEnum_DuplicateItem(BatchStatementErrorCodeEnum, Nam
 class BatchStatementRequest:
     @classmethod
     def default(cls, ):
-        return lambda: BatchStatementRequest_BatchStatementRequest(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: BatchStatementRequest_BatchStatementRequest(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1255,6 +1288,9 @@ class BatchWriteItemRequestMap:
     @staticmethod
     def default():
         return _dafny.Map({})
+    def _Is(source__):
+        d_9_x_: _dafny.Map = source__
+        return default__.IsValid__BatchWriteItemRequestMap(d_9_x_)
 
 class BilledSizeBytes:
     def  __init__(self):
@@ -1263,6 +1299,11 @@ class BilledSizeBytes:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_10_x_: int = source__
+        if True:
+            return default__.IsValid__BilledSizeBytes(d_10_x_)
+        return False
 
 class BillingMode:
     @_dafny.classproperty
@@ -1342,6 +1383,9 @@ class CancellationReasonList:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_11_x_: _dafny.Seq = source__
+        return default__.IsValid__CancellationReasonList(d_11_x_)
 
 class Capacity:
     @classmethod
@@ -1368,7 +1412,10 @@ class ClientRequestToken:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_12_x_: _dafny.Seq = source__
+        return default__.IsValid__ClientRequestToken(d_12_x_)
 
 class CloudWatchLogGroupArn:
     def  __init__(self):
@@ -1376,7 +1423,10 @@ class CloudWatchLogGroupArn:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_13_x_: _dafny.Seq = source__
+        return default__.IsValid__CloudWatchLogGroupArn(d_13_x_)
 
 class ComparisonOperator:
     @_dafny.classproperty
@@ -1587,7 +1637,7 @@ class ConditionalOperator_OR(ConditionalOperator, NamedTuple('OR', [])):
 class ConditionCheck:
     @classmethod
     def default(cls, ):
-        return lambda: ConditionCheck_ConditionCheck(_dafny.Map({}), _dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ConditionCheck_ConditionCheck(_dafny.Map({}), _dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1629,6 +1679,9 @@ class ConsumedCapacityUnits:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_14_x_: _dafny.Seq = source__
+        return default__.IsValid__ConsumedCapacityUnits(d_14_x_)
 
 class ContinuousBackupsDescription:
     @classmethod
@@ -1803,7 +1856,7 @@ class ContributorInsightsSummary_ContributorInsightsSummary(ContributorInsightsS
 class CreateBackupInput:
     @classmethod
     def default(cls, ):
-        return lambda: CreateBackupInput_CreateBackupInput(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: CreateBackupInput_CreateBackupInput(_dafny.Seq(""), _dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1841,7 +1894,7 @@ class CreateBackupOutput_CreateBackupOutput(CreateBackupOutput, NamedTuple('Crea
 class CreateGlobalSecondaryIndexAction:
     @classmethod
     def default(cls, ):
-        return lambda: CreateGlobalSecondaryIndexAction_CreateGlobalSecondaryIndexAction(_dafny.Seq({}), _dafny.Seq({}), Projection.default()(), Wrappers.Option.default()())
+        return lambda: CreateGlobalSecondaryIndexAction_CreateGlobalSecondaryIndexAction(_dafny.Seq(""), _dafny.Seq({}), Projection.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1860,7 +1913,7 @@ class CreateGlobalSecondaryIndexAction_CreateGlobalSecondaryIndexAction(CreateGl
 class CreateGlobalTableInput:
     @classmethod
     def default(cls, ):
-        return lambda: CreateGlobalTableInput_CreateGlobalTableInput(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: CreateGlobalTableInput_CreateGlobalTableInput(_dafny.Seq(""), _dafny.Seq({}))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1898,7 +1951,7 @@ class CreateGlobalTableOutput_CreateGlobalTableOutput(CreateGlobalTableOutput, N
 class CreateReplicaAction:
     @classmethod
     def default(cls, ):
-        return lambda: CreateReplicaAction_CreateReplicaAction(_dafny.Seq({}))
+        return lambda: CreateReplicaAction_CreateReplicaAction(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1917,7 +1970,7 @@ class CreateReplicaAction_CreateReplicaAction(CreateReplicaAction, NamedTuple('C
 class CreateReplicationGroupMemberAction:
     @classmethod
     def default(cls, ):
-        return lambda: CreateReplicationGroupMemberAction_CreateReplicationGroupMemberAction(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: CreateReplicationGroupMemberAction_CreateReplicationGroupMemberAction(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1936,7 +1989,7 @@ class CreateReplicationGroupMemberAction_CreateReplicationGroupMemberAction(Crea
 class CreateTableInput:
     @classmethod
     def default(cls, ):
-        return lambda: CreateTableInput_CreateTableInput(_dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: CreateTableInput_CreateTableInput(_dafny.Seq({}), _dafny.Seq(""), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1977,7 +2030,10 @@ class CsvDelimiter:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_15_x_: _dafny.Seq = source__
+        return default__.IsValid__CsvDelimiter(d_15_x_)
 
 class CsvHeader:
     def  __init__(self):
@@ -1985,7 +2041,10 @@ class CsvHeader:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_16_x_: _dafny.Seq = source__
+        return default__.IsValid__CsvHeader(d_16_x_)
 
 class CsvHeaderList:
     def  __init__(self):
@@ -1994,6 +2053,9 @@ class CsvHeaderList:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_17_x_: _dafny.Seq = source__
+        return default__.IsValid__CsvHeaderList(d_17_x_)
 
 class CsvOptions:
     @classmethod
@@ -2017,7 +2079,7 @@ class CsvOptions_CsvOptions(CsvOptions, NamedTuple('CsvOptions', [('Delimiter', 
 class Delete:
     @classmethod
     def default(cls, ):
-        return lambda: Delete_Delete(_dafny.Map({}), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: Delete_Delete(_dafny.Map({}), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2036,7 +2098,7 @@ class Delete_Delete(Delete, NamedTuple('Delete', [('Key', Any), ('TableName', An
 class DeleteBackupInput:
     @classmethod
     def default(cls, ):
-        return lambda: DeleteBackupInput_DeleteBackupInput(_dafny.Seq({}))
+        return lambda: DeleteBackupInput_DeleteBackupInput(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2074,7 +2136,7 @@ class DeleteBackupOutput_DeleteBackupOutput(DeleteBackupOutput, NamedTuple('Dele
 class DeleteGlobalSecondaryIndexAction:
     @classmethod
     def default(cls, ):
-        return lambda: DeleteGlobalSecondaryIndexAction_DeleteGlobalSecondaryIndexAction(_dafny.Seq({}))
+        return lambda: DeleteGlobalSecondaryIndexAction_DeleteGlobalSecondaryIndexAction(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2093,7 +2155,7 @@ class DeleteGlobalSecondaryIndexAction_DeleteGlobalSecondaryIndexAction(DeleteGl
 class DeleteItemInput:
     @classmethod
     def default(cls, ):
-        return lambda: DeleteItemInput_DeleteItemInput(_dafny.Seq({}), _dafny.Map({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: DeleteItemInput_DeleteItemInput(_dafny.Seq(""), _dafny.Map({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2131,7 +2193,7 @@ class DeleteItemOutput_DeleteItemOutput(DeleteItemOutput, NamedTuple('DeleteItem
 class DeleteReplicaAction:
     @classmethod
     def default(cls, ):
-        return lambda: DeleteReplicaAction_DeleteReplicaAction(_dafny.Seq({}))
+        return lambda: DeleteReplicaAction_DeleteReplicaAction(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2150,7 +2212,7 @@ class DeleteReplicaAction_DeleteReplicaAction(DeleteReplicaAction, NamedTuple('D
 class DeleteReplicationGroupMemberAction:
     @classmethod
     def default(cls, ):
-        return lambda: DeleteReplicationGroupMemberAction_DeleteReplicationGroupMemberAction(_dafny.Seq({}))
+        return lambda: DeleteReplicationGroupMemberAction_DeleteReplicationGroupMemberAction(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2188,7 +2250,7 @@ class DeleteRequest_DeleteRequest(DeleteRequest, NamedTuple('DeleteRequest', [('
 class DeleteTableInput:
     @classmethod
     def default(cls, ):
-        return lambda: DeleteTableInput_DeleteTableInput(_dafny.Seq({}))
+        return lambda: DeleteTableInput_DeleteTableInput(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2226,7 +2288,7 @@ class DeleteTableOutput_DeleteTableOutput(DeleteTableOutput, NamedTuple('DeleteT
 class DescribeBackupInput:
     @classmethod
     def default(cls, ):
-        return lambda: DescribeBackupInput_DescribeBackupInput(_dafny.Seq({}))
+        return lambda: DescribeBackupInput_DescribeBackupInput(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2264,7 +2326,7 @@ class DescribeBackupOutput_DescribeBackupOutput(DescribeBackupOutput, NamedTuple
 class DescribeContinuousBackupsInput:
     @classmethod
     def default(cls, ):
-        return lambda: DescribeContinuousBackupsInput_DescribeContinuousBackupsInput(_dafny.Seq({}))
+        return lambda: DescribeContinuousBackupsInput_DescribeContinuousBackupsInput(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2302,7 +2364,7 @@ class DescribeContinuousBackupsOutput_DescribeContinuousBackupsOutput(DescribeCo
 class DescribeContributorInsightsInput:
     @classmethod
     def default(cls, ):
-        return lambda: DescribeContributorInsightsInput_DescribeContributorInsightsInput(_dafny.Seq({}), Wrappers.Option.default()())
+        return lambda: DescribeContributorInsightsInput_DescribeContributorInsightsInput(_dafny.Seq(""), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2381,7 +2443,7 @@ class DescribeEndpointsResponse_DescribeEndpointsResponse(DescribeEndpointsRespo
 class DescribeExportInput:
     @classmethod
     def default(cls, ):
-        return lambda: DescribeExportInput_DescribeExportInput(_dafny.Seq({}))
+        return lambda: DescribeExportInput_DescribeExportInput(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2419,7 +2481,7 @@ class DescribeExportOutput_DescribeExportOutput(DescribeExportOutput, NamedTuple
 class DescribeGlobalTableInput:
     @classmethod
     def default(cls, ):
-        return lambda: DescribeGlobalTableInput_DescribeGlobalTableInput(_dafny.Seq({}))
+        return lambda: DescribeGlobalTableInput_DescribeGlobalTableInput(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2457,7 +2519,7 @@ class DescribeGlobalTableOutput_DescribeGlobalTableOutput(DescribeGlobalTableOut
 class DescribeGlobalTableSettingsInput:
     @classmethod
     def default(cls, ):
-        return lambda: DescribeGlobalTableSettingsInput_DescribeGlobalTableSettingsInput(_dafny.Seq({}))
+        return lambda: DescribeGlobalTableSettingsInput_DescribeGlobalTableSettingsInput(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2495,7 +2557,7 @@ class DescribeGlobalTableSettingsOutput_DescribeGlobalTableSettingsOutput(Descri
 class DescribeImportInput:
     @classmethod
     def default(cls, ):
-        return lambda: DescribeImportInput_DescribeImportInput(_dafny.Seq({}))
+        return lambda: DescribeImportInput_DescribeImportInput(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2533,7 +2595,7 @@ class DescribeImportOutput_DescribeImportOutput(DescribeImportOutput, NamedTuple
 class DescribeKinesisStreamingDestinationInput:
     @classmethod
     def default(cls, ):
-        return lambda: DescribeKinesisStreamingDestinationInput_DescribeKinesisStreamingDestinationInput(_dafny.Seq({}))
+        return lambda: DescribeKinesisStreamingDestinationInput_DescribeKinesisStreamingDestinationInput(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2612,7 +2674,7 @@ class DescribeLimitsOutput_DescribeLimitsOutput(DescribeLimitsOutput, NamedTuple
 class DescribeTableInput:
     @classmethod
     def default(cls, ):
-        return lambda: DescribeTableInput_DescribeTableInput(_dafny.Seq({}))
+        return lambda: DescribeTableInput_DescribeTableInput(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2650,7 +2712,7 @@ class DescribeTableOutput_DescribeTableOutput(DescribeTableOutput, NamedTuple('D
 class DescribeTableReplicaAutoScalingInput:
     @classmethod
     def default(cls, ):
-        return lambda: DescribeTableReplicaAutoScalingInput_DescribeTableReplicaAutoScalingInput(_dafny.Seq({}))
+        return lambda: DescribeTableReplicaAutoScalingInput_DescribeTableReplicaAutoScalingInput(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2688,7 +2750,7 @@ class DescribeTableReplicaAutoScalingOutput_DescribeTableReplicaAutoScalingOutpu
 class DescribeTimeToLiveInput:
     @classmethod
     def default(cls, ):
-        return lambda: DescribeTimeToLiveInput_DescribeTimeToLiveInput(_dafny.Seq({}))
+        return lambda: DescribeTimeToLiveInput_DescribeTimeToLiveInput(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2792,7 +2854,7 @@ class DestinationStatus_ENABLE__FAILED(DestinationStatus, NamedTuple('ENABLE__FA
 class DisableKinesisStreamingDestinationInput:
     @classmethod
     def default(cls, ):
-        return lambda: DisableKinesisStreamingDestinationInput_DisableKinesisStreamingDestinationInput(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: DisableKinesisStreamingDestinationInput_DisableKinesisStreamingDestinationInput(_dafny.Seq(""), _dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2834,6 +2896,9 @@ class Double:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_18_x_: _dafny.Seq = source__
+        return default__.IsValid__Double(d_18_x_)
 
 class IDynamoDBClientCallHistory:
     def  __init__(self):
@@ -3007,7 +3072,7 @@ class IDynamoDBClient:
 class EnableKinesisStreamingDestinationInput:
     @classmethod
     def default(cls, ):
-        return lambda: EnableKinesisStreamingDestinationInput_EnableKinesisStreamingDestinationInput(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: EnableKinesisStreamingDestinationInput_EnableKinesisStreamingDestinationInput(_dafny.Seq(""), _dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -3045,7 +3110,7 @@ class EnableKinesisStreamingDestinationOutput_EnableKinesisStreamingDestinationO
 class Endpoint:
     @classmethod
     def default(cls, ):
-        return lambda: Endpoint_Endpoint(_dafny.Seq({}), int(0))
+        return lambda: Endpoint_Endpoint(_dafny.Seq(""), int(0))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -3068,11 +3133,16 @@ class ErrorCount:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_19_x_: int = source__
+        if True:
+            return default__.IsValid__ErrorCount(d_19_x_)
+        return False
 
 class ExecuteStatementInput:
     @classmethod
     def default(cls, ):
-        return lambda: ExecuteStatementInput_ExecuteStatementInput(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ExecuteStatementInput_ExecuteStatementInput(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -3170,7 +3240,10 @@ class ExportArn:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_20_x_: _dafny.Seq = source__
+        return default__.IsValid__ExportArn(d_20_x_)
 
 class ExportDescription:
     @classmethod
@@ -3290,7 +3363,7 @@ class ExportSummary_ExportSummary(ExportSummary, NamedTuple('ExportSummary', [('
 class ExportTableToPointInTimeInput:
     @classmethod
     def default(cls, ):
-        return lambda: ExportTableToPointInTimeInput_ExportTableToPointInTimeInput(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ExportTableToPointInTimeInput_ExportTableToPointInTimeInput(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -3347,7 +3420,7 @@ class FailureException_FailureException(FailureException, NamedTuple('FailureExc
 class Get:
     @classmethod
     def default(cls, ):
-        return lambda: Get_Get(_dafny.Map({}), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: Get_Get(_dafny.Map({}), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -3366,7 +3439,7 @@ class Get_Get(Get, NamedTuple('Get', [('Key', Any), ('TableName', Any), ('Projec
 class GetItemInput:
     @classmethod
     def default(cls, ):
-        return lambda: GetItemInput_GetItemInput(_dafny.Seq({}), _dafny.Map({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: GetItemInput_GetItemInput(_dafny.Seq(""), _dafny.Map({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -3404,7 +3477,7 @@ class GetItemOutput_GetItemOutput(GetItemOutput, NamedTuple('GetItemOutput', [('
 class GlobalSecondaryIndex:
     @classmethod
     def default(cls, ):
-        return lambda: GlobalSecondaryIndex_GlobalSecondaryIndex(_dafny.Seq({}), _dafny.Seq({}), Projection.default()(), Wrappers.Option.default()())
+        return lambda: GlobalSecondaryIndex_GlobalSecondaryIndex(_dafny.Seq(""), _dafny.Seq({}), Projection.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -3446,6 +3519,9 @@ class GlobalSecondaryIndexAutoScalingUpdateList:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_21_x_: _dafny.Seq = source__
+        return default__.IsValid__GlobalSecondaryIndexAutoScalingUpdateList(d_21_x_)
 
 class GlobalSecondaryIndexDescription:
     @classmethod
@@ -3545,7 +3621,7 @@ class GlobalTableDescription_GlobalTableDescription(GlobalTableDescription, Name
 class GlobalTableGlobalSecondaryIndexSettingsUpdate:
     @classmethod
     def default(cls, ):
-        return lambda: GlobalTableGlobalSecondaryIndexSettingsUpdate_GlobalTableGlobalSecondaryIndexSettingsUpdate(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: GlobalTableGlobalSecondaryIndexSettingsUpdate_GlobalTableGlobalSecondaryIndexSettingsUpdate(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -3568,6 +3644,9 @@ class GlobalTableGlobalSecondaryIndexSettingsUpdateList:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_22_x_: _dafny.Seq = source__
+        return default__.IsValid__GlobalTableGlobalSecondaryIndexSettingsUpdateList(d_22_x_)
 
 class GlobalTableStatus:
     @_dafny.classproperty
@@ -3630,7 +3709,10 @@ class ImportArn:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_23_x_: _dafny.Seq = source__
+        return default__.IsValid__ImportArn(d_23_x_)
 
 class ImportedItemCount:
     def  __init__(self):
@@ -3639,6 +3721,11 @@ class ImportedItemCount:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_24_x_: int = source__
+        if True:
+            return default__.IsValid__ImportedItemCount(d_24_x_)
+        return False
 
 class ImportNextToken:
     def  __init__(self):
@@ -3646,7 +3733,10 @@ class ImportNextToken:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_25_x_: _dafny.Seq = source__
+        return default__.IsValid__ImportNextToken(d_25_x_)
 
 class ImportStatus:
     @_dafny.classproperty
@@ -3796,7 +3886,10 @@ class IndexName:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_26_x_: _dafny.Seq = source__
+        return default__.IsValid__IndexName(d_26_x_)
 
 class IndexStatus:
     @_dafny.classproperty
@@ -3986,6 +4079,9 @@ class ItemCollectionSizeEstimateBound:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_27_x_: _dafny.Seq = source__
+        return default__.IsValid__ItemCollectionSizeEstimateBound(d_27_x_)
 
 class ItemCount:
     def  __init__(self):
@@ -3994,6 +4090,11 @@ class ItemCount:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_28_x_: int = source__
+        if True:
+            return default__.IsValid__ItemCount(d_28_x_)
+        return False
 
 class ItemResponse:
     @classmethod
@@ -4021,6 +4122,9 @@ class ItemResponseList:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_29_x_: _dafny.Seq = source__
+        return default__.IsValid__ItemResponseList(d_29_x_)
 
 class KeyList:
     def  __init__(self):
@@ -4029,6 +4133,9 @@ class KeyList:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_30_x_: _dafny.Seq = source__
+        return default__.IsValid__KeyList(d_30_x_)
 
 class KeysAndAttributes:
     @classmethod
@@ -4056,6 +4163,9 @@ class KeySchema:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_31_x_: _dafny.Seq = source__
+        return default__.IsValid__KeySchema(d_31_x_)
 
 class KeySchemaAttributeName:
     def  __init__(self):
@@ -4063,12 +4173,15 @@ class KeySchemaAttributeName:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_32_x_: _dafny.Seq = source__
+        return default__.IsValid__KeySchemaAttributeName(d_32_x_)
 
 class KeySchemaElement:
     @classmethod
     def default(cls, ):
-        return lambda: KeySchemaElement_KeySchemaElement(_dafny.Seq({}), KeyType.default()())
+        return lambda: KeySchemaElement_KeySchemaElement(_dafny.Seq(""), KeyType.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -4139,7 +4252,7 @@ class KinesisDataStreamDestination_KinesisDataStreamDestination(KinesisDataStrea
 class KinesisStreamingDestinationInput:
     @classmethod
     def default(cls, ):
-        return lambda: KinesisStreamingDestinationInput_KinesisStreamingDestinationInput(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: KinesisStreamingDestinationInput_KinesisStreamingDestinationInput(_dafny.Seq(""), _dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -4238,6 +4351,11 @@ class ListContributorInsightsLimit:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_33_x_: int = source__
+        if True:
+            return default__.IsValid__ListContributorInsightsLimit(d_33_x_)
+        return False
 
 class ListContributorInsightsOutput:
     @classmethod
@@ -4284,6 +4402,11 @@ class ListExportsMaxLimit:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_34_x_: int = source__
+        if True:
+            return default__.IsValid__ListExportsMaxLimit(d_34_x_)
+        return False
 
 class ListExportsOutput:
     @classmethod
@@ -4368,6 +4491,11 @@ class ListImportsMaxLimit:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_35_x_: int = source__
+        if True:
+            return default__.IsValid__ListImportsMaxLimit(d_35_x_)
+        return False
 
 class ListImportsOutput:
     @classmethod
@@ -4414,6 +4542,11 @@ class ListTablesInputLimit:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_36_x_: int = source__
+        if True:
+            return default__.IsValid__ListTablesInputLimit(d_36_x_)
+        return False
 
 class ListTablesOutput:
     @classmethod
@@ -4437,7 +4570,7 @@ class ListTablesOutput_ListTablesOutput(ListTablesOutput, NamedTuple('ListTables
 class ListTagsOfResourceInput:
     @classmethod
     def default(cls, ):
-        return lambda: ListTagsOfResourceInput_ListTagsOfResourceInput(_dafny.Seq({}), Wrappers.Option.default()())
+        return lambda: ListTagsOfResourceInput_ListTagsOfResourceInput(_dafny.Seq(""), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -4475,7 +4608,7 @@ class ListTagsOfResourceOutput_ListTagsOfResourceOutput(ListTagsOfResourceOutput
 class LocalSecondaryIndex:
     @classmethod
     def default(cls, ):
-        return lambda: LocalSecondaryIndex_LocalSecondaryIndex(_dafny.Seq({}), _dafny.Seq({}), Projection.default()())
+        return lambda: LocalSecondaryIndex_LocalSecondaryIndex(_dafny.Seq(""), _dafny.Seq({}), Projection.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -4535,7 +4668,10 @@ class NonKeyAttributeName:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_37_x_: _dafny.Seq = source__
+        return default__.IsValid__NonKeyAttributeName(d_37_x_)
 
 class NonKeyAttributeNameList:
     def  __init__(self):
@@ -4544,6 +4680,9 @@ class NonKeyAttributeNameList:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_38_x_: _dafny.Seq = source__
+        return default__.IsValid__NonKeyAttributeNameList(d_38_x_)
 
 class NonNegativeLongObject:
     def  __init__(self):
@@ -4552,11 +4691,16 @@ class NonNegativeLongObject:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_39_x_: int = source__
+        if True:
+            return default__.IsValid__NonNegativeLongObject(d_39_x_)
+        return False
 
 class ParameterizedStatement:
     @classmethod
     def default(cls, ):
-        return lambda: ParameterizedStatement_ParameterizedStatement(_dafny.Seq({}), Wrappers.Option.default()())
+        return lambda: ParameterizedStatement_ParameterizedStatement(_dafny.Seq(""), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -4579,6 +4723,9 @@ class ParameterizedStatements:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_40_x_: _dafny.Seq = source__
+        return default__.IsValid__ParameterizedStatements(d_40_x_)
 
 class PartiQLBatchRequest:
     def  __init__(self):
@@ -4587,6 +4734,9 @@ class PartiQLBatchRequest:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_41_x_: _dafny.Seq = source__
+        return default__.IsValid__PartiQLBatchRequest(d_41_x_)
 
 class PartiQLNextToken:
     def  __init__(self):
@@ -4594,7 +4744,10 @@ class PartiQLNextToken:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_42_x_: _dafny.Seq = source__
+        return default__.IsValid__PartiQLNextToken(d_42_x_)
 
 class PartiQLStatement:
     def  __init__(self):
@@ -4602,7 +4755,10 @@ class PartiQLStatement:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_43_x_: _dafny.Seq = source__
+        return default__.IsValid__PartiQLStatement(d_43_x_)
 
 class PointInTimeRecoveryDescription:
     @classmethod
@@ -4682,6 +4838,11 @@ class PositiveIntegerObject:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_44_x_: int = source__
+        if True:
+            return default__.IsValid__PositiveIntegerObject(d_44_x_)
+        return False
 
 class PositiveLongObject:
     def  __init__(self):
@@ -4690,6 +4851,11 @@ class PositiveLongObject:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_45_x_: int = source__
+        if True:
+            return default__.IsValid__PositiveLongObject(d_45_x_)
+        return False
 
 class PreparedStatementParameters:
     def  __init__(self):
@@ -4698,6 +4864,9 @@ class PreparedStatementParameters:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_46_x_: _dafny.Seq = source__
+        return default__.IsValid__PreparedStatementParameters(d_46_x_)
 
 class ProcessedItemCount:
     def  __init__(self):
@@ -4706,6 +4875,11 @@ class ProcessedItemCount:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_47_x_: int = source__
+        if True:
+            return default__.IsValid__ProcessedItemCount(d_47_x_)
+        return False
 
 class Projection:
     @classmethod
@@ -4830,7 +5004,7 @@ class ProvisionedThroughputOverride_ProvisionedThroughputOverride(ProvisionedThr
 class Put:
     @classmethod
     def default(cls, ):
-        return lambda: Put_Put(_dafny.Map({}), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: Put_Put(_dafny.Map({}), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -4849,7 +5023,7 @@ class Put_Put(Put, NamedTuple('Put', [('Item', Any), ('TableName', Any), ('Condi
 class PutItemInput:
     @classmethod
     def default(cls, ):
-        return lambda: PutItemInput_PutItemInput(_dafny.Seq({}), _dafny.Map({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: PutItemInput_PutItemInput(_dafny.Seq(""), _dafny.Map({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -4906,7 +5080,7 @@ class PutRequest_PutRequest(PutRequest, NamedTuple('PutRequest', [('Item', Any)]
 class QueryInput:
     @classmethod
     def default(cls, ):
-        return lambda: QueryInput_QueryInput(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: QueryInput_QueryInput(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -4982,7 +5156,7 @@ class ReplicaAutoScalingDescription_ReplicaAutoScalingDescription(ReplicaAutoSca
 class ReplicaAutoScalingUpdate:
     @classmethod
     def default(cls, ):
-        return lambda: ReplicaAutoScalingUpdate_ReplicaAutoScalingUpdate(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ReplicaAutoScalingUpdate_ReplicaAutoScalingUpdate(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -5005,6 +5179,9 @@ class ReplicaAutoScalingUpdateList:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_48_x_: _dafny.Seq = source__
+        return default__.IsValid__ReplicaAutoScalingUpdateList(d_48_x_)
 
 class ReplicaDescription:
     @classmethod
@@ -5028,7 +5205,7 @@ class ReplicaDescription_ReplicaDescription(ReplicaDescription, NamedTuple('Repl
 class ReplicaGlobalSecondaryIndex:
     @classmethod
     def default(cls, ):
-        return lambda: ReplicaGlobalSecondaryIndex_ReplicaGlobalSecondaryIndex(_dafny.Seq({}), Wrappers.Option.default()())
+        return lambda: ReplicaGlobalSecondaryIndex_ReplicaGlobalSecondaryIndex(_dafny.Seq(""), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -5108,11 +5285,14 @@ class ReplicaGlobalSecondaryIndexList:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_49_x_: _dafny.Seq = source__
+        return default__.IsValid__ReplicaGlobalSecondaryIndexList(d_49_x_)
 
 class ReplicaGlobalSecondaryIndexSettingsDescription:
     @classmethod
     def default(cls, ):
-        return lambda: ReplicaGlobalSecondaryIndexSettingsDescription_ReplicaGlobalSecondaryIndexSettingsDescription(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ReplicaGlobalSecondaryIndexSettingsDescription_ReplicaGlobalSecondaryIndexSettingsDescription(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -5131,7 +5311,7 @@ class ReplicaGlobalSecondaryIndexSettingsDescription_ReplicaGlobalSecondaryIndex
 class ReplicaGlobalSecondaryIndexSettingsUpdate:
     @classmethod
     def default(cls, ):
-        return lambda: ReplicaGlobalSecondaryIndexSettingsUpdate_ReplicaGlobalSecondaryIndexSettingsUpdate(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ReplicaGlobalSecondaryIndexSettingsUpdate_ReplicaGlobalSecondaryIndexSettingsUpdate(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -5154,11 +5334,14 @@ class ReplicaGlobalSecondaryIndexSettingsUpdateList:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_50_x_: _dafny.Seq = source__
+        return default__.IsValid__ReplicaGlobalSecondaryIndexSettingsUpdateList(d_50_x_)
 
 class ReplicaSettingsDescription:
     @classmethod
     def default(cls, ):
-        return lambda: ReplicaSettingsDescription_ReplicaSettingsDescription(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ReplicaSettingsDescription_ReplicaSettingsDescription(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -5177,7 +5360,7 @@ class ReplicaSettingsDescription_ReplicaSettingsDescription(ReplicaSettingsDescr
 class ReplicaSettingsUpdate:
     @classmethod
     def default(cls, ):
-        return lambda: ReplicaSettingsUpdate_ReplicaSettingsUpdate(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ReplicaSettingsUpdate_ReplicaSettingsUpdate(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -5200,6 +5383,9 @@ class ReplicaSettingsUpdateList:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_51_x_: _dafny.Seq = source__
+        return default__.IsValid__ReplicaSettingsUpdateList(d_51_x_)
 
 class ReplicaStatus:
     @_dafny.classproperty
@@ -5315,6 +5501,9 @@ class ReplicationGroupUpdateList:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_52_x_: _dafny.Seq = source__
+        return default__.IsValid__ReplicationGroupUpdateList(d_52_x_)
 
 class ReplicaUpdate:
     @classmethod
@@ -5341,12 +5530,15 @@ class ResourceArnString:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_53_x_: _dafny.Seq = source__
+        return default__.IsValid__ResourceArnString(d_53_x_)
 
 class RestoreSummary:
     @classmethod
     def default(cls, ):
-        return lambda: RestoreSummary_RestoreSummary(Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq({}), False)
+        return lambda: RestoreSummary_RestoreSummary(Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq(""), False)
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -5365,7 +5557,7 @@ class RestoreSummary_RestoreSummary(RestoreSummary, NamedTuple('RestoreSummary',
 class RestoreTableFromBackupInput:
     @classmethod
     def default(cls, ):
-        return lambda: RestoreTableFromBackupInput_RestoreTableFromBackupInput(_dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: RestoreTableFromBackupInput_RestoreTableFromBackupInput(_dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -5403,7 +5595,7 @@ class RestoreTableFromBackupOutput_RestoreTableFromBackupOutput(RestoreTableFrom
 class RestoreTableToPointInTimeInput:
     @classmethod
     def default(cls, ):
-        return lambda: RestoreTableToPointInTimeInput_RestoreTableToPointInTimeInput(Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: RestoreTableToPointInTimeInput_RestoreTableToPointInTimeInput(Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -5620,12 +5812,15 @@ class S3Bucket:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_54_x_: _dafny.Seq = source__
+        return default__.IsValid__S3Bucket(d_54_x_)
 
 class S3BucketSource:
     @classmethod
     def default(cls, ):
-        return lambda: S3BucketSource_S3BucketSource(Wrappers.Option.default()(), _dafny.Seq({}), Wrappers.Option.default()())
+        return lambda: S3BucketSource_S3BucketSource(Wrappers.Option.default()(), _dafny.Seq(""), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -5647,7 +5842,10 @@ class S3Prefix:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_55_x_: _dafny.Seq = source__
+        return default__.IsValid__S3Prefix(d_55_x_)
 
 class S3SseAlgorithm:
     @_dafny.classproperty
@@ -5688,7 +5886,10 @@ class S3SseKmsKeyId:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_56_x_: _dafny.Seq = source__
+        return default__.IsValid__S3SseKmsKeyId(d_56_x_)
 
 class ScalarAttributeType:
     @_dafny.classproperty
@@ -5737,7 +5938,7 @@ class ScalarAttributeType_B(ScalarAttributeType, NamedTuple('B', [])):
 class ScanInput:
     @classmethod
     def default(cls, ):
-        return lambda: ScanInput_ScanInput(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ScanInput_ScanInput(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -5779,6 +5980,11 @@ class ScanSegment:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_57_x_: int = source__
+        if True:
+            return default__.IsValid__ScanSegment(d_57_x_)
+        return False
 
 class ScanTotalSegments:
     def  __init__(self):
@@ -5787,6 +5993,11 @@ class ScanTotalSegments:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_58_x_: int = source__
+        if True:
+            return default__.IsValid__ScanTotalSegments(d_58_x_)
+        return False
 
 class Select:
     @_dafny.classproperty
@@ -5846,7 +6057,7 @@ class Select_COUNT(Select, NamedTuple('COUNT', [])):
 class SourceTableDetails:
     @classmethod
     def default(cls, ):
-        return lambda: SourceTableDetails_SourceTableDetails(_dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq({}), _dafny.Seq({}), ProvisionedThroughput.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: SourceTableDetails_SourceTableDetails(_dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq({}), _dafny.Seq(""), ProvisionedThroughput.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -6024,7 +6235,10 @@ class StreamArn:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_59_x_: _dafny.Seq = source__
+        return default__.IsValid__StreamArn(d_59_x_)
 
 class StreamSpecification:
     @classmethod
@@ -6174,7 +6388,7 @@ class TableClassSummary_TableClassSummary(TableClassSummary, NamedTuple('TableCl
 class TableCreationParameters:
     @classmethod
     def default(cls, ):
-        return lambda: TableCreationParameters_TableCreationParameters(_dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: TableCreationParameters_TableCreationParameters(_dafny.Seq(""), _dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -6215,7 +6429,10 @@ class TableName:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_60_x_: _dafny.Seq = source__
+        return default__.IsValid__TableName(d_60_x_)
 
 class TableStatus:
     @_dafny.classproperty
@@ -6308,7 +6525,7 @@ class TableStatus_ARCHIVED(TableStatus, NamedTuple('ARCHIVED', [])):
 class Tag:
     @classmethod
     def default(cls, ):
-        return lambda: Tag_Tag(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: Tag_Tag(_dafny.Seq(""), _dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -6330,12 +6547,15 @@ class TagKeyString:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_61_x_: _dafny.Seq = source__
+        return default__.IsValid__TagKeyString(d_61_x_)
 
 class TagResourceInput:
     @classmethod
     def default(cls, ):
-        return lambda: TagResourceInput_TagResourceInput(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: TagResourceInput_TagResourceInput(_dafny.Seq(""), _dafny.Seq({}))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -6357,7 +6577,10 @@ class TagValueString:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_62_x_: _dafny.Seq = source__
+        return default__.IsValid__TagValueString(d_62_x_)
 
 class TimeToLiveAttributeName:
     def  __init__(self):
@@ -6365,7 +6588,10 @@ class TimeToLiveAttributeName:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_63_x_: _dafny.Seq = source__
+        return default__.IsValid__TimeToLiveAttributeName(d_63_x_)
 
 class TimeToLiveDescription:
     @classmethod
@@ -6389,7 +6615,7 @@ class TimeToLiveDescription_TimeToLiveDescription(TimeToLiveDescription, NamedTu
 class TimeToLiveSpecification:
     @classmethod
     def default(cls, ):
-        return lambda: TimeToLiveSpecification_TimeToLiveSpecification(False, _dafny.Seq({}))
+        return lambda: TimeToLiveSpecification_TimeToLiveSpecification(False, _dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -6486,6 +6712,9 @@ class TransactGetItemList:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_64_x_: _dafny.Seq = source__
+        return default__.IsValid__TransactGetItemList(d_64_x_)
 
 class TransactGetItemsInput:
     @classmethod
@@ -6551,6 +6780,9 @@ class TransactWriteItemList:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_65_x_: _dafny.Seq = source__
+        return default__.IsValid__TransactWriteItemList(d_65_x_)
 
 class TransactWriteItemsInput:
     @classmethod
@@ -6593,7 +6825,7 @@ class TransactWriteItemsOutput_TransactWriteItemsOutput(TransactWriteItemsOutput
 class UntagResourceInput:
     @classmethod
     def default(cls, ):
-        return lambda: UntagResourceInput_UntagResourceInput(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: UntagResourceInput_UntagResourceInput(_dafny.Seq(""), _dafny.Seq({}))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -6612,7 +6844,7 @@ class UntagResourceInput_UntagResourceInput(UntagResourceInput, NamedTuple('Unta
 class Update:
     @classmethod
     def default(cls, ):
-        return lambda: Update_Update(_dafny.Map({}), _dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: Update_Update(_dafny.Map({}), _dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -6631,7 +6863,7 @@ class Update_Update(Update, NamedTuple('Update', [('Key', Any), ('UpdateExpressi
 class UpdateContinuousBackupsInput:
     @classmethod
     def default(cls, ):
-        return lambda: UpdateContinuousBackupsInput_UpdateContinuousBackupsInput(_dafny.Seq({}), PointInTimeRecoverySpecification.default()())
+        return lambda: UpdateContinuousBackupsInput_UpdateContinuousBackupsInput(_dafny.Seq(""), PointInTimeRecoverySpecification.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -6669,7 +6901,7 @@ class UpdateContinuousBackupsOutput_UpdateContinuousBackupsOutput(UpdateContinuo
 class UpdateContributorInsightsInput:
     @classmethod
     def default(cls, ):
-        return lambda: UpdateContributorInsightsInput_UpdateContributorInsightsInput(_dafny.Seq({}), Wrappers.Option.default()(), ContributorInsightsAction.default()())
+        return lambda: UpdateContributorInsightsInput_UpdateContributorInsightsInput(_dafny.Seq(""), Wrappers.Option.default()(), ContributorInsightsAction.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -6707,7 +6939,7 @@ class UpdateContributorInsightsOutput_UpdateContributorInsightsOutput(UpdateCont
 class UpdateGlobalSecondaryIndexAction:
     @classmethod
     def default(cls, ):
-        return lambda: UpdateGlobalSecondaryIndexAction_UpdateGlobalSecondaryIndexAction(_dafny.Seq({}), ProvisionedThroughput.default()())
+        return lambda: UpdateGlobalSecondaryIndexAction_UpdateGlobalSecondaryIndexAction(_dafny.Seq(""), ProvisionedThroughput.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -6726,7 +6958,7 @@ class UpdateGlobalSecondaryIndexAction_UpdateGlobalSecondaryIndexAction(UpdateGl
 class UpdateGlobalTableInput:
     @classmethod
     def default(cls, ):
-        return lambda: UpdateGlobalTableInput_UpdateGlobalTableInput(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: UpdateGlobalTableInput_UpdateGlobalTableInput(_dafny.Seq(""), _dafny.Seq({}))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -6764,7 +6996,7 @@ class UpdateGlobalTableOutput_UpdateGlobalTableOutput(UpdateGlobalTableOutput, N
 class UpdateGlobalTableSettingsInput:
     @classmethod
     def default(cls, ):
-        return lambda: UpdateGlobalTableSettingsInput_UpdateGlobalTableSettingsInput(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: UpdateGlobalTableSettingsInput_UpdateGlobalTableSettingsInput(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -6802,7 +7034,7 @@ class UpdateGlobalTableSettingsOutput_UpdateGlobalTableSettingsOutput(UpdateGlob
 class UpdateItemInput:
     @classmethod
     def default(cls, ):
-        return lambda: UpdateItemInput_UpdateItemInput(_dafny.Seq({}), _dafny.Map({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: UpdateItemInput_UpdateItemInput(_dafny.Seq(""), _dafny.Map({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -6840,7 +7072,7 @@ class UpdateItemOutput_UpdateItemOutput(UpdateItemOutput, NamedTuple('UpdateItem
 class UpdateReplicationGroupMemberAction:
     @classmethod
     def default(cls, ):
-        return lambda: UpdateReplicationGroupMemberAction_UpdateReplicationGroupMemberAction(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: UpdateReplicationGroupMemberAction_UpdateReplicationGroupMemberAction(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -6859,7 +7091,7 @@ class UpdateReplicationGroupMemberAction_UpdateReplicationGroupMemberAction(Upda
 class UpdateTableInput:
     @classmethod
     def default(cls, ):
-        return lambda: UpdateTableInput_UpdateTableInput(Wrappers.Option.default()(), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: UpdateTableInput_UpdateTableInput(Wrappers.Option.default()(), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -6897,7 +7129,7 @@ class UpdateTableOutput_UpdateTableOutput(UpdateTableOutput, NamedTuple('UpdateT
 class UpdateTableReplicaAutoScalingInput:
     @classmethod
     def default(cls, ):
-        return lambda: UpdateTableReplicaAutoScalingInput_UpdateTableReplicaAutoScalingInput(Wrappers.Option.default()(), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: UpdateTableReplicaAutoScalingInput_UpdateTableReplicaAutoScalingInput(Wrappers.Option.default()(), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -6935,7 +7167,7 @@ class UpdateTableReplicaAutoScalingOutput_UpdateTableReplicaAutoScalingOutput(Up
 class UpdateTimeToLiveInput:
     @classmethod
     def default(cls, ):
-        return lambda: UpdateTimeToLiveInput_UpdateTimeToLiveInput(_dafny.Seq({}), TimeToLiveSpecification.default()())
+        return lambda: UpdateTimeToLiveInput_UpdateTimeToLiveInput(_dafny.Seq(""), TimeToLiveSpecification.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -6996,6 +7228,9 @@ class WriteRequests:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_66_x_: _dafny.Seq = source__
+        return default__.IsValid__WriteRequests(d_66_x_)
 
 class Error:
     @classmethod
@@ -7375,3 +7610,6 @@ class OpaqueError:
     @staticmethod
     def default():
         return Error.default()()
+    def _Is(source__):
+        d_67_e_: Error = source__
+        return (d_67_e_).is_Opaque

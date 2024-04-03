@@ -56,11 +56,11 @@ class default__:
 
     @staticmethod
     def IsUnpaddedBase64String(s):
-        def lambda25_(forall_var_5_):
-            d_358_k_: str = forall_var_5_
-            return not ((d_358_k_) in (s)) or (default__.IsBase64Char(d_358_k_))
+        def lambda26_(forall_var_6_):
+            d_380_k_: str = forall_var_6_
+            return not ((d_380_k_) in (s)) or (default__.IsBase64Char(d_380_k_))
 
-        return ((_dafny.euclidian_modulus(len(s), 4)) == (0)) and (_dafny.quantifier((s).UniqueElements, True, lambda25_))
+        return ((_dafny.euclidian_modulus(len(s), 4)) == (0)) and (_dafny.quantifier((s).UniqueElements, True, lambda26_))
 
     @staticmethod
     def IndexToChar(i):
@@ -90,11 +90,11 @@ class default__:
 
     @staticmethod
     def UInt24ToSeq(x):
-        d_359_b0_ = _dafny.euclidian_division(x, 65536)
-        d_360_x0_ = (x) - ((d_359_b0_) * (65536))
-        d_361_b1_ = _dafny.euclidian_division(d_360_x0_, 256)
-        d_362_b2_ = _dafny.euclidian_modulus(d_360_x0_, 256)
-        return _dafny.Seq([d_359_b0_, d_361_b1_, d_362_b2_])
+        d_381_b0_ = _dafny.euclidian_division(x, 65536)
+        d_382_x0_ = (x) - ((d_381_b0_) * (65536))
+        d_383_b1_ = _dafny.euclidian_division(d_382_x0_, 256)
+        d_384_b2_ = _dafny.euclidian_modulus(d_382_x0_, 256)
+        return _dafny.Seq([d_381_b0_, d_383_b1_, d_384_b2_])
 
     @staticmethod
     def SeqToUInt24(s):
@@ -102,13 +102,13 @@ class default__:
 
     @staticmethod
     def UInt24ToIndexSeq(x):
-        d_363_b0_ = _dafny.euclidian_division(x, 262144)
-        d_364_x0_ = (x) - ((d_363_b0_) * (262144))
-        d_365_b1_ = _dafny.euclidian_division(d_364_x0_, 4096)
-        d_366_x1_ = (d_364_x0_) - ((d_365_b1_) * (4096))
-        d_367_b2_ = _dafny.euclidian_division(d_366_x1_, 64)
-        d_368_b3_ = _dafny.euclidian_modulus(d_366_x1_, 64)
-        return _dafny.Seq([d_363_b0_, d_365_b1_, d_367_b2_, d_368_b3_])
+        d_385_b0_ = _dafny.euclidian_division(x, 262144)
+        d_386_x0_ = (x) - ((d_385_b0_) * (262144))
+        d_387_b1_ = _dafny.euclidian_division(d_386_x0_, 4096)
+        d_388_x1_ = (d_386_x0_) - ((d_387_b1_) * (4096))
+        d_389_b2_ = _dafny.euclidian_division(d_388_x1_, 64)
+        d_390_b3_ = _dafny.euclidian_modulus(d_388_x1_, 64)
+        return _dafny.Seq([d_385_b0_, d_387_b1_, d_389_b2_, d_390_b3_])
 
     @staticmethod
     def IndexSeqToUInt24(s):
@@ -124,13 +124,13 @@ class default__:
 
     @staticmethod
     def DecodeRecursively(s):
-        d_369___accumulator_ = _dafny.Seq([])
+        d_391___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (len(s)) == (0):
-                    return (d_369___accumulator_) + (_dafny.Seq([]))
+                    return (d_391___accumulator_) + (_dafny.Seq([]))
                 elif True:
-                    d_369___accumulator_ = (d_369___accumulator_) + (default__.DecodeBlock(_dafny.Seq((s)[:4:])))
+                    d_391___accumulator_ = (d_391___accumulator_) + (default__.DecodeBlock(_dafny.Seq((s)[:4:])))
                     in182_ = _dafny.Seq((s)[4::])
                     s = in182_
                     raise _dafny.TailCall()
@@ -138,13 +138,13 @@ class default__:
 
     @staticmethod
     def EncodeRecursively(b):
-        d_370___accumulator_ = _dafny.Seq([])
+        d_392___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (len(b)) == (0):
-                    return (d_370___accumulator_) + (_dafny.Seq([]))
+                    return (d_392___accumulator_) + (_dafny.Seq([]))
                 elif True:
-                    d_370___accumulator_ = (d_370___accumulator_) + (default__.EncodeBlock(_dafny.Seq((b)[:3:])))
+                    d_392___accumulator_ = (d_392___accumulator_) + (default__.EncodeBlock(_dafny.Seq((b)[:3:])))
                     in183_ = _dafny.Seq((b)[3::])
                     b = in183_
                     raise _dafny.TailCall()
@@ -152,11 +152,11 @@ class default__:
 
     @staticmethod
     def FromCharsToIndices(s):
-        return _dafny.Seq([default__.CharToIndex((s)[d_371_i_]) for d_371_i_ in range(len(s))])
+        return _dafny.Seq([default__.CharToIndex((s)[d_393_i_]) for d_393_i_ in range(len(s))])
 
     @staticmethod
     def FromIndicesToChars(b):
-        return _dafny.Seq([default__.IndexToChar((b)[d_372_i_]) for d_372_i_ in range(len(b))])
+        return _dafny.Seq([default__.IndexToChar((b)[d_394_i_]) for d_394_i_ in range(len(b))])
 
     @staticmethod
     def DecodeUnpadded(s):
@@ -172,13 +172,13 @@ class default__:
 
     @staticmethod
     def Decode1Padding(s):
-        d_373_d_ = default__.DecodeBlock(_dafny.Seq([default__.CharToIndex((s)[0]), default__.CharToIndex((s)[1]), default__.CharToIndex((s)[2]), 0]))
-        return _dafny.Seq([(d_373_d_)[0], (d_373_d_)[1]])
+        d_395_d_ = default__.DecodeBlock(_dafny.Seq([default__.CharToIndex((s)[0]), default__.CharToIndex((s)[1]), default__.CharToIndex((s)[2]), 0]))
+        return _dafny.Seq([(d_395_d_)[0], (d_395_d_)[1]])
 
     @staticmethod
     def Encode1Padding(b):
-        d_374_e_ = default__.EncodeBlock(_dafny.Seq([(b)[0], (b)[1], 0]))
-        return _dafny.Seq([default__.IndexToChar((d_374_e_)[0]), default__.IndexToChar((d_374_e_)[1]), default__.IndexToChar((d_374_e_)[2]), '='])
+        d_396_e_ = default__.EncodeBlock(_dafny.Seq([(b)[0], (b)[1], 0]))
+        return _dafny.Seq([default__.IndexToChar((d_396_e_)[0]), default__.IndexToChar((d_396_e_)[1]), default__.IndexToChar((d_396_e_)[2]), '='])
 
     @staticmethod
     def Is2Padding(s):
@@ -186,31 +186,31 @@ class default__:
 
     @staticmethod
     def Decode2Padding(s):
-        d_375_d_ = default__.DecodeBlock(_dafny.Seq([default__.CharToIndex((s)[0]), default__.CharToIndex((s)[1]), 0, 0]))
-        return _dafny.Seq([(d_375_d_)[0]])
+        d_397_d_ = default__.DecodeBlock(_dafny.Seq([default__.CharToIndex((s)[0]), default__.CharToIndex((s)[1]), 0, 0]))
+        return _dafny.Seq([(d_397_d_)[0]])
 
     @staticmethod
     def Encode2Padding(b):
-        d_376_e_ = default__.EncodeBlock(_dafny.Seq([(b)[0], 0, 0]))
-        return _dafny.Seq([default__.IndexToChar((d_376_e_)[0]), default__.IndexToChar((d_376_e_)[1]), '=', '='])
+        d_398_e_ = default__.EncodeBlock(_dafny.Seq([(b)[0], 0, 0]))
+        return _dafny.Seq([default__.IndexToChar((d_398_e_)[0]), default__.IndexToChar((d_398_e_)[1]), '=', '='])
 
     @staticmethod
     def IsBase64String(s):
-        d_377_finalBlockStart_ = (len(s)) - (4)
-        return ((_dafny.euclidian_modulus(len(s), 4)) == (0)) and ((default__.IsUnpaddedBase64String(s)) or ((default__.IsUnpaddedBase64String(_dafny.Seq((s)[:d_377_finalBlockStart_:]))) and ((default__.Is1Padding(_dafny.Seq((s)[d_377_finalBlockStart_::]))) or (default__.Is2Padding(_dafny.Seq((s)[d_377_finalBlockStart_::]))))))
+        d_399_finalBlockStart_ = (len(s)) - (4)
+        return ((_dafny.euclidian_modulus(len(s), 4)) == (0)) and ((default__.IsUnpaddedBase64String(s)) or ((default__.IsUnpaddedBase64String(_dafny.Seq((s)[:d_399_finalBlockStart_:]))) and ((default__.Is1Padding(_dafny.Seq((s)[d_399_finalBlockStart_::]))) or (default__.Is2Padding(_dafny.Seq((s)[d_399_finalBlockStart_::]))))))
 
     @staticmethod
     def DecodeValid(s):
         if (s) == (_dafny.Seq([])):
             return _dafny.Seq([])
         elif True:
-            d_378_finalBlockStart_ = (len(s)) - (4)
-            d_379_prefix_ = _dafny.Seq((s)[:d_378_finalBlockStart_:])
-            d_380_suffix_ = _dafny.Seq((s)[d_378_finalBlockStart_::])
-            if default__.Is1Padding(d_380_suffix_):
-                return (default__.DecodeUnpadded(d_379_prefix_)) + (default__.Decode1Padding(d_380_suffix_))
-            elif default__.Is2Padding(d_380_suffix_):
-                return (default__.DecodeUnpadded(d_379_prefix_)) + (default__.Decode2Padding(d_380_suffix_))
+            d_400_finalBlockStart_ = (len(s)) - (4)
+            d_401_prefix_ = _dafny.Seq((s)[:d_400_finalBlockStart_:])
+            d_402_suffix_ = _dafny.Seq((s)[d_400_finalBlockStart_::])
+            if default__.Is1Padding(d_402_suffix_):
+                return (default__.DecodeUnpadded(d_401_prefix_)) + (default__.Decode1Padding(d_402_suffix_))
+            elif default__.Is2Padding(d_402_suffix_):
+                return (default__.DecodeUnpadded(d_401_prefix_)) + (default__.Decode2Padding(d_402_suffix_))
             elif True:
                 return default__.DecodeUnpadded(s)
 
@@ -224,18 +224,18 @@ class default__:
     @staticmethod
     def Encode(b):
         if (_dafny.euclidian_modulus(len(b), 3)) == (0):
-            d_381_s_ = default__.EncodeUnpadded(b)
-            return d_381_s_
+            d_403_s_ = default__.EncodeUnpadded(b)
+            return d_403_s_
         elif (_dafny.euclidian_modulus(len(b), 3)) == (1):
-            d_382_s1_ = default__.EncodeUnpadded(_dafny.Seq((b)[:(len(b)) - (1):]))
-            d_383_s2_ = default__.Encode2Padding(_dafny.Seq((b)[(len(b)) - (1)::]))
-            d_384_s_ = (d_382_s1_) + (d_383_s2_)
-            return d_384_s_
+            d_404_s1_ = default__.EncodeUnpadded(_dafny.Seq((b)[:(len(b)) - (1):]))
+            d_405_s2_ = default__.Encode2Padding(_dafny.Seq((b)[(len(b)) - (1)::]))
+            d_406_s_ = (d_404_s1_) + (d_405_s2_)
+            return d_406_s_
         elif True:
-            d_385_s1_ = default__.EncodeUnpadded(_dafny.Seq((b)[:(len(b)) - (2):]))
-            d_386_s2_ = default__.Encode1Padding(_dafny.Seq((b)[(len(b)) - (2)::]))
-            d_387_s_ = (d_385_s1_) + (d_386_s2_)
-            return d_387_s_
+            d_407_s1_ = default__.EncodeUnpadded(_dafny.Seq((b)[:(len(b)) - (2):]))
+            d_408_s2_ = default__.Encode1Padding(_dafny.Seq((b)[(len(b)) - (2)::]))
+            d_409_s_ = (d_407_s1_) + (d_408_s2_)
+            return d_409_s_
 
 
 class index:
@@ -245,6 +245,9 @@ class index:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_410_x_: int = source__
+        return ((0) <= (d_410_x_)) and ((d_410_x_) < (64))
 
 class uint24:
     def  __init__(self):
@@ -253,3 +256,6 @@ class uint24:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_411_x_: int = source__
+        return ((0) <= (d_411_x_)) and ((d_411_x_) < (16777216))

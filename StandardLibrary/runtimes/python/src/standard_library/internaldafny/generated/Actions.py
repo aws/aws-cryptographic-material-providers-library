@@ -55,74 +55,74 @@ class default__:
     @staticmethod
     def DeterministicMap(action, s):
         res: _dafny.Seq = _dafny.Seq({})
-        d_388_rs_: _dafny.Seq
-        d_388_rs_ = _dafny.Seq([])
+        d_412_rs_: _dafny.Seq
+        d_412_rs_ = _dafny.Seq([])
         hi0_ = len(s)
-        for d_389_i_ in range(0, hi0_):
-            d_390_r_: TypeVar('R__')
+        for d_413_i_ in range(0, hi0_):
+            d_414_r_: TypeVar('R__')
             out16_: TypeVar('R__')
-            out16_ = (action).Invoke((s)[d_389_i_])
-            d_390_r_ = out16_
-            d_388_rs_ = (d_388_rs_) + (_dafny.Seq([d_390_r_]))
-        res = d_388_rs_
+            out16_ = (action).Invoke((s)[d_413_i_])
+            d_414_r_ = out16_
+            d_412_rs_ = (d_412_rs_) + (_dafny.Seq([d_414_r_]))
+        res = d_412_rs_
         return res
         return res
 
     @staticmethod
     def DeterministicMapWithResult(action, s):
         res: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        d_391_rs_: _dafny.Seq
-        d_391_rs_ = _dafny.Seq([])
+        d_415_rs_: _dafny.Seq
+        d_415_rs_ = _dafny.Seq([])
         hi1_ = len(s)
-        for d_392_i_ in range(0, hi1_):
-            d_393_r_: TypeVar('R__')
-            d_394_valueOrError0_: Wrappers.Result = None
+        for d_416_i_ in range(0, hi1_):
+            d_417_r_: TypeVar('R__')
+            d_418_valueOrError0_: Wrappers.Result = None
             out17_: Wrappers.Result
-            out17_ = (action).Invoke((s)[d_392_i_])
-            d_394_valueOrError0_ = out17_
-            if (d_394_valueOrError0_).IsFailure():
-                res = (d_394_valueOrError0_).PropagateFailure()
+            out17_ = (action).Invoke((s)[d_416_i_])
+            d_418_valueOrError0_ = out17_
+            if (d_418_valueOrError0_).IsFailure():
+                res = (d_418_valueOrError0_).PropagateFailure()
                 return res
-            d_393_r_ = (d_394_valueOrError0_).Extract()
-            d_391_rs_ = (d_391_rs_) + (_dafny.Seq([d_393_r_]))
-        res = Wrappers.Result_Success(d_391_rs_)
+            d_417_r_ = (d_418_valueOrError0_).Extract()
+            d_415_rs_ = (d_415_rs_) + (_dafny.Seq([d_417_r_]))
+        res = Wrappers.Result_Success(d_415_rs_)
         return res
         return res
 
     @staticmethod
     def DeterministicFlatMap(action, s):
         res: _dafny.Seq = _dafny.Seq({})
-        d_395_rs_: _dafny.Seq
-        d_395_rs_ = _dafny.Seq([])
+        d_419_rs_: _dafny.Seq
+        d_419_rs_ = _dafny.Seq([])
         hi2_ = len(s)
-        for d_396_i_ in range(0, hi2_):
-            d_397_r_: _dafny.Seq
+        for d_420_i_ in range(0, hi2_):
+            d_421_r_: _dafny.Seq
             out18_: _dafny.Seq
-            out18_ = (action).Invoke((s)[d_396_i_])
-            d_397_r_ = out18_
-            d_395_rs_ = (d_395_rs_) + (d_397_r_)
-        res = d_395_rs_
+            out18_ = (action).Invoke((s)[d_420_i_])
+            d_421_r_ = out18_
+            d_419_rs_ = (d_419_rs_) + (d_421_r_)
+        res = d_419_rs_
         return res
         return res
 
     @staticmethod
     def DeterministicFlatMapWithResult(action, s):
         res: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        d_398_rs_: _dafny.Seq
-        d_398_rs_ = _dafny.Seq([])
+        d_422_rs_: _dafny.Seq
+        d_422_rs_ = _dafny.Seq([])
         hi3_ = len(s)
-        for d_399_i_ in range(0, hi3_):
-            d_400_r_: _dafny.Seq
-            d_401_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        for d_423_i_ in range(0, hi3_):
+            d_424_r_: _dafny.Seq
+            d_425_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
             out19_: Wrappers.Result
-            out19_ = (action).Invoke((s)[d_399_i_])
-            d_401_valueOrError0_ = out19_
-            if (d_401_valueOrError0_).IsFailure():
-                res = (d_401_valueOrError0_).PropagateFailure()
+            out19_ = (action).Invoke((s)[d_423_i_])
+            d_425_valueOrError0_ = out19_
+            if (d_425_valueOrError0_).IsFailure():
+                res = (d_425_valueOrError0_).PropagateFailure()
                 return res
-            d_400_r_ = (d_401_valueOrError0_).Extract()
-            d_398_rs_ = (d_398_rs_) + (d_400_r_)
-        rhs4_ = Wrappers.Result_Success(d_398_rs_)
+            d_424_r_ = (d_425_valueOrError0_).Extract()
+            d_422_rs_ = (d_422_rs_) + (d_424_r_)
+        rhs4_ = Wrappers.Result_Success(d_422_rs_)
         res = rhs4_
         return res
         return res
@@ -130,59 +130,59 @@ class default__:
     @staticmethod
     def Filter(action, s):
         res: _dafny.Seq = _dafny.Seq({})
-        d_402_rs_: _dafny.Seq
-        d_402_rs_ = _dafny.Seq([])
+        d_426_rs_: _dafny.Seq
+        d_426_rs_ = _dafny.Seq([])
         hi4_ = len(s)
-        for d_403_i_ in range(0, hi4_):
-            d_404_r_: bool
+        for d_427_i_ in range(0, hi4_):
+            d_428_r_: bool
             out20_: bool
-            out20_ = (action).Invoke((s)[d_403_i_])
-            d_404_r_ = out20_
-            if d_404_r_:
-                d_402_rs_ = (d_402_rs_) + (_dafny.Seq([(s)[d_403_i_]]))
-        res = d_402_rs_
+            out20_ = (action).Invoke((s)[d_427_i_])
+            d_428_r_ = out20_
+            if d_428_r_:
+                d_426_rs_ = (d_426_rs_) + (_dafny.Seq([(s)[d_427_i_]]))
+        res = d_426_rs_
         return res
         return res
 
     @staticmethod
     def FilterWithResult(action, s):
         res: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        d_405_rs_: _dafny.Seq
-        d_405_rs_ = _dafny.Seq([])
+        d_429_rs_: _dafny.Seq
+        d_429_rs_ = _dafny.Seq([])
         hi5_ = len(s)
-        for d_406_i_ in range(0, hi5_):
-            d_407_r_: bool
-            d_408_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.bool)()
+        for d_430_i_ in range(0, hi5_):
+            d_431_r_: bool
+            d_432_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.bool)()
             out21_: Wrappers.Result
-            out21_ = (action).Invoke((s)[d_406_i_])
-            d_408_valueOrError0_ = out21_
-            if (d_408_valueOrError0_).IsFailure():
-                res = (d_408_valueOrError0_).PropagateFailure()
+            out21_ = (action).Invoke((s)[d_430_i_])
+            d_432_valueOrError0_ = out21_
+            if (d_432_valueOrError0_).IsFailure():
+                res = (d_432_valueOrError0_).PropagateFailure()
                 return res
-            d_407_r_ = (d_408_valueOrError0_).Extract()
-            if d_407_r_:
-                d_405_rs_ = (d_405_rs_) + (_dafny.Seq([(s)[d_406_i_]]))
-        res = Wrappers.Result_Success(d_405_rs_)
+            d_431_r_ = (d_432_valueOrError0_).Extract()
+            if d_431_r_:
+                d_429_rs_ = (d_429_rs_) + (_dafny.Seq([(s)[d_430_i_]]))
+        res = Wrappers.Result_Success(d_429_rs_)
         return res
         return res
 
     @staticmethod
     def ReduceToSuccess(action, s):
         res: Wrappers.Result = None
-        d_409_attemptedResults_: _dafny.Seq
-        d_409_attemptedResults_ = _dafny.Seq([])
+        d_433_attemptedResults_: _dafny.Seq
+        d_433_attemptedResults_ = _dafny.Seq([])
         hi6_ = len(s)
-        for d_410_i_ in range(0, hi6_):
-            d_411_attempt_: Wrappers.Result
+        for d_434_i_ in range(0, hi6_):
+            d_435_attempt_: Wrappers.Result
             out22_: Wrappers.Result
-            out22_ = (action).Invoke((s)[d_410_i_])
-            d_411_attempt_ = out22_
-            d_409_attemptedResults_ = (d_409_attemptedResults_) + (_dafny.Seq([d_411_attempt_]))
-            if (d_411_attempt_).is_Success:
-                rhs5_ = Wrappers.Result_Success((d_411_attempt_).value)
+            out22_ = (action).Invoke((s)[d_434_i_])
+            d_435_attempt_ = out22_
+            d_433_attemptedResults_ = (d_433_attemptedResults_) + (_dafny.Seq([d_435_attempt_]))
+            if (d_435_attempt_).is_Success:
+                rhs5_ = Wrappers.Result_Success((d_435_attempt_).value)
                 res = rhs5_
                 return res
-        res = Wrappers.Result_Failure(Seq.default__.Map(lambda eta0_: default__.pluckErrors(eta0_), d_409_attemptedResults_))
+        res = Wrappers.Result_Failure(Seq.default__.Map(lambda eta0_: default__.pluckErrors(eta0_), d_433_attemptedResults_))
         return res
 
     @staticmethod

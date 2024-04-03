@@ -42,6 +42,9 @@ class CodePoint:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_52_i_: int = source__
+        return ((0) <= (d_52_i_)) and ((d_52_i_) <= (1114111))
 
 class HighSurrogateCodePoint:
     def  __init__(self):
@@ -50,6 +53,11 @@ class HighSurrogateCodePoint:
     @staticmethod
     def default():
         return default__.HIGH__SURROGATE__MIN
+    def _Is(source__):
+        d_53_p_: int = source__
+        if CodePoint._Is(d_53_p_):
+            return ((default__.HIGH__SURROGATE__MIN) <= (d_53_p_)) and ((d_53_p_) <= (default__.HIGH__SURROGATE__MAX))
+        return False
 
 class LowSurrogateCodePoint:
     def  __init__(self):
@@ -58,6 +66,11 @@ class LowSurrogateCodePoint:
     @staticmethod
     def default():
         return default__.LOW__SURROGATE__MIN
+    def _Is(source__):
+        d_54_p_: int = source__
+        if CodePoint._Is(d_54_p_):
+            return ((default__.LOW__SURROGATE__MIN) <= (d_54_p_)) and ((d_54_p_) <= (default__.LOW__SURROGATE__MAX))
+        return False
 
 class ScalarValue:
     def  __init__(self):
@@ -66,6 +79,11 @@ class ScalarValue:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_55_p_: int = source__
+        if CodePoint._Is(d_55_p_):
+            return (((d_55_p_) < (default__.HIGH__SURROGATE__MIN)) or ((d_55_p_) > (default__.HIGH__SURROGATE__MAX))) and (((d_55_p_) < (default__.LOW__SURROGATE__MIN)) or ((d_55_p_) > (default__.LOW__SURROGATE__MAX)))
+        return False
 
 class AssignedCodePoint:
     def  __init__(self):

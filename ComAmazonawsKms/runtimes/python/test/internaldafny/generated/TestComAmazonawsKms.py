@@ -22,7 +22,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -35,17 +34,20 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import UUID
 import Time
 import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
+import DafnyLibraries
 import software_amazon_cryptography_services_kms_internaldafny
 import Com_Amazonaws
 import Com
@@ -82,7 +84,7 @@ class default__:
         out0_ = software_amazon_cryptography_services_kms_internaldafny.default__.KMSClientForRegion(default__.TEST__REGION)
         d_2_valueOrError0_ = out0_
         if not(not((d_2_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(88,15): " + _dafny.string_of(d_2_valueOrError0_))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(88,18): " + _dafny.string_of(d_2_valueOrError0_))
         d_1_client_ = (d_2_valueOrError0_).Extract()
         d_3_ret_: Wrappers.Result
         out1_: Wrappers.Result
@@ -112,7 +114,7 @@ class default__:
         out2_ = software_amazon_cryptography_services_kms_internaldafny.default__.KMSClientForRegion(default__.TEST__REGION)
         d_8_valueOrError0_ = out2_
         if not(not((d_8_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(109,15): " + _dafny.string_of(d_8_valueOrError0_))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(109,18): " + _dafny.string_of(d_8_valueOrError0_))
         d_7_client_ = (d_8_valueOrError0_).Extract()
         d_9_ret_: Wrappers.Result
         out3_: Wrappers.Result
@@ -144,7 +146,7 @@ class default__:
         out4_ = software_amazon_cryptography_services_kms_internaldafny.default__.KMSClientForRegion(default__.TEST__REGION)
         d_15_valueOrError0_ = out4_
         if not(not((d_15_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(141,15): " + _dafny.string_of(d_15_valueOrError0_))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(141,18): " + _dafny.string_of(d_15_valueOrError0_))
         d_14_client_ = (d_15_valueOrError0_).Extract()
         d_16_ret_: Wrappers.Result
         out5_: Wrappers.Result
@@ -172,7 +174,7 @@ class default__:
         out6_ = software_amazon_cryptography_services_kms_internaldafny.default__.KMSClientForRegion(default__.TEST__REGION)
         d_22_valueOrError0_ = out6_
         if not(not((d_22_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(170,15): " + _dafny.string_of(d_22_valueOrError0_))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(170,18): " + _dafny.string_of(d_22_valueOrError0_))
         d_21_client_ = (d_22_valueOrError0_).Extract()
         d_23_region_: Wrappers.Option
         d_23_region_ = software_amazon_cryptography_services_kms_internaldafny.default__.RegionMatch(d_21_client_, default__.TEST__REGION)
@@ -187,7 +189,7 @@ class default__:
         out7_ = software_amazon_cryptography_services_kms_internaldafny.default__.KMSClientForRegion(_dafny.Seq(""))
         d_25_valueOrError0_ = out7_
         if not(not((d_25_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(177,15): " + _dafny.string_of(d_25_valueOrError0_))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(177,18): " + _dafny.string_of(d_25_valueOrError0_))
         d_24_client_ = (d_25_valueOrError0_).Extract()
 
     @_dafny.classproperty

@@ -193,9 +193,9 @@ class default__:
             coll12_ = _dafny.Set()
             compr_19_: Wrappers.Option
             for compr_19_ in (default__.AllDiscoveryFilters).Elements:
-                d_685_filter_: Wrappers.Option = compr_19_
-                if (d_685_filter_) in (default__.AllDiscoveryFilters):
-                    coll12_ = coll12_.union(_dafny.Set([software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_KmsMrkDiscovery(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KmsMrkAwareDiscovery_KmsMrkAwareDiscovery(_dafny.Seq(""), _dafny.Seq("us-west-2"), d_685_filter_))]))
+                d_687_filter_: Wrappers.Option = compr_19_
+                if (d_687_filter_) in (default__.AllDiscoveryFilters):
+                    coll12_ = coll12_.union(_dafny.Set([software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_KmsMrkDiscovery(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KmsMrkAwareDiscovery_KmsMrkAwareDiscovery(_dafny.Seq(""), _dafny.Seq("us-west-2"), d_687_filter_))]))
             return _dafny.Set(coll12_)
         return iife28_()
         
@@ -205,18 +205,18 @@ class default__:
             coll13_ = _dafny.Set()
             compr_20_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription
             for compr_20_ in (AllKmsMrkAware.default__.KeyDescriptions).Elements:
-                d_686_encryptDescription_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription = compr_20_
+                d_688_encryptDescription_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription = compr_20_
                 compr_21_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription
                 for compr_21_ in (default__.KeyDescriptions).Elements:
-                    d_687_decryptDescription_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription = compr_21_
+                    d_689_decryptDescription_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription = compr_21_
                     compr_22_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo
                     for compr_22_ in (AllAlgorithmSuites.default__.AllAlgorithmSuites).Elements:
-                        d_688_algorithmSuite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo = compr_22_
+                        d_690_algorithmSuite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo = compr_22_
                         compr_23_: software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy
-                        for compr_23_ in [AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_688_algorithmSuite_)]:
-                            d_689_commitmentPolicy_: software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy = compr_23_
-                            if ((((d_686_encryptDescription_) in (AllKmsMrkAware.default__.KeyDescriptions)) and ((d_687_decryptDescription_) in (default__.KeyDescriptions))) and ((d_688_algorithmSuite_) in (AllAlgorithmSuites.default__.AllAlgorithmSuites))) and ((d_689_commitmentPolicy_) == (AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_688_algorithmSuite_))):
-                                coll13_ = coll13_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptKeyringVector((((_dafny.Seq("Generated Discovery KMS MRK ")) + (((d_686_encryptDescription_).KmsMrk).keyId)) + (_dafny.Seq("->"))) + (((((_dafny.Seq("Filter ")) + (((((d_687_decryptDescription_).KmsMrkDiscovery).awsKmsDiscoveryFilter).value).partition)) + (_dafny.Seq(" "))) + (Seq.default__.Flatten(((((d_687_decryptDescription_).KmsMrkDiscovery).awsKmsDiscoveryFilter).value).accountIds)) if (((d_687_decryptDescription_).KmsMrkDiscovery).awsKmsDiscoveryFilter).is_Some else _dafny.Seq("No Filter"))), Wrappers.Option_None(), _dafny.Map({}), d_689_commitmentPolicy_, d_688_algorithmSuite_, Wrappers.Option_None(), Wrappers.Option_None(), d_686_encryptDescription_, d_687_decryptDescription_, Wrappers.Option_None())]))
+                        for compr_23_ in [AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_690_algorithmSuite_)]:
+                            d_691_commitmentPolicy_: software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy = compr_23_
+                            if ((((d_688_encryptDescription_) in (AllKmsMrkAware.default__.KeyDescriptions)) and ((d_689_decryptDescription_) in (default__.KeyDescriptions))) and ((d_690_algorithmSuite_) in (AllAlgorithmSuites.default__.AllAlgorithmSuites))) and ((d_691_commitmentPolicy_) == (AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_690_algorithmSuite_))):
+                                coll13_ = coll13_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptKeyringVector((((_dafny.Seq("Generated Discovery KMS MRK ")) + (((d_688_encryptDescription_).KmsMrk).keyId)) + (_dafny.Seq("->"))) + (((((_dafny.Seq("Filter ")) + (((((d_689_decryptDescription_).KmsMrkDiscovery).awsKmsDiscoveryFilter).value).partition)) + (_dafny.Seq(" "))) + (Seq.default__.Flatten(((((d_689_decryptDescription_).KmsMrkDiscovery).awsKmsDiscoveryFilter).value).accountIds)) if (((d_689_decryptDescription_).KmsMrkDiscovery).awsKmsDiscoveryFilter).is_Some else _dafny.Seq("No Filter"))), Wrappers.Option_None(), _dafny.Map({}), d_691_commitmentPolicy_, d_690_algorithmSuite_, Wrappers.Option_None(), Wrappers.Option_None(), d_688_encryptDescription_, d_689_decryptDescription_, Wrappers.Option_None())]))
             return _dafny.Set(coll13_)
         return iife29_()
         

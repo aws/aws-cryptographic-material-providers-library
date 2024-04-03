@@ -144,24 +144,24 @@ class default__:
     @staticmethod
     def GenerateRSAKeyPair(config, input):
         output: Wrappers.Result = None
-        d_100_publicKey_: software_amazon_cryptography_primitives_internaldafny_types.RSAPublicKey
-        d_101_privateKey_: software_amazon_cryptography_primitives_internaldafny_types.RSAPrivateKey
+        d_107_publicKey_: software_amazon_cryptography_primitives_internaldafny_types.RSAPublicKey
+        d_108_privateKey_: software_amazon_cryptography_primitives_internaldafny_types.RSAPrivateKey
         out30_: software_amazon_cryptography_primitives_internaldafny_types.RSAPublicKey
         out31_: software_amazon_cryptography_primitives_internaldafny_types.RSAPrivateKey
         out30_, out31_ = RSAEncryption.default__.GenerateKeyPair((input).lengthBits)
-        d_100_publicKey_ = out30_
-        d_101_privateKey_ = out31_
-        output = Wrappers.Result_Success(software_amazon_cryptography_primitives_internaldafny_types.GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput(d_100_publicKey_, d_101_privateKey_))
+        d_107_publicKey_ = out30_
+        d_108_privateKey_ = out31_
+        output = Wrappers.Result_Success(software_amazon_cryptography_primitives_internaldafny_types.GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput(d_107_publicKey_, d_108_privateKey_))
         return output
 
     @staticmethod
     def GetRSAKeyModulusLength(config, input):
-        d_102_valueOrError0_ = RSAEncryption.default__.GetRSAKeyModulusLength((input).publicKey)
-        if (d_102_valueOrError0_).IsFailure():
-            return (d_102_valueOrError0_).PropagateFailure()
+        d_109_valueOrError0_ = RSAEncryption.default__.GetRSAKeyModulusLength((input).publicKey)
+        if (d_109_valueOrError0_).IsFailure():
+            return (d_109_valueOrError0_).PropagateFailure()
         elif True:
-            d_103_length_ = (d_102_valueOrError0_).Extract()
-            return Wrappers.Result_Success(software_amazon_cryptography_primitives_internaldafny_types.GetRSAKeyModulusLengthOutput_GetRSAKeyModulusLengthOutput(d_103_length_))
+            d_110_length_ = (d_109_valueOrError0_).Extract()
+            return Wrappers.Result_Success(software_amazon_cryptography_primitives_internaldafny_types.GetRSAKeyModulusLengthOutput_GetRSAKeyModulusLengthOutput(d_110_length_))
 
     @staticmethod
     def RSADecrypt(config, input):

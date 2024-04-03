@@ -92,13 +92,13 @@ class default__:
 
     @staticmethod
     def KdfTest(input, expectedOKM):
-        d_52_client_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
+        d_52_client_: software_amazon_cryptography_primitives_internaldafny.AtomicPrimitivesClient
         d_53_valueOrError0_: Wrappers.Result = None
         out12_: Wrappers.Result
         out12_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
         d_53_valueOrError0_ = out12_
         if not(not((d_53_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestKDF.dfy(40,15): " + _dafny.string_of(d_53_valueOrError0_))
+            raise _dafny.HaltException("test/TestKDF.dfy(40,18): " + _dafny.string_of(d_53_valueOrError0_))
         d_52_client_ = (d_53_valueOrError0_).Extract()
         d_54_output_: _dafny.Seq
         d_55_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
@@ -106,7 +106,7 @@ class default__:
         out13_ = (d_52_client_).KdfCounterMode(input)
         d_55_valueOrError1_ = out13_
         if not(not((d_55_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/TestKDF.dfy(42,15): " + _dafny.string_of(d_55_valueOrError1_))
+            raise _dafny.HaltException("test/TestKDF.dfy(42,18): " + _dafny.string_of(d_55_valueOrError1_))
         d_54_output_ = (d_55_valueOrError1_).Extract()
         if not((len(d_54_output_)) == ((input).expectedLength)):
             raise _dafny.HaltException("test/TestKDF.dfy(43,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))

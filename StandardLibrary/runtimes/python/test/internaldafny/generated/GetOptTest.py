@@ -69,7 +69,7 @@ class default__:
         d_124_valueOrError0_: Wrappers.Result = Wrappers.Result.default(GetOpt.Parsed.default())()
         d_124_valueOrError0_ = GetOpt.default__.GetOptions(d_122_MyOptions_, _dafny.Seq([_dafny.Seq("cmd")]))
         if not(not((d_124_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/GetOpt.dfy(20,10): " + _dafny.string_of(d_124_valueOrError0_))
+            raise _dafny.HaltException("test/GetOpt.dfy(20,13): " + _dafny.string_of(d_124_valueOrError0_))
         d_123_x_ = (d_124_valueOrError0_).Extract()
         if not(((d_123_x_).params) == (_dafny.Seq([]))):
             raise _dafny.HaltException("test/GetOpt.dfy(21,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -84,7 +84,7 @@ class default__:
         d_127_valueOrError0_: Wrappers.Result = Wrappers.Result.default(GetOpt.Parsed.default())()
         d_127_valueOrError0_ = GetOpt.default__.GetOptions(d_125_MyOptions_, _dafny.Seq([_dafny.Seq("cmd"), _dafny.Seq("-svsttt"), _dafny.Seq("-t"), _dafny.Seq("stuff"), _dafny.Seq("-v")]))
         if not(not((d_127_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/GetOpt.dfy(34,10): " + _dafny.string_of(d_127_valueOrError0_))
+            raise _dafny.HaltException("test/GetOpt.dfy(34,13): " + _dafny.string_of(d_127_valueOrError0_))
         d_126_x_ = (d_127_valueOrError0_).Extract()
         if not(((d_126_x_).params) == (_dafny.Seq([GetOpt.OneArg_OneArg(_dafny.Seq("six"), Wrappers.Option_None()), GetOpt.OneArg_OneArg(_dafny.Seq("seven"), Wrappers.Option_None()), GetOpt.OneArg_OneArg(_dafny.Seq("six"), Wrappers.Option_None()), GetOpt.OneArg_OneArg(_dafny.Seq("two"), Wrappers.Option_Some(_dafny.Seq("tt"))), GetOpt.OneArg_OneArg(_dafny.Seq("two"), Wrappers.Option_Some(_dafny.Seq("stuff"))), GetOpt.OneArg_OneArg(_dafny.Seq("seven"), Wrappers.Option_None())]))):
             raise _dafny.HaltException("test/GetOpt.dfy(35,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -99,7 +99,7 @@ class default__:
         d_130_valueOrError0_: Wrappers.Result = Wrappers.Result.default(GetOpt.Parsed.default())()
         d_130_valueOrError0_ = GetOpt.default__.GetOptions(d_128_MyOptions_, _dafny.Seq([_dafny.Seq("cmd"), _dafny.Seq("--foo"), _dafny.Seq("file1"), _dafny.Seq("--bar"), _dafny.Seq("bar1"), _dafny.Seq("-"), _dafny.Seq("--bar=bar2=bar3"), _dafny.Seq("file3"), _dafny.Seq("--"), _dafny.Seq("--this"), _dafny.Seq("-that")]))
         if not(not((d_130_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/GetOpt.dfy(49,10): " + _dafny.string_of(d_130_valueOrError0_))
+            raise _dafny.HaltException("test/GetOpt.dfy(49,13): " + _dafny.string_of(d_130_valueOrError0_))
         d_129_x_ = (d_130_valueOrError0_).Extract()
         if not(((d_129_x_).params) == (_dafny.Seq([GetOpt.OneArg_OneArg(_dafny.Seq("foo"), Wrappers.Option_None()), GetOpt.OneArg_OneArg(_dafny.Seq("bar"), Wrappers.Option_Some(_dafny.Seq("bar1"))), GetOpt.OneArg_OneArg(_dafny.Seq("bar"), Wrappers.Option_Some(_dafny.Seq("bar2=bar3")))]))):
             raise _dafny.HaltException("test/GetOpt.dfy(50,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -114,7 +114,7 @@ class default__:
         d_133_valueOrError0_: Wrappers.Result = Wrappers.Result.default(GetOpt.Parsed.default())()
         d_133_valueOrError0_ = GetOpt.default__.GetOptions(d_131_MyOptions_, _dafny.Seq([_dafny.Seq("cmd"), _dafny.Seq("--foo"), _dafny.Seq("file1"), _dafny.Seq("--bar"), _dafny.Seq("bar1"), _dafny.Seq("-"), _dafny.Seq("--bar=bar2=bar3"), _dafny.Seq("file3"), _dafny.Seq("--"), _dafny.Seq("--this"), _dafny.Seq("-that")]))
         if not(not((d_133_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/GetOpt.dfy(63,10): " + _dafny.string_of(d_133_valueOrError0_))
+            raise _dafny.HaltException("test/GetOpt.dfy(63,13): " + _dafny.string_of(d_133_valueOrError0_))
         d_132_x_ = (d_133_valueOrError0_).Extract()
         if not(((d_132_x_).params) == (_dafny.Seq([GetOpt.OneArg_OneArg(_dafny.Seq("foo"), Wrappers.Option_None()), GetOpt.OneArg_OneArg(_dafny.Seq("bar"), Wrappers.Option_Some(_dafny.Seq("bar1"))), GetOpt.OneArg_OneArg(_dafny.Seq("bar"), Wrappers.Option_Some(_dafny.Seq("bar2=bar3")))]))):
             raise _dafny.HaltException("test/GetOpt.dfy(64,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -135,7 +135,7 @@ class default__:
         d_137_valueOrError0_: Wrappers.Result = Wrappers.Result.default(GetOpt.Parsed.default())()
         d_137_valueOrError0_ = GetOpt.default__.GetOptions(d_135_MyOptions_, _dafny.Seq([_dafny.Seq("cmd"), _dafny.Seq("--foo"), _dafny.Seq("--bar=baz"), _dafny.Seq("-svtstuff")]))
         if not(not((d_137_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/GetOpt.dfy(81,10): " + _dafny.string_of(d_137_valueOrError0_))
+            raise _dafny.HaltException("test/GetOpt.dfy(81,13): " + _dafny.string_of(d_137_valueOrError0_))
         d_136_x_ = (d_137_valueOrError0_).Extract()
         if not(((d_136_x_).params) == (_dafny.Seq([GetOpt.OneArg_OneArg(_dafny.Seq("seven"), Wrappers.Option_None()), GetOpt.OneArg_OneArg(_dafny.Seq("two"), Wrappers.Option_Some(_dafny.Seq("stuff")))]))):
             raise _dafny.HaltException("test/GetOpt.dfy(82,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -150,7 +150,7 @@ class default__:
         d_140_valueOrError0_: Wrappers.Result = Wrappers.Result.default(GetOpt.Parsed.default())()
         d_140_valueOrError0_ = GetOpt.default__.GetOptions(d_138_MyOptions_, _dafny.Seq([_dafny.Seq("cmd"), _dafny.Seq("-abc"), _dafny.Seq("--def"), _dafny.Seq("--ghi")]))
         if not(not((d_140_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/GetOpt.dfy(95,10): " + _dafny.string_of(d_140_valueOrError0_))
+            raise _dafny.HaltException("test/GetOpt.dfy(95,13): " + _dafny.string_of(d_140_valueOrError0_))
         d_139_x_ = (d_140_valueOrError0_).Extract()
         if not(((d_139_x_).params) == (_dafny.Seq([GetOpt.OneArg_OneArg(_dafny.Seq("foo"), Wrappers.Option_None()), GetOpt.OneArg_OneArg(_dafny.Seq("foo"), Wrappers.Option_None()), GetOpt.OneArg_OneArg(_dafny.Seq("foo"), Wrappers.Option_None()), GetOpt.OneArg_OneArg(_dafny.Seq("foo"), Wrappers.Option_None()), GetOpt.OneArg_OneArg(_dafny.Seq("foo"), Wrappers.Option_None())]))):
             raise _dafny.HaltException("test/GetOpt.dfy(96,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -176,7 +176,7 @@ class default__:
         d_145_valueOrError0_: Wrappers.Result = Wrappers.Result.default(GetOpt.Parsed.default())()
         d_145_valueOrError0_ = GetOpt.default__.GetOptions(d_143_MyOptions_, _dafny.Seq([_dafny.Seq("cmd"), _dafny.Seq("stuff"), _dafny.Seq("-123"), _dafny.Seq("--foo")]))
         if not(not((d_145_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/GetOpt.dfy(119,10): " + _dafny.string_of(d_145_valueOrError0_))
+            raise _dafny.HaltException("test/GetOpt.dfy(119,13): " + _dafny.string_of(d_145_valueOrError0_))
         d_144_x_ = (d_145_valueOrError0_).Extract()
         if not(((d_144_x_).params) == (_dafny.Seq([GetOpt.OneArg_OneArg(_dafny.Seq("bar"), Wrappers.Option_Some(_dafny.Seq("stuff"))), GetOpt.OneArg_OneArg(_dafny.Seq("two"), Wrappers.Option_Some(_dafny.Seq("-123"))), GetOpt.OneArg_OneArg(_dafny.Seq("foo"), Wrappers.Option_None())]))):
             raise _dafny.HaltException("test/GetOpt.dfy(120,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -185,7 +185,7 @@ class default__:
         d_146_valueOrError1_: Wrappers.Result = Wrappers.Result.default(GetOpt.Parsed.default())()
         d_146_valueOrError1_ = GetOpt.default__.GetOptions(d_143_MyOptions_, _dafny.Seq([_dafny.Seq("cmd"), _dafny.Seq("stuff"), _dafny.Seq("--two=-123"), _dafny.Seq("--foo")]))
         if not(not((d_146_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/GetOpt.dfy(123,6): " + _dafny.string_of(d_146_valueOrError1_))
+            raise _dafny.HaltException("test/GetOpt.dfy(123,9): " + _dafny.string_of(d_146_valueOrError1_))
         d_144_x_ = (d_146_valueOrError1_).Extract()
         if not(((d_144_x_).params) == (_dafny.Seq([GetOpt.OneArg_OneArg(_dafny.Seq("bar"), Wrappers.Option_Some(_dafny.Seq("stuff"))), GetOpt.OneArg_OneArg(_dafny.Seq("two"), Wrappers.Option_Some(_dafny.Seq("-123"))), GetOpt.OneArg_OneArg(_dafny.Seq("foo"), Wrappers.Option_None())]))):
             raise _dafny.HaltException("test/GetOpt.dfy(124,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -194,7 +194,7 @@ class default__:
         d_147_valueOrError2_: Wrappers.Result = Wrappers.Result.default(GetOpt.Parsed.default())()
         d_147_valueOrError2_ = GetOpt.default__.GetOptions(d_143_MyOptions_, _dafny.Seq([_dafny.Seq("cmd"), _dafny.Seq("stuff"), _dafny.Seq("--two=-123"), _dafny.Seq("--foo"), _dafny.Seq("--bar"), _dafny.Seq("more-stuff")]))
         if not(not((d_147_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("test/GetOpt.dfy(127,6): " + _dafny.string_of(d_147_valueOrError2_))
+            raise _dafny.HaltException("test/GetOpt.dfy(127,9): " + _dafny.string_of(d_147_valueOrError2_))
         d_144_x_ = (d_147_valueOrError2_).Extract()
         if not(((d_144_x_).params) == (_dafny.Seq([GetOpt.OneArg_OneArg(_dafny.Seq("bar"), Wrappers.Option_Some(_dafny.Seq("stuff"))), GetOpt.OneArg_OneArg(_dafny.Seq("two"), Wrappers.Option_Some(_dafny.Seq("-123"))), GetOpt.OneArg_OneArg(_dafny.Seq("foo"), Wrappers.Option_None()), GetOpt.OneArg_OneArg(_dafny.Seq("bar"), Wrappers.Option_Some(_dafny.Seq("more-stuff")))]))):
             raise _dafny.HaltException("test/GetOpt.dfy(128,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -203,7 +203,7 @@ class default__:
         d_148_valueOrError3_: Wrappers.Result = Wrappers.Result.default(GetOpt.Parsed.default())()
         d_148_valueOrError3_ = GetOpt.default__.GetOptions(d_143_MyOptions_, _dafny.Seq([_dafny.Seq("cmd"), _dafny.Seq("stuff")]))
         if not(not((d_148_valueOrError3_).IsFailure())):
-            raise _dafny.HaltException("test/GetOpt.dfy(131,6): " + _dafny.string_of(d_148_valueOrError3_))
+            raise _dafny.HaltException("test/GetOpt.dfy(131,9): " + _dafny.string_of(d_148_valueOrError3_))
         d_144_x_ = (d_148_valueOrError3_).Extract()
         if not(((d_144_x_).params) == (_dafny.Seq([GetOpt.OneArg_OneArg(_dafny.Seq("bar"), Wrappers.Option_Some(_dafny.Seq("stuff")))]))):
             raise _dafny.HaltException("test/GetOpt.dfy(132,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -229,13 +229,13 @@ class default__:
         d_152_valueOrError0_: Wrappers.Result = Wrappers.Result.default(GetOpt.Parsed.default())()
         d_152_valueOrError0_ = GetOpt.default__.GetOptions(d_150_MyOptions_, _dafny.Seq([_dafny.Seq("cmd"), _dafny.Seq("--help")]))
         if not(not((d_152_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/GetOpt.dfy(153,10): " + _dafny.string_of(d_152_valueOrError0_))
+            raise _dafny.HaltException("test/GetOpt.dfy(153,13): " + _dafny.string_of(d_152_valueOrError0_))
         d_151_x_ = (d_152_valueOrError0_).Extract()
         d_153_y_: _dafny.Seq
         d_154_valueOrError1_: Wrappers.Option = Wrappers.Option.default()()
         d_154_valueOrError1_ = GetOpt.default__.NeedsHelp(d_150_MyOptions_, d_151_x_, _dafny.Seq(""))
         if not(not((d_154_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/GetOpt.dfy(154,10): " + _dafny.string_of(d_154_valueOrError1_))
+            raise _dafny.HaltException("test/GetOpt.dfy(154,13): " + _dafny.string_of(d_154_valueOrError1_))
         d_153_y_ = (d_154_valueOrError1_).Extract()
         _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
         _dafny.print(_dafny.string_of(d_153_y_))
@@ -260,7 +260,7 @@ class default__:
         d_159_valueOrError0_: Wrappers.Result = Wrappers.Result.default(GetOpt.Parsed.default())()
         d_159_valueOrError0_ = GetOpt.default__.GetOptions(d_157_MyOptions_, _dafny.Seq([_dafny.Seq("MyProg"), _dafny.Seq("--foo"), _dafny.Seq("other"), _dafny.Seq("--seven=siete"), _dafny.Seq("--eight")]))
         if not(not((d_159_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/GetOpt.dfy(186,10): " + _dafny.string_of(d_159_valueOrError0_))
+            raise _dafny.HaltException("test/GetOpt.dfy(186,13): " + _dafny.string_of(d_159_valueOrError0_))
         d_158_x_ = (d_159_valueOrError0_).Extract()
         if not(((d_158_x_).command) == (_dafny.Seq("MyProg"))):
             raise _dafny.HaltException("test/GetOpt.dfy(187,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -283,13 +283,13 @@ class default__:
         d_161_valueOrError1_: Wrappers.Result = Wrappers.Result.default(GetOpt.Parsed.default())()
         d_161_valueOrError1_ = GetOpt.default__.GetOptions(d_157_MyOptions_, _dafny.Seq([_dafny.Seq("MyProg"), _dafny.Seq("--help")]))
         if not(not((d_161_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/GetOpt.dfy(197,6): " + _dafny.string_of(d_161_valueOrError1_))
+            raise _dafny.HaltException("test/GetOpt.dfy(197,9): " + _dafny.string_of(d_161_valueOrError1_))
         d_158_x_ = (d_161_valueOrError1_).Extract()
         d_162_y_: _dafny.Seq
         d_163_valueOrError2_: Wrappers.Option = Wrappers.Option.default()()
         d_163_valueOrError2_ = GetOpt.default__.NeedsHelp(d_157_MyOptions_, d_158_x_, _dafny.Seq(""))
         if not(not((d_163_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("test/GetOpt.dfy(198,10): " + _dafny.string_of(d_163_valueOrError2_))
+            raise _dafny.HaltException("test/GetOpt.dfy(198,13): " + _dafny.string_of(d_163_valueOrError2_))
         d_162_y_ = (d_163_valueOrError2_).Extract()
         _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
         _dafny.print(_dafny.string_of(d_162_y_))
@@ -297,12 +297,12 @@ class default__:
         d_164_valueOrError3_: Wrappers.Result = Wrappers.Result.default(GetOpt.Parsed.default())()
         d_164_valueOrError3_ = GetOpt.default__.GetOptions(d_157_MyOptions_, _dafny.Seq([_dafny.Seq("MyProg"), _dafny.Seq("command"), _dafny.Seq("--help")]))
         if not(not((d_164_valueOrError3_).IsFailure())):
-            raise _dafny.HaltException("test/GetOpt.dfy(201,6): " + _dafny.string_of(d_164_valueOrError3_))
+            raise _dafny.HaltException("test/GetOpt.dfy(201,9): " + _dafny.string_of(d_164_valueOrError3_))
         d_158_x_ = (d_164_valueOrError3_).Extract()
         d_165_valueOrError4_: Wrappers.Option = Wrappers.Option.default()()
         d_165_valueOrError4_ = GetOpt.default__.NeedsHelp(d_157_MyOptions_, d_158_x_, _dafny.Seq(""))
         if not(not((d_165_valueOrError4_).IsFailure())):
-            raise _dafny.HaltException("test/GetOpt.dfy(202,6): " + _dafny.string_of(d_165_valueOrError4_))
+            raise _dafny.HaltException("test/GetOpt.dfy(202,9): " + _dafny.string_of(d_165_valueOrError4_))
         d_162_y_ = (d_165_valueOrError4_).Extract()
         _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
         _dafny.print(_dafny.string_of(d_162_y_))
@@ -316,7 +316,7 @@ class default__:
         d_168_valueOrError0_: Wrappers.Result = Wrappers.Result.default(GetOpt.Parsed.default())()
         d_168_valueOrError0_ = GetOpt.default__.GetOptions(d_166_MyOptions_, _dafny.Seq([_dafny.Seq("cmd"), _dafny.Seq("--foo"), _dafny.Seq("other"), _dafny.Seq("--eight")]))
         if not(not((d_168_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/GetOpt.dfy(227,10): " + _dafny.string_of(d_168_valueOrError0_))
+            raise _dafny.HaltException("test/GetOpt.dfy(227,13): " + _dafny.string_of(d_168_valueOrError0_))
         d_167_x_ = (d_168_valueOrError0_).Extract()
         if not(((d_167_x_).command) == (_dafny.Seq("cmd"))):
             raise _dafny.HaltException("test/GetOpt.dfy(228,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -339,7 +339,7 @@ class default__:
         d_170_valueOrError1_: Wrappers.Result = Wrappers.Result.default(GetOpt.Parsed.default())()
         d_170_valueOrError1_ = GetOpt.default__.GetOptions(d_166_MyOptions_, _dafny.Seq([_dafny.Seq("cmd"), _dafny.Seq("--foo"), _dafny.Seq("command"), _dafny.Seq("--six")]))
         if not(not((d_170_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/GetOpt.dfy(238,6): " + _dafny.string_of(d_170_valueOrError1_))
+            raise _dafny.HaltException("test/GetOpt.dfy(238,9): " + _dafny.string_of(d_170_valueOrError1_))
         d_167_x_ = (d_170_valueOrError1_).Extract()
         if not(((d_167_x_).command) == (_dafny.Seq("cmd"))):
             raise _dafny.HaltException("test/GetOpt.dfy(239,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -361,7 +361,7 @@ class default__:
         d_171_valueOrError2_: Wrappers.Result = Wrappers.Result.default(GetOpt.Parsed.default())()
         d_171_valueOrError2_ = GetOpt.default__.GetOptions(d_166_MyOptions_, _dafny.Seq([_dafny.Seq("cmd"), _dafny.Seq("--foo")]))
         if not(not((d_171_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("test/GetOpt.dfy(249,6): " + _dafny.string_of(d_171_valueOrError2_))
+            raise _dafny.HaltException("test/GetOpt.dfy(249,9): " + _dafny.string_of(d_171_valueOrError2_))
         d_167_x_ = (d_171_valueOrError2_).Extract()
         if not(((d_167_x_).command) == (_dafny.Seq("cmd"))):
             raise _dafny.HaltException("test/GetOpt.dfy(250,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))

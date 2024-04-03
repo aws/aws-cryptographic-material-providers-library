@@ -77,27 +77,27 @@ class default__:
     @staticmethod
     def Expand(hmac, prk, info, expectedLength, digest):
         okm: _dafny.Seq = _dafny.Seq({})
-        d_34_hashLength_: int
-        d_34_hashLength_ = Digest.default__.Length(digest)
-        d_35_n_: int
-        d_35_n_ = _dafny.euclidian_division(((d_34_hashLength_) + (expectedLength)) - (1), d_34_hashLength_)
+        d_41_hashLength_: int
+        d_41_hashLength_ = Digest.default__.Length(digest)
+        d_42_n_: int
+        d_42_n_ = _dafny.euclidian_division(((d_41_hashLength_) + (expectedLength)) - (1), d_41_hashLength_)
         (hmac).Init(prk)
-        d_36_t__prev_: _dafny.Seq
-        d_36_t__prev_ = _dafny.Seq([])
-        d_37_t__n_: _dafny.Seq
-        d_37_t__n_ = d_36_t__prev_
-        d_38_i_: int
-        d_38_i_ = 1
-        while (d_38_i_) <= (d_35_n_):
-            (hmac).BlockUpdate(d_36_t__prev_)
+        d_43_t__prev_: _dafny.Seq
+        d_43_t__prev_ = _dafny.Seq([])
+        d_44_t__n_: _dafny.Seq
+        d_44_t__n_ = d_43_t__prev_
+        d_45_i_: int
+        d_45_i_ = 1
+        while (d_45_i_) <= (d_42_n_):
+            (hmac).BlockUpdate(d_43_t__prev_)
             (hmac).BlockUpdate(info)
-            (hmac).BlockUpdate(_dafny.Seq([d_38_i_]))
+            (hmac).BlockUpdate(_dafny.Seq([d_45_i_]))
             out5_: _dafny.Seq
             out5_ = (hmac).GetResult()
-            d_36_t__prev_ = out5_
-            d_37_t__n_ = (d_37_t__n_) + (d_36_t__prev_)
-            d_38_i_ = (d_38_i_) + (1)
-        okm = d_37_t__n_
+            d_43_t__prev_ = out5_
+            d_44_t__n_ = (d_44_t__n_) + (d_43_t__prev_)
+            d_45_i_ = (d_45_i_) + (1)
+        okm = d_44_t__n_
         if (expectedLength) < (len(okm)):
             okm = _dafny.Seq((okm)[:expectedLength:])
         return okm
@@ -108,30 +108,30 @@ class default__:
         if (L) == (0):
             okm = _dafny.Seq([])
             return okm
-        d_39_hmac_: HMAC.HMac
-        d_40_valueOrError0_: Wrappers.Result = None
+        d_46_hmac_: HMAC.HMac
+        d_47_valueOrError0_: Wrappers.Result = None
         out6_: Wrappers.Result
         out6_ = HMAC.HMac.Build(digest)
-        d_40_valueOrError0_ = out6_
-        if not(not((d_40_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("src/HKDF/HKDF.dfy(222,13): " + _dafny.string_of(d_40_valueOrError0_))
-        d_39_hmac_ = (d_40_valueOrError0_).Extract()
-        d_41_hashLength_: int
-        d_41_hashLength_ = Digest.default__.Length(digest)
-        d_42_nonEmptySalt_: _dafny.Seq = _dafny.Seq({})
+        d_47_valueOrError0_ = out6_
+        if not(not((d_47_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("src/HKDF/HKDF.dfy(222,16): " + _dafny.string_of(d_47_valueOrError0_))
+        d_46_hmac_ = (d_47_valueOrError0_).Extract()
+        d_48_hashLength_: int
+        d_48_hashLength_ = Digest.default__.Length(digest)
+        d_49_nonEmptySalt_: _dafny.Seq = _dafny.Seq({})
         source1_ = salt
         if source1_.is_None:
-            d_42_nonEmptySalt_ = StandardLibrary.default__.Fill(0, d_41_hashLength_)
+            d_49_nonEmptySalt_ = StandardLibrary.default__.Fill(0, d_48_hashLength_)
         elif True:
-            d_43___mcc_h0_ = source1_.value
-            d_44_s_ = d_43___mcc_h0_
-            d_42_nonEmptySalt_ = d_44_s_
-        d_45_prk_: _dafny.Seq
+            d_50___mcc_h0_ = source1_.value
+            d_51_s_ = d_50___mcc_h0_
+            d_49_nonEmptySalt_ = d_51_s_
+        d_52_prk_: _dafny.Seq
         out7_: _dafny.Seq
-        out7_ = default__.Extract(d_39_hmac_, d_42_nonEmptySalt_, ikm)
-        d_45_prk_ = out7_
+        out7_ = default__.Extract(d_46_hmac_, d_49_nonEmptySalt_, ikm)
+        d_52_prk_ = out7_
         out8_: _dafny.Seq
-        out8_ = default__.Expand(d_39_hmac_, d_45_prk_, info, L, digest)
+        out8_ = default__.Expand(d_46_hmac_, d_52_prk_, info, L, digest)
         okm = out8_
         return okm
 

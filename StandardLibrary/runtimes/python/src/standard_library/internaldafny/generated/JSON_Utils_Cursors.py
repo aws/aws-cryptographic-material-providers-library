@@ -115,24 +115,24 @@ class CursorError:
         if source7_.is_EOF:
             return _dafny.Seq("Reached EOF")
         elif source7_.is_ExpectingByte:
-            d_422___mcc_h0_ = source7_.expected
-            d_423___mcc_h1_ = source7_.b
-            d_424_b_ = d_423___mcc_h1_
-            d_425_b0_ = d_422___mcc_h0_
-            d_426_c_ = (((_dafny.Seq("'")) + (_dafny.Seq([chr(d_424_b_)]))) + (_dafny.Seq("'")) if (d_424_b_) > (0) else _dafny.Seq("EOF"))
-            return (((_dafny.Seq("Expecting '")) + (_dafny.Seq([chr(d_425_b0_)]))) + (_dafny.Seq("', read "))) + (d_426_c_)
+            d_446___mcc_h0_ = source7_.expected
+            d_447___mcc_h1_ = source7_.b
+            d_448_b_ = d_447___mcc_h1_
+            d_449_b0_ = d_446___mcc_h0_
+            d_450_c_ = (((_dafny.Seq("'")) + (_dafny.Seq([chr(d_448_b_)]))) + (_dafny.Seq("'")) if (d_448_b_) > (0) else _dafny.Seq("EOF"))
+            return (((_dafny.Seq("Expecting '")) + (_dafny.Seq([chr(d_449_b0_)]))) + (_dafny.Seq("', read "))) + (d_450_c_)
         elif source7_.is_ExpectingAnyByte:
-            d_427___mcc_h2_ = source7_.expected__sq
-            d_428___mcc_h3_ = source7_.b
-            d_429_b_ = d_428___mcc_h3_
-            d_430_bs0_ = d_427___mcc_h2_
-            d_431_c_ = (((_dafny.Seq("'")) + (_dafny.Seq([chr(d_429_b_)]))) + (_dafny.Seq("'")) if (d_429_b_) > (0) else _dafny.Seq("EOF"))
-            d_432_c0s_ = _dafny.Seq([chr((d_430_bs0_)[d_433_idx_]) for d_433_idx_ in range(len(d_430_bs0_))])
-            return (((_dafny.Seq("Expecting one of '")) + (d_432_c0s_)) + (_dafny.Seq("', read "))) + (d_431_c_)
+            d_451___mcc_h2_ = source7_.expected__sq
+            d_452___mcc_h3_ = source7_.b
+            d_453_b_ = d_452___mcc_h3_
+            d_454_bs0_ = d_451___mcc_h2_
+            d_455_c_ = (((_dafny.Seq("'")) + (_dafny.Seq([chr(d_453_b_)]))) + (_dafny.Seq("'")) if (d_453_b_) > (0) else _dafny.Seq("EOF"))
+            d_456_c0s_ = _dafny.Seq([chr((d_454_bs0_)[d_457_idx_]) for d_457_idx_ in range(len(d_454_bs0_))])
+            return (((_dafny.Seq("Expecting one of '")) + (d_456_c0s_)) + (_dafny.Seq("', read "))) + (d_455_c_)
         elif True:
-            d_434___mcc_h4_ = source7_.err
-            d_435_err_ = d_434___mcc_h4_
-            return pr(d_435_err_)
+            d_458___mcc_h4_ = source7_.err
+            d_459_err_ = d_458___mcc_h4_
+            return pr(d_459_err_)
 
 
 class CursorError_EOF(CursorError, NamedTuple('EOF', [])):
@@ -192,9 +192,9 @@ class Cursor__:
         return JSON_Utils_Views_Core.View___View((self).s, (self).beg, (self).point)
 
     def Suffix(self):
-        d_436_dt__update__tmp_h0_ = self
-        d_437_dt__update_hbeg_h0_ = (self).point
-        return Cursor___Cursor((d_436_dt__update__tmp_h0_).s, d_437_dt__update_hbeg_h0_, (d_436_dt__update__tmp_h0_).point, (d_436_dt__update__tmp_h0_).end)
+        d_460_dt__update__tmp_h0_ = self
+        d_461_dt__update_hbeg_h0_ = (self).point
+        return Cursor___Cursor((d_460_dt__update__tmp_h0_).s, d_461_dt__update_hbeg_h0_, (d_460_dt__update__tmp_h0_).point, (d_460_dt__update__tmp_h0_).end)
 
     def Split(self):
         return Split_SP((self).Prefix(), (self).Suffix())
@@ -224,14 +224,14 @@ class Cursor__:
         return ((self).Peek()) == (ord(c))
 
     def Skip(self, n):
-        d_438_dt__update__tmp_h0_ = self
-        d_439_dt__update_hpoint_h0_ = ((self).point) + (n)
-        return Cursor___Cursor((d_438_dt__update__tmp_h0_).s, (d_438_dt__update__tmp_h0_).beg, d_439_dt__update_hpoint_h0_, (d_438_dt__update__tmp_h0_).end)
+        d_462_dt__update__tmp_h0_ = self
+        d_463_dt__update_hpoint_h0_ = ((self).point) + (n)
+        return Cursor___Cursor((d_462_dt__update__tmp_h0_).s, (d_462_dt__update__tmp_h0_).beg, d_463_dt__update_hpoint_h0_, (d_462_dt__update__tmp_h0_).end)
 
     def Unskip(self, n):
-        d_440_dt__update__tmp_h0_ = self
-        d_441_dt__update_hpoint_h0_ = ((self).point) - (n)
-        return Cursor___Cursor((d_440_dt__update__tmp_h0_).s, (d_440_dt__update__tmp_h0_).beg, d_441_dt__update_hpoint_h0_, (d_440_dt__update__tmp_h0_).end)
+        d_464_dt__update__tmp_h0_ = self
+        d_465_dt__update_hpoint_h0_ = ((self).point) - (n)
+        return Cursor___Cursor((d_464_dt__update__tmp_h0_).s, (d_464_dt__update__tmp_h0_).beg, d_465_dt__update_hpoint_h0_, (d_464_dt__update__tmp_h0_).end)
 
     def Get(self, err):
         if (self).EOF_q:
@@ -240,11 +240,11 @@ class Cursor__:
             return Wrappers.Result_Success((self).Skip(1))
 
     def AssertByte(self, b):
-        d_442_nxt_ = (self).Peek()
-        if (d_442_nxt_) == (b):
+        d_466_nxt_ = (self).Peek()
+        if (d_466_nxt_) == (b):
             return Wrappers.Result_Success((self).Skip(1))
         elif True:
-            return Wrappers.Result_Failure(CursorError_ExpectingByte(b, d_442_nxt_))
+            return Wrappers.Result_Failure(CursorError_ExpectingByte(b, d_466_nxt_))
 
     def AssertBytes(self, bs, offset):
         _this = self
@@ -253,12 +253,12 @@ class Cursor__:
                 if (offset) == (len(bs)):
                     return Wrappers.Result_Success(_this)
                 elif True:
-                    d_443_valueOrError0_ = (_this).AssertByte((bs)[offset])
-                    if (d_443_valueOrError0_).IsFailure():
-                        return (d_443_valueOrError0_).PropagateFailure()
+                    d_467_valueOrError0_ = (_this).AssertByte((bs)[offset])
+                    if (d_467_valueOrError0_).IsFailure():
+                        return (d_467_valueOrError0_).PropagateFailure()
                     elif True:
-                        d_444_ps_ = (d_443_valueOrError0_).Extract()
-                        in190_ = d_444_ps_
+                        d_468_ps_ = (d_467_valueOrError0_).Extract()
+                        in190_ = d_468_ps_
                         in191_ = bs
                         in192_ = (offset) + (1)
                         _this = in190_
@@ -285,49 +285,49 @@ class Cursor__:
 
     def SkipWhile(self, p):
         ps: Cursor__ = Cursor.default()
-        d_445_point_k_: int
-        d_445_point_k_ = (self).point
-        d_446_end_: int
-        d_446_end_ = (self).end
-        while ((d_445_point_k_) < (d_446_end_)) and (p(((self).s)[d_445_point_k_])):
-            d_445_point_k_ = (d_445_point_k_) + (1)
-        ps = Cursor___Cursor((self).s, (self).beg, d_445_point_k_, (self).end)
+        d_469_point_k_: int
+        d_469_point_k_ = (self).point
+        d_470_end_: int
+        d_470_end_ = (self).end
+        while ((d_469_point_k_) < (d_470_end_)) and (p(((self).s)[d_469_point_k_])):
+            d_469_point_k_ = (d_469_point_k_) + (1)
+        ps = Cursor___Cursor((self).s, (self).beg, d_469_point_k_, (self).end)
         return ps
         return ps
 
     def SkipWhileLexer(self, step, st):
         pr: Wrappers.Result = Wrappers.Result.default(Cursor.default)()
-        d_447_point_k_: int
-        d_447_point_k_ = (self).point
-        d_448_end_: int
-        d_448_end_ = (self).end
-        d_449_st_k_: TypeVar('A__')
-        d_449_st_k_ = st
+        d_471_point_k_: int
+        d_471_point_k_ = (self).point
+        d_472_end_: int
+        d_472_end_ = (self).end
+        d_473_st_k_: TypeVar('A__')
+        d_473_st_k_ = st
         while True:
-            d_450_eof_: bool
-            d_450_eof_ = (d_447_point_k_) == (d_448_end_)
-            d_451_minusone_: int
-            d_451_minusone_ = -1
-            d_452_c_: int
-            d_452_c_ = (d_451_minusone_ if d_450_eof_ else ((self).s)[d_447_point_k_])
-            source8_ = step(d_449_st_k_, d_452_c_)
+            d_474_eof_: bool
+            d_474_eof_ = (d_471_point_k_) == (d_472_end_)
+            d_475_minusone_: int
+            d_475_minusone_ = -1
+            d_476_c_: int
+            d_476_c_ = (d_475_minusone_ if d_474_eof_ else ((self).s)[d_471_point_k_])
+            source8_ = step(d_473_st_k_, d_476_c_)
             if source8_.is_Accept:
-                pr = Wrappers.Result_Success(Cursor___Cursor((self).s, (self).beg, d_447_point_k_, (self).end))
+                pr = Wrappers.Result_Success(Cursor___Cursor((self).s, (self).beg, d_471_point_k_, (self).end))
                 return pr
             elif source8_.is_Reject:
-                d_453___mcc_h0_ = source8_.err
-                d_454_err_ = d_453___mcc_h0_
-                pr = Wrappers.Result_Failure(CursorError_OtherError(d_454_err_))
+                d_477___mcc_h0_ = source8_.err
+                d_478_err_ = d_477___mcc_h0_
+                pr = Wrappers.Result_Failure(CursorError_OtherError(d_478_err_))
                 return pr
             elif True:
-                d_455___mcc_h1_ = source8_.st
-                d_456_st_k_k_ = d_455___mcc_h1_
-                if d_450_eof_:
+                d_479___mcc_h1_ = source8_.st
+                d_480_st_k_k_ = d_479___mcc_h1_
+                if d_474_eof_:
                     pr = Wrappers.Result_Failure(CursorError_EOF())
                     return pr
                 elif True:
-                    d_449_st_k_ = d_456_st_k_k_
-                    d_447_point_k_ = (d_447_point_k_) + (1)
+                    d_473_st_k_ = d_480_st_k_k_
+                    d_471_point_k_ = (d_471_point_k_) + (1)
         return pr
 
     @property

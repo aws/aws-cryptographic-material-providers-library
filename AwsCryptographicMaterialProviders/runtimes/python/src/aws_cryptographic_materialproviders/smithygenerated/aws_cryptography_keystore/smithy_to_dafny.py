@@ -284,7 +284,7 @@ def aws_cryptography_keystore_DdbClientReference(native_input):
     client = software_amazon_cryptography_services_dynamodb_internaldafny.default__.DynamoDBClient(
         boto_client=native_input
     )
-    client.value.impl = input
+    client.value.impl = native_input
     return client.value
 
 
@@ -296,5 +296,5 @@ def aws_cryptography_keystore_KmsClientReference(native_input):
             boto_client=native_input
         )
     )
-    client.value.impl = input
+    client.value.impl = native_input
     return client.value

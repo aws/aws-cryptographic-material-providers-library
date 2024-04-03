@@ -121,18 +121,18 @@ class default__:
 
     @staticmethod
     def ValidateCommitmentPolicyOnEncrypt(algorithm, commitmentPolicy):
-        d_1146_suite_ = AlgorithmSuites.default__.GetSuite(algorithm)
-        if ((commitmentPolicy) == (software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKCommitmentPolicy_FORBID__ENCRYPT__ALLOW__DECRYPT()))) and (not(((d_1146_suite_).commitment).is_None)):
+        d_1166_suite_ = AlgorithmSuites.default__.GetSuite(algorithm)
+        if ((commitmentPolicy) == (software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKCommitmentPolicy_FORBID__ENCRYPT__ALLOW__DECRYPT()))) and (not(((d_1166_suite_).commitment).is_None)):
             return Wrappers.Outcome_Fail(software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidAlgorithmSuiteInfoOnEncrypt(_dafny.Seq("Configuration conflict. Commitment policy requires only non-committing algorithm suites")))
-        elif ((((commitmentPolicy) == (software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKCommitmentPolicy_REQUIRE__ENCRYPT__ALLOW__DECRYPT()))) or ((commitmentPolicy) == (software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKCommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT())))) or ((commitmentPolicy) == (software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy_DBE(software_amazon_cryptography_materialproviders_internaldafny_types.DBECommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT())))) and (((d_1146_suite_).commitment).is_None):
+        elif ((((commitmentPolicy) == (software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKCommitmentPolicy_REQUIRE__ENCRYPT__ALLOW__DECRYPT()))) or ((commitmentPolicy) == (software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKCommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT())))) or ((commitmentPolicy) == (software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy_DBE(software_amazon_cryptography_materialproviders_internaldafny_types.DBECommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT())))) and (((d_1166_suite_).commitment).is_None):
             return Wrappers.Outcome_Fail(software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidAlgorithmSuiteInfoOnEncrypt(_dafny.Seq("Configuration conflict. Commitment policy requires only committing algorithm suites")))
         elif True:
             return Wrappers.Outcome_Pass()
 
     @staticmethod
     def ValidateCommitmentPolicyOnDecrypt(algorithm, commitmentPolicy):
-        d_1147_suite_ = AlgorithmSuites.default__.GetSuite(algorithm)
-        if ((True) and (((commitmentPolicy) == (software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKCommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT()))) or ((commitmentPolicy) == (software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy_DBE(software_amazon_cryptography_materialproviders_internaldafny_types.DBECommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT()))))) and (((d_1147_suite_).commitment).is_None):
+        d_1167_suite_ = AlgorithmSuites.default__.GetSuite(algorithm)
+        if ((True) and (((commitmentPolicy) == (software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKCommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT()))) or ((commitmentPolicy) == (software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy_DBE(software_amazon_cryptography_materialproviders_internaldafny_types.DBECommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT()))))) and (((d_1167_suite_).commitment).is_None):
             return Wrappers.Outcome_Fail(software_amazon_cryptography_materialproviders_internaldafny_types.Error_InvalidAlgorithmSuiteInfoOnDecrypt(_dafny.Seq("Configuration conflict. Commitment policy requires only committing algorithm suites")))
         elif True:
             return Wrappers.Outcome_Pass()

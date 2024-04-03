@@ -50,21 +50,21 @@ class default__:
     @staticmethod
     def Example(args):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.bool)()
-        d_256_MyOptions_: _dafny.Seq
-        d_256_MyOptions_ = _dafny.Seq([Param_Flag(_dafny.Seq("foo"), _dafny.Seq("Does foo things"), default__.NullChar, False, False, Visibility_Normal(), _dafny.Seq([]), _dafny.Seq([])), Param_Opt(_dafny.Seq("two"), _dafny.Seq("Does bar things to thingy"), _dafny.Seq("thingy"), 't', Unused_UnusedOk(), False, Visibility_Normal(), _dafny.Seq([]), _dafny.Seq([]), Tri_No()), Param_Command(Options_Options(_dafny.Seq("command"), _dafny.Seq("Does command stuff"), _dafny.Seq([Param_Opt(_dafny.Seq("two"), _dafny.Seq("Does bar things to thingy"), _dafny.Seq("thingy"), 't', Unused_UnusedOk(), False, Visibility_Normal(), _dafny.Seq([]), _dafny.Seq([]), Tri_No()), Param_Flag(_dafny.Seq("foo"), _dafny.Seq("Does foo things"), default__.NullChar, False, False, Visibility_Normal(), _dafny.Seq([]), _dafny.Seq([]))])))])
-        d_257_opts_: Options
-        d_257_opts_ = Options_Options(_dafny.Seq("myProg"), _dafny.Seq("does prog stuff"), d_256_MyOptions_)
-        d_258_x_: Parsed
-        d_259_valueOrError0_: Wrappers.Result = Wrappers.Result.default(Parsed.default())()
-        d_259_valueOrError0_ = default__.GetOptions(d_257_opts_, args)
-        if (d_259_valueOrError0_).IsFailure():
-            output = (d_259_valueOrError0_).PropagateFailure()
+        d_275_MyOptions_: _dafny.Seq
+        d_275_MyOptions_ = _dafny.Seq([Param_Flag(_dafny.Seq("foo"), _dafny.Seq("Does foo things"), default__.NullChar, False, False, Visibility_Normal(), _dafny.Seq([]), _dafny.Seq([])), Param_Opt(_dafny.Seq("two"), _dafny.Seq("Does bar things to thingy"), _dafny.Seq("thingy"), 't', Unused_UnusedOk(), False, Visibility_Normal(), _dafny.Seq([]), _dafny.Seq([]), Tri_No()), Param_Command(Options_Options(_dafny.Seq("command"), _dafny.Seq("Does command stuff"), _dafny.Seq([Param_Opt(_dafny.Seq("two"), _dafny.Seq("Does bar things to thingy"), _dafny.Seq("thingy"), 't', Unused_UnusedOk(), False, Visibility_Normal(), _dafny.Seq([]), _dafny.Seq([]), Tri_No()), Param_Flag(_dafny.Seq("foo"), _dafny.Seq("Does foo things"), default__.NullChar, False, False, Visibility_Normal(), _dafny.Seq([]), _dafny.Seq([]))])))])
+        d_276_opts_: Options
+        d_276_opts_ = Options_Options(_dafny.Seq("myProg"), _dafny.Seq("does prog stuff"), d_275_MyOptions_)
+        d_277_x_: Parsed
+        d_278_valueOrError0_: Wrappers.Result = Wrappers.Result.default(Parsed.default())()
+        d_278_valueOrError0_ = default__.GetOptions(d_276_opts_, args)
+        if (d_278_valueOrError0_).IsFailure():
+            output = (d_278_valueOrError0_).PropagateFailure()
             return output
-        d_258_x_ = (d_259_valueOrError0_).Extract()
-        d_260_h_: Wrappers.Option
-        d_260_h_ = default__.NeedsHelp(d_257_opts_, d_258_x_, _dafny.Seq(""))
-        if (d_260_h_).is_Some:
-            _dafny.print(_dafny.string_of((d_260_h_).value))
+        d_277_x_ = (d_278_valueOrError0_).Extract()
+        d_279_h_: Wrappers.Option
+        d_279_h_ = default__.NeedsHelp(d_276_opts_, d_277_x_, _dafny.Seq(""))
+        if (d_279_h_).is_Some:
+            _dafny.print(_dafny.string_of((d_279_h_).value))
             output = Wrappers.Result_Success(True)
             return output
         output = Wrappers.Result_Success(True)
@@ -73,13 +73,13 @@ class default__:
 
     @staticmethod
     def Filter(f, xs):
-        d_261___accumulator_ = _dafny.Seq([])
+        d_280___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (len(xs)) == (0):
-                    return (d_261___accumulator_) + (_dafny.Seq([]))
+                    return (d_280___accumulator_) + (_dafny.Seq([]))
                 elif True:
-                    d_261___accumulator_ = (d_261___accumulator_) + ((_dafny.Seq([(xs)[0]]) if f((xs)[0]) else _dafny.Seq([])))
+                    d_280___accumulator_ = (d_280___accumulator_) + ((_dafny.Seq([(xs)[0]]) if f((xs)[0]) else _dafny.Seq([])))
                     in69_ = f
                     in70_ = _dafny.Seq((xs)[1::])
                     f = in69_
@@ -94,12 +94,12 @@ class default__:
                 if ((len((args).params)) != (0)) and (((((args).params)[0]).name) == (default__.HELP__STR)):
                     return Wrappers.Option_Some(default__.GetHelp(opts, prefix))
                 elif ((args).subcommand).is_Some:
-                    d_262_valueOrError0_ = default__.GetSubOptions((opts).params, (((args).subcommand).value).command, 0)
-                    if (d_262_valueOrError0_).IsFailure():
-                        return (d_262_valueOrError0_).PropagateFailure()
+                    d_281_valueOrError0_ = default__.GetSubOptions((opts).params, (((args).subcommand).value).command, 0)
+                    if (d_281_valueOrError0_).IsFailure():
+                        return (d_281_valueOrError0_).PropagateFailure()
                     elif True:
-                        d_263_pos_ = (d_262_valueOrError0_).Extract()
-                        in71_ = (((opts).params)[d_263_pos_]).options
+                        d_282_pos_ = (d_281_valueOrError0_).Extract()
+                        in71_ = (((opts).params)[d_282_pos_]).options
                         in72_ = ((args).subcommand).value
                         in73_ = ((prefix) + ((args).command)) + (_dafny.Seq(" "))
                         opts = in71_
@@ -112,13 +112,13 @@ class default__:
 
     @staticmethod
     def GetHelp(opts, prefix):
-        d_264_newOpts_ = ((opts).params) + (_dafny.Seq([default__.HELP__PARAM]))
-        d_265_longLen_ = default__.GetLongLen(d_264_newOpts_, 6)
-        d_266_commandLen_ = default__.GetCommandLen(d_264_newOpts_, 0)
-        if (d_266_commandLen_) == (0):
-            return ((((((_dafny.Seq("USAGE : ")) + (prefix)) + ((opts).name)) + (_dafny.Seq(" [args...]\n"))) + ((opts).help)) + (_dafny.Seq("\n"))) + (default__.GetHelp2(d_264_newOpts_, d_265_longLen_))
+        d_283_newOpts_ = ((opts).params) + (_dafny.Seq([default__.HELP__PARAM]))
+        d_284_longLen_ = default__.GetLongLen(d_283_newOpts_, 6)
+        d_285_commandLen_ = default__.GetCommandLen(d_283_newOpts_, 0)
+        if (d_285_commandLen_) == (0):
+            return ((((((_dafny.Seq("USAGE : ")) + (prefix)) + ((opts).name)) + (_dafny.Seq(" [args...]\n"))) + ((opts).help)) + (_dafny.Seq("\n"))) + (default__.GetHelp2(d_283_newOpts_, d_284_longLen_))
         elif True:
-            return ((((((((_dafny.Seq("USAGE : ")) + ((opts).name)) + (_dafny.Seq(" [args...] command [args...]\n"))) + ((opts).help)) + (_dafny.Seq("\n"))) + (_dafny.Seq("\nAvailable Commands:\n"))) + (default__.GetCmdHelp(d_264_newOpts_, d_266_commandLen_))) + (_dafny.Seq("\nAvailable Options:\n"))) + (default__.GetHelp2(d_264_newOpts_, d_265_longLen_))
+            return ((((((((_dafny.Seq("USAGE : ")) + ((opts).name)) + (_dafny.Seq(" [args...] command [args...]\n"))) + ((opts).help)) + (_dafny.Seq("\n"))) + (_dafny.Seq("\nAvailable Commands:\n"))) + (default__.GetCmdHelp(d_283_newOpts_, d_285_commandLen_))) + (_dafny.Seq("\nAvailable Options:\n"))) + (default__.GetHelp2(d_283_newOpts_, d_284_longLen_))
 
     @staticmethod
     def OptValue(args, arg):
@@ -138,13 +138,13 @@ class default__:
 
     @staticmethod
     def FlagCount(args, arg):
-        d_267___accumulator_ = 0
+        d_286___accumulator_ = 0
         while True:
             with _dafny.label():
                 if (len(args)) == (0):
-                    return (0) + (d_267___accumulator_)
+                    return (0) + (d_286___accumulator_)
                 elif (((args)[0]).name) == (arg):
-                    d_267___accumulator_ = (d_267___accumulator_) + (1)
+                    d_286___accumulator_ = (d_286___accumulator_) + (1)
                     in76_ = _dafny.Seq((args)[1::])
                     in77_ = arg
                     args = in76_
@@ -315,8 +315,8 @@ class default__:
 
     @staticmethod
     def GetCommandHelp(opt, commandLen):
-        d_268_name_ = ((((opt).options).name) + (_dafny.Seq([' ' for d_269_i_ in range((commandLen) - (len(((opt).options).name)))])) if (len(((opt).options).name)) < (commandLen) else ((opt).options).name)
-        return (((d_268_name_) + (_dafny.Seq("  "))) + (((opt).options).help)) + (_dafny.Seq("\n"))
+        d_287_name_ = ((((opt).options).name) + (_dafny.Seq([' ' for d_288_i_ in range((commandLen) - (len(((opt).options).name)))])) if (len(((opt).options).name)) < (commandLen) else ((opt).options).name)
+        return (((d_287_name_) + (_dafny.Seq("  "))) + (((opt).options).help)) + (_dafny.Seq("\n"))
 
     @staticmethod
     def GetShortHelp(opt):
@@ -331,24 +331,24 @@ class default__:
     @staticmethod
     def GetLongHelp(opt, longLen):
         if ((opt).is_Opt) or ((opt).is_Flag):
-            d_270_tmp_ = ((_dafny.Seq("--")) + ((opt).name)) + (((_dafny.Seq("=")) + ((opt).argName) if (opt).is_Opt else _dafny.Seq("")))
-            if (len(d_270_tmp_)) < (longLen):
-                return (d_270_tmp_) + (_dafny.Seq([' ' for d_271_i_ in range((longLen) - (len(d_270_tmp_)))]))
+            d_289_tmp_ = ((_dafny.Seq("--")) + ((opt).name)) + (((_dafny.Seq("=")) + ((opt).argName) if (opt).is_Opt else _dafny.Seq("")))
+            if (len(d_289_tmp_)) < (longLen):
+                return (d_289_tmp_) + (_dafny.Seq([' ' for d_290_i_ in range((longLen) - (len(d_289_tmp_)))]))
             elif True:
-                return d_270_tmp_
+                return d_289_tmp_
         elif True:
             return _dafny.Seq("")
 
     @staticmethod
     def GetHelp2(opts, longLen):
-        d_272___accumulator_ = _dafny.Seq([])
+        d_291___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (len(opts)) == (0):
-                    return (d_272___accumulator_) + (_dafny.Seq(""))
+                    return (d_291___accumulator_) + (_dafny.Seq(""))
                 elif True:
-                    d_273_x_ = default__.OneHelp((opts)[0], longLen)
-                    d_272___accumulator_ = (d_272___accumulator_) + (d_273_x_)
+                    d_292_x_ = default__.OneHelp((opts)[0], longLen)
+                    d_291___accumulator_ = (d_291___accumulator_) + (d_292_x_)
                     in108_ = _dafny.Seq((opts)[1::])
                     in109_ = longLen
                     opts = in108_
@@ -358,14 +358,14 @@ class default__:
 
     @staticmethod
     def GetCmdHelp(opts, commandLen):
-        d_274___accumulator_ = _dafny.Seq([])
+        d_293___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (len(opts)) == (0):
-                    return (d_274___accumulator_) + (_dafny.Seq(""))
+                    return (d_293___accumulator_) + (_dafny.Seq(""))
                 elif True:
-                    d_275_x_ = (default__.GetCommandHelp((opts)[0], commandLen) if ((opts)[0]).is_Command else _dafny.Seq(""))
-                    d_274___accumulator_ = (d_274___accumulator_) + (d_275_x_)
+                    d_294_x_ = (default__.GetCommandHelp((opts)[0], commandLen) if ((opts)[0]).is_Command else _dafny.Seq(""))
+                    d_293___accumulator_ = (d_293___accumulator_) + (d_294_x_)
                     in110_ = _dafny.Seq((opts)[1::])
                     in111_ = commandLen
                     opts = in110_
@@ -380,10 +380,10 @@ class default__:
                 if (len(opts)) == (0):
                     return max
                 elif True:
-                    d_276_x_ = len(default__.GetLongHelp((opts)[0], 0))
-                    d_277_newMax_ = (d_276_x_ if (d_276_x_) > (max) else max)
+                    d_295_x_ = len(default__.GetLongHelp((opts)[0], 0))
+                    d_296_newMax_ = (d_295_x_ if (d_295_x_) > (max) else max)
                     in112_ = _dafny.Seq((opts)[1::])
-                    in113_ = d_277_newMax_
+                    in113_ = d_296_newMax_
                     opts = in112_
                     max = in113_
                     raise _dafny.TailCall()
@@ -396,10 +396,10 @@ class default__:
                 if (len(opts)) == (0):
                     return max
                 elif True:
-                    d_278_x_ = (len((((opts)[0]).options).name) if ((opts)[0]).is_Command else 0)
-                    d_279_newMax_ = (d_278_x_ if (d_278_x_) > (max) else max)
+                    d_297_x_ = (len((((opts)[0]).options).name) if ((opts)[0]).is_Command else 0)
+                    d_298_newMax_ = (d_297_x_ if (d_297_x_) > (max) else max)
                     in114_ = _dafny.Seq((opts)[1::])
-                    in115_ = d_279_newMax_
+                    in115_ = d_298_newMax_
                     opts = in114_
                     max = in115_
                     raise _dafny.TailCall()
@@ -448,45 +448,45 @@ class default__:
                 if (len(opts)) == (0):
                     return Wrappers.Result_Success((longMap, shortMap, commandMap))
                 elif True:
-                    d_280_opt_ = (opts)[0]
-                    if (d_280_opt_).is_Command:
-                        d_281_valueOrError0_ = Wrappers.default__.Need((((d_280_opt_).options).name) not in (commandMap), (_dafny.Seq("Duplicate command in options : ")) + (((d_280_opt_).options).name))
-                        if (d_281_valueOrError0_).IsFailure():
-                            return (d_281_valueOrError0_).PropagateFailure()
+                    d_299_opt_ = (opts)[0]
+                    if (d_299_opt_).is_Command:
+                        d_300_valueOrError0_ = Wrappers.default__.Need((((d_299_opt_).options).name) not in (commandMap), (_dafny.Seq("Duplicate command in options : ")) + (((d_299_opt_).options).name))
+                        if (d_300_valueOrError0_).IsFailure():
+                            return (d_300_valueOrError0_).PropagateFailure()
                         elif True:
                             in122_ = _dafny.Seq((opts)[1::])
                             in123_ = longMap
                             in124_ = shortMap
-                            in125_ = (commandMap).set(((d_280_opt_).options).name, (d_280_opt_).options)
+                            in125_ = (commandMap).set(((d_299_opt_).options).name, (d_299_opt_).options)
                             opts = in122_
                             longMap = in123_
                             shortMap = in124_
                             commandMap = in125_
                             raise _dafny.TailCall()
                     elif True:
-                        d_282_valueOrError1_ = Wrappers.default__.Need(((d_280_opt_).name) not in (longMap), (_dafny.Seq("Duplicate long name in options : ")) + ((d_280_opt_).name))
-                        if (d_282_valueOrError1_).IsFailure():
-                            return (d_282_valueOrError1_).PropagateFailure()
+                        d_301_valueOrError1_ = Wrappers.default__.Need(((d_299_opt_).name) not in (longMap), (_dafny.Seq("Duplicate long name in options : ")) + ((d_299_opt_).name))
+                        if (d_301_valueOrError1_).IsFailure():
+                            return (d_301_valueOrError1_).PropagateFailure()
                         elif True:
-                            d_283_longMap_ = (longMap).set((d_280_opt_).name, d_280_opt_)
-                            d_284_valueOrError2_ = default__.AddShortAlias((d_280_opt_).ShortAlias(), shortMap, (d_280_opt_).name)
-                            if (d_284_valueOrError2_).IsFailure():
-                                return (d_284_valueOrError2_).PropagateFailure()
+                            d_302_longMap_ = (longMap).set((d_299_opt_).name, d_299_opt_)
+                            d_303_valueOrError2_ = default__.AddShortAlias((d_299_opt_).ShortAlias(), shortMap, (d_299_opt_).name)
+                            if (d_303_valueOrError2_).IsFailure():
+                                return (d_303_valueOrError2_).PropagateFailure()
                             elif True:
-                                d_285_shortMap_ = (d_284_valueOrError2_).Extract()
-                                d_286_valueOrError3_ = default__.AddLongAlias((d_280_opt_).LongAlias(), d_283_longMap_, d_280_opt_)
-                                if (d_286_valueOrError3_).IsFailure():
-                                    return (d_286_valueOrError3_).PropagateFailure()
+                                d_304_shortMap_ = (d_303_valueOrError2_).Extract()
+                                d_305_valueOrError3_ = default__.AddLongAlias((d_299_opt_).LongAlias(), d_302_longMap_, d_299_opt_)
+                                if (d_305_valueOrError3_).IsFailure():
+                                    return (d_305_valueOrError3_).PropagateFailure()
                                 elif True:
-                                    d_287_longMap_ = (d_286_valueOrError3_).Extract()
-                                    if ((d_280_opt_).short) != (default__.NullChar):
-                                        d_288_short_ = (d_280_opt_).short
-                                        if (d_288_short_) in (d_285_shortMap_):
-                                            return Wrappers.Result_Failure((((((_dafny.Seq("Duplicate short char in options : '")) + (_dafny.Seq([d_288_short_]))) + (_dafny.Seq("' for "))) + ((d_280_opt_).name)) + (_dafny.Seq(" and "))) + ((d_285_shortMap_)[d_288_short_]))
+                                    d_306_longMap_ = (d_305_valueOrError3_).Extract()
+                                    if ((d_299_opt_).short) != (default__.NullChar):
+                                        d_307_short_ = (d_299_opt_).short
+                                        if (d_307_short_) in (d_304_shortMap_):
+                                            return Wrappers.Result_Failure((((((_dafny.Seq("Duplicate short char in options : '")) + (_dafny.Seq([d_307_short_]))) + (_dafny.Seq("' for "))) + ((d_299_opt_).name)) + (_dafny.Seq(" and "))) + ((d_304_shortMap_)[d_307_short_]))
                                         elif True:
                                             in126_ = _dafny.Seq((opts)[1::])
-                                            in127_ = (d_287_longMap_).set((d_280_opt_).name, d_280_opt_)
-                                            in128_ = (d_285_shortMap_).set(d_288_short_, (d_280_opt_).name)
+                                            in127_ = (d_306_longMap_).set((d_299_opt_).name, d_299_opt_)
+                                            in128_ = (d_304_shortMap_).set(d_307_short_, (d_299_opt_).name)
                                             in129_ = commandMap
                                             opts = in126_
                                             longMap = in127_
@@ -495,8 +495,8 @@ class default__:
                                             raise _dafny.TailCall()
                                     elif True:
                                         in130_ = _dafny.Seq((opts)[1::])
-                                        in131_ = (d_287_longMap_).set((d_280_opt_).name, d_280_opt_)
-                                        in132_ = d_285_shortMap_
+                                        in131_ = (d_306_longMap_).set((d_299_opt_).name, d_299_opt_)
+                                        in132_ = d_304_shortMap_
                                         in133_ = commandMap
                                         opts = in130_
                                         longMap = in131_
@@ -578,42 +578,42 @@ class default__:
     def PostProcess(opts, args):
         pat_let_tv2_ = args
         pat_let_tv3_ = args
-        d_289_valueOrError0_ = default__.PostProcess2((opts).params, (args).params, _dafny.Seq([]))
-        if (d_289_valueOrError0_).IsFailure():
-            return (d_289_valueOrError0_).PropagateFailure()
+        d_308_valueOrError0_ = default__.PostProcess2((opts).params, (args).params, _dafny.Seq([]))
+        if (d_308_valueOrError0_).IsFailure():
+            return (d_308_valueOrError0_).PropagateFailure()
         elif True:
-            d_290_newParams_ = (d_289_valueOrError0_).Extract()
+            d_309_newParams_ = (d_308_valueOrError0_).Extract()
             if ((args).subcommand).is_Some:
-                d_291_optPos_ = default__.GetSubOptions((opts).params, (((args).subcommand).value).command, 0)
-                if (d_291_optPos_).is_Some:
-                    d_292_valueOrError1_ = default__.PostProcess((((opts).params)[(d_291_optPos_).value]).options, ((args).subcommand).value)
-                    if (d_292_valueOrError1_).IsFailure():
-                        return (d_292_valueOrError1_).PropagateFailure()
+                d_310_optPos_ = default__.GetSubOptions((opts).params, (((args).subcommand).value).command, 0)
+                if (d_310_optPos_).is_Some:
+                    d_311_valueOrError1_ = default__.PostProcess((((opts).params)[(d_310_optPos_).value]).options, ((args).subcommand).value)
+                    if (d_311_valueOrError1_).IsFailure():
+                        return (d_311_valueOrError1_).PropagateFailure()
                     elif True:
-                        d_293_sub_ = (d_292_valueOrError1_).Extract()
+                        d_312_sub_ = (d_311_valueOrError1_).Extract()
                         def iife2_(_pat_let1_0):
-                            def iife3_(d_294_dt__update__tmp_h0_):
+                            def iife3_(d_313_dt__update__tmp_h0_):
                                 def iife4_(_pat_let2_0):
-                                    def iife5_(d_295_dt__update_hsubcommand_h0_):
+                                    def iife5_(d_314_dt__update_hsubcommand_h0_):
                                         def iife6_(_pat_let3_0):
-                                            def iife7_(d_296_dt__update_hparams_h0_):
-                                                return Parsed_Parsed((d_294_dt__update__tmp_h0_).command, d_296_dt__update_hparams_h0_, (d_294_dt__update__tmp_h0_).files, d_295_dt__update_hsubcommand_h0_)
+                                            def iife7_(d_315_dt__update_hparams_h0_):
+                                                return Parsed_Parsed((d_313_dt__update__tmp_h0_).command, d_315_dt__update_hparams_h0_, (d_313_dt__update__tmp_h0_).files, d_314_dt__update_hsubcommand_h0_)
                                             return iife7_(_pat_let3_0)
-                                        return iife6_(((pat_let_tv2_).params) + (d_290_newParams_))
+                                        return iife6_(((pat_let_tv2_).params) + (d_309_newParams_))
                                     return iife5_(_pat_let2_0)
-                                return iife4_(Wrappers.Option_Some(d_293_sub_))
+                                return iife4_(Wrappers.Option_Some(d_312_sub_))
                             return iife3_(_pat_let1_0)
                         return Wrappers.Result_Success(iife2_(args))
                 elif True:
                     return Wrappers.Result_Failure(_dafny.Seq("Internal error in GetOpt::PostProcess"))
             elif True:
                 def iife8_(_pat_let4_0):
-                    def iife9_(d_297_dt__update__tmp_h1_):
+                    def iife9_(d_316_dt__update__tmp_h1_):
                         def iife10_(_pat_let5_0):
-                            def iife11_(d_298_dt__update_hparams_h1_):
-                                return Parsed_Parsed((d_297_dt__update__tmp_h1_).command, d_298_dt__update_hparams_h1_, (d_297_dt__update__tmp_h1_).files, (d_297_dt__update__tmp_h1_).subcommand)
+                            def iife11_(d_317_dt__update_hparams_h1_):
+                                return Parsed_Parsed((d_316_dt__update__tmp_h1_).command, d_317_dt__update_hparams_h1_, (d_316_dt__update__tmp_h1_).files, (d_316_dt__update__tmp_h1_).subcommand)
                             return iife11_(_pat_let5_0)
-                        return iife10_(((pat_let_tv3_).params) + (d_290_newParams_))
+                        return iife10_(((pat_let_tv3_).params) + (d_309_newParams_))
                     return iife9_(_pat_let4_0)
                 return Wrappers.Result_Success(iife8_(args))
 
@@ -726,47 +726,47 @@ class default__:
 
     @staticmethod
     def GetOptions(opts, args):
-        d_299_newOpts_ = ((opts).params) + (_dafny.Seq([default__.HELP__PARAM]))
-        def lambda23_(d_301_o_):
-            return (d_301_o_).Inherits()
+        d_318_newOpts_ = ((opts).params) + (_dafny.Seq([default__.HELP__PARAM]))
+        def lambda23_(d_320_o_):
+            return (d_320_o_).Inherits()
 
-        d_300_inherits_ = default__.Filter(lambda23_, d_299_newOpts_)
-        d_302_valueOrError0_ = default__.TestPositionals(d_299_newOpts_, Wrappers.Option_None())
-        if (d_302_valueOrError0_).IsFailure():
-            return (d_302_valueOrError0_).PropagateFailure()
+        d_319_inherits_ = default__.Filter(lambda23_, d_318_newOpts_)
+        d_321_valueOrError0_ = default__.TestPositionals(d_318_newOpts_, Wrappers.Option_None())
+        if (d_321_valueOrError0_).IsFailure():
+            return (d_321_valueOrError0_).PropagateFailure()
         elif True:
-            d_303_valueOrError1_ = default__.GetPositionals(d_299_newOpts_, _dafny.Seq((args)[1::]), _dafny.Seq([]))
-            if (d_303_valueOrError1_).IsFailure():
-                return (d_303_valueOrError1_).PropagateFailure()
+            d_322_valueOrError1_ = default__.GetPositionals(d_318_newOpts_, _dafny.Seq((args)[1::]), _dafny.Seq([]))
+            if (d_322_valueOrError1_).IsFailure():
+                return (d_322_valueOrError1_).PropagateFailure()
             elif True:
-                let_tmp_rhs1_ = (d_303_valueOrError1_).Extract()
-                d_304_newArgs_ = let_tmp_rhs1_[0]
-                d_305_params_ = let_tmp_rhs1_[1]
-                d_306_valueOrError2_ = default__.GetMaps(d_299_newOpts_, _dafny.Map({}), _dafny.Map({}), _dafny.Map({}))
-                if (d_306_valueOrError2_).IsFailure():
-                    return (d_306_valueOrError2_).PropagateFailure()
+                let_tmp_rhs1_ = (d_322_valueOrError1_).Extract()
+                d_323_newArgs_ = let_tmp_rhs1_[0]
+                d_324_params_ = let_tmp_rhs1_[1]
+                d_325_valueOrError2_ = default__.GetMaps(d_318_newOpts_, _dafny.Map({}), _dafny.Map({}), _dafny.Map({}))
+                if (d_325_valueOrError2_).IsFailure():
+                    return (d_325_valueOrError2_).PropagateFailure()
                 elif True:
-                    let_tmp_rhs2_ = (d_306_valueOrError2_).Extract()
-                    d_307_longMap_ = let_tmp_rhs2_[0]
-                    d_308_shortMap_ = let_tmp_rhs2_[1]
-                    d_309_commandMap_ = let_tmp_rhs2_[2]
-                    d_310_context_ = Context_Context(d_307_longMap_, d_308_shortMap_, d_300_inherits_, d_309_commandMap_, (args)[0])
-                    d_311_valueOrError3_ = default__.GetOptions2(d_304_newArgs_, d_310_context_, d_305_params_, _dafny.Seq([]))
-                    if (d_311_valueOrError3_).IsFailure():
-                        return (d_311_valueOrError3_).PropagateFailure()
+                    let_tmp_rhs2_ = (d_325_valueOrError2_).Extract()
+                    d_326_longMap_ = let_tmp_rhs2_[0]
+                    d_327_shortMap_ = let_tmp_rhs2_[1]
+                    d_328_commandMap_ = let_tmp_rhs2_[2]
+                    d_329_context_ = Context_Context(d_326_longMap_, d_327_shortMap_, d_319_inherits_, d_328_commandMap_, (args)[0])
+                    d_330_valueOrError3_ = default__.GetOptions2(d_323_newArgs_, d_329_context_, d_324_params_, _dafny.Seq([]))
+                    if (d_330_valueOrError3_).IsFailure():
+                        return (d_330_valueOrError3_).PropagateFailure()
                     elif True:
-                        d_312_result_ = (d_311_valueOrError3_).Extract()
-                        return default__.PostProcess(opts, d_312_result_)
+                        d_331_result_ = (d_330_valueOrError3_).Extract()
+                        return default__.PostProcess(opts, d_331_result_)
 
     @staticmethod
     def IndexOf(xs, v):
-        d_313___accumulator_ = 0
+        d_332___accumulator_ = 0
         while True:
             with _dafny.label():
                 if ((xs)[0]) == (v):
-                    return (0) + (d_313___accumulator_)
+                    return (0) + (d_332___accumulator_)
                 elif True:
-                    d_313___accumulator_ = (d_313___accumulator_) + (1)
+                    d_332___accumulator_ = (d_332___accumulator_) + (1)
                     in166_ = _dafny.Seq((xs)[1::])
                     in167_ = v
                     xs = in166_
@@ -776,92 +776,92 @@ class default__:
 
     @staticmethod
     def SplitOnce(s, delim):
-        d_314_i_ = default__.IndexOf(s, delim)
-        return (_dafny.Seq((s)[:d_314_i_:]), _dafny.Seq((s)[(d_314_i_) + (1)::]))
+        d_333_i_ = default__.IndexOf(s, delim)
+        return (_dafny.Seq((s)[:d_333_i_:]), _dafny.Seq((s)[(d_333_i_) + (1)::]))
 
     @staticmethod
     def GetOptions2(args, context, parms, files):
         if (len(args)) == (0):
             return Wrappers.Result_Success(Parsed_Parsed((context).command, parms, files, Wrappers.Option_None()))
         elif ((args)[0]) in ((context).commands):
-            def lambda24_(d_316_o_):
-                return (d_316_o_).Inherits()
+            def lambda24_(d_335_o_):
+                return (d_335_o_).Inherits()
 
-            d_315_inherits_ = default__.Filter(lambda24_, (((context).commands)[(args)[0]]).params)
-            d_317_newOpts_ = ((((context).commands)[(args)[0]]).params) + ((context).inherits)
-            d_318_valueOrError0_ = default__.TestPositionals(d_317_newOpts_, Wrappers.Option_None())
-            if (d_318_valueOrError0_).IsFailure():
-                return (d_318_valueOrError0_).PropagateFailure()
+            d_334_inherits_ = default__.Filter(lambda24_, (((context).commands)[(args)[0]]).params)
+            d_336_newOpts_ = ((((context).commands)[(args)[0]]).params) + ((context).inherits)
+            d_337_valueOrError0_ = default__.TestPositionals(d_336_newOpts_, Wrappers.Option_None())
+            if (d_337_valueOrError0_).IsFailure():
+                return (d_337_valueOrError0_).PropagateFailure()
             elif True:
-                d_319_valueOrError1_ = default__.GetPositionals(d_317_newOpts_, _dafny.Seq((args)[1::]), _dafny.Seq([]))
-                if (d_319_valueOrError1_).IsFailure():
-                    return (d_319_valueOrError1_).PropagateFailure()
+                d_338_valueOrError1_ = default__.GetPositionals(d_336_newOpts_, _dafny.Seq((args)[1::]), _dafny.Seq([]))
+                if (d_338_valueOrError1_).IsFailure():
+                    return (d_338_valueOrError1_).PropagateFailure()
                 elif True:
-                    let_tmp_rhs3_ = (d_319_valueOrError1_).Extract()
-                    d_320_newArgs_ = let_tmp_rhs3_[0]
-                    d_321_params_ = let_tmp_rhs3_[1]
-                    d_322_valueOrError2_ = default__.GetMaps(d_317_newOpts_, _dafny.Map({}), _dafny.Map({}), _dafny.Map({}))
-                    if (d_322_valueOrError2_).IsFailure():
-                        return (d_322_valueOrError2_).PropagateFailure()
+                    let_tmp_rhs3_ = (d_338_valueOrError1_).Extract()
+                    d_339_newArgs_ = let_tmp_rhs3_[0]
+                    d_340_params_ = let_tmp_rhs3_[1]
+                    d_341_valueOrError2_ = default__.GetMaps(d_336_newOpts_, _dafny.Map({}), _dafny.Map({}), _dafny.Map({}))
+                    if (d_341_valueOrError2_).IsFailure():
+                        return (d_341_valueOrError2_).PropagateFailure()
                     elif True:
-                        let_tmp_rhs4_ = (d_322_valueOrError2_).Extract()
-                        d_323_longMap_ = let_tmp_rhs4_[0]
-                        d_324_shortMap_ = let_tmp_rhs4_[1]
-                        d_325_commandSet_ = let_tmp_rhs4_[2]
-                        d_326_newContext_ = Context_Context(d_323_longMap_, d_324_shortMap_, ((context).inherits) + (d_315_inherits_), d_325_commandSet_, (args)[0])
-                        d_327_lostArgs_ = (len(args)) - (len(d_320_newArgs_))
-                        d_328_valueOrError3_ = default__.GetOptions2(_dafny.Seq((args)[d_327_lostArgs_::]), d_326_newContext_, d_321_params_, _dafny.Seq([]))
-                        if (d_328_valueOrError3_).IsFailure():
-                            return (d_328_valueOrError3_).PropagateFailure()
+                        let_tmp_rhs4_ = (d_341_valueOrError2_).Extract()
+                        d_342_longMap_ = let_tmp_rhs4_[0]
+                        d_343_shortMap_ = let_tmp_rhs4_[1]
+                        d_344_commandSet_ = let_tmp_rhs4_[2]
+                        d_345_newContext_ = Context_Context(d_342_longMap_, d_343_shortMap_, ((context).inherits) + (d_334_inherits_), d_344_commandSet_, (args)[0])
+                        d_346_lostArgs_ = (len(args)) - (len(d_339_newArgs_))
+                        d_347_valueOrError3_ = default__.GetOptions2(_dafny.Seq((args)[d_346_lostArgs_::]), d_345_newContext_, d_340_params_, _dafny.Seq([]))
+                        if (d_347_valueOrError3_).IsFailure():
+                            return (d_347_valueOrError3_).PropagateFailure()
                         elif True:
-                            d_329_result_ = (d_328_valueOrError3_).Extract()
-                            return Wrappers.Result_Success(Parsed_Parsed((context).command, parms, files, Wrappers.Option_Some(d_329_result_)))
+                            d_348_result_ = (d_347_valueOrError3_).Extract()
+                            return Wrappers.Result_Success(Parsed_Parsed((context).command, parms, files, Wrappers.Option_Some(d_348_result_)))
         elif ((args)[0]) == (_dafny.Seq("--")):
             return Wrappers.Result_Success(Parsed_Parsed((context).command, parms, (files) + (_dafny.Seq((args)[1::])), Wrappers.Option_None()))
         elif (_dafny.Seq("--")) < ((args)[0]):
-            d_330_longOpt_ = _dafny.Seq(((args)[0])[2::])
-            if ('=') in (d_330_longOpt_):
-                let_tmp_rhs5_ = default__.SplitOnce(d_330_longOpt_, '=')
-                d_331_opt_ = let_tmp_rhs5_[0]
-                d_332_arg_ = let_tmp_rhs5_[1]
-                if (d_331_opt_) in ((context).longMap):
-                    if (((context).longMap)[d_331_opt_]).NeedsArg():
-                        return default__.GetOptions2(_dafny.Seq((args)[1::]), context, (parms) + ((((context).longMap)[d_331_opt_]).MakeArg(Wrappers.Option_Some(d_332_arg_))), files)
+            d_349_longOpt_ = _dafny.Seq(((args)[0])[2::])
+            if ('=') in (d_349_longOpt_):
+                let_tmp_rhs5_ = default__.SplitOnce(d_349_longOpt_, '=')
+                d_350_opt_ = let_tmp_rhs5_[0]
+                d_351_arg_ = let_tmp_rhs5_[1]
+                if (d_350_opt_) in ((context).longMap):
+                    if (((context).longMap)[d_350_opt_]).NeedsArg():
+                        return default__.GetOptions2(_dafny.Seq((args)[1::]), context, (parms) + ((((context).longMap)[d_350_opt_]).MakeArg(Wrappers.Option_Some(d_351_arg_))), files)
                     elif True:
-                        return Wrappers.Result_Failure(((_dafny.Seq("Option ")) + (d_331_opt_)) + (_dafny.Seq(" does not take an argument, but it got one.")))
+                        return Wrappers.Result_Failure(((_dafny.Seq("Option ")) + (d_350_opt_)) + (_dafny.Seq(" does not take an argument, but it got one.")))
                 elif True:
-                    return Wrappers.Result_Failure(((_dafny.Seq("Option ")) + (d_331_opt_)) + (_dafny.Seq(" not recognized.")))
-            elif (d_330_longOpt_) in ((context).longMap):
-                d_333_opt_ = ((context).longMap)[d_330_longOpt_]
-                if (d_333_opt_).NeedsArg():
+                    return Wrappers.Result_Failure(((_dafny.Seq("Option ")) + (d_350_opt_)) + (_dafny.Seq(" not recognized.")))
+            elif (d_349_longOpt_) in ((context).longMap):
+                d_352_opt_ = ((context).longMap)[d_349_longOpt_]
+                if (d_352_opt_).NeedsArg():
                     if (len(args)) < (2):
-                        return Wrappers.Result_Failure(((_dafny.Seq("Option ")) + (d_330_longOpt_)) + (_dafny.Seq(" requires an argument, but didn't get one.")))
+                        return Wrappers.Result_Failure(((_dafny.Seq("Option ")) + (d_349_longOpt_)) + (_dafny.Seq(" requires an argument, but didn't get one.")))
                     elif True:
-                        return default__.GetOptions2(_dafny.Seq((args)[2::]), context, (parms) + ((d_333_opt_).MakeArg(Wrappers.Option_Some((args)[1]))), files)
-                elif (((d_333_opt_).is_Flag) and ((d_333_opt_).solo)) and ((((len(args)) != (1)) or ((len(parms)) != (0))) or ((len(files)) != (0))):
-                    return Wrappers.Result_Failure(((_dafny.Seq("Option '")) + (d_330_longOpt_)) + (_dafny.Seq("' used with other stuff, but must only be used alone.")))
+                        return default__.GetOptions2(_dafny.Seq((args)[2::]), context, (parms) + ((d_352_opt_).MakeArg(Wrappers.Option_Some((args)[1]))), files)
+                elif (((d_352_opt_).is_Flag) and ((d_352_opt_).solo)) and ((((len(args)) != (1)) or ((len(parms)) != (0))) or ((len(files)) != (0))):
+                    return Wrappers.Result_Failure(((_dafny.Seq("Option '")) + (d_349_longOpt_)) + (_dafny.Seq("' used with other stuff, but must only be used alone.")))
                 elif True:
-                    return default__.GetOptions2(_dafny.Seq((args)[1::]), context, (parms) + ((d_333_opt_).MakeArg(Wrappers.Option_None())), files)
+                    return default__.GetOptions2(_dafny.Seq((args)[1::]), context, (parms) + ((d_352_opt_).MakeArg(Wrappers.Option_None())), files)
             elif True:
-                return Wrappers.Result_Failure(((_dafny.Seq("Option ")) + (d_330_longOpt_)) + (_dafny.Seq(" not recognized.")))
+                return Wrappers.Result_Failure(((_dafny.Seq("Option ")) + (d_349_longOpt_)) + (_dafny.Seq(" not recognized.")))
         elif (_dafny.Seq("-")) == ((args)[0]):
             return default__.GetOptions2(_dafny.Seq((args)[1::]), context, parms, (files) + (_dafny.Seq([(args)[0]])))
         elif (_dafny.Seq("-")) < ((args)[0]):
-            d_334_valueOrError4_ = default__.GetShort(_dafny.Seq(((args)[0])[1::]), (context).longMap, (context).shortMap, _dafny.Seq([]))
-            if (d_334_valueOrError4_).IsFailure():
-                return (d_334_valueOrError4_).PropagateFailure()
+            d_353_valueOrError4_ = default__.GetShort(_dafny.Seq(((args)[0])[1::]), (context).longMap, (context).shortMap, _dafny.Seq([]))
+            if (d_353_valueOrError4_).IsFailure():
+                return (d_353_valueOrError4_).PropagateFailure()
             elif True:
-                let_tmp_rhs6_ = (d_334_valueOrError4_).Extract()
-                d_335_newParms_ = let_tmp_rhs6_[0]
-                d_336_nextParm_ = let_tmp_rhs6_[1]
-                if (d_336_nextParm_).is_None:
-                    return default__.GetOptions2(_dafny.Seq((args)[1::]), context, (parms) + (d_335_newParms_), files)
+                let_tmp_rhs6_ = (d_353_valueOrError4_).Extract()
+                d_354_newParms_ = let_tmp_rhs6_[0]
+                d_355_nextParm_ = let_tmp_rhs6_[1]
+                if (d_355_nextParm_).is_None:
+                    return default__.GetOptions2(_dafny.Seq((args)[1::]), context, (parms) + (d_354_newParms_), files)
                 elif (len(args)) == (1):
-                    return Wrappers.Result_Failure(((_dafny.Seq("Short option ")) + (_dafny.Seq([(d_336_nextParm_).value]))) + (_dafny.Seq(" requires argument but didn't get one.")))
+                    return Wrappers.Result_Failure(((_dafny.Seq("Short option ")) + (_dafny.Seq([(d_355_nextParm_).value]))) + (_dafny.Seq(" requires argument but didn't get one.")))
                 elif True:
-                    d_337_longOpt_ = ((context).shortMap)[(d_336_nextParm_).value]
-                    d_338_opt_ = ((context).longMap)[d_337_longOpt_]
-                    return default__.GetOptions2(_dafny.Seq((args)[2::]), context, ((parms) + (d_335_newParms_)) + ((d_338_opt_).MakeArg(Wrappers.Option_Some((args)[1]))), files)
+                    d_356_longOpt_ = ((context).shortMap)[(d_355_nextParm_).value]
+                    d_357_opt_ = ((context).longMap)[d_356_longOpt_]
+                    return default__.GetOptions2(_dafny.Seq((args)[2::]), context, ((parms) + (d_354_newParms_)) + ((d_357_opt_).MakeArg(Wrappers.Option_Some((args)[1]))), files)
         elif (len((context).commands)) == (0):
             return default__.GetOptions2(_dafny.Seq((args)[1::]), context, parms, (files) + (_dafny.Seq([(args)[0]])))
         elif True:
@@ -874,26 +874,26 @@ class default__:
                 if (len(arg)) == (0):
                     return Wrappers.Result_Success((parms, Wrappers.Option_None()))
                 elif True:
-                    d_339_ch_ = (arg)[0]
-                    if (d_339_ch_) in (shortMap):
-                        d_340_opt_ = (shortMap)[d_339_ch_]
-                        if ((longMap)[d_340_opt_]).NeedsArg():
+                    d_358_ch_ = (arg)[0]
+                    if (d_358_ch_) in (shortMap):
+                        d_359_opt_ = (shortMap)[d_358_ch_]
+                        if ((longMap)[d_359_opt_]).NeedsArg():
                             if (len(arg)) == (1):
-                                return Wrappers.Result_Success((parms, Wrappers.Option_Some(d_339_ch_)))
+                                return Wrappers.Result_Success((parms, Wrappers.Option_Some(d_358_ch_)))
                             elif True:
-                                return Wrappers.Result_Success(((parms) + (((longMap)[d_340_opt_]).MakeArg(Wrappers.Option_Some(_dafny.Seq((arg)[1::])))), Wrappers.Option_None()))
+                                return Wrappers.Result_Success(((parms) + (((longMap)[d_359_opt_]).MakeArg(Wrappers.Option_Some(_dafny.Seq((arg)[1::])))), Wrappers.Option_None()))
                         elif True:
                             in168_ = _dafny.Seq((arg)[1::])
                             in169_ = longMap
                             in170_ = shortMap
-                            in171_ = (parms) + (((longMap)[d_340_opt_]).MakeArg(Wrappers.Option_None()))
+                            in171_ = (parms) + (((longMap)[d_359_opt_]).MakeArg(Wrappers.Option_None()))
                             arg = in168_
                             longMap = in169_
                             shortMap = in170_
                             parms = in171_
                             raise _dafny.TailCall()
                     elif True:
-                        return Wrappers.Result_Failure(((_dafny.Seq("Short option '")) + (_dafny.Seq([d_339_ch_]))) + (_dafny.Seq("' not recognized.")))
+                        return Wrappers.Result_Failure(((_dafny.Seq("Short option '")) + (_dafny.Seq([d_358_ch_]))) + (_dafny.Seq("' not recognized.")))
                 break
 
     @_dafny.classproperty
@@ -997,7 +997,7 @@ class Visibility_Deprecated(Visibility, NamedTuple('Deprecated', [])):
 class Options:
     @classmethod
     def default(cls, ):
-        return lambda: Options_Options(_dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}))
+        return lambda: Options_Options(_dafny.Seq(""), _dafny.Seq(""), _dafny.Seq({}))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1057,7 +1057,7 @@ class Unused_Default(Unused, NamedTuple('Default', [('val', Any)])):
 class Param:
     @classmethod
     def default(cls, ):
-        return lambda: Param_Opt(_dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), 'D', Unused.default()(), False, Visibility.default()(), _dafny.Seq({}), _dafny.Seq({}), Tri.default()())
+        return lambda: Param_Opt(_dafny.Seq(""), _dafny.Seq(""), _dafny.Seq(""), 'D', Unused.default()(), False, Visibility.default()(), _dafny.Seq(""), _dafny.Seq({}), Tri.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1140,7 +1140,7 @@ class Param_Command(Param, NamedTuple('Command', [('options', Any)])):
 class OneArg:
     @classmethod
     def default(cls, ):
-        return lambda: OneArg_OneArg(_dafny.Seq({}), Wrappers.Option.default()())
+        return lambda: OneArg_OneArg(_dafny.Seq(""), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1159,7 +1159,7 @@ class OneArg_OneArg(OneArg, NamedTuple('OneArg', [('name', Any), ('value', Any)]
 class Parsed:
     @classmethod
     def default(cls, ):
-        return lambda: Parsed_Parsed(_dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()())
+        return lambda: Parsed_Parsed(_dafny.Seq(""), _dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1182,11 +1182,18 @@ class CommandMap:
     @staticmethod
     def default():
         return _dafny.Map({})
+    def _Is(source__):
+        d_360_x_: _dafny.Map = source__
+        def lambda25_(forall_var_5_):
+            d_361_k_: _dafny.Seq = forall_var_5_
+            return not ((d_361_k_) in (d_360_x_)) or ((((d_360_x_)[d_361_k_]).name) == (d_361_k_))
+
+        return _dafny.quantifier((d_360_x_).keys.Elements, True, lambda25_)
 
 class Context:
     @classmethod
     def default(cls, ):
-        return lambda: Context_Context(_dafny.Map({}), _dafny.Map({}), _dafny.Seq({}), _dafny.Map({}), _dafny.Seq({}))
+        return lambda: Context_Context(_dafny.Map({}), _dafny.Map({}), _dafny.Seq({}), _dafny.Map({}), _dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property

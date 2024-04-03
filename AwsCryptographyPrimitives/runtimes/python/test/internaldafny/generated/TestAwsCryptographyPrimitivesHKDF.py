@@ -95,13 +95,13 @@ class default__:
 
     @staticmethod
     def BasicExtractTest(input, expectedPRK):
-        d_22_client_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
+        d_22_client_: software_amazon_cryptography_primitives_internaldafny.AtomicPrimitivesClient
         d_23_valueOrError0_: Wrappers.Result = None
         out3_: Wrappers.Result
         out3_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
         d_23_valueOrError0_ = out3_
         if not(not((d_23_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHKDF.dfy(86,15): " + _dafny.string_of(d_23_valueOrError0_))
+            raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHKDF.dfy(86,18): " + _dafny.string_of(d_23_valueOrError0_))
         d_22_client_ = (d_23_valueOrError0_).Extract()
         d_24_output_: _dafny.Seq
         d_25_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
@@ -109,7 +109,7 @@ class default__:
         out4_ = (d_22_client_).HkdfExtract(input)
         d_25_valueOrError1_ = out4_
         if not(not((d_25_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHKDF.dfy(88,15): " + _dafny.string_of(d_25_valueOrError1_))
+            raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHKDF.dfy(88,18): " + _dafny.string_of(d_25_valueOrError1_))
         d_24_output_ = (d_25_valueOrError1_).Extract()
         if not((len(d_24_output_)) == (Digest.default__.Length((input).digestAlgorithm))):
             raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHKDF.dfy(89,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -118,13 +118,13 @@ class default__:
 
     @staticmethod
     def BasicExpandTest(input, expectedOKM):
-        d_26_client_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
+        d_26_client_: software_amazon_cryptography_primitives_internaldafny.AtomicPrimitivesClient
         d_27_valueOrError0_: Wrappers.Result = None
         out5_: Wrappers.Result
         out5_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
         d_27_valueOrError0_ = out5_
         if not(not((d_27_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHKDF.dfy(98,15): " + _dafny.string_of(d_27_valueOrError0_))
+            raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHKDF.dfy(98,18): " + _dafny.string_of(d_27_valueOrError0_))
         d_26_client_ = (d_27_valueOrError0_).Extract()
         d_28_output_: _dafny.Seq
         d_29_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
@@ -132,7 +132,7 @@ class default__:
         out6_ = (d_26_client_).HkdfExpand(input)
         d_29_valueOrError1_ = out6_
         if not(not((d_29_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHKDF.dfy(100,15): " + _dafny.string_of(d_29_valueOrError1_))
+            raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHKDF.dfy(100,18): " + _dafny.string_of(d_29_valueOrError1_))
         d_28_output_ = (d_29_valueOrError1_).Extract()
         if not((len(d_28_output_)) == ((input).expectedLength)):
             raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHKDF.dfy(101,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -141,13 +141,13 @@ class default__:
 
     @staticmethod
     def BasicHkdfTest(input, expectedOKM):
-        d_30_client_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
+        d_30_client_: software_amazon_cryptography_primitives_internaldafny.AtomicPrimitivesClient
         d_31_valueOrError0_: Wrappers.Result = None
         out7_: Wrappers.Result
         out7_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
         d_31_valueOrError0_ = out7_
         if not(not((d_31_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHKDF.dfy(110,15): " + _dafny.string_of(d_31_valueOrError0_))
+            raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHKDF.dfy(110,18): " + _dafny.string_of(d_31_valueOrError0_))
         d_30_client_ = (d_31_valueOrError0_).Extract()
         d_32_output_: _dafny.Seq
         d_33_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
@@ -155,7 +155,7 @@ class default__:
         out8_ = (d_30_client_).Hkdf(input)
         d_33_valueOrError1_ = out8_
         if not(not((d_33_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHKDF.dfy(112,15): " + _dafny.string_of(d_33_valueOrError1_))
+            raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHKDF.dfy(112,18): " + _dafny.string_of(d_33_valueOrError1_))
         d_32_output_ = (d_33_valueOrError1_).Extract()
         if not((len(d_32_output_)) == ((input).expectedLength)):
             raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHKDF.dfy(113,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))

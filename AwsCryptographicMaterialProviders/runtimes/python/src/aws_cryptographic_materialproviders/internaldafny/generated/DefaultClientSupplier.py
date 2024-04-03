@@ -135,14 +135,14 @@ class DefaultClientSupplier(software_amazon_cryptography_materialproviders_inter
 
     def GetClient_k(self, input):
         output: Wrappers.Result = None
-        d_1175_maybeClient_: Wrappers.Result
+        d_1195_maybeClient_: Wrappers.Result
         out216_: Wrappers.Result
         out216_ = software_amazon_cryptography_services_kms_internaldafny.default__.KMSClientForRegion((input).region)
-        d_1175_maybeClient_ = out216_
-        def lambda95_(d_1176_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_ComAmazonawsKms(d_1176_e_)
+        d_1195_maybeClient_ = out216_
+        def lambda95_(d_1196_e_):
+            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_ComAmazonawsKms(d_1196_e_)
 
-        output = (d_1175_maybeClient_).MapFailure(lambda95_)
+        output = (d_1195_maybeClient_).MapFailure(lambda95_)
         return output
         return output
 

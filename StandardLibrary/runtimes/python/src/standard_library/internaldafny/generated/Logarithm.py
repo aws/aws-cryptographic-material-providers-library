@@ -37,13 +37,13 @@ class default__:
 
     @staticmethod
     def Log(base, pow):
-        d_172___accumulator_ = 0
+        d_185___accumulator_ = 0
         while True:
             with _dafny.label():
                 if (pow) < (base):
-                    return (0) + (d_172___accumulator_)
+                    return (0) + (d_185___accumulator_)
                 elif True:
-                    d_172___accumulator_ = (d_172___accumulator_) + (1)
+                    d_185___accumulator_ = (d_185___accumulator_) + (1)
                     in36_ = base
                     in37_ = _dafny.euclidian_division(pow, base)
                     base = in36_

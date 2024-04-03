@@ -10,8 +10,6 @@ from com_amazonaws_kms.smithygenerated.com_amazonaws_kms.shim import (
 import software_amazon_cryptography_keystore_internaldafny_types
 from typing import Any, Dict, Generic, List, Literal, TypeVar
 
-from .errors import ComAmazonawsDynamodb, ComAmazonawsKms
-
 
 class ServiceError(Exception):
     """Base error for all errors in the service."""

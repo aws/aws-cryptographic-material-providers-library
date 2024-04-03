@@ -191,34 +191,34 @@ class default__:
     @_dafny.classproperty
     def KeyDescriptions(instance):
         def iife30_():
+            def iife32_():
+                coll16_ = _dafny.Set()
+                compr_27_: software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec
+                for compr_27_ in software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec.AllSingletonConstructors:
+                    d_695_e_: software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec = compr_27_
+                    if not((d_695_e_).is_SYMMETRIC__DEFAULT):
+                        coll16_ = coll16_.union(_dafny.Set([d_695_e_]))
+                return _dafny.Set(coll16_)
             coll14_ = _dafny.Set()
             compr_24_: _dafny.Seq
             for compr_24_ in (default__.AllKmsRsaKeys).Elements:
-                d_690_key_: _dafny.Seq = compr_24_
+                d_692_key_: _dafny.Seq = compr_24_
                 def iife31_():
                     coll15_ = _dafny.Set()
                     compr_26_: software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec
                     for compr_26_ in software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec.AllSingletonConstructors:
-                        d_691_e_: software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec = compr_26_
-                        if not((d_691_e_).is_SYMMETRIC__DEFAULT):
-                            coll15_ = coll15_.union(_dafny.Set([d_691_e_]))
+                        d_693_e_: software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec = compr_26_
+                        if not((d_693_e_).is_SYMMETRIC__DEFAULT):
+                            coll15_ = coll15_.union(_dafny.Set([d_693_e_]))
                     return _dafny.Set(coll15_)
                 compr_25_: software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec
                 for compr_25_ in (iife31_()
                 ).Elements:
-                    d_692_encryptionAlgorithm_: software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec = compr_25_
-                    if ((d_690_key_) in (default__.AllKmsRsaKeys)) and ((d_692_encryptionAlgorithm_) in (iife32_()
+                    d_694_encryptionAlgorithm_: software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec = compr_25_
+                    if ((d_692_key_) in (default__.AllKmsRsaKeys)) and ((d_694_encryptionAlgorithm_) in (iife32_()
                     )):
-                        coll14_ = coll14_.union(_dafny.Set([software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_KmsRsa(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KmsRsaKeyring_KmsRsaKeyring(d_690_key_, d_692_encryptionAlgorithm_))]))
+                        coll14_ = coll14_.union(_dafny.Set([software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_KmsRsa(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KmsRsaKeyring_KmsRsaKeyring(d_692_key_, d_694_encryptionAlgorithm_))]))
             return _dafny.Set(coll14_)
-        def iife32_():
-            coll16_ = _dafny.Set()
-            compr_27_: software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec
-            for compr_27_ in software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec.AllSingletonConstructors:
-                d_693_e_: software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec = compr_27_
-                if not((d_693_e_).is_SYMMETRIC__DEFAULT):
-                    coll16_ = coll16_.union(_dafny.Set([d_693_e_]))
-            return _dafny.Set(coll16_)
         return iife30_()
         
     @_dafny.classproperty
@@ -227,9 +227,10 @@ class default__:
             coll17_ = _dafny.Set()
             compr_28_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo
             for compr_28_ in (AllAlgorithmSuites.default__.AllAlgorithmSuites).Elements:
-                d_694_suite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo = compr_28_
-                if ((d_694_suite_) in (AllAlgorithmSuites.default__.AllAlgorithmSuites)) and (not(((d_694_suite_).signature).is_ECDSA)):
-                    coll17_ = coll17_.union(_dafny.Set([d_694_suite_]))
+                d_696_suite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo = compr_28_
+                if AlgorithmSuites.AlgorithmSuite._Is(d_696_suite_):
+                    if ((d_696_suite_) in (AllAlgorithmSuites.default__.AllAlgorithmSuites)) and (not(((d_696_suite_).signature).is_ECDSA)):
+                        coll17_ = coll17_.union(_dafny.Set([d_696_suite_]))
             return _dafny.Set(coll17_)
         return iife33_()
         
@@ -239,15 +240,15 @@ class default__:
             coll18_ = _dafny.Set()
             compr_29_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription
             for compr_29_ in (default__.KeyDescriptions).Elements:
-                d_695_keyDescription_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription = compr_29_
+                d_697_keyDescription_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription = compr_29_
                 compr_30_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo
                 for compr_30_ in (default__.algorithmSuites).Elements:
-                    d_696_algorithmSuite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo = compr_30_
+                    d_698_algorithmSuite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo = compr_30_
                     compr_31_: software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy
-                    for compr_31_ in [AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_696_algorithmSuite_)]:
-                        d_697_commitmentPolicy_: software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy = compr_31_
-                        if (((d_695_keyDescription_) in (default__.KeyDescriptions)) and ((d_696_algorithmSuite_) in (default__.algorithmSuites))) and ((d_697_commitmentPolicy_) == (AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_696_algorithmSuite_))):
-                            coll18_ = coll18_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptKeyringVector((_dafny.Seq("Generated KMS RSA ")) + (((d_695_keyDescription_).KmsRsa).keyId), Wrappers.Option_None(), _dafny.Map({}), d_697_commitmentPolicy_, d_696_algorithmSuite_, Wrappers.Option_None(), Wrappers.Option_None(), d_695_keyDescription_, d_695_keyDescription_, Wrappers.Option_None())]))
+                    for compr_31_ in [AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_698_algorithmSuite_)]:
+                        d_699_commitmentPolicy_: software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy = compr_31_
+                        if (((d_697_keyDescription_) in (default__.KeyDescriptions)) and ((d_698_algorithmSuite_) in (default__.algorithmSuites))) and ((d_699_commitmentPolicy_) == (AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_698_algorithmSuite_))):
+                            coll18_ = coll18_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptKeyringVector((_dafny.Seq("Generated KMS RSA ")) + (((d_697_keyDescription_).KmsRsa).keyId), Wrappers.Option_None(), _dafny.Map({}), d_699_commitmentPolicy_, d_698_algorithmSuite_, Wrappers.Option_None(), Wrappers.Option_None(), d_697_keyDescription_, d_697_keyDescription_, Wrappers.Option_None())]))
             return _dafny.Set(coll18_)
         return iife34_()
         

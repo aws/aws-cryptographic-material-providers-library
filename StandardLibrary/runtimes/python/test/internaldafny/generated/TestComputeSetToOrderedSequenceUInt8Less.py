@@ -184,8 +184,9 @@ class default__:
             compr_2_: int
             for compr_2_ in _dafny.IntegerRange(0, BoundedInts.default__.TWO__TO__THE__16):
                 d_227_x_: int = compr_2_
-                if ((0) <= (d_227_x_)) and ((d_227_x_) < (65535)):
-                    coll2_ = coll2_.union(_dafny.Set([StandardLibrary_UInt.default__.UInt16ToSeq(d_227_x_)]))
+                if True:
+                    if ((0) <= (d_227_x_)) and ((d_227_x_) < (65535)):
+                        coll2_ = coll2_.union(_dafny.Set([StandardLibrary_UInt.default__.UInt16ToSeq(d_227_x_)]))
             return _dafny.Set(coll2_)
         d_226_a_ = iife3_()
         

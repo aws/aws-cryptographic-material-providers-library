@@ -115,7 +115,7 @@ class default__:
 class RFCTestVector:
     @classmethod
     def default(cls, ):
-        return lambda: RFCTestVector_RFCTestVector(_dafny.Seq({}), software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm.default()(), _dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), int(0), _dafny.Seq({}), _dafny.Seq({}))
+        return lambda: RFCTestVector_RFCTestVector(_dafny.Seq(""), software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm.default()(), _dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), int(0), _dafny.Seq({}), _dafny.Seq({}))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property

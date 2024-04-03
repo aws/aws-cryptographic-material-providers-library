@@ -218,7 +218,7 @@ class GetKeyDescriptionOutput_GetKeyDescriptionOutput(GetKeyDescriptionOutput, N
 class HierarchyKeyring:
     @classmethod
     def default(cls, ):
-        return lambda: HierarchyKeyring_HierarchyKeyring(_dafny.Seq({}))
+        return lambda: HierarchyKeyring_HierarchyKeyring(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -374,7 +374,7 @@ class IKeyVectorsClient:
 class KeyVectorsConfig:
     @classmethod
     def default(cls, ):
-        return lambda: KeyVectorsConfig_KeyVectorsConfig(_dafny.Seq({}))
+        return lambda: KeyVectorsConfig_KeyVectorsConfig(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -393,7 +393,7 @@ class KeyVectorsConfig_KeyVectorsConfig(KeyVectorsConfig, NamedTuple('KeyVectors
 class KMSInfo:
     @classmethod
     def default(cls, ):
-        return lambda: KMSInfo_KMSInfo(_dafny.Seq({}))
+        return lambda: KMSInfo_KMSInfo(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -412,7 +412,7 @@ class KMSInfo_KMSInfo(KMSInfo, NamedTuple('KMSInfo', [('keyId', Any)])):
 class KmsMrkAware:
     @classmethod
     def default(cls, ):
-        return lambda: KmsMrkAware_KmsMrkAware(_dafny.Seq({}))
+        return lambda: KmsMrkAware_KmsMrkAware(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -431,7 +431,7 @@ class KmsMrkAware_KmsMrkAware(KmsMrkAware, NamedTuple('KmsMrkAware', [('keyId', 
 class KmsMrkAwareDiscovery:
     @classmethod
     def default(cls, ):
-        return lambda: KmsMrkAwareDiscovery_KmsMrkAwareDiscovery(_dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()())
+        return lambda: KmsMrkAwareDiscovery_KmsMrkAwareDiscovery(_dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -450,7 +450,7 @@ class KmsMrkAwareDiscovery_KmsMrkAwareDiscovery(KmsMrkAwareDiscovery, NamedTuple
 class KmsRsaKeyring:
     @classmethod
     def default(cls, ):
-        return lambda: KmsRsaKeyring_KmsRsaKeyring(_dafny.Seq({}), software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec.default()())
+        return lambda: KmsRsaKeyring_KmsRsaKeyring(_dafny.Seq(""), software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -488,7 +488,7 @@ class MultiKeyring_MultiKeyring(MultiKeyring, NamedTuple('MultiKeyring', [('gene
 class RawAES:
     @classmethod
     def default(cls, ):
-        return lambda: RawAES_RawAES(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: RawAES_RawAES(_dafny.Seq(""), _dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -507,7 +507,7 @@ class RawAES_RawAES(RawAES, NamedTuple('RawAES', [('keyId', Any), ('providerId',
 class RawRSA:
     @classmethod
     def default(cls, ):
-        return lambda: RawRSA_RawRSA(_dafny.Seq({}), _dafny.Seq({}), software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme.default()())
+        return lambda: RawRSA_RawRSA(_dafny.Seq(""), _dafny.Seq(""), software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -583,7 +583,7 @@ class SerializeKeyDescriptionOutput_SerializeKeyDescriptionOutput(SerializeKeyDe
 class StaticKeyring:
     @classmethod
     def default(cls, ):
-        return lambda: StaticKeyring_StaticKeyring(_dafny.Seq({}))
+        return lambda: StaticKeyring_StaticKeyring(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -640,7 +640,7 @@ class TestVectorKeyringInput_TestVectorKeyringInput(TestVectorKeyringInput, Name
 class Error:
     @classmethod
     def default(cls, ):
-        return lambda: Error_KeyVectorException(_dafny.Seq({}))
+        return lambda: Error_KeyVectorException(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -707,3 +707,6 @@ class OpaqueError:
     @staticmethod
     def default():
         return Error.default()()
+    def _Is(source__):
+        d_4_e_: Error = source__
+        return (d_4_e_).is_Opaque

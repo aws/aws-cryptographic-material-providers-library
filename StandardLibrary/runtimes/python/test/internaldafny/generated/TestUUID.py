@@ -68,7 +68,7 @@ class default__:
         d_174_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_174_valueOrError0_ = UUID.default__.FromByteArray(default__.byteUuid)
         if not(not((d_174_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/UUID.dfy(23,18): " + _dafny.string_of(d_174_valueOrError0_))
+            raise _dafny.HaltException("test/UUID.dfy(23,21): " + _dafny.string_of(d_174_valueOrError0_))
         d_173_fromBytes_ = (d_174_valueOrError0_).Extract()
         if not((d_173_fromBytes_) == (default__.uuid)):
             raise _dafny.HaltException("test/UUID.dfy(24,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -79,7 +79,7 @@ class default__:
         d_176_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_176_valueOrError0_ = UUID.default__.FromByteArray(default__.wrongByteUuid)
         if not(not((d_176_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/UUID.dfy(28,18): " + _dafny.string_of(d_176_valueOrError0_))
+            raise _dafny.HaltException("test/UUID.dfy(28,21): " + _dafny.string_of(d_176_valueOrError0_))
         d_175_fromBytes_ = (d_176_valueOrError0_).Extract()
         if not((d_175_fromBytes_) != (default__.uuid)):
             raise _dafny.HaltException("test/UUID.dfy(29,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -90,7 +90,7 @@ class default__:
         d_178_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_178_valueOrError0_ = UUID.default__.ToByteArray(default__.uuid)
         if not(not((d_178_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/UUID.dfy(33,16): " + _dafny.string_of(d_178_valueOrError0_))
+            raise _dafny.HaltException("test/UUID.dfy(33,19): " + _dafny.string_of(d_178_valueOrError0_))
         d_177_toBytes_ = (d_178_valueOrError0_).Extract()
         if not((d_177_toBytes_) == (default__.byteUuid)):
             raise _dafny.HaltException("test/UUID.dfy(34,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -101,7 +101,7 @@ class default__:
         d_180_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_180_valueOrError0_ = UUID.default__.ToByteArray(default__.uuid)
         if not(not((d_180_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/UUID.dfy(38,16): " + _dafny.string_of(d_180_valueOrError0_))
+            raise _dafny.HaltException("test/UUID.dfy(38,19): " + _dafny.string_of(d_180_valueOrError0_))
         d_179_toBytes_ = (d_180_valueOrError0_).Extract()
         if not((d_179_toBytes_) != (default__.wrongByteUuid)):
             raise _dafny.HaltException("test/UUID.dfy(39,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -112,7 +112,7 @@ class default__:
         d_182_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_182_valueOrError0_ = UUID.default__.ToByteArray(default__.uuid)
         if not(not((d_182_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/UUID.dfy(43,22): " + _dafny.string_of(d_182_valueOrError0_))
+            raise _dafny.HaltException("test/UUID.dfy(43,25): " + _dafny.string_of(d_182_valueOrError0_))
         d_181_stringToBytes_ = (d_182_valueOrError0_).Extract()
         if not((len(d_181_stringToBytes_)) == (16)):
             raise _dafny.HaltException("test/UUID.dfy(44,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -120,7 +120,7 @@ class default__:
         d_184_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_184_valueOrError1_ = UUID.default__.FromByteArray(d_181_stringToBytes_)
         if not(not((d_184_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/UUID.dfy(45,22): " + _dafny.string_of(d_184_valueOrError1_))
+            raise _dafny.HaltException("test/UUID.dfy(45,25): " + _dafny.string_of(d_184_valueOrError1_))
         d_183_bytesToString_ = (d_184_valueOrError1_).Extract()
         if not((d_183_bytesToString_) == (default__.uuid)):
             raise _dafny.HaltException("test/UUID.dfy(46,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -131,13 +131,13 @@ class default__:
         d_186_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_186_valueOrError0_ = UUID.default__.FromByteArray(default__.byteUuid)
         if not(not((d_186_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/UUID.dfy(50,22): " + _dafny.string_of(d_186_valueOrError0_))
+            raise _dafny.HaltException("test/UUID.dfy(50,25): " + _dafny.string_of(d_186_valueOrError0_))
         d_185_bytesToString_ = (d_186_valueOrError0_).Extract()
         d_187_stringToBytes_: _dafny.Seq
         d_188_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_188_valueOrError1_ = UUID.default__.ToByteArray(d_185_bytesToString_)
         if not(not((d_188_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/UUID.dfy(51,22): " + _dafny.string_of(d_188_valueOrError1_))
+            raise _dafny.HaltException("test/UUID.dfy(51,25): " + _dafny.string_of(d_188_valueOrError1_))
         d_187_stringToBytes_ = (d_188_valueOrError1_).Extract()
         if not((len(d_187_stringToBytes_)) == (16)):
             raise _dafny.HaltException("test/UUID.dfy(52,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -152,25 +152,25 @@ class default__:
         out11_ = UUID.default__.GenerateUUID()
         d_190_valueOrError0_ = out11_
         if not(not((d_190_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/UUID.dfy(57,19): " + _dafny.string_of(d_190_valueOrError0_))
+            raise _dafny.HaltException("test/UUID.dfy(57,22): " + _dafny.string_of(d_190_valueOrError0_))
         d_189_uuidString_ = (d_190_valueOrError0_).Extract()
         d_191_uuidBytes_: _dafny.Seq
         d_192_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_192_valueOrError1_ = UUID.default__.ToByteArray(d_189_uuidString_)
         if not(not((d_192_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/UUID.dfy(58,18): " + _dafny.string_of(d_192_valueOrError1_))
+            raise _dafny.HaltException("test/UUID.dfy(58,21): " + _dafny.string_of(d_192_valueOrError1_))
         d_191_uuidBytes_ = (d_192_valueOrError1_).Extract()
         d_193_bytesToString_: _dafny.Seq
         d_194_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_194_valueOrError2_ = UUID.default__.FromByteArray(d_191_uuidBytes_)
         if not(not((d_194_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("test/UUID.dfy(60,22): " + _dafny.string_of(d_194_valueOrError2_))
+            raise _dafny.HaltException("test/UUID.dfy(60,25): " + _dafny.string_of(d_194_valueOrError2_))
         d_193_bytesToString_ = (d_194_valueOrError2_).Extract()
         d_195_stringToBytes_: _dafny.Seq
         d_196_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_196_valueOrError3_ = UUID.default__.ToByteArray(d_193_bytesToString_)
         if not(not((d_196_valueOrError3_).IsFailure())):
-            raise _dafny.HaltException("test/UUID.dfy(61,22): " + _dafny.string_of(d_196_valueOrError3_))
+            raise _dafny.HaltException("test/UUID.dfy(61,25): " + _dafny.string_of(d_196_valueOrError3_))
         d_195_stringToBytes_ = (d_196_valueOrError3_).Extract()
         if not((len(d_195_stringToBytes_)) == (16)):
             raise _dafny.HaltException("test/UUID.dfy(62,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -180,7 +180,7 @@ class default__:
         d_198_valueOrError4_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_198_valueOrError4_ = UUID.default__.ToByteArray(d_189_uuidString_)
         if not(not((d_198_valueOrError4_).IsFailure())):
-            raise _dafny.HaltException("test/UUID.dfy(65,26): " + _dafny.string_of(d_198_valueOrError4_))
+            raise _dafny.HaltException("test/UUID.dfy(65,29): " + _dafny.string_of(d_198_valueOrError4_))
         d_197_uuidStringToBytes_ = (d_198_valueOrError4_).Extract()
         if not((len(d_197_uuidStringToBytes_)) == (16)):
             raise _dafny.HaltException("test/UUID.dfy(66,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -188,7 +188,7 @@ class default__:
         d_200_valueOrError5_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_200_valueOrError5_ = UUID.default__.FromByteArray(d_197_uuidStringToBytes_)
         if not(not((d_200_valueOrError5_).IsFailure())):
-            raise _dafny.HaltException("test/UUID.dfy(67,26): " + _dafny.string_of(d_200_valueOrError5_))
+            raise _dafny.HaltException("test/UUID.dfy(67,29): " + _dafny.string_of(d_200_valueOrError5_))
         d_199_uuidBytesToString_ = (d_200_valueOrError5_).Extract()
         if not((d_199_uuidBytesToString_) == (d_189_uuidString_)):
             raise _dafny.HaltException("test/UUID.dfy(68,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))

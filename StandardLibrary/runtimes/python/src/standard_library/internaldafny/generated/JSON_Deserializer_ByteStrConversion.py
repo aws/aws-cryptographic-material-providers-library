@@ -80,19 +80,19 @@ class default__:
         if (n) == (0):
             return _dafny.Seq([])
         elif True:
-            d_592_digits_k_ = default__.Digits(_dafny.euclidian_division(n, base), base)
-            d_593_digits_ = (d_592_digits_k_) + (_dafny.Seq([_dafny.euclidian_modulus(n, base)]))
-            return d_593_digits_
+            d_618_digits_k_ = default__.Digits(_dafny.euclidian_division(n, base), base)
+            d_619_digits_ = (d_618_digits_k_) + (_dafny.Seq([_dafny.euclidian_modulus(n, base)]))
+            return d_619_digits_
 
     @staticmethod
     def OfDigits(digits, chars):
-        d_594___accumulator_ = _dafny.Seq([])
+        d_620___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (digits) == (_dafny.Seq([])):
-                    return (d_594___accumulator_) + (_dafny.Seq([]))
+                    return (d_620___accumulator_) + (_dafny.Seq([]))
                 elif True:
-                    d_594___accumulator_ = (d_594___accumulator_) + (_dafny.Seq([(chars)[(digits)[0]]]))
+                    d_620___accumulator_ = (d_620___accumulator_) + (_dafny.Seq([(chars)[(digits)[0]]]))
                     in213_ = _dafny.Seq((digits)[1::])
                     in214_ = chars
                     digits = in213_
@@ -102,19 +102,22 @@ class default__:
 
     @staticmethod
     def OfNat__any(n, chars):
-        d_595_base_ = len(chars)
+        d_621_base_ = len(chars)
         if (n) == (0):
             return _dafny.Seq([(chars)[0]])
         elif True:
-            return default__.OfDigits(default__.Digits(n, d_595_base_), chars)
+            return default__.OfDigits(default__.Digits(n, d_621_base_), chars)
 
     @staticmethod
     def NumberStr(str, minus, is__digit):
-        def lambda38_(forall_var_9_):
-            d_596_c_: int = forall_var_9_
-            return not ((d_596_c_) in (_dafny.Seq((str)[1::]))) or (is__digit(d_596_c_))
+        def lambda39_(forall_var_10_):
+            d_622_c_: int = forall_var_10_
+            if True:
+                return not ((d_622_c_) in (_dafny.Seq((str)[1::]))) or (is__digit(d_622_c_))
+            elif True:
+                return True
 
-        return not ((str) != (_dafny.Seq([]))) or (((((str)[0]) == (minus)) or (is__digit((str)[0]))) and (_dafny.quantifier((_dafny.Seq((str)[1::])).UniqueElements, True, lambda38_)))
+        return not ((str) != (_dafny.Seq([]))) or (((((str)[0]) == (minus)) or (is__digit((str)[0]))) and (_dafny.quantifier((_dafny.Seq((str)[1::])).UniqueElements, True, lambda39_)))
 
     @staticmethod
     def OfInt__any(n, chars, minus):

@@ -106,9 +106,9 @@ class DeserializationError:
         if source9_.is_UnterminatedSequence:
             return _dafny.Seq("Unterminated sequence")
         elif source9_.is_UnsupportedEscape:
-            d_479___mcc_h0_ = source9_.str
-            d_480_str_ = d_479___mcc_h0_
-            return (_dafny.Seq("Unsupported escape sequence: ")) + (d_480_str_)
+            d_503___mcc_h0_ = source9_.str
+            d_504_str_ = d_503___mcc_h0_
+            return (_dafny.Seq("Unsupported escape sequence: ")) + (d_504_str_)
         elif source9_.is_EscapeAtEOS:
             return _dafny.Seq("Escape character at end of string")
         elif source9_.is_EmptyNumber:
@@ -120,20 +120,20 @@ class DeserializationError:
         elif source9_.is_ReachedEOF:
             return _dafny.Seq("Reached EOF")
         elif source9_.is_ExpectingByte:
-            d_481___mcc_h1_ = source9_.expected
-            d_482___mcc_h2_ = source9_.b
-            d_483_b_ = d_482___mcc_h2_
-            d_484_b0_ = d_481___mcc_h1_
-            d_485_c_ = (((_dafny.Seq("'")) + (_dafny.Seq([chr(d_483_b_)]))) + (_dafny.Seq("'")) if (d_483_b_) > (0) else _dafny.Seq("EOF"))
-            return (((_dafny.Seq("Expecting '")) + (_dafny.Seq([chr(d_484_b0_)]))) + (_dafny.Seq("', read "))) + (d_485_c_)
+            d_505___mcc_h1_ = source9_.expected
+            d_506___mcc_h2_ = source9_.b
+            d_507_b_ = d_506___mcc_h2_
+            d_508_b0_ = d_505___mcc_h1_
+            d_509_c_ = (((_dafny.Seq("'")) + (_dafny.Seq([chr(d_507_b_)]))) + (_dafny.Seq("'")) if (d_507_b_) > (0) else _dafny.Seq("EOF"))
+            return (((_dafny.Seq("Expecting '")) + (_dafny.Seq([chr(d_508_b0_)]))) + (_dafny.Seq("', read "))) + (d_509_c_)
         elif source9_.is_ExpectingAnyByte:
-            d_486___mcc_h3_ = source9_.expected__sq
-            d_487___mcc_h4_ = source9_.b
-            d_488_b_ = d_487___mcc_h4_
-            d_489_bs0_ = d_486___mcc_h3_
-            d_490_c_ = (((_dafny.Seq("'")) + (_dafny.Seq([chr(d_488_b_)]))) + (_dafny.Seq("'")) if (d_488_b_) > (0) else _dafny.Seq("EOF"))
-            d_491_c0s_ = _dafny.Seq([chr((d_489_bs0_)[d_492_idx_]) for d_492_idx_ in range(len(d_489_bs0_))])
-            return (((_dafny.Seq("Expecting one of '")) + (d_491_c0s_)) + (_dafny.Seq("', read "))) + (d_490_c_)
+            d_510___mcc_h3_ = source9_.expected__sq
+            d_511___mcc_h4_ = source9_.b
+            d_512_b_ = d_511___mcc_h4_
+            d_513_bs0_ = d_510___mcc_h3_
+            d_514_c_ = (((_dafny.Seq("'")) + (_dafny.Seq([chr(d_512_b_)]))) + (_dafny.Seq("'")) if (d_512_b_) > (0) else _dafny.Seq("EOF"))
+            d_515_c0s_ = _dafny.Seq([chr((d_513_bs0_)[d_516_idx_]) for d_516_idx_ in range(len(d_513_bs0_))])
+            return (((_dafny.Seq("Expecting one of '")) + (d_515_c0s_)) + (_dafny.Seq("', read "))) + (d_514_c_)
         elif True:
             return _dafny.Seq("Invalid Unicode sequence")
 
@@ -242,13 +242,13 @@ class SerializationError:
         if source10_.is_OutOfMemory:
             return _dafny.Seq("Out of memory")
         elif source10_.is_IntTooLarge:
-            d_493___mcc_h0_ = source10_.i
-            d_494_i_ = d_493___mcc_h0_
-            return (_dafny.Seq("Integer too large: ")) + (JSON_Utils_Str.default__.OfInt(d_494_i_, 10))
+            d_517___mcc_h0_ = source10_.i
+            d_518_i_ = d_517___mcc_h0_
+            return (_dafny.Seq("Integer too large: ")) + (JSON_Utils_Str.default__.OfInt(d_518_i_, 10))
         elif source10_.is_StringTooLong:
-            d_495___mcc_h1_ = source10_.s
-            d_496_s_ = d_495___mcc_h1_
-            return (_dafny.Seq("String too long: ")) + (d_496_s_)
+            d_519___mcc_h1_ = source10_.s
+            d_520_s_ = d_519___mcc_h1_
+            return (_dafny.Seq("String too long: ")) + (d_520_s_)
         elif True:
             return _dafny.Seq("Invalid Unicode sequence")
 

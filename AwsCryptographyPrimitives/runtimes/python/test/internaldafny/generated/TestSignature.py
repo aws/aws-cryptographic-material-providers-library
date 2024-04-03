@@ -85,7 +85,7 @@ class default__:
         out0_ = Signature.ECDSA.ExternKeyGen(alg)
         d_1_valueOrError0_ = out0_
         if not(not((d_1_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestSignature.dfy(28,12): " + _dafny.string_of(d_1_valueOrError0_))
+            raise _dafny.HaltException("test/TestSignature.dfy(28,15): " + _dafny.string_of(d_1_valueOrError0_))
         d_0_res_ = (d_1_valueOrError0_).Extract()
         default__.RequireGoodKeyLengths(alg, d_0_res_)
         d_2_public_: _dafny.Seq
@@ -107,7 +107,7 @@ class default__:
         d_5_valueOrError0_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
         d_5_valueOrError0_ = UTF8.default__.Encode(_dafny.Seq("Hello, World!"))
         if not(not((d_5_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestSignature.dfy(39,16): " + _dafny.string_of(d_5_valueOrError0_))
+            raise _dafny.HaltException("test/TestSignature.dfy(39,19): " + _dafny.string_of(d_5_valueOrError0_))
         d_4_message_ = (d_5_valueOrError0_).Extract()
         d_6_genInput_: software_amazon_cryptography_primitives_internaldafny_types.GenerateECDSASignatureKeyInput
         d_6_genInput_ = software_amazon_cryptography_primitives_internaldafny_types.GenerateECDSASignatureKeyInput_GenerateECDSASignatureKeyInput(alg)
@@ -117,7 +117,7 @@ class default__:
         out1_ = Signature.ECDSA.ExternKeyGen(alg)
         d_8_valueOrError1_ = out1_
         if not(not((d_8_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/TestSignature.dfy(41,13): " + _dafny.string_of(d_8_valueOrError1_))
+            raise _dafny.HaltException("test/TestSignature.dfy(41,16): " + _dafny.string_of(d_8_valueOrError1_))
         d_7_keys_ = (d_8_valueOrError1_).Extract()
         default__.RequireGoodKeyLengths(alg, d_7_keys_)
         d_9_signature_: _dafny.Seq
@@ -126,13 +126,13 @@ class default__:
         out2_ = Signature.ECDSA.Sign(alg, (d_7_keys_).signingKey, d_4_message_)
         d_10_valueOrError2_ = out2_
         if not(not((d_10_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("test/TestSignature.dfy(44,18): " + _dafny.string_of(d_10_valueOrError2_))
+            raise _dafny.HaltException("test/TestSignature.dfy(44,21): " + _dafny.string_of(d_10_valueOrError2_))
         d_9_signature_ = (d_10_valueOrError2_).Extract()
         d_11_shouldBeTrue_: bool
         d_12_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.bool)()
         d_12_valueOrError3_ = Signature.ECDSA_Verify(alg, (d_7_keys_).verificationKey, d_4_message_, d_9_signature_)
         if not(not((d_12_valueOrError3_).IsFailure())):
-            raise _dafny.HaltException("test/TestSignature.dfy(45,21): " + _dafny.string_of(d_12_valueOrError3_))
+            raise _dafny.HaltException("test/TestSignature.dfy(45,24): " + _dafny.string_of(d_12_valueOrError3_))
         d_11_shouldBeTrue_ = (d_12_valueOrError3_).Extract()
         if not(d_11_shouldBeTrue_):
             raise _dafny.HaltException("test/TestSignature.dfy(46,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -140,7 +140,7 @@ class default__:
         d_14_valueOrError4_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.bool)()
         d_14_valueOrError4_ = Signature.ECDSA_Verify(alg, (d_7_keys_).verificationKey, (d_4_message_) + (_dafny.Seq([1])), d_9_signature_)
         if not(not((d_14_valueOrError4_).IsFailure())):
-            raise _dafny.HaltException("test/TestSignature.dfy(48,22): " + _dafny.string_of(d_14_valueOrError4_))
+            raise _dafny.HaltException("test/TestSignature.dfy(48,25): " + _dafny.string_of(d_14_valueOrError4_))
         d_13_shouldBeFalse_ = (d_14_valueOrError4_).Extract()
         if not(not(d_13_shouldBeFalse_)):
             raise _dafny.HaltException("test/TestSignature.dfy(49,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))

@@ -34,20 +34,20 @@ class default__:
 
     @staticmethod
     def DivPos(x, d):
-        d_170___accumulator_ = 0
+        d_183___accumulator_ = 0
         while True:
             with _dafny.label():
                 if (x) < (0):
-                    d_170___accumulator_ = (d_170___accumulator_) + (-1)
+                    d_183___accumulator_ = (d_183___accumulator_) + (-1)
                     in30_ = (x) + (d)
                     in31_ = d
                     x = in30_
                     d = in31_
                     raise _dafny.TailCall()
                 elif (x) < (d):
-                    return (0) + (d_170___accumulator_)
+                    return (0) + (d_183___accumulator_)
                 elif True:
-                    d_170___accumulator_ = (d_170___accumulator_) + (1)
+                    d_183___accumulator_ = (d_183___accumulator_) + (1)
                     in32_ = (x) - (d)
                     in33_ = d
                     x = in32_

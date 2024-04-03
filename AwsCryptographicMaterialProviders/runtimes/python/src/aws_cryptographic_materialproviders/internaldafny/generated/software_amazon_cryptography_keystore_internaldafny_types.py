@@ -90,7 +90,7 @@ class DafnyCallEvent_DafnyCallEvent(DafnyCallEvent, NamedTuple('DafnyCallEvent',
 class BeaconKeyMaterials:
     @classmethod
     def default(cls, ):
-        return lambda: BeaconKeyMaterials_BeaconKeyMaterials(_dafny.Seq({}), _dafny.Map({}), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: BeaconKeyMaterials_BeaconKeyMaterials(_dafny.Seq(""), _dafny.Map({}), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -109,7 +109,7 @@ class BeaconKeyMaterials_BeaconKeyMaterials(BeaconKeyMaterials, NamedTuple('Beac
 class BranchKeyMaterials:
     @classmethod
     def default(cls, ):
-        return lambda: BranchKeyMaterials_BranchKeyMaterials(_dafny.Seq({}), UTF8.ValidUTF8Bytes.default(), _dafny.Map({}), _dafny.Seq({}))
+        return lambda: BranchKeyMaterials_BranchKeyMaterials(_dafny.Seq(""), UTF8.ValidUTF8Bytes.default(), _dafny.Map({}), _dafny.Seq({}))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -147,7 +147,7 @@ class CreateKeyInput_CreateKeyInput(CreateKeyInput, NamedTuple('CreateKeyInput',
 class CreateKeyOutput:
     @classmethod
     def default(cls, ):
-        return lambda: CreateKeyOutput_CreateKeyOutput(_dafny.Seq({}))
+        return lambda: CreateKeyOutput_CreateKeyOutput(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -188,7 +188,7 @@ class CreateKeyStoreInput_CreateKeyStoreInput(CreateKeyStoreInput, NamedTuple('C
 class CreateKeyStoreOutput:
     @classmethod
     def default(cls, ):
-        return lambda: CreateKeyStoreOutput_CreateKeyStoreOutput(_dafny.Seq({}))
+        return lambda: CreateKeyStoreOutput_CreateKeyStoreOutput(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -207,7 +207,7 @@ class CreateKeyStoreOutput_CreateKeyStoreOutput(CreateKeyStoreOutput, NamedTuple
 class GetActiveBranchKeyInput:
     @classmethod
     def default(cls, ):
-        return lambda: GetActiveBranchKeyInput_GetActiveBranchKeyInput(_dafny.Seq({}))
+        return lambda: GetActiveBranchKeyInput_GetActiveBranchKeyInput(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -245,7 +245,7 @@ class GetActiveBranchKeyOutput_GetActiveBranchKeyOutput(GetActiveBranchKeyOutput
 class GetBeaconKeyInput:
     @classmethod
     def default(cls, ):
-        return lambda: GetBeaconKeyInput_GetBeaconKeyInput(_dafny.Seq({}))
+        return lambda: GetBeaconKeyInput_GetBeaconKeyInput(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -283,7 +283,7 @@ class GetBeaconKeyOutput_GetBeaconKeyOutput(GetBeaconKeyOutput, NamedTuple('GetB
 class GetBranchKeyVersionInput:
     @classmethod
     def default(cls, ):
-        return lambda: GetBranchKeyVersionInput_GetBranchKeyVersionInput(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: GetBranchKeyVersionInput_GetBranchKeyVersionInput(_dafny.Seq(""), _dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -321,7 +321,7 @@ class GetBranchKeyVersionOutput_GetBranchKeyVersionOutput(GetBranchKeyVersionOut
 class GetKeyStoreInfoOutput:
     @classmethod
     def default(cls, ):
-        return lambda: GetKeyStoreInfoOutput_GetKeyStoreInfoOutput(_dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), KMSConfiguration.default()())
+        return lambda: GetKeyStoreInfoOutput_GetKeyStoreInfoOutput(_dafny.Seq(""), _dafny.Seq(""), _dafny.Seq(""), _dafny.Seq({}), KMSConfiguration.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -371,7 +371,7 @@ class IKeyStoreClient:
 class KeyStoreConfig:
     @classmethod
     def default(cls, ):
-        return lambda: KeyStoreConfig_KeyStoreConfig(_dafny.Seq({}), KMSConfiguration.default()(), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: KeyStoreConfig_KeyStoreConfig(_dafny.Seq(""), KMSConfiguration.default()(), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -390,7 +390,7 @@ class KeyStoreConfig_KeyStoreConfig(KeyStoreConfig, NamedTuple('KeyStoreConfig',
 class KMSConfiguration:
     @classmethod
     def default(cls, ):
-        return lambda: KMSConfiguration_kmsKeyArn(_dafny.Seq({}))
+        return lambda: KMSConfiguration_kmsKeyArn(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -409,7 +409,7 @@ class KMSConfiguration_kmsKeyArn(KMSConfiguration, NamedTuple('kmsKeyArn', [('km
 class VersionKeyInput:
     @classmethod
     def default(cls, ):
-        return lambda: VersionKeyInput_VersionKeyInput(_dafny.Seq({}))
+        return lambda: VersionKeyInput_VersionKeyInput(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -450,7 +450,7 @@ class VersionKeyOutput_VersionKeyOutput(VersionKeyOutput, NamedTuple('VersionKey
 class Error:
     @classmethod
     def default(cls, ):
-        return lambda: Error_KeyStoreException(_dafny.Seq({}))
+        return lambda: Error_KeyStoreException(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -517,3 +517,6 @@ class OpaqueError:
     @staticmethod
     def default():
         return Error.default()()
+    def _Is(source__):
+        d_0_e_: Error = source__
+        return (d_0_e_).is_Opaque

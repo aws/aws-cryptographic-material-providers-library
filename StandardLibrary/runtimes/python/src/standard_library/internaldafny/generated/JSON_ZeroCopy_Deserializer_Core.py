@@ -83,62 +83,62 @@ class default__:
 
     @staticmethod
     def Get(cs, err):
-        d_719_valueOrError0_ = (cs).Get(err)
-        if (d_719_valueOrError0_).IsFailure():
-            return (d_719_valueOrError0_).PropagateFailure()
+        d_745_valueOrError0_ = (cs).Get(err)
+        if (d_745_valueOrError0_).IsFailure():
+            return (d_745_valueOrError0_).PropagateFailure()
         elif True:
-            d_720_cs_ = (d_719_valueOrError0_).Extract()
-            return Wrappers.Result_Success((d_720_cs_).Split())
+            d_746_cs_ = (d_745_valueOrError0_).Extract()
+            return Wrappers.Result_Success((d_746_cs_).Split())
 
     @staticmethod
     def WS(cs):
         sp: JSON_Utils_Cursors.Split = JSON_Utils_Cursors.Split.default(JSON_Grammar.jblanks.default)()
-        d_721_point_k_: int
-        d_721_point_k_ = (cs).point
-        d_722_end_: int
-        d_722_end_ = (cs).end
-        while ((d_721_point_k_) < (d_722_end_)) and (JSON_Grammar.default__.Blank_q(((cs).s)[d_721_point_k_])):
-            d_721_point_k_ = (d_721_point_k_) + (1)
-        sp = (JSON_Utils_Cursors.Cursor___Cursor((cs).s, (cs).beg, d_721_point_k_, (cs).end)).Split()
+        d_747_point_k_: int
+        d_747_point_k_ = (cs).point
+        d_748_end_: int
+        d_748_end_ = (cs).end
+        while ((d_747_point_k_) < (d_748_end_)) and (JSON_Grammar.default__.Blank_q(((cs).s)[d_747_point_k_])):
+            d_747_point_k_ = (d_747_point_k_) + (1)
+        sp = (JSON_Utils_Cursors.Cursor___Cursor((cs).s, (cs).beg, d_747_point_k_, (cs).end)).Split()
         return sp
         return sp
 
     @staticmethod
     def Structural(cs, parser):
         let_tmp_rhs8_ = default__.WS(cs)
-        d_723_before_ = let_tmp_rhs8_.t
-        d_724_cs_ = let_tmp_rhs8_.cs
-        d_725_valueOrError0_ = (parser).fn(d_724_cs_)
-        if (d_725_valueOrError0_).IsFailure():
-            return (d_725_valueOrError0_).PropagateFailure()
+        d_749_before_ = let_tmp_rhs8_.t
+        d_750_cs_ = let_tmp_rhs8_.cs
+        d_751_valueOrError0_ = (parser).fn(d_750_cs_)
+        if (d_751_valueOrError0_).IsFailure():
+            return (d_751_valueOrError0_).PropagateFailure()
         elif True:
-            let_tmp_rhs9_ = (d_725_valueOrError0_).Extract()
-            d_726_val_ = let_tmp_rhs9_.t
-            d_727_cs_ = let_tmp_rhs9_.cs
-            let_tmp_rhs10_ = default__.WS(d_727_cs_)
-            d_728_after_ = let_tmp_rhs10_.t
-            d_729_cs_ = let_tmp_rhs10_.cs
-            return Wrappers.Result_Success(JSON_Utils_Cursors.Split_SP(JSON_Grammar.Structural_Structural(d_723_before_, d_726_val_, d_728_after_), d_729_cs_))
+            let_tmp_rhs9_ = (d_751_valueOrError0_).Extract()
+            d_752_val_ = let_tmp_rhs9_.t
+            d_753_cs_ = let_tmp_rhs9_.cs
+            let_tmp_rhs10_ = default__.WS(d_753_cs_)
+            d_754_after_ = let_tmp_rhs10_.t
+            d_755_cs_ = let_tmp_rhs10_.cs
+            return Wrappers.Result_Success(JSON_Utils_Cursors.Split_SP(JSON_Grammar.Structural_Structural(d_749_before_, d_752_val_, d_754_after_), d_755_cs_))
 
     @staticmethod
     def TryStructural(cs):
         let_tmp_rhs11_ = default__.WS(cs)
-        d_730_before_ = let_tmp_rhs11_.t
-        d_731_cs_ = let_tmp_rhs11_.cs
-        let_tmp_rhs12_ = ((d_731_cs_).SkipByte()).Split()
-        d_732_val_ = let_tmp_rhs12_.t
-        d_733_cs_ = let_tmp_rhs12_.cs
-        let_tmp_rhs13_ = default__.WS(d_733_cs_)
-        d_734_after_ = let_tmp_rhs13_.t
-        d_735_cs_ = let_tmp_rhs13_.cs
-        return JSON_Utils_Cursors.Split_SP(JSON_Grammar.Structural_Structural(d_730_before_, d_732_val_, d_734_after_), d_735_cs_)
+        d_756_before_ = let_tmp_rhs11_.t
+        d_757_cs_ = let_tmp_rhs11_.cs
+        let_tmp_rhs12_ = ((d_757_cs_).SkipByte()).Split()
+        d_758_val_ = let_tmp_rhs12_.t
+        d_759_cs_ = let_tmp_rhs12_.cs
+        let_tmp_rhs13_ = default__.WS(d_759_cs_)
+        d_760_after_ = let_tmp_rhs13_.t
+        d_761_cs_ = let_tmp_rhs13_.cs
+        return JSON_Utils_Cursors.Split_SP(JSON_Grammar.Structural_Structural(d_756_before_, d_758_val_, d_760_after_), d_761_cs_)
 
     @_dafny.classproperty
     def SpecView(instance):
-        def lambda51_(d_736_v_):
-            return JSON_ConcreteSyntax_Spec.default__.View(d_736_v_)
+        def lambda52_(d_762_v_):
+            return JSON_ConcreteSyntax_Spec.default__.View(d_762_v_)
 
-        return lambda51_
+        return lambda52_
 
 class jopt:
     def  __init__(self):

@@ -658,6 +658,11 @@ class PositiveInteger:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_0_x_: int = source__
+        if True:
+            return default__.IsValid__PositiveInteger(d_0_x_)
+        return False
 
 class RSADecryptInput:
     @classmethod
@@ -704,6 +709,11 @@ class RSAModulusLengthBits:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_1_x_: int = source__
+        if True:
+            return default__.IsValid__RSAModulusLengthBits(d_1_x_)
+        return False
 
 class RSAModulusLengthBitsToGenerate:
     def  __init__(self):
@@ -712,6 +722,11 @@ class RSAModulusLengthBitsToGenerate:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_2_x_: int = source__
+        if True:
+            return default__.IsValid__RSAModulusLengthBitsToGenerate(d_2_x_)
+        return False
 
 class RSAPaddingMode:
     @_dafny.classproperty
@@ -824,6 +839,11 @@ class SymmetricKeyLength:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_3_x_: int = source__
+        if True:
+            return default__.IsValid__SymmetricKeyLength(d_3_x_)
+        return False
 
 class Uint8Bits:
     def  __init__(self):
@@ -832,6 +852,11 @@ class Uint8Bits:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_4_x_: int = source__
+        if True:
+            return default__.IsValid__Uint8Bits(d_4_x_)
+        return False
 
 class Uint8Bytes:
     def  __init__(self):
@@ -840,11 +865,16 @@ class Uint8Bytes:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_5_x_: int = source__
+        if True:
+            return default__.IsValid__Uint8Bytes(d_5_x_)
+        return False
 
 class Error:
     @classmethod
     def default(cls, ):
-        return lambda: Error_AwsCryptographicPrimitivesError(_dafny.Seq({}))
+        return lambda: Error_AwsCryptographicPrimitivesError(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -889,3 +919,6 @@ class OpaqueError:
     @staticmethod
     def default():
         return Error.default()()
+    def _Is(source__):
+        d_6_e_: Error = source__
+        return (d_6_e_).is_Opaque

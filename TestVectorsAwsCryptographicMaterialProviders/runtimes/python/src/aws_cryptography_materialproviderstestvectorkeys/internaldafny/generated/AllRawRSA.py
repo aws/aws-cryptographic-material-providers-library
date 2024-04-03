@@ -196,12 +196,12 @@ class default__:
             coll21_ = _dafny.Set()
             compr_36_: _dafny.Seq
             for compr_36_ in (default__.rsaPersistentKeyNamesWithoutPublicPrivate).Elements:
-                d_702_key_: _dafny.Seq = compr_36_
+                d_704_key_: _dafny.Seq = compr_36_
                 compr_37_: software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme
                 for compr_37_ in software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme.AllSingletonConstructors:
-                    d_703_padding_: software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme = compr_37_
-                    if (d_702_key_) in (default__.rsaPersistentKeyNamesWithoutPublicPrivate):
-                        coll21_ = coll21_.union(_dafny.Set([software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_RSA(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawRSA_RawRSA(d_702_key_, (_dafny.Seq("aws-raw-vectors-persistent-")) + (d_702_key_), d_703_padding_))]))
+                    d_705_padding_: software_amazon_cryptography_materialproviders_internaldafny_types.PaddingScheme = compr_37_
+                    if (d_704_key_) in (default__.rsaPersistentKeyNamesWithoutPublicPrivate):
+                        coll21_ = coll21_.union(_dafny.Set([software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_RSA(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawRSA_RawRSA(d_704_key_, (_dafny.Seq("aws-raw-vectors-persistent-")) + (d_704_key_), d_705_padding_))]))
             return _dafny.Set(coll21_)
         return iife37_()
         
@@ -211,47 +211,47 @@ class default__:
             coll22_ = _dafny.Set()
             compr_38_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription
             for compr_38_ in (default__.KeyDescriptions).Elements:
-                d_704_keyDescription_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription = compr_38_
+                d_706_keyDescription_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription = compr_38_
                 compr_39_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo
                 for compr_39_ in (AllAlgorithmSuites.default__.AllAlgorithmSuites).Elements:
-                    d_705_algorithmSuite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo = compr_39_
+                    d_707_algorithmSuite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo = compr_39_
                     compr_40_: software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy
-                    for compr_40_ in [AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_705_algorithmSuite_)]:
-                        d_706_commitmentPolicy_: software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy = compr_40_
-                        if (((d_704_keyDescription_) in (default__.KeyDescriptions)) and ((d_705_algorithmSuite_) in (AllAlgorithmSuites.default__.AllAlgorithmSuites))) and ((d_706_commitmentPolicy_) == (AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_705_algorithmSuite_))):
+                    for compr_40_ in [AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_707_algorithmSuite_)]:
+                        d_708_commitmentPolicy_: software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy = compr_40_
+                        if (((d_706_keyDescription_) in (default__.KeyDescriptions)) and ((d_707_algorithmSuite_) in (AllAlgorithmSuites.default__.AllAlgorithmSuites))) and ((d_708_commitmentPolicy_) == (AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_707_algorithmSuite_))):
                             def iife39_(_pat_let8_0):
-                                def iife40_(d_707_dt__update__tmp_h0_):
+                                def iife40_(d_709_dt__update__tmp_h0_):
                                     def iife42_(_pat_let10_0):
-                                        def iife43_(d_708_dt__update__tmp_h1_):
+                                        def iife43_(d_710_dt__update__tmp_h1_):
                                             def iife44_(_pat_let11_0):
-                                                def iife45_(d_709_dt__update_hkeyId_h0_):
-                                                    return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawRSA_RawRSA(d_709_dt__update_hkeyId_h0_, (d_708_dt__update__tmp_h1_).providerId, (d_708_dt__update__tmp_h1_).padding)
+                                                def iife45_(d_711_dt__update_hkeyId_h0_):
+                                                    return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawRSA_RawRSA(d_711_dt__update_hkeyId_h0_, (d_710_dt__update__tmp_h1_).providerId, (d_710_dt__update__tmp_h1_).padding)
                                                 return iife45_(_pat_let11_0)
-                                            return iife44_((((d_704_keyDescription_).RSA).keyId) + (_dafny.Seq("-public")))
+                                            return iife44_((((d_706_keyDescription_).RSA).keyId) + (_dafny.Seq("-public")))
                                         return iife43_(_pat_let10_0)
                                     def iife41_(_pat_let9_0):
-                                        def iife46_(d_710_dt__update_hRSA_h0_):
-                                            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_RSA(d_710_dt__update_hRSA_h0_)
+                                        def iife46_(d_712_dt__update_hRSA_h0_):
+                                            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_RSA(d_712_dt__update_hRSA_h0_)
                                         return iife46_(_pat_let9_0)
-                                    return iife41_(iife42_((d_704_keyDescription_).RSA))
+                                    return iife41_(iife42_((d_706_keyDescription_).RSA))
                                 return iife40_(_pat_let8_0)
                             def iife47_(_pat_let12_0):
-                                def iife48_(d_711_dt__update__tmp_h2_):
+                                def iife48_(d_713_dt__update__tmp_h2_):
                                     def iife50_(_pat_let14_0):
-                                        def iife51_(d_712_dt__update__tmp_h3_):
+                                        def iife51_(d_714_dt__update__tmp_h3_):
                                             def iife52_(_pat_let15_0):
-                                                def iife53_(d_713_dt__update_hkeyId_h1_):
-                                                    return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawRSA_RawRSA(d_713_dt__update_hkeyId_h1_, (d_712_dt__update__tmp_h3_).providerId, (d_712_dt__update__tmp_h3_).padding)
+                                                def iife53_(d_715_dt__update_hkeyId_h1_):
+                                                    return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawRSA_RawRSA(d_715_dt__update_hkeyId_h1_, (d_714_dt__update__tmp_h3_).providerId, (d_714_dt__update__tmp_h3_).padding)
                                                 return iife53_(_pat_let15_0)
-                                            return iife52_((((d_704_keyDescription_).RSA).keyId) + (_dafny.Seq("-private")))
+                                            return iife52_((((d_706_keyDescription_).RSA).keyId) + (_dafny.Seq("-private")))
                                         return iife51_(_pat_let14_0)
                                     def iife49_(_pat_let13_0):
-                                        def iife54_(d_714_dt__update_hRSA_h1_):
-                                            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_RSA(d_714_dt__update_hRSA_h1_)
+                                        def iife54_(d_716_dt__update_hRSA_h1_):
+                                            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_RSA(d_716_dt__update_hRSA_h1_)
                                         return iife54_(_pat_let13_0)
-                                    return iife49_(iife50_((d_704_keyDescription_).RSA))
+                                    return iife49_(iife50_((d_706_keyDescription_).RSA))
                                 return iife48_(_pat_let12_0)
-                            coll22_ = coll22_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptKeyringVector((_dafny.Seq("Generated RawRSA ")) + (((d_704_keyDescription_).RSA).keyId), Wrappers.Option_None(), _dafny.Map({}), d_706_commitmentPolicy_, d_705_algorithmSuite_, Wrappers.Option_None(), Wrappers.Option_None(), iife39_(d_704_keyDescription_), iife47_(d_704_keyDescription_), Wrappers.Option_None())]))
+                            coll22_ = coll22_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptKeyringVector((_dafny.Seq("Generated RawRSA ")) + (((d_706_keyDescription_).RSA).keyId), Wrappers.Option_None(), _dafny.Map({}), d_708_commitmentPolicy_, d_707_algorithmSuite_, Wrappers.Option_None(), Wrappers.Option_None(), iife39_(d_706_keyDescription_), iife47_(d_706_keyDescription_), Wrappers.Option_None())]))
             return _dafny.Set(coll22_)
         return iife38_()
         

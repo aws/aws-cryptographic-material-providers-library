@@ -106,13 +106,13 @@ class Vector:
         (self)._a = a0
         (self).size = 0
         (self).capacity = initial__capacity
-        def lambda29_(d_471_a0_):
-            def lambda30_(d_472___v0_):
-                return d_471_a0_
+        def lambda30_(d_495_a0_):
+            def lambda31_(d_496___v0_):
+                return d_495_a0_
 
-            return lambda30_
+            return lambda31_
 
-        init2_ = lambda29_(a0)
+        init2_ = lambda30_(a0)
         nw5_ = _dafny.Array(None, initial__capacity)
         for i0_2_ in range(nw5_.length(0)):
             nw5_[i0_2_] = init2_(i0_2_)
@@ -130,21 +130,21 @@ class Vector:
 
     def CopyFrom(self, new__data, count):
         hi8_ = count
-        for d_473_idx_ in range(0, hi8_):
+        for d_497_idx_ in range(0, hi8_):
             arr1_ = self.data
-            arr1_[(d_473_idx_)] = (new__data)[d_473_idx_]
+            arr1_[(d_497_idx_)] = (new__data)[d_497_idx_]
 
     def Realloc(self, new__capacity):
-        d_474_old__data_: _dafny.Array
-        d_475_old__capacity_: int
+        d_498_old__data_: _dafny.Array
+        d_499_old__capacity_: int
         rhs6_ = self.data
         rhs7_ = self.capacity
-        d_474_old__data_ = rhs6_
-        d_475_old__capacity_ = rhs7_
-        def lambda31_(d_476___v1_):
+        d_498_old__data_ = rhs6_
+        d_499_old__capacity_ = rhs7_
+        def lambda32_(d_500___v1_):
             return (self).a
 
-        init3_ = lambda31_
+        init3_ = lambda32_
         nw6_ = _dafny.Array(None, new__capacity)
         for i0_3_ in range(nw6_.length(0)):
             nw6_[i0_3_] = init3_(i0_3_)
@@ -154,7 +154,7 @@ class Vector:
         lhs5_ = self
         lhs4_.data = rhs8_
         lhs5_.capacity = rhs9_
-        (self).CopyFrom(d_474_old__data_, d_475_old__capacity_)
+        (self).CopyFrom(d_498_old__data_, d_499_old__capacity_)
 
     def DefaultNewCapacity(self, capacity):
         if (capacity) < ((self).MAX__CAPACITY__BEFORE__DOUBLING):
@@ -180,11 +180,11 @@ class Vector:
         if (reserved) <= ((self.capacity) - (self.size)):
             o = Wrappers.Outcome_Pass()
             return o
-        d_477_new__capacity_: int
-        d_477_new__capacity_ = self.capacity
-        while (reserved) > ((d_477_new__capacity_) - (self.size)):
-            d_477_new__capacity_ = (self).DefaultNewCapacity(d_477_new__capacity_)
-        (self).Realloc(d_477_new__capacity_)
+        d_501_new__capacity_: int
+        d_501_new__capacity_ = self.capacity
+        while (reserved) > ((d_501_new__capacity_) - (self.size)):
+            d_501_new__capacity_ = (self).DefaultNewCapacity(d_501_new__capacity_)
+        (self).Realloc(d_501_new__capacity_)
         o = Wrappers.Outcome_Pass()
         return o
         return o
@@ -201,12 +201,12 @@ class Vector:
     def Push(self, a):
         o: Wrappers.Outcome = Wrappers.Outcome.default()()
         if (self.size) == (self.capacity):
-            d_478_d_: Wrappers.Outcome
+            d_502_d_: Wrappers.Outcome
             out23_: Wrappers.Outcome
             out23_ = (self).ReallocDefault()
-            d_478_d_ = out23_
-            if (d_478_d_).is_Fail:
-                o = d_478_d_
+            d_502_d_ = out23_
+            if (d_502_d_).is_Fail:
+                o = d_502_d_
                 return o
         (self).PushFast(a)
         o = Wrappers.Outcome_Pass()

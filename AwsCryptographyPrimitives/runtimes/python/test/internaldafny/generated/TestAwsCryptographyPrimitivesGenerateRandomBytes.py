@@ -76,13 +76,13 @@ class default__:
 
     @staticmethod
     def BasicGenerateRandomBytes():
-        d_34_client_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
+        d_34_client_: software_amazon_cryptography_primitives_internaldafny.AtomicPrimitivesClient
         d_35_valueOrError0_: Wrappers.Result = None
         out9_: Wrappers.Result
         out9_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
         d_35_valueOrError0_ = out9_
         if not(not((d_35_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestGenerateRandomBytes.dfy(11,15): " + _dafny.string_of(d_35_valueOrError0_))
+            raise _dafny.HaltException("test/TestGenerateRandomBytes.dfy(11,18): " + _dafny.string_of(d_35_valueOrError0_))
         d_34_client_ = (d_35_valueOrError0_).Extract()
         d_36_length_: int
         d_36_length_ = 5
@@ -96,7 +96,7 @@ class default__:
         d_40_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_40_valueOrError1_ = d_38_output_
         if not(not((d_40_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/TestGenerateRandomBytes.dfy(20,14): " + _dafny.string_of(d_40_valueOrError1_))
+            raise _dafny.HaltException("test/TestGenerateRandomBytes.dfy(20,17): " + _dafny.string_of(d_40_valueOrError1_))
         d_39_value_ = (d_40_valueOrError1_).Extract()
         if not((len(d_39_value_)) == (d_36_length_)):
             raise _dafny.HaltException("test/TestGenerateRandomBytes.dfy(21,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))

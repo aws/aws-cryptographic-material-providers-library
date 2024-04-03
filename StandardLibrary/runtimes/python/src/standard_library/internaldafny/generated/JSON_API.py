@@ -96,49 +96,49 @@ class default__:
 
     @staticmethod
     def Serialize(js):
-        d_898_valueOrError0_ = JSON_Serializer.default__.JSON(js)
-        if (d_898_valueOrError0_).IsFailure():
-            return (d_898_valueOrError0_).PropagateFailure()
+        d_924_valueOrError0_ = JSON_Serializer.default__.JSON(js)
+        if (d_924_valueOrError0_).IsFailure():
+            return (d_924_valueOrError0_).PropagateFailure()
         elif True:
-            d_899_js_ = (d_898_valueOrError0_).Extract()
-            return JSON_ZeroCopy_API.default__.Serialize(d_899_js_)
+            d_925_js_ = (d_924_valueOrError0_).Extract()
+            return JSON_ZeroCopy_API.default__.Serialize(d_925_js_)
 
     @staticmethod
     def SerializeAlloc(js):
         bs: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.pointer)()
-        d_900_js_: JSON_Grammar.Structural
-        d_901_valueOrError0_: Wrappers.Result = Wrappers.Result.default(JSON_Grammar.Structural.default(JSON_Grammar.Value.default()))()
-        d_901_valueOrError0_ = JSON_Serializer.default__.JSON(js)
-        if (d_901_valueOrError0_).IsFailure():
-            bs = (d_901_valueOrError0_).PropagateFailure()
+        d_926_js_: JSON_Grammar.Structural
+        d_927_valueOrError0_: Wrappers.Result = Wrappers.Result.default(JSON_Grammar.Structural.default(JSON_Grammar.Value.default()))()
+        d_927_valueOrError0_ = JSON_Serializer.default__.JSON(js)
+        if (d_927_valueOrError0_).IsFailure():
+            bs = (d_927_valueOrError0_).PropagateFailure()
             return bs
-        d_900_js_ = (d_901_valueOrError0_).Extract()
+        d_926_js_ = (d_927_valueOrError0_).Extract()
         out29_: Wrappers.Result
-        out29_ = JSON_ZeroCopy_API.default__.SerializeAlloc(d_900_js_)
+        out29_ = JSON_ZeroCopy_API.default__.SerializeAlloc(d_926_js_)
         bs = out29_
         return bs
 
     @staticmethod
     def SerializeInto(js, bs):
         len: Wrappers.Result = Wrappers.Result.default(BoundedInts.uint32.default)()
-        d_902_js_: JSON_Grammar.Structural
-        d_903_valueOrError0_: Wrappers.Result = Wrappers.Result.default(JSON_Grammar.Structural.default(JSON_Grammar.Value.default()))()
-        d_903_valueOrError0_ = JSON_Serializer.default__.JSON(js)
-        if (d_903_valueOrError0_).IsFailure():
-            len = (d_903_valueOrError0_).PropagateFailure()
+        d_928_js_: JSON_Grammar.Structural
+        d_929_valueOrError0_: Wrappers.Result = Wrappers.Result.default(JSON_Grammar.Structural.default(JSON_Grammar.Value.default()))()
+        d_929_valueOrError0_ = JSON_Serializer.default__.JSON(js)
+        if (d_929_valueOrError0_).IsFailure():
+            len = (d_929_valueOrError0_).PropagateFailure()
             return len
-        d_902_js_ = (d_903_valueOrError0_).Extract()
+        d_928_js_ = (d_929_valueOrError0_).Extract()
         out30_: Wrappers.Result
-        out30_ = JSON_ZeroCopy_API.default__.SerializeInto(d_902_js_, bs)
+        out30_ = JSON_ZeroCopy_API.default__.SerializeInto(d_928_js_, bs)
         len = out30_
         return len
 
     @staticmethod
     def Deserialize(bs):
-        d_904_valueOrError0_ = JSON_ZeroCopy_API.default__.Deserialize(bs)
-        if (d_904_valueOrError0_).IsFailure():
-            return (d_904_valueOrError0_).PropagateFailure()
+        d_930_valueOrError0_ = JSON_ZeroCopy_API.default__.Deserialize(bs)
+        if (d_930_valueOrError0_).IsFailure():
+            return (d_930_valueOrError0_).PropagateFailure()
         elif True:
-            d_905_js_ = (d_904_valueOrError0_).Extract()
-            return JSON_Deserializer.default__.JSON(d_905_js_)
+            d_931_js_ = (d_930_valueOrError0_).Extract()
+            return JSON_Deserializer.default__.JSON(d_931_js_)
 

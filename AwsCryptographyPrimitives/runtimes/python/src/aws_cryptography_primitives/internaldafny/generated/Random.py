@@ -59,21 +59,21 @@ class default__:
     @staticmethod
     def GenerateBytes(i):
         res: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        d_0_value_: _dafny.Seq
-        d_1_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_7_value_: _dafny.Seq
+        d_8_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out0_: Wrappers.Result
         out0_ = ExternRandom.default__.GenerateBytes(i)
-        d_1_valueOrError0_ = out0_
-        if (d_1_valueOrError0_).IsFailure():
-            res = (d_1_valueOrError0_).PropagateFailure()
+        d_8_valueOrError0_ = out0_
+        if (d_8_valueOrError0_).IsFailure():
+            res = (d_8_valueOrError0_).PropagateFailure()
             return res
-        d_0_value_ = (d_1_valueOrError0_).Extract()
-        d_2_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_2_valueOrError1_ = Wrappers.default__.Need((len(d_0_value_)) == (i), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect length from ExternRandom.")))
-        if (d_2_valueOrError1_).IsFailure():
-            res = (d_2_valueOrError1_).PropagateFailure()
+        d_7_value_ = (d_8_valueOrError0_).Extract()
+        d_9_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_9_valueOrError1_ = Wrappers.default__.Need((len(d_7_value_)) == (i), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect length from ExternRandom.")))
+        if (d_9_valueOrError1_).IsFailure():
+            res = (d_9_valueOrError1_).PropagateFailure()
             return res
-        res = Wrappers.Result_Success(d_0_value_)
+        res = Wrappers.Result_Success(d_7_value_)
         return res
         return res
 

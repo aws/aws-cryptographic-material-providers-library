@@ -80,24 +80,24 @@ class default__:
             return True
         elif True:
             source5_ = (messageAwsKmsIdentifer, configuredAwsKmsIdentifier)
-            d_56___mcc_h0_ = source5_[0]
-            d_57___mcc_h1_ = source5_[1]
-            source6_ = d_56___mcc_h0_
+            d_66___mcc_h0_ = source5_[0]
+            d_67___mcc_h1_ = source5_[1]
+            source6_ = d_66___mcc_h0_
             if source6_.is_AwsKmsArnIdentifier:
-                d_58___mcc_h2_ = source6_.a
-                source7_ = d_57___mcc_h1_
+                d_68___mcc_h2_ = source6_.a
+                source7_ = d_67___mcc_h1_
                 if source7_.is_AwsKmsArnIdentifier:
-                    d_59___mcc_h4_ = source7_.a
-                    d_60_messageAwsKmsArn_ = d_59___mcc_h4_
-                    d_61_configuredAwsKmsArn_ = d_58___mcc_h2_
-                    if (not(AwsArnParsing.default__.IsMultiRegionAwsKmsArn(d_61_configuredAwsKmsArn_))) or (not(AwsArnParsing.default__.IsMultiRegionAwsKmsArn(d_60_messageAwsKmsArn_))):
+                    d_69___mcc_h4_ = source7_.a
+                    d_70_messageAwsKmsArn_ = d_69___mcc_h4_
+                    d_71_configuredAwsKmsArn_ = d_68___mcc_h2_
+                    if (not(AwsArnParsing.default__.IsMultiRegionAwsKmsArn(d_71_configuredAwsKmsArn_))) or (not(AwsArnParsing.default__.IsMultiRegionAwsKmsArn(d_70_messageAwsKmsArn_))):
                         return False
                     elif True:
-                        return (((((d_60_messageAwsKmsArn_).partition) == ((d_61_configuredAwsKmsArn_).partition)) and (((d_60_messageAwsKmsArn_).service) == ((d_61_configuredAwsKmsArn_).service))) and (((d_60_messageAwsKmsArn_).account) == ((d_61_configuredAwsKmsArn_).account))) and (((d_60_messageAwsKmsArn_).resource) == ((d_61_configuredAwsKmsArn_).resource))
+                        return (((((d_70_messageAwsKmsArn_).partition) == ((d_71_configuredAwsKmsArn_).partition)) and (((d_70_messageAwsKmsArn_).service) == ((d_71_configuredAwsKmsArn_).service))) and (((d_70_messageAwsKmsArn_).account) == ((d_71_configuredAwsKmsArn_).account))) and (((d_70_messageAwsKmsArn_).resource) == ((d_71_configuredAwsKmsArn_).resource))
                 elif True:
-                    d_62___mcc_h6_ = source7_.r
+                    d_72___mcc_h6_ = source7_.r
                     return False
             elif True:
-                d_63___mcc_h8_ = source6_.r
+                d_73___mcc_h8_ = source6_.r
                 return False
 

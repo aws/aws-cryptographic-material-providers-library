@@ -97,7 +97,7 @@ class default__:
         d_148_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_148_valueOrError0_ = AesKdfCtr.default__.AesKdfCtrStream(d_145_nonce_, d_144_key_, 44)
         if not(not((d_148_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestAesKdfCtr.dfy(18,15): " + _dafny.string_of(d_148_valueOrError0_))
+            raise _dafny.HaltException("test/TestAesKdfCtr.dfy(18,18): " + _dafny.string_of(d_148_valueOrError0_))
         d_147_result_ = (d_148_valueOrError0_).Extract()
         if not((len(d_147_result_)) == (44)):
             raise _dafny.HaltException("test/TestAesKdfCtr.dfy(19,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -109,7 +109,7 @@ class default__:
         d_149_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_149_valueOrError1_ = AesKdfCtr.default__.AesKdfCtrStream(d_145_nonce_, d_144_key_, 16)
         if not(not((d_149_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/TestAesKdfCtr.dfy(25,11): " + _dafny.string_of(d_149_valueOrError1_))
+            raise _dafny.HaltException("test/TestAesKdfCtr.dfy(25,14): " + _dafny.string_of(d_149_valueOrError1_))
         d_147_result_ = (d_149_valueOrError1_).Extract()
         if not((len(d_147_result_)) == (16)):
             raise _dafny.HaltException("test/TestAesKdfCtr.dfy(26,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -121,7 +121,7 @@ class default__:
         d_150_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_150_valueOrError2_ = AesKdfCtr.default__.AesKdfCtrStream(d_145_nonce_, d_144_key_, 64)
         if not(not((d_150_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("test/TestAesKdfCtr.dfy(32,11): " + _dafny.string_of(d_150_valueOrError2_))
+            raise _dafny.HaltException("test/TestAesKdfCtr.dfy(32,14): " + _dafny.string_of(d_150_valueOrError2_))
         d_147_result_ = (d_150_valueOrError2_).Extract()
         if not((len(d_147_result_)) == (64)):
             raise _dafny.HaltException("test/TestAesKdfCtr.dfy(33,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))

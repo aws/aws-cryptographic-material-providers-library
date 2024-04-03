@@ -40,13 +40,13 @@ class default__:
 
     @staticmethod
     def Int2Digits(n, base):
-        d_207___accumulator_ = _dafny.Seq([])
+        d_223___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (n) == (0):
-                    return (_dafny.Seq([])) + (d_207___accumulator_)
+                    return (_dafny.Seq([])) + (d_223___accumulator_)
                 elif True:
-                    d_207___accumulator_ = (_dafny.Seq([_dafny.euclidian_modulus(n, base)])) + (d_207___accumulator_)
+                    d_223___accumulator_ = (_dafny.Seq([_dafny.euclidian_modulus(n, base)])) + (d_223___accumulator_)
                     in38_ = _dafny.euclidian_division(n, base)
                     in39_ = base
                     n = in38_
@@ -56,13 +56,13 @@ class default__:
 
     @staticmethod
     def Digits2String(digits, chars):
-        d_208___accumulator_ = _dafny.Seq([])
+        d_224___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (digits) == (_dafny.Seq([])):
-                    return (d_208___accumulator_) + (_dafny.Seq(""))
+                    return (d_224___accumulator_) + (_dafny.Seq(""))
                 elif True:
-                    d_208___accumulator_ = (d_208___accumulator_) + (_dafny.Seq([(chars)[(digits)[0]]]))
+                    d_224___accumulator_ = (d_224___accumulator_) + (_dafny.Seq([(chars)[(digits)[0]]]))
                     in40_ = _dafny.Seq((digits)[1::])
                     in41_ = chars
                     digits = in40_
@@ -72,13 +72,13 @@ class default__:
 
     @staticmethod
     def Int2String(n, chars):
-        d_209_base_ = len(chars)
+        d_225_base_ = len(chars)
         if (n) == (0):
             return _dafny.Seq("0")
         elif (n) > (0):
-            return default__.Digits2String(default__.Int2Digits(n, d_209_base_), chars)
+            return default__.Digits2String(default__.Int2Digits(n, d_225_base_), chars)
         elif True:
-            return (_dafny.Seq("-")) + (default__.Digits2String(default__.Int2Digits((0) - (n), d_209_base_), chars))
+            return (_dafny.Seq("-")) + (default__.Digits2String(default__.Int2Digits((0) - (n), d_225_base_), chars))
 
     @staticmethod
     def Base10Int2String(n):

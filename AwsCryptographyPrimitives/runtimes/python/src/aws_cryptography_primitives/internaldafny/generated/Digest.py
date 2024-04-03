@@ -73,23 +73,23 @@ class default__:
     def Digest(input):
         res: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         let_tmp_rhs2_ = input
-        d_25_digestAlgorithm_ = let_tmp_rhs2_.digestAlgorithm
-        d_26_message_ = let_tmp_rhs2_.message
-        d_27_value_: _dafny.Seq
-        d_28_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_32_digestAlgorithm_ = let_tmp_rhs2_.digestAlgorithm
+        d_33_message_ = let_tmp_rhs2_.message
+        d_34_value_: _dafny.Seq
+        d_35_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out3_: Wrappers.Result
-        out3_ = ExternDigest.default__.Digest(d_25_digestAlgorithm_, d_26_message_)
-        d_28_valueOrError0_ = out3_
-        if (d_28_valueOrError0_).IsFailure():
-            res = (d_28_valueOrError0_).PropagateFailure()
+        out3_ = ExternDigest.default__.Digest(d_32_digestAlgorithm_, d_33_message_)
+        d_35_valueOrError0_ = out3_
+        if (d_35_valueOrError0_).IsFailure():
+            res = (d_35_valueOrError0_).PropagateFailure()
             return res
-        d_27_value_ = (d_28_valueOrError0_).Extract()
-        d_29_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_29_valueOrError1_ = Wrappers.default__.Need((len(d_27_value_)) == (default__.Length(d_25_digestAlgorithm_)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect length digest from ExternDigest.")))
-        if (d_29_valueOrError1_).IsFailure():
-            res = (d_29_valueOrError1_).PropagateFailure()
+        d_34_value_ = (d_35_valueOrError0_).Extract()
+        d_36_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_36_valueOrError1_ = Wrappers.default__.Need((len(d_34_value_)) == (default__.Length(d_32_digestAlgorithm_)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect length digest from ExternDigest.")))
+        if (d_36_valueOrError1_).IsFailure():
+            res = (d_36_valueOrError1_).PropagateFailure()
             return res
-        res = Wrappers.Result_Success(d_27_value_)
+        res = Wrappers.Result_Success(d_34_value_)
         return res
         return res
 

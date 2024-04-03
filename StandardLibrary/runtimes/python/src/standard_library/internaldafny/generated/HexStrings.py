@@ -64,16 +64,16 @@ class default__:
     @staticmethod
     def IsHexString(s):
         def lambda21_(forall_var_3_):
-            d_250_ch_: str = forall_var_3_
-            return not ((d_250_ch_) in (s)) or (default__.IsHexChar(d_250_ch_))
+            d_267_ch_: str = forall_var_3_
+            return not ((d_267_ch_) in (s)) or (default__.IsHexChar(d_267_ch_))
 
         return _dafny.quantifier((s).UniqueElements, True, lambda21_)
 
     @staticmethod
     def IsLooseHexString(s):
         def lambda22_(forall_var_4_):
-            d_251_ch_: str = forall_var_4_
-            return not ((d_251_ch_) in (s)) or (default__.IsLooseHexChar(d_251_ch_))
+            d_268_ch_: str = forall_var_4_
+            return not ((d_268_ch_) in (s)) or (default__.IsLooseHexChar(d_268_ch_))
 
         return _dafny.quantifier((s).UniqueElements, True, lambda22_)
 
@@ -89,11 +89,11 @@ class default__:
     @staticmethod
     def HexStr(x):
         if (x) < (16):
-            d_252_res_ = _dafny.Seq(['0', default__.HexChar(x)])
-            return d_252_res_
+            d_269_res_ = _dafny.Seq(['0', default__.HexChar(x)])
+            return d_269_res_
         elif True:
-            d_253_res_ = _dafny.Seq([default__.HexChar(_dafny.euclidian_division(x, 16)), default__.HexChar(_dafny.euclidian_modulus(x, 16))])
-            return d_253_res_
+            d_270_res_ = _dafny.Seq([default__.HexChar(_dafny.euclidian_division(x, 16)), default__.HexChar(_dafny.euclidian_modulus(x, 16))])
+            return d_270_res_
 
     @staticmethod
     def HexValue(x):
@@ -101,13 +101,13 @@ class default__:
 
     @staticmethod
     def ToHexString(val):
-        d_254___accumulator_ = _dafny.Seq([])
+        d_271___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (len(val)) == (0):
-                    return (d_254___accumulator_) + (_dafny.Seq([]))
+                    return (d_271___accumulator_) + (_dafny.Seq([]))
                 elif True:
-                    d_254___accumulator_ = (d_254___accumulator_) + (default__.HexStr((val)[0]))
+                    d_271___accumulator_ = (d_271___accumulator_) + (default__.HexStr((val)[0]))
                     in66_ = _dafny.Seq((val)[1::])
                     val = in66_
                     raise _dafny.TailCall()
@@ -115,18 +115,18 @@ class default__:
 
     @staticmethod
     def FromHexString(data):
-        d_255___accumulator_ = _dafny.Seq([])
+        d_272___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (len(data)) == (0):
-                    return (d_255___accumulator_) + (_dafny.Seq([]))
+                    return (d_272___accumulator_) + (_dafny.Seq([]))
                 elif (_dafny.euclidian_modulus(len(data), 2)) == (1):
-                    d_255___accumulator_ = (d_255___accumulator_) + (_dafny.Seq([default__.HexVal((data)[0])]))
+                    d_272___accumulator_ = (d_272___accumulator_) + (_dafny.Seq([default__.HexVal((data)[0])]))
                     in67_ = _dafny.Seq((data)[1::])
                     data = in67_
                     raise _dafny.TailCall()
                 elif True:
-                    d_255___accumulator_ = (d_255___accumulator_) + (_dafny.Seq([default__.HexValue(_dafny.Seq((data)[:2:]))]))
+                    d_272___accumulator_ = (d_272___accumulator_) + (_dafny.Seq([default__.HexValue(_dafny.Seq((data)[:2:]))]))
                     in68_ = _dafny.Seq((data)[2::])
                     data = in68_
                     raise _dafny.TailCall()
@@ -139,7 +139,10 @@ class HexString:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_273_x_: _dafny.Seq = source__
+        return default__.IsHexString(d_273_x_)
 
 class LooseHexString:
     def  __init__(self):
@@ -147,4 +150,7 @@ class LooseHexString:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_274_x_: _dafny.Seq = source__
+        return default__.IsLooseHexString(d_274_x_)

@@ -281,10 +281,10 @@ class default__:
     def AlgorithmSuite_q(a):
         source12_ = (a).id
         if source12_.is_ESDK:
-            d_286___mcc_h0_ = source12_.ESDK
+            d_302___mcc_h0_ = source12_.ESDK
             return default__.ESDKAlgorithmSuite_q(a)
         elif True:
-            d_287___mcc_h1_ = source12_.DBE
+            d_303___mcc_h1_ = source12_.DBE
             return default__.DBEAlgorithmSuite_q(a)
 
     @staticmethod
@@ -303,13 +303,13 @@ class default__:
     def GetSuite(id):
         source13_ = id
         if source13_.is_ESDK:
-            d_288___mcc_h0_ = source13_.ESDK
-            d_289_e_ = d_288___mcc_h0_
-            return default__.GetESDKSuite(d_289_e_)
+            d_304___mcc_h0_ = source13_.ESDK
+            d_305_e_ = d_304___mcc_h0_
+            return default__.GetESDKSuite(d_305_e_)
         elif True:
-            d_290___mcc_h1_ = source13_.DBE
-            d_291_e_ = d_290___mcc_h1_
-            return default__.GetDBESuite(d_291_e_)
+            d_306___mcc_h1_ = source13_.DBE
+            d_307_e_ = d_306___mcc_h1_
+            return default__.GetDBESuite(d_307_e_)
 
     @staticmethod
     def GetDBESuite(id):
@@ -322,29 +322,29 @@ class default__:
     @staticmethod
     def GetEncryptKeyLength(a):
         source14_ = (a).encrypt
-        d_292___mcc_h0_ = source14_.AES__GCM
-        d_293_e_ = d_292___mcc_h0_
-        return (d_293_e_).keyLength
+        d_308___mcc_h0_ = source14_.AES__GCM
+        d_309_e_ = d_308___mcc_h0_
+        return (d_309_e_).keyLength
 
     @staticmethod
     def GetEncryptTagLength(a):
         source15_ = (a).encrypt
-        d_294___mcc_h0_ = source15_.AES__GCM
-        d_295_e_ = d_294___mcc_h0_
-        return (d_295_e_).tagLength
+        d_310___mcc_h0_ = source15_.AES__GCM
+        d_311_e_ = d_310___mcc_h0_
+        return (d_311_e_).tagLength
 
     @staticmethod
     def GetEncryptIvLength(a):
         source16_ = (a).encrypt
-        d_296___mcc_h0_ = source16_.AES__GCM
-        d_297_e_ = d_296___mcc_h0_
-        return (d_297_e_).ivLength
+        d_312___mcc_h0_ = source16_.AES__GCM
+        d_313_e_ = d_312___mcc_h0_
+        return (d_313_e_).ivLength
 
     @staticmethod
     def GetAlgorithmSuiteInfo(binaryId_q):
-        d_298_valueOrError0_ = Wrappers.default__.Need((binaryId_q) in (default__.AlgorithmSuiteInfoByBinaryId), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid BinaryId")))
-        if (d_298_valueOrError0_).IsFailure():
-            return (d_298_valueOrError0_).PropagateFailure()
+        d_314_valueOrError0_ = Wrappers.default__.Need((binaryId_q) in (default__.AlgorithmSuiteInfoByBinaryId), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid BinaryId")))
+        if (d_314_valueOrError0_).IsFailure():
+            return (d_314_valueOrError0_).PropagateFailure()
         elif True:
             return Wrappers.Result_Success((default__.AlgorithmSuiteInfoByBinaryId)[binaryId_q])
 
@@ -431,3 +431,6 @@ class AlgorithmSuite:
     @staticmethod
     def default():
         return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo.default()()
+    def _Is(source__):
+        d_315_a_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo = source__
+        return default__.AlgorithmSuite_q(d_315_a_)

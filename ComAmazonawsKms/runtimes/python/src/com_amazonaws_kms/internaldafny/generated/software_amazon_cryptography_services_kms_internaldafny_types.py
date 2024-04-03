@@ -17,7 +17,6 @@ import Functions
 import Utf8EncodingForm
 import Utf16EncodingForm
 import UnicodeStrings
-import DafnyLibraries
 import FileIO
 import GeneralInternals
 import MulInternalsNonlinear
@@ -30,6 +29,7 @@ import DivInternals
 import DivMod
 import Power
 import Logarithm
+import StandardLibraryInterop
 import StandardLibrary_UInt
 import StandardLibrary_String
 import StandardLibrary
@@ -40,11 +40,13 @@ import Streams
 import Sorting
 import SortedSets
 import HexStrings
+import GetOpt
 import FloatCompare
 import ConcurrentCall
 import Base64
 import Base64Lemmas
 import Actions
+import DafnyLibraries
 
 # Module: software_amazon_cryptography_services_kms_internaldafny_types
 
@@ -245,7 +247,10 @@ class AliasNameType:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_0_x_: _dafny.Seq = source__
+        return default__.IsValid__AliasNameType(d_0_x_)
 
 class ArnType:
     def  __init__(self):
@@ -253,12 +258,15 @@ class ArnType:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_1_x_: _dafny.Seq = source__
+        return default__.IsValid__ArnType(d_1_x_)
 
 class CancelKeyDeletionRequest:
     @classmethod
     def default(cls, ):
-        return lambda: CancelKeyDeletionRequest_CancelKeyDeletionRequest(_dafny.Seq({}))
+        return lambda: CancelKeyDeletionRequest_CancelKeyDeletionRequest(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -300,6 +308,9 @@ class CiphertextType:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_2_x_: _dafny.Seq = source__
+        return default__.IsValid__CiphertextType(d_2_x_)
 
 class CloudHsmClusterIdType:
     def  __init__(self):
@@ -307,12 +318,15 @@ class CloudHsmClusterIdType:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_3_x_: _dafny.Seq = source__
+        return default__.IsValid__CloudHsmClusterIdType(d_3_x_)
 
 class ConnectCustomKeyStoreRequest:
     @classmethod
     def default(cls, ):
-        return lambda: ConnectCustomKeyStoreRequest_ConnectCustomKeyStoreRequest(_dafny.Seq({}))
+        return lambda: ConnectCustomKeyStoreRequest_ConnectCustomKeyStoreRequest(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -529,7 +543,7 @@ class ConnectionStateType_DISCONNECTING(ConnectionStateType, NamedTuple('DISCONN
 class CreateAliasRequest:
     @classmethod
     def default(cls, ):
-        return lambda: CreateAliasRequest_CreateAliasRequest(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: CreateAliasRequest_CreateAliasRequest(_dafny.Seq(""), _dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -548,7 +562,7 @@ class CreateAliasRequest_CreateAliasRequest(CreateAliasRequest, NamedTuple('Crea
 class CreateCustomKeyStoreRequest:
     @classmethod
     def default(cls, ):
-        return lambda: CreateCustomKeyStoreRequest_CreateCustomKeyStoreRequest(_dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}))
+        return lambda: CreateCustomKeyStoreRequest_CreateCustomKeyStoreRequest(_dafny.Seq(""), _dafny.Seq(""), _dafny.Seq(""), _dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -586,7 +600,7 @@ class CreateCustomKeyStoreResponse_CreateCustomKeyStoreResponse(CreateCustomKeyS
 class CreateGrantRequest:
     @classmethod
     def default(cls, ):
-        return lambda: CreateGrantRequest_CreateGrantRequest(_dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()(), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: CreateGrantRequest_CreateGrantRequest(_dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()(), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -764,7 +778,10 @@ class CustomKeyStoreIdType:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_4_x_: _dafny.Seq = source__
+        return default__.IsValid__CustomKeyStoreIdType(d_4_x_)
 
 class CustomKeyStoreNameType:
     def  __init__(self):
@@ -772,7 +789,10 @@ class CustomKeyStoreNameType:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_5_x_: _dafny.Seq = source__
+        return default__.IsValid__CustomKeyStoreNameType(d_5_x_)
 
 class CustomKeyStoresListEntry:
     @classmethod
@@ -955,7 +975,7 @@ class DecryptResponse_DecryptResponse(DecryptResponse, NamedTuple('DecryptRespon
 class DeleteAliasRequest:
     @classmethod
     def default(cls, ):
-        return lambda: DeleteAliasRequest_DeleteAliasRequest(_dafny.Seq({}))
+        return lambda: DeleteAliasRequest_DeleteAliasRequest(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -974,7 +994,7 @@ class DeleteAliasRequest_DeleteAliasRequest(DeleteAliasRequest, NamedTuple('Dele
 class DeleteCustomKeyStoreRequest:
     @classmethod
     def default(cls, ):
-        return lambda: DeleteCustomKeyStoreRequest_DeleteCustomKeyStoreRequest(_dafny.Seq({}))
+        return lambda: DeleteCustomKeyStoreRequest_DeleteCustomKeyStoreRequest(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1015,7 +1035,7 @@ class DeleteCustomKeyStoreResponse_DeleteCustomKeyStoreResponse(DeleteCustomKeyS
 class DeleteImportedKeyMaterialRequest:
     @classmethod
     def default(cls, ):
-        return lambda: DeleteImportedKeyMaterialRequest_DeleteImportedKeyMaterialRequest(_dafny.Seq({}))
+        return lambda: DeleteImportedKeyMaterialRequest_DeleteImportedKeyMaterialRequest(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1072,7 +1092,7 @@ class DescribeCustomKeyStoresResponse_DescribeCustomKeyStoresResponse(DescribeCu
 class DescribeKeyRequest:
     @classmethod
     def default(cls, ):
-        return lambda: DescribeKeyRequest_DescribeKeyRequest(_dafny.Seq({}), Wrappers.Option.default()())
+        return lambda: DescribeKeyRequest_DescribeKeyRequest(_dafny.Seq(""), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1113,12 +1133,15 @@ class DescriptionType:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_6_x_: _dafny.Seq = source__
+        return default__.IsValid__DescriptionType(d_6_x_)
 
 class DisableKeyRequest:
     @classmethod
     def default(cls, ):
-        return lambda: DisableKeyRequest_DisableKeyRequest(_dafny.Seq({}))
+        return lambda: DisableKeyRequest_DisableKeyRequest(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1137,7 +1160,7 @@ class DisableKeyRequest_DisableKeyRequest(DisableKeyRequest, NamedTuple('Disable
 class DisableKeyRotationRequest:
     @classmethod
     def default(cls, ):
-        return lambda: DisableKeyRotationRequest_DisableKeyRotationRequest(_dafny.Seq({}))
+        return lambda: DisableKeyRotationRequest_DisableKeyRotationRequest(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1156,7 +1179,7 @@ class DisableKeyRotationRequest_DisableKeyRotationRequest(DisableKeyRotationRequ
 class DisconnectCustomKeyStoreRequest:
     @classmethod
     def default(cls, ):
-        return lambda: DisconnectCustomKeyStoreRequest_DisconnectCustomKeyStoreRequest(_dafny.Seq({}))
+        return lambda: DisconnectCustomKeyStoreRequest_DisconnectCustomKeyStoreRequest(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1197,7 +1220,7 @@ class DisconnectCustomKeyStoreResponse_DisconnectCustomKeyStoreResponse(Disconne
 class EnableKeyRequest:
     @classmethod
     def default(cls, ):
-        return lambda: EnableKeyRequest_EnableKeyRequest(_dafny.Seq({}))
+        return lambda: EnableKeyRequest_EnableKeyRequest(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1216,7 +1239,7 @@ class EnableKeyRequest_EnableKeyRequest(EnableKeyRequest, NamedTuple('EnableKeyR
 class EnableKeyRotationRequest:
     @classmethod
     def default(cls, ):
-        return lambda: EnableKeyRotationRequest_EnableKeyRotationRequest(_dafny.Seq({}))
+        return lambda: EnableKeyRotationRequest_EnableKeyRotationRequest(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1279,7 +1302,7 @@ class EncryptionAlgorithmSpec_RSAES__OAEP__SHA__256(EncryptionAlgorithmSpec, Nam
 class EncryptRequest:
     @classmethod
     def default(cls, ):
-        return lambda: EncryptRequest_EncryptRequest(_dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: EncryptRequest_EncryptRequest(_dafny.Seq(""), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1350,7 +1373,7 @@ class ExpirationModelType_KEY__MATERIAL__DOES__NOT__EXPIRE(ExpirationModelType, 
 class GenerateDataKeyPairRequest:
     @classmethod
     def default(cls, ):
-        return lambda: GenerateDataKeyPairRequest_GenerateDataKeyPairRequest(Wrappers.Option.default()(), _dafny.Seq({}), DataKeyPairSpec.default()(), Wrappers.Option.default()())
+        return lambda: GenerateDataKeyPairRequest_GenerateDataKeyPairRequest(Wrappers.Option.default()(), _dafny.Seq(""), DataKeyPairSpec.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1388,7 +1411,7 @@ class GenerateDataKeyPairResponse_GenerateDataKeyPairResponse(GenerateDataKeyPai
 class GenerateDataKeyPairWithoutPlaintextRequest:
     @classmethod
     def default(cls, ):
-        return lambda: GenerateDataKeyPairWithoutPlaintextRequest_GenerateDataKeyPairWithoutPlaintextRequest(Wrappers.Option.default()(), _dafny.Seq({}), DataKeyPairSpec.default()(), Wrappers.Option.default()())
+        return lambda: GenerateDataKeyPairWithoutPlaintextRequest_GenerateDataKeyPairWithoutPlaintextRequest(Wrappers.Option.default()(), _dafny.Seq(""), DataKeyPairSpec.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1426,7 +1449,7 @@ class GenerateDataKeyPairWithoutPlaintextResponse_GenerateDataKeyPairWithoutPlai
 class GenerateDataKeyRequest:
     @classmethod
     def default(cls, ):
-        return lambda: GenerateDataKeyRequest_GenerateDataKeyRequest(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: GenerateDataKeyRequest_GenerateDataKeyRequest(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1464,7 +1487,7 @@ class GenerateDataKeyResponse_GenerateDataKeyResponse(GenerateDataKeyResponse, N
 class GenerateDataKeyWithoutPlaintextRequest:
     @classmethod
     def default(cls, ):
-        return lambda: GenerateDataKeyWithoutPlaintextRequest_GenerateDataKeyWithoutPlaintextRequest(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: GenerateDataKeyWithoutPlaintextRequest_GenerateDataKeyWithoutPlaintextRequest(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1540,7 +1563,7 @@ class GenerateRandomResponse_GenerateRandomResponse(GenerateRandomResponse, Name
 class GetKeyPolicyRequest:
     @classmethod
     def default(cls, ):
-        return lambda: GetKeyPolicyRequest_GetKeyPolicyRequest(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: GetKeyPolicyRequest_GetKeyPolicyRequest(_dafny.Seq(""), _dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1578,7 +1601,7 @@ class GetKeyPolicyResponse_GetKeyPolicyResponse(GetKeyPolicyResponse, NamedTuple
 class GetKeyRotationStatusRequest:
     @classmethod
     def default(cls, ):
-        return lambda: GetKeyRotationStatusRequest_GetKeyRotationStatusRequest(_dafny.Seq({}))
+        return lambda: GetKeyRotationStatusRequest_GetKeyRotationStatusRequest(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1616,7 +1639,7 @@ class GetKeyRotationStatusResponse_GetKeyRotationStatusResponse(GetKeyRotationSt
 class GetParametersForImportRequest:
     @classmethod
     def default(cls, ):
-        return lambda: GetParametersForImportRequest_GetParametersForImportRequest(_dafny.Seq({}), AlgorithmSpec.default()(), WrappingKeySpec.default()())
+        return lambda: GetParametersForImportRequest_GetParametersForImportRequest(_dafny.Seq(""), AlgorithmSpec.default()(), WrappingKeySpec.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1654,7 +1677,7 @@ class GetParametersForImportResponse_GetParametersForImportResponse(GetParameter
 class GetPublicKeyRequest:
     @classmethod
     def default(cls, ):
-        return lambda: GetPublicKeyRequest_GetPublicKeyRequest(_dafny.Seq({}), Wrappers.Option.default()())
+        return lambda: GetPublicKeyRequest_GetPublicKeyRequest(_dafny.Seq(""), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1714,7 +1737,10 @@ class GrantIdType:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_7_x_: _dafny.Seq = source__
+        return default__.IsValid__GrantIdType(d_7_x_)
 
 class GrantListEntry:
     @classmethod
@@ -1741,7 +1767,10 @@ class GrantNameType:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_8_x_: _dafny.Seq = source__
+        return default__.IsValid__GrantNameType(d_8_x_)
 
 class GrantOperation:
     @_dafny.classproperty
@@ -1915,6 +1944,9 @@ class GrantTokenList:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_9_x_: _dafny.Seq = source__
+        return default__.IsValid__GrantTokenList(d_9_x_)
 
 class GrantTokenType:
     def  __init__(self):
@@ -1922,12 +1954,15 @@ class GrantTokenType:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_10_x_: _dafny.Seq = source__
+        return default__.IsValid__GrantTokenType(d_10_x_)
 
 class ImportKeyMaterialRequest:
     @classmethod
     def default(cls, ):
-        return lambda: ImportKeyMaterialRequest_ImportKeyMaterialRequest(_dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ImportKeyMaterialRequest_ImportKeyMaterialRequest(_dafny.Seq(""), _dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1971,7 +2006,10 @@ class KeyIdType:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_11_x_: _dafny.Seq = source__
+        return default__.IsValid__KeyIdType(d_11_x_)
 
 class KeyListEntry:
     @classmethod
@@ -2028,7 +2066,7 @@ class KeyManagerType_CUSTOMER(KeyManagerType, NamedTuple('CUSTOMER', [])):
 class KeyMetadata:
     @classmethod
     def default(cls, ):
-        return lambda: KeyMetadata_KeyMetadata(Wrappers.Option.default()(), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: KeyMetadata_KeyMetadata(Wrappers.Option.default()(), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2248,7 +2286,10 @@ class KeyStorePasswordType:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_12_x_: _dafny.Seq = source__
+        return default__.IsValid__KeyStorePasswordType(d_12_x_)
 
 class KeyUsageType:
     @_dafny.classproperty
@@ -2290,6 +2331,11 @@ class LimitType:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_13_x_: int = source__
+        if True:
+            return default__.IsValid__LimitType(d_13_x_)
+        return False
 
 class ListAliasesRequest:
     @classmethod
@@ -2332,7 +2378,7 @@ class ListAliasesResponse_ListAliasesResponse(ListAliasesResponse, NamedTuple('L
 class ListGrantsRequest:
     @classmethod
     def default(cls, ):
-        return lambda: ListGrantsRequest_ListGrantsRequest(Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ListGrantsRequest_ListGrantsRequest(Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2370,7 +2416,7 @@ class ListGrantsResponse_ListGrantsResponse(ListGrantsResponse, NamedTuple('List
 class ListKeyPoliciesRequest:
     @classmethod
     def default(cls, ):
-        return lambda: ListKeyPoliciesRequest_ListKeyPoliciesRequest(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ListKeyPoliciesRequest_ListKeyPoliciesRequest(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2427,7 +2473,7 @@ class ListKeysRequest_ListKeysRequest(ListKeysRequest, NamedTuple('ListKeysReque
 class ListResourceTagsRequest:
     @classmethod
     def default(cls, ):
-        return lambda: ListResourceTagsRequest_ListResourceTagsRequest(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ListResourceTagsRequest_ListResourceTagsRequest(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2465,7 +2511,7 @@ class ListResourceTagsResponse_ListResourceTagsResponse(ListResourceTagsResponse
 class ListRetirableGrantsRequest:
     @classmethod
     def default(cls, ):
-        return lambda: ListRetirableGrantsRequest_ListRetirableGrantsRequest(Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq({}))
+        return lambda: ListRetirableGrantsRequest_ListRetirableGrantsRequest(Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2487,7 +2533,10 @@ class MarkerType:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_14_x_: _dafny.Seq = source__
+        return default__.IsValid__MarkerType(d_14_x_)
 
 class MessageType:
     @_dafny.classproperty
@@ -2600,6 +2649,11 @@ class NumberOfBytesType:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_15_x_: int = source__
+        if True:
+            return default__.IsValid__NumberOfBytesType(d_15_x_)
+        return False
 
 class OriginType:
     @_dafny.classproperty
@@ -2652,6 +2706,11 @@ class PendingWindowInDaysType:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_16_x_: int = source__
+        if True:
+            return default__.IsValid__PendingWindowInDaysType(d_16_x_)
+        return False
 
 class PlaintextType:
     def  __init__(self):
@@ -2660,6 +2719,9 @@ class PlaintextType:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_17_x_: _dafny.Seq = source__
+        return default__.IsValid__PlaintextType(d_17_x_)
 
 class PolicyNameType:
     def  __init__(self):
@@ -2667,7 +2729,10 @@ class PolicyNameType:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_18_x_: _dafny.Seq = source__
+        return default__.IsValid__PolicyNameType(d_18_x_)
 
 class PolicyType:
     def  __init__(self):
@@ -2675,7 +2740,10 @@ class PolicyType:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_19_x_: _dafny.Seq = source__
+        return default__.IsValid__PolicyType(d_19_x_)
 
 class PrincipalIdType:
     def  __init__(self):
@@ -2683,7 +2751,10 @@ class PrincipalIdType:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_20_x_: _dafny.Seq = source__
+        return default__.IsValid__PrincipalIdType(d_20_x_)
 
 class PublicKeyType:
     def  __init__(self):
@@ -2692,11 +2763,14 @@ class PublicKeyType:
     @staticmethod
     def default():
         return _dafny.Seq({})
+    def _Is(source__):
+        d_21_x_: _dafny.Seq = source__
+        return default__.IsValid__PublicKeyType(d_21_x_)
 
 class PutKeyPolicyRequest:
     @classmethod
     def default(cls, ):
-        return lambda: PutKeyPolicyRequest_PutKeyPolicyRequest(_dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()())
+        return lambda: PutKeyPolicyRequest_PutKeyPolicyRequest(_dafny.Seq(""), _dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2715,7 +2789,7 @@ class PutKeyPolicyRequest_PutKeyPolicyRequest(PutKeyPolicyRequest, NamedTuple('P
 class ReEncryptRequest:
     @classmethod
     def default(cls, ):
-        return lambda: ReEncryptRequest_ReEncryptRequest(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ReEncryptRequest_ReEncryptRequest(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2756,12 +2830,15 @@ class RegionType:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_22_x_: _dafny.Seq = source__
+        return default__.IsValid__RegionType(d_22_x_)
 
 class ReplicateKeyRequest:
     @classmethod
     def default(cls, ):
-        return lambda: ReplicateKeyRequest_ReplicateKeyRequest(_dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ReplicateKeyRequest_ReplicateKeyRequest(_dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2818,7 +2895,7 @@ class RetireGrantRequest_RetireGrantRequest(RetireGrantRequest, NamedTuple('Reti
 class RevokeGrantRequest:
     @classmethod
     def default(cls, ):
-        return lambda: RevokeGrantRequest_RevokeGrantRequest(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: RevokeGrantRequest_RevokeGrantRequest(_dafny.Seq(""), _dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2837,7 +2914,7 @@ class RevokeGrantRequest_RevokeGrantRequest(RevokeGrantRequest, NamedTuple('Revo
 class ScheduleKeyDeletionRequest:
     @classmethod
     def default(cls, ):
-        return lambda: ScheduleKeyDeletionRequest_ScheduleKeyDeletionRequest(_dafny.Seq({}), Wrappers.Option.default()())
+        return lambda: ScheduleKeyDeletionRequest_ScheduleKeyDeletionRequest(_dafny.Seq(""), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2985,7 +3062,7 @@ class SigningAlgorithmSpec_ECDSA__SHA__512(SigningAlgorithmSpec, NamedTuple('ECD
 class SignRequest:
     @classmethod
     def default(cls, ):
-        return lambda: SignRequest_SignRequest(_dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), SigningAlgorithmSpec.default()())
+        return lambda: SignRequest_SignRequest(_dafny.Seq(""), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), SigningAlgorithmSpec.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -3023,7 +3100,7 @@ class SignResponse_SignResponse(SignResponse, NamedTuple('SignResponse', [('KeyI
 class Tag:
     @classmethod
     def default(cls, ):
-        return lambda: Tag_Tag(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: Tag_Tag(_dafny.Seq(""), _dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -3045,12 +3122,15 @@ class TagKeyType:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_23_x_: _dafny.Seq = source__
+        return default__.IsValid__TagKeyType(d_23_x_)
 
 class TagResourceRequest:
     @classmethod
     def default(cls, ):
-        return lambda: TagResourceRequest_TagResourceRequest(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: TagResourceRequest_TagResourceRequest(_dafny.Seq(""), _dafny.Seq({}))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -3072,7 +3152,10 @@ class TagValueType:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_24_x_: _dafny.Seq = source__
+        return default__.IsValid__TagValueType(d_24_x_)
 
 class IKMSClientCallHistory:
     def  __init__(self):
@@ -3228,12 +3311,15 @@ class TrustAnchorCertificateType:
 
     @staticmethod
     def default():
-        return _dafny.Seq({})
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_25_x_: _dafny.Seq = source__
+        return default__.IsValid__TrustAnchorCertificateType(d_25_x_)
 
 class UntagResourceRequest:
     @classmethod
     def default(cls, ):
-        return lambda: UntagResourceRequest_UntagResourceRequest(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: UntagResourceRequest_UntagResourceRequest(_dafny.Seq(""), _dafny.Seq({}))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -3252,7 +3338,7 @@ class UntagResourceRequest_UntagResourceRequest(UntagResourceRequest, NamedTuple
 class UpdateAliasRequest:
     @classmethod
     def default(cls, ):
-        return lambda: UpdateAliasRequest_UpdateAliasRequest(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: UpdateAliasRequest_UpdateAliasRequest(_dafny.Seq(""), _dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -3271,7 +3357,7 @@ class UpdateAliasRequest_UpdateAliasRequest(UpdateAliasRequest, NamedTuple('Upda
 class UpdateCustomKeyStoreRequest:
     @classmethod
     def default(cls, ):
-        return lambda: UpdateCustomKeyStoreRequest_UpdateCustomKeyStoreRequest(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: UpdateCustomKeyStoreRequest_UpdateCustomKeyStoreRequest(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -3312,7 +3398,7 @@ class UpdateCustomKeyStoreResponse_UpdateCustomKeyStoreResponse(UpdateCustomKeyS
 class UpdateKeyDescriptionRequest:
     @classmethod
     def default(cls, ):
-        return lambda: UpdateKeyDescriptionRequest_UpdateKeyDescriptionRequest(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: UpdateKeyDescriptionRequest_UpdateKeyDescriptionRequest(_dafny.Seq(""), _dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -3331,7 +3417,7 @@ class UpdateKeyDescriptionRequest_UpdateKeyDescriptionRequest(UpdateKeyDescripti
 class UpdatePrimaryRegionRequest:
     @classmethod
     def default(cls, ):
-        return lambda: UpdatePrimaryRegionRequest_UpdatePrimaryRegionRequest(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: UpdatePrimaryRegionRequest_UpdatePrimaryRegionRequest(_dafny.Seq(""), _dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -3350,7 +3436,7 @@ class UpdatePrimaryRegionRequest_UpdatePrimaryRegionRequest(UpdatePrimaryRegionR
 class VerifyRequest:
     @classmethod
     def default(cls, ):
-        return lambda: VerifyRequest_VerifyRequest(_dafny.Seq({}), _dafny.Seq({}), Wrappers.Option.default()(), _dafny.Seq({}), SigningAlgorithmSpec.default()(), Wrappers.Option.default()())
+        return lambda: VerifyRequest_VerifyRequest(_dafny.Seq(""), _dafny.Seq({}), Wrappers.Option.default()(), _dafny.Seq({}), SigningAlgorithmSpec.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -3796,3 +3882,6 @@ class OpaqueError:
     @staticmethod
     def default():
         return Error.default()()
+    def _Is(source__):
+        d_26_e_: Error = source__
+        return (d_26_e_).is_Opaque

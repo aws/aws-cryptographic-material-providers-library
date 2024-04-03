@@ -185,27 +185,27 @@ class default__:
     @staticmethod
     def CreateTestVectorKeyring(config, input):
         output: Wrappers.Result = None
-        d_487_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_487_valueOrError0_ = Wrappers.default__.Need(KeyDescription.default__.Keyring_q((input).keyDescription), software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_KeyVectorException(_dafny.Seq("Only Keyring key descriptions are supported.")))
-        if (d_487_valueOrError0_).IsFailure():
-            output = (d_487_valueOrError0_).PropagateFailure()
+        d_489_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_489_valueOrError0_ = Wrappers.default__.Need(KeyDescription.default__.Keyring_q((input).keyDescription), software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_KeyVectorException(_dafny.Seq("Only Keyring key descriptions are supported.")))
+        if (d_489_valueOrError0_).IsFailure():
+            output = (d_489_valueOrError0_).PropagateFailure()
             return output
-        d_488_maybeMpl_: Wrappers.Result
+        d_490_maybeMpl_: Wrappers.Result
         out40_: Wrappers.Result
         out40_ = software_amazon_cryptography_materialproviders_internaldafny.default__.MaterialProviders(software_amazon_cryptography_materialproviders_internaldafny.default__.DefaultMaterialProvidersConfig())
-        d_488_maybeMpl_ = out40_
-        d_489_mpl_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
-        d_490_valueOrError1_: Wrappers.Result = None
-        def lambda42_(d_491_e_):
-            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(d_491_e_)
+        d_490_maybeMpl_ = out40_
+        d_491_mpl_: software_amazon_cryptography_materialproviders_internaldafny.MaterialProvidersClient
+        d_492_valueOrError1_: Wrappers.Result = None
+        def lambda42_(d_493_e_):
+            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(d_493_e_)
 
-        d_490_valueOrError1_ = (d_488_maybeMpl_).MapFailure(lambda42_)
-        if (d_490_valueOrError1_).IsFailure():
-            output = (d_490_valueOrError1_).PropagateFailure()
+        d_492_valueOrError1_ = (d_490_maybeMpl_).MapFailure(lambda42_)
+        if (d_492_valueOrError1_).IsFailure():
+            output = (d_492_valueOrError1_).PropagateFailure()
             return output
-        d_489_mpl_ = (d_490_valueOrError1_).Extract()
+        d_491_mpl_ = (d_492_valueOrError1_).Extract()
         out41_: Wrappers.Result
-        out41_ = KeyringFromKeyDescription.default__.ToKeyring(d_489_mpl_, (config).keys, (input).keyDescription)
+        out41_ = KeyringFromKeyDescription.default__.ToKeyring(d_491_mpl_, (config).keys, (input).keyDescription)
         output = out41_
         return output
 
@@ -216,27 +216,27 @@ class default__:
     @staticmethod
     def CreateWrappedTestVectorKeyring(config, input):
         output: Wrappers.Result = None
-        d_492_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_492_valueOrError0_ = Wrappers.default__.Need(KeyDescription.default__.Keyring_q((input).keyDescription), software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_KeyVectorException(_dafny.Seq("Only Keyring key descriptions are supported.")))
-        if (d_492_valueOrError0_).IsFailure():
-            output = (d_492_valueOrError0_).PropagateFailure()
+        d_494_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_494_valueOrError0_ = Wrappers.default__.Need(KeyDescription.default__.Keyring_q((input).keyDescription), software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_KeyVectorException(_dafny.Seq("Only Keyring key descriptions are supported.")))
+        if (d_494_valueOrError0_).IsFailure():
+            output = (d_494_valueOrError0_).PropagateFailure()
             return output
-        d_493_maybeMpl_: Wrappers.Result
+        d_495_maybeMpl_: Wrappers.Result
         out42_: Wrappers.Result
         out42_ = software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__.WrappedMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__.WrappedDefaultMaterialProvidersConfig())
-        d_493_maybeMpl_ = out42_
-        d_494_wrappedMPL_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
-        d_495_valueOrError1_: Wrappers.Result = None
-        def lambda43_(d_496_e_):
-            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(d_496_e_)
+        d_495_maybeMpl_ = out42_
+        d_496_wrappedMPL_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
+        d_497_valueOrError1_: Wrappers.Result = None
+        def lambda43_(d_498_e_):
+            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(d_498_e_)
 
-        d_495_valueOrError1_ = (d_493_maybeMpl_).MapFailure(lambda43_)
-        if (d_495_valueOrError1_).IsFailure():
-            output = (d_495_valueOrError1_).PropagateFailure()
+        d_497_valueOrError1_ = (d_495_maybeMpl_).MapFailure(lambda43_)
+        if (d_497_valueOrError1_).IsFailure():
+            output = (d_497_valueOrError1_).PropagateFailure()
             return output
-        d_494_wrappedMPL_ = (d_495_valueOrError1_).Extract()
+        d_496_wrappedMPL_ = (d_497_valueOrError1_).Extract()
         out43_: Wrappers.Result
-        out43_ = KeyringFromKeyDescription.default__.ToKeyring(d_494_wrappedMPL_, (config).keys, (input).keyDescription)
+        out43_ = KeyringFromKeyDescription.default__.ToKeyring(d_496_wrappedMPL_, (config).keys, (input).keyDescription)
         output = out43_
         return output
 
@@ -247,64 +247,72 @@ class default__:
     @staticmethod
     def CreateWrappedTestVectorCmm(config, input):
         output: Wrappers.Result = None
-        d_497_maybeMpl_: Wrappers.Result
+        d_499_maybeMpl_: Wrappers.Result
         out44_: Wrappers.Result
+        print("CreateWrappedTestVectorCmm1")
         out44_ = software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__.WrappedMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__.WrappedDefaultMaterialProvidersConfig())
-        d_497_maybeMpl_ = out44_
-        d_498_wrappedMPL_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
-        d_499_valueOrError0_: Wrappers.Result = None
-        def lambda44_(d_500_e_):
-            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(d_500_e_)
+        d_499_maybeMpl_ = out44_
+        print("CreateWrappedTestVectorCmm2")
+        d_500_wrappedMPL_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
+        d_501_valueOrError0_: Wrappers.Result = None
+        def lambda44_(d_502_e_):
+            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(d_502_e_)
 
-        d_499_valueOrError0_ = (d_497_maybeMpl_).MapFailure(lambda44_)
-        if (d_499_valueOrError0_).IsFailure():
-            output = (d_499_valueOrError0_).PropagateFailure()
+        d_501_valueOrError0_ = (d_499_maybeMpl_).MapFailure(lambda44_)
+        if (d_501_valueOrError0_).IsFailure():
+            output = (d_501_valueOrError0_).PropagateFailure()
             return output
-        d_498_wrappedMPL_ = (d_499_valueOrError0_).Extract()
+        print("CreateWrappedTestVectorCmm3")
+        d_500_wrappedMPL_ = (d_501_valueOrError0_).Extract()
+        print(f"{d_500_wrappedMPL_=}")
+        print(f"{d_500_wrappedMPL_.__dict__=}")
         out45_: Wrappers.Result
-        out45_ = CmmFromKeyDescription.default__.ToCmm(d_498_wrappedMPL_, (config).keys, (input).keyDescription, (input).forOperation)
+        out45_ = CmmFromKeyDescription.default__.ToCmm(d_500_wrappedMPL_, (config).keys, (input).keyDescription, (input).forOperation)
         output = out45_
+        print(f"{output=}")
+        print(f"{output.__dict__=}")
+        print("CreateWrappedTestVectorCmm4")
         return output
 
     @staticmethod
     def GetKeyDescription(config, input):
-        def lambda45_(d_502_e_):
-            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException((d_502_e_).ToString()))
+        def lambda45_(d_504_e_):
+            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException((d_504_e_).ToString()))
 
-        d_501_valueOrError0_ = (JSON_API.default__.Deserialize((input).json)).MapFailure(lambda45_)
-        if (d_501_valueOrError0_).IsFailure():
-            return (d_501_valueOrError0_).PropagateFailure()
+        d_503_valueOrError0_ = (JSON_API.default__.Deserialize((input).json)).MapFailure(lambda45_)
+        if (d_503_valueOrError0_).IsFailure():
+            return (d_503_valueOrError0_).PropagateFailure()
         elif True:
-            d_503_keyDescriptionJSON_ = (d_501_valueOrError0_).Extract()
-            def lambda46_(d_505_e_):
-                return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(d_505_e_))
+            d_505_keyDescriptionJSON_ = (d_503_valueOrError0_).Extract()
+            def lambda46_(d_507_e_):
+                return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(d_507_e_))
 
-            d_504_valueOrError1_ = (KeyDescription.default__.ToKeyDescription(d_503_keyDescriptionJSON_)).MapFailure(lambda46_)
-            if (d_504_valueOrError1_).IsFailure():
-                return (d_504_valueOrError1_).PropagateFailure()
+            d_506_valueOrError1_ = (KeyDescription.default__.ToKeyDescription(d_505_keyDescriptionJSON_)).MapFailure(lambda46_)
+            if (d_506_valueOrError1_).IsFailure():
+                return (d_506_valueOrError1_).PropagateFailure()
             elif True:
-                d_506_keyDescription_ = (d_504_valueOrError1_).Extract()
-                return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.GetKeyDescriptionOutput_GetKeyDescriptionOutput(d_506_keyDescription_))
+                d_508_keyDescription_ = (d_506_valueOrError1_).Extract()
+                return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.GetKeyDescriptionOutput_GetKeyDescriptionOutput(d_508_keyDescription_))
 
     @staticmethod
     def SerializeKeyDescription(config, input):
-        def lambda47_(d_508_s_):
-            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(d_508_s_))
+        def lambda47_(d_510_s_):
+            return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(d_510_s_))
 
-        d_507_valueOrError0_ = (KeyDescription.default__.ToJson((input).keyDescription, 2)).MapFailure(lambda47_)
-        if (d_507_valueOrError0_).IsFailure():
-            return (d_507_valueOrError0_).PropagateFailure()
+        d_509_valueOrError0_ = (KeyDescription.default__.ToJson((input).keyDescription, 2)).MapFailure(lambda47_)
+        if (d_509_valueOrError0_).IsFailure():
+            return (d_509_valueOrError0_).PropagateFailure()
         elif True:
-            d_509_json_ = (d_507_valueOrError0_).Extract()
-            def lambda48_(d_511_e_):
-                return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException((d_511_e_).ToString()))
+            d_511_json_ = (d_509_valueOrError0_).Extract()
+            def lambda48_(d_513_e_):
+                return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_AwsCryptographyMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException((d_513_e_).ToString()))
 
-            d_510_valueOrError1_ = (JSON_API.default__.Serialize(d_509_json_)).MapFailure(lambda48_)
-            if (d_510_valueOrError1_).IsFailure():
-                return (d_510_valueOrError1_).PropagateFailure()
+            d_512_valueOrError1_ = (JSON_API.default__.Serialize(d_511_json_)).MapFailure(lambda48_)
+            if (d_512_valueOrError1_).IsFailure():
+                return (d_512_valueOrError1_).PropagateFailure()
             elif True:
-                d_512_jsonBytes_ = (d_510_valueOrError1_).Extract()
-                return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.SerializeKeyDescriptionOutput_SerializeKeyDescriptionOutput(d_512_jsonBytes_))
+                d_514_jsonBytes_ = (d_512_valueOrError1_).Extract()
+                return Wrappers.Result_Success(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.SerializeKeyDescriptionOutput_SerializeKeyDescriptionOutput(d_514_jsonBytes_))
 
 
 class Config:

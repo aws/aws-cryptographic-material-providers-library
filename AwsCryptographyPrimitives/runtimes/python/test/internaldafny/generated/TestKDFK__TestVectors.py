@@ -158,7 +158,7 @@ class default__:
 class InternalTestVector:
     @classmethod
     def default(cls, ):
-        return lambda: InternalTestVector_InternalTestVector(_dafny.Seq({}), software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm.default()(), _dafny.Seq({}), _dafny.Seq({}), int(0), _dafny.Seq({}))
+        return lambda: InternalTestVector_InternalTestVector(_dafny.Seq(""), software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm.default()(), _dafny.Seq({}), _dafny.Seq({}), int(0), _dafny.Seq({}))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -177,7 +177,7 @@ class InternalTestVector_InternalTestVector(InternalTestVector, NamedTuple('Inte
 class TestVector:
     @classmethod
     def default(cls, ):
-        return lambda: TestVector_TestVector(_dafny.Seq({}), software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm.default()(), _dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), int(0), _dafny.Seq({}))
+        return lambda: TestVector_TestVector(_dafny.Seq(""), software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm.default()(), _dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), int(0), _dafny.Seq({}))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property

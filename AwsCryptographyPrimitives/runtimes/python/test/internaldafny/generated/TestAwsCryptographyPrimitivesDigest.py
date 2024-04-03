@@ -91,13 +91,13 @@ class default__:
 
     @staticmethod
     def BasicDigestTest(digestAlgorithm, message, expectedDigest):
-        d_127_client_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
+        d_127_client_: software_amazon_cryptography_primitives_internaldafny.AtomicPrimitivesClient
         d_128_valueOrError0_: Wrappers.Result = None
         out26_: Wrappers.Result
         out26_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
         d_128_valueOrError0_ = out26_
         if not(not((d_128_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestDigest.dfy(61,15): " + _dafny.string_of(d_128_valueOrError0_))
+            raise _dafny.HaltException("test/TestDigest.dfy(61,18): " + _dafny.string_of(d_128_valueOrError0_))
         d_127_client_ = (d_128_valueOrError0_).Extract()
         d_129_input_: software_amazon_cryptography_primitives_internaldafny_types.DigestInput
         d_129_input_ = software_amazon_cryptography_primitives_internaldafny_types.DigestInput_DigestInput(digestAlgorithm, message)
@@ -107,7 +107,7 @@ class default__:
         out27_ = (d_127_client_).Digest(d_129_input_)
         d_131_valueOrError1_ = out27_
         if not(not((d_131_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/TestDigest.dfy(68,15): " + _dafny.string_of(d_131_valueOrError1_))
+            raise _dafny.HaltException("test/TestDigest.dfy(68,18): " + _dafny.string_of(d_131_valueOrError1_))
         d_130_output_ = (d_131_valueOrError1_).Extract()
         if not((len(d_130_output_)) == (Digest.default__.Length(digestAlgorithm))):
             raise _dafny.HaltException("test/TestDigest.dfy(69,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))

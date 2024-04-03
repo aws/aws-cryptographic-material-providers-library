@@ -192,11 +192,11 @@ class default__:
 
     @staticmethod
     def getChildKeyrings(keys, key, i):
-        d_771___accumulator_ = _dafny.Seq([])
+        d_773___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (i) == (len(keys)):
-                    return (d_771___accumulator_) + (_dafny.Seq([]))
+                    return (d_773___accumulator_) + (_dafny.Seq([]))
                 elif ((keys)[i]) == (key):
                     in3_ = keys
                     in4_ = key
@@ -206,7 +206,7 @@ class default__:
                     i = in5_
                     raise _dafny.TailCall()
                 elif True:
-                    d_771___accumulator_ = (d_771___accumulator_) + (_dafny.Seq([software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_AES(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawAES_RawAES((keys)[i], (_dafny.Seq("aws-raw-vectors-persistent-")) + ((keys)[i])))]))
+                    d_773___accumulator_ = (d_773___accumulator_) + (_dafny.Seq([software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_AES(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawAES_RawAES((keys)[i], (_dafny.Seq("aws-raw-vectors-persistent-")) + ((keys)[i])))]))
                     in6_ = keys
                     in7_ = key
                     in8_ = (i) + (1)
@@ -222,9 +222,9 @@ class default__:
             coll48_ = _dafny.Set()
             compr_76_: _dafny.Seq
             for compr_76_ in (AllRawAES.default__.aesPersistentKeyNames).Elements:
-                d_772_key_: _dafny.Seq = compr_76_
-                if (d_772_key_) in (AllRawAES.default__.aesPersistentKeyNames):
-                    coll48_ = coll48_.union(_dafny.Set([software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Multi(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.MultiKeyring_MultiKeyring(Wrappers.Option_Some(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_AES(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawAES_RawAES(d_772_key_, (_dafny.Seq("aws-raw-vectors-persistent-")) + (d_772_key_)))), default__.getChildKeyrings(AllRawAES.default__.aesPersistentKeyNames, d_772_key_, 0)))]))
+                d_774_key_: _dafny.Seq = compr_76_
+                if (d_774_key_) in (AllRawAES.default__.aesPersistentKeyNames):
+                    coll48_ = coll48_.union(_dafny.Set([software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Multi(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.MultiKeyring_MultiKeyring(Wrappers.Option_Some(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_AES(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawAES_RawAES(d_774_key_, (_dafny.Seq("aws-raw-vectors-persistent-")) + (d_774_key_)))), default__.getChildKeyrings(AllRawAES.default__.aesPersistentKeyNames, d_774_key_, 0)))]))
             return _dafny.Set(coll48_)
         return iife80_()
         
@@ -234,9 +234,9 @@ class default__:
             coll49_ = _dafny.Set()
             compr_77_: _dafny.Seq
             for compr_77_ in (AllRawAES.default__.aesPersistentKeyNames).Elements:
-                d_773_key_: _dafny.Seq = compr_77_
-                if (d_773_key_) in (AllRawAES.default__.aesPersistentKeyNames):
-                    coll49_ = coll49_.union(_dafny.Set([software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Multi(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.MultiKeyring_MultiKeyring(Wrappers.Option_Some(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_AES(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawAES_RawAES(d_773_key_, (_dafny.Seq("aws-raw-vectors-persistent-")) + (d_773_key_)))), _dafny.Seq([])))]))
+                d_775_key_: _dafny.Seq = compr_77_
+                if (d_775_key_) in (AllRawAES.default__.aesPersistentKeyNames):
+                    coll49_ = coll49_.union(_dafny.Set([software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Multi(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.MultiKeyring_MultiKeyring(Wrappers.Option_Some(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_AES(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawAES_RawAES(d_775_key_, (_dafny.Seq("aws-raw-vectors-persistent-")) + (d_775_key_)))), _dafny.Seq([])))]))
             return _dafny.Set(coll49_)
         return iife81_()
         
@@ -249,15 +249,15 @@ class default__:
             coll50_ = _dafny.Set()
             compr_78_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription
             for compr_78_ in (default__.KeyDescriptions).Elements:
-                d_774_keyDescription_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription = compr_78_
+                d_776_keyDescription_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription = compr_78_
                 compr_79_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo
                 for compr_79_ in (AllAlgorithmSuites.default__.AllAlgorithmSuites).Elements:
-                    d_775_algorithmSuite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo = compr_79_
+                    d_777_algorithmSuite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo = compr_79_
                     compr_80_: software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy
-                    for compr_80_ in [AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_775_algorithmSuite_)]:
-                        d_776_commitmentPolicy_: software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy = compr_80_
-                        if (((d_774_keyDescription_) in (default__.KeyDescriptions)) and ((d_775_algorithmSuite_) in (AllAlgorithmSuites.default__.AllAlgorithmSuites))) and ((d_776_commitmentPolicy_) == (AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_775_algorithmSuite_))):
-                            coll50_ = coll50_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptKeyringVector((_dafny.Seq("MultiKeyring ")) + ((((((d_774_keyDescription_).Multi).generator).value).AES).keyId), Wrappers.Option_None(), _dafny.Map({}), d_776_commitmentPolicy_, d_775_algorithmSuite_, Wrappers.Option_None(), Wrappers.Option_None(), d_774_keyDescription_, d_774_keyDescription_, Wrappers.Option_None())]))
+                    for compr_80_ in [AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_777_algorithmSuite_)]:
+                        d_778_commitmentPolicy_: software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy = compr_80_
+                        if (((d_776_keyDescription_) in (default__.KeyDescriptions)) and ((d_777_algorithmSuite_) in (AllAlgorithmSuites.default__.AllAlgorithmSuites))) and ((d_778_commitmentPolicy_) == (AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_777_algorithmSuite_))):
+                            coll50_ = coll50_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptKeyringVector((_dafny.Seq("MultiKeyring ")) + ((((((d_776_keyDescription_).Multi).generator).value).AES).keyId), Wrappers.Option_None(), _dafny.Map({}), d_778_commitmentPolicy_, d_777_algorithmSuite_, Wrappers.Option_None(), Wrappers.Option_None(), d_776_keyDescription_, d_776_keyDescription_, Wrappers.Option_None())]))
             return _dafny.Set(coll50_)
         return iife82_()
         

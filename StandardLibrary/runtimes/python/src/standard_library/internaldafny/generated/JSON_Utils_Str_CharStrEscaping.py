@@ -65,13 +65,13 @@ class default__:
 
     @staticmethod
     def Escape(str, special, escape):
-        d_464___accumulator_ = _dafny.Seq([])
+        d_488___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (str) == (_dafny.Seq([])):
-                    return (d_464___accumulator_) + (str)
+                    return (d_488___accumulator_) + (str)
                 elif ((str)[0]) in (special):
-                    d_464___accumulator_ = (d_464___accumulator_) + (_dafny.Seq([escape, (str)[0]]))
+                    d_488___accumulator_ = (d_488___accumulator_) + (_dafny.Seq([escape, (str)[0]]))
                     in195_ = _dafny.Seq((str)[1::])
                     in196_ = special
                     in197_ = escape
@@ -80,7 +80,7 @@ class default__:
                     escape = in197_
                     raise _dafny.TailCall()
                 elif True:
-                    d_464___accumulator_ = (d_464___accumulator_) + (_dafny.Seq([(str)[0]]))
+                    d_488___accumulator_ = (d_488___accumulator_) + (_dafny.Seq([(str)[0]]))
                     in198_ = _dafny.Seq((str)[1::])
                     in199_ = special
                     in200_ = escape
@@ -96,21 +96,21 @@ class default__:
             return Wrappers.Result_Success(str)
         elif ((str)[0]) == (escape):
             if (len(str)) > (1):
-                d_465_valueOrError0_ = default__.Unescape(_dafny.Seq((str)[2::]), escape)
-                if (d_465_valueOrError0_).IsFailure():
-                    return (d_465_valueOrError0_).PropagateFailure()
+                d_489_valueOrError0_ = default__.Unescape(_dafny.Seq((str)[2::]), escape)
+                if (d_489_valueOrError0_).IsFailure():
+                    return (d_489_valueOrError0_).PropagateFailure()
                 elif True:
-                    d_466_tl_ = (d_465_valueOrError0_).Extract()
-                    return Wrappers.Result_Success((_dafny.Seq([(str)[1]])) + (d_466_tl_))
+                    d_490_tl_ = (d_489_valueOrError0_).Extract()
+                    return Wrappers.Result_Success((_dafny.Seq([(str)[1]])) + (d_490_tl_))
             elif True:
                 return Wrappers.Result_Failure(UnescapeError_EscapeAtEOS())
         elif True:
-            d_467_valueOrError1_ = default__.Unescape(_dafny.Seq((str)[1::]), escape)
-            if (d_467_valueOrError1_).IsFailure():
-                return (d_467_valueOrError1_).PropagateFailure()
+            d_491_valueOrError1_ = default__.Unescape(_dafny.Seq((str)[1::]), escape)
+            if (d_491_valueOrError1_).IsFailure():
+                return (d_491_valueOrError1_).PropagateFailure()
             elif True:
-                d_468_tl_ = (d_467_valueOrError1_).Extract()
-                return Wrappers.Result_Success((_dafny.Seq([(str)[0]])) + (d_468_tl_))
+                d_492_tl_ = (d_491_valueOrError1_).Extract()
+                return Wrappers.Result_Success((_dafny.Seq([(str)[0]])) + (d_492_tl_))
 
 
 class UnescapeError:

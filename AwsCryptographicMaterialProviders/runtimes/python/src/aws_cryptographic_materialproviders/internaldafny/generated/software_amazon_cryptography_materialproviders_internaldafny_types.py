@@ -408,6 +408,11 @@ class CountingNumber:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_1_x_: int = source__
+        if True:
+            return default__.IsValid__CountingNumber(d_1_x_)
+        return False
 
 class CreateAwsKmsDiscoveryKeyringInput:
     @classmethod
@@ -469,7 +474,7 @@ class CreateAwsKmsHierarchicalKeyringInput_CreateAwsKmsHierarchicalKeyringInput(
 class CreateAwsKmsKeyringInput:
     @classmethod
     def default(cls, ):
-        return lambda: CreateAwsKmsKeyringInput_CreateAwsKmsKeyringInput(_dafny.Seq({}), None, Wrappers.Option.default()())
+        return lambda: CreateAwsKmsKeyringInput_CreateAwsKmsKeyringInput(_dafny.Seq(""), None, Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -488,7 +493,7 @@ class CreateAwsKmsKeyringInput_CreateAwsKmsKeyringInput(CreateAwsKmsKeyringInput
 class CreateAwsKmsMrkDiscoveryKeyringInput:
     @classmethod
     def default(cls, ):
-        return lambda: CreateAwsKmsMrkDiscoveryKeyringInput_CreateAwsKmsMrkDiscoveryKeyringInput(None, Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq({}))
+        return lambda: CreateAwsKmsMrkDiscoveryKeyringInput_CreateAwsKmsMrkDiscoveryKeyringInput(None, Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -526,7 +531,7 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput_CreateAwsKmsMrkDiscoveryMultiKey
 class CreateAwsKmsMrkKeyringInput:
     @classmethod
     def default(cls, ):
-        return lambda: CreateAwsKmsMrkKeyringInput_CreateAwsKmsMrkKeyringInput(_dafny.Seq({}), None, Wrappers.Option.default()())
+        return lambda: CreateAwsKmsMrkKeyringInput_CreateAwsKmsMrkKeyringInput(_dafny.Seq(""), None, Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -583,7 +588,7 @@ class CreateAwsKmsMultiKeyringInput_CreateAwsKmsMultiKeyringInput(CreateAwsKmsMu
 class CreateAwsKmsRsaKeyringInput:
     @classmethod
     def default(cls, ):
-        return lambda: CreateAwsKmsRsaKeyringInput_CreateAwsKmsRsaKeyringInput(Wrappers.Option.default()(), _dafny.Seq({}), software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: CreateAwsKmsRsaKeyringInput_CreateAwsKmsRsaKeyringInput(Wrappers.Option.default()(), _dafny.Seq(""), software_amazon_cryptography_services_kms_internaldafny_types.EncryptionAlgorithmSpec.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -681,7 +686,7 @@ class CreateMultiKeyringInput_CreateMultiKeyringInput(CreateMultiKeyringInput, N
 class CreateRawAesKeyringInput:
     @classmethod
     def default(cls, ):
-        return lambda: CreateRawAesKeyringInput_CreateRawAesKeyringInput(_dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), AesWrappingAlg.default()())
+        return lambda: CreateRawAesKeyringInput_CreateRawAesKeyringInput(_dafny.Seq(""), _dafny.Seq(""), _dafny.Seq({}), AesWrappingAlg.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -700,7 +705,7 @@ class CreateRawAesKeyringInput_CreateRawAesKeyringInput(CreateRawAesKeyringInput
 class CreateRawRsaKeyringInput:
     @classmethod
     def default(cls, ):
-        return lambda: CreateRawRsaKeyringInput_CreateRawRsaKeyringInput(_dafny.Seq({}), _dafny.Seq({}), PaddingScheme.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: CreateRawRsaKeyringInput_CreateRawRsaKeyringInput(_dafny.Seq(""), _dafny.Seq(""), PaddingScheme.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1061,7 +1066,7 @@ class DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING(DIRECT__KEY__WRAPPING, NamedTu
 class DiscoveryFilter:
     @classmethod
     def default(cls, ):
-        return lambda: DiscoveryFilter_DiscoveryFilter(_dafny.Seq({}), _dafny.Seq({}))
+        return lambda: DiscoveryFilter_DiscoveryFilter(_dafny.Seq({}), _dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1381,7 +1386,7 @@ class GetBranchKeyIdInput_GetBranchKeyIdInput(GetBranchKeyIdInput, NamedTuple('G
 class GetBranchKeyIdOutput:
     @classmethod
     def default(cls, ):
-        return lambda: GetBranchKeyIdOutput_GetBranchKeyIdOutput(_dafny.Seq({}))
+        return lambda: GetBranchKeyIdOutput_GetBranchKeyIdOutput(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1438,7 +1443,7 @@ class GetCacheEntryOutput_GetCacheEntryOutput(GetCacheEntryOutput, NamedTuple('G
 class GetClientInput:
     @classmethod
     def default(cls, ):
-        return lambda: GetClientInput_GetClientInput(_dafny.Seq({}))
+        return lambda: GetClientInput_GetClientInput(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1916,6 +1921,11 @@ class PositiveInteger:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_2_x_: int = source__
+        if True:
+            return default__.IsValid__PositiveInteger(d_2_x_)
+        return False
 
 class PositiveLong:
     def  __init__(self):
@@ -1924,6 +1934,11 @@ class PositiveLong:
     @staticmethod
     def default():
         return int(0)
+    def _Is(source__):
+        d_3_x_: int = source__
+        if True:
+            return default__.IsValid__PositiveLong(d_3_x_)
+        return False
 
 class PutCacheEntryInput:
     @classmethod
@@ -2140,7 +2155,7 @@ class ValidEncryptionMaterialsTransitionInput_ValidEncryptionMaterialsTransition
 class Error:
     @classmethod
     def default(cls, ):
-        return lambda: Error_AwsCryptographicMaterialProvidersException(_dafny.Seq({}))
+        return lambda: Error_AwsCryptographicMaterialProvidersException(_dafny.Seq(""))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2328,3 +2343,6 @@ class OpaqueError:
     @staticmethod
     def default():
         return Error.default()()
+    def _Is(source__):
+        d_4_e_: Error = source__
+        return (d_4_e_).is_Opaque

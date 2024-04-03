@@ -103,63 +103,63 @@ class default__:
     @staticmethod
     def WrapEdkMaterial(encryptionMaterials, wrap, generateAndWrap):
         ret: Wrappers.Result = None
-        d_484_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_484_valueOrError0_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterials(encryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid materials for encryption.")))
-        if (d_484_valueOrError0_).IsFailure():
-            ret = (d_484_valueOrError0_).PropagateFailure()
+        d_504_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_504_valueOrError0_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterials(encryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid materials for encryption.")))
+        if (d_504_valueOrError0_).IsFailure():
+            ret = (d_504_valueOrError0_).PropagateFailure()
             return ret
         if (((encryptionMaterials).plaintextDataKey).is_Some) and ((((encryptionMaterials).algorithmSuite).edkWrapping).is_DIRECT__KEY__WRAPPING):
-            d_485_directOutput_: MaterialWrapping.WrapOutput
-            d_486_valueOrError1_: Wrappers.Result = None
+            d_505_directOutput_: MaterialWrapping.WrapOutput
+            d_506_valueOrError1_: Wrappers.Result = None
             out75_: Wrappers.Result
             out75_ = (wrap).Invoke(MaterialWrapping.WrapInput_WrapInput(((encryptionMaterials).plaintextDataKey).value, (encryptionMaterials).algorithmSuite, (encryptionMaterials).encryptionContext))
-            d_486_valueOrError1_ = out75_
-            if (d_486_valueOrError1_).IsFailure():
-                ret = (d_486_valueOrError1_).PropagateFailure()
+            d_506_valueOrError1_ = out75_
+            if (d_506_valueOrError1_).IsFailure():
+                ret = (d_506_valueOrError1_).PropagateFailure()
                 return ret
-            d_485_directOutput_ = (d_486_valueOrError1_).Extract()
-            ret = Wrappers.Result_Success(WrapEdkMaterialOutput_WrapOnlyEdkMaterialOutput((d_485_directOutput_).wrappedMaterial, Wrappers.Option_None(), (d_485_directOutput_).wrapInfo))
+            d_505_directOutput_ = (d_506_valueOrError1_).Extract()
+            ret = Wrappers.Result_Success(WrapEdkMaterialOutput_WrapOnlyEdkMaterialOutput((d_505_directOutput_).wrappedMaterial, Wrappers.Option_None(), (d_505_directOutput_).wrapInfo))
             return ret
         elif (((encryptionMaterials).plaintextDataKey).is_Some) and ((((encryptionMaterials).algorithmSuite).edkWrapping).is_IntermediateKeyWrapping):
-            d_487_intermediateOutput_: IntermediateKeyWrapping.IntermediateWrapOutput
-            d_488_valueOrError2_: Wrappers.Result = None
+            d_507_intermediateOutput_: IntermediateKeyWrapping.IntermediateWrapOutput
+            d_508_valueOrError2_: Wrappers.Result = None
             out76_: Wrappers.Result
             out76_ = IntermediateKeyWrapping.default__.IntermediateWrap(generateAndWrap, ((encryptionMaterials).plaintextDataKey).value, (encryptionMaterials).algorithmSuite, (encryptionMaterials).encryptionContext)
-            d_488_valueOrError2_ = out76_
-            if (d_488_valueOrError2_).IsFailure():
-                ret = (d_488_valueOrError2_).PropagateFailure()
+            d_508_valueOrError2_ = out76_
+            if (d_508_valueOrError2_).IsFailure():
+                ret = (d_508_valueOrError2_).PropagateFailure()
                 return ret
-            d_487_intermediateOutput_ = (d_488_valueOrError2_).Extract()
-            ret = Wrappers.Result_Success(WrapEdkMaterialOutput_WrapOnlyEdkMaterialOutput((d_487_intermediateOutput_).wrappedMaterial, Wrappers.Option_Some((d_487_intermediateOutput_).symmetricSigningKey), (d_487_intermediateOutput_).wrapInfo))
+            d_507_intermediateOutput_ = (d_508_valueOrError2_).Extract()
+            ret = Wrappers.Result_Success(WrapEdkMaterialOutput_WrapOnlyEdkMaterialOutput((d_507_intermediateOutput_).wrappedMaterial, Wrappers.Option_Some((d_507_intermediateOutput_).symmetricSigningKey), (d_507_intermediateOutput_).wrapInfo))
             return ret
         elif (((encryptionMaterials).plaintextDataKey).is_None) and ((((encryptionMaterials).algorithmSuite).edkWrapping).is_DIRECT__KEY__WRAPPING):
-            d_489_directOutput_: MaterialWrapping.GenerateAndWrapOutput
-            d_490_valueOrError3_: Wrappers.Result = None
+            d_509_directOutput_: MaterialWrapping.GenerateAndWrapOutput
+            d_510_valueOrError3_: Wrappers.Result = None
             out77_: Wrappers.Result
             out77_ = (generateAndWrap).Invoke(MaterialWrapping.GenerateAndWrapInput_GenerateAndWrapInput((encryptionMaterials).algorithmSuite, (encryptionMaterials).encryptionContext))
-            d_490_valueOrError3_ = out77_
-            if (d_490_valueOrError3_).IsFailure():
-                ret = (d_490_valueOrError3_).PropagateFailure()
+            d_510_valueOrError3_ = out77_
+            if (d_510_valueOrError3_).IsFailure():
+                ret = (d_510_valueOrError3_).PropagateFailure()
                 return ret
-            d_489_directOutput_ = (d_490_valueOrError3_).Extract()
-            ret = Wrappers.Result_Success(WrapEdkMaterialOutput_GenerateAndWrapEdkMaterialOutput((d_489_directOutput_).plaintextMaterial, (d_489_directOutput_).wrappedMaterial, Wrappers.Option_None(), (d_489_directOutput_).wrapInfo))
+            d_509_directOutput_ = (d_510_valueOrError3_).Extract()
+            ret = Wrappers.Result_Success(WrapEdkMaterialOutput_GenerateAndWrapEdkMaterialOutput((d_509_directOutput_).plaintextMaterial, (d_509_directOutput_).wrappedMaterial, Wrappers.Option_None(), (d_509_directOutput_).wrapInfo))
             return ret
         elif (((encryptionMaterials).plaintextDataKey).is_None) and ((((encryptionMaterials).algorithmSuite).edkWrapping).is_IntermediateKeyWrapping):
-            d_491_valueOrError4_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_491_valueOrError4_ = Wrappers.default__.Need((((encryptionMaterials).algorithmSuite).commitment).is_HKDF, software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid algorithm suite: suites with intermediate key wrapping must use key commitment.")))
-            if (d_491_valueOrError4_).IsFailure():
-                ret = (d_491_valueOrError4_).PropagateFailure()
+            d_511_valueOrError4_: Wrappers.Outcome = Wrappers.Outcome.default()()
+            d_511_valueOrError4_ = Wrappers.default__.Need((((encryptionMaterials).algorithmSuite).commitment).is_HKDF, software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid algorithm suite: suites with intermediate key wrapping must use key commitment.")))
+            if (d_511_valueOrError4_).IsFailure():
+                ret = (d_511_valueOrError4_).PropagateFailure()
                 return ret
-            d_492_intermediateOutput_: IntermediateKeyWrapping.IntermediateGenerateAndWrapOutput
-            d_493_valueOrError5_: Wrappers.Result = None
+            d_512_intermediateOutput_: IntermediateKeyWrapping.IntermediateGenerateAndWrapOutput
+            d_513_valueOrError5_: Wrappers.Result = None
             out78_: Wrappers.Result
             out78_ = IntermediateKeyWrapping.default__.IntermediateGenerateAndWrap(generateAndWrap, (encryptionMaterials).algorithmSuite, (encryptionMaterials).encryptionContext)
-            d_493_valueOrError5_ = out78_
-            if (d_493_valueOrError5_).IsFailure():
-                ret = (d_493_valueOrError5_).PropagateFailure()
+            d_513_valueOrError5_ = out78_
+            if (d_513_valueOrError5_).IsFailure():
+                ret = (d_513_valueOrError5_).PropagateFailure()
                 return ret
-            d_492_intermediateOutput_ = (d_493_valueOrError5_).Extract()
-            ret = Wrappers.Result_Success(WrapEdkMaterialOutput_GenerateAndWrapEdkMaterialOutput((d_492_intermediateOutput_).plaintextDataKey, (d_492_intermediateOutput_).wrappedMaterial, Wrappers.Option_Some((d_492_intermediateOutput_).symmetricSigningKey), (d_492_intermediateOutput_).wrapInfo))
+            d_512_intermediateOutput_ = (d_513_valueOrError5_).Extract()
+            ret = Wrappers.Result_Success(WrapEdkMaterialOutput_GenerateAndWrapEdkMaterialOutput((d_512_intermediateOutput_).plaintextDataKey, (d_512_intermediateOutput_).wrappedMaterial, Wrappers.Option_Some((d_512_intermediateOutput_).symmetricSigningKey), (d_512_intermediateOutput_).wrapInfo))
             return ret
         elif True:
             pass
@@ -168,39 +168,39 @@ class default__:
     @staticmethod
     def UnwrapEdkMaterial(wrappedMaterial, decryptionMaterials, unwrap):
         ret: Wrappers.Result = None
-        d_494_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_494_valueOrError0_ = Wrappers.default__.Need(Materials.default__.ValidDecryptionMaterials(decryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid materials for decryption.")))
-        if (d_494_valueOrError0_).IsFailure():
-            ret = (d_494_valueOrError0_).PropagateFailure()
+        d_514_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_514_valueOrError0_ = Wrappers.default__.Need(Materials.default__.ValidDecryptionMaterials(decryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid materials for decryption.")))
+        if (d_514_valueOrError0_).IsFailure():
+            ret = (d_514_valueOrError0_).PropagateFailure()
             return ret
         if (((decryptionMaterials).algorithmSuite).edkWrapping).is_DIRECT__KEY__WRAPPING:
-            d_495_directOutput_: MaterialWrapping.UnwrapOutput
-            d_496_valueOrError1_: Wrappers.Result = None
+            d_515_directOutput_: MaterialWrapping.UnwrapOutput
+            d_516_valueOrError1_: Wrappers.Result = None
             out79_: Wrappers.Result
             out79_ = (unwrap).Invoke(MaterialWrapping.UnwrapInput_UnwrapInput(wrappedMaterial, (decryptionMaterials).algorithmSuite, (decryptionMaterials).encryptionContext))
-            d_496_valueOrError1_ = out79_
-            if (d_496_valueOrError1_).IsFailure():
-                ret = (d_496_valueOrError1_).PropagateFailure()
+            d_516_valueOrError1_ = out79_
+            if (d_516_valueOrError1_).IsFailure():
+                ret = (d_516_valueOrError1_).PropagateFailure()
                 return ret
-            d_495_directOutput_ = (d_496_valueOrError1_).Extract()
-            ret = Wrappers.Result_Success(UnwrapEdkMaterialOutput_UnwrapEdkMaterialOutput((d_495_directOutput_).unwrappedMaterial, Wrappers.Option_None(), (d_495_directOutput_).unwrapInfo))
+            d_515_directOutput_ = (d_516_valueOrError1_).Extract()
+            ret = Wrappers.Result_Success(UnwrapEdkMaterialOutput_UnwrapEdkMaterialOutput((d_515_directOutput_).unwrappedMaterial, Wrappers.Option_None(), (d_515_directOutput_).unwrapInfo))
             return ret
         elif (((decryptionMaterials).algorithmSuite).edkWrapping).is_IntermediateKeyWrapping:
-            d_497_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_497_valueOrError2_ = Wrappers.default__.Need((len(wrappedMaterial)) >= ((((((decryptionMaterials).algorithmSuite).encrypt).AES__GCM).keyLength) + (((((decryptionMaterials).algorithmSuite).encrypt).AES__GCM).tagLength)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid material for Intermediate Unwrapping")))
-            if (d_497_valueOrError2_).IsFailure():
-                ret = (d_497_valueOrError2_).PropagateFailure()
+            d_517_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
+            d_517_valueOrError2_ = Wrappers.default__.Need((len(wrappedMaterial)) >= ((((((decryptionMaterials).algorithmSuite).encrypt).AES__GCM).keyLength) + (((((decryptionMaterials).algorithmSuite).encrypt).AES__GCM).tagLength)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid material for Intermediate Unwrapping")))
+            if (d_517_valueOrError2_).IsFailure():
+                ret = (d_517_valueOrError2_).PropagateFailure()
                 return ret
-            d_498_intermediateOutput_: IntermediateKeyWrapping.IntermediateUnwrapOutput
-            d_499_valueOrError3_: Wrappers.Result = None
+            d_518_intermediateOutput_: IntermediateKeyWrapping.IntermediateUnwrapOutput
+            d_519_valueOrError3_: Wrappers.Result = None
             out80_: Wrappers.Result
             out80_ = IntermediateKeyWrapping.default__.IntermediateUnwrap(unwrap, wrappedMaterial, (decryptionMaterials).algorithmSuite, (decryptionMaterials).encryptionContext)
-            d_499_valueOrError3_ = out80_
-            if (d_499_valueOrError3_).IsFailure():
-                ret = (d_499_valueOrError3_).PropagateFailure()
+            d_519_valueOrError3_ = out80_
+            if (d_519_valueOrError3_).IsFailure():
+                ret = (d_519_valueOrError3_).PropagateFailure()
                 return ret
-            d_498_intermediateOutput_ = (d_499_valueOrError3_).Extract()
-            ret = Wrappers.Result_Success(UnwrapEdkMaterialOutput_UnwrapEdkMaterialOutput((d_498_intermediateOutput_).plaintextDataKey, Wrappers.Option_Some((d_498_intermediateOutput_).symmetricSigningKey), (d_498_intermediateOutput_).unwrapInfo))
+            d_518_intermediateOutput_ = (d_519_valueOrError3_).Extract()
+            ret = Wrappers.Result_Success(UnwrapEdkMaterialOutput_UnwrapEdkMaterialOutput((d_518_intermediateOutput_).plaintextDataKey, Wrappers.Option_Some((d_518_intermediateOutput_).symmetricSigningKey), (d_518_intermediateOutput_).unwrapInfo))
             return ret
         elif True:
             pass
@@ -211,11 +211,11 @@ class default__:
         if ((algSuite).edkWrapping).is_DIRECT__KEY__WRAPPING:
             return Wrappers.Result_Success(material)
         elif True:
-            d_500_deserializedWrappedRes_ = IntermediateKeyWrapping.default__.DeserializeIntermediateWrappedMaterial(material, algSuite)
-            if (d_500_deserializedWrappedRes_).is_Failure:
+            d_520_deserializedWrappedRes_ = IntermediateKeyWrapping.default__.DeserializeIntermediateWrappedMaterial(material, algSuite)
+            if (d_520_deserializedWrappedRes_).is_Failure:
                 return Wrappers.Result_Failure(software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unable to deserialize Intermediate Key Wrapped material.")))
             elif True:
-                return Wrappers.Result_Success(((d_500_deserializedWrappedRes_).value).providerWrappedIkm)
+                return Wrappers.Result_Success(((d_520_deserializedWrappedRes_).value).providerWrappedIkm)
 
 
 class WrapEdkMaterialOutput:

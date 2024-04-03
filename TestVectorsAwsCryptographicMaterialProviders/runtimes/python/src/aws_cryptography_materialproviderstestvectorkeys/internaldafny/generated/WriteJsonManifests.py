@@ -194,57 +194,57 @@ class default__:
     @staticmethod
     def EncryptionContextKeysToJson(keys):
         if (keys).is_Some:
-            def lambda96_(d_778_bytes_):
+            def lambda96_(d_780_bytes_):
                 def iife83_(_pat_let16_0):
-                    def iife84_(d_779_valueOrError1_):
+                    def iife84_(d_781_valueOrError1_):
                         def iife85_(_pat_let17_0):
-                            def iife86_(d_780_key_):
-                                return Wrappers.Result_Success(JSON_Values.JSON_String(d_780_key_))
+                            def iife86_(d_782_key_):
+                                return Wrappers.Result_Success(JSON_Values.JSON_String(d_782_key_))
                             return iife86_(_pat_let17_0)
-                        return ((d_779_valueOrError1_).PropagateFailure() if (d_779_valueOrError1_).IsFailure() else iife85_((d_779_valueOrError1_).Extract()))
+                        return ((d_781_valueOrError1_).PropagateFailure() if (d_781_valueOrError1_).IsFailure() else iife85_((d_781_valueOrError1_).Extract()))
                     return iife84_(_pat_let16_0)
-                return iife83_(UTF8.default__.Decode(d_778_bytes_))
+                return iife83_(UTF8.default__.Decode(d_780_bytes_))
 
-            d_777_valueOrError0_ = Seq.default__.MapWithResult(lambda96_, (keys).value)
-            if (d_777_valueOrError0_).IsFailure():
-                return (d_777_valueOrError0_).PropagateFailure()
+            d_779_valueOrError0_ = Seq.default__.MapWithResult(lambda96_, (keys).value)
+            if (d_779_valueOrError0_).IsFailure():
+                return (d_779_valueOrError0_).PropagateFailure()
             elif True:
-                d_781_tmp_ = (d_777_valueOrError0_).Extract()
-                return Wrappers.Result_Success(_dafny.Seq([(_dafny.Seq("requiredEncryptionContextKeys"), JSON_Values.JSON_Array(d_781_tmp_))]))
+                d_783_tmp_ = (d_779_valueOrError0_).Extract()
+                return Wrappers.Result_Success(_dafny.Seq([(_dafny.Seq("requiredEncryptionContextKeys"), JSON_Values.JSON_Array(d_783_tmp_))]))
         elif True:
             return Wrappers.Result_Success(_dafny.Seq([]))
 
     @staticmethod
     def EncryptionContextToJson(key, m):
-        d_782_keys_ = SortedSets.default__.SetToSequence((m).keys)
-        def lambda97_(d_784_m_):
-            def lambda98_(d_785_k_):
+        d_784_keys_ = SortedSets.default__.SetToSequence((m).keys)
+        def lambda97_(d_786_m_):
+            def lambda98_(d_787_k_):
                 def iife87_(_pat_let18_0):
-                    def iife88_(d_786_valueOrError1_):
+                    def iife88_(d_788_valueOrError1_):
                         def iife89_(_pat_let19_0):
-                            def iife90_(d_787_key_):
+                            def iife90_(d_789_key_):
                                 def iife91_(_pat_let20_0):
-                                    def iife92_(d_788_valueOrError2_):
+                                    def iife92_(d_790_valueOrError2_):
                                         def iife93_(_pat_let21_0):
-                                            def iife94_(d_789_value_):
-                                                return Wrappers.Result_Success((d_787_key_, JSON_Values.JSON_String(d_789_value_)))
+                                            def iife94_(d_791_value_):
+                                                return Wrappers.Result_Success((d_789_key_, JSON_Values.JSON_String(d_791_value_)))
                                             return iife94_(_pat_let21_0)
-                                        return ((d_788_valueOrError2_).PropagateFailure() if (d_788_valueOrError2_).IsFailure() else iife93_((d_788_valueOrError2_).Extract()))
+                                        return ((d_790_valueOrError2_).PropagateFailure() if (d_790_valueOrError2_).IsFailure() else iife93_((d_790_valueOrError2_).Extract()))
                                     return iife92_(_pat_let20_0)
-                                return iife91_(UTF8.default__.Decode((d_784_m_)[d_785_k_]))
+                                return iife91_(UTF8.default__.Decode((d_786_m_)[d_787_k_]))
                             return iife90_(_pat_let19_0)
-                        return ((d_786_valueOrError1_).PropagateFailure() if (d_786_valueOrError1_).IsFailure() else iife89_((d_786_valueOrError1_).Extract()))
+                        return ((d_788_valueOrError1_).PropagateFailure() if (d_788_valueOrError1_).IsFailure() else iife89_((d_788_valueOrError1_).Extract()))
                     return iife88_(_pat_let18_0)
-                return iife87_(UTF8.default__.Decode(d_785_k_))
+                return iife87_(UTF8.default__.Decode(d_787_k_))
 
             return lambda98_
 
-        d_783_valueOrError0_ = Seq.default__.MapWithResult(lambda97_(m), d_782_keys_)
-        if (d_783_valueOrError0_).IsFailure():
-            return (d_783_valueOrError0_).PropagateFailure()
+        d_785_valueOrError0_ = Seq.default__.MapWithResult(lambda97_(m), d_784_keys_)
+        if (d_785_valueOrError0_).IsFailure():
+            return (d_785_valueOrError0_).PropagateFailure()
         elif True:
-            d_790_pairsBytes_ = (d_783_valueOrError0_).Extract()
-            return Wrappers.Result_Success(_dafny.Seq([(key, JSON_Values.JSON_Object(d_790_pairsBytes_))]))
+            d_792_pairsBytes_ = (d_785_valueOrError0_).Extract()
+            return Wrappers.Result_Success(_dafny.Seq([(key, JSON_Values.JSON_Object(d_792_pairsBytes_))]))
 
     @staticmethod
     def printJson(j):
@@ -258,160 +258,160 @@ class default__:
 
     @staticmethod
     def EncryptTestVectorToJson(test):
-        d_791_id_ = AllAlgorithmSuites.default__.ToHex((test).algorithmSuite)
-        d_792_description_ = (((test).name) + (_dafny.Seq(" "))) + (d_791_id_)
-        d_793_valueOrError0_ = default__.EncryptionContextToJson(_dafny.Seq("encryptionContext"), (test).encryptionContext)
-        if (d_793_valueOrError0_).IsFailure():
-            return (d_793_valueOrError0_).PropagateFailure()
+        d_793_id_ = AllAlgorithmSuites.default__.ToHex((test).algorithmSuite)
+        d_794_description_ = (((test).name) + (_dafny.Seq(" "))) + (d_793_id_)
+        d_795_valueOrError0_ = default__.EncryptionContextToJson(_dafny.Seq("encryptionContext"), (test).encryptionContext)
+        if (d_795_valueOrError0_).IsFailure():
+            return (d_795_valueOrError0_).PropagateFailure()
         elif True:
-            d_794_encryptionContext_ = (d_793_valueOrError0_).Extract()
-            d_795_maxPlaintextL_ = (_dafny.Seq([(_dafny.Seq("maxPlaintextLength"), JSON_Values.JSON_Number(JSON_Values.default__.Int(((test).maxPlaintextLength).value)))]) if ((test).maxPlaintextLength).is_Some else _dafny.Seq([]))
-            d_796_valueOrError1_ = default__.EncryptionContextKeysToJson((test).requiredEncryptionContextKeys)
-            if (d_796_valueOrError1_).IsFailure():
-                return (d_796_valueOrError1_).PropagateFailure()
+            d_796_encryptionContext_ = (d_795_valueOrError0_).Extract()
+            d_797_maxPlaintextL_ = (_dafny.Seq([(_dafny.Seq("maxPlaintextLength"), JSON_Values.JSON_Number(JSON_Values.default__.Int(((test).maxPlaintextLength).value)))]) if ((test).maxPlaintextLength).is_Some else _dafny.Seq([]))
+            d_798_valueOrError1_ = default__.EncryptionContextKeysToJson((test).requiredEncryptionContextKeys)
+            if (d_798_valueOrError1_).IsFailure():
+                return (d_798_valueOrError1_).PropagateFailure()
             elif True:
-                d_797_requiredEncryptionContextKeys_ = (d_796_valueOrError1_).Extract()
-                d_798_valueOrError2_ = (default__.EncryptionContextToJson(_dafny.Seq("reproducedEncryptionContext"), ((test).reproducedEncryptionContext).value) if (not((test).is_NegativeEncryptKeyringVector)) and (((test).reproducedEncryptionContext).is_Some) else Wrappers.Result_Success(_dafny.Seq([])))
-                if (d_798_valueOrError2_).IsFailure():
-                    return (d_798_valueOrError2_).PropagateFailure()
+                d_799_requiredEncryptionContextKeys_ = (d_798_valueOrError1_).Extract()
+                d_800_valueOrError2_ = (default__.EncryptionContextToJson(_dafny.Seq("reproducedEncryptionContext"), ((test).reproducedEncryptionContext).value) if (not((test).is_NegativeEncryptKeyringVector)) and (((test).reproducedEncryptionContext).is_Some) else Wrappers.Result_Success(_dafny.Seq([])))
+                if (d_800_valueOrError2_).IsFailure():
+                    return (d_800_valueOrError2_).PropagateFailure()
                 elif True:
-                    d_799_reproducedEc_ = (d_798_valueOrError2_).Extract()
-                    d_800_optionalValues_ = (((d_799_reproducedEc_) + (d_795_maxPlaintextL_)) + (d_797_requiredEncryptionContextKeys_)) + (d_794_encryptionContext_)
+                    d_801_reproducedEc_ = (d_800_valueOrError2_).Extract()
+                    d_802_optionalValues_ = (((d_801_reproducedEc_) + (d_797_maxPlaintextL_)) + (d_799_requiredEncryptionContextKeys_)) + (d_796_encryptionContext_)
                     source22_ = test
                     if source22_.is_PositiveEncryptKeyringVector:
-                        d_801___mcc_h0_ = source22_.name
-                        d_802___mcc_h1_ = source22_.description
-                        d_803___mcc_h2_ = source22_.encryptionContext
-                        d_804___mcc_h3_ = source22_.commitmentPolicy
-                        d_805___mcc_h4_ = source22_.algorithmSuite
-                        d_806___mcc_h5_ = source22_.maxPlaintextLength
-                        d_807___mcc_h6_ = source22_.requiredEncryptionContextKeys
-                        d_808___mcc_h7_ = source22_.encryptDescription
-                        d_809___mcc_h8_ = source22_.decryptDescription
-                        d_810___mcc_h9_ = source22_.reproducedEncryptionContext
-                        d_811_valueOrError3_ = KeyDescription.default__.ToJson((test).encryptDescription, 3)
-                        if (d_811_valueOrError3_).IsFailure():
-                            return (d_811_valueOrError3_).PropagateFailure()
+                        d_803___mcc_h0_ = source22_.name
+                        d_804___mcc_h1_ = source22_.description
+                        d_805___mcc_h2_ = source22_.encryptionContext
+                        d_806___mcc_h3_ = source22_.commitmentPolicy
+                        d_807___mcc_h4_ = source22_.algorithmSuite
+                        d_808___mcc_h5_ = source22_.maxPlaintextLength
+                        d_809___mcc_h6_ = source22_.requiredEncryptionContextKeys
+                        d_810___mcc_h7_ = source22_.encryptDescription
+                        d_811___mcc_h8_ = source22_.decryptDescription
+                        d_812___mcc_h9_ = source22_.reproducedEncryptionContext
+                        d_813_valueOrError3_ = KeyDescription.default__.ToJson((test).encryptDescription, 3)
+                        if (d_813_valueOrError3_).IsFailure():
+                            return (d_813_valueOrError3_).PropagateFailure()
                         elif True:
-                            d_812_encrypt_ = (d_811_valueOrError3_).Extract()
-                            d_813_valueOrError4_ = KeyDescription.default__.ToJson((test).decryptDescription, 3)
-                            if (d_813_valueOrError4_).IsFailure():
-                                return (d_813_valueOrError4_).PropagateFailure()
+                            d_814_encrypt_ = (d_813_valueOrError3_).Extract()
+                            d_815_valueOrError4_ = KeyDescription.default__.ToJson((test).decryptDescription, 3)
+                            if (d_815_valueOrError4_).IsFailure():
+                                return (d_815_valueOrError4_).PropagateFailure()
                             elif True:
-                                d_814_decrypt_ = (d_813_valueOrError4_).Extract()
-                                return Wrappers.Result_Success(JSON_Values.JSON_Object((_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("positive-keyring"))), (_dafny.Seq("description"), JSON_Values.JSON_String(d_792_description_)), (_dafny.Seq("algorithmSuiteId"), JSON_Values.JSON_String(d_791_id_)), (_dafny.Seq("encryptKeyDescription"), d_812_encrypt_), (_dafny.Seq("decryptKeyDescription"), d_814_decrypt_)])) + (d_800_optionalValues_)))
+                                d_816_decrypt_ = (d_815_valueOrError4_).Extract()
+                                return Wrappers.Result_Success(JSON_Values.JSON_Object((_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("positive-keyring"))), (_dafny.Seq("description"), JSON_Values.JSON_String(d_794_description_)), (_dafny.Seq("algorithmSuiteId"), JSON_Values.JSON_String(d_793_id_)), (_dafny.Seq("encryptKeyDescription"), d_814_encrypt_), (_dafny.Seq("decryptKeyDescription"), d_816_decrypt_)])) + (d_802_optionalValues_)))
                     elif source22_.is_PositiveEncryptNegativeDecryptKeyringVector:
-                        d_815___mcc_h10_ = source22_.name
-                        d_816___mcc_h11_ = source22_.description
-                        d_817___mcc_h12_ = source22_.encryptionContext
-                        d_818___mcc_h13_ = source22_.commitmentPolicy
-                        d_819___mcc_h14_ = source22_.algorithmSuite
-                        d_820___mcc_h15_ = source22_.maxPlaintextLength
-                        d_821___mcc_h16_ = source22_.requiredEncryptionContextKeys
-                        d_822___mcc_h17_ = source22_.decryptErrorDescription
-                        d_823___mcc_h18_ = source22_.encryptDescription
-                        d_824___mcc_h19_ = source22_.decryptDescription
-                        d_825___mcc_h20_ = source22_.reproducedEncryptionContext
-                        d_826_valueOrError5_ = KeyDescription.default__.ToJson((test).encryptDescription, 3)
-                        if (d_826_valueOrError5_).IsFailure():
-                            return (d_826_valueOrError5_).PropagateFailure()
+                        d_817___mcc_h10_ = source22_.name
+                        d_818___mcc_h11_ = source22_.description
+                        d_819___mcc_h12_ = source22_.encryptionContext
+                        d_820___mcc_h13_ = source22_.commitmentPolicy
+                        d_821___mcc_h14_ = source22_.algorithmSuite
+                        d_822___mcc_h15_ = source22_.maxPlaintextLength
+                        d_823___mcc_h16_ = source22_.requiredEncryptionContextKeys
+                        d_824___mcc_h17_ = source22_.decryptErrorDescription
+                        d_825___mcc_h18_ = source22_.encryptDescription
+                        d_826___mcc_h19_ = source22_.decryptDescription
+                        d_827___mcc_h20_ = source22_.reproducedEncryptionContext
+                        d_828_valueOrError5_ = KeyDescription.default__.ToJson((test).encryptDescription, 3)
+                        if (d_828_valueOrError5_).IsFailure():
+                            return (d_828_valueOrError5_).PropagateFailure()
                         elif True:
-                            d_827_encrypt_ = (d_826_valueOrError5_).Extract()
-                            d_828_valueOrError6_ = KeyDescription.default__.ToJson((test).decryptDescription, 3)
-                            if (d_828_valueOrError6_).IsFailure():
-                                return (d_828_valueOrError6_).PropagateFailure()
+                            d_829_encrypt_ = (d_828_valueOrError5_).Extract()
+                            d_830_valueOrError6_ = KeyDescription.default__.ToJson((test).decryptDescription, 3)
+                            if (d_830_valueOrError6_).IsFailure():
+                                return (d_830_valueOrError6_).PropagateFailure()
                             elif True:
-                                d_829_decrypt_ = (d_828_valueOrError6_).Extract()
-                                return Wrappers.Result_Success(JSON_Values.JSON_Object((_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("negative-decrypt-keyring"))), (_dafny.Seq("description"), JSON_Values.JSON_String(d_792_description_)), (_dafny.Seq("decryptErrorDescription"), JSON_Values.JSON_String((test).decryptErrorDescription)), (_dafny.Seq("algorithmSuiteId"), JSON_Values.JSON_String(d_791_id_)), (_dafny.Seq("encryptKeyDescription"), d_827_encrypt_), (_dafny.Seq("decryptKeyDescription"), d_829_decrypt_)])) + (d_800_optionalValues_)))
+                                d_831_decrypt_ = (d_830_valueOrError6_).Extract()
+                                return Wrappers.Result_Success(JSON_Values.JSON_Object((_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("negative-decrypt-keyring"))), (_dafny.Seq("description"), JSON_Values.JSON_String(d_794_description_)), (_dafny.Seq("decryptErrorDescription"), JSON_Values.JSON_String((test).decryptErrorDescription)), (_dafny.Seq("algorithmSuiteId"), JSON_Values.JSON_String(d_793_id_)), (_dafny.Seq("encryptKeyDescription"), d_829_encrypt_), (_dafny.Seq("decryptKeyDescription"), d_831_decrypt_)])) + (d_802_optionalValues_)))
                     elif True:
-                        d_830___mcc_h21_ = source22_.name
-                        d_831___mcc_h22_ = source22_.description
-                        d_832___mcc_h23_ = source22_.encryptionContext
-                        d_833___mcc_h24_ = source22_.commitmentPolicy
-                        d_834___mcc_h25_ = source22_.algorithmSuite
-                        d_835___mcc_h26_ = source22_.maxPlaintextLength
-                        d_836___mcc_h27_ = source22_.requiredEncryptionContextKeys
-                        d_837___mcc_h28_ = source22_.errorDescription
-                        d_838___mcc_h29_ = source22_.keyDescription
-                        d_839_valueOrError7_ = KeyDescription.default__.ToJson((test).keyDescription, 3)
-                        if (d_839_valueOrError7_).IsFailure():
-                            return (d_839_valueOrError7_).PropagateFailure()
+                        d_832___mcc_h21_ = source22_.name
+                        d_833___mcc_h22_ = source22_.description
+                        d_834___mcc_h23_ = source22_.encryptionContext
+                        d_835___mcc_h24_ = source22_.commitmentPolicy
+                        d_836___mcc_h25_ = source22_.algorithmSuite
+                        d_837___mcc_h26_ = source22_.maxPlaintextLength
+                        d_838___mcc_h27_ = source22_.requiredEncryptionContextKeys
+                        d_839___mcc_h28_ = source22_.errorDescription
+                        d_840___mcc_h29_ = source22_.keyDescription
+                        d_841_valueOrError7_ = KeyDescription.default__.ToJson((test).keyDescription, 3)
+                        if (d_841_valueOrError7_).IsFailure():
+                            return (d_841_valueOrError7_).PropagateFailure()
                         elif True:
-                            d_840_keyDescription_ = (d_839_valueOrError7_).Extract()
-                            return Wrappers.Result_Success(JSON_Values.JSON_Object((_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("negative-encrypt-keyring"))), (_dafny.Seq("description"), JSON_Values.JSON_String(d_792_description_)), (_dafny.Seq("errorDescription"), JSON_Values.JSON_String((test).errorDescription)), (_dafny.Seq("algorithmSuiteId"), JSON_Values.JSON_String(d_791_id_)), (_dafny.Seq("keyDescription"), d_840_keyDescription_)])) + (d_800_optionalValues_)))
+                            d_842_keyDescription_ = (d_841_valueOrError7_).Extract()
+                            return Wrappers.Result_Success(JSON_Values.JSON_Object((_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("negative-encrypt-keyring"))), (_dafny.Seq("description"), JSON_Values.JSON_String(d_794_description_)), (_dafny.Seq("errorDescription"), JSON_Values.JSON_String((test).errorDescription)), (_dafny.Seq("algorithmSuiteId"), JSON_Values.JSON_String(d_793_id_)), (_dafny.Seq("keyDescription"), d_842_keyDescription_)])) + (d_802_optionalValues_)))
 
     @staticmethod
     def OptionalBytes(key, secret):
         if (secret).is_Some:
-            d_841_base64_ = Base64.default__.Encode((secret).value)
-            return _dafny.Seq([(key, JSON_Values.JSON_String(d_841_base64_))])
+            d_843_base64_ = Base64.default__.Encode((secret).value)
+            return _dafny.Seq([(key, JSON_Values.JSON_String(d_843_base64_))])
         elif True:
             return _dafny.Seq([])
 
     @staticmethod
     def EncryptedDataKey(encryptedDataKey):
-        d_842_valueOrError0_ = UTF8.default__.Decode((encryptedDataKey).keyProviderId)
-        if (d_842_valueOrError0_).IsFailure():
-            return (d_842_valueOrError0_).PropagateFailure()
+        d_844_valueOrError0_ = UTF8.default__.Decode((encryptedDataKey).keyProviderId)
+        if (d_844_valueOrError0_).IsFailure():
+            return (d_844_valueOrError0_).PropagateFailure()
         elif True:
-            d_843_keyProviderId_ = (d_842_valueOrError0_).Extract()
-            return Wrappers.Result_Success(JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("keyProviderId"), JSON_Values.JSON_String(d_843_keyProviderId_)), (_dafny.Seq("keyProviderInfo"), JSON_Values.JSON_String(Base64.default__.Encode((encryptedDataKey).keyProviderInfo))), (_dafny.Seq("ciphertext"), JSON_Values.JSON_String(Base64.default__.Encode((encryptedDataKey).ciphertext)))])))
+            d_845_keyProviderId_ = (d_844_valueOrError0_).Extract()
+            return Wrappers.Result_Success(JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("keyProviderId"), JSON_Values.JSON_String(d_845_keyProviderId_)), (_dafny.Seq("keyProviderInfo"), JSON_Values.JSON_String(Base64.default__.Encode((encryptedDataKey).keyProviderInfo))), (_dafny.Seq("ciphertext"), JSON_Values.JSON_String(Base64.default__.Encode((encryptedDataKey).ciphertext)))])))
 
     @staticmethod
     def DecryptTestVectorToJson(test):
-        d_844_id_ = AllAlgorithmSuites.default__.ToHex((test).algorithmSuite)
-        d_845_description_ = (((test).name) + (_dafny.Seq(" "))) + (d_844_id_)
-        d_846_valueOrError0_ = default__.EncryptionContextToJson(_dafny.Seq("encryptionContext"), (test).encryptionContext)
-        if (d_846_valueOrError0_).IsFailure():
-            return (d_846_valueOrError0_).PropagateFailure()
+        d_846_id_ = AllAlgorithmSuites.default__.ToHex((test).algorithmSuite)
+        d_847_description_ = (((test).name) + (_dafny.Seq(" "))) + (d_846_id_)
+        d_848_valueOrError0_ = default__.EncryptionContextToJson(_dafny.Seq("encryptionContext"), (test).encryptionContext)
+        if (d_848_valueOrError0_).IsFailure():
+            return (d_848_valueOrError0_).PropagateFailure()
         elif True:
-            d_847_encryptionContext_ = (d_846_valueOrError0_).Extract()
-            d_848_valueOrError1_ = (default__.EncryptionContextToJson(_dafny.Seq("reproducedEncryptionContext"), ((test).reproducedEncryptionContext).value) if ((test).reproducedEncryptionContext).is_Some else Wrappers.Result_Success(_dafny.Seq([])))
-            if (d_848_valueOrError1_).IsFailure():
-                return (d_848_valueOrError1_).PropagateFailure()
+            d_849_encryptionContext_ = (d_848_valueOrError0_).Extract()
+            d_850_valueOrError1_ = (default__.EncryptionContextToJson(_dafny.Seq("reproducedEncryptionContext"), ((test).reproducedEncryptionContext).value) if ((test).reproducedEncryptionContext).is_Some else Wrappers.Result_Success(_dafny.Seq([])))
+            if (d_850_valueOrError1_).IsFailure():
+                return (d_850_valueOrError1_).PropagateFailure()
             elif True:
-                d_849_reproducedEc_ = (d_848_valueOrError1_).Extract()
-                d_850_valueOrError2_ = KeyDescription.default__.ToJson((test).keyDescription, 3)
-                if (d_850_valueOrError2_).IsFailure():
-                    return (d_850_valueOrError2_).PropagateFailure()
+                d_851_reproducedEc_ = (d_850_valueOrError1_).Extract()
+                d_852_valueOrError2_ = KeyDescription.default__.ToJson((test).keyDescription, 3)
+                if (d_852_valueOrError2_).IsFailure():
+                    return (d_852_valueOrError2_).PropagateFailure()
                 elif True:
-                    d_851_keyDescription_ = (d_850_valueOrError2_).Extract()
-                    def lambda99_(d_853_edk_):
-                        return default__.EncryptedDataKey(d_853_edk_)
+                    d_853_keyDescription_ = (d_852_valueOrError2_).Extract()
+                    def lambda99_(d_855_edk_):
+                        return default__.EncryptedDataKey(d_855_edk_)
 
-                    d_852_valueOrError3_ = Seq.default__.MapWithResult(lambda99_, (test).encryptedDataKeys)
-                    if (d_852_valueOrError3_).IsFailure():
-                        return (d_852_valueOrError3_).PropagateFailure()
+                    d_854_valueOrError3_ = Seq.default__.MapWithResult(lambda99_, (test).encryptedDataKeys)
+                    if (d_854_valueOrError3_).IsFailure():
+                        return (d_854_valueOrError3_).PropagateFailure()
                     elif True:
-                        d_854_encryptedDataKeys_ = (d_852_valueOrError3_).Extract()
+                        d_856_encryptedDataKeys_ = (d_854_valueOrError3_).Extract()
                         source23_ = test
                         if source23_.is_PositiveDecryptKeyringTest:
-                            d_855___mcc_h0_ = source23_.name
-                            d_856___mcc_h1_ = source23_.algorithmSuite
-                            d_857___mcc_h2_ = source23_.commitmentPolicy
-                            d_858___mcc_h3_ = source23_.encryptedDataKeys
-                            d_859___mcc_h4_ = source23_.encryptionContext
-                            d_860___mcc_h5_ = source23_.keyDescription
-                            d_861___mcc_h6_ = source23_.expectedResult
-                            d_862___mcc_h7_ = source23_.description
-                            d_863___mcc_h8_ = source23_.reproducedEncryptionContext
-                            d_864_plaintextDataKey_ = default__.OptionalBytes(_dafny.Seq("plaintextDataKey"), ((test).expectedResult).plaintextDataKey)
-                            d_865_symmetricSigningKey_ = default__.OptionalBytes(_dafny.Seq("symmetricSigningKey"), ((test).expectedResult).symmetricSigningKey)
-                            d_866_valueOrError4_ = default__.EncryptionContextKeysToJson(Wrappers.Option_Some(((test).expectedResult).requiredEncryptionContextKeys))
-                            if (d_866_valueOrError4_).IsFailure():
-                                return (d_866_valueOrError4_).PropagateFailure()
+                            d_857___mcc_h0_ = source23_.name
+                            d_858___mcc_h1_ = source23_.algorithmSuite
+                            d_859___mcc_h2_ = source23_.commitmentPolicy
+                            d_860___mcc_h3_ = source23_.encryptedDataKeys
+                            d_861___mcc_h4_ = source23_.encryptionContext
+                            d_862___mcc_h5_ = source23_.keyDescription
+                            d_863___mcc_h6_ = source23_.expectedResult
+                            d_864___mcc_h7_ = source23_.description
+                            d_865___mcc_h8_ = source23_.reproducedEncryptionContext
+                            d_866_plaintextDataKey_ = default__.OptionalBytes(_dafny.Seq("plaintextDataKey"), ((test).expectedResult).plaintextDataKey)
+                            d_867_symmetricSigningKey_ = default__.OptionalBytes(_dafny.Seq("symmetricSigningKey"), ((test).expectedResult).symmetricSigningKey)
+                            d_868_valueOrError4_ = default__.EncryptionContextKeysToJson(Wrappers.Option_Some(((test).expectedResult).requiredEncryptionContextKeys))
+                            if (d_868_valueOrError4_).IsFailure():
+                                return (d_868_valueOrError4_).PropagateFailure()
                             elif True:
-                                d_867_requiredEncryptionContextKeys_ = (d_866_valueOrError4_).Extract()
-                                return Wrappers.Result_Success(JSON_Values.JSON_Object(((_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("positive-keyring"))), (_dafny.Seq("description"), JSON_Values.JSON_String(d_845_description_)), (_dafny.Seq("algorithmSuiteId"), JSON_Values.JSON_String(d_844_id_)), (_dafny.Seq("keyDescription"), d_851_keyDescription_), (_dafny.Seq("encryptedDataKeys"), JSON_Values.JSON_Array(d_854_encryptedDataKeys_)), (_dafny.Seq("result"), JSON_Values.JSON_Object(((d_864_plaintextDataKey_) + (d_865_symmetricSigningKey_)) + (d_867_requiredEncryptionContextKeys_)))])) + (d_849_reproducedEc_)) + (d_847_encryptionContext_)))
+                                d_869_requiredEncryptionContextKeys_ = (d_868_valueOrError4_).Extract()
+                                return Wrappers.Result_Success(JSON_Values.JSON_Object(((_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("positive-keyring"))), (_dafny.Seq("description"), JSON_Values.JSON_String(d_847_description_)), (_dafny.Seq("algorithmSuiteId"), JSON_Values.JSON_String(d_846_id_)), (_dafny.Seq("keyDescription"), d_853_keyDescription_), (_dafny.Seq("encryptedDataKeys"), JSON_Values.JSON_Array(d_856_encryptedDataKeys_)), (_dafny.Seq("result"), JSON_Values.JSON_Object(((d_866_plaintextDataKey_) + (d_867_symmetricSigningKey_)) + (d_869_requiredEncryptionContextKeys_)))])) + (d_851_reproducedEc_)) + (d_849_encryptionContext_)))
                         elif True:
-                            d_868___mcc_h9_ = source23_.name
-                            d_869___mcc_h10_ = source23_.algorithmSuite
-                            d_870___mcc_h11_ = source23_.commitmentPolicy
-                            d_871___mcc_h12_ = source23_.encryptedDataKeys
-                            d_872___mcc_h13_ = source23_.encryptionContext
-                            d_873___mcc_h14_ = source23_.errorDescription
-                            d_874___mcc_h15_ = source23_.keyDescription
-                            d_875___mcc_h16_ = source23_.reproducedEncryptionContext
-                            d_876___mcc_h17_ = source23_.description
-                            return Wrappers.Result_Success(JSON_Values.JSON_Object(((_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("negative-keyring"))), (_dafny.Seq("description"), JSON_Values.JSON_String(d_845_description_)), (_dafny.Seq("errorDescription"), JSON_Values.JSON_String((test).errorDescription)), (_dafny.Seq("algorithmSuiteId"), JSON_Values.JSON_String(d_844_id_)), (_dafny.Seq("keyDescription"), d_851_keyDescription_), (_dafny.Seq("encryptedDataKeys"), JSON_Values.JSON_Array(d_854_encryptedDataKeys_))])) + (d_849_reproducedEc_)) + (d_847_encryptionContext_)))
+                            d_870___mcc_h9_ = source23_.name
+                            d_871___mcc_h10_ = source23_.algorithmSuite
+                            d_872___mcc_h11_ = source23_.commitmentPolicy
+                            d_873___mcc_h12_ = source23_.encryptedDataKeys
+                            d_874___mcc_h13_ = source23_.encryptionContext
+                            d_875___mcc_h14_ = source23_.errorDescription
+                            d_876___mcc_h15_ = source23_.keyDescription
+                            d_877___mcc_h16_ = source23_.reproducedEncryptionContext
+                            d_878___mcc_h17_ = source23_.description
+                            return Wrappers.Result_Success(JSON_Values.JSON_Object(((_dafny.Seq([(_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("negative-keyring"))), (_dafny.Seq("description"), JSON_Values.JSON_String(d_847_description_)), (_dafny.Seq("errorDescription"), JSON_Values.JSON_String((test).errorDescription)), (_dafny.Seq("algorithmSuiteId"), JSON_Values.JSON_String(d_846_id_)), (_dafny.Seq("keyDescription"), d_853_keyDescription_), (_dafny.Seq("encryptedDataKeys"), JSON_Values.JSON_Array(d_856_encryptedDataKeys_))])) + (d_851_reproducedEc_)) + (d_849_encryptionContext_)))
 

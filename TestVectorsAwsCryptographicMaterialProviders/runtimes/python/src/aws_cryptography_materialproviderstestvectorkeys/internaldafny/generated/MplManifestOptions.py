@@ -125,7 +125,7 @@ import Base64Lemmas
 class ManifestOptions:
     @classmethod
     def default(cls, ):
-        return lambda: ManifestOptions_Decrypt(_dafny.Seq({}), Wrappers.Option.default()())
+        return lambda: ManifestOptions_Decrypt(_dafny.Seq(""), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property

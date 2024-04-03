@@ -189,56 +189,56 @@ class default__:
         _dafny.print(_dafny.string_of(((_dafny.Seq("\n")) + ((((test).vector).description).value) if (((test).vector).description).is_Some else _dafny.Seq(""))))
         _dafny.print(_dafny.string_of(((_dafny.Seq("\n")) + (((test).vector).errorDescription) if ((test).vector).is_NegativeEncryptKeyringVector else _dafny.Seq(""))))
         _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-        d_530_result_: Wrappers.Result
+        d_532_result_: Wrappers.Result
         out51_: Wrappers.Result
         out51_ = ((test).cmm).GetEncryptionMaterials((test).input)
-        d_530_result_ = out51_
-        pat_let_tv0_ = d_530_result_
-        pat_let_tv1_ = d_530_result_
-        pat_let_tv2_ = d_530_result_
+        d_532_result_ = out51_
+        pat_let_tv0_ = d_532_result_
+        pat_let_tv1_ = d_532_result_
+        pat_let_tv2_ = d_532_result_
         def lambda52_(source16_):
             if source16_.is_PositiveEncryptKeyringVector:
-                d_531___mcc_h0_ = source16_.name
-                d_532___mcc_h1_ = source16_.description
-                d_533___mcc_h2_ = source16_.encryptionContext
-                d_534___mcc_h3_ = source16_.commitmentPolicy
-                d_535___mcc_h4_ = source16_.algorithmSuite
-                d_536___mcc_h5_ = source16_.maxPlaintextLength
-                d_537___mcc_h6_ = source16_.requiredEncryptionContextKeys
-                d_538___mcc_h7_ = source16_.encryptDescription
-                d_539___mcc_h8_ = source16_.decryptDescription
-                d_540___mcc_h9_ = source16_.reproducedEncryptionContext
+                d_533___mcc_h0_ = source16_.name
+                d_534___mcc_h1_ = source16_.description
+                d_535___mcc_h2_ = source16_.encryptionContext
+                d_536___mcc_h3_ = source16_.commitmentPolicy
+                d_537___mcc_h4_ = source16_.algorithmSuite
+                d_538___mcc_h5_ = source16_.maxPlaintextLength
+                d_539___mcc_h6_ = source16_.requiredEncryptionContextKeys
+                d_540___mcc_h7_ = source16_.encryptDescription
+                d_541___mcc_h8_ = source16_.decryptDescription
+                d_542___mcc_h9_ = source16_.reproducedEncryptionContext
                 return (pat_let_tv0_).is_Success
             elif source16_.is_PositiveEncryptNegativeDecryptKeyringVector:
-                d_541___mcc_h10_ = source16_.name
-                d_542___mcc_h11_ = source16_.description
-                d_543___mcc_h12_ = source16_.encryptionContext
-                d_544___mcc_h13_ = source16_.commitmentPolicy
-                d_545___mcc_h14_ = source16_.algorithmSuite
-                d_546___mcc_h15_ = source16_.maxPlaintextLength
-                d_547___mcc_h16_ = source16_.requiredEncryptionContextKeys
-                d_548___mcc_h17_ = source16_.decryptErrorDescription
-                d_549___mcc_h18_ = source16_.encryptDescription
-                d_550___mcc_h19_ = source16_.decryptDescription
-                d_551___mcc_h20_ = source16_.reproducedEncryptionContext
+                d_543___mcc_h10_ = source16_.name
+                d_544___mcc_h11_ = source16_.description
+                d_545___mcc_h12_ = source16_.encryptionContext
+                d_546___mcc_h13_ = source16_.commitmentPolicy
+                d_547___mcc_h14_ = source16_.algorithmSuite
+                d_548___mcc_h15_ = source16_.maxPlaintextLength
+                d_549___mcc_h16_ = source16_.requiredEncryptionContextKeys
+                d_550___mcc_h17_ = source16_.decryptErrorDescription
+                d_551___mcc_h18_ = source16_.encryptDescription
+                d_552___mcc_h19_ = source16_.decryptDescription
+                d_553___mcc_h20_ = source16_.reproducedEncryptionContext
                 return (pat_let_tv1_).is_Success
             elif True:
-                d_552___mcc_h21_ = source16_.name
-                d_553___mcc_h22_ = source16_.description
-                d_554___mcc_h23_ = source16_.encryptionContext
-                d_555___mcc_h24_ = source16_.commitmentPolicy
-                d_556___mcc_h25_ = source16_.algorithmSuite
-                d_557___mcc_h26_ = source16_.maxPlaintextLength
-                d_558___mcc_h27_ = source16_.requiredEncryptionContextKeys
-                d_559___mcc_h28_ = source16_.errorDescription
-                d_560___mcc_h29_ = source16_.keyDescription
+                d_554___mcc_h21_ = source16_.name
+                d_555___mcc_h22_ = source16_.description
+                d_556___mcc_h23_ = source16_.encryptionContext
+                d_557___mcc_h24_ = source16_.commitmentPolicy
+                d_558___mcc_h25_ = source16_.algorithmSuite
+                d_559___mcc_h26_ = source16_.maxPlaintextLength
+                d_560___mcc_h27_ = source16_.requiredEncryptionContextKeys
+                d_561___mcc_h28_ = source16_.errorDescription
+                d_562___mcc_h29_ = source16_.keyDescription
                 return not((pat_let_tv2_).is_Success)
 
         testResult = lambda52_((test).vector)
-        materials = (Wrappers.Option_Some(((d_530_result_).value).encryptionMaterials) if (testResult) and ((d_530_result_).is_Success) else Wrappers.Option_None())
+        materials = (Wrappers.Option_Some(((d_532_result_).value).encryptionMaterials) if (testResult) and ((d_532_result_).is_Success) else Wrappers.Option_None())
         if not(testResult):
             if (((test).vector).is_PositiveEncryptKeyringVector) or (((test).vector).is_PositiveEncryptNegativeDecryptKeyringVector):
-                _dafny.print(_dafny.string_of((d_530_result_).error))
+                _dafny.print(_dafny.string_of((d_532_result_).error))
             _dafny.print(_dafny.string_of(_dafny.Seq("\nFAILED! <-----------\n")))
         return testResult, materials
 
@@ -249,46 +249,46 @@ class default__:
         _dafny.print(_dafny.string_of(((test).vector).name))
         _dafny.print(_dafny.string_of(((_dafny.Seq("\n")) + ((((test).vector).description).value) if (((test).vector).description).is_Some else _dafny.Seq(""))))
         _dafny.print(_dafny.string_of(((_dafny.Seq("\n")) + (((test).vector).errorDescription) if ((test).vector).is_NegativeDecryptKeyringTest else _dafny.Seq("\n"))))
-        d_561_result_: Wrappers.Result
+        d_563_result_: Wrappers.Result
         out52_: Wrappers.Result
         out52_ = ((test).cmm).DecryptMaterials((test).input)
-        d_561_result_ = out52_
-        pat_let_tv3_ = d_561_result_
-        pat_let_tv4_ = d_561_result_
+        d_563_result_ = out52_
+        pat_let_tv3_ = d_563_result_
+        pat_let_tv4_ = d_563_result_
         pat_let_tv5_ = test
-        pat_let_tv6_ = d_561_result_
+        pat_let_tv6_ = d_563_result_
         pat_let_tv7_ = test
-        pat_let_tv8_ = d_561_result_
+        pat_let_tv8_ = d_563_result_
         pat_let_tv9_ = test
-        pat_let_tv10_ = d_561_result_
+        pat_let_tv10_ = d_563_result_
         def lambda53_(source17_):
             if source17_.is_PositiveDecryptKeyringTest:
-                d_562___mcc_h0_ = source17_.name
-                d_563___mcc_h1_ = source17_.algorithmSuite
-                d_564___mcc_h2_ = source17_.commitmentPolicy
-                d_565___mcc_h3_ = source17_.encryptedDataKeys
-                d_566___mcc_h4_ = source17_.encryptionContext
-                d_567___mcc_h5_ = source17_.keyDescription
-                d_568___mcc_h6_ = source17_.expectedResult
-                d_569___mcc_h7_ = source17_.description
-                d_570___mcc_h8_ = source17_.reproducedEncryptionContext
+                d_564___mcc_h0_ = source17_.name
+                d_565___mcc_h1_ = source17_.algorithmSuite
+                d_566___mcc_h2_ = source17_.commitmentPolicy
+                d_567___mcc_h3_ = source17_.encryptedDataKeys
+                d_568___mcc_h4_ = source17_.encryptionContext
+                d_569___mcc_h5_ = source17_.keyDescription
+                d_570___mcc_h6_ = source17_.expectedResult
+                d_571___mcc_h7_ = source17_.description
+                d_572___mcc_h8_ = source17_.reproducedEncryptionContext
                 return ((((pat_let_tv3_).is_Success) and (((((pat_let_tv4_).value).decryptionMaterials).plaintextDataKey) == ((((pat_let_tv5_).vector).expectedResult).plaintextDataKey))) and (((((pat_let_tv6_).value).decryptionMaterials).symmetricSigningKey) == ((((pat_let_tv7_).vector).expectedResult).symmetricSigningKey))) and (((((pat_let_tv8_).value).decryptionMaterials).requiredEncryptionContextKeys) == ((((pat_let_tv9_).vector).expectedResult).requiredEncryptionContextKeys))
             elif True:
-                d_571___mcc_h9_ = source17_.name
-                d_572___mcc_h10_ = source17_.algorithmSuite
-                d_573___mcc_h11_ = source17_.commitmentPolicy
-                d_574___mcc_h12_ = source17_.encryptedDataKeys
-                d_575___mcc_h13_ = source17_.encryptionContext
-                d_576___mcc_h14_ = source17_.errorDescription
-                d_577___mcc_h15_ = source17_.keyDescription
-                d_578___mcc_h16_ = source17_.reproducedEncryptionContext
-                d_579___mcc_h17_ = source17_.description
+                d_573___mcc_h9_ = source17_.name
+                d_574___mcc_h10_ = source17_.algorithmSuite
+                d_575___mcc_h11_ = source17_.commitmentPolicy
+                d_576___mcc_h12_ = source17_.encryptedDataKeys
+                d_577___mcc_h13_ = source17_.encryptionContext
+                d_578___mcc_h14_ = source17_.errorDescription
+                d_579___mcc_h15_ = source17_.keyDescription
+                d_580___mcc_h16_ = source17_.reproducedEncryptionContext
+                d_581___mcc_h17_ = source17_.description
                 return not((pat_let_tv10_).is_Success)
 
         output = lambda53_((test).vector)
         if not(output):
-            if (((test).vector).is_PositiveDecryptKeyringTest) and ((d_561_result_).is_Failure):
-                _dafny.print(_dafny.string_of((d_561_result_).error))
+            if (((test).vector).is_PositiveDecryptKeyringTest) and ((d_563_result_).is_Failure):
+                _dafny.print(_dafny.string_of((d_563_result_).error))
             _dafny.print(_dafny.string_of(_dafny.Seq("\nFAILED! <-----------\n")))
         return output
 
@@ -310,131 +310,135 @@ class default__:
         pat_let_tv23_ = vector
         pat_let_tv24_ = vector
         pat_let_tv25_ = vector
-        d_580_input_: software_amazon_cryptography_materialproviders_internaldafny_types.GetEncryptionMaterialsInput
+        d_582_input_: software_amazon_cryptography_materialproviders_internaldafny_types.GetEncryptionMaterialsInput
         def lambda54_(source18_):
             if source18_.is_PositiveEncryptKeyringVector:
-                d_581___mcc_h0_ = source18_.name
-                d_582___mcc_h1_ = source18_.description
-                d_583___mcc_h2_ = source18_.encryptionContext
-                d_584___mcc_h3_ = source18_.commitmentPolicy
-                d_585___mcc_h4_ = source18_.algorithmSuite
-                d_586___mcc_h5_ = source18_.maxPlaintextLength
-                d_587___mcc_h6_ = source18_.requiredEncryptionContextKeys
-                d_588___mcc_h7_ = source18_.encryptDescription
-                d_589___mcc_h8_ = source18_.decryptDescription
-                d_590___mcc_h9_ = source18_.reproducedEncryptionContext
+                d_583___mcc_h0_ = source18_.name
+                d_584___mcc_h1_ = source18_.description
+                d_585___mcc_h2_ = source18_.encryptionContext
+                d_586___mcc_h3_ = source18_.commitmentPolicy
+                d_587___mcc_h4_ = source18_.algorithmSuite
+                d_588___mcc_h5_ = source18_.maxPlaintextLength
+                d_589___mcc_h6_ = source18_.requiredEncryptionContextKeys
+                d_590___mcc_h7_ = source18_.encryptDescription
+                d_591___mcc_h8_ = source18_.decryptDescription
+                d_592___mcc_h9_ = source18_.reproducedEncryptionContext
                 return software_amazon_cryptography_materialproviders_internaldafny_types.GetEncryptionMaterialsInput_GetEncryptionMaterialsInput((pat_let_tv11_).encryptionContext, (pat_let_tv12_).commitmentPolicy, Wrappers.Option_Some(((pat_let_tv13_).algorithmSuite).id), (pat_let_tv14_).maxPlaintextLength, (pat_let_tv15_).requiredEncryptionContextKeys)
             elif source18_.is_PositiveEncryptNegativeDecryptKeyringVector:
-                d_591___mcc_h10_ = source18_.name
-                d_592___mcc_h11_ = source18_.description
-                d_593___mcc_h12_ = source18_.encryptionContext
-                d_594___mcc_h13_ = source18_.commitmentPolicy
-                d_595___mcc_h14_ = source18_.algorithmSuite
-                d_596___mcc_h15_ = source18_.maxPlaintextLength
-                d_597___mcc_h16_ = source18_.requiredEncryptionContextKeys
-                d_598___mcc_h17_ = source18_.decryptErrorDescription
-                d_599___mcc_h18_ = source18_.encryptDescription
-                d_600___mcc_h19_ = source18_.decryptDescription
-                d_601___mcc_h20_ = source18_.reproducedEncryptionContext
+                d_593___mcc_h10_ = source18_.name
+                d_594___mcc_h11_ = source18_.description
+                d_595___mcc_h12_ = source18_.encryptionContext
+                d_596___mcc_h13_ = source18_.commitmentPolicy
+                d_597___mcc_h14_ = source18_.algorithmSuite
+                d_598___mcc_h15_ = source18_.maxPlaintextLength
+                d_599___mcc_h16_ = source18_.requiredEncryptionContextKeys
+                d_600___mcc_h17_ = source18_.decryptErrorDescription
+                d_601___mcc_h18_ = source18_.encryptDescription
+                d_602___mcc_h19_ = source18_.decryptDescription
+                d_603___mcc_h20_ = source18_.reproducedEncryptionContext
                 return software_amazon_cryptography_materialproviders_internaldafny_types.GetEncryptionMaterialsInput_GetEncryptionMaterialsInput((pat_let_tv16_).encryptionContext, (pat_let_tv17_).commitmentPolicy, Wrappers.Option_Some(((pat_let_tv18_).algorithmSuite).id), (pat_let_tv19_).maxPlaintextLength, (pat_let_tv20_).requiredEncryptionContextKeys)
             elif True:
-                d_602___mcc_h21_ = source18_.name
-                d_603___mcc_h22_ = source18_.description
-                d_604___mcc_h23_ = source18_.encryptionContext
-                d_605___mcc_h24_ = source18_.commitmentPolicy
-                d_606___mcc_h25_ = source18_.algorithmSuite
-                d_607___mcc_h26_ = source18_.maxPlaintextLength
-                d_608___mcc_h27_ = source18_.requiredEncryptionContextKeys
-                d_609___mcc_h28_ = source18_.errorDescription
-                d_610___mcc_h29_ = source18_.keyDescription
+                d_604___mcc_h21_ = source18_.name
+                d_605___mcc_h22_ = source18_.description
+                d_606___mcc_h23_ = source18_.encryptionContext
+                d_607___mcc_h24_ = source18_.commitmentPolicy
+                d_608___mcc_h25_ = source18_.algorithmSuite
+                d_609___mcc_h26_ = source18_.maxPlaintextLength
+                d_610___mcc_h27_ = source18_.requiredEncryptionContextKeys
+                d_611___mcc_h28_ = source18_.errorDescription
+                d_612___mcc_h29_ = source18_.keyDescription
                 return software_amazon_cryptography_materialproviders_internaldafny_types.GetEncryptionMaterialsInput_GetEncryptionMaterialsInput((pat_let_tv21_).encryptionContext, (pat_let_tv22_).commitmentPolicy, Wrappers.Option_Some(((pat_let_tv23_).algorithmSuite).id), (pat_let_tv24_).maxPlaintextLength, (pat_let_tv25_).requiredEncryptionContextKeys)
 
-        d_580_input_ = lambda54_(vector)
-        d_611_mpl_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
-        d_612_valueOrError0_: Wrappers.Result = None
+        d_582_input_ = lambda54_(vector)
+        d_613_mpl_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
+        d_614_valueOrError0_: Wrappers.Result = None
         out53_: Wrappers.Result
         out53_ = software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__.WrappedMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__.WrappedDefaultMaterialProvidersConfig())
-        d_612_valueOrError0_ = out53_
-        if not(not((d_612_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestVectors.dfy(133,12): " + _dafny.string_of(d_612_valueOrError0_))
-        d_611_mpl_ = (d_612_valueOrError0_).Extract()
-        d_613_cmm_k_: Wrappers.Result
+        d_614_valueOrError0_ = out53_
+        if not(not((d_614_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestVectors.dfy(133,15): " + _dafny.string_of(d_614_valueOrError0_))
+        d_613_mpl_ = (d_614_valueOrError0_).Extract()
+        d_615_cmm_k_: Wrappers.Result
         out54_: Wrappers.Result
+        print(f"{keys=}")
+        print(f"{keys.__dict__=}")
         out54_ = (keys).CreateWrappedTestVectorCmm(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.TestVectorCmmInput_TestVectorCmmInput(((vector).encryptDescription if (vector).is_PositiveEncryptKeyringVector else ((vector).encryptDescription if (vector).is_PositiveEncryptNegativeDecryptKeyringVector else (vector).keyDescription)), software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.CmmOperation_ENCRYPT()))
-        d_613_cmm_k_ = out54_
-        d_614_cmm_: software_amazon_cryptography_materialproviders_internaldafny_types.ICryptographicMaterialsManager
-        d_615_valueOrError1_: Wrappers.Result = None
-        def lambda55_(d_616_e_):
+        d_615_cmm_k_ = out54_
+        print(f"{d_615_cmm_k_=}")
+        print(f"{d_615_cmm_k_.__dict__=}")
+        d_616_cmm_: software_amazon_cryptography_materialproviders_internaldafny_types.ICryptographicMaterialsManager
+        d_617_valueOrError1_: Wrappers.Result = None
+        def lambda55_(d_618_e_):
             def iife20_(_pat_let7_0):
-                def iife21_(d_617___v78_):
+                def iife21_(d_619___v78_):
                     return _dafny.Seq("Cmm failure")
                 return iife21_(_pat_let7_0)
-            return iife20_(default__.printErr(d_616_e_))
+            return iife20_(default__.printErr(d_618_e_))
 
-        d_615_valueOrError1_ = (d_613_cmm_k_).MapFailure(lambda55_)
-        if (d_615_valueOrError1_).IsFailure():
-            output = (d_615_valueOrError1_).PropagateFailure()
+        d_617_valueOrError1_ = (d_615_cmm_k_).MapFailure(lambda55_)
+        if (d_617_valueOrError1_).IsFailure():
+            output = (d_617_valueOrError1_).PropagateFailure()
             return output
-        d_614_cmm_ = (d_615_valueOrError1_).Extract()
-        output = Wrappers.Result_Success(EncryptTest_EncryptTest(d_580_input_, d_614_cmm_, vector))
+        d_616_cmm_ = (d_617_valueOrError1_).Extract()
+        output = Wrappers.Result_Success(EncryptTest_EncryptTest(d_582_input_, d_616_cmm_, vector))
         return output
         return output
 
     @staticmethod
     def EncryptTestToDecryptVector(test, materials):
-        d_618_keysToRemove_ = Seq.default__.ToSet((((test).vector).requiredEncryptionContextKeys).UnwrapOr(_dafny.Seq([])))
+        d_620_keysToRemove_ = Seq.default__.ToSet((((test).vector).requiredEncryptionContextKeys).UnwrapOr(_dafny.Seq([])))
         source19_ = (test).vector
         if source19_.is_PositiveEncryptKeyringVector:
-            d_619___mcc_h0_ = source19_.name
-            d_620___mcc_h1_ = source19_.description
-            d_621___mcc_h2_ = source19_.encryptionContext
-            d_622___mcc_h3_ = source19_.commitmentPolicy
-            d_623___mcc_h4_ = source19_.algorithmSuite
-            d_624___mcc_h5_ = source19_.maxPlaintextLength
-            d_625___mcc_h6_ = source19_.requiredEncryptionContextKeys
-            d_626___mcc_h7_ = source19_.encryptDescription
-            d_627___mcc_h8_ = source19_.decryptDescription
-            d_628___mcc_h9_ = source19_.reproducedEncryptionContext
-            return DecryptTestVector_PositiveDecryptKeyringTest((((test).vector).name) + (_dafny.Seq("->Decryption")), ((test).vector).algorithmSuite, ((test).vector).commitmentPolicy, (materials).encryptedDataKeys, ((materials).encryptionContext) - (d_618_keysToRemove_), ((test).vector).decryptDescription, DecryptResult_DecryptResult((materials).plaintextDataKey, (Wrappers.Option_Some((((materials).symmetricSigningKeys).value)[0]) if (((materials).symmetricSigningKeys).is_Some) and ((0) < (len(((materials).symmetricSigningKeys).value))) else Wrappers.Option_None()), (((test).vector).requiredEncryptionContextKeys).UnwrapOr(_dafny.Seq([]))), (Wrappers.Option_Some((_dafny.Seq("Decryption for ")) + ((((test).vector).description).value)) if (((test).vector).description).is_Some else Wrappers.Option_None()), ((test).vector).reproducedEncryptionContext)
+            d_621___mcc_h0_ = source19_.name
+            d_622___mcc_h1_ = source19_.description
+            d_623___mcc_h2_ = source19_.encryptionContext
+            d_624___mcc_h3_ = source19_.commitmentPolicy
+            d_625___mcc_h4_ = source19_.algorithmSuite
+            d_626___mcc_h5_ = source19_.maxPlaintextLength
+            d_627___mcc_h6_ = source19_.requiredEncryptionContextKeys
+            d_628___mcc_h7_ = source19_.encryptDescription
+            d_629___mcc_h8_ = source19_.decryptDescription
+            d_630___mcc_h9_ = source19_.reproducedEncryptionContext
+            return DecryptTestVector_PositiveDecryptKeyringTest((((test).vector).name) + (_dafny.Seq("->Decryption")), ((test).vector).algorithmSuite, ((test).vector).commitmentPolicy, (materials).encryptedDataKeys, ((materials).encryptionContext) - (d_620_keysToRemove_), ((test).vector).decryptDescription, DecryptResult_DecryptResult((materials).plaintextDataKey, (Wrappers.Option_Some((((materials).symmetricSigningKeys).value)[0]) if (((materials).symmetricSigningKeys).is_Some) and ((0) < (len(((materials).symmetricSigningKeys).value))) else Wrappers.Option_None()), (((test).vector).requiredEncryptionContextKeys).UnwrapOr(_dafny.Seq([]))), (Wrappers.Option_Some((_dafny.Seq("Decryption for ")) + ((((test).vector).description).value)) if (((test).vector).description).is_Some else Wrappers.Option_None()), ((test).vector).reproducedEncryptionContext)
         elif True:
-            d_629___mcc_h10_ = source19_.name
-            d_630___mcc_h11_ = source19_.description
-            d_631___mcc_h12_ = source19_.encryptionContext
-            d_632___mcc_h13_ = source19_.commitmentPolicy
-            d_633___mcc_h14_ = source19_.algorithmSuite
-            d_634___mcc_h15_ = source19_.maxPlaintextLength
-            d_635___mcc_h16_ = source19_.requiredEncryptionContextKeys
-            d_636___mcc_h17_ = source19_.decryptErrorDescription
-            d_637___mcc_h18_ = source19_.encryptDescription
-            d_638___mcc_h19_ = source19_.decryptDescription
-            d_639___mcc_h20_ = source19_.reproducedEncryptionContext
-            return DecryptTestVector_NegativeDecryptKeyringTest((((test).vector).name) + (_dafny.Seq("->Decryption")), ((test).vector).algorithmSuite, ((test).vector).commitmentPolicy, (materials).encryptedDataKeys, (((test).vector).encryptionContext) - (d_618_keysToRemove_), ((test).vector).decryptErrorDescription, ((test).vector).decryptDescription, ((test).vector).reproducedEncryptionContext, (Wrappers.Option_Some((_dafny.Seq("Decryption for ")) + ((((test).vector).description).value)) if (((test).vector).description).is_Some else Wrappers.Option_None()))
+            d_631___mcc_h10_ = source19_.name
+            d_632___mcc_h11_ = source19_.description
+            d_633___mcc_h12_ = source19_.encryptionContext
+            d_634___mcc_h13_ = source19_.commitmentPolicy
+            d_635___mcc_h14_ = source19_.algorithmSuite
+            d_636___mcc_h15_ = source19_.maxPlaintextLength
+            d_637___mcc_h16_ = source19_.requiredEncryptionContextKeys
+            d_638___mcc_h17_ = source19_.decryptErrorDescription
+            d_639___mcc_h18_ = source19_.encryptDescription
+            d_640___mcc_h19_ = source19_.decryptDescription
+            d_641___mcc_h20_ = source19_.reproducedEncryptionContext
+            return DecryptTestVector_NegativeDecryptKeyringTest((((test).vector).name) + (_dafny.Seq("->Decryption")), ((test).vector).algorithmSuite, ((test).vector).commitmentPolicy, (materials).encryptedDataKeys, (((test).vector).encryptionContext) - (d_620_keysToRemove_), ((test).vector).decryptErrorDescription, ((test).vector).decryptDescription, ((test).vector).reproducedEncryptionContext, (Wrappers.Option_Some((_dafny.Seq("Decryption for ")) + ((((test).vector).description).value)) if (((test).vector).description).is_Some else Wrappers.Option_None()))
 
     @staticmethod
     def DecryptVectorToDecryptTest(keys, vector):
         output: Wrappers.Result = None
-        d_640_input_: software_amazon_cryptography_materialproviders_internaldafny_types.DecryptMaterialsInput
-        d_640_input_ = software_amazon_cryptography_materialproviders_internaldafny_types.DecryptMaterialsInput_DecryptMaterialsInput(((vector).algorithmSuite).id, (vector).commitmentPolicy, (vector).encryptedDataKeys, (vector).encryptionContext, (vector).reproducedEncryptionContext)
-        d_641_mpl_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
-        d_642_valueOrError0_: Wrappers.Result = None
+        d_642_input_: software_amazon_cryptography_materialproviders_internaldafny_types.DecryptMaterialsInput
+        d_642_input_ = software_amazon_cryptography_materialproviders_internaldafny_types.DecryptMaterialsInput_DecryptMaterialsInput(((vector).algorithmSuite).id, (vector).commitmentPolicy, (vector).encryptedDataKeys, (vector).encryptionContext, (vector).reproducedEncryptionContext)
+        d_643_mpl_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
+        d_644_valueOrError0_: Wrappers.Result = None
         out55_: Wrappers.Result
         out55_ = software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__.WrappedMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__.WrappedDefaultMaterialProvidersConfig())
-        d_642_valueOrError0_ = out55_
-        if not(not((d_642_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestVectors.dfy(218,12): " + _dafny.string_of(d_642_valueOrError0_))
-        d_641_mpl_ = (d_642_valueOrError0_).Extract()
-        d_643_cmm_k_: Wrappers.Result
+        d_644_valueOrError0_ = out55_
+        if not(not((d_644_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestVectors.dfy(218,15): " + _dafny.string_of(d_644_valueOrError0_))
+        d_643_mpl_ = (d_644_valueOrError0_).Extract()
+        d_645_cmm_k_: Wrappers.Result
         out56_: Wrappers.Result
         out56_ = (keys).CreateWrappedTestVectorCmm(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.TestVectorCmmInput_TestVectorCmmInput((vector).keyDescription, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.CmmOperation_DECRYPT()))
-        d_643_cmm_k_ = out56_
-        d_644_cmm_: software_amazon_cryptography_materialproviders_internaldafny_types.ICryptographicMaterialsManager
-        d_645_valueOrError1_: Wrappers.Result = None
-        d_645_valueOrError1_ = (d_643_cmm_k_).MapFailure(default__.ErrorToString)
-        if (d_645_valueOrError1_).IsFailure():
-            output = (d_645_valueOrError1_).PropagateFailure()
+        d_645_cmm_k_ = out56_
+        d_646_cmm_: software_amazon_cryptography_materialproviders_internaldafny_types.ICryptographicMaterialsManager
+        d_647_valueOrError1_: Wrappers.Result = None
+        d_647_valueOrError1_ = (d_645_cmm_k_).MapFailure(default__.ErrorToString)
+        if (d_647_valueOrError1_).IsFailure():
+            output = (d_647_valueOrError1_).PropagateFailure()
             return output
-        d_644_cmm_ = (d_645_valueOrError1_).Extract()
-        output = Wrappers.Result_Success(DecryptTest_DecryptTest(d_640_input_, d_644_cmm_, vector))
+        d_646_cmm_ = (d_647_valueOrError1_).Extract()
+        output = Wrappers.Result_Success(DecryptTest_DecryptTest(d_642_input_, d_646_cmm_, vector))
         return output
         return output
 
@@ -442,72 +446,72 @@ class default__:
     def ErrorToString(e):
         source20_ = e
         if source20_.is_KeyVectorException:
-            d_646___mcc_h0_ = source20_.message
-            d_647_message_ = d_646___mcc_h0_
-            return d_647_message_
+            d_648___mcc_h0_ = source20_.message
+            d_649_message_ = d_648___mcc_h0_
+            return d_649_message_
         elif source20_.is_AwsCryptographyMaterialProviders:
-            d_648___mcc_h2_ = source20_.AwsCryptographyMaterialProviders
-            d_649_mplError_ = d_648___mcc_h2_
-            source21_ = d_649_mplError_
+            d_650___mcc_h2_ = source20_.AwsCryptographyMaterialProviders
+            d_651_mplError_ = d_650___mcc_h2_
+            source21_ = d_651_mplError_
             if source21_.is_AwsCryptographicMaterialProvidersException:
-                d_650___mcc_h12_ = source21_.message
-                d_651_message_ = d_650___mcc_h12_
-                return d_651_message_
+                d_652___mcc_h12_ = source21_.message
+                d_653_message_ = d_652___mcc_h12_
+                return d_653_message_
             elif source21_.is_EntryAlreadyExists:
-                d_652___mcc_h14_ = source21_.message
+                d_654___mcc_h14_ = source21_.message
                 return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
             elif source21_.is_EntryDoesNotExist:
-                d_653___mcc_h16_ = source21_.message
+                d_655___mcc_h16_ = source21_.message
                 return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
             elif source21_.is_InvalidAlgorithmSuiteInfo:
-                d_654___mcc_h18_ = source21_.message
+                d_656___mcc_h18_ = source21_.message
                 return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
             elif source21_.is_InvalidAlgorithmSuiteInfoOnDecrypt:
-                d_655___mcc_h20_ = source21_.message
+                d_657___mcc_h20_ = source21_.message
                 return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
             elif source21_.is_InvalidAlgorithmSuiteInfoOnEncrypt:
-                d_656___mcc_h22_ = source21_.message
+                d_658___mcc_h22_ = source21_.message
                 return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
             elif source21_.is_InvalidDecryptionMaterials:
-                d_657___mcc_h24_ = source21_.message
+                d_659___mcc_h24_ = source21_.message
                 return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
             elif source21_.is_InvalidDecryptionMaterialsTransition:
-                d_658___mcc_h26_ = source21_.message
+                d_660___mcc_h26_ = source21_.message
                 return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
             elif source21_.is_InvalidEncryptionMaterials:
-                d_659___mcc_h28_ = source21_.message
+                d_661___mcc_h28_ = source21_.message
                 return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
             elif source21_.is_InvalidEncryptionMaterialsTransition:
-                d_660___mcc_h30_ = source21_.message
+                d_662___mcc_h30_ = source21_.message
                 return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
             elif source21_.is_AwsCryptographyKeyStore:
-                d_661___mcc_h32_ = source21_.AwsCryptographyKeyStore
+                d_663___mcc_h32_ = source21_.AwsCryptographyKeyStore
                 return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
             elif source21_.is_AwsCryptographyPrimitives:
-                d_662___mcc_h34_ = source21_.AwsCryptographyPrimitives
+                d_664___mcc_h34_ = source21_.AwsCryptographyPrimitives
                 return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
             elif source21_.is_ComAmazonawsDynamodb:
-                d_663___mcc_h36_ = source21_.ComAmazonawsDynamodb
+                d_665___mcc_h36_ = source21_.ComAmazonawsDynamodb
                 return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
             elif source21_.is_ComAmazonawsKms:
-                d_664___mcc_h38_ = source21_.ComAmazonawsKms
+                d_666___mcc_h38_ = source21_.ComAmazonawsKms
                 return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
             elif source21_.is_CollectionOfErrors:
-                d_665___mcc_h40_ = source21_.list
-                d_666___mcc_h41_ = source21_.message
+                d_667___mcc_h40_ = source21_.list
+                d_668___mcc_h41_ = source21_.message
                 return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
             elif True:
-                d_667___mcc_h44_ = source21_.obj
+                d_669___mcc_h44_ = source21_.obj
                 return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
         elif source20_.is_ComAmazonawsKms:
-            d_668___mcc_h4_ = source20_.ComAmazonawsKms
+            d_670___mcc_h4_ = source20_.ComAmazonawsKms
             return _dafny.Seq("Unmapped KeyVectorException")
         elif source20_.is_CollectionOfErrors:
-            d_669___mcc_h6_ = source20_.list
-            d_670___mcc_h7_ = source20_.message
+            d_671___mcc_h6_ = source20_.list
+            d_672___mcc_h7_ = source20_.message
             return _dafny.Seq("Unmapped KeyVectorException")
         elif True:
-            d_671___mcc_h10_ = source20_.obj
+            d_673___mcc_h10_ = source20_.obj
             return _dafny.Seq("Unmapped KeyVectorException")
 
     @staticmethod
@@ -562,7 +566,7 @@ class DecryptTest_DecryptTest(DecryptTest, NamedTuple('DecryptTest', [('input', 
 class EncryptTestVector:
     @classmethod
     def default(cls, ):
-        return lambda: EncryptTestVector_PositiveEncryptKeyringVector(_dafny.Seq({}), Wrappers.Option.default()(), _dafny.Map({}), software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy.default()(), software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription.default()(), software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription.default()(), Wrappers.Option.default()())
+        return lambda: EncryptTestVector_PositiveEncryptKeyringVector(_dafny.Seq(""), Wrappers.Option.default()(), _dafny.Map({}), software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy.default()(), software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription.default()(), software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -603,7 +607,7 @@ class EncryptTestVector_NegativeEncryptKeyringVector(EncryptTestVector, NamedTup
 class DecryptTestVector:
     @classmethod
     def default(cls, ):
-        return lambda: DecryptTestVector_PositiveDecryptKeyringTest(_dafny.Seq({}), software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo.default()(), software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy.default()(), _dafny.Seq({}), _dafny.Map({}), software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription.default()(), DecryptResult.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: DecryptTestVector_PositiveDecryptKeyringTest(_dafny.Seq(""), software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo.default()(), software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy.default()(), _dafny.Seq({}), _dafny.Map({}), software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription.default()(), DecryptResult.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
