@@ -189,11 +189,11 @@ def aws_cryptography_keystore_GetBeaconKeyOutput(dafny_input):
 
 
 def aws_cryptography_keystore_DdbClientReference(dafny_input):
-    return input._impl
+    return dafny_input._impl
 
 
 def aws_cryptography_keystore_KmsClientReference(dafny_input):
-    return input._impl
+    return dafny_input._impl
 
 
 def aws_cryptography_keystore_KeyStoreConfig(dafny_input):
