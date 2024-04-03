@@ -26,25 +26,19 @@ const Runtimes = {
   },
   net: {
     "AwsCryptographicMaterialProviders/runtimes/net/MPL.csproj": {
-      dependencies: [],
-      assemblyInfo:
-        "AwsCryptographicMaterialProviders/runtimes/net/AssemblyInfo.cs",
+      dependencies: []
     },
     "ComAmazonawsKms/runtimes/net/AWS-KMS.csproj": {
-      dependencies: [],
-      assemblyInfo: "ComAmazonawsKms/runtimes/net/AssemblyInfo.cs",
+      dependencies: []
     },
     "ComAmazonawsDynamodb/runtimes/net/ComAmazonawsDynamodb.csproj": {
-      dependencies: [],
-      assemblyInfo: "ComAmazonawsDynamodb/runtimes/net/AssemblyInfo.cs",
+      dependencies: []
     },
     "AwsCryptographyPrimitives/runtimes/net/Crypto.csproj": {
-      dependencies: [],
-      assemblyInfo: "AwsCryptographyPrimitives/runtimes/net/AssemblyInfo.cs",
+      dependencies: []
     },
     "StandardLibrary/runtimes/net/STD.csproj": {
-      dependencies: [],
-      assemblyInfo: "StandardLibrary/runtimes/net/AssemblyInfo.cs",
+      dependencies: []
     },
   },
 };
@@ -105,18 +99,7 @@ module.exports = {
             to: "<Version>${nextRelease.version}</Version>",
             results: Object.keys(Runtimes.net).map(CheckResults),
             countMatches: true,
-          },
-
-          // Update the AssmeblyInfo.cs file of the DotNet projects
-          ...Object.entries(Runtimes.net).flatMap(
-            ([file, { assemblyInfo }]) => ({
-              files: assemblyInfo,
-              from: "assembly: AssemblyVersion(.*)",
-              to: 'assembly: AssemblyVersion("${nextRelease.version}")]',
-              results: [CheckResults(assemblyInfo)],
-              countMatches: true,
-            }),
-          ),
+          }
         ],
       },
     ],
@@ -127,7 +110,6 @@ module.exports = {
         assets: [
           "CHANGELOG.md",
           ...Object.values(Runtimes).flatMap((r) => Object.keys(r)),
-          ...Object.values(Runtimes.net).flatMap((r) => r.assemblyInfo),
         ],
         message:
           "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
