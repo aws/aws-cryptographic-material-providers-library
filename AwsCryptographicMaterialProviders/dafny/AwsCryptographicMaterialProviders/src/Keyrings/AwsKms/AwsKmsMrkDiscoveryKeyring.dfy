@@ -21,6 +21,7 @@ module AwsKmsMrkDiscoveryKeyring {
   import AlgorithmSuites
   import Keyring
   import Materials
+  import UUID
   import UTF8
   import Types = AwsCryptographyMaterialProvidersTypes
   import KMS = Types.ComAmazonawsKmsTypes
@@ -261,8 +262,7 @@ module AwsKmsMrkDiscoveryKeyring {
                 message := "Unable to decrypt data key: No Encrypted Data Keys found to match." +
                             "\n \t \t Expected:" +
                             "\n \t \t \t KeyProviderId: " + UTF8.Decode(input.encryptedDataKeys[0].keyProviderId).Extract() +
-                            "\n \t \t \t KeyProviderInfo: " + UTF8.Decode(input.encryptedDataKeys[0].keyProviderInfo).Extract() +
-                            "\n \t \t \t BranchKeyVersion: " + UUID.FromByteArray(branchKeyVersionUuid).Extract()
+                            "\n \t \t \t KeyProviderInfo: " + UTF8.Decode(input.encryptedDataKeys[0].keyProviderInfo).Extract()
                 ));
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-mrk-discovery-keyring.md#ondecrypt

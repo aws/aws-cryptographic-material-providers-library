@@ -357,8 +357,8 @@ module RawRSAKeyring {
                                                                                   "EncryptedDataKey "
                                                                                   + Base10Int2String(i)
                                                                                   + " did not match RSAKeyring. " 
-                                                                                  + "Expected: " 
-                                                                                  + input.encryptedDataKeys[i] + ". ")
+                                                                                  + "Expected: keyProviderId: " 
+                                                                                  + UTF8.Decode(input.encryptedDataKeys[i].keyProviderId).Extract() + ". ")
           ];
         }
       }

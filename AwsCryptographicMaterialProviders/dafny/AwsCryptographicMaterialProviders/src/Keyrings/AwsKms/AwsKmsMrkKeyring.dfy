@@ -487,8 +487,7 @@ module AwsKmsMrkKeyring {
                 message := "Unable to decrypt data key: No Encrypted Data Keys found to match."+
                             "\n \t \t Expected:" +
                             "\n \t \t \t KeyProviderId: " + UTF8.Decode(input.encryptedDataKeys[0].keyProviderId).Extract() +
-                            "\n \t \t \t KeyProviderInfo: " + UTF8.Decode(input.encryptedDataKeys[0].keyProviderInfo).Extract() +
-                            "\n \t \t \t BranchKeyVersion: " + UUID.FromByteArray(branchKeyVersionUuid).Extract()
+                            "\n \t \t \t KeyProviderInfo: " + UTF8.Decode(input.encryptedDataKeys[0].keyProviderInfo).Extract()
                 ));
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-mrk-keyring.md#ondecrypt

@@ -28,6 +28,7 @@ module AwsKmsKeyring {
   import Types = AwsCryptographyMaterialProvidersTypes
   import KMS = ComAmazonawsKmsTypes
   import UTF8
+  import UUID
   import EdkWrapping
   import MaterialWrapping
 
@@ -510,7 +511,7 @@ module AwsKmsKeyring {
                             "\n \t \t Expected:" +
                             "\n \t \t \t KeyProviderId: " + UTF8.Decode(input.encryptedDataKeys[0].keyProviderId).Extract() +
                             "\n \t \t \t KeyProviderInfo: " + UTF8.Decode(input.encryptedDataKeys[0].keyProviderInfo).Extract() +
-                            "\n \t \t \t BranchKeyVersion: " + UUID.FromByteArray(branchKeyVersionUuid).Extract()
+                            "."
                 ));
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt

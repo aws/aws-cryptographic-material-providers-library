@@ -343,8 +343,8 @@ module RawAESKeyring {
               message :="EncrypedDataKey "
               + Base10Int2String(i)
               + " did not match AESKeyring."
-              + " Expected: " 
-              + input.encryptedDataKeys[i] + ". ")
+              + " Expected: keyProviderId: " 
+              + UTF8.Decode(input.encryptedDataKeys[i].keyProviderId).Extract() + ". ")
           ];
         }
       }
