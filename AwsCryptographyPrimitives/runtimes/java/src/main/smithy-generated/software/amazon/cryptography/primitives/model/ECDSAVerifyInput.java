@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class ECDSAVerifyInput {
-
   private final ECDSASignatureAlgorithm signatureAlgorithm;
 
   private final ByteBuffer verificationKey;
@@ -68,7 +67,6 @@ public class ECDSAVerifyInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected ECDSASignatureAlgorithm signatureAlgorithm;
 
     protected ByteBuffer verificationKey;
@@ -77,7 +75,8 @@ public class ECDSAVerifyInput {
 
     protected ByteBuffer signature;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(ECDSAVerifyInput model) {
       this.signatureAlgorithm = model.signatureAlgorithm();
@@ -86,9 +85,7 @@ public class ECDSAVerifyInput {
       this.signature = model.signature();
     }
 
-    public Builder signatureAlgorithm(
-      ECDSASignatureAlgorithm signatureAlgorithm
-    ) {
+    public Builder signatureAlgorithm(ECDSASignatureAlgorithm signatureAlgorithm) {
       this.signatureAlgorithm = signatureAlgorithm;
       return this;
     }
@@ -125,25 +122,17 @@ public class ECDSAVerifyInput {
     }
 
     public ECDSAVerifyInput build() {
-      if (Objects.isNull(this.signatureAlgorithm())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `signatureAlgorithm`"
-        );
+      if (Objects.isNull(this.signatureAlgorithm()))  {
+        throw new IllegalArgumentException("Missing value for required field `signatureAlgorithm`");
       }
-      if (Objects.isNull(this.verificationKey())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `verificationKey`"
-        );
+      if (Objects.isNull(this.verificationKey()))  {
+        throw new IllegalArgumentException("Missing value for required field `verificationKey`");
       }
-      if (Objects.isNull(this.message())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `message`"
-        );
+      if (Objects.isNull(this.message()))  {
+        throw new IllegalArgumentException("Missing value for required field `message`");
       }
-      if (Objects.isNull(this.signature())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `signature`"
-        );
+      if (Objects.isNull(this.signature()))  {
+        throw new IllegalArgumentException("Missing value for required field `signature`");
       }
       return new ECDSAVerifyInput(this);
     }

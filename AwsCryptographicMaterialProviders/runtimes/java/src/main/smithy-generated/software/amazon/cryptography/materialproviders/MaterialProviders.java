@@ -52,9 +52,13 @@ public class MaterialProviders {
     MaterialProvidersConfig input = builder.MaterialProvidersConfig();
     software.amazon.cryptography.materialproviders.internaldafny.types.MaterialProvidersConfig dafnyValue =
       ToDafny.MaterialProvidersConfig(input);
+<<<<<<< HEAD
+    Result<IAwsCryptographicMaterialProvidersClient, Error> result =
+=======
     //BEGIN MANUAL FIX
     Result<MaterialProvidersClient, Error> result =
       //END MANUAL FIX
+>>>>>>> main
       __default.MaterialProviders(dafnyValue);
     if (result.is_Failure()) {
       throw ToNative.Error(result.dtor_error());
