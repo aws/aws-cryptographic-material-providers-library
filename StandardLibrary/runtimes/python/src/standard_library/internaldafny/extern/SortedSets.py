@@ -1,6 +1,5 @@
 from standard_library.internaldafny.generated.SortedSets import *
 import standard_library.internaldafny.generated.SortedSets
-import standard_library.internaldafny.extern.UTF8
 import _dafny
 
 class default__:
