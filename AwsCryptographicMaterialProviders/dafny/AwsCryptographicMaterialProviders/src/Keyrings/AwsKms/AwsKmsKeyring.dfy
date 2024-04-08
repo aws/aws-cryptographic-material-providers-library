@@ -507,13 +507,12 @@ module AwsKmsKeyring {
       var filter := new OnDecryptEncryptedDataKeyFilter(awsKmsKey);
       var edksToAttempt :- FilterWithResult(filter, input.encryptedDataKeys);
 
-      var errMsg : string := "";
-      if(0 > |edksToAttempt|) {
-        var errMsg := ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys);
-      }
+      :- Need(ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys).Success?, 
+              Types.AwsCryptographicMaterialProvidersException(
+                message := "Failed to generate invalid data keys error"));
       :- Need(0 < |edksToAttempt|,
               Types.AwsCryptographicMaterialProvidersException(
-                message := errMsg
+                message := ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys).Extract()
               ));
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
