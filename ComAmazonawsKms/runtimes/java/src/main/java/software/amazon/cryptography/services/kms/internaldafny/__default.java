@@ -41,12 +41,12 @@ public class __default
         )
         .build();
       final IKMSClient shim = new Shim(client, region);
-      return CreateSuccessOfClient(shim);
+      return CreateSuccessOfClientTrait(shim);
     } catch (Exception e) {
       Error dafny_error = Error.create_KMSInternalException(
         WrappersInterop.CreateStringSome(CharacterSequence(e.getMessage()))
       );
-      return CreateFailureOfError(dafny_error);
+      return CreateFailureOfErrorForClientTrait(dafny_error);
     }
   }
 
@@ -77,12 +77,12 @@ public class __default
         )
         .build();
       final IKMSClient shim = new Shim(client, regionString);
-      return CreateSuccessOfClient(shim);
+      return CreateSuccessOfClientTrait(shim);
     } catch (Exception e) {
       Error dafny_error = Error.create_KMSInternalException(
         WrappersInterop.CreateStringSome(CharacterSequence(e.getMessage()))
       );
-      return CreateFailureOfError(dafny_error);
+      return CreateFailureOfErrorForClientTrait(dafny_error);
     }
   }
 
