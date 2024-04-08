@@ -356,8 +356,8 @@ module RawRSAKeyring {
           errors := errors + [Types.AwsCryptographicMaterialProvidersException( message :=
                                                                                   "EncryptedDataKey "
                                                                                   + Base10Int2String(i)
-                                                                                  + " did not match RSAKeyring. " 
-                                                                                  + "Expected: keyProviderId: " 
+                                                                                  + " did not match RSAKeyring. "
+                                                                                  + "Expected: keyProviderId: "
                                                                                   + UTF8.Decode(input.encryptedDataKeys[i].keyProviderId).Extract() + ". ")
           ];
         }

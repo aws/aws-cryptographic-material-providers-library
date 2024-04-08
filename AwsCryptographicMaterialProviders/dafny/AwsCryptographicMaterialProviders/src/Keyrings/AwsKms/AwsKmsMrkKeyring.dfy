@@ -11,6 +11,7 @@ include "../../KeyWrapping/EdkWrapping.dfy"
 include "../../Keyring.dfy"
 include "../../Materials.dfy"
 include "../../AlgorithmSuites.dfy"
+include "../../ErrorMessages.dfy"
 
 module AwsKmsMrkKeyring {
   import opened StandardLibrary
@@ -30,6 +31,7 @@ module AwsKmsMrkKeyring {
   import UTF8
   import EdkWrapping
   import MaterialWrapping
+  import ErrorMessages
 
   //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-mrk-keyring.md#interface
   //= type=implication
@@ -482,13 +484,14 @@ module AwsKmsMrkKeyring {
       var filter := new AwsKmsUtils.OnDecryptMrkAwareEncryptedDataKeyFilter(awsKmsArn, PROVIDER_ID);
       var edksToAttempt :- FilterWithResult(filter, input.encryptedDataKeys);
 
+      var errMsg : string := "";
+      if(0 > |edksToAttempt|) {
+        var errMsg := ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys);
+      }
       :- Need(0 < |edksToAttempt|,
               Types.AwsCryptographicMaterialProvidersException(
-                message := "Unable to decrypt data key: No Encrypted Data Keys found to match."+
-                            "\n \t \t Expected:" +
-                            "\n \t \t \t KeyProviderId: " + UTF8.Decode(input.encryptedDataKeys[0].keyProviderId).Extract() +
-                            "\n \t \t \t KeyProviderInfo: " + UTF8.Decode(input.encryptedDataKeys[0].keyProviderInfo).Extract()
-                ));
+                message := errMsg
+              ));
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-mrk-keyring.md#ondecrypt
       //# For each encrypted data key in the filtered set, one at a time, the
