@@ -250,24 +250,24 @@ abstract module AbstractAwsCryptographyMaterialProvidersTestVectorKeysService
   import Operations : AbstractAwsCryptographyMaterialProvidersTestVectorKeysOperations
   function method DefaultKeyVectorsConfig(): KeyVectorsConfig
   method KeyVectors(config: KeyVectorsConfig := DefaultKeyVectorsConfig())
-    // BEGIN MANUAL FIX
     returns (res: Result<KeyVectorsClient, Error>)
-    // END MANUAL FIX
     ensures res.Success? ==>
               && fresh(res.value)
               && fresh(res.value.Modifies)
               && fresh(res.value.History)
               && res.value.ValidState()
 
-  // Helper function for the benefit of native code to create a Success(client) without referring to Dafny internals
-  // BEGIN MANUAL FIX
-  function method CreateSuccessOfClient(client: KeyVectorsClient): Result<KeyVectorsClient, Error> {
-    // END MANUAL FIX
+  // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
+  function method CreateSuccessOfClientTrait(client: IKeyVectorsClient): Result<IKeyVectorsClient, Error> {
     Success(client)
-  } // Helper function for the benefit of native code to create a Failure(error) without referring to Dafny internals
-  // BEGIN MANUAL FIX
-  function method CreateFailureOfError(error: Error): Result<KeyVectorsClient, Error> {
-    // END MANUAL FIX
+  }
+  function method CreateFailureOfErrorForClientTrait(error: Error): Result<IKeyVectorsClient, Error> {
+    Failure(error)
+  }
+  function method CreateSuccessOfClientClass(client: KeyVectorsClient): Result<KeyVectorsClient, Error> {
+    Success(client)
+  }
+  function method CreateFailureOfErrorForClientClass(error: Error): Result<KeyVectorsClient, Error> {
     Failure(error)
   }
   class KeyVectorsClient extends IKeyVectorsClient

@@ -2742,11 +2742,11 @@ abstract module AbstractComAmazonawsDynamodbService {
               && fresh(res.value.Modifies)
               && fresh(res.value.History)
               && res.value.ValidState()
-  // Helper function for the benefit of native code to create a Success(client) without referring to Dafny internals
-  function method CreateSuccessOfClient(client: IDynamoDBClient): Result<IDynamoDBClient, Error> {
+  // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
+  function method CreateSuccessOfClientTrait(client: IDynamoDBClient): Result<IDynamoDBClient, Error> {
     Success(client)
-  } // Helper function for the benefit of native code to create a Failure(error) without referring to Dafny internals
-  function method CreateFailureOfError(error: Error): Result<IDynamoDBClient, Error> {
+  }
+  function method CreateFailureOfErrorForClientTrait(error: Error): Result<IDynamoDBClient, Error> {
     Failure(error)
   }
 }
