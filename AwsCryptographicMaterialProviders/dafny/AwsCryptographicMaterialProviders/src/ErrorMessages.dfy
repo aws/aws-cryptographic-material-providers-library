@@ -8,38 +8,24 @@ module ErrorMessages {
   import UUID
   import opened Wrappers
 
-    method INVALID_DATA_KEYS(encryptedDataKeys: Types.EncryptedDataKeyList)
-      returns ( output: Result<string, Types.Error>)
-      requires |encryptedDataKeys| > 0
+    function method {:tailrecursion} INVALID_DATA_KEYS(encryptedDataKeys: Types.EncryptedDataKeyList, errMsg: string)
+      : Result<string, Types.Error>
+      decreases |encryptedDataKeys|
     {
-      var errMsg := "";
-      for i := 0 to |encryptedDataKeys|
-      {
-        :- Need(UTF8.Decode(encryptedDataKeys[i].keyProviderId).Success?,
-              Types.AwsCryptographicMaterialProvidersException(
-                message := "Cannot decode keyProviderId information"
-              ));
-        :- Need(UTF8.Decode(encryptedDataKeys[i].keyProviderInfo).Success?,
-              Types.AwsCryptographicMaterialProvidersException(
-                message := "Cannot decode keyProviderId information"
-              ));
-        var extractedKeyProviderId : string := UTF8.Decode(encryptedDataKeys[i].keyProviderId).Extract();
-        if extractedKeyProviderId == "aws-kms"{
-          errMsg := "Unable to decrypt data key: No Encrypted Data Keys found to match." +
-                                "\n Expected: \n KeyProviderId:" + extractedKeyProviderId +                            
-                                "\n KeyProviderInfo: " + UTF8.Decode(encryptedDataKeys[i].keyProviderInfo).Extract();
-        }
-        // else if extractedKeyProviderId == "aws-kms-hierarchy"{
-        //   errMsg := "Unable to decrypt data key: No Encrypted Data Keys found to match." +
-        //                             "\n Expected: \n KeyProviderId:" + extractedKeyProviderId +                            
-        //                             "\n KeyProviderInfo: " + UTF8.Decode(encryptedDataKeys[i].keyProviderInfo).Extract() +
-        //                             "\n BranchKeyVersion: " + UUID.FromByteArray(branchKeyVersionUuid).Extract();
-        // }
-        else{
-          errMsg := "Unable to decrypt data key: No Encrypted Data Keys found to match." +
-                                    "\n Expected: \n KeyProviderId:" + extractedKeyProviderId;
-        }
-      }
-      output := Success(errMsg);
+      if (|encryptedDataKeys| == 0) then
+        Success(errMsg)
+      else
+        var encryptedDataKey := encryptedDataKeys[0];
+        :- Need(UTF8.Decode(encryptedDataKey.keyProviderId).Success?, Types.AwsCryptographicMaterialProvidersException(message := "error"));
+        :- Need(UTF8.Decode(encryptedDataKey.keyProviderInfo).Success?, Types.AwsCryptographicMaterialProvidersException(message := "error"));
+        var extractedKeyProviderId := UTF8.Decode(encryptedDataKey.keyProviderId).Extract();
+        if (extractedKeyProviderId == "aws-kms") then
+          INVALID_DATA_KEYS(encryptedDataKeys[1..], errMsg + "Unable to decrypt data key: No Encrypted Data Keys found to match." +
+                                  "\n Expected: \n KeyProviderId:" + extractedKeyProviderId +                            
+                                  "\n KeyProviderInfo: " + UTF8.Decode(encryptedDataKey.keyProviderInfo).Extract() + "\n")
+          
+        else
+          INVALID_DATA_KEYS(encryptedDataKeys[1..], errMsg + "Unable to decrypt data key: No Encrypted Data Keys found to match." +
+                                      "\n Expected: \n KeyProviderId:" + extractedKeyProviderId + "\n")
     }
 }
