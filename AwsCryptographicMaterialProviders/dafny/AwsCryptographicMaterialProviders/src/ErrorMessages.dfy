@@ -8,7 +8,7 @@ module ErrorMessages {
   import UUID
   import opened Wrappers
 
-    function method {:tailrecursion} INVALID_DATA_KEYS(encryptedDataKeys: Types.EncryptedDataKeyList, errMsg: string)
+    function method {:tailrecursion} INVALID_DATA_KEYS(encryptedDataKeys: Types.EncryptedDataKeyList, errMsg: string := "")
       : Result<string, Types.Error>
       decreases |encryptedDataKeys|
     {
