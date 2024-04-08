@@ -27,6 +27,6 @@ public class __default extends _ExternBase___default {
       .builder()
       .impl(impl)
       .build();
-    return CreateSuccessOfClientTrait(wrappedClient);
+    return software.amazon.cryptography.materialproviders.internaldafny._ExternBase___default.CreateSuccessOfClientTrait(wrappedClient);
   }
 }
