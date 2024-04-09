@@ -347,13 +347,13 @@ module AwsKmsHierarchicalKeyring {
       // var EDK_CIPHERTEXT_VERSION_INDEX := EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX + 16;
       // var branchKeyVersionUuid := providerWrappedMaterial[EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX .. EDK_CIPHERTEXT_VERSION_INDEX];
 
-      :- Need(ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys,"",Some(input.materials)).Success?, 
+      :- Need(ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys, input.materials).Success?, 
               Types.AwsCryptographicMaterialProvidersException(
                 message := "Failed to generate invalid data keys error"
                 ));
       :- Need(0 < |edksToAttempt|,
               Types.AwsCryptographicMaterialProvidersException(
-                message := ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys,"",Some(input.materials)).Extract()
+                message := ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys, input.materials).Extract()
               ));
       :- Need(
         0 < |edksToAttempt|,
