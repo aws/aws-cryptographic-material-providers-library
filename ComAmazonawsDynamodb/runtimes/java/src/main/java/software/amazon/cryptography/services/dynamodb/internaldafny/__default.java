@@ -27,12 +27,12 @@ public class __default
         .build();
 
       IDynamoDBClient shim = new Shim(ddbClient, region.toString());
-      return CreateSuccessOfClientTrait(shim);
+      return CreateSuccessOfClient(shim);
     } catch (Exception e) {
       Error dafny_error = Error.create_InternalServerError(
         WrappersInterop.CreateStringSome(CharacterSequence(e.getMessage()))
       );
-      return CreateFailureOfErrorForClientTrait(dafny_error);
+      return CreateFailureOfError(dafny_error);
     }
   }
 
@@ -49,12 +49,12 @@ public class __default
         .build();
 
       IDynamoDBClient shim = new Shim(ddbClient, regionString);
-      return CreateSuccessOfClientTrait(shim);
+      return CreateSuccessOfClient(shim);
     } catch (Exception e) {
       Error dafny_error = Error.create_InternalServerError(
         WrappersInterop.CreateStringSome(CharacterSequence(e.getMessage()))
       );
-      return CreateFailureOfErrorForClientTrait(dafny_error);
+      return CreateFailureOfError(dafny_error);
     }
   }
 }
