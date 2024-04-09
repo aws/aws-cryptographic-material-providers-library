@@ -527,16 +527,10 @@ abstract module AbstractAwsCryptographyPrimitivesService
               && res.value.ValidState()
 
   // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
-  function method CreateSuccessOfClientTrait(client: IAwsCryptographicPrimitivesClient): Result<IAwsCryptographicPrimitivesClient, Error> {
+  function method CreateSuccessOfClient(client: IAwsCryptographicPrimitivesClient): Result<IAwsCryptographicPrimitivesClient, Error> {
     Success(client)
   }
-  function method CreateFailureOfErrorForClientTrait(error: Error): Result<IAwsCryptographicPrimitivesClient, Error> {
-    Failure(error)
-  }
-  function method CreateSuccessOfClientClass(client: AtomicPrimitivesClient): Result<AtomicPrimitivesClient, Error> {
-    Success(client)
-  }
-  function method CreateFailureOfErrorForClientClass(error: Error): Result<AtomicPrimitivesClient, Error> {
+  function method CreateFailureOfError(error: Error): Result<IAwsCryptographicPrimitivesClient, Error> {
     Failure(error)
   }
   class AtomicPrimitivesClient extends IAwsCryptographicPrimitivesClient

@@ -258,16 +258,10 @@ abstract module AbstractAwsCryptographyMaterialProvidersTestVectorKeysService
               && res.value.ValidState()
 
   // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
-  function method CreateSuccessOfClientTrait(client: IKeyVectorsClient): Result<IKeyVectorsClient, Error> {
+  function method CreateSuccessOfClient(client: IKeyVectorsClient): Result<IKeyVectorsClient, Error> {
     Success(client)
   }
-  function method CreateFailureOfErrorForClientTrait(error: Error): Result<IKeyVectorsClient, Error> {
-    Failure(error)
-  }
-  function method CreateSuccessOfClientClass(client: KeyVectorsClient): Result<KeyVectorsClient, Error> {
-    Success(client)
-  }
-  function method CreateFailureOfErrorForClientClass(error: Error): Result<KeyVectorsClient, Error> {
+  function method CreateFailureOfError(error: Error): Result<IKeyVectorsClient, Error> {
     Failure(error)
   }
   class KeyVectorsClient extends IKeyVectorsClient

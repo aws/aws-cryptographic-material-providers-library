@@ -2743,10 +2743,10 @@ abstract module AbstractComAmazonawsDynamodbService {
               && fresh(res.value.History)
               && res.value.ValidState()
   // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
-  function method CreateSuccessOfClientTrait(client: IDynamoDBClient): Result<IDynamoDBClient, Error> {
+  function method CreateSuccessOfClient(client: IDynamoDBClient): Result<IDynamoDBClient, Error> {
     Success(client)
   }
-  function method CreateFailureOfErrorForClientTrait(error: Error): Result<IDynamoDBClient, Error> {
+  function method CreateFailureOfError(error: Error): Result<IDynamoDBClient, Error> {
     Failure(error)
   }
 }

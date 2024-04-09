@@ -1537,16 +1537,10 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
               && res.value.ValidState()
 
   // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
-  function method CreateSuccessOfClientTrait(client: IAwsCryptographicMaterialProvidersClient): Result<IAwsCryptographicMaterialProvidersClient, Error> {
+  function method CreateSuccessOfClient(client: IAwsCryptographicMaterialProvidersClient): Result<IAwsCryptographicMaterialProvidersClient, Error> {
     Success(client)
   }
-  function method CreateFailureOfErrorForClientTrait(error: Error): Result<IAwsCryptographicMaterialProvidersClient, Error> {
-    Failure(error)
-  }
-  function method CreateSuccessOfClientClass(client: MaterialProvidersClient): Result<MaterialProvidersClient, Error> {
-    Success(client)
-  }
-  function method CreateFailureOfErrorForClientClass(error: Error): Result<MaterialProvidersClient, Error> {
+  function method CreateFailureOfError(error: Error): Result<IAwsCryptographicMaterialProvidersClient, Error> {
     Failure(error)
   }
   class MaterialProvidersClient extends IAwsCryptographicMaterialProvidersClient

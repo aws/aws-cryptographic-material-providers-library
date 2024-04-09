@@ -314,16 +314,10 @@ abstract module AbstractAwsCryptographyKeyStoreService
               config.kmsClient.value.ValidState()
 
   // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
-  function method CreateSuccessOfClientTrait(client: IKeyStoreClient): Result<IKeyStoreClient, Error> {
+  function method CreateSuccessOfClient(client: IKeyStoreClient): Result<IKeyStoreClient, Error> {
     Success(client)
   }
-  function method CreateFailureOfErrorForClientTrait(error: Error): Result<IKeyStoreClient, Error> {
-    Failure(error)
-  }
-  function method CreateSuccessOfClientClass(client: KeyStoreClient): Result<KeyStoreClient, Error> {
-    Success(client)
-  }
-  function method CreateFailureOfErrorForClientClass(error: Error): Result<KeyStoreClient, Error> {
+  function method CreateFailureOfError(error: Error): Result<IKeyStoreClient, Error> {
     Failure(error)
   }
   class KeyStoreClient extends IKeyStoreClient
