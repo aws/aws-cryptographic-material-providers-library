@@ -10,6 +10,16 @@ module ErrorMessages {
   import opened Wrappers
   import EdkWrapping
 
+  function method INVALID_RAW_DATA_KEYS_ERROR(datakey: string, keyringName: string, keyProviderId: string)
+    : string
+  {
+    "EncryptedDataKey "
+      + datakey
+      + " did not match" + keyringName + ". " 
+      + "Expected: keyProviderId: "
+      + keyProviderId + "."
+  }
+
   function method {:tailrecursion} INVALID_DATA_KEYS(encryptedDataKeys: Types.EncryptedDataKeyList, material : Types.DecryptionMaterials,errMsg: string := "")
     : Result<string, Types.Error>
     decreases |encryptedDataKeys|

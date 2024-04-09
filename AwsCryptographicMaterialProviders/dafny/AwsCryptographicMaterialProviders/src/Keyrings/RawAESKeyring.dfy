@@ -9,6 +9,7 @@ include "../KeyWrapping/MaterialWrapping.dfy"
 include "../KeyWrapping/EdkWrapping.dfy"
 include "../CanonicalEncryptionContext.dfy"
 include "../../Model/AwsCryptographyMaterialProvidersTypes.dfy"
+include "../ErrorMessages.dfy"
 
 module RawAESKeyring {
   import opened StandardLibrary
@@ -26,6 +27,7 @@ module RawAESKeyring {
   import Seq
   import MaterialWrapping
   import EdkWrapping
+  import ErrorMessages
 
   import Aws.Cryptography.Primitives
 
@@ -338,13 +340,17 @@ module RawAESKeyring {
             errors := errors + [unwrapOutput.error];
           }
         } else {
+          :- Need(
+            UTF8.Decode(input.encryptedDataKeys[i].keyProviderId).Success?,
+                            Types.AwsCryptographicMaterialProvidersException(
+                              message :="Failed to decode keyProviderId from encryptedDataKeys"
+                            ));
           errors := errors + [
             Types.AwsCryptographicMaterialProvidersException(
-              message :="EncrypedDataKey "
-              + Base10Int2String(i)
-              + " did not match AESKeyring."
-              + " Expected: keyProviderId: "
-              + UTF8.Decode(input.encryptedDataKeys[i].keyProviderId).Extract() + ". ")
+              message := ErrorMessages.INVALID_RAW_DATA_KEYS_ERROR(Base10Int2String(i),
+                "AESKeyring",
+                UTF8.Decode(input.encryptedDataKeys[i].keyProviderId).Extract()
+                ))
           ];
         }
       }

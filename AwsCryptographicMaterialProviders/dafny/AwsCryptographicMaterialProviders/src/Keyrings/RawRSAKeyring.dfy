@@ -353,12 +353,17 @@ module RawRSAKeyring {
             errors := errors + [unwrapOutput.error];
           }
         } else {
+          :- Need(
+            UTF8.Decode(input.encryptedDataKeys[i].keyProviderId).Success?,
+                            Types.AwsCryptographicMaterialProvidersException(
+                              message :="Failed to decode keyProviderId from encryptedDataKeys"
+                            ));
           errors := errors + [Types.AwsCryptographicMaterialProvidersException( message :=
                                                                                   "EncryptedDataKey "
                                                                                   + Base10Int2String(i)
                                                                                   + " did not match RSAKeyring. "
                                                                                   + "Expected: keyProviderId: "
-                                                                                  + UTF8.Decode(input.encryptedDataKeys[i].keyProviderId).Extract() + ". ")
+                                                                                  + UTF8.Decode(input.encryptedDataKeys[i].keyProviderId).Extract() + ".")
           ];
         }
       }
