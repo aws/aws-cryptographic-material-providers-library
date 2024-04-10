@@ -10,6 +10,10 @@ module ErrorMessages {
   import opened Wrappers
   import EdkWrapping
 
+  const SALT_LENGTH := 16
+  const IV_LENGTH := 12
+  const VERSION_LENGTH := 16
+
   function method INVALID_RAW_DATA_KEYS_ERROR(datakey: string, keyringName: string, keyProviderId: string)
     : string
   {
@@ -28,29 +32,23 @@ module ErrorMessages {
       Success(errMsg)
     else
       var encryptedDataKey := encryptedDataKeys[0];
-      :- Need(UTF8.Decode(encryptedDataKey.keyProviderId).Success?, Types.AwsCryptographicMaterialProvidersException(message := "Failed to get keyProviderId"));
-      :- Need(UTF8.Decode(encryptedDataKey.keyProviderInfo).Success?, Types.AwsCryptographicMaterialProvidersException(message := "Failed to get keyProviderInfo"));
-      var extractedKeyProviderId := UTF8.Decode(encryptedDataKey.keyProviderId).Extract();
+      var extractedKeyProviderId :- UTF8.Decode(encryptedDataKey.keyProviderId).MapFailure(e => Types.AwsCryptographicMaterialProvidersException( message := e ));
+      var extractedKeyProviderInfo :- UTF8.Decode(encryptedDataKey.keyProviderInfo).MapFailure(e => Types.AwsCryptographicMaterialProvidersException( message := e ));
       if (extractedKeyProviderId == "aws-kms") then
         INVALID_DATA_KEYS(encryptedDataKeys[1..], material,errMsg + "Unable to decrypt data key: No Encrypted Data Keys found to match." +
                                 "\n Expected: \n KeyProviderId:" + extractedKeyProviderId +                            
-                                "\n KeyProviderInfo: " + UTF8.Decode(encryptedDataKey.keyProviderInfo).Extract() + "\n")
-      else if extractedKeyProviderId == "aws-kms-hierarchy" then
-        :- Need(EdkWrapping.GetProviderWrappedMaterial(encryptedDataKey.ciphertext, material.algorithmSuite).Success?, Types.AwsCryptographicMaterialProvidersException(message := "GetProviderWrappedMaterial failed in INVALID_DATA_KEYS exception."));
-        var providerWrappedMaterial := EdkWrapping.GetProviderWrappedMaterial(encryptedDataKey.ciphertext, material.algorithmSuite).Extract();
-        var EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX := 12 + 16;
-        var EDK_CIPHERTEXT_VERSION_INDEX := EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX + 16;
-
+                                "\n KeyProviderInfo: " + extractedKeyProviderInfo + "\n")
+      else
+        var providerWrappedMaterial :- EdkWrapping.GetProviderWrappedMaterial(encryptedDataKey.ciphertext, material.algorithmSuite).MapFailure(e => Types.AwsCryptographicMaterialProvidersException( message := "Failed to get provider wrapped material" ));
+        var EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX := SALT_LENGTH + IV_LENGTH;
+        var EDK_CIPHERTEXT_VERSION_INDEX := EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX + VERSION_LENGTH;
         :- Need(EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX < EDK_CIPHERTEXT_VERSION_INDEX, Types.AwsCryptographicMaterialProvidersException(message := "Wrong branch key version index."));
         :- Need(|providerWrappedMaterial| >= EDK_CIPHERTEXT_VERSION_INDEX, Types.AwsCryptographicMaterialProvidersException(message := "Incorrect ciphertext structure length."));
         var branchKeyVersionUuid := providerWrappedMaterial[EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX .. EDK_CIPHERTEXT_VERSION_INDEX];
-        :- Need(UUID.FromByteArray(branchKeyVersionUuid).Success?, Types.AwsCryptographicMaterialProvidersException(message := "GetProviderWrappedMaterial failed in INVALID_DATA_KEYS exception."));
+        var branchVersion :- UUID.FromByteArray(branchKeyVersionUuid).MapFailure(e => Types.AwsCryptographicMaterialProvidersException( message := "Failed to get provider wrapped material" ));
         INVALID_DATA_KEYS(encryptedDataKeys[1..], material, errMsg + "Unable to decrypt data key: No Encrypted Data Keys found to match." +
                                 "\n Expected: \n KeyProviderId:" + extractedKeyProviderId +                            
-                                "\n KeyProviderInfo: " + UTF8.Decode(encryptedDataKey.keyProviderInfo).Extract() + 
-                                "\n BranchKeyVersion: " + UUID.FromByteArray(branchKeyVersionUuid).Extract())
-      else
-        INVALID_DATA_KEYS(encryptedDataKeys[1..], material, errMsg + "Unable to decrypt data key: No Encrypted Data Keys found to match." +
-                                    "\n Expected: \n KeyProviderId:" + extractedKeyProviderId + "\n")
+                                "\n KeyProviderInfo: " + extractedKeyProviderInfo + 
+                                "\n BranchKeyVersion: " + branchVersion)
   }
 }
