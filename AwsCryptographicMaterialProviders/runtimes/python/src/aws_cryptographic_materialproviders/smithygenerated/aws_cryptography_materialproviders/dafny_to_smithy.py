@@ -85,7 +85,7 @@ def aws_cryptography_materialproviders_GetClientInput(dafny_input):
 
 
 def aws_cryptography_materialproviders_KmsClientReference(dafny_input):
-    return input._impl
+    return dafny_input._impl
 
 
 def aws_cryptography_materialproviders_GetClientOutput(dafny_input):

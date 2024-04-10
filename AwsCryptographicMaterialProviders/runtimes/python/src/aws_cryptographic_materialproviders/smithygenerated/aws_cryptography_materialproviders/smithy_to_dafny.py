@@ -157,7 +157,7 @@ def aws_cryptography_materialproviders_KmsClientReference(native_input):
             boto_client=native_input
         )
     )
-    client.value.impl = input
+    client.value.impl = native_input
     return client.value
 
 
@@ -1258,7 +1258,7 @@ def aws_cryptography_materialproviders_BranchKeyIdSupplierReference(native_input
 
 
 def aws_cryptography_materialproviders_KeyStoreReference(native_input):
-    return input._config.dafnyImplInterface.impl
+    return native_input._config.dafnyImplInterface.impl
 
 
 def aws_cryptography_materialproviders_CacheType(native_input):

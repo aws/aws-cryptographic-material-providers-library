@@ -2,7 +2,6 @@
 
 import asyncio
 from asyncio import sleep
-from copy import deepcopy
 from software_amazon_cryptography_primitives_internaldafny_types import (
     IAwsCryptographicPrimitivesClient,
 )
@@ -438,7 +437,6 @@ class AwsCryptographicPrimitives:
                 interceptor.read_before_execution(context)
 
             # Step 1b: Run operation-level plugins
-            # config = deepcopy(config)
             for plugin in plugins:
                 plugin(config)
 
