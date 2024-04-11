@@ -484,10 +484,10 @@ module AwsKmsMrkKeyring {
       var filter := new AwsKmsUtils.OnDecryptMrkAwareEncryptedDataKeyFilter(awsKmsArn, PROVIDER_ID);
       var edksToAttempt :- FilterWithResult(filter, input.encryptedDataKeys);
 
-      :- Need(ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys, input.materials).Success?, 
+      :- Need(ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys, input.materials).Success?,
               Types.AwsCryptographicMaterialProvidersException(
                 message := "Failed to generate invalid data keys error"
-                ));
+              ));
       :- Need(0 < |edksToAttempt|,
               Types.AwsCryptographicMaterialProvidersException(
                 message := ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys, input.materials).Extract()

@@ -259,7 +259,7 @@ module AwsKmsMrkDiscoveryKeyring {
         assert helper in Seq.Flatten(parts);
       }
 
-      :- Need(ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys, input.materials).Success?, 
+      :- Need(ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys, input.materials).Success?,
               Types.AwsCryptographicMaterialProvidersException(
                 message := "Failed to generate invalid data keys error"));
       :- Need(0 < |edksToAttempt|,

@@ -223,13 +223,14 @@ module AwsKmsDiscoveryKeyring {
       var edkTransform : AwsKmsEncryptedDataKeyTransformer := new AwsKmsEncryptedDataKeyTransformer();
       var edksToAttempt, parts :- Actions.DeterministicFlatMapWithResult(edkTransform, matchingEdks);
 
-      :- Need(ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys, input.materials).Success?, 
+      :- Need(ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys, input.materials).Success?,
               Types.AwsCryptographicMaterialProvidersException(
                 message := "Failed to generate invalid data keys error"
-                ));
+              ));
+      var messageerror :- ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys, input.materials).MapFailure(e => Types.AwsCryptographicMaterialProvidersException( message := "Getting invalid data keys expected value failed."));
       :- Need(0 < |edksToAttempt|,
               Types.AwsCryptographicMaterialProvidersException(
-                message := ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys, input.materials).Extract()
+                message := messageerror
               ));
 
       // We want to make sure that the set of EDKs we're about to attempt

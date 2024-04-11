@@ -342,15 +342,15 @@ module AwsKmsHierarchicalKeyring {
       var filter := new OnDecryptHierarchyEncryptedDataKeyFilter(branchKeyIdForDecrypt);
       var edksToAttempt :- FilterWithResult(filter, input.encryptedDataKeys);
 
-      // var providerWrappedMaterial := EdkWrapping.GetProviderWrappedMaterial(input.encryptedDataKeys[0].ciphertext, input.materials.algorithmSuite).Extract();
-      // var EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX := 12 + 16;
-      // var EDK_CIPHERTEXT_VERSION_INDEX := EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX + 16;
-      // var branchKeyVersionUuid := providerWrappedMaterial[EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX .. EDK_CIPHERTEXT_VERSION_INDEX];
+        // var providerWrappedMaterial := EdkWrapping.GetProviderWrappedMaterial(input.encryptedDataKeys[0].ciphertext, input.materials.algorithmSuite).Extract();
+        // var EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX := 12 + 16;
+        // var EDK_CIPHERTEXT_VERSION_INDEX := EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX + 16;
+        // var branchKeyVersionUuid := providerWrappedMaterial[EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX .. EDK_CIPHERTEXT_VERSION_INDEX];
 
-      :- Need(ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys, input.materials).Success?, 
+      :- Need(ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys, input.materials).Success?,
               Types.AwsCryptographicMaterialProvidersException(
                 message := "Failed to generate invalid data keys error"
-                ));
+              ));
       :- Need(0 < |edksToAttempt|,
               Types.AwsCryptographicMaterialProvidersException(
                 message := ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys, input.materials).Extract()

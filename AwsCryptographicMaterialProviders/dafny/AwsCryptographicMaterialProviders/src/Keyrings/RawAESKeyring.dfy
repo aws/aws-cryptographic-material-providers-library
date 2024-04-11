@@ -342,15 +342,15 @@ module RawAESKeyring {
         } else {
           :- Need(
             UTF8.Decode(input.encryptedDataKeys[i].keyProviderId).Success?,
-                            Types.AwsCryptographicMaterialProvidersException(
-                              message :="Failed to decode keyProviderId from encryptedDataKeys"
-                            ));
+            Types.AwsCryptographicMaterialProvidersException(
+              message :="Failed to decode keyProviderId from encryptedDataKeys"
+            ));
           errors := errors + [
             Types.AwsCryptographicMaterialProvidersException(
               message := ErrorMessages.INVALID_RAW_DATA_KEYS_ERROR(Base10Int2String(i),
-                "AESKeyring",
-                UTF8.Decode(input.encryptedDataKeys[i].keyProviderId).Extract()
-                ))
+                                                                   "AESKeyring",
+                                                                   UTF8.Decode(input.encryptedDataKeys[i].keyProviderId).Extract()
+              ))
           ];
         }
       }
