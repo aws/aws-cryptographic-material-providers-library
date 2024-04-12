@@ -485,7 +485,7 @@ module AwsKmsMrkKeyring {
       var edksToAttempt :- FilterWithResult(filter, input.encryptedDataKeys);
 
       if (0 >= |edksToAttempt|) {
-        var messageerror :- ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys, input.materials).MapFailure(e => Types.AwsCryptographicMaterialProvidersException( message := "Failed to generate invalid data keys error."));
+        var messageerror :- ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys, input.materials.algorithmSuite).MapFailure(e => Types.AwsCryptographicMaterialProvidersException( message := "Failed to generate invalid data keys error."));
         :- Need(0 < |edksToAttempt|,
                 Types.AwsCryptographicMaterialProvidersException(
                   message := messageerror
