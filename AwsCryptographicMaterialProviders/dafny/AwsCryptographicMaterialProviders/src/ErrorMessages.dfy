@@ -46,13 +46,13 @@ module ErrorMessages {
                                           "KeyProviderId: " + extractedKeyProviderId +
                                           ", KeyProviderInfo: " + extractedKeyProviderInfo + "\n")
       else
-        var providerWrappedMaterial :- EdkWrapping.GetProviderWrappedMaterial(encryptedDataKey.ciphertext, material).MapFailure(e => Types.AwsCryptographicMaterialProvidersException( message := "Failed to get provider wrapped material" ));
+        var providerWrappedMaterial :- EdkWrapping.GetProviderWrappedMaterial(encryptedDataKey.ciphertext, material);
         var EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX := SALT_LENGTH + IV_LENGTH;
         var EDK_CIPHERTEXT_VERSION_INDEX := EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX + VERSION_LENGTH;
         :- Need(EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX < EDK_CIPHERTEXT_VERSION_INDEX, Types.AwsCryptographicMaterialProvidersException(message := "Wrong branch key version index."));
         :- Need(|providerWrappedMaterial| >= EDK_CIPHERTEXT_VERSION_INDEX, Types.AwsCryptographicMaterialProvidersException(message := "Incorrect ciphertext structure length."));
         var branchKeyVersionUuid := providerWrappedMaterial[EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX .. EDK_CIPHERTEXT_VERSION_INDEX];
-        var branchVersion :- UUID.FromByteArray(branchKeyVersionUuid).MapFailure(e => Types.AwsCryptographicMaterialProvidersException( message := "Failed to get provider wrapped material" ));
+        var branchVersion :- UUID.FromByteArray(branchKeyVersionUuid).MapFailure(e => Types.AwsCryptographicMaterialProvidersException( message := e ));
         INVALID_DATA_KEYS_EXPECTED_VALUES(encryptedDataKeys[1..], material, errMsg +
                                           "KeyProviderId: " + extractedKeyProviderId +
                                           ", KeyProviderInfo: " + extractedKeyProviderInfo +
