@@ -21,7 +21,7 @@ module ErrorMessages {
     + datakey
     + " did not match" + keyringName + ". "
     + "Expected: keyProviderId: "
-    + keyProviderId + "."
+    + keyProviderId + ". \n"
   }
 
   function method INVALID_DATA_KEYS(encryptedDataKeys: Types.EncryptedDataKeyList, material : Types.AlgorithmSuiteInfo,errMsg: string := "")
