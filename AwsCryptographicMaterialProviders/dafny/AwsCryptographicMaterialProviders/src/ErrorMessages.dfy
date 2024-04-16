@@ -46,7 +46,7 @@ module ErrorMessages {
                                           "KeyProviderId: " + extractedKeyProviderId +
                                           ", KeyProviderInfo: " + extractedKeyProviderInfo + "\n")
       else
-        var providerWrappedMaterial :- EdkWrapping.GetProviderWrappedMaterial(encryptedDataKey.ciphertext, material);
+        var providerWrappedMaterial :- EdkWrapping.GetProviderWrappedMaterial(encryptedDataKey.ciphertext, material).MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := "Unable to get provider wrapped material"));
         var EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX := SALT_LENGTH + IV_LENGTH;
         var EDK_CIPHERTEXT_VERSION_INDEX := EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX + VERSION_LENGTH;
         :- Need(EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX < EDK_CIPHERTEXT_VERSION_INDEX, Types.AwsCryptographicMaterialProvidersException(message := "Wrong branch key version index."));
