@@ -224,7 +224,7 @@ module AwsKmsDiscoveryKeyring {
       var edksToAttempt, parts :- Actions.DeterministicFlatMapWithResult(edkTransform, matchingEdks);
 
       if (0 >= |edksToAttempt|) {
-        var messageerror :- ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys, input.materials.algorithmSuite).MapFailure(e => Types.AwsCryptographicMaterialProvidersException( message := "Failed to generate invalid data keys error."));
+        var messageerror :- ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys, input.materials.algorithmSuite);
         :- Need(0 < |edksToAttempt|,
                 Types.AwsCryptographicMaterialProvidersException(
                   message := messageerror
