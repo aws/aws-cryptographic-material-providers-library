@@ -475,7 +475,7 @@ module GetKeys {
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
     //= type=implication
     //# - `KeyId` MUST be the configured `AWS KMS Key ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore
-    && decryptRequest.KeyId == Some(kmsConfiguration.kmsKeyArn)
+    && decryptRequest.KeyId == Some(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
     //= type=implication

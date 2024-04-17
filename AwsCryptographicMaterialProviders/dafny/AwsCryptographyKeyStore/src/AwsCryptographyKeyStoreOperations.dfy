@@ -8,6 +8,7 @@ include "GetKeys.dfy"
 include "CreateKeyStoreTable.dfy"
 include "CreateKeys.dfy"
 include "Structure.dfy"
+include "KMSKeystoreOperations.dfy"
 
 module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStoreOperations {
   import opened AwsArnParsing
@@ -21,6 +22,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
   import UUID
   import Time
   import Structure
+  import KMSKeystoreOperations
 
   datatype Config = Config(
     nameonly id: string,
@@ -37,7 +39,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
   predicate ValidInternalConfig?(config: InternalConfig)
   {
     && DDB.IsValid_TableName(config.ddbTableName)
-    && KMS.IsValid_KeyIdType(config.kmsConfiguration.kmsKeyArn)
+    && KMS.IsValid_KeyIdType(KMSKeystoreOperations.GetKeyId(config.kmsConfiguration))
     && config.kmsClient.ValidState()
     && config.ddbClient.ValidState()
     && config.ddbClient.Modifies !! config.kmsClient.Modifies
