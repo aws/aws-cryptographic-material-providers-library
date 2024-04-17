@@ -484,10 +484,10 @@ module AwsKmsMrkKeyring {
       var filter := new AwsKmsUtils.OnDecryptMrkAwareEncryptedDataKeyFilter(awsKmsArn, PROVIDER_ID);
       var edksToAttempt :- FilterWithResult(filter, input.encryptedDataKeys);
 
-      if (0 >= |edksToAttempt|) {
+      if (0 == |edksToAttempt|) {
         var messageerror :- ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys, input.materials.algorithmSuite);
-        :- Need(0 < |edksToAttempt|,
-                Types.AwsCryptographicMaterialProvidersException(
+        return Failure(
+          Types.AwsCryptographicMaterialProvidersException(
                   message := messageerror
                 ));
       }
