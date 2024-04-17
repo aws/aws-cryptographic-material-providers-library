@@ -43,8 +43,8 @@ module ErrorMessages {
       var extractedKeyProviderInfo :- UTF8.Decode(encryptedDataKey.keyProviderInfo).MapFailure(e => Types.AwsCryptographicMaterialProvidersException( message := e ));
       if (extractedKeyProviderId == "aws-kms") then
         IncorrectDataKeysExpectedValues(encryptedDataKeys[1..], material, errMsg +
-                                          "KeyProviderId: " + extractedKeyProviderId +
-                                          ", KeyProviderInfo: " + extractedKeyProviderInfo + "\n")
+                                        "KeyProviderId: " + extractedKeyProviderId +
+                                        ", KeyProviderInfo: " + extractedKeyProviderInfo + "\n")
       else
         var providerWrappedMaterial :- EdkWrapping.GetProviderWrappedMaterial(encryptedDataKey.ciphertext, material);
         var EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX := SALT_LENGTH + IV_LENGTH;
@@ -54,8 +54,8 @@ module ErrorMessages {
         var branchKeyVersionUuid := providerWrappedMaterial[EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX .. EDK_CIPHERTEXT_VERSION_INDEX];
         var branchVersion :- UUID.FromByteArray(branchKeyVersionUuid).MapFailure(e => Types.AwsCryptographicMaterialProvidersException( message := e ));
         IncorrectDataKeysExpectedValues(encryptedDataKeys[1..], material, errMsg +
-                                          "KeyProviderId: " + extractedKeyProviderId +
-                                          ", KeyProviderInfo: " + extractedKeyProviderInfo +
-                                          ", BranchKeyVersion: " + branchVersion + "\n")
+                                        "KeyProviderId: " + extractedKeyProviderId +
+                                        ", KeyProviderInfo: " + extractedKeyProviderInfo +
+                                        ", BranchKeyVersion: " + branchVersion + "\n")
   }
 }

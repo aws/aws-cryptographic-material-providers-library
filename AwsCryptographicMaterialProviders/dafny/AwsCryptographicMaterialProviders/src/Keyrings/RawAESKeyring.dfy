@@ -344,8 +344,8 @@ module RawAESKeyring {
           errors := errors + [
             Types.AwsCryptographicMaterialProvidersException(
               message := ErrorMessages.IncorrectRawDataKeys(Base10Int2String(i),
-                                                                   "AESKeyring",
-                                                                   extractedKeyProviderId
+                                                            "AESKeyring",
+                                                            extractedKeyProviderId
               ))
           ];
         }

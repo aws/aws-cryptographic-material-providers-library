@@ -359,8 +359,8 @@ module RawRSAKeyring {
           errors := errors + [
             Types.AwsCryptographicMaterialProvidersException(
               message := ErrorMessages.IncorrectRawDataKeys(Base10Int2String(i),
-                                                                   "RSAKeyring",
-                                                                   extractedKeyProviderId
+                                                            "RSAKeyring",
+                                                            extractedKeyProviderId
               ))
           ];
         }
