@@ -381,6 +381,13 @@ public class ToNative {
         )
       );
     }
+    if (dafnyValue.is_mrkKmsKeyArn()) {
+      nativeBuilder.mrkKmsKeyArn(
+        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+          dafnyValue.dtor_mrkKmsKeyArn()
+        )
+      );
+    }
     return nativeBuilder.build();
   }
 
