@@ -136,7 +136,7 @@ module TestRawRSAKeying {
     expect decryptionMaterialsOut.error.CollectionOfErrors?;
     expect |decryptionMaterialsOut.error.list| == 1;
     expect decryptionMaterialsOut.error.list[0].AwsCryptographicMaterialProvidersException?;
-    expect decryptionMaterialsOut.error.list[0].message == ErrorMessages.INVALID_RAW_DATA_KEYS_ERROR("0", "RSAKeyring", namespace);
+    expect decryptionMaterialsOut.error.list[0].message == ErrorMessages.IncorrectRawDataKeys("0", "RSAKeyring", namespace);
   }
 
   method {:test} TestOnDecryptFailure()
