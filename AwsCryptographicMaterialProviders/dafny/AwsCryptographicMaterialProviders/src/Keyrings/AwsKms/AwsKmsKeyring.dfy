@@ -508,10 +508,10 @@ module AwsKmsKeyring {
       var edksToAttempt :- FilterWithResult(filter, input.encryptedDataKeys);
 
       if (0 == |edksToAttempt|) {
-        var messageerror :- ErrorMessages.IncorrectDataKeys(input.encryptedDataKeys, input.materials.algorithmSuite);
+        var errorMessage :- ErrorMessages.IncorrectDataKeys(input.encryptedDataKeys, input.materials.algorithmSuite);
         return Failure(
             Types.AwsCryptographicMaterialProvidersException(
-              message := messageerror
+              message := errorMessage
             ));
       }
 

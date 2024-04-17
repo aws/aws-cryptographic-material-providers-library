@@ -224,10 +224,10 @@ module AwsKmsDiscoveryKeyring {
       var edksToAttempt, parts :- Actions.DeterministicFlatMapWithResult(edkTransform, matchingEdks);
 
       if (0 == |edksToAttempt|) {
-        var messageerror :- ErrorMessages.IncorrectDataKeys(input.encryptedDataKeys, input.materials.algorithmSuite);
+        var errorMessage :- ErrorMessages.IncorrectDataKeys(input.encryptedDataKeys, input.materials.algorithmSuite);
         return Failure(
             Types.AwsCryptographicMaterialProvidersException(
-              message := messageerror
+              message := errorMessage
             ));
       }
 
