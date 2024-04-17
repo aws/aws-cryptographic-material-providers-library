@@ -14,7 +14,7 @@ module ErrorMessages {
   const IV_LENGTH := 12
   const VERSION_LENGTH := 16
 
-  function method INVALID_RAW_DATA_KEYS_ERROR(datakey: string, keyringName: string, keyProviderId: string)
+  function method IncorrectRawDataKeys(datakey: string, keyringName: string, keyProviderId: string)
     : string
   {
     "EncryptedDataKey "

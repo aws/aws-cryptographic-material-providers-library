@@ -343,7 +343,7 @@ module RawAESKeyring {
           var extractedKeyProviderId :- UTF8.Decode(input.encryptedDataKeys[i].keyProviderId).MapFailure(e => Types.AwsCryptographicMaterialProvidersException( message := e ));
           errors := errors + [
             Types.AwsCryptographicMaterialProvidersException(
-              message := ErrorMessages.INVALID_RAW_DATA_KEYS_ERROR(Base10Int2String(i),
+              message := ErrorMessages.IncorrectRawDataKeys(Base10Int2String(i),
                                                                    "AESKeyring",
                                                                    extractedKeyProviderId
               ))
