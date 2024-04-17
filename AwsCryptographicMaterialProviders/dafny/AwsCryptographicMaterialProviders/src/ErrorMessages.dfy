@@ -24,14 +24,14 @@ module ErrorMessages {
     + keyProviderId + ". \n"
   }
 
-  function method INVALID_DATA_KEYS(encryptedDataKeys: Types.EncryptedDataKeyList, material : Types.AlgorithmSuiteInfo,errMsg: string := "")
+  function method {:opaque} INVALID_DATA_KEYS(encryptedDataKeys: Types.EncryptedDataKeyList, material : Types.AlgorithmSuiteInfo,errMsg: string := "")
     : Result<string, Types.Error>
   {
     var expectedValue :- INVALID_DATA_KEYS_EXPECTED_VALUES(encryptedDataKeys, material, errMsg);
     Success("Unable to decrypt data key: No Encrypted Data Keys found to match. \n Expected: \n" + expectedValue)
   }
 
-  function method {:tailrecursion} INVALID_DATA_KEYS_EXPECTED_VALUES(encryptedDataKeys: Types.EncryptedDataKeyList, material : Types.AlgorithmSuiteInfo, errMsg: string := "")
+  function method {:tailrecursion} {:opaque} INVALID_DATA_KEYS_EXPECTED_VALUES(encryptedDataKeys: Types.EncryptedDataKeyList, material : Types.AlgorithmSuiteInfo, errMsg: string := "")
     : Result<string, Types.Error>
     decreases |encryptedDataKeys|
   {
@@ -46,7 +46,7 @@ module ErrorMessages {
                                           "KeyProviderId: " + extractedKeyProviderId +
                                           ", KeyProviderInfo: " + extractedKeyProviderInfo + "\n")
       else
-        var providerWrappedMaterial :- EdkWrapping.GetProviderWrappedMaterial(encryptedDataKey.ciphertext, material).MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := "Unable to get provider wrapped material"));
+        var providerWrappedMaterial :- EdkWrapping.GetProviderWrappedMaterial(encryptedDataKey.ciphertext, material);
         var EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX := SALT_LENGTH + IV_LENGTH;
         var EDK_CIPHERTEXT_VERSION_INDEX := EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX + VERSION_LENGTH;
         :- Need(EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX < EDK_CIPHERTEXT_VERSION_INDEX, Types.AwsCryptographicMaterialProvidersException(message := "Wrong branch key version index."));
