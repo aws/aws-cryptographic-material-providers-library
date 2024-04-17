@@ -262,9 +262,9 @@ module AwsKmsMrkDiscoveryKeyring {
       if (0 == |edksToAttempt|) {
         var messageerror :- ErrorMessages.INVALID_DATA_KEYS(input.encryptedDataKeys, input.materials.algorithmSuite);
         return Failure(
-          Types.AwsCryptographicMaterialProvidersException(
-                  message := messageerror
-                ));
+            Types.AwsCryptographicMaterialProvidersException(
+              message := messageerror
+            ));
       }
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-mrk-discovery-keyring.md#ondecrypt
