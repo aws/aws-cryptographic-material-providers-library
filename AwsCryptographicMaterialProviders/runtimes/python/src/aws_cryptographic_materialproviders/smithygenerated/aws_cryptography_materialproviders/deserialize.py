@@ -353,10 +353,10 @@ async def _deserialize_error(error: Error) -> ServiceError:
                 error.AwsCryptographyPrimitives
             )
         )
-    elif error.is_AwsCryptographyKeystore:
+    elif error.is_AwsCryptographyKeyStore:
         return KeyStore(
             await aws_cryptography_keystore_deserialize_error(
-                error.AwsCryptographyKeystore
+                error.AwsCryptographyKeyStore
             )
         )
     elif error.is_ComAmazonawsKms:
