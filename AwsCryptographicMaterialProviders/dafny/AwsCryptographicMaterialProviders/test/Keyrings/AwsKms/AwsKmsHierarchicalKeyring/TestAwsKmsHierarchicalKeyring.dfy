@@ -268,7 +268,7 @@ module TestAwsKmsHierarchicalKeyring {
     );
     expect decryptionMaterialsOut.IsFailure();
     expect decryptionMaterialsOut.error.AwsCryptographicMaterialProvidersException?;
-    var expectedErrorMessage :- expect ErrorMessages.INVALID_DATA_KEYS([edk],decryptionMaterialsIn.algorithmSuite);
+    var expectedErrorMessage :- expect ErrorMessages.IncorrectDataKeys([edk],decryptionMaterialsIn.algorithmSuite);
     expect decryptionMaterialsOut.error.message == expectedErrorMessage;
   }
 
