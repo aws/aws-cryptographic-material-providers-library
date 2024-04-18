@@ -41,7 +41,7 @@ module ErrorMessages {
       var encryptedDataKey := encryptedDataKeys[0];
       var extractedKeyProviderId :- UTF8.Decode(encryptedDataKey.keyProviderId).MapFailure(e => Types.AwsCryptographicMaterialProvidersException( message := e ));
       var extractedKeyProviderInfo :- UTF8.Decode(encryptedDataKey.keyProviderInfo).MapFailure(e => Types.AwsCryptographicMaterialProvidersException( message := e ));
-      if (extractedKeyProviderId == "aws-kms") then
+      if (extractedKeyProviderId != "aws-kms-hierarchy") then
         IncorrectDataKeysExpectedValues(encryptedDataKeys[1..], material, errMsg +
                                         "KeyProviderId: " + extractedKeyProviderId +
                                         ", KeyProviderInfo: " + extractedKeyProviderInfo + "\n")
