@@ -87,6 +87,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
               && AwsArnParsing.ParseAmazonDynamodbTableName(output.value.tableArn).Success?
               && AwsArnParsing.ParseAmazonDynamodbTableName(output.value.tableArn).value == config.ddbTableName
   {
+    :- Need(config.kmsConfiguration.kmsKeyArn?, Types.KeyStoreException(message := "CreateKeyStore requires a single region KMS Key ARN."));
     var ddbTableArn :- CreateKeyStoreTable.CreateKeyStoreTable(config.ddbTableName, config.ddbClient);
     var tableName := AwsArnParsing.ParseAmazonDynamodbTableName(ddbTableArn);
     :- Need(
@@ -114,6 +115,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       ==> output.Failure?
   {
 
+    :- Need(config.kmsConfiguration.kmsKeyArn?, Types.KeyStoreException(message := "CreateKey requires a single region KMS Key ARN."));
     :- Need(input.branchKeyIdentifier.Some? ==>
               && input.encryptionContext.Some?
               && 0 < |input.encryptionContext.value|,
@@ -190,8 +192,8 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
   method VersionKey(config: InternalConfig, input: VersionKeyInput)
     returns (output: Result<VersionKeyOutput, Error>)
   {
+    :- Need(config.kmsConfiguration.kmsKeyArn?, Types.KeyStoreException(message := "VersionKey requires a single region KMS Key ARN."));
     :- Need(0 < |input.branchKeyIdentifier|, Types.KeyStoreException(message := "Empty string not supported for identifier."));
-
 
     var timestamp :- Time.GetCurrentTimeStamp()
     .MapFailure(e => Types.KeyStoreException(message := e));
