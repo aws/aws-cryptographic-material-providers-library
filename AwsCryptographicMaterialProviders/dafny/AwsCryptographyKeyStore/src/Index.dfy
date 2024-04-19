@@ -16,6 +16,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
   import KMS = ComAmazonawsKmsTypes
   import DDB = ComAmazonawsDynamodbTypes
   import UUID
+  import KO = KMSKeystoreOperations
 
   // There is no sensible default, so define something that passes verification but will fail at runtime
   function method DefaultKeyStoreConfig(): KeyStoreConfig
@@ -36,7 +37,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
     ensures res.Success? ==>
               && res.value is KeyStoreClient
               && var rconfig := (res.value as KeyStoreClient).config;
-              && KMS.IsValid_KeyIdType(rconfig.kmsConfiguration.kmsKeyArn)
+              && KMS.IsValid_KeyIdType(KO.GetKeyId(rconfig.kmsConfiguration))
               && DDB.IsValid_TableName(config.ddbTableName)
               && GetValidGrantTokens(config.grantTokens).Success?
               && (config.kmsClient.Some? ==> rconfig.kmsClient == config.kmsClient.value)
@@ -45,14 +46,14 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
                                              && rconfig.ddbClient.ValidState())
     ensures
       && !DDB.IsValid_TableName(config.ddbTableName)
-      && !KMS.IsValid_KeyIdType(config.kmsConfiguration.kmsKeyArn)
-      && ParseAwsKmsArn(config.kmsConfiguration.kmsKeyArn).Failure?
+      && !KMS.IsValid_KeyIdType(KO.GetKeyId(config.kmsConfiguration))
+      && ParseAwsKmsArn(KO.GetKeyId(config.kmsConfiguration)).Failure?
       ==>
         res.Failure?
   {
     :- Need(
-      && KMS.IsValid_KeyIdType(config.kmsConfiguration.kmsKeyArn)
-      && ParseAwsKmsArn(config.kmsConfiguration.kmsKeyArn).Success?,
+      && KMS.IsValid_KeyIdType(KO.GetKeyId(config.kmsConfiguration))
+      && ParseAwsKmsArn(KO.GetKeyId(config.kmsConfiguration)).Success?,
       Types.KeyStoreException(
         message := "Invalid AWS KMS Key Arn")
     );
@@ -82,7 +83,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
     var kmsClient: KMS.IKMSClient;
     var ddbClient: DDB.IDynamoDBClient;
 
-    var keyArn := ParseAwsKmsIdentifier(config.kmsConfiguration.kmsKeyArn);
+    var keyArn := ParseAwsKmsIdentifier(KO.GetKeyId(config.kmsConfiguration));
     var kmsRegion := GetRegion(keyArn.value);
 
     if config.kmsClient.None? {
