@@ -181,7 +181,7 @@ module {:extern "UTF8"} UTF8 {
     ValidUTF8Range(s, 0, |s|)
   }
 
-  lemma ValidUTF8Concat(s: seq<uint8>, t: seq<uint8>)
+  lemma {:vcs_split_on_every_assert} ValidUTF8Concat(s: seq<uint8>, t: seq<uint8>)
     requires ValidUTF8Seq(s) && ValidUTF8Seq(t)
     ensures ValidUTF8Seq(s + t)
   {
