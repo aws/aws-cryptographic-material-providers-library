@@ -19,9 +19,9 @@ module ErrorMessages {
   {
     "EncryptedDataKey "
     + datakey
-    + " did not match" + keyringName + ". "
+    + " did not match " + keyringName + ". "
     + "Expected: keyProviderId: "
-    + keyProviderId + ". \n"
+    + keyProviderId + ".\n"
   }
 
   function method {:opaque} IncorrectDataKeys(encryptedDataKeys: Types.EncryptedDataKeyList, material : Types.AlgorithmSuiteInfo,errMsg: string := "")
