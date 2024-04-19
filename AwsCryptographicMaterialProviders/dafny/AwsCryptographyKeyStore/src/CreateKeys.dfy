@@ -230,7 +230,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       kmsClient
     );
     :- Need(KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, activeEncryptionContext),
-            Types.KeyStoreException(message := "Invalid KMS Key Arn configured for ReEncryptKey in CreateBranchAndBeaconKeys."));
+            Types.KeyStoreException(message := "Invalid KMS Key ARN configured for ReEncrypt in CreateBranchAndBeaconKeys."));
     var wrappedActiveBranchKey :- KMSKeystoreOperations.ReEncryptKey(
       wrappedDecryptOnlyBranchKey.CiphertextBlob.value,
       decryptOnlyEncryptionContext,
