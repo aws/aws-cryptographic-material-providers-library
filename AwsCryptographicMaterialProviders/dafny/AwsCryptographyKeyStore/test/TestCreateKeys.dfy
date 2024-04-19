@@ -20,6 +20,49 @@ module TestCreateKeys {
   import DDBKeystoreOperations
   import UUID
 
+  /*
+    // If you need to re-create the MRK Branch Keys
+  
+    method {:test} TestCreateMRK()
+    {
+      var ddbClient :- expect DDB.DynamoDBClient();
+  
+      var keyStoreConfigEast := Types.KeyStoreConfig(
+        id := None,
+        kmsConfiguration := KmsConfigEast,
+        logicalKeyStoreName := logicalKeyStoreName,
+        grantTokens := None,
+        ddbTableName := branchKeyStoreName,
+        ddbClient := Some(ddbClient)
+      );
+  
+      var keyStoreConfigWest := Types.KeyStoreConfig(
+        id := None,
+        kmsConfiguration := KmsConfigWest,
+        logicalKeyStoreName := logicalKeyStoreName,
+        grantTokens := None,
+        ddbTableName := branchKeyStoreName,
+        ddbClient := Some(ddbClient)
+      );
+  
+      var keyStoreEast :- expect KeyStore.KeyStore(keyStoreConfigEast);
+      var keyStoreWest :- expect KeyStore.KeyStore(keyStoreConfigWest);
+  
+      var branchKeyIdWest :- expect keyStoreWest.CreateKey(Types.CreateKeyInput(
+                                                             branchKeyIdentifier := Some(WestBranchKey),
+                                                             encryptionContext := Some(KmsMrkEC)
+                                                           ));
+  
+      var branchKeyIdEast :- expect keyStoreEast.CreateKey(Types.CreateKeyInput(
+                                                             branchKeyIdentifier := Some(EastBranchKey),
+                                                             encryptionContext := Some(KmsMrkEC)
+                                                           ));
+  
+      expect branchKeyIdEast.branchKeyIdentifier == EastBranchKey;
+      expect branchKeyIdWest.branchKeyIdentifier == WestBranchKey;
+    }
+  */
+
   method {:test} TestCreateBranchAndBeaconKeys()
   {
     var kmsClient :- expect KMS.KMSClient();

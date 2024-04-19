@@ -71,6 +71,119 @@ module TestGetKeys {
     expect |activeResult.branchKeyMaterials.branchKey| == 32;
   }
 
+  method {:test} TestGetActiveMrkKey()
+  {
+    var ddbClient :- expect DDB.DynamoDBClient();
+
+    var eastKeyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := KmsConfigEast,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient)
+    );
+
+    var westKeyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := KmsConfigWest,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient)
+    );
+
+    var eastMrkKeyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := KmsMrkConfigEast,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient)
+    );
+
+    var westMrkKeyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := KmsMrkConfigWest,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient)
+    );
+
+    // KmsMrkConfigAP is NOT created
+    var apMrkKeyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := KmsMrkConfigAP,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient)
+    );
+
+
+    var westKeyStore :- expect KeyStore.KeyStore(westKeyStoreConfig);
+    var eastKeyStore :- expect KeyStore.KeyStore(eastKeyStoreConfig);
+    var westMrkKeyStore :- expect KeyStore.KeyStore(westMrkKeyStoreConfig);
+    var eastMrkKeyStore :- expect KeyStore.KeyStore(eastMrkKeyStoreConfig);
+    var apMrkKeyStore :- expect KeyStore.KeyStore(apMrkKeyStoreConfig);
+
+    // All four should work when the regions match
+
+    var activeResult :- expect westKeyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(branchKeyIdentifier := WestBranchKey));
+    expect activeResult.branchKeyMaterials.branchKeyIdentifier == WestBranchKey;
+    expect |activeResult.branchKeyMaterials.branchKey| == 32;
+
+    activeResult :- expect eastKeyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(branchKeyIdentifier := EastBranchKey));
+    expect activeResult.branchKeyMaterials.branchKeyIdentifier == EastBranchKey;
+    expect |activeResult.branchKeyMaterials.branchKey| == 32;
+
+    activeResult :- expect westMrkKeyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(branchKeyIdentifier := WestBranchKey));
+    expect activeResult.branchKeyMaterials.branchKeyIdentifier == WestBranchKey;
+    expect |activeResult.branchKeyMaterials.branchKey| == 32;
+
+    activeResult :- expect eastMrkKeyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(branchKeyIdentifier := EastBranchKey));
+    expect activeResult.branchKeyMaterials.branchKeyIdentifier == EastBranchKey;
+    expect |activeResult.branchKeyMaterials.branchKey| == 32;
+
+    // MRK Configuration should work with the other region
+
+    activeResult :- expect westMrkKeyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(branchKeyIdentifier := EastBranchKey));
+    expect activeResult.branchKeyMaterials.branchKeyIdentifier == EastBranchKey;
+    expect |activeResult.branchKeyMaterials.branchKey| == 32;
+
+    activeResult :- expect eastMrkKeyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(branchKeyIdentifier := WestBranchKey));
+    expect activeResult.branchKeyMaterials.branchKeyIdentifier == WestBranchKey;
+    expect |activeResult.branchKeyMaterials.branchKey| == 32;
+
+    // Plain Configuration should fail with the other region
+
+    var badResult := westKeyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(branchKeyIdentifier := EastBranchKey));
+    expect badResult.Failure?;
+    expect badResult.error == Types.Error.KeyStoreException(message := "AWS KMS Key ARN does not match configured value");
+
+    badResult := eastKeyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(branchKeyIdentifier := WestBranchKey));
+    expect badResult.Failure?;
+    expect badResult.error == Types.Error.KeyStoreException(message := "AWS KMS Key ARN does not match configured value");
+
+    // apMrkKeyStore should always fail
+
+    badResult := apMrkKeyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(branchKeyIdentifier := WestBranchKey));
+    expect badResult.Failure?;
+    expect badResult.error.ComAmazonawsKms?;
+    expect badResult.error.ComAmazonawsKms.Opaque?;
+    // it's an opaque error, so I can't test its contents
+  }
+
   method {:test} TestGetBranchKeyVersion()
   {
     var kmsClient :- expect KMS.KMSClient();
