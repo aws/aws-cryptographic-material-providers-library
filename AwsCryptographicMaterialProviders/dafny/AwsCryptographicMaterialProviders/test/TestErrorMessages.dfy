@@ -18,11 +18,7 @@ module TestErrorMessages {
     var keyringName := "RSAKeyring";
     var keyProviderId := "TestProvider";
     var actualErrorMessage := ErrorMessages.IncorrectRawDataKeys(datakey, keyringName, keyProviderId);
-    var ExpectErrorMessage := "EncryptedDataKey "
-    + datakey
-    + " did not match" + keyringName + ". "
-    + "Expected: keyProviderId: "
-    + keyProviderId + ". \n";
+    var ExpectErrorMessage := "EncryptedDataKey 0 did not match RSAKeyring. Expected: keyProviderId: TestProvider.\n";
     expect actualErrorMessage == ExpectErrorMessage;
   }
 
