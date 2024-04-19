@@ -29,7 +29,7 @@ module TestCreateKeys {
   
       var keyStoreConfigEast := Types.KeyStoreConfig(
         id := None,
-        kmsConfiguration := KmsMrkConfigEast,
+        kmsConfiguration := KmsConfigEast,
         logicalKeyStoreName := logicalKeyStoreName,
         grantTokens := None,
         ddbTableName := branchKeyStoreName,
@@ -38,7 +38,7 @@ module TestCreateKeys {
   
       var keyStoreConfigWest := Types.KeyStoreConfig(
         id := None,
-        kmsConfiguration := KmsMrkConfigWest,
+        kmsConfiguration := KmsConfigWest,
         logicalKeyStoreName := logicalKeyStoreName,
         grantTokens := None,
         ddbTableName := branchKeyStoreName,

@@ -77,7 +77,7 @@ module TestGetKeys {
 
     var eastKeyStoreConfig := Types.KeyStoreConfig(
       id := None,
-      kmsConfiguration := KmsMrkConfigEast,
+      kmsConfiguration := KmsConfigEast,
       logicalKeyStoreName := logicalKeyStoreName,
       grantTokens := None,
       ddbTableName := branchKeyStoreName,
@@ -86,7 +86,7 @@ module TestGetKeys {
 
     var westKeyStoreConfig := Types.KeyStoreConfig(
       id := None,
-      kmsConfiguration := KmsMrkConfigWest,
+      kmsConfiguration := KmsConfigWest,
       logicalKeyStoreName := logicalKeyStoreName,
       grantTokens := None,
       ddbTableName := branchKeyStoreName,
@@ -95,7 +95,7 @@ module TestGetKeys {
 
     var eastMrkKeyStoreConfig := Types.KeyStoreConfig(
       id := None,
-      kmsConfiguration := KmsMrkMrkConfigEast,
+      kmsConfiguration := KmsMrkConfigEast,
       logicalKeyStoreName := logicalKeyStoreName,
       grantTokens := None,
       ddbTableName := branchKeyStoreName,
@@ -104,17 +104,29 @@ module TestGetKeys {
 
     var westMrkKeyStoreConfig := Types.KeyStoreConfig(
       id := None,
-      kmsConfiguration := KmsMrkMrkConfigWest,
+      kmsConfiguration := KmsMrkConfigWest,
       logicalKeyStoreName := logicalKeyStoreName,
       grantTokens := None,
       ddbTableName := branchKeyStoreName,
       ddbClient := Some(ddbClient)
     );
 
+    // KmsMrkConfigAP is NOT created
+    var apMrkKeyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := KmsMrkConfigAP,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient)
+    );
+
+
     var westKeyStore :- expect KeyStore.KeyStore(westKeyStoreConfig);
     var eastKeyStore :- expect KeyStore.KeyStore(eastKeyStoreConfig);
     var westMrkKeyStore :- expect KeyStore.KeyStore(westMrkKeyStoreConfig);
     var eastMrkKeyStore :- expect KeyStore.KeyStore(eastMrkKeyStoreConfig);
+    var apMrkKeyStore :- expect KeyStore.KeyStore(apMrkKeyStoreConfig);
 
     // All four should work when the regions match
 
@@ -161,6 +173,15 @@ module TestGetKeys {
       Types.GetActiveBranchKeyInput(branchKeyIdentifier := WestBranchKey));
     expect badResult.Failure?;
     expect badResult.error == Types.Error.KeyStoreException(message := "AWS KMS Key ARN does not match configured value");
+
+    // apMrkKeyStore should always fail
+
+    badResult := apMrkKeyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(branchKeyIdentifier := WestBranchKey));
+    expect badResult.Failure?;
+    expect badResult.error.ComAmazonawsKms?;
+    expect badResult.error.ComAmazonawsKms.Opaque?;
+    // it's an opaque error, so I can't test its contents
   }
 
   method {:test} TestGetBranchKeyVersion()

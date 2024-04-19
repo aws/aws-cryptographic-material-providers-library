@@ -27,10 +27,15 @@ module Fixtures {
   const mkrKeyArn := "arn:aws:kms:us-west-2:370957321024:key/mrk-63d386cb70614ea59b32ad65c9315297"
   const keyId := "9d989aa2-2f9c-438c-a745-cc57d3ad0126"
 
-  const KmsMrkConfigEast : Types.KMSConfiguration := Types.KMSConfiguration.kmsKeyArn("arn:aws:kms:us-east-1:658956600833:key/mrk-80bd8ecdcd4342aebd84b7dc9da498a7")
-  const KmsMrkConfigWest : Types.KMSConfiguration := Types.KMSConfiguration.kmsKeyArn("arn:aws:kms:us-west-2:658956600833:key/mrk-80bd8ecdcd4342aebd84b7dc9da498a7")
-  const KmsMrkMrkConfigEast : Types.KMSConfiguration := Types.KMSConfiguration.mrkKmsKeyArn("arn:aws:kms:us-east-1:658956600833:key/mrk-80bd8ecdcd4342aebd84b7dc9da498a7")
-  const KmsMrkMrkConfigWest : Types.KMSConfiguration := Types.KMSConfiguration.mrkKmsKeyArn("arn:aws:kms:us-west-2:658956600833:key/mrk-80bd8ecdcd4342aebd84b7dc9da498a7")
+  const MrkArnEast : string := "arn:aws:kms:us-east-1:658956600833:key/mrk-80bd8ecdcd4342aebd84b7dc9da498a7"
+  const MrkArnWest : string := "arn:aws:kms:us-west-2:658956600833:key/mrk-80bd8ecdcd4342aebd84b7dc9da498a7"
+  // Key MUST NOT exist in ap-south-2
+  const MrkArnAP : string := "arn:aws:kms:ap-south-2:658956600833:key/mrk-80bd8ecdcd4342aebd84b7dc9da498a7"
+  const KmsConfigEast : Types.KMSConfiguration := Types.KMSConfiguration.kmsKeyArn(MrkArnEast)
+  const KmsConfigWest : Types.KMSConfiguration := Types.KMSConfiguration.kmsKeyArn(MrkArnWest)
+  const KmsMrkConfigEast : Types.KMSConfiguration := Types.KMSConfiguration.mrkKmsKeyArn(MrkArnEast)
+  const KmsMrkConfigWest : Types.KMSConfiguration := Types.KMSConfiguration.mrkKmsKeyArn(MrkArnWest)
+  const KmsMrkConfigAP : Types.KMSConfiguration := Types.KMSConfiguration.mrkKmsKeyArn(MrkArnAP)
   const KmsMrkEC : Types.EncryptionContext := map[UTF8.EncodeAscii("abc") := UTF8.EncodeAscii("123")]
   const EastBranchKey : string := "MyEastBranch2"
   const WestBranchKey : string := "MyWestBranch2"
