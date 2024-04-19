@@ -222,7 +222,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     var beaconEncryptionContext := Structure.BeaconKeyEncryptionContext(decryptOnlyEncryptionContext);
 
     :- Need(KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, decryptOnlyEncryptionContext),
-            Types.KeyStoreException(message := "Invalid KMS Key Arn configured for GenerateKey in CreateBranchAndBeaconKeys."));
+            Types.KeyStoreException(message := "Invalid KMS Key ARN configured for GenerateDataKeyWithoutPlaintext in CreateBranchAndBeaconKeys."));
     var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.GenerateKey(
       decryptOnlyEncryptionContext,
       kmsConfiguration,
