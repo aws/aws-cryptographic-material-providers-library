@@ -17,9 +17,6 @@ module TestRawAESKeyring {
 
   method {:test} TestOnEncryptOnDecryptGenerateDataKey()
   {
-
-    ghost var asdf := "asdf";
-
     var mpl :- expect MaterialProviders.MaterialProviders();
 
     var namespace, name := TestUtils.NamespaceAndName(0);

@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "Structure.dfy"
-
+include "../../AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
+include "../../AwsCryptographicMaterialProviders/src/Keyrings/AwsKms/AwsKmsMrkMatchForDecrypt.dfy"
 module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
@@ -12,12 +13,27 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   import KMS = ComAmazonawsKmsTypes
   import UTF8
   import Structure
-
+  import opened AwsArnParsing
+  import AwsKmsMrkMatchForDecrypt
 
   predicate AttemptKmsOperation?(kmsConfiguration: Types.KMSConfiguration, encryptionContext: Structure.BranchKeyContext)
   {
     match kmsConfiguration
     case kmsKeyArn(arn) => arn == encryptionContext[Structure.KMS_FIELD]
+    case mrkKmsKeyArn(arn) =>
+      var ecArn := ParseAwsKmsArn(encryptionContext[Structure.KMS_FIELD]);
+      var kmsArn := ParseAwsKmsArn(arn);
+      if ecArn.Failure? || kmsArn.Failure? then
+        false
+      else
+        AwsKmsMrkMatchForDecrypt.AwsKmsMrkMatchForDecrypt(AwsKmsArnIdentifier(kmsArn.value), AwsKmsArnIdentifier(ecArn.value))
+  }
+
+  function GetKeyId(kmsConfiguration: Types.KMSConfiguration) : KMS.KeyIdType
+  {
+    match kmsConfiguration
+    case kmsKeyArn(arn) => arn
+    case mrkKmsKeyArn(arn) => arn
   }
 
   method GenerateKey(
@@ -34,7 +50,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ensures
       && |kmsClient.History.GenerateDataKeyWithoutPlaintext| == |old(kmsClient.History.GenerateDataKeyWithoutPlaintext)| + 1
       && KMS.GenerateDataKeyWithoutPlaintextRequest(
-           KeyId := kmsConfiguration.kmsKeyArn,
+           KeyId := GetKeyId(kmsConfiguration),
            EncryptionContext := Some(encryptionContext),
            KeySpec := None,
            NumberOfBytes := Some(32),
@@ -53,7 +69,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
               && kmsOperationOutput.value == res.value
   {
     var generatorRequest := KMS.GenerateDataKeyWithoutPlaintextRequest(
-      KeyId := kmsConfiguration.kmsKeyArn,
+      KeyId := GetKeyId(kmsConfiguration),
       EncryptionContext := Some(encryptionContext),
       KeySpec := None,
       NumberOfBytes := Some(32),
@@ -108,8 +124,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && KMS.ReEncryptRequest(
            CiphertextBlob := ciphertext,
            SourceEncryptionContext := Some(sourceEncryptionContext),
-           SourceKeyId := Some(kmsConfiguration.kmsKeyArn),
-           DestinationKeyId := kmsConfiguration.kmsKeyArn,
+           SourceKeyId := Some(GetKeyId(kmsConfiguration)),
+           DestinationKeyId := GetKeyId(kmsConfiguration),
            DestinationEncryptionContext := Some(destinationEncryptionContext),
            SourceEncryptionAlgorithm := None,
            DestinationEncryptionAlgorithm := None,
@@ -123,8 +139,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
               && res.value.CiphertextBlob.Some?
               && res.value.SourceKeyId.Some?
               && res.value.KeyId.Some?
-              && res.value.SourceKeyId.value == kmsConfiguration.kmsKeyArn
-              && res.value.KeyId.value == kmsConfiguration.kmsKeyArn
+              && res.value.SourceKeyId.value == GetKeyId(kmsConfiguration)
+              && res.value.KeyId.value == GetKeyId(kmsConfiguration)
               && KMS.IsValid_CiphertextType(res.value.CiphertextBlob.value)
               && var kmsOperationOutput := Seq.Last(kmsClient.History.ReEncrypt).output;
               && kmsOperationOutput.Success?
@@ -133,8 +149,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     var reEncryptRequest := KMS.ReEncryptRequest(
       CiphertextBlob := ciphertext,
       SourceEncryptionContext := Some(sourceEncryptionContext),
-      SourceKeyId := Some(kmsConfiguration.kmsKeyArn),
-      DestinationKeyId := kmsConfiguration.kmsKeyArn,
+      SourceKeyId := Some(GetKeyId(kmsConfiguration)),
+      DestinationKeyId := GetKeyId(kmsConfiguration),
       DestinationEncryptionContext := Some(destinationEncryptionContext),
       SourceEncryptionAlgorithm := None,
       DestinationEncryptionAlgorithm := None,
@@ -148,8 +164,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     :- Need(
       && reEncryptResponse.SourceKeyId.Some?
       && reEncryptResponse.KeyId.Some?
-      && reEncryptResponse.SourceKeyId.value == kmsConfiguration.kmsKeyArn
-      && reEncryptResponse.KeyId.value == kmsConfiguration.kmsKeyArn,
+      && reEncryptResponse.SourceKeyId.value == GetKeyId(kmsConfiguration)
+      && reEncryptResponse.KeyId.value == GetKeyId(kmsConfiguration),
       Types.KeyStoreException(
         message := "Invalid response from KMS GenerateDataKey:: Invalid Key Id")
     );
@@ -185,7 +201,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
            CiphertextBlob := item[Structure.BRANCH_KEY_FIELD].B,
            EncryptionContext := Some(encryptionContext),
            GrantTokens := Some(grantTokens),
-           KeyId := Some(kmsConfiguration.kmsKeyArn),
+           KeyId := Some(GetKeyId(kmsConfiguration)),
            EncryptionAlgorithm := None
          )
          == Seq.Last(kmsClient.History.Decrypt).input
@@ -202,7 +218,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
         CiphertextBlob := item[Structure.BRANCH_KEY_FIELD].B,
         EncryptionContext := Some(encryptionContext),
         GrantTokens := Some(grantTokens),
-        KeyId := Some(kmsConfiguration.kmsKeyArn),
+        KeyId := Some(GetKeyId(kmsConfiguration)),
         EncryptionAlgorithm := None
       )
     );
