@@ -11,6 +11,7 @@ jobs:
     steps:
       - name: Is user allowlisted?
         id: allowList
+        # As members onboard/offboard this list needs to be updated
         if: ${{ contains('["seebees","ShubhamChaturvedi7","texastony","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","justplaz","ajewellamz"]', github.actor)}}
         run: |
           echo "${{github.actor}} is allowed to run this action"
