@@ -3,6 +3,7 @@
 
 include "../../src/Index.dfy"
 include "../TestUtils.dfy"
+include "../../src/ErrorMessages.dfy"
 
 module TestRawAESKeyring {
   import opened Wrappers
@@ -12,6 +13,7 @@ module TestRawAESKeyring {
   import AwsCryptographyPrimitivesTypes
   import MaterialProviders
   import Types = AwsCryptographyMaterialProvidersTypes
+  import ErrorMessages
 
   method {:test} TestOnEncryptOnDecryptGenerateDataKey()
   {
@@ -201,6 +203,10 @@ module TestRawAESKeyring {
       )
     );
     expect decryptionMaterialsOut.IsFailure();
+    expect decryptionMaterialsOut.error.CollectionOfErrors?;
+    expect |decryptionMaterialsOut.error.list| == 1;
+    expect decryptionMaterialsOut.error.list[0].AwsCryptographicMaterialProvidersException?;
+    expect decryptionMaterialsOut.error.list[0].message == ErrorMessages.IncorrectRawDataKeys("0","AESKeyring", namespace);
   }
 
   method {:test} TestOnDecryptBadAndGoodEdkSucceeds()
