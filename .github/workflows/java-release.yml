@@ -13,7 +13,7 @@ on:
         required: true
         type: string
   # Useful to run this action by itself since sometimes to apply hot patches
-  # to just java we need to only release a jva build
+  # to just java we need to only release a Java build
   workflow_dispatch:
     inputs:
       dafny:

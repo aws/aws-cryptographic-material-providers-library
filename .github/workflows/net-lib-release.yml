@@ -204,7 +204,7 @@ jobs:
       CSPROJ: ${{inputs.csproj}}
       TEST_CSPROJ: ${{inputs.test_csproj}}
       ASSEMBLY_NAME: ${{inputs.assembly_name}}
-    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    runs-on: codebuild-AWS-MPL-Release-${{ github.run_id }}-${{ github.run_attempt }}-ubuntu-5.0-large
     permissions:
       id-token: write
       contents: read
@@ -319,7 +319,7 @@ jobs:
       CSPROJ: ${{inputs.csproj}}
       TEST_CSPROJ: ${{inputs.test_csproj}}
       ASSEMBLY_NAME: ${{inputs.assembly_name}}
-    runs-on: codebuild-AWS-MPL-Release-ubuntu-5.0-large
+    runs-on: codebuild-AWS-MPL-Release-${{ github.run_id }}-${{ github.run_attempt }}-ubuntu-5.0-large
     permissions:
       id-token: write
       contents: read
