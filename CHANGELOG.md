@@ -1,5 +1,21 @@
 # Changelog
 
+# [1.3.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.2.0...v1.3.0) (2024-04-23)
+
+
+### Bug Fixes
+
+* **dafny:** Local Service Constructors MUST return concrete ([64f72c1](https://github.com/aws/aws-cryptographic-material-providers-library/commit/64f72c121fef31a83bcf3a5346d7efc1e84ab25f))
+* dir name in java mpl release process ([#162](https://github.com/aws/aws-cryptographic-material-providers-library/issues/162)) ([d92c06a](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d92c06a2fd355290f27df669c866157e14da9793))
+* Re-Polymorph w/ Smithy-Dafny@3378be16 & fix Java Testing ([#190](https://github.com/aws/aws-cryptographic-material-providers-library/issues/190)) ([58d74f6](https://github.com/aws/aws-cryptographic-material-providers-library/commit/58d74f6d20cc649742f2c73426b0f19a6b516dbb))
+
+
+### Features
+
+* enable KMS MRK Keys in KeyStore ([#285](https://github.com/aws/aws-cryptographic-material-providers-library/issues/285)) ([d924395](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d924395e7895187aee59279f7ba1f4dcdf1f893e))
+* remove quantifier-syntax ([#218](https://github.com/aws/aws-cryptographic-material-providers-library/issues/218)) ([76ab6ef](https://github.com/aws/aws-cryptographic-material-providers-library/commit/76ab6ef7d2ff9580919671cde0719b93facb5b67))
+* repolymorph to get dotnet constraint checking ([#281](https://github.com/aws/aws-cryptographic-material-providers-library/issues/281)) ([04102d7](https://github.com/aws/aws-cryptographic-material-providers-library/commit/04102d7e30c04167df9fb76de86d2aeb0508536e))
+
 ## 1.2.0 (2024-01-08)
 
 ### Features
