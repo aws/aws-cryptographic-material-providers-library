@@ -398,10 +398,10 @@ public class ToDafny {
         )
       );
     }
-    if (Objects.nonNull(nativeValue.mrkKmsKeyArn())) {
-      return KMSConfiguration.create_mrkKmsKeyArn(
+    if (Objects.nonNull(nativeValue.kmsMRKeyArn())) {
+      return KMSConfiguration.create_kmsMRKeyArn(
         software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-          nativeValue.mrkKmsKeyArn()
+          nativeValue.kmsMRKeyArn()
         )
       );
     }
