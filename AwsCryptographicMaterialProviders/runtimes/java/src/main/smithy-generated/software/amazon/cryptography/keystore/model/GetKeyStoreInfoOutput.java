@@ -32,7 +32,7 @@ public class GetKeyStoreInfoOutput {
   private final List<String> grantTokens;
 
   /**
-   * The AWS KMS Key that protects this Key Store.
+   * Configures this Keystore's KMS Key ARN restrictions.
    */
   private final KMSConfiguration kmsConfiguration;
 
@@ -73,7 +73,7 @@ public class GetKeyStoreInfoOutput {
   }
 
   /**
-   * @return The AWS KMS Key that protects this Key Store.
+   * @return Configures this Keystore's KMS Key ARN restrictions.
    */
   public KMSConfiguration kmsConfiguration() {
     return this.kmsConfiguration;
@@ -129,12 +129,12 @@ public class GetKeyStoreInfoOutput {
     List<String> grantTokens();
 
     /**
-     * @param kmsConfiguration The AWS KMS Key that protects this Key Store.
+     * @param kmsConfiguration Configures this Keystore's KMS Key ARN restrictions.
      */
     Builder kmsConfiguration(KMSConfiguration kmsConfiguration);
 
     /**
-     * @return The AWS KMS Key that protects this Key Store.
+     * @return Configures this Keystore's KMS Key ARN restrictions.
      */
     KMSConfiguration kmsConfiguration();
 
