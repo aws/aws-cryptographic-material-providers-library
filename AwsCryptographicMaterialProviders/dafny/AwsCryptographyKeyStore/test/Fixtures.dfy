@@ -33,9 +33,9 @@ module Fixtures {
   const MrkArnAP : string := "arn:aws:kms:ap-south-2:658956600833:key/mrk-80bd8ecdcd4342aebd84b7dc9da498a7"
   const KmsConfigEast : Types.KMSConfiguration := Types.KMSConfiguration.kmsKeyArn(MrkArnEast)
   const KmsConfigWest : Types.KMSConfiguration := Types.KMSConfiguration.kmsKeyArn(MrkArnWest)
-  const KmsMrkConfigEast : Types.KMSConfiguration := Types.KMSConfiguration.mrkKmsKeyArn(MrkArnEast)
-  const KmsMrkConfigWest : Types.KMSConfiguration := Types.KMSConfiguration.mrkKmsKeyArn(MrkArnWest)
-  const KmsMrkConfigAP : Types.KMSConfiguration := Types.KMSConfiguration.mrkKmsKeyArn(MrkArnAP)
+  const KmsMrkConfigEast : Types.KMSConfiguration := Types.KMSConfiguration.kmsMRKeyArn(MrkArnEast)
+  const KmsMrkConfigWest : Types.KMSConfiguration := Types.KMSConfiguration.kmsMRKeyArn(MrkArnWest)
+  const KmsMrkConfigAP : Types.KMSConfiguration := Types.KMSConfiguration.kmsMRKeyArn(MrkArnAP)
   const KmsMrkEC : Types.EncryptionContext := map[UTF8.EncodeAscii("abc") := UTF8.EncodeAscii("123")]
   const EastBranchKey : string := "MyEastBranch2"
   const WestBranchKey : string := "MyWestBranch2"

@@ -164,9 +164,9 @@ namespace AWS.Cryptography.KeyStore
         converted.KmsKeyArn = FromDafny_N3_aws__N12_cryptography__N8_keyStore__S16_KMSConfiguration__M9_kmsKeyArn(concrete.dtor_kmsKeyArn);
         return converted;
       }
-      if (value.is_mrkKmsKeyArn)
+      if (value.is_kmsMRKeyArn)
       {
-        converted.MrkKmsKeyArn = FromDafny_N3_aws__N12_cryptography__N8_keyStore__S16_KMSConfiguration__M12_mrkKmsKeyArn(concrete.dtor_mrkKmsKeyArn);
+        converted.KmsMRKeyArn = FromDafny_N3_aws__N12_cryptography__N8_keyStore__S16_KMSConfiguration__M11_kmsMRKeyArn(concrete.dtor_kmsMRKeyArn);
         return converted;
       }
       throw new System.ArgumentException("Invalid AWS.Cryptography.KeyStore.KMSConfiguration state");
@@ -177,9 +177,9 @@ namespace AWS.Cryptography.KeyStore
       {
         return software.amazon.cryptography.keystore.internaldafny.types.KMSConfiguration.create_kmsKeyArn(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S16_KMSConfiguration__M9_kmsKeyArn(value.KmsKeyArn));
       }
-      if (value.IsSetMrkKmsKeyArn())
+      if (value.IsSetKmsMRKeyArn())
       {
-        return software.amazon.cryptography.keystore.internaldafny.types.KMSConfiguration.create_mrkKmsKeyArn(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S16_KMSConfiguration__M12_mrkKmsKeyArn(value.MrkKmsKeyArn));
+        return software.amazon.cryptography.keystore.internaldafny.types.KMSConfiguration.create_kmsMRKeyArn(ToDafny_N3_aws__N12_cryptography__N8_keyStore__S16_KMSConfiguration__M11_kmsMRKeyArn(value.KmsMRKeyArn));
       }
       throw new System.ArgumentException("Invalid AWS.Cryptography.KeyStore.KMSConfiguration state");
     }
@@ -403,11 +403,11 @@ namespace AWS.Cryptography.KeyStore
     {
       return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
     }
-    public static string FromDafny_N3_aws__N12_cryptography__N8_keyStore__S16_KMSConfiguration__M12_mrkKmsKeyArn(Dafny.ISequence<char> value)
+    public static string FromDafny_N3_aws__N12_cryptography__N8_keyStore__S16_KMSConfiguration__M11_kmsMRKeyArn(Dafny.ISequence<char> value)
     {
       return FromDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
     }
-    public static Dafny.ISequence<char> ToDafny_N3_aws__N12_cryptography__N8_keyStore__S16_KMSConfiguration__M12_mrkKmsKeyArn(string value)
+    public static Dafny.ISequence<char> ToDafny_N3_aws__N12_cryptography__N8_keyStore__S16_KMSConfiguration__M11_kmsMRKeyArn(string value)
     {
       return ToDafny_N3_com__N9_amazonaws__N3_kms__S9_KeyIdType(value);
     }

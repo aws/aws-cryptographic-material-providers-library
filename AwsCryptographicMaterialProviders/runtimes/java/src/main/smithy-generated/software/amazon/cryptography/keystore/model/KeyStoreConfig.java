@@ -16,12 +16,12 @@ public class KeyStoreConfig {
   private final String ddbTableName;
 
   /**
-   * The AWS KMS Key that protects this Key Store.
+   * Configures this Keystore's KMS Key ARN restrictions.
    */
   private final KMSConfiguration kmsConfiguration;
 
   /**
-   * The logical name for this Key Store, which is cryptographically bound to the keys it holds.
+   * The logical name for this Key Store, which is cryptographically bound to the keys it holds. This appears in the Encryption Context of KMS requests as `tablename`.
    */
   private final String logicalKeyStoreName;
 
@@ -36,12 +36,12 @@ public class KeyStoreConfig {
   private final List<String> grantTokens;
 
   /**
-   * The DynamoDB client this Key Store uses to call Amazon DynamoDB.
+   * The DynamoDB client this Key Store uses to call Amazon DynamoDB. If None is provided, a default DynamoDB Client is created using the Region from the KMS ARN.
    */
   private final DynamoDbClient ddbClient;
 
   /**
-   * The KMS client this Key Store uses to call AWS KMS.
+   * The KMS client this Key Store uses to call AWS KMS. If None is provided, a default KMS Client is created using the Region from the KMS ARN.
    */
   private final KmsClient kmsClient;
 
@@ -63,14 +63,14 @@ public class KeyStoreConfig {
   }
 
   /**
-   * @return The AWS KMS Key that protects this Key Store.
+   * @return Configures this Keystore's KMS Key ARN restrictions.
    */
   public KMSConfiguration kmsConfiguration() {
     return this.kmsConfiguration;
   }
 
   /**
-   * @return The logical name for this Key Store, which is cryptographically bound to the keys it holds.
+   * @return The logical name for this Key Store, which is cryptographically bound to the keys it holds. This appears in the Encryption Context of KMS requests as `tablename`.
    */
   public String logicalKeyStoreName() {
     return this.logicalKeyStoreName;
@@ -91,14 +91,14 @@ public class KeyStoreConfig {
   }
 
   /**
-   * @return The DynamoDB client this Key Store uses to call Amazon DynamoDB.
+   * @return The DynamoDB client this Key Store uses to call Amazon DynamoDB. If None is provided, a default DynamoDB Client is created using the Region from the KMS ARN.
    */
   public DynamoDbClient ddbClient() {
     return this.ddbClient;
   }
 
   /**
-   * @return The KMS client this Key Store uses to call AWS KMS.
+   * @return The KMS client this Key Store uses to call AWS KMS. If None is provided, a default KMS Client is created using the Region from the KMS ARN.
    */
   public KmsClient kmsClient() {
     return this.kmsClient;
@@ -124,22 +124,22 @@ public class KeyStoreConfig {
     String ddbTableName();
 
     /**
-     * @param kmsConfiguration The AWS KMS Key that protects this Key Store.
+     * @param kmsConfiguration Configures this Keystore's KMS Key ARN restrictions.
      */
     Builder kmsConfiguration(KMSConfiguration kmsConfiguration);
 
     /**
-     * @return The AWS KMS Key that protects this Key Store.
+     * @return Configures this Keystore's KMS Key ARN restrictions.
      */
     KMSConfiguration kmsConfiguration();
 
     /**
-     * @param logicalKeyStoreName The logical name for this Key Store, which is cryptographically bound to the keys it holds.
+     * @param logicalKeyStoreName The logical name for this Key Store, which is cryptographically bound to the keys it holds. This appears in the Encryption Context of KMS requests as `tablename`.
      */
     Builder logicalKeyStoreName(String logicalKeyStoreName);
 
     /**
-     * @return The logical name for this Key Store, which is cryptographically bound to the keys it holds.
+     * @return The logical name for this Key Store, which is cryptographically bound to the keys it holds. This appears in the Encryption Context of KMS requests as `tablename`.
      */
     String logicalKeyStoreName();
 
@@ -164,22 +164,22 @@ public class KeyStoreConfig {
     List<String> grantTokens();
 
     /**
-     * @param ddbClient The DynamoDB client this Key Store uses to call Amazon DynamoDB.
+     * @param ddbClient The DynamoDB client this Key Store uses to call Amazon DynamoDB. If None is provided, a default DynamoDB Client is created using the Region from the KMS ARN.
      */
     Builder ddbClient(DynamoDbClient ddbClient);
 
     /**
-     * @return The DynamoDB client this Key Store uses to call Amazon DynamoDB.
+     * @return The DynamoDB client this Key Store uses to call Amazon DynamoDB. If None is provided, a default DynamoDB Client is created using the Region from the KMS ARN.
      */
     DynamoDbClient ddbClient();
 
     /**
-     * @param kmsClient The KMS client this Key Store uses to call AWS KMS.
+     * @param kmsClient The KMS client this Key Store uses to call AWS KMS. If None is provided, a default KMS Client is created using the Region from the KMS ARN.
      */
     Builder kmsClient(KmsClient kmsClient);
 
     /**
-     * @return The KMS client this Key Store uses to call AWS KMS.
+     * @return The KMS client this Key Store uses to call AWS KMS. If None is provided, a default KMS Client is created using the Region from the KMS ARN.
      */
     KmsClient kmsClient();
 
