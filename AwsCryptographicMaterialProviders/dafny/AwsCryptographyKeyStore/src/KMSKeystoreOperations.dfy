@@ -20,7 +20,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   {
     match kmsConfiguration
     case kmsKeyArn(arn) => arn == encryptionContext[Structure.KMS_FIELD]
-    case mrkKmsKeyArn(arn) =>
+    case kmsMRKeyArn(arn) =>
       var ecArn := ParseAwsKmsArn(encryptionContext[Structure.KMS_FIELD]);
       var kmsArn := ParseAwsKmsArn(arn);
       if ecArn.Failure? || kmsArn.Failure? then
@@ -33,7 +33,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   {
     match kmsConfiguration
     case kmsKeyArn(arn) => arn
-    case mrkKmsKeyArn(arn) => arn
+    case kmsMRKeyArn(arn) => arn
   }
 
   method GenerateKey(
