@@ -3,6 +3,9 @@
 import _dafny
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
 import module_
+from software_amazon_cryptography_keystore_internaldafny_types import (
+    Error_KeyStoreException,
+)
 from software_amazon_cryptography_materialproviders_internaldafny_types import (
     DecryptionMaterials_DecryptionMaterials as DafnyDecryptionMaterials,
     EncryptionMaterials_EncryptionMaterials as DafnyEncryptionMaterials,
@@ -17,6 +20,9 @@ from software_amazon_cryptography_materialproviders_internaldafny_types import (
     Error_InvalidDecryptionMaterialsTransition,
     Error_InvalidEncryptionMaterials,
     Error_InvalidEncryptionMaterialsTransition,
+)
+from software_amazon_cryptography_primitives_internaldafny_types import (
+    Error_AwsCryptographicPrimitivesError,
 )
 from typing import Any
 
@@ -350,13 +356,15 @@ async def _deserialize_error(error: Error) -> ServiceError:
     elif error.is_AwsCryptographyPrimitives:
         return AwsCryptographicPrimitives(
             await aws_cryptography_primitives_deserialize_error(
-                error.AwsCryptographyPrimitives
+                Error_AwsCryptographicPrimitivesError(
+                    message=error.AwsCryptographyPrimitives
+                )
             )
         )
     elif error.is_AwsCryptographyKeyStore:
         return KeyStore(
             await aws_cryptography_keystore_deserialize_error(
-                error.AwsCryptographyKeyStore
+                Error_KeyStoreException(message=error.AwsCryptographyKeyStore)
             )
         )
     elif error.is_ComAmazonawsKms:
