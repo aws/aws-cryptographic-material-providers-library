@@ -12,6 +12,76 @@ from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.mod
 from ..aws_cryptography_keystore.models import BeaconKeyMaterials, BranchKeyMaterials
 
 
+class AesWrappingAlg:
+    ALG_AES128_GCM_IV12_TAG16 = "ALG_AES128_GCM_IV12_TAG16"
+
+    ALG_AES192_GCM_IV12_TAG16 = "ALG_AES192_GCM_IV12_TAG16"
+
+    ALG_AES256_GCM_IV12_TAG16 = "ALG_AES256_GCM_IV12_TAG16"
+
+    # This set contains every possible value known at the time this was generated. New
+    # values may be added in the future.
+    values = frozenset(
+        {
+            "ALG_AES128_GCM_IV12_TAG16",
+            "ALG_AES192_GCM_IV12_TAG16",
+            "ALG_AES256_GCM_IV12_TAG16",
+        }
+    )
+
+
+class DBEAlgorithmSuiteId:
+    ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY_SYMSIG_HMAC_SHA384 = "0x6700"
+
+    ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY_ECDSA_P384_SYMSIG_HMAC_SHA384 = "0x6701"
+
+    # This set contains every possible value known at the time this was generated. New
+    # values may be added in the future.
+    values = frozenset({"0x6700", "0x6701"})
+
+
+class ESDKAlgorithmSuiteId:
+    ALG_AES_128_GCM_IV12_TAG16_NO_KDF = "0x0014"
+
+    ALG_AES_192_GCM_IV12_TAG16_NO_KDF = "0x0046"
+
+    ALG_AES_256_GCM_IV12_TAG16_NO_KDF = "0x0078"
+
+    ALG_AES_128_GCM_IV12_TAG16_HKDF_SHA256 = "0x0114"
+
+    ALG_AES_192_GCM_IV12_TAG16_HKDF_SHA256 = "0x0146"
+
+    ALG_AES_256_GCM_IV12_TAG16_HKDF_SHA256 = "0x0178"
+
+    ALG_AES_128_GCM_IV12_TAG16_HKDF_SHA256_ECDSA_P256 = "0x0214"
+
+    ALG_AES_192_GCM_IV12_TAG16_HKDF_SHA384_ECDSA_P384 = "0x0346"
+
+    ALG_AES_256_GCM_IV12_TAG16_HKDF_SHA384_ECDSA_P384 = "0x0378"
+
+    ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY = "0x0478"
+
+    ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY_ECDSA_P384 = "0x0578"
+
+    # This set contains every possible value known at the time this was generated. New
+    # values may be added in the future.
+    values = frozenset(
+        {
+            "0x0014",
+            "0x0046",
+            "0x0078",
+            "0x0114",
+            "0x0146",
+            "0x0178",
+            "0x0214",
+            "0x0346",
+            "0x0378",
+            "0x0478",
+            "0x0578",
+        }
+    )
+
+
 class AlgorithmSuiteIdESDK:
     def __init__(self, value: "str"):
         self.value = value
@@ -3148,6 +3218,30 @@ class CreateRawAesKeyringInput:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class PaddingScheme:
+    PKCS1 = "PKCS1"
+
+    OAEP_SHA1_MGF1 = "OAEP_SHA1_MGF1"
+
+    OAEP_SHA256_MGF1 = "OAEP_SHA256_MGF1"
+
+    OAEP_SHA384_MGF1 = "OAEP_SHA384_MGF1"
+
+    OAEP_SHA512_MGF1 = "OAEP_SHA512_MGF1"
+
+    # This set contains every possible value known at the time this was generated. New
+    # values may be added in the future.
+    values = frozenset(
+        {
+            "PKCS1",
+            "OAEP_SHA1_MGF1",
+            "OAEP_SHA256_MGF1",
+            "OAEP_SHA384_MGF1",
+            "OAEP_SHA512_MGF1",
+        }
+    )
+
+
 class CreateRawRsaKeyringInput:
     key_namespace: str
     key_name: str
@@ -4223,6 +4317,32 @@ class UpdateUsageMetadataInput:
             "bytes_used",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class DBECommitmentPolicy:
+    REQUIRE_ENCRYPT_REQUIRE_DECRYPT = "REQUIRE_ENCRYPT_REQUIRE_DECRYPT"
+
+    # This set contains every possible value known at the time this was generated. New
+    # values may be added in the future.
+    values = frozenset({"REQUIRE_ENCRYPT_REQUIRE_DECRYPT"})
+
+
+class ESDKCommitmentPolicy:
+    FORBID_ENCRYPT_ALLOW_DECRYPT = "FORBID_ENCRYPT_ALLOW_DECRYPT"
+
+    REQUIRE_ENCRYPT_ALLOW_DECRYPT = "REQUIRE_ENCRYPT_ALLOW_DECRYPT"
+
+    REQUIRE_ENCRYPT_REQUIRE_DECRYPT = "REQUIRE_ENCRYPT_REQUIRE_DECRYPT"
+
+    # This set contains every possible value known at the time this was generated. New
+    # values may be added in the future.
+    values = frozenset(
+        {
+            "FORBID_ENCRYPT_ALLOW_DECRYPT",
+            "REQUIRE_ENCRYPT_ALLOW_DECRYPT",
+            "REQUIRE_ENCRYPT_REQUIRE_DECRYPT",
+        }
+    )
 
 
 class CommitmentPolicyESDK:

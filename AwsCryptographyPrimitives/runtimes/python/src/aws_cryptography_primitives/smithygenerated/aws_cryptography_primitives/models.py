@@ -417,6 +417,18 @@ class AesKdfCtrInput:
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class DigestAlgorithm:
+    SHA_512 = "SHA_512"
+
+    SHA_384 = "SHA_384"
+
+    SHA_256 = "SHA_256"
+
+    # This set contains every possible value known at the time this was generated. New
+    # values may be added in the future.
+    values = frozenset({"SHA_512", "SHA_384", "SHA_256"})
+
+
 class DigestInput:
     digest_algorithm: str
     message: bytes | bytearray
@@ -473,6 +485,16 @@ class DigestInput:
             "message",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class ECDSASignatureAlgorithm:
+    ECDSA_P384 = "ECDSA_P384"
+
+    ECDSA_P256 = "ECDSA_P256"
+
+    # This set contains every possible value known at the time this was generated. New
+    # values may be added in the future.
+    values = frozenset({"ECDSA_P384", "ECDSA_P256"})
 
 
 class ECDSASignInput:
@@ -1569,6 +1591,24 @@ class KdfCtrInput:
             "nonce",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class RSAPaddingMode:
+    PKCS1 = "PKCS1"
+
+    OAEP_SHA1 = "OAEP_SHA1"
+
+    OAEP_SHA256 = "OAEP_SHA256"
+
+    OAEP_SHA384 = "OAEP_SHA384"
+
+    OAEP_SHA512 = "OAEP_SHA512"
+
+    # This set contains every possible value known at the time this was generated. New
+    # values may be added in the future.
+    values = frozenset(
+        {"PKCS1", "OAEP_SHA1", "OAEP_SHA256", "OAEP_SHA384", "OAEP_SHA512"}
+    )
 
 
 class RSADecryptInput:

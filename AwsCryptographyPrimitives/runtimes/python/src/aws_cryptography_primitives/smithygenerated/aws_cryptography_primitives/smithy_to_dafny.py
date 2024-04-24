@@ -11,13 +11,8 @@ from software_amazon_cryptography_primitives_internaldafny_types import (
     AES__GCM_AES__GCM as DafnyAES_GCM,
     AesKdfCtrInput_AesKdfCtrInput as DafnyAesKdfCtrInput,
     CryptoConfig_CryptoConfig as DafnyCryptoConfig,
-    DigestAlgorithm_SHA__256,
-    DigestAlgorithm_SHA__384,
-    DigestAlgorithm_SHA__512,
     DigestInput_DigestInput as DafnyDigestInput,
     ECDSASignInput_ECDSASignInput as DafnyECDSASignInput,
-    ECDSASignatureAlgorithm_ECDSA__P256,
-    ECDSASignatureAlgorithm_ECDSA__P384,
     ECDSAVerifyInput_ECDSAVerifyInput as DafnyECDSAVerifyInput,
     GenerateECDSASignatureKeyInput_GenerateECDSASignatureKeyInput as DafnyGenerateECDSASignatureKeyInput,
     GenerateECDSASignatureKeyOutput_GenerateECDSASignatureKeyOutput as DafnyGenerateECDSASignatureKeyOutput,
@@ -33,11 +28,6 @@ from software_amazon_cryptography_primitives_internaldafny_types import (
     KdfCtrInput_KdfCtrInput as DafnyKdfCtrInput,
     RSADecryptInput_RSADecryptInput as DafnyRSADecryptInput,
     RSAEncryptInput_RSAEncryptInput as DafnyRSAEncryptInput,
-    RSAPaddingMode_OAEP__SHA1,
-    RSAPaddingMode_OAEP__SHA256,
-    RSAPaddingMode_OAEP__SHA384,
-    RSAPaddingMode_OAEP__SHA512,
-    RSAPaddingMode_PKCS1,
     RSAPrivateKey_RSAPrivateKey as DafnyRSAPrivateKey,
     RSAPublicKey_RSAPublicKey as DafnyRSAPublicKey,
 )
@@ -51,32 +41,14 @@ def aws_cryptography_primitives_GenerateRandomBytesInput(native_input):
 
 def aws_cryptography_primitives_DigestInput(native_input):
     return DafnyDigestInput(
-        digestAlgorithm=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_DigestAlgorithm(
-            native_input.digest_algorithm
-        ),
+        digestAlgorithm=native_input.digest_algorithm,
         message=Seq(native_input.message),
     )
 
 
-def aws_cryptography_primitives_DigestAlgorithm(native_input):
-    if native_input == "SHA_512":
-        return DigestAlgorithm_SHA__512()
-
-    elif native_input == "SHA_384":
-        return DigestAlgorithm_SHA__384()
-
-    elif native_input == "SHA_256":
-        return DigestAlgorithm_SHA__256()
-
-    else:
-        raise ValueError(f"No recognized enum value in enum type: {native_input=}")
-
-
 def aws_cryptography_primitives_HMacInput(native_input):
     return DafnyHMacInput(
-        digestAlgorithm=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_DigestAlgorithm(
-            native_input.digest_algorithm
-        ),
+        digestAlgorithm=native_input.digest_algorithm,
         key=Seq(native_input.key),
         message=Seq(native_input.message),
     )
@@ -84,9 +56,7 @@ def aws_cryptography_primitives_HMacInput(native_input):
 
 def aws_cryptography_primitives_HkdfExtractInput(native_input):
     return DafnyHkdfExtractInput(
-        digestAlgorithm=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_DigestAlgorithm(
-            native_input.digest_algorithm
-        ),
+        digestAlgorithm=native_input.digest_algorithm,
         salt=(
             (Option_Some(Seq(native_input.salt)))
             if (native_input.salt is not None)
@@ -98,9 +68,7 @@ def aws_cryptography_primitives_HkdfExtractInput(native_input):
 
 def aws_cryptography_primitives_HkdfExpandInput(native_input):
     return DafnyHkdfExpandInput(
-        digestAlgorithm=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_DigestAlgorithm(
-            native_input.digest_algorithm
-        ),
+        digestAlgorithm=native_input.digest_algorithm,
         prk=Seq(native_input.prk),
         info=Seq(native_input.info),
         expectedLength=native_input.expected_length,
@@ -109,9 +77,7 @@ def aws_cryptography_primitives_HkdfExpandInput(native_input):
 
 def aws_cryptography_primitives_HkdfInput(native_input):
     return DafnyHkdfInput(
-        digestAlgorithm=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_DigestAlgorithm(
-            native_input.digest_algorithm
-        ),
+        digestAlgorithm=native_input.digest_algorithm,
         salt=(
             (Option_Some(Seq(native_input.salt)))
             if (native_input.salt is not None)
@@ -125,9 +91,7 @@ def aws_cryptography_primitives_HkdfInput(native_input):
 
 def aws_cryptography_primitives_KdfCtrInput(native_input):
     return DafnyKdfCtrInput(
-        digestAlgorithm=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_DigestAlgorithm(
-            native_input.digest_algorithm
-        ),
+        digestAlgorithm=native_input.digest_algorithm,
         ikm=Seq(native_input.ikm),
         expectedLength=native_input.expected_length,
         purpose=(
@@ -202,39 +166,15 @@ def aws_cryptography_primitives_GetRSAKeyModulusLengthInput(native_input):
 
 def aws_cryptography_primitives_RSADecryptInput(native_input):
     return DafnyRSADecryptInput(
-        padding=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_RSAPaddingMode(
-            native_input.padding
-        ),
+        padding=native_input.padding,
         privateKey=Seq(native_input.private_key),
         cipherText=Seq(native_input.cipher_text),
     )
 
 
-def aws_cryptography_primitives_RSAPaddingMode(native_input):
-    if native_input == "PKCS1":
-        return RSAPaddingMode_PKCS1()
-
-    elif native_input == "OAEP_SHA1":
-        return RSAPaddingMode_OAEP__SHA1()
-
-    elif native_input == "OAEP_SHA256":
-        return RSAPaddingMode_OAEP__SHA256()
-
-    elif native_input == "OAEP_SHA384":
-        return RSAPaddingMode_OAEP__SHA384()
-
-    elif native_input == "OAEP_SHA512":
-        return RSAPaddingMode_OAEP__SHA512()
-
-    else:
-        raise ValueError(f"No recognized enum value in enum type: {native_input=}")
-
-
 def aws_cryptography_primitives_RSAEncryptInput(native_input):
     return DafnyRSAEncryptInput(
-        padding=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_RSAPaddingMode(
-            native_input.padding
-        ),
+        padding=native_input.padding,
         publicKey=Seq(native_input.public_key),
         plaintext=Seq(native_input.plaintext),
     )
@@ -242,28 +182,13 @@ def aws_cryptography_primitives_RSAEncryptInput(native_input):
 
 def aws_cryptography_primitives_GenerateECDSASignatureKeyInput(native_input):
     return DafnyGenerateECDSASignatureKeyInput(
-        signatureAlgorithm=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_ECDSASignatureAlgorithm(
-            native_input.signature_algorithm
-        ),
+        signatureAlgorithm=native_input.signature_algorithm,
     )
-
-
-def aws_cryptography_primitives_ECDSASignatureAlgorithm(native_input):
-    if native_input == "ECDSA_P384":
-        return ECDSASignatureAlgorithm_ECDSA__P384()
-
-    elif native_input == "ECDSA_P256":
-        return ECDSASignatureAlgorithm_ECDSA__P256()
-
-    else:
-        raise ValueError(f"No recognized enum value in enum type: {native_input=}")
 
 
 def aws_cryptography_primitives_ECDSASignInput(native_input):
     return DafnyECDSASignInput(
-        signatureAlgorithm=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_ECDSASignatureAlgorithm(
-            native_input.signature_algorithm
-        ),
+        signatureAlgorithm=native_input.signature_algorithm,
         signingKey=Seq(native_input.signing_key),
         message=Seq(native_input.message),
     )
@@ -271,9 +196,7 @@ def aws_cryptography_primitives_ECDSASignInput(native_input):
 
 def aws_cryptography_primitives_ECDSAVerifyInput(native_input):
     return DafnyECDSAVerifyInput(
-        signatureAlgorithm=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_ECDSASignatureAlgorithm(
-            native_input.signature_algorithm
-        ),
+        signatureAlgorithm=native_input.signature_algorithm,
         verificationKey=Seq(native_input.verification_key),
         message=Seq(native_input.message),
         signature=Seq(native_input.signature),
@@ -364,9 +287,7 @@ def aws_cryptography_primitives_RSAEncryptOutput(native_input):
 
 def aws_cryptography_primitives_GenerateECDSASignatureKeyOutput(native_input):
     return DafnyGenerateECDSASignatureKeyOutput(
-        signatureAlgorithm=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_ECDSASignatureAlgorithm(
-            native_input.signature_algorithm
-        ),
+        signatureAlgorithm=native_input.signature_algorithm,
         verificationKey=Seq(native_input.verification_key),
         signingKey=Seq(native_input.signing_key),
     )

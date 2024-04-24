@@ -7,12 +7,8 @@ import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keys
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny
 import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny
-import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny
 import module_
 from software_amazon_cryptography_materialproviders_internaldafny_types import (
-    AesWrappingAlg_ALG__AES128__GCM__IV12__TAG16,
-    AesWrappingAlg_ALG__AES192__GCM__IV12__TAG16,
-    AesWrappingAlg_ALG__AES256__GCM__IV12__TAG16,
     AlgorithmSuiteId_DBE,
     AlgorithmSuiteId_ESDK,
     AlgorithmSuiteInfo_AlgorithmSuiteInfo as DafnyAlgorithmSuiteInfo,
@@ -40,9 +36,6 @@ from software_amazon_cryptography_materialproviders_internaldafny_types import (
     CreateRawAesKeyringInput_CreateRawAesKeyringInput as DafnyCreateRawAesKeyringInput,
     CreateRawRsaKeyringInput_CreateRawRsaKeyringInput as DafnyCreateRawRsaKeyringInput,
     CreateRequiredEncryptionContextCMMInput_CreateRequiredEncryptionContextCMMInput as DafnyCreateRequiredEncryptionContextCMMInput,
-    DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384__SYMSIG__HMAC__SHA384,
-    DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__SYMSIG__HMAC__SHA384,
-    DBECommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT,
     DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING as DafnyDIRECT_KEY_WRAPPING,
     DecryptMaterialsInput_DecryptMaterialsInput as DafnyDecryptMaterialsInput,
     DecryptMaterialsOutput_DecryptMaterialsOutput as DafnyDecryptMaterialsOutput,
@@ -54,20 +47,6 @@ from software_amazon_cryptography_materialproviders_internaldafny_types import (
     DerivationAlgorithm_None,
     DiscoveryFilter_DiscoveryFilter as DafnyDiscoveryFilter,
     ECDSA_ECDSA as DafnyECDSA,
-    ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256,
-    ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256__ECDSA__P256,
-    ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__NO__KDF,
-    ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA256,
-    ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384,
-    ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__NO__KDF,
-    ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY,
-    ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384,
-    ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA256,
-    ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384,
-    ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__NO__KDF,
-    ESDKCommitmentPolicy_FORBID__ENCRYPT__ALLOW__DECRYPT,
-    ESDKCommitmentPolicy_REQUIRE__ENCRYPT__ALLOW__DECRYPT,
-    ESDKCommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT,
     EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING,
     EdkWrappingAlgorithm_IntermediateKeyWrapping,
     Encrypt_AES__GCM,
@@ -97,11 +76,6 @@ from software_amazon_cryptography_materialproviders_internaldafny_types import (
     OnDecryptOutput_OnDecryptOutput as DafnyOnDecryptOutput,
     OnEncryptInput_OnEncryptInput as DafnyOnEncryptInput,
     OnEncryptOutput_OnEncryptOutput as DafnyOnEncryptOutput,
-    PaddingScheme_OAEP__SHA1__MGF1,
-    PaddingScheme_OAEP__SHA256__MGF1,
-    PaddingScheme_OAEP__SHA384__MGF1,
-    PaddingScheme_OAEP__SHA512__MGF1,
-    PaddingScheme_PKCS1,
     PutCacheEntryInput_PutCacheEntryInput as DafnyPutCacheEntryInput,
     SignatureAlgorithm_ECDSA,
     SignatureAlgorithm_None,
@@ -359,20 +333,12 @@ def aws_cryptography_materialproviders_AlgorithmSuiteId(native_input):
         native_input,
         aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.AlgorithmSuiteIdESDK,
     ):
-        AlgorithmSuiteId_union_value = AlgorithmSuiteId_ESDK(
-            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_ESDKAlgorithmSuiteId(
-                native_input.value
-            )
-        )
+        AlgorithmSuiteId_union_value = AlgorithmSuiteId_ESDK(native_input.value)
     elif isinstance(
         native_input,
         aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.AlgorithmSuiteIdDBE,
     ):
-        AlgorithmSuiteId_union_value = AlgorithmSuiteId_DBE(
-            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_DBEAlgorithmSuiteId(
-                native_input.value
-            )
-        )
+        AlgorithmSuiteId_union_value = AlgorithmSuiteId_DBE(native_input.value)
     else:
         raise ValueError(
             "No recognized union value in union type: " + str(native_input)
@@ -468,9 +434,7 @@ def aws_cryptography_materialproviders_SymmetricSignatureAlgorithm(native_input)
         aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.SymmetricSignatureAlgorithmHMAC,
     ):
         SymmetricSignatureAlgorithm_union_value = SymmetricSignatureAlgorithm_HMAC(
-            aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_DigestAlgorithm(
-                native_input.value
-            )
+            native_input.value
         )
     elif isinstance(
         native_input,
@@ -516,72 +480,9 @@ def aws_cryptography_materialproviders_EdkWrappingAlgorithm(native_input):
     return EdkWrappingAlgorithm_union_value
 
 
-def aws_cryptography_materialproviders_ESDKAlgorithmSuiteId(native_input):
-    if native_input == "0x0014":
-        return ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__NO__KDF()
-
-    elif native_input == "0x0046":
-        return ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__NO__KDF()
-
-    elif native_input == "0x0078":
-        return ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__NO__KDF()
-
-    elif native_input == "0x0114":
-        return ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256()
-
-    elif native_input == "0x0146":
-        return ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA256()
-
-    elif native_input == "0x0178":
-        return ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA256()
-
-    elif native_input == "0x0214":
-        return (
-            ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256__ECDSA__P256()
-        )
-
-    elif native_input == "0x0346":
-        return (
-            ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384()
-        )
-
-    elif native_input == "0x0378":
-        return (
-            ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384()
-        )
-
-    elif native_input == "0x0478":
-        return ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY()
-
-    elif native_input == "0x0578":
-        return (
-            ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384()
-        )
-
-    else:
-        raise ValueError(f"No recognized enum value in enum type: {native_input=}")
-
-
-def aws_cryptography_materialproviders_DBEAlgorithmSuiteId(native_input):
-    if native_input == "0x6700":
-        return (
-            DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__SYMSIG__HMAC__SHA384()
-        )
-
-    elif native_input == "0x6701":
-        return (
-            DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384__SYMSIG__HMAC__SHA384()
-        )
-
-    else:
-        raise ValueError(f"No recognized enum value in enum type: {native_input=}")
-
-
 def aws_cryptography_materialproviders_HKDF(native_input):
     return DafnyHKDF(
-        hmac=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_DigestAlgorithm(
-            native_input.hmac
-        ),
+        hmac=native_input.hmac,
         saltLength=native_input.salt_length,
         inputKeyLength=native_input.input_key_length,
         outputKeyLength=native_input.output_key_length,
@@ -598,9 +499,7 @@ def aws_cryptography_materialproviders_None(native_input):
 
 def aws_cryptography_materialproviders_ECDSA(native_input):
     return DafnyECDSA(
-        curve=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_ECDSASignatureAlgorithm(
-            native_input.curve
-        ),
+        curve=native_input.curve,
     )
 
 
@@ -713,48 +612,18 @@ def aws_cryptography_materialproviders_CommitmentPolicy(native_input):
         native_input,
         aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CommitmentPolicyESDK,
     ):
-        CommitmentPolicy_union_value = CommitmentPolicy_ESDK(
-            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_ESDKCommitmentPolicy(
-                native_input.value
-            )
-        )
+        CommitmentPolicy_union_value = CommitmentPolicy_ESDK(native_input.value)
     elif isinstance(
         native_input,
         aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CommitmentPolicyDBE,
     ):
-        CommitmentPolicy_union_value = CommitmentPolicy_DBE(
-            aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_DBECommitmentPolicy(
-                native_input.value
-            )
-        )
+        CommitmentPolicy_union_value = CommitmentPolicy_DBE(native_input.value)
     else:
         raise ValueError(
             "No recognized union value in union type: " + str(native_input)
         )
 
     return CommitmentPolicy_union_value
-
-
-def aws_cryptography_materialproviders_ESDKCommitmentPolicy(native_input):
-    if native_input == "FORBID_ENCRYPT_ALLOW_DECRYPT":
-        return ESDKCommitmentPolicy_FORBID__ENCRYPT__ALLOW__DECRYPT()
-
-    elif native_input == "REQUIRE_ENCRYPT_ALLOW_DECRYPT":
-        return ESDKCommitmentPolicy_REQUIRE__ENCRYPT__ALLOW__DECRYPT()
-
-    elif native_input == "REQUIRE_ENCRYPT_REQUIRE_DECRYPT":
-        return ESDKCommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT()
-
-    else:
-        raise ValueError(f"No recognized enum value in enum type: {native_input=}")
-
-
-def aws_cryptography_materialproviders_DBECommitmentPolicy(native_input):
-    if native_input == "REQUIRE_ENCRYPT_REQUIRE_DECRYPT":
-        return DBECommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT()
-
-    else:
-        raise ValueError(f"No recognized enum value in enum type: {native_input=}")
 
 
 def aws_cryptography_materialproviders_GetEncryptionMaterialsOutput(native_input):
@@ -1408,33 +1277,15 @@ def aws_cryptography_materialproviders_CreateRawAesKeyringInput(native_input):
         keyNamespace=Seq(native_input.key_namespace),
         keyName=Seq(native_input.key_name),
         wrappingKey=Seq(native_input.wrapping_key),
-        wrappingAlg=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_AesWrappingAlg(
-            native_input.wrapping_alg
-        ),
+        wrappingAlg=native_input.wrapping_alg,
     )
-
-
-def aws_cryptography_materialproviders_AesWrappingAlg(native_input):
-    if native_input == "ALG_AES128_GCM_IV12_TAG16":
-        return AesWrappingAlg_ALG__AES128__GCM__IV12__TAG16()
-
-    elif native_input == "ALG_AES192_GCM_IV12_TAG16":
-        return AesWrappingAlg_ALG__AES192__GCM__IV12__TAG16()
-
-    elif native_input == "ALG_AES256_GCM_IV12_TAG16":
-        return AesWrappingAlg_ALG__AES256__GCM__IV12__TAG16()
-
-    else:
-        raise ValueError(f"No recognized enum value in enum type: {native_input=}")
 
 
 def aws_cryptography_materialproviders_CreateRawRsaKeyringInput(native_input):
     return DafnyCreateRawRsaKeyringInput(
         keyNamespace=Seq(native_input.key_namespace),
         keyName=Seq(native_input.key_name),
-        paddingScheme=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_PaddingScheme(
-            native_input.padding_scheme
-        ),
+        paddingScheme=native_input.padding_scheme,
         publicKey=(
             (Option_Some(Seq(native_input.public_key)))
             if (native_input.public_key is not None)
@@ -1448,26 +1299,6 @@ def aws_cryptography_materialproviders_CreateRawRsaKeyringInput(native_input):
     )
 
 
-def aws_cryptography_materialproviders_PaddingScheme(native_input):
-    if native_input == "PKCS1":
-        return PaddingScheme_PKCS1()
-
-    elif native_input == "OAEP_SHA1_MGF1":
-        return PaddingScheme_OAEP__SHA1__MGF1()
-
-    elif native_input == "OAEP_SHA256_MGF1":
-        return PaddingScheme_OAEP__SHA256__MGF1()
-
-    elif native_input == "OAEP_SHA384_MGF1":
-        return PaddingScheme_OAEP__SHA384__MGF1()
-
-    elif native_input == "OAEP_SHA512_MGF1":
-        return PaddingScheme_OAEP__SHA512__MGF1()
-
-    else:
-        raise ValueError(f"No recognized enum value in enum type: {native_input=}")
-
-
 def aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(native_input):
     return DafnyCreateAwsKmsRsaKeyringInput(
         publicKey=(
@@ -1476,9 +1307,7 @@ def aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(native_input)
             else (Option_None())
         ),
         kmsKeyId=Seq(native_input.kms_key_id),
-        encryptionAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
-            native_input.encryption_algorithm
-        ),
+        encryptionAlgorithm=native_input.encryption_algorithm,
         kmsClient=(
             (
                 Option_Some(
