@@ -6,8 +6,10 @@
 ### Bug Fixes
 
 * **dafny:** Local Service Constructors MUST return concrete ([64f72c1](https://github.com/aws/aws-cryptographic-material-providers-library/commit/64f72c121fef31a83bcf3a5346d7efc1e84ab25f))
+* Improve error message for incorrect data key input by including expected values ([#275](https://github.com/aws/aws-cryptographic-material-providers-library/issues/275)) ([da95f9a](https://github.com/aws/aws-cryptographic-material-providers-library/commit/da95f9a66f863016f8172df9aa19d1086b9bdd78))
 * Improvements to the Java Release process ([#162](https://github.com/aws/aws-cryptographic-material-providers-library/issues/162)) ([d92c06a](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d92c06a2fd355290f27df669c866157e14da9793))
 * remove quantifier-syntax in Dafny Source Code ([#218](https://github.com/aws/aws-cryptographic-material-providers-library/issues/218)) ([76ab6ef](https://github.com/aws/aws-cryptographic-material-providers-library/commit/76ab6ef7d2ff9580919671cde0719b93facb5b67))
+* Increase try-block scope when calling MPL components ([#267](https://github.com/aws/aws-cryptographic-material-providers-library/issues/267)) ([7661bf4](https://github.com/aws/aws-cryptographic-material-providers-library/commit/7661bf4b0f23e810f825fd884ecdc036b5e472d5))
 
 
 ### Features
