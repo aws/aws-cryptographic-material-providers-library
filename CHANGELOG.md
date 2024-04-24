@@ -6,7 +6,7 @@
 ### Bug Fixes
 
 * **dafny:** Local Service Constructors MUST return concrete ([64f72c1](https://github.com/aws/aws-cryptographic-material-providers-library/commit/64f72c121fef31a83bcf3a5346d7efc1e84ab25f))
-* dir name in java mpl release process ([#162](https://github.com/aws/aws-cryptographic-material-providers-library/issues/162)) ([d92c06a](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d92c06a2fd355290f27df669c866157e14da9793))
+* Improvements to the Java Release process ([#162](https://github.com/aws/aws-cryptographic-material-providers-library/issues/162)) ([d92c06a](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d92c06a2fd355290f27df669c866157e14da9793))
 * **KeyStore:** JavaDocs for KMS Configuration ([#293](https://github.com/aws/aws-cryptographic-material-providers-library/issues/293)) ([63ffff5](https://github.com/aws/aws-cryptographic-material-providers-library/commit/63ffff59847cdcdbcf659de5fb2d69e272ba8b2e))
 * Re-Polymorph w/ Smithy-Dafny@3378be16 & fix Java Testing ([#190](https://github.com/aws/aws-cryptographic-material-providers-library/issues/190)) ([58d74f6](https://github.com/aws/aws-cryptographic-material-providers-library/commit/58d74f6d20cc649742f2c73426b0f19a6b516dbb))
 
