@@ -8,6 +8,7 @@ namespace AWS.Cryptography.KeyStore
   public class KMSConfiguration
   {
     private string _kmsKeyArn;
+    private string _kmsMRKeyArn;
     public string KmsKeyArn
     {
       get { return this._kmsKeyArn; }
@@ -17,9 +18,19 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._kmsKeyArn != null;
     }
+    public string KmsMRKeyArn
+    {
+      get { return this._kmsMRKeyArn; }
+      set { this._kmsMRKeyArn = value; }
+    }
+    public bool IsSetKmsMRKeyArn()
+    {
+      return this._kmsMRKeyArn != null;
+    }
     public void Validate()
     {
-      var numberOfPropertiesSet = Convert.ToUInt16(IsSetKmsKeyArn());
+      var numberOfPropertiesSet = Convert.ToUInt16(IsSetKmsKeyArn()) +
+      Convert.ToUInt16(IsSetKmsMRKeyArn());
       if (numberOfPropertiesSet == 0) throw new System.ArgumentException("No union value set");
 
       if (numberOfPropertiesSet > 1) throw new System.ArgumentException("Multiple union values set");

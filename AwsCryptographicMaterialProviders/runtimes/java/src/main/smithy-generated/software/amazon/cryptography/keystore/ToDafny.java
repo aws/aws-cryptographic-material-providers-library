@@ -392,9 +392,16 @@ public class ToDafny {
     software.amazon.cryptography.keystore.model.KMSConfiguration nativeValue
   ) {
     if (Objects.nonNull(nativeValue.kmsKeyArn())) {
-      return KMSConfiguration.create(
+      return KMSConfiguration.create_kmsKeyArn(
         software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
           nativeValue.kmsKeyArn()
+        )
+      );
+    }
+    if (Objects.nonNull(nativeValue.kmsMRKeyArn())) {
+      return KMSConfiguration.create_kmsMRKeyArn(
+        software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+          nativeValue.kmsMRKeyArn()
         )
       );
     }

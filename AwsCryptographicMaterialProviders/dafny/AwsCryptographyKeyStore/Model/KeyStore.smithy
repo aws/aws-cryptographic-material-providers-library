@@ -76,10 +76,10 @@ structure KeyStoreConfig {
   @javadoc("The DynamoDB table name that backs this Key Store.")
   ddbTableName: TableName,
   @required
-  @javadoc("The AWS KMS Key that protects this Key Store.")
+  @javadoc("Configures this Keystore's KMS Key ARN restrictions.")
   kmsConfiguration: KMSConfiguration,
   @required
-  @javadoc("The logical name for this Key Store, which is cryptographically bound to the keys it holds.")
+  @javadoc("The logical name for this Key Store, which is cryptographically bound to the keys it holds. This appears in the Encryption Context of KMS requests as `tablename`.")
   logicalKeyStoreName: String,
 
   //= aws-encryption-sdk-specification/framework/branch-key-store.md#initialization
@@ -95,14 +95,18 @@ structure KeyStoreConfig {
   id: String,
   @javadoc("The AWS KMS grant tokens that are used when this Key Store calls to AWS KMS.")
   grantTokens: GrantTokenList,
-  @javadoc("The DynamoDB client this Key Store uses to call Amazon DynamoDB.")
+  @javadoc("The DynamoDB client this Key Store uses to call Amazon DynamoDB. If None is provided, a default DynamoDB Client is created using the Region from the KMS ARN.")
   ddbClient: DdbClientReference,
-  @javadoc("The KMS client this Key Store uses to call AWS KMS.")
+  @javadoc("The KMS client this Key Store uses to call AWS KMS. If None is provided, a default KMS Client is created using the Region from the KMS ARN.")
   kmsClient: KmsClientReference,
 }
 
+@javadoc("Configures this Keystore's KMS Key ARN restrictions.")
 union KMSConfiguration {
-  kmsKeyArn: com.amazonaws.kms#KeyIdType
+  @javadoc("Keystore is restricted to only this KMS Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown. While a Multi-Region Key (MRK) may be provided, the whole ARN, including the Region, is persisted in Branch Keys and MUST strictly equal this value to be considered valid.")
+  kmsKeyArn: com.amazonaws.kms#KeyIdType,  
+  @javadoc("Keystore is restricted to only this replication of the KMS Multi-Region Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown. For Get* Operations, the Keystore compares the configured MRK ARN with the ARN recorded on the Branch Key. If all elements of the ARN are equal except for the Region, the Branch Key is allowed and KMS is called. Otherwise, the Branch Key is denied.")
+  kmsMRKeyArn: com.amazonaws.kms#KeyIdType
 }
 
 @javadoc("Returns the configuration information for a Key Store.")
@@ -125,7 +129,7 @@ structure GetKeyStoreInfoOutput {
   @javadoc("The AWS KMS grant tokens that are used when this Key Store calls to AWS KMS.")
   grantTokens: GrantTokenList,
   @required
-  @javadoc("The AWS KMS Key that protects this Key Store.")
+  @javadoc("Configures this Keystore's KMS Key ARN restrictions.")
   kmsConfiguration: KMSConfiguration
 }
 

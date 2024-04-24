@@ -10,6 +10,7 @@ include "AwsKmsUtils.dfy"
 include "../../AwsArnParsing.dfy"
 include "../../KeyWrapping/EdkWrapping.dfy"
 include "AwsKmsKeyring.dfy"
+include "../../ErrorMessages.dfy"
 
 module AwsKmsMrkDiscoveryKeyring {
   import opened StandardLibrary
@@ -21,6 +22,7 @@ module AwsKmsMrkDiscoveryKeyring {
   import AlgorithmSuites
   import Keyring
   import Materials
+  import UUID
   import UTF8
   import Types = AwsCryptographyMaterialProvidersTypes
   import KMS = Types.ComAmazonawsKmsTypes
@@ -28,6 +30,7 @@ module AwsKmsMrkDiscoveryKeyring {
   import AwsKmsKeyring
   import EdkWrapping
   import MaterialWrapping
+  import ErrorMessages
 
   class AwsKmsMrkDiscoveryKeyring
     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-mrk-discovery-keyring.md#interface
@@ -256,9 +259,13 @@ module AwsKmsMrkDiscoveryKeyring {
         assert helper in Seq.Flatten(parts);
       }
 
-      :- Need(0 < |edksToAttempt|,
-              Types.AwsCryptographicMaterialProvidersException(
-                message := "Unable to decrypt data key: No Encrypted Data Keys found to match."));
+      if (0 == |edksToAttempt|) {
+        var errorMessage :- ErrorMessages.IncorrectDataKeys(input.encryptedDataKeys, input.materials.algorithmSuite);
+        return Failure(
+            Types.AwsCryptographicMaterialProvidersException(
+              message := errorMessage
+            ));
+      }
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-mrk-discovery-keyring.md#ondecrypt
       //# For each encrypted data key in the filtered set, one at a time, the

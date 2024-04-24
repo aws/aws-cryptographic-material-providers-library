@@ -542,7 +542,7 @@ module {:options "/functionSyntax:4" } Structure {
             && (ENCRYPTION_CONTEXT_PREFIX + k in beacon)
                //= aws-encryption-sdk-specification/framework/branch-key-store.md#custom-encryption-context
                //= type=implication
-               //# The added values MUST be equal.
+               //# Across all versions of a Branch Key, the custom encryption context MUST be equal.
             && encryptionContext[k]
             == decryptOnly[ENCRYPTION_CONTEXT_PREFIX + k]
             == active[ENCRYPTION_CONTEXT_PREFIX + k]
