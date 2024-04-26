@@ -23,6 +23,7 @@ DefaultClientSupplier_Compile
 Defaults_Compile
 DiscoveryMultiKeyring_Compile
 EdkWrapping_Compile
+ErrorMessages_Compile
 GetKeys_Compile
 IntermediateKeyWrapping_Compile
 KMSKeystoreOperations_Compile
