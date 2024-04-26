@@ -28,7 +28,7 @@ jobs:
             AwsCryptographicMaterialProviders,
             StandardLibrary,
           ]
-        os: [macos-12-large]
+        os: [macos-latest-large]
     runs-on: ${{ matrix.os }}
     defaults:
       run:
