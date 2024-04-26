@@ -2,7 +2,6 @@
 name: Semantic Release Test Installation
 
 on:
-  pull_request:
 
 jobs:
   semantic-release:

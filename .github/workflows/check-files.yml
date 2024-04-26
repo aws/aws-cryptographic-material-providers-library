@@ -3,7 +3,6 @@
 name: Check Release Files
 
 on:
-  pull_request:
 
 jobs:
   require-approvals:
