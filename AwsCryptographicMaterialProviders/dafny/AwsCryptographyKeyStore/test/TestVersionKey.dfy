@@ -91,7 +91,6 @@ module TestVersionKey {
   method {:test} TestMrkVersionKey()
   {
     var ddbClient :- expect DDB.DynamoDBClient();
-    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
 
     var eastKeyStoreConfig := Types.KeyStoreConfig(
       id := None,
@@ -164,10 +163,7 @@ module TestVersionKey {
       Types.GetActiveBranchKeyInput(
         branchKeyIdentifier := branchKeyId.branchKeyIdentifier
       ));
-    if (newActiveResultWest != newActiveResultEast) {
-      print "newActiveResultWest\n", newActiveResultWest, "\n";
-      print "newActiveResultEast\n", newActiveResultEast, "\n";
-    }
+
     expect newActiveResultWest == newActiveResultEast;
 
     var newActiveVersionWest :- expect UTF8.Decode(newActiveResultWest.branchKeyMaterials.branchKeyVersion);
