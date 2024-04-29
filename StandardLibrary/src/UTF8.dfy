@@ -189,7 +189,8 @@ module {:extern "UTF8"} UTF8 {
     while lo < |s|
       invariant lo <= |s|
       invariant ValidUTF8Range(s, lo, |s|)
-      invariant ValidUTF8Range(s + t, 0, |s + t|) == ValidUTF8Range(s + t, lo, |s + t|)
+      invariant ValidUTF8Range(s + t, 0, |s + t|) ==> ValidUTF8Range(s + t, lo, |s + t|)
+      invariant ValidUTF8Range(s + t, lo, |s + t|) ==> ValidUTF8Range(s + t, 0, |s + t|)
     {
       var r := (s + t)[lo..];
       if Uses1Byte(r) {

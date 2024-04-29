@@ -232,6 +232,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   )
   datatype KMSConfiguration =
     | kmsKeyArn(kmsKeyArn: ComAmazonawsKmsTypes.KeyIdType)
+    | kmsMRKeyArn(kmsMRKeyArn: ComAmazonawsKmsTypes.KeyIdType)
   type Secret = seq<uint8>
   type Utf8Bytes = ValidUTF8Bytes
   datatype VersionKeyInput = | VersionKeyInput (

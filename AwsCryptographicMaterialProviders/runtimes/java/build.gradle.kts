@@ -18,7 +18,7 @@ var props = Properties().apply {
 var dafnyVersion = props.getProperty("dafnyVersion")
 
 group = "software.amazon.cryptography"
-version = "1.2.0-SNAPSHOT"
+version = "1.3.0"
 description = "AWS Cryptographic Material Providers Library"
 
 java {
@@ -79,7 +79,7 @@ dependencies {
     implementation("software.amazon.awssdk:kms")
 
     // BC
-    implementation("org.bouncycastle:bcprov-jdk18on:1.75")
+    implementation("org.bouncycastle:bcprov-jdk18on:1.78.1")
 
     // https://mvnrepository.com/artifact/org.testng/testng
     testImplementation("org.testng:testng:7.5")
