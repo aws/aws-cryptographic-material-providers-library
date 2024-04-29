@@ -7,6 +7,7 @@ import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keys
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny
 import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny
+import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny
 import module_
 from software_amazon_cryptography_materialproviders_internaldafny_types import (
     AesWrappingAlg_ALG__AES128__GCM__IV12__TAG16,
@@ -1475,7 +1476,9 @@ def aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(native_input)
             else (Option_None())
         ),
         kmsKeyId=Seq(native_input.kms_key_id),
-        encryptionAlgorithm=native_input.encryption_algorithm,
+        encryptionAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+            native_input.encryption_algorithm
+        ),
         kmsClient=(
             (
                 Option_Some(
