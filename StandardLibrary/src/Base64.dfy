@@ -279,7 +279,7 @@ module Base64 {
     [d[0], d[1]]
   }
 
-  function method Encode1Padding(b: seq<uint8>): (s: seq<char>)
+  function method {:vcs_split_on_every_assert} Encode1Padding(b: seq<uint8>): (s: seq<char>)
     requires |b| == 2
     ensures Is1Padding(s)
     ensures Decode1Padding(s) == b
