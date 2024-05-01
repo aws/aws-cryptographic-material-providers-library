@@ -12,6 +12,7 @@ operation ValidateCommitmentPolicyOnDecrypt {
   errors: [InvalidAlgorithmSuiteInfoOnDecrypt],
 }
 
+
 structure ValidateCommitmentPolicyOnEncryptInput {
   @required
   algorithm: AlgorithmSuiteId,
