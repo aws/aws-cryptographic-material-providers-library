@@ -147,6 +147,7 @@ class DefaultCMM(CMM.VerifiableInterface, software_amazon_cryptography_materialp
             output = (d_1168_valueOrError0_).PropagateFailure()
             return output
         d_1169_algorithmId_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId
+        print(f"{(input).algorithmSuiteId=}")
         d_1169_algorithmId_ = (((input).algorithmSuiteId).value if ((input).algorithmSuiteId).is_Some else Defaults.default__.GetAlgorithmSuiteForCommitmentPolicy((input).commitmentPolicy))
         d_1170_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_1170_valueOrError1_ = Commitment.default__.ValidateCommitmentPolicyOnEncrypt(d_1169_algorithmId_, (input).commitmentPolicy)
