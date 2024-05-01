@@ -37,6 +37,7 @@ import software.amazon.cryptography.materialproviders.model.CollectionOfErrors;
 import software.amazon.cryptography.materialproviders.model.CommitmentPolicy;
 import software.amazon.cryptography.materialproviders.model.CreateAwsKmsDiscoveryKeyringInput;
 import software.amazon.cryptography.materialproviders.model.CreateAwsKmsDiscoveryMultiKeyringInput;
+import software.amazon.cryptography.materialproviders.model.CreateAwsKmsEcdhKeyringInput;
 import software.amazon.cryptography.materialproviders.model.CreateAwsKmsHierarchicalKeyringInput;
 import software.amazon.cryptography.materialproviders.model.CreateAwsKmsKeyringInput;
 import software.amazon.cryptography.materialproviders.model.CreateAwsKmsMrkDiscoveryKeyringInput;
@@ -50,6 +51,7 @@ import software.amazon.cryptography.materialproviders.model.CreateDefaultClientS
 import software.amazon.cryptography.materialproviders.model.CreateDefaultCryptographicMaterialsManagerInput;
 import software.amazon.cryptography.materialproviders.model.CreateMultiKeyringInput;
 import software.amazon.cryptography.materialproviders.model.CreateRawAesKeyringInput;
+import software.amazon.cryptography.materialproviders.model.CreateRawEcdhKeyringInput;
 import software.amazon.cryptography.materialproviders.model.CreateRawRsaKeyringInput;
 import software.amazon.cryptography.materialproviders.model.CreateRequiredEncryptionContextCMMInput;
 import software.amazon.cryptography.materialproviders.model.DBEAlgorithmSuiteId;
@@ -65,12 +67,14 @@ import software.amazon.cryptography.materialproviders.model.DiscoveryFilter;
 import software.amazon.cryptography.materialproviders.model.ECDSA;
 import software.amazon.cryptography.materialproviders.model.ESDKAlgorithmSuiteId;
 import software.amazon.cryptography.materialproviders.model.ESDKCommitmentPolicy;
+import software.amazon.cryptography.materialproviders.model.EccCurveSpec;
 import software.amazon.cryptography.materialproviders.model.EdkWrappingAlgorithm;
 import software.amazon.cryptography.materialproviders.model.Encrypt;
 import software.amazon.cryptography.materialproviders.model.EncryptedDataKey;
 import software.amazon.cryptography.materialproviders.model.EncryptionMaterials;
 import software.amazon.cryptography.materialproviders.model.EntryAlreadyExists;
 import software.amazon.cryptography.materialproviders.model.EntryDoesNotExist;
+import software.amazon.cryptography.materialproviders.model.EphemeralPrivateKeyToStaticPublicKeyInput;
 import software.amazon.cryptography.materialproviders.model.GetBranchKeyIdInput;
 import software.amazon.cryptography.materialproviders.model.GetBranchKeyIdOutput;
 import software.amazon.cryptography.materialproviders.model.GetCacheEntryInput;
@@ -90,6 +94,11 @@ import software.amazon.cryptography.materialproviders.model.InvalidDecryptionMat
 import software.amazon.cryptography.materialproviders.model.InvalidDecryptionMaterialsTransition;
 import software.amazon.cryptography.materialproviders.model.InvalidEncryptionMaterials;
 import software.amazon.cryptography.materialproviders.model.InvalidEncryptionMaterialsTransition;
+import software.amazon.cryptography.materialproviders.model.KeyAgreementScheme;
+import software.amazon.cryptography.materialproviders.model.KmsEcdhStaticConfigurations;
+import software.amazon.cryptography.materialproviders.model.KmsPrivateKeyToStaticPublicKeyInput;
+import software.amazon.cryptography.materialproviders.model.KmsPublicKeyDiscoveryInput;
+import software.amazon.cryptography.materialproviders.model.KmsRecipientConfiguration;
 import software.amazon.cryptography.materialproviders.model.MaterialProvidersConfig;
 import software.amazon.cryptography.materialproviders.model.Materials;
 import software.amazon.cryptography.materialproviders.model.MultiThreadedCache;
@@ -101,9 +110,13 @@ import software.amazon.cryptography.materialproviders.model.OnEncryptInput;
 import software.amazon.cryptography.materialproviders.model.OnEncryptOutput;
 import software.amazon.cryptography.materialproviders.model.OpaqueError;
 import software.amazon.cryptography.materialproviders.model.PaddingScheme;
+import software.amazon.cryptography.materialproviders.model.PublicKeyDiscoveryInput;
 import software.amazon.cryptography.materialproviders.model.PutCacheEntryInput;
+import software.amazon.cryptography.materialproviders.model.RawEcdhStaticConfigurations;
+import software.amazon.cryptography.materialproviders.model.RawPrivateKeyToStaticPublicKeyInput;
 import software.amazon.cryptography.materialproviders.model.SignatureAlgorithm;
 import software.amazon.cryptography.materialproviders.model.SingleThreadedCache;
+import software.amazon.cryptography.materialproviders.model.StaticConfigurations;
 import software.amazon.cryptography.materialproviders.model.StormTrackingCache;
 import software.amazon.cryptography.materialproviders.model.SymmetricSignatureAlgorithm;
 import software.amazon.cryptography.materialproviders.model.UpdateUsageMetadataInput;
@@ -397,6 +410,30 @@ public class ToNative {
     if (dafnyValue.dtor_clientSupplier().is_Some()) {
       nativeBuilder.clientSupplier(
         ToNative.ClientSupplier(dafnyValue.dtor_clientSupplier().dtor_value())
+      );
+    }
+    if (dafnyValue.dtor_grantTokens().is_Some()) {
+      nativeBuilder.grantTokens(
+        ToNative.GrantTokenList(dafnyValue.dtor_grantTokens().dtor_value())
+      );
+    }
+    return nativeBuilder.build();
+  }
+
+  public static CreateAwsKmsEcdhKeyringInput CreateAwsKmsEcdhKeyringInput(
+    software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsEcdhKeyringInput dafnyValue
+  ) {
+    CreateAwsKmsEcdhKeyringInput.Builder nativeBuilder =
+      CreateAwsKmsEcdhKeyringInput.builder();
+    nativeBuilder.KeyAgreementScheme(
+      ToNative.KmsEcdhStaticConfigurations(dafnyValue.dtor_KeyAgreementScheme())
+    );
+    nativeBuilder.curveSpec(ToNative.EccCurveSpec(dafnyValue.dtor_curveSpec()));
+    if (dafnyValue.dtor_kmsClient().is_Some()) {
+      nativeBuilder.kmsClient(
+        software.amazon.cryptography.services.kms.internaldafny.ToNative.TrentService(
+          dafnyValue.dtor_kmsClient().dtor_value()
+        )
       );
     }
     if (dafnyValue.dtor_grantTokens().is_Some()) {
@@ -703,6 +740,18 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static CreateRawEcdhKeyringInput CreateRawEcdhKeyringInput(
+    software.amazon.cryptography.materialproviders.internaldafny.types.CreateRawEcdhKeyringInput dafnyValue
+  ) {
+    CreateRawEcdhKeyringInput.Builder nativeBuilder =
+      CreateRawEcdhKeyringInput.builder();
+    nativeBuilder.KeyAgreementScheme(
+      ToNative.RawEcdhStaticConfigurations(dafnyValue.dtor_KeyAgreementScheme())
+    );
+    nativeBuilder.curveSpec(ToNative.EccCurveSpec(dafnyValue.dtor_curveSpec()));
+    return nativeBuilder.build();
+  }
+
   public static CreateRawRsaKeyringInput CreateRawRsaKeyringInput(
     software.amazon.cryptography.materialproviders.internaldafny.types.CreateRawRsaKeyringInput dafnyValue
   ) {
@@ -959,6 +1008,19 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static EphemeralPrivateKeyToStaticPublicKeyInput EphemeralPrivateKeyToStaticPublicKeyInput(
+    software.amazon.cryptography.materialproviders.internaldafny.types.EphemeralPrivateKeyToStaticPublicKeyInput dafnyValue
+  ) {
+    EphemeralPrivateKeyToStaticPublicKeyInput.Builder nativeBuilder =
+      EphemeralPrivateKeyToStaticPublicKeyInput.builder();
+    nativeBuilder.recipientPublicKey(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
+        dafnyValue.dtor_recipientPublicKey()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
   public static ByteBuffer GetAlgorithmSuiteInfoInput(
     DafnySequence<? extends Byte> dafnyValue
   ) {
@@ -1163,6 +1225,37 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static KmsPrivateKeyToStaticPublicKeyInput KmsPrivateKeyToStaticPublicKeyInput(
+    software.amazon.cryptography.materialproviders.internaldafny.types.KmsPrivateKeyToStaticPublicKeyInput dafnyValue
+  ) {
+    KmsPrivateKeyToStaticPublicKeyInput.Builder nativeBuilder =
+      KmsPrivateKeyToStaticPublicKeyInput.builder();
+    nativeBuilder.senderKmsIdentifier(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_senderKmsIdentifier()
+      )
+    );
+    nativeBuilder.recipientConfiguration(
+      ToNative.KmsRecipientConfiguration(
+        dafnyValue.dtor_recipientConfiguration()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
+  public static KmsPublicKeyDiscoveryInput KmsPublicKeyDiscoveryInput(
+    software.amazon.cryptography.materialproviders.internaldafny.types.KmsPublicKeyDiscoveryInput dafnyValue
+  ) {
+    KmsPublicKeyDiscoveryInput.Builder nativeBuilder =
+      KmsPublicKeyDiscoveryInput.builder();
+    nativeBuilder.recipientKmsIdentifier(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_recipientKmsIdentifier()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
   public static MaterialProvidersConfig MaterialProvidersConfig(
     software.amazon.cryptography.materialproviders.internaldafny.types.MaterialProvidersConfig dafnyValue
   ) {
@@ -1241,6 +1334,19 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static PublicKeyDiscoveryInput PublicKeyDiscoveryInput(
+    software.amazon.cryptography.materialproviders.internaldafny.types.PublicKeyDiscoveryInput dafnyValue
+  ) {
+    PublicKeyDiscoveryInput.Builder nativeBuilder =
+      PublicKeyDiscoveryInput.builder();
+    nativeBuilder.senderStaticPrivateKey(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
+        dafnyValue.dtor_senderStaticPrivateKey()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
   public static PutCacheEntryInput PutCacheEntryInput(
     software.amazon.cryptography.materialproviders.internaldafny.types.PutCacheEntryInput dafnyValue
   ) {
@@ -1259,6 +1365,24 @@ public class ToNative {
     if (dafnyValue.dtor_bytesUsed().is_Some()) {
       nativeBuilder.bytesUsed((dafnyValue.dtor_bytesUsed().dtor_value()));
     }
+    return nativeBuilder.build();
+  }
+
+  public static RawPrivateKeyToStaticPublicKeyInput RawPrivateKeyToStaticPublicKeyInput(
+    software.amazon.cryptography.materialproviders.internaldafny.types.RawPrivateKeyToStaticPublicKeyInput dafnyValue
+  ) {
+    RawPrivateKeyToStaticPublicKeyInput.Builder nativeBuilder =
+      RawPrivateKeyToStaticPublicKeyInput.builder();
+    nativeBuilder.senderStaticPrivateKey(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
+        dafnyValue.dtor_senderStaticPrivateKey()
+      )
+    );
+    nativeBuilder.recipientPublicKey(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
+        dafnyValue.dtor_recipientPublicKey()
+      )
+    );
     return nativeBuilder.build();
   }
 
@@ -1400,6 +1524,27 @@ public class ToNative {
     }
     throw new IllegalArgumentException(
       "No entry of software.amazon.cryptography.materialproviders.model.DBECommitmentPolicy matches the input : " +
+      dafnyValue
+    );
+  }
+
+  public static EccCurveSpec EccCurveSpec(
+    software.amazon.cryptography.materialproviders.internaldafny.types.EccCurveSpec dafnyValue
+  ) {
+    if (dafnyValue.is_ECC__NIST__P256()) {
+      return EccCurveSpec.ECC_NIST_P256;
+    }
+    if (dafnyValue.is_ECC__NIST__P384()) {
+      return EccCurveSpec.ECC_NIST_P384;
+    }
+    if (dafnyValue.is_ECC__NIST__P521()) {
+      return EccCurveSpec.ECC_NIST_P521;
+    }
+    if (dafnyValue.is_SM2()) {
+      return EccCurveSpec.SM2;
+    }
+    throw new IllegalArgumentException(
+      "No entry of software.amazon.cryptography.materialproviders.model.EccCurveSpec matches the input : " +
       dafnyValue
     );
   }
@@ -1599,6 +1744,62 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static KeyAgreementScheme KeyAgreementScheme(
+    software.amazon.cryptography.materialproviders.internaldafny.types.KeyAgreementScheme dafnyValue
+  ) {
+    KeyAgreementScheme.Builder nativeBuilder = KeyAgreementScheme.builder();
+    if (dafnyValue.is_StaticConfiguration()) {
+      nativeBuilder.StaticConfiguration(
+        ToNative.StaticConfigurations(dafnyValue.dtor_StaticConfiguration())
+      );
+    }
+    return nativeBuilder.build();
+  }
+
+  public static KmsEcdhStaticConfigurations KmsEcdhStaticConfigurations(
+    software.amazon.cryptography.materialproviders.internaldafny.types.KmsEcdhStaticConfigurations dafnyValue
+  ) {
+    KmsEcdhStaticConfigurations.Builder nativeBuilder =
+      KmsEcdhStaticConfigurations.builder();
+    if (dafnyValue.is_KmsPublicKeyDiscovery()) {
+      nativeBuilder.KmsPublicKeyDiscovery(
+        ToNative.KmsPublicKeyDiscoveryInput(
+          dafnyValue.dtor_KmsPublicKeyDiscovery()
+        )
+      );
+    }
+    if (dafnyValue.is_KmsPrivateKeyToStaticPublicKey()) {
+      nativeBuilder.KmsPrivateKeyToStaticPublicKey(
+        ToNative.KmsPrivateKeyToStaticPublicKeyInput(
+          dafnyValue.dtor_KmsPrivateKeyToStaticPublicKey()
+        )
+      );
+    }
+    return nativeBuilder.build();
+  }
+
+  public static KmsRecipientConfiguration KmsRecipientConfiguration(
+    software.amazon.cryptography.materialproviders.internaldafny.types.KmsRecipientConfiguration dafnyValue
+  ) {
+    KmsRecipientConfiguration.Builder nativeBuilder =
+      KmsRecipientConfiguration.builder();
+    if (dafnyValue.is_RecipientKmsKeyId()) {
+      nativeBuilder.RecipientKmsKeyId(
+        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+          dafnyValue.dtor_RecipientKmsKeyId()
+        )
+      );
+    }
+    if (dafnyValue.is_RecipientPublicKey()) {
+      nativeBuilder.RecipientPublicKey(
+        software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
+          dafnyValue.dtor_RecipientPublicKey()
+        )
+      );
+    }
+    return nativeBuilder.build();
+  }
+
   public static Materials Materials(
     software.amazon.cryptography.materialproviders.internaldafny.types.Materials dafnyValue
   ) {
@@ -1630,6 +1831,33 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static RawEcdhStaticConfigurations RawEcdhStaticConfigurations(
+    software.amazon.cryptography.materialproviders.internaldafny.types.RawEcdhStaticConfigurations dafnyValue
+  ) {
+    RawEcdhStaticConfigurations.Builder nativeBuilder =
+      RawEcdhStaticConfigurations.builder();
+    if (dafnyValue.is_PublicKeyDiscovery()) {
+      nativeBuilder.PublicKeyDiscovery(
+        ToNative.PublicKeyDiscoveryInput(dafnyValue.dtor_PublicKeyDiscovery())
+      );
+    }
+    if (dafnyValue.is_RawPrivateKeyToStaticPublicKey()) {
+      nativeBuilder.RawPrivateKeyToStaticPublicKey(
+        ToNative.RawPrivateKeyToStaticPublicKeyInput(
+          dafnyValue.dtor_RawPrivateKeyToStaticPublicKey()
+        )
+      );
+    }
+    if (dafnyValue.is_EphemeralPrivateKeyToStaticPublicKey()) {
+      nativeBuilder.EphemeralPrivateKeyToStaticPublicKey(
+        ToNative.EphemeralPrivateKeyToStaticPublicKeyInput(
+          dafnyValue.dtor_EphemeralPrivateKeyToStaticPublicKey()
+        )
+      );
+    }
+    return nativeBuilder.build();
+  }
+
   public static SignatureAlgorithm SignatureAlgorithm(
     software.amazon.cryptography.materialproviders.internaldafny.types.SignatureAlgorithm dafnyValue
   ) {
@@ -1639,6 +1867,23 @@ public class ToNative {
     }
     if (dafnyValue.is_None()) {
       nativeBuilder.None(ToNative.None(dafnyValue.dtor_None()));
+    }
+    return nativeBuilder.build();
+  }
+
+  public static StaticConfigurations StaticConfigurations(
+    software.amazon.cryptography.materialproviders.internaldafny.types.StaticConfigurations dafnyValue
+  ) {
+    StaticConfigurations.Builder nativeBuilder = StaticConfigurations.builder();
+    if (dafnyValue.is_AWS__KMS__ECDH()) {
+      nativeBuilder.AWS_KMS_ECDH(
+        ToNative.KmsEcdhStaticConfigurations(dafnyValue.dtor_AWS__KMS__ECDH())
+      );
+    }
+    if (dafnyValue.is_RAW__ECDH()) {
+      nativeBuilder.RAW_ECDH(
+        ToNative.RawEcdhStaticConfigurations(dafnyValue.dtor_RAW__ECDH())
+      );
     }
     return nativeBuilder.build();
   }

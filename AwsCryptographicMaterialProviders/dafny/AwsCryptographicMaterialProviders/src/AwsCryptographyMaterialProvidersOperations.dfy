@@ -286,6 +286,15 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     return Success(keyring);
   }
 
+  predicate CreateAwsKmsEcdhKeyringEnsuresPublicly(input: CreateAwsKmsEcdhKeyringInput, output: Result<IKeyring, Error>)
+  {true}
+
+  method CreateAwsKmsEcdhKeyring(config: InternalConfig, input: CreateAwsKmsEcdhKeyringInput)
+    returns (output: Result<IKeyring, Error>)
+  {
+    return Failure(Types.AwsCryptographicMaterialProvidersException(message := "Implement me!"));
+  }
+
   predicate CreateMultiKeyringEnsuresPublicly(input: CreateMultiKeyringInput, output: Result<IKeyring, Error>)
   {true}
 
@@ -400,6 +409,15 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       cryptoPrimitives := config.crypto
     );
     return Success(keyring);
+  }
+
+  predicate CreateRawEcdhKeyringEnsuresPublicly(input: CreateRawEcdhKeyringInput, output: Result<IKeyring, Error>)
+  {true}
+
+  method CreateRawEcdhKeyring(config: InternalConfig, input: CreateRawEcdhKeyringInput)
+    returns (output: Result<IKeyring, Error>)
+  {
+    return Failure(Types.AwsCryptographicMaterialProvidersException(message := "Implement me!"));
   }
 
   predicate CreateAwsKmsRsaKeyringEnsuresPublicly(input: CreateAwsKmsRsaKeyringInput, output: Result<IKeyring, Error>)

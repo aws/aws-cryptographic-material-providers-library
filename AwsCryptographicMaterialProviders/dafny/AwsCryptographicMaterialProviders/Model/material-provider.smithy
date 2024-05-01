@@ -41,10 +41,12 @@ service AwsCryptographicMaterialProviders {
     CreateAwsKmsMrkDiscoveryKeyring,
     CreateAwsKmsMrkDiscoveryMultiKeyring,
     CreateAwsKmsHierarchicalKeyring,
+    CreateAwsKmsRsaKeyring,
+    CreateAwsKmsEcdhKeyring,
     CreateMultiKeyring,
     CreateRawAesKeyring,
     CreateRawRsaKeyring,
-    CreateAwsKmsRsaKeyring,
+    CreateRawEcdhKeyring,
 
     // CMMs
     CreateDefaultCryptographicMaterialsManager,
