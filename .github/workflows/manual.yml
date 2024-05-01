@@ -17,54 +17,23 @@ on:
         type: boolean
 
 jobs:
-  # manual-ci-format:
-  #   uses: ./.github/workflows/library_format.yml
-  #   with:
-  #     dafny: ${{ inputs.dafny }}
-  #     regenerate-code: ${{ inputs.regenerate-code }}
-  # manual-ci-verification:
-  #   uses: ./.github/workflows/library_dafny_verification.yml
-  #   with:
-  #     dafny: ${{ inputs.dafny }}
-  #     regenerate-code: ${{ inputs.regenerate-code }}
-  # manual-ci-java:
-  #   uses: ./.github/workflows/library_java_tests.yml
-  #   with:
-  #     dafny: ${{ inputs.dafny }}
-  #     regenerate-code: ${{ inputs.regenerate-code }}
-  # manual-ci-net:
-  #   uses: ./.github/workflows/library_net_tests.yml
-  #   with:
-  #     dafny: ${{ inputs.dafny }}
-  #     regenerate-code: ${{ inputs.regenerate-code }}
-
-  cut-issue-on-failure:
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-      # We need access to the role that is able to get CI Bot Creds
-      - name: Configure AWS Credentials for Release
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-region: us-west-2
-          role-to-assume: arn:aws:iam::587316601012:role/GitHub-CI-CI-Bot-Credential-Access-Role-us-west-2
-          role-session-name: CI_Bot_Release
-
-      # Use AWS Secrets Manger GHA to retrieve CI Bot Creds
-      - name: Get CI Bot Creds Secret
-        uses: aws-actions/aws-secretsmanager-get-secrets@v2
-        with:
-          secret-ids: Github/aws-crypto-tools-ci-bot
-          parse-json-secrets: true
-
-      - name: Create release blocker on dafny-lang/dafny
-        env:
-          GH_TOKEN: ${{ env.GITHUB_AWS_CRYPTO_TOOLS_CI_BOT_ESDK_RELEASE_TOKEN }}
-        run: |
-          gh issue create \
-            --repo "dafny-lang/dafny" \
-            --title "TEST ISSUE PLEASE IGNORE" \
-            --body "Failure in ${{ github.workflow_ref }}. \
-            See ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+  manual-ci-format:
+    uses: ./.github/workflows/library_format.yml
+    with:
+      dafny: ${{ inputs.dafny }}
+      regenerate-code: ${{ inputs.regenerate-code }}
+  manual-ci-verification:
+    uses: ./.github/workflows/library_dafny_verification.yml
+    with:
+      dafny: ${{ inputs.dafny }}
+      regenerate-code: ${{ inputs.regenerate-code }}
+  manual-ci-java:
+    uses: ./.github/workflows/library_java_tests.yml
+    with:
+      dafny: ${{ inputs.dafny }}
+      regenerate-code: ${{ inputs.regenerate-code }}
+  manual-ci-net:
+    uses: ./.github/workflows/library_net_tests.yml
+    with:
+      dafny: ${{ inputs.dafny }}
+      regenerate-code: ${{ inputs.regenerate-code }}
