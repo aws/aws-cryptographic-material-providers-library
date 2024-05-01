@@ -190,6 +190,10 @@ class AwsKmsRsaKeyring(Keyring.VerifiableInterface, software_amazon_cryptography
             res = (d_1004_valueOrError0_).PropagateFailure()
             return res
         d_1005_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        # TODO: Removeme
+        print((input).materials)
+        print((input).materials.__dict__)
+        print((input).materials.algorithmSuite)
         d_1005_valueOrError1_ = Wrappers.default__.Need(((((input).materials).algorithmSuite).signature).is_None, software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException((_dafny.Seq("AwsKmsRsaKeyring cannot be used with an Algorithm Suite with asymmetric signing.")) + (_dafny.Seq(" Please specify an algorithm suite without asymmetric signing."))))
         if (d_1005_valueOrError1_).IsFailure():
             res = (d_1005_valueOrError1_).PropagateFailure()
