@@ -40,6 +40,9 @@ jobs:
 
   cut-issue-on-failure:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
       # We need access to the role that is able to get CI Bot Creds
       - name: Configure AWS Credentials for Release
