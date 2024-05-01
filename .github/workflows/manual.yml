@@ -17,23 +17,36 @@ on:
         type: boolean
 
 jobs:
-  manual-ci-format:
-    uses: ./.github/workflows/library_format.yml
-    with:
-      dafny: ${{ inputs.dafny }}
-      regenerate-code: ${{ inputs.regenerate-code }}
-  manual-ci-verification:
-    uses: ./.github/workflows/library_dafny_verification.yml
-    with:
-      dafny: ${{ inputs.dafny }}
-      regenerate-code: ${{ inputs.regenerate-code }}
-  manual-ci-java:
-    uses: ./.github/workflows/library_java_tests.yml
-    with:
-      dafny: ${{ inputs.dafny }}
-      regenerate-code: ${{ inputs.regenerate-code }}
-  manual-ci-net:
-    uses: ./.github/workflows/library_net_tests.yml
-    with:
-      dafny: ${{ inputs.dafny }}
-      regenerate-code: ${{ inputs.regenerate-code }}
+  # manual-ci-format:
+  #   uses: ./.github/workflows/library_format.yml
+  #   with:
+  #     dafny: ${{ inputs.dafny }}
+  #     regenerate-code: ${{ inputs.regenerate-code }}
+  # manual-ci-verification:
+  #   uses: ./.github/workflows/library_dafny_verification.yml
+  #   with:
+  #     dafny: ${{ inputs.dafny }}
+  #     regenerate-code: ${{ inputs.regenerate-code }}
+  # manual-ci-java:
+  #   uses: ./.github/workflows/library_java_tests.yml
+  #   with:
+  #     dafny: ${{ inputs.dafny }}
+  #     regenerate-code: ${{ inputs.regenerate-code }}
+  # manual-ci-net:
+  #   uses: ./.github/workflows/library_net_tests.yml
+  #   with:
+  #     dafny: ${{ inputs.dafny }}
+  #     regenerate-code: ${{ inputs.regenerate-code }}
+
+  cut-issue-on-failure:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.DAFNY_ISSUE_CUTTING_TOKEN }}
+    steps:
+      - name: Create release blocker on dafny-lang/dafny
+        run: |
+          gh issue create \
+            --repo "dafny-lang/dafny" \
+            --title "TEST ISSUE PLEASE IGNORE" \
+            --body "Failure in ${{ github.workflow_ref }}. \
+            See ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
