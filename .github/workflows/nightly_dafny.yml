@@ -48,7 +48,7 @@ jobs:
         dafny-nightly-format,
         dafny-nightly-verification,
         dafny-nightly-java,
-        dafny-nightly-net
+        dafny-nightly-net,
       ]
     if: ${{ always() && contains(needs.*.result, 'failure') }}
     steps:
@@ -58,7 +58,7 @@ jobs:
         with:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::587316601012:role/GitHub-CI-CI-Bot-Credential-Access-Role-us-west-2
-          role-session-name: CI_Bot_Release
+          role-session-name: Dafny_Issue_Blocker
 
       # Use AWS Secrets Manger GHA to retrieve CI Bot Creds
       - name: Get CI Bot Creds Secret
@@ -76,4 +76,3 @@ jobs:
             --title "[PRERELEASE REGRESSION] Dafny prerelease regression from ${{ github.repository }}" \
             --body "Failure in ${{ github.workflow_ref }}. \
             See ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-    
