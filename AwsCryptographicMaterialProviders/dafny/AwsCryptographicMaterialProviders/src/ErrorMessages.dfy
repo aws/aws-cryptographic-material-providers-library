@@ -58,4 +58,12 @@ module ErrorMessages {
                                         ", KeyProviderInfo: " + extractedKeyProviderInfo +
                                         ", BranchKeyVersion: " + branchVersion + "\n")
   }
+
+  method dummy()
+  {
+    var i := 0;
+    while i < 5 {
+        print i;
+    }
+  }
 }
