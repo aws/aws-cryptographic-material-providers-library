@@ -28,6 +28,15 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny"} Com.A
               && fresh(res.value.History)
               && res.value.ValidState()
 
+  // remove before launch
+  method {:extern} GammaKmsClient()
+    returns (res: Result<IKMSClient, Error>)
+    ensures res.Success? ==>
+              && fresh(res.value)
+              && fresh(res.value.Modifies)
+              && fresh(res.value.History)
+              && res.value.ValidState()
+
   function method DafnyUserAgentSuffix(runtime: string): string
   {
     var version := "1.0.1";

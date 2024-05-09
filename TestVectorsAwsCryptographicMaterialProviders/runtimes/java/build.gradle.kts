@@ -51,14 +51,21 @@ if (!caPasswordString.isNullOrBlank()) {
 repositories {
     mavenCentral()
     mavenLocal()
-    if (caUrl != null && caPassword != null) {
-        maven {
-            name = "CodeArtifact"
-            url = caUrl!!
-            credentials {
-                username = "aws"
-                password = caPassword!!
-            }
+    // if (caUrl != null && caPassword != null) {
+    //     maven {
+    //         name = "CodeArtifact"
+    //         url = caUrl!!
+    //         credentials {
+    //             username = "aws"
+    //             password = caPassword!!
+    //         }
+    //     }
+    // }
+    maven {
+        url = URI.create("https://github-mpl-370957321024.d.codeartifact.us-west-2.amazonaws.com/maven/aws-sdk-preview-build/")
+        credentials {
+            username = "aws"
+            password = System.getenv("CODEARTIFACT_AUTH_TOKEN")
         }
     }
 }
@@ -66,11 +73,12 @@ repositories {
 dependencies {
     implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
     implementation("software.amazon.smithy.dafny:conversion:0.1")
-    implementation("software.amazon.cryptography:aws-cryptographic-material-providers:1.4.0-SNAPSHOT")
-    implementation(platform("software.amazon.awssdk:bom:2.19.1"))
+    implementation("software.amazon.cryptography:aws-cryptographic-material-providers:1.3.0-SNAPSHOT")
+    implementation(platform("software.amazon.awssdk:bom:2.25.46"))
+    implementation("software.amazon.awssdk:kms:9.0.0-SNAPSHOT")
+    implementation("software.amazon.awssdk:apache-client")
     implementation("software.amazon.awssdk:dynamodb")
     implementation("software.amazon.awssdk:dynamodb-enhanced")
-    implementation("software.amazon.awssdk:kms")
 }
 
 publishing {

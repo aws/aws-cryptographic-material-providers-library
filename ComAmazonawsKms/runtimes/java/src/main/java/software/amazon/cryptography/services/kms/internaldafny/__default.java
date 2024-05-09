@@ -10,13 +10,17 @@ import StandardLibraryInterop_Compile.WrappersInterop;
 import Wrappers_Compile.Option;
 import Wrappers_Compile.Result;
 import dafny.DafnySequence;
+import java.net.URI;
 import software.amazon.awssdk.core.client.config.ClientOverrideConfiguration;
 import software.amazon.awssdk.core.client.config.SdkAdvancedClientOption;
+import software.amazon.awssdk.http.SdkHttpClient;
+import software.amazon.awssdk.http.apache.ApacheHttpClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.regions.providers.AwsRegionProviderChain;
 import software.amazon.awssdk.regions.providers.DefaultAwsRegionProviderChain;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.awssdk.services.kms.KmsClientBuilder;
+import software.amazon.awssdk.services.kms.endpoints.KmsEndpointProvider;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error;
 import software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient;
 
@@ -30,6 +34,7 @@ public class __default
         DefaultAwsRegionProviderChain.builder().build();
       final String region = regionProvider.getRegion().toString();
       final KmsClient client = builder
+        .httpClient(ApacheHttpClient.create())
         .overrideConfiguration(
           ClientOverrideConfiguration
             .builder()
@@ -77,6 +82,28 @@ public class __default
         )
         .build();
       final IKMSClient shim = new Shim(client, regionString);
+      return CreateSuccessOfClient(shim);
+    } catch (Exception e) {
+      Error dafny_error = Error.create_KMSInternalException(
+        WrappersInterop.CreateStringSome(CharacterSequence(e.getMessage()))
+      );
+      return CreateFailureOfError(dafny_error);
+    }
+  }
+
+  public static Result<IKMSClient, Error> GammaKmsClient() {
+    try {
+      final KmsClientBuilder builder = KmsClient.builder();
+      final AwsRegionProviderChain regionProvider =
+        DefaultAwsRegionProviderChain.builder().build();
+      final KmsClient client = builder
+        .httpClient(ApacheHttpClient.create())
+        .endpointOverride(
+          URI.create("https://trent-sandbox.us-east-1.amazonaws.com")
+        )
+        .region(Region.US_EAST_1)
+        .build();
+      final IKMSClient shim = new Shim(client, Region.US_EAST_1.toString());
       return CreateSuccessOfClient(shim);
     } catch (Exception e) {
       Error dafny_error = Error.create_KMSInternalException(

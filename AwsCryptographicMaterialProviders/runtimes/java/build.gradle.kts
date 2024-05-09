@@ -50,14 +50,21 @@ if (!caPasswordString.isNullOrBlank()) {
 repositories {
     mavenCentral()
     mavenLocal()
-    if (caUrl != null && caPassword != null) {
-        maven {
-            name = "CodeArtifact"
-            url = caUrl!!
-            credentials {
-                username = "aws"
-                password = caPassword!!
-            }
+    // if (caUrl != null && caPassword != null) {
+    //     maven {
+    //         name = "CodeArtifact"
+    //         url = caUrl!!
+    //         credentials {
+    //             username = "aws"
+    //             password = caPassword!!
+    //         }
+    //     }
+    // }
+    maven {
+        url = URI.create("https://github-mpl-370957321024.d.codeartifact.us-west-2.amazonaws.com/maven/aws-sdk-preview-build/")
+        credentials {
+            username = "aws"
+            password = System.getenv("CODEARTIFACT_AUTH_TOKEN")
         }
     }
 }

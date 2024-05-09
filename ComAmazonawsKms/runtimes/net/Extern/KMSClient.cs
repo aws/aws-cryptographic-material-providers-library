@@ -2,6 +2,7 @@ using Amazon;
 using Amazon.KeyManagementService;
 using Wrappers_Compile;
 using Amazon.Runtime;
+using Amazon.Runtime.Endpoints;
 using Amazon.Runtime.Internal;
 using Amazon.Util;
 using Com.Amazonaws.Kms;
@@ -21,6 +22,27 @@ namespace software.amazon.cryptography.services.kms.internaldafny
           KMSClient()
         {
             var client = new DefaultKmsClient();
+
+            return Result<
+              types.IKMSClient,
+              types._IError
+            >
+              .create_Success(new KeyManagementServiceShim(client));
+        }
+
+        public static
+            _IResult<
+                types.IKMSClient,
+                types._IError
+            >
+            GammaKmsClient()
+        {
+            var kmsConfig = new AmazonKeyManagementServiceConfig
+            {
+                EndpointProvider = new StaticEndpointProvider("https://trent-sandbox.us-east-1.amazonaws.com"),
+                RegionEndpoint = RegionEndpoint.USEast1
+            };
+            var client = new DefaultKmsClient(kmsConfig);
 
             return Result<
               types.IKMSClient,

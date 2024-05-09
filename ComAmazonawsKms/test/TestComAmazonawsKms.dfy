@@ -8,6 +8,14 @@ module TestComAmazonawsKms {
   import opened StandardLibrary.UInt
 
   const keyId :=  "arn:aws:kms:us-west-2:658956600833:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"
+
+  // ECC Curve P256 Keys - only available in gamma stack
+  const senderKmsKey := "arn:aws:kms:us-east-1:370957321024:key/ab0f5ab2-82a6-4bd3-aa5f-87336cbf38bd";
+  const recipientKmsKey := "arn:aws:kms:us-east-1:370957321024:key/672ec393-86fb-4581-adc2-8cdb5b3d65ba";
+
+  // ECC Curve P384 - only available in gamma stack
+  const incorrectEccCurveKey := "arn:aws:kms:us-east-1:370957321024:key/b29184b6-10c5-4c32-a132-6bc60e18eb0c";
+
   // One test depends on knowing the region it is being run it.
   // For now, hardcode this value to the region we are currently using to test,
   // which is the same region that our test KMS Key lives in.
@@ -93,7 +101,7 @@ module TestComAmazonawsKms {
 
     expect(ret.Success?);
 
-    var DecryptResponse(KeyId, Plaintext, EncryptionAlgorithm) := ret.value;
+    var DecryptResponse(KeyId, Plaintext, EncryptionAlgorithm, CiphertextBlob) := ret.value;
 
     expect Plaintext.Some?;
     expect KeyId.Some?;
@@ -112,7 +120,7 @@ module TestComAmazonawsKms {
 
     expect(ret.Success?);
 
-    var GenerateDataKeyResponse(CiphertextBlob, Plaintext, KeyId) := ret.value;
+    var GenerateDataKeyResponse(CiphertextBlob, Plaintext, KeyId, CiphertextForRecipient) := ret.value;
 
     expect CiphertextBlob.Some?;
     expect Plaintext.Some?;
@@ -175,6 +183,102 @@ module TestComAmazonawsKms {
   // This should default to whatever default SDK uses.
   method {:test} EmptyStringIsDefaultRegion() {
     var client :- expect Kms.KMSClientForRegion("");
+  }
+
+  method {:test} GammaKmsClient(
+  ) {
+    var client :- expect Kms.GammaKmsClient();
+
+    var ret := client.ListKeys(Kms.Types.ListKeysRequest(
+                                 Limit := Kms.Wrappers.None,
+                                 Marker:= Kms.Wrappers.None
+                               ));
+
+    expect(ret.Success?);
+
+  }
+
+  method BasicDeriveSharedSecretTests(
+    nameonly input: Kms.Types.DeriveSharedSecretRequest
+  )
+  {
+    var client :- expect Kms.GammaKmsClient();
+
+    var ret := client.DeriveSharedSecret(
+      Kms.Types.DeriveSharedSecretRequest(
+        KeyId := input.KeyId,
+        KeyAgreementAlgorithm := input.KeyAgreementAlgorithm,
+        PublicKey := input.PublicKey
+      )
+    );
+
+    if ret.Success? {
+      var DeriveSharedSecretResponse(KeyId, SharedSecret, CiphertextForRecipient, KeyAgreementAlgorithm, KeyOrigin ) := ret.value;
+
+      expect (SharedSecret.Some?);
+      expect (KeyId.Some?);
+
+      expect KeyId.value == input.KeyId;
+
+    } else {
+      expect (ret.Failure?);
+      print ret.error;
+    }
+
+  }
+
+  method GetPublicKeyHelper(
+    nameonly input: Kms.Types.GetPublicKeyRequest
+  )
+    returns (publicKey: Kms.Types.PublicKeyType)
+  {
+    var client :- expect Kms.GammaKmsClient();
+    var ret := client.GetPublicKey(
+      Kms.Types.GetPublicKeyRequest(
+        KeyId := input.KeyId,
+        GrantTokens := input.GrantTokens
+      )
+    );
+    expect(ret.Success?);
+
+    var GetPublicKeyResponse(_,PublicKey,_,_,_,_,_,_) := ret.value;
+    expect PublicKey.Some?;
+
+    return PublicKey.value;
+  }
+
+  method {:test} DeriveSharedSecretTestSuccess() {
+    var recipientPublicKey := GetPublicKeyHelper(
+      input := Kms.Types.GetPublicKeyRequest(
+        KeyId := recipientKmsKey,
+        GrantTokens := Kms.Wrappers.None
+      )
+    );
+
+    BasicDeriveSharedSecretTests(
+      input := Kms.Types.DeriveSharedSecretRequest(
+        KeyId := senderKmsKey,
+        KeyAgreementAlgorithm := Kms.Types.KeyAgreementAlgorithmSpec.ECDH,
+        PublicKey := recipientPublicKey
+      )
+    );
+  }
+
+  method {:test} DeriveSharedSecretTestFailure() {
+    var recipientPublicKeyOnWrongCurve := GetPublicKeyHelper(
+      input := Kms.Types.GetPublicKeyRequest(
+        KeyId := incorrectEccCurveKey,
+        GrantTokens := Kms.Wrappers.None
+      )
+    );
+
+    BasicDeriveSharedSecretTests(
+      input := Kms.Types.DeriveSharedSecretRequest(
+        KeyId := senderKmsKey,
+        KeyAgreementAlgorithm := Kms.Types.KeyAgreementAlgorithmSpec.ECDH,
+        PublicKey := recipientPublicKeyOnWrongCurve
+      )
+    );
   }
 
 }
