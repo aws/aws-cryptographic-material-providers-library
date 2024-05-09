@@ -1,18 +1,18 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
-include "../../AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 include "../../AwsCryptographicMaterialProviders/src/Keyrings/AwsKms/AwsKmsUtils.dfy"
 
 include "GetKeys.dfy"
 include "CreateKeyStoreTable.dfy"
 include "CreateKeys.dfy"
 include "Structure.dfy"
-include "KMSKeystoreOperations.dfy"
+include "ErrorMessages.dfy"
+include "KmsArn.dfy"
 
 module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStoreOperations {
-  import opened AwsArnParsing
   import opened AwsKmsUtils
+  import KO = KMSKeystoreOperations
   import KMS = ComAmazonawsKmsTypes
   import DDB = ComAmazonawsDynamodbTypes
   import MPL = AwsCryptographyMaterialProvidersTypes
@@ -22,7 +22,8 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
   import UUID
   import Time
   import Structure
-  import KMSKeystoreOperations
+  import ErrorMessages = KeyStoreErrorMessages
+  import KmsArn
 
   datatype Config = Config(
     nameonly id: string,
@@ -39,7 +40,8 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
   predicate ValidInternalConfig?(config: InternalConfig)
   {
     && DDB.IsValid_TableName(config.ddbTableName)
-    && KMS.IsValid_KeyIdType(KMSKeystoreOperations.GetKeyId(config.kmsConfiguration))
+    && (config.kmsConfiguration.kmsKeyArn? ==> KmsArn.ValidKmsArn?(config.kmsConfiguration.kmsKeyArn))
+    && (config.kmsConfiguration.kmsMRKeyArn? ==> KmsArn.ValidKmsArn?(config.kmsConfiguration.kmsMRKeyArn))
     && config.kmsClient.ValidState()
     && config.ddbClient.ValidState()
     && config.ddbClient.Modifies !! config.kmsClient.Modifies
@@ -49,6 +51,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
   {
     config.kmsClient.Modifies + config.ddbClient.Modifies
   }
+
   predicate GetKeyStoreInfoEnsuresPublicly(output: Result<GetKeyStoreInfoOutput, Error>)
   {true}
 
@@ -112,11 +115,27 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       && input.branchKeyIdentifier.Some?
       && input.encryptionContext.None?
       ==> output.Failure?
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
+    //= type=implication
+    //# If the Keystore's KMS Configuration is `Discovery` or `MRDiscovery`,
+    //# this operation MUST fail.
+    ensures
+      && !KO.HasKeyId(config.kmsConfiguration)
+      ==> output.Failure?
   {
+
     :- Need(input.branchKeyIdentifier.Some? ==>
               && input.encryptionContext.Some?
               && 0 < |input.encryptionContext.value|,
-            Types.KeyStoreException(message := "Custom branch key id requires custom encryption context."));
+            Types.KeyStoreException(message := ErrorMessages.CUSTOM_BRANCH_KEY_ID_NEED_EC));
+
+    :- Need(
+      KO.HasKeyId(config.kmsConfiguration),
+      Types.KeyStoreException(
+        message := ErrorMessages.DISCOVERY_CREATE_KEY_NOT_SUPPORTED
+      )
+    );
 
     var branchKeyIdentifier: string;
 
@@ -167,7 +186,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
                 && encoded.Success?
                 && i.2 == encoded.value
            ,
-            Types.KeyStoreException( message :="Unable to encode string"));
+            Types.KeyStoreException( message := ErrorMessages.UTF8_ENCODING_ENCRYPTION_CONTEXT_ERROR));
 
     output := CreateKeys.CreateBranchAndBeaconKeys(
       branchKeyIdentifier,
@@ -188,8 +207,23 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
 
   method VersionKey(config: InternalConfig, input: VersionKeyInput)
     returns (output: Result<VersionKeyOutput, Error>)
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
+    //= type=implication
+    //# If the Keystore's KMS Configuration is `Discovery` or `MRDiscovery`,
+    //# this operation MUST immediately fail.
+    ensures
+      && !KO.HasKeyId(config.kmsConfiguration)
+      ==> output.Failure?
   {
-    :- Need(0 < |input.branchKeyIdentifier|, Types.KeyStoreException(message := "Empty string not supported for identifier."));
+    :- Need(
+      KO.HasKeyId(config.kmsConfiguration),
+      Types.KeyStoreException(
+        message := ErrorMessages.DISCOVERY_VERSION_KEY_NOT_SUPPORTED
+      )
+    );
+
+    :- Need(0 < |input.branchKeyIdentifier|, Types.KeyStoreException(message := ErrorMessages.BRANCH_KEY_ID_NEEDED));
 
     var timestamp :- Time.GetCurrentTimeStamp()
     .MapFailure(e => Types.KeyStoreException(message := e));
@@ -261,5 +295,4 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       config.ddbClient
     );
   }
-
 }

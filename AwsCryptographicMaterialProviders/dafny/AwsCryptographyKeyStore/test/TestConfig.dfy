@@ -13,6 +13,7 @@ module TestConfig {
   import opened Wrappers
   import opened Fixtures
   import UUID
+  import ErrorMessages = KeyStoreErrorMessages
 
   method {:test} TestInvalidKmsKeyArnConfig() {
     var kmsClient :- expect KMS.KMSClient();
@@ -31,8 +32,42 @@ module TestConfig {
 
     var keyStore := KeyStore.KeyStore(keyStoreConfig);
     expect keyStore.Failure?;
-    expect keyStore.error == Types.KeyStoreException(message := "Invalid AWS KMS Key Arn");
+    match keyStore.error {
+      case KeyStoreException(message) =>
+        expect |message| > |ErrorMessages.KMS_KEY_ARN_INVALID|;
+        expect message[..|ErrorMessages.KMS_KEY_ARN_INVALID|] == ErrorMessages.KMS_KEY_ARN_INVALID;
+      case _ => expect false, "Invalid KMS Key ARN should fail Key Store Construction";
+    }
   }
+
+  //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-configuration
+  //= type=test
+  //# This ARN MUST NOT be an Alias.
+  method {:test} TestInvalidKmsKeyArnAliasConfig() {
+    var kmsClient :- expect KMS.KMSClient();
+    var ddbClient :- expect DDB.DynamoDBClient();
+    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(kmsKeyAlias);
+
+    var keyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient),
+      kmsClient := Some(kmsClient)
+    );
+
+    var keyStore := KeyStore.KeyStore(keyStoreConfig);
+    expect keyStore.Failure?;
+    match keyStore.error {
+      case KeyStoreException(message) =>
+        expect |message| >= |ErrorMessages.ALIAS_NOT_ALLOWED|;
+        expect message[..|ErrorMessages.ALIAS_NOT_ALLOWED|] == ErrorMessages.ALIAS_NOT_ALLOWED;
+      case _ => expect false, "Alias should fail Key Store Construction";
+    }
+  }
+
 
   method {:test} TestValidConfig() {
     var kmsClient :- expect KMS.KMSClient();
@@ -73,6 +108,20 @@ module TestConfig {
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
 
     // Test with no kms client supplied
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#kms-client
+    //= type=TODO
+    //# If the AWS KMS Configuration is a KMS Key ARN,
+    //# and no KMS Client is provided,
+    //# a new KMS Client MUST be created
+    //# with the region of the supplied KMS Key ARN.
+
+    // create and use us-east-2 Keystore and Branch Key
+    // Assert call to get Branch Key ID succeeds.
+    // As long as tests are run NOT in us-east-2,
+    // this prooves that the DDB Client used the region
+    // from the KMS Key ARN to initialize the DDB Client
+
     var keyStoreConfig := Types.KeyStoreConfig(
       id := None,
       kmsConfiguration := kmsConfig,
@@ -86,6 +135,19 @@ module TestConfig {
     expect keyStore.Success?;
 
     // Test with no ddb client supplied
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#dynamodb-client
+    //= type=TODO
+    //# If the AWS KMS Configuration is a KMS Key ARN,
+    //# and no DynamoDb Client is provided,
+    //# a new DynamoDb Client MUST be created
+    //# with the region of the supplied KMS Key ARN.
+
+    // create and use us-east-2 Keystore and Branch Key
+    // Assert call to get Branch Key ID succeeds.
+    // As long as tests are run NOT in us-east-2,
+    // this prooves that the DDB Client used the region
+    // from the KMS Key ARN to initialize the DDB Client
     keyStoreConfig := Types.KeyStoreConfig(
       id := None,
       kmsConfiguration := kmsConfig,
@@ -99,6 +161,26 @@ module TestConfig {
     expect keyStore.Success?;
 
     // Test with no clients supplied
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#dynamodb-client
+    //= type=TODO
+    //# If the AWS KMS Configuration is Discovery,
+    //# and no DynamoDb Client is provided,
+    //# a new DynamoDb Client MUST be created
+    //# with the default configuration.
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#kms-client
+    //= type=TODO
+    //# If the AWS KMS Configuration is Discovery,
+    //# and no KMS Client is provided,
+    //# a new KMS Client MUST be created
+    //# with the default configuration.
+
+    // create and use us-east-2 Keystore and Branch Key
+    // Assert call to get Branch Key ID FAILS.
+    // As long as tests are run NOT in us-east-2,
+    // this prooves that the DDB Client used the region
+    // from the KMS Key ARN to initialize the DDB Client
     keyStoreConfig := Types.KeyStoreConfig(
       id := None,
       kmsConfiguration := kmsConfig,
