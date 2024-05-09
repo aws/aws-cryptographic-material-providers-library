@@ -7,6 +7,7 @@ on:
 jobs:
   require-approvals:
     runs-on: ubuntu-latest
+    environment: "Duvet CI"
     permissions:
       issues: write
       pull-requests: write
@@ -15,9 +16,10 @@ jobs:
       # to add more allowlisted approvers just modify this env variable
       maintainers: seebees, texastony, ShubhamChaturvedi7, lucasmcdonald3, josecorella, imabhichow, rishav-karanjit, antonf-amzn, justplaz, ajewellamz
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          token: ${{ secrets.PRIVATE_SPEC }}
+          submodules: true
 
       - name: Get Files changed
         id: file-changes

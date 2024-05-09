@@ -8,13 +8,15 @@ on:
 jobs:
   require-approvals:
     runs-on: ubuntu-latest
+    environment: "Duvet CI"
     permissions:
       issues: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          token: ${{ secrets.PRIVATE_SPEC }}
+          submodules: true
 
       - name: Get Files changed
         id: file-changes
