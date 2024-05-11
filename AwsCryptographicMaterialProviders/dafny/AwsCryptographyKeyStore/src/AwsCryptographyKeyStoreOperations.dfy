@@ -110,7 +110,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
     //= type=implication
     //# If an optional branch key id is provided
-    //# and no encryption context keys are provided this operation MUST fail.
+    //# and no encryption context is provided this operation MUST fail.
     ensures
       && input.branchKeyIdentifier.Some?
       && input.encryptionContext.None?

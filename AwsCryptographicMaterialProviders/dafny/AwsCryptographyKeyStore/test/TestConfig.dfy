@@ -108,13 +108,12 @@ module TestConfig {
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
 
     // Test with no kms client supplied
-
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#kms-client
     //= type=TODO
-    //# If the AWS KMS Configuration is a KMS Key ARN,
+    //# If the AWS KMS Configuration is KMS Key ARN or KMS MRKey ARN,
     //# and no KMS Client is provided,
     //# a new KMS Client MUST be created
-    //# with the region of the supplied KMS Key ARN.
+    //# with the region of the supplied KMS ARN.
 
     // create and use us-east-2 Keystore and Branch Key
     // Assert call to get Branch Key ID succeeds.
@@ -138,10 +137,10 @@ module TestConfig {
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#dynamodb-client
     //= type=TODO
-    //# If the AWS KMS Configuration is a KMS Key ARN,
+    //# If the AWS KMS Configuration is KMS Key ARN or KMS MRKey ARN,
     //# and no DynamoDb Client is provided,
     //# a new DynamoDb Client MUST be created
-    //# with the region of the supplied KMS Key ARN.
+    //# with the region of the supplied KMS ARN.
 
     // create and use us-east-2 Keystore and Branch Key
     // Assert call to get Branch Key ID succeeds.

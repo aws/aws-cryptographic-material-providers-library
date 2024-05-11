@@ -108,10 +108,16 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
       kmsClient := config.kmsClient.value;
     } else if config.kmsClient.None? && inferredRegion.Some? {
       //= aws-encryption-sdk-specification/framework/branch-key-store.md#kms-client
-      //# If the AWS KMS Configuration is a KMS Key ARN,
+      //# If the AWS KMS Configuration is KMS Key ARN or KMS MRKey ARN,
       //# and no KMS Client is provided,
       //# a new KMS Client MUST be created
-      //# with the region of the supplied KMS Key ARN.
+      //# with the region of the supplied KMS ARN.
+
+      //= aws-encryption-sdk-specification/framework/branch-key-store.md#kms-client
+      //# If the AWS KMS Configuration is MRDiscovery,
+      //# and no KMS Client is provided,
+      //# a new KMS Client MUST be created
+      //# with the region configured in the MRDiscovery.
       var maybeKmsClient := KMSOperations.KMSClientForRegion(inferredRegion.value);
       kmsClient :- maybeKmsClient
       .MapFailure(e => Types.ComAmazonawsKms(ComAmazonawsKms := e));
@@ -130,10 +136,16 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
       ddbClient := config.ddbClient.value;
     } else if config.ddbClient.None? && inferredRegion.Some? {
       //= aws-encryption-sdk-specification/framework/branch-key-store.md#dynamodb-client
-      //# If the AWS KMS Configuration is a KMS Key ARN,
+      //# If the AWS KMS Configuration is KMS Key ARN or KMS MRKey ARN,
       //# and no DynamoDb Client is provided,
       //# a new DynamoDb Client MUST be created
-      //# with the region of the supplied KMS Key ARN.
+      //# with the region of the supplied KMS ARN.
+
+      //= aws-encryption-sdk-specification/framework/branch-key-store.md#dynamodb-client
+      //# If the AWS KMS Configuration is MRDiscovery,
+      //# and no DynamoDb Client is provided,
+      //# a new DynamoDb Client MUST be created
+      //# with the region configured in the MRDiscovery.
       var maybeDdbClient := DDBOperations.DDBClientForRegion(inferredRegion.value);
       ddbClient :- maybeDdbClient
       .MapFailure(e => Types.ComAmazonawsDynamodb(ComAmazonawsDynamodb := e));
