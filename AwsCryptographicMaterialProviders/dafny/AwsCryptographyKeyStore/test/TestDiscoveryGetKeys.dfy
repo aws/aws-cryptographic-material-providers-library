@@ -151,17 +151,25 @@ module TestDiscoveryGetKeys {
     var beaconKeyResultSr := keyStoreSr.GetBeaconKey(beaconInput);
     expect beaconKeyResultSr.Failure?;
     expect beaconKeyResultSr.error.ComAmazonawsKms?;
-
-    expect beaconKeyResultSr.error == Types.Error.ComAmazonawsKms(ComAmazonawsKmsTypes.Error.IncorrectKeyException(message := Some("The key ID in the request does not identify a CMK that can perform this operation.")));
+    match beaconKeyResultSr.error {
+      case ComAmazonawsKms(nestedError) =>
+        expect nestedError.IncorrectKeyException?;
+      case _ => expect false, "Request for Branch Key's Beacon Key protected by us-east-1 KMS Key, issued from us-west-2, without MR logic, MUST fail with KMS IncorrectKeyException.";
+    }
 
     var branchInput := Types.GetActiveBranchKeyInput(branchKeyIdentifier := EastBranchKey);
-    var branchKeyResultMr :- expect keyStoreMr.GetBeaconKey(beaconInput);
-    expect branchKeyResultMr.beaconKeyMaterials.beaconKeyIdentifier == EastBranchKey;
+    var branchKeyResultMr :- expect keyStoreMr.GetActiveBranchKey(branchInput);
+    expect branchKeyResultMr.branchKeyMaterials.branchKeyIdentifier == EastBranchKey;
 
-    var branchKeyResultSr := keyStoreSr.GetBeaconKey(beaconInput);
+    var branchKeyResultSr := keyStoreSr.GetActiveBranchKey(branchInput);
     expect branchKeyResultSr.Failure?;
     expect branchKeyResultSr.error.ComAmazonawsKms?;
-    expect beaconKeyResultSr.error == Types.Error.ComAmazonawsKms(ComAmazonawsKmsTypes.Error.IncorrectKeyException(message := Some("The key ID in the request does not identify a CMK that can perform this operation.")));
+
+    match branchKeyResultSr.error {
+      case ComAmazonawsKms(nestedError) =>
+        expect nestedError.IncorrectKeyException?;
+      case _ => expect false, "Request for Branch Key Active Version protected by us-east-1 KMS Key, issued from us-west-2, without MR logic, MUST fail with KMS IncorrectKeyException.";
+    }
   }
 
 
