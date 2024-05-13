@@ -6,6 +6,7 @@ package software.amazon.cryptography.materialproviders.model;
 import java.util.List;
 import java.util.Objects;
 import software.amazon.awssdk.services.kms.KmsClient;
+import software.amazon.cryptography.primitives.model.ECDHCurveSpec;
 
 /**
  * Inputs for creating a AWS KMS ECDH Keyring.
@@ -20,7 +21,7 @@ public class CreateAwsKmsEcdhKeyringInput {
   /**
    * The named curve that corresponds to the curve on which the sender's private and recipient's public key lie.
    */
-  private final EccCurveSpec curveSpec;
+  private final ECDHCurveSpec curveSpec;
 
   /**
    * The KMS Client this Keyring will use to call KMS.
@@ -49,7 +50,7 @@ public class CreateAwsKmsEcdhKeyringInput {
   /**
    * @return The named curve that corresponds to the curve on which the sender's private and recipient's public key lie.
    */
-  public EccCurveSpec curveSpec() {
+  public ECDHCurveSpec curveSpec() {
     return this.curveSpec;
   }
 
@@ -89,12 +90,12 @@ public class CreateAwsKmsEcdhKeyringInput {
     /**
      * @param curveSpec The named curve that corresponds to the curve on which the sender's private and recipient's public key lie.
      */
-    Builder curveSpec(EccCurveSpec curveSpec);
+    Builder curveSpec(ECDHCurveSpec curveSpec);
 
     /**
      * @return The named curve that corresponds to the curve on which the sender's private and recipient's public key lie.
      */
-    EccCurveSpec curveSpec();
+    ECDHCurveSpec curveSpec();
 
     /**
      * @param kmsClient The KMS Client this Keyring will use to call KMS.
@@ -123,7 +124,7 @@ public class CreateAwsKmsEcdhKeyringInput {
 
     protected KmsEcdhStaticConfigurations KeyAgreementScheme;
 
-    protected EccCurveSpec curveSpec;
+    protected ECDHCurveSpec curveSpec;
 
     protected KmsClient kmsClient;
 
@@ -149,12 +150,12 @@ public class CreateAwsKmsEcdhKeyringInput {
       return this.KeyAgreementScheme;
     }
 
-    public Builder curveSpec(EccCurveSpec curveSpec) {
+    public Builder curveSpec(ECDHCurveSpec curveSpec) {
       this.curveSpec = curveSpec;
       return this;
     }
 
-    public EccCurveSpec curveSpec() {
+    public ECDHCurveSpec curveSpec() {
       return this.curveSpec;
     }
 

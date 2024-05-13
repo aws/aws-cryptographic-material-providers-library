@@ -19,14 +19,20 @@ import software.amazon.cryptography.primitives.model.AESEncryptInput;
 import software.amazon.cryptography.primitives.model.AESEncryptOutput;
 import software.amazon.cryptography.primitives.model.AesKdfCtrInput;
 import software.amazon.cryptography.primitives.model.CryptoConfig;
+import software.amazon.cryptography.primitives.model.DeriveSharedSecretInput;
+import software.amazon.cryptography.primitives.model.DeriveSharedSecretOutput;
 import software.amazon.cryptography.primitives.model.DigestInput;
 import software.amazon.cryptography.primitives.model.ECDSASignInput;
 import software.amazon.cryptography.primitives.model.ECDSAVerifyInput;
+import software.amazon.cryptography.primitives.model.GenerateECCKeyPairInput;
+import software.amazon.cryptography.primitives.model.GenerateECCKeyPairOutput;
 import software.amazon.cryptography.primitives.model.GenerateECDSASignatureKeyInput;
 import software.amazon.cryptography.primitives.model.GenerateECDSASignatureKeyOutput;
 import software.amazon.cryptography.primitives.model.GenerateRSAKeyPairInput;
 import software.amazon.cryptography.primitives.model.GenerateRSAKeyPairOutput;
 import software.amazon.cryptography.primitives.model.GenerateRandomBytesInput;
+import software.amazon.cryptography.primitives.model.GetPublicKeyFromPrivateKeyInput;
+import software.amazon.cryptography.primitives.model.GetPublicKeyFromPrivateKeyOutput;
 import software.amazon.cryptography.primitives.model.GetRSAKeyModulusLengthInput;
 import software.amazon.cryptography.primitives.model.GetRSAKeyModulusLengthOutput;
 import software.amazon.cryptography.primitives.model.HMacInput;
@@ -36,6 +42,8 @@ import software.amazon.cryptography.primitives.model.HkdfInput;
 import software.amazon.cryptography.primitives.model.KdfCtrInput;
 import software.amazon.cryptography.primitives.model.RSADecryptInput;
 import software.amazon.cryptography.primitives.model.RSAEncryptInput;
+import software.amazon.cryptography.primitives.model.ValidatePublicKeyInput;
+import software.amazon.cryptography.primitives.model.ValidatePublicKeyOutput;
 
 public class AtomicPrimitives {
 
@@ -101,6 +109,21 @@ public class AtomicPrimitives {
     );
   }
 
+  public DeriveSharedSecretOutput DeriveSharedSecret(
+    DeriveSharedSecretInput input
+  ) {
+    software.amazon.cryptography.primitives.internaldafny.types.DeriveSharedSecretInput dafnyValue =
+      ToDafny.DeriveSharedSecretInput(input);
+    Result<
+      software.amazon.cryptography.primitives.internaldafny.types.DeriveSharedSecretOutput,
+      Error
+    > result = this._impl.DeriveSharedSecret(dafnyValue);
+    if (result.is_Failure()) {
+      throw ToNative.Error(result.dtor_error());
+    }
+    return ToNative.DeriveSharedSecretOutput(result.dtor_value());
+  }
+
   public ByteBuffer Digest(DigestInput input) {
     software.amazon.cryptography.primitives.internaldafny.types.DigestInput dafnyValue =
       ToDafny.DigestInput(input);
@@ -135,6 +158,21 @@ public class AtomicPrimitives {
       throw ToNative.Error(result.dtor_error());
     }
     return (result.dtor_value());
+  }
+
+  public GenerateECCKeyPairOutput GenerateECCKeyPair(
+    GenerateECCKeyPairInput input
+  ) {
+    software.amazon.cryptography.primitives.internaldafny.types.GenerateECCKeyPairInput dafnyValue =
+      ToDafny.GenerateECCKeyPairInput(input);
+    Result<
+      software.amazon.cryptography.primitives.internaldafny.types.GenerateECCKeyPairOutput,
+      Error
+    > result = this._impl.GenerateECCKeyPair(dafnyValue);
+    if (result.is_Failure()) {
+      throw ToNative.Error(result.dtor_error());
+    }
+    return ToNative.GenerateECCKeyPairOutput(result.dtor_value());
   }
 
   public GenerateECDSASignatureKeyOutput GenerateECDSASignatureKey(
@@ -178,6 +216,21 @@ public class AtomicPrimitives {
       throw ToNative.Error(result.dtor_error());
     }
     return ToNative.GenerateRSAKeyPairOutput(result.dtor_value());
+  }
+
+  public GetPublicKeyFromPrivateKeyOutput GetPublicKeyFromPrivateKey(
+    GetPublicKeyFromPrivateKeyInput input
+  ) {
+    software.amazon.cryptography.primitives.internaldafny.types.GetPublicKeyFromPrivateKeyInput dafnyValue =
+      ToDafny.GetPublicKeyFromPrivateKeyInput(input);
+    Result<
+      software.amazon.cryptography.primitives.internaldafny.types.GetPublicKeyFromPrivateKeyOutput,
+      Error
+    > result = this._impl.GetPublicKeyFromPrivateKey(dafnyValue);
+    if (result.is_Failure()) {
+      throw ToNative.Error(result.dtor_error());
+    }
+    return ToNative.GetPublicKeyFromPrivateKeyOutput(result.dtor_value());
   }
 
   public GetRSAKeyModulusLengthOutput GetRSAKeyModulusLength(
@@ -284,6 +337,21 @@ public class AtomicPrimitives {
     return software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
       result.dtor_value()
     );
+  }
+
+  public ValidatePublicKeyOutput ValidatePublicKey(
+    ValidatePublicKeyInput input
+  ) {
+    software.amazon.cryptography.primitives.internaldafny.types.ValidatePublicKeyInput dafnyValue =
+      ToDafny.ValidatePublicKeyInput(input);
+    Result<
+      software.amazon.cryptography.primitives.internaldafny.types.ValidatePublicKeyOutput,
+      Error
+    > result = this._impl.ValidatePublicKey(dafnyValue);
+    if (result.is_Failure()) {
+      throw ToNative.Error(result.dtor_error());
+    }
+    return ToNative.ValidatePublicKeyOutput(result.dtor_value());
   }
 
   protected IAwsCryptographicPrimitivesClient impl() {

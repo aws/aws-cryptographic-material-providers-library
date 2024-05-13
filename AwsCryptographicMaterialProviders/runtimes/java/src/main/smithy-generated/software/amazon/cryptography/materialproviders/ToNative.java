@@ -67,7 +67,6 @@ import software.amazon.cryptography.materialproviders.model.DiscoveryFilter;
 import software.amazon.cryptography.materialproviders.model.ECDSA;
 import software.amazon.cryptography.materialproviders.model.ESDKAlgorithmSuiteId;
 import software.amazon.cryptography.materialproviders.model.ESDKCommitmentPolicy;
-import software.amazon.cryptography.materialproviders.model.EccCurveSpec;
 import software.amazon.cryptography.materialproviders.model.EdkWrappingAlgorithm;
 import software.amazon.cryptography.materialproviders.model.Encrypt;
 import software.amazon.cryptography.materialproviders.model.EncryptedDataKey;
@@ -428,7 +427,11 @@ public class ToNative {
     nativeBuilder.KeyAgreementScheme(
       ToNative.KmsEcdhStaticConfigurations(dafnyValue.dtor_KeyAgreementScheme())
     );
-    nativeBuilder.curveSpec(ToNative.EccCurveSpec(dafnyValue.dtor_curveSpec()));
+    nativeBuilder.curveSpec(
+      software.amazon.cryptography.primitives.ToNative.ECDHCurveSpec(
+        dafnyValue.dtor_curveSpec()
+      )
+    );
     if (dafnyValue.dtor_kmsClient().is_Some()) {
       nativeBuilder.kmsClient(
         software.amazon.cryptography.services.kms.internaldafny.ToNative.TrentService(
@@ -748,7 +751,11 @@ public class ToNative {
     nativeBuilder.KeyAgreementScheme(
       ToNative.RawEcdhStaticConfigurations(dafnyValue.dtor_KeyAgreementScheme())
     );
-    nativeBuilder.curveSpec(ToNative.EccCurveSpec(dafnyValue.dtor_curveSpec()));
+    nativeBuilder.curveSpec(
+      software.amazon.cryptography.primitives.ToNative.ECDHCurveSpec(
+        dafnyValue.dtor_curveSpec()
+      )
+    );
     return nativeBuilder.build();
   }
 
@@ -1524,27 +1531,6 @@ public class ToNative {
     }
     throw new IllegalArgumentException(
       "No entry of software.amazon.cryptography.materialproviders.model.DBECommitmentPolicy matches the input : " +
-      dafnyValue
-    );
-  }
-
-  public static EccCurveSpec EccCurveSpec(
-    software.amazon.cryptography.materialproviders.internaldafny.types.EccCurveSpec dafnyValue
-  ) {
-    if (dafnyValue.is_ECC__NIST__P256()) {
-      return EccCurveSpec.ECC_NIST_P256;
-    }
-    if (dafnyValue.is_ECC__NIST__P384()) {
-      return EccCurveSpec.ECC_NIST_P384;
-    }
-    if (dafnyValue.is_ECC__NIST__P521()) {
-      return EccCurveSpec.ECC_NIST_P521;
-    }
-    if (dafnyValue.is_SM2()) {
-      return EccCurveSpec.SM2;
-    }
-    throw new IllegalArgumentException(
-      "No entry of software.amazon.cryptography.materialproviders.model.EccCurveSpec matches the input : " +
       dafnyValue
     );
   }

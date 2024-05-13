@@ -191,7 +191,7 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
     public static AWS.Cryptography.MaterialProviders.CreateAwsKmsEcdhKeyringInput FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput(software.amazon.cryptography.materialproviders.internaldafny.types._ICreateAwsKmsEcdhKeyringInput value)
     {
       software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsEcdhKeyringInput concrete = (software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsEcdhKeyringInput)value; AWS.Cryptography.MaterialProviders.CreateAwsKmsEcdhKeyringInput converted = new AWS.Cryptography.MaterialProviders.CreateAwsKmsEcdhKeyringInput(); converted.KeyAgreementScheme = (AWS.Cryptography.MaterialProviders.KmsEcdhStaticConfigurations)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput__M18_KeyAgreementScheme(concrete._KeyAgreementScheme);
-      converted.CurveSpec = (AWS.Cryptography.MaterialProviders.EccCurveSpec)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput__M9_curveSpec(concrete._curveSpec);
+      converted.CurveSpec = (AWS.Cryptography.Primitives.ECDHCurveSpec)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput__M9_curveSpec(concrete._curveSpec);
       if (concrete._kmsClient.is_Some) converted.KmsClient = (Amazon.KeyManagementService.IAmazonKeyManagementService)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput__M9_kmsClient(concrete._kmsClient);
       if (concrete._grantTokens.is_Some) converted.GrantTokens = (System.Collections.Generic.List<string>)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput__M11_grantTokens(concrete._grantTokens); return converted;
     }
@@ -408,7 +408,7 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
     public static AWS.Cryptography.MaterialProviders.CreateRawEcdhKeyringInput FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S25_CreateRawEcdhKeyringInput(software.amazon.cryptography.materialproviders.internaldafny.types._ICreateRawEcdhKeyringInput value)
     {
       software.amazon.cryptography.materialproviders.internaldafny.types.CreateRawEcdhKeyringInput concrete = (software.amazon.cryptography.materialproviders.internaldafny.types.CreateRawEcdhKeyringInput)value; AWS.Cryptography.MaterialProviders.CreateRawEcdhKeyringInput converted = new AWS.Cryptography.MaterialProviders.CreateRawEcdhKeyringInput(); converted.KeyAgreementScheme = (AWS.Cryptography.MaterialProviders.RawEcdhStaticConfigurations)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S25_CreateRawEcdhKeyringInput__M18_KeyAgreementScheme(concrete._KeyAgreementScheme);
-      converted.CurveSpec = (AWS.Cryptography.MaterialProviders.EccCurveSpec)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S25_CreateRawEcdhKeyringInput__M9_curveSpec(concrete._curveSpec); return converted;
+      converted.CurveSpec = (AWS.Cryptography.Primitives.ECDHCurveSpec)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S25_CreateRawEcdhKeyringInput__M9_curveSpec(concrete._curveSpec); return converted;
     }
     public static software.amazon.cryptography.materialproviders.internaldafny.types._ICreateRawEcdhKeyringInput ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S25_CreateRawEcdhKeyringInput(AWS.Cryptography.MaterialProviders.CreateRawEcdhKeyringInput value)
     {
@@ -560,22 +560,6 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
         return software.amazon.cryptography.materialproviders.internaldafny.types.DerivationAlgorithm.create_None(ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_DerivationAlgorithm__M4_None(value.None));
       }
       throw new System.ArgumentException("Invalid AWS.Cryptography.MaterialProviders.DerivationAlgorithm state");
-    }
-    public static AWS.Cryptography.MaterialProviders.EccCurveSpec FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S12_EccCurveSpec(software.amazon.cryptography.materialproviders.internaldafny.types._IEccCurveSpec value)
-    {
-      if (value.is_ECC__NIST__P256) return AWS.Cryptography.MaterialProviders.EccCurveSpec.ECC_NIST_P256;
-      if (value.is_ECC__NIST__P384) return AWS.Cryptography.MaterialProviders.EccCurveSpec.ECC_NIST_P384;
-      if (value.is_ECC__NIST__P521) return AWS.Cryptography.MaterialProviders.EccCurveSpec.ECC_NIST_P521;
-      if (value.is_SM2) return AWS.Cryptography.MaterialProviders.EccCurveSpec.SM2;
-      throw new System.ArgumentException("Invalid AWS.Cryptography.MaterialProviders.EccCurveSpec value");
-    }
-    public static software.amazon.cryptography.materialproviders.internaldafny.types._IEccCurveSpec ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S12_EccCurveSpec(AWS.Cryptography.MaterialProviders.EccCurveSpec value)
-    {
-      if (AWS.Cryptography.MaterialProviders.EccCurveSpec.ECC_NIST_P256.Equals(value)) return software.amazon.cryptography.materialproviders.internaldafny.types.EccCurveSpec.create_ECC__NIST__P256();
-      if (AWS.Cryptography.MaterialProviders.EccCurveSpec.ECC_NIST_P384.Equals(value)) return software.amazon.cryptography.materialproviders.internaldafny.types.EccCurveSpec.create_ECC__NIST__P384();
-      if (AWS.Cryptography.MaterialProviders.EccCurveSpec.ECC_NIST_P521.Equals(value)) return software.amazon.cryptography.materialproviders.internaldafny.types.EccCurveSpec.create_ECC__NIST__P521();
-      if (AWS.Cryptography.MaterialProviders.EccCurveSpec.SM2.Equals(value)) return software.amazon.cryptography.materialproviders.internaldafny.types.EccCurveSpec.create_SM2();
-      throw new System.ArgumentException("Invalid AWS.Cryptography.MaterialProviders.EccCurveSpec value");
     }
     public static AWS.Cryptography.MaterialProviders.EdkWrappingAlgorithm FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S20_EdkWrappingAlgorithm(software.amazon.cryptography.materialproviders.internaldafny.types._IEdkWrappingAlgorithm value)
     {
@@ -1515,13 +1499,13 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
     {
       return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S27_KmsEcdhStaticConfigurations(value);
     }
-    public static AWS.Cryptography.MaterialProviders.EccCurveSpec FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput__M9_curveSpec(software.amazon.cryptography.materialproviders.internaldafny.types._IEccCurveSpec value)
+    public static AWS.Cryptography.Primitives.ECDHCurveSpec FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput__M9_curveSpec(software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec value)
     {
-      return FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S12_EccCurveSpec(value);
+      return FromDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(value);
     }
-    public static software.amazon.cryptography.materialproviders.internaldafny.types._IEccCurveSpec ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput__M9_curveSpec(AWS.Cryptography.MaterialProviders.EccCurveSpec value)
+    public static software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput__M9_curveSpec(AWS.Cryptography.Primitives.ECDHCurveSpec value)
     {
-      return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S12_EccCurveSpec(value);
+      return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(value);
     }
     public static Amazon.KeyManagementService.IAmazonKeyManagementService FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput__M9_kmsClient(Wrappers_Compile._IOption<software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient> value)
     {
@@ -1899,13 +1883,13 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
     {
       return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S27_RawEcdhStaticConfigurations(value);
     }
-    public static AWS.Cryptography.MaterialProviders.EccCurveSpec FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S25_CreateRawEcdhKeyringInput__M9_curveSpec(software.amazon.cryptography.materialproviders.internaldafny.types._IEccCurveSpec value)
+    public static AWS.Cryptography.Primitives.ECDHCurveSpec FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S25_CreateRawEcdhKeyringInput__M9_curveSpec(software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec value)
     {
-      return FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S12_EccCurveSpec(value);
+      return FromDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(value);
     }
-    public static software.amazon.cryptography.materialproviders.internaldafny.types._IEccCurveSpec ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S25_CreateRawEcdhKeyringInput__M9_curveSpec(AWS.Cryptography.MaterialProviders.EccCurveSpec value)
+    public static software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S25_CreateRawEcdhKeyringInput__M9_curveSpec(AWS.Cryptography.Primitives.ECDHCurveSpec value)
     {
-      return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S12_EccCurveSpec(value);
+      return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(value);
     }
     public static string FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S24_CreateRawRsaKeyringInput__M12_keyNamespace(Dafny.ISequence<char> value)
     {
@@ -2916,6 +2900,22 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
       // This is converting a reference type in a dependant module.
       // Therefore it defers to the dependant module for conversion
       return new WrappedNativeWrapper_ClientSupplier((ClientSupplierBase)value);
+    }
+    public static AWS.Cryptography.Primitives.ECDHCurveSpec FromDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec value)
+    {
+      if (value.is_ECC__NIST__P256) return AWS.Cryptography.Primitives.ECDHCurveSpec.ECC_NIST_P256;
+      if (value.is_ECC__NIST__P384) return AWS.Cryptography.Primitives.ECDHCurveSpec.ECC_NIST_P384;
+      if (value.is_ECC__NIST__P521) return AWS.Cryptography.Primitives.ECDHCurveSpec.ECC_NIST_P521;
+      if (value.is_SM2) return AWS.Cryptography.Primitives.ECDHCurveSpec.SM2;
+      throw new System.ArgumentException("Invalid AWS.Cryptography.Primitives.ECDHCurveSpec value");
+    }
+    public static software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(AWS.Cryptography.Primitives.ECDHCurveSpec value)
+    {
+      if (AWS.Cryptography.Primitives.ECDHCurveSpec.ECC_NIST_P256.Equals(value)) return software.amazon.cryptography.primitives.internaldafny.types.ECDHCurveSpec.create_ECC__NIST__P256();
+      if (AWS.Cryptography.Primitives.ECDHCurveSpec.ECC_NIST_P384.Equals(value)) return software.amazon.cryptography.primitives.internaldafny.types.ECDHCurveSpec.create_ECC__NIST__P384();
+      if (AWS.Cryptography.Primitives.ECDHCurveSpec.ECC_NIST_P521.Equals(value)) return software.amazon.cryptography.primitives.internaldafny.types.ECDHCurveSpec.create_ECC__NIST__P521();
+      if (AWS.Cryptography.Primitives.ECDHCurveSpec.SM2.Equals(value)) return software.amazon.cryptography.primitives.internaldafny.types.ECDHCurveSpec.create_SM2();
+      throw new System.ArgumentException("Invalid AWS.Cryptography.Primitives.ECDHCurveSpec value");
     }
     internal static AWS.Cryptography.MaterialProviders.IBranchKeyIdSupplier FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_BranchKeyIdSupplierReference(software.amazon.cryptography.materialproviders.internaldafny.types.IBranchKeyIdSupplier value)
     {

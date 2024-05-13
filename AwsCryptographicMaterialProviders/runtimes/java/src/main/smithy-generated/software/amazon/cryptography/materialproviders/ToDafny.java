@@ -56,7 +56,6 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.Discov
 import software.amazon.cryptography.materialproviders.internaldafny.types.ECDSA;
 import software.amazon.cryptography.materialproviders.internaldafny.types.ESDKAlgorithmSuiteId;
 import software.amazon.cryptography.materialproviders.internaldafny.types.ESDKCommitmentPolicy;
-import software.amazon.cryptography.materialproviders.internaldafny.types.EccCurveSpec;
 import software.amazon.cryptography.materialproviders.internaldafny.types.EdkWrappingAlgorithm;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Encrypt;
 import software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey;
@@ -129,6 +128,7 @@ import software.amazon.cryptography.materialproviders.model.InvalidEncryptionMat
 import software.amazon.cryptography.materialproviders.model.InvalidEncryptionMaterialsTransition;
 import software.amazon.cryptography.materialproviders.model.OpaqueError;
 import software.amazon.cryptography.primitives.internaldafny.types.DigestAlgorithm;
+import software.amazon.cryptography.primitives.internaldafny.types.ECDHCurveSpec;
 import software.amazon.cryptography.primitives.internaldafny.types.ECDSASignatureAlgorithm;
 import software.amazon.cryptography.services.kms.internaldafny.types.EncryptionAlgorithmSpec;
 import software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient;
@@ -306,8 +306,11 @@ public class ToDafny {
     KmsEcdhStaticConfigurations keyAgreementScheme;
     keyAgreementScheme =
       ToDafny.KmsEcdhStaticConfigurations(nativeValue.KeyAgreementScheme());
-    EccCurveSpec curveSpec;
-    curveSpec = ToDafny.EccCurveSpec(nativeValue.curveSpec());
+    ECDHCurveSpec curveSpec;
+    curveSpec =
+      software.amazon.cryptography.primitives.ToDafny.ECDHCurveSpec(
+        nativeValue.curveSpec()
+      );
     Option<IKMSClient> kmsClient;
     kmsClient =
       Objects.nonNull(nativeValue.kmsClient())
@@ -707,8 +710,11 @@ public class ToDafny {
     RawEcdhStaticConfigurations keyAgreementScheme;
     keyAgreementScheme =
       ToDafny.RawEcdhStaticConfigurations(nativeValue.KeyAgreementScheme());
-    EccCurveSpec curveSpec;
-    curveSpec = ToDafny.EccCurveSpec(nativeValue.curveSpec());
+    ECDHCurveSpec curveSpec;
+    curveSpec =
+      software.amazon.cryptography.primitives.ToDafny.ECDHCurveSpec(
+        nativeValue.curveSpec()
+      );
     return new CreateRawEcdhKeyringInput(keyAgreementScheme, curveSpec);
   }
 
@@ -1693,37 +1699,6 @@ public class ToDafny {
             "Cannot convert " +
             nativeValue +
             " to software.amazon.cryptography.materialproviders.internaldafny.types.DBECommitmentPolicy."
-          );
-        }
-    }
-  }
-
-  public static EccCurveSpec EccCurveSpec(
-    software.amazon.cryptography.materialproviders.model.EccCurveSpec nativeValue
-  ) {
-    switch (nativeValue) {
-      case ECC_NIST_P256:
-        {
-          return EccCurveSpec.create_ECC__NIST__P256();
-        }
-      case ECC_NIST_P384:
-        {
-          return EccCurveSpec.create_ECC__NIST__P384();
-        }
-      case ECC_NIST_P521:
-        {
-          return EccCurveSpec.create_ECC__NIST__P521();
-        }
-      case SM2:
-        {
-          return EccCurveSpec.create_SM2();
-        }
-      default:
-        {
-          throw new RuntimeException(
-            "Cannot convert " +
-            nativeValue +
-            " to software.amazon.cryptography.materialproviders.internaldafny.types.EccCurveSpec."
           );
         }
     }

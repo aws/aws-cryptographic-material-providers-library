@@ -3,28 +3,6 @@ namespace aws.cryptography.materialProviders
 use aws.polymorph#javadoc
 
 // Key Agreement Schemes
-
-@enum([
-  {
-    name: "ECC_NIST_P256",
-    value: "secp256r1",
-  },
-  {
-    name: "ECC_NIST_P384",
-    value: "secp384r1",
-  },
-  {
-    name: "ECC_NIST_P521",
-    value: "secp521r1",
-  },
-  {
-    // TODO: come back and double check this is the spec kms uses
-    name: "SM2",
-    value: "SM2PKE",
-  },
-])
-string EccCurveSpec
-
 @javadoc("Supported ECDH KeyAgreement Schemes")
 union KeyAgreementScheme {
     StaticConfiguration: StaticConfigurations

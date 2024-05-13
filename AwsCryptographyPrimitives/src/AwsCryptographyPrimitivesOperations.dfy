@@ -11,6 +11,7 @@ include "Digest.dfy"
 include "RSAEncryption.dfy"
 include "Signature.dfy"
 include "AesKdfCtr.dfy"
+include "ECDH.dfy"
 
 module AwsCryptographyPrimitivesOperations refines AbstractAwsCryptographyPrimitivesOperations {
   import Random
@@ -21,6 +22,7 @@ module AwsCryptographyPrimitivesOperations refines AbstractAwsCryptographyPrimit
   import Signature
   import KdfCtr
   import RSAEncryption
+  import ECDH
 
   datatype Config = Config
   type InternalConfig = Config
@@ -216,5 +218,41 @@ module AwsCryptographyPrimitivesOperations refines AbstractAwsCryptographyPrimit
       input.message,
       input.signature
     );
+  }
+
+  predicate GenerateECCKeyPairEnsuresPublicly(input: GenerateECCKeyPairInput, output: Result<GenerateECCKeyPairOutput, Error>)
+  {true}
+
+  method GenerateECCKeyPair (config: InternalConfig, input: GenerateECCKeyPairInput )
+    returns (output: Result<GenerateECCKeyPairOutput, Error>)
+  {
+    output := ECDH.GenerateEccKeyPair(input);
+  }
+
+  predicate GetPublicKeyFromPrivateKeyEnsuresPublicly(input: GetPublicKeyFromPrivateKeyInput, output: Result<GetPublicKeyFromPrivateKeyOutput, Error>)
+  {true}
+
+  method GetPublicKeyFromPrivateKey (config: InternalConfig, input: GetPublicKeyFromPrivateKeyInput)
+    returns (output: Result<GetPublicKeyFromPrivateKeyOutput, Error>)
+  {
+    output := Failure(Types.AwsCryptographicPrimitivesError(message := "Implement Me!."));
+  }
+
+  predicate ValidatePublicKeyEnsuresPublicly(input: ValidatePublicKeyInput, output: Result<ValidatePublicKeyOutput, Error>)
+  {true}
+
+  method ValidatePublicKey(config: InternalConfig, input: ValidatePublicKeyInput)
+    returns (output: Result<ValidatePublicKeyOutput, Error>)
+  {
+    output := Failure(Types.AwsCryptographicPrimitivesError(message := "Implement Me!."));
+  }
+
+  predicate DeriveSharedSecretEnsuresPublicly(input: DeriveSharedSecretInput, output: Result<DeriveSharedSecretOutput, Error>)
+  {true}
+
+  method DeriveSharedSecret(config: InternalConfig, input: DeriveSharedSecretInput)
+    returns (output: Result<DeriveSharedSecretOutput, Error>)
+  {
+    output := Failure(Types.AwsCryptographicPrimitivesError(message := "Implement Me!."));
   }
 }

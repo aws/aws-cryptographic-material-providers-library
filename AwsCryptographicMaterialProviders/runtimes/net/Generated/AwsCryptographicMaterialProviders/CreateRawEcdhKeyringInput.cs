@@ -8,7 +8,7 @@ namespace AWS.Cryptography.MaterialProviders
   public class CreateRawEcdhKeyringInput
   {
     private AWS.Cryptography.MaterialProviders.RawEcdhStaticConfigurations _keyAgreementScheme;
-    private AWS.Cryptography.MaterialProviders.EccCurveSpec _curveSpec;
+    private AWS.Cryptography.Primitives.ECDHCurveSpec _curveSpec;
     public AWS.Cryptography.MaterialProviders.RawEcdhStaticConfigurations KeyAgreementScheme
     {
       get { return this._keyAgreementScheme; }
@@ -18,7 +18,7 @@ namespace AWS.Cryptography.MaterialProviders
     {
       return this._keyAgreementScheme != null;
     }
-    public AWS.Cryptography.MaterialProviders.EccCurveSpec CurveSpec
+    public AWS.Cryptography.Primitives.ECDHCurveSpec CurveSpec
     {
       get { return this._curveSpec; }
       set { this._curveSpec = value; }

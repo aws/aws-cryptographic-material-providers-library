@@ -815,7 +815,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
   )
   datatype CreateAwsKmsEcdhKeyringInput = | CreateAwsKmsEcdhKeyringInput (
     nameonly KeyAgreementScheme: KmsEcdhStaticConfigurations ,
-    nameonly curveSpec: EccCurveSpec ,
+    nameonly curveSpec: AwsCryptographyPrimitivesTypes.ECDHCurveSpec ,
     nameonly kmsClient: Option<ComAmazonawsKmsTypes.IKMSClient> := Option.None ,
     nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
@@ -888,7 +888,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
   )
   datatype CreateRawEcdhKeyringInput = | CreateRawEcdhKeyringInput (
     nameonly KeyAgreementScheme: RawEcdhStaticConfigurations ,
-    nameonly curveSpec: EccCurveSpec
+    nameonly curveSpec: AwsCryptographyPrimitivesTypes.ECDHCurveSpec
   )
   datatype CreateRawRsaKeyringInput = | CreateRawRsaKeyringInput (
     nameonly keyNamespace: string ,
@@ -1218,11 +1218,6 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly accountIds: AccountIdList ,
     nameonly partition: string
   )
-  datatype EccCurveSpec =
-    | ECC_NIST_P256
-    | ECC_NIST_P384
-    | ECC_NIST_P521
-    | SM2
   datatype ECDSA = | ECDSA (
     nameonly curve: AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm
   )

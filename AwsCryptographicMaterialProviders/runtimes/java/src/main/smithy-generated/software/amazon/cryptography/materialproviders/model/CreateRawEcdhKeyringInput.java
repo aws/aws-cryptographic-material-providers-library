@@ -4,6 +4,7 @@
 package software.amazon.cryptography.materialproviders.model;
 
 import java.util.Objects;
+import software.amazon.cryptography.primitives.model.ECDHCurveSpec;
 
 /**
  * Inputs for creating a raw ECDH Keyring.
@@ -18,7 +19,7 @@ public class CreateRawEcdhKeyringInput {
   /**
    * The named curve that corresponds to the curve on which the sender's private and recipient's public key lie.
    */
-  private final EccCurveSpec curveSpec;
+  private final ECDHCurveSpec curveSpec;
 
   protected CreateRawEcdhKeyringInput(BuilderImpl builder) {
     this.KeyAgreementScheme = builder.KeyAgreementScheme();
@@ -35,7 +36,7 @@ public class CreateRawEcdhKeyringInput {
   /**
    * @return The named curve that corresponds to the curve on which the sender's private and recipient's public key lie.
    */
-  public EccCurveSpec curveSpec() {
+  public ECDHCurveSpec curveSpec() {
     return this.curveSpec;
   }
 
@@ -61,12 +62,12 @@ public class CreateRawEcdhKeyringInput {
     /**
      * @param curveSpec The named curve that corresponds to the curve on which the sender's private and recipient's public key lie.
      */
-    Builder curveSpec(EccCurveSpec curveSpec);
+    Builder curveSpec(ECDHCurveSpec curveSpec);
 
     /**
      * @return The named curve that corresponds to the curve on which the sender's private and recipient's public key lie.
      */
-    EccCurveSpec curveSpec();
+    ECDHCurveSpec curveSpec();
 
     CreateRawEcdhKeyringInput build();
   }
@@ -75,7 +76,7 @@ public class CreateRawEcdhKeyringInput {
 
     protected RawEcdhStaticConfigurations KeyAgreementScheme;
 
-    protected EccCurveSpec curveSpec;
+    protected ECDHCurveSpec curveSpec;
 
     protected BuilderImpl() {}
 
@@ -95,12 +96,12 @@ public class CreateRawEcdhKeyringInput {
       return this.KeyAgreementScheme;
     }
 
-    public Builder curveSpec(EccCurveSpec curveSpec) {
+    public Builder curveSpec(ECDHCurveSpec curveSpec) {
       this.curveSpec = curveSpec;
       return this;
     }
 
-    public EccCurveSpec curveSpec() {
+    public ECDHCurveSpec curveSpec() {
       return this.curveSpec;
     }
 

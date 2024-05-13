@@ -8,7 +8,7 @@ namespace AWS.Cryptography.MaterialProviders
   public class CreateAwsKmsEcdhKeyringInput
   {
     private AWS.Cryptography.MaterialProviders.KmsEcdhStaticConfigurations _keyAgreementScheme;
-    private AWS.Cryptography.MaterialProviders.EccCurveSpec _curveSpec;
+    private AWS.Cryptography.Primitives.ECDHCurveSpec _curveSpec;
     private Amazon.KeyManagementService.IAmazonKeyManagementService _kmsClient;
     private System.Collections.Generic.List<string> _grantTokens;
     public AWS.Cryptography.MaterialProviders.KmsEcdhStaticConfigurations KeyAgreementScheme
@@ -20,7 +20,7 @@ namespace AWS.Cryptography.MaterialProviders
     {
       return this._keyAgreementScheme != null;
     }
-    public AWS.Cryptography.MaterialProviders.EccCurveSpec CurveSpec
+    public AWS.Cryptography.Primitives.ECDHCurveSpec CurveSpec
     {
       get { return this._curveSpec; }
       set { this._curveSpec = value; }
