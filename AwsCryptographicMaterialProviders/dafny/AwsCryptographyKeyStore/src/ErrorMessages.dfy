@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
-  const KMS_KEY_ARN_INVALID :=
+  const KMS_CONFIG_KMS_ARN_INVALID :=
     "KMSConfiguration's KMS Key ARN is invalid."
 
   const CUSTOM_BRANCH_KEY_ID_NEED_EC :=
@@ -32,4 +32,8 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
 
   const BRANCH_KEY_ID_NEEDED :=
     "Empty string not supported for branch key identifier."
+
+  // If the Item/Record contains an invalid KMS ARN
+  const RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN :=
+    "The `kms-arn` field for the requested Branch Key ID is corrupted."
 }

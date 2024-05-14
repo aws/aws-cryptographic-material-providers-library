@@ -130,6 +130,11 @@ module GetKeys {
     var encryptionContext := Structure.ToBranchKeyContext(branchKeyItem, logicalKeyStoreName);
 
     :- Need(
+      KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD]),
+      Types.KeyStoreException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
+    );
+
+    :- Need(
       KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext),
       Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
     );

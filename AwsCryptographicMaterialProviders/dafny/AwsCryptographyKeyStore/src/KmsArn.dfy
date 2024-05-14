@@ -27,10 +27,10 @@ module {:options "/functionSyntax:4" } KmsArn {
     ensures res.Success? ==> ValidKmsArn?(input)
   {
     :- Need(KMS.IsValid_KeyIdType(input),
-            Types.KeyStoreException(message := ErrorMessages.KMS_KEY_ARN_INVALID)
+            Types.KeyStoreException(message := ErrorMessages.KMS_CONFIG_KMS_ARN_INVALID)
        );
     var arn :- AwsArnParsing.ParseAwsKmsArn(input).MapFailure(
-                 error => Types.KeyStoreException(message := ErrorMessages.KMS_KEY_ARN_INVALID + ". " + error));
+                 error => Types.KeyStoreException(message := ErrorMessages.KMS_CONFIG_KMS_ARN_INVALID + ". " + error));
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-configuration
     //# This ARN MUST NOT be an Alias.
     if arn.resource.resourceType != "key" then
