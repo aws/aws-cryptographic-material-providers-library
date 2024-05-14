@@ -267,6 +267,11 @@ module GetKeys {
     var encryptionContext := Structure.ToBranchKeyContext(branchKeyItem, logicalKeyStoreName);
 
     :- Need(
+      KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD]),
+      Types.KeyStoreException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
+    );
+
+    :- Need(
       KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext),
       Types.KeyStoreException( message := "AWS KMS Key ARN does not match configured value")
     );
@@ -394,6 +399,11 @@ module GetKeys {
     var encryptionContext := Structure.ToBranchKeyContext(branchKeyItem, logicalKeyStoreName);
 
     :- Need(
+      KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD]),
+      Types.KeyStoreException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
+    );
+
+    :- Need(
       KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext),
       Types.KeyStoreException( message := "AWS KMS Key ARN does not match configured value")
     );
@@ -417,7 +427,6 @@ module GetKeys {
   }
 
 
-  // Usage Note: As of MPL @ 1.3.0, KMS Decrypt is called with KMS ARN from DDB Response.
   predicate AwsKmsBranchKeyDecryption?(
     getItemHistory: DDB.DafnyCallEvent<DDB.GetItemInput, Result<DDB.GetItemOutput, DDB.Error>>,
     decryptHistory: KMS.DafnyCallEvent<KMS.DecryptRequest, Result<KMS.DecryptResponse, KMS.Error>>,
