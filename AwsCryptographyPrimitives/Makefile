@@ -7,6 +7,9 @@ include ../SharedMakefileV2.mk
 
 PYTHON_MODULE_NAME=aws_cryptography_primitives
 
+TRANSLATION_RECORD_PYTHON := \
+    --translation-record ../StandardLibrary/runtimes/python/src/standard_library/internaldafny/generated/dafny_src-py.dtr
+
 PROJECT_SERVICES := \
 	AwsCryptographyPrimitives
 

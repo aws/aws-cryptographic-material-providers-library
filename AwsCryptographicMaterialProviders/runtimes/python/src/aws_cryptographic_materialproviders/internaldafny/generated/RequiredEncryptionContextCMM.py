@@ -3,138 +3,138 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
-import System_
-import Wrappers
-import BoundedInts
-import StandardLibrary_UInt
-import StandardLibrary_String
-import StandardLibrary
-import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_primitives_internaldafny_types
-import ExternRandom
-import Random
-import AESEncryption
-import ExternDigest
-import Digest
-import HMAC
-import WrappedHMAC
-import HKDF
-import WrappedHKDF
-import Signature
-import KdfCtr
-import RSAEncryption
-import AwsCryptographyPrimitivesOperations
-import AesKdfCtr
-import Relations
-import Seq_MergeSort
-import Math
-import Seq
-import Unicode
-import Functions
-import Utf8EncodingForm
-import Utf16EncodingForm
-import UnicodeStrings
-import FileIO
-import GeneralInternals
-import MulInternalsNonlinear
-import MulInternals
-import Mul
-import ModInternalsNonlinear
-import DivInternalsNonlinear
-import ModInternals
-import DivInternals
-import DivMod
-import Power
-import Logarithm
-import StandardLibraryInterop
-import UUID
-import Time
-import Streams
-import Sorting
-import SortedSets
-import HexStrings
-import GetOpt
-import FloatCompare
-import ConcurrentCall
-import Base64
-import Base64Lemmas
-import Actions
-import DafnyLibraries
-import software_amazon_cryptography_keystore_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
-import AwsArnParsing
-import AwsKmsMrkMatchForDecrypt
-import AwsKmsUtils
-import Structure
-import KMSKeystoreOperations
-import DDBKeystoreOperations
-import CreateKeys
-import CreateKeyStoreTable
-import GetKeys
-import AwsCryptographyKeyStoreOperations
-import software_amazon_cryptography_services_kms_internaldafny
-import software_amazon_cryptography_services_dynamodb_internaldafny
-import Com_Amazonaws
-import Com
-import software_amazon_cryptography_keystore_internaldafny
-import AlgorithmSuites
-import Materials
-import Keyring
-import MultiKeyring
-import AwsKmsMrkAreUnique
-import Constants
-import software_amazon_cryptography_primitives_internaldafny
-import Aws_Cryptography
-import Aws
-import MaterialWrapping
-import CanonicalEncryptionContext
-import IntermediateKeyWrapping
-import EdkWrapping
-import AwsKmsKeyring
-import StrictMultiKeyring
-import AwsKmsDiscoveryKeyring
-import DiscoveryMultiKeyring
-import AwsKmsMrkDiscoveryKeyring
-import MrkAwareDiscoveryMultiKeyring
-import AwsKmsMrkKeyring
-import MrkAwareStrictMultiKeyring
-import LocalCMC
-import software_amazon_cryptography_internaldafny_SynchronizedLocalCMC
-import StormTracker
-import software_amazon_cryptography_internaldafny_StormTrackingCMC
-import AwsKmsHierarchicalKeyring
-import AwsKmsRsaKeyring
-import RawAESKeyring
-import RawRSAKeyring
-import CMM
-import Defaults
-import Commitment
-import DefaultCMM
-import DefaultClientSupplier
+import aws_cryptographic_materialproviders.internaldafny.generated.module_ as module_
+import _dafny as _dafny
+import System_ as System_
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import standard_library.internaldafny.generated.BoundedInts as BoundedInts
+import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
+import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
+import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
+import standard_library.internaldafny.generated.UTF8 as UTF8
+import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
+import com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes as ComAmazonawsKmsTypes
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
+import aws_cryptography_primitives.internaldafny.generated.ExternRandom as ExternRandom
+import aws_cryptography_primitives.internaldafny.generated.Random as Random
+import aws_cryptography_primitives.internaldafny.generated.AESEncryption as AESEncryption
+import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
+import aws_cryptography_primitives.internaldafny.generated.Digest as Digest
+import aws_cryptography_primitives.internaldafny.generated.HMAC as HMAC
+import aws_cryptography_primitives.internaldafny.generated.WrappedHMAC as WrappedHMAC
+import aws_cryptography_primitives.internaldafny.generated.HKDF as HKDF
+import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as WrappedHKDF
+import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
+import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
+import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
+import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
+import standard_library.internaldafny.generated.Relations as Relations
+import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
+import standard_library.internaldafny.generated.Math as Math
+import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.Unicode as Unicode
+import standard_library.internaldafny.generated.Functions as Functions
+import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
+import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16EncodingForm
+import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
+import standard_library.internaldafny.generated.FileIO as FileIO
+import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
+import standard_library.internaldafny.generated.MulInternalsNonlinear as MulInternalsNonlinear
+import standard_library.internaldafny.generated.MulInternals as MulInternals
+import standard_library.internaldafny.generated.Mul as Mul
+import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
+import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInternalsNonlinear
+import standard_library.internaldafny.generated.ModInternals as ModInternals
+import standard_library.internaldafny.generated.DivInternals as DivInternals
+import standard_library.internaldafny.generated.DivMod as DivMod
+import standard_library.internaldafny.generated.Power as Power
+import standard_library.internaldafny.generated.Logarithm as Logarithm
+import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
+import standard_library.internaldafny.generated.UUID as UUID
+import standard_library.internaldafny.generated.Time as Time
+import standard_library.internaldafny.generated.Streams as Streams
+import standard_library.internaldafny.generated.Sorting as Sorting
+import standard_library.internaldafny.generated.SortedSets as SortedSets
+import standard_library.internaldafny.generated.HexStrings as HexStrings
+import standard_library.internaldafny.generated.GetOpt as GetOpt
+import standard_library.internaldafny.generated.FloatCompare as FloatCompare
+import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
+import standard_library.internaldafny.generated.Base64 as Base64
+import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
+import standard_library.internaldafny.generated.Actions as Actions
+import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes as AwsCryptographyKeyStoreTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes as AwsCryptographyMaterialProvidersTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
+import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.CreateKeys as CreateKeys
+import aws_cryptographic_materialproviders.internaldafny.generated.CreateKeyStoreTable as CreateKeyStoreTable
+import aws_cryptographic_materialproviders.internaldafny.generated.GetKeys as GetKeys
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreOperations as AwsCryptographyKeyStoreOperations
+import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
+import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
+import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws as Com_Amazonaws
+import com_amazonaws_dynamodb.internaldafny.generated.Com as Com
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStore as KeyStore
+import aws_cryptographic_materialproviders.internaldafny.generated.AlgorithmSuites as AlgorithmSuites
+import aws_cryptographic_materialproviders.internaldafny.generated.Materials as Materials
+import aws_cryptographic_materialproviders.internaldafny.generated.Keyring as Keyring
+import aws_cryptographic_materialproviders.internaldafny.generated.MultiKeyring as MultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkAreUnique as AwsKmsMrkAreUnique
+import aws_cryptographic_materialproviders.internaldafny.generated.Constants as Constants
+import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives as Aws_Cryptography_Primitives
+import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography as Aws_Cryptography
+import aws_cryptography_primitives.internaldafny.generated.Aws as Aws
+import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapping as MaterialWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
+import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.EdkWrapping as EdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsKeyring as AwsKmsKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.StrictMultiKeyring as StrictMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsDiscoveryKeyring as AwsKmsDiscoveryKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.DiscoveryMultiKeyring as DiscoveryMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkDiscoveryKeyring as AwsKmsMrkDiscoveryKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.MrkAwareDiscoveryMultiKeyring as MrkAwareDiscoveryMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkKeyring as AwsKmsMrkKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.MrkAwareStrictMultiKeyring as MrkAwareStrictMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.LocalCMC as LocalCMC
+import aws_cryptographic_materialproviders.internaldafny.generated.SynchronizedLocalCMC as SynchronizedLocalCMC
+import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker as StormTracker
+import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.RawRSAKeyring as RawRSAKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.CMM as CMM
+import aws_cryptographic_materialproviders.internaldafny.generated.Defaults as Defaults
+import aws_cryptographic_materialproviders.internaldafny.generated.Commitment as Commitment
+import aws_cryptographic_materialproviders.internaldafny.generated.DefaultCMM as DefaultCMM
+import aws_cryptographic_materialproviders.internaldafny.generated.DefaultClientSupplier as DefaultClientSupplier
 
-# Module: RequiredEncryptionContextCMM
+# Module: aws_cryptographic_materialproviders.internaldafny.generated.RequiredEncryptionContextCMM
 
 
-class RequiredEncryptionContextCMM(CMM.VerifiableInterface, software_amazon_cryptography_materialproviders_internaldafny_types.ICryptographicMaterialsManager):
+class RequiredEncryptionContextCMM(CMM.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager):
     def  __init__(self):
-        self._underlyingCMM: software_amazon_cryptography_materialproviders_internaldafny_types.ICryptographicMaterialsManager = None
+        self._underlyingCMM: AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager = None
         self._requiredEncryptionContextKeys: _dafny.Seq = _dafny.Seq({})
         pass
 
     def __dafnystr__(self) -> str:
         return "RequiredEncryptionContextCMM.RequiredEncryptionContextCMM"
-    def GetEncryptionMaterials(self, input):
+    def DecryptMaterials(self, input):
         out217_: Wrappers.Result
-        out217_ = software_amazon_cryptography_materialproviders_internaldafny_types.ICryptographicMaterialsManager.GetEncryptionMaterials(self, input)
+        out217_ = AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager.DecryptMaterials(self, input)
         return out217_
 
-    def DecryptMaterials(self, input):
+    def GetEncryptionMaterials(self, input):
         out218_: Wrappers.Result
-        out218_ = software_amazon_cryptography_materialproviders_internaldafny_types.ICryptographicMaterialsManager.DecryptMaterials(self, input)
+        out218_ = AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager.GetEncryptionMaterials(self, input)
         return out218_
 
     def ctor__(self, inputCMM, inputKeys):
@@ -168,11 +168,11 @@ class RequiredEncryptionContextCMM(CMM.VerifiableInterface, software_amazon_cryp
             elif True:
                 return True
 
-        d_1200_valueOrError0_ = Wrappers.default__.Need(_dafny.quantifier(((self).requiredEncryptionContextKeys).UniqueElements, True, lambda96_), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption context does not contain required keys.")))
+        d_1200_valueOrError0_ = Wrappers.default__.Need(_dafny.quantifier(((self).requiredEncryptionContextKeys).UniqueElements, True, lambda96_), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption context does not contain required keys.")))
         if (d_1200_valueOrError0_).IsFailure():
             output = (d_1200_valueOrError0_).PropagateFailure()
             return output
-        d_1202_result_: software_amazon_cryptography_materialproviders_internaldafny_types.GetEncryptionMaterialsOutput
+        d_1202_result_: AwsCryptographyMaterialProvidersTypes.GetEncryptionMaterialsOutput
         d_1203_valueOrError1_: Wrappers.Result = None
         pat_let_tv161_ = input
         out219_: Wrappers.Result
@@ -180,7 +180,7 @@ class RequiredEncryptionContextCMM(CMM.VerifiableInterface, software_amazon_cryp
             def iife29_(d_1204_dt__update__tmp_h0_):
                 def iife30_(_pat_let10_0):
                     def iife31_(d_1205_dt__update_hrequiredEncryptionContextKeys_h0_):
-                        return software_amazon_cryptography_materialproviders_internaldafny_types.GetEncryptionMaterialsInput_GetEncryptionMaterialsInput((d_1204_dt__update__tmp_h0_).encryptionContext, (d_1204_dt__update__tmp_h0_).commitmentPolicy, (d_1204_dt__update__tmp_h0_).algorithmSuiteId, (d_1204_dt__update__tmp_h0_).maxPlaintextLength, d_1205_dt__update_hrequiredEncryptionContextKeys_h0_)
+                        return AwsCryptographyMaterialProvidersTypes.GetEncryptionMaterialsInput_GetEncryptionMaterialsInput((d_1204_dt__update__tmp_h0_).encryptionContext, (d_1204_dt__update__tmp_h0_).commitmentPolicy, (d_1204_dt__update__tmp_h0_).algorithmSuiteId, (d_1204_dt__update__tmp_h0_).maxPlaintextLength, d_1205_dt__update_hrequiredEncryptionContextKeys_h0_)
                     return iife31_(_pat_let10_0)
                 return iife30_(Wrappers.Option_Some((((pat_let_tv161_).requiredEncryptionContextKeys).UnwrapOr(_dafny.Seq([]))) + ((self).requiredEncryptionContextKeys)))
             return iife29_(_pat_let9_0)
@@ -198,17 +198,17 @@ class RequiredEncryptionContextCMM(CMM.VerifiableInterface, software_amazon_cryp
             elif True:
                 return True
 
-        d_1206_valueOrError2_ = Wrappers.default__.Need(_dafny.quantifier(((self).requiredEncryptionContextKeys).UniqueElements, True, lambda97_), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Expected encryption context keys do not exist in keys to only authenticate.")))
+        d_1206_valueOrError2_ = Wrappers.default__.Need(_dafny.quantifier(((self).requiredEncryptionContextKeys).UniqueElements, True, lambda97_), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Expected encryption context keys do not exist in keys to only authenticate.")))
         if (d_1206_valueOrError2_).IsFailure():
             output = (d_1206_valueOrError2_).PropagateFailure()
             return output
         d_1208_valueOrError3_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1208_valueOrError3_ = Wrappers.default__.Need(Materials.default__.EncryptionMaterialsHasPlaintextDataKey((d_1202_result_).encryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Could not retrieve materials required for encryption")))
+        d_1208_valueOrError3_ = Wrappers.default__.Need(Materials.default__.EncryptionMaterialsHasPlaintextDataKey((d_1202_result_).encryptionMaterials), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Could not retrieve materials required for encryption")))
         if (d_1208_valueOrError3_).IsFailure():
             output = (d_1208_valueOrError3_).PropagateFailure()
             return output
         d_1209_valueOrError4_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1209_valueOrError4_ = Wrappers.default__.Need(CMM.default__.RequiredEncryptionContextKeys_q((input).requiredEncryptionContextKeys, (d_1202_result_).encryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Keyring returned an invalid response")))
+        d_1209_valueOrError4_ = Wrappers.default__.Need(CMM.default__.RequiredEncryptionContextKeys_q((input).requiredEncryptionContextKeys, (d_1202_result_).encryptionMaterials), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Keyring returned an invalid response")))
         if (d_1209_valueOrError4_).IsFailure():
             output = (d_1209_valueOrError4_).PropagateFailure()
             return output
@@ -218,12 +218,12 @@ class RequiredEncryptionContextCMM(CMM.VerifiableInterface, software_amazon_cryp
     def DecryptMaterials_k(self, input):
         output: Wrappers.Result = None
         d_1210_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1210_valueOrError0_ = Wrappers.default__.Need(((input).reproducedEncryptionContext).is_Some, software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("No reproduced encryption context on decrypt.")))
+        d_1210_valueOrError0_ = Wrappers.default__.Need(((input).reproducedEncryptionContext).is_Some, AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("No reproduced encryption context on decrypt.")))
         if (d_1210_valueOrError0_).IsFailure():
             output = (d_1210_valueOrError0_).PropagateFailure()
             return output
         d_1211_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1211_valueOrError1_ = Wrappers.default__.Need(CMM.default__.ReproducedEncryptionContext_q(input), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption context does not match reproduced encryption context.")))
+        d_1211_valueOrError1_ = Wrappers.default__.Need(CMM.default__.ReproducedEncryptionContext_q(input), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption context does not match reproduced encryption context.")))
         if (d_1211_valueOrError1_).IsFailure():
             output = (d_1211_valueOrError1_).PropagateFailure()
             return output
@@ -235,11 +235,11 @@ class RequiredEncryptionContextCMM(CMM.VerifiableInterface, software_amazon_cryp
             elif True:
                 return True
 
-        d_1212_valueOrError2_ = Wrappers.default__.Need(_dafny.quantifier(((self).requiredEncryptionContextKeys).UniqueElements, True, lambda98_), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Reproduced encryption context missing required keys.")))
+        d_1212_valueOrError2_ = Wrappers.default__.Need(_dafny.quantifier(((self).requiredEncryptionContextKeys).UniqueElements, True, lambda98_), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Reproduced encryption context missing required keys.")))
         if (d_1212_valueOrError2_).IsFailure():
             output = (d_1212_valueOrError2_).PropagateFailure()
             return output
-        d_1214_result_: software_amazon_cryptography_materialproviders_internaldafny_types.DecryptMaterialsOutput
+        d_1214_result_: AwsCryptographyMaterialProvidersTypes.DecryptMaterialsOutput
         d_1215_valueOrError3_: Wrappers.Result = None
         out220_: Wrappers.Result
         out220_ = ((self).underlyingCMM).DecryptMaterials(input)
@@ -256,17 +256,17 @@ class RequiredEncryptionContextCMM(CMM.VerifiableInterface, software_amazon_cryp
             elif True:
                 return True
 
-        d_1216_valueOrError4_ = Wrappers.default__.Need(_dafny.quantifier(((self).requiredEncryptionContextKeys).UniqueElements, True, lambda99_), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Final encryption context missing required keys.")))
+        d_1216_valueOrError4_ = Wrappers.default__.Need(_dafny.quantifier(((self).requiredEncryptionContextKeys).UniqueElements, True, lambda99_), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Final encryption context missing required keys.")))
         if (d_1216_valueOrError4_).IsFailure():
             output = (d_1216_valueOrError4_).PropagateFailure()
             return output
         d_1218_valueOrError5_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1218_valueOrError5_ = Wrappers.default__.Need(CMM.default__.EncryptionContextComplete(input, (d_1214_result_).decryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Reproduced encryption context missing from encryption context.")))
+        d_1218_valueOrError5_ = Wrappers.default__.Need(CMM.default__.EncryptionContextComplete(input, (d_1214_result_).decryptionMaterials), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Reproduced encryption context missing from encryption context.")))
         if (d_1218_valueOrError5_).IsFailure():
             output = (d_1218_valueOrError5_).PropagateFailure()
             return output
         d_1219_valueOrError6_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1219_valueOrError6_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsWithPlaintextDataKey((d_1214_result_).decryptionMaterials), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Keyring.OnDecrypt failed to decrypt the plaintext data key.")))
+        d_1219_valueOrError6_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsWithPlaintextDataKey((d_1214_result_).decryptionMaterials), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Keyring.OnDecrypt failed to decrypt the plaintext data key.")))
         if (d_1219_valueOrError6_).IsFailure():
             output = (d_1219_valueOrError6_).PropagateFailure()
             return output

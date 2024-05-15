@@ -3,86 +3,86 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
-import System_
-import Wrappers
-import BoundedInts
-import StandardLibrary_UInt
-import StandardLibrary_String
-import StandardLibrary
-import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_primitives_internaldafny_types
-import ExternRandom
-import Random
-import AESEncryption
-import ExternDigest
-import Digest
-import HMAC
-import WrappedHMAC
-import HKDF
-import WrappedHKDF
-import Signature
-import KdfCtr
-import RSAEncryption
-import AwsCryptographyPrimitivesOperations
-import AesKdfCtr
-import Relations
-import Seq_MergeSort
-import Math
-import Seq
-import Unicode
-import Functions
-import Utf8EncodingForm
-import Utf16EncodingForm
-import UnicodeStrings
-import FileIO
-import GeneralInternals
-import MulInternalsNonlinear
-import MulInternals
-import Mul
-import ModInternalsNonlinear
-import DivInternalsNonlinear
-import ModInternals
-import DivInternals
-import DivMod
-import Power
-import Logarithm
-import StandardLibraryInterop
-import UUID
-import Time
-import Streams
-import Sorting
-import SortedSets
-import HexStrings
-import GetOpt
-import FloatCompare
-import ConcurrentCall
-import Base64
-import Base64Lemmas
-import Actions
-import DafnyLibraries
-import software_amazon_cryptography_keystore_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
-import AwsArnParsing
-import AwsKmsMrkMatchForDecrypt
-import AwsKmsUtils
-import Structure
-import KMSKeystoreOperations
-import DDBKeystoreOperations
-import CreateKeys
-import CreateKeyStoreTable
-import GetKeys
-import AwsCryptographyKeyStoreOperations
-import software_amazon_cryptography_services_kms_internaldafny
-import software_amazon_cryptography_services_dynamodb_internaldafny
-import Com_Amazonaws
-import Com
-import software_amazon_cryptography_keystore_internaldafny
+import aws_cryptographic_materialproviders.internaldafny.generated.module_ as module_
+import _dafny as _dafny
+import System_ as System_
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import standard_library.internaldafny.generated.BoundedInts as BoundedInts
+import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
+import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
+import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
+import standard_library.internaldafny.generated.UTF8 as UTF8
+import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
+import com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes as ComAmazonawsKmsTypes
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
+import aws_cryptography_primitives.internaldafny.generated.ExternRandom as ExternRandom
+import aws_cryptography_primitives.internaldafny.generated.Random as Random
+import aws_cryptography_primitives.internaldafny.generated.AESEncryption as AESEncryption
+import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
+import aws_cryptography_primitives.internaldafny.generated.Digest as Digest
+import aws_cryptography_primitives.internaldafny.generated.HMAC as HMAC
+import aws_cryptography_primitives.internaldafny.generated.WrappedHMAC as WrappedHMAC
+import aws_cryptography_primitives.internaldafny.generated.HKDF as HKDF
+import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as WrappedHKDF
+import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
+import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
+import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
+import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
+import standard_library.internaldafny.generated.Relations as Relations
+import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
+import standard_library.internaldafny.generated.Math as Math
+import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.Unicode as Unicode
+import standard_library.internaldafny.generated.Functions as Functions
+import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
+import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16EncodingForm
+import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
+import standard_library.internaldafny.generated.FileIO as FileIO
+import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
+import standard_library.internaldafny.generated.MulInternalsNonlinear as MulInternalsNonlinear
+import standard_library.internaldafny.generated.MulInternals as MulInternals
+import standard_library.internaldafny.generated.Mul as Mul
+import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
+import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInternalsNonlinear
+import standard_library.internaldafny.generated.ModInternals as ModInternals
+import standard_library.internaldafny.generated.DivInternals as DivInternals
+import standard_library.internaldafny.generated.DivMod as DivMod
+import standard_library.internaldafny.generated.Power as Power
+import standard_library.internaldafny.generated.Logarithm as Logarithm
+import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
+import standard_library.internaldafny.generated.UUID as UUID
+import standard_library.internaldafny.generated.Time as Time
+import standard_library.internaldafny.generated.Streams as Streams
+import standard_library.internaldafny.generated.Sorting as Sorting
+import standard_library.internaldafny.generated.SortedSets as SortedSets
+import standard_library.internaldafny.generated.HexStrings as HexStrings
+import standard_library.internaldafny.generated.GetOpt as GetOpt
+import standard_library.internaldafny.generated.FloatCompare as FloatCompare
+import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
+import standard_library.internaldafny.generated.Base64 as Base64
+import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
+import standard_library.internaldafny.generated.Actions as Actions
+import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes as AwsCryptographyKeyStoreTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes as AwsCryptographyMaterialProvidersTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
+import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.CreateKeys as CreateKeys
+import aws_cryptographic_materialproviders.internaldafny.generated.CreateKeyStoreTable as CreateKeyStoreTable
+import aws_cryptographic_materialproviders.internaldafny.generated.GetKeys as GetKeys
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreOperations as AwsCryptographyKeyStoreOperations
+import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
+import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
+import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws as Com_Amazonaws
+import com_amazonaws_dynamodb.internaldafny.generated.Com as Com
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStore as KeyStore
 
-# Module: AlgorithmSuites
+# Module: aws_cryptographic_materialproviders.internaldafny.generated.AlgorithmSuites
 
 class default__:
     def  __init__(self):
@@ -102,7 +102,7 @@ class default__:
 
     @staticmethod
     def KeyDerivationAlgorithm_q(kdf):
-        return (not ((True) and ((kdf).is_HKDF)) or (((((kdf).HKDF).inputKeyLength) == (((kdf).HKDF).outputKeyLength)) and (not ((((kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__512())) or ((((kdf).HKDF).inputKeyLength) == (32))))) and (not((kdf).is_None))
+        return (not ((True) and ((kdf).is_HKDF)) or (((((kdf).HKDF).inputKeyLength) == (((kdf).HKDF).outputKeyLength)) and (not ((((kdf).HKDF).hmac) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__512())) or ((((kdf).HKDF).inputKeyLength) == (32))))) and (not((kdf).is_None))
 
     @staticmethod
     def CommitmentDerivationAlgorithm_q(kdf):
@@ -226,21 +226,21 @@ class default__:
             elif source10_.is_ALG__AES__256__GCM__IV12__TAG16__NO__KDF:
                 return ((((((((((pat_let_tv16_).binaryId) == (_dafny.Seq([0, 120]))) and (((pat_let_tv17_).messageVersion) == (1))) and (True)) and (((((pat_let_tv18_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv19_).kdf).is_IDENTITY)) and (((pat_let_tv20_).signature).is_None)) and (((pat_let_tv21_).commitment).is_None)) and (((pat_let_tv22_).symmetricSignature).is_None)) and (((pat_let_tv23_).edkWrapping).is_DIRECT__KEY__WRAPPING)
             elif source10_.is_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256:
-                return (((((((((((pat_let_tv24_).binaryId) == (_dafny.Seq([1, 20]))) and (((pat_let_tv25_).messageVersion) == (1))) and (True)) and (((((pat_let_tv26_).encrypt).AES__GCM).keyLength) == (16))) and (((pat_let_tv27_).kdf).is_HKDF)) and (((((pat_let_tv28_).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256()))) and (((pat_let_tv29_).signature).is_None)) and (((pat_let_tv30_).commitment).is_None)) and (((pat_let_tv31_).symmetricSignature).is_None)) and (((pat_let_tv32_).edkWrapping).is_DIRECT__KEY__WRAPPING)
+                return (((((((((((pat_let_tv24_).binaryId) == (_dafny.Seq([1, 20]))) and (((pat_let_tv25_).messageVersion) == (1))) and (True)) and (((((pat_let_tv26_).encrypt).AES__GCM).keyLength) == (16))) and (((pat_let_tv27_).kdf).is_HKDF)) and (((((pat_let_tv28_).kdf).HKDF).hmac) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__256()))) and (((pat_let_tv29_).signature).is_None)) and (((pat_let_tv30_).commitment).is_None)) and (((pat_let_tv31_).symmetricSignature).is_None)) and (((pat_let_tv32_).edkWrapping).is_DIRECT__KEY__WRAPPING)
             elif source10_.is_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA256:
-                return (((((((((((pat_let_tv33_).binaryId) == (_dafny.Seq([1, 70]))) and (((pat_let_tv34_).messageVersion) == (1))) and (True)) and (((((pat_let_tv35_).encrypt).AES__GCM).keyLength) == (24))) and (((pat_let_tv36_).kdf).is_HKDF)) and (((((pat_let_tv37_).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256()))) and (((pat_let_tv38_).signature).is_None)) and (((pat_let_tv39_).commitment).is_None)) and (((pat_let_tv40_).symmetricSignature).is_None)) and (((pat_let_tv41_).edkWrapping).is_DIRECT__KEY__WRAPPING)
+                return (((((((((((pat_let_tv33_).binaryId) == (_dafny.Seq([1, 70]))) and (((pat_let_tv34_).messageVersion) == (1))) and (True)) and (((((pat_let_tv35_).encrypt).AES__GCM).keyLength) == (24))) and (((pat_let_tv36_).kdf).is_HKDF)) and (((((pat_let_tv37_).kdf).HKDF).hmac) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__256()))) and (((pat_let_tv38_).signature).is_None)) and (((pat_let_tv39_).commitment).is_None)) and (((pat_let_tv40_).symmetricSignature).is_None)) and (((pat_let_tv41_).edkWrapping).is_DIRECT__KEY__WRAPPING)
             elif source10_.is_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA256:
-                return (((((((((((pat_let_tv42_).binaryId) == (_dafny.Seq([1, 120]))) and (((pat_let_tv43_).messageVersion) == (1))) and (True)) and (((((pat_let_tv44_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv45_).kdf).is_HKDF)) and (((((pat_let_tv46_).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256()))) and (((pat_let_tv47_).signature).is_None)) and (((pat_let_tv48_).commitment).is_None)) and (((pat_let_tv49_).symmetricSignature).is_None)) and (((pat_let_tv50_).edkWrapping).is_DIRECT__KEY__WRAPPING)
+                return (((((((((((pat_let_tv42_).binaryId) == (_dafny.Seq([1, 120]))) and (((pat_let_tv43_).messageVersion) == (1))) and (True)) and (((((pat_let_tv44_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv45_).kdf).is_HKDF)) and (((((pat_let_tv46_).kdf).HKDF).hmac) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__256()))) and (((pat_let_tv47_).signature).is_None)) and (((pat_let_tv48_).commitment).is_None)) and (((pat_let_tv49_).symmetricSignature).is_None)) and (((pat_let_tv50_).edkWrapping).is_DIRECT__KEY__WRAPPING)
             elif source10_.is_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256__ECDSA__P256:
-                return ((((((((((((pat_let_tv51_).binaryId) == (_dafny.Seq([2, 20]))) and (((pat_let_tv52_).messageVersion) == (1))) and (True)) and (((((pat_let_tv53_).encrypt).AES__GCM).keyLength) == (16))) and (((pat_let_tv54_).kdf).is_HKDF)) and (((((pat_let_tv55_).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256()))) and (((pat_let_tv56_).signature).is_ECDSA)) and (((((pat_let_tv57_).signature).ECDSA).curve) == (software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P256()))) and (((pat_let_tv58_).commitment).is_None)) and (((pat_let_tv59_).symmetricSignature).is_None)) and (((pat_let_tv60_).edkWrapping).is_DIRECT__KEY__WRAPPING)
+                return ((((((((((((pat_let_tv51_).binaryId) == (_dafny.Seq([2, 20]))) and (((pat_let_tv52_).messageVersion) == (1))) and (True)) and (((((pat_let_tv53_).encrypt).AES__GCM).keyLength) == (16))) and (((pat_let_tv54_).kdf).is_HKDF)) and (((((pat_let_tv55_).kdf).HKDF).hmac) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__256()))) and (((pat_let_tv56_).signature).is_ECDSA)) and (((((pat_let_tv57_).signature).ECDSA).curve) == (AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm_ECDSA__P256()))) and (((pat_let_tv58_).commitment).is_None)) and (((pat_let_tv59_).symmetricSignature).is_None)) and (((pat_let_tv60_).edkWrapping).is_DIRECT__KEY__WRAPPING)
             elif source10_.is_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384:
-                return ((((((((((((pat_let_tv61_).binaryId) == (_dafny.Seq([3, 70]))) and (((pat_let_tv62_).messageVersion) == (1))) and (True)) and (((((pat_let_tv63_).encrypt).AES__GCM).keyLength) == (24))) and (((pat_let_tv64_).kdf).is_HKDF)) and (((((pat_let_tv65_).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__384()))) and (((pat_let_tv66_).signature).is_ECDSA)) and (((((pat_let_tv67_).signature).ECDSA).curve) == (software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P384()))) and (((pat_let_tv68_).commitment).is_None)) and (((pat_let_tv69_).symmetricSignature).is_None)) and (((pat_let_tv70_).edkWrapping).is_DIRECT__KEY__WRAPPING)
+                return ((((((((((((pat_let_tv61_).binaryId) == (_dafny.Seq([3, 70]))) and (((pat_let_tv62_).messageVersion) == (1))) and (True)) and (((((pat_let_tv63_).encrypt).AES__GCM).keyLength) == (24))) and (((pat_let_tv64_).kdf).is_HKDF)) and (((((pat_let_tv65_).kdf).HKDF).hmac) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__384()))) and (((pat_let_tv66_).signature).is_ECDSA)) and (((((pat_let_tv67_).signature).ECDSA).curve) == (AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm_ECDSA__P384()))) and (((pat_let_tv68_).commitment).is_None)) and (((pat_let_tv69_).symmetricSignature).is_None)) and (((pat_let_tv70_).edkWrapping).is_DIRECT__KEY__WRAPPING)
             elif source10_.is_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384:
-                return ((((((((((((pat_let_tv71_).binaryId) == (_dafny.Seq([3, 120]))) and (((pat_let_tv72_).messageVersion) == (1))) and (True)) and (((((pat_let_tv73_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv74_).kdf).is_HKDF)) and (((((pat_let_tv75_).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__384()))) and (((pat_let_tv76_).signature).is_ECDSA)) and (((((pat_let_tv77_).signature).ECDSA).curve) == (software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P384()))) and (((pat_let_tv78_).commitment).is_None)) and (((pat_let_tv79_).symmetricSignature).is_None)) and (((pat_let_tv80_).edkWrapping).is_DIRECT__KEY__WRAPPING)
+                return ((((((((((((pat_let_tv71_).binaryId) == (_dafny.Seq([3, 120]))) and (((pat_let_tv72_).messageVersion) == (1))) and (True)) and (((((pat_let_tv73_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv74_).kdf).is_HKDF)) and (((((pat_let_tv75_).kdf).HKDF).hmac) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__384()))) and (((pat_let_tv76_).signature).is_ECDSA)) and (((((pat_let_tv77_).signature).ECDSA).curve) == (AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm_ECDSA__P384()))) and (((pat_let_tv78_).commitment).is_None)) and (((pat_let_tv79_).symmetricSignature).is_None)) and (((pat_let_tv80_).edkWrapping).is_DIRECT__KEY__WRAPPING)
             elif source10_.is_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY:
-                return (((((((((((pat_let_tv81_).binaryId) == (_dafny.Seq([4, 120]))) and (((pat_let_tv82_).messageVersion) == (2))) and (True)) and (((((pat_let_tv83_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv84_).kdf).is_HKDF)) and (((((pat_let_tv85_).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__512()))) and (((pat_let_tv86_).signature).is_None)) and (((pat_let_tv87_).commitment).is_HKDF)) and (((pat_let_tv88_).symmetricSignature).is_None)) and (((pat_let_tv89_).edkWrapping).is_DIRECT__KEY__WRAPPING)
+                return (((((((((((pat_let_tv81_).binaryId) == (_dafny.Seq([4, 120]))) and (((pat_let_tv82_).messageVersion) == (2))) and (True)) and (((((pat_let_tv83_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv84_).kdf).is_HKDF)) and (((((pat_let_tv85_).kdf).HKDF).hmac) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__512()))) and (((pat_let_tv86_).signature).is_None)) and (((pat_let_tv87_).commitment).is_HKDF)) and (((pat_let_tv88_).symmetricSignature).is_None)) and (((pat_let_tv89_).edkWrapping).is_DIRECT__KEY__WRAPPING)
             elif True:
-                return ((((((((((((pat_let_tv90_).binaryId) == (_dafny.Seq([5, 120]))) and (((pat_let_tv91_).messageVersion) == (2))) and (True)) and (((((pat_let_tv92_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv93_).kdf).is_HKDF)) and (((((pat_let_tv94_).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__512()))) and (((pat_let_tv95_).signature).is_ECDSA)) and (((((pat_let_tv96_).signature).ECDSA).curve) == (software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P384()))) and (((pat_let_tv97_).commitment).is_HKDF)) and (((pat_let_tv98_).symmetricSignature).is_None)) and (((pat_let_tv99_).edkWrapping).is_DIRECT__KEY__WRAPPING)
+                return ((((((((((((pat_let_tv90_).binaryId) == (_dafny.Seq([5, 120]))) and (((pat_let_tv91_).messageVersion) == (2))) and (True)) and (((((pat_let_tv92_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv93_).kdf).is_HKDF)) and (((((pat_let_tv94_).kdf).HKDF).hmac) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__512()))) and (((pat_let_tv95_).signature).is_ECDSA)) and (((((pat_let_tv96_).signature).ECDSA).curve) == (AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm_ECDSA__P384()))) and (((pat_let_tv97_).commitment).is_HKDF)) and (((pat_let_tv98_).symmetricSignature).is_None)) and (((pat_let_tv99_).edkWrapping).is_DIRECT__KEY__WRAPPING)
 
         return ((default__.AlgorithmSuiteInfo_q(a)) and (default__.SupportedESDKEncrypt_q((a).encrypt))) and (lambda29_(((a).id).ESDK))
 
@@ -271,9 +271,9 @@ class default__:
         pat_let_tv122_ = a
         def lambda30_(source11_):
             if source11_.is_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__SYMSIG__HMAC__SHA384:
-                return ((((((((((((((pat_let_tv100_).binaryId) == (_dafny.Seq([103, 0]))) and (((pat_let_tv101_).messageVersion) == (1))) and (True)) and (((((pat_let_tv102_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv103_).kdf).is_HKDF)) and (((((pat_let_tv104_).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__512()))) and (((pat_let_tv105_).signature).is_None)) and (((pat_let_tv106_).commitment).is_HKDF)) and (((pat_let_tv107_).symmetricSignature).is_HMAC)) and ((((pat_let_tv108_).symmetricSignature).HMAC) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__384()))) and (((pat_let_tv109_).edkWrapping).is_IntermediateKeyWrapping)) and (True)) and (((((((pat_let_tv110_).edkWrapping).IntermediateKeyWrapping).pdkEncryptAlgorithm).AES__GCM).keyLength) == (32))
+                return ((((((((((((((pat_let_tv100_).binaryId) == (_dafny.Seq([103, 0]))) and (((pat_let_tv101_).messageVersion) == (1))) and (True)) and (((((pat_let_tv102_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv103_).kdf).is_HKDF)) and (((((pat_let_tv104_).kdf).HKDF).hmac) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__512()))) and (((pat_let_tv105_).signature).is_None)) and (((pat_let_tv106_).commitment).is_HKDF)) and (((pat_let_tv107_).symmetricSignature).is_HMAC)) and ((((pat_let_tv108_).symmetricSignature).HMAC) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__384()))) and (((pat_let_tv109_).edkWrapping).is_IntermediateKeyWrapping)) and (True)) and (((((((pat_let_tv110_).edkWrapping).IntermediateKeyWrapping).pdkEncryptAlgorithm).AES__GCM).keyLength) == (32))
             elif True:
-                return (((((((((((((((pat_let_tv111_).binaryId) == (_dafny.Seq([103, 1]))) and (((pat_let_tv112_).messageVersion) == (1))) and (True)) and (((((pat_let_tv113_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv114_).kdf).is_HKDF)) and (((((pat_let_tv115_).kdf).HKDF).hmac) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__512()))) and (((pat_let_tv116_).signature).is_ECDSA)) and (((((pat_let_tv117_).signature).ECDSA).curve) == (software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P384()))) and (((pat_let_tv118_).commitment).is_HKDF)) and (((pat_let_tv119_).symmetricSignature).is_HMAC)) and ((((pat_let_tv120_).symmetricSignature).HMAC) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__384()))) and (((pat_let_tv121_).edkWrapping).is_IntermediateKeyWrapping)) and (True)) and (((((((pat_let_tv122_).edkWrapping).IntermediateKeyWrapping).pdkEncryptAlgorithm).AES__GCM).keyLength) == (32))
+                return (((((((((((((((pat_let_tv111_).binaryId) == (_dafny.Seq([103, 1]))) and (((pat_let_tv112_).messageVersion) == (1))) and (True)) and (((((pat_let_tv113_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv114_).kdf).is_HKDF)) and (((((pat_let_tv115_).kdf).HKDF).hmac) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__512()))) and (((pat_let_tv116_).signature).is_ECDSA)) and (((((pat_let_tv117_).signature).ECDSA).curve) == (AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm_ECDSA__P384()))) and (((pat_let_tv118_).commitment).is_HKDF)) and (((pat_let_tv119_).symmetricSignature).is_HMAC)) and ((((pat_let_tv120_).symmetricSignature).HMAC) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__384()))) and (((pat_let_tv121_).edkWrapping).is_IntermediateKeyWrapping)) and (True)) and (((((((pat_let_tv122_).edkWrapping).IntermediateKeyWrapping).pdkEncryptAlgorithm).AES__GCM).keyLength) == (32))
 
         return (((default__.AlgorithmSuiteInfo_q(a)) and (default__.SupportedDBEEncrypt_q((a).encrypt))) and (default__.SupportedDBEEDKWrapping_q((a).edkWrapping))) and (lambda30_(((a).id).DBE))
 
@@ -289,15 +289,15 @@ class default__:
 
     @staticmethod
     def HKDF__SHA__256(keyLength):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.DerivationAlgorithm_HKDF(software_amazon_cryptography_materialproviders_internaldafny_types.HKDF_HKDF(software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256(), 0, keyLength, keyLength))
+        return AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm_HKDF(AwsCryptographyMaterialProvidersTypes.HKDF_HKDF(AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__256(), 0, keyLength, keyLength))
 
     @staticmethod
     def HKDF__SHA__384(keyLength):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.DerivationAlgorithm_HKDF(software_amazon_cryptography_materialproviders_internaldafny_types.HKDF_HKDF(software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__384(), 0, keyLength, keyLength))
+        return AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm_HKDF(AwsCryptographyMaterialProvidersTypes.HKDF_HKDF(AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__384(), 0, keyLength, keyLength))
 
     @staticmethod
     def HKDF__SHA__512(keyLength):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.DerivationAlgorithm_HKDF(software_amazon_cryptography_materialproviders_internaldafny_types.HKDF_HKDF(software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__512(), 32, keyLength, keyLength))
+        return AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm_HKDF(AwsCryptographyMaterialProvidersTypes.HKDF_HKDF(AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__512(), 32, keyLength, keyLength))
 
     @staticmethod
     def GetSuite(id):
@@ -342,7 +342,7 @@ class default__:
 
     @staticmethod
     def GetAlgorithmSuiteInfo(binaryId_q):
-        d_314_valueOrError0_ = Wrappers.default__.Need((binaryId_q) in (default__.AlgorithmSuiteInfoByBinaryId), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid BinaryId")))
+        d_314_valueOrError0_ = Wrappers.default__.Need((binaryId_q) in (default__.AlgorithmSuiteInfoByBinaryId), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid BinaryId")))
         if (d_314_valueOrError0_).IsFailure():
             return (d_314_valueOrError0_).PropagateFailure()
         elif True:
@@ -359,67 +359,67 @@ class default__:
         return 12
     @_dafny.classproperty
     def AES__128__GCM__IV12__TAG16(instance):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.Encrypt_AES__GCM(software_amazon_cryptography_primitives_internaldafny_types.AES__GCM_AES__GCM(default__.Bits128, default__.TagLen, default__.IvLen))
+        return AwsCryptographyMaterialProvidersTypes.Encrypt_AES__GCM(AwsCryptographyPrimitivesTypes.AES__GCM_AES__GCM(default__.Bits128, default__.TagLen, default__.IvLen))
     @_dafny.classproperty
     def Bits192(instance):
         return 24
     @_dafny.classproperty
     def AES__192__GCM__IV12__TAG16(instance):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.Encrypt_AES__GCM(software_amazon_cryptography_primitives_internaldafny_types.AES__GCM_AES__GCM(default__.Bits192, default__.TagLen, default__.IvLen))
+        return AwsCryptographyMaterialProvidersTypes.Encrypt_AES__GCM(AwsCryptographyPrimitivesTypes.AES__GCM_AES__GCM(default__.Bits192, default__.TagLen, default__.IvLen))
     @_dafny.classproperty
     def Bits256(instance):
         return 32
     @_dafny.classproperty
     def AES__256__GCM__IV12__TAG16(instance):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.Encrypt_AES__GCM(software_amazon_cryptography_primitives_internaldafny_types.AES__GCM_AES__GCM(default__.Bits256, default__.TagLen, default__.IvLen))
+        return AwsCryptographyMaterialProvidersTypes.Encrypt_AES__GCM(AwsCryptographyPrimitivesTypes.AES__GCM_AES__GCM(default__.Bits256, default__.TagLen, default__.IvLen))
     @_dafny.classproperty
     def EDK__INTERMEDIATE__WRAPPING__AES__GCM__256__HKDF__SHA__512(instance):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.EdkWrappingAlgorithm_IntermediateKeyWrapping(software_amazon_cryptography_materialproviders_internaldafny_types.IntermediateKeyWrapping_IntermediateKeyWrapping(default__.HKDF__SHA__512(default__.Bits256), default__.HKDF__SHA__512(default__.Bits256), default__.AES__256__GCM__IV12__TAG16))
+        return AwsCryptographyMaterialProvidersTypes.EdkWrappingAlgorithm_IntermediateKeyWrapping(AwsCryptographyMaterialProvidersTypes.IntermediateKeyWrapping_IntermediateKeyWrapping(default__.HKDF__SHA__512(default__.Bits256), default__.HKDF__SHA__512(default__.Bits256), default__.AES__256__GCM__IV12__TAG16))
     @_dafny.classproperty
     def DBE__ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__SYMSIG__HMAC__SHA384(instance):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo_AlgorithmSuiteInfo(software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId_DBE(software_amazon_cryptography_materialproviders_internaldafny_types.DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__SYMSIG__HMAC__SHA384()), _dafny.Seq([103, 0]), 1, default__.AES__256__GCM__IV12__TAG16, default__.HKDF__SHA__512(default__.Bits256), default__.HKDF__SHA__512(default__.Bits256), software_amazon_cryptography_materialproviders_internaldafny_types.SignatureAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.SymmetricSignatureAlgorithm_HMAC(software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__384()), default__.EDK__INTERMEDIATE__WRAPPING__AES__GCM__256__HKDF__SHA__512)
+        return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo_AlgorithmSuiteInfo(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_DBE(AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__SYMSIG__HMAC__SHA384()), _dafny.Seq([103, 0]), 1, default__.AES__256__GCM__IV12__TAG16, default__.HKDF__SHA__512(default__.Bits256), default__.HKDF__SHA__512(default__.Bits256), AwsCryptographyMaterialProvidersTypes.SignatureAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.SymmetricSignatureAlgorithm_HMAC(AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__384()), default__.EDK__INTERMEDIATE__WRAPPING__AES__GCM__256__HKDF__SHA__512)
     @_dafny.classproperty
     def DBE__ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384__SYMSIG__HMAC__SHA384(instance):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo_AlgorithmSuiteInfo(software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId_DBE(software_amazon_cryptography_materialproviders_internaldafny_types.DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384__SYMSIG__HMAC__SHA384()), _dafny.Seq([103, 1]), 1, default__.AES__256__GCM__IV12__TAG16, default__.HKDF__SHA__512(default__.Bits256), default__.HKDF__SHA__512(default__.Bits256), software_amazon_cryptography_materialproviders_internaldafny_types.SignatureAlgorithm_ECDSA(software_amazon_cryptography_materialproviders_internaldafny_types.ECDSA_ECDSA(software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P384())), software_amazon_cryptography_materialproviders_internaldafny_types.SymmetricSignatureAlgorithm_HMAC(software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__384()), default__.EDK__INTERMEDIATE__WRAPPING__AES__GCM__256__HKDF__SHA__512)
+        return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo_AlgorithmSuiteInfo(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_DBE(AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384__SYMSIG__HMAC__SHA384()), _dafny.Seq([103, 1]), 1, default__.AES__256__GCM__IV12__TAG16, default__.HKDF__SHA__512(default__.Bits256), default__.HKDF__SHA__512(default__.Bits256), AwsCryptographyMaterialProvidersTypes.SignatureAlgorithm_ECDSA(AwsCryptographyMaterialProvidersTypes.ECDSA_ECDSA(AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm_ECDSA__P384())), AwsCryptographyMaterialProvidersTypes.SymmetricSignatureAlgorithm_HMAC(AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__384()), default__.EDK__INTERMEDIATE__WRAPPING__AES__GCM__256__HKDF__SHA__512)
     @_dafny.classproperty
     def ESDK__ALG__AES__128__GCM__IV12__TAG16__NO__KDF(instance):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo_AlgorithmSuiteInfo(software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__NO__KDF()), _dafny.Seq([0, 20]), 1, default__.AES__128__GCM__IV12__TAG16, software_amazon_cryptography_materialproviders_internaldafny_types.DerivationAlgorithm_IDENTITY(software_amazon_cryptography_materialproviders_internaldafny_types.IDENTITY_IDENTITY()), software_amazon_cryptography_materialproviders_internaldafny_types.DerivationAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.SignatureAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.SymmetricSignatureAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(software_amazon_cryptography_materialproviders_internaldafny_types.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
+        return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo_AlgorithmSuiteInfo(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__NO__KDF()), _dafny.Seq([0, 20]), 1, default__.AES__128__GCM__IV12__TAG16, AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm_IDENTITY(AwsCryptographyMaterialProvidersTypes.IDENTITY_IDENTITY()), AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.SignatureAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.SymmetricSignatureAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(AwsCryptographyMaterialProvidersTypes.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
     @_dafny.classproperty
     def ESDK__ALG__AES__192__GCM__IV12__TAG16__NO__KDF(instance):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo_AlgorithmSuiteInfo(software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__NO__KDF()), _dafny.Seq([0, 70]), 1, default__.AES__192__GCM__IV12__TAG16, software_amazon_cryptography_materialproviders_internaldafny_types.DerivationAlgorithm_IDENTITY(software_amazon_cryptography_materialproviders_internaldafny_types.IDENTITY_IDENTITY()), software_amazon_cryptography_materialproviders_internaldafny_types.DerivationAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.SignatureAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.SymmetricSignatureAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(software_amazon_cryptography_materialproviders_internaldafny_types.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
+        return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo_AlgorithmSuiteInfo(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__NO__KDF()), _dafny.Seq([0, 70]), 1, default__.AES__192__GCM__IV12__TAG16, AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm_IDENTITY(AwsCryptographyMaterialProvidersTypes.IDENTITY_IDENTITY()), AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.SignatureAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.SymmetricSignatureAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(AwsCryptographyMaterialProvidersTypes.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
     @_dafny.classproperty
     def ESDK__ALG__AES__256__GCM__IV12__TAG16__NO__KDF(instance):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo_AlgorithmSuiteInfo(software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__NO__KDF()), _dafny.Seq([0, 120]), 1, default__.AES__256__GCM__IV12__TAG16, software_amazon_cryptography_materialproviders_internaldafny_types.DerivationAlgorithm_IDENTITY(software_amazon_cryptography_materialproviders_internaldafny_types.IDENTITY_IDENTITY()), software_amazon_cryptography_materialproviders_internaldafny_types.DerivationAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.SignatureAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.SymmetricSignatureAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(software_amazon_cryptography_materialproviders_internaldafny_types.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
+        return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo_AlgorithmSuiteInfo(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__NO__KDF()), _dafny.Seq([0, 120]), 1, default__.AES__256__GCM__IV12__TAG16, AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm_IDENTITY(AwsCryptographyMaterialProvidersTypes.IDENTITY_IDENTITY()), AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.SignatureAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.SymmetricSignatureAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(AwsCryptographyMaterialProvidersTypes.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
     @_dafny.classproperty
     def ESDK__ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256(instance):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo_AlgorithmSuiteInfo(software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256()), _dafny.Seq([1, 20]), 1, default__.AES__128__GCM__IV12__TAG16, default__.HKDF__SHA__256(default__.Bits128), software_amazon_cryptography_materialproviders_internaldafny_types.DerivationAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.SignatureAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.SymmetricSignatureAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(software_amazon_cryptography_materialproviders_internaldafny_types.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
+        return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo_AlgorithmSuiteInfo(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256()), _dafny.Seq([1, 20]), 1, default__.AES__128__GCM__IV12__TAG16, default__.HKDF__SHA__256(default__.Bits128), AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.SignatureAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.SymmetricSignatureAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(AwsCryptographyMaterialProvidersTypes.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
     @_dafny.classproperty
     def ESDK__ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA256(instance):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo_AlgorithmSuiteInfo(software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA256()), _dafny.Seq([1, 70]), 1, default__.AES__192__GCM__IV12__TAG16, default__.HKDF__SHA__256(default__.Bits192), software_amazon_cryptography_materialproviders_internaldafny_types.DerivationAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.SignatureAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.SymmetricSignatureAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(software_amazon_cryptography_materialproviders_internaldafny_types.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
+        return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo_AlgorithmSuiteInfo(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA256()), _dafny.Seq([1, 70]), 1, default__.AES__192__GCM__IV12__TAG16, default__.HKDF__SHA__256(default__.Bits192), AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.SignatureAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.SymmetricSignatureAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(AwsCryptographyMaterialProvidersTypes.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
     @_dafny.classproperty
     def ESDK__ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA256(instance):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo_AlgorithmSuiteInfo(software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA256()), _dafny.Seq([1, 120]), 1, default__.AES__256__GCM__IV12__TAG16, default__.HKDF__SHA__256(default__.Bits256), software_amazon_cryptography_materialproviders_internaldafny_types.DerivationAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.SignatureAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.SymmetricSignatureAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(software_amazon_cryptography_materialproviders_internaldafny_types.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
+        return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo_AlgorithmSuiteInfo(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA256()), _dafny.Seq([1, 120]), 1, default__.AES__256__GCM__IV12__TAG16, default__.HKDF__SHA__256(default__.Bits256), AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.SignatureAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.SymmetricSignatureAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(AwsCryptographyMaterialProvidersTypes.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
     @_dafny.classproperty
     def ESDK__ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256__ECDSA__P256(instance):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo_AlgorithmSuiteInfo(software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256__ECDSA__P256()), _dafny.Seq([2, 20]), 1, default__.AES__128__GCM__IV12__TAG16, default__.HKDF__SHA__256(default__.Bits128), software_amazon_cryptography_materialproviders_internaldafny_types.DerivationAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.SignatureAlgorithm_ECDSA(software_amazon_cryptography_materialproviders_internaldafny_types.ECDSA_ECDSA(software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P256())), software_amazon_cryptography_materialproviders_internaldafny_types.SymmetricSignatureAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(software_amazon_cryptography_materialproviders_internaldafny_types.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
+        return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo_AlgorithmSuiteInfo(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256__ECDSA__P256()), _dafny.Seq([2, 20]), 1, default__.AES__128__GCM__IV12__TAG16, default__.HKDF__SHA__256(default__.Bits128), AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.SignatureAlgorithm_ECDSA(AwsCryptographyMaterialProvidersTypes.ECDSA_ECDSA(AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm_ECDSA__P256())), AwsCryptographyMaterialProvidersTypes.SymmetricSignatureAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(AwsCryptographyMaterialProvidersTypes.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
     @_dafny.classproperty
     def ESDK__ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384(instance):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo_AlgorithmSuiteInfo(software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384()), _dafny.Seq([3, 70]), 1, default__.AES__192__GCM__IV12__TAG16, default__.HKDF__SHA__384(default__.Bits192), software_amazon_cryptography_materialproviders_internaldafny_types.DerivationAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.SignatureAlgorithm_ECDSA(software_amazon_cryptography_materialproviders_internaldafny_types.ECDSA_ECDSA(software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P384())), software_amazon_cryptography_materialproviders_internaldafny_types.SymmetricSignatureAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(software_amazon_cryptography_materialproviders_internaldafny_types.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
+        return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo_AlgorithmSuiteInfo(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384()), _dafny.Seq([3, 70]), 1, default__.AES__192__GCM__IV12__TAG16, default__.HKDF__SHA__384(default__.Bits192), AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.SignatureAlgorithm_ECDSA(AwsCryptographyMaterialProvidersTypes.ECDSA_ECDSA(AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm_ECDSA__P384())), AwsCryptographyMaterialProvidersTypes.SymmetricSignatureAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(AwsCryptographyMaterialProvidersTypes.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
     @_dafny.classproperty
     def ESDK__ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384(instance):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo_AlgorithmSuiteInfo(software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384()), _dafny.Seq([3, 120]), 1, default__.AES__256__GCM__IV12__TAG16, default__.HKDF__SHA__384(default__.Bits256), software_amazon_cryptography_materialproviders_internaldafny_types.DerivationAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.SignatureAlgorithm_ECDSA(software_amazon_cryptography_materialproviders_internaldafny_types.ECDSA_ECDSA(software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P384())), software_amazon_cryptography_materialproviders_internaldafny_types.SymmetricSignatureAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(software_amazon_cryptography_materialproviders_internaldafny_types.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
+        return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo_AlgorithmSuiteInfo(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384()), _dafny.Seq([3, 120]), 1, default__.AES__256__GCM__IV12__TAG16, default__.HKDF__SHA__384(default__.Bits256), AwsCryptographyMaterialProvidersTypes.DerivationAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.SignatureAlgorithm_ECDSA(AwsCryptographyMaterialProvidersTypes.ECDSA_ECDSA(AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm_ECDSA__P384())), AwsCryptographyMaterialProvidersTypes.SymmetricSignatureAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(AwsCryptographyMaterialProvidersTypes.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
     @_dafny.classproperty
     def ESDK__ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY(instance):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo_AlgorithmSuiteInfo(software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY()), _dafny.Seq([4, 120]), 2, default__.AES__256__GCM__IV12__TAG16, default__.HKDF__SHA__512(default__.Bits256), default__.HKDF__SHA__512(default__.Bits256), software_amazon_cryptography_materialproviders_internaldafny_types.SignatureAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.SymmetricSignatureAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(software_amazon_cryptography_materialproviders_internaldafny_types.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
+        return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo_AlgorithmSuiteInfo(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY()), _dafny.Seq([4, 120]), 2, default__.AES__256__GCM__IV12__TAG16, default__.HKDF__SHA__512(default__.Bits256), default__.HKDF__SHA__512(default__.Bits256), AwsCryptographyMaterialProvidersTypes.SignatureAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.SymmetricSignatureAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(AwsCryptographyMaterialProvidersTypes.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
     @_dafny.classproperty
     def ESDK__ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384(instance):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo_AlgorithmSuiteInfo(software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteId_ESDK(software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384()), _dafny.Seq([5, 120]), 2, default__.AES__256__GCM__IV12__TAG16, default__.HKDF__SHA__512(default__.Bits256), default__.HKDF__SHA__512(default__.Bits256), software_amazon_cryptography_materialproviders_internaldafny_types.SignatureAlgorithm_ECDSA(software_amazon_cryptography_materialproviders_internaldafny_types.ECDSA_ECDSA(software_amazon_cryptography_primitives_internaldafny_types.ECDSASignatureAlgorithm_ECDSA__P384())), software_amazon_cryptography_materialproviders_internaldafny_types.SymmetricSignatureAlgorithm_None(software_amazon_cryptography_materialproviders_internaldafny_types.None_None()), software_amazon_cryptography_materialproviders_internaldafny_types.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(software_amazon_cryptography_materialproviders_internaldafny_types.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
+        return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo_AlgorithmSuiteInfo(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384()), _dafny.Seq([5, 120]), 2, default__.AES__256__GCM__IV12__TAG16, default__.HKDF__SHA__512(default__.Bits256), default__.HKDF__SHA__512(default__.Bits256), AwsCryptographyMaterialProvidersTypes.SignatureAlgorithm_ECDSA(AwsCryptographyMaterialProvidersTypes.ECDSA_ECDSA(AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm_ECDSA__P384())), AwsCryptographyMaterialProvidersTypes.SymmetricSignatureAlgorithm_None(AwsCryptographyMaterialProvidersTypes.None_None()), AwsCryptographyMaterialProvidersTypes.EdkWrappingAlgorithm_DIRECT__KEY__WRAPPING(AwsCryptographyMaterialProvidersTypes.DIRECT__KEY__WRAPPING_DIRECT__KEY__WRAPPING()))
     @_dafny.classproperty
     def SupportedESDKAlgorithmSuites(instance):
-        return _dafny.Map({software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__NO__KDF(): default__.ESDK__ALG__AES__128__GCM__IV12__TAG16__NO__KDF, software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__NO__KDF(): default__.ESDK__ALG__AES__192__GCM__IV12__TAG16__NO__KDF, software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__NO__KDF(): default__.ESDK__ALG__AES__256__GCM__IV12__TAG16__NO__KDF, software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256(): default__.ESDK__ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256, software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA256(): default__.ESDK__ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA256, software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA256(): default__.ESDK__ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA256, software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256__ECDSA__P256(): default__.ESDK__ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256__ECDSA__P256, software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384(): default__.ESDK__ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384, software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384(): default__.ESDK__ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384, software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY(): default__.ESDK__ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY, software_amazon_cryptography_materialproviders_internaldafny_types.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384(): default__.ESDK__ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384})
+        return _dafny.Map({AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__NO__KDF(): default__.ESDK__ALG__AES__128__GCM__IV12__TAG16__NO__KDF, AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__NO__KDF(): default__.ESDK__ALG__AES__192__GCM__IV12__TAG16__NO__KDF, AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__NO__KDF(): default__.ESDK__ALG__AES__256__GCM__IV12__TAG16__NO__KDF, AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256(): default__.ESDK__ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256, AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA256(): default__.ESDK__ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA256, AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA256(): default__.ESDK__ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA256, AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256__ECDSA__P256(): default__.ESDK__ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256__ECDSA__P256, AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384(): default__.ESDK__ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384, AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384(): default__.ESDK__ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384, AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY(): default__.ESDK__ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY, AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384(): default__.ESDK__ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384})
     @_dafny.classproperty
     def SupportedDBEAlgorithmSuites(instance):
-        return _dafny.Map({software_amazon_cryptography_materialproviders_internaldafny_types.DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__SYMSIG__HMAC__SHA384(): default__.DBE__ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__SYMSIG__HMAC__SHA384, software_amazon_cryptography_materialproviders_internaldafny_types.DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384__SYMSIG__HMAC__SHA384(): default__.DBE__ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384__SYMSIG__HMAC__SHA384})
+        return _dafny.Map({AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__SYMSIG__HMAC__SHA384(): default__.DBE__ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__SYMSIG__HMAC__SHA384, AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384__SYMSIG__HMAC__SHA384(): default__.DBE__ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384__SYMSIG__HMAC__SHA384})
     @_dafny.classproperty
     def AlgorithmSuiteInfoByBinaryId(instance):
         return _dafny.Map({_dafny.Seq([0, 20]): default__.ESDK__ALG__AES__128__GCM__IV12__TAG16__NO__KDF, _dafny.Seq([0, 70]): default__.ESDK__ALG__AES__192__GCM__IV12__TAG16__NO__KDF, _dafny.Seq([0, 120]): default__.ESDK__ALG__AES__256__GCM__IV12__TAG16__NO__KDF, _dafny.Seq([1, 20]): default__.ESDK__ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256, _dafny.Seq([1, 70]): default__.ESDK__ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA256, _dafny.Seq([1, 120]): default__.ESDK__ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA256, _dafny.Seq([2, 20]): default__.ESDK__ALG__AES__128__GCM__IV12__TAG16__HKDF__SHA256__ECDSA__P256, _dafny.Seq([3, 70]): default__.ESDK__ALG__AES__192__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384, _dafny.Seq([3, 120]): default__.ESDK__ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384, _dafny.Seq([4, 120]): default__.ESDK__ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY, _dafny.Seq([5, 120]): default__.ESDK__ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384, _dafny.Seq([103, 0]): default__.DBE__ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__SYMSIG__HMAC__SHA384, _dafny.Seq([103, 1]): default__.DBE__ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384__SYMSIG__HMAC__SHA384})
@@ -430,7 +430,7 @@ class AlgorithmSuite:
 
     @staticmethod
     def default():
-        return software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo.default()()
+        return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo.default()()
     def _Is(source__):
-        d_315_a_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo = source__
+        d_315_a_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo = source__
         return default__.AlgorithmSuite_q(d_315_a_)

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 include "../../StandardLibrary/src/Index.dfy"
-module {:extern "software_amazon_cryptography_services_dynamodb_internaldafny_types" } ComAmazonawsDynamodbTypes
+module ComAmazonawsDynamodbTypes
 {
   import opened Wrappers
   import opened StandardLibrary.UInt
@@ -2742,10 +2742,10 @@ abstract module AbstractComAmazonawsDynamodbService {
               && fresh(res.value.Modifies)
               && fresh(res.value.History)
               && res.value.ValidState()
-  // Helper function for the benefit of native code to create a Success(client) without referring to Dafny internals
+  // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
   function method CreateSuccessOfClient(client: IDynamoDBClient): Result<IDynamoDBClient, Error> {
     Success(client)
-  } // Helper function for the benefit of native code to create a Failure(error) without referring to Dafny internals
+  }
   function method CreateFailureOfError(error: Error): Result<IDynamoDBClient, Error> {
     Failure(error)
   }

@@ -1,16 +1,16 @@
-# __init__.py for a Smithy-Dafny generated Python project
+# Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
 
-# TODO-Python: Remove PYTHONPATH workaround, use fully-qualified module names via dfyproject.toml.
-# Import project dependencies.
-# TODO-Python-PYTHONPATH: Remove dependency imports to initialize PYTHONPATH with their modules
+# Initialize generated Dafny
+from .internaldafny.generated import module_
 
-from . import internaldafny
-import standard_library
+# Initialize externs
+from .internaldafny import extern
 
-# Add internaldafny code to PYTHONPATH (TODO-Python-PYTHONPATH: Remove)
-import sys
-
-module_root_dir = '/'.join(__file__.split("/")[:-1])
-
-sys.path.append(module_root_dir + "/internaldafny/extern")
-sys.path.append(module_root_dir + "/internaldafny/generated")
+# If this is the first Dafny module_ to load,
+# set this as the main module for the DafnyRuntime package
+try:
+    import module_
+except ImportError:
+    import sys
+    sys.modules["module_"] = module_

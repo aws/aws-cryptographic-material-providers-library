@@ -1,5 +1,5 @@
 import software_amazon_cryptography_materialproviders_internaldafny_wrapped
-import Wrappers
+import standard_library.internaldafny.generated.Wrappers as Wrappers
 
 class default__(software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__):
 

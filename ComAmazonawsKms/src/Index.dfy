@@ -3,7 +3,7 @@
 
 include "../Model/ComAmazonawsKmsTypes.dfy"
 
-module {:extern "software_amazon_cryptography_services_kms_internaldafny"} Com.Amazonaws.Kms refines AbstractComAmazonawsKmsService {
+module Com.Amazonaws.Kms refines AbstractComAmazonawsKmsService {
 
   function method DefaultKMSClientConfigType() : KMSClientConfigType {
     KMSClientConfigType

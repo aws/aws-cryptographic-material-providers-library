@@ -3,111 +3,111 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
-import System_
-import Wrappers
-import BoundedInts
-import StandardLibrary_UInt
-import StandardLibrary_String
-import StandardLibrary
-import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_primitives_internaldafny_types
-import ExternRandom
-import Random
-import AESEncryption
-import ExternDigest
-import Digest
-import HMAC
-import WrappedHMAC
-import HKDF
-import WrappedHKDF
-import Signature
-import KdfCtr
-import RSAEncryption
-import AwsCryptographyPrimitivesOperations
-import AesKdfCtr
-import Relations
-import Seq_MergeSort
-import Math
-import Seq
-import Unicode
-import Functions
-import Utf8EncodingForm
-import Utf16EncodingForm
-import UnicodeStrings
-import FileIO
-import GeneralInternals
-import MulInternalsNonlinear
-import MulInternals
-import Mul
-import ModInternalsNonlinear
-import DivInternalsNonlinear
-import ModInternals
-import DivInternals
-import DivMod
-import Power
-import Logarithm
-import StandardLibraryInterop
-import UUID
-import Time
-import Streams
-import Sorting
-import SortedSets
-import HexStrings
-import GetOpt
-import FloatCompare
-import ConcurrentCall
-import Base64
-import Base64Lemmas
-import Actions
-import DafnyLibraries
-import software_amazon_cryptography_keystore_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
-import AwsArnParsing
-import AwsKmsMrkMatchForDecrypt
-import AwsKmsUtils
-import Structure
-import KMSKeystoreOperations
-import DDBKeystoreOperations
-import CreateKeys
-import CreateKeyStoreTable
-import GetKeys
-import AwsCryptographyKeyStoreOperations
-import software_amazon_cryptography_services_kms_internaldafny
-import software_amazon_cryptography_services_dynamodb_internaldafny
-import Com_Amazonaws
-import Com
-import software_amazon_cryptography_keystore_internaldafny
-import AlgorithmSuites
-import Materials
-import Keyring
-import MultiKeyring
-import AwsKmsMrkAreUnique
-import Constants
-import software_amazon_cryptography_primitives_internaldafny
-import Aws_Cryptography
-import Aws
-import MaterialWrapping
-import CanonicalEncryptionContext
-import IntermediateKeyWrapping
-import EdkWrapping
-import AwsKmsKeyring
-import StrictMultiKeyring
-import AwsKmsDiscoveryKeyring
-import DiscoveryMultiKeyring
-import AwsKmsMrkDiscoveryKeyring
-import MrkAwareDiscoveryMultiKeyring
-import AwsKmsMrkKeyring
-import MrkAwareStrictMultiKeyring
-import LocalCMC
-import software_amazon_cryptography_internaldafny_SynchronizedLocalCMC
-import StormTracker
-import software_amazon_cryptography_internaldafny_StormTrackingCMC
+import aws_cryptographic_materialproviders.internaldafny.generated.module_ as module_
+import _dafny as _dafny
+import System_ as System_
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import standard_library.internaldafny.generated.BoundedInts as BoundedInts
+import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
+import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
+import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
+import standard_library.internaldafny.generated.UTF8 as UTF8
+import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
+import com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes as ComAmazonawsKmsTypes
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
+import aws_cryptography_primitives.internaldafny.generated.ExternRandom as ExternRandom
+import aws_cryptography_primitives.internaldafny.generated.Random as Random
+import aws_cryptography_primitives.internaldafny.generated.AESEncryption as AESEncryption
+import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
+import aws_cryptography_primitives.internaldafny.generated.Digest as Digest
+import aws_cryptography_primitives.internaldafny.generated.HMAC as HMAC
+import aws_cryptography_primitives.internaldafny.generated.WrappedHMAC as WrappedHMAC
+import aws_cryptography_primitives.internaldafny.generated.HKDF as HKDF
+import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as WrappedHKDF
+import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
+import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
+import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
+import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
+import standard_library.internaldafny.generated.Relations as Relations
+import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
+import standard_library.internaldafny.generated.Math as Math
+import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.Unicode as Unicode
+import standard_library.internaldafny.generated.Functions as Functions
+import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
+import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16EncodingForm
+import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
+import standard_library.internaldafny.generated.FileIO as FileIO
+import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
+import standard_library.internaldafny.generated.MulInternalsNonlinear as MulInternalsNonlinear
+import standard_library.internaldafny.generated.MulInternals as MulInternals
+import standard_library.internaldafny.generated.Mul as Mul
+import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
+import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInternalsNonlinear
+import standard_library.internaldafny.generated.ModInternals as ModInternals
+import standard_library.internaldafny.generated.DivInternals as DivInternals
+import standard_library.internaldafny.generated.DivMod as DivMod
+import standard_library.internaldafny.generated.Power as Power
+import standard_library.internaldafny.generated.Logarithm as Logarithm
+import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
+import standard_library.internaldafny.generated.UUID as UUID
+import standard_library.internaldafny.generated.Time as Time
+import standard_library.internaldafny.generated.Streams as Streams
+import standard_library.internaldafny.generated.Sorting as Sorting
+import standard_library.internaldafny.generated.SortedSets as SortedSets
+import standard_library.internaldafny.generated.HexStrings as HexStrings
+import standard_library.internaldafny.generated.GetOpt as GetOpt
+import standard_library.internaldafny.generated.FloatCompare as FloatCompare
+import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
+import standard_library.internaldafny.generated.Base64 as Base64
+import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
+import standard_library.internaldafny.generated.Actions as Actions
+import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes as AwsCryptographyKeyStoreTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes as AwsCryptographyMaterialProvidersTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
+import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.CreateKeys as CreateKeys
+import aws_cryptographic_materialproviders.internaldafny.generated.CreateKeyStoreTable as CreateKeyStoreTable
+import aws_cryptographic_materialproviders.internaldafny.generated.GetKeys as GetKeys
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreOperations as AwsCryptographyKeyStoreOperations
+import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
+import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
+import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws as Com_Amazonaws
+import com_amazonaws_dynamodb.internaldafny.generated.Com as Com
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStore as KeyStore
+import aws_cryptographic_materialproviders.internaldafny.generated.AlgorithmSuites as AlgorithmSuites
+import aws_cryptographic_materialproviders.internaldafny.generated.Materials as Materials
+import aws_cryptographic_materialproviders.internaldafny.generated.Keyring as Keyring
+import aws_cryptographic_materialproviders.internaldafny.generated.MultiKeyring as MultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkAreUnique as AwsKmsMrkAreUnique
+import aws_cryptographic_materialproviders.internaldafny.generated.Constants as Constants
+import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives as Aws_Cryptography_Primitives
+import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography as Aws_Cryptography
+import aws_cryptography_primitives.internaldafny.generated.Aws as Aws
+import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapping as MaterialWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
+import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.EdkWrapping as EdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsKeyring as AwsKmsKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.StrictMultiKeyring as StrictMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsDiscoveryKeyring as AwsKmsDiscoveryKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.DiscoveryMultiKeyring as DiscoveryMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkDiscoveryKeyring as AwsKmsMrkDiscoveryKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.MrkAwareDiscoveryMultiKeyring as MrkAwareDiscoveryMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkKeyring as AwsKmsMrkKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.MrkAwareStrictMultiKeyring as MrkAwareStrictMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.LocalCMC as LocalCMC
+import aws_cryptographic_materialproviders.internaldafny.generated.SynchronizedLocalCMC as SynchronizedLocalCMC
+import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker as StormTracker
+import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
 
-# Module: AwsKmsHierarchicalKeyring
+# Module: aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring
 
 class default__:
     def  __init__(self):
@@ -134,12 +134,12 @@ class default__:
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_812_maybeDerivedBranchKey_: Wrappers.Result
         out147_: Wrappers.Result
-        out147_ = (cryptoPrimitives).KdfCounterMode(software_amazon_cryptography_primitives_internaldafny_types.KdfCtrInput_KdfCtrInput(software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256(), branchKey, default__.DERIVED__BRANCH__KEY__EXPECTED__LENGTH, purpose, Wrappers.Option_Some(salt)))
+        out147_ = (cryptoPrimitives).KdfCounterMode(AwsCryptographyPrimitivesTypes.KdfCtrInput_KdfCtrInput(AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__256(), branchKey, default__.DERIVED__BRANCH__KEY__EXPECTED__LENGTH, purpose, Wrappers.Option_Some(salt)))
         d_812_maybeDerivedBranchKey_ = out147_
         d_813_derivedBranchKey_: _dafny.Seq
         d_814_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         def lambda66_(d_815_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_815_e_)
+            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_815_e_)
 
         d_814_valueOrError0_ = (d_812_maybeDerivedBranchKey_).MapFailure(lambda66_)
         if (d_814_valueOrError0_).IsFailure():
@@ -159,7 +159,7 @@ class default__:
 
     @staticmethod
     def E(s):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(s)
+        return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(s)
 
     @_dafny.classproperty
     def AES__256__ENC__KEY__LENGTH(instance):
@@ -172,7 +172,7 @@ class default__:
         return 12
     @_dafny.classproperty
     def AES__256__ENC__ALG(instance):
-        return software_amazon_cryptography_primitives_internaldafny_types.AES__GCM_AES__GCM(default__.AES__256__ENC__KEY__LENGTH, default__.AES__256__ENC__TAG__LENGTH, default__.AES__256__ENC__IV__LENGTH)
+        return AwsCryptographyPrimitivesTypes.AES__GCM_AES__GCM(default__.AES__256__ENC__KEY__LENGTH, default__.AES__256__ENC__TAG__LENGTH, default__.AES__256__ENC__IV__LENGTH)
     @_dafny.classproperty
     def H__WRAP__SALT__LEN(instance):
         return 16
@@ -222,26 +222,26 @@ class default__:
     def EXPRESSION__ATTRIBUTE__VALUE__BRANCH__KEY(instance):
         return _dafny.Seq(":branch_key_id")
 
-class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring):
+class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.IKeyring):
     def  __init__(self):
-        self._keyStore: software_amazon_cryptography_keystore_internaldafny_types.IKeyStoreClient = None
-        self._cryptoPrimitives: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient = None
+        self._keyStore: AwsCryptographyKeyStoreTypes.IKeyStoreClient = None
+        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
         self._branchKeyIdSupplier: Wrappers.Option = Wrappers.Option.default()()
         self._branchKeyId: Wrappers.Option = Wrappers.Option.default()()
         self._ttlSeconds: int = None
-        self._cache: software_amazon_cryptography_materialproviders_internaldafny_types.ICryptographicMaterialsCache = None
+        self._cache: AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCache = None
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsHierarchicalKeyring.AwsKmsHierarchicalKeyring"
-    def OnEncrypt(self, input):
+    def OnDecrypt(self, input):
         out148_: Wrappers.Result
-        out148_ = software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring.OnEncrypt(self, input)
+        out148_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnDecrypt(self, input)
         return out148_
 
-    def OnDecrypt(self, input):
+    def OnEncrypt(self, input):
         out149_: Wrappers.Result
-        out149_ = software_amazon_cryptography_materialproviders_internaldafny_types.IKeyring.OnDecrypt(self, input)
+        out149_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnEncrypt(self, input)
         return out149_
 
     def ctor__(self, keyStore, branchKeyId, branchKeyIdSupplier, ttlSeconds, cmc, cryptoPrimitives):
@@ -258,10 +258,10 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, software_amazon_cry
             ret = Wrappers.Result_Success(((self).branchKeyId).value)
             return ret
         elif True:
-            d_816_GetBranchKeyIdOut_: software_amazon_cryptography_materialproviders_internaldafny_types.GetBranchKeyIdOutput
-            d_817_valueOrError0_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_materialproviders_internaldafny_types.GetBranchKeyIdOutput.default())()
+            d_816_GetBranchKeyIdOut_: AwsCryptographyMaterialProvidersTypes.GetBranchKeyIdOutput
+            d_817_valueOrError0_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyMaterialProvidersTypes.GetBranchKeyIdOutput.default())()
             out150_: Wrappers.Result
-            out150_ = (((self).branchKeyIdSupplier).value).GetBranchKeyId(software_amazon_cryptography_materialproviders_internaldafny_types.GetBranchKeyIdInput_GetBranchKeyIdInput(context))
+            out150_ = (((self).branchKeyIdSupplier).value).GetBranchKeyId(AwsCryptographyMaterialProvidersTypes.GetBranchKeyIdInput_GetBranchKeyIdInput(context))
             d_817_valueOrError0_ = out150_
             if (d_817_valueOrError0_).IsFailure():
                 ret = (d_817_valueOrError0_).PropagateFailure()
@@ -273,9 +273,9 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, software_amazon_cry
 
     def OnEncrypt_k(self, input):
         res: Wrappers.Result = None
-        d_818_materials_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptionMaterials
+        d_818_materials_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
         d_818_materials_ = (input).materials
-        d_819_suite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo
+        d_819_suite_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
         d_819_suite_ = (d_818_materials_).algorithmSuite
         d_820_branchKeyIdForEncrypt_: _dafny.Seq
         d_821_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
@@ -302,8 +302,8 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, software_amazon_cry
             res = (d_825_valueOrError2_).PropagateFailure()
             return res
         d_824_cacheId_ = (d_825_valueOrError2_).Extract()
-        d_826_hierarchicalMaterials_: software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials
-        d_827_valueOrError3_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials.default())()
+        d_826_hierarchicalMaterials_: AwsCryptographyKeyStoreTypes.BranchKeyMaterials
+        d_827_valueOrError3_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.BranchKeyMaterials.default())()
         out153_: Wrappers.Result
         out153_ = (self).GetActiveHierarchicalMaterials(d_820_branchKeyIdForEncrypt_, d_824_cacheId_, (self).keyStore)
         d_827_valueOrError3_ = out153_
@@ -348,35 +348,35 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, software_amazon_cry
         d_836_wrapOutput_ = (d_837_valueOrError6_).Extract()
         d_838_symmetricSigningKeyList_: Wrappers.Option
         d_838_symmetricSigningKeyList_ = (Wrappers.Option_Some(_dafny.Seq([((d_836_wrapOutput_).symmetricSigningKey).value])) if ((d_836_wrapOutput_).symmetricSigningKey).is_Some else Wrappers.Option_None())
-        d_839_edk_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey
-        d_839_edk_ = software_amazon_cryptography_materialproviders_internaldafny_types.EncryptedDataKey_EncryptedDataKey(Constants.default__.PROVIDER__ID__HIERARCHY, d_822_branchKeyIdUtf8_, (d_836_wrapOutput_).wrappedMaterial)
+        d_839_edk_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
+        d_839_edk_ = AwsCryptographyMaterialProvidersTypes.EncryptedDataKey_EncryptedDataKey(Constants.default__.PROVIDER__ID__HIERARCHY, d_822_branchKeyIdUtf8_, (d_836_wrapOutput_).wrappedMaterial)
         if (d_836_wrapOutput_).is_GenerateAndWrapEdkMaterialOutput:
-            d_840_result_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptionMaterials
+            d_840_result_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
             d_841_valueOrError7_: Wrappers.Result = None
             d_841_valueOrError7_ = Materials.default__.EncryptionMaterialAddDataKey(d_818_materials_, (d_836_wrapOutput_).plaintextDataKey, _dafny.Seq([d_839_edk_]), d_838_symmetricSigningKeyList_)
             if (d_841_valueOrError7_).IsFailure():
                 res = (d_841_valueOrError7_).PropagateFailure()
                 return res
             d_840_result_ = (d_841_valueOrError7_).Extract()
-            res = Wrappers.Result_Success(software_amazon_cryptography_materialproviders_internaldafny_types.OnEncryptOutput_OnEncryptOutput(d_840_result_))
+            res = Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.OnEncryptOutput_OnEncryptOutput(d_840_result_))
             return res
         elif (d_836_wrapOutput_).is_WrapOnlyEdkMaterialOutput:
-            d_842_result_: software_amazon_cryptography_materialproviders_internaldafny_types.EncryptionMaterials
+            d_842_result_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
             d_843_valueOrError8_: Wrappers.Result = None
             d_843_valueOrError8_ = Materials.default__.EncryptionMaterialAddEncryptedDataKeys(d_818_materials_, _dafny.Seq([d_839_edk_]), d_838_symmetricSigningKeyList_)
             if (d_843_valueOrError8_).IsFailure():
                 res = (d_843_valueOrError8_).PropagateFailure()
                 return res
             d_842_result_ = (d_843_valueOrError8_).Extract()
-            res = Wrappers.Result_Success(software_amazon_cryptography_materialproviders_internaldafny_types.OnEncryptOutput_OnEncryptOutput(d_842_result_))
+            res = Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.OnEncryptOutput_OnEncryptOutput(d_842_result_))
             return res
         return res
 
     def OnDecrypt_k(self, input):
         res: Wrappers.Result = None
-        d_844_materials_: software_amazon_cryptography_materialproviders_internaldafny_types.DecryptionMaterials
+        d_844_materials_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
         d_844_materials_ = (input).materials
-        d_845_suite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo
+        d_845_suite_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
         d_845_suite_ = ((input).materials).algorithmSuite
         d_846_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
         d_846_valueOrError0_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsWithoutPlaintextDataKey(d_844_materials_), default__.E(_dafny.Seq("Keyring received decryption materials that already contain a plaintext data key.")))
@@ -418,17 +418,17 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, software_amazon_cry
         out157_: Wrappers.Result
         out157_ = Actions.default__.ReduceToSuccess(d_853_decryptClosure_, d_850_edksToAttempt_)
         d_854_outcome_ = out157_
-        d_855_SealedDecryptionMaterials_: software_amazon_cryptography_materialproviders_internaldafny_types.DecryptionMaterials
+        d_855_SealedDecryptionMaterials_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
         d_856_valueOrError4_: Wrappers.Result = None
         def lambda67_(d_857_errors_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_CollectionOfErrors(d_857_errors_, _dafny.Seq("No Configured KMS Key was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`."))
+            return AwsCryptographyMaterialProvidersTypes.Error_CollectionOfErrors(d_857_errors_, _dafny.Seq("No Configured KMS Key was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`."))
 
         d_856_valueOrError4_ = (d_854_outcome_).MapFailure(lambda67_)
         if (d_856_valueOrError4_).IsFailure():
             res = (d_856_valueOrError4_).PropagateFailure()
             return res
         d_855_SealedDecryptionMaterials_ = (d_856_valueOrError4_).Extract()
-        res = Wrappers.Result_Success(software_amazon_cryptography_materialproviders_internaldafny_types.OnDecryptOutput_OnDecryptOutput(d_855_SealedDecryptionMaterials_))
+        res = Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.OnDecryptOutput_OnDecryptOutput(d_855_SealedDecryptionMaterials_))
         return res
         return res
 
@@ -447,16 +447,16 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, software_amazon_cry
         d_860_branchKeyId_ = (UTF8.default__.Decode(branchKeyIdUtf8)).value
         d_861_lenBranchKey_: _dafny.Seq
         d_861_lenBranchKey_ = StandardLibrary_UInt.default__.UInt32ToSeq(len(d_860_branchKeyId_))
-        d_862_hashAlgorithm_: software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm
-        d_862_hashAlgorithm_ = software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__512()
+        d_862_hashAlgorithm_: AwsCryptographyPrimitivesTypes.DigestAlgorithm
+        d_862_hashAlgorithm_ = AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__512()
         d_863_maybeBranchKeyDigest_: Wrappers.Result
         out158_: Wrappers.Result
-        out158_ = (cryptoPrimitives).Digest(software_amazon_cryptography_primitives_internaldafny_types.DigestInput_DigestInput(d_862_hashAlgorithm_, branchKeyIdUtf8))
+        out158_ = (cryptoPrimitives).Digest(AwsCryptographyPrimitivesTypes.DigestInput_DigestInput(d_862_hashAlgorithm_, branchKeyIdUtf8))
         d_863_maybeBranchKeyDigest_ = out158_
         d_864_branchKeyDigest_: _dafny.Seq
         d_865_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         def lambda68_(d_866_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_866_e_)
+            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_866_e_)
 
         d_865_valueOrError1_ = (d_863_maybeBranchKeyDigest_).MapFailure(lambda68_)
         if (d_865_valueOrError1_).IsFailure():
@@ -474,12 +474,12 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, software_amazon_cry
         d_869_identifier_ = (((d_861_lenBranchKey_) + (d_864_branchKeyDigest_)) + (_dafny.Seq([0]))) + (d_867_activeUtf8_)
         d_870_maybeCacheIdDigest_: Wrappers.Result
         out159_: Wrappers.Result
-        out159_ = (cryptoPrimitives).Digest(software_amazon_cryptography_primitives_internaldafny_types.DigestInput_DigestInput(d_862_hashAlgorithm_, d_869_identifier_))
+        out159_ = (cryptoPrimitives).Digest(AwsCryptographyPrimitivesTypes.DigestInput_DigestInput(d_862_hashAlgorithm_, d_869_identifier_))
         d_870_maybeCacheIdDigest_ = out159_
         d_871_cacheDigest_: _dafny.Seq
         d_872_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         def lambda69_(d_873_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_873_e_)
+            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_873_e_)
 
         d_872_valueOrError3_ = (d_870_maybeCacheIdDigest_).MapFailure(lambda69_)
         if (d_872_valueOrError3_).IsFailure():
@@ -487,7 +487,7 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, software_amazon_cry
             return cacheId
         d_871_cacheDigest_ = (d_872_valueOrError3_).Extract()
         d_874_valueOrError4_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_874_valueOrError4_ = Wrappers.default__.Need((len(d_871_cacheDigest_)) == (Digest.default__.Length(d_862_hashAlgorithm_)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Digest generated a message not equal to the expected length.")))
+        d_874_valueOrError4_ = Wrappers.default__.Need((len(d_871_cacheDigest_)) == (Digest.default__.Length(d_862_hashAlgorithm_)), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Digest generated a message not equal to the expected length.")))
         if (d_874_valueOrError4_).IsFailure():
             cacheId = (d_874_valueOrError4_).PropagateFailure()
             return cacheId
@@ -496,9 +496,9 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, software_amazon_cry
         return cacheId
 
     def GetActiveHierarchicalMaterials(self, branchKeyId, cacheId, keyStore):
-        material: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials.default())()
-        d_875_getCacheInput_: software_amazon_cryptography_materialproviders_internaldafny_types.GetCacheEntryInput
-        d_875_getCacheInput_ = software_amazon_cryptography_materialproviders_internaldafny_types.GetCacheEntryInput_GetCacheEntryInput(cacheId, Wrappers.Option_None())
+        material: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.BranchKeyMaterials.default())()
+        d_875_getCacheInput_: AwsCryptographyMaterialProvidersTypes.GetCacheEntryInput
+        d_875_getCacheInput_ = AwsCryptographyMaterialProvidersTypes.GetCacheEntryInput_GetCacheEntryInput(cacheId, Wrappers.Option_None())
         d_876_getCacheOutput_: Wrappers.Result
         out160_: Wrappers.Result
         out160_ = default__.getEntry((self).cache, d_875_getCacheInput_)
@@ -506,31 +506,31 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, software_amazon_cry
         if (d_876_getCacheOutput_).is_Failure:
             d_877_maybeGetActiveBranchKeyOutput_: Wrappers.Result
             out161_: Wrappers.Result
-            out161_ = (keyStore).GetActiveBranchKey(software_amazon_cryptography_keystore_internaldafny_types.GetActiveBranchKeyInput_GetActiveBranchKeyInput(branchKeyId))
+            out161_ = (keyStore).GetActiveBranchKey(AwsCryptographyKeyStoreTypes.GetActiveBranchKeyInput_GetActiveBranchKeyInput(branchKeyId))
             d_877_maybeGetActiveBranchKeyOutput_ = out161_
-            d_878_getActiveBranchKeyOutput_: software_amazon_cryptography_keystore_internaldafny_types.GetActiveBranchKeyOutput
-            d_879_valueOrError0_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.GetActiveBranchKeyOutput.default())()
+            d_878_getActiveBranchKeyOutput_: AwsCryptographyKeyStoreTypes.GetActiveBranchKeyOutput
+            d_879_valueOrError0_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.GetActiveBranchKeyOutput.default())()
             def lambda70_(d_880_e_):
-                return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyKeyStore(d_880_e_)
+                return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyKeyStore(d_880_e_)
 
             d_879_valueOrError0_ = (d_877_maybeGetActiveBranchKeyOutput_).MapFailure(lambda70_)
             if (d_879_valueOrError0_).IsFailure():
                 material = (d_879_valueOrError0_).PropagateFailure()
                 return material
             d_878_getActiveBranchKeyOutput_ = (d_879_valueOrError0_).Extract()
-            d_881_branchKeyMaterials_: software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials
+            d_881_branchKeyMaterials_: AwsCryptographyKeyStoreTypes.BranchKeyMaterials
             d_881_branchKeyMaterials_ = (d_878_getActiveBranchKeyOutput_).branchKeyMaterials
             d_882_now_: int
             out162_: int
             out162_ = Time.default__.CurrentRelativeTime()
             d_882_now_ = out162_
             d_883_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_883_valueOrError1_ = Wrappers.default__.Need(((d_882_now_) + ((self).ttlSeconds)) < (StandardLibrary_UInt.default__.INT64__MAX__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("INT64 Overflow when putting cache entry.")))
+            d_883_valueOrError1_ = Wrappers.default__.Need(((d_882_now_) + ((self).ttlSeconds)) < (StandardLibrary_UInt.default__.INT64__MAX__LIMIT), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("INT64 Overflow when putting cache entry.")))
             if (d_883_valueOrError1_).IsFailure():
                 material = (d_883_valueOrError1_).PropagateFailure()
                 return material
-            d_884_putCacheEntryInput_: software_amazon_cryptography_materialproviders_internaldafny_types.PutCacheEntryInput
-            d_884_putCacheEntryInput_ = software_amazon_cryptography_materialproviders_internaldafny_types.PutCacheEntryInput_PutCacheEntryInput(cacheId, software_amazon_cryptography_materialproviders_internaldafny_types.Materials_BranchKey(d_881_branchKeyMaterials_), d_882_now_, ((self).ttlSeconds) + (d_882_now_), Wrappers.Option_None(), Wrappers.Option_None())
+            d_884_putCacheEntryInput_: AwsCryptographyMaterialProvidersTypes.PutCacheEntryInput
+            d_884_putCacheEntryInput_ = AwsCryptographyMaterialProvidersTypes.PutCacheEntryInput_PutCacheEntryInput(cacheId, AwsCryptographyMaterialProvidersTypes.Materials_BranchKey(d_881_branchKeyMaterials_), d_882_now_, ((self).ttlSeconds) + (d_882_now_), Wrappers.Option_None(), Wrappers.Option_None())
             d_885___v0_: tuple
             d_886_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
             out163_: Wrappers.Result
@@ -544,7 +544,7 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, software_amazon_cry
             return material
         elif True:
             d_887_valueOrError3_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_887_valueOrError3_ = Wrappers.default__.Need(((((d_876_getCacheOutput_).value).materials).is_BranchKey) and ((((d_876_getCacheOutput_).value).materials) == (software_amazon_cryptography_materialproviders_internaldafny_types.Materials_BranchKey((((d_876_getCacheOutput_).value).materials).BranchKey))), default__.E(_dafny.Seq("Invalid Material Type.")))
+            d_887_valueOrError3_ = Wrappers.default__.Need(((((d_876_getCacheOutput_).value).materials).is_BranchKey) and ((((d_876_getCacheOutput_).value).materials) == (AwsCryptographyMaterialProvidersTypes.Materials_BranchKey((((d_876_getCacheOutput_).value).materials).BranchKey))), default__.E(_dafny.Seq("Invalid Material Type.")))
             if (d_887_valueOrError3_).IsFailure():
                 material = (d_887_valueOrError3_).PropagateFailure()
                 return material
@@ -610,12 +610,12 @@ class OnDecryptHierarchyEncryptedDataKeyFilter(Actions.DeterministicActionWithRe
 
 class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._materials: software_amazon_cryptography_materialproviders_internaldafny_types.DecryptionMaterials = None
-        self._keyStore: software_amazon_cryptography_keystore_internaldafny_types.IKeyStoreClient = None
-        self._cryptoPrimitives: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient = None
+        self._materials: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials = None
+        self._keyStore: AwsCryptographyKeyStoreTypes.IKeyStoreClient = None
+        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
         self._branchKeyId: _dafny.Seq = _dafny.Seq("")
         self._ttlSeconds: int = None
-        self._cache: software_amazon_cryptography_materialproviders_internaldafny_types.ICryptographicMaterialsCache = None
+        self._cache: AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCache = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -631,11 +631,11 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
     def Invoke(self, edk):
         res: Wrappers.Result = None
         d_892_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_892_valueOrError0_ = Wrappers.default__.Need(UTF8.default__.ValidUTF8Seq((edk).keyProviderInfo), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Received invalid EDK provider info for Hierarchical Keyring")))
+        d_892_valueOrError0_ = Wrappers.default__.Need(UTF8.default__.ValidUTF8Seq((edk).keyProviderInfo), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Received invalid EDK provider info for Hierarchical Keyring")))
         if (d_892_valueOrError0_).IsFailure():
             res = (d_892_valueOrError0_).PropagateFailure()
             return res
-        d_893_suite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo
+        d_893_suite_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
         d_893_suite_ = ((self).materials).algorithmSuite
         d_894_keyProviderId_: _dafny.Seq
         d_894_keyProviderId_ = (edk).keyProviderId
@@ -651,7 +651,7 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
             return res
         d_897_providerWrappedMaterial_ = (d_898_valueOrError1_).Extract()
         d_899_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_899_valueOrError2_ = Wrappers.default__.Need((len(d_897_providerWrappedMaterial_)) >= (default__.EDK__CIPHERTEXT__VERSION__INDEX), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Received EDK Ciphertext of incorrect length.")))
+        d_899_valueOrError2_ = Wrappers.default__.Need((len(d_897_providerWrappedMaterial_)) >= (default__.EDK__CIPHERTEXT__VERSION__INDEX), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Received EDK Ciphertext of incorrect length.")))
         if (d_899_valueOrError2_).IsFailure():
             res = (d_899_valueOrError2_).PropagateFailure()
             return res
@@ -673,8 +673,8 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
             res = (d_904_valueOrError4_).PropagateFailure()
             return res
         d_903_cacheId_ = (d_904_valueOrError4_).Extract()
-        d_905_hierarchicalMaterials_: software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials
-        d_906_valueOrError5_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials.default())()
+        d_905_hierarchicalMaterials_: AwsCryptographyKeyStoreTypes.BranchKeyMaterials
+        d_906_valueOrError5_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.BranchKeyMaterials.default())()
         out165_: Wrappers.Result
         out165_ = (self).GetHierarchicalMaterialsVersion((self).branchKeyId, d_895_branchKeyIdUtf8_, d_901_version_, d_903_cacheId_)
         d_906_valueOrError5_ = out165_
@@ -702,19 +702,19 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
         d_911_branchKeyVersionAsBytes_ = (d_912_valueOrError7_).Extract()
         d_913_maybeCrypto_: Wrappers.Result
         out166_: Wrappers.Result
-        out166_ = software_amazon_cryptography_primitives_internaldafny.default__.AtomicPrimitives(software_amazon_cryptography_primitives_internaldafny.default__.DefaultCryptoConfig())
+        out166_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
         d_913_maybeCrypto_ = out166_
-        d_914_cryptoPrimitivesX_: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient
+        d_914_cryptoPrimitivesX_: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient
         d_915_valueOrError8_: Wrappers.Result = None
         def lambda71_(d_916_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_916_e_)
+            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_916_e_)
 
         d_915_valueOrError8_ = (d_913_maybeCrypto_).MapFailure(lambda71_)
         if (d_915_valueOrError8_).IsFailure():
             res = (d_915_valueOrError8_).PropagateFailure()
             return res
         d_914_cryptoPrimitivesX_ = (d_915_valueOrError8_).Extract()
-        d_917_cryptoPrimitives_: software_amazon_cryptography_primitives_internaldafny.AtomicPrimitivesClient
+        d_917_cryptoPrimitives_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
         d_917_cryptoPrimitives_ = d_914_cryptoPrimitivesX_
         d_918_kmsHierarchyUnwrap_: KmsHierarchyUnwrapKeyMaterial
         nw37_ = KmsHierarchyUnwrapKeyMaterial()
@@ -731,7 +731,7 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
             res = (d_921_valueOrError9_).PropagateFailure()
             return res
         d_920_unwrapOutput_ = (d_921_valueOrError9_).Extract()
-        d_922_result_: software_amazon_cryptography_materialproviders_internaldafny_types.DecryptionMaterials
+        d_922_result_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
         d_923_valueOrError10_: Wrappers.Result = None
         d_923_valueOrError10_ = Materials.default__.DecryptionMaterialsAddDataKey((self).materials, (d_920_unwrapOutput_).plaintextDataKey, (d_920_unwrapOutput_).symmetricSigningKey)
         if (d_923_valueOrError10_).IsFailure():
@@ -766,8 +766,8 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
         d_929_versionBytes_ = UTF8.default__.EncodeAscii(branchKeyVersion)
         d_930_identifier_: _dafny.Seq
         d_930_identifier_ = (((d_927_lenBranchKey_) + (branchKeyIdUtf8)) + (_dafny.Seq([0]))) + (d_929_versionBytes_)
-        d_931_identifierDigestInput_: software_amazon_cryptography_primitives_internaldafny_types.DigestInput
-        d_931_identifierDigestInput_ = software_amazon_cryptography_primitives_internaldafny_types.DigestInput_DigestInput(software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__512(), d_930_identifier_)
+        d_931_identifierDigestInput_: AwsCryptographyPrimitivesTypes.DigestInput
+        d_931_identifierDigestInput_ = AwsCryptographyPrimitivesTypes.DigestInput_DigestInput(AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__512(), d_930_identifier_)
         d_932_maybeCacheDigest_: Wrappers.Result
         out168_: Wrappers.Result
         out168_ = Digest.default__.Digest(d_931_identifierDigestInput_)
@@ -775,7 +775,7 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
         d_933_cacheDigest_: _dafny.Seq
         d_934_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         def lambda72_(d_935_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_935_e_)
+            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_935_e_)
 
         d_934_valueOrError2_ = (d_932_maybeCacheDigest_).MapFailure(lambda72_)
         if (d_934_valueOrError2_).IsFailure():
@@ -787,9 +787,9 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
         return cacheId
 
     def GetHierarchicalMaterialsVersion(self, branchKeyId, branchKeyIdUtf8, version, cacheId):
-        material: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials.default())()
-        d_936_getCacheInput_: software_amazon_cryptography_materialproviders_internaldafny_types.GetCacheEntryInput
-        d_936_getCacheInput_ = software_amazon_cryptography_materialproviders_internaldafny_types.GetCacheEntryInput_GetCacheEntryInput(cacheId, Wrappers.Option_None())
+        material: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.BranchKeyMaterials.default())()
+        d_936_getCacheInput_: AwsCryptographyMaterialProvidersTypes.GetCacheEntryInput
+        d_936_getCacheInput_ = AwsCryptographyMaterialProvidersTypes.GetCacheEntryInput_GetCacheEntryInput(cacheId, Wrappers.Option_None())
         d_937_getCacheOutput_: Wrappers.Result
         out169_: Wrappers.Result
         out169_ = default__.getEntry((self).cache, d_936_getCacheInput_)
@@ -797,31 +797,31 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
         if (d_937_getCacheOutput_).is_Failure:
             d_938_maybeGetBranchKeyVersionOutput_: Wrappers.Result
             out170_: Wrappers.Result
-            out170_ = ((self).keyStore).GetBranchKeyVersion(software_amazon_cryptography_keystore_internaldafny_types.GetBranchKeyVersionInput_GetBranchKeyVersionInput(branchKeyId, version))
+            out170_ = ((self).keyStore).GetBranchKeyVersion(AwsCryptographyKeyStoreTypes.GetBranchKeyVersionInput_GetBranchKeyVersionInput(branchKeyId, version))
             d_938_maybeGetBranchKeyVersionOutput_ = out170_
-            d_939_getBranchKeyVersionOutput_: software_amazon_cryptography_keystore_internaldafny_types.GetBranchKeyVersionOutput
-            d_940_valueOrError0_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.GetBranchKeyVersionOutput.default())()
+            d_939_getBranchKeyVersionOutput_: AwsCryptographyKeyStoreTypes.GetBranchKeyVersionOutput
+            d_940_valueOrError0_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.GetBranchKeyVersionOutput.default())()
             def lambda73_(d_941_e_):
-                return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyKeyStore(d_941_e_)
+                return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyKeyStore(d_941_e_)
 
             d_940_valueOrError0_ = (d_938_maybeGetBranchKeyVersionOutput_).MapFailure(lambda73_)
             if (d_940_valueOrError0_).IsFailure():
                 material = (d_940_valueOrError0_).PropagateFailure()
                 return material
             d_939_getBranchKeyVersionOutput_ = (d_940_valueOrError0_).Extract()
-            d_942_branchKeyMaterials_: software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials
+            d_942_branchKeyMaterials_: AwsCryptographyKeyStoreTypes.BranchKeyMaterials
             d_942_branchKeyMaterials_ = (d_939_getBranchKeyVersionOutput_).branchKeyMaterials
             d_943_now_: int
             out171_: int
             out171_ = Time.default__.CurrentRelativeTime()
             d_943_now_ = out171_
             d_944_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_944_valueOrError1_ = Wrappers.default__.Need(((d_943_now_) + ((self).ttlSeconds)) < (StandardLibrary_UInt.default__.INT64__MAX__LIMIT), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("INT64 Overflow when putting cache entry.")))
+            d_944_valueOrError1_ = Wrappers.default__.Need(((d_943_now_) + ((self).ttlSeconds)) < (StandardLibrary_UInt.default__.INT64__MAX__LIMIT), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("INT64 Overflow when putting cache entry.")))
             if (d_944_valueOrError1_).IsFailure():
                 material = (d_944_valueOrError1_).PropagateFailure()
                 return material
-            d_945_putCacheEntryInput_: software_amazon_cryptography_materialproviders_internaldafny_types.PutCacheEntryInput
-            d_945_putCacheEntryInput_ = software_amazon_cryptography_materialproviders_internaldafny_types.PutCacheEntryInput_PutCacheEntryInput(cacheId, software_amazon_cryptography_materialproviders_internaldafny_types.Materials_BranchKey(d_942_branchKeyMaterials_), d_943_now_, ((self).ttlSeconds) + (d_943_now_), Wrappers.Option_None(), Wrappers.Option_None())
+            d_945_putCacheEntryInput_: AwsCryptographyMaterialProvidersTypes.PutCacheEntryInput
+            d_945_putCacheEntryInput_ = AwsCryptographyMaterialProvidersTypes.PutCacheEntryInput_PutCacheEntryInput(cacheId, AwsCryptographyMaterialProvidersTypes.Materials_BranchKey(d_942_branchKeyMaterials_), d_943_now_, ((self).ttlSeconds) + (d_943_now_), Wrappers.Option_None(), Wrappers.Option_None())
             d_946___v1_: tuple
             d_947_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
             out172_: Wrappers.Result
@@ -835,7 +835,7 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
             return material
         elif True:
             d_948_valueOrError3_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_948_valueOrError3_ = Wrappers.default__.Need(((((d_937_getCacheOutput_).value).materials).is_BranchKey) and ((((d_937_getCacheOutput_).value).materials) == (software_amazon_cryptography_materialproviders_internaldafny_types.Materials_BranchKey((((d_937_getCacheOutput_).value).materials).BranchKey))), default__.E(_dafny.Seq("Invalid Material Type.")))
+            d_948_valueOrError3_ = Wrappers.default__.Need(((((d_937_getCacheOutput_).value).materials).is_BranchKey) and ((((d_937_getCacheOutput_).value).materials) == (AwsCryptographyMaterialProvidersTypes.Materials_BranchKey((((d_937_getCacheOutput_).value).materials).BranchKey))), default__.E(_dafny.Seq("Invalid Material Type.")))
             if (d_948_valueOrError3_).IsFailure():
                 material = (d_948_valueOrError3_).PropagateFailure()
                 return material
@@ -908,7 +908,7 @@ class HierarchyWrapInfo_HierarchyWrapInfo(HierarchyWrapInfo, NamedTuple('Hierarc
 
 class KmsHierarchyUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._crypto: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient = None
+        self._crypto: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
         self._branchKeyIdUtf8: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
         self._branchKeyVersionAsBytes: _dafny.Seq = _dafny.Seq({})
         self._branchKey: _dafny.Seq = _dafny.Seq({})
@@ -924,7 +924,7 @@ class KmsHierarchyUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.Act
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.UnwrapOutput.default(HierarchyUnwrapInfo.default()))()
-        d_949_suite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo
+        d_949_suite_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
         d_949_suite_ = (input).algorithmSuite
         d_950_wrappedMaterial_: _dafny.Seq
         d_950_wrappedMaterial_ = (input).wrappedMaterial
@@ -933,7 +933,7 @@ class KmsHierarchyUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.Act
         d_952_KeyLength_: int
         d_952_KeyLength_ = AlgorithmSuites.default__.GetEncryptKeyLength(d_949_suite_)
         d_953_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_953_valueOrError0_ = Wrappers.default__.Need((len(d_950_wrappedMaterial_)) == ((default__.EXPECTED__EDK__CIPHERTEXT__OVERHEAD) + (d_952_KeyLength_)), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Received EDK Ciphertext of incorrect length2.")))
+        d_953_valueOrError0_ = Wrappers.default__.Need((len(d_950_wrappedMaterial_)) == ((default__.EXPECTED__EDK__CIPHERTEXT__OVERHEAD) + (d_952_KeyLength_)), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Received EDK Ciphertext of incorrect length2.")))
         if (d_953_valueOrError0_).IsFailure():
             res = (d_953_valueOrError0_).PropagateFailure()
             return res
@@ -967,12 +967,12 @@ class KmsHierarchyUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.Act
         d_962_derivedBranchKey_ = (d_963_valueOrError2_).Extract()
         d_964_maybeUnwrappedPdk_: Wrappers.Result
         out174_: Wrappers.Result
-        out174_ = ((self).crypto).AESDecrypt(software_amazon_cryptography_primitives_internaldafny_types.AESDecryptInput_AESDecryptInput(default__.AES__256__ENC__ALG, d_962_derivedBranchKey_, d_957_wrappedKey_, d_958_authTag_, d_955_iv_, d_961_wrappingAad_))
+        out174_ = ((self).crypto).AESDecrypt(AwsCryptographyPrimitivesTypes.AESDecryptInput_AESDecryptInput(default__.AES__256__ENC__ALG, d_962_derivedBranchKey_, d_957_wrappedKey_, d_958_authTag_, d_955_iv_, d_961_wrappingAad_))
         d_964_maybeUnwrappedPdk_ = out174_
         d_965_unwrappedPdk_: _dafny.Seq
         d_966_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         def lambda74_(d_967_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_967_e_)
+            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_967_e_)
 
         d_966_valueOrError3_ = (d_964_maybeUnwrappedPdk_).MapFailure(lambda74_)
         if (d_966_valueOrError3_).IsFailure():
@@ -1008,7 +1008,7 @@ class KmsHierarchyGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMat
         self._branchKey: _dafny.Seq = _dafny.Seq({})
         self._branchKeyIdUtf8: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
         self._branchKeyVersionAsBytes: _dafny.Seq = _dafny.Seq({})
-        self._crypto: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient = None
+        self._crypto: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -1021,16 +1021,16 @@ class KmsHierarchyGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMat
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.GenerateAndWrapOutput.default(HierarchyWrapInfo.default()))()
-        d_970_suite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo
+        d_970_suite_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
         d_970_suite_ = (input).algorithmSuite
         d_971_pdkResult_: Wrappers.Result
         out175_: Wrappers.Result
-        out175_ = ((self).crypto).GenerateRandomBytes(software_amazon_cryptography_primitives_internaldafny_types.GenerateRandomBytesInput_GenerateRandomBytesInput(AlgorithmSuites.default__.GetEncryptKeyLength(d_970_suite_)))
+        out175_ = ((self).crypto).GenerateRandomBytes(AwsCryptographyPrimitivesTypes.GenerateRandomBytesInput_GenerateRandomBytesInput(AlgorithmSuites.default__.GetEncryptKeyLength(d_970_suite_)))
         d_971_pdkResult_ = out175_
         d_972_pdk_: _dafny.Seq
         d_973_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         def lambda75_(d_974_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_974_e_)
+            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_974_e_)
 
         d_973_valueOrError0_ = (d_971_pdkResult_).MapFailure(lambda75_)
         if (d_973_valueOrError0_).IsFailure():
@@ -1074,7 +1074,7 @@ class KmsHierarchyWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionW
         self._branchKey: _dafny.Seq = _dafny.Seq({})
         self._branchKeyIdUtf8: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
         self._branchKeyVersionAsBytes: _dafny.Seq = _dafny.Seq({})
-        self._crypto: software_amazon_cryptography_primitives_internaldafny_types.IAwsCryptographicPrimitivesClient = None
+        self._crypto: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -1087,16 +1087,16 @@ class KmsHierarchyWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionW
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.WrapOutput.default(HierarchyWrapInfo.default()))()
-        d_979_suite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo
+        d_979_suite_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
         d_979_suite_ = (input).algorithmSuite
         d_980_maybeNonceSalt_: Wrappers.Result
         out177_: Wrappers.Result
-        out177_ = ((self).crypto).GenerateRandomBytes(software_amazon_cryptography_primitives_internaldafny_types.GenerateRandomBytesInput_GenerateRandomBytesInput((default__.H__WRAP__SALT__LEN) + (default__.H__WRAP__NONCE__LEN)))
+        out177_ = ((self).crypto).GenerateRandomBytes(AwsCryptographyPrimitivesTypes.GenerateRandomBytesInput_GenerateRandomBytesInput((default__.H__WRAP__SALT__LEN) + (default__.H__WRAP__NONCE__LEN)))
         d_980_maybeNonceSalt_ = out177_
         d_981_saltAndNonce_: _dafny.Seq
         d_982_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         def lambda76_(d_983_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_983_e_)
+            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_983_e_)
 
         d_982_valueOrError0_ = (d_980_maybeNonceSalt_).MapFailure(lambda76_)
         if (d_982_valueOrError0_).IsFailure():
@@ -1127,12 +1127,12 @@ class KmsHierarchyWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionW
         d_989_derivedBranchKey_ = (d_990_valueOrError2_).Extract()
         d_991_maybeWrappedPdk_: Wrappers.Result
         out179_: Wrappers.Result
-        out179_ = ((self).crypto).AESEncrypt(software_amazon_cryptography_primitives_internaldafny_types.AESEncryptInput_AESEncryptInput(default__.AES__256__ENC__ALG, d_985_nonce_, d_989_derivedBranchKey_, (input).plaintextMaterial, d_988_wrappingAad_))
+        out179_ = ((self).crypto).AESEncrypt(AwsCryptographyPrimitivesTypes.AESEncryptInput_AESEncryptInput(default__.AES__256__ENC__ALG, d_985_nonce_, d_989_derivedBranchKey_, (input).plaintextMaterial, d_988_wrappingAad_))
         d_991_maybeWrappedPdk_ = out179_
-        d_992_wrappedPdk_: software_amazon_cryptography_primitives_internaldafny_types.AESEncryptOutput
-        d_993_valueOrError3_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_primitives_internaldafny_types.AESEncryptOutput.default())()
+        d_992_wrappedPdk_: AwsCryptographyPrimitivesTypes.AESEncryptOutput
+        d_993_valueOrError3_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.AESEncryptOutput.default())()
         def lambda77_(d_994_e_):
-            return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographyPrimitives(d_994_e_)
+            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_994_e_)
 
         d_993_valueOrError3_ = (d_991_maybeWrappedPdk_).MapFailure(lambda77_)
         if (d_993_valueOrError3_).IsFailure():

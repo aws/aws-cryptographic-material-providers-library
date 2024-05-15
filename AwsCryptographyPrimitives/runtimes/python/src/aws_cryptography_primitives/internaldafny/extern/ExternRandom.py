@@ -1,7 +1,7 @@
 from aws_cryptography_primitives.internaldafny.generated.ExternRandom import *
 import aws_cryptography_primitives.internaldafny.generated.ExternRandom
 import secrets
-import Wrappers
+import standard_library.internaldafny.generated.Wrappers as Wrappers
 import _dafny
 import aws_cryptography_primitives.internaldafny.generated.ExternRandom
 

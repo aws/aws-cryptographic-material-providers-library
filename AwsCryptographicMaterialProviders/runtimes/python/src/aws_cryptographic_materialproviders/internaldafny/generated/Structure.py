@@ -3,74 +3,74 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
-import System_
-import Wrappers
-import BoundedInts
-import StandardLibrary_UInt
-import StandardLibrary_String
-import StandardLibrary
-import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_primitives_internaldafny_types
-import ExternRandom
-import Random
-import AESEncryption
-import ExternDigest
-import Digest
-import HMAC
-import WrappedHMAC
-import HKDF
-import WrappedHKDF
-import Signature
-import KdfCtr
-import RSAEncryption
-import AwsCryptographyPrimitivesOperations
-import AesKdfCtr
-import Relations
-import Seq_MergeSort
-import Math
-import Seq
-import Unicode
-import Functions
-import Utf8EncodingForm
-import Utf16EncodingForm
-import UnicodeStrings
-import FileIO
-import GeneralInternals
-import MulInternalsNonlinear
-import MulInternals
-import Mul
-import ModInternalsNonlinear
-import DivInternalsNonlinear
-import ModInternals
-import DivInternals
-import DivMod
-import Power
-import Logarithm
-import StandardLibraryInterop
-import UUID
-import Time
-import Streams
-import Sorting
-import SortedSets
-import HexStrings
-import GetOpt
-import FloatCompare
-import ConcurrentCall
-import Base64
-import Base64Lemmas
-import Actions
-import DafnyLibraries
-import software_amazon_cryptography_keystore_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
-import AwsArnParsing
-import AwsKmsMrkMatchForDecrypt
-import AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.module_ as module_
+import _dafny as _dafny
+import System_ as System_
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import standard_library.internaldafny.generated.BoundedInts as BoundedInts
+import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
+import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
+import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
+import standard_library.internaldafny.generated.UTF8 as UTF8
+import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
+import com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes as ComAmazonawsKmsTypes
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
+import aws_cryptography_primitives.internaldafny.generated.ExternRandom as ExternRandom
+import aws_cryptography_primitives.internaldafny.generated.Random as Random
+import aws_cryptography_primitives.internaldafny.generated.AESEncryption as AESEncryption
+import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
+import aws_cryptography_primitives.internaldafny.generated.Digest as Digest
+import aws_cryptography_primitives.internaldafny.generated.HMAC as HMAC
+import aws_cryptography_primitives.internaldafny.generated.WrappedHMAC as WrappedHMAC
+import aws_cryptography_primitives.internaldafny.generated.HKDF as HKDF
+import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as WrappedHKDF
+import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
+import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
+import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
+import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
+import standard_library.internaldafny.generated.Relations as Relations
+import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
+import standard_library.internaldafny.generated.Math as Math
+import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.Unicode as Unicode
+import standard_library.internaldafny.generated.Functions as Functions
+import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
+import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16EncodingForm
+import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
+import standard_library.internaldafny.generated.FileIO as FileIO
+import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
+import standard_library.internaldafny.generated.MulInternalsNonlinear as MulInternalsNonlinear
+import standard_library.internaldafny.generated.MulInternals as MulInternals
+import standard_library.internaldafny.generated.Mul as Mul
+import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
+import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInternalsNonlinear
+import standard_library.internaldafny.generated.ModInternals as ModInternals
+import standard_library.internaldafny.generated.DivInternals as DivInternals
+import standard_library.internaldafny.generated.DivMod as DivMod
+import standard_library.internaldafny.generated.Power as Power
+import standard_library.internaldafny.generated.Logarithm as Logarithm
+import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
+import standard_library.internaldafny.generated.UUID as UUID
+import standard_library.internaldafny.generated.Time as Time
+import standard_library.internaldafny.generated.Streams as Streams
+import standard_library.internaldafny.generated.Sorting as Sorting
+import standard_library.internaldafny.generated.SortedSets as SortedSets
+import standard_library.internaldafny.generated.HexStrings as HexStrings
+import standard_library.internaldafny.generated.GetOpt as GetOpt
+import standard_library.internaldafny.generated.FloatCompare as FloatCompare
+import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
+import standard_library.internaldafny.generated.Base64 as Base64
+import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
+import standard_library.internaldafny.generated.Actions as Actions
+import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes as AwsCryptographyKeyStoreTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes as AwsCryptographyMaterialProvidersTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
 
-# Module: Structure
+# Module: aws_cryptographic_materialproviders.internaldafny.generated.Structure
 
 class default__:
     def  __init__(self):
@@ -80,7 +80,7 @@ class default__:
     def BranchKeyContext_q(m):
         def lambda7_(forall_var_4_):
             d_109_k_: _dafny.Seq = forall_var_4_
-            return not ((d_109_k_) in ((m).keys)) or (software_amazon_cryptography_services_dynamodb_internaldafny_types.default__.IsValid__AttributeName(d_109_k_))
+            return not ((d_109_k_) in ((m).keys)) or (ComAmazonawsDynamodbTypes.default__.IsValid__AttributeName(d_109_k_))
 
         return (((((((((((((default__.BRANCH__KEY__IDENTIFIER__FIELD) in (m)) and ((default__.TYPE__FIELD) in (m))) and ((default__.KEY__CREATE__TIME) in (m))) and ((default__.HIERARCHY__VERSION) in (m))) and ((default__.TABLE__FIELD) in (m))) and ((default__.KMS__FIELD) in (m))) and ((default__.BRANCH__KEY__FIELD) not in ((m).keys))) and ((0) < (len((m)[default__.BRANCH__KEY__IDENTIFIER__FIELD])))) and ((0) < (len((m)[default__.TYPE__FIELD])))) and (_dafny.quantifier(((m).keys).Elements, True, lambda7_))) and (((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) in (m)) == ((True) and (((m)[default__.TYPE__FIELD]) == (default__.BRANCH__KEY__ACTIVE__TYPE))))) and (not ((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) in (m)) or ((True) and ((default__.BRANCH__KEY__TYPE__PREFIX) < ((m)[default__.BRANCH__KEY__ACTIVE__VERSION__FIELD]))))) and (((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) not in (m)) == ((((m)[default__.TYPE__FIELD]) == (default__.BEACON__KEY__TYPE__VALUE)) or ((default__.BRANCH__KEY__TYPE__PREFIX) < ((m)[default__.TYPE__FIELD]))))
 
@@ -91,9 +91,9 @@ class default__:
             compr_2_: _dafny.Seq
             for compr_2_ in ((((encryptionContext).keys) | (_dafny.Set({default__.BRANCH__KEY__FIELD}))) - (_dafny.Set({default__.TABLE__FIELD}))).Elements:
                 d_110_k_: _dafny.Seq = compr_2_
-                if software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeName._Is(d_110_k_):
+                if ComAmazonawsDynamodbTypes.AttributeName._Is(d_110_k_):
                     if (d_110_k_) in ((((encryptionContext).keys) | (_dafny.Set({default__.BRANCH__KEY__FIELD}))) - (_dafny.Set({default__.TABLE__FIELD}))):
-                        coll2_[d_110_k_] = (software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_N((encryptionContext)[default__.HIERARCHY__VERSION]) if (d_110_k_) == (default__.HIERARCHY__VERSION) else (software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_B(encryptedKey) if (d_110_k_) == (default__.BRANCH__KEY__FIELD) else software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeValue_S((encryptionContext)[d_110_k_])))
+                        coll2_[d_110_k_] = (ComAmazonawsDynamodbTypes.AttributeValue_N((encryptionContext)[default__.HIERARCHY__VERSION]) if (d_110_k_) == (default__.HIERARCHY__VERSION) else (ComAmazonawsDynamodbTypes.AttributeValue_B(encryptedKey) if (d_110_k_) == (default__.BRANCH__KEY__FIELD) else ComAmazonawsDynamodbTypes.AttributeValue_S((encryptionContext)[d_110_k_])))
             return _dafny.Map(coll2_)
         return iife2_()
         
@@ -116,7 +116,7 @@ class default__:
         d_112_versionInformation_ = ((encryptionContext)[default__.BRANCH__KEY__ACTIVE__VERSION__FIELD] if (default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) in (encryptionContext) else (encryptionContext)[default__.TYPE__FIELD])
         d_113_branchKeyVersion_ = _dafny.Seq((d_112_versionInformation_)[len(default__.BRANCH__KEY__TYPE__PREFIX)::])
         def lambda8_(d_115_e_):
-            return software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(d_115_e_)
+            return AwsCryptographyKeyStoreTypes.Error_KeyStoreException(d_115_e_)
 
         d_114_valueOrError0_ = (UTF8.default__.Encode(d_113_branchKeyVersion_)).MapFailure(lambda8_)
         if (d_114_valueOrError0_).IsFailure():
@@ -128,7 +128,7 @@ class default__:
                 return (d_117_valueOrError1_).PropagateFailure()
             elif True:
                 d_118_customEncryptionContext_ = (d_117_valueOrError1_).Extract()
-                return Wrappers.Result_Success(software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials_BranchKeyMaterials((encryptionContext)[default__.BRANCH__KEY__IDENTIFIER__FIELD], d_116_branchKeyVersionUtf8_, d_118_customEncryptionContext_, plaintextKey))
+                return Wrappers.Result_Success(AwsCryptographyKeyStoreTypes.BranchKeyMaterials_BranchKeyMaterials((encryptionContext)[default__.BRANCH__KEY__IDENTIFIER__FIELD], d_116_branchKeyVersionUtf8_, d_118_customEncryptionContext_, plaintextKey))
 
     @staticmethod
     def ToBeaconKeyMaterials(encryptionContext, plaintextKey):
@@ -137,7 +137,7 @@ class default__:
             return (d_119_valueOrError0_).PropagateFailure()
         elif True:
             d_120_customEncryptionContext_ = (d_119_valueOrError0_).Extract()
-            return Wrappers.Result_Success(software_amazon_cryptography_keystore_internaldafny_types.BeaconKeyMaterials_BeaconKeyMaterials((encryptionContext)[default__.BRANCH__KEY__IDENTIFIER__FIELD], d_120_customEncryptionContext_, Wrappers.Option_Some(plaintextKey), Wrappers.Option_None()))
+            return Wrappers.Result_Success(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials_BeaconKeyMaterials((encryptionContext)[default__.BRANCH__KEY__IDENTIFIER__FIELD], d_120_customEncryptionContext_, Wrappers.Option_Some(plaintextKey), Wrappers.Option_None()))
 
     @staticmethod
     def ExtractCustomEncryptionContext(encryptionContext):
@@ -155,7 +155,7 @@ class default__:
             d_124_i_: tuple = forall_var_5_
             return not ((d_124_i_) in (d_121_encodedEncryptionContext_)) or ((((d_124_i_)[0]).is_Success) and (((d_124_i_)[1]).is_Success))
 
-        d_123_valueOrError0_ = Wrappers.default__.Need(_dafny.quantifier((d_121_encodedEncryptionContext_).Elements, True, lambda9_), software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("Unable to encode string")))
+        d_123_valueOrError0_ = Wrappers.default__.Need(_dafny.quantifier((d_121_encodedEncryptionContext_).Elements, True, lambda9_), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Unable to encode string")))
         if (d_123_valueOrError0_).IsFailure():
             return (d_123_valueOrError0_).PropagateFailure()
         elif True:
@@ -201,7 +201,7 @@ class default__:
             d_127_k_: _dafny.Seq = forall_var_6_
             return not ((d_127_k_) in (((m).keys) - (_dafny.Set({default__.BRANCH__KEY__FIELD, default__.HIERARCHY__VERSION})))) or (((m)[d_127_k_]).is_S)
 
-        return ((((((((((((((((((((default__.BRANCH__KEY__IDENTIFIER__FIELD) in (m)) and (((m)[default__.BRANCH__KEY__IDENTIFIER__FIELD]).is_S)) and ((default__.TYPE__FIELD) in (m))) and (((m)[default__.TYPE__FIELD]).is_S)) and ((default__.KEY__CREATE__TIME) in (m))) and (((m)[default__.KEY__CREATE__TIME]).is_S)) and ((default__.HIERARCHY__VERSION) in (m))) and (((m)[default__.HIERARCHY__VERSION]).is_N)) and ((default__.TABLE__FIELD) not in (m))) and ((default__.KMS__FIELD) in (m))) and (((m)[default__.KMS__FIELD]).is_S)) and ((default__.BRANCH__KEY__FIELD) in (m))) and (((m)[default__.BRANCH__KEY__FIELD]).is_B)) and ((0) < (len(((m)[default__.BRANCH__KEY__IDENTIFIER__FIELD]).S)))) and ((0) < (len(((m)[default__.TYPE__FIELD]).S)))) and (_dafny.quantifier((((m).keys) - (_dafny.Set({default__.BRANCH__KEY__FIELD, default__.HIERARCHY__VERSION}))).Elements, True, lambda10_))) and (((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) in (m)) == ((True) and ((((m)[default__.TYPE__FIELD]).S) == (default__.BRANCH__KEY__ACTIVE__TYPE))))) and (not ((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) in (m)) or ((True) and ((default__.BRANCH__KEY__TYPE__PREFIX) < (((m)[default__.BRANCH__KEY__ACTIVE__VERSION__FIELD]).S))))) and (((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) not in (m)) == (((((m)[default__.TYPE__FIELD]).S) == (default__.BEACON__KEY__TYPE__VALUE)) or ((default__.BRANCH__KEY__TYPE__PREFIX) < (((m)[default__.TYPE__FIELD]).S))))) and (software_amazon_cryptography_services_kms_internaldafny_types.default__.IsValid__CiphertextType(((m)[default__.BRANCH__KEY__FIELD]).B))
+        return ((((((((((((((((((((default__.BRANCH__KEY__IDENTIFIER__FIELD) in (m)) and (((m)[default__.BRANCH__KEY__IDENTIFIER__FIELD]).is_S)) and ((default__.TYPE__FIELD) in (m))) and (((m)[default__.TYPE__FIELD]).is_S)) and ((default__.KEY__CREATE__TIME) in (m))) and (((m)[default__.KEY__CREATE__TIME]).is_S)) and ((default__.HIERARCHY__VERSION) in (m))) and (((m)[default__.HIERARCHY__VERSION]).is_N)) and ((default__.TABLE__FIELD) not in (m))) and ((default__.KMS__FIELD) in (m))) and (((m)[default__.KMS__FIELD]).is_S)) and ((default__.BRANCH__KEY__FIELD) in (m))) and (((m)[default__.BRANCH__KEY__FIELD]).is_B)) and ((0) < (len(((m)[default__.BRANCH__KEY__IDENTIFIER__FIELD]).S)))) and ((0) < (len(((m)[default__.TYPE__FIELD]).S)))) and (_dafny.quantifier((((m).keys) - (_dafny.Set({default__.BRANCH__KEY__FIELD, default__.HIERARCHY__VERSION}))).Elements, True, lambda10_))) and (((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) in (m)) == ((True) and ((((m)[default__.TYPE__FIELD]).S) == (default__.BRANCH__KEY__ACTIVE__TYPE))))) and (not ((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) in (m)) or ((True) and ((default__.BRANCH__KEY__TYPE__PREFIX) < (((m)[default__.BRANCH__KEY__ACTIVE__VERSION__FIELD]).S))))) and (((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) not in (m)) == (((((m)[default__.TYPE__FIELD]).S) == (default__.BEACON__KEY__TYPE__VALUE)) or ((default__.BRANCH__KEY__TYPE__PREFIX) < (((m)[default__.TYPE__FIELD]).S))))) and (ComAmazonawsKmsTypes.default__.IsValid__CiphertextType(((m)[default__.BRANCH__KEY__FIELD]).B))
 
     @staticmethod
     def ActiveBranchKeyItem_q(m):

@@ -4,7 +4,7 @@
 include "../Model/AwsCryptographyPrimitivesTypes.dfy"
 include "AwsCryptographyPrimitivesOperations.dfy"
 
-module {:extern "software_amazon_cryptography_primitives_internaldafny" } Aws.Cryptography.Primitives refines AbstractAwsCryptographyPrimitivesService {
+module Aws.Cryptography.Primitives refines AbstractAwsCryptographyPrimitivesService {
   import Operations = AwsCryptographyPrimitivesOperations
 
   function method DefaultCryptoConfig(): CryptoConfig {

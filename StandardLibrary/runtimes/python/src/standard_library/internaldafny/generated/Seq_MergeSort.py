@@ -3,13 +3,13 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
-import System_
-import Wrappers
-import Relations
+import standard_library.internaldafny.generated.module_ as module_
+import _dafny as _dafny
+import System_ as System_
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import standard_library.internaldafny.generated.Relations as Relations
 
-# Module: Seq_MergeSort
+# Module: standard_library.internaldafny.generated.Seq_MergeSort
 
 class default__:
     def  __init__(self):

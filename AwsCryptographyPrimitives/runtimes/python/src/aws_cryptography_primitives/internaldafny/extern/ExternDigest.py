@@ -1,7 +1,7 @@
 from cryptography.hazmat.primitives import hashes
-import Wrappers
+import standard_library.internaldafny.generated.Wrappers as Wrappers
 import _dafny
-import software_amazon_cryptography_primitives_internaldafny_types
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes
 import aws_cryptography_primitives.internaldafny.generated.Digest
 from aws_cryptography_primitives.internaldafny.generated.Digest import *
 import aws_cryptography_primitives.internaldafny.generated.ExternDigest
@@ -29,7 +29,7 @@ class default__(aws_cryptography_primitives.internaldafny.generated.ExternDigest
       digest = hash.finalize()
       return Wrappers.Result_Success(digest)
     except ValueError as e:
-      error = software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(
+      error = aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(
           message="Requested digest Algorithm is not supported."
       )
       return Wrappers.Result_Failure(error=error)
@@ -44,4 +44,4 @@ class default__(aws_cryptography_primitives.internaldafny.generated.ExternDigest
       return Wrappers.Result_Success(_dafny.Seq(maybe_digest.value))
 
 # Export extern-extended class into generated class
-aws_cryptography_primitives.internaldafny.generated.Digest.default__ = default__
+aws_cryptography_primitives.internaldafny.generated.ExternDigest.default__ = default__

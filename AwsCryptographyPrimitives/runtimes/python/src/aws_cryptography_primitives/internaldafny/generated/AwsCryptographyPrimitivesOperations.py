@@ -3,65 +3,65 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
-import System_
-import Wrappers
-import Relations
-import Seq_MergeSort
-import Math
-import Seq
-import BoundedInts
-import Unicode
-import Functions
-import Utf8EncodingForm
-import Utf16EncodingForm
-import UnicodeStrings
-import FileIO
-import GeneralInternals
-import MulInternalsNonlinear
-import MulInternals
-import Mul
-import ModInternalsNonlinear
-import DivInternalsNonlinear
-import ModInternals
-import DivInternals
-import DivMod
-import Power
-import Logarithm
-import StandardLibraryInterop
-import StandardLibrary_UInt
-import StandardLibrary_String
-import StandardLibrary
-import UUID
-import UTF8
-import Time
-import Streams
-import Sorting
-import SortedSets
-import HexStrings
-import GetOpt
-import FloatCompare
-import ConcurrentCall
-import Base64
-import Base64Lemmas
-import Actions
-import DafnyLibraries
-import software_amazon_cryptography_primitives_internaldafny_types
-import ExternRandom
-import Random
-import AESEncryption
-import ExternDigest
-import Digest
-import HMAC
-import WrappedHMAC
-import HKDF
-import WrappedHKDF
-import Signature
-import KdfCtr
-import RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.module_ as module_
+import _dafny as _dafny
+import System_ as System_
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import standard_library.internaldafny.generated.Relations as Relations
+import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
+import standard_library.internaldafny.generated.Math as Math
+import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.BoundedInts as BoundedInts
+import standard_library.internaldafny.generated.Unicode as Unicode
+import standard_library.internaldafny.generated.Functions as Functions
+import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
+import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16EncodingForm
+import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
+import standard_library.internaldafny.generated.FileIO as FileIO
+import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
+import standard_library.internaldafny.generated.MulInternalsNonlinear as MulInternalsNonlinear
+import standard_library.internaldafny.generated.MulInternals as MulInternals
+import standard_library.internaldafny.generated.Mul as Mul
+import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
+import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInternalsNonlinear
+import standard_library.internaldafny.generated.ModInternals as ModInternals
+import standard_library.internaldafny.generated.DivInternals as DivInternals
+import standard_library.internaldafny.generated.DivMod as DivMod
+import standard_library.internaldafny.generated.Power as Power
+import standard_library.internaldafny.generated.Logarithm as Logarithm
+import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
+import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
+import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
+import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
+import standard_library.internaldafny.generated.UUID as UUID
+import standard_library.internaldafny.generated.UTF8 as UTF8
+import standard_library.internaldafny.generated.Time as Time
+import standard_library.internaldafny.generated.Streams as Streams
+import standard_library.internaldafny.generated.Sorting as Sorting
+import standard_library.internaldafny.generated.SortedSets as SortedSets
+import standard_library.internaldafny.generated.HexStrings as HexStrings
+import standard_library.internaldafny.generated.GetOpt as GetOpt
+import standard_library.internaldafny.generated.FloatCompare as FloatCompare
+import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
+import standard_library.internaldafny.generated.Base64 as Base64
+import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
+import standard_library.internaldafny.generated.Actions as Actions
+import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
+import aws_cryptography_primitives.internaldafny.generated.ExternRandom as ExternRandom
+import aws_cryptography_primitives.internaldafny.generated.Random as Random
+import aws_cryptography_primitives.internaldafny.generated.AESEncryption as AESEncryption
+import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
+import aws_cryptography_primitives.internaldafny.generated.Digest as Digest
+import aws_cryptography_primitives.internaldafny.generated.HMAC as HMAC
+import aws_cryptography_primitives.internaldafny.generated.WrappedHMAC as WrappedHMAC
+import aws_cryptography_primitives.internaldafny.generated.HKDF as HKDF
+import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as WrappedHKDF
+import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
+import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
+import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
 
-# Module: AwsCryptographyPrimitivesOperations
+# Module: aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations
 
 class default__:
     def  __init__(self):
@@ -122,12 +122,12 @@ class default__:
     @staticmethod
     def AesKdfCounterMode(config, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        output = Wrappers.Result_Failure(software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Implement")))
+        output = Wrappers.Result_Failure(AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Implement")))
         return output
 
     @staticmethod
     def AESEncrypt(config, input):
-        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_primitives_internaldafny_types.AESEncryptOutput.default())()
+        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.AESEncryptOutput.default())()
         out28_: Wrappers.Result
         out28_ = AESEncryption.default__.AESEncrypt(input)
         output = out28_
@@ -144,14 +144,14 @@ class default__:
     @staticmethod
     def GenerateRSAKeyPair(config, input):
         output: Wrappers.Result = None
-        d_107_publicKey_: software_amazon_cryptography_primitives_internaldafny_types.RSAPublicKey
-        d_108_privateKey_: software_amazon_cryptography_primitives_internaldafny_types.RSAPrivateKey
-        out30_: software_amazon_cryptography_primitives_internaldafny_types.RSAPublicKey
-        out31_: software_amazon_cryptography_primitives_internaldafny_types.RSAPrivateKey
+        d_107_publicKey_: AwsCryptographyPrimitivesTypes.RSAPublicKey
+        d_108_privateKey_: AwsCryptographyPrimitivesTypes.RSAPrivateKey
+        out30_: AwsCryptographyPrimitivesTypes.RSAPublicKey
+        out31_: AwsCryptographyPrimitivesTypes.RSAPrivateKey
         out30_, out31_ = RSAEncryption.default__.GenerateKeyPair((input).lengthBits)
         d_107_publicKey_ = out30_
         d_108_privateKey_ = out31_
-        output = Wrappers.Result_Success(software_amazon_cryptography_primitives_internaldafny_types.GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput(d_107_publicKey_, d_108_privateKey_))
+        output = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput(d_107_publicKey_, d_108_privateKey_))
         return output
 
     @staticmethod
@@ -161,7 +161,7 @@ class default__:
             return (d_109_valueOrError0_).PropagateFailure()
         elif True:
             d_110_length_ = (d_109_valueOrError0_).Extract()
-            return Wrappers.Result_Success(software_amazon_cryptography_primitives_internaldafny_types.GetRSAKeyModulusLengthOutput_GetRSAKeyModulusLengthOutput(d_110_length_))
+            return Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.GetRSAKeyModulusLengthOutput_GetRSAKeyModulusLengthOutput(d_110_length_))
 
     @staticmethod
     def RSADecrypt(config, input):
@@ -181,7 +181,7 @@ class default__:
 
     @staticmethod
     def GenerateECDSASignatureKey(config, input):
-        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_primitives_internaldafny_types.GenerateECDSASignatureKeyOutput.default())()
+        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.GenerateECDSASignatureKeyOutput.default())()
         out34_: Wrappers.Result
         out34_ = Signature.default__.KeyGen(input)
         output = out34_

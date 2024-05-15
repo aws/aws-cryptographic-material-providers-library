@@ -3,73 +3,73 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
-import System_
-import Wrappers
-import BoundedInts
-import StandardLibrary_UInt
-import StandardLibrary_String
-import StandardLibrary
-import UTF8
-import software_amazon_cryptography_primitives_internaldafny_types
-import ExternRandom
-import Random
-import AESEncryption
-import ExternDigest
-import Digest
-import HMAC
-import WrappedHMAC
-import HKDF
-import WrappedHKDF
-import Signature
-import KdfCtr
-import RSAEncryption
-import AwsCryptographyPrimitivesOperations
-import AesKdfCtr
-import Relations
-import Seq_MergeSort
-import Math
-import Seq
-import Unicode
-import Functions
-import Utf8EncodingForm
-import Utf16EncodingForm
-import UnicodeStrings
-import FileIO
-import GeneralInternals
-import MulInternalsNonlinear
-import MulInternals
-import Mul
-import ModInternalsNonlinear
-import DivInternalsNonlinear
-import ModInternals
-import DivInternals
-import DivMod
-import Power
-import Logarithm
-import StandardLibraryInterop
-import UUID
-import Time
-import Streams
-import Sorting
-import SortedSets
-import HexStrings
-import GetOpt
-import FloatCompare
-import ConcurrentCall
-import Base64
-import Base64Lemmas
-import Actions
-import DafnyLibraries
-import software_amazon_cryptography_primitives_internaldafny
-import Aws_Cryptography
-import Aws
-import TestSignature
-import TestAwsCryptographyPrimitivesHKDF
-import TestAwsCryptographyPrimitivesGenerateRandomBytes
-import ConstantTime
-import ConstantTimeTest
+import module_ as module_
+import _dafny as _dafny
+import System_ as System_
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import standard_library.internaldafny.generated.BoundedInts as BoundedInts
+import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
+import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
+import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
+import standard_library.internaldafny.generated.UTF8 as UTF8
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
+import aws_cryptography_primitives.internaldafny.generated.ExternRandom as ExternRandom
+import aws_cryptography_primitives.internaldafny.generated.Random as Random
+import aws_cryptography_primitives.internaldafny.generated.AESEncryption as AESEncryption
+import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
+import aws_cryptography_primitives.internaldafny.generated.Digest as Digest
+import aws_cryptography_primitives.internaldafny.generated.HMAC as HMAC
+import aws_cryptography_primitives.internaldafny.generated.WrappedHMAC as WrappedHMAC
+import aws_cryptography_primitives.internaldafny.generated.HKDF as HKDF
+import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as WrappedHKDF
+import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
+import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
+import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
+import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
+import standard_library.internaldafny.generated.Relations as Relations
+import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
+import standard_library.internaldafny.generated.Math as Math
+import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.Unicode as Unicode
+import standard_library.internaldafny.generated.Functions as Functions
+import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
+import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16EncodingForm
+import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
+import standard_library.internaldafny.generated.FileIO as FileIO
+import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
+import standard_library.internaldafny.generated.MulInternalsNonlinear as MulInternalsNonlinear
+import standard_library.internaldafny.generated.MulInternals as MulInternals
+import standard_library.internaldafny.generated.Mul as Mul
+import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
+import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInternalsNonlinear
+import standard_library.internaldafny.generated.ModInternals as ModInternals
+import standard_library.internaldafny.generated.DivInternals as DivInternals
+import standard_library.internaldafny.generated.DivMod as DivMod
+import standard_library.internaldafny.generated.Power as Power
+import standard_library.internaldafny.generated.Logarithm as Logarithm
+import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
+import standard_library.internaldafny.generated.UUID as UUID
+import standard_library.internaldafny.generated.Time as Time
+import standard_library.internaldafny.generated.Streams as Streams
+import standard_library.internaldafny.generated.Sorting as Sorting
+import standard_library.internaldafny.generated.SortedSets as SortedSets
+import standard_library.internaldafny.generated.HexStrings as HexStrings
+import standard_library.internaldafny.generated.GetOpt as GetOpt
+import standard_library.internaldafny.generated.FloatCompare as FloatCompare
+import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
+import standard_library.internaldafny.generated.Base64 as Base64
+import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
+import standard_library.internaldafny.generated.Actions as Actions
+import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
+import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives as Aws_Cryptography_Primitives
+import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography as Aws_Cryptography
+import aws_cryptography_primitives.internaldafny.generated.Aws as Aws
+import TestSignature as TestSignature
+import TestAwsCryptographyPrimitivesHKDF as TestAwsCryptographyPrimitivesHKDF
+import TestAwsCryptographyPrimitivesGenerateRandomBytes as TestAwsCryptographyPrimitivesGenerateRandomBytes
+import ConstantTime as ConstantTime
+import ConstantTimeTest as ConstantTimeTest
 
 # Module: TestHKDF__Rfc5869TestVectors
 
@@ -95,19 +95,19 @@ class default__:
         d_49_PRK_ = let_tmp_rhs0_.PRK
         d_50_OKM_ = let_tmp_rhs0_.OKM
         _dafny.print(_dafny.string_of((d_43_name_) + (_dafny.Seq("\n"))))
-        TestAwsCryptographyPrimitivesHKDF.default__.BasicExtractTest(software_amazon_cryptography_primitives_internaldafny_types.HkdfExtractInput_HkdfExtractInput(d_44_hash_, (Wrappers.Option_Some(d_46_salt_) if (len(d_46_salt_)) > (0) else Wrappers.Option_None()), d_45_IKM_), d_49_PRK_)
-        TestAwsCryptographyPrimitivesHKDF.default__.BasicExpandTest(software_amazon_cryptography_primitives_internaldafny_types.HkdfExpandInput_HkdfExpandInput(d_44_hash_, d_49_PRK_, d_47_info_, d_48_L_), d_50_OKM_)
-        TestAwsCryptographyPrimitivesHKDF.default__.BasicHkdfTest(software_amazon_cryptography_primitives_internaldafny_types.HkdfInput_HkdfInput(d_44_hash_, (Wrappers.Option_Some(d_46_salt_) if (len(d_46_salt_)) > (0) else Wrappers.Option_None()), d_45_IKM_, d_47_info_, d_48_L_), d_50_OKM_)
+        TestAwsCryptographyPrimitivesHKDF.default__.BasicExtractTest(AwsCryptographyPrimitivesTypes.HkdfExtractInput_HkdfExtractInput(d_44_hash_, (Wrappers.Option_Some(d_46_salt_) if (len(d_46_salt_)) > (0) else Wrappers.Option_None()), d_45_IKM_), d_49_PRK_)
+        TestAwsCryptographyPrimitivesHKDF.default__.BasicExpandTest(AwsCryptographyPrimitivesTypes.HkdfExpandInput_HkdfExpandInput(d_44_hash_, d_49_PRK_, d_47_info_, d_48_L_), d_50_OKM_)
+        TestAwsCryptographyPrimitivesHKDF.default__.BasicHkdfTest(AwsCryptographyPrimitivesTypes.HkdfInput_HkdfInput(d_44_hash_, (Wrappers.Option_Some(d_46_salt_) if (len(d_46_salt_)) > (0) else Wrappers.Option_None()), d_45_IKM_, d_47_info_, d_48_L_), d_50_OKM_)
 
     @_dafny.classproperty
     def a1(instance):
-        return RFCTestVector_RFCTestVector(_dafny.Seq("A.1.  Test Case 1"), software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256(), _dafny.Seq([11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11]), _dafny.Seq([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]), _dafny.Seq([240, 241, 242, 243, 244, 245, 246, 247, 248, 249]), 42, _dafny.Seq([7, 119, 9, 54, 44, 46, 50, 223, 13, 220, 63, 13, 196, 123, 186, 99, 144, 182, 199, 59, 181, 15, 156, 49, 34, 236, 132, 74, 215, 194, 179, 229]), _dafny.Seq([60, 178, 95, 37, 250, 172, 213, 122, 144, 67, 79, 100, 208, 54, 47, 42, 45, 45, 10, 144, 207, 26, 90, 76, 93, 176, 45, 86, 236, 196, 197, 191, 52, 0, 114, 8, 213, 184, 135, 24, 88, 101]))
+        return RFCTestVector_RFCTestVector(_dafny.Seq("A.1.  Test Case 1"), AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__256(), _dafny.Seq([11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11]), _dafny.Seq([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]), _dafny.Seq([240, 241, 242, 243, 244, 245, 246, 247, 248, 249]), 42, _dafny.Seq([7, 119, 9, 54, 44, 46, 50, 223, 13, 220, 63, 13, 196, 123, 186, 99, 144, 182, 199, 59, 181, 15, 156, 49, 34, 236, 132, 74, 215, 194, 179, 229]), _dafny.Seq([60, 178, 95, 37, 250, 172, 213, 122, 144, 67, 79, 100, 208, 54, 47, 42, 45, 45, 10, 144, 207, 26, 90, 76, 93, 176, 45, 86, 236, 196, 197, 191, 52, 0, 114, 8, 213, 184, 135, 24, 88, 101]))
     @_dafny.classproperty
     def a2(instance):
-        return RFCTestVector_RFCTestVector(_dafny.Seq("A.2.  Test Case 2"), software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256(), _dafny.Seq([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79]), _dafny.Seq([96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175]), _dafny.Seq([176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255]), 82, _dafny.Seq([6, 166, 184, 140, 88, 83, 54, 26, 6, 16, 76, 156, 235, 53, 180, 92, 239, 118, 0, 20, 144, 70, 113, 1, 74, 25, 63, 64, 193, 95, 194, 68]), _dafny.Seq([177, 30, 57, 141, 200, 3, 39, 161, 200, 231, 247, 140, 89, 106, 73, 52, 79, 1, 46, 218, 45, 78, 250, 216, 160, 80, 204, 76, 25, 175, 169, 124, 89, 4, 90, 153, 202, 199, 130, 114, 113, 203, 65, 198, 94, 89, 14, 9, 218, 50, 117, 96, 12, 47, 9, 184, 54, 119, 147, 169, 172, 163, 219, 113, 204, 48, 197, 129, 121, 236, 62, 135, 193, 76, 1, 213, 193, 243, 67, 79, 29, 135]))
+        return RFCTestVector_RFCTestVector(_dafny.Seq("A.2.  Test Case 2"), AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__256(), _dafny.Seq([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79]), _dafny.Seq([96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175]), _dafny.Seq([176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255]), 82, _dafny.Seq([6, 166, 184, 140, 88, 83, 54, 26, 6, 16, 76, 156, 235, 53, 180, 92, 239, 118, 0, 20, 144, 70, 113, 1, 74, 25, 63, 64, 193, 95, 194, 68]), _dafny.Seq([177, 30, 57, 141, 200, 3, 39, 161, 200, 231, 247, 140, 89, 106, 73, 52, 79, 1, 46, 218, 45, 78, 250, 216, 160, 80, 204, 76, 25, 175, 169, 124, 89, 4, 90, 153, 202, 199, 130, 114, 113, 203, 65, 198, 94, 89, 14, 9, 218, 50, 117, 96, 12, 47, 9, 184, 54, 119, 147, 169, 172, 163, 219, 113, 204, 48, 197, 129, 121, 236, 62, 135, 193, 76, 1, 213, 193, 243, 67, 79, 29, 135]))
     @_dafny.classproperty
     def a3(instance):
-        return RFCTestVector_RFCTestVector(_dafny.Seq("A.3.  Test Case 3"), software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256(), _dafny.Seq([11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11]), _dafny.Seq([]), _dafny.Seq([]), 42, _dafny.Seq([25, 239, 36, 163, 44, 113, 123, 22, 127, 51, 169, 29, 111, 100, 139, 223, 150, 89, 103, 118, 175, 219, 99, 119, 172, 67, 76, 28, 41, 60, 203, 4]), _dafny.Seq([141, 164, 231, 117, 165, 99, 193, 143, 113, 95, 128, 42, 6, 60, 90, 49, 184, 161, 31, 92, 94, 225, 135, 158, 195, 69, 78, 95, 60, 115, 141, 45, 157, 32, 19, 149, 250, 164, 182, 26, 150, 200]))
+        return RFCTestVector_RFCTestVector(_dafny.Seq("A.3.  Test Case 3"), AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__256(), _dafny.Seq([11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11]), _dafny.Seq([]), _dafny.Seq([]), 42, _dafny.Seq([25, 239, 36, 163, 44, 113, 123, 22, 127, 51, 169, 29, 111, 100, 139, 223, 150, 89, 103, 118, 175, 219, 99, 119, 172, 67, 76, 28, 41, 60, 203, 4]), _dafny.Seq([141, 164, 231, 117, 165, 99, 193, 143, 113, 95, 128, 42, 6, 60, 90, 49, 184, 161, 31, 92, 94, 225, 135, 158, 195, 69, 78, 95, 60, 115, 141, 45, 157, 32, 19, 149, 250, 164, 182, 26, 150, 200]))
     @_dafny.classproperty
     def testVectors(instance):
         return _dafny.Seq([default__.a1, default__.a2, default__.a3])
@@ -115,7 +115,7 @@ class default__:
 class RFCTestVector:
     @classmethod
     def default(cls, ):
-        return lambda: RFCTestVector_RFCTestVector(_dafny.Seq(""), software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm.default()(), _dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), int(0), _dafny.Seq({}), _dafny.Seq({}))
+        return lambda: RFCTestVector_RFCTestVector(_dafny.Seq(""), AwsCryptographyPrimitivesTypes.DigestAlgorithm.default()(), _dafny.Seq({}), _dafny.Seq({}), _dafny.Seq({}), int(0), _dafny.Seq({}), _dafny.Seq({}))
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property

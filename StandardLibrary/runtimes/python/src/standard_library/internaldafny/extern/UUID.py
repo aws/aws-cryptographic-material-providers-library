@@ -1,6 +1,6 @@
 import uuid
 
-import Wrappers
+import standard_library.internaldafny.generated.Wrappers as Wrappers
 import _dafny
 from standard_library.internaldafny.generated.UUID import *
 import standard_library.internaldafny.generated.UUID

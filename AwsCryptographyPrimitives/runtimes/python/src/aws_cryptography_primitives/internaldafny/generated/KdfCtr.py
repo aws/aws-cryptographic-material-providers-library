@@ -3,63 +3,63 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
-import System_
-import Wrappers
-import Relations
-import Seq_MergeSort
-import Math
-import Seq
-import BoundedInts
-import Unicode
-import Functions
-import Utf8EncodingForm
-import Utf16EncodingForm
-import UnicodeStrings
-import FileIO
-import GeneralInternals
-import MulInternalsNonlinear
-import MulInternals
-import Mul
-import ModInternalsNonlinear
-import DivInternalsNonlinear
-import ModInternals
-import DivInternals
-import DivMod
-import Power
-import Logarithm
-import StandardLibraryInterop
-import StandardLibrary_UInt
-import StandardLibrary_String
-import StandardLibrary
-import UUID
-import UTF8
-import Time
-import Streams
-import Sorting
-import SortedSets
-import HexStrings
-import GetOpt
-import FloatCompare
-import ConcurrentCall
-import Base64
-import Base64Lemmas
-import Actions
-import DafnyLibraries
-import software_amazon_cryptography_primitives_internaldafny_types
-import ExternRandom
-import Random
-import AESEncryption
-import ExternDigest
-import Digest
-import HMAC
-import WrappedHMAC
-import HKDF
-import WrappedHKDF
-import Signature
+import aws_cryptography_primitives.internaldafny.generated.module_ as module_
+import _dafny as _dafny
+import System_ as System_
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import standard_library.internaldafny.generated.Relations as Relations
+import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
+import standard_library.internaldafny.generated.Math as Math
+import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.BoundedInts as BoundedInts
+import standard_library.internaldafny.generated.Unicode as Unicode
+import standard_library.internaldafny.generated.Functions as Functions
+import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
+import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16EncodingForm
+import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
+import standard_library.internaldafny.generated.FileIO as FileIO
+import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
+import standard_library.internaldafny.generated.MulInternalsNonlinear as MulInternalsNonlinear
+import standard_library.internaldafny.generated.MulInternals as MulInternals
+import standard_library.internaldafny.generated.Mul as Mul
+import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
+import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInternalsNonlinear
+import standard_library.internaldafny.generated.ModInternals as ModInternals
+import standard_library.internaldafny.generated.DivInternals as DivInternals
+import standard_library.internaldafny.generated.DivMod as DivMod
+import standard_library.internaldafny.generated.Power as Power
+import standard_library.internaldafny.generated.Logarithm as Logarithm
+import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
+import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
+import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
+import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
+import standard_library.internaldafny.generated.UUID as UUID
+import standard_library.internaldafny.generated.UTF8 as UTF8
+import standard_library.internaldafny.generated.Time as Time
+import standard_library.internaldafny.generated.Streams as Streams
+import standard_library.internaldafny.generated.Sorting as Sorting
+import standard_library.internaldafny.generated.SortedSets as SortedSets
+import standard_library.internaldafny.generated.HexStrings as HexStrings
+import standard_library.internaldafny.generated.GetOpt as GetOpt
+import standard_library.internaldafny.generated.FloatCompare as FloatCompare
+import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
+import standard_library.internaldafny.generated.Base64 as Base64
+import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
+import standard_library.internaldafny.generated.Actions as Actions
+import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
+import aws_cryptography_primitives.internaldafny.generated.ExternRandom as ExternRandom
+import aws_cryptography_primitives.internaldafny.generated.Random as Random
+import aws_cryptography_primitives.internaldafny.generated.AESEncryption as AESEncryption
+import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
+import aws_cryptography_primitives.internaldafny.generated.Digest as Digest
+import aws_cryptography_primitives.internaldafny.generated.HMAC as HMAC
+import aws_cryptography_primitives.internaldafny.generated.WrappedHMAC as WrappedHMAC
+import aws_cryptography_primitives.internaldafny.generated.HKDF as HKDF
+import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as WrappedHKDF
+import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 
-# Module: KdfCtr
+# Module: aws_cryptography_primitives.internaldafny.generated.KdfCtr
 
 class default__:
     def  __init__(self):
@@ -69,7 +69,7 @@ class default__:
     def KdfCounterMode(input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_78_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_78_valueOrError0_ = Wrappers.default__.Need((((((((input).digestAlgorithm) == (software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256())) and ((len((input).ikm)) == (32))) and (((input).nonce).is_Some)) and ((len(((input).nonce).value)) == (16))) and (((input).expectedLength) == (32))) and (((0) < (((input).expectedLength) * (8))) and ((((input).expectedLength) * (8)) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT))), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Kdf in Counter Mode input is invalid.")))
+        d_78_valueOrError0_ = Wrappers.default__.Need((((((((input).digestAlgorithm) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__256())) and ((len((input).ikm)) == (32))) and (((input).nonce).is_Some)) and ((len(((input).nonce).value)) == (16))) and (((input).expectedLength) == (32))) and (((0) < (((input).expectedLength) * (8))) and ((((input).expectedLength) * (8)) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT))), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Kdf in Counter Mode input is invalid.")))
         if (d_78_valueOrError0_).IsFailure():
             output = (d_78_valueOrError0_).PropagateFailure()
             return output
@@ -84,7 +84,7 @@ class default__:
         d_83_internalLength_: int
         d_83_internalLength_ = ((4) + (len(default__.SEPARATION__INDICATOR))) + (4)
         d_84_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_84_valueOrError1_ = Wrappers.default__.Need((True) and ((((d_83_internalLength_) + (len(d_80_label___))) + (len(d_81_info_))) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT)), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Input Length exceeds INT32_MAX_LIMIT")))
+        d_84_valueOrError1_ = Wrappers.default__.Need((True) and ((((d_83_internalLength_) + (len(d_80_label___))) + (len(d_81_info_))) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT)), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Input Length exceeds INT32_MAX_LIMIT")))
         if (d_84_valueOrError1_).IsFailure():
             output = (d_84_valueOrError1_).PropagateFailure()
             return output
@@ -93,7 +93,7 @@ class default__:
         d_86_explicitInfo_: _dafny.Seq
         d_86_explicitInfo_ = (((d_80_label___) + (default__.SEPARATION__INDICATOR)) + (d_81_info_)) + (d_85_lengthBits_)
         d_87_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_87_valueOrError2_ = Wrappers.default__.Need(((4) + (len(d_86_explicitInfo_))) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("PRF input length exceeds INT32_MAX_LIMIT.")))
+        d_87_valueOrError2_ = Wrappers.default__.Need(((4) + (len(d_86_explicitInfo_))) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("PRF input length exceeds INT32_MAX_LIMIT.")))
         if (d_87_valueOrError2_).IsFailure():
             output = (d_87_valueOrError2_).PropagateFailure()
             return output
@@ -112,8 +112,8 @@ class default__:
     @staticmethod
     def RawDerive(ikm, explicitInfo, length, offset):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        d_89_derivationMac_: software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm
-        d_89_derivationMac_ = software_amazon_cryptography_primitives_internaldafny_types.DigestAlgorithm_SHA__256()
+        d_89_derivationMac_: AwsCryptographyPrimitivesTypes.DigestAlgorithm
+        d_89_derivationMac_ = AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__256()
         d_90_hmac_: HMAC.HMac
         d_91_valueOrError0_: Wrappers.Result = None
         out16_: Wrappers.Result
@@ -148,7 +148,7 @@ class default__:
                 return output
             d_95_i_ = (d_98_valueOrError1_).Extract()
         d_99_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_99_valueOrError2_ = Wrappers.default__.Need((len(d_94_buffer_)) >= (length), software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Failed to derive key of requested length")))
+        d_99_valueOrError2_ = Wrappers.default__.Need((len(d_94_buffer_)) >= (length), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Failed to derive key of requested length")))
         if (d_99_valueOrError2_).IsFailure():
             output = (d_99_valueOrError2_).PropagateFailure()
             return output
@@ -167,7 +167,7 @@ class default__:
         elif ((x)[0]) < (255):
             return Wrappers.Result_Success(_dafny.Seq([((x)[0]) + (1), 0, 0, 0]))
         elif True:
-            return Wrappers.Result_Failure(software_amazon_cryptography_primitives_internaldafny_types.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Unable to derive key material; may have exceeded limit.")))
+            return Wrappers.Result_Failure(AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Unable to derive key material; may have exceeded limit.")))
 
     @_dafny.classproperty
     def SEPARATION__INDICATOR(instance):

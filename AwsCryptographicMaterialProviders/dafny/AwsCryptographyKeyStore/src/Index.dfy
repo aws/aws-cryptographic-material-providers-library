@@ -5,7 +5,7 @@ include "AwsCryptographyKeyStoreOperations.dfy"
 include "../../../dafny/AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 include "../../AwsCryptographicMaterialProviders/src/Keyrings/AwsKms/AwsKmsUtils.dfy"
 
-module {:extern "software_amazon_cryptography_keystore_internaldafny"}
+module
   KeyStore refines AbstractAwsCryptographyKeyStoreService
 {
   import opened AwsArnParsing

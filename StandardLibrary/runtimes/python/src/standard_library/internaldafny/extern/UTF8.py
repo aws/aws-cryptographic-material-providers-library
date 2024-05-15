@@ -101,4 +101,5 @@ class default__(standard_library.internaldafny.generated.UTF8.default__):
       out.append(char_representation)
     return _dafny.Seq(out)
 
+print("EXPORT")
 standard_library.internaldafny.generated.UTF8.default__ = default__

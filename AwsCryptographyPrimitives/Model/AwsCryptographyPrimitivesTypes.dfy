@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 include "../../StandardLibrary/src/Index.dfy"
-module {:extern "software_amazon_cryptography_primitives_internaldafny_types" } AwsCryptographyPrimitivesTypes
+module AwsCryptographyPrimitivesTypes
 {
   import opened Wrappers
   import opened StandardLibrary.UInt
@@ -519,24 +519,18 @@ abstract module AbstractAwsCryptographyPrimitivesService
   import Operations : AbstractAwsCryptographyPrimitivesOperations
   function method DefaultCryptoConfig(): CryptoConfig
   method AtomicPrimitives(config: CryptoConfig := DefaultCryptoConfig())
-    // BEGIN MANUAL FIX
     returns (res: Result<AtomicPrimitivesClient, Error>)
-    // END MANUAL FIX
     ensures res.Success? ==>
               && fresh(res.value)
               && fresh(res.value.Modifies)
               && fresh(res.value.History)
               && res.value.ValidState()
 
-  // Helper function for the benefit of native code to create a Success(client) without referring to Dafny internals
-  // BEGIN MANUAL FIX
-  function method CreateSuccessOfClient(client: AtomicPrimitivesClient): Result<AtomicPrimitivesClient, Error> {
-    // END MANUAL FIX
+  // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
+  function method CreateSuccessOfClient(client: IAwsCryptographicPrimitivesClient): Result<IAwsCryptographicPrimitivesClient, Error> {
     Success(client)
-  } // Helper function for the benefit of native code to create a Failure(error) without referring to Dafny internals
-  // BEGIN MANUAL FIX
-  function method CreateFailureOfError(error: Error): Result<AtomicPrimitivesClient, Error> {
-    // END MANUAL FIX
+  }
+  function method CreateFailureOfError(error: Error): Result<IAwsCryptographicPrimitivesClient, Error> {
     Failure(error)
   }
   class AtomicPrimitivesClient extends IAwsCryptographicPrimitivesClient

@@ -4,7 +4,6 @@
 include "AwsCryptographyMaterialProvidersOperations.dfy"
 
 module
-  {:extern "software_amazon_cryptography_materialproviders_internaldafny" }
   MaterialProviders refines AbstractAwsCryptographyMaterialProvidersService
 {
 
