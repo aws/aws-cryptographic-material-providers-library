@@ -21,11 +21,12 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     Error_InvalidEncryptionMaterials,
     Error_InvalidEncryptionMaterialsTransition,
 )
+import aws_cryptographic_materialproviders.internaldafny.generated.module_
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
 from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes import (
     Error_AwsCryptographicPrimitivesError,
 )
-import module_
+import aws_cryptography_primitives.internaldafny.generated.module_
 from typing import Any
 
 from .dafny_protocol import DafnyResponse

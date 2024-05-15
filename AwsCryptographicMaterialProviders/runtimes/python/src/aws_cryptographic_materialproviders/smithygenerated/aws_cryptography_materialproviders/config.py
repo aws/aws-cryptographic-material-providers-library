@@ -5,10 +5,10 @@
 from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes import (
     MaterialProvidersConfig_MaterialProvidersConfig as DafnyMaterialProvidersConfig,
 )
+import aws_cryptographic_materialproviders.internaldafny.generated.module_
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny
 from dataclasses import dataclass
-import module_
 from typing import Any, Callable, TypeAlias
 
 from .dafnyImplInterface import DafnyImplInterface

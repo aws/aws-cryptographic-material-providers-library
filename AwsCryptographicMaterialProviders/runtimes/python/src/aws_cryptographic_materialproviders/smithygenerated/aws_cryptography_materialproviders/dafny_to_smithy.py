@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-import UTF8
 from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes import (
     AesWrappingAlg_ALG__AES128__GCM__IV12__TAG16,
     AesWrappingAlg_ALG__AES192__GCM__IV12__TAG16,
@@ -53,12 +52,13 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     SymmetricSignatureAlgorithm_HMAC,
     SymmetricSignatureAlgorithm_None,
 )
+import aws_cryptographic_materialproviders.internaldafny.generated.module_
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models
 import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy
 import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk
-import module_
+from standard_library.internaldafny.generated.UTF8 import UTF8
 
 
 def aws_cryptography_materialproviders_GetBranchKeyIdInput(dafny_input):

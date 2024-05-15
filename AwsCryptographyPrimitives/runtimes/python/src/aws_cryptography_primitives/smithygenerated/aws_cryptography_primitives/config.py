@@ -5,10 +5,10 @@
 from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes import (
     CryptoConfig_CryptoConfig as DafnyCryptoConfig,
 )
+import aws_cryptography_primitives.internaldafny.generated.module_
 import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy
 import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny
 from dataclasses import dataclass
-import module_
 from typing import Any, Callable, TypeAlias
 
 from .dafnyImplInterface import DafnyImplInterface

@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-import UTF8
 from _dafny import Map, Seq
 from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes import (
     AesWrappingAlg_ALG__AES128__GCM__IV12__TAG16,
@@ -110,13 +109,15 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     ValidateCommitmentPolicyOnDecryptInput_ValidateCommitmentPolicyOnDecryptInput as DafnyValidateCommitmentPolicyOnDecryptInput,
     ValidateCommitmentPolicyOnEncryptInput_ValidateCommitmentPolicyOnEncryptInput as DafnyValidateCommitmentPolicyOnEncryptInput,
 )
+import aws_cryptographic_materialproviders.internaldafny.generated.module_
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny
 import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny
 from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import IKMSClient
+import com_amazonaws_kms.internaldafny.generated.module_
 import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny
-import module_
+from standard_library.internaldafny.generated.UTF8 import UTF8
 from standard_library.internaldafny.generated.Wrappers import Option_None, Option_Some
 
 

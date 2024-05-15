@@ -40,8 +40,8 @@ from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitiv
     RSAPrivateKey_RSAPrivateKey as DafnyRSAPrivateKey,
     RSAPublicKey_RSAPublicKey as DafnyRSAPublicKey,
 )
+import aws_cryptography_primitives.internaldafny.generated.module_
 import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny
-import module_
 from standard_library.internaldafny.generated.Wrappers import Option_None, Option_Some
 
 

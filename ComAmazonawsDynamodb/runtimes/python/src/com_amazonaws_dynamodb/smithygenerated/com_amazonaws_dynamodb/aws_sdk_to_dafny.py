@@ -389,8 +389,8 @@ from com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes im
     Update_Update as DafnyUpdate,
     WriteRequest_WriteRequest as DafnyWriteRequest,
 )
+import com_amazonaws_dynamodb.internaldafny.generated.module_
 import com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny
-import module_
 from standard_library.internaldafny.generated.Wrappers import Option_None, Option_Some
 
 

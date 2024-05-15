@@ -24,15 +24,12 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     PutCacheEntryInput_PutCacheEntryInput as DafnyPutCacheEntryInput,
     UpdateUsageMetadataInput_UpdateUsageMetadataInput as DafnyUpdateUsageMetadataInput,
 )
+import aws_cryptographic_materialproviders.internaldafny.generated.module_
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
-from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.deserialize import (
-    _deserialize_error as aws_cryptography_materialproviders_deserialize_error,
-)
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny
 import botocore.client
-import module_
-from standard_library.internaldafny.generated.Wrappers import Wrappers
+from standard_library.internaldafny.generated import Wrappers
 from typing import Any, Dict
 
 
@@ -95,6 +92,7 @@ class BranchKeyIdSupplier(IBranchKeyIdSupplier):
         """
         dafny_output = self._impl.GetBranchKeyId(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_GetBranchKeyIdInput(param))
         if dafny_output.IsFailure():
+            import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.deserialize._deserialize_error as aws_cryptography_materialproviders_deserialize_error
             raise asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:
@@ -155,6 +153,7 @@ class ClientSupplier(IClientSupplier):
         """
         dafny_output = self._impl.GetClient(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_GetClientInput(param))
         if dafny_output.IsFailure():
+            import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.deserialize._deserialize_error as aws_cryptography_materialproviders_deserialize_error
             raise asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:
@@ -284,6 +283,7 @@ class CryptographicMaterialsCache(ICryptographicMaterialsCache):
     def put_cache_entry(self, param: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.PutCacheEntryInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.Unit':
         dafny_output = self._impl.PutCacheEntry(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_PutCacheEntryInput(param))
         if dafny_output.IsFailure():
+            import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.deserialize._deserialize_error as smithy_api_deserialize_error
             raise asyncio.run(smithy_api_deserialize_error(dafny_output.error))
 
         else:
@@ -292,6 +292,7 @@ class CryptographicMaterialsCache(ICryptographicMaterialsCache):
     def get_cache_entry(self, param: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetCacheEntryInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetCacheEntryOutput':
         dafny_output = self._impl.GetCacheEntry(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_GetCacheEntryInput(param))
         if dafny_output.IsFailure():
+            import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.deserialize._deserialize_error as aws_cryptography_materialproviders_deserialize_error
             raise asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:
@@ -300,6 +301,7 @@ class CryptographicMaterialsCache(ICryptographicMaterialsCache):
     def update_usage_metadata(self, param: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.UpdateUsageMetadataInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.Unit':
         dafny_output = self._impl.UpdateUsageMetadata(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_UpdateUsageMetadataInput(param))
         if dafny_output.IsFailure():
+            import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.deserialize._deserialize_error as smithy_api_deserialize_error
             raise asyncio.run(smithy_api_deserialize_error(dafny_output.error))
 
         else:
@@ -308,6 +310,7 @@ class CryptographicMaterialsCache(ICryptographicMaterialsCache):
     def delete_cache_entry(self, param: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DeleteCacheEntryInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.Unit':
         dafny_output = self._impl.DeleteCacheEntry(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_DeleteCacheEntryInput(param))
         if dafny_output.IsFailure():
+            import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.deserialize._deserialize_error as smithy_api_deserialize_error
             raise asyncio.run(smithy_api_deserialize_error(dafny_output.error))
 
         else:
@@ -387,6 +390,7 @@ class CryptographicMaterialsManager(ICryptographicMaterialsManager):
     def get_encryption_materials(self, param: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetEncryptionMaterialsInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetEncryptionMaterialsOutput':
         dafny_output = self._impl.GetEncryptionMaterials(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_GetEncryptionMaterialsInput(param))
         if dafny_output.IsFailure():
+            import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.deserialize._deserialize_error as aws_cryptography_materialproviders_deserialize_error
             raise asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:
@@ -395,6 +399,7 @@ class CryptographicMaterialsManager(ICryptographicMaterialsManager):
     def decrypt_materials(self, param: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptMaterialsInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptMaterialsOutput':
         dafny_output = self._impl.DecryptMaterials(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_DecryptMaterialsInput(param))
         if dafny_output.IsFailure():
+            import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.deserialize._deserialize_error as aws_cryptography_materialproviders_deserialize_error
             raise asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:
@@ -474,6 +479,7 @@ class Keyring(IKeyring):
     def on_encrypt(self, param: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnEncryptInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnEncryptOutput':
         dafny_output = self._impl.OnEncrypt(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_OnEncryptInput(param))
         if dafny_output.IsFailure():
+            import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.deserialize._deserialize_error as aws_cryptography_materialproviders_deserialize_error
             raise asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:
@@ -482,6 +488,7 @@ class Keyring(IKeyring):
     def on_decrypt(self, param: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnDecryptInput') -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.OnDecryptOutput':
         dafny_output = self._impl.OnDecrypt(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_OnDecryptInput(param))
         if dafny_output.IsFailure():
+            import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.deserialize._deserialize_error as aws_cryptography_materialproviders_deserialize_error
             raise asyncio.run(aws_cryptography_materialproviders_deserialize_error(dafny_output.error))
 
         else:

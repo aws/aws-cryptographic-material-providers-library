@@ -108,9 +108,9 @@ from com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes im
     UpdateTimeToLiveInput_UpdateTimeToLiveInput as DafnyUpdateTimeToLiveInput,
     UpdateTimeToLiveOutput_UpdateTimeToLiveOutput as DafnyUpdateTimeToLiveOutput,
 )
+import com_amazonaws_dynamodb.internaldafny.generated.module_
 import com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny
 import com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk
-import module_
 
 from . import dafny_to_aws_sdk
 

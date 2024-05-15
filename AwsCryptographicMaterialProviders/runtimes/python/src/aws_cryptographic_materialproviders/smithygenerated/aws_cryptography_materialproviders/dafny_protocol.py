@@ -30,7 +30,7 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     ValidateCommitmentPolicyOnDecryptInput_ValidateCommitmentPolicyOnDecryptInput as DafnyValidateCommitmentPolicyOnDecryptInput,
     ValidateCommitmentPolicyOnEncryptInput_ValidateCommitmentPolicyOnEncryptInput as DafnyValidateCommitmentPolicyOnEncryptInput,
 )
-import module_
+import aws_cryptographic_materialproviders.internaldafny.generated.module_
 
 
 import standard_library.internaldafny.generated.Wrappers as Wrappers

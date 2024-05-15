@@ -10,7 +10,7 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     GetBranchKeyVersionInput_GetBranchKeyVersionInput as DafnyGetBranchKeyVersionInput,
     VersionKeyInput_VersionKeyInput as DafnyVersionKeyInput,
 )
-import module_
+import aws_cryptographic_materialproviders.internaldafny.generated.module_
 
 
 import standard_library.internaldafny.generated.Wrappers as Wrappers

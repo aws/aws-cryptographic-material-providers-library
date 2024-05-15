@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
+import _dafny
+import aws_cryptographic_materialproviders.internaldafny.generated
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors
 from com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.shim import (
@@ -216,7 +218,7 @@ def _smithy_error_to_dafny_error(e: ServiceError):
     into the corresponding Dafny error.
     """
     if isinstance(e, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors.KeyStoreException):
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_KeyStoreException(message=e.message)
+        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_KeyStoreException(message=_dafny.Seq(e.message))
 
     if isinstance(e, ComAmazonawsDynamodb):
         return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb(com_amazonaws_dynamodb_sdk_error_to_dafny_error(e.message))
@@ -225,7 +227,9 @@ def _smithy_error_to_dafny_error(e: ServiceError):
         return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_ComAmazonawsKms(com_amazonaws_kms_sdk_error_to_dafny_error(e.message))
 
     if isinstance(e, CollectionOfErrors):
-        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_CollectionOfErrors(message=e.message, list=e.list)
+        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_CollectionOfErrors(message=_dafny.Seq(e.message), list=_dafny.Seq(
+            _smithy_error_to_dafny_error(native_err) for native_err in e.list
+        ))
 
     if isinstance(e, OpaqueError):
         return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_Opaque(obj=e.obj)

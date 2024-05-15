@@ -14,8 +14,8 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     GetKeyStoreInfoOutput_GetKeyStoreInfoOutput as DafnyGetKeyStoreInfoOutput,
     VersionKeyOutput_VersionKeyOutput as DafnyVersionKeyOutput,
 )
+import aws_cryptographic_materialproviders.internaldafny.generated.module_
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
-import module_
 from typing import Any
 
 from .dafny_protocol import DafnyResponse

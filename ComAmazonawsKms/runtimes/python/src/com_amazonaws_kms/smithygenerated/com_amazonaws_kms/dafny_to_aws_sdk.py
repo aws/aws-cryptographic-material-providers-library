@@ -94,8 +94,8 @@ from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     SigningAlgorithmSpec_RSASSA__PSS__SHA__512,
     WrappingKeySpec_RSA__2048,
 )
+import com_amazonaws_kms.internaldafny.generated.module_
 import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk
-import module_
 
 
 def com_amazonaws_kms_AlreadyExistsException(dafny_input):

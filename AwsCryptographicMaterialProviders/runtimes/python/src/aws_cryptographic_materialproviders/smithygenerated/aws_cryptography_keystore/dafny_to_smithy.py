@@ -2,12 +2,12 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-import UTF8
 from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
     KMSConfiguration_kmsKeyArn,
 )
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models
+from standard_library.internaldafny.generated.UTF8 import UTF8
 
 
 def smithy_api_Unit():

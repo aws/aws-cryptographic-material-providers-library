@@ -213,8 +213,8 @@ from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     VerifyResponse_VerifyResponse as DafnyVerifyResponse,
     WrappingKeySpec_RSA__2048,
 )
+import com_amazonaws_kms.internaldafny.generated.module_
 import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny
-import module_
 from standard_library.internaldafny.generated.Wrappers import Option_None, Option_Some
 
 

@@ -11,8 +11,8 @@ from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitiv
     GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput as DafnyGenerateRSAKeyPairOutput,
     GetRSAKeyModulusLengthOutput_GetRSAKeyModulusLengthOutput as DafnyGetRSAKeyModulusLengthOutput,
 )
+import aws_cryptography_primitives.internaldafny.generated.module_
 import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy
-import module_
 from typing import Any
 
 from .dafny_protocol import DafnyResponse

@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-import UTF8
 from _dafny import Map, Seq
 from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
     BeaconKeyMaterials_BeaconKeyMaterials as DafnyBeaconKeyMaterials,
@@ -23,13 +22,16 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     VersionKeyInput_VersionKeyInput as DafnyVersionKeyInput,
     VersionKeyOutput_VersionKeyOutput as DafnyVersionKeyOutput,
 )
+import aws_cryptographic_materialproviders.internaldafny.generated.module_
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny
 from com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes import (
     IDynamoDBClient,
 )
+import com_amazonaws_dynamodb.internaldafny.generated.module_
 from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import IKMSClient
-import module_
+import com_amazonaws_kms.internaldafny.generated.module_
+from standard_library.internaldafny.generated.UTF8 import UTF8
 from standard_library.internaldafny.generated.Wrappers import Option_None, Option_Some
 
 

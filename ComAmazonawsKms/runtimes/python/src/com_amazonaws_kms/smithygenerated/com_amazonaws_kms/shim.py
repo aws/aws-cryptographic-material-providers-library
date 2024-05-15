@@ -81,9 +81,9 @@ from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     VerifyRequest_VerifyRequest as DafnyVerifyRequest,
     VerifyResponse_VerifyResponse as DafnyVerifyResponse,
 )
+import com_amazonaws_kms.internaldafny.generated.module_
 import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny
 import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk
-import module_
 
 from . import dafny_to_aws_sdk
 

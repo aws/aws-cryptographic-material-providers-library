@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
+import _dafny
+import aws_cryptography_primitives.internaldafny.generated
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes
 import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.errors
 from typing import Any, Dict, Generic, List, Literal, TypeVar
@@ -204,10 +206,12 @@ def _smithy_error_to_dafny_error(e: ServiceError):
     into the corresponding Dafny error.
     """
     if isinstance(e, aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.errors.AwsCryptographicPrimitivesError):
-        return aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(message=e.message)
+        return aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(message=_dafny.Seq(e.message))
 
     if isinstance(e, CollectionOfErrors):
-        return aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes.Error_CollectionOfErrors(message=e.message, list=e.list)
+        return aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes.Error_CollectionOfErrors(message=_dafny.Seq(e.message), list=_dafny.Seq(
+            _smithy_error_to_dafny_error(native_err) for native_err in e.list
+        ))
 
     if isinstance(e, OpaqueError):
         return aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes.Error_Opaque(obj=e.obj)

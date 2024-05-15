@@ -152,8 +152,8 @@ from com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes im
     TimeToLiveStatus_ENABLED,
     TimeToLiveStatus_ENABLING,
 )
+import com_amazonaws_dynamodb.internaldafny.generated.module_
 import com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk
-import module_
 
 
 def com_amazonaws_dynamodb_BackupInUseException(dafny_input):

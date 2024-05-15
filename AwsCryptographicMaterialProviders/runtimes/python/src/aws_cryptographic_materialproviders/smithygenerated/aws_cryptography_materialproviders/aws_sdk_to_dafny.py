@@ -7,7 +7,7 @@ from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     EncryptionAlgorithmSpec_RSAES__OAEP__SHA__256,
     EncryptionAlgorithmSpec_SYMMETRIC__DEFAULT,
 )
-import module_
+import com_amazonaws_kms.internaldafny.generated.module_
 
 
 def com_amazonaws_kms_EncryptionAlgorithmSpec(native_input):

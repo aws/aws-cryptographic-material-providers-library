@@ -14,9 +14,9 @@ from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitiv
     RSAPaddingMode_OAEP__SHA512,
     RSAPaddingMode_PKCS1,
 )
+import aws_cryptography_primitives.internaldafny.generated.module_
 import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy
 import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.models
-import module_
 
 
 def aws_cryptography_primitives_GenerateRandomBytesInput(dafny_input):

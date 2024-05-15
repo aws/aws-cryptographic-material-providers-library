@@ -21,7 +21,7 @@ from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitiv
     RSADecryptInput_RSADecryptInput as DafnyRSADecryptInput,
     RSAEncryptInput_RSAEncryptInput as DafnyRSAEncryptInput,
 )
-import module_
+import aws_cryptography_primitives.internaldafny.generated.module_
 
 
 import standard_library.internaldafny.generated.Wrappers as Wrappers

@@ -5,10 +5,10 @@
 from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
     KeyStoreConfig_KeyStoreConfig as DafnyKeyStoreConfig,
 )
+import aws_cryptographic_materialproviders.internaldafny.generated.module_
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny
 from dataclasses import dataclass
-import module_
 from typing import Any, Callable, Optional, TypeAlias
 
 from .dafnyImplInterface import DafnyImplInterface
