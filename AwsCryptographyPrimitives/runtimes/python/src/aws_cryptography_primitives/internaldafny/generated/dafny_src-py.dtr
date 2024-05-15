@@ -1,0 +1,42 @@
+file_format_version = "1.0"
+dafny_version = "4.6.0.0"
+[options_by_module.AwsCryptographyPrimitivesTypes]
+python-module-name = "aws_cryptography_primitives"
+[options_by_module.AbstractAwsCryptographyPrimitivesOperations]
+python-module-name = "aws_cryptography_primitives"
+[options_by_module.ExternRandom]
+python-module-name = "aws_cryptography_primitives"
+[options_by_module.Random]
+python-module-name = "aws_cryptography_primitives"
+[options_by_module.AESEncryption]
+python-module-name = "aws_cryptography_primitives"
+[options_by_module.ExternDigest]
+python-module-name = "aws_cryptography_primitives"
+[options_by_module.Digest]
+python-module-name = "aws_cryptography_primitives"
+[options_by_module.HMAC]
+python-module-name = "aws_cryptography_primitives"
+[options_by_module.WrappedHMAC]
+python-module-name = "aws_cryptography_primitives"
+[options_by_module.HKDF]
+python-module-name = "aws_cryptography_primitives"
+[options_by_module.WrappedHKDF]
+python-module-name = "aws_cryptography_primitives"
+[options_by_module.Signature]
+python-module-name = "aws_cryptography_primitives"
+[options_by_module.KdfCtr]
+python-module-name = "aws_cryptography_primitives"
+[options_by_module.RSAEncryption]
+python-module-name = "aws_cryptography_primitives"
+[options_by_module.AwsCryptographyPrimitivesOperations]
+python-module-name = "aws_cryptography_primitives"
+[options_by_module.AesKdfCtr]
+python-module-name = "aws_cryptography_primitives"
+[options_by_module.AbstractAwsCryptographyPrimitivesService]
+python-module-name = "aws_cryptography_primitives"
+[options_by_module."Aws.Cryptography.Primitives"]
+python-module-name = "aws_cryptography_primitives"
+[options_by_module."Aws.Cryptography"]
+python-module-name = "aws_cryptography_primitives"
+[options_by_module.Aws]
+python-module-name = "aws_cryptography_primitives"
