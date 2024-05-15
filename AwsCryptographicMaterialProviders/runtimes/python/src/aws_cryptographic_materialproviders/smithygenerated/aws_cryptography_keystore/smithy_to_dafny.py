@@ -31,7 +31,7 @@ from com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes im
 import com_amazonaws_dynamodb.internaldafny.generated.module_
 from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import IKMSClient
 import com_amazonaws_kms.internaldafny.generated.module_
-from standard_library.internaldafny.generated.UTF8 import UTF8
+from standard_library.internaldafny.generated import UTF8
 from standard_library.internaldafny.generated.Wrappers import Option_None, Option_Some
 
 
