@@ -140,8 +140,8 @@ def aws_cryptography_materialproviders_GetClientOutput(native_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_KmsClientReference(native_input)
 
 def aws_cryptography_materialproviders_KmsClientReference(native_input):
-    import com_amazonaws_kms.internaldafny.generated.MaterialProviders
-    client = com_amazonaws_kms.internaldafny.generated.MaterialProviders.default__.KMSClient(boto_client = native_input)
+    import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms
+    client = com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms.default__.KMSClient(boto_client = native_input)
     client.value.impl = native_input
     return client.value
 

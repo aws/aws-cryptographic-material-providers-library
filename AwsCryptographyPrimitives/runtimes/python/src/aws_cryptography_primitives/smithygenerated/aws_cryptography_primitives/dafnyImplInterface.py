@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-from aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives import AtomicPrimitivesClient
+from aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives import AtomicPrimitivesClient
 from .dafny_protocol import DafnyRequest
 
 class DafnyImplInterface:
