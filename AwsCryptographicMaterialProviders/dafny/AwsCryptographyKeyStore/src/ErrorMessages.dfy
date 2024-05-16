@@ -6,16 +6,16 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
     "KMSConfiguration's KMS Key ARN is invalid."
 
   const CUSTOM_BRANCH_KEY_ID_NEED_EC :=
-    "Custom branch key id requires custom encryption context."
+    "Custom branch key identifier requires custom encryption context."
 
   const GET_KEY_ARN_DISAGREEMENT :=
-    "Branch Key's AWS KMS Key ARN read from Dynamodb does not match Key Store's configured AWS KMS Key ARN."
+    "Branch key's KMS Key ARN read from Dynamodb does not match Key Store's configured KMS Key ARN."
 
   const DISCOVERY_CREATE_KEY_NOT_SUPPORTED :=
-    "Key Store's kmsConfiguration MUST BE kmsKeyArn to Create Branch Keys."
+    "Key Store's kmsConfiguration MUST BE kmsKeyArn or kmsMRKeyArn to Create Branch Keys."
 
   const DISCOVERY_VERSION_KEY_NOT_SUPPORTED :=
-    "Key Store's kmsConfiguration MUST BE kmsKeyArn to Version Branch Keys."
+    "Key Store's kmsConfiguration MUST BE kmsKeyArn or kmsMRKeyArn to Version Branch Keys."
 
   const UTF8_ENCODING_ENCRYPTION_CONTEXT_ERROR :=
     "Unable to UTF8 Encode element of Encryption Context."
@@ -35,5 +35,5 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
 
   // If the Item/Record contains an invalid KMS ARN
   const RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN :=
-    "The `kms-arn` field for the requested Branch Key ID is corrupted."
+    "The `kms-arn` field for the requested branch key identifier is corrupted."
 }

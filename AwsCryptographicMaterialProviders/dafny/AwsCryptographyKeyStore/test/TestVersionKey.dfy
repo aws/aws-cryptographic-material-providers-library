@@ -170,7 +170,7 @@ module TestVersionKey {
 
     expect newActiveVersion != oldActiveVersion;
 
-    // Since this process uses a read DDB table,
+    // Since this process uses a real DDB table,
     // the number of records will forever increase.
     // To avoid this, remove the items.
     CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, newActiveVersion, ddbClient);
