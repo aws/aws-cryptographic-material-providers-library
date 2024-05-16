@@ -191,14 +191,14 @@ class default__:
     def ECDSASign(config, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out35_: Wrappers.Result
-        out35_ = Signature.ECDSA.Sign((input).signatureAlgorithm, (input).signingKey, (input).message)
+        out35_ = ECDSA.Sign((input).signatureAlgorithm, (input).signingKey, (input).message)
         output = out35_
         return output
 
     @staticmethod
     def ECDSAVerify(config, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.bool)()
-        output = Signature.ECDSA_Verify((input).signatureAlgorithm, (input).verificationKey, (input).message, (input).signature)
+        output = ECDSA_Verify((input).signatureAlgorithm, (input).verificationKey, (input).message, (input).signature)
         return output
 
 

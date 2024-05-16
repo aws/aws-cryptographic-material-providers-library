@@ -86,7 +86,7 @@ class default__:
         d_75_sigKeyPair_: SignatureKeyPair
         d_76_valueOrError0_: Wrappers.Result = Wrappers.Result.default(SignatureKeyPair.default())()
         out14_: Wrappers.Result
-        out14_ = Signature.ECDSA.ExternKeyGen((input).signatureAlgorithm)
+        out14_ = ECDSA.ExternKeyGen((input).signatureAlgorithm)
         d_76_valueOrError0_ = out14_
         if (d_76_valueOrError0_).IsFailure():
             res = (d_76_valueOrError0_).PropagateFailure()
