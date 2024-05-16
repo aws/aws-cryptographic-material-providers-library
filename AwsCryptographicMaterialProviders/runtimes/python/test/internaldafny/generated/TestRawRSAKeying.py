@@ -59,9 +59,7 @@ import aws_cryptography_primitives.internaldafny.generated.Signature as Signatur
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
-import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives as Aws_Cryptography_Primitives
-import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography as Aws_Cryptography
-import aws_cryptography_primitives.internaldafny.generated.Aws as Aws
+import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapping as MaterialWrapping
 import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
 import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
@@ -450,10 +448,10 @@ class default__:
     @staticmethod
     def GenerateKeyPair(keyModulusLength):
         keys: AwsCryptographyPrimitivesTypes.GenerateRSAKeyPairOutput = None
-        d_569_crypto_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
+        d_569_crypto_: AtomicPrimitives.AtomicPrimitivesClient
         d_570_valueOrError0_: Wrappers.Result = None
         out231_: Wrappers.Result
-        out231_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
+        out231_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_570_valueOrError0_ = out231_
         if not(not((d_570_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestRawRSAKeyring.dfy(280,18): " + _dafny.string_of(d_570_valueOrError0_))

@@ -49,7 +49,7 @@ module AwsKmsHierarchicalKeyring {
   import HKDF
   import HMAC
   import opened AESEncryption
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
 
   const BRANCH_KEY_STORE_GSI := "Active-Keys"
   const BRANCH_KEY_FIELD := "enc"
@@ -692,11 +692,11 @@ module AwsKmsHierarchicalKeyring {
 
       // We need to create a new client here so that we can reason about the state of the client
       // down the line. This is ok because the only state tracked is the client's history.
-      var maybeCrypto := Primitives.AtomicPrimitives();
+      var maybeCrypto := AtomicPrimitives.AtomicPrimitives();
       var cryptoPrimitivesX : Crypto.IAwsCryptographicPrimitivesClient :- maybeCrypto
       .MapFailure(e => Types.AwsCryptographyPrimitives(e));
-      assert cryptoPrimitivesX is Primitives.AtomicPrimitivesClient;
-      var cryptoPrimitives := cryptoPrimitivesX as Primitives.AtomicPrimitivesClient;
+      assert cryptoPrimitivesX is AtomicPrimitives.AtomicPrimitivesClient;
+      var cryptoPrimitives := cryptoPrimitivesX as AtomicPrimitives.AtomicPrimitivesClient;
 
       var kmsHierarchyUnwrap := new KmsHierarchyUnwrapKeyMaterial(
         branchKey,

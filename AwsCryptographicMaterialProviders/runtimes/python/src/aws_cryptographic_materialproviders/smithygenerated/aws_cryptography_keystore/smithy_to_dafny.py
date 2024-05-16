@@ -143,13 +143,13 @@ def aws_cryptography_keystore_KeyStoreConfig(native_input):
     )
 
 def aws_cryptography_keystore_DdbClientReference(native_input):
-    import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb
-    client = com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb.default__.DynamoDBClient(boto_client = native_input)
+    import com_amazonaws_dynamodb.internaldafny.generated.KeyStore
+    client = com_amazonaws_dynamodb.internaldafny.generated.KeyStore.default__.DynamoDBClient(boto_client = native_input)
     client.value.impl = native_input
     return client.value
 
 def aws_cryptography_keystore_KmsClientReference(native_input):
-    import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms
-    client = com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms.default__.KMSClient(boto_client = native_input)
+    import com_amazonaws_kms.internaldafny.generated.KeyStore
+    client = com_amazonaws_kms.internaldafny.generated.KeyStore.default__.KMSClient(boto_client = native_input)
     client.value.impl = native_input
     return client.value

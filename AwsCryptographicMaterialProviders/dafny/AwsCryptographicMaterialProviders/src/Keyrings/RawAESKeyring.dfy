@@ -27,7 +27,7 @@ module RawAESKeyring {
   import MaterialWrapping
   import EdkWrapping
 
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
 
   const AUTH_TAG_LEN_LEN := 4
   const IV_LEN_LEN       := 4

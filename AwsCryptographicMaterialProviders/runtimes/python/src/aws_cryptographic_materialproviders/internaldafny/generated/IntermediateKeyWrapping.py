@@ -12,8 +12,6 @@ import standard_library.internaldafny.generated.StandardLibrary_UInt as Standard
 import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
 import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
 import standard_library.internaldafny.generated.UTF8 as UTF8
-import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
-import com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes as ComAmazonawsKmsTypes
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
 import aws_cryptography_primitives.internaldafny.generated.ExternRandom as ExternRandom
 import aws_cryptography_primitives.internaldafny.generated.Random as Random
@@ -28,6 +26,9 @@ import aws_cryptography_primitives.internaldafny.generated.Signature as Signatur
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
+import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
+import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
+import com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes as ComAmazonawsKmsTypes
 import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
 import standard_library.internaldafny.generated.Relations as Relations
 import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
@@ -87,9 +88,6 @@ import aws_cryptographic_materialproviders.internaldafny.generated.Keyring as Ke
 import aws_cryptographic_materialproviders.internaldafny.generated.MultiKeyring as MultiKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkAreUnique as AwsKmsMrkAreUnique
 import aws_cryptographic_materialproviders.internaldafny.generated.Constants as Constants
-import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives as Aws_Cryptography_Primitives
-import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography as Aws_Cryptography
-import aws_cryptography_primitives.internaldafny.generated.Aws as Aws
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapping as MaterialWrapping
 import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
 
@@ -104,7 +102,7 @@ class default__:
         res: Wrappers.Result = None
         d_422_maybeCrypto_: Wrappers.Result
         out61_: Wrappers.Result
-        out61_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
+        out61_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_422_maybeCrypto_ = out61_
         d_423_cryptoPrimitivesX_: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient
         d_424_valueOrError0_: Wrappers.Result = None
@@ -193,7 +191,7 @@ class default__:
         res: Wrappers.Result = None
         d_450_maybeCrypto_: Wrappers.Result
         out65_: Wrappers.Result
-        out65_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
+        out65_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_450_maybeCrypto_ = out65_
         d_451_cryptoPrimitivesX_: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient
         d_452_valueOrError0_: Wrappers.Result = None
@@ -273,9 +271,9 @@ class default__:
         res: Wrappers.Result = None
         d_475_maybeCrypto_: Wrappers.Result
         out69_: Wrappers.Result
-        out69_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
+        out69_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_475_maybeCrypto_ = out69_
-        d_476_cryptoPrimitives_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
+        d_476_cryptoPrimitives_: AtomicPrimitives.AtomicPrimitivesClient
         d_477_valueOrError0_: Wrappers.Result = None
         def lambda48_(d_478_e_):
             return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_478_e_)

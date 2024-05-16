@@ -61,6 +61,7 @@ import aws_cryptography_primitives.internaldafny.generated.Signature as Signatur
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
+import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 
 # Module: aws_cryptography_primitives.internaldafny.generated.AesKdfCtr
 

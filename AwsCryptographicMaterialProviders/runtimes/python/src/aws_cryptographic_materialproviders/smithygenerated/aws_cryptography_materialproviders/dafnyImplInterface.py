@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-from aws_cryptographic_materialproviders.internaldafny.generated.Aws_Cryptography_Materialproviders import MaterialProvidersClient
+from aws_cryptographic_materialproviders.internaldafny.generated.MaterialProviders import MaterialProvidersClient
 from .dafny_protocol import DafnyRequest
 
 class DafnyImplInterface:

@@ -14,7 +14,7 @@ def set_config_impl(config: Config):
     """
     config.dafnyImplInterface = DafnyImplInterface()
     if isinstance(config, CryptoConfig):
-        from aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives import default__
+        from aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives import default__
         config.dafnyImplInterface.impl = default__.AtomicPrimitives(smithy_config_to_dafny_config(config)).value
     config.retry_strategy = NoRetriesStrategy()
 

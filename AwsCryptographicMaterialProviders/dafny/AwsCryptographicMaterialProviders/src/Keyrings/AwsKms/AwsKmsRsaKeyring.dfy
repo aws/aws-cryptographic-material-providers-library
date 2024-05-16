@@ -19,7 +19,7 @@ module AwsKmsRsaKeyring {
   import opened UInt = StandardLibrary.UInt
   import opened Actions
   import UTF8
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import Crypto = AwsCryptographyPrimitivesTypes
   import Keyring
   import Materials

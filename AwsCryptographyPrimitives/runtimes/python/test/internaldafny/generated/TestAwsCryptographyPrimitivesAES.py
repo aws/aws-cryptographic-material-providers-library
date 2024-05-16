@@ -26,6 +26,7 @@ import aws_cryptography_primitives.internaldafny.generated.Signature as Signatur
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
+import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
 import standard_library.internaldafny.generated.Relations as Relations
 import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
@@ -62,9 +63,6 @@ import standard_library.internaldafny.generated.Base64 as Base64
 import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import standard_library.internaldafny.generated.Actions as Actions
 import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
-import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives as Aws_Cryptography_Primitives
-import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography as Aws_Cryptography
-import aws_cryptography_primitives.internaldafny.generated.Aws as Aws
 import TestSignature as TestSignature
 import TestAwsCryptographyPrimitivesHKDF as TestAwsCryptographyPrimitivesHKDF
 import TestAwsCryptographyPrimitivesGenerateRandomBytes as TestAwsCryptographyPrimitivesGenerateRandomBytes
@@ -91,10 +89,10 @@ class default__:
 
     @staticmethod
     def BasicAESDecryptTest(input, expectedOutput):
-        d_113_client_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
+        d_113_client_: AtomicPrimitives.AtomicPrimitivesClient
         d_114_valueOrError0_: Wrappers.Result = None
         out21_: Wrappers.Result
-        out21_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
+        out21_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_114_valueOrError0_ = out21_
         if not(not((d_114_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("test/TestAES.dfy(99,18): " + _dafny.string_of(d_114_valueOrError0_))
@@ -112,10 +110,10 @@ class default__:
 
     @staticmethod
     def BasicAESEncryptTest(input):
-        d_117_client_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
+        d_117_client_: AtomicPrimitives.AtomicPrimitivesClient
         d_118_valueOrError0_: Wrappers.Result = None
         out23_: Wrappers.Result
-        out23_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
+        out23_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_118_valueOrError0_ = out23_
         if not(not((d_118_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("test/TestAES.dfy(108,18): " + _dafny.string_of(d_118_valueOrError0_))

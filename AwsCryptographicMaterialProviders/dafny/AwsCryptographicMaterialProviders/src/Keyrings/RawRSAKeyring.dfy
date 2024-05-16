@@ -17,7 +17,7 @@ module RawRSAKeyring {
   import opened Wrappers
   import Types = AwsCryptographyMaterialProvidersTypes
   import Crypto = AwsCryptographyPrimitivesTypes
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import Keyring
   import Materials
   import opened AlgorithmSuites

@@ -26,6 +26,7 @@ import aws_cryptography_primitives.internaldafny.generated.Signature as Signatur
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
+import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
 import standard_library.internaldafny.generated.Relations as Relations
 import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
@@ -62,9 +63,6 @@ import standard_library.internaldafny.generated.Base64 as Base64
 import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import standard_library.internaldafny.generated.Actions as Actions
 import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
-import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives as Aws_Cryptography_Primitives
-import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography as Aws_Cryptography
-import aws_cryptography_primitives.internaldafny.generated.Aws as Aws
 import TestSignature as TestSignature
 import TestAwsCryptographyPrimitivesHKDF as TestAwsCryptographyPrimitivesHKDF
 import TestAwsCryptographyPrimitivesGenerateRandomBytes as TestAwsCryptographyPrimitivesGenerateRandomBytes
@@ -82,10 +80,10 @@ class default__:
 
     @staticmethod
     def RSAEncryptTests():
-        d_71_client_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
+        d_71_client_: AtomicPrimitives.AtomicPrimitivesClient
         d_72_valueOrError0_: Wrappers.Result = None
         out14_: Wrappers.Result
-        out14_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
+        out14_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_72_valueOrError0_ = out14_
         if not(not((d_72_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("test/TestRSA.dfy(51,18): " + _dafny.string_of(d_72_valueOrError0_))
@@ -100,10 +98,10 @@ class default__:
 
     @staticmethod
     def GetRSAKeyModulusLength():
-        d_74_client_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
+        d_74_client_: AtomicPrimitives.AtomicPrimitivesClient
         d_75_valueOrError0_: Wrappers.Result = None
         out16_: Wrappers.Result
-        out16_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
+        out16_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_75_valueOrError0_ = out16_
         if not(not((d_75_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("test/TestRSA.dfy(67,18): " + _dafny.string_of(d_75_valueOrError0_))
@@ -153,10 +151,10 @@ class default__:
 
     @staticmethod
     def BasicRSADecryptTests(input, expectedOutput):
-        d_88_client_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
+        d_88_client_: AtomicPrimitives.AtomicPrimitivesClient
         d_89_valueOrError0_: Wrappers.Result = None
         out17_: Wrappers.Result
-        out17_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
+        out17_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_89_valueOrError0_ = out17_
         if not(not((d_89_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("test/TestRSA.dfy(94,18): " + _dafny.string_of(d_89_valueOrError0_))
@@ -174,10 +172,10 @@ class default__:
 
     @staticmethod
     def BasicRSAEncryptTest(input, keypair):
-        d_92_client_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
+        d_92_client_: AtomicPrimitives.AtomicPrimitivesClient
         d_93_valueOrError0_: Wrappers.Result = None
         out19_: Wrappers.Result
-        out19_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
+        out19_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_93_valueOrError0_ = out19_
         if not(not((d_93_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("test/TestRSA.dfy(106,18): " + _dafny.string_of(d_93_valueOrError0_))

@@ -4,7 +4,7 @@
 include "../Model/AwsCryptographyPrimitivesTypes.dfy"
 include "AwsCryptographyPrimitivesOperations.dfy"
 
-module Aws.Cryptography.Primitives refines AbstractAwsCryptographyPrimitivesService {
+module AtomicPrimitives refines AbstractAwsCryptographyPrimitivesService {
   import Operations = AwsCryptographyPrimitivesOperations
 
   function method DefaultCryptoConfig(): CryptoConfig {

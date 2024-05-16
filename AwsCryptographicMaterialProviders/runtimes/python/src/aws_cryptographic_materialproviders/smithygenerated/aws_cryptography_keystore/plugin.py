@@ -14,7 +14,7 @@ def set_config_impl(config: Config):
     """
     config.dafnyImplInterface = DafnyImplInterface()
     if isinstance(config, KeyStoreConfig):
-        from aws_cryptographic_materialproviders.internaldafny.generated.Aws_Cryptography_Keystore import default__
+        from aws_cryptographic_materialproviders.internaldafny.generated.KeyStore import default__
         config.dafnyImplInterface.impl = default__.KeyStore(smithy_config_to_dafny_config(config)).value
     config.retry_strategy = NoRetriesStrategy()
 

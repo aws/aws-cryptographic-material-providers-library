@@ -19,7 +19,7 @@ module DefaultCMM {
   import UTF8
   import Types = AwsCryptographyMaterialProvidersTypes
   import Crypto = AwsCryptographyPrimitivesTypes
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import Defaults
   import Commitment
   import Seq
