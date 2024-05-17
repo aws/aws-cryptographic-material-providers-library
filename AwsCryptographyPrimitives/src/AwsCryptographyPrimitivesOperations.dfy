@@ -235,7 +235,7 @@ module AwsCryptographyPrimitivesOperations refines AbstractAwsCryptographyPrimit
   method GetPublicKeyFromPrivateKey (config: InternalConfig, input: GetPublicKeyFromPrivateKeyInput)
     returns (output: Result<GetPublicKeyFromPrivateKeyOutput, Error>)
   {
-    output := Failure(Types.AwsCryptographicPrimitivesError(message := "Implement Me!."));
+    output := ECDH.GetPublicKeyFromPrivate(input);
   }
 
   predicate ValidatePublicKeyEnsuresPublicly(input: ValidatePublicKeyInput, output: Result<ValidatePublicKeyOutput, Error>)
@@ -244,7 +244,7 @@ module AwsCryptographyPrimitivesOperations refines AbstractAwsCryptographyPrimit
   method ValidatePublicKey(config: InternalConfig, input: ValidatePublicKeyInput)
     returns (output: Result<ValidatePublicKeyOutput, Error>)
   {
-    output := Failure(Types.AwsCryptographicPrimitivesError(message := "Implement Me!."));
+    output := ECDH.ValidatePublicKey(input);
   }
 
   predicate DeriveSharedSecretEnsuresPublicly(input: DeriveSharedSecretInput, output: Result<DeriveSharedSecretOutput, Error>)
@@ -253,6 +253,6 @@ module AwsCryptographyPrimitivesOperations refines AbstractAwsCryptographyPrimit
   method DeriveSharedSecret(config: InternalConfig, input: DeriveSharedSecretInput)
     returns (output: Result<DeriveSharedSecretOutput, Error>)
   {
-    output := Failure(Types.AwsCryptographicPrimitivesError(message := "Implement Me!."));
+    output := ECDH.DeriveSharedSecret(input);
   }
 }

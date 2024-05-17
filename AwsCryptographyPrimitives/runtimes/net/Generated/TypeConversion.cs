@@ -100,14 +100,15 @@ namespace AWS.Cryptography.Primitives
         }
         public static AWS.Cryptography.Primitives.DeriveSharedSecretInput FromDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput(software.amazon.cryptography.primitives.internaldafny.types._IDeriveSharedSecretInput value)
         {
-            software.amazon.cryptography.primitives.internaldafny.types.DeriveSharedSecretInput concrete = (software.amazon.cryptography.primitives.internaldafny.types.DeriveSharedSecretInput)value; AWS.Cryptography.Primitives.DeriveSharedSecretInput converted = new AWS.Cryptography.Primitives.DeriveSharedSecretInput(); converted.PrivateKey = (System.IO.MemoryStream)FromDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput__M10_privateKey(concrete._privateKey);
+            software.amazon.cryptography.primitives.internaldafny.types.DeriveSharedSecretInput concrete = (software.amazon.cryptography.primitives.internaldafny.types.DeriveSharedSecretInput)value; AWS.Cryptography.Primitives.DeriveSharedSecretInput converted = new AWS.Cryptography.Primitives.DeriveSharedSecretInput(); converted.EccCurve = (AWS.Cryptography.Primitives.ECDHCurveSpec)FromDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput__M8_eccCurve(concrete._eccCurve);
+            converted.PrivateKey = (System.IO.MemoryStream)FromDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput__M10_privateKey(concrete._privateKey);
             converted.PublicKey = (System.IO.MemoryStream)FromDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput__M9_publicKey(concrete._publicKey); return converted;
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IDeriveSharedSecretInput ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput(AWS.Cryptography.Primitives.DeriveSharedSecretInput value)
         {
             value.Validate();
 
-            return new software.amazon.cryptography.primitives.internaldafny.types.DeriveSharedSecretInput(ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput__M10_privateKey(value.PrivateKey), ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput__M9_publicKey(value.PublicKey));
+            return new software.amazon.cryptography.primitives.internaldafny.types.DeriveSharedSecretInput(ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput__M8_eccCurve(value.EccCurve), ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput__M10_privateKey(value.PrivateKey), ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput__M9_publicKey(value.PublicKey));
         }
         public static AWS.Cryptography.Primitives.DeriveSharedSecretOutput FromDafny_N3_aws__N12_cryptography__N10_primitives__S24_DeriveSharedSecretOutput(software.amazon.cryptography.primitives.internaldafny.types._IDeriveSharedSecretOutput value)
         {
@@ -306,24 +307,26 @@ namespace AWS.Cryptography.Primitives
         }
         public static AWS.Cryptography.Primitives.GetPublicKeyFromPrivateKeyInput FromDafny_N3_aws__N12_cryptography__N10_primitives__S31_GetPublicKeyFromPrivateKeyInput(software.amazon.cryptography.primitives.internaldafny.types._IGetPublicKeyFromPrivateKeyInput value)
         {
-            software.amazon.cryptography.primitives.internaldafny.types.GetPublicKeyFromPrivateKeyInput concrete = (software.amazon.cryptography.primitives.internaldafny.types.GetPublicKeyFromPrivateKeyInput)value; AWS.Cryptography.Primitives.GetPublicKeyFromPrivateKeyInput converted = new AWS.Cryptography.Primitives.GetPublicKeyFromPrivateKeyInput(); converted.PrivateKey = (System.IO.MemoryStream)FromDafny_N3_aws__N12_cryptography__N10_primitives__S31_GetPublicKeyFromPrivateKeyInput__M10_privateKey(concrete._privateKey); return converted;
+            software.amazon.cryptography.primitives.internaldafny.types.GetPublicKeyFromPrivateKeyInput concrete = (software.amazon.cryptography.primitives.internaldafny.types.GetPublicKeyFromPrivateKeyInput)value; AWS.Cryptography.Primitives.GetPublicKeyFromPrivateKeyInput converted = new AWS.Cryptography.Primitives.GetPublicKeyFromPrivateKeyInput(); converted.EccCurve = (AWS.Cryptography.Primitives.ECDHCurveSpec)FromDafny_N3_aws__N12_cryptography__N10_primitives__S31_GetPublicKeyFromPrivateKeyInput__M8_eccCurve(concrete._eccCurve);
+            converted.PrivateKey = (System.IO.MemoryStream)FromDafny_N3_aws__N12_cryptography__N10_primitives__S31_GetPublicKeyFromPrivateKeyInput__M10_privateKey(concrete._privateKey); return converted;
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IGetPublicKeyFromPrivateKeyInput ToDafny_N3_aws__N12_cryptography__N10_primitives__S31_GetPublicKeyFromPrivateKeyInput(AWS.Cryptography.Primitives.GetPublicKeyFromPrivateKeyInput value)
         {
             value.Validate();
 
-            return new software.amazon.cryptography.primitives.internaldafny.types.GetPublicKeyFromPrivateKeyInput(ToDafny_N3_aws__N12_cryptography__N10_primitives__S31_GetPublicKeyFromPrivateKeyInput__M10_privateKey(value.PrivateKey));
+            return new software.amazon.cryptography.primitives.internaldafny.types.GetPublicKeyFromPrivateKeyInput(ToDafny_N3_aws__N12_cryptography__N10_primitives__S31_GetPublicKeyFromPrivateKeyInput__M8_eccCurve(value.EccCurve), ToDafny_N3_aws__N12_cryptography__N10_primitives__S31_GetPublicKeyFromPrivateKeyInput__M10_privateKey(value.PrivateKey));
         }
         public static AWS.Cryptography.Primitives.GetPublicKeyFromPrivateKeyOutput FromDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput(software.amazon.cryptography.primitives.internaldafny.types._IGetPublicKeyFromPrivateKeyOutput value)
         {
-            software.amazon.cryptography.primitives.internaldafny.types.GetPublicKeyFromPrivateKeyOutput concrete = (software.amazon.cryptography.primitives.internaldafny.types.GetPublicKeyFromPrivateKeyOutput)value; AWS.Cryptography.Primitives.GetPublicKeyFromPrivateKeyOutput converted = new AWS.Cryptography.Primitives.GetPublicKeyFromPrivateKeyOutput(); converted.PrivateKey = (System.IO.MemoryStream)FromDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput__M10_privateKey(concrete._privateKey);
+            software.amazon.cryptography.primitives.internaldafny.types.GetPublicKeyFromPrivateKeyOutput concrete = (software.amazon.cryptography.primitives.internaldafny.types.GetPublicKeyFromPrivateKeyOutput)value; AWS.Cryptography.Primitives.GetPublicKeyFromPrivateKeyOutput converted = new AWS.Cryptography.Primitives.GetPublicKeyFromPrivateKeyOutput(); converted.EccCurve = (AWS.Cryptography.Primitives.ECDHCurveSpec)FromDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput__M8_eccCurve(concrete._eccCurve);
+            converted.PrivateKey = (System.IO.MemoryStream)FromDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput__M10_privateKey(concrete._privateKey);
             converted.PublicKey = (System.IO.MemoryStream)FromDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput__M9_publicKey(concrete._publicKey); return converted;
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IGetPublicKeyFromPrivateKeyOutput ToDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput(AWS.Cryptography.Primitives.GetPublicKeyFromPrivateKeyOutput value)
         {
             value.Validate();
 
-            return new software.amazon.cryptography.primitives.internaldafny.types.GetPublicKeyFromPrivateKeyOutput(ToDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput__M10_privateKey(value.PrivateKey), ToDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput__M9_publicKey(value.PublicKey));
+            return new software.amazon.cryptography.primitives.internaldafny.types.GetPublicKeyFromPrivateKeyOutput(ToDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput__M8_eccCurve(value.EccCurve), ToDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput__M10_privateKey(value.PrivateKey), ToDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput__M9_publicKey(value.PublicKey));
         }
         public static AWS.Cryptography.Primitives.GetRSAKeyModulusLengthInput FromDafny_N3_aws__N12_cryptography__N10_primitives__S27_GetRSAKeyModulusLengthInput(software.amazon.cryptography.primitives.internaldafny.types._IGetRSAKeyModulusLengthInput value)
         {
@@ -511,14 +514,15 @@ namespace AWS.Cryptography.Primitives
         }
         public static AWS.Cryptography.Primitives.ValidatePublicKeyInput FromDafny_N3_aws__N12_cryptography__N10_primitives__S22_ValidatePublicKeyInput(software.amazon.cryptography.primitives.internaldafny.types._IValidatePublicKeyInput value)
         {
-            software.amazon.cryptography.primitives.internaldafny.types.ValidatePublicKeyInput concrete = (software.amazon.cryptography.primitives.internaldafny.types.ValidatePublicKeyInput)value; AWS.Cryptography.Primitives.ValidatePublicKeyInput converted = new AWS.Cryptography.Primitives.ValidatePublicKeyInput(); converted.PrivateKey = (System.IO.MemoryStream)FromDafny_N3_aws__N12_cryptography__N10_primitives__S22_ValidatePublicKeyInput__M10_privateKey(concrete._privateKey);
+            software.amazon.cryptography.primitives.internaldafny.types.ValidatePublicKeyInput concrete = (software.amazon.cryptography.primitives.internaldafny.types.ValidatePublicKeyInput)value; AWS.Cryptography.Primitives.ValidatePublicKeyInput converted = new AWS.Cryptography.Primitives.ValidatePublicKeyInput(); converted.EccCurve = (AWS.Cryptography.Primitives.ECDHCurveSpec)FromDafny_N3_aws__N12_cryptography__N10_primitives__S22_ValidatePublicKeyInput__M8_eccCurve(concrete._eccCurve);
+            converted.PrivateKey = (System.IO.MemoryStream)FromDafny_N3_aws__N12_cryptography__N10_primitives__S22_ValidatePublicKeyInput__M10_privateKey(concrete._privateKey);
             converted.PublicKey = (System.IO.MemoryStream)FromDafny_N3_aws__N12_cryptography__N10_primitives__S22_ValidatePublicKeyInput__M9_publicKey(concrete._publicKey); return converted;
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IValidatePublicKeyInput ToDafny_N3_aws__N12_cryptography__N10_primitives__S22_ValidatePublicKeyInput(AWS.Cryptography.Primitives.ValidatePublicKeyInput value)
         {
             value.Validate();
 
-            return new software.amazon.cryptography.primitives.internaldafny.types.ValidatePublicKeyInput(ToDafny_N3_aws__N12_cryptography__N10_primitives__S22_ValidatePublicKeyInput__M10_privateKey(value.PrivateKey), ToDafny_N3_aws__N12_cryptography__N10_primitives__S22_ValidatePublicKeyInput__M9_publicKey(value.PublicKey));
+            return new software.amazon.cryptography.primitives.internaldafny.types.ValidatePublicKeyInput(ToDafny_N3_aws__N12_cryptography__N10_primitives__S22_ValidatePublicKeyInput__M8_eccCurve(value.EccCurve), ToDafny_N3_aws__N12_cryptography__N10_primitives__S22_ValidatePublicKeyInput__M10_privateKey(value.PrivateKey), ToDafny_N3_aws__N12_cryptography__N10_primitives__S22_ValidatePublicKeyInput__M9_publicKey(value.PublicKey));
         }
         public static AWS.Cryptography.Primitives.ValidatePublicKeyOutput FromDafny_N3_aws__N12_cryptography__N10_primitives__S23_ValidatePublicKeyOutput(software.amazon.cryptography.primitives.internaldafny.types._IValidatePublicKeyOutput value)
         {
@@ -681,6 +685,14 @@ namespace AWS.Cryptography.Primitives
         public static Dafny.ISequence<char> ToDafny_N3_aws__N12_cryptography__N10_primitives__S31_AwsCryptographicPrimitivesError__M7_message(string value)
         {
             return ToDafny_N6_smithy__N3_api__S6_String(value);
+        }
+        public static AWS.Cryptography.Primitives.ECDHCurveSpec FromDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput__M8_eccCurve(software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec value)
+        {
+            return FromDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(value);
+        }
+        public static software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput__M8_eccCurve(AWS.Cryptography.Primitives.ECDHCurveSpec value)
+        {
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput__M10_privateKey(Dafny.ISequence<byte> value)
         {
@@ -906,6 +918,14 @@ namespace AWS.Cryptography.Primitives
         {
             return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_RSAPrivateKey(value);
         }
+        public static AWS.Cryptography.Primitives.ECDHCurveSpec FromDafny_N3_aws__N12_cryptography__N10_primitives__S31_GetPublicKeyFromPrivateKeyInput__M8_eccCurve(software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec value)
+        {
+            return FromDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(value);
+        }
+        public static software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec ToDafny_N3_aws__N12_cryptography__N10_primitives__S31_GetPublicKeyFromPrivateKeyInput__M8_eccCurve(AWS.Cryptography.Primitives.ECDHCurveSpec value)
+        {
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(value);
+        }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S31_GetPublicKeyFromPrivateKeyInput__M10_privateKey(Dafny.ISequence<byte> value)
         {
             return FromDafny_N6_smithy__N3_api__S4_Blob(value);
@@ -913,6 +933,14 @@ namespace AWS.Cryptography.Primitives
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S31_GetPublicKeyFromPrivateKeyInput__M10_privateKey(System.IO.MemoryStream value)
         {
             return ToDafny_N6_smithy__N3_api__S4_Blob(value);
+        }
+        public static AWS.Cryptography.Primitives.ECDHCurveSpec FromDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput__M8_eccCurve(software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec value)
+        {
+            return FromDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(value);
+        }
+        public static software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec ToDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput__M8_eccCurve(AWS.Cryptography.Primitives.ECDHCurveSpec value)
+        {
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput__M10_privateKey(Dafny.ISequence<byte> value)
         {
@@ -1209,6 +1237,14 @@ namespace AWS.Cryptography.Primitives
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S16_RSAEncryptOutput__M10_cipherText(System.IO.MemoryStream value)
         {
             return ToDafny_N6_smithy__N3_api__S4_Blob(value);
+        }
+        public static AWS.Cryptography.Primitives.ECDHCurveSpec FromDafny_N3_aws__N12_cryptography__N10_primitives__S22_ValidatePublicKeyInput__M8_eccCurve(software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec value)
+        {
+            return FromDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(value);
+        }
+        public static software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec ToDafny_N3_aws__N12_cryptography__N10_primitives__S22_ValidatePublicKeyInput__M8_eccCurve(AWS.Cryptography.Primitives.ECDHCurveSpec value)
+        {
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S22_ValidatePublicKeyInput__M10_privateKey(Dafny.ISequence<byte> value)
         {

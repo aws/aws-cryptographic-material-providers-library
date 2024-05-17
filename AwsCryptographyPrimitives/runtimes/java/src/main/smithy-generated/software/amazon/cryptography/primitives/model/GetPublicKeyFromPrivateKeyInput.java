@@ -8,10 +8,17 @@ import java.util.Objects;
 
 public class GetPublicKeyFromPrivateKeyInput {
 
+  private final ECDHCurveSpec eccCurve;
+
   private final ByteBuffer privateKey;
 
   protected GetPublicKeyFromPrivateKeyInput(BuilderImpl builder) {
+    this.eccCurve = builder.eccCurve();
     this.privateKey = builder.privateKey();
+  }
+
+  public ECDHCurveSpec eccCurve() {
+    return this.eccCurve;
   }
 
   public ByteBuffer privateKey() {
@@ -27,6 +34,10 @@ public class GetPublicKeyFromPrivateKeyInput {
   }
 
   public interface Builder {
+    Builder eccCurve(ECDHCurveSpec eccCurve);
+
+    ECDHCurveSpec eccCurve();
+
     Builder privateKey(ByteBuffer privateKey);
 
     ByteBuffer privateKey();
@@ -36,12 +47,24 @@ public class GetPublicKeyFromPrivateKeyInput {
 
   static class BuilderImpl implements Builder {
 
+    protected ECDHCurveSpec eccCurve;
+
     protected ByteBuffer privateKey;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(GetPublicKeyFromPrivateKeyInput model) {
+      this.eccCurve = model.eccCurve();
       this.privateKey = model.privateKey();
+    }
+
+    public Builder eccCurve(ECDHCurveSpec eccCurve) {
+      this.eccCurve = eccCurve;
+      return this;
+    }
+
+    public ECDHCurveSpec eccCurve() {
+      return this.eccCurve;
     }
 
     public Builder privateKey(ByteBuffer privateKey) {
@@ -54,6 +77,11 @@ public class GetPublicKeyFromPrivateKeyInput {
     }
 
     public GetPublicKeyFromPrivateKeyInput build() {
+      if (Objects.isNull(this.eccCurve())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `eccCurve`"
+        );
+      }
       if (Objects.isNull(this.privateKey())) {
         throw new IllegalArgumentException(
           "Missing value for required field `privateKey`"

@@ -240,6 +240,8 @@ public class ToDafny {
   public static DeriveSharedSecretInput DeriveSharedSecretInput(
     software.amazon.cryptography.primitives.model.DeriveSharedSecretInput nativeValue
   ) {
+    ECDHCurveSpec eccCurve;
+    eccCurve = ToDafny.ECDHCurveSpec(nativeValue.eccCurve());
     DafnySequence<? extends Byte> privateKey;
     privateKey =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
@@ -250,7 +252,7 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
         nativeValue.publicKey()
       );
-    return new DeriveSharedSecretInput(privateKey, publicKey);
+    return new DeriveSharedSecretInput(eccCurve, privateKey, publicKey);
   }
 
   public static DeriveSharedSecretOutput DeriveSharedSecretOutput(
@@ -451,17 +453,21 @@ public class ToDafny {
   public static GetPublicKeyFromPrivateKeyInput GetPublicKeyFromPrivateKeyInput(
     software.amazon.cryptography.primitives.model.GetPublicKeyFromPrivateKeyInput nativeValue
   ) {
+    ECDHCurveSpec eccCurve;
+    eccCurve = ToDafny.ECDHCurveSpec(nativeValue.eccCurve());
     DafnySequence<? extends Byte> privateKey;
     privateKey =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
         nativeValue.privateKey()
       );
-    return new GetPublicKeyFromPrivateKeyInput(privateKey);
+    return new GetPublicKeyFromPrivateKeyInput(eccCurve, privateKey);
   }
 
   public static GetPublicKeyFromPrivateKeyOutput GetPublicKeyFromPrivateKeyOutput(
     software.amazon.cryptography.primitives.model.GetPublicKeyFromPrivateKeyOutput nativeValue
   ) {
+    ECDHCurveSpec eccCurve;
+    eccCurve = ToDafny.ECDHCurveSpec(nativeValue.eccCurve());
     DafnySequence<? extends Byte> privateKey;
     privateKey =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
@@ -472,7 +478,11 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
         nativeValue.publicKey()
       );
-    return new GetPublicKeyFromPrivateKeyOutput(privateKey, publicKey);
+    return new GetPublicKeyFromPrivateKeyOutput(
+      eccCurve,
+      privateKey,
+      publicKey
+    );
   }
 
   public static GetRSAKeyModulusLengthInput GetRSAKeyModulusLengthInput(
@@ -764,6 +774,8 @@ public class ToDafny {
   public static ValidatePublicKeyInput ValidatePublicKeyInput(
     software.amazon.cryptography.primitives.model.ValidatePublicKeyInput nativeValue
   ) {
+    ECDHCurveSpec eccCurve;
+    eccCurve = ToDafny.ECDHCurveSpec(nativeValue.eccCurve());
     DafnySequence<? extends Byte> privateKey;
     privateKey =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
@@ -774,7 +786,7 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
         nativeValue.publicKey()
       );
-    return new ValidatePublicKeyInput(privateKey, publicKey);
+    return new ValidatePublicKeyInput(eccCurve, privateKey, publicKey);
   }
 
   public static ValidatePublicKeyOutput ValidatePublicKeyOutput(

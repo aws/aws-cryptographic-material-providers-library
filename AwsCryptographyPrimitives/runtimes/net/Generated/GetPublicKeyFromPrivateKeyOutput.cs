@@ -7,8 +7,18 @@ namespace AWS.Cryptography.Primitives
 {
     public class GetPublicKeyFromPrivateKeyOutput
     {
+        private AWS.Cryptography.Primitives.ECDHCurveSpec _eccCurve;
         private System.IO.MemoryStream _privateKey;
         private System.IO.MemoryStream _publicKey;
+        public AWS.Cryptography.Primitives.ECDHCurveSpec EccCurve
+        {
+            get { return this._eccCurve; }
+            set { this._eccCurve = value; }
+        }
+        public bool IsSetEccCurve()
+        {
+            return this._eccCurve != null;
+        }
         public System.IO.MemoryStream PrivateKey
         {
             get { return this._privateKey; }
@@ -29,6 +39,7 @@ namespace AWS.Cryptography.Primitives
         }
         public void Validate()
         {
+            if (!IsSetEccCurve()) throw new System.ArgumentException("Missing value for required property 'EccCurve'");
             if (!IsSetPrivateKey()) throw new System.ArgumentException("Missing value for required property 'PrivateKey'");
             if (!IsSetPublicKey()) throw new System.ArgumentException("Missing value for required property 'PublicKey'");
 

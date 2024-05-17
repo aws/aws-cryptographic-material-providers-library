@@ -251,6 +251,7 @@ public class ToNative {
   ) {
     DeriveSharedSecretInput.Builder nativeBuilder =
       DeriveSharedSecretInput.builder();
+    nativeBuilder.eccCurve(ToNative.ECDHCurveSpec(dafnyValue.dtor_eccCurve()));
     nativeBuilder.privateKey(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
         dafnyValue.dtor_privateKey()
@@ -460,6 +461,7 @@ public class ToNative {
   ) {
     GetPublicKeyFromPrivateKeyInput.Builder nativeBuilder =
       GetPublicKeyFromPrivateKeyInput.builder();
+    nativeBuilder.eccCurve(ToNative.ECDHCurveSpec(dafnyValue.dtor_eccCurve()));
     nativeBuilder.privateKey(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
         dafnyValue.dtor_privateKey()
@@ -473,6 +475,7 @@ public class ToNative {
   ) {
     GetPublicKeyFromPrivateKeyOutput.Builder nativeBuilder =
       GetPublicKeyFromPrivateKeyOutput.builder();
+    nativeBuilder.eccCurve(ToNative.ECDHCurveSpec(dafnyValue.dtor_eccCurve()));
     nativeBuilder.privateKey(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
         dafnyValue.dtor_privateKey()
@@ -752,6 +755,7 @@ public class ToNative {
   ) {
     ValidatePublicKeyInput.Builder nativeBuilder =
       ValidatePublicKeyInput.builder();
+    nativeBuilder.eccCurve(ToNative.ECDHCurveSpec(dafnyValue.dtor_eccCurve()));
     nativeBuilder.privateKey(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
         dafnyValue.dtor_privateKey()

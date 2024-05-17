@@ -420,6 +420,7 @@ module {:extern "software.amazon.cryptography.primitives.internaldafny.types" } 
 
                           )
   datatype DeriveSharedSecretInput = | DeriveSharedSecretInput (
+    nameonly eccCurve: ECDHCurveSpec ,
     nameonly privateKey: seq<uint8> ,
     nameonly publicKey: seq<uint8>
   )
@@ -480,9 +481,11 @@ module {:extern "software.amazon.cryptography.primitives.internaldafny.types" } 
     nameonly privateKey: RSAPrivateKey
   )
   datatype GetPublicKeyFromPrivateKeyInput = | GetPublicKeyFromPrivateKeyInput (
+    nameonly eccCurve: ECDHCurveSpec ,
     nameonly privateKey: seq<uint8>
   )
   datatype GetPublicKeyFromPrivateKeyOutput = | GetPublicKeyFromPrivateKeyOutput (
+    nameonly eccCurve: ECDHCurveSpec ,
     nameonly privateKey: seq<uint8> ,
     nameonly publicKey: seq<uint8>
   )
@@ -571,6 +574,7 @@ module {:extern "software.amazon.cryptography.primitives.internaldafny.types" } 
     ( 0 <= x <= 32 )
   }
   datatype ValidatePublicKeyInput = | ValidatePublicKeyInput (
+    nameonly eccCurve: ECDHCurveSpec ,
     nameonly privateKey: seq<uint8> ,
     nameonly publicKey: seq<uint8>
   )

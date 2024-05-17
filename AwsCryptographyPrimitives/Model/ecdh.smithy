@@ -61,10 +61,14 @@ structure GenerateECCKeyPairOutput {
 
 structure GetPublicKeyFromPrivateKeyInput {
     @required
+    eccCurve: ECDHCurveSpec,
+    @required
     privateKey: Blob,
 }
 
 structure GetPublicKeyFromPrivateKeyOutput {
+    @required
+    eccCurve: ECDHCurveSpec,
     @required
     privateKey: Blob,
     @required
@@ -72,6 +76,8 @@ structure GetPublicKeyFromPrivateKeyOutput {
 }
 
 structure ValidatePublicKeyInput {
+    @required
+    eccCurve: ECDHCurveSpec,
     @required
     privateKey: Blob,
     @required
@@ -84,6 +90,8 @@ structure ValidatePublicKeyOutput {
 }
 
 structure DeriveSharedSecretInput {
+    @required
+    eccCurve: ECDHCurveSpec,
     @required
     privateKey: Blob,
     @required
