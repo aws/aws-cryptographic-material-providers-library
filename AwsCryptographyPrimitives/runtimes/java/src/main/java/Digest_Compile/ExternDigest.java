@@ -1,7 +1,7 @@
 package Digest_Compile;
 
-import StandardLibraryInternal.InternalResult;
 import ExternDigest._ExternBase___default;
+import StandardLibraryInternal.InternalResult;
 import Wrappers_Compile.Result;
 import dafny.Array;
 import dafny.DafnySequence;

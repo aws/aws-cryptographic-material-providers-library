@@ -2,9 +2,9 @@ package Signature;
 
 import static Signature.SignatureAlgorithm.signatureAlgorithm;
 
-import StandardLibraryInternal.InternalResult;
 import Digest_Compile.ExternDigest;
 import Random_Compile.ExternRandom;
+import StandardLibraryInternal.InternalResult;
 import Wrappers_Compile.Result;
 import dafny.Array;
 import dafny.DafnySequence;
