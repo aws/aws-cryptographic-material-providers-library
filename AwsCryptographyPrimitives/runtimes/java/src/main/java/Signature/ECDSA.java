@@ -2,7 +2,7 @@ package Signature;
 
 import static Signature.SignatureAlgorithm.signatureAlgorithm;
 
-import Dafny.Aws.Cryptography.Primitives.Types.InternalResult;
+import StandardLibraryInternal.InternalResult;
 import Digest_Compile.ExternDigest;
 import Random_Compile.ExternRandom;
 import Wrappers_Compile.Result;

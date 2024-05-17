@@ -1,6 +1,6 @@
 package Digest_Compile;
 
-import Dafny.Aws.Cryptography.Primitives.Types.InternalResult;
+import StandardLibraryInternal.InternalResult;
 import ExternDigest._ExternBase___default;
 import Wrappers_Compile.Result;
 import dafny.Array;
