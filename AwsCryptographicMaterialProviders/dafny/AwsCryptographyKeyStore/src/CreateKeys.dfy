@@ -108,7 +108,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
               //= type=implication
-              //# - `KeyId` MUST be [compatible with](#aws-key-arn-compatibility) the configured `KMS ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
+              //# - `KeyId` MUST be [compatible with](#aws-key-arn-compatibility) the configured KMS Key in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
               && KMSKeystoreOperations.Compatible?(kmsConfiguration, beaconKmsInput.KeyId)
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
@@ -156,7 +156,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#writing-branch-key-and-beacon-key-to-keystore
               //= type=implication
               //# - Every key-value pair of the custom [encryption context](./structures.md#encryption-context-3) that is associated with the branch key
-              //# MUST BE added as with an Attribute Name of `aws-crypto-ec:` + the Key and Attribute Value (S) of the value.
+              //# MUST be added with an Attribute Name of `aws-crypto-ec:` + the Key and Attribute Value (S) of the value.
               && (forall k <- customEncryptionContext ::
                     && Structure.ENCRYPTION_CONTEXT_PREFIX + k in decryptOnlyEncryptionContext
                     && decryptOnlyEncryptionContext[Structure.ENCRYPTION_CONTEXT_PREFIX + k] == customEncryptionContext[k])
@@ -364,7 +364,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-keystore-item
               //= type=implication
-              //# - `SourceKeyId` MUST be [compatible with](#aws-key-arn-compatibility) the configured `KMS ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
+              //# - `SourceKeyId` MUST be [compatible with](#aws-key-arn-compatibility) the configured KMS Key in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
               && KMSKeystoreOperations.OptCompatible?(kmsConfiguration, reEncryptInput.SourceKeyId)
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-keystore-item
@@ -379,7 +379,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-keystore-item
               //= type=implication
-              //# - `DestinationKeyId` MUST be [compatible with](#aws-key-arn-compatibility) the configured `KMS ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
+              //# - `DestinationKeyId` MUST be [compatible with](#aws-key-arn-compatibility) the configured KMS Key in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
               && KMSKeystoreOperations.Compatible?(kmsConfiguration, reEncryptInput.DestinationKeyId)
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-keystore-item
@@ -583,7 +583,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
     //= type=implication
-    //# - `KeyId` MUST be [compatible with](#aws-key-arn-compatibility) the configured `Key ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
+    //# - `KeyId` MUST be [compatible with](#aws-key-arn-compatibility) the configured KMS Key in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
     && KMSKeystoreOperations.Compatible?(kmsConfiguration, decryptOnlyKmsInput.KeyId)
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
@@ -612,12 +612,12 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
     //= type=implication
-    //# - `SourceKeyId` be [compatible with](#aws-key-arn-compatibility) the configured `Key ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
+    //# - `SourceKeyId` MUST be [compatible with](#aws-key-arn-compatibility) the configured KMS Key in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
     && KMSKeystoreOperations.OptCompatible?(kmsConfiguration, activeInput.SourceKeyId)
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
     //= type=implication
-    //# - `DestinationKeyId` be [compatible with](#aws-key-arn-compatibility) the configured `Key ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
+    //# - `DestinationKeyId` MUST be [compatible with](#aws-key-arn-compatibility) the configured KMS Key in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
     && KMSKeystoreOperations.Compatible?(kmsConfiguration, activeInput.DestinationKeyId)
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation

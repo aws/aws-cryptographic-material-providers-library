@@ -487,7 +487,7 @@ module GetKeys {
     //= type=implication
     //# If the Keystore's [AWS KMS Configuration](#aws-kms-configuration) is `KMS Key ARN` or `KMS MRKey ARN`,
     //# the `kms-arn` field of the DDB response item MUST be
-    //# [compatible with](#aws-key-arn-compatibility) the configured `KMS ARN` in
+    //# [compatible with](#aws-key-arn-compatibility) the configured KMS Key in
     //# the [AWS KMS Configuration](#aws-kms-configuration) for this keystore,
     //# or the operation MUST fail.
     && (kmsConfiguration.kmsKeyArn? ==> versionItem[Structure.KMS_FIELD].S == kmsConfiguration.kmsKeyArn)
@@ -519,7 +519,7 @@ module GetKeys {
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
     //= type=implication
-    //# Otherwise, it MUST BE the Keystore's `KMS ARN`.
+    //# Otherwise, it MUST BE the Keystore's configured KMS Key.
     && (kmsConfiguration.kmsKeyArn? ==> decryptRequest.KeyId == Some(kmsConfiguration.kmsKeyArn))
     && (kmsConfiguration.kmsMRKeyArn? ==> KMSKeystoreOperations.MrkMatch(decryptRequest.KeyId.value, kmsConfiguration.kmsMRKeyArn))
 
