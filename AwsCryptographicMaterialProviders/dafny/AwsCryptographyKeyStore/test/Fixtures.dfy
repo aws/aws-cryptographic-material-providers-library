@@ -88,9 +88,9 @@ module Fixtures {
   const WestBranchKey : string := "MyWestBranch2"
   const publicKeyArn := "arn:aws:kms:us-west-2:658956600833:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"
 
+  // TODO: After ~2024/06/11 launch, add the next two lines to cfn/ESDK-Hierarchy-CI.yaml
   const postalHornKeyArn := "arn:aws:kms:us-west-2:370957321024:key/bc127593-f7da-452c-a1f3-cd34c46f81f8"
-  const postalHornBranchKeyId := "682dfba7-4c35-491d-8d6a-5a9c56194061"
-  const postalHornBranchKeyActiveVersion := "6b7a8ef4-8c1c-4f63-b196-a6ef7e496e50"
-  // For the record, texastony manually created this Alias instead of using CFN
   const kmsKeyAlias := "arn:aws:kms:us-west-2:370957321024:alias/postalHorn"
+  const postalHornBranchKeyId := "682dfba7-4c35-491d-8d6a-5a9c56194061"
+  const postalHornBranchKeyActiveVersion := "6b7a8ef4-8c1c-4f63-b196-a6ef7e496e50"  
 }
