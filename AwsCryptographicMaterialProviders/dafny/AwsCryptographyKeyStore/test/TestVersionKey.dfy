@@ -88,6 +88,103 @@ module TestVersionKey {
     expect getBranchKeyVersionResult.branchKeyMaterials.branchKey != newActiveResult.branchKeyMaterials.branchKey;
   }
 
+  method {:test} TestMrkVersionKey()
+  {
+    var ddbClient :- expect DDB.DynamoDBClient();
+
+    var eastKeyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := KmsMrkConfigEast,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient)
+    );
+
+    var westKeyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := KmsMrkConfigWest,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient)
+    );
+
+    var eastKeyStore :- expect KeyStore.KeyStore(eastKeyStoreConfig);
+    var westKeyStore :- expect KeyStore.KeyStore(westKeyStoreConfig);
+
+    // Create a new key with the WEST key store
+    // We will create a use this new key per run to avoid tripping up
+    // when running in different runtimes
+    var branchKeyId :- expect westKeyStore.CreateKey(Types.CreateKeyInput(
+                                                       branchKeyIdentifier := None,
+                                                       encryptionContext := None
+                                                     ));
+
+    var oldActiveResult :- expect westKeyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := branchKeyId.branchKeyIdentifier
+      ));
+
+    var oldActiveVersion :- expect UTF8.Decode(oldActiveResult.branchKeyMaterials.branchKeyVersion);
+
+    // Version the key with the EAST key store
+    var versionKeyResult :- expect eastKeyStore.VersionKey(
+      Types.VersionKeyInput(
+        branchKeyIdentifier := branchKeyId.branchKeyIdentifier
+      ));
+
+    var getBranchKeyVersionResultWest :- expect westKeyStore.GetBranchKeyVersion(
+      Types.GetBranchKeyVersionInput(
+        branchKeyIdentifier := branchKeyId.branchKeyIdentifier,
+        // We get the old active key by using the version
+        branchKeyVersion := oldActiveVersion
+      )
+    );
+
+    var getBranchKeyVersionResultEast :- expect eastKeyStore.GetBranchKeyVersion(
+      Types.GetBranchKeyVersionInput(
+        branchKeyIdentifier := branchKeyId.branchKeyIdentifier,
+        // We get the old active key by using the version
+        branchKeyVersion := oldActiveVersion
+      )
+    );
+    if (getBranchKeyVersionResultWest != getBranchKeyVersionResultEast) {
+      print "getBranchKeyVersionResultWest\n", getBranchKeyVersionResultWest, "\n";
+      print "getBranchKeyVersionResultEast\n", getBranchKeyVersionResultEast, "\n";
+    }
+    expect getBranchKeyVersionResultWest == getBranchKeyVersionResultEast;
+
+    var newActiveResultWest :- expect westKeyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := branchKeyId.branchKeyIdentifier
+      ));
+    var newActiveResultEast :- expect eastKeyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := branchKeyId.branchKeyIdentifier
+      ));
+
+    expect newActiveResultWest == newActiveResultEast;
+
+    var newActiveVersionWest :- expect UTF8.Decode(newActiveResultWest.branchKeyMaterials.branchKeyVersion);
+    var newActiveVersionEast :- expect UTF8.Decode(newActiveResultEast.branchKeyMaterials.branchKeyVersion);
+    expect newActiveVersionWest == newActiveVersionEast;
+
+    // Since this process uses a read DDB table,
+    // the number of records will forever increase.
+    // To avoid this, remove the items.
+    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, newActiveVersionEast, ddbClient);
+    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, oldActiveVersion, ddbClient);
+    CleanupItems.DeleteActive(branchKeyId.branchKeyIdentifier, ddbClient);
+
+    // We expect that getting the old active key has the same version as getting a branch key through the get version key api
+    expect getBranchKeyVersionResultEast.branchKeyMaterials.branchKeyVersion == oldActiveResult.branchKeyMaterials.branchKeyVersion;
+    expect getBranchKeyVersionResultEast.branchKeyMaterials.branchKey == oldActiveResult.branchKeyMaterials.branchKey;
+    // We expect that if we rotate the branch key, the returned materials MUST NOT be equal to the previous active key.
+    expect getBranchKeyVersionResultEast.branchKeyMaterials.branchKeyVersion != newActiveResultEast.branchKeyMaterials.branchKeyVersion;
+    expect getBranchKeyVersionResultEast.branchKeyMaterials.branchKey != newActiveResultEast.branchKeyMaterials.branchKey;
+  }
+
   method {:test} InsertingADuplicateVersionWillFail()
   {
     var ddbClient :- expect DDB.DynamoDBClient();
