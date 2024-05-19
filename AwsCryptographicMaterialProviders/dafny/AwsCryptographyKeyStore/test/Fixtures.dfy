@@ -92,5 +92,5 @@ module Fixtures {
   const postalHornKeyArn := "arn:aws:kms:us-west-2:370957321024:key/bc127593-f7da-452c-a1f3-cd34c46f81f8"
   const kmsKeyAlias := "arn:aws:kms:us-west-2:370957321024:alias/postalHorn"
   const postalHornBranchKeyId := "682dfba7-4c35-491d-8d6a-5a9c56194061"
-  const postalHornBranchKeyActiveVersion := "6b7a8ef4-8c1c-4f63-b196-a6ef7e496e50"  
+  const postalHornBranchKeyActiveVersion := "6b7a8ef4-8c1c-4f63-b196-a6ef7e496e50"
 }
