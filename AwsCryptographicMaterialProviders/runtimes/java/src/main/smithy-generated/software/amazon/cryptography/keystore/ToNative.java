@@ -24,6 +24,7 @@ import software.amazon.cryptography.keystore.model.CreateKeyInput;
 import software.amazon.cryptography.keystore.model.CreateKeyOutput;
 import software.amazon.cryptography.keystore.model.CreateKeyStoreInput;
 import software.amazon.cryptography.keystore.model.CreateKeyStoreOutput;
+import software.amazon.cryptography.keystore.model.Discovery;
 import software.amazon.cryptography.keystore.model.GetActiveBranchKeyInput;
 import software.amazon.cryptography.keystore.model.GetActiveBranchKeyOutput;
 import software.amazon.cryptography.keystore.model.GetBeaconKeyInput;
@@ -34,6 +35,7 @@ import software.amazon.cryptography.keystore.model.GetKeyStoreInfoOutput;
 import software.amazon.cryptography.keystore.model.KMSConfiguration;
 import software.amazon.cryptography.keystore.model.KeyStoreConfig;
 import software.amazon.cryptography.keystore.model.KeyStoreException;
+import software.amazon.cryptography.keystore.model.MRDiscovery;
 import software.amazon.cryptography.keystore.model.OpaqueError;
 import software.amazon.cryptography.keystore.model.VersionKeyInput;
 import software.amazon.cryptography.keystore.model.VersionKeyOutput;
@@ -201,6 +203,13 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static Discovery Discovery(
+    software.amazon.cryptography.keystore.internaldafny.types.Discovery dafnyValue
+  ) {
+    Discovery.Builder nativeBuilder = Discovery.builder();
+    return nativeBuilder.build();
+  }
+
   public static GetActiveBranchKeyInput GetActiveBranchKeyInput(
     software.amazon.cryptography.keystore.internaldafny.types.GetActiveBranchKeyInput dafnyValue
   ) {
@@ -351,6 +360,18 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static MRDiscovery MRDiscovery(
+    software.amazon.cryptography.keystore.internaldafny.types.MRDiscovery dafnyValue
+  ) {
+    MRDiscovery.Builder nativeBuilder = MRDiscovery.builder();
+    nativeBuilder.region(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_region()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
   public static VersionKeyInput VersionKeyInput(
     software.amazon.cryptography.keystore.internaldafny.types.VersionKeyInput dafnyValue
   ) {
@@ -386,6 +407,14 @@ public class ToNative {
         software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
           dafnyValue.dtor_kmsMRKeyArn()
         )
+      );
+    }
+    if (dafnyValue.is_discovery()) {
+      nativeBuilder.discovery(ToNative.Discovery(dafnyValue.dtor_discovery()));
+    }
+    if (dafnyValue.is_mrDiscovery()) {
+      nativeBuilder.mrDiscovery(
+        ToNative.MRDiscovery(dafnyValue.dtor_mrDiscovery())
       );
     }
     return nativeBuilder.build();

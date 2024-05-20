@@ -3,6 +3,7 @@
 
 include "../src/Index.dfy"
 include "Fixtures.dfy"
+include "../src/ErrorMessages.dfy"
 
 module TestGetKeys {
   import Types = AwsCryptographyKeyStoreTypes
@@ -13,6 +14,7 @@ module TestGetKeys {
   import opened Wrappers
   import opened Fixtures
   import UTF8
+  import ErrorMessages = KeyStoreErrorMessages
 
   const incorrectLogicalName := "MySuperAwesomeTableName"
 
@@ -167,12 +169,12 @@ module TestGetKeys {
     var badResult := westKeyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(branchKeyIdentifier := EastBranchKey));
     expect badResult.Failure?;
-    expect badResult.error == Types.Error.KeyStoreException(message := "AWS KMS Key ARN does not match configured value");
+    expect badResult.error == Types.Error.KeyStoreException(message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT);
 
     badResult := eastKeyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(branchKeyIdentifier := WestBranchKey));
     expect badResult.Failure?;
-    expect badResult.error == Types.Error.KeyStoreException(message := "AWS KMS Key ARN does not match configured value");
+    expect badResult.error == Types.Error.KeyStoreException(message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT);
 
     // apMrkKeyStore should always fail
 
@@ -219,7 +221,7 @@ module TestGetKeys {
   method {:test} TestGetActiveKeyWithIncorrectKmsKeyArn() {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
-    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(mkrKeyArn);
+    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
 
     var keyStoreConfig := Types.KeyStoreConfig(
       id := None,
@@ -235,10 +237,10 @@ module TestGetKeys {
 
     var activeResult := keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
-        branchKeyIdentifier := branchKeyId
+        branchKeyIdentifier := postalHornBranchKeyId
       ));
-
     expect activeResult.Failure?;
+    expect activeResult.error == Types.KeyStoreException(message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT);
   }
 
   method {:test} TestGetActiveKeyWrongLogicalKeyStoreName() {
@@ -264,6 +266,39 @@ module TestGetKeys {
       ));
 
     expect activeResult.Failure?;
+    match activeResult.error {
+      case ComAmazonawsKms(nestedError) =>
+        expect nestedError.InvalidCiphertextException?;
+      case _ => expect false, "Wrong Logical Keystore Name SHOULD Fail with KMS InvalidCiphertextException.";
+    }
+  }
+
+  method {:test} TestGetActiveKeyDoesNotExistFails()
+  {
+    var kmsClient :- expect KMS.KMSClient();
+    var ddbClient :- expect DDB.DynamoDBClient();
+    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
+
+    var keyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient),
+      kmsClient := Some(kmsClient)
+    );
+
+    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+
+    var activeResult := keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := "Robbie"
+      ));
+
+    expect activeResult.Failure?;
+    expect activeResult.error == Types.KeyStoreException(message := ErrorMessages.NO_CORRESPONDING_BRANCH_KEY);
+    //AwsCryptographyKeyStoreTypes.Error.KeyStoreException(No item found for corresponding branch key identifier.)
   }
 
   method {:test} TestGetActiveKeyWithNoClients() {
