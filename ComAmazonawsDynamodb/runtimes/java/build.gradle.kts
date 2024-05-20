@@ -13,10 +13,10 @@ var props = Properties().apply {
     load(FileInputStream(File(rootProject.rootDir, "../../../project.properties")))
 }
 var dafnyVersion = props.getProperty("dafnyVersion")
-
+var mplJavaVersion = props.getProperty("mplJavaVersion")
 
 group = "software.amazon.cryptography"
-version = "1.0-SNAPSHOT"
+version = "${mplJavaVersion}"
 description = "ComAmazonawsDynamodb"
 
 var caUrl: URI? = null
@@ -62,7 +62,7 @@ repositories {
 
 dependencies {
     implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
-    implementation("software.amazon.cryptography:StandardLibrary:1.0-SNAPSHOT")
+    implementation("software.amazon.cryptography:StandardLibrary:${mplJavaVersion}")
     implementation("software.amazon.smithy.dafny:conversion:0.1")
     implementation(platform("software.amazon.awssdk:bom:2.19.1"))
     implementation("software.amazon.awssdk:dynamodb")

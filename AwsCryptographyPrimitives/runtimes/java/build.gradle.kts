@@ -10,12 +10,13 @@ plugins {
 }
 
 var props = Properties().apply {
-    load(FileInputStream(File(rootProject.rootDir, "../../../project.properties")))
-}
+    load(FileInputStream(File(rootProject.rootDir, "../../../project.properties")))}
 var dafnyVersion = props.getProperty("dafnyVersion")
+var mplJavaVersion = props.getProperty("mplJavaVersion")
+var smithyDafnyJavaConversionVersion = props.getProperty("smithyDafnyJavaConversionVersion")
 
 group = "software.amazon.cryptography"
-version = "1.0-SNAPSHOT"
+version = "${mplJavaVersion}"
 description = "AwsCryptographyPrimitives"
 
 java {
@@ -61,8 +62,8 @@ repositories {
 
 dependencies {
     implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
-    implementation("software.amazon.smithy.dafny:conversion:0.1")
-    implementation("software.amazon.cryptography:StandardLibrary:1.0-SNAPSHOT")
+    implementation("software.amazon.smithy.dafny:conversion:${smithyDafnyJavaConversionVersion}")
+    implementation("software.amazon.cryptography:StandardLibrary:${mplJavaVersion}")
     implementation("org.bouncycastle:bcprov-jdk18on:1.72")
 }
 

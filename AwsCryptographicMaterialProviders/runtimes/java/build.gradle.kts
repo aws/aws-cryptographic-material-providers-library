@@ -16,9 +16,11 @@ var props = Properties().apply {
     load(FileInputStream(File(rootProject.rootDir, "../../../project.properties")))
 }
 var dafnyVersion = props.getProperty("dafnyVersion")
+var mplJavaVersion = props.getProperty("mplJavaVersion")
+var smithyDafnyJavaConversionVersion = props.getProperty("smithyDafnyJavaConversionVersion")
 
 group = "software.amazon.cryptography"
-version = "1.4.0"
+version = "${mplJavaVersion}"
 description = "AWS Cryptographic Material Providers Library"
 
 java {
@@ -64,14 +66,14 @@ repositories {
 
 dependencies {
     // generated dependencies
-    implementation("software.amazon.cryptography:StandardLibrary:1.0-SNAPSHOT")
-    implementation("software.amazon.cryptography:AwsCryptographyPrimitives:1.0-SNAPSHOT")
-    implementation("software.amazon.cryptography:ComAmazonawsKms:1.0-SNAPSHOT")
-    implementation("software.amazon.cryptography:ComAmazonawsDynamodb:1.0-SNAPSHOT")
+    implementation("software.amazon.cryptography:StandardLibrary:${mplJavaVersion}")
+    implementation("software.amazon.cryptography:AwsCryptographyPrimitives:${mplJavaVersion}")
+    implementation("software.amazon.cryptography:ComAmazonawsKms:${mplJavaVersion}")
+    implementation("software.amazon.cryptography:ComAmazonawsDynamodb:${mplJavaVersion}")
 
     // Dafny dependencies
     implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
-    implementation("software.amazon.smithy.dafny:conversion:0.1")
+    implementation("software.amazon.smithy.dafny:conversion:${smithyDafnyJavaConversionVersion}")
 
     // sdk dependencies
     implementation(platform("software.amazon.awssdk:bom:2.25.1"))
@@ -165,10 +167,10 @@ tasks.shadowJar {
     archiveClassifier.set("")
 
     dependencies {
-        include(dependency("software.amazon.cryptography:StandardLibrary:1.0-SNAPSHOT"))
-        include(dependency("software.amazon.cryptography:AwsCryptographyPrimitives:1.0-SNAPSHOT"))
-        include(dependency("software.amazon.cryptography:ComAmazonawsKms:1.0-SNAPSHOT"))
-        include(dependency("software.amazon.cryptography:ComAmazonawsDynamodb:1.0-SNAPSHOT"))
+        include(dependency("software.amazon.cryptography:StandardLibrary:${mplJavaVersion}"))
+        include(dependency("software.amazon.cryptography:AwsCryptographyPrimitives:${mplJavaVersion}"))
+        include(dependency("software.amazon.cryptography:ComAmazonawsKms:${mplJavaVersion}"))
+        include(dependency("software.amazon.cryptography:ComAmazonawsDynamodb:${mplJavaVersion}"))
     }
 
     configurations {

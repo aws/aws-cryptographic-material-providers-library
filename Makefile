@@ -83,6 +83,11 @@ duvet_report:
 # because smithy-dafny currently maintains the knowledge
 # of how Dafny release versions maps to Dafny runtime library versions,
 # especially prerelease versions like 4.4.0-nightly-2024-01-30-908f95f.
+#
+# Note we generate to a different file than the checked-in project.properties,
+# because in this repo that file has other properties as well,
+# so we need to merge the two versions.
+# See .github/actions/polymorph_codegen/action.yml.
 generate_properties_file: 
 	cd smithy-dafny/codegen/smithy-dafny-codegen-cli; \
 	./../gradlew run --args="\
@@ -91,5 +96,5 @@ generate_properties_file:
 	--model $(PROJECT_ROOT)/StandardLibrary/Model \
 	--dependent-model $(PROJECT_ROOT)/StandardLibrary/Model \
 	--namespace aws.polymorph \
-	--properties-file $(PROJECT_ROOT)/project.properties \
+	--properties-file $(PROJECT_ROOT)/smithy-dafny-project.properties \
 	";
