@@ -6,7 +6,7 @@ import static Signature.ECDSA.TWO;
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
 
-import Dafny.Aws.Cryptography.Primitives.Types.InternalResult;
+import StandardLibraryInternal.InternalResult;
 import Wrappers_Compile.Result;
 import dafny.Array;
 import dafny.DafnySequence;
