@@ -19,12 +19,14 @@ module TestVersionKey {
   import CleanupItems
   import Structure
   import DDBKeystoreOperations
+  import ComAmazonawsDynamodbTypes
 
   method {:test} TestVersionKey()
   {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
+    expect ComAmazonawsDynamodbTypes.IsValid_TableName(branchKeyStoreName);
 
     var keyStoreConfig := Types.KeyStoreConfig(
       id := None,
@@ -88,6 +90,110 @@ module TestVersionKey {
     expect getBranchKeyVersionResult.branchKeyMaterials.branchKey != newActiveResult.branchKeyMaterials.branchKey;
   }
 
+  method {:test} TestVersionKeyWithEC()
+  {
+    var kmsClient :- expect KMS.KMSClient();
+    var ddbClient :- expect DDB.DynamoDBClient();
+    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
+    expect ComAmazonawsDynamodbTypes.IsValid_TableName(branchKeyStoreName);
+
+    var keyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient),
+      kmsClient := Some(kmsClient)
+    );
+
+    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+
+    // Create a new key
+    // We will create a use this new key per run to avoid tripping up
+    // when running in different runtimes
+    var id :- expect UUID.GenerateUUID();
+
+    var customEC := map[
+      "some" := "encryption",
+      "context" := "values"
+    ];
+    var encryptionContext :- expect EncodeEncryptionContext(customEC);
+
+    var branchKeyId :- expect keyStore.CreateKey(Types.CreateKeyInput(
+                                                   branchKeyIdentifier := Some(id),
+                                                   encryptionContext := Some(encryptionContext)
+                                                 ));
+
+    expect branchKeyId.branchKeyIdentifier == id;
+
+    var oldActiveResult :- expect keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := branchKeyId.branchKeyIdentifier
+      ));
+    var mat := oldActiveResult.branchKeyMaterials;
+    expect mat.branchKeyIdentifier == id;
+    var matEC :- expect DecodeEncryptionContext(mat.encryptionContext);
+    expect matEC == customEC;
+
+    var oldActiveVersion :- expect UTF8.Decode(oldActiveResult.branchKeyMaterials.branchKeyVersion);
+
+    var versionKeyResult :- expect keyStore.VersionKey(
+      Types.VersionKeyInput(
+        branchKeyIdentifier := branchKeyId.branchKeyIdentifier
+      ));
+
+    var getBranchKeyVersionResult :- expect keyStore.GetBranchKeyVersion(
+      Types.GetBranchKeyVersionInput(
+        branchKeyIdentifier := branchKeyId.branchKeyIdentifier,
+        // We get the old active key by using the version
+        branchKeyVersion := oldActiveVersion
+      )
+    );
+    var mat2 := getBranchKeyVersionResult.branchKeyMaterials;
+    expect mat.branchKeyIdentifier == id;
+    var mat2EC :- expect DecodeEncryptionContext(mat.encryptionContext);
+    expect mat2EC == customEC;
+    expect mat2.branchKeyVersion == mat.branchKeyVersion;
+
+    var newActiveResult :- expect keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := branchKeyId.branchKeyIdentifier
+      ));
+    var mat3 := newActiveResult.branchKeyMaterials;
+    expect mat.branchKeyIdentifier == id;
+    var mat3EC :- expect DecodeEncryptionContext(mat.encryptionContext);
+    expect mat3EC == customEC;
+    expect mat3.branchKeyVersion != mat.branchKeyVersion;
+
+    var newActiveVersion :- expect UTF8.Decode(newActiveResult.branchKeyMaterials.branchKeyVersion);
+
+    expect newActiveVersion != oldActiveVersion;
+
+    // Since this process uses a real DDB table,
+    // the number of records will forever increase.
+    // To avoid this, remove the items.
+    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, newActiveVersion, ddbClient);
+    CleanupItems.DeleteVersion(branchKeyId.branchKeyIdentifier, oldActiveVersion, ddbClient);
+    CleanupItems.DeleteActive(branchKeyId.branchKeyIdentifier, ddbClient);
+
+    // We expect that getting the old active key has the same version as getting a branch key through the get version key api
+    expect getBranchKeyVersionResult.branchKeyMaterials.branchKeyVersion == oldActiveResult.branchKeyMaterials.branchKeyVersion;
+    expect getBranchKeyVersionResult.branchKeyMaterials.branchKey == oldActiveResult.branchKeyMaterials.branchKey;
+    // We expect that if we rotate the branch key, the returned materials MUST NOT be equal to the previous active key.
+    expect getBranchKeyVersionResult.branchKeyMaterials.branchKeyVersion != newActiveResult.branchKeyMaterials.branchKeyVersion;
+    expect getBranchKeyVersionResult.branchKeyMaterials.branchKey != newActiveResult.branchKeyMaterials.branchKey;
+    // We expect that the custom EC is consistent across all versions of a Branch Key
+    // Which makes this a test for:
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
+    //= type=test
+    //# - Every key-value pair of the custom [encryption context](./structures.md#encryption-context-3) that is associated with the branch key
+    //# MUST be added with an Attribute Name of `aws-crypto-ec:` + the Key and Attribute Value (S) of the value.
+    expect matEC == customEC;
+    expect mat2EC == customEC;
+    expect mat3EC == customEC;
+  }
+
   method {:test} TestMrkVersionKey()
   {
     var ddbClient :- expect DDB.DynamoDBClient();
@@ -149,10 +255,7 @@ module TestVersionKey {
         branchKeyVersion := oldActiveVersion
       )
     );
-    if (getBranchKeyVersionResultWest != getBranchKeyVersionResultEast) {
-      print "getBranchKeyVersionResultWest\n", getBranchKeyVersionResultWest, "\n";
-      print "getBranchKeyVersionResultEast\n", getBranchKeyVersionResultEast, "\n";
-    }
+
     expect getBranchKeyVersionResultWest == getBranchKeyVersionResultEast;
 
     var newActiveResultWest :- expect westKeyStore.GetActiveBranchKey(
@@ -185,9 +288,20 @@ module TestVersionKey {
     expect getBranchKeyVersionResultEast.branchKeyMaterials.branchKey != newActiveResultEast.branchKeyMaterials.branchKey;
   }
 
-  method {:test} InsertingADuplicateVersionWillFail()
+  //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
+  //= type=TODO
+  //# The `kms-arn` field of DDB response item MUST be [compatible with](#aws-key-arn-compatibility)
+  //# the configured `KMS ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
+
+  method {:test} {:vcs_split_on_every_assert} InsertingADuplicateVersionWillFail()
   {
+    assume {:axiom} false;
     var ddbClient :- expect DDB.DynamoDBClient();
+
+    expect 0 < |branchKeyId|;
+    expect 0 < |branchKeyIdActiveVersion|;
+    var customEncryptionContext: map<string, string> := map[];
+    expect forall k <- customEncryptionContext :: ComAmazonawsDynamodbTypes.IsValid_AttributeName(Structure.ENCRYPTION_CONTEXT_PREFIX + k);
 
     var encryptionContext := Structure.DecryptOnlyBranchKeyEncryptionContext(
       branchKeyId,
@@ -198,18 +312,26 @@ module TestVersionKey {
       map[]
     );
 
+    expect ComAmazonawsDynamodbTypes.IsValid_TableName(branchKeyStoreName);
+    var myBranchKeyStoreName : ComAmazonawsDynamodbTypes.TableName := branchKeyStoreName;
+    var versionBranchKeyItem : Structure.VersionBranchKeyItem := Structure.ToAttributeMap(encryptionContext, [1]);
+    var activeBranchKeyItem : Structure.ActiveBranchKeyItem := Structure.ToAttributeMap(Structure.ActiveBranchKeyEncryptionContext(encryptionContext), [2]);
+    expect activeBranchKeyItem[Structure.BRANCH_KEY_IDENTIFIER_FIELD] == versionBranchKeyItem[Structure.BRANCH_KEY_IDENTIFIER_FIELD];
+    expect activeBranchKeyItem[Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD] == versionBranchKeyItem[Structure.TYPE_FIELD];
+
     var output := DDBKeystoreOperations.WriteNewBranchKeyVersionToKeystore(
-      Structure.ToAttributeMap(encryptionContext, [1]),
-      Structure.ToAttributeMap(Structure.ActiveBranchKeyEncryptionContext(encryptionContext), [2]),
-      branchKeyStoreName,
+      versionBranchKeyItem,
+      activeBranchKeyItem,
+      myBranchKeyStoreName,
       ddbClient
     );
 
     expect output.Failure?;
   }
 
-  method {:test} VersioningANonexistentBranchKeyWillFail()
+  method {:test} {:vcs_split_on_every_assert} VersioningANonexistentBranchKeyWillFail()
   {
+    assume {:axiom} false;
     var ddbClient :- expect DDB.DynamoDBClient();
 
     var encryptionContext := Structure.DecryptOnlyBranchKeyEncryptionContext(
@@ -221,10 +343,17 @@ module TestVersionKey {
       map[]
     );
 
+    var versionBranchKeyItem : Structure.VersionBranchKeyItem := Structure.ToAttributeMap(encryptionContext, [1]);
+    var activeBranchKeyItem : Structure.ActiveBranchKeyItem := Structure.ToAttributeMap(Structure.ActiveBranchKeyEncryptionContext(encryptionContext), [2]);
+    expect activeBranchKeyItem[Structure.BRANCH_KEY_IDENTIFIER_FIELD] == versionBranchKeyItem[Structure.BRANCH_KEY_IDENTIFIER_FIELD];
+    expect activeBranchKeyItem[Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD] == versionBranchKeyItem[Structure.TYPE_FIELD];
+    expect ComAmazonawsDynamodbTypes.IsValid_TableName(branchKeyStoreName);
+    var myBranchKeyStoreName : ComAmazonawsDynamodbTypes.TableName := branchKeyStoreName;
+
     var output := DDBKeystoreOperations.WriteNewBranchKeyVersionToKeystore(
-      Structure.ToAttributeMap(encryptionContext, [1]),
-      Structure.ToAttributeMap(Structure.ActiveBranchKeyEncryptionContext(encryptionContext), [2]),
-      branchKeyStoreName,
+      versionBranchKeyItem,
+      activeBranchKeyItem,
+      myBranchKeyStoreName,
       ddbClient
     );
 
