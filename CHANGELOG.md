@@ -23,7 +23,6 @@ a Keystore and KMS.
 - .NET : Bump dependency [AWSSDK.Core](https://github.com/aws/aws-sdk-net) from 3.7.300.2 to 3.7.304.2. ([#329](https://github.com/aws/aws-cryptographic-material-providers-library/pull/329))
 - Java : Move InternalResult into StandardLibrary(Internal) ([#325](https://github.com/aws/aws-cryptographic-material-providers-library/pull/325))
 
-
 # [1.3.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.2.0...v1.3.0) (2024-04-24)
 
 ### Bug Fixes
