@@ -26,19 +26,19 @@ const Runtimes = {
   },
   net: {
     "AwsCryptographicMaterialProviders/runtimes/net/MPL.csproj": {
-      dependencies: []
+      dependencies: [],
     },
     "ComAmazonawsKms/runtimes/net/AWS-KMS.csproj": {
-      dependencies: []
+      dependencies: [],
     },
     "ComAmazonawsDynamodb/runtimes/net/ComAmazonawsDynamodb.csproj": {
-      dependencies: []
+      dependencies: [],
     },
     "AwsCryptographyPrimitives/runtimes/net/Crypto.csproj": {
-      dependencies: []
+      dependencies: [],
     },
     "StandardLibrary/runtimes/net/STD.csproj": {
-      dependencies: []
+      dependencies: [],
     },
   },
 };
@@ -99,7 +99,7 @@ module.exports = {
             to: "<Version>${nextRelease.version}</Version>",
             results: Object.keys(Runtimes.net).map(CheckResults),
             countMatches: true,
-          }
+          },
         ],
       },
     ],
