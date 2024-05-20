@@ -1,5 +1,22 @@
 # Changelog
 
+# [1.4.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.3.0...v1.4.0) (2024-05-20)
+
+### Features
+
+- **Keystore:** Introduce additional KMSConfiguration options ([#316](https://github.com/aws/aws-cryptographic-material-providers-library/pull/316))
+
+The Hierarchical Keyring's Keystore now supports four (4) `KMSConfigurations`:
+
+- kmsKeyArn
+- kmsMRKeyArn
+- discovery
+- mrDiscovery
+
+See our [JavaDocs](https://aws.github.io/aws-cryptographic-material-providers-library/index.html?software/amazon/cryptography/keystore/model/KMSConfiguration.html) for details
+on how these options effect the relationship between
+a Keystore and KMS.
+
 # [1.3.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.2.0...v1.3.0) (2024-04-24)
 
 ### Bug Fixes
