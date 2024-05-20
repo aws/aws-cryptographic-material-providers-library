@@ -27,7 +27,9 @@ ErrorMessages_Compile
 GetKeys_Compile
 IntermediateKeyWrapping_Compile
 KMSKeystoreOperations_Compile
+KeyStoreErrorMessages_Compile
 Keyring_Compile
+KmsArn_Compile
 LocalCMC_Compile
 MaterialWrapping_Compile
 Materials_Compile
