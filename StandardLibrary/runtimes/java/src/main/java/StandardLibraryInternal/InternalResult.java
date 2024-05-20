@@ -1,4 +1,4 @@
-package Dafny.Aws.Cryptography.Primitives.Types;
+package StandardLibraryInternal;
 
 /**
  * Similar to the translation of Dafny's Wrappers.Result type,
