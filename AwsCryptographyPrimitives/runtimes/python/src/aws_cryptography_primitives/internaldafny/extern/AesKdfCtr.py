@@ -1,8 +1,8 @@
 from cryptography.hazmat.primitives.ciphers import algorithms, modes
 from cryptography.hazmat.primitives.ciphers import Cipher
 from cryptography.exceptions import AlreadyFinalized
-from software_amazon_cryptography_primitives_internaldafny_types import Error_AwsCryptographicPrimitivesError
-import Wrappers
+from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes import Error_AwsCryptographicPrimitivesError
+import standard_library.internaldafny.generated.Wrappers as Wrappers
 import _dafny
 import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr
 

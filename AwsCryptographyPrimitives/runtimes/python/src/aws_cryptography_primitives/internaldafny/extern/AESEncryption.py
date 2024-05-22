@@ -1,10 +1,10 @@
 from aws_cryptography_primitives.internaldafny.generated.AESEncryption import *
 import aws_cryptography_primitives.internaldafny.generated.AESEncryption
-import Wrappers
+import standard_library.internaldafny.generated.Wrappers as Wrappers
 import _dafny
 from aws_cryptography_primitives.internaldafny.generated.HMAC import *
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-from software_amazon_cryptography_primitives_internaldafny_types import Error_AwsCryptographicPrimitivesError
+from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes import Error_AwsCryptographicPrimitivesError
 from cryptography.exceptions import InvalidTag
 
 # Get generated methods

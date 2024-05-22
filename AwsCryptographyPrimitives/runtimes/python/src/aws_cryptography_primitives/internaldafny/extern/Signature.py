@@ -2,7 +2,7 @@ import aws_cryptography_primitives
 from aws_cryptography_primitives.internaldafny.generated.Signature import *
 import aws_cryptography_primitives.internaldafny.generated.Signature
 from enum import Enum
-from software_amazon_cryptography_primitives_internaldafny_types import (
+from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes import (
   DigestAlgorithm_SHA__256,
   DigestAlgorithm_SHA__384,
   Error_AwsCryptographicPrimitivesError
@@ -18,7 +18,7 @@ from cryptography.hazmat.primitives.serialization import (
   PrivateFormat,
   load_pem_private_key,
 )
-import Wrappers
+import standard_library.internaldafny.generated.Wrappers as Wrappers
 import cryptography.hazmat.primitives.asymmetric.ec as ec
 from cryptography.hazmat.primitives.asymmetric.ec import (
   SECP256R1,
@@ -26,7 +26,7 @@ from cryptography.hazmat.primitives.asymmetric.ec import (
 )
 import _dafny
 from collections import namedtuple
-import ExternDigest
+import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
 import six
 from cryptography.hazmat.primitives.asymmetric.utils import (
   decode_dss_signature,
@@ -138,7 +138,7 @@ class default__(aws_cryptography_primitives.internaldafny.generated.Signature.de
 # Export extern-extended class into generated class
 aws_cryptography_primitives.internaldafny.generated.Signature.default__ = default__
 # Issue with our Dafny extern declarations. Fix is WIP on lucmcdon/signature-extern branch.
-aws_cryptography_primitives.internaldafny.generated.Signature.Signature = aws_cryptography_primitives.internaldafny.generated.Signature
+# aws_cryptography_primitives.internaldafny.generated.Signature.Signature = aws_cryptography_primitives.internaldafny.generated.Signature
 
 class SignatureAlgorithm:
   def __init__(self, curve, message_digest_algorithm, raw_signature_algorithm, expected_signature_length):

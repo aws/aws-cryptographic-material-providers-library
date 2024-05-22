@@ -66,9 +66,7 @@ class RSA:
   @staticmethod
   def EncryptExtern(padding_mode, public_key_der, plaintext):
     plaintext_bytes = bytes(plaintext)
-    print(f"RSAEncryption {public_key_der=}")
     public_key = load_pem_public_key(bytes(public_key_der))
-    print(f"RSAEncryption {public_key=}")
 
     ct = public_key.encrypt(
         plaintext_bytes,

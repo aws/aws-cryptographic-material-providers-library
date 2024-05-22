@@ -1,10 +1,10 @@
 from cryptography.hazmat.primitives.hmac import HMAC
 from cryptography.hazmat.primitives import hashes
-import Wrappers
+import standard_library.internaldafny.generated.Wrappers as Wrappers
 import _dafny
 from aws_cryptography_primitives.internaldafny.generated.HMAC import *
 import aws_cryptography_primitives.internaldafny.generated.Digest
-from software_amazon_cryptography_primitives_internaldafny_types import (
+from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes import (
     HMacInput
 )
 import aws_cryptography_primitives.internaldafny.generated.HMAC
