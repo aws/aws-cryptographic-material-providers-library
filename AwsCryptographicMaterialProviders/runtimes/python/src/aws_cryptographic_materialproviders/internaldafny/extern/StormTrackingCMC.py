@@ -1,17 +1,7 @@
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC
 import standard_library.internaldafny.generated.Wrappers as Wrappers
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes
-import time
-from multiprocessing import Lock
-import functools
-
-def synchronized(wrapped):
-    lock = Lock()
-    @functools.wraps(wrapped)
-    def _wrap(*args, **kwargs):
-        with lock:
-            return wrapped(*args, **kwargs)
-    return _wrap
+from . import synchronized
 
 class StormTrackingCMC:
 
@@ -72,6 +62,6 @@ class StormTrackingCMC:
         return self.wrapped.DeleteCacheEntry(input)
     
     def __str__(self):
-        return "StormTracker_Compile.StormTrackerCMC"
+        return "StormTracker.StormTrackerCMC"
 
 aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC.StormTrackingCMC = StormTrackingCMC

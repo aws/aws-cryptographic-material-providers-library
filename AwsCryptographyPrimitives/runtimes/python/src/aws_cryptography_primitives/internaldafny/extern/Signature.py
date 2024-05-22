@@ -137,8 +137,6 @@ class default__(aws_cryptography_primitives.internaldafny.generated.Signature.de
 
 # Export extern-extended class into generated class
 aws_cryptography_primitives.internaldafny.generated.Signature.default__ = default__
-# Issue with our Dafny extern declarations. Fix is WIP on lucmcdon/signature-extern branch.
-# aws_cryptography_primitives.internaldafny.generated.Signature.Signature = aws_cryptography_primitives.internaldafny.generated.Signature
 
 class SignatureAlgorithm:
   def __init__(self, curve, message_digest_algorithm, raw_signature_algorithm, expected_signature_length):
