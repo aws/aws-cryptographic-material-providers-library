@@ -1754,21 +1754,21 @@ class NoCache_NoCache(NoCache, NamedTuple('NoCache', [])):
 class None_:
     @_dafny.classproperty
     def AllSingletonConstructors(cls):
-        return [None_None()]
+        return [None__None()]
     @classmethod
     def default(cls, ):
-        return lambda: None_None()
+        return lambda: None__None()
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_None(self) -> bool:
-        return isinstance(self, None_None)
+        return isinstance(self, None__None)
 
-class None_None(None_, NamedTuple('None_', [])):
+class None__None(None_, NamedTuple('None_', [])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTypes.None.None'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, None_None)
+        return isinstance(__o, None__None)
     def __hash__(self) -> int:
         return super().__hash__()
 
