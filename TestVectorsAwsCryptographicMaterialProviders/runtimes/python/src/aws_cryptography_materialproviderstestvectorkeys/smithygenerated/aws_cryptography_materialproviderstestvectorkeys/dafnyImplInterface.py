@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-from software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny import KeyVectorsClient
+from aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.KeyVectors import KeyVectorsClient
 from .dafny_protocol import DafnyRequest
 
 class DafnyImplInterface:

@@ -5,7 +5,7 @@
 import asyncio
 from asyncio import sleep
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references
-from software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types import (
+from aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes import (
     IKeyVectorsClient,
 )
 from typing import Awaitable, Callable, TypeVar, cast

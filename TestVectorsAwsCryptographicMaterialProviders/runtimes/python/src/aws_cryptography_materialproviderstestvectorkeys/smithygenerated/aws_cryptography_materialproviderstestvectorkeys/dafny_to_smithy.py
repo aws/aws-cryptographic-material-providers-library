@@ -2,13 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
-import UTF8
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
-import aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy
-import aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models
-import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk
-import module_
-from software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types import (
+from aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes import (
     CmmOperation_DECRYPT,
     CmmOperation_ENCRYPT,
     KeyDescription_AES,
@@ -22,6 +17,11 @@ from software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_
     KeyDescription_RequiredEncryptionContext,
     KeyDescription_Static,
 )
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.module_
+import aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy
+import aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models
+import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk
+from standard_library.internaldafny.generated import UTF8
 
 
 def aws_cryptography_materialproviderstestvectorkeys_KeyDescription(dafny_input):

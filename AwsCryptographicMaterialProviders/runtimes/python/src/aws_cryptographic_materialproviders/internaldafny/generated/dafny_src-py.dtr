@@ -1,104 +1,104 @@
 file_format_version = "1.0"
 dafny_version = "4.6.0.0"
 [options_by_module.AwsCryptographyKeyStoreTypes]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AbstractAwsCryptographyKeyStoreOperations]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AbstractAwsCryptographyKeyStoreService]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AwsCryptographyMaterialProvidersTypes]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AwsArnParsing]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AwsKmsMrkMatchForDecrypt]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AwsKmsUtils]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.Structure]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.KMSKeystoreOperations]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.DDBKeystoreOperations]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.CreateKeys]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.CreateKeyStoreTable]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.GetKeys]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AwsCryptographyKeyStoreOperations]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.KeyStore]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AbstractAwsCryptographyMaterialProvidersOperations]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AbstractAwsCryptographyMaterialProvidersService]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AlgorithmSuites]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.Materials]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.Keyring]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.MultiKeyring]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AwsKmsMrkAreUnique]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.Constants]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.MaterialWrapping]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.CanonicalEncryptionContext]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.IntermediateKeyWrapping]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.EdkWrapping]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AwsKmsKeyring]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.StrictMultiKeyring]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AwsKmsDiscoveryKeyring]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.DiscoveryMultiKeyring]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AwsKmsMrkDiscoveryKeyring]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.MrkAwareDiscoveryMultiKeyring]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AwsKmsMrkKeyring]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.MrkAwareStrictMultiKeyring]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.LocalCMC]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.SynchronizedLocalCMC]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.StormTracker]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.StormTrackingCMC]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AwsKmsHierarchicalKeyring]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AwsKmsRsaKeyring]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.RawAESKeyring]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.RawRSAKeyring]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.CMM]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.Defaults]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.Commitment]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.DefaultCMM]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.DefaultClientSupplier]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.RequiredEncryptionContextCMM]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AwsCryptographyMaterialProvidersOperations]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.MaterialProviders]
-python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated."
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"

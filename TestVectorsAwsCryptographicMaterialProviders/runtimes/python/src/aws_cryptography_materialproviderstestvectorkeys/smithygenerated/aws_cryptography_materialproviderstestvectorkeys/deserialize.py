@@ -4,14 +4,14 @@
 
 import _dafny
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy
-import aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy
-import module_
-from software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types import (
+from aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes import (
     Error,
     Error_KeyVectorException,
     GetKeyDescriptionOutput_GetKeyDescriptionOutput as DafnyGetKeyDescriptionOutput,
     SerializeKeyDescriptionOutput_SerializeKeyDescriptionOutput as DafnySerializeKeyDescriptionOutput,
 )
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.module_
+import aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy
 from typing import Any
 
 from .dafny_protocol import DafnyResponse

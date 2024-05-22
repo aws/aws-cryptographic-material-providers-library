@@ -5,7 +5,7 @@ include "KeysVectorOperations.dfy"
 include "../../TestVectorsAwsCryptographicMaterialProviders/src/JSONHelpers.dfy"
 include "KeyMaterial.dfy"
 
-module {:extern "software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny"} KeyVectors refines AbstractAwsCryptographyMaterialProvidersTestVectorKeysService {
+module KeyVectors refines AbstractAwsCryptographyMaterialProvidersTestVectorKeysService {
   import Operations = KeysVectorOperations
   import JSON.API
   import JSON.Errors

@@ -2,8 +2,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
+import _dafny
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes
 import aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.errors
-import software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types
 from typing import Any, Dict, Generic, List, Literal, TypeVar
 
 
@@ -154,10 +156,12 @@ def _smithy_error_to_dafny_error(e: ServiceError):
     into the corresponding Dafny error.
     """
     if isinstance(e, aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.errors.KeyVectorException):
-        return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_KeyVectorException(message=e.message)
+        return aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_KeyVectorException(message=_dafny.Seq(e.message))
 
     if isinstance(e, CollectionOfErrors):
-        return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_CollectionOfErrors(message=e.message, list=e.list)
+        return aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_CollectionOfErrors(message=_dafny.Seq(e.message), list=_dafny.Seq(
+            _smithy_error_to_dafny_error(native_err) for native_err in e.list
+        ))
 
     if isinstance(e, OpaqueError):
-        return software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.Error_Opaque(obj=e.obj)
+        return aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_Opaque(obj=e.obj)
