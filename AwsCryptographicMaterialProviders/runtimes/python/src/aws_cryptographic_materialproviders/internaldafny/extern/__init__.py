@@ -14,4 +14,5 @@ def synchronized(wrapped):
 from . import (
     StormTrackingCMC,
     SynchronizedLocalCMC,
+    StormTrackerEnforcesOneFanOut,
 )
