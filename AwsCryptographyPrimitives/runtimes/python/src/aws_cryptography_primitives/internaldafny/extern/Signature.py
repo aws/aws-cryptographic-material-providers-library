@@ -176,9 +176,8 @@ class SignatureAlgorithms(Enum):
       ))
     return Wrappers.Result_Success(signature_algorithm)
 
-# Issue with our Dafny extern declarations. Fix is WIP on lucmcdon/signature-extern branch.
+# Export extern class
 aws_cryptography_primitives.internaldafny.generated.Signature.ECDSA = default__.ECDSA
-ECDSA = default__.ECDSA
 # Remove after https://github.com/dafny-lang/dafny/issues/4853
 aws_cryptography_primitives.internaldafny.generated.Signature.ECDSA_Verify = default__.ECDSA.Verify
 ECDSA_Verify = default__.ECDSA.Verify
@@ -195,8 +194,8 @@ def _to_bytes(data):
   :returns: Data normalized to bytes
   :rtype: bytes
   """
-  if isinstance(data, six.string_types) and not isinstance(data, bytes):
-    return codecs.encode(data, aws_encryption_sdk.internal.defaults.ENCODING)
+  if isinstance(data, str) and not isinstance(data, bytes):
+    return str.encode(data)
   return data
 
 def _int_to_bytes(integer, length = None):
@@ -297,10 +296,10 @@ def _ecc_decode_compressed_point(curve, compressed_point):
   x = int.from_bytes(raw_x, "big")
   raw_y = compressed_point[0]
   # In Python3, bytes index calls return int values rather than strings
-  if isinstance(raw_y, six.integer_types):
-    raw_y = six.b(chr(raw_y))
-  elif isinstance(raw_y, six.string_types):
-    raw_y = six.b(raw_y)
+  if isinstance(raw_y, int):
+    raw_y = str.encode(chr(raw_y))
+  elif isinstance(raw_y, str):
+    raw_y = str.encode(raw_y)
   y_order = y_order_map[raw_y]
   # If curve in prime field.
   if curve.name.startswith("secp"):

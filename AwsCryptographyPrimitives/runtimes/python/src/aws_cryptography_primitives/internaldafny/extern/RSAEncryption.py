@@ -1,6 +1,3 @@
-from aws_cryptography_primitives.internaldafny.generated.RSAEncryption import *
-import aws_cryptography_primitives.internaldafny.generated.RSAEncryption
-import _dafny
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives.serialization import (
@@ -12,6 +9,10 @@ from cryptography.hazmat.primitives.serialization import (
   load_pem_private_key,
 )
 from cryptography.hazmat.primitives import hashes
+
+import _dafny
+
+from aws_cryptography_primitives.internaldafny.generated.RSAEncryption import *
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption
 
 # No generated class to extend

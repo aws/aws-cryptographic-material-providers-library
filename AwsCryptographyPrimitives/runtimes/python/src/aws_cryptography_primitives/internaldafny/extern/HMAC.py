@@ -1,13 +1,15 @@
 from cryptography.hazmat.primitives.hmac import HMAC
 from cryptography.hazmat.primitives import hashes
-import standard_library.internaldafny.generated.Wrappers as Wrappers
+
 import _dafny
-from aws_cryptography_primitives.internaldafny.generated.HMAC import *
+
+import standard_library.internaldafny.generated.Wrappers as Wrappers
 import aws_cryptography_primitives.internaldafny.generated.Digest
 from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes import (
     HMacInput
 )
 import aws_cryptography_primitives.internaldafny.generated.HMAC
+from aws_cryptography_primitives.internaldafny.generated.HMAC import *
 
 # Extend generated class
 class default__(aws_cryptography_primitives.internaldafny.generated.HMAC.default__):
@@ -23,6 +25,7 @@ class default__(aws_cryptography_primitives.internaldafny.generated.HMAC.default
       output = hmac.GetResult()
       return Wrappers.Result_Success(_dafny.Seq(output))
 
+# Extend generated class
 class HMac(aws_cryptography_primitives.internaldafny.generated.HMAC.HMac):
 
     @staticmethod

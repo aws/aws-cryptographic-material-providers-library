@@ -1,10 +1,13 @@
 from cryptography.hazmat.primitives import hashes
-import standard_library.internaldafny.generated.Wrappers as Wrappers
+
 import _dafny
+
+import standard_library.internaldafny.generated.Wrappers as Wrappers
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes
 import aws_cryptography_primitives.internaldafny.generated.Digest
-from aws_cryptography_primitives.internaldafny.generated.Digest import *
 import aws_cryptography_primitives.internaldafny.generated.ExternDigest
+from aws_cryptography_primitives.internaldafny.generated.Digest import *
+
 
 # Extend generated class
 class default__(aws_cryptography_primitives.internaldafny.generated.ExternDigest.default__):
