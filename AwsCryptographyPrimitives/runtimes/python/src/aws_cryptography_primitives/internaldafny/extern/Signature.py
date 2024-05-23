@@ -1,12 +1,3 @@
-import aws_cryptography_primitives
-from aws_cryptography_primitives.internaldafny.generated.Signature import *
-import aws_cryptography_primitives.internaldafny.generated.Signature
-from enum import Enum
-from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes import (
-  DigestAlgorithm_SHA__256,
-  DigestAlgorithm_SHA__384,
-  Error_AwsCryptographicPrimitivesError
-)
 from cryptography.exceptions import (
   InvalidSignature,
   UnsupportedAlgorithm
@@ -18,22 +9,30 @@ from cryptography.hazmat.primitives.serialization import (
   PrivateFormat,
   load_pem_private_key,
 )
-import standard_library.internaldafny.generated.Wrappers as Wrappers
 import cryptography.hazmat.primitives.asymmetric.ec as ec
 from cryptography.hazmat.primitives.asymmetric.ec import (
   SECP256R1,
   SECP384R1,
 )
-import _dafny
-from collections import namedtuple
-import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
-import six
 from cryptography.hazmat.primitives.asymmetric.utils import (
   decode_dss_signature,
   encode_dss_signature
 )
 
-aws_cryptography_primitives.internaldafny.generated.Signature.default__
+from collections import namedtuple
+import _dafny
+from enum import Enum
+
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
+from aws_cryptography_primitives.internaldafny.generated.Signature import *
+import aws_cryptography_primitives.internaldafny.generated.Signature
+from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes import (
+  DigestAlgorithm_SHA__256,
+  DigestAlgorithm_SHA__384,
+  Error_AwsCryptographicPrimitivesError
+)
+
 
 # Extend generated class
 class default__(aws_cryptography_primitives.internaldafny.generated.Signature.default__):
