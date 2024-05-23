@@ -8,6 +8,9 @@ class StormTracker(aws_cryptographic_materialproviders.internaldafny.generated.S
     base_ctor = aws_cryptographic_materialproviders.internaldafny.generated.StormTracker.StormTracker.ctor__
 
     def ctor__(self, cache):
+        # Python restriction only.
+        # fanOut values > 1 will reuse a single boto3 client across threads.
+        # boto3 is not thread safe, so this should not be done.
         if cache.fanOut > 1:
             raise ValueError("StormTracker cache fanOut cannot be greater than 1.")
         self.base_ctor(cache)
