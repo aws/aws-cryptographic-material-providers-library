@@ -23,6 +23,9 @@ const Runtimes = {
     "AwsCryptographicMaterialProviders/runtimes/java/build.gradle.kts": {
       dependencies: [],
     },
+    "TestVectorsAwsCryptographicMaterialProviders/runtimes/java/build.gradle.kts": {
+      dependencies: [],
+    }
   },
   net: {
     "AwsCryptographicMaterialProviders/runtimes/net/MPL.csproj": {
