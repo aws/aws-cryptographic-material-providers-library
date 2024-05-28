@@ -74,7 +74,7 @@ class default__(aws_cryptography_primitives.internaldafny.generated.Signature.de
         ))
       except UnsupportedAlgorithm:
         return Wrappers.Result_Failure(Error_AwsCryptographicPrimitivesError(
-          message="Serialized key type is not supported by OpenSSL version"
+          message="Serialized key type is not supported by cryptography provider"
         ))
 
       maybe_digest = ExternDigest.default__.internal_digest(
