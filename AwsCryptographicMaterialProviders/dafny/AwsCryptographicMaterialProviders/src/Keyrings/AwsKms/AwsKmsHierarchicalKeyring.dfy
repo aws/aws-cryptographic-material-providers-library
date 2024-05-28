@@ -15,6 +15,7 @@ include "../../CMCs/StormTrackingCMC.dfy"
 include "../../CMCs/LocalCMC.dfy"
 include "../../CMCs/SynchronizedLocalCMC.dfy"
 include "../../../Model/AwsCryptographyMaterialProvidersTypes.dfy"
+include "../../ErrorMessages.dfy"
 
 module AwsKmsHierarchicalKeyring {
   import opened StandardLibrary
@@ -49,7 +50,8 @@ module AwsKmsHierarchicalKeyring {
   import HKDF
   import HMAC
   import opened AESEncryption
-  import AtomicPrimitives
+  import Aws.Cryptography.Primitives
+  import ErrorMessages
 
   const BRANCH_KEY_STORE_GSI := "Active-Keys"
   const BRANCH_KEY_FIELD := "enc"
@@ -340,10 +342,13 @@ module AwsKmsHierarchicalKeyring {
       var filter := new OnDecryptHierarchyEncryptedDataKeyFilter(branchKeyIdForDecrypt);
       var edksToAttempt :- FilterWithResult(filter, input.encryptedDataKeys);
 
-      :- Need(
-        0 < |edksToAttempt|,
-        E("Unable to decrypt data key: No Encrypted Data Keys found to match.")
-      );
+      if (0 == |edksToAttempt|) {
+        var errorMessage :- ErrorMessages.IncorrectDataKeys(input.encryptedDataKeys, input.materials.algorithmSuite);
+        return Failure(
+            Types.AwsCryptographicMaterialProvidersException(
+              message := errorMessage
+            ));
+      }
 
       var decryptClosure := new DecryptSingleEncryptedDataKey(
         materials,

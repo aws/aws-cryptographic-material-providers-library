@@ -41,6 +41,9 @@ module AwsCryptographyKeyStoreTypes
   datatype CreateKeyStoreOutput = | CreateKeyStoreOutput (
     nameonly tableArn: ComAmazonawsDynamodbTypes.TableArn
   )
+  datatype Discovery = | Discovery (
+
+                       )
   type EncryptionContext = map<Utf8Bytes, Utf8Bytes>
   datatype GetActiveBranchKeyInput = | GetActiveBranchKeyInput (
     nameonly branchKeyIdentifier: string
@@ -232,6 +235,12 @@ module AwsCryptographyKeyStoreTypes
   )
   datatype KMSConfiguration =
     | kmsKeyArn(kmsKeyArn: ComAmazonawsKmsTypes.KeyIdType)
+    | kmsMRKeyArn(kmsMRKeyArn: ComAmazonawsKmsTypes.KeyIdType)
+    | discovery(discovery: Discovery)
+    | mrDiscovery(mrDiscovery: MRDiscovery)
+  datatype MRDiscovery = | MRDiscovery (
+    nameonly region: ComAmazonawsKmsTypes.RegionType
+  )
   type Secret = seq<uint8>
   type Utf8Bytes = ValidUTF8Bytes
   datatype VersionKeyInput = | VersionKeyInput (

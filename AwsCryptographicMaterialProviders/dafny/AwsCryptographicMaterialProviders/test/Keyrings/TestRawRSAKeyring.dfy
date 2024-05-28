@@ -3,6 +3,7 @@
 
 include "../../src/Index.dfy"
 include "../TestUtils.dfy"
+include "../../src/ErrorMessages.dfy"
 
 module TestRawRSAKeying {
   import opened Wrappers
@@ -11,6 +12,7 @@ module TestRawRSAKeying {
   import AwsCryptographyPrimitivesTypes
   import MaterialProviders
   import Types = AwsCryptographyMaterialProvidersTypes
+  import ErrorMessages
 
   method {:test} TestOnEncryptOnDecryptSuppliedDataKey()
   {
@@ -131,6 +133,10 @@ module TestRawRSAKeying {
     );
 
     expect decryptionMaterialsOut.IsFailure();
+    expect decryptionMaterialsOut.error.CollectionOfErrors?;
+    expect |decryptionMaterialsOut.error.list| == 1;
+    expect decryptionMaterialsOut.error.list[0].AwsCryptographicMaterialProvidersException?;
+    expect decryptionMaterialsOut.error.list[0].message == ErrorMessages.IncorrectRawDataKeys("0", "RSAKeyring", namespace);
   }
 
   method {:test} TestOnDecryptFailure()

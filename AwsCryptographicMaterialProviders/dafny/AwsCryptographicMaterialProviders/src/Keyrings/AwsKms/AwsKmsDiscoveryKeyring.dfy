@@ -10,6 +10,7 @@ include "AwsKmsUtils.dfy"
 include "AwsKmsKeyring.dfy"
 include "../../AwsArnParsing.dfy"
 include "../../../Model/AwsCryptographyMaterialProvidersTypes.dfy"
+include "../../ErrorMessages.dfy"
 
 module AwsKmsDiscoveryKeyring {
   import opened StandardLibrary
@@ -28,6 +29,7 @@ module AwsKmsDiscoveryKeyring {
   import opened AwsKmsKeyring
   import EdkWrapping
   import MaterialWrapping
+  import ErrorMessages
 
   class AwsKmsDiscoveryKeyring
     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-discovery-keyring.md#interface
@@ -221,9 +223,13 @@ module AwsKmsDiscoveryKeyring {
       var edkTransform : AwsKmsEncryptedDataKeyTransformer := new AwsKmsEncryptedDataKeyTransformer();
       var edksToAttempt, parts :- Actions.DeterministicFlatMapWithResult(edkTransform, matchingEdks);
 
-      :- Need(0 < |edksToAttempt|,
-              Types.AwsCryptographicMaterialProvidersException(
-                message := "Unable to decrypt data key: No Encrypted Data Keys found to match."));
+      if (0 == |edksToAttempt|) {
+        var errorMessage :- ErrorMessages.IncorrectDataKeys(input.encryptedDataKeys, input.materials.algorithmSuite);
+        return Failure(
+            Types.AwsCryptographicMaterialProvidersException(
+              message := errorMessage
+            ));
+      }
 
       // We want to make sure that the set of EDKs we're about to attempt
       // to decrypt all actually came from the original set of EDKs. This is useful
