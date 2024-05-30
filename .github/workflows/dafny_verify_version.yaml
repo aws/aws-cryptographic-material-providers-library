@@ -1,17 +1,17 @@
 # This workflow reads the project.properties
 # into the environment variables
 # and then creates an output variable for `dafnyVersion`
-name: Dafny Version
+name: Dafny Verify Version
 
 on:
   workflow_call:
     outputs:
       version:
         description: "The dafny version for verify"
-        value: ${{ jobs.dafnyVerifyVersion.outputs.version }}
+        value: ${{ jobs.getDafnyVerifyVersion.outputs.version }}
 
 jobs:
-  getDafnyVersion:
+  getDafnyVerifyVersion:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.read_property.outputs.dafnyVerifyVersion }}
