@@ -47,23 +47,30 @@ class HMac(aws_cryptography_primitives.internaldafny.generated.HMAC.HMac):
     def Init(self, key):
       key_bytes = bytes(key)
       self.hmac = HMAC(key_bytes, self.algorithm)
-      # Store a copy of the HMAC at `Init` state.
+      # Store a copy of the key_bytes at `Init` state.
       # The Dafny implementation expects that calling `GetResult` will reset
       #   the HMAC back to its initial state when `Init` is called.
       # This is the default behavior for our HMAC libraries in .NET and Java
       #   but PyCA HMAC does not do this.
       # We must manually reset the HMAC.
-      self.initial_hmac = self.hmac.copy()
+      self.initial_key_bytes = key_bytes
 
     def BlockUpdate(self, input):
       input_bytes = bytes(input)
       self.hmac.update(input_bytes)
 
     def GetResult(self):
+      """
+      Finishes the MAC operation.
+      A call to this method resets this
+      Mac object to the state it was in when
+      previously initialized via a call to Init(Key).
+      That is, the object is reset and available to
+      generate another MAC from the same key, if desired,
+      via new calls to update and doFinal. 
+      """
       digest = _dafny.Seq(self.hmac.finalize())
-      # Dafny expects the HMAC to be reset to its state at the `Init` call
-      # after calling GetResult.
-      self.hmac = self.initial_hmac.copy()
+      self.hmac = HMAC(self.initial_key_bytes, self.algorithm)
       return digest
 
 # Export extern-extended classes into generated classes
