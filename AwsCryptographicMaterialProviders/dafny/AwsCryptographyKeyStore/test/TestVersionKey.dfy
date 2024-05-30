@@ -207,17 +207,14 @@ module TestVersionKey {
       ddbClient := Some(ddbClient)
     );
 
-    var westKeyStoreConfig := Types.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := KmsMrkConfigWest,
-      logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := Some(ddbClient)
-    );
+    var westKeyStoreConfig    := eastKeyStoreConfig.(kmsConfiguration := KmsMrkConfigWest);
+    var eastSrkKeyStoreConfig := eastKeyStoreConfig.(kmsConfiguration := KmsSrkConfigEast);
+    var westSrkKeyStoreConfig := eastKeyStoreConfig.(kmsConfiguration := KmsSrkConfigWest);
 
     var eastKeyStore :- expect KeyStore.KeyStore(eastKeyStoreConfig);
     var westKeyStore :- expect KeyStore.KeyStore(westKeyStoreConfig);
+    var eastSrkKeyStore :- expect KeyStore.KeyStore(eastSrkKeyStoreConfig);
+    var westSrkKeyStore :- expect KeyStore.KeyStore(westSrkKeyStoreConfig);
 
     // Create a new key with the WEST key store
     // We will create a use this new key per run to avoid tripping up
@@ -268,6 +265,25 @@ module TestVersionKey {
       ));
 
     expect newActiveResultWest == newActiveResultEast;
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
+    // = type=test
+    // # The `kms-arn` stored in the DDB table MUST NOT change as a result of this operation,
+    //# even if the KeyStore is configured with a `KMS MRKey ARN` that does not exactly match the stored ARN.
+    var newActiveResultSrkWest :- expect westSrkKeyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := branchKeyId.branchKeyIdentifier
+      ));
+    // westSrkKeyStore succeeds, because ARN is still west
+    expect newActiveResultSrkWest == newActiveResultEast;
+    var newActiveResultSrkEastResult := eastSrkKeyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := branchKeyId.branchKeyIdentifier
+      ));
+    // eastSrkKeyStore fails, because ARN is still west
+    expect newActiveResultSrkEastResult.Failure?;
+    expect newActiveResultSrkEastResult.error ==
+           Types.KeyStoreException(message := "Branch key's KMS Key ARN read from Dynamodb does not match Key Store's configured KMS Key ARN.");
 
     var newActiveVersionWest :- expect UTF8.Decode(newActiveResultWest.branchKeyMaterials.branchKeyVersion);
     var newActiveVersionEast :- expect UTF8.Decode(newActiveResultEast.branchKeyMaterials.branchKeyVersion);
