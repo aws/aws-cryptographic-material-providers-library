@@ -1,4 +1,5 @@
-from cryptography.hazmat.primitives.ciphers import algorithms, modes
+# Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0from cryptography.hazmat.primitives.ciphers import algorithms, modes
 from cryptography.hazmat.primitives.ciphers import Cipher
 from cryptography.exceptions import AlreadyFinalized
 
