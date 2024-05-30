@@ -58,7 +58,7 @@
 
   <ItemGroup>
     <PackageReference Include="DafnyRuntime" Version="$(DafnyVersion)" />
-    <PackageReference Include="AWSSDK.Core" Version="3.7.304.2" />
+    <PackageReference Include="AWSSDK.Core" Version="3.7.304.7" />
     <PackageReference Include="AWSSDK.KeyManagementService" Version="3.7.300.2" />
     <ProjectReference Include="../../../StandardLibrary/runtimes/net/STD.csproj" />
     <!--
