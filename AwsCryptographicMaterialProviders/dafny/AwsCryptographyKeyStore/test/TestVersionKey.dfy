@@ -20,6 +20,7 @@ module TestVersionKey {
   import Structure
   import DDBKeystoreOperations
   import ComAmazonawsDynamodbTypes
+  import KeyStoreErrorMessages
 
   method {:test} TestVersionKey()
   {
@@ -283,7 +284,7 @@ module TestVersionKey {
     // eastSrkKeyStore fails, because ARN is still west
     expect newActiveResultSrkEastResult.Failure?;
     expect newActiveResultSrkEastResult.error ==
-           Types.KeyStoreException(message := "Branch key's KMS Key ARN read from Dynamodb does not match Key Store's configured KMS Key ARN.");
+           Types.KeyStoreException(message :=  KeyStoreErrorMessages.GET_KEY_ARN_DISAGREEMENT);
 
     var newActiveVersionWest :- expect UTF8.Decode(newActiveResultWest.branchKeyMaterials.branchKeyVersion);
     var newActiveVersionEast :- expect UTF8.Decode(newActiveResultEast.branchKeyMaterials.branchKeyVersion);
