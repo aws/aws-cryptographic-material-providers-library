@@ -9,6 +9,8 @@ on:
 jobs:
   getVersion:
     uses: ./.github/workflows/dafny_version.yaml
+  getVerifyVersion:
+    uses: ./.github/workflows/dafny_verify_version.yaml
   push-ci-format:
     needs: getVersion
     uses: ./.github/workflows/library_format.yml
@@ -20,10 +22,10 @@ jobs:
     with:
       dafny: ${{needs.getVersion.outputs.version}}
   push-ci-verification:
-    needs: getVersion
+    needs: getVerifyVersion
     uses: ./.github/workflows/library_dafny_verification.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVerifyVersion.outputs.version}}
   push-ci-java:
     needs: getVersion
     uses: ./.github/workflows/library_java_tests.yml
