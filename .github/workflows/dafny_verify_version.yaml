@@ -1,6 +1,6 @@
 # This workflow reads the project.properties
 # into the environment variables
-# and then creates an output variable for `dafnyVersion`
+# and then creates an output variable for `dafnyVerifyVersion `
 name: Dafny Verify Version
 
 on:
