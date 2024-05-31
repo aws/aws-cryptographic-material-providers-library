@@ -10,7 +10,7 @@ import standard_library.internaldafny.generated.Wrappers as Wrappers
 import standard_library.internaldafny.generated.Relations as Relations
 import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
 
-# Module: standard_library.internaldafny.generated.Math
+# Module: Math
 
 class default__:
     def  __init__(self):

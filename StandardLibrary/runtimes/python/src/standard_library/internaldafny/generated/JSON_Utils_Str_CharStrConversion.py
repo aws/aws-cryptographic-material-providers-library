@@ -56,7 +56,7 @@ import standard_library.internaldafny.generated.JSON_Utils_Lexers as JSON_Utils_
 import standard_library.internaldafny.generated.JSON_Utils_Cursors as JSON_Utils_Cursors
 import standard_library.internaldafny.generated.JSON_Utils_Parsers as JSON_Utils_Parsers
 
-# Module: standard_library.internaldafny.generated.JSON_Utils_Str_CharStrConversion
+# Module: JSON_Utils_Str_CharStrConversion
 
 class default__:
     def  __init__(self):

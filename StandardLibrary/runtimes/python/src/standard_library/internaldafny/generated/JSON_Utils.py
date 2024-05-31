@@ -61,5 +61,5 @@ import standard_library.internaldafny.generated.JSON_Utils_Str as JSON_Utils_Str
 import standard_library.internaldafny.generated.JSON_Utils_Seq as JSON_Utils_Seq
 import standard_library.internaldafny.generated.JSON_Utils_Vectors as JSON_Utils_Vectors
 
-# Module: standard_library.internaldafny.generated.JSON_Utils
+# Module: JSON_Utils
 

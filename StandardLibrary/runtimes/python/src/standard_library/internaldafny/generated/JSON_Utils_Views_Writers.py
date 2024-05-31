@@ -49,7 +49,7 @@ import standard_library.internaldafny.generated.Actions as Actions
 import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
 import standard_library.internaldafny.generated.JSON_Utils_Views_Core as JSON_Utils_Views_Core
 
-# Module: standard_library.internaldafny.generated.JSON_Utils_Views_Writers
+# Module: JSON_Utils_Views_Writers
 
 
 class Chain:

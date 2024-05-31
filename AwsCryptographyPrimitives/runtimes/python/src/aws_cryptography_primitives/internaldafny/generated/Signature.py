@@ -58,7 +58,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHMAC as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.HKDF as HKDF
 import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as WrappedHKDF
 
-# Module: aws_cryptography_primitives.internaldafny.generated.Signature
+# Module: Signature
 
 class default__:
     def  __init__(self):

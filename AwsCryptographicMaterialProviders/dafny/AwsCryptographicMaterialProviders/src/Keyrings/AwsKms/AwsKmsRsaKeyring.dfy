@@ -21,7 +21,7 @@ module AwsKmsRsaKeyring {
   import opened Actions
   import UTF8
   import UUID
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import Crypto = AwsCryptographyPrimitivesTypes
   import Keyring
   import Materials

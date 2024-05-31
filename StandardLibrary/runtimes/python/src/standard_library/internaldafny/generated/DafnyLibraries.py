@@ -47,7 +47,7 @@ import standard_library.internaldafny.generated.Base64 as Base64
 import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import standard_library.internaldafny.generated.Actions as Actions
 
-# Module: standard_library.internaldafny.generated.DafnyLibraries
+# Module: DafnyLibraries
 
 
 class MutableMapTrait:

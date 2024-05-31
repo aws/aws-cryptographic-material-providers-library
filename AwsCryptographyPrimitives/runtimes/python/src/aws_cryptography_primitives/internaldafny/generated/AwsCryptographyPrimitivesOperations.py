@@ -61,7 +61,7 @@ import aws_cryptography_primitives.internaldafny.generated.Signature as Signatur
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
 
-# Module: aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations
+# Module: AwsCryptographyPrimitivesOperations
 
 class default__:
     def  __init__(self):

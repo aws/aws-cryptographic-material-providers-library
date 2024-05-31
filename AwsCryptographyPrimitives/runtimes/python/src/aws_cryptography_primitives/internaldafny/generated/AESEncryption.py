@@ -51,7 +51,7 @@ import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimit
 import aws_cryptography_primitives.internaldafny.generated.ExternRandom as ExternRandom
 import aws_cryptography_primitives.internaldafny.generated.Random as Random
 
-# Module: aws_cryptography_primitives.internaldafny.generated.AESEncryption
+# Module: AESEncryption
 
 class default__:
     def  __init__(self):

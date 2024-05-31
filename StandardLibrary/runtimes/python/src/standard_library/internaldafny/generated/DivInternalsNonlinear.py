@@ -24,5 +24,5 @@ import standard_library.internaldafny.generated.MulInternals as MulInternals
 import standard_library.internaldafny.generated.Mul as Mul
 import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
 
-# Module: standard_library.internaldafny.generated.DivInternalsNonlinear
+# Module: DivInternalsNonlinear
 

@@ -35,7 +35,7 @@ import standard_library.internaldafny.generated.StandardLibrary_String as Standa
 import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
 import standard_library.internaldafny.generated.UUID as UUID
 
-# Module: standard_library.internaldafny.generated.UTF8
+# Module: UTF8
 
 class default__:
     def  __init__(self):

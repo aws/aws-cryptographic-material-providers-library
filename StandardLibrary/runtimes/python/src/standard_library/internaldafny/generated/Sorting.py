@@ -38,7 +38,7 @@ import standard_library.internaldafny.generated.UTF8 as UTF8
 import standard_library.internaldafny.generated.Time as Time
 import standard_library.internaldafny.generated.Streams as Streams
 
-# Module: standard_library.internaldafny.generated.Sorting
+# Module: Sorting
 
 class default__:
     def  __init__(self):

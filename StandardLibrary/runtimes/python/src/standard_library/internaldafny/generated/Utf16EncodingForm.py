@@ -16,7 +16,7 @@ import standard_library.internaldafny.generated.Unicode as Unicode
 import standard_library.internaldafny.generated.Functions as Functions
 import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
 
-# Module: standard_library.internaldafny.generated.Utf16EncodingForm
+# Module: Utf16EncodingForm
 
 class default__:
     def  __init__(self):

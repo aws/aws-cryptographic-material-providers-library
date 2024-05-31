@@ -91,7 +91,7 @@ import standard_library.internaldafny.generated.JSON_ZeroCopy as JSON_ZeroCopy
 import standard_library.internaldafny.generated.JSON_API as JSON_API
 import standard_library.internaldafny.generated.JSON as JSON
 
-# Module: com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms
+# Module: Com_Amazonaws_Kms
 
 class default__:
     def  __init__(self):

@@ -27,5 +27,5 @@ import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInte
 import standard_library.internaldafny.generated.ModInternals as ModInternals
 import standard_library.internaldafny.generated.DivInternals as DivInternals
 
-# Module: standard_library.internaldafny.generated.DivMod
+# Module: DivMod
 

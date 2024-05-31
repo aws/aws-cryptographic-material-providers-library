@@ -50,7 +50,7 @@ import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
 import aws_cryptography_primitives.internaldafny.generated.ExternRandom as ExternRandom
 
-# Module: aws_cryptography_primitives.internaldafny.generated.Random
+# Module: Random
 
 class default__:
     def  __init__(self):

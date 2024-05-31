@@ -39,5 +39,5 @@ import standard_library.internaldafny.generated.Time as Time
 import standard_library.internaldafny.generated.Streams as Streams
 import standard_library.internaldafny.generated.Sorting as Sorting
 
-# Module: standard_library.internaldafny.generated.SortedSets
+# Module: SortedSets
 

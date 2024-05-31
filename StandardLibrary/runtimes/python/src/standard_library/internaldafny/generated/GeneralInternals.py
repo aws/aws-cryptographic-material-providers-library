@@ -19,5 +19,5 @@ import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16Encodi
 import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
 import standard_library.internaldafny.generated.FileIO as FileIO
 
-# Module: standard_library.internaldafny.generated.GeneralInternals
+# Module: GeneralInternals
 

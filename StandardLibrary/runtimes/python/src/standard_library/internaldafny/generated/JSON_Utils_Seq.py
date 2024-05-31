@@ -59,5 +59,5 @@ import standard_library.internaldafny.generated.JSON_Utils_Str_CharStrConversion
 import standard_library.internaldafny.generated.JSON_Utils_Str_CharStrEscaping as JSON_Utils_Str_CharStrEscaping
 import standard_library.internaldafny.generated.JSON_Utils_Str as JSON_Utils_Str
 
-# Module: standard_library.internaldafny.generated.JSON_Utils_Seq
+# Module: JSON_Utils_Seq
 

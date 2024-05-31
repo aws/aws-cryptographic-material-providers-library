@@ -28,7 +28,7 @@ import standard_library.internaldafny.generated.ModInternals as ModInternals
 import standard_library.internaldafny.generated.DivInternals as DivInternals
 import standard_library.internaldafny.generated.DivMod as DivMod
 
-# Module: standard_library.internaldafny.generated.Power
+# Module: Power
 
 class default__:
     def  __init__(self):

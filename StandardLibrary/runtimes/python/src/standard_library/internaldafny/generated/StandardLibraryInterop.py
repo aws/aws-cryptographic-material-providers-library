@@ -30,7 +30,7 @@ import standard_library.internaldafny.generated.DivMod as DivMod
 import standard_library.internaldafny.generated.Power as Power
 import standard_library.internaldafny.generated.Logarithm as Logarithm
 
-# Module: standard_library.internaldafny.generated.StandardLibraryInterop
+# Module: StandardLibraryInterop
 
 
 class WrappersInterop:

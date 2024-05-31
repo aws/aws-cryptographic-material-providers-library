@@ -46,7 +46,7 @@ import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
 import standard_library.internaldafny.generated.Base64 as Base64
 import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 
-# Module: standard_library.internaldafny.generated.Actions
+# Module: Actions
 
 class default__:
     def  __init__(self):

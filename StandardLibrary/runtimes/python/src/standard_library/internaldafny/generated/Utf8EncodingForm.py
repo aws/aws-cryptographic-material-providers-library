@@ -15,7 +15,7 @@ import standard_library.internaldafny.generated.BoundedInts as BoundedInts
 import standard_library.internaldafny.generated.Unicode as Unicode
 import standard_library.internaldafny.generated.Functions as Functions
 
-# Module: standard_library.internaldafny.generated.Utf8EncodingForm
+# Module: Utf8EncodingForm
 
 class default__:
     def  __init__(self):

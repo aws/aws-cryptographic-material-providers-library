@@ -18,7 +18,7 @@ import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8Encoding
 import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16EncodingForm
 import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
 
-# Module: standard_library.internaldafny.generated.FileIO
+# Module: FileIO
 
 class default__:
     def  __init__(self):

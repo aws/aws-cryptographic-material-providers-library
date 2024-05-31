@@ -52,7 +52,7 @@ import standard_library.internaldafny.generated.JSON_Utils_Views_Writers as JSON
 import standard_library.internaldafny.generated.JSON_Utils_Views as JSON_Utils_Views
 import standard_library.internaldafny.generated.JSON_Utils_Lexers_Core as JSON_Utils_Lexers_Core
 
-# Module: standard_library.internaldafny.generated.JSON_Utils_Lexers_Strings
+# Module: JSON_Utils_Lexers_Strings
 
 class default__:
     def  __init__(self):

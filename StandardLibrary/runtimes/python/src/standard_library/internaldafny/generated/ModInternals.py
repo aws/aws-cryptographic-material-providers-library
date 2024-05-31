@@ -25,7 +25,7 @@ import standard_library.internaldafny.generated.Mul as Mul
 import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
 import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInternalsNonlinear
 
-# Module: standard_library.internaldafny.generated.ModInternals
+# Module: ModInternals
 
 class default__:
     def  __init__(self):

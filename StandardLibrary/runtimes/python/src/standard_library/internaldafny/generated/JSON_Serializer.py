@@ -67,7 +67,7 @@ import standard_library.internaldafny.generated.JSON_Spec as JSON_Spec
 import standard_library.internaldafny.generated.JSON_Grammar as JSON_Grammar
 import standard_library.internaldafny.generated.JSON_Serializer_ByteStrConversion as JSON_Serializer_ByteStrConversion
 
-# Module: standard_library.internaldafny.generated.JSON_Serializer
+# Module: JSON_Serializer
 
 class default__:
     def  __init__(self):

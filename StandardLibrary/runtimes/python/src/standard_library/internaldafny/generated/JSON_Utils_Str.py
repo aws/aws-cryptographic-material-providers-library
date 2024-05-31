@@ -58,7 +58,7 @@ import standard_library.internaldafny.generated.JSON_Utils_Parsers as JSON_Utils
 import standard_library.internaldafny.generated.JSON_Utils_Str_CharStrConversion as JSON_Utils_Str_CharStrConversion
 import standard_library.internaldafny.generated.JSON_Utils_Str_CharStrEscaping as JSON_Utils_Str_CharStrEscaping
 
-# Module: standard_library.internaldafny.generated.JSON_Utils_Str
+# Module: JSON_Utils_Str
 
 class default__:
     def  __init__(self):

@@ -51,7 +51,7 @@ import standard_library.internaldafny.generated.JSON_Utils_Views_Core as JSON_Ut
 import standard_library.internaldafny.generated.JSON_Utils_Views_Writers as JSON_Utils_Views_Writers
 import standard_library.internaldafny.generated.JSON_Utils_Views as JSON_Utils_Views
 
-# Module: standard_library.internaldafny.generated.JSON_Utils_Lexers_Core
+# Module: JSON_Utils_Lexers_Core
 
 
 class LexerResult:

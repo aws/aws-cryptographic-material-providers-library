@@ -75,7 +75,7 @@ import standard_library.internaldafny.generated.JSON_ConcreteSyntax_SpecProperti
 import standard_library.internaldafny.generated.JSON_ConcreteSyntax as JSON_ConcreteSyntax
 import standard_library.internaldafny.generated.JSON_ZeroCopy_Serializer as JSON_ZeroCopy_Serializer
 
-# Module: standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Core
+# Module: JSON_ZeroCopy_Deserializer_Core
 
 class default__:
     def  __init__(self):

@@ -8,7 +8,3 @@ python-module-name = "com_amazonaws_dynamodb.internaldafny.generated"
 python-module-name = "com_amazonaws_dynamodb.internaldafny.generated"
 [options_by_module."Com.Amazonaws.Dynamodb"]
 python-module-name = "com_amazonaws_dynamodb.internaldafny.generated"
-[options_by_module."Com.Amazonaws"]
-python-module-name = "com_amazonaws_dynamodb.internaldafny.generated"
-[options_by_module.Com]
-python-module-name = "com_amazonaws_dynamodb.internaldafny.generated"

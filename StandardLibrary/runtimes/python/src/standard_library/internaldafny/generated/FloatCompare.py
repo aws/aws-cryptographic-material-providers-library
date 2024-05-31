@@ -42,7 +42,7 @@ import standard_library.internaldafny.generated.SortedSets as SortedSets
 import standard_library.internaldafny.generated.HexStrings as HexStrings
 import standard_library.internaldafny.generated.GetOpt as GetOpt
 
-# Module: standard_library.internaldafny.generated.FloatCompare
+# Module: FloatCompare
 
 class default__:
     def  __init__(self):

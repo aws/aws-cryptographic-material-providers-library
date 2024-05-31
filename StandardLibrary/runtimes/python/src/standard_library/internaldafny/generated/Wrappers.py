@@ -7,7 +7,7 @@ import standard_library.internaldafny.generated.module_ as module_
 import _dafny as _dafny
 import System_ as System_
 
-# Module: standard_library.internaldafny.generated.Wrappers
+# Module: Wrappers
 
 class default__:
     def  __init__(self):

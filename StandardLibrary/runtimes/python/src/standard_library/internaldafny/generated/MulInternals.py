@@ -21,7 +21,7 @@ import standard_library.internaldafny.generated.FileIO as FileIO
 import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
 import standard_library.internaldafny.generated.MulInternalsNonlinear as MulInternalsNonlinear
 
-# Module: standard_library.internaldafny.generated.MulInternals
+# Module: MulInternals
 
 class default__:
     def  __init__(self):

@@ -8,5 +8,5 @@ import _dafny as _dafny
 import System_ as System_
 import standard_library.internaldafny.generated.Wrappers as Wrappers
 
-# Module: standard_library.internaldafny.generated.Relations
+# Module: Relations
 

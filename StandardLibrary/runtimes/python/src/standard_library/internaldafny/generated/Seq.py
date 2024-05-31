@@ -11,7 +11,7 @@ import standard_library.internaldafny.generated.Relations as Relations
 import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
 import standard_library.internaldafny.generated.Math as Math
 
-# Module: standard_library.internaldafny.generated.Seq
+# Module: Seq
 
 class default__:
     def  __init__(self):

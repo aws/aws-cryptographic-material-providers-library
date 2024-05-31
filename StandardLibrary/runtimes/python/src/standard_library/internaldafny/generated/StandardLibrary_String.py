@@ -32,7 +32,7 @@ import standard_library.internaldafny.generated.Logarithm as Logarithm
 import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
 import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
 
-# Module: standard_library.internaldafny.generated.StandardLibrary_String
+# Module: StandardLibrary_String
 
 class default__:
     def  __init__(self):

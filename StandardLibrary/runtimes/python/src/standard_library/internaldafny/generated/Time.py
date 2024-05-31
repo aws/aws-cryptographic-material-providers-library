@@ -36,7 +36,7 @@ import standard_library.internaldafny.generated.StandardLibrary as StandardLibra
 import standard_library.internaldafny.generated.UUID as UUID
 import standard_library.internaldafny.generated.UTF8 as UTF8
 
-# Module: standard_library.internaldafny.generated.Time
+# Module: Time
 
 class default__:
     def  __init__(self):

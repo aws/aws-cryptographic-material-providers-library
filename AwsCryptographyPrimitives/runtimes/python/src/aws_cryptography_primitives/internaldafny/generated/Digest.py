@@ -53,7 +53,7 @@ import aws_cryptography_primitives.internaldafny.generated.Random as Random
 import aws_cryptography_primitives.internaldafny.generated.AESEncryption as AESEncryption
 import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
 
-# Module: aws_cryptography_primitives.internaldafny.generated.Digest
+# Module: Digest
 
 class default__:
     def  __init__(self):

@@ -88,7 +88,7 @@ import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer as JS
 import standard_library.internaldafny.generated.JSON_ZeroCopy_API as JSON_ZeroCopy_API
 import standard_library.internaldafny.generated.JSON_ZeroCopy as JSON_ZeroCopy
 
-# Module: standard_library.internaldafny.generated.JSON_API
+# Module: JSON_API
 
 class default__:
     def  __init__(self):

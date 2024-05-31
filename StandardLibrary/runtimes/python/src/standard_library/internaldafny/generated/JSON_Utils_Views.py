@@ -50,5 +50,5 @@ import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
 import standard_library.internaldafny.generated.JSON_Utils_Views_Core as JSON_Utils_Views_Core
 import standard_library.internaldafny.generated.JSON_Utils_Views_Writers as JSON_Utils_Views_Writers
 
-# Module: standard_library.internaldafny.generated.JSON_Utils_Views
+# Module: JSON_Utils_Views
 

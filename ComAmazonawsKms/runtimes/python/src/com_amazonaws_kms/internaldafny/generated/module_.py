@@ -94,5 +94,5 @@ import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazon
 import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws as Com_Amazonaws
 import com_amazonaws_kms.internaldafny.generated.Com as Com
 
-# Module: com_amazonaws_kms.internaldafny.generated.module_
+# Module: module_
 

@@ -20,5 +20,5 @@ import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
 import standard_library.internaldafny.generated.FileIO as FileIO
 import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
 
-# Module: standard_library.internaldafny.generated.MulInternalsNonlinear
+# Module: MulInternalsNonlinear
 

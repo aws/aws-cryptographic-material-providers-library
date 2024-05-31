@@ -43,7 +43,7 @@ import standard_library.internaldafny.generated.HexStrings as HexStrings
 import standard_library.internaldafny.generated.GetOpt as GetOpt
 import standard_library.internaldafny.generated.FloatCompare as FloatCompare
 
-# Module: standard_library.internaldafny.generated.ConcurrentCall
+# Module: ConcurrentCall
 
 
 class Callee:

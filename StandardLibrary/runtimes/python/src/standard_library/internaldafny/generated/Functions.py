@@ -14,5 +14,5 @@ import standard_library.internaldafny.generated.Seq as Seq
 import standard_library.internaldafny.generated.BoundedInts as BoundedInts
 import standard_library.internaldafny.generated.Unicode as Unicode
 
-# Module: standard_library.internaldafny.generated.Functions
+# Module: Functions
 

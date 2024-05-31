@@ -63,7 +63,7 @@ import standard_library.internaldafny.generated.JSON_Utils_Vectors as JSON_Utils
 import standard_library.internaldafny.generated.JSON_Utils as JSON_Utils
 import standard_library.internaldafny.generated.JSON_Errors as JSON_Errors
 
-# Module: standard_library.internaldafny.generated.JSON_Values
+# Module: JSON_Values
 
 class default__:
     def  __init__(self):

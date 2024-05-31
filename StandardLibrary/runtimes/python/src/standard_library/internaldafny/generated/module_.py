@@ -90,5 +90,5 @@ import standard_library.internaldafny.generated.JSON_ZeroCopy as JSON_ZeroCopy
 import standard_library.internaldafny.generated.JSON_API as JSON_API
 import standard_library.internaldafny.generated.JSON as JSON
 
-# Module: standard_library.internaldafny.generated.module_
+# Module: module_
 

@@ -65,7 +65,7 @@ import standard_library.internaldafny.generated.JSON_Errors as JSON_Errors
 import standard_library.internaldafny.generated.JSON_Values as JSON_Values
 import standard_library.internaldafny.generated.JSON_Spec as JSON_Spec
 
-# Module: standard_library.internaldafny.generated.JSON_Grammar
+# Module: JSON_Grammar
 
 class default__:
     def  __init__(self):

@@ -33,7 +33,7 @@ import standard_library.internaldafny.generated.StandardLibraryInterop as Standa
 import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
 import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
 
-# Module: standard_library.internaldafny.generated.StandardLibrary
+# Module: StandardLibrary
 
 class default__:
     def  __init__(self):

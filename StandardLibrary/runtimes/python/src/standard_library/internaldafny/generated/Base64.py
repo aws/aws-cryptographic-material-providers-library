@@ -44,7 +44,7 @@ import standard_library.internaldafny.generated.GetOpt as GetOpt
 import standard_library.internaldafny.generated.FloatCompare as FloatCompare
 import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
 
-# Module: standard_library.internaldafny.generated.Base64
+# Module: Base64
 
 class default__:
     def  __init__(self):

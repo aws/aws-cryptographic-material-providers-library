@@ -41,7 +41,7 @@ import standard_library.internaldafny.generated.Sorting as Sorting
 import standard_library.internaldafny.generated.SortedSets as SortedSets
 import standard_library.internaldafny.generated.HexStrings as HexStrings
 
-# Module: standard_library.internaldafny.generated.GetOpt
+# Module: GetOpt
 
 class default__:
     def  __init__(self):

@@ -56,7 +56,7 @@ import aws_cryptography_primitives.internaldafny.generated.Digest as Digest
 import aws_cryptography_primitives.internaldafny.generated.HMAC as HMAC
 import aws_cryptography_primitives.internaldafny.generated.WrappedHMAC as WrappedHMAC
 
-# Module: aws_cryptography_primitives.internaldafny.generated.HKDF
+# Module: HKDF
 
 class default__:
     def  __init__(self):

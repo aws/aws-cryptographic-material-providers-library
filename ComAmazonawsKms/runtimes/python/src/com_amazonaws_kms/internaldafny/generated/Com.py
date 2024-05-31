@@ -93,5 +93,5 @@ import standard_library.internaldafny.generated.JSON as JSON
 import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
 import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws as Com_Amazonaws
 
-# Module: com_amazonaws_kms.internaldafny.generated.Com
+# Module: Com
 

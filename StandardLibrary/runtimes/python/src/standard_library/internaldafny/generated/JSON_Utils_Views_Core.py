@@ -48,7 +48,7 @@ import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import standard_library.internaldafny.generated.Actions as Actions
 import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
 
-# Module: standard_library.internaldafny.generated.JSON_Utils_Views_Core
+# Module: JSON_Utils_Views_Core
 
 class default__:
     def  __init__(self):

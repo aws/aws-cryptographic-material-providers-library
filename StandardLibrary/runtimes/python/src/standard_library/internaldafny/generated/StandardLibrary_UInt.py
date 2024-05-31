@@ -31,7 +31,7 @@ import standard_library.internaldafny.generated.Power as Power
 import standard_library.internaldafny.generated.Logarithm as Logarithm
 import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
 
-# Module: standard_library.internaldafny.generated.StandardLibrary_UInt
+# Module: StandardLibrary_UInt
 
 class default__:
     def  __init__(self):

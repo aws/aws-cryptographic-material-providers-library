@@ -9,7 +9,7 @@ import System_ as System_
 import standard_library.internaldafny.generated.Wrappers as Wrappers
 import standard_library.internaldafny.generated.Relations as Relations
 
-# Module: standard_library.internaldafny.generated.Seq_MergeSort
+# Module: Seq_MergeSort
 
 class default__:
     def  __init__(self):

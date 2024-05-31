@@ -29,7 +29,7 @@ import standard_library.internaldafny.generated.DivInternals as DivInternals
 import standard_library.internaldafny.generated.DivMod as DivMod
 import standard_library.internaldafny.generated.Power as Power
 
-# Module: standard_library.internaldafny.generated.Logarithm
+# Module: Logarithm
 
 class default__:
     def  __init__(self):

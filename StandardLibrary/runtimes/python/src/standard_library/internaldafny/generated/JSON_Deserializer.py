@@ -70,7 +70,7 @@ import standard_library.internaldafny.generated.JSON_Serializer as JSON_Serializ
 import standard_library.internaldafny.generated.JSON_Deserializer_Uint16StrConversion as JSON_Deserializer_Uint16StrConversion
 import standard_library.internaldafny.generated.JSON_Deserializer_ByteStrConversion as JSON_Deserializer_ByteStrConversion
 
-# Module: standard_library.internaldafny.generated.JSON_Deserializer
+# Module: JSON_Deserializer
 
 class default__:
     def  __init__(self):

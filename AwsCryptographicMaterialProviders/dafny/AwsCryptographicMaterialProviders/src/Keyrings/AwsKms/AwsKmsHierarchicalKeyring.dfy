@@ -50,7 +50,7 @@ module AwsKmsHierarchicalKeyring {
   import HKDF
   import HMAC
   import opened AESEncryption
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import ErrorMessages
 
   const BRANCH_KEY_STORE_GSI := "Active-Keys"

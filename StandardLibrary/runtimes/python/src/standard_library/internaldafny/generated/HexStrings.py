@@ -40,7 +40,7 @@ import standard_library.internaldafny.generated.Streams as Streams
 import standard_library.internaldafny.generated.Sorting as Sorting
 import standard_library.internaldafny.generated.SortedSets as SortedSets
 
-# Module: standard_library.internaldafny.generated.HexStrings
+# Module: HexStrings
 
 class default__:
     def  __init__(self):

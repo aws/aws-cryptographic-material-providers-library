@@ -59,7 +59,7 @@ import aws_cryptography_primitives.internaldafny.generated.HKDF as HKDF
 import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as WrappedHKDF
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 
-# Module: aws_cryptography_primitives.internaldafny.generated.KdfCtr
+# Module: KdfCtr
 
 class default__:
     def  __init__(self):

@@ -77,7 +77,7 @@ import standard_library.internaldafny.generated.JSON_ZeroCopy_Serializer as JSON
 import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Core as JSON_ZeroCopy_Deserializer_Core
 import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Strings as JSON_ZeroCopy_Deserializer_Strings
 
-# Module: standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Numbers
+# Module: JSON_ZeroCopy_Deserializer_Numbers
 
 class default__:
     def  __init__(self):

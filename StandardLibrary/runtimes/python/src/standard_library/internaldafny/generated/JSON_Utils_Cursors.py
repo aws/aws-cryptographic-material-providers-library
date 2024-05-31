@@ -54,7 +54,7 @@ import standard_library.internaldafny.generated.JSON_Utils_Lexers_Core as JSON_U
 import standard_library.internaldafny.generated.JSON_Utils_Lexers_Strings as JSON_Utils_Lexers_Strings
 import standard_library.internaldafny.generated.JSON_Utils_Lexers as JSON_Utils_Lexers
 
-# Module: standard_library.internaldafny.generated.JSON_Utils_Cursors
+# Module: JSON_Utils_Cursors
 
 
 class Split:

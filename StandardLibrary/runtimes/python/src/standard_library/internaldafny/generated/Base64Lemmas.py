@@ -45,5 +45,5 @@ import standard_library.internaldafny.generated.FloatCompare as FloatCompare
 import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
 import standard_library.internaldafny.generated.Base64 as Base64
 
-# Module: standard_library.internaldafny.generated.Base64Lemmas
+# Module: Base64Lemmas
 

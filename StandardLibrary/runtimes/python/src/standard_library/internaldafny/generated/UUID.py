@@ -34,7 +34,7 @@ import standard_library.internaldafny.generated.StandardLibrary_UInt as Standard
 import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
 import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
 
-# Module: standard_library.internaldafny.generated.UUID
+# Module: UUID
 
 class default__:
     def  __init__(self):

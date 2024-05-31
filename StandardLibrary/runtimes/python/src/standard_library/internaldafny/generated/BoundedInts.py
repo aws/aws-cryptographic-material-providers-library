@@ -12,7 +12,7 @@ import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
 import standard_library.internaldafny.generated.Math as Math
 import standard_library.internaldafny.generated.Seq as Seq
 
-# Module: standard_library.internaldafny.generated.BoundedInts
+# Module: BoundedInts
 
 class default__:
     def  __init__(self):

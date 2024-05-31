@@ -48,7 +48,7 @@ import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import standard_library.internaldafny.generated.Actions as Actions
 import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
 
-# Module: com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes
+# Module: ComAmazonawsDynamodbTypes
 
 class default__:
     def  __init__(self):

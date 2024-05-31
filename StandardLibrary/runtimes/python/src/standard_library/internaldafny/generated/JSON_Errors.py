@@ -62,7 +62,7 @@ import standard_library.internaldafny.generated.JSON_Utils_Seq as JSON_Utils_Seq
 import standard_library.internaldafny.generated.JSON_Utils_Vectors as JSON_Utils_Vectors
 import standard_library.internaldafny.generated.JSON_Utils as JSON_Utils
 
-# Module: standard_library.internaldafny.generated.JSON_Errors
+# Module: JSON_Errors
 
 
 class DeserializationError:

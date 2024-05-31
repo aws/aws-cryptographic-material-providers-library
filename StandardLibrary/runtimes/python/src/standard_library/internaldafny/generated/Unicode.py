@@ -13,7 +13,7 @@ import standard_library.internaldafny.generated.Math as Math
 import standard_library.internaldafny.generated.Seq as Seq
 import standard_library.internaldafny.generated.BoundedInts as BoundedInts
 
-# Module: standard_library.internaldafny.generated.Unicode
+# Module: Unicode
 
 class default__:
     def  __init__(self):

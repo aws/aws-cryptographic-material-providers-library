@@ -54,7 +54,7 @@ import aws_cryptography_primitives.internaldafny.generated.AESEncryption as AESE
 import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
 import aws_cryptography_primitives.internaldafny.generated.Digest as Digest
 
-# Module: aws_cryptography_primitives.internaldafny.generated.HMAC
+# Module: HMAC
 
 class default__:
     def  __init__(self):

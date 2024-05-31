@@ -1,17 +1,24 @@
-import module_
-from standard_library.internaldafny.generated.Wrappers import Option_None, Option_Some
+import boto3
+import _dafny
+
+from botocore.config import Config
+from boto3.session import Session
+
+from standard_library.internaldafny.generated.Wrappers import Option_Some
 from com_amazonaws_kms.smithygenerated.com_amazonaws_kms.shim import KMSClientShim
 from com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms import *
 import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms
-import _dafny
 
-import boto3
-from botocore.config import Config
+
+# Persist this across calls; this doesn't change
+available_aws_regions: list[str] = None
 
 def get_available_aws_regions():
-    from boto3.session import Session
-    s = Session()
-    return s.get_available_regions("kms")
+    global available_aws_regions
+    if available_aws_regions is not None:
+        return available_aws_regions
+    available_aws_regions = Session().get_available_regions("kms")
+    return available_aws_regions
 
 class default__(com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms.default__):
     @staticmethod
@@ -24,7 +31,7 @@ class default__(com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms.defa
                 boto_client = boto3.client("kms", config=boto_config)
             else:
                 boto_client = boto3.client("kms")
-                region = boto3.session.Session().region_name
+                region = Session().region_name
         wrapped_client = KMSClientShim(boto_client, region)
         return Wrappers.Result_Success(wrapped_client)
     
@@ -43,9 +50,9 @@ class default__(com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms.defa
         except AssertionError:
             raise TypeError("Client provided to RegionMatch is not a KMSClientShim: " + client)
 
-        # Since client is a TrentServiceShim, we can reach into its _impl, which is a boto3 client
+        # Since client is a KMSClientShim, we can reach into its _impl, which is a boto3 client,
+        # then into the client's .meta.region_name attribute
         client_region_name = client._impl.meta.region_name
         return Option_Some(region.VerbatimString(False) == client_region_name)
 
 com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms.default__ = default__
-com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms.TrentServiceClient = default__.KMSClient

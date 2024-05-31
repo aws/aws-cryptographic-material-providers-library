@@ -53,5 +53,5 @@ import standard_library.internaldafny.generated.JSON_Utils_Views as JSON_Utils_V
 import standard_library.internaldafny.generated.JSON_Utils_Lexers_Core as JSON_Utils_Lexers_Core
 import standard_library.internaldafny.generated.JSON_Utils_Lexers_Strings as JSON_Utils_Lexers_Strings
 
-# Module: standard_library.internaldafny.generated.JSON_Utils_Lexers
+# Module: JSON_Utils_Lexers
 

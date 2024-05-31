@@ -62,7 +62,7 @@ import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 
-# Module: aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives
+# Module: AtomicPrimitives
 
 class default__:
     def  __init__(self):

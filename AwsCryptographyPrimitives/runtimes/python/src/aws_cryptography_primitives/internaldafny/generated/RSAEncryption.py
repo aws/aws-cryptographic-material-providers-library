@@ -60,7 +60,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 
-# Module: aws_cryptography_primitives.internaldafny.generated.RSAEncryption
+# Module: RSAEncryption
 
 class default__:
     def  __init__(self):

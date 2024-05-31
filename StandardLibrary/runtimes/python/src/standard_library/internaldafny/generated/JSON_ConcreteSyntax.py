@@ -73,5 +73,5 @@ import standard_library.internaldafny.generated.JSON_Deserializer as JSON_Deseri
 import standard_library.internaldafny.generated.JSON_ConcreteSyntax_Spec as JSON_ConcreteSyntax_Spec
 import standard_library.internaldafny.generated.JSON_ConcreteSyntax_SpecProperties as JSON_ConcreteSyntax_SpecProperties
 
-# Module: standard_library.internaldafny.generated.JSON_ConcreteSyntax
+# Module: JSON_ConcreteSyntax
 

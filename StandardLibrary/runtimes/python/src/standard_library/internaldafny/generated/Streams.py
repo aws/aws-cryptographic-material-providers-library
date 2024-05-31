@@ -37,19 +37,19 @@ import standard_library.internaldafny.generated.UUID as UUID
 import standard_library.internaldafny.generated.UTF8 as UTF8
 import standard_library.internaldafny.generated.Time as Time
 
-# Module: standard_library.internaldafny.generated.Streams
+# Module: Streams
 
 
 class SeqReader:
     def  __init__(self):
         self.pos: int = int(0)
-        self._data: _dafny.Seq = _dafny.Seq({})
+        self._i_data: _dafny.Seq = _dafny.Seq({})
         pass
 
     def __dafnystr__(self) -> str:
         return "Streams.SeqReader"
     def ctor__(self, s):
-        (self)._data = s
+        (self)._i_data = s
         (self).pos = 0
 
     def ReadElements(self, n):
@@ -76,11 +76,11 @@ class SeqReader:
 
     @property
     def data(self):
-        return self._data
+        return self._i_data
 
 class ByteReader:
     def  __init__(self):
-        self._reader: SeqReader = None
+        self._i_reader: SeqReader = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -90,7 +90,7 @@ class ByteReader:
         nw2_ = SeqReader()
         nw2_.ctor__(s)
         d_249_mr_ = nw2_
-        (self)._reader = d_249_mr_
+        (self)._i_reader = d_249_mr_
 
     def ReadByte(self):
         res: Wrappers.Result = Wrappers.Result.default(BoundedInts.uint8.default)()
@@ -187,7 +187,7 @@ class ByteReader:
 
     @property
     def reader(self):
-        return self._reader
+        return self._i_reader
 
 class SeqWriter:
     def  __init__(self):
@@ -209,7 +209,7 @@ class SeqWriter:
 
 class ByteWriter:
     def  __init__(self):
-        self._writer: SeqWriter = None
+        self._i_writer: SeqWriter = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -219,7 +219,7 @@ class ByteWriter:
         nw3_ = SeqWriter()
         nw3_.ctor__()
         d_263_mw_ = nw3_
-        (self)._writer = d_263_mw_
+        (self)._i_writer = d_263_mw_
 
     def WriteByte(self, n):
         r: int = int(0)
@@ -257,4 +257,4 @@ class ByteWriter:
 
     @property
     def writer(self):
-        return self._writer
+        return self._i_writer

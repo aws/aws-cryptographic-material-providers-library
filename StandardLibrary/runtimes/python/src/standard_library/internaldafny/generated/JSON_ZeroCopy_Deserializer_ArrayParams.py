@@ -80,7 +80,7 @@ import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Numbe
 import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_ObjectParams as JSON_ZeroCopy_Deserializer_ObjectParams
 import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Objects as JSON_ZeroCopy_Deserializer_Objects
 
-# Module: standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_ArrayParams
+# Module: JSON_ZeroCopy_Deserializer_ArrayParams
 
 class default__:
     def  __init__(self):

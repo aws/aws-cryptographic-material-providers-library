@@ -71,7 +71,7 @@ import standard_library.internaldafny.generated.JSON_Deserializer_Uint16StrConve
 import standard_library.internaldafny.generated.JSON_Deserializer_ByteStrConversion as JSON_Deserializer_ByteStrConversion
 import standard_library.internaldafny.generated.JSON_Deserializer as JSON_Deserializer
 
-# Module: standard_library.internaldafny.generated.JSON_ConcreteSyntax_Spec
+# Module: JSON_ConcreteSyntax_Spec
 
 class default__:
     def  __init__(self):
