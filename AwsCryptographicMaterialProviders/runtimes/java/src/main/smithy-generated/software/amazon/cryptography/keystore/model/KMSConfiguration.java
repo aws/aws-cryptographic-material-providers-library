@@ -9,12 +9,19 @@ public class KMSConfiguration {
 
   private final String kmsKeyArn;
 
+  private final String mrkKmsKeyArn;
+
   protected KMSConfiguration(BuilderImpl builder) {
     this.kmsKeyArn = builder.kmsKeyArn();
+    this.mrkKmsKeyArn = builder.mrkKmsKeyArn();
   }
 
   public String kmsKeyArn() {
     return this.kmsKeyArn;
+  }
+
+  public String mrkKmsKeyArn() {
+    return this.mrkKmsKeyArn;
   }
 
   public Builder toBuilder() {
@@ -30,6 +37,10 @@ public class KMSConfiguration {
 
     String kmsKeyArn();
 
+    Builder mrkKmsKeyArn(String mrkKmsKeyArn);
+
+    String mrkKmsKeyArn();
+
     KMSConfiguration build();
   }
 
@@ -37,10 +48,13 @@ public class KMSConfiguration {
 
     protected String kmsKeyArn;
 
+    protected String mrkKmsKeyArn;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(KMSConfiguration model) {
       this.kmsKeyArn = model.kmsKeyArn();
+      this.mrkKmsKeyArn = model.mrkKmsKeyArn();
     }
 
     public Builder kmsKeyArn(String kmsKeyArn) {
@@ -50,6 +64,15 @@ public class KMSConfiguration {
 
     public String kmsKeyArn() {
       return this.kmsKeyArn;
+    }
+
+    public Builder mrkKmsKeyArn(String mrkKmsKeyArn) {
+      this.mrkKmsKeyArn = mrkKmsKeyArn;
+      return this;
+    }
+
+    public String mrkKmsKeyArn() {
+      return this.mrkKmsKeyArn;
     }
 
     public KMSConfiguration build() {
@@ -65,6 +88,21 @@ public class KMSConfiguration {
           "The size of `kmsKeyArn` must be less than or equal to 2048"
         );
       }
+      if (
+        Objects.nonNull(this.mrkKmsKeyArn()) && this.mrkKmsKeyArn().length() < 1
+      ) {
+        throw new IllegalArgumentException(
+          "The size of `mrkKmsKeyArn` must be greater than or equal to 1"
+        );
+      }
+      if (
+        Objects.nonNull(this.mrkKmsKeyArn()) &&
+        this.mrkKmsKeyArn().length() > 2048
+      ) {
+        throw new IllegalArgumentException(
+          "The size of `mrkKmsKeyArn` must be less than or equal to 2048"
+        );
+      }
       if (!onlyOneNonNull()) {
         throw new IllegalArgumentException(
           "`KMSConfiguration` is a Union. A Union MUST have one and only one value set."
@@ -74,7 +112,7 @@ public class KMSConfiguration {
     }
 
     private boolean onlyOneNonNull() {
-      Object[] allValues = { this.kmsKeyArn };
+      Object[] allValues = { this.kmsKeyArn, this.mrkKmsKeyArn };
       boolean haveOneNonNull = false;
       for (Object o : allValues) {
         if (Objects.nonNull(o)) {

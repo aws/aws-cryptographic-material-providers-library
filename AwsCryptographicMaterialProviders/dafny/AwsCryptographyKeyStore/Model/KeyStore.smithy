@@ -102,7 +102,8 @@ structure KeyStoreConfig {
 }
 
 union KMSConfiguration {
-  kmsKeyArn: com.amazonaws.kms#KeyIdType
+  kmsKeyArn: com.amazonaws.kms#KeyIdType,
+  mrkKmsKeyArn: com.amazonaws.kms#KeyIdType
 }
 
 @javadoc("Returns the configuration information for a Key Store.")
