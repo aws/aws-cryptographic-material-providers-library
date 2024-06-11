@@ -3,7 +3,6 @@
 
 include "../src/Index.dfy"
 include "Fixtures.dfy"
-  //include "../src/ErrorMessages.dfy"
 
 // These tests assert that a particular form of
 // illegal Branch Key is always correctly handled.
