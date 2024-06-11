@@ -5,7 +5,7 @@ from datetime import datetime
 import sys
 import os
 
-sys.path.append(os.path.abspath('./AwsCryptographicMaterialProviders/runtimes/python'))
+sys.path.insert(0, os.path.abspath('AwsCryptographicMaterialProviders/runtimes/python'))
 
 # VERSION_RE = re.compile(r"""__version__ = ['"]([0-9.]+)['"]""")
 # HERE = os.path.abspath(os.path.dirname(__file__))
