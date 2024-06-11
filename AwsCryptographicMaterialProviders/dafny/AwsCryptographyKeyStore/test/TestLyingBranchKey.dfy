@@ -9,8 +9,8 @@ include "Fixtures.dfy"
 // illegal Branch Key is always correctly handled.
 // Creation of this particular illegal Branch Key is detailed here:
 // `git rev-parse --show-toplevel`/cfn/lyingBranchKeyCreation.md
-// The Branch Key's Item says it is protected by KMS-ARN Fixtures.dfy#keyArn,
-// but the KMS requests were actually executed against KMS-ARN Fixtures.dfy#postalHornKeyArn.
+// The Branch Key's Item says it is protected by KMS-ARN Fixtures.dfy#postalHornKeyArn,
+// but the KMS requests were actually executed against KMS-ARN Fixtures.dfy#keyArn.
 // Thus, all Keystore Operations related to the Branch Key MUST fail with exceptions from KMS.
 module TestLyingBranchKey {
   import Types = AwsCryptographyKeyStoreTypes
