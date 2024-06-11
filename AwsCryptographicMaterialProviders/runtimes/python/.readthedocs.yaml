@@ -22,6 +22,6 @@ submodules:
 
 python:
   install:
-    - requirements: dev_requirements/doc-requirements.txt
+    - requirements: AwsCryptographicMaterialProviders/runtimes/python/dev_requirements/doc-requirements.txt
     - method: pip
       path: .
