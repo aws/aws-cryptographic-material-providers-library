@@ -16,7 +16,7 @@ type="branch:version:$(uuidgen | tr "[A-Z]" "[a-z]")"
 
 #### KMS GenerateDataKeyWithoutPlaintext for DECRYPT_ONLY:
 
-Execute the following, and persist the result as DECRYPT_ONY.json.
+Execute the following, and persist the result as DECRYPT_ONLY.json.
 
 ```sh
 aws kms generate-data-key-without-plaintext \
