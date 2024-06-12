@@ -30,11 +30,11 @@ from datetime import datetime
 #         return ".".join(split_version[:2])
 #     return release
 
-include_patterns = ['AwsCryptographicMaterialProviders/runtimes/python/']
+# include_patterns = ['AwsCryptographicMaterialProviders/runtimes/python/', '']
 
 project = u"aws_cryptographic_materialproviders"
-version = 1.0
-release = 2.0
+version = "1.0"
+release = "2.0"
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.

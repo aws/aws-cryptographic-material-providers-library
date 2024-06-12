@@ -1,5 +1,3 @@
-.. include:: ../README.md
-
 *******
 Modules
 *******
@@ -7,6 +5,5 @@ Modules
 .. autosummary::
     :toctree: generated
 
-    AwsCryptographicMaterialProviders.runtimes.python.src.aws_cryptographic_materialproviders.keystore.client
-
-.. include:: ../CHANGELOG.md
+    aws-cryptographic-material-providers
+    aws-cryptographic-material-providers.keystore.client
