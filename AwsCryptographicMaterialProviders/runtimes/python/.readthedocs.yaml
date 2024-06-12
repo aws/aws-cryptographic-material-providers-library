@@ -16,8 +16,8 @@ sphinx:
    configuration: AwsCryptographicMaterialProviders/runtimes/python/doc/conf.py
 
 submodules:
-  include:
-    - smithy-dafny
+  include: all
+  recursive: true
 
 python:
   install:
