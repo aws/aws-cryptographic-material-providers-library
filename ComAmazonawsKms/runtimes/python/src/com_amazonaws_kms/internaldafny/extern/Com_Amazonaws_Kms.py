@@ -30,6 +30,8 @@ class default__(com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms.defa
                 )
                 boto_client = boto3.client("kms", config=boto_config)
             else:
+                # If no region is provided,
+                # boto_client will use the default region provided by boto3
                 boto_client = boto3.client("kms")
                 region = boto_client.meta.region_name
         wrapped_client = KMSClientShim(boto_client, region)
