@@ -23,7 +23,7 @@ module TestComAmazonawsDynamoDB {
 
     var item: DDB.Types.AttributeMap := map[
       "branch-key-id" := DDB.Types.AttributeValue.S("ddb-client-test"),
-      "type" := DDB.Types.AttributeValue.S("ddb-client-test"),
+      "version" := DDB.Types.AttributeValue.S("ddb-client-test"),
       "status" := DDB.Types.AttributeValue.S("ACTIVE")
     ];
 
@@ -47,7 +47,7 @@ module TestComAmazonawsDynamoDB {
 
     var Key2Get: DDB.Types.Key := map[
       "branch-key-id" := DDB.Types.AttributeValue.S("ddb-client-test"),
-      "type" := DDB.Types.AttributeValue.S("ddb-client-test")
+      "version" := DDB.Types.AttributeValue.S("ddb-client-test")
     ];
     var getInput := DDB.Types.GetItemInput(
       TableName := tableNameTest,
