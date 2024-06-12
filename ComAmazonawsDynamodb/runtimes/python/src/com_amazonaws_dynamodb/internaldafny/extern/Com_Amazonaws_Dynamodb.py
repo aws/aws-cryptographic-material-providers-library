@@ -31,7 +31,7 @@ class default__(com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dyn
                 boto_client = boto3.client("dynamodb", config=boto_config)
             else:
                 boto_client = boto3.client("dynamodb")
-                region = Session().region_name
+                region = boto_client.meta.region_name
         wrapped_client = DynamoDBClientShim(boto_client, region)
         return Wrappers.Result_Success(wrapped_client)
     
