@@ -2,14 +2,6 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description: "DDB Table and IAM Managed Policies/Role for AWS KMS Hierarchical Keyring Testing"
 
 Parameters:
-  TableName:
-    Type: String
-    Description: Test Table Name
-    Default: HierarchicalKeyringTestTable
-  KeyStoreTable:
-    Type: String
-    Description: Key Store Test Table Name
-    Default: KeyStoreTestTable
   KeyStoreDdbTable:
     Type: String
     Description: Key Store DynamoDB Table Name
@@ -25,48 +17,6 @@ Parameters:
     Default: aws/private-aws-encryption-sdk-dafny-staging
 
 Resources:
-  KeyStoreTestTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      AttributeDefinitions:
-        - AttributeName: "branch-key-id"
-          AttributeType: "S"
-        - AttributeName: "type"
-          AttributeType: "S"
-        - AttributeName: "status"
-          AttributeType: "S"
-      KeySchema:
-        - AttributeName: "branch-key-id"
-          KeyType: "HASH"
-        - AttributeName: "type"
-          KeyType: "RANGE"
-      ProvisionedThroughput:
-        ReadCapacityUnits: "5"
-        WriteCapacityUnits: "5"
-      TableName: !Ref KeyStoreTable
-      GlobalSecondaryIndexes:
-        - IndexName: !Sub "Active-Keys"
-          KeySchema:
-            - AttributeName: "branch-key-id"
-              KeyType: "HASH"
-            - AttributeName: "status"
-              KeyType: "RANGE"
-          Projection:
-            ProjectionType: "ALL"
-          ProvisionedThroughput:
-            ReadCapacityUnits: "5"
-            WriteCapacityUnits: "5"
-        - IndexName: !Sub "Active-Keys-KeyStoreTestTable"
-          KeySchema:
-            - AttributeName: "branch-key-id"
-              KeyType: "HASH"
-            - AttributeName: "status"
-              KeyType: "RANGE"
-          Projection:
-            ProjectionType: "ALL"
-          ProvisionedThroughput:
-            ReadCapacityUnits: "5"
-            WriteCapacityUnits: "5"
   KeyStoreTestDdbTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -80,59 +30,19 @@ Resources:
           KeyType: "HASH"
         - AttributeName: "type"
           KeyType: "RANGE"
-      ProvisionedThroughput:
-        ReadCapacityUnits: "5"
-        WriteCapacityUnits: "5"
+      BillingMode: PAY_PER_REQUEST
       TableName: !Ref KeyStoreDdbTable
 
-  HierarchicalKeyringTestTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      AttributeDefinitions:
-        - AttributeName: "branch-key-id"
-          AttributeType: "S"
-        - AttributeName: "version"
-          AttributeType: "S"
-        - AttributeName: "status"
-          AttributeType: "S"
-      KeySchema:
-        - AttributeName: "branch-key-id"
-          KeyType: "HASH"
-        - AttributeName: "version"
-          KeyType: "RANGE"
-      TableName: !Ref TableName
-      GlobalSecondaryIndexes:
-        - IndexName: "Active-Keys"
-          KeySchema:
-            - AttributeName: "status"
-              KeyType: "HASH"
-            - AttributeName: "branch-key-id"
-              KeyType: "RANGE"
-          Projection:
-            ProjectionType: "ALL"
-
-  # This policy SHOULD be given to:
-  #  - aws/private-aws-encryption-sdk-dafny-staging
-  #  - ToolsDevelopment
   HierarchicalKeyringTestTableUsage:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
-      Description: "Allow Read, Write, and Delete of Items in HierarchicalKeyringTestTable"
+      Description: "Allow Read, Write, and Delete of Items in KeyStoreDdbTable"
       ManagedPolicyName: !Sub "${ProjectName}-DDB-ReadWriteDelete-${AWS::Region}"
       PolicyDocument:
         Version: "2012-10-17"
         Statement:
           - Effect: Allow
             Action:
-              - dynamodb:PutItem
-              - dynamodb:DeleteItem
-              - dynamodb:GetItem
-              - dynamodb:Query
-            Resource:
-              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${TableName}"
-              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${TableName}/index/*"
-          - Effect: Allow
-            Action:
               - dynamodb:DescribeTable
               - dynamodb:CreateTable
               - dynamodb:PutItem
@@ -142,18 +52,47 @@ Resources:
               - dynamodb:ConditionCheckItem
               - dynamodb:UpdateItem
             Resource:
-              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreTable}"
-              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreTable}/index/*"
+              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreDdbTable}"
+              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreDdbTable}/index/*"
+
+  DDBKeyStoreUserPolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      Description: "Allow Read from KeyStore"
+      ManagedPolicyName: !Sub "CryptographyExample-DDB-KeyStoreUser-${AWS::Region}"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
           - Effect: Allow
             Action:
-              - dynamodb:DescribeTable
-              - dynamodb:CreateTable
-              - dynamodb:PutItem
-              - dynamodb:DeleteItem
               - dynamodb:GetItem
-              - dynamodb:Query
+            Resource:
+              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreDdbTable}"
+              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreDdbTable}/index/*"
+
+  DDBKeyStoreAdminPolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      Description: "Allow Read from KeyStore, and only conditional writes to KeyStore"
+      ManagedPolicyName: !Sub "CryptographyExample-DDB-KeyStoreUser-${AWS::Region}"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
               - dynamodb:ConditionCheckItem
-              - dynamodb:UpdateItem
+              - dynamodb:GetItem
+              - dynamodb:PutItem
+            Resource:
+              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreDdbTable}"
+              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreDdbTable}/index/*"
+            Condition:
+              "ForAnyValue:StringEquals":
+                "dynamodb:EnclosingOperation":
+                  - TransactWriteItems
+          - Effect: Allow
+            Action:
+              - dynamodb:GetItem
             Resource:
               - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreDdbTable}"
               - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreDdbTable}/index/*"
@@ -252,6 +191,54 @@ Resources:
           ]
         }
       ManagedPolicyName: RSA-GitHub-KMS-Key-Policy
+
+  KeyStoreUserRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: !Sub "CryptographyExample-KeyStoreUser-${AWS::Region}"
+      Description: "Read Branch Keys."
+      ManagedPolicyArns:
+        - !Ref DDBKeyStoreUserPolicy
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !Sub "arn:aws:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com"
+            Action: "sts:AssumeRoleWithWebIdentity"
+            Condition:
+              StringEquals:
+                "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+              StringLike:
+                "token.actions.githubusercontent.com:sub": !Sub "repo:${GitHubRepo}:*"
+          - Effect: Allow
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:role/ToolsDevelopment"
+            Action: "sts:AssumeRole"
+
+  KeyStoreAdminRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: !Sub "CryptographyExample-KeyStoreAdmin-${AWS::Region}"
+      Description: "Read & Write Branch Keys."
+      ManagedPolicyArns:
+        - !Ref DDBKeyStoreAdminPolicy
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !Sub "arn:aws:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com"
+            Action: "sts:AssumeRoleWithWebIdentity"
+            Condition:
+              StringEquals:
+                "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+              StringLike:
+                "token.actions.githubusercontent.com:sub": !Sub "repo:${GitHubRepo}:*"
+          - Effect: Allow
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:role/ToolsDevelopment"
+            Action: "sts:AssumeRole"
 
   # The MPL-Dafny Repo get access to everything here
   # via the CI.yaml#GitHubCIRole
