@@ -2,11 +2,11 @@
 # import os
 # import re
 from datetime import datetime
-import sys
-import os
+# import sys
+# import os
 
-sys.path.insert(0, os.path.abspath('AwsCryptographicMaterialProviders/runtimes/python'))
-print(os.path.abspath('AwsCryptographicMaterialProviders/runtimes/python'))
+# sys.path.insert(0, os.path.abspath('AwsCryptographicMaterialProviders/runtimes/python'))
+# print(os.path.abspath('AwsCryptographicMaterialProviders/runtimes/python'))
 # VERSION_RE = re.compile(r"""__version__ = ['"]([0-9.]+)['"]""")
 # HERE = os.path.abspath(os.path.dirname(__file__))
 
@@ -30,6 +30,7 @@ print(os.path.abspath('AwsCryptographicMaterialProviders/runtimes/python'))
 #         return ".".join(split_version[:2])
 #     return release
 
+include_patterns = ['AwsCryptographicMaterialProviders/runtimes/python/']
 
 project = u"aws_cryptographic_materialproviders"
 version = 1.0
