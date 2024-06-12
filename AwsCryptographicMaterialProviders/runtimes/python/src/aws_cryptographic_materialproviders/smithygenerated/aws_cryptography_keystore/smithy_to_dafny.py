@@ -10,6 +10,7 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     CreateKeyOutput_CreateKeyOutput as DafnyCreateKeyOutput,
     CreateKeyStoreInput_CreateKeyStoreInput as DafnyCreateKeyStoreInput,
     CreateKeyStoreOutput_CreateKeyStoreOutput as DafnyCreateKeyStoreOutput,
+    Discovery_Discovery as DafnyDiscovery,
     GetActiveBranchKeyInput_GetActiveBranchKeyInput as DafnyGetActiveBranchKeyInput,
     GetActiveBranchKeyOutput_GetActiveBranchKeyOutput as DafnyGetActiveBranchKeyOutput,
     GetBeaconKeyInput_GetBeaconKeyInput as DafnyGetBeaconKeyInput,
@@ -17,8 +18,12 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     GetBranchKeyVersionInput_GetBranchKeyVersionInput as DafnyGetBranchKeyVersionInput,
     GetBranchKeyVersionOutput_GetBranchKeyVersionOutput as DafnyGetBranchKeyVersionOutput,
     GetKeyStoreInfoOutput_GetKeyStoreInfoOutput as DafnyGetKeyStoreInfoOutput,
+    KMSConfiguration_discovery,
     KMSConfiguration_kmsKeyArn,
+    KMSConfiguration_kmsMRKeyArn,
+    KMSConfiguration_mrDiscovery,
     KeyStoreConfig_KeyStoreConfig as DafnyKeyStoreConfig,
+    MRDiscovery_MRDiscovery as DafnyMRDiscovery,
     VersionKeyInput_VersionKeyInput as DafnyVersionKeyInput,
     VersionKeyOutput_VersionKeyOutput as DafnyVersionKeyOutput,
 )
@@ -81,10 +86,25 @@ def aws_cryptography_keystore_GetKeyStoreInfoOutput(native_input):
 def aws_cryptography_keystore_KMSConfiguration(native_input):
     if isinstance(native_input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationKmsKeyArn):
         KMSConfiguration_union_value = KMSConfiguration_kmsKeyArn(Seq(native_input.value))
+    elif isinstance(native_input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationKmsMRKeyArn):
+        KMSConfiguration_union_value = KMSConfiguration_kmsMRKeyArn(Seq(native_input.value))
+    elif isinstance(native_input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationDiscovery):
+        KMSConfiguration_union_value = KMSConfiguration_discovery(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_Discovery(native_input.value))
+    elif isinstance(native_input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationMrDiscovery):
+        KMSConfiguration_union_value = KMSConfiguration_mrDiscovery(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_MRDiscovery(native_input.value))
     else:
         raise ValueError("No recognized union value in union type: " + str(native_input))
 
     return KMSConfiguration_union_value
+
+def aws_cryptography_keystore_Discovery(native_input):
+    return DafnyDiscovery(
+    )
+
+def aws_cryptography_keystore_MRDiscovery(native_input):
+    return DafnyMRDiscovery(
+        region=Seq(native_input.region),
+    )
 
 def aws_cryptography_keystore_CreateKeyStoreOutput(native_input):
     return DafnyCreateKeyStoreOutput(

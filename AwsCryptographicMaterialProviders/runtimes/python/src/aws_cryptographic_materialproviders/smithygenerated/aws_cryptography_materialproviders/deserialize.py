@@ -241,10 +241,10 @@ async def _deserialize_error(error: Error) -> ServiceError:
       return InvalidEncryptionMaterials(message=_dafny.string_of(error.message))
     elif error.is_InvalidEncryptionMaterialsTransition:
       return InvalidEncryptionMaterialsTransition(message=_dafny.string_of(error.message))
-    elif error.is_AwsCryptographyPrimitives:
-        return AwsCryptographicPrimitives(await aws_cryptography_primitives_deserialize_error(Error_AwsCryptographicPrimitivesError(message=error.AwsCryptographyPrimitives)))
-    elif error.is_AwsCryptographyKeyStore:
-        return KeyStore(await aws_cryptography_keystore_deserialize_error(Error_KeyStoreException(message=error.AwsCryptographyKeyStore)))
+    elif error.is_AwsCryptographyMaterialProviders:
+        return AwsCryptographicPrimitives(await aws_cryptography_primitives_deserialize_error(Error_AwsCryptographicPrimitivesError(message=error.AwsCryptographyMaterialProviders)))
+    elif error.is_AwsCryptographyMaterialProviders:
+        return KeyStore(await aws_cryptography_keystore_deserialize_error(Error_KeyStoreException(message=error.AwsCryptographyMaterialProviders)))
     elif error.is_ComAmazonawsKms:
         return ComAmazonawsKms(message=_dafny.string_of(error.ComAmazonawsKms.message))
     elif error.is_ComAmazonawsDynamodb:

@@ -77,15 +77,19 @@ class KeyStoreConfig(Config):
         """Constructor for KeyStoreConfig.
 
         :param ddb_table_name: The DynamoDB table name that backs this Key Store.
-        :param kms_configuration: The AWS KMS Key that protects this Key Store.
+        :param kms_configuration: Configures Key Store's KMS Key ARN restrictions.
         :param logical_key_store_name: The logical name for this Key Store, which is
-        cryptographically bound to the keys it holds.
+        cryptographically bound to the keys it holds. This appears in the Encryption
+        Context of KMS requests as `tablename`.
         :param id: An identifier for this Key Store.
         :param grant_tokens: The AWS KMS grant tokens that are used when this Key Store
         calls to AWS KMS.
         :param ddb_client: The DynamoDB client this Key Store uses to call Amazon
-        DynamoDB.
-        :param kms_client: The KMS client this Key Store uses to call AWS KMS.
+        DynamoDB. If None is provided and the KMS ARN is, the KMS ARN is used to
+        determine the Region of the default client.
+        :param kms_client: The KMS client this Key Store uses to call AWS KMS.  If None
+        is provided and the KMS ARN is, the KMS ARN is used to determine the Region of
+        the default client.
         """
         super().__init__()
         self.ddb_table_name = ddb_table_name

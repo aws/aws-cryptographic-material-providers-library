@@ -3,7 +3,10 @@
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
 from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
+    KMSConfiguration_discovery,
     KMSConfiguration_kmsKeyArn,
+    KMSConfiguration_kmsMRKeyArn,
+    KMSConfiguration_mrDiscovery,
 )
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models
@@ -49,10 +52,25 @@ def aws_cryptography_keystore_KMSConfiguration(dafny_input):
     # Convert KMSConfiguration
     if isinstance(dafny_input, KMSConfiguration_kmsKeyArn):
         KMSConfiguration_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationKmsKeyArn(dafny_input.kmsKeyArn.VerbatimString(False))
+    elif isinstance(dafny_input, KMSConfiguration_kmsMRKeyArn):
+        KMSConfiguration_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationKmsMRKeyArn(dafny_input.kmsMRKeyArn.VerbatimString(False))
+    elif isinstance(dafny_input, KMSConfiguration_discovery):
+        KMSConfiguration_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationDiscovery(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_Discovery(dafny_input.discovery))
+    elif isinstance(dafny_input, KMSConfiguration_mrDiscovery):
+        KMSConfiguration_union_value = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.KMSConfigurationMrDiscovery(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_MRDiscovery(dafny_input.mrDiscovery))
     else:
         raise ValueError("No recognized union value in union type: " + str(dafny_input))
 
     return KMSConfiguration_union_value
+
+def aws_cryptography_keystore_Discovery(dafny_input):
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.Discovery(
+    )
+
+def aws_cryptography_keystore_MRDiscovery(dafny_input):
+    return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.MRDiscovery(
+        region=dafny_input.region.VerbatimString(False),
+    )
 
 def aws_cryptography_keystore_GetKeyStoreInfoOutput(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.GetKeyStoreInfoOutput(

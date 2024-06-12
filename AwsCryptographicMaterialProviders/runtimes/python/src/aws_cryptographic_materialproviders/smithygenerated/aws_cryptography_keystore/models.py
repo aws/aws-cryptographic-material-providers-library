@@ -171,6 +171,7 @@ class CreateKeyInput:
         """
         :param branch_key_identifier: The identifier for the created Branch Key.
         :param encryption_context: Custom encryption context for the Branch Key.
+        Required if branchKeyIdentifier is set.
         """
         self.branch_key_identifier = branch_key_identifier
         self.encryption_context = encryption_context
@@ -356,6 +357,32 @@ class CreateKeyStoreOutput:
             getattr(self, a) == getattr(other, a)
             for a in attributes
         )
+
+class Discovery:
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the Discovery to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "Discovery":
+        """Creates a Discovery from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        return Discovery()
+
+    def __repr__(self) -> str:
+        result = "Discovery("
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        return isinstance(other, Discovery)
 
 class GetActiveBranchKeyInput:
     branch_key_identifier: str
@@ -681,7 +708,70 @@ class GetBranchKeyVersionOutput:
             for a in attributes
         )
 
+class MRDiscovery:
+    region: str
+    def __init__(
+        self,
+        *,
+        region: str,
+    ):
+        """
+        :param region: Any MRK ARN discovered will have its region replaced with this.
+        """
+        if (region is not None) and (len(region) < 1):
+            raise ValueError("The size of region must be greater than or equal to 1")
+
+        if (region is not None) and (len(region) > 32):
+            raise ValueError("The size of region must be less than or equal to 32")
+
+        self.region = region
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the MRDiscovery to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "region": self.region,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "MRDiscovery":
+        """Creates a MRDiscovery from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "region": d["region"],
+        }
+
+        return MRDiscovery(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "MRDiscovery("
+        if self.region is not None:
+            result += f"region={repr(self.region)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, MRDiscovery):
+            return False
+        attributes: list[str] = ['region',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
+
 class KMSConfigurationKmsKeyArn():
+    """Key Store is restricted to only this KMS Key ARN. If a different KMS Key ARN is
+    encountered when creating, versioning, or getting a Branch Key or Beacon Key,
+    KMS is never called and an exception is thrown. While a Multi-Region Key (MKR)
+    may be provided, the whole ARN, including the Region, is persisted in Branch
+    Keys and MUST strictly equal this value to be considered valid.
+    """
     def __init__(self, value: 'str'):
         self.value = value
 
@@ -700,6 +790,87 @@ class KMSConfigurationKmsKeyArn():
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, KMSConfigurationKmsKeyArn):
+            return False
+        return self.value == other.value
+
+class KMSConfigurationKmsMRKeyArn():
+    """If an MRK ARN is provided, and the Key Store table holds an MRK ARN, then those
+    two ARNs may differ in region, although they must be otherwise equal. If either
+    ARN is not an MRK ARN, then mrkKmsKeyArn behaves exactly as kmsKeyArn.
+    """
+    def __init__(self, value: 'str'):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"kmsMRKeyArn": self.value}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KMSConfigurationKmsMRKeyArn":
+        if (len(d) != 1):
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return KMSConfigurationKmsMRKeyArn(d["kmsMRKeyArn"])
+
+    def __repr__(self) -> str:
+        return f"KMSConfigurationKmsMRKeyArn(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KMSConfigurationKmsMRKeyArn):
+            return False
+        return self.value == other.value
+
+class KMSConfigurationDiscovery():
+    """The Key Store can use the KMS Key ARNs already persisted in the Backing Table.
+    The VersionKey and CreateKey Operations are NOT supported and will fail with a
+    runtime exception. There is no Multi-Region logic with this configuration; if a
+    Multi-Region Key is encountered, and the region in the ARN is not the region of
+    the KMS Client, requests will Fail with KMS Exceptions.
+    """
+    def __init__(self, value: 'Discovery'):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"discovery": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KMSConfigurationDiscovery":
+        if (len(d) != 1):
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return KMSConfigurationDiscovery(Discovery.from_dict(d["discovery"]))
+
+    def __repr__(self) -> str:
+        return f"KMSConfigurationDiscovery(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KMSConfigurationDiscovery):
+            return False
+        return self.value == other.value
+
+class KMSConfigurationMrDiscovery():
+    """The Key Store can use the KMS Key ARNs already persisted in the Backing Table.
+    The VersionKey and CreateKey Operations are NOT supported and will fail with a
+    runtime exception. If a Multi-Region Key is encountered, the region in the ARN
+    is changed to the configured region.
+    """
+    def __init__(self, value: 'MRDiscovery'):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"mrDiscovery": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KMSConfigurationMrDiscovery":
+        if (len(d) != 1):
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return KMSConfigurationMrDiscovery(MRDiscovery.from_dict(d["mrDiscovery"]))
+
+    def __repr__(self) -> str:
+        return f"KMSConfigurationMrDiscovery(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KMSConfigurationMrDiscovery):
             return False
         return self.value == other.value
 
@@ -727,10 +898,20 @@ class KMSConfiguration():
     def __repr__(self) -> str:
         return f"KMSConfiguration(tag={self.tag})"
 
-KMSConfiguration = Union[KMSConfigurationKmsKeyArn, KMSConfiguration]
+# Configures Key Store's KMS Key ARN restrictions.
+KMSConfiguration = Union[KMSConfigurationKmsKeyArn, KMSConfigurationKmsMRKeyArn, KMSConfigurationDiscovery, KMSConfigurationMrDiscovery, KMSConfiguration]
 def _kms_configuration_from_dict(d: Dict[str, Any]) -> KMSConfiguration:
     if "kmsKeyArn" in d:
         return KMSConfigurationKmsKeyArn.from_dict(d)
+
+    if "kmsMRKeyArn" in d:
+        return KMSConfigurationKmsMRKeyArn.from_dict(d)
+
+    if "discovery" in d:
+        return KMSConfigurationDiscovery.from_dict(d)
+
+    if "mrDiscovery" in d:
+        return KMSConfigurationMrDiscovery.from_dict(d)
 
     raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
 
@@ -757,7 +938,7 @@ class GetKeyStoreInfoOutput:
         cryptographically bound to the keys it holds.
         :param grant_tokens: The AWS KMS grant tokens that are used when this Key Store
         calls to AWS KMS.
-        :param kms_configuration: The AWS KMS Key that protects this Key Store.
+        :param kms_configuration: Configures Key Store's KMS Key ARN restrictions.
         """
         self.key_store_id = key_store_id
         if (key_store_name is not None) and (len(key_store_name) < 3):
