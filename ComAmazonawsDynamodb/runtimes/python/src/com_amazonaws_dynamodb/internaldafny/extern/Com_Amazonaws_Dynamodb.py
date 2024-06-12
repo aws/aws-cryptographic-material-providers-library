@@ -30,6 +30,8 @@ class default__(com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dyn
                 )
                 boto_client = boto3.client("dynamodb", config=boto_config)
             else:
+                # If no region is provided,
+                # boto_client will use the default region provided by boto3
                 boto_client = boto3.client("dynamodb")
                 region = boto_client.meta.region_name
         wrapped_client = DynamoDBClientShim(boto_client, region)
