@@ -772,7 +772,7 @@ class KMSConfigurationKmsKeyArn():
     may be provided, the whole ARN, including the Region, is persisted in Branch
     Keys and MUST strictly equal this value to be considered valid.
     """
-    def __init__(self, value: 'str'):
+    def __init__(self, value: str):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -798,7 +798,7 @@ class KMSConfigurationKmsMRKeyArn():
     two ARNs may differ in region, although they must be otherwise equal. If either
     ARN is not an MRK ARN, then mrkKmsKeyArn behaves exactly as kmsKeyArn.
     """
-    def __init__(self, value: 'str'):
+    def __init__(self, value: str):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -826,7 +826,7 @@ class KMSConfigurationDiscovery():
     Multi-Region Key is encountered, and the region in the ARN is not the region of
     the KMS Client, requests will Fail with KMS Exceptions.
     """
-    def __init__(self, value: 'Discovery'):
+    def __init__(self, value: Discovery):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -853,7 +853,7 @@ class KMSConfigurationMrDiscovery():
     runtime exception. If a Multi-Region Key is encountered, the region in the ARN
     is changed to the configured region.
     """
-    def __init__(self, value: 'MRDiscovery'):
+    def __init__(self, value: MRDiscovery):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:

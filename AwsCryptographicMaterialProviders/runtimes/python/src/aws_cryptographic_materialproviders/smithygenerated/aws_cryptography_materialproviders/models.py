@@ -62,7 +62,7 @@ class ESDKAlgorithmSuiteId:
     values = frozenset({"0x0014", "0x0046", "0x0078", "0x0114", "0x0146", "0x0178", "0x0214", "0x0346", "0x0378", "0x0478", "0x0578"})
 
 class AlgorithmSuiteIdESDK():
-    def __init__(self, value: 'str'):
+    def __init__(self, value: str):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -84,7 +84,7 @@ class AlgorithmSuiteIdESDK():
         return self.value == other.value
 
 class AlgorithmSuiteIdDBE():
-    def __init__(self, value: 'str'):
+    def __init__(self, value: str):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -293,7 +293,7 @@ class None_:
         return isinstance(other, None_)
 
 class DerivationAlgorithmHKDF():
-    def __init__(self, value: 'HKDF'):
+    def __init__(self, value: HKDF):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -315,7 +315,7 @@ class DerivationAlgorithmHKDF():
         return self.value == other.value
 
 class DerivationAlgorithmIDENTITY():
-    def __init__(self, value: 'IDENTITY'):
+    def __init__(self, value: IDENTITY):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -337,7 +337,7 @@ class DerivationAlgorithmIDENTITY():
         return self.value == other.value
 
 class DerivationAlgorithmNone():
-    def __init__(self, value: 'None_'):
+    def __init__(self, value: None_):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -422,7 +422,7 @@ class DIRECT_KEY_WRAPPING:
         return isinstance(other, DIRECT_KEY_WRAPPING)
 
 class EncryptAES_GCM():
-    def __init__(self, value: 'AES_GCM'):
+    def __init__(self, value: AES_GCM):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -539,7 +539,7 @@ class IntermediateKeyWrapping:
         )
 
 class EdkWrappingAlgorithmDIRECT_KEY_WRAPPING():
-    def __init__(self, value: 'DIRECT_KEY_WRAPPING'):
+    def __init__(self, value: DIRECT_KEY_WRAPPING):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -561,7 +561,7 @@ class EdkWrappingAlgorithmDIRECT_KEY_WRAPPING():
         return self.value == other.value
 
 class EdkWrappingAlgorithmIntermediateKeyWrapping():
-    def __init__(self, value: 'IntermediateKeyWrapping'):
+    def __init__(self, value: IntermediateKeyWrapping):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -665,7 +665,7 @@ class ECDSA:
         )
 
 class SignatureAlgorithmECDSA():
-    def __init__(self, value: 'ECDSA'):
+    def __init__(self, value: ECDSA):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -687,7 +687,7 @@ class SignatureAlgorithmECDSA():
         return self.value == other.value
 
 class SignatureAlgorithmNone():
-    def __init__(self, value: 'None_'):
+    def __init__(self, value: None_):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -743,7 +743,7 @@ def _signature_algorithm_from_dict(d: Dict[str, Any]) -> SignatureAlgorithm:
     raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
 
 class SymmetricSignatureAlgorithmHMAC():
-    def __init__(self, value: 'str'):
+    def __init__(self, value: str):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -765,7 +765,7 @@ class SymmetricSignatureAlgorithmHMAC():
         return self.value == other.value
 
 class SymmetricSignatureAlgorithmNone():
-    def __init__(self, value: 'None_'):
+    def __init__(self, value: None_):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1739,7 +1739,7 @@ class StormTrackingCache:
 class CacheTypeDefault():
     """The best choice for most situations. Probably a StormTrackingCache.
     """
-    def __init__(self, value: 'DefaultCache'):
+    def __init__(self, value: DefaultCache):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1763,7 +1763,7 @@ class CacheTypeDefault():
 class CacheTypeNo():
     """Nothing should ever be cached.
     """
-    def __init__(self, value: 'NoCache'):
+    def __init__(self, value: NoCache):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1787,7 +1787,7 @@ class CacheTypeNo():
 class CacheTypeSingleThreaded():
     """A cache that is NOT safe for use in a multi threaded environment.
     """
-    def __init__(self, value: 'SingleThreadedCache'):
+    def __init__(self, value: SingleThreadedCache):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1812,7 +1812,7 @@ class CacheTypeMultiThreaded():
     """A cache that is safe for use in a multi threaded environment, but no extra
     functionality.
     """
-    def __init__(self, value: 'MultiThreadedCache'):
+    def __init__(self, value: MultiThreadedCache):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1838,7 +1838,7 @@ class CacheTypeStormTracking():
     and tries to
     prevent redundant or overly parallel backend calls.
     """
-    def __init__(self, value: 'StormTrackingCache'):
+    def __init__(self, value: StormTrackingCache):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -3563,7 +3563,7 @@ class EncryptionMaterials:
         )
 
 class MaterialsEncryption():
-    def __init__(self, value: 'EncryptionMaterials'):
+    def __init__(self, value: EncryptionMaterials):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -3585,7 +3585,7 @@ class MaterialsEncryption():
         return self.value == other.value
 
 class MaterialsDecryption():
-    def __init__(self, value: 'DecryptionMaterials'):
+    def __init__(self, value: DecryptionMaterials):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -3607,7 +3607,7 @@ class MaterialsDecryption():
         return self.value == other.value
 
 class MaterialsBranchKey():
-    def __init__(self, value: 'BranchKeyMaterials'):
+    def __init__(self, value: BranchKeyMaterials):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -3629,7 +3629,7 @@ class MaterialsBranchKey():
         return self.value == other.value
 
 class MaterialsBeaconKey():
-    def __init__(self, value: 'BeaconKeyMaterials'):
+    def __init__(self, value: BeaconKeyMaterials):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4002,7 +4002,7 @@ class ESDKCommitmentPolicy:
     values = frozenset({"FORBID_ENCRYPT_ALLOW_DECRYPT", "REQUIRE_ENCRYPT_ALLOW_DECRYPT", "REQUIRE_ENCRYPT_REQUIRE_DECRYPT"})
 
 class CommitmentPolicyESDK():
-    def __init__(self, value: 'str'):
+    def __init__(self, value: str):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4024,7 +4024,7 @@ class CommitmentPolicyESDK():
         return self.value == other.value
 
 class CommitmentPolicyDBE():
-    def __init__(self, value: 'str'):
+    def __init__(self, value: str):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
