@@ -24,4 +24,4 @@ python:
   install:
     - requirements: AwsCryptographicMaterialProviders/runtimes/python/dev_requirements/doc-requirements.txt
     - method: pip
-      path: .
+      path: AwsCryptographicMaterialProviders/runtimes/python/
