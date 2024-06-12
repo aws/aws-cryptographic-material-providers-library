@@ -52,7 +52,8 @@ class default__(com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dyn
         except AssertionError:
             raise TypeError("Client provided to RegionMatch is not a DynamoDBClientShim: " + client)
 
-        # Since client is a DynamoDBClientShim, we can reach into its _impl, which is a boto3 client
+        # Since client is a DynamoDBClientShim, we can reach into its _impl, which is a boto3 client,
+        # then into the client's .meta.region_name attribute
         client_region_name = client._impl.meta.region_name
         return Option_Some(region.VerbatimString(False) == client_region_name)
 
