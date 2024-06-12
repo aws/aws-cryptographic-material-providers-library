@@ -21,9 +21,9 @@ phases:
       - make transpile_net
   build:
     commands:
-      - export VERSION=`grep '<Version>' runtimes/net/ComAmazonawsDynamodb.csproj.csproj | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
-      - sed -i.backup  "/\<ProjectReference Include=\"..\/ComAmazonawsDynamodb.csproj.csproj\" \/>/d" runtimes/net/tests/TestComAmazonawsDynamodb.csproj.csproj
-      - dotnet add runtimes/net/tests/TestComAmazonawsDynamodb.csproj.csproj package AWS.Cryptography.Internal.ComAmazonawsDynamodb --version $VERSION
+      - export VERSION=`grep '<Version>' runtimes/net/ComAmazonawsDynamodb.csproj | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
+      - sed -i.backup  "/\<ProjectReference Include=\"..\/ComAmazonawsDynamodb.csproj\" \/>/d" runtimes/net/tests/TestComAmazonawsDynamodb.csproj
+      - dotnet add runtimes/net/tests/TestComAmazonawsDynamodb.csproj package AWS.Cryptography.Internal.ComAmazonawsDynamodb --version $VERSION
 
         # run tests
       - TMP_ROLE=$(aws sts assume-role --role-arn "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2" --role-session-name "CB-TestVectorResources")
