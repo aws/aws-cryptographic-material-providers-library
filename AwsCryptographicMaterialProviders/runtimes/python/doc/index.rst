@@ -5,5 +5,5 @@ Modules
 .. autosummary::
     :toctree: generated
 
-    aws-cryptographic-material-providers
-    aws-cryptographic-material-providers.keystore.client
+    aws_cryptographic_material_providers
+    aws_cryptographic_material_providers.keystore.client
