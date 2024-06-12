@@ -63,14 +63,14 @@ class default__:
 
     @staticmethod
     def ParserWitness():
-        def lambda27_(d_481___v0_):
+        def lambda27_(d_464___v0_):
             return Wrappers.Result_Failure(JSON_Utils_Cursors.CursorError_EOF())
 
         return Parser___Parser(lambda27_)
 
     @staticmethod
     def SubParserWitness():
-        def lambda28_(d_482_cs_):
+        def lambda28_(d_465_cs_):
             return Wrappers.Result_Failure(JSON_Utils_Cursors.CursorError_EOF())
 
         return SubParser___SubParser(lambda28_)

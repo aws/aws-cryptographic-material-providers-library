@@ -67,7 +67,7 @@ import standard_library.internaldafny.generated.Actions as Actions
 import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes as AwsCryptographyKeyStoreTypes
 
-# Module: aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes
+# Module: AwsCryptographyMaterialProvidersTypes
 
 class default__:
     def  __init__(self):

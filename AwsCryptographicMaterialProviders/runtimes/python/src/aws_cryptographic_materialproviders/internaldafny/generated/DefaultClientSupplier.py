@@ -70,6 +70,8 @@ import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptograp
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStoreErrorMessages as KeyStoreErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.KmsArn as KmsArn
 import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
 import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
@@ -79,8 +81,6 @@ import aws_cryptographic_materialproviders.internaldafny.generated.GetKeys as Ge
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreOperations as AwsCryptographyKeyStoreOperations
 import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
 import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
-import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws as Com_Amazonaws
-import com_amazonaws_dynamodb.internaldafny.generated.Com as Com
 import aws_cryptographic_materialproviders.internaldafny.generated.KeyStore as KeyStore
 import aws_cryptographic_materialproviders.internaldafny.generated.AlgorithmSuites as AlgorithmSuites
 import aws_cryptographic_materialproviders.internaldafny.generated.Materials as Materials
@@ -92,6 +92,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapp
 import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
 import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
 import aws_cryptographic_materialproviders.internaldafny.generated.EdkWrapping as EdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.ErrorMessages as ErrorMessages
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsKeyring as AwsKmsKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.StrictMultiKeyring as StrictMultiKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsDiscoveryKeyring as AwsKmsDiscoveryKeyring
@@ -113,7 +114,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.Defaults as D
 import aws_cryptographic_materialproviders.internaldafny.generated.Commitment as Commitment
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultCMM as DefaultCMM
 
-# Module: aws_cryptographic_materialproviders.internaldafny.generated.DefaultClientSupplier
+# Module: DefaultClientSupplier
 
 
 class DefaultClientSupplier(AwsCryptographyMaterialProvidersTypes.IClientSupplier):
@@ -123,9 +124,9 @@ class DefaultClientSupplier(AwsCryptographyMaterialProvidersTypes.IClientSupplie
     def __dafnystr__(self) -> str:
         return "DefaultClientSupplier.DefaultClientSupplier"
     def GetClient(self, input):
-        out215_: Wrappers.Result
-        out215_ = AwsCryptographyMaterialProvidersTypes.IClientSupplier.GetClient(self, input)
-        return out215_
+        out217_: Wrappers.Result
+        out217_ = AwsCryptographyMaterialProvidersTypes.IClientSupplier.GetClient(self, input)
+        return out217_
 
     def ctor__(self):
         pass
@@ -133,14 +134,14 @@ class DefaultClientSupplier(AwsCryptographyMaterialProvidersTypes.IClientSupplie
 
     def GetClient_k(self, input):
         output: Wrappers.Result = None
-        d_1195_maybeClient_: Wrappers.Result
-        out216_: Wrappers.Result
-        out216_ = Com_Amazonaws_Kms.default__.KMSClientForRegion((input).region)
-        d_1195_maybeClient_ = out216_
-        def lambda95_(d_1196_e_):
-            return AwsCryptographyMaterialProvidersTypes.Error_ComAmazonawsKms(d_1196_e_)
+        d_1230_maybeClient_: Wrappers.Result
+        out218_: Wrappers.Result
+        out218_ = Com_Amazonaws_Kms.default__.KMSClientForRegion((input).region)
+        d_1230_maybeClient_ = out218_
+        def lambda103_(d_1231_e_):
+            return AwsCryptographyMaterialProvidersTypes.Error_ComAmazonawsKms(d_1231_e_)
 
-        output = (d_1195_maybeClient_).MapFailure(lambda95_)
+        output = (d_1230_maybeClient_).MapFailure(lambda103_)
         return output
         return output
 

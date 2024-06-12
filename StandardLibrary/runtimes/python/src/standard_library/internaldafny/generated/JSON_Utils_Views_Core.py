@@ -60,9 +60,9 @@ class default__:
 
     @staticmethod
     def Merge(lv, rv):
-        d_436_dt__update__tmp_h0_ = lv
-        d_437_dt__update_hend_h0_ = (rv).end
-        return View___View((d_436_dt__update__tmp_h0_).s, (d_436_dt__update__tmp_h0_).beg, d_437_dt__update_hend_h0_)
+        d_427_dt__update__tmp_h0_ = lv
+        d_428_dt__update_hend_h0_ = (rv).end
+        return View___View((d_427_dt__update__tmp_h0_).s, (d_427_dt__update__tmp_h0_).beg, d_428_dt__update_hend_h0_)
 
 
 class View:
@@ -94,7 +94,7 @@ class View__:
 
     @staticmethod
     def OfString(s):
-        return _dafny.Seq([ord((s)[d_438_i_]) for d_438_i_ in range(len(s))])
+        return _dafny.Seq([ord((s)[d_429_i_]) for d_429_i_ in range(len(s))])
 
     def Byte_q(self, c):
         hresult_: bool = False
@@ -116,9 +116,9 @@ class View__:
 
     def CopyTo(self, dest, start):
         hi7_ = (self).Length()
-        for d_439_idx_ in range(0, hi7_):
-            index0_ = (start) + (d_439_idx_)
-            (dest)[index0_] = ((self).s)[((self).beg) + (d_439_idx_)]
+        for d_430_idx_ in range(0, hi7_):
+            index0_ = (start) + (d_430_idx_)
+            (dest)[index0_] = ((self).s)[((self).beg) + (d_430_idx_)]
 
     @_dafny.classproperty
     def Empty(instance):

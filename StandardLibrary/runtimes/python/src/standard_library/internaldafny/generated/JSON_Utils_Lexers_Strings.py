@@ -69,23 +69,32 @@ class default__:
 
     @staticmethod
     def String(st, byte):
+        pat_let_tv8_ = byte
+        pat_let_tv9_ = byte
+        pat_let_tv10_ = byte
         source6_ = st
-        if source6_.is_Start:
-            if (byte) == (ord('\"')):
-                return JSON_Utils_Lexers_Core.LexerResult_Partial(StringLexerState_Body(False))
-            elif True:
-                return JSON_Utils_Lexers_Core.LexerResult_Reject(_dafny.Seq("String must start with double quote"))
-        elif source6_.is_Body:
-            d_444___mcc_h0_ = source6_.escaped
-            d_445_escaped_ = d_444___mcc_h0_
-            if (byte) == (ord('\\')):
-                return JSON_Utils_Lexers_Core.LexerResult_Partial(StringLexerState_Body(not(d_445_escaped_)))
-            elif ((byte) == (ord('\"'))) and (not(d_445_escaped_)):
+        unmatched6 = True
+        if unmatched6:
+            if source6_.is_Start:
+                unmatched6 = False
+                if (pat_let_tv8_) == (ord('\"')):
+                    return JSON_Utils_Lexers_Core.LexerResult_Partial(StringLexerState_Body(False))
+                elif True:
+                    return JSON_Utils_Lexers_Core.LexerResult_Reject(_dafny.Seq("String must start with double quote"))
+        if unmatched6:
+            if source6_.is_End:
+                unmatched6 = False
+                return JSON_Utils_Lexers_Core.LexerResult_Accept()
+        if unmatched6:
+            d_435_escaped_ = source6_.escaped
+            unmatched6 = False
+            if (pat_let_tv9_) == (ord('\\')):
+                return JSON_Utils_Lexers_Core.LexerResult_Partial(StringLexerState_Body(not(d_435_escaped_)))
+            elif ((pat_let_tv10_) == (ord('\"'))) and (not(d_435_escaped_)):
                 return JSON_Utils_Lexers_Core.LexerResult_Partial(StringLexerState_End())
             elif True:
                 return JSON_Utils_Lexers_Core.LexerResult_Partial(StringLexerState_Body(False))
-        elif True:
-            return JSON_Utils_Lexers_Core.LexerResult_Accept()
+        raise Exception("unexpected control point")
 
     @_dafny.classproperty
     def StringBodyLexerStart(instance):

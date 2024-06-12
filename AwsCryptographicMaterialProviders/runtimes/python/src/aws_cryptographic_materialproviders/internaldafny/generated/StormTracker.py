@@ -70,6 +70,8 @@ import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptograp
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStoreErrorMessages as KeyStoreErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.KmsArn as KmsArn
 import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
 import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
@@ -79,8 +81,6 @@ import aws_cryptographic_materialproviders.internaldafny.generated.GetKeys as Ge
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreOperations as AwsCryptographyKeyStoreOperations
 import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
 import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
-import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws as Com_Amazonaws
-import com_amazonaws_dynamodb.internaldafny.generated.Com as Com
 import aws_cryptographic_materialproviders.internaldafny.generated.KeyStore as KeyStore
 import aws_cryptographic_materialproviders.internaldafny.generated.AlgorithmSuites as AlgorithmSuites
 import aws_cryptographic_materialproviders.internaldafny.generated.Materials as Materials
@@ -92,6 +92,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapp
 import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
 import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
 import aws_cryptographic_materialproviders.internaldafny.generated.EdkWrapping as EdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.ErrorMessages as ErrorMessages
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsKeyring as AwsKmsKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.StrictMultiKeyring as StrictMultiKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsDiscoveryKeyring as AwsKmsDiscoveryKeyring
@@ -103,7 +104,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.MrkAwareStric
 import aws_cryptographic_materialproviders.internaldafny.generated.LocalCMC as LocalCMC
 import aws_cryptographic_materialproviders.internaldafny.generated.SynchronizedLocalCMC as SynchronizedLocalCMC
 
-# Module: aws_cryptographic_materialproviders.internaldafny.generated.StormTracker
+# Module: StormTracker
 
 class default__:
     def  __init__(self):
@@ -183,9 +184,9 @@ class StormTracker:
         (self).lastPrune = 0
 
     def InFlightSize(self):
-        d_798_x_ = (self.inFlight).Size()
-        if (d_798_x_) <= (StandardLibrary_UInt.default__.INT64__MAX__LIMIT):
-            return d_798_x_
+        d_825_x_ = (self.inFlight).Size()
+        if (d_825_x_) <= (StandardLibrary_UInt.default__.INT64__MAX__LIMIT):
+            return d_825_x_
         elif True:
             return StandardLibrary_UInt.default__.INT64__MAX__LIMIT
 
@@ -204,25 +205,25 @@ class StormTracker:
 
     def CheckInFlight(self, identifier, result, now):
         output: CacheState = CacheState.default()()
-        d_799_fanOutReached_: bool
-        out129_: bool
-        out129_ = (self).FanOutReached(now)
-        d_799_fanOutReached_ = out129_
-        if d_799_fanOutReached_:
+        d_826_fanOutReached_: bool
+        out131_: bool
+        out131_ = (self).FanOutReached(now)
+        d_826_fanOutReached_ = out131_
+        if d_826_fanOutReached_:
             output = CacheState_Full(result)
             return output
         elif ((result).expiryTime) <= (now):
-            out130_: CacheState
-            out130_ = (self).CheckNewEntry(identifier, now)
-            output = out130_
+            out132_: CacheState
+            out132_ = (self).CheckNewEntry(identifier, now)
+            output = out132_
         elif (now) < (((result).expiryTime) - (self.gracePeriod)):
             output = CacheState_Full(result)
             return output
         elif True:
             if (self.inFlight).HasKey(identifier):
-                d_800_entry_: int
-                d_800_entry_ = (self.inFlight).Select(identifier)
-                if ((self).AddLong(d_800_entry_, self.graceInterval)) > (now):
+                d_827_entry_: int
+                d_827_entry_ = (self.inFlight).Select(identifier)
+                if ((self).AddLong(d_827_entry_, self.graceInterval)) > (now):
                     output = CacheState_Full(result)
                     return output
             (self.inFlight).Put(identifier, now)
@@ -236,30 +237,30 @@ class StormTracker:
         if (self.lastPrune) == (now):
             return
         (self).lastPrune = now
-        d_801_keySet_: _dafny.Set
-        d_801_keySet_ = (self.inFlight).Keys()
-        d_802_keys_: _dafny.Seq
-        d_802_keys_ = SortedSets.default__.SetToSequence(d_801_keySet_)
-        hi7_ = len(d_802_keys_)
-        for d_803_i_ in range(0, hi7_):
-            d_804_v_: int
-            d_804_v_ = (self.inFlight).Select((d_802_keys_)[d_803_i_])
-            if (now) >= ((self).AddLong(d_804_v_, self.inFlightTTL)):
-                (self.inFlight).Remove((d_802_keys_)[d_803_i_])
+        d_828_keySet_: _dafny.Set
+        d_828_keySet_ = (self.inFlight).Keys()
+        d_829_keys_: _dafny.Seq
+        d_829_keys_ = SortedSets.default__.SetToSequence(d_828_keySet_)
+        hi7_ = len(d_829_keys_)
+        for d_830_i_ in range(0, hi7_):
+            d_831_v_: int
+            d_831_v_ = (self.inFlight).Select((d_829_keys_)[d_830_i_])
+            if (now) >= ((self).AddLong(d_831_v_, self.inFlightTTL)):
+                (self.inFlight).Remove((d_829_keys_)[d_830_i_])
 
     def CheckNewEntry(self, identifier, now):
         output: CacheState = CacheState.default()()
-        d_805_fanOutReached_: bool
-        out131_: bool
-        out131_ = (self).FanOutReached(now)
-        d_805_fanOutReached_ = out131_
-        if d_805_fanOutReached_:
+        d_832_fanOutReached_: bool
+        out133_: bool
+        out133_ = (self).FanOutReached(now)
+        d_832_fanOutReached_ = out133_
+        if d_832_fanOutReached_:
             output = CacheState_EmptyWait()
             return output
         elif (self.inFlight).HasKey(identifier):
-            d_806_entry_: int
-            d_806_entry_ = (self.inFlight).Select(identifier)
-            if ((self).AddLong(d_806_entry_, self.graceInterval)) > (now):
+            d_833_entry_: int
+            d_833_entry_ = (self.inFlight).Select(identifier)
+            if ((self).AddLong(d_833_entry_, self.graceInterval)) > (now):
                 output = CacheState_EmptyWait()
                 return output
         (self.inFlight).Put(identifier, now)
@@ -269,51 +270,51 @@ class StormTracker:
 
     def GetFromCacheWithTime(self, input, now):
         output: Wrappers.Result = Wrappers.Result.default(CacheState.default())()
-        d_807_result_: Wrappers.Result
-        out132_: Wrappers.Result
-        out132_ = (self.wrapped).GetCacheEntryWithTime(input, now)
-        d_807_result_ = out132_
-        if (d_807_result_).is_Success:
-            d_808_newResult_: CacheState
-            out133_: CacheState
-            out133_ = (self).CheckInFlight((input).identifier, (d_807_result_).value, now)
-            d_808_newResult_ = out133_
-            output = Wrappers.Result_Success(d_808_newResult_)
+        d_834_result_: Wrappers.Result
+        out134_: Wrappers.Result
+        out134_ = (self.wrapped).GetCacheEntryWithTime(input, now)
+        d_834_result_ = out134_
+        if (d_834_result_).is_Success:
+            d_835_newResult_: CacheState
+            out135_: CacheState
+            out135_ = (self).CheckInFlight((input).identifier, (d_834_result_).value, now)
+            d_835_newResult_ = out135_
+            output = Wrappers.Result_Success(d_835_newResult_)
             return output
-        elif ((d_807_result_).error).is_EntryDoesNotExist:
-            d_809_newResult_: CacheState
-            out134_: CacheState
-            out134_ = (self).CheckNewEntry((input).identifier, now)
-            d_809_newResult_ = out134_
-            output = Wrappers.Result_Success(d_809_newResult_)
+        elif ((d_834_result_).error).is_EntryDoesNotExist:
+            d_836_newResult_: CacheState
+            out136_: CacheState
+            out136_ = (self).CheckNewEntry((input).identifier, now)
+            d_836_newResult_ = out136_
+            output = Wrappers.Result_Success(d_836_newResult_)
             return output
         elif True:
-            output = Wrappers.Result_Failure((d_807_result_).error)
+            output = Wrappers.Result_Failure((d_834_result_).error)
             return output
         return output
 
     def GetFromCache(self, input):
         output: Wrappers.Result = Wrappers.Result.default(CacheState.default())()
-        d_810_now_: int
-        out135_: int
-        out135_ = Time.default__.CurrentRelativeTime()
-        d_810_now_ = out135_
-        out136_: Wrappers.Result
-        out136_ = (self).GetFromCacheWithTime(input, d_810_now_)
-        output = out136_
+        d_837_now_: int
+        out137_: int
+        out137_ = Time.default__.CurrentRelativeTime()
+        d_837_now_ = out137_
+        out138_: Wrappers.Result
+        out138_ = (self).GetFromCacheWithTime(input, d_837_now_)
+        output = out138_
         return output
 
     def GetCacheEntry(self, input):
         output: Wrappers.Result = None
-        d_811_result_: Wrappers.Result
-        out137_: Wrappers.Result
-        out137_ = (self).GetFromCache(input)
-        d_811_result_ = out137_
-        if (d_811_result_).is_Failure:
-            output = Wrappers.Result_Failure((d_811_result_).error)
+        d_838_result_: Wrappers.Result
+        out139_: Wrappers.Result
+        out139_ = (self).GetFromCache(input)
+        d_838_result_ = out139_
+        if (d_838_result_).is_Failure:
+            output = Wrappers.Result_Failure((d_838_result_).error)
             return output
-        elif ((d_811_result_).value).is_Full:
-            output = Wrappers.Result_Success(((d_811_result_).value).data)
+        elif ((d_838_result_).value).is_Full:
+            output = Wrappers.Result_Success(((d_838_result_).value).data)
             return output
         elif True:
             output = Wrappers.Result_Failure(AwsCryptographyMaterialProvidersTypes.Error_EntryDoesNotExist(_dafny.Seq("Entry does not exist")))
@@ -323,23 +324,23 @@ class StormTracker:
     def PutCacheEntry(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
         (self.inFlight).Remove((input).identifier)
-        out138_: Wrappers.Result
-        out138_ = (self.wrapped).PutCacheEntry_k(input)
-        output = out138_
+        out140_: Wrappers.Result
+        out140_ = (self.wrapped).PutCacheEntry_k(input)
+        output = out140_
         return output
 
     def DeleteCacheEntry(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
         (self.inFlight).Remove((input).identifier)
-        out139_: Wrappers.Result
-        out139_ = (self.wrapped).DeleteCacheEntry_k(input)
-        output = out139_
+        out141_: Wrappers.Result
+        out141_ = (self.wrapped).DeleteCacheEntry_k(input)
+        output = out141_
         return output
 
     def UpdateUsageMetadata(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
-        out140_: Wrappers.Result
-        out140_ = (self.wrapped).UpdateUsageMetadata_k(input)
-        output = out140_
+        out142_: Wrappers.Result
+        out142_ = (self.wrapped).UpdateUsageMetadata_k(input)
+        output = out142_
         return output
 

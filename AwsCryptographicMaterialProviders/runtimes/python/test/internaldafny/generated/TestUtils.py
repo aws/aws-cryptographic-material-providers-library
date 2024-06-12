@@ -19,12 +19,14 @@ import standard_library.internaldafny.generated.Relations as Relations
 import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
 import standard_library.internaldafny.generated.Math as Math
 import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.Actions as Actions
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes as AwsCryptographyMaterialProvidersTypes
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
-import standard_library.internaldafny.generated.Actions as Actions
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStoreErrorMessages as KeyStoreErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.KmsArn as KmsArn
 import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
 import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
@@ -36,8 +38,6 @@ import standard_library.internaldafny.generated.Time as Time
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreOperations as AwsCryptographyKeyStoreOperations
 import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
 import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
-import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws as Com_Amazonaws
-import com_amazonaws_dynamodb.internaldafny.generated.Com as Com
 import aws_cryptographic_materialproviders.internaldafny.generated.KeyStore as KeyStore
 import standard_library.internaldafny.generated.Base64 as Base64
 import aws_cryptographic_materialproviders.internaldafny.generated.AlgorithmSuites as AlgorithmSuites
@@ -64,6 +64,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapp
 import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
 import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
 import aws_cryptographic_materialproviders.internaldafny.generated.EdkWrapping as EdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.ErrorMessages as ErrorMessages
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsKeyring as AwsKmsKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.StrictMultiKeyring as StrictMultiKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsDiscoveryKeyring as AwsKmsDiscoveryKeyring
@@ -118,6 +119,7 @@ import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
 import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import Fixtures as Fixtures
 import TestCreateKeyStore as TestCreateKeyStore
+import TestDiscoveryGetKeys as TestDiscoveryGetKeys
 import TestConfig as TestConfig
 import TestGetKeys as TestGetKeys
 import CleanupItems as CleanupItems
@@ -133,104 +135,112 @@ class default__:
     @staticmethod
     def GenerateInvalidEncryptionContext():
         encCtx: _dafny.Map = _dafny.Map({})
-        d_199_validUTF8char_: _dafny.Seq
-        d_200_valueOrError0_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
-        d_200_valueOrError0_ = UTF8.default__.Encode(_dafny.Seq("a"))
-        if not(not((d_200_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestUtils.dfy(42,46): " + _dafny.string_of(d_200_valueOrError0_))
-        d_199_validUTF8char_ = (d_200_valueOrError0_).Extract()
-        d_201_key_: _dafny.Seq
-        d_201_key_ = _dafny.Seq([])
-        while (len(d_201_key_)) < (StandardLibrary_UInt.default__.UINT16__LIMIT):
-            d_201_key_ = (d_201_key_) + (d_199_validUTF8char_)
-        encCtx = _dafny.Map({d_201_key_: _dafny.Seq([0])})
+        d_386_validUTF8char_: _dafny.Seq
+        d_387_valueOrError0_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
+        d_387_valueOrError0_ = UTF8.default__.Encode(_dafny.Seq("a"))
+        if not(not((d_387_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestUtils.dfy(42,46): " + _dafny.string_of(d_387_valueOrError0_))
+        d_386_validUTF8char_ = (d_387_valueOrError0_).Extract()
+        d_388_key_: _dafny.Seq
+        d_388_key_ = _dafny.Seq([])
+        while (len(d_388_key_)) < (StandardLibrary_UInt.default__.UINT16__LIMIT):
+            d_388_key_ = (d_388_key_) + (d_386_validUTF8char_)
+        encCtx = _dafny.Map({d_388_key_: _dafny.Seq([0])})
         return encCtx
 
     @staticmethod
     def GenerateLargeValidEncryptionContext():
         r: _dafny.Map = _dafny.Map({})
-        d_202_numMaxPairs_: int
-        d_202_numMaxPairs_ = 9361
-        d_203_val_: _dafny.Seq
-        d_204_valueOrError0_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
-        d_204_valueOrError0_ = UTF8.default__.Encode(_dafny.Seq("a"))
-        if not(not((d_204_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestUtils.dfy(62,15): " + _dafny.string_of(d_204_valueOrError0_))
-        d_203_val_ = (d_204_valueOrError0_).Extract()
-        d_205_encCtx_: _dafny.Map
-        d_205_encCtx_ = _dafny.Map({})
-        d_206_i_: int
-        d_206_i_ = 0
-        while ((len(d_205_encCtx_)) < (d_202_numMaxPairs_)) and ((d_206_i_) < (65536)):
-            d_207_key_: _dafny.Seq
-            d_207_key_ = StandardLibrary_UInt.default__.UInt16ToSeq(d_206_i_)
-            if UTF8.default__.ValidUTF8Seq(d_207_key_):
-                d_205_encCtx_ = (d_205_encCtx_).set(d_207_key_, d_203_val_)
-            d_206_i_ = (d_206_i_) + (1)
-        r = d_205_encCtx_
+        d_389_numMaxPairs_: int
+        d_389_numMaxPairs_ = 9361
+        d_390_val_: _dafny.Seq
+        d_391_valueOrError0_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
+        d_391_valueOrError0_ = UTF8.default__.Encode(_dafny.Seq("a"))
+        if not(not((d_391_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestUtils.dfy(62,15): " + _dafny.string_of(d_391_valueOrError0_))
+        d_390_val_ = (d_391_valueOrError0_).Extract()
+        d_392_encCtx_: _dafny.Map
+        d_392_encCtx_ = _dafny.Map({})
+        d_393_i_: int
+        d_393_i_ = 0
+        while ((len(d_392_encCtx_)) < (d_389_numMaxPairs_)) and ((d_393_i_) < (65536)):
+            d_394_key_: _dafny.Seq
+            d_394_key_ = StandardLibrary_UInt.default__.UInt16ToSeq(d_393_i_)
+            if UTF8.default__.ValidUTF8Seq(d_394_key_):
+                d_392_encCtx_ = (d_392_encCtx_).set(d_394_key_, d_390_val_)
+            d_393_i_ = (d_393_i_) + (1)
+        r = d_392_encCtx_
         return r
         return r
 
     @staticmethod
     def SmallEncryptionContext(v):
         encryptionContext: _dafny.Map = _dafny.Map({})
-        d_208_keyA_: _dafny.Seq
-        d_209_valueOrError0_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
-        d_209_valueOrError0_ = UTF8.default__.Encode(_dafny.Seq("keyA"))
-        if not(not((d_209_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestUtils.dfy(90,16): " + _dafny.string_of(d_209_valueOrError0_))
-        d_208_keyA_ = (d_209_valueOrError0_).Extract()
-        d_210_valA_: _dafny.Seq
-        d_211_valueOrError1_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
-        d_211_valueOrError1_ = UTF8.default__.Encode(_dafny.Seq("valA"))
-        if not(not((d_211_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestUtils.dfy(91,16): " + _dafny.string_of(d_211_valueOrError1_))
-        d_210_valA_ = (d_211_valueOrError1_).Extract()
-        d_212_keyB_: _dafny.Seq
-        d_213_valueOrError2_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
-        d_213_valueOrError2_ = UTF8.default__.Encode(_dafny.Seq("keyB"))
-        if not(not((d_213_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestUtils.dfy(92,16): " + _dafny.string_of(d_213_valueOrError2_))
-        d_212_keyB_ = (d_213_valueOrError2_).Extract()
-        d_214_valB_: _dafny.Seq
-        d_215_valueOrError3_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
-        d_215_valueOrError3_ = UTF8.default__.Encode(_dafny.Seq("valB"))
-        if not(not((d_215_valueOrError3_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestUtils.dfy(93,16): " + _dafny.string_of(d_215_valueOrError3_))
-        d_214_valB_ = (d_215_valueOrError3_).Extract()
-        source0_ = v
-        if source0_.is_Empty:
-            encryptionContext = _dafny.Map({})
-        elif source0_.is_A:
-            encryptionContext = _dafny.Map({d_208_keyA_: d_210_valA_})
-        elif source0_.is_AB:
-            encryptionContext = _dafny.Map({d_208_keyA_: d_210_valA_, d_212_keyB_: d_214_valB_})
-        elif True:
-            encryptionContext = _dafny.Map({d_212_keyB_: d_214_valB_, d_208_keyA_: d_210_valA_})
+        d_395_keyA_: _dafny.Seq
+        d_396_valueOrError0_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
+        d_396_valueOrError0_ = UTF8.default__.Encode(_dafny.Seq("keyA"))
+        if not(not((d_396_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestUtils.dfy(90,16): " + _dafny.string_of(d_396_valueOrError0_))
+        d_395_keyA_ = (d_396_valueOrError0_).Extract()
+        d_397_valA_: _dafny.Seq
+        d_398_valueOrError1_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
+        d_398_valueOrError1_ = UTF8.default__.Encode(_dafny.Seq("valA"))
+        if not(not((d_398_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestUtils.dfy(91,16): " + _dafny.string_of(d_398_valueOrError1_))
+        d_397_valA_ = (d_398_valueOrError1_).Extract()
+        d_399_keyB_: _dafny.Seq
+        d_400_valueOrError2_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
+        d_400_valueOrError2_ = UTF8.default__.Encode(_dafny.Seq("keyB"))
+        if not(not((d_400_valueOrError2_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestUtils.dfy(92,16): " + _dafny.string_of(d_400_valueOrError2_))
+        d_399_keyB_ = (d_400_valueOrError2_).Extract()
+        d_401_valB_: _dafny.Seq
+        d_402_valueOrError3_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
+        d_402_valueOrError3_ = UTF8.default__.Encode(_dafny.Seq("valB"))
+        if not(not((d_402_valueOrError3_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestUtils.dfy(93,16): " + _dafny.string_of(d_402_valueOrError3_))
+        d_401_valB_ = (d_402_valueOrError3_).Extract()
+        source5_ = v
+        unmatched5 = True
+        if unmatched5:
+            if source5_.is_Empty:
+                unmatched5 = False
+                encryptionContext = _dafny.Map({})
+        if unmatched5:
+            if source5_.is_A:
+                unmatched5 = False
+                encryptionContext = _dafny.Map({d_395_keyA_: d_397_valA_})
+        if unmatched5:
+            if source5_.is_AB:
+                unmatched5 = False
+                encryptionContext = _dafny.Map({d_395_keyA_: d_397_valA_, d_399_keyB_: d_401_valB_})
+        if unmatched5:
+            unmatched5 = False
+            encryptionContext = _dafny.Map({d_399_keyB_: d_401_valB_, d_395_keyA_: d_397_valA_})
         return encryptionContext
 
     @staticmethod
     def GenerateMockEncryptedDataKey(keyProviderId, keyProviderInfo):
         edk: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey = AwsCryptographyMaterialProvidersTypes.EncryptedDataKey.default()()
-        d_216_encodedkeyProviderId_: _dafny.Seq
-        d_217_valueOrError0_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
-        d_217_valueOrError0_ = UTF8.default__.Encode(keyProviderId)
-        if not(not((d_217_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestUtils.dfy(113,32): " + _dafny.string_of(d_217_valueOrError0_))
-        d_216_encodedkeyProviderId_ = (d_217_valueOrError0_).Extract()
-        d_218_encodedKeyProviderInfo_: _dafny.Seq
-        d_219_valueOrError1_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
-        d_219_valueOrError1_ = UTF8.default__.Encode(keyProviderInfo)
-        if not(not((d_219_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestUtils.dfy(114,34): " + _dafny.string_of(d_219_valueOrError1_))
-        d_218_encodedKeyProviderInfo_ = (d_219_valueOrError1_).Extract()
-        d_220_fakeCiphertext_: _dafny.Seq
-        d_221_valueOrError2_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
-        d_221_valueOrError2_ = UTF8.default__.Encode(_dafny.Seq("fakeCiphertext"))
-        if not(not((d_221_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestUtils.dfy(115,26): " + _dafny.string_of(d_221_valueOrError2_))
-        d_220_fakeCiphertext_ = (d_221_valueOrError2_).Extract()
-        edk = AwsCryptographyMaterialProvidersTypes.EncryptedDataKey_EncryptedDataKey(d_216_encodedkeyProviderId_, d_218_encodedKeyProviderInfo_, d_220_fakeCiphertext_)
+        d_403_encodedkeyProviderId_: _dafny.Seq
+        d_404_valueOrError0_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
+        d_404_valueOrError0_ = UTF8.default__.Encode(keyProviderId)
+        if not(not((d_404_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestUtils.dfy(113,32): " + _dafny.string_of(d_404_valueOrError0_))
+        d_403_encodedkeyProviderId_ = (d_404_valueOrError0_).Extract()
+        d_405_encodedKeyProviderInfo_: _dafny.Seq
+        d_406_valueOrError1_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
+        d_406_valueOrError1_ = UTF8.default__.Encode(keyProviderInfo)
+        if not(not((d_406_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestUtils.dfy(114,34): " + _dafny.string_of(d_406_valueOrError1_))
+        d_405_encodedKeyProviderInfo_ = (d_406_valueOrError1_).Extract()
+        d_407_fakeCiphertext_: _dafny.Seq
+        d_408_valueOrError2_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
+        d_408_valueOrError2_ = UTF8.default__.Encode(_dafny.Seq("fakeCiphertext"))
+        if not(not((d_408_valueOrError2_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestUtils.dfy(115,26): " + _dafny.string_of(d_408_valueOrError2_))
+        d_407_fakeCiphertext_ = (d_408_valueOrError2_).Extract()
+        edk = AwsCryptographyMaterialProvidersTypes.EncryptedDataKey_EncryptedDataKey(d_403_encodedkeyProviderId_, d_405_encodedKeyProviderInfo_, d_407_fakeCiphertext_)
         return edk
         return edk
 
@@ -238,10 +248,10 @@ class default__:
     def NamespaceAndName(n):
         namespace: _dafny.Seq = _dafny.Seq("")
         name: _dafny.Seq = _dafny.Seq("")
-        d_222_s_: _dafny.Seq
-        d_222_s_ = (_dafny.Seq("child")) + (_dafny.Seq([_dafny.plus_char(chr(n), '0')]))
-        namespace = (d_222_s_) + (_dafny.Seq(" Namespace"))
-        name = (d_222_s_) + (_dafny.Seq(" Name"))
+        d_409_s_: _dafny.Seq
+        d_409_s_ = (_dafny.Seq("child")) + (_dafny.Seq([_dafny.plus_char(chr(n), '0')]))
+        namespace = (d_409_s_) + (_dafny.Seq(" Namespace"))
+        name = (d_409_s_) + (_dafny.Seq(" Name"))
         return namespace, name
 
     @_dafny.classproperty

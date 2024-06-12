@@ -14,6 +14,10 @@ python-module-name = "aws_cryptographic_materialproviders.internaldafny.generate
 python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AwsKmsUtils]
 python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
+[options_by_module.KeyStoreErrorMessages]
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
+[options_by_module.KmsArn]
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.Structure]
 python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.KMSKeystoreOperations]
@@ -53,6 +57,8 @@ python-module-name = "aws_cryptographic_materialproviders.internaldafny.generate
 [options_by_module.IntermediateKeyWrapping]
 python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.EdkWrapping]
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
+[options_by_module.ErrorMessages]
 python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AwsKmsKeyring]
 python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"

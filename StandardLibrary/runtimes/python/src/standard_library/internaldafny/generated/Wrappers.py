@@ -35,30 +35,44 @@ class Option:
         return isinstance(self, Option_Some)
     def ToResult(self):
         source0_ = self
-        if source0_.is_None:
+        unmatched0 = True
+        if unmatched0:
+            if source0_.is_Some:
+                d_0_v_ = source0_.value
+                unmatched0 = False
+                return Result_Success(d_0_v_)
+        if unmatched0:
+            unmatched0 = False
             return Result_Failure(_dafny.Seq("Option is None"))
-        elif True:
-            d_0___mcc_h0_ = source0_.value
-            d_1_v_ = d_0___mcc_h0_
-            return Result_Success(d_1_v_)
+        raise Exception("unexpected control point")
 
     def ToResult_k(self, error):
+        pat_let_tv0_ = error
         source1_ = self
-        if source1_.is_None:
-            return Result_Failure(error)
-        elif True:
-            d_2___mcc_h0_ = source1_.value
-            d_3_v_ = d_2___mcc_h0_
-            return Result_Success(d_3_v_)
+        unmatched1 = True
+        if unmatched1:
+            if source1_.is_Some:
+                d_1_v_ = source1_.value
+                unmatched1 = False
+                return Result_Success(d_1_v_)
+        if unmatched1:
+            unmatched1 = False
+            return Result_Failure(pat_let_tv0_)
+        raise Exception("unexpected control point")
 
     def UnwrapOr(self, default):
+        pat_let_tv1_ = default
         source2_ = self
-        if source2_.is_None:
-            return default
-        elif True:
-            d_4___mcc_h0_ = source2_.value
-            d_5_v_ = d_4___mcc_h0_
-            return d_5_v_
+        unmatched2 = True
+        if unmatched2:
+            if source2_.is_Some:
+                d_2_v_ = source2_.value
+                unmatched2 = False
+                return d_2_v_
+        if unmatched2:
+            unmatched2 = False
+            return pat_let_tv1_
+        raise Exception("unexpected control point")
 
     def IsFailure(self):
         return (self).is_None
@@ -101,25 +115,32 @@ class Result:
         return isinstance(self, Result_Failure)
     def ToOption(self):
         source3_ = self
-        if source3_.is_Success:
-            d_6___mcc_h0_ = source3_.value
-            d_7_s_ = d_6___mcc_h0_
-            return Option_Some(d_7_s_)
-        elif True:
-            d_8___mcc_h1_ = source3_.error
-            d_9_e_ = d_8___mcc_h1_
+        unmatched3 = True
+        if unmatched3:
+            if source3_.is_Success:
+                d_3_s_ = source3_.value
+                unmatched3 = False
+                return Option_Some(d_3_s_)
+        if unmatched3:
+            d_4_e_ = source3_.error
+            unmatched3 = False
             return Option_None()
+        raise Exception("unexpected control point")
 
     def UnwrapOr(self, default):
+        pat_let_tv2_ = default
         source4_ = self
-        if source4_.is_Success:
-            d_10___mcc_h0_ = source4_.value
-            d_11_s_ = d_10___mcc_h0_
-            return d_11_s_
-        elif True:
-            d_12___mcc_h1_ = source4_.error
-            d_13_e_ = d_12___mcc_h1_
-            return default
+        unmatched4 = True
+        if unmatched4:
+            if source4_.is_Success:
+                d_5_s_ = source4_.value
+                unmatched4 = False
+                return d_5_s_
+        if unmatched4:
+            d_6_e_ = source4_.error
+            unmatched4 = False
+            return pat_let_tv2_
+        raise Exception("unexpected control point")
 
     def IsFailure(self):
         return (self).is_Failure
@@ -128,15 +149,19 @@ class Result:
         return Result_Failure((self).error)
 
     def MapFailure(self, reWrap):
+        pat_let_tv3_ = reWrap
         source5_ = self
-        if source5_.is_Success:
-            d_14___mcc_h0_ = source5_.value
-            d_15_s_ = d_14___mcc_h0_
-            return Result_Success(d_15_s_)
-        elif True:
-            d_16___mcc_h1_ = source5_.error
-            d_17_e_ = d_16___mcc_h1_
-            return Result_Failure(reWrap(d_17_e_))
+        unmatched5 = True
+        if unmatched5:
+            if source5_.is_Success:
+                d_7_s_ = source5_.value
+                unmatched5 = False
+                return Result_Success(d_7_s_)
+        if unmatched5:
+            d_8_e_ = source5_.error
+            unmatched5 = False
+            return Result_Failure(pat_let_tv3_(d_8_e_))
+        raise Exception("unexpected control point")
 
     def Extract(self):
         return (self).value

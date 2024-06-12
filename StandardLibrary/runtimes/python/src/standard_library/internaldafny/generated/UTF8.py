@@ -60,21 +60,21 @@ class default__:
     @staticmethod
     def IsASCIIString(s):
         def lambda20_(forall_var_2_):
-            d_243_i_: int = forall_var_2_
-            return not (((0) <= (d_243_i_)) and ((d_243_i_) < (len(s)))) or ((ord((s)[d_243_i_])) < (128))
+            d_234_i_: int = forall_var_2_
+            return not (((0) <= (d_234_i_)) and ((d_234_i_) < (len(s)))) or ((ord((s)[d_234_i_])) < (128))
 
         return _dafny.quantifier(_dafny.IntegerRange(0, len(s)), True, lambda20_)
 
     @staticmethod
     def EncodeAscii(s):
-        d_244___accumulator_ = _dafny.Seq([])
+        d_235___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (len(s)) == (0):
-                    return (d_244___accumulator_) + (_dafny.Seq([]))
+                    return (d_235___accumulator_) + (_dafny.Seq([]))
                 elif True:
-                    d_245_x_ = _dafny.Seq([ord((s)[0])])
-                    d_244___accumulator_ = (d_244___accumulator_) + (d_245_x_)
+                    d_236_x_ = _dafny.Seq([ord((s)[0])])
+                    d_235___accumulator_ = (d_235___accumulator_) + (d_236_x_)
                     in53_ = _dafny.Seq((s)[1::])
                     s = in53_
                     raise _dafny.TailCall()
@@ -103,8 +103,8 @@ class default__:
                 if (lo) == (hi):
                     return True
                 elif True:
-                    d_246_r_ = _dafny.Seq((a)[lo:hi:])
-                    if default__.Uses1Byte(d_246_r_):
+                    d_237_r_ = _dafny.Seq((a)[lo:hi:])
+                    if default__.Uses1Byte(d_237_r_):
                         in54_ = a
                         in55_ = (lo) + (1)
                         in56_ = hi
@@ -112,7 +112,7 @@ class default__:
                         lo = in55_
                         hi = in56_
                         raise _dafny.TailCall()
-                    elif ((2) <= (len(d_246_r_))) and (default__.Uses2Bytes(d_246_r_)):
+                    elif ((2) <= (len(d_237_r_))) and (default__.Uses2Bytes(d_237_r_)):
                         in57_ = a
                         in58_ = (lo) + (2)
                         in59_ = hi
@@ -120,7 +120,7 @@ class default__:
                         lo = in58_
                         hi = in59_
                         raise _dafny.TailCall()
-                    elif ((3) <= (len(d_246_r_))) and (default__.Uses3Bytes(d_246_r_)):
+                    elif ((3) <= (len(d_237_r_))) and (default__.Uses3Bytes(d_237_r_)):
                         in60_ = a
                         in61_ = (lo) + (3)
                         in62_ = hi
@@ -128,7 +128,7 @@ class default__:
                         lo = in61_
                         hi = in62_
                         raise _dafny.TailCall()
-                    elif ((4) <= (len(d_246_r_))) and (default__.Uses4Bytes(d_246_r_)):
+                    elif ((4) <= (len(d_237_r_))) and (default__.Uses4Bytes(d_237_r_)):
                         in63_ = a
                         in64_ = (lo) + (4)
                         in65_ = hi
@@ -153,5 +153,5 @@ class ValidUTF8Bytes:
     def default():
         return _dafny.Seq([])
     def _Is(source__):
-        d_247_i_: _dafny.Seq = source__
-        return default__.ValidUTF8Seq(d_247_i_)
+        d_238_i_: _dafny.Seq = source__
+        return default__.ValidUTF8Seq(d_238_i_)

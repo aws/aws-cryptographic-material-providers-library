@@ -19,12 +19,14 @@ import standard_library.internaldafny.generated.Relations as Relations
 import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
 import standard_library.internaldafny.generated.Math as Math
 import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.Actions as Actions
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes as AwsCryptographyMaterialProvidersTypes
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
-import standard_library.internaldafny.generated.Actions as Actions
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStoreErrorMessages as KeyStoreErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.KmsArn as KmsArn
 import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
 import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
@@ -36,8 +38,6 @@ import standard_library.internaldafny.generated.Time as Time
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreOperations as AwsCryptographyKeyStoreOperations
 import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
 import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
-import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws as Com_Amazonaws
-import com_amazonaws_dynamodb.internaldafny.generated.Com as Com
 import aws_cryptographic_materialproviders.internaldafny.generated.KeyStore as KeyStore
 import standard_library.internaldafny.generated.Base64 as Base64
 import aws_cryptographic_materialproviders.internaldafny.generated.AlgorithmSuites as AlgorithmSuites
@@ -64,6 +64,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapp
 import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
 import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
 import aws_cryptographic_materialproviders.internaldafny.generated.EdkWrapping as EdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.ErrorMessages as ErrorMessages
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsKeyring as AwsKmsKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.StrictMultiKeyring as StrictMultiKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsDiscoveryKeyring as AwsKmsDiscoveryKeyring
@@ -118,6 +119,7 @@ import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
 import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import Fixtures as Fixtures
 import TestCreateKeyStore as TestCreateKeyStore
+import TestDiscoveryGetKeys as TestDiscoveryGetKeys
 import TestConfig as TestConfig
 import TestGetKeys as TestGetKeys
 import CleanupItems as CleanupItems
@@ -125,6 +127,7 @@ import TestCreateKeys as TestCreateKeys
 import TestVersionKey as TestVersionKey
 import TestUtils as TestUtils
 import TestIntermediateKeyWrapping as TestIntermediateKeyWrapping
+import TestErrorMessages as TestErrorMessages
 import TestDefaultClientProvider as TestDefaultClientProvider
 import TestRawAESKeyring as TestRawAESKeyring
 import TestMultiKeyring as TestMultiKeyring
@@ -140,66 +143,66 @@ class default__:
 
     @staticmethod
     def TestFailsNonKeyResource():
-        d_695_discoveryFilter_: AwsCryptographyMaterialProvidersTypes.DiscoveryFilter
-        out270_: AwsCryptographyMaterialProvidersTypes.DiscoveryFilter
-        out270_ = default__.GetDiscoveryFilter()
-        d_695_discoveryFilter_ = out270_
-        d_696_edkFilter_: AwsKmsDiscoveryKeyring.AwsKmsEncryptedDataKeyFilter
-        nw7_ = AwsKmsDiscoveryKeyring.AwsKmsEncryptedDataKeyFilter()
-        nw7_.ctor__(Wrappers.Option_Some(d_695_discoveryFilter_))
-        d_696_edkFilter_ = nw7_
-        d_697_badEdk_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
-        out271_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
-        out271_ = default__.GetNonKeyEncryptedDataKey()
-        d_697_badEdk_ = out271_
-        d_698_filterResult_: Wrappers.Result
-        out272_: Wrappers.Result
-        out272_ = Actions.default__.FilterWithResult(d_696_edkFilter_, _dafny.Seq([d_697_badEdk_]))
-        d_698_filterResult_ = out272_
-        if not((d_698_filterResult_).is_Failure):
+        d_926_discoveryFilter_: AwsCryptographyMaterialProvidersTypes.DiscoveryFilter
+        out347_: AwsCryptographyMaterialProvidersTypes.DiscoveryFilter
+        out347_ = default__.GetDiscoveryFilter()
+        d_926_discoveryFilter_ = out347_
+        d_927_edkFilter_: AwsKmsDiscoveryKeyring.AwsKmsEncryptedDataKeyFilter
+        nw8_ = AwsKmsDiscoveryKeyring.AwsKmsEncryptedDataKeyFilter()
+        nw8_.ctor__(Wrappers.Option_Some(d_926_discoveryFilter_))
+        d_927_edkFilter_ = nw8_
+        d_928_badEdk_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
+        out348_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
+        out348_ = default__.GetNonKeyEncryptedDataKey()
+        d_928_badEdk_ = out348_
+        d_929_filterResult_: Wrappers.Result
+        out349_: Wrappers.Result
+        out349_ = Actions.default__.FilterWithResult(d_927_edkFilter_, _dafny.Seq([d_928_badEdk_]))
+        d_929_filterResult_ = out349_
+        if not((d_929_filterResult_).is_Failure):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/AwsKms/AwsKmsDiscoveryKeryring/TestAwsKmsEncryptedDataKeyFilter.dfy(32,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_699_test_: AwsCryptographyMaterialProvidersTypes.Error
-        d_699_test_ = (d_698_filterResult_).error
-        if not((d_699_test_).is_AwsCryptographicMaterialProvidersException):
+        d_930_test_: AwsCryptographyMaterialProvidersTypes.Error
+        d_930_test_ = (d_929_filterResult_).error
+        if not((d_930_test_).is_AwsCryptographicMaterialProvidersException):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/AwsKms/AwsKmsDiscoveryKeryring/TestAwsKmsEncryptedDataKeyFilter.dfy(34,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not(((d_699_test_).message) == (_dafny.Seq("Only AWS KMS Keys supported"))):
+        if not(((d_930_test_).message) == (_dafny.Seq("Only AWS KMS Keys supported"))):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/AwsKms/AwsKmsDiscoveryKeryring/TestAwsKmsEncryptedDataKeyFilter.dfy(35,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def TestMatchesKeyringsConfiguration():
-        d_700_matchingEdk_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
-        out273_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
-        out273_ = TestUtils.default__.GenerateMockEncryptedDataKey(_dafny.Seq("aws-kms"), TestUtils.default__.SHARED__TEST__KEY__ARN)
-        d_700_matchingEdk_ = out273_
-        d_701_mismatchEdkPartition_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
-        out274_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
-        out274_ = TestUtils.default__.GenerateMockEncryptedDataKey(_dafny.Seq("aws-kms"), _dafny.Seq("arn:aws-cn:kms:us-west-2:658956600833:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"))
-        d_701_mismatchEdkPartition_ = out274_
-        d_702_mismatchEdkAccount_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
-        out275_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
-        out275_ = TestUtils.default__.GenerateMockEncryptedDataKey(_dafny.Seq("aws-kms"), _dafny.Seq("arn:aws:kms:us-west-2:827585335069:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"))
-        d_702_mismatchEdkAccount_ = out275_
-        d_703_mismatchEdkProviderId_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
-        out276_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
-        out276_ = TestUtils.default__.GenerateMockEncryptedDataKey(_dafny.Seq("aws"), TestUtils.default__.SHARED__TEST__KEY__ARN)
-        d_703_mismatchEdkProviderId_ = out276_
-        d_704_discoveryFilter_: AwsCryptographyMaterialProvidersTypes.DiscoveryFilter
-        out277_: AwsCryptographyMaterialProvidersTypes.DiscoveryFilter
-        out277_ = default__.GetDiscoveryFilter()
-        d_704_discoveryFilter_ = out277_
-        d_705_edkFilter_: AwsKmsDiscoveryKeyring.AwsKmsEncryptedDataKeyFilter
-        nw8_ = AwsKmsDiscoveryKeyring.AwsKmsEncryptedDataKeyFilter()
-        nw8_.ctor__(Wrappers.Option_Some(d_704_discoveryFilter_))
-        d_705_edkFilter_ = nw8_
-        d_706_filterResult_: Wrappers.Result
-        out278_: Wrappers.Result
-        out278_ = Actions.default__.FilterWithResult(d_705_edkFilter_, _dafny.Seq([d_700_matchingEdk_, d_701_mismatchEdkPartition_, d_702_mismatchEdkAccount_, d_703_mismatchEdkProviderId_]))
-        d_706_filterResult_ = out278_
-        if not((d_706_filterResult_).is_Success):
+        d_931_matchingEdk_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
+        out350_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
+        out350_ = TestUtils.default__.GenerateMockEncryptedDataKey(_dafny.Seq("aws-kms"), TestUtils.default__.SHARED__TEST__KEY__ARN)
+        d_931_matchingEdk_ = out350_
+        d_932_mismatchEdkPartition_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
+        out351_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
+        out351_ = TestUtils.default__.GenerateMockEncryptedDataKey(_dafny.Seq("aws-kms"), _dafny.Seq("arn:aws-cn:kms:us-west-2:658956600833:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"))
+        d_932_mismatchEdkPartition_ = out351_
+        d_933_mismatchEdkAccount_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
+        out352_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
+        out352_ = TestUtils.default__.GenerateMockEncryptedDataKey(_dafny.Seq("aws-kms"), _dafny.Seq("arn:aws:kms:us-west-2:827585335069:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"))
+        d_933_mismatchEdkAccount_ = out352_
+        d_934_mismatchEdkProviderId_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
+        out353_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
+        out353_ = TestUtils.default__.GenerateMockEncryptedDataKey(_dafny.Seq("aws"), TestUtils.default__.SHARED__TEST__KEY__ARN)
+        d_934_mismatchEdkProviderId_ = out353_
+        d_935_discoveryFilter_: AwsCryptographyMaterialProvidersTypes.DiscoveryFilter
+        out354_: AwsCryptographyMaterialProvidersTypes.DiscoveryFilter
+        out354_ = default__.GetDiscoveryFilter()
+        d_935_discoveryFilter_ = out354_
+        d_936_edkFilter_: AwsKmsDiscoveryKeyring.AwsKmsEncryptedDataKeyFilter
+        nw9_ = AwsKmsDiscoveryKeyring.AwsKmsEncryptedDataKeyFilter()
+        nw9_.ctor__(Wrappers.Option_Some(d_935_discoveryFilter_))
+        d_936_edkFilter_ = nw9_
+        d_937_filterResult_: Wrappers.Result
+        out355_: Wrappers.Result
+        out355_ = Actions.default__.FilterWithResult(d_936_edkFilter_, _dafny.Seq([d_931_matchingEdk_, d_932_mismatchEdkPartition_, d_933_mismatchEdkAccount_, d_934_mismatchEdkProviderId_]))
+        d_937_filterResult_ = out355_
+        if not((d_937_filterResult_).is_Success):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/AwsKms/AwsKmsDiscoveryKeryring/TestAwsKmsEncryptedDataKeyFilter.dfy(65,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((len((d_706_filterResult_).value)) == (1)):
+        if not((len((d_937_filterResult_).value)) == (1)):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/AwsKms/AwsKmsDiscoveryKeryring/TestAwsKmsEncryptedDataKeyFilter.dfy(66,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((((d_706_filterResult_).value)[0]) == (d_700_matchingEdk_)):
+        if not((((d_937_filterResult_).value)[0]) == (d_931_matchingEdk_)):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/AwsKms/AwsKmsDiscoveryKeryring/TestAwsKmsEncryptedDataKeyFilter.dfy(67,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
@@ -212,8 +215,8 @@ class default__:
     @staticmethod
     def GetNonKeyEncryptedDataKey():
         edk: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey = AwsCryptographyMaterialProvidersTypes.EncryptedDataKey.default()()
-        out279_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
-        out279_ = TestUtils.default__.GenerateMockEncryptedDataKey(_dafny.Seq("aws-kms"), _dafny.Seq("arn:aws:kms:us-west-2:658956600833:alias/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"))
-        edk = out279_
+        out356_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
+        out356_ = TestUtils.default__.GenerateMockEncryptedDataKey(_dafny.Seq("aws-kms"), _dafny.Seq("arn:aws:kms:us-west-2:658956600833:alias/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"))
+        edk = out356_
         return edk
 

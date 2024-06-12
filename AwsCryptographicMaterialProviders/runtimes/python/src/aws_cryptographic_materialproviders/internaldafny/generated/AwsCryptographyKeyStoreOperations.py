@@ -70,6 +70,8 @@ import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptograp
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStoreErrorMessages as KeyStoreErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.KmsArn as KmsArn
 import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
 import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
@@ -77,7 +79,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.CreateKeys as
 import aws_cryptographic_materialproviders.internaldafny.generated.CreateKeyStoreTable as CreateKeyStoreTable
 import aws_cryptographic_materialproviders.internaldafny.generated.GetKeys as GetKeys
 
-# Module: aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreOperations
+# Module: AwsCryptographyKeyStoreOperations
 
 class default__:
     def  __init__(self):
@@ -92,154 +94,164 @@ class default__:
     @staticmethod
     def CreateKeyStore(config, input):
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.CreateKeyStoreOutput.default())()
-        d_250_ddbTableArn_: _dafny.Seq
-        d_251_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_267_ddbTableArn_: _dafny.Seq
+        d_268_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out35_: Wrappers.Result
         out35_ = CreateKeyStoreTable.default__.CreateKeyStoreTable((config).ddbTableName, (config).ddbClient)
-        d_251_valueOrError0_ = out35_
-        if (d_251_valueOrError0_).IsFailure():
-            output = (d_251_valueOrError0_).PropagateFailure()
+        d_268_valueOrError0_ = out35_
+        if (d_268_valueOrError0_).IsFailure():
+            output = (d_268_valueOrError0_).PropagateFailure()
             return output
-        d_250_ddbTableArn_ = (d_251_valueOrError0_).Extract()
-        d_252_tableName_: Wrappers.Result
-        d_252_tableName_ = AwsArnParsing.default__.ParseAmazonDynamodbTableName(d_250_ddbTableArn_)
-        d_253_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_253_valueOrError1_ = Wrappers.default__.Need(((d_252_tableName_).is_Success) and (((d_252_tableName_).value) == ((config).ddbTableName)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Configured DDB Table Name does not match parsed Table Name from DDB Table Arn.")))
-        if (d_253_valueOrError1_).IsFailure():
-            output = (d_253_valueOrError1_).PropagateFailure()
+        d_267_ddbTableArn_ = (d_268_valueOrError0_).Extract()
+        d_269_tableName_: Wrappers.Result
+        d_269_tableName_ = AwsArnParsing.default__.ParseAmazonDynamodbTableName(d_267_ddbTableArn_)
+        d_270_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_270_valueOrError1_ = Wrappers.default__.Need(((d_269_tableName_).is_Success) and (((d_269_tableName_).value) == ((config).ddbTableName)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Configured DDB Table Name does not match parsed Table Name from DDB Table Arn.")))
+        if (d_270_valueOrError1_).IsFailure():
+            output = (d_270_valueOrError1_).PropagateFailure()
             return output
-        output = Wrappers.Result_Success(AwsCryptographyKeyStoreTypes.CreateKeyStoreOutput_CreateKeyStoreOutput(d_250_ddbTableArn_))
+        output = Wrappers.Result_Success(AwsCryptographyKeyStoreTypes.CreateKeyStoreOutput_CreateKeyStoreOutput(d_267_ddbTableArn_))
         return output
 
     @staticmethod
     def CreateKey(config, input):
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.CreateKeyOutput.default())()
-        d_254_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_254_valueOrError0_ = Wrappers.default__.Need(not (((input).branchKeyIdentifier).is_Some) or ((((input).encryptionContext).is_Some) and ((0) < (len(((input).encryptionContext).value)))), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Custom branch key id requires custom encryption context.")))
-        if (d_254_valueOrError0_).IsFailure():
-            output = (d_254_valueOrError0_).PropagateFailure()
+        d_271_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_271_valueOrError0_ = Wrappers.default__.Need(not (((input).branchKeyIdentifier).is_Some) or ((((input).encryptionContext).is_Some) and ((0) < (len(((input).encryptionContext).value)))), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.CUSTOM__BRANCH__KEY__ID__NEED__EC))
+        if (d_271_valueOrError0_).IsFailure():
+            output = (d_271_valueOrError0_).PropagateFailure()
             return output
-        d_255_branchKeyIdentifier_: _dafny.Seq = _dafny.Seq("")
+        d_272_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_272_valueOrError1_ = Wrappers.default__.Need(KMSKeystoreOperations.default__.HasKeyId((config).kmsConfiguration), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.DISCOVERY__CREATE__KEY__NOT__SUPPORTED))
+        if (d_272_valueOrError1_).IsFailure():
+            output = (d_272_valueOrError1_).PropagateFailure()
+            return output
+        d_273_branchKeyIdentifier_: _dafny.Seq = _dafny.Seq("")
         if ((input).branchKeyIdentifier).is_None:
-            d_256_maybeBranchKeyId_: Wrappers.Result
+            d_274_maybeBranchKeyId_: Wrappers.Result
             out36_: Wrappers.Result
             out36_ = UUID.default__.GenerateUUID()
-            d_256_maybeBranchKeyId_ = out36_
-            d_257_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-            def lambda20_(d_258_e_):
-                return AwsCryptographyKeyStoreTypes.Error_KeyStoreException(d_258_e_)
+            d_274_maybeBranchKeyId_ = out36_
+            d_275_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+            def lambda21_(d_276_e_):
+                return AwsCryptographyKeyStoreTypes.Error_KeyStoreException(d_276_e_)
 
-            d_257_valueOrError1_ = (d_256_maybeBranchKeyId_).MapFailure(lambda20_)
-            if (d_257_valueOrError1_).IsFailure():
-                output = (d_257_valueOrError1_).PropagateFailure()
+            d_275_valueOrError2_ = (d_274_maybeBranchKeyId_).MapFailure(lambda21_)
+            if (d_275_valueOrError2_).IsFailure():
+                output = (d_275_valueOrError2_).PropagateFailure()
                 return output
-            d_255_branchKeyIdentifier_ = (d_257_valueOrError1_).Extract()
+            d_273_branchKeyIdentifier_ = (d_275_valueOrError2_).Extract()
         elif True:
-            d_259_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_259_valueOrError2_ = Wrappers.default__.Need((0) < (len(((input).branchKeyIdentifier).value)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Custom branch key id can not be an empty string.")))
-            if (d_259_valueOrError2_).IsFailure():
-                output = (d_259_valueOrError2_).PropagateFailure()
+            d_277_valueOrError3_: Wrappers.Outcome = Wrappers.Outcome.default()()
+            d_277_valueOrError3_ = Wrappers.default__.Need((0) < (len(((input).branchKeyIdentifier).value)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Custom branch key id can not be an empty string.")))
+            if (d_277_valueOrError3_).IsFailure():
+                output = (d_277_valueOrError3_).PropagateFailure()
                 return output
-            d_255_branchKeyIdentifier_ = ((input).branchKeyIdentifier).value
-        d_260_timestamp_: _dafny.Seq
-        d_261_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        def lambda21_(d_262_e_):
-            return AwsCryptographyKeyStoreTypes.Error_KeyStoreException(d_262_e_)
+            d_273_branchKeyIdentifier_ = ((input).branchKeyIdentifier).value
+        d_278_timestamp_: _dafny.Seq
+        d_279_valueOrError4_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        def lambda22_(d_280_e_):
+            return AwsCryptographyKeyStoreTypes.Error_KeyStoreException(d_280_e_)
 
-        d_261_valueOrError3_ = (Time.default__.GetCurrentTimeStamp()).MapFailure(lambda21_)
-        if (d_261_valueOrError3_).IsFailure():
-            output = (d_261_valueOrError3_).PropagateFailure()
+        d_279_valueOrError4_ = (Time.default__.GetCurrentTimeStamp()).MapFailure(lambda22_)
+        if (d_279_valueOrError4_).IsFailure():
+            output = (d_279_valueOrError4_).PropagateFailure()
             return output
-        d_260_timestamp_ = (d_261_valueOrError3_).Extract()
-        d_263_maybeBranchKeyVersion_: Wrappers.Result
+        d_278_timestamp_ = (d_279_valueOrError4_).Extract()
+        d_281_maybeBranchKeyVersion_: Wrappers.Result
         out37_: Wrappers.Result
         out37_ = UUID.default__.GenerateUUID()
-        d_263_maybeBranchKeyVersion_ = out37_
-        d_264_branchKeyVersion_: _dafny.Seq
-        d_265_valueOrError4_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        def lambda22_(d_266_e_):
-            return AwsCryptographyKeyStoreTypes.Error_KeyStoreException(d_266_e_)
+        d_281_maybeBranchKeyVersion_ = out37_
+        d_282_branchKeyVersion_: _dafny.Seq
+        d_283_valueOrError5_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        def lambda23_(d_284_e_):
+            return AwsCryptographyKeyStoreTypes.Error_KeyStoreException(d_284_e_)
 
-        d_265_valueOrError4_ = (d_263_maybeBranchKeyVersion_).MapFailure(lambda22_)
-        if (d_265_valueOrError4_).IsFailure():
-            output = (d_265_valueOrError4_).PropagateFailure()
+        d_283_valueOrError5_ = (d_281_maybeBranchKeyVersion_).MapFailure(lambda23_)
+        if (d_283_valueOrError5_).IsFailure():
+            output = (d_283_valueOrError5_).PropagateFailure()
             return output
-        d_264_branchKeyVersion_ = (d_265_valueOrError4_).Extract()
-        d_267_unwrapEncryptionContext_: _dafny.Map
-        d_267_unwrapEncryptionContext_ = ((input).encryptionContext).UnwrapOr(_dafny.Map({}))
-        d_268_encodedEncryptionContext_: _dafny.Set
-        def iife7_():
+        d_282_branchKeyVersion_ = (d_283_valueOrError5_).Extract()
+        d_285_unwrapEncryptionContext_: _dafny.Map
+        d_285_unwrapEncryptionContext_ = ((input).encryptionContext).UnwrapOr(_dafny.Map({}))
+        d_286_encodedEncryptionContext_: _dafny.Set
+        def iife9_():
             coll7_ = _dafny.Set()
             compr_7_: _dafny.Seq
-            for compr_7_ in (d_267_unwrapEncryptionContext_).keys.Elements:
-                d_269_k_: _dafny.Seq = compr_7_
-                if UTF8.ValidUTF8Bytes._Is(d_269_k_):
-                    if (d_269_k_) in (d_267_unwrapEncryptionContext_):
-                        coll7_ = coll7_.union(_dafny.Set([(UTF8.default__.Decode(d_269_k_), UTF8.default__.Decode((d_267_unwrapEncryptionContext_)[d_269_k_]), d_269_k_)]))
+            for compr_7_ in (d_285_unwrapEncryptionContext_).keys.Elements:
+                d_287_k_: _dafny.Seq = compr_7_
+                if UTF8.ValidUTF8Bytes._Is(d_287_k_):
+                    if (d_287_k_) in (d_285_unwrapEncryptionContext_):
+                        coll7_ = coll7_.union(_dafny.Set([(UTF8.default__.Decode(d_287_k_), UTF8.default__.Decode((d_285_unwrapEncryptionContext_)[d_287_k_]), d_287_k_)]))
             return _dafny.Set(coll7_)
-        d_268_encodedEncryptionContext_ = iife7_()
+        d_286_encodedEncryptionContext_ = iife9_()
         
-        d_270_valueOrError5_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        def lambda23_(forall_var_7_):
-            def iife8_(_pat_let0_0):
-                def iife9_(d_272_encoded_):
-                    return ((d_272_encoded_).is_Success) and (((d_271_i_)[2]) == ((d_272_encoded_).value))
-                return iife9_(_pat_let0_0)
-            d_271_i_: tuple = forall_var_7_
-            return not ((d_271_i_) in (d_268_encodedEncryptionContext_)) or ((((((d_271_i_)[0]).is_Success) and (((d_271_i_)[1]).is_Success)) and (ComAmazonawsDynamodbTypes.default__.IsValid__AttributeName((Structure.default__.ENCRYPTION__CONTEXT__PREFIX) + (((d_271_i_)[0]).value)))) and (iife8_(UTF8.default__.Encode(((d_271_i_)[0]).value))))
+        d_288_valueOrError6_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        def lambda24_(forall_var_7_):
+            def iife10_(_pat_let1_0):
+                def iife11_(d_290_encoded_):
+                    return ((d_290_encoded_).is_Success) and (((d_289_i_)[2]) == ((d_290_encoded_).value))
+                return iife11_(_pat_let1_0)
+            d_289_i_: tuple = forall_var_7_
+            return not ((d_289_i_) in (d_286_encodedEncryptionContext_)) or ((((((d_289_i_)[0]).is_Success) and (((d_289_i_)[1]).is_Success)) and (ComAmazonawsDynamodbTypes.default__.IsValid__AttributeName((Structure.default__.ENCRYPTION__CONTEXT__PREFIX) + (((d_289_i_)[0]).value)))) and (iife10_(UTF8.default__.Encode(((d_289_i_)[0]).value))))
 
-        d_270_valueOrError5_ = Wrappers.default__.Need(_dafny.quantifier((d_268_encodedEncryptionContext_).Elements, True, lambda23_), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Unable to encode string")))
-        if (d_270_valueOrError5_).IsFailure():
-            output = (d_270_valueOrError5_).PropagateFailure()
+        d_288_valueOrError6_ = Wrappers.default__.Need(_dafny.quantifier((d_286_encodedEncryptionContext_).Elements, True, lambda24_), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.UTF8__ENCODING__ENCRYPTION__CONTEXT__ERROR))
+        if (d_288_valueOrError6_).IsFailure():
+            output = (d_288_valueOrError6_).PropagateFailure()
             return output
         out38_: Wrappers.Result
-        def iife10_():
+        def iife12_():
             coll8_ = _dafny.Map()
             compr_8_: tuple
-            for compr_8_ in (d_268_encodedEncryptionContext_).Elements:
-                d_273_i_: tuple = compr_8_
-                if (d_273_i_) in (d_268_encodedEncryptionContext_):
-                    coll8_[((d_273_i_)[0]).value] = ((d_273_i_)[1]).value
+            for compr_8_ in (d_286_encodedEncryptionContext_).Elements:
+                d_291_i_: tuple = compr_8_
+                if (d_291_i_) in (d_286_encodedEncryptionContext_):
+                    coll8_[((d_291_i_)[0]).value] = ((d_291_i_)[1]).value
             return _dafny.Map(coll8_)
-        out38_ = CreateKeys.default__.CreateBranchAndBeaconKeys(d_255_branchKeyIdentifier_, iife10_()
-        , d_260_timestamp_, d_264_branchKeyVersion_, (config).ddbTableName, (config).logicalKeyStoreName, (config).kmsConfiguration, (config).grantTokens, (config).kmsClient, (config).ddbClient)
+        out38_ = CreateKeys.default__.CreateBranchAndBeaconKeys(d_273_branchKeyIdentifier_, iife12_()
+        , d_278_timestamp_, d_282_branchKeyVersion_, (config).ddbTableName, (config).logicalKeyStoreName, (config).kmsConfiguration, (config).grantTokens, (config).kmsClient, (config).ddbClient)
         output = out38_
         return output
 
     @staticmethod
     def VersionKey(config, input):
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.VersionKeyOutput.default())()
-        d_274_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_274_valueOrError0_ = Wrappers.default__.Need((0) < (len((input).branchKeyIdentifier)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Empty string not supported for identifier.")))
-        if (d_274_valueOrError0_).IsFailure():
-            output = (d_274_valueOrError0_).PropagateFailure()
+        d_292_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_292_valueOrError0_ = Wrappers.default__.Need(KMSKeystoreOperations.default__.HasKeyId((config).kmsConfiguration), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.DISCOVERY__VERSION__KEY__NOT__SUPPORTED))
+        if (d_292_valueOrError0_).IsFailure():
+            output = (d_292_valueOrError0_).PropagateFailure()
             return output
-        d_275_timestamp_: _dafny.Seq
-        d_276_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        def lambda24_(d_277_e_):
-            return AwsCryptographyKeyStoreTypes.Error_KeyStoreException(d_277_e_)
+        d_293_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_293_valueOrError1_ = Wrappers.default__.Need((0) < (len((input).branchKeyIdentifier)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.BRANCH__KEY__ID__NEEDED))
+        if (d_293_valueOrError1_).IsFailure():
+            output = (d_293_valueOrError1_).PropagateFailure()
+            return output
+        d_294_timestamp_: _dafny.Seq
+        d_295_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        def lambda25_(d_296_e_):
+            return AwsCryptographyKeyStoreTypes.Error_KeyStoreException(d_296_e_)
 
-        d_276_valueOrError1_ = (Time.default__.GetCurrentTimeStamp()).MapFailure(lambda24_)
-        if (d_276_valueOrError1_).IsFailure():
-            output = (d_276_valueOrError1_).PropagateFailure()
+        d_295_valueOrError2_ = (Time.default__.GetCurrentTimeStamp()).MapFailure(lambda25_)
+        if (d_295_valueOrError2_).IsFailure():
+            output = (d_295_valueOrError2_).PropagateFailure()
             return output
-        d_275_timestamp_ = (d_276_valueOrError1_).Extract()
-        d_278_maybeBranchKeyVersion_: Wrappers.Result
+        d_294_timestamp_ = (d_295_valueOrError2_).Extract()
+        d_297_maybeBranchKeyVersion_: Wrappers.Result
         out39_: Wrappers.Result
         out39_ = UUID.default__.GenerateUUID()
-        d_278_maybeBranchKeyVersion_ = out39_
-        d_279_branchKeyVersion_: _dafny.Seq
-        d_280_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        def lambda25_(d_281_e_):
-            return AwsCryptographyKeyStoreTypes.Error_KeyStoreException(d_281_e_)
+        d_297_maybeBranchKeyVersion_ = out39_
+        d_298_branchKeyVersion_: _dafny.Seq
+        d_299_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        def lambda26_(d_300_e_):
+            return AwsCryptographyKeyStoreTypes.Error_KeyStoreException(d_300_e_)
 
-        d_280_valueOrError2_ = (d_278_maybeBranchKeyVersion_).MapFailure(lambda25_)
-        if (d_280_valueOrError2_).IsFailure():
-            output = (d_280_valueOrError2_).PropagateFailure()
+        d_299_valueOrError3_ = (d_297_maybeBranchKeyVersion_).MapFailure(lambda26_)
+        if (d_299_valueOrError3_).IsFailure():
+            output = (d_299_valueOrError3_).PropagateFailure()
             return output
-        d_279_branchKeyVersion_ = (d_280_valueOrError2_).Extract()
+        d_298_branchKeyVersion_ = (d_299_valueOrError3_).Extract()
         out40_: Wrappers.Result
-        out40_ = CreateKeys.default__.VersionActiveBranchKey(input, d_275_timestamp_, d_279_branchKeyVersion_, (config).ddbTableName, (config).logicalKeyStoreName, (config).kmsConfiguration, (config).grantTokens, (config).kmsClient, (config).ddbClient)
+        out40_ = CreateKeys.default__.VersionActiveBranchKey(input, d_294_timestamp_, d_298_branchKeyVersion_, (config).ddbTableName, (config).logicalKeyStoreName, (config).kmsConfiguration, (config).grantTokens, (config).kmsClient, (config).ddbClient)
         output = out40_
         return output
 

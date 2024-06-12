@@ -8,7 +8,3 @@ python-module-name = "com_amazonaws_kms.internaldafny.generated"
 python-module-name = "com_amazonaws_kms.internaldafny.generated"
 [options_by_module."Com.Amazonaws.Kms"]
 python-module-name = "com_amazonaws_kms.internaldafny.generated"
-[options_by_module."Com.Amazonaws"]
-python-module-name = "com_amazonaws_kms.internaldafny.generated"
-[options_by_module.Com]
-python-module-name = "com_amazonaws_kms.internaldafny.generated"

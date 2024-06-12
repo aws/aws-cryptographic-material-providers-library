@@ -93,24 +93,28 @@ class default__:
     @staticmethod
     def LiftCursorError(err):
         source20_ = err
-        if source20_.is_EOF:
-            return JSON_Errors.DeserializationError_ReachedEOF()
-        elif source20_.is_ExpectingByte:
-            d_909___mcc_h0_ = source20_.expected
-            d_910___mcc_h1_ = source20_.b
-            d_911_b_ = d_910___mcc_h1_
-            d_912_expected_ = d_909___mcc_h0_
-            return JSON_Errors.DeserializationError_ExpectingByte(d_912_expected_, d_911_b_)
-        elif source20_.is_ExpectingAnyByte:
-            d_913___mcc_h2_ = source20_.expected__sq
-            d_914___mcc_h3_ = source20_.b
-            d_915_b_ = d_914___mcc_h3_
-            d_916_expected__sq_ = d_913___mcc_h2_
-            return JSON_Errors.DeserializationError_ExpectingAnyByte(d_916_expected__sq_, d_915_b_)
-        elif True:
-            d_917___mcc_h4_ = source20_.err
-            d_918_err_ = d_917___mcc_h4_
-            return d_918_err_
+        unmatched20 = True
+        if unmatched20:
+            if source20_.is_EOF:
+                unmatched20 = False
+                return JSON_Errors.DeserializationError_ReachedEOF()
+        if unmatched20:
+            if source20_.is_ExpectingByte:
+                d_854_expected_ = source20_.expected
+                d_855_b_ = source20_.b
+                unmatched20 = False
+                return JSON_Errors.DeserializationError_ExpectingByte(d_854_expected_, d_855_b_)
+        if unmatched20:
+            if source20_.is_ExpectingAnyByte:
+                d_856_expected__sq_ = source20_.expected__sq
+                d_857_b_ = source20_.b
+                unmatched20 = False
+                return JSON_Errors.DeserializationError_ExpectingAnyByte(d_856_expected__sq_, d_857_b_)
+        if unmatched20:
+            d_858_err_ = source20_.err
+            unmatched20 = False
+            return d_858_err_
+        raise Exception("unexpected control point")
 
     @staticmethod
     def JSON(cs):
@@ -118,24 +122,24 @@ class default__:
 
     @staticmethod
     def Text(v):
-        d_919_valueOrError0_ = default__.JSON(JSON_Utils_Cursors.Cursor__.OfView(v))
-        if (d_919_valueOrError0_).IsFailure():
-            return (d_919_valueOrError0_).PropagateFailure()
+        d_859_valueOrError0_ = default__.JSON(JSON_Utils_Cursors.Cursor__.OfView(v))
+        if (d_859_valueOrError0_).IsFailure():
+            return (d_859_valueOrError0_).PropagateFailure()
         elif True:
-            let_tmp_rhs29_ = (d_919_valueOrError0_).Extract()
-            d_920_text_ = let_tmp_rhs29_.t
-            d_921_cs_ = let_tmp_rhs29_.cs
-            d_922_valueOrError1_ = Wrappers.default__.Need((d_921_cs_).EOF_q, JSON_Errors.DeserializationError_ExpectingEOF())
-            if (d_922_valueOrError1_).IsFailure():
-                return (d_922_valueOrError1_).PropagateFailure()
+            let_tmp_rhs29_ = (d_859_valueOrError0_).Extract()
+            d_860_text_ = let_tmp_rhs29_.t
+            d_861_cs_ = let_tmp_rhs29_.cs
+            d_862_valueOrError1_ = Wrappers.default__.Need((d_861_cs_).EOF_q, JSON_Errors.DeserializationError_ExpectingEOF())
+            if (d_862_valueOrError1_).IsFailure():
+                return (d_862_valueOrError1_).PropagateFailure()
             elif True:
-                return Wrappers.Result_Success(d_920_text_)
+                return Wrappers.Result_Success(d_860_text_)
 
     @staticmethod
     def OfBytes(bs):
-        d_923_valueOrError0_ = Wrappers.default__.Need((len(bs)) < (BoundedInts.default__.TWO__TO__THE__32), JSON_Errors.DeserializationError_IntOverflow())
-        if (d_923_valueOrError0_).IsFailure():
-            return (d_923_valueOrError0_).PropagateFailure()
+        d_863_valueOrError0_ = Wrappers.default__.Need((len(bs)) < (BoundedInts.default__.TWO__TO__THE__32), JSON_Errors.DeserializationError_IntOverflow())
+        if (d_863_valueOrError0_).IsFailure():
+            return (d_863_valueOrError0_).PropagateFailure()
         elif True:
             return default__.Text(JSON_Utils_Views_Core.View__.OfBytes(bs))
 

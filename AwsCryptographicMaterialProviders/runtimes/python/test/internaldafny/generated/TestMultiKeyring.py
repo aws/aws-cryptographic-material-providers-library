@@ -19,12 +19,14 @@ import standard_library.internaldafny.generated.Relations as Relations
 import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
 import standard_library.internaldafny.generated.Math as Math
 import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.Actions as Actions
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes as AwsCryptographyMaterialProvidersTypes
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
-import standard_library.internaldafny.generated.Actions as Actions
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStoreErrorMessages as KeyStoreErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.KmsArn as KmsArn
 import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
 import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
@@ -36,8 +38,6 @@ import standard_library.internaldafny.generated.Time as Time
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreOperations as AwsCryptographyKeyStoreOperations
 import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
 import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
-import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws as Com_Amazonaws
-import com_amazonaws_dynamodb.internaldafny.generated.Com as Com
 import aws_cryptographic_materialproviders.internaldafny.generated.KeyStore as KeyStore
 import standard_library.internaldafny.generated.Base64 as Base64
 import aws_cryptographic_materialproviders.internaldafny.generated.AlgorithmSuites as AlgorithmSuites
@@ -64,6 +64,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapp
 import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
 import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
 import aws_cryptographic_materialproviders.internaldafny.generated.EdkWrapping as EdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.ErrorMessages as ErrorMessages
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsKeyring as AwsKmsKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.StrictMultiKeyring as StrictMultiKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsDiscoveryKeyring as AwsKmsDiscoveryKeyring
@@ -118,6 +119,7 @@ import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
 import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import Fixtures as Fixtures
 import TestCreateKeyStore as TestCreateKeyStore
+import TestDiscoveryGetKeys as TestDiscoveryGetKeys
 import TestConfig as TestConfig
 import TestGetKeys as TestGetKeys
 import CleanupItems as CleanupItems
@@ -125,6 +127,7 @@ import TestCreateKeys as TestCreateKeys
 import TestVersionKey as TestVersionKey
 import TestUtils as TestUtils
 import TestIntermediateKeyWrapping as TestIntermediateKeyWrapping
+import TestErrorMessages as TestErrorMessages
 import TestDefaultClientProvider as TestDefaultClientProvider
 import TestRawAESKeyring as TestRawAESKeyring
 
@@ -137,411 +140,411 @@ class default__:
     @staticmethod
     def getInputEncryptionMaterials(encryptionContext):
         res: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials = None
-        d_389_mpl_: MaterialProviders.MaterialProvidersClient
-        d_390_valueOrError0_: Wrappers.Result = None
-        out134_: Wrappers.Result
-        out134_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
-        d_390_valueOrError0_ = out134_
-        if not(not((d_390_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(18,15): " + _dafny.string_of(d_390_valueOrError0_))
-        d_389_mpl_ = (d_390_valueOrError0_).Extract()
-        d_391_algorithmSuiteId_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId
-        d_391_algorithmSuiteId_ = AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__NO__KDF())
-        d_392_encryptionMaterialsIn_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
-        d_393_valueOrError1_: Wrappers.Result = None
-        d_393_valueOrError1_ = (d_389_mpl_).InitializeEncryptionMaterials(AwsCryptographyMaterialProvidersTypes.InitializeEncryptionMaterialsInput_InitializeEncryptionMaterialsInput(d_391_algorithmSuiteId_, encryptionContext, _dafny.Seq([]), Wrappers.Option_None(), Wrappers.Option_None()))
-        if not(not((d_393_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(21,33): " + _dafny.string_of(d_393_valueOrError1_))
-        d_392_encryptionMaterialsIn_ = (d_393_valueOrError1_).Extract()
-        res = d_392_encryptionMaterialsIn_
+        d_585_mpl_: MaterialProviders.MaterialProvidersClient
+        d_586_valueOrError0_: Wrappers.Result = None
+        out202_: Wrappers.Result
+        out202_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
+        d_586_valueOrError0_ = out202_
+        if not(not((d_586_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(18,15): " + _dafny.string_of(d_586_valueOrError0_))
+        d_585_mpl_ = (d_586_valueOrError0_).Extract()
+        d_587_algorithmSuiteId_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId
+        d_587_algorithmSuiteId_ = AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__NO__KDF())
+        d_588_encryptionMaterialsIn_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
+        d_589_valueOrError1_: Wrappers.Result = None
+        d_589_valueOrError1_ = (d_585_mpl_).InitializeEncryptionMaterials(AwsCryptographyMaterialProvidersTypes.InitializeEncryptionMaterialsInput_InitializeEncryptionMaterialsInput(d_587_algorithmSuiteId_, encryptionContext, _dafny.Seq([]), Wrappers.Option_None(), Wrappers.Option_None()))
+        if not(not((d_589_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(21,33): " + _dafny.string_of(d_589_valueOrError1_))
+        d_588_encryptionMaterialsIn_ = (d_589_valueOrError1_).Extract()
+        res = d_588_encryptionMaterialsIn_
         return res
         return res
 
     @staticmethod
     def getInputDecryptionMaterials(encryptionContext):
         res: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials = None
-        d_394_mpl_: MaterialProviders.MaterialProvidersClient
-        d_395_valueOrError0_: Wrappers.Result = None
-        out135_: Wrappers.Result
-        out135_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
-        d_395_valueOrError0_ = out135_
-        if not(not((d_395_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(35,15): " + _dafny.string_of(d_395_valueOrError0_))
-        d_394_mpl_ = (d_395_valueOrError0_).Extract()
-        d_396_algorithmSuiteId_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId
-        d_396_algorithmSuiteId_ = AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__NO__KDF())
-        d_397_decryptionMaterialsIn_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
-        d_398_valueOrError1_: Wrappers.Result = None
-        d_398_valueOrError1_ = (d_394_mpl_).InitializeDecryptionMaterials(AwsCryptographyMaterialProvidersTypes.InitializeDecryptionMaterialsInput_InitializeDecryptionMaterialsInput(d_396_algorithmSuiteId_, encryptionContext, _dafny.Seq([])))
-        if not(not((d_398_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(38,33): " + _dafny.string_of(d_398_valueOrError1_))
-        d_397_decryptionMaterialsIn_ = (d_398_valueOrError1_).Extract()
-        res = d_397_decryptionMaterialsIn_
+        d_590_mpl_: MaterialProviders.MaterialProvidersClient
+        d_591_valueOrError0_: Wrappers.Result = None
+        out203_: Wrappers.Result
+        out203_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
+        d_591_valueOrError0_ = out203_
+        if not(not((d_591_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(35,15): " + _dafny.string_of(d_591_valueOrError0_))
+        d_590_mpl_ = (d_591_valueOrError0_).Extract()
+        d_592_algorithmSuiteId_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId
+        d_592_algorithmSuiteId_ = AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__NO__KDF())
+        d_593_decryptionMaterialsIn_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
+        d_594_valueOrError1_: Wrappers.Result = None
+        d_594_valueOrError1_ = (d_590_mpl_).InitializeDecryptionMaterials(AwsCryptographyMaterialProvidersTypes.InitializeDecryptionMaterialsInput_InitializeDecryptionMaterialsInput(d_592_algorithmSuiteId_, encryptionContext, _dafny.Seq([])))
+        if not(not((d_594_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(38,33): " + _dafny.string_of(d_594_valueOrError1_))
+        d_593_decryptionMaterialsIn_ = (d_594_valueOrError1_).Extract()
+        res = d_593_decryptionMaterialsIn_
         return res
         return res
 
     @staticmethod
     def TestHappyCase():
-        d_399_mpl_: MaterialProviders.MaterialProvidersClient
-        d_400_valueOrError0_: Wrappers.Result = None
-        out136_: Wrappers.Result
-        out136_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
-        d_400_valueOrError0_ = out136_
-        if not(not((d_400_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(51,15): " + _dafny.string_of(d_400_valueOrError0_))
-        d_399_mpl_ = (d_400_valueOrError0_).Extract()
-        d_401_encryptionContext_: _dafny.Map
-        out137_: _dafny.Map
-        out137_ = TestUtils.default__.SmallEncryptionContext(TestUtils.SmallEncryptionContextVariation_A())
-        d_401_encryptionContext_ = out137_
-        d_402_encryptionMaterials_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
-        out138_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
-        out138_ = default__.getInputEncryptionMaterials(d_401_encryptionContext_)
-        d_402_encryptionMaterials_ = out138_
-        d_403_decryptionMaterials_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
-        out139_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
-        out139_ = default__.getInputDecryptionMaterials(d_401_encryptionContext_)
-        d_403_decryptionMaterials_ = out139_
-        d_404_rawAESKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out140_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out140_ = default__.setupRawAesKeyring(d_401_encryptionContext_)
-        d_404_rawAESKeyring_ = out140_
-        d_405_expectedEncryptionMaterials_: Wrappers.Result
-        out141_: Wrappers.Result
-        out141_ = (d_404_rawAESKeyring_).OnEncrypt(AwsCryptographyMaterialProvidersTypes.OnEncryptInput_OnEncryptInput(d_402_encryptionMaterials_))
-        d_405_expectedEncryptionMaterials_ = out141_
-        if not((d_405_expectedEncryptionMaterials_).is_Success):
+        d_595_mpl_: MaterialProviders.MaterialProvidersClient
+        d_596_valueOrError0_: Wrappers.Result = None
+        out204_: Wrappers.Result
+        out204_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
+        d_596_valueOrError0_ = out204_
+        if not(not((d_596_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(51,15): " + _dafny.string_of(d_596_valueOrError0_))
+        d_595_mpl_ = (d_596_valueOrError0_).Extract()
+        d_597_encryptionContext_: _dafny.Map
+        out205_: _dafny.Map
+        out205_ = TestUtils.default__.SmallEncryptionContext(TestUtils.SmallEncryptionContextVariation_A())
+        d_597_encryptionContext_ = out205_
+        d_598_encryptionMaterials_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
+        out206_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
+        out206_ = default__.getInputEncryptionMaterials(d_597_encryptionContext_)
+        d_598_encryptionMaterials_ = out206_
+        d_599_decryptionMaterials_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
+        out207_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
+        out207_ = default__.getInputDecryptionMaterials(d_597_encryptionContext_)
+        d_599_decryptionMaterials_ = out207_
+        d_600_rawAESKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out208_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out208_ = default__.setupRawAesKeyring(d_597_encryptionContext_)
+        d_600_rawAESKeyring_ = out208_
+        d_601_expectedEncryptionMaterials_: Wrappers.Result
+        out209_: Wrappers.Result
+        out209_ = (d_600_rawAESKeyring_).OnEncrypt(AwsCryptographyMaterialProvidersTypes.OnEncryptInput_OnEncryptInput(d_598_encryptionMaterials_))
+        d_601_expectedEncryptionMaterials_ = out209_
+        if not((d_601_expectedEncryptionMaterials_).is_Success):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(63,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_406_expectedPlaintextDataKey_: Wrappers.Option
-        d_406_expectedPlaintextDataKey_ = (((d_405_expectedEncryptionMaterials_).value).materials).plaintextDataKey
-        if not((d_406_expectedPlaintextDataKey_).is_Some):
+        d_602_expectedPlaintextDataKey_: Wrappers.Option
+        d_602_expectedPlaintextDataKey_ = (((d_601_expectedEncryptionMaterials_).value).materials).plaintextDataKey
+        if not((d_602_expectedPlaintextDataKey_).is_Some):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(65,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_407_staticKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out142_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out142_ = default__.SetupStaticKeyring(Wrappers.Option_Some(((d_405_expectedEncryptionMaterials_).value).materials), Wrappers.Option_None())
-        d_407_staticKeyring_ = out142_
-        d_408_multiKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        d_409_valueOrError1_: Wrappers.Result = None
-        out143_: Wrappers.Result
-        out143_ = (d_399_mpl_).CreateMultiKeyring(AwsCryptographyMaterialProvidersTypes.CreateMultiKeyringInput_CreateMultiKeyringInput(Wrappers.Option_Some(d_407_staticKeyring_), _dafny.Seq([d_404_rawAESKeyring_])))
-        d_409_valueOrError1_ = out143_
-        if not(not((d_409_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(69,24): " + _dafny.string_of(d_409_valueOrError1_))
-        d_408_multiKeyring_ = (d_409_valueOrError1_).Extract()
-        d_410_encryptionMaterialsOut_: AwsCryptographyMaterialProvidersTypes.OnEncryptOutput
-        d_411_valueOrError2_: Wrappers.Result = None
-        out144_: Wrappers.Result
-        out144_ = (d_408_multiKeyring_).OnEncrypt(AwsCryptographyMaterialProvidersTypes.OnEncryptInput_OnEncryptInput(d_402_encryptionMaterials_))
-        d_411_valueOrError2_ = out144_
-        if not(not((d_411_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(74,34): " + _dafny.string_of(d_411_valueOrError2_))
-        d_410_encryptionMaterialsOut_ = (d_411_valueOrError2_).Extract()
-        d_412___v0_: tuple
-        d_413_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
-        d_413_valueOrError3_ = (d_399_mpl_).EncryptionMaterialsHasPlaintextDataKey((d_410_encryptionMaterialsOut_).materials)
-        if not(not((d_413_valueOrError3_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(76,13): " + _dafny.string_of(d_413_valueOrError3_))
-        d_412___v0_ = (d_413_valueOrError3_).Extract()
-        if not(((((d_410_encryptionMaterialsOut_).materials).plaintextDataKey).value) == ((d_406_expectedPlaintextDataKey_).value)):
+        d_603_staticKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out210_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out210_ = default__.SetupStaticKeyring(Wrappers.Option_Some(((d_601_expectedEncryptionMaterials_).value).materials), Wrappers.Option_None())
+        d_603_staticKeyring_ = out210_
+        d_604_multiKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        d_605_valueOrError1_: Wrappers.Result = None
+        out211_: Wrappers.Result
+        out211_ = (d_595_mpl_).CreateMultiKeyring(AwsCryptographyMaterialProvidersTypes.CreateMultiKeyringInput_CreateMultiKeyringInput(Wrappers.Option_Some(d_603_staticKeyring_), _dafny.Seq([d_600_rawAESKeyring_])))
+        d_605_valueOrError1_ = out211_
+        if not(not((d_605_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(69,24): " + _dafny.string_of(d_605_valueOrError1_))
+        d_604_multiKeyring_ = (d_605_valueOrError1_).Extract()
+        d_606_encryptionMaterialsOut_: AwsCryptographyMaterialProvidersTypes.OnEncryptOutput
+        d_607_valueOrError2_: Wrappers.Result = None
+        out212_: Wrappers.Result
+        out212_ = (d_604_multiKeyring_).OnEncrypt(AwsCryptographyMaterialProvidersTypes.OnEncryptInput_OnEncryptInput(d_598_encryptionMaterials_))
+        d_607_valueOrError2_ = out212_
+        if not(not((d_607_valueOrError2_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(74,34): " + _dafny.string_of(d_607_valueOrError2_))
+        d_606_encryptionMaterialsOut_ = (d_607_valueOrError2_).Extract()
+        d_608___v0_: tuple
+        d_609_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+        d_609_valueOrError3_ = (d_595_mpl_).EncryptionMaterialsHasPlaintextDataKey((d_606_encryptionMaterialsOut_).materials)
+        if not(not((d_609_valueOrError3_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(76,13): " + _dafny.string_of(d_609_valueOrError3_))
+        d_608___v0_ = (d_609_valueOrError3_).Extract()
+        if not(((((d_606_encryptionMaterialsOut_).materials).plaintextDataKey).value) == ((d_602_expectedPlaintextDataKey_).value)):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(87,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((len(((d_410_encryptionMaterialsOut_).materials).encryptedDataKeys)) == (2)):
+        if not((len(((d_606_encryptionMaterialsOut_).materials).encryptedDataKeys)) == (2)):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(101,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def TestChildKeyringFailureEncrypt():
-        d_414_mpl_: MaterialProviders.MaterialProvidersClient
-        d_415_valueOrError0_: Wrappers.Result = None
-        out145_: Wrappers.Result
-        out145_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
-        d_415_valueOrError0_ = out145_
-        if not(not((d_415_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(106,15): " + _dafny.string_of(d_415_valueOrError0_))
-        d_414_mpl_ = (d_415_valueOrError0_).Extract()
-        d_416_encryptionContext_: _dafny.Map
-        out146_: _dafny.Map
-        out146_ = TestUtils.default__.SmallEncryptionContext(TestUtils.SmallEncryptionContextVariation_A())
-        d_416_encryptionContext_ = out146_
-        d_417_rawAESKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out147_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out147_ = default__.setupRawAesKeyring(d_416_encryptionContext_)
-        d_417_rawAESKeyring_ = out147_
-        d_418_failingKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out148_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out148_ = default__.SetupFailingKeyring()
-        d_418_failingKeyring_ = out148_
-        d_419_multiKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        d_420_valueOrError1_: Wrappers.Result = None
-        out149_: Wrappers.Result
-        out149_ = (d_414_mpl_).CreateMultiKeyring(AwsCryptographyMaterialProvidersTypes.CreateMultiKeyringInput_CreateMultiKeyringInput(Wrappers.Option_Some(d_417_rawAESKeyring_), _dafny.Seq([d_418_failingKeyring_])))
-        d_420_valueOrError1_ = out149_
-        if not(not((d_420_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(116,24): " + _dafny.string_of(d_420_valueOrError1_))
-        d_419_multiKeyring_ = (d_420_valueOrError1_).Extract()
-        d_421_encryptionMaterials_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
-        out150_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
-        out150_ = default__.getInputEncryptionMaterials(d_416_encryptionContext_)
-        d_421_encryptionMaterials_ = out150_
-        d_422_result_: Wrappers.Result
-        out151_: Wrappers.Result
-        out151_ = (d_419_multiKeyring_).OnEncrypt(AwsCryptographyMaterialProvidersTypes.OnEncryptInput_OnEncryptInput(d_421_encryptionMaterials_))
-        d_422_result_ = out151_
-        if not((d_422_result_).IsFailure()):
+        d_610_mpl_: MaterialProviders.MaterialProvidersClient
+        d_611_valueOrError0_: Wrappers.Result = None
+        out213_: Wrappers.Result
+        out213_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
+        d_611_valueOrError0_ = out213_
+        if not(not((d_611_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(106,15): " + _dafny.string_of(d_611_valueOrError0_))
+        d_610_mpl_ = (d_611_valueOrError0_).Extract()
+        d_612_encryptionContext_: _dafny.Map
+        out214_: _dafny.Map
+        out214_ = TestUtils.default__.SmallEncryptionContext(TestUtils.SmallEncryptionContextVariation_A())
+        d_612_encryptionContext_ = out214_
+        d_613_rawAESKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out215_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out215_ = default__.setupRawAesKeyring(d_612_encryptionContext_)
+        d_613_rawAESKeyring_ = out215_
+        d_614_failingKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out216_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out216_ = default__.SetupFailingKeyring()
+        d_614_failingKeyring_ = out216_
+        d_615_multiKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        d_616_valueOrError1_: Wrappers.Result = None
+        out217_: Wrappers.Result
+        out217_ = (d_610_mpl_).CreateMultiKeyring(AwsCryptographyMaterialProvidersTypes.CreateMultiKeyringInput_CreateMultiKeyringInput(Wrappers.Option_Some(d_613_rawAESKeyring_), _dafny.Seq([d_614_failingKeyring_])))
+        d_616_valueOrError1_ = out217_
+        if not(not((d_616_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(116,24): " + _dafny.string_of(d_616_valueOrError1_))
+        d_615_multiKeyring_ = (d_616_valueOrError1_).Extract()
+        d_617_encryptionMaterials_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
+        out218_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
+        out218_ = default__.getInputEncryptionMaterials(d_612_encryptionContext_)
+        d_617_encryptionMaterials_ = out218_
+        d_618_result_: Wrappers.Result
+        out219_: Wrappers.Result
+        out219_ = (d_615_multiKeyring_).OnEncrypt(AwsCryptographyMaterialProvidersTypes.OnEncryptInput_OnEncryptInput(d_617_encryptionMaterials_))
+        d_618_result_ = out219_
+        if not((d_618_result_).IsFailure()):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(124,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def TestGeneratorKeyringFails():
-        d_423_mpl_: MaterialProviders.MaterialProvidersClient
-        d_424_valueOrError0_: Wrappers.Result = None
-        out152_: Wrappers.Result
-        out152_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
-        d_424_valueOrError0_ = out152_
-        if not(not((d_424_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(129,15): " + _dafny.string_of(d_424_valueOrError0_))
-        d_423_mpl_ = (d_424_valueOrError0_).Extract()
-        d_425_encryptionContext_: _dafny.Map
-        out153_: _dafny.Map
-        out153_ = TestUtils.default__.SmallEncryptionContext(TestUtils.SmallEncryptionContextVariation_A())
-        d_425_encryptionContext_ = out153_
-        d_426_failingKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out154_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out154_ = default__.SetupFailingKeyring()
-        d_426_failingKeyring_ = out154_
-        d_427_rawAESKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out155_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out155_ = default__.setupRawAesKeyring(d_425_encryptionContext_)
-        d_427_rawAESKeyring_ = out155_
-        d_428_multiKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        d_429_valueOrError1_: Wrappers.Result = None
-        out156_: Wrappers.Result
-        out156_ = (d_423_mpl_).CreateMultiKeyring(AwsCryptographyMaterialProvidersTypes.CreateMultiKeyringInput_CreateMultiKeyringInput(Wrappers.Option_Some(d_426_failingKeyring_), _dafny.Seq([d_427_rawAESKeyring_])))
-        d_429_valueOrError1_ = out156_
-        if not(not((d_429_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(142,24): " + _dafny.string_of(d_429_valueOrError1_))
-        d_428_multiKeyring_ = (d_429_valueOrError1_).Extract()
-        d_430_encryptionMaterials_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
-        out157_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
-        out157_ = default__.getInputEncryptionMaterials(d_425_encryptionContext_)
-        d_430_encryptionMaterials_ = out157_
-        d_431_result_: Wrappers.Result
-        out158_: Wrappers.Result
-        out158_ = (d_428_multiKeyring_).OnEncrypt(AwsCryptographyMaterialProvidersTypes.OnEncryptInput_OnEncryptInput(d_430_encryptionMaterials_))
-        d_431_result_ = out158_
-        if not((d_431_result_).IsFailure()):
+        d_619_mpl_: MaterialProviders.MaterialProvidersClient
+        d_620_valueOrError0_: Wrappers.Result = None
+        out220_: Wrappers.Result
+        out220_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
+        d_620_valueOrError0_ = out220_
+        if not(not((d_620_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(129,15): " + _dafny.string_of(d_620_valueOrError0_))
+        d_619_mpl_ = (d_620_valueOrError0_).Extract()
+        d_621_encryptionContext_: _dafny.Map
+        out221_: _dafny.Map
+        out221_ = TestUtils.default__.SmallEncryptionContext(TestUtils.SmallEncryptionContextVariation_A())
+        d_621_encryptionContext_ = out221_
+        d_622_failingKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out222_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out222_ = default__.SetupFailingKeyring()
+        d_622_failingKeyring_ = out222_
+        d_623_rawAESKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out223_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out223_ = default__.setupRawAesKeyring(d_621_encryptionContext_)
+        d_623_rawAESKeyring_ = out223_
+        d_624_multiKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        d_625_valueOrError1_: Wrappers.Result = None
+        out224_: Wrappers.Result
+        out224_ = (d_619_mpl_).CreateMultiKeyring(AwsCryptographyMaterialProvidersTypes.CreateMultiKeyringInput_CreateMultiKeyringInput(Wrappers.Option_Some(d_622_failingKeyring_), _dafny.Seq([d_623_rawAESKeyring_])))
+        d_625_valueOrError1_ = out224_
+        if not(not((d_625_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(142,24): " + _dafny.string_of(d_625_valueOrError1_))
+        d_624_multiKeyring_ = (d_625_valueOrError1_).Extract()
+        d_626_encryptionMaterials_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
+        out225_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
+        out225_ = default__.getInputEncryptionMaterials(d_621_encryptionContext_)
+        d_626_encryptionMaterials_ = out225_
+        d_627_result_: Wrappers.Result
+        out226_: Wrappers.Result
+        out226_ = (d_624_multiKeyring_).OnEncrypt(AwsCryptographyMaterialProvidersTypes.OnEncryptInput_OnEncryptInput(d_626_encryptionMaterials_))
+        d_627_result_ = out226_
+        if not((d_627_result_).IsFailure()):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(150,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def TestGeneratorKeyringDoesNotReturnPlaintextDataKey():
-        d_432_mpl_: MaterialProviders.MaterialProvidersClient
-        d_433_valueOrError0_: Wrappers.Result = None
-        out159_: Wrappers.Result
-        out159_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
-        d_433_valueOrError0_ = out159_
-        if not(not((d_433_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(155,15): " + _dafny.string_of(d_433_valueOrError0_))
-        d_432_mpl_ = (d_433_valueOrError0_).Extract()
-        d_434_encryptionContext_: _dafny.Map
-        out160_: _dafny.Map
-        out160_ = TestUtils.default__.SmallEncryptionContext(TestUtils.SmallEncryptionContextVariation_A())
-        d_434_encryptionContext_ = out160_
-        d_435_encryptionMaterials_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
-        out161_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
-        out161_ = default__.getInputEncryptionMaterials(d_434_encryptionContext_)
-        d_435_encryptionMaterials_ = out161_
-        d_436_failingKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out162_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out162_ = default__.SetupStaticKeyring(Wrappers.Option_Some(d_435_encryptionMaterials_), Wrappers.Option_None())
-        d_436_failingKeyring_ = out162_
-        d_437_multiKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        d_438_valueOrError1_: Wrappers.Result = None
-        out163_: Wrappers.Result
-        out163_ = (d_432_mpl_).CreateMultiKeyring(AwsCryptographyMaterialProvidersTypes.CreateMultiKeyringInput_CreateMultiKeyringInput(Wrappers.Option_Some(d_436_failingKeyring_), _dafny.Seq([])))
-        d_438_valueOrError1_ = out163_
-        if not(not((d_438_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(165,24): " + _dafny.string_of(d_438_valueOrError1_))
-        d_437_multiKeyring_ = (d_438_valueOrError1_).Extract()
-        d_439_result_: Wrappers.Result
-        out164_: Wrappers.Result
-        out164_ = (d_437_multiKeyring_).OnEncrypt(AwsCryptographyMaterialProvidersTypes.OnEncryptInput_OnEncryptInput(d_435_encryptionMaterials_))
-        d_439_result_ = out164_
-        if not((d_439_result_).IsFailure()):
+        d_628_mpl_: MaterialProviders.MaterialProvidersClient
+        d_629_valueOrError0_: Wrappers.Result = None
+        out227_: Wrappers.Result
+        out227_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
+        d_629_valueOrError0_ = out227_
+        if not(not((d_629_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(155,15): " + _dafny.string_of(d_629_valueOrError0_))
+        d_628_mpl_ = (d_629_valueOrError0_).Extract()
+        d_630_encryptionContext_: _dafny.Map
+        out228_: _dafny.Map
+        out228_ = TestUtils.default__.SmallEncryptionContext(TestUtils.SmallEncryptionContextVariation_A())
+        d_630_encryptionContext_ = out228_
+        d_631_encryptionMaterials_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
+        out229_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
+        out229_ = default__.getInputEncryptionMaterials(d_630_encryptionContext_)
+        d_631_encryptionMaterials_ = out229_
+        d_632_failingKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out230_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out230_ = default__.SetupStaticKeyring(Wrappers.Option_Some(d_631_encryptionMaterials_), Wrappers.Option_None())
+        d_632_failingKeyring_ = out230_
+        d_633_multiKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        d_634_valueOrError1_: Wrappers.Result = None
+        out231_: Wrappers.Result
+        out231_ = (d_628_mpl_).CreateMultiKeyring(AwsCryptographyMaterialProvidersTypes.CreateMultiKeyringInput_CreateMultiKeyringInput(Wrappers.Option_Some(d_632_failingKeyring_), _dafny.Seq([])))
+        d_634_valueOrError1_ = out231_
+        if not(not((d_634_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(165,24): " + _dafny.string_of(d_634_valueOrError1_))
+        d_633_multiKeyring_ = (d_634_valueOrError1_).Extract()
+        d_635_result_: Wrappers.Result
+        out232_: Wrappers.Result
+        out232_ = (d_633_multiKeyring_).OnEncrypt(AwsCryptographyMaterialProvidersTypes.OnEncryptInput_OnEncryptInput(d_631_encryptionMaterials_))
+        d_635_result_ = out232_
+        if not((d_635_result_).IsFailure()):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(171,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def TestGeneratorAbleToDecrypt():
-        d_440_mpl_: MaterialProviders.MaterialProvidersClient
-        d_441_valueOrError0_: Wrappers.Result = None
-        out165_: Wrappers.Result
-        out165_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
-        d_441_valueOrError0_ = out165_
-        if not(not((d_441_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(176,15): " + _dafny.string_of(d_441_valueOrError0_))
-        d_440_mpl_ = (d_441_valueOrError0_).Extract()
-        d_442_encryptionContext_: _dafny.Map
-        out166_: _dafny.Map
-        out166_ = TestUtils.default__.SmallEncryptionContext(TestUtils.SmallEncryptionContextVariation_A())
-        d_442_encryptionContext_ = out166_
-        d_443_rawAESKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out167_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out167_ = default__.setupRawAesKeyring(d_442_encryptionContext_)
-        d_443_rawAESKeyring_ = out167_
-        d_444_inputEncryptionMaterials_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
-        out168_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
-        out168_ = default__.getInputEncryptionMaterials(d_442_encryptionContext_)
-        d_444_inputEncryptionMaterials_ = out168_
-        d_445_encryptionMaterials_: Wrappers.Result
-        out169_: Wrappers.Result
-        out169_ = (d_443_rawAESKeyring_).OnEncrypt(AwsCryptographyMaterialProvidersTypes.OnEncryptInput_OnEncryptInput(d_444_inputEncryptionMaterials_))
-        d_445_encryptionMaterials_ = out169_
-        if not((d_445_encryptionMaterials_).is_Success):
+        d_636_mpl_: MaterialProviders.MaterialProvidersClient
+        d_637_valueOrError0_: Wrappers.Result = None
+        out233_: Wrappers.Result
+        out233_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
+        d_637_valueOrError0_ = out233_
+        if not(not((d_637_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(176,15): " + _dafny.string_of(d_637_valueOrError0_))
+        d_636_mpl_ = (d_637_valueOrError0_).Extract()
+        d_638_encryptionContext_: _dafny.Map
+        out234_: _dafny.Map
+        out234_ = TestUtils.default__.SmallEncryptionContext(TestUtils.SmallEncryptionContextVariation_A())
+        d_638_encryptionContext_ = out234_
+        d_639_rawAESKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out235_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out235_ = default__.setupRawAesKeyring(d_638_encryptionContext_)
+        d_639_rawAESKeyring_ = out235_
+        d_640_inputEncryptionMaterials_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
+        out236_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
+        out236_ = default__.getInputEncryptionMaterials(d_638_encryptionContext_)
+        d_640_inputEncryptionMaterials_ = out236_
+        d_641_encryptionMaterials_: Wrappers.Result
+        out237_: Wrappers.Result
+        out237_ = (d_639_rawAESKeyring_).OnEncrypt(AwsCryptographyMaterialProvidersTypes.OnEncryptInput_OnEncryptInput(d_640_inputEncryptionMaterials_))
+        d_641_encryptionMaterials_ = out237_
+        if not((d_641_encryptionMaterials_).is_Success):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(190,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_446_inputDecryptionMaterials_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
-        out170_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
-        out170_ = default__.getInputDecryptionMaterials(d_442_encryptionContext_)
-        d_446_inputDecryptionMaterials_ = out170_
-        d_447_failingKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out171_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out171_ = default__.SetupFailingKeyring()
-        d_447_failingKeyring_ = out171_
-        d_448_multiKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        d_449_valueOrError1_: Wrappers.Result = None
-        out172_: Wrappers.Result
-        out172_ = (d_440_mpl_).CreateMultiKeyring(AwsCryptographyMaterialProvidersTypes.CreateMultiKeyringInput_CreateMultiKeyringInput(Wrappers.Option_Some(d_443_rawAESKeyring_), _dafny.Seq([d_447_failingKeyring_])))
-        d_449_valueOrError1_ = out172_
-        if not(not((d_449_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(196,24): " + _dafny.string_of(d_449_valueOrError1_))
-        d_448_multiKeyring_ = (d_449_valueOrError1_).Extract()
-        d_450_onDecryptInput_: AwsCryptographyMaterialProvidersTypes.OnDecryptInput
-        d_450_onDecryptInput_ = AwsCryptographyMaterialProvidersTypes.OnDecryptInput_OnDecryptInput(d_446_inputDecryptionMaterials_, (((d_445_encryptionMaterials_).value).materials).encryptedDataKeys)
-        d_451_decryptionMaterials_: Wrappers.Result
-        out173_: Wrappers.Result
-        out173_ = (d_448_multiKeyring_).OnDecrypt(d_450_onDecryptInput_)
-        d_451_decryptionMaterials_ = out173_
-        if not((d_451_decryptionMaterials_).is_Success):
+        d_642_inputDecryptionMaterials_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
+        out238_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
+        out238_ = default__.getInputDecryptionMaterials(d_638_encryptionContext_)
+        d_642_inputDecryptionMaterials_ = out238_
+        d_643_failingKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out239_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out239_ = default__.SetupFailingKeyring()
+        d_643_failingKeyring_ = out239_
+        d_644_multiKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        d_645_valueOrError1_: Wrappers.Result = None
+        out240_: Wrappers.Result
+        out240_ = (d_636_mpl_).CreateMultiKeyring(AwsCryptographyMaterialProvidersTypes.CreateMultiKeyringInput_CreateMultiKeyringInput(Wrappers.Option_Some(d_639_rawAESKeyring_), _dafny.Seq([d_643_failingKeyring_])))
+        d_645_valueOrError1_ = out240_
+        if not(not((d_645_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(196,24): " + _dafny.string_of(d_645_valueOrError1_))
+        d_644_multiKeyring_ = (d_645_valueOrError1_).Extract()
+        d_646_onDecryptInput_: AwsCryptographyMaterialProvidersTypes.OnDecryptInput
+        d_646_onDecryptInput_ = AwsCryptographyMaterialProvidersTypes.OnDecryptInput_OnDecryptInput(d_642_inputDecryptionMaterials_, (((d_641_encryptionMaterials_).value).materials).encryptedDataKeys)
+        d_647_decryptionMaterials_: Wrappers.Result
+        out241_: Wrappers.Result
+        out241_ = (d_644_multiKeyring_).OnDecrypt(d_646_onDecryptInput_)
+        d_647_decryptionMaterials_ = out241_
+        if not((d_647_decryptionMaterials_).is_Success):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(206,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not(((((d_451_decryptionMaterials_).value).materials).plaintextDataKey) == ((((d_445_encryptionMaterials_).value).materials).plaintextDataKey)):
+        if not(((((d_647_decryptionMaterials_).value).materials).plaintextDataKey) == ((((d_641_encryptionMaterials_).value).materials).plaintextDataKey)):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(207,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def TestGeneratorUnableToDecrypt():
-        d_452_mpl_: MaterialProviders.MaterialProvidersClient
-        d_453_valueOrError0_: Wrappers.Result = None
-        out174_: Wrappers.Result
-        out174_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
-        d_453_valueOrError0_ = out174_
-        if not(not((d_453_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(212,15): " + _dafny.string_of(d_453_valueOrError0_))
-        d_452_mpl_ = (d_453_valueOrError0_).Extract()
-        d_454_encryptionContext_: _dafny.Map
-        out175_: _dafny.Map
-        out175_ = TestUtils.default__.SmallEncryptionContext(TestUtils.SmallEncryptionContextVariation_A())
-        d_454_encryptionContext_ = out175_
-        d_455_rawAESKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out176_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out176_ = default__.setupRawAesKeyring(d_454_encryptionContext_)
-        d_455_rawAESKeyring_ = out176_
-        d_456_inputEncryptionMaterials_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
-        out177_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
-        out177_ = default__.getInputEncryptionMaterials(d_454_encryptionContext_)
-        d_456_inputEncryptionMaterials_ = out177_
-        d_457_encryptionMaterials_: Wrappers.Result
-        out178_: Wrappers.Result
-        out178_ = (d_455_rawAESKeyring_).OnEncrypt(AwsCryptographyMaterialProvidersTypes.OnEncryptInput_OnEncryptInput(d_456_inputEncryptionMaterials_))
-        d_457_encryptionMaterials_ = out178_
-        if not((d_457_encryptionMaterials_).is_Success):
+        d_648_mpl_: MaterialProviders.MaterialProvidersClient
+        d_649_valueOrError0_: Wrappers.Result = None
+        out242_: Wrappers.Result
+        out242_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
+        d_649_valueOrError0_ = out242_
+        if not(not((d_649_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(212,15): " + _dafny.string_of(d_649_valueOrError0_))
+        d_648_mpl_ = (d_649_valueOrError0_).Extract()
+        d_650_encryptionContext_: _dafny.Map
+        out243_: _dafny.Map
+        out243_ = TestUtils.default__.SmallEncryptionContext(TestUtils.SmallEncryptionContextVariation_A())
+        d_650_encryptionContext_ = out243_
+        d_651_rawAESKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out244_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out244_ = default__.setupRawAesKeyring(d_650_encryptionContext_)
+        d_651_rawAESKeyring_ = out244_
+        d_652_inputEncryptionMaterials_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
+        out245_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
+        out245_ = default__.getInputEncryptionMaterials(d_650_encryptionContext_)
+        d_652_inputEncryptionMaterials_ = out245_
+        d_653_encryptionMaterials_: Wrappers.Result
+        out246_: Wrappers.Result
+        out246_ = (d_651_rawAESKeyring_).OnEncrypt(AwsCryptographyMaterialProvidersTypes.OnEncryptInput_OnEncryptInput(d_652_inputEncryptionMaterials_))
+        d_653_encryptionMaterials_ = out246_
+        if not((d_653_encryptionMaterials_).is_Success):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(237,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_458_inputDecryptionMaterials_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
-        out179_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
-        out179_ = default__.getInputDecryptionMaterials(d_454_encryptionContext_)
-        d_458_inputDecryptionMaterials_ = out179_
-        d_459_failingKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out180_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out180_ = default__.SetupFailingKeyring()
-        d_459_failingKeyring_ = out180_
-        d_460_multiKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        d_461_valueOrError1_: Wrappers.Result = None
-        out181_: Wrappers.Result
-        out181_ = (d_452_mpl_).CreateMultiKeyring(AwsCryptographyMaterialProvidersTypes.CreateMultiKeyringInput_CreateMultiKeyringInput(Wrappers.Option_Some(d_459_failingKeyring_), _dafny.Seq([d_459_failingKeyring_, d_455_rawAESKeyring_, d_459_failingKeyring_])))
-        d_461_valueOrError1_ = out181_
-        if not(not((d_461_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(245,24): " + _dafny.string_of(d_461_valueOrError1_))
-        d_460_multiKeyring_ = (d_461_valueOrError1_).Extract()
-        d_462_onDecryptInput_: AwsCryptographyMaterialProvidersTypes.OnDecryptInput
-        d_462_onDecryptInput_ = AwsCryptographyMaterialProvidersTypes.OnDecryptInput_OnDecryptInput(d_458_inputDecryptionMaterials_, (((d_457_encryptionMaterials_).value).materials).encryptedDataKeys)
-        d_463_decryptionMaterials_: Wrappers.Result
-        out182_: Wrappers.Result
-        out182_ = (d_460_multiKeyring_).OnDecrypt(d_462_onDecryptInput_)
-        d_463_decryptionMaterials_ = out182_
-        if not((d_463_decryptionMaterials_).is_Success):
+        d_654_inputDecryptionMaterials_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
+        out247_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
+        out247_ = default__.getInputDecryptionMaterials(d_650_encryptionContext_)
+        d_654_inputDecryptionMaterials_ = out247_
+        d_655_failingKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out248_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out248_ = default__.SetupFailingKeyring()
+        d_655_failingKeyring_ = out248_
+        d_656_multiKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        d_657_valueOrError1_: Wrappers.Result = None
+        out249_: Wrappers.Result
+        out249_ = (d_648_mpl_).CreateMultiKeyring(AwsCryptographyMaterialProvidersTypes.CreateMultiKeyringInput_CreateMultiKeyringInput(Wrappers.Option_Some(d_655_failingKeyring_), _dafny.Seq([d_655_failingKeyring_, d_651_rawAESKeyring_, d_655_failingKeyring_])))
+        d_657_valueOrError1_ = out249_
+        if not(not((d_657_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(245,24): " + _dafny.string_of(d_657_valueOrError1_))
+        d_656_multiKeyring_ = (d_657_valueOrError1_).Extract()
+        d_658_onDecryptInput_: AwsCryptographyMaterialProvidersTypes.OnDecryptInput
+        d_658_onDecryptInput_ = AwsCryptographyMaterialProvidersTypes.OnDecryptInput_OnDecryptInput(d_654_inputDecryptionMaterials_, (((d_653_encryptionMaterials_).value).materials).encryptedDataKeys)
+        d_659_decryptionMaterials_: Wrappers.Result
+        out250_: Wrappers.Result
+        out250_ = (d_656_multiKeyring_).OnDecrypt(d_658_onDecryptInput_)
+        d_659_decryptionMaterials_ = out250_
+        if not((d_659_decryptionMaterials_).is_Success):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(265,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not(((((d_463_decryptionMaterials_).value).materials).plaintextDataKey) == ((((d_457_encryptionMaterials_).value).materials).plaintextDataKey)):
+        if not(((((d_659_decryptionMaterials_).value).materials).plaintextDataKey) == ((((d_653_encryptionMaterials_).value).materials).plaintextDataKey)):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(266,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def TestCollectFailuresDecrypt():
-        d_464_mpl_: MaterialProviders.MaterialProvidersClient
-        d_465_valueOrError0_: Wrappers.Result = None
-        out183_: Wrappers.Result
-        out183_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
-        d_465_valueOrError0_ = out183_
-        if not(not((d_465_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(272,15): " + _dafny.string_of(d_465_valueOrError0_))
-        d_464_mpl_ = (d_465_valueOrError0_).Extract()
-        d_466_encryptionContext_: _dafny.Map
-        out184_: _dafny.Map
-        out184_ = TestUtils.default__.SmallEncryptionContext(TestUtils.SmallEncryptionContextVariation_A())
-        d_466_encryptionContext_ = out184_
-        d_467_failingKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out185_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        out185_ = default__.SetupFailingKeyring()
-        d_467_failingKeyring_ = out185_
-        d_468_multiKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        d_469_valueOrError1_: Wrappers.Result = None
-        out186_: Wrappers.Result
-        out186_ = (d_464_mpl_).CreateMultiKeyring(AwsCryptographyMaterialProvidersTypes.CreateMultiKeyringInput_CreateMultiKeyringInput(Wrappers.Option_None(), _dafny.Seq([d_467_failingKeyring_, d_467_failingKeyring_])))
-        d_469_valueOrError1_ = out186_
-        if not(not((d_469_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(291,24): " + _dafny.string_of(d_469_valueOrError1_))
-        d_468_multiKeyring_ = (d_469_valueOrError1_).Extract()
-        d_470_materials_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
-        d_471_valueOrError2_: Wrappers.Result = None
-        d_471_valueOrError2_ = (d_464_mpl_).InitializeDecryptionMaterials(AwsCryptographyMaterialProvidersTypes.InitializeDecryptionMaterialsInput_InitializeDecryptionMaterialsInput(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__NO__KDF()), d_466_encryptionContext_, _dafny.Seq([])))
-        if not(not((d_471_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(296,21): " + _dafny.string_of(d_471_valueOrError2_))
-        d_470_materials_ = (d_471_valueOrError2_).Extract()
-        d_472_result_: Wrappers.Result
-        out187_: Wrappers.Result
-        out187_ = (d_468_multiKeyring_).OnDecrypt(AwsCryptographyMaterialProvidersTypes.OnDecryptInput_OnDecryptInput(d_470_materials_, _dafny.Seq([])))
-        d_472_result_ = out187_
-        if not((d_472_result_).IsFailure()):
+        d_660_mpl_: MaterialProviders.MaterialProvidersClient
+        d_661_valueOrError0_: Wrappers.Result = None
+        out251_: Wrappers.Result
+        out251_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
+        d_661_valueOrError0_ = out251_
+        if not(not((d_661_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(272,15): " + _dafny.string_of(d_661_valueOrError0_))
+        d_660_mpl_ = (d_661_valueOrError0_).Extract()
+        d_662_encryptionContext_: _dafny.Map
+        out252_: _dafny.Map
+        out252_ = TestUtils.default__.SmallEncryptionContext(TestUtils.SmallEncryptionContextVariation_A())
+        d_662_encryptionContext_ = out252_
+        d_663_failingKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out253_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        out253_ = default__.SetupFailingKeyring()
+        d_663_failingKeyring_ = out253_
+        d_664_multiKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        d_665_valueOrError1_: Wrappers.Result = None
+        out254_: Wrappers.Result
+        out254_ = (d_660_mpl_).CreateMultiKeyring(AwsCryptographyMaterialProvidersTypes.CreateMultiKeyringInput_CreateMultiKeyringInput(Wrappers.Option_None(), _dafny.Seq([d_663_failingKeyring_, d_663_failingKeyring_])))
+        d_665_valueOrError1_ = out254_
+        if not(not((d_665_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(291,24): " + _dafny.string_of(d_665_valueOrError1_))
+        d_664_multiKeyring_ = (d_665_valueOrError1_).Extract()
+        d_666_materials_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
+        d_667_valueOrError2_: Wrappers.Result = None
+        d_667_valueOrError2_ = (d_660_mpl_).InitializeDecryptionMaterials(AwsCryptographyMaterialProvidersTypes.InitializeDecryptionMaterialsInput_InitializeDecryptionMaterialsInput(AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__NO__KDF()), d_662_encryptionContext_, _dafny.Seq([])))
+        if not(not((d_667_valueOrError2_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(296,21): " + _dafny.string_of(d_667_valueOrError2_))
+        d_666_materials_ = (d_667_valueOrError2_).Extract()
+        d_668_result_: Wrappers.Result
+        out255_: Wrappers.Result
+        out255_ = (d_664_multiKeyring_).OnDecrypt(AwsCryptographyMaterialProvidersTypes.OnDecryptInput_OnDecryptInput(d_666_materials_, _dafny.Seq([])))
+        d_668_result_ = out255_
+        if not((d_668_result_).IsFailure()):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(305,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def setupRawAesKeyring(encryptionContext):
         res: AwsCryptographyMaterialProvidersTypes.IKeyring = None
-        d_473_mpl_: MaterialProviders.MaterialProvidersClient
-        d_474_valueOrError0_: Wrappers.Result = None
-        out188_: Wrappers.Result
-        out188_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
-        d_474_valueOrError0_ = out188_
-        if not(not((d_474_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(313,15): " + _dafny.string_of(d_474_valueOrError0_))
-        d_473_mpl_ = (d_474_valueOrError0_).Extract()
-        d_475_namespace_: _dafny.Seq
-        d_476_name_: _dafny.Seq
-        out189_: _dafny.Seq
-        out190_: _dafny.Seq
-        out189_, out190_ = TestUtils.default__.NamespaceAndName(0)
-        d_475_namespace_ = out189_
-        d_476_name_ = out190_
-        d_477_rawAESKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-        d_478_valueOrError1_: Wrappers.Result = None
-        out191_: Wrappers.Result
-        out191_ = (d_473_mpl_).CreateRawAesKeyring(AwsCryptographyMaterialProvidersTypes.CreateRawAesKeyringInput_CreateRawAesKeyringInput(d_475_namespace_, d_476_name_, _dafny.Seq([0 for d_479_i_ in range(32)]), AwsCryptographyMaterialProvidersTypes.AesWrappingAlg_ALG__AES256__GCM__IV12__TAG16()))
-        d_478_valueOrError1_ = out191_
-        if not(not((d_478_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(316,25): " + _dafny.string_of(d_478_valueOrError1_))
-        d_477_rawAESKeyring_ = (d_478_valueOrError1_).Extract()
-        res = d_477_rawAESKeyring_
+        d_669_mpl_: MaterialProviders.MaterialProvidersClient
+        d_670_valueOrError0_: Wrappers.Result = None
+        out256_: Wrappers.Result
+        out256_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
+        d_670_valueOrError0_ = out256_
+        if not(not((d_670_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(313,15): " + _dafny.string_of(d_670_valueOrError0_))
+        d_669_mpl_ = (d_670_valueOrError0_).Extract()
+        d_671_namespace_: _dafny.Seq
+        d_672_name_: _dafny.Seq
+        out257_: _dafny.Seq
+        out258_: _dafny.Seq
+        out257_, out258_ = TestUtils.default__.NamespaceAndName(0)
+        d_671_namespace_ = out257_
+        d_672_name_ = out258_
+        d_673_rawAESKeyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+        d_674_valueOrError1_: Wrappers.Result = None
+        out259_: Wrappers.Result
+        out259_ = (d_669_mpl_).CreateRawAesKeyring(AwsCryptographyMaterialProvidersTypes.CreateRawAesKeyringInput_CreateRawAesKeyringInput(d_671_namespace_, d_672_name_, _dafny.Seq([0 for d_675_i_ in range(32)]), AwsCryptographyMaterialProvidersTypes.AesWrappingAlg_ALG__AES256__GCM__IV12__TAG16()))
+        d_674_valueOrError1_ = out259_
+        if not(not((d_674_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestMultiKeyring.dfy(316,25): " + _dafny.string_of(d_674_valueOrError1_))
+        d_673_rawAESKeyring_ = (d_674_valueOrError1_).Extract()
+        res = d_673_rawAESKeyring_
         return res
         return res
 
@@ -566,25 +569,25 @@ class default__:
 
 class StaticKeyring(AwsCryptographyMaterialProvidersTypes.IKeyring):
     def  __init__(self):
-        self._encryptionMaterials: Wrappers.Option = Wrappers.Option.default()()
-        self._decryptionMaterials: Wrappers.Option = Wrappers.Option.default()()
+        self._i_encryptionMaterials: Wrappers.Option = Wrappers.Option.default()()
+        self._i_decryptionMaterials: Wrappers.Option = Wrappers.Option.default()()
         pass
 
     def __dafnystr__(self) -> str:
         return "TestMultiKeyring.StaticKeyring"
     def OnDecrypt(self, input):
-        out192_: Wrappers.Result
-        out192_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnDecrypt(self, input)
-        return out192_
+        out260_: Wrappers.Result
+        out260_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnDecrypt(self, input)
+        return out260_
 
     def OnEncrypt(self, input):
-        out193_: Wrappers.Result
-        out193_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnEncrypt(self, input)
-        return out193_
+        out261_: Wrappers.Result
+        out261_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnEncrypt(self, input)
+        return out261_
 
     def ctor__(self, encryptionMaterials, decryptionMaterials):
-        (self)._encryptionMaterials = encryptionMaterials
-        (self)._decryptionMaterials = decryptionMaterials
+        (self)._i_encryptionMaterials = encryptionMaterials
+        (self)._i_decryptionMaterials = decryptionMaterials
 
     def OnEncrypt_k(self, input):
         res: Wrappers.Result = None
@@ -592,9 +595,9 @@ class StaticKeyring(AwsCryptographyMaterialProvidersTypes.IKeyring):
             res = Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.OnEncryptOutput_OnEncryptOutput(((self).encryptionMaterials).value))
             return res
         elif True:
-            d_480_exception_: AwsCryptographyMaterialProvidersTypes.Error
-            d_480_exception_ = AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Failure"))
-            res = Wrappers.Result_Failure(d_480_exception_)
+            d_676_exception_: AwsCryptographyMaterialProvidersTypes.Error
+            d_676_exception_ = AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Failure"))
+            res = Wrappers.Result_Failure(d_676_exception_)
             return res
         return res
 
@@ -604,18 +607,18 @@ class StaticKeyring(AwsCryptographyMaterialProvidersTypes.IKeyring):
             res = Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.OnDecryptOutput_OnDecryptOutput(((self).decryptionMaterials).value))
             return res
         elif True:
-            d_481_exception_: AwsCryptographyMaterialProvidersTypes.Error
-            d_481_exception_ = AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Failure"))
-            res = Wrappers.Result_Failure(d_481_exception_)
+            d_677_exception_: AwsCryptographyMaterialProvidersTypes.Error
+            d_677_exception_ = AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Failure"))
+            res = Wrappers.Result_Failure(d_677_exception_)
             return res
         return res
 
     @property
     def encryptionMaterials(self):
-        return self._encryptionMaterials
+        return self._i_encryptionMaterials
     @property
     def decryptionMaterials(self):
-        return self._decryptionMaterials
+        return self._i_decryptionMaterials
 
 class FailingKeyring(AwsCryptographyMaterialProvidersTypes.IKeyring):
     def  __init__(self):
@@ -624,14 +627,14 @@ class FailingKeyring(AwsCryptographyMaterialProvidersTypes.IKeyring):
     def __dafnystr__(self) -> str:
         return "TestMultiKeyring.FailingKeyring"
     def OnDecrypt(self, input):
-        out194_: Wrappers.Result
-        out194_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnDecrypt(self, input)
-        return out194_
+        out262_: Wrappers.Result
+        out262_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnDecrypt(self, input)
+        return out262_
 
     def OnEncrypt(self, input):
-        out195_: Wrappers.Result
-        out195_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnEncrypt(self, input)
-        return out195_
+        out263_: Wrappers.Result
+        out263_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnEncrypt(self, input)
+        return out263_
 
     def ctor__(self):
         pass
@@ -639,17 +642,17 @@ class FailingKeyring(AwsCryptographyMaterialProvidersTypes.IKeyring):
 
     def OnEncrypt_k(self, input):
         res: Wrappers.Result = None
-        d_482_exception_: AwsCryptographyMaterialProvidersTypes.Error
-        d_482_exception_ = AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Failure"))
-        res = Wrappers.Result_Failure(d_482_exception_)
+        d_678_exception_: AwsCryptographyMaterialProvidersTypes.Error
+        d_678_exception_ = AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Failure"))
+        res = Wrappers.Result_Failure(d_678_exception_)
         return res
         return res
 
     def OnDecrypt_k(self, input):
         res: Wrappers.Result = None
-        d_483_exception_: AwsCryptographyMaterialProvidersTypes.Error
-        d_483_exception_ = AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Failure"))
-        res = Wrappers.Result_Failure(d_483_exception_)
+        d_679_exception_: AwsCryptographyMaterialProvidersTypes.Error
+        d_679_exception_ = AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Failure"))
+        res = Wrappers.Result_Failure(d_679_exception_)
         return res
         return res
 

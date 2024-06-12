@@ -19,12 +19,14 @@ import standard_library.internaldafny.generated.Relations as Relations
 import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
 import standard_library.internaldafny.generated.Math as Math
 import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.Actions as Actions
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes as AwsCryptographyMaterialProvidersTypes
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
-import standard_library.internaldafny.generated.Actions as Actions
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStoreErrorMessages as KeyStoreErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.KmsArn as KmsArn
 import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
 import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
@@ -36,8 +38,6 @@ import standard_library.internaldafny.generated.Time as Time
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreOperations as AwsCryptographyKeyStoreOperations
 import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
 import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
-import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws as Com_Amazonaws
-import com_amazonaws_dynamodb.internaldafny.generated.Com as Com
 import aws_cryptographic_materialproviders.internaldafny.generated.KeyStore as KeyStore
 import standard_library.internaldafny.generated.Base64 as Base64
 import aws_cryptographic_materialproviders.internaldafny.generated.AlgorithmSuites as AlgorithmSuites
@@ -64,6 +64,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapp
 import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
 import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
 import aws_cryptographic_materialproviders.internaldafny.generated.EdkWrapping as EdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.ErrorMessages as ErrorMessages
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsKeyring as AwsKmsKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.StrictMultiKeyring as StrictMultiKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsDiscoveryKeyring as AwsKmsDiscoveryKeyring
@@ -123,12 +124,114 @@ class default__:
     def  __init__(self):
         pass
 
+    @staticmethod
+    def EncodeEncryptionContext(input):
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.Map)()
+        d_0_encodedEncryptionContext_: _dafny.Set
+        def iife0_():
+            coll0_ = _dafny.Set()
+            compr_0_: _dafny.Seq
+            for compr_0_ in (input).keys.Elements:
+                d_1_k_: _dafny.Seq = compr_0_
+                if (d_1_k_) in (input):
+                    coll0_ = coll0_.union(_dafny.Set([(UTF8.default__.Encode(d_1_k_), UTF8.default__.Encode((input)[d_1_k_]), d_1_k_)]))
+            return _dafny.Set(coll0_)
+        d_0_encodedEncryptionContext_ = iife0_()
+        
+        d_2_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        def lambda0_(forall_var_0_):
+            def iife1_(_pat_let0_0):
+                def iife2_(d_4_encoded_):
+                    return ((d_4_encoded_).is_Success) and (((d_3_i_)[2]) == ((d_4_encoded_).value))
+                return iife2_(_pat_let0_0)
+            d_3_i_: tuple = forall_var_0_
+            return not ((d_3_i_) in (d_0_encodedEncryptionContext_)) or (((((d_3_i_)[0]).is_Success) and (((d_3_i_)[1]).is_Success)) and (iife1_(UTF8.default__.Decode(((d_3_i_)[0]).value))))
+
+        d_2_valueOrError0_ = Wrappers.default__.Need(_dafny.quantifier((d_0_encodedEncryptionContext_).Elements, True, lambda0_), _dafny.Seq("Unable to encode string"))
+        if (d_2_valueOrError0_).IsFailure():
+            output = (d_2_valueOrError0_).PropagateFailure()
+            return output
+        def iife3_():
+            coll1_ = _dafny.Map()
+            compr_1_: tuple
+            for compr_1_ in (d_0_encodedEncryptionContext_).Elements:
+                d_5_i_: tuple = compr_1_
+                if (d_5_i_) in (d_0_encodedEncryptionContext_):
+                    coll1_[((d_5_i_)[0]).value] = ((d_5_i_)[1]).value
+            return _dafny.Map(coll1_)
+        output = Wrappers.Result_Success(iife3_()
+)
+        return output
+
+    @staticmethod
+    def DecodeEncryptionContext(input):
+        output: Wrappers.Result = Wrappers.Result.default(_dafny.Map)()
+        d_6_decodedEncryptionContext_: _dafny.Set
+        def iife4_():
+            coll2_ = _dafny.Set()
+            compr_2_: _dafny.Seq
+            for compr_2_ in (input).keys.Elements:
+                d_7_k_: _dafny.Seq = compr_2_
+                if (d_7_k_) in (input):
+                    coll2_ = coll2_.union(_dafny.Set([(UTF8.default__.Decode(d_7_k_), UTF8.default__.Decode((input)[d_7_k_]), d_7_k_)]))
+            return _dafny.Set(coll2_)
+        d_6_decodedEncryptionContext_ = iife4_()
+        
+        d_8_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        def lambda1_(forall_var_1_):
+            def iife5_(_pat_let1_0):
+                def iife6_(d_10_decoded_):
+                    return ((d_10_decoded_).is_Success) and (((d_9_i_)[2]) == ((d_10_decoded_).value))
+                return iife6_(_pat_let1_0)
+            d_9_i_: tuple = forall_var_1_
+            return not ((d_9_i_) in (d_6_decodedEncryptionContext_)) or (((((d_9_i_)[0]).is_Success) and (((d_9_i_)[1]).is_Success)) and (iife5_(UTF8.default__.Encode(((d_9_i_)[0]).value))))
+
+        d_8_valueOrError0_ = Wrappers.default__.Need(_dafny.quantifier((d_6_decodedEncryptionContext_).Elements, True, lambda1_), _dafny.Seq("Unable to decode string"))
+        if (d_8_valueOrError0_).IsFailure():
+            output = (d_8_valueOrError0_).PropagateFailure()
+            return output
+        def iife7_():
+            coll3_ = _dafny.Map()
+            compr_3_: tuple
+            for compr_3_ in (d_6_decodedEncryptionContext_).Elements:
+                d_11_i_: tuple = compr_3_
+                if (d_11_i_) in (d_6_decodedEncryptionContext_):
+                    coll3_[((d_11_i_)[0]).value] = ((d_11_i_)[1]).value
+            return _dafny.Map(coll3_)
+        output = Wrappers.Result_Success(iife7_()
+)
+        return output
+
     @_dafny.classproperty
     def branchKeyStoreName(instance):
         return _dafny.Seq("KeyStoreDdbTable")
     @_dafny.classproperty
     def logicalKeyStoreName(instance):
         return default__.branchKeyStoreName
+    @_dafny.classproperty
+    def MrkArnEast(instance):
+        return _dafny.Seq("arn:aws:kms:us-east-1:658956600833:key/mrk-80bd8ecdcd4342aebd84b7dc9da498a7")
+    @_dafny.classproperty
+    def KmsConfigEast(instance):
+        return AwsCryptographyKeyStoreTypes.KMSConfiguration_kmsKeyArn(default__.MrkArnEast)
+    @_dafny.classproperty
+    def MrkArnWest(instance):
+        return _dafny.Seq("arn:aws:kms:us-west-2:658956600833:key/mrk-80bd8ecdcd4342aebd84b7dc9da498a7")
+    @_dafny.classproperty
+    def KmsConfigWest(instance):
+        return AwsCryptographyKeyStoreTypes.KMSConfiguration_kmsKeyArn(default__.MrkArnWest)
+    @_dafny.classproperty
+    def KmsMrkConfigEast(instance):
+        return AwsCryptographyKeyStoreTypes.KMSConfiguration_kmsMRKeyArn(default__.MrkArnEast)
+    @_dafny.classproperty
+    def KmsMrkConfigWest(instance):
+        return AwsCryptographyKeyStoreTypes.KMSConfiguration_kmsMRKeyArn(default__.MrkArnWest)
+    @_dafny.classproperty
+    def MrkArnAP(instance):
+        return _dafny.Seq("arn:aws:kms:ap-south-2:658956600833:key/mrk-80bd8ecdcd4342aebd84b7dc9da498a7")
+    @_dafny.classproperty
+    def KmsMrkConfigAP(instance):
+        return AwsCryptographyKeyStoreTypes.KMSConfiguration_kmsMRKeyArn(default__.MrkArnAP)
     @_dafny.classproperty
     def branchKeyId(instance):
         return _dafny.Seq("75789115-1deb-4fe3-a2ec-be9e885d1945")
@@ -145,8 +248,32 @@ class default__:
     def keyArn(instance):
         return _dafny.Seq("arn:aws:kms:us-west-2:370957321024:key/9d989aa2-2f9c-438c-a745-cc57d3ad0126")
     @_dafny.classproperty
-    def mkrKeyArn(instance):
-        return _dafny.Seq("arn:aws:kms:us-west-2:370957321024:key/mrk-63d386cb70614ea59b32ad65c9315297")
-    @_dafny.classproperty
     def keyId(instance):
         return _dafny.Seq("9d989aa2-2f9c-438c-a745-cc57d3ad0126")
+    @_dafny.classproperty
+    def mrkRsaKeyArn(instance):
+        return _dafny.Seq("arn:aws:kms:us-west-2:370957321024:key/mrk-63d386cb70614ea59b32ad65c9315297")
+    @_dafny.classproperty
+    def KmsMrkEC(instance):
+        return _dafny.Map({UTF8.default__.EncodeAscii(_dafny.Seq("abc")): UTF8.default__.EncodeAscii(_dafny.Seq("123"))})
+    @_dafny.classproperty
+    def EastBranchKey(instance):
+        return _dafny.Seq("MyEastBranch2")
+    @_dafny.classproperty
+    def WestBranchKey(instance):
+        return _dafny.Seq("MyWestBranch2")
+    @_dafny.classproperty
+    def publicKeyArn(instance):
+        return _dafny.Seq("arn:aws:kms:us-west-2:658956600833:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f")
+    @_dafny.classproperty
+    def postalHornKeyArn(instance):
+        return _dafny.Seq("arn:aws:kms:us-west-2:370957321024:key/bc127593-f7da-452c-a1f3-cd34c46f81f8")
+    @_dafny.classproperty
+    def kmsKeyAlias(instance):
+        return _dafny.Seq("arn:aws:kms:us-west-2:370957321024:alias/postalHorn")
+    @_dafny.classproperty
+    def postalHornBranchKeyId(instance):
+        return _dafny.Seq("682dfba7-4c35-491d-8d6a-5a9c56194061")
+    @_dafny.classproperty
+    def postalHornBranchKeyActiveVersion(instance):
+        return _dafny.Seq("6b7a8ef4-8c1c-4f63-b196-a6ef7e496e50")

@@ -36,9 +36,9 @@ class default__:
     @staticmethod
     def ToArray(xs):
         a: _dafny.Array = _dafny.Array(None, 0)
-        def lambda0_(d_24_xs_):
-            def lambda1_(d_25_i_):
-                return (d_24_xs_)[d_25_i_]
+        def lambda0_(d_15_xs_):
+            def lambda1_(d_16_i_):
+                return (d_15_xs_)[d_16_i_]
 
             return lambda1_
 
@@ -55,22 +55,22 @@ class default__:
             coll0_ = _dafny.Set()
             compr_0_: TypeVar('T__')
             for compr_0_ in (xs).Elements:
-                d_26_x_: TypeVar('T__') = compr_0_
-                if (d_26_x_) in (xs):
-                    coll0_ = coll0_.union(_dafny.Set([d_26_x_]))
+                d_17_x_: TypeVar('T__') = compr_0_
+                if (d_17_x_) in (xs):
+                    coll0_ = coll0_.union(_dafny.Set([d_17_x_]))
             return _dafny.Set(coll0_)
         return iife0_()
         
 
     @staticmethod
     def IndexOf(xs, v):
-        d_27___accumulator_ = 0
+        d_18___accumulator_ = 0
         while True:
             with _dafny.label():
                 if ((xs)[0]) == (v):
-                    return (0) + (d_27___accumulator_)
+                    return (0) + (d_18___accumulator_)
                 elif True:
-                    d_27___accumulator_ = (d_27___accumulator_) + (1)
+                    d_18___accumulator_ = (d_18___accumulator_) + (1)
                     in6_ = _dafny.Seq((xs)[1::])
                     in7_ = v
                     xs = in6_
@@ -85,9 +85,9 @@ class default__:
         elif ((xs)[0]) == (v):
             return Wrappers.Option_Some(0)
         elif True:
-            d_28_o_k_ = default__.IndexOfOption(_dafny.Seq((xs)[1::]), v)
-            if (d_28_o_k_).is_Some:
-                return Wrappers.Option_Some(((d_28_o_k_).value) + (1))
+            d_19_o_k_ = default__.IndexOfOption(_dafny.Seq((xs)[1::]), v)
+            if (d_19_o_k_).is_Some:
+                return Wrappers.Option_Some(((d_19_o_k_).value) + (1))
             elif True:
                 return Wrappers.Option_None()
 
@@ -130,8 +130,8 @@ class default__:
         if (v) not in (xs):
             return xs
         elif True:
-            d_29_i_ = default__.IndexOf(xs, v)
-            return (_dafny.Seq((xs)[:d_29_i_:])) + (_dafny.Seq((xs)[(d_29_i_) + (1)::]))
+            d_20_i_ = default__.IndexOf(xs, v)
+            return (_dafny.Seq((xs)[:d_20_i_:])) + (_dafny.Seq((xs)[(d_20_i_) + (1)::]))
 
     @staticmethod
     def Insert(xs, a, pos):
@@ -139,13 +139,13 @@ class default__:
 
     @staticmethod
     def Reverse(xs):
-        d_30___accumulator_ = _dafny.Seq([])
+        d_21___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (xs) == (_dafny.Seq([])):
-                    return (d_30___accumulator_) + (_dafny.Seq([]))
+                    return (d_21___accumulator_) + (_dafny.Seq([]))
                 elif True:
-                    d_30___accumulator_ = (d_30___accumulator_) + (_dafny.Seq([(xs)[(len(xs)) - (1)]]))
+                    d_21___accumulator_ = (d_21___accumulator_) + (_dafny.Seq([(xs)[(len(xs)) - (1)]]))
                     in12_ = _dafny.Seq((xs)[0:(len(xs)) - (1):])
                     xs = in12_
                     raise _dafny.TailCall()
@@ -153,13 +153,13 @@ class default__:
 
     @staticmethod
     def Repeat(v, length):
-        d_31___accumulator_ = _dafny.Seq([])
+        d_22___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (length) == (0):
-                    return (d_31___accumulator_) + (_dafny.Seq([]))
+                    return (d_22___accumulator_) + (_dafny.Seq([]))
                 elif True:
-                    d_31___accumulator_ = (d_31___accumulator_) + (_dafny.Seq([v]))
+                    d_22___accumulator_ = (d_22___accumulator_) + (_dafny.Seq([v]))
                     in13_ = v
                     in14_ = (length) - (1)
                     v = in13_
@@ -173,19 +173,19 @@ class default__:
             return (_dafny.Seq([]), _dafny.Seq([]))
         elif True:
             let_tmp_rhs0_ = default__.Unzip(default__.DropLast(xs))
-            d_32_a_ = let_tmp_rhs0_[0]
-            d_33_b_ = let_tmp_rhs0_[1]
-            return ((d_32_a_) + (_dafny.Seq([(default__.Last(xs))[0]])), (d_33_b_) + (_dafny.Seq([(default__.Last(xs))[1]])))
+            d_23_a_ = let_tmp_rhs0_[0]
+            d_24_b_ = let_tmp_rhs0_[1]
+            return ((d_23_a_) + (_dafny.Seq([(default__.Last(xs))[0]])), (d_24_b_) + (_dafny.Seq([(default__.Last(xs))[1]])))
 
     @staticmethod
     def Zip(xs, ys):
-        d_34___accumulator_ = _dafny.Seq([])
+        d_25___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (len(xs)) == (0):
-                    return (_dafny.Seq([])) + (d_34___accumulator_)
+                    return (_dafny.Seq([])) + (d_25___accumulator_)
                 elif True:
-                    d_34___accumulator_ = (_dafny.Seq([(default__.Last(xs), default__.Last(ys))])) + (d_34___accumulator_)
+                    d_25___accumulator_ = (_dafny.Seq([(default__.Last(xs), default__.Last(ys))])) + (d_25___accumulator_)
                     in15_ = default__.DropLast(xs)
                     in16_ = default__.DropLast(ys)
                     xs = in15_
@@ -209,13 +209,13 @@ class default__:
 
     @staticmethod
     def Flatten(xs):
-        d_35___accumulator_ = _dafny.Seq([])
+        d_26___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (len(xs)) == (0):
-                    return (d_35___accumulator_) + (_dafny.Seq([]))
+                    return (d_26___accumulator_) + (_dafny.Seq([]))
                 elif True:
-                    d_35___accumulator_ = (d_35___accumulator_) + ((xs)[0])
+                    d_26___accumulator_ = (d_26___accumulator_) + ((xs)[0])
                     in17_ = _dafny.Seq((xs)[1::])
                     xs = in17_
                     raise _dafny.TailCall()
@@ -223,13 +223,13 @@ class default__:
 
     @staticmethod
     def FlattenReverse(xs):
-        d_36___accumulator_ = _dafny.Seq([])
+        d_27___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (len(xs)) == (0):
-                    return (_dafny.Seq([])) + (d_36___accumulator_)
+                    return (_dafny.Seq([])) + (d_27___accumulator_)
                 elif True:
-                    d_36___accumulator_ = (default__.Last(xs)) + (d_36___accumulator_)
+                    d_27___accumulator_ = (default__.Last(xs)) + (d_27___accumulator_)
                     in18_ = default__.DropLast(xs)
                     xs = in18_
                     raise _dafny.TailCall()
@@ -237,34 +237,34 @@ class default__:
 
     @staticmethod
     def Map(f, xs):
-        return _dafny.Seq([f((xs)[d_37_i_]) for d_37_i_ in range(len(xs))])
+        return _dafny.Seq([f((xs)[d_28_i_]) for d_28_i_ in range(len(xs))])
 
     @staticmethod
     def MapWithResult(f, xs):
         if (len(xs)) == (0):
             return Wrappers.Result_Success(_dafny.Seq([]))
         elif True:
-            d_38_valueOrError0_ = f((xs)[0])
-            if (d_38_valueOrError0_).IsFailure():
-                return (d_38_valueOrError0_).PropagateFailure()
+            d_29_valueOrError0_ = f((xs)[0])
+            if (d_29_valueOrError0_).IsFailure():
+                return (d_29_valueOrError0_).PropagateFailure()
             elif True:
-                d_39_head_ = (d_38_valueOrError0_).Extract()
-                d_40_valueOrError1_ = default__.MapWithResult(f, _dafny.Seq((xs)[1::]))
-                if (d_40_valueOrError1_).IsFailure():
-                    return (d_40_valueOrError1_).PropagateFailure()
+                d_30_head_ = (d_29_valueOrError0_).Extract()
+                d_31_valueOrError1_ = default__.MapWithResult(f, _dafny.Seq((xs)[1::]))
+                if (d_31_valueOrError1_).IsFailure():
+                    return (d_31_valueOrError1_).PropagateFailure()
                 elif True:
-                    d_41_tail_ = (d_40_valueOrError1_).Extract()
-                    return Wrappers.Result_Success((_dafny.Seq([d_39_head_])) + (d_41_tail_))
+                    d_32_tail_ = (d_31_valueOrError1_).Extract()
+                    return Wrappers.Result_Success((_dafny.Seq([d_30_head_])) + (d_32_tail_))
 
     @staticmethod
     def Filter(f, xs):
-        d_42___accumulator_ = _dafny.Seq([])
+        d_33___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (len(xs)) == (0):
-                    return (d_42___accumulator_) + (_dafny.Seq([]))
+                    return (d_33___accumulator_) + (_dafny.Seq([]))
                 elif True:
-                    d_42___accumulator_ = (d_42___accumulator_) + ((_dafny.Seq([(xs)[0]]) if f((xs)[0]) else _dafny.Seq([])))
+                    d_33___accumulator_ = (d_33___accumulator_) + ((_dafny.Seq([(xs)[0]]) if f((xs)[0]) else _dafny.Seq([])))
                     in19_ = f
                     in20_ = _dafny.Seq((xs)[1::])
                     f = in19_
@@ -300,30 +300,30 @@ class default__:
         result: _dafny.Seq = _dafny.Seq({})
         result = _dafny.Seq([])
         lo0_ = 0
-        for d_43_i_ in range(len(xs)-1, lo0_-1, -1):
-            d_44_next_: _dafny.Seq
-            d_44_next_ = f((xs)[d_43_i_])
-            result = (d_44_next_) + (result)
+        for d_34_i_ in range(len(xs)-1, lo0_-1, -1):
+            d_35_next_: _dafny.Seq
+            d_35_next_ = f((xs)[d_34_i_])
+            result = (d_35_next_) + (result)
         return result
 
     @staticmethod
     def SetToSeq(s):
         xs: _dafny.Seq = _dafny.Seq({})
         xs = _dafny.Seq([])
-        d_45_left_: _dafny.Set
-        d_45_left_ = s
-        while (d_45_left_) != (_dafny.Set({})):
-            d_46_x_: TypeVar('T__')
+        d_36_left_: _dafny.Set
+        d_36_left_ = s
+        while (d_36_left_) != (_dafny.Set({})):
+            d_37_x_: TypeVar('T__')
             with _dafny.label("_ASSIGN_SUCH_THAT_d_0"):
                 assign_such_that_0_: TypeVar('T__')
-                for assign_such_that_0_ in (d_45_left_).Elements:
-                    d_46_x_ = assign_such_that_0_
-                    if (d_46_x_) in (d_45_left_):
+                for assign_such_that_0_ in (d_36_left_).Elements:
+                    d_37_x_ = assign_such_that_0_
+                    if (d_37_x_) in (d_36_left_):
                         raise _dafny.Break("_ASSIGN_SUCH_THAT_d_0")
                 raise Exception("assign-such-that search produced no value (line 872)")
                 pass
-            d_45_left_ = (d_45_left_) - (_dafny.Set({d_46_x_}))
-            xs = (xs) + (_dafny.Seq([d_46_x_]))
+            d_36_left_ = (d_36_left_) - (_dafny.Set({d_37_x_}))
+            xs = (xs) + (_dafny.Seq([d_37_x_]))
         return xs
 
     @staticmethod

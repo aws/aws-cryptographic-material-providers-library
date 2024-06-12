@@ -70,6 +70,8 @@ import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptograp
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStoreErrorMessages as KeyStoreErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.KmsArn as KmsArn
 import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
 import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
@@ -79,8 +81,6 @@ import aws_cryptographic_materialproviders.internaldafny.generated.GetKeys as Ge
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreOperations as AwsCryptographyKeyStoreOperations
 import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
 import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
-import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws as Com_Amazonaws
-import com_amazonaws_dynamodb.internaldafny.generated.Com as Com
 import aws_cryptographic_materialproviders.internaldafny.generated.KeyStore as KeyStore
 import aws_cryptographic_materialproviders.internaldafny.generated.AlgorithmSuites as AlgorithmSuites
 import aws_cryptographic_materialproviders.internaldafny.generated.Materials as Materials
@@ -88,7 +88,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.Keyring as Ke
 import aws_cryptographic_materialproviders.internaldafny.generated.MultiKeyring as MultiKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkAreUnique as AwsKmsMrkAreUnique
 
-# Module: aws_cryptographic_materialproviders.internaldafny.generated.Constants
+# Module: Constants
 
 class default__:
     def  __init__(self):
@@ -96,16 +96,16 @@ class default__:
 
     @_dafny.classproperty
     def PROVIDER__ID(instance):
-        d_408_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115])
-        return d_408_s_
+        d_424_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115])
+        return d_424_s_
     @_dafny.classproperty
     def PROVIDER__ID__HIERARCHY(instance):
-        d_409_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115, 45, 104, 105, 101, 114, 97, 114, 99, 104, 121])
-        return d_409_s_
+        d_425_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115, 45, 104, 105, 101, 114, 97, 114, 99, 104, 121])
+        return d_425_s_
     @_dafny.classproperty
     def RSA__PROVIDER__ID(instance):
-        d_410_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115, 45, 114, 115, 97])
-        return d_410_s_
+        d_426_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115, 45, 114, 115, 97])
+        return d_426_s_
 
 class AwsKmsEncryptedDataKey:
     def  __init__(self):
@@ -115,8 +115,8 @@ class AwsKmsEncryptedDataKey:
     def default():
         return AwsCryptographyMaterialProvidersTypes.EncryptedDataKey.default()()
     def _Is(source__):
-        d_411_edk_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey = source__
-        return (((d_411_edk_).keyProviderId) == (default__.PROVIDER__ID)) and (UTF8.default__.ValidUTF8Seq((d_411_edk_).keyProviderInfo))
+        d_427_edk_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey = source__
+        return (((d_427_edk_).keyProviderId) == (default__.PROVIDER__ID)) and (UTF8.default__.ValidUTF8Seq((d_427_edk_).keyProviderInfo))
 
 class AwsKmsEdkHelper:
     @classmethod

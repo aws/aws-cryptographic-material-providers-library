@@ -70,6 +70,8 @@ import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptograp
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStoreErrorMessages as KeyStoreErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.KmsArn as KmsArn
 import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
 import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
@@ -79,8 +81,6 @@ import aws_cryptographic_materialproviders.internaldafny.generated.GetKeys as Ge
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreOperations as AwsCryptographyKeyStoreOperations
 import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
 import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
-import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws as Com_Amazonaws
-import com_amazonaws_dynamodb.internaldafny.generated.Com as Com
 import aws_cryptographic_materialproviders.internaldafny.generated.KeyStore as KeyStore
 import aws_cryptographic_materialproviders.internaldafny.generated.AlgorithmSuites as AlgorithmSuites
 import aws_cryptographic_materialproviders.internaldafny.generated.Materials as Materials
@@ -92,9 +92,10 @@ import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapp
 import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
 import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
 import aws_cryptographic_materialproviders.internaldafny.generated.EdkWrapping as EdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.ErrorMessages as ErrorMessages
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsKeyring as AwsKmsKeyring
 
-# Module: aws_cryptographic_materialproviders.internaldafny.generated.StrictMultiKeyring
+# Module: StrictMultiKeyring
 
 class default__:
     def  __init__(self):
@@ -103,100 +104,111 @@ class default__:
     @staticmethod
     def StrictMultiKeyring(generator, awsKmsKeys, clientSupplier, grantTokens):
         output: Wrappers.Result = None
-        pat_let_tv153_ = awsKmsKeys
-        pat_let_tv154_ = awsKmsKeys
-        d_596_allStrings_: _dafny.Seq
-        def lambda57_(source19_):
-            if source19_.is_None:
-                return (pat_let_tv153_).UnwrapOr(_dafny.Seq([]))
-            elif True:
-                d_597___mcc_h0_ = source19_.value
-                d_598_g_ = d_597___mcc_h0_
-                return (_dafny.Seq([d_598_g_])) + ((pat_let_tv154_).UnwrapOr(_dafny.Seq([])))
+        pat_let_tv163_ = awsKmsKeys
+        pat_let_tv164_ = awsKmsKeys
+        d_632_allStrings_: _dafny.Seq
+        def lambda63_():
+            source20_ = generator
+            unmatched20 = True
+            if unmatched20:
+                if source20_.is_Some:
+                    d_633_g_ = source20_.value
+                    unmatched20 = False
+                    return (_dafny.Seq([d_633_g_])) + ((pat_let_tv163_).UnwrapOr(_dafny.Seq([])))
+            if unmatched20:
+                unmatched20 = False
+                return (pat_let_tv164_).UnwrapOr(_dafny.Seq([]))
+            raise Exception("unexpected control point")
 
-        d_596_allStrings_ = lambda57_(generator)
-        d_599_allIdentifiers_: _dafny.Seq
-        d_600_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        d_600_valueOrError0_ = (Seq.default__.MapWithResult(AwsArnParsing.default__.IsAwsKmsIdentifierString, d_596_allStrings_)).MapFailure(AwsKmsUtils.default__.WrapStringToError)
-        if (d_600_valueOrError0_).IsFailure():
-            output = (d_600_valueOrError0_).PropagateFailure()
+        d_632_allStrings_ = lambda63_()
+        d_634_allIdentifiers_: _dafny.Seq
+        d_635_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_635_valueOrError0_ = (Seq.default__.MapWithResult(AwsArnParsing.default__.IsAwsKmsIdentifierString, d_632_allStrings_)).MapFailure(AwsKmsUtils.default__.WrapStringToError)
+        if (d_635_valueOrError0_).IsFailure():
+            output = (d_635_valueOrError0_).PropagateFailure()
             return output
-        d_599_allIdentifiers_ = (d_600_valueOrError0_).Extract()
-        d_601_generatorKeyring_: Wrappers.Option = Wrappers.Option.default()()
-        source20_ = generator
-        if source20_.is_None:
-            d_601_generatorKeyring_ = Wrappers.Option_None()
-        elif True:
-            d_602___mcc_h1_ = source20_.value
-            d_603_generatorIdentifier_ = d_602___mcc_h1_
-            d_604_arn_: AwsArnParsing.AwsKmsIdentifier
-            d_605_valueOrError1_: Wrappers.Result = None
-            d_605_valueOrError1_ = (AwsArnParsing.default__.IsAwsKmsIdentifierString(d_603_generatorIdentifier_)).MapFailure(AwsKmsUtils.default__.WrapStringToError)
-            if (d_605_valueOrError1_).IsFailure():
-                output = (d_605_valueOrError1_).PropagateFailure()
-                return output
-            d_604_arn_ = (d_605_valueOrError1_).Extract()
-            d_606_region_: Wrappers.Option
-            d_606_region_ = AwsArnParsing.default__.GetRegion(d_604_arn_)
-            d_607_client_: ComAmazonawsKmsTypes.IKMSClient
-            d_608_valueOrError2_: Wrappers.Result = None
-            out90_: Wrappers.Result
-            out90_ = (clientSupplier).GetClient(AwsCryptographyMaterialProvidersTypes.GetClientInput_GetClientInput((d_606_region_).UnwrapOr(_dafny.Seq(""))))
-            d_608_valueOrError2_ = out90_
-            if (d_608_valueOrError2_).IsFailure():
-                output = (d_608_valueOrError2_).PropagateFailure()
-                return output
-            d_607_client_ = (d_608_valueOrError2_).Extract()
-            d_609_g_: AwsKmsKeyring.AwsKmsKeyring
-            nw6_ = AwsKmsKeyring.AwsKmsKeyring()
-            nw6_.ctor__(d_607_client_, d_603_generatorIdentifier_, (grantTokens).UnwrapOr(_dafny.Seq([])))
-            d_609_g_ = nw6_
-            d_601_generatorKeyring_ = Wrappers.Option_Some(d_609_g_)
-        d_610_children_: _dafny.Seq
-        d_610_children_ = _dafny.Seq([])
-        source21_ = awsKmsKeys
-        if source21_.is_None:
-            d_610_children_ = _dafny.Seq([])
-        elif True:
-            d_611___mcc_h2_ = source21_.value
-            d_612_childIdentifiers_ = d_611___mcc_h2_
-            hi2_ = len(d_612_childIdentifiers_)
-            for d_613_index_ in range(0, hi2_):
-                d_614_childIdentifier_: _dafny.Seq
-                d_614_childIdentifier_ = (d_612_childIdentifiers_)[d_613_index_]
-                d_615_info_: AwsArnParsing.AwsKmsIdentifier
-                d_616_valueOrError3_: Wrappers.Result = None
-                d_616_valueOrError3_ = (AwsArnParsing.default__.IsAwsKmsIdentifierString(d_614_childIdentifier_)).MapFailure(AwsKmsUtils.default__.WrapStringToError)
-                if (d_616_valueOrError3_).IsFailure():
-                    output = (d_616_valueOrError3_).PropagateFailure()
+        d_634_allIdentifiers_ = (d_635_valueOrError0_).Extract()
+        d_636_generatorKeyring_: Wrappers.Option = Wrappers.Option.default()()
+        source21_ = generator
+        unmatched21 = True
+        if unmatched21:
+            if source21_.is_Some:
+                d_637_generatorIdentifier_ = source21_.value
+                unmatched21 = False
+                d_638_arn_: AwsArnParsing.AwsKmsIdentifier
+                d_639_valueOrError1_: Wrappers.Result = None
+                d_639_valueOrError1_ = (AwsArnParsing.default__.IsAwsKmsIdentifierString(d_637_generatorIdentifier_)).MapFailure(AwsKmsUtils.default__.WrapStringToError)
+                if (d_639_valueOrError1_).IsFailure():
+                    output = (d_639_valueOrError1_).PropagateFailure()
                     return output
-                d_615_info_ = (d_616_valueOrError3_).Extract()
-                d_617_region_: Wrappers.Option
-                d_617_region_ = AwsArnParsing.default__.GetRegion(d_615_info_)
-                d_618_client_: ComAmazonawsKmsTypes.IKMSClient
-                d_619_valueOrError4_: Wrappers.Result = None
-                out91_: Wrappers.Result
-                out91_ = (clientSupplier).GetClient(AwsCryptographyMaterialProvidersTypes.GetClientInput_GetClientInput((d_617_region_).UnwrapOr(_dafny.Seq(""))))
-                d_619_valueOrError4_ = out91_
-                if (d_619_valueOrError4_).IsFailure():
-                    output = (d_619_valueOrError4_).PropagateFailure()
+                d_638_arn_ = (d_639_valueOrError1_).Extract()
+                d_640_region_: Wrappers.Option
+                d_640_region_ = AwsArnParsing.default__.GetRegion(d_638_arn_)
+                d_641_client_: ComAmazonawsKmsTypes.IKMSClient
+                d_642_valueOrError2_: Wrappers.Result = None
+                out92_: Wrappers.Result
+                out92_ = (clientSupplier).GetClient(AwsCryptographyMaterialProvidersTypes.GetClientInput_GetClientInput((d_640_region_).UnwrapOr(_dafny.Seq(""))))
+                d_642_valueOrError2_ = out92_
+                if (d_642_valueOrError2_).IsFailure():
+                    output = (d_642_valueOrError2_).PropagateFailure()
                     return output
-                d_618_client_ = (d_619_valueOrError4_).Extract()
-                d_620_keyring_: AwsKmsKeyring.AwsKmsKeyring
-                nw7_ = AwsKmsKeyring.AwsKmsKeyring()
-                nw7_.ctor__(d_618_client_, d_614_childIdentifier_, (grantTokens).UnwrapOr(_dafny.Seq([])))
-                d_620_keyring_ = nw7_
-                d_610_children_ = (d_610_children_) + (_dafny.Seq([d_620_keyring_]))
-        d_621_valueOrError5_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_621_valueOrError5_ = Wrappers.default__.Need(((d_601_generatorKeyring_).is_Some) or ((len(d_610_children_)) > (0)), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("generatorKeyring or child Keryings needed to create a multi keyring")))
-        if (d_621_valueOrError5_).IsFailure():
-            output = (d_621_valueOrError5_).PropagateFailure()
+                d_641_client_ = (d_642_valueOrError2_).Extract()
+                d_643_g_: AwsKmsKeyring.AwsKmsKeyring
+                nw6_ = AwsKmsKeyring.AwsKmsKeyring()
+                nw6_.ctor__(d_641_client_, d_637_generatorIdentifier_, (grantTokens).UnwrapOr(_dafny.Seq([])))
+                d_643_g_ = nw6_
+                d_636_generatorKeyring_ = Wrappers.Option_Some(d_643_g_)
+        if unmatched21:
+            unmatched21 = False
+            d_636_generatorKeyring_ = Wrappers.Option_None()
+        d_644_children_: _dafny.Seq
+        d_644_children_ = _dafny.Seq([])
+        source22_ = awsKmsKeys
+        unmatched22 = True
+        if unmatched22:
+            if source22_.is_Some:
+                d_645_childIdentifiers_ = source22_.value
+                unmatched22 = False
+                hi2_ = len(d_645_childIdentifiers_)
+                for d_646_index_ in range(0, hi2_):
+                    d_647_childIdentifier_: _dafny.Seq
+                    d_647_childIdentifier_ = (d_645_childIdentifiers_)[d_646_index_]
+                    d_648_info_: AwsArnParsing.AwsKmsIdentifier
+                    d_649_valueOrError3_: Wrappers.Result = None
+                    d_649_valueOrError3_ = (AwsArnParsing.default__.IsAwsKmsIdentifierString(d_647_childIdentifier_)).MapFailure(AwsKmsUtils.default__.WrapStringToError)
+                    if (d_649_valueOrError3_).IsFailure():
+                        output = (d_649_valueOrError3_).PropagateFailure()
+                        return output
+                    d_648_info_ = (d_649_valueOrError3_).Extract()
+                    d_650_region_: Wrappers.Option
+                    d_650_region_ = AwsArnParsing.default__.GetRegion(d_648_info_)
+                    d_651_client_: ComAmazonawsKmsTypes.IKMSClient
+                    d_652_valueOrError4_: Wrappers.Result = None
+                    out93_: Wrappers.Result
+                    out93_ = (clientSupplier).GetClient(AwsCryptographyMaterialProvidersTypes.GetClientInput_GetClientInput((d_650_region_).UnwrapOr(_dafny.Seq(""))))
+                    d_652_valueOrError4_ = out93_
+                    if (d_652_valueOrError4_).IsFailure():
+                        output = (d_652_valueOrError4_).PropagateFailure()
+                        return output
+                    d_651_client_ = (d_652_valueOrError4_).Extract()
+                    d_653_keyring_: AwsKmsKeyring.AwsKmsKeyring
+                    nw7_ = AwsKmsKeyring.AwsKmsKeyring()
+                    nw7_.ctor__(d_651_client_, d_647_childIdentifier_, (grantTokens).UnwrapOr(_dafny.Seq([])))
+                    d_653_keyring_ = nw7_
+                    d_644_children_ = (d_644_children_) + (_dafny.Seq([d_653_keyring_]))
+        if unmatched22:
+            unmatched22 = False
+            d_644_children_ = _dafny.Seq([])
+        d_654_valueOrError5_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_654_valueOrError5_ = Wrappers.default__.Need(((d_636_generatorKeyring_).is_Some) or ((len(d_644_children_)) > (0)), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("generatorKeyring or child Keryings needed to create a multi keyring")))
+        if (d_654_valueOrError5_).IsFailure():
+            output = (d_654_valueOrError5_).PropagateFailure()
             return output
-        d_622_keyring_: MultiKeyring.MultiKeyring
+        d_655_keyring_: MultiKeyring.MultiKeyring
         nw8_ = MultiKeyring.MultiKeyring()
-        nw8_.ctor__(d_601_generatorKeyring_, d_610_children_)
-        d_622_keyring_ = nw8_
-        output = Wrappers.Result_Success(d_622_keyring_)
+        nw8_.ctor__(d_636_generatorKeyring_, d_644_children_)
+        d_655_keyring_ = nw8_
+        output = Wrappers.Result_Success(d_655_keyring_)
         return output
         return output
 

@@ -43,8 +43,8 @@ class CodePoint:
     def default():
         return int(0)
     def _Is(source__):
-        d_52_i_: int = source__
-        return ((0) <= (d_52_i_)) and ((d_52_i_) <= (1114111))
+        d_43_i_: int = source__
+        return ((0) <= (d_43_i_)) and ((d_43_i_) <= (1114111))
 
 class HighSurrogateCodePoint:
     def  __init__(self):
@@ -54,9 +54,9 @@ class HighSurrogateCodePoint:
     def default():
         return default__.HIGH__SURROGATE__MIN
     def _Is(source__):
-        d_53_p_: int = source__
-        if CodePoint._Is(d_53_p_):
-            return ((default__.HIGH__SURROGATE__MIN) <= (d_53_p_)) and ((d_53_p_) <= (default__.HIGH__SURROGATE__MAX))
+        d_44_p_: int = source__
+        if CodePoint._Is(d_44_p_):
+            return ((default__.HIGH__SURROGATE__MIN) <= (d_44_p_)) and ((d_44_p_) <= (default__.HIGH__SURROGATE__MAX))
         return False
 
 class LowSurrogateCodePoint:
@@ -67,9 +67,9 @@ class LowSurrogateCodePoint:
     def default():
         return default__.LOW__SURROGATE__MIN
     def _Is(source__):
-        d_54_p_: int = source__
-        if CodePoint._Is(d_54_p_):
-            return ((default__.LOW__SURROGATE__MIN) <= (d_54_p_)) and ((d_54_p_) <= (default__.LOW__SURROGATE__MAX))
+        d_45_p_: int = source__
+        if CodePoint._Is(d_45_p_):
+            return ((default__.LOW__SURROGATE__MIN) <= (d_45_p_)) and ((d_45_p_) <= (default__.LOW__SURROGATE__MAX))
         return False
 
 class ScalarValue:
@@ -80,9 +80,9 @@ class ScalarValue:
     def default():
         return int(0)
     def _Is(source__):
-        d_55_p_: int = source__
-        if CodePoint._Is(d_55_p_):
-            return (((d_55_p_) < (default__.HIGH__SURROGATE__MIN)) or ((d_55_p_) > (default__.HIGH__SURROGATE__MAX))) and (((d_55_p_) < (default__.LOW__SURROGATE__MIN)) or ((d_55_p_) > (default__.LOW__SURROGATE__MAX)))
+        d_46_p_: int = source__
+        if CodePoint._Is(d_46_p_):
+            return (((d_46_p_) < (default__.HIGH__SURROGATE__MIN)) or ((d_46_p_) > (default__.HIGH__SURROGATE__MAX))) and (((d_46_p_) < (default__.LOW__SURROGATE__MIN)) or ((d_46_p_) > (default__.LOW__SURROGATE__MAX)))
         return False
 
 class AssignedCodePoint:

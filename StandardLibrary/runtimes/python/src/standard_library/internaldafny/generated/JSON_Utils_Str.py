@@ -114,15 +114,15 @@ class default__:
 
     @staticmethod
     def Join(sep, strs):
-        d_493___accumulator_ = _dafny.Seq([])
+        d_476___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (len(strs)) == (0):
-                    return (d_493___accumulator_) + (_dafny.Seq(""))
+                    return (d_476___accumulator_) + (_dafny.Seq(""))
                 elif (len(strs)) == (1):
-                    return (d_493___accumulator_) + ((strs)[0])
+                    return (d_476___accumulator_) + ((strs)[0])
                 elif True:
-                    d_493___accumulator_ = (d_493___accumulator_) + (((strs)[0]) + (sep))
+                    d_476___accumulator_ = (d_476___accumulator_) + (((strs)[0]) + (sep))
                     in201_ = sep
                     in202_ = _dafny.Seq((strs)[1::])
                     sep = in201_
@@ -132,13 +132,13 @@ class default__:
 
     @staticmethod
     def Concat(strs):
-        d_494___accumulator_ = _dafny.Seq([])
+        d_477___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (len(strs)) == (0):
-                    return (d_494___accumulator_) + (_dafny.Seq(""))
+                    return (d_477___accumulator_) + (_dafny.Seq(""))
                 elif True:
-                    d_494___accumulator_ = (d_494___accumulator_) + ((strs)[0])
+                    d_477___accumulator_ = (d_477___accumulator_) + ((strs)[0])
                     in203_ = _dafny.Seq((strs)[1::])
                     strs = in203_
                     raise _dafny.TailCall()

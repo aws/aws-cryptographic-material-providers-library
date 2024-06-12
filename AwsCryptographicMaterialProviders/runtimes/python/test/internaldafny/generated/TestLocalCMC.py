@@ -19,12 +19,14 @@ import standard_library.internaldafny.generated.Relations as Relations
 import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
 import standard_library.internaldafny.generated.Math as Math
 import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.Actions as Actions
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes as AwsCryptographyMaterialProvidersTypes
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
-import standard_library.internaldafny.generated.Actions as Actions
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStoreErrorMessages as KeyStoreErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.KmsArn as KmsArn
 import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
 import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
@@ -36,8 +38,6 @@ import standard_library.internaldafny.generated.Time as Time
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreOperations as AwsCryptographyKeyStoreOperations
 import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
 import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
-import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws as Com_Amazonaws
-import com_amazonaws_dynamodb.internaldafny.generated.Com as Com
 import aws_cryptographic_materialproviders.internaldafny.generated.KeyStore as KeyStore
 import standard_library.internaldafny.generated.Base64 as Base64
 import aws_cryptographic_materialproviders.internaldafny.generated.AlgorithmSuites as AlgorithmSuites
@@ -64,6 +64,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapp
 import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
 import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
 import aws_cryptographic_materialproviders.internaldafny.generated.EdkWrapping as EdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.ErrorMessages as ErrorMessages
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsKeyring as AwsKmsKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.StrictMultiKeyring as StrictMultiKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsDiscoveryKeyring as AwsKmsDiscoveryKeyring
@@ -118,6 +119,7 @@ import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
 import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import Fixtures as Fixtures
 import TestCreateKeyStore as TestCreateKeyStore
+import TestDiscoveryGetKeys as TestDiscoveryGetKeys
 import TestConfig as TestConfig
 import TestGetKeys as TestGetKeys
 import CleanupItems as CleanupItems
@@ -125,6 +127,7 @@ import TestCreateKeys as TestCreateKeys
 import TestVersionKey as TestVersionKey
 import TestUtils as TestUtils
 import TestIntermediateKeyWrapping as TestIntermediateKeyWrapping
+import TestErrorMessages as TestErrorMessages
 import TestDefaultClientProvider as TestDefaultClientProvider
 import TestRawAESKeyring as TestRawAESKeyring
 import TestMultiKeyring as TestMultiKeyring
@@ -157,86 +160,86 @@ class default__:
 
     @staticmethod
     def LocalCMCBasics():
-        d_707_st_: LocalCMC.LocalCMC
-        nw9_ = LocalCMC.LocalCMC()
-        nw9_.ctor__(100, 1)
-        d_707_st_ = nw9_
-        d_708_abc_: _dafny.Seq
-        d_708_abc_ = UTF8.default__.EncodeAscii(_dafny.Seq("abc"))
-        d_709_cde_: _dafny.Seq
-        d_709_cde_ = UTF8.default__.EncodeAscii(_dafny.Seq("cde"))
-        d_710_res_: Wrappers.Result
-        out280_: Wrappers.Result
-        out280_ = (d_707_st_).GetCacheEntryWithTime(default__.MakeGet(d_708_abc_), 10000)
-        d_710_res_ = out280_
-        if not((d_710_res_).is_Failure):
+        d_938_st_: LocalCMC.LocalCMC
+        nw10_ = LocalCMC.LocalCMC()
+        nw10_.ctor__(100, 1)
+        d_938_st_ = nw10_
+        d_939_abc_: _dafny.Seq
+        d_939_abc_ = UTF8.default__.EncodeAscii(_dafny.Seq("abc"))
+        d_940_cde_: _dafny.Seq
+        d_940_cde_ = UTF8.default__.EncodeAscii(_dafny.Seq("cde"))
+        d_941_res_: Wrappers.Result
+        out357_: Wrappers.Result
+        out357_ = (d_938_st_).GetCacheEntryWithTime(default__.MakeGet(d_939_abc_), 10000)
+        d_941_res_ = out357_
+        if not((d_941_res_).is_Failure):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(56,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not(((d_710_res_).error).is_EntryDoesNotExist):
+        if not(((d_941_res_).error).is_EntryDoesNotExist):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(57,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_711_res2_: tuple
-        d_712_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
-        out281_: Wrappers.Result
-        out281_ = (d_707_st_).PutCacheEntry_k(default__.MakePut(d_708_abc_, 10000))
-        d_712_valueOrError0_ = out281_
-        if not(not((d_712_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(59,16): " + _dafny.string_of(d_712_valueOrError0_))
-        d_711_res2_ = (d_712_valueOrError0_).Extract()
-        d_713_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
-        out282_: Wrappers.Result
-        out282_ = (d_707_st_).PutCacheEntry_k(default__.MakePut(d_709_cde_, 10000))
-        d_713_valueOrError1_ = out282_
-        if not(not((d_713_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(60,12): " + _dafny.string_of(d_713_valueOrError1_))
-        d_711_res2_ = (d_713_valueOrError1_).Extract()
-        d_714_res3_: AwsCryptographyMaterialProvidersTypes.GetCacheEntryOutput
-        d_715_valueOrError2_: Wrappers.Result = None
-        out283_: Wrappers.Result
-        out283_ = (d_707_st_).GetCacheEntryWithTime(default__.MakeGet(d_708_abc_), 9999)
-        d_715_valueOrError2_ = out283_
-        if not(not((d_715_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(62,16): " + _dafny.string_of(d_715_valueOrError2_))
-        d_714_res3_ = (d_715_valueOrError2_).Extract()
-        d_716_valueOrError3_: Wrappers.Result = None
-        out284_: Wrappers.Result
-        out284_ = (d_707_st_).GetCacheEntryWithTime(default__.MakeGet(d_708_abc_), 10000)
-        d_716_valueOrError3_ = out284_
-        if not(not((d_716_valueOrError3_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(63,12): " + _dafny.string_of(d_716_valueOrError3_))
-        d_714_res3_ = (d_716_valueOrError3_).Extract()
-        out285_: Wrappers.Result
-        out285_ = (d_707_st_).GetCacheEntryWithTime(default__.MakeGet(d_708_abc_), 10001)
-        d_710_res_ = out285_
-        if not((d_710_res_).is_Failure):
+        d_942_res2_: tuple
+        d_943_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+        out358_: Wrappers.Result
+        out358_ = (d_938_st_).PutCacheEntry_k(default__.MakePut(d_939_abc_, 10000))
+        d_943_valueOrError0_ = out358_
+        if not(not((d_943_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(59,16): " + _dafny.string_of(d_943_valueOrError0_))
+        d_942_res2_ = (d_943_valueOrError0_).Extract()
+        d_944_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+        out359_: Wrappers.Result
+        out359_ = (d_938_st_).PutCacheEntry_k(default__.MakePut(d_940_cde_, 10000))
+        d_944_valueOrError1_ = out359_
+        if not(not((d_944_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(60,12): " + _dafny.string_of(d_944_valueOrError1_))
+        d_942_res2_ = (d_944_valueOrError1_).Extract()
+        d_945_res3_: AwsCryptographyMaterialProvidersTypes.GetCacheEntryOutput
+        d_946_valueOrError2_: Wrappers.Result = None
+        out360_: Wrappers.Result
+        out360_ = (d_938_st_).GetCacheEntryWithTime(default__.MakeGet(d_939_abc_), 9999)
+        d_946_valueOrError2_ = out360_
+        if not(not((d_946_valueOrError2_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(62,16): " + _dafny.string_of(d_946_valueOrError2_))
+        d_945_res3_ = (d_946_valueOrError2_).Extract()
+        d_947_valueOrError3_: Wrappers.Result = None
+        out361_: Wrappers.Result
+        out361_ = (d_938_st_).GetCacheEntryWithTime(default__.MakeGet(d_939_abc_), 10000)
+        d_947_valueOrError3_ = out361_
+        if not(not((d_947_valueOrError3_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(63,12): " + _dafny.string_of(d_947_valueOrError3_))
+        d_945_res3_ = (d_947_valueOrError3_).Extract()
+        out362_: Wrappers.Result
+        out362_ = (d_938_st_).GetCacheEntryWithTime(default__.MakeGet(d_939_abc_), 10001)
+        d_941_res_ = out362_
+        if not((d_941_res_).is_Failure):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(65,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not(((d_710_res_).error).is_EntryDoesNotExist):
+        if not(((d_941_res_).error).is_EntryDoesNotExist):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(66,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_717_valueOrError4_: Wrappers.Result = None
-        out286_: Wrappers.Result
-        out286_ = (d_707_st_).GetCacheEntryWithTime(default__.MakeGet(d_709_cde_), 9999)
-        d_717_valueOrError4_ = out286_
-        if not(not((d_717_valueOrError4_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(68,12): " + _dafny.string_of(d_717_valueOrError4_))
-        d_714_res3_ = (d_717_valueOrError4_).Extract()
-        d_718_res5_: tuple
-        d_719_valueOrError5_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
-        out287_: Wrappers.Result
-        out287_ = (d_707_st_).DeleteCacheEntry_k(default__.MakeDel(d_709_cde_))
-        d_719_valueOrError5_ = out287_
-        if not(not((d_719_valueOrError5_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(69,16): " + _dafny.string_of(d_719_valueOrError5_))
-        d_718_res5_ = (d_719_valueOrError5_).Extract()
-        out288_: Wrappers.Result
-        out288_ = (d_707_st_).GetCacheEntryWithTime(default__.MakeGet(d_708_abc_), 9999)
-        d_710_res_ = out288_
-        if not((d_710_res_).is_Failure):
+        d_948_valueOrError4_: Wrappers.Result = None
+        out363_: Wrappers.Result
+        out363_ = (d_938_st_).GetCacheEntryWithTime(default__.MakeGet(d_940_cde_), 9999)
+        d_948_valueOrError4_ = out363_
+        if not(not((d_948_valueOrError4_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(68,12): " + _dafny.string_of(d_948_valueOrError4_))
+        d_945_res3_ = (d_948_valueOrError4_).Extract()
+        d_949_res5_: tuple
+        d_950_valueOrError5_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+        out364_: Wrappers.Result
+        out364_ = (d_938_st_).DeleteCacheEntry_k(default__.MakeDel(d_940_cde_))
+        d_950_valueOrError5_ = out364_
+        if not(not((d_950_valueOrError5_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(69,16): " + _dafny.string_of(d_950_valueOrError5_))
+        d_949_res5_ = (d_950_valueOrError5_).Extract()
+        out365_: Wrappers.Result
+        out365_ = (d_938_st_).GetCacheEntryWithTime(default__.MakeGet(d_939_abc_), 9999)
+        d_941_res_ = out365_
+        if not((d_941_res_).is_Failure):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(71,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not(((d_710_res_).error).is_EntryDoesNotExist):
+        if not(((d_941_res_).error).is_EntryDoesNotExist):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(72,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_720_valueOrError6_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
-        out289_: Wrappers.Result
-        out289_ = (d_707_st_).DeleteCacheEntry_k(default__.MakeDel(d_709_cde_))
-        d_720_valueOrError6_ = out289_
-        if not(not((d_720_valueOrError6_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(73,12): " + _dafny.string_of(d_720_valueOrError6_))
-        d_718_res5_ = (d_720_valueOrError6_).Extract()
+        d_951_valueOrError6_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+        out366_: Wrappers.Result
+        out366_ = (d_938_st_).DeleteCacheEntry_k(default__.MakeDel(d_940_cde_))
+        d_951_valueOrError6_ = out366_
+        if not(not((d_951_valueOrError6_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/LocalCMC.dfy(73,12): " + _dafny.string_of(d_951_valueOrError6_))
+        d_949_res5_ = (d_951_valueOrError6_).Extract()
 

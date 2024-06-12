@@ -67,18 +67,28 @@ class default__:
     @staticmethod
     def SignatureLength(signatureAlgorithm):
         source2_ = signatureAlgorithm
-        if source2_.is_ECDSA__P384:
+        unmatched2 = True
+        if unmatched2:
+            if source2_.is_ECDSA__P256:
+                unmatched2 = False
+                return 71
+        if unmatched2:
+            unmatched2 = False
             return 103
-        elif True:
-            return 71
+        raise Exception("unexpected control point")
 
     @staticmethod
     def FieldSize(signatureAlgorithm):
         source3_ = signatureAlgorithm
-        if source3_.is_ECDSA__P384:
+        unmatched3 = True
+        if unmatched3:
+            if source3_.is_ECDSA__P256:
+                unmatched3 = False
+                return 33
+        if unmatched3:
+            unmatched3 = False
             return 49
-        elif True:
-            return 33
+        raise Exception("unexpected control point")
 
     @staticmethod
     def KeyGen(input):

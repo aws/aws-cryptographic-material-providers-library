@@ -66,7 +66,7 @@ import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import standard_library.internaldafny.generated.Actions as Actions
 import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
 
-# Module: aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes
+# Module: AwsCryptographyKeyStoreTypes
 
 
 class DafnyCallEvent:
@@ -201,6 +201,28 @@ class CreateKeyStoreOutput_CreateKeyStoreOutput(CreateKeyStoreOutput, NamedTuple
         return f'AwsCryptographyKeyStoreTypes.CreateKeyStoreOutput.CreateKeyStoreOutput({_dafny.string_of(self.tableArn)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, CreateKeyStoreOutput_CreateKeyStoreOutput) and self.tableArn == __o.tableArn
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class Discovery:
+    @_dafny.classproperty
+    def AllSingletonConstructors(cls):
+        return [Discovery_Discovery()]
+    @classmethod
+    def default(cls, ):
+        return lambda: Discovery_Discovery()
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_Discovery(self) -> bool:
+        return isinstance(self, Discovery_Discovery)
+
+class Discovery_Discovery(Discovery, NamedTuple('Discovery', [])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyKeyStoreTypes.Discovery.Discovery'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, Discovery_Discovery)
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -397,12 +419,64 @@ class KMSConfiguration:
     @property
     def is_kmsKeyArn(self) -> bool:
         return isinstance(self, KMSConfiguration_kmsKeyArn)
+    @property
+    def is_kmsMRKeyArn(self) -> bool:
+        return isinstance(self, KMSConfiguration_kmsMRKeyArn)
+    @property
+    def is_discovery(self) -> bool:
+        return isinstance(self, KMSConfiguration_discovery)
+    @property
+    def is_mrDiscovery(self) -> bool:
+        return isinstance(self, KMSConfiguration_mrDiscovery)
 
 class KMSConfiguration_kmsKeyArn(KMSConfiguration, NamedTuple('kmsKeyArn', [('kmsKeyArn', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyKeyStoreTypes.KMSConfiguration.kmsKeyArn({_dafny.string_of(self.kmsKeyArn)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, KMSConfiguration_kmsKeyArn) and self.kmsKeyArn == __o.kmsKeyArn
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class KMSConfiguration_kmsMRKeyArn(KMSConfiguration, NamedTuple('kmsMRKeyArn', [('kmsMRKeyArn', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyKeyStoreTypes.KMSConfiguration.kmsMRKeyArn({_dafny.string_of(self.kmsMRKeyArn)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KMSConfiguration_kmsMRKeyArn) and self.kmsMRKeyArn == __o.kmsMRKeyArn
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class KMSConfiguration_discovery(KMSConfiguration, NamedTuple('discovery', [('discovery', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyKeyStoreTypes.KMSConfiguration.discovery({_dafny.string_of(self.discovery)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KMSConfiguration_discovery) and self.discovery == __o.discovery
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class KMSConfiguration_mrDiscovery(KMSConfiguration, NamedTuple('mrDiscovery', [('mrDiscovery', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyKeyStoreTypes.KMSConfiguration.mrDiscovery({_dafny.string_of(self.mrDiscovery)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KMSConfiguration_mrDiscovery) and self.mrDiscovery == __o.mrDiscovery
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class MRDiscovery:
+    @classmethod
+    def default(cls, ):
+        return lambda: MRDiscovery_MRDiscovery(_dafny.Seq(""))
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_MRDiscovery(self) -> bool:
+        return isinstance(self, MRDiscovery_MRDiscovery)
+
+class MRDiscovery_MRDiscovery(MRDiscovery, NamedTuple('MRDiscovery', [('region', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyKeyStoreTypes.MRDiscovery.MRDiscovery({_dafny.string_of(self.region)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, MRDiscovery_MRDiscovery) and self.region == __o.region
     def __hash__(self) -> int:
         return super().__hash__()
 

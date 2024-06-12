@@ -65,14 +65,14 @@ class Chain:
     def is_Chain(self) -> bool:
         return isinstance(self, Chain_Chain)
     def Length(self):
-        d_440___accumulator_ = 0
+        d_431___accumulator_ = 0
         _this = self
         while True:
             with _dafny.label():
                 if (_this).is_Empty:
-                    return (0) + (d_440___accumulator_)
+                    return (0) + (d_431___accumulator_)
                 elif True:
-                    d_440___accumulator_ = (((_this).v).Length()) + (d_440___accumulator_)
+                    d_431___accumulator_ = (((_this).v).Length()) + (d_431___accumulator_)
                     in184_ = (_this).previous
                     _this = in184_
                     
@@ -80,14 +80,14 @@ class Chain:
                 break
 
     def Count(self):
-        d_441___accumulator_ = 0
+        d_432___accumulator_ = 0
         _this = self
         while True:
             with _dafny.label():
                 if (_this).is_Empty:
-                    return (0) + (d_441___accumulator_)
+                    return (0) + (d_432___accumulator_)
                 elif True:
-                    d_441___accumulator_ = (1) + (d_441___accumulator_)
+                    d_432___accumulator_ = (1) + (d_432___accumulator_)
                     in185_ = (_this).previous
                     _this = in185_
                     
@@ -95,14 +95,14 @@ class Chain:
                 break
 
     def Bytes(self):
-        d_442___accumulator_ = _dafny.Seq([])
+        d_433___accumulator_ = _dafny.Seq([])
         _this = self
         while True:
             with _dafny.label():
                 if (_this).is_Empty:
-                    return (_dafny.Seq([])) + (d_442___accumulator_)
+                    return (_dafny.Seq([])) + (d_433___accumulator_)
                 elif True:
-                    d_442___accumulator_ = (((_this).v).Bytes()) + (d_442___accumulator_)
+                    d_433___accumulator_ = (((_this).v).Bytes()) + (d_433___accumulator_)
                     in186_ = (_this).previous
                     _this = in186_
                     
@@ -120,12 +120,12 @@ class Chain:
         while True:
             with _dafny.label():
                 if (_this).is_Chain:
-                    d_443_end_: int
-                    d_443_end_ = (end) - (((_this).v).Length())
-                    ((_this).v).CopyTo(dest, d_443_end_)
+                    d_434_end_: int
+                    d_434_end_ = (end) - (((_this).v).Length())
+                    ((_this).v).CopyTo(dest, d_434_end_)
                     in187_ = (_this).previous
                     in188_ = dest
-                    in189_ = d_443_end_
+                    in189_ = d_434_end_
                     _this = in187_
                     
                     dest = in188_

@@ -63,18 +63,18 @@ class default__:
 
     @staticmethod
     def Digest(input):
-        d_37_valueOrError0_ = Wrappers.default__.Need((0) < (len((input).key)), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Key MUST NOT be 0 bytes.")))
-        if (d_37_valueOrError0_).IsFailure():
-            return (d_37_valueOrError0_).PropagateFailure()
+        d_38_valueOrError0_ = Wrappers.default__.Need((0) < (len((input).key)), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Key MUST NOT be 0 bytes.")))
+        if (d_38_valueOrError0_).IsFailure():
+            return (d_38_valueOrError0_).PropagateFailure()
         elif True:
-            d_38_valueOrError1_ = Wrappers.default__.Need((len((input).message)) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Message over INT32_MAX_LIMIT")))
-            if (d_38_valueOrError1_).IsFailure():
-                return (d_38_valueOrError1_).PropagateFailure()
+            d_39_valueOrError1_ = Wrappers.default__.Need((len((input).message)) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Message over INT32_MAX_LIMIT")))
+            if (d_39_valueOrError1_).IsFailure():
+                return (d_39_valueOrError1_).PropagateFailure()
             elif True:
-                d_39_valueOrError2_ = HMAC.default__.Digest(input)
-                if (d_39_valueOrError2_).IsFailure():
-                    return (d_39_valueOrError2_).PropagateFailure()
+                d_40_valueOrError2_ = HMAC.default__.Digest(input)
+                if (d_40_valueOrError2_).IsFailure():
+                    return (d_40_valueOrError2_).PropagateFailure()
                 elif True:
-                    d_40_value_ = (d_39_valueOrError2_).Extract()
-                    return Wrappers.Result_Success(d_40_value_)
+                    d_41_value_ = (d_40_valueOrError2_).Extract()
+                    return Wrappers.Result_Success(d_41_value_)
 

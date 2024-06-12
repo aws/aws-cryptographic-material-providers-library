@@ -29,13 +29,13 @@ class default__:
 
     @staticmethod
     def MulPos(x, y):
-        d_182___accumulator_ = 0
+        d_173___accumulator_ = 0
         while True:
             with _dafny.label():
                 if (x) == (0):
-                    return (0) + (d_182___accumulator_)
+                    return (0) + (d_173___accumulator_)
                 elif True:
-                    d_182___accumulator_ = (d_182___accumulator_) + (y)
+                    d_173___accumulator_ = (d_173___accumulator_) + (y)
                     in24_ = (x) - (1)
                     in25_ = y
                     x = in24_

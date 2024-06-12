@@ -94,13 +94,13 @@ class default__:
 
 class AtomicPrimitivesClient(AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient):
     def  __init__(self):
-        self._config: AwsCryptographyPrimitivesOperations.Config = AwsCryptographyPrimitivesOperations.Config.default()()
+        self._i_config: AwsCryptographyPrimitivesOperations.Config = AwsCryptographyPrimitivesOperations.Config.default()()
         pass
 
     def __dafnystr__(self) -> str:
         return "AtomicPrimitives.AtomicPrimitivesClient"
     def ctor__(self, config):
-        (self)._config = config
+        (self)._i_config = config
 
     def GenerateRandomBytes(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
@@ -215,4 +215,4 @@ class AtomicPrimitivesClient(AwsCryptographyPrimitivesTypes.IAwsCryptographicPri
 
     @property
     def config(self):
-        return self._config
+        return self._i_config

@@ -90,13 +90,9 @@ python-module-name = "standard_library.internaldafny.generated"
 python-module-name = "standard_library.internaldafny.generated"
 [options_by_module."JSON.Utils.Views.Writers"]
 python-module-name = "standard_library.internaldafny.generated"
-[options_by_module."JSON.Utils.Views"]
-python-module-name = "standard_library.internaldafny.generated"
 [options_by_module."JSON.Utils.Lexers.Core"]
 python-module-name = "standard_library.internaldafny.generated"
 [options_by_module."JSON.Utils.Lexers.Strings"]
-python-module-name = "standard_library.internaldafny.generated"
-[options_by_module."JSON.Utils.Lexers"]
 python-module-name = "standard_library.internaldafny.generated"
 [options_by_module."JSON.Utils.Cursors"]
 python-module-name = "standard_library.internaldafny.generated"
@@ -115,8 +111,6 @@ python-module-name = "standard_library.internaldafny.generated"
 [options_by_module."JSON.Utils.Seq"]
 python-module-name = "standard_library.internaldafny.generated"
 [options_by_module."JSON.Utils.Vectors"]
-python-module-name = "standard_library.internaldafny.generated"
-[options_by_module."JSON.Utils"]
 python-module-name = "standard_library.internaldafny.generated"
 [options_by_module."JSON.Errors"]
 python-module-name = "standard_library.internaldafny.generated"
@@ -139,8 +133,6 @@ python-module-name = "standard_library.internaldafny.generated"
 [options_by_module."JSON.ConcreteSyntax.Spec"]
 python-module-name = "standard_library.internaldafny.generated"
 [options_by_module."JSON.ConcreteSyntax.SpecProperties"]
-python-module-name = "standard_library.internaldafny.generated"
-[options_by_module."JSON.ConcreteSyntax"]
 python-module-name = "standard_library.internaldafny.generated"
 [options_by_module."JSON.ZeroCopy.Serializer"]
 python-module-name = "standard_library.internaldafny.generated"
@@ -172,9 +164,5 @@ python-module-name = "standard_library.internaldafny.generated"
 python-module-name = "standard_library.internaldafny.generated"
 [options_by_module."JSON.ZeroCopy.API"]
 python-module-name = "standard_library.internaldafny.generated"
-[options_by_module."JSON.ZeroCopy"]
-python-module-name = "standard_library.internaldafny.generated"
 [options_by_module."JSON.API"]
-python-module-name = "standard_library.internaldafny.generated"
-[options_by_module.JSON]
 python-module-name = "standard_library.internaldafny.generated"

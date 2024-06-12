@@ -36,13 +36,13 @@ class default__:
 
     @staticmethod
     def Pow(b, e):
-        d_184___accumulator_ = 1
+        d_175___accumulator_ = 1
         while True:
             with _dafny.label():
                 if (e) == (0):
-                    return (1) * (d_184___accumulator_)
+                    return (1) * (d_175___accumulator_)
                 elif True:
-                    d_184___accumulator_ = (d_184___accumulator_) * (b)
+                    d_175___accumulator_ = (d_175___accumulator_) * (b)
                     in34_ = b
                     in35_ = (e) - (1)
                     b = in34_

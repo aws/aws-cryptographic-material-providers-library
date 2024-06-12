@@ -1,17 +1,24 @@
-import module_
-from standard_library.internaldafny.generated.Wrappers import Option_None, Option_Some
+import boto3
+import _dafny
+
+from botocore.config import Config
+from boto3.session import Session
+
+from standard_library.internaldafny.generated.Wrappers import Option_Some
 from com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.shim import DynamoDBClientShim
 from com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb import *
 import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb
-import _dafny
 
-import boto3
-from botocore.config import Config
+
+# Persist this across calls; this doesn't change
+available_aws_regions: list[str] = None
 
 def get_available_aws_regions():
-    from boto3.session import Session
-    s = Session()
-    return s.get_available_regions("dynamodb")
+    global available_aws_regions
+    if available_aws_regions is not None:
+        return available_aws_regions
+    available_aws_regions = Session().get_available_regions("dynamodb")
+    return available_aws_regions
 
 class default__(com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb.default__):
     @staticmethod
@@ -24,13 +31,14 @@ class default__(com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dyn
                 boto_client = boto3.client("dynamodb", config=boto_config)
             else:
                 boto_client = boto3.client("dynamodb")
-                region = boto3.session.Session().region_name
+                region = Session().region_name
         wrapped_client = DynamoDBClientShim(boto_client, region)
         return Wrappers.Result_Success(wrapped_client)
     
     @staticmethod
     def DDBClientForRegion(region: _dafny.Seq):
-        return default__.DynamoDBClient(region = _dafny.string_of(region))
+        region_string = _dafny.string_of(region)
+        return default__.DynamoDBClient(region=region_string)
 
     @staticmethod
     def RegionMatch(client, region):
@@ -47,5 +55,3 @@ class default__(com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dyn
         return Option_Some(region.VerbatimString(False) == client_region_name)
 
 com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb.default__ = default__
-com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb.DynamoDBClient = default__.DynamoDBClient
-com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb.DDBClientForRegion = default__.DDBClientForRegion

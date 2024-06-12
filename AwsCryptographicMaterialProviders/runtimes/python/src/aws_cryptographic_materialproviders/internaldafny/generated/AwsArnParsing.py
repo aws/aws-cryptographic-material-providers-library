@@ -68,7 +68,7 @@ import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes as AwsCryptographyKeyStoreTypes
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes as AwsCryptographyMaterialProvidersTypes
 
-# Module: aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing
+# Module: AwsArnParsing
 
 class default__:
     def  __init__(self):
@@ -210,14 +210,17 @@ class default__:
     @staticmethod
     def IsMultiRegionAwsKmsIdentifier(identifier):
         source0_ = identifier
-        if source0_.is_AwsKmsArnIdentifier:
-            d_40___mcc_h0_ = source0_.a
-            d_41_arn_ = d_40___mcc_h0_
-            return default__.IsMultiRegionAwsKmsArn(d_41_arn_)
-        elif True:
-            d_42___mcc_h1_ = source0_.r
-            d_43_r_ = d_42___mcc_h1_
-            return default__.IsMultiRegionAwsKmsResource(d_43_r_)
+        unmatched0 = True
+        if unmatched0:
+            if source0_.is_AwsKmsArnIdentifier:
+                d_40_arn_ = source0_.a
+                unmatched0 = False
+                return default__.IsMultiRegionAwsKmsArn(d_40_arn_)
+        if unmatched0:
+            d_41_r_ = source0_.r
+            unmatched0 = False
+            return default__.IsMultiRegionAwsKmsResource(d_41_r_)
+        raise Exception("unexpected control point")
 
     @staticmethod
     def IsMultiRegionAwsKmsResource(resource):
@@ -226,23 +229,27 @@ class default__:
     @staticmethod
     def GetRegion(identifier):
         source1_ = identifier
-        if source1_.is_AwsKmsArnIdentifier:
-            d_44___mcc_h0_ = source1_.a
-            d_45_a_ = d_44___mcc_h0_
-            return Wrappers.Option_Some((d_45_a_).region)
-        elif True:
-            d_46___mcc_h1_ = source1_.r
+        unmatched1 = True
+        if unmatched1:
+            if source1_.is_AwsKmsArnIdentifier:
+                d_42_a_ = source1_.a
+                unmatched1 = False
+                return Wrappers.Option_Some((d_42_a_).region)
+        if unmatched1:
+            d_43___v0_ = source1_.r
+            unmatched1 = False
             return Wrappers.Option_None()
+        raise Exception("unexpected control point")
 
     @staticmethod
     def IsAwsKmsIdentifierString(s):
-        d_47_valueOrError0_ = Wrappers.default__.Need(UTF8.default__.IsASCIIString(s), _dafny.Seq("Not a valid ASCII string."))
-        if (d_47_valueOrError0_).IsFailure():
-            return (d_47_valueOrError0_).PropagateFailure()
+        d_44_valueOrError0_ = Wrappers.default__.Need(UTF8.default__.IsASCIIString(s), _dafny.Seq("Not a valid ASCII string."))
+        if (d_44_valueOrError0_).IsFailure():
+            return (d_44_valueOrError0_).PropagateFailure()
         elif True:
-            d_48_valueOrError1_ = Wrappers.default__.Need(((0) < (len(s))) and ((len(s)) <= (default__.MAX__AWS__KMS__IDENTIFIER__LENGTH)), _dafny.Seq("Identifier exceeds maximum length."))
-            if (d_48_valueOrError1_).IsFailure():
-                return (d_48_valueOrError1_).PropagateFailure()
+            d_45_valueOrError1_ = Wrappers.default__.Need(((0) < (len(s))) and ((len(s)) <= (default__.MAX__AWS__KMS__IDENTIFIER__LENGTH)), _dafny.Seq("Identifier exceeds maximum length."))
+            if (d_45_valueOrError1_).IsFailure():
+                return (d_45_valueOrError1_).PropagateFailure()
             elif True:
                 return default__.ParseAwsKmsIdentifier(s)
 
@@ -252,18 +259,18 @@ class default__:
 
     @staticmethod
     def ValidateDdbTableArn(tableArn):
-        d_49_valueOrError0_ = (default__.ParseAmazonDynamodbTableName(tableArn)).MapFailure(default__.Error)
-        if (d_49_valueOrError0_).IsFailure():
-            return (d_49_valueOrError0_).PropagateFailure()
+        d_46_valueOrError0_ = (default__.ParseAmazonDynamodbTableName(tableArn)).MapFailure(default__.Error)
+        if (d_46_valueOrError0_).IsFailure():
+            return (d_46_valueOrError0_).PropagateFailure()
         elif True:
-            d_50___v1_ = (d_49_valueOrError0_).Extract()
-            d_51_valueOrError1_ = Wrappers.default__.Need(UTF8.default__.IsASCIIString(tableArn), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Table Arn is not ASCII")))
-            if (d_51_valueOrError1_).IsFailure():
-                return (d_51_valueOrError1_).PropagateFailure()
+            d_47___v1_ = (d_46_valueOrError0_).Extract()
+            d_48_valueOrError1_ = Wrappers.default__.Need(UTF8.default__.IsASCIIString(tableArn), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Table Arn is not ASCII")))
+            if (d_48_valueOrError1_).IsFailure():
+                return (d_48_valueOrError1_).PropagateFailure()
             elif True:
-                d_52_valueOrError2_ = Wrappers.default__.Need(ComAmazonawsDynamodbTypes.default__.IsValid__TableName((default__.ParseAmazonDynamodbTableName(tableArn)).value), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Table Name is too long")))
-                if (d_52_valueOrError2_).IsFailure():
-                    return (d_52_valueOrError2_).PropagateFailure()
+                d_49_valueOrError2_ = Wrappers.default__.Need(ComAmazonawsDynamodbTypes.default__.IsValid__TableName((default__.ParseAmazonDynamodbTableName(tableArn)).value), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Table Name is too long")))
+                if (d_49_valueOrError2_).IsFailure():
+                    return (d_49_valueOrError2_).PropagateFailure()
                 elif True:
                     return Wrappers.Result_Success(())
 
@@ -316,17 +323,21 @@ class AwsArn:
         while True:
             with _dafny.label():
                 source2_ = customRegion
-                if source2_.is_None:
-                    in0_ = _this
-                    in1_ = Wrappers.Option_Some((_this).region)
-                    _this = in0_
-                    
-                    customRegion = in1_
-                    raise _dafny.TailCall()
-                elif True:
-                    d_53___mcc_h0_ = source2_.value
-                    d_54_customRegion_ = d_53___mcc_h0_
-                    return StandardLibrary.default__.Join(_dafny.Seq([(_this).arnLiteral, (_this).partition, (_this).service, d_54_customRegion_, (_this).account, ((_this).resource).ToString()]), _dafny.Seq(":"))
+                unmatched2 = True
+                if unmatched2:
+                    if source2_.is_None:
+                        unmatched2 = False
+                        in0_ = _this
+                        in1_ = Wrappers.Option_Some((_this).region)
+                        _this = in0_
+                        
+                        customRegion = in1_
+                        raise _dafny.TailCall()
+                if unmatched2:
+                    d_50_customRegion_ = source2_.value
+                    unmatched2 = False
+                    return StandardLibrary.default__.Join(_dafny.Seq([(_this).arnLiteral, (_this).partition, (_this).service, d_50_customRegion_, (_this).account, ((_this).resource).ToString()]), _dafny.Seq(":"))
+                raise Exception("unexpected control point")
                 break
 
 
@@ -347,8 +358,8 @@ class AwsKmsArn:
     def default():
         return AwsArn.default()()
     def _Is(source__):
-        d_55_a_: AwsArn = source__
-        return default__.ValidAwsKmsArn(d_55_a_)
+        d_51_a_: AwsArn = source__
+        return default__.ValidAwsKmsArn(d_51_a_)
 
 class AwsKmsResource:
     def  __init__(self):
@@ -358,8 +369,8 @@ class AwsKmsResource:
     def default():
         return AwsResource.default()()
     def _Is(source__):
-        d_56_r_: AwsResource = source__
-        return default__.ValidAwsKmsResource(d_56_r_)
+        d_52_r_: AwsResource = source__
+        return default__.ValidAwsKmsResource(d_52_r_)
 
 class AwsKmsIdentifier:
     @classmethod
@@ -375,14 +386,17 @@ class AwsKmsIdentifier:
         return isinstance(self, AwsKmsIdentifier_AwsKmsRawResourceIdentifier)
     def ToString(self):
         source3_ = self
-        if source3_.is_AwsKmsArnIdentifier:
-            d_57___mcc_h0_ = source3_.a
-            d_58_a_ = d_57___mcc_h0_
-            return (d_58_a_).ToString()
-        elif True:
-            d_59___mcc_h1_ = source3_.r
-            d_60_r_ = d_59___mcc_h1_
-            return (d_60_r_).ToString()
+        unmatched3 = True
+        if unmatched3:
+            if source3_.is_AwsKmsArnIdentifier:
+                d_53_a_ = source3_.a
+                unmatched3 = False
+                return (d_53_a_).ToString()
+        if unmatched3:
+            d_54_r_ = source3_.r
+            unmatched3 = False
+            return (d_54_r_).ToString()
+        raise Exception("unexpected control point")
 
 
 class AwsKmsIdentifier_AwsKmsArnIdentifier(AwsKmsIdentifier, NamedTuple('AwsKmsArnIdentifier', [('a', Any)])):
@@ -410,8 +424,8 @@ class AmazonDynamodbTableArn:
     def default():
         return AwsArn.default()()
     def _Is(source__):
-        d_61_a_: AwsArn = source__
-        return default__.ValidAmazonDynamodbArn(d_61_a_)
+        d_55_a_: AwsArn = source__
+        return default__.ValidAmazonDynamodbArn(d_55_a_)
 
 class AmazonDynamodbResource:
     def  __init__(self):
@@ -421,8 +435,8 @@ class AmazonDynamodbResource:
     def default():
         return AwsResource.default()()
     def _Is(source__):
-        d_62_r_: AwsResource = source__
-        return default__.ValidAmazonDynamodbResource(d_62_r_)
+        d_56_r_: AwsResource = source__
+        return default__.ValidAmazonDynamodbResource(d_56_r_)
 
 class AmazonDynamodbTableName:
     @classmethod
@@ -435,9 +449,12 @@ class AmazonDynamodbTableName:
         return isinstance(self, AmazonDynamodbTableName_AmazonDynamodbTableArn)
     def GetTableName(self):
         source4_ = self
-        d_63___mcc_h0_ = source4_.a
-        d_64_a_ = d_63___mcc_h0_
-        return ((d_64_a_).resource).value
+        unmatched4 = True
+        if unmatched4:
+            d_57_a_ = source4_.a
+            unmatched4 = False
+            return ((d_57_a_).resource).value
+        raise Exception("unexpected control point")
 
 
 class AmazonDynamodbTableName_AmazonDynamodbTableArn(AmazonDynamodbTableName, NamedTuple('AmazonDynamodbTableArn', [('a', Any)])):
@@ -457,5 +474,5 @@ class AwsKmsIdentifierString:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_65_s_: _dafny.Seq = source__
-        return (default__.IsAwsKmsIdentifierString(d_65_s_)).is_Success
+        d_58_s_: _dafny.Seq = source__
+        return (default__.IsAwsKmsIdentifierString(d_58_s_)).is_Success

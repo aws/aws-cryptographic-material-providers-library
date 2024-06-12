@@ -20,24 +20,24 @@ class default__:
         if (len(a)) <= (1):
             return a
         elif True:
-            d_18_splitIndex_ = _dafny.euclidian_division(len(a), 2)
-            d_19_left_ = _dafny.Seq((a)[:d_18_splitIndex_:])
-            d_20_right_ = _dafny.Seq((a)[d_18_splitIndex_::])
-            d_21_leftSorted_ = default__.MergeSortBy(d_19_left_, lessThanOrEq)
-            d_22_rightSorted_ = default__.MergeSortBy(d_20_right_, lessThanOrEq)
-            return default__.MergeSortedWith(d_21_leftSorted_, d_22_rightSorted_, lessThanOrEq)
+            d_9_splitIndex_ = _dafny.euclidian_division(len(a), 2)
+            d_10_left_ = _dafny.Seq((a)[:d_9_splitIndex_:])
+            d_11_right_ = _dafny.Seq((a)[d_9_splitIndex_::])
+            d_12_leftSorted_ = default__.MergeSortBy(d_10_left_, lessThanOrEq)
+            d_13_rightSorted_ = default__.MergeSortBy(d_11_right_, lessThanOrEq)
+            return default__.MergeSortedWith(d_12_leftSorted_, d_13_rightSorted_, lessThanOrEq)
 
     @staticmethod
     def MergeSortedWith(left, right, lessThanOrEq):
-        d_23___accumulator_ = _dafny.Seq([])
+        d_14___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (len(left)) == (0):
-                    return (d_23___accumulator_) + (right)
+                    return (d_14___accumulator_) + (right)
                 elif (len(right)) == (0):
-                    return (d_23___accumulator_) + (left)
+                    return (d_14___accumulator_) + (left)
                 elif lessThanOrEq((left)[0], (right)[0]):
-                    d_23___accumulator_ = (d_23___accumulator_) + (_dafny.Seq([(left)[0]]))
+                    d_14___accumulator_ = (d_14___accumulator_) + (_dafny.Seq([(left)[0]]))
                     in0_ = _dafny.Seq((left)[1::])
                     in1_ = right
                     in2_ = lessThanOrEq
@@ -46,7 +46,7 @@ class default__:
                     lessThanOrEq = in2_
                     raise _dafny.TailCall()
                 elif True:
-                    d_23___accumulator_ = (d_23___accumulator_) + (_dafny.Seq([(right)[0]]))
+                    d_14___accumulator_ = (d_14___accumulator_) + (_dafny.Seq([(right)[0]]))
                     in3_ = left
                     in4_ = _dafny.Seq((right)[1::])
                     in5_ = lessThanOrEq

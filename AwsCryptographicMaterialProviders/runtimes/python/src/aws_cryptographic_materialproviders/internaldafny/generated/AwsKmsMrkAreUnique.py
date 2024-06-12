@@ -70,6 +70,8 @@ import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptograp
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStoreErrorMessages as KeyStoreErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.KmsArn as KmsArn
 import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
 import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
@@ -79,15 +81,13 @@ import aws_cryptographic_materialproviders.internaldafny.generated.GetKeys as Ge
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreOperations as AwsCryptographyKeyStoreOperations
 import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
 import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
-import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws as Com_Amazonaws
-import com_amazonaws_dynamodb.internaldafny.generated.Com as Com
 import aws_cryptographic_materialproviders.internaldafny.generated.KeyStore as KeyStore
 import aws_cryptographic_materialproviders.internaldafny.generated.AlgorithmSuites as AlgorithmSuites
 import aws_cryptographic_materialproviders.internaldafny.generated.Materials as Materials
 import aws_cryptographic_materialproviders.internaldafny.generated.Keyring as Keyring
 import aws_cryptographic_materialproviders.internaldafny.generated.MultiKeyring as MultiKeyring
 
-# Module: aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkAreUnique
+# Module: AwsKmsMrkAreUnique
 
 class default__:
     def  __init__(self):
@@ -95,52 +95,55 @@ class default__:
 
     @staticmethod
     def AwsKmsMrkAreUnique(identifiers):
-        d_392_mrks_ = Seq.default__.Filter(AwsArnParsing.default__.IsMultiRegionAwsKmsIdentifier, identifiers)
-        if (len(d_392_mrks_)) == (0):
+        d_410_mrks_ = Seq.default__.Filter(AwsArnParsing.default__.IsMultiRegionAwsKmsIdentifier, identifiers)
+        if (len(d_410_mrks_)) == (0):
             return Wrappers.Outcome_Pass()
         elif True:
-            d_393_mrkKeyIds_ = Seq.default__.Map(default__.GetKeyId, d_392_mrks_)
-            d_394_setMrks_ = Seq.default__.ToSet(d_393_mrkKeyIds_)
-            if (len(d_393_mrkKeyIds_)) == (len(d_394_setMrks_)):
+            d_411_mrkKeyIds_ = Seq.default__.Map(default__.GetKeyId, d_410_mrks_)
+            d_412_setMrks_ = Seq.default__.ToSet(d_411_mrkKeyIds_)
+            if (len(d_411_mrkKeyIds_)) == (len(d_412_setMrks_)):
                 return Wrappers.Outcome_Pass()
             elif True:
-                def iife15_():
+                def iife17_():
                     coll9_ = _dafny.Set()
                     compr_9_: _dafny.Seq
-                    for compr_9_ in (d_393_mrkKeyIds_).Elements:
-                        d_396_x_: _dafny.Seq = compr_9_
-                        if ((d_396_x_) in (d_393_mrkKeyIds_)) and (((_dafny.MultiSet(d_393_mrkKeyIds_))[d_396_x_]) >= (1)):
-                            coll9_ = coll9_.union(_dafny.Set([d_396_x_]))
+                    for compr_9_ in (d_411_mrkKeyIds_).Elements:
+                        d_414_x_: _dafny.Seq = compr_9_
+                        if ((d_414_x_) in (d_411_mrkKeyIds_)) and (((_dafny.MultiSet(d_411_mrkKeyIds_))[d_414_x_]) >= (1)):
+                            coll9_ = coll9_.union(_dafny.Set([d_414_x_]))
                     return _dafny.Set(coll9_)
-                d_395_duplicateMrkIds_ = iife15_()
+                d_413_duplicateMrkIds_ = iife17_()
 
-                def lambda39_(d_398_duplicateMrkIds_):
-                    def lambda40_(d_399_identifier_):
-                        return (default__.GetKeyId(d_399_identifier_)) in (d_398_duplicateMrkIds_)
+                def lambda42_(d_416_duplicateMrkIds_):
+                    def lambda43_(d_417_identifier_):
+                        return (default__.GetKeyId(d_417_identifier_)) in (d_416_duplicateMrkIds_)
 
-                    return lambda40_
+                    return lambda43_
 
-                d_397_isDuplicate_ = lambda39_(d_395_duplicateMrkIds_)
-                def lambda41_(d_401_i_):
-                    return (d_401_i_).ToString()
+                d_415_isDuplicate_ = lambda42_(d_413_duplicateMrkIds_)
+                def lambda44_(d_419_i_):
+                    return (d_419_i_).ToString()
 
-                d_400_identifierToString_ = lambda41_
-                d_402_duplicateIdentifiers_ = Seq.default__.Filter(d_397_isDuplicate_, identifiers)
-                d_403_duplicates_ = Seq.default__.Map(d_400_identifierToString_, d_402_duplicateIdentifiers_)
-                if (len(d_403_duplicates_)) == (0):
+                d_418_identifierToString_ = lambda44_
+                d_420_duplicateIdentifiers_ = Seq.default__.Filter(d_415_isDuplicate_, identifiers)
+                d_421_duplicates_ = Seq.default__.Map(d_418_identifierToString_, d_420_duplicateIdentifiers_)
+                if (len(d_421_duplicates_)) == (0):
                     return Wrappers.Outcome_Fail(AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Impossible")))
                 elif True:
-                    return Wrappers.Outcome_Fail(AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(((_dafny.Seq("Related multi-Region keys: ")) + (StandardLibrary.default__.Join(d_403_duplicates_, _dafny.Seq(",")))) + (_dafny.Seq("are not allowed."))))
+                    return Wrappers.Outcome_Fail(AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(((_dafny.Seq("Related multi-Region keys: ")) + (StandardLibrary.default__.Join(d_421_duplicates_, _dafny.Seq(",")))) + (_dafny.Seq("are not allowed."))))
 
     @staticmethod
     def GetKeyId(identifier):
-        source18_ = identifier
-        if source18_.is_AwsKmsArnIdentifier:
-            d_404___mcc_h0_ = source18_.a
-            d_405_a_ = d_404___mcc_h0_
-            return ((d_405_a_).resource).value
-        elif True:
-            d_406___mcc_h1_ = source18_.r
-            d_407_i_ = d_406___mcc_h1_
-            return (d_407_i_).value
+        source19_ = identifier
+        unmatched19 = True
+        if unmatched19:
+            if source19_.is_AwsKmsArnIdentifier:
+                d_422_a_ = source19_.a
+                unmatched19 = False
+                return ((d_422_a_).resource).value
+        if unmatched19:
+            d_423_i_ = source19_.r
+            unmatched19 = False
+            return (d_423_i_).value
+        raise Exception("unexpected control point")
 

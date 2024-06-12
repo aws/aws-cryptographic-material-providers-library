@@ -86,17 +86,17 @@ class default__:
 
     @staticmethod
     def Colon(cs):
-        d_806_valueOrError0_ = (cs).AssertChar(':')
-        if (d_806_valueOrError0_).IsFailure():
-            return (d_806_valueOrError0_).PropagateFailure()
+        d_751_valueOrError0_ = (cs).AssertChar(':')
+        if (d_751_valueOrError0_).IsFailure():
+            return (d_751_valueOrError0_).PropagateFailure()
         elif True:
-            d_807_cs_ = (d_806_valueOrError0_).Extract()
-            return Wrappers.Result_Success((d_807_cs_).Split())
+            d_752_cs_ = (d_751_valueOrError0_).Extract()
+            return Wrappers.Result_Success((d_752_cs_).Split())
 
     @staticmethod
     def KeyValueFromParts(k, colon, v):
-        d_808_sp_ = JSON_Utils_Cursors.Split_SP(JSON_Grammar.jKeyValue_KeyValue((k).t, (colon).t, (v).t), (v).cs)
-        return d_808_sp_
+        d_753_sp_ = JSON_Utils_Cursors.Split_SP(JSON_Grammar.jKeyValue_KeyValue((k).t, (colon).t, (v).t), (v).cs)
+        return d_753_sp_
 
     @staticmethod
     def ElementSpec(t):
@@ -104,24 +104,24 @@ class default__:
 
     @staticmethod
     def Element(cs, json):
-        d_809_valueOrError0_ = JSON_ZeroCopy_Deserializer_Strings.default__.String(cs)
-        if (d_809_valueOrError0_).IsFailure():
-            return (d_809_valueOrError0_).PropagateFailure()
+        d_754_valueOrError0_ = JSON_ZeroCopy_Deserializer_Strings.default__.String(cs)
+        if (d_754_valueOrError0_).IsFailure():
+            return (d_754_valueOrError0_).PropagateFailure()
         elif True:
-            d_810_k_ = (d_809_valueOrError0_).Extract()
-            d_811_p_ = JSON_Utils_Parsers.Parser___Parser(default__.Colon)
-            d_812_valueOrError1_ = JSON_ZeroCopy_Deserializer_Core.default__.Structural((d_810_k_).cs, d_811_p_)
-            if (d_812_valueOrError1_).IsFailure():
-                return (d_812_valueOrError1_).PropagateFailure()
+            d_755_k_ = (d_754_valueOrError0_).Extract()
+            d_756_p_ = JSON_Utils_Parsers.Parser___Parser(default__.Colon)
+            d_757_valueOrError1_ = JSON_ZeroCopy_Deserializer_Core.default__.Structural((d_755_k_).cs, d_756_p_)
+            if (d_757_valueOrError1_).IsFailure():
+                return (d_757_valueOrError1_).PropagateFailure()
             elif True:
-                d_813_colon_ = (d_812_valueOrError1_).Extract()
-                d_814_valueOrError2_ = (json).fn((d_813_colon_).cs)
-                if (d_814_valueOrError2_).IsFailure():
-                    return (d_814_valueOrError2_).PropagateFailure()
+                d_758_colon_ = (d_757_valueOrError1_).Extract()
+                d_759_valueOrError2_ = (json).fn((d_758_colon_).cs)
+                if (d_759_valueOrError2_).IsFailure():
+                    return (d_759_valueOrError2_).PropagateFailure()
                 elif True:
-                    d_815_v_ = (d_814_valueOrError2_).Extract()
-                    d_816_kv_ = default__.KeyValueFromParts(d_810_k_, d_813_colon_, d_815_v_)
-                    return Wrappers.Result_Success(d_816_kv_)
+                    d_760_v_ = (d_759_valueOrError2_).Extract()
+                    d_761_kv_ = default__.KeyValueFromParts(d_755_k_, d_758_colon_, d_760_v_)
+                    return Wrappers.Result_Success(d_761_kv_)
 
     @_dafny.classproperty
     def OPEN(instance):

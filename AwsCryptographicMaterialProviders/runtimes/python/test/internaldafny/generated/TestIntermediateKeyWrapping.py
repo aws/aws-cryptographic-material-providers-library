@@ -19,12 +19,14 @@ import standard_library.internaldafny.generated.Relations as Relations
 import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
 import standard_library.internaldafny.generated.Math as Math
 import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.Actions as Actions
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes as AwsCryptographyMaterialProvidersTypes
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
-import standard_library.internaldafny.generated.Actions as Actions
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStoreErrorMessages as KeyStoreErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.KmsArn as KmsArn
 import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
 import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
@@ -36,8 +38,6 @@ import standard_library.internaldafny.generated.Time as Time
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreOperations as AwsCryptographyKeyStoreOperations
 import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
 import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
-import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws as Com_Amazonaws
-import com_amazonaws_dynamodb.internaldafny.generated.Com as Com
 import aws_cryptographic_materialproviders.internaldafny.generated.KeyStore as KeyStore
 import standard_library.internaldafny.generated.Base64 as Base64
 import aws_cryptographic_materialproviders.internaldafny.generated.AlgorithmSuites as AlgorithmSuites
@@ -64,6 +64,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapp
 import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
 import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
 import aws_cryptographic_materialproviders.internaldafny.generated.EdkWrapping as EdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.ErrorMessages as ErrorMessages
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsKeyring as AwsKmsKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.StrictMultiKeyring as StrictMultiKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsDiscoveryKeyring as AwsKmsDiscoveryKeyring
@@ -118,6 +119,7 @@ import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
 import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import Fixtures as Fixtures
 import TestCreateKeyStore as TestCreateKeyStore
+import TestDiscoveryGetKeys as TestDiscoveryGetKeys
 import TestConfig as TestConfig
 import TestGetKeys as TestGetKeys
 import CleanupItems as CleanupItems
@@ -133,78 +135,78 @@ class default__:
 
     @staticmethod
     def IntermediateWrapUnwrapTest():
-        d_223_encCtx_: _dafny.Map
-        d_223_encCtx_ = _dafny.Map({})
-        d_224_keyLen_: int
-        d_224_keyLen_ = (((default__.TEST__ALG__SUITE).encrypt).AES__GCM).keyLength
-        d_225_tagLen_: int
-        d_225_tagLen_ = (((default__.TEST__ALG__SUITE).encrypt).AES__GCM).tagLength
-        d_226_pdk_: _dafny.Seq
-        d_226_pdk_ = _dafny.Seq([0 for d_227___v2_ in range(d_224_keyLen_)])
-        d_228_testGenerateAndWrap_: TestGenerateAndWrapKeyMaterial
+        d_410_encCtx_: _dafny.Map
+        d_410_encCtx_ = _dafny.Map({})
+        d_411_keyLen_: int
+        d_411_keyLen_ = (((default__.TEST__ALG__SUITE).encrypt).AES__GCM).keyLength
+        d_412_tagLen_: int
+        d_412_tagLen_ = (((default__.TEST__ALG__SUITE).encrypt).AES__GCM).tagLength
+        d_413_pdk_: _dafny.Seq
+        d_413_pdk_ = _dafny.Seq([0 for d_414___v2_ in range(d_411_keyLen_)])
+        d_415_testGenerateAndWrap_: TestGenerateAndWrapKeyMaterial
         nw0_ = TestGenerateAndWrapKeyMaterial()
         nw0_.ctor__()
-        d_228_testGenerateAndWrap_ = nw0_
-        d_229_intermediateWrapOutput_: Wrappers.Result
-        out77_: Wrappers.Result
-        out77_ = IntermediateKeyWrapping.default__.IntermediateWrap(d_228_testGenerateAndWrap_, d_226_pdk_, default__.TEST__ALG__SUITE, d_223_encCtx_)
-        d_229_intermediateWrapOutput_ = out77_
-        if not((d_229_intermediateWrapOutput_).is_Success):
+        d_415_testGenerateAndWrap_ = nw0_
+        d_416_intermediateWrapOutput_: Wrappers.Result
+        out145_: Wrappers.Result
+        out145_ = IntermediateKeyWrapping.default__.IntermediateWrap(d_415_testGenerateAndWrap_, d_413_pdk_, default__.TEST__ALG__SUITE, d_410_encCtx_)
+        d_416_intermediateWrapOutput_ = out145_
+        if not((d_416_intermediateWrapOutput_).is_Success):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestIntermediateKeyWrapping.dfy(36,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((len(((d_229_intermediateWrapOutput_).value).wrappedMaterial)) == (((d_224_keyLen_) + (d_225_tagLen_)) + (len(default__.WRAPPED__MAT)))):
+        if not((len(((d_416_intermediateWrapOutput_).value).wrappedMaterial)) == (((d_411_keyLen_) + (d_412_tagLen_)) + (len(default__.WRAPPED__MAT)))):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestIntermediateKeyWrapping.dfy(37,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((_dafny.Seq((((d_229_intermediateWrapOutput_).value).wrappedMaterial)[(d_224_keyLen_) + (d_225_tagLen_)::])) == (default__.WRAPPED__MAT)):
+        if not((_dafny.Seq((((d_416_intermediateWrapOutput_).value).wrappedMaterial)[(d_411_keyLen_) + (d_412_tagLen_)::])) == (default__.WRAPPED__MAT)):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestIntermediateKeyWrapping.dfy(38,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_230_testUnwrap_: TestUnwrapKeyMaterial
+        d_417_testUnwrap_: TestUnwrapKeyMaterial
         nw1_ = TestUnwrapKeyMaterial()
         nw1_.ctor__()
-        d_230_testUnwrap_ = nw1_
-        d_231_intermediateUnwrapOutput_: Wrappers.Result
-        out78_: Wrappers.Result
-        out78_ = IntermediateKeyWrapping.default__.IntermediateUnwrap(d_230_testUnwrap_, ((d_229_intermediateWrapOutput_).value).wrappedMaterial, default__.TEST__ALG__SUITE, d_223_encCtx_)
-        d_231_intermediateUnwrapOutput_ = out78_
-        if not((d_231_intermediateUnwrapOutput_).is_Success):
+        d_417_testUnwrap_ = nw1_
+        d_418_intermediateUnwrapOutput_: Wrappers.Result
+        out146_: Wrappers.Result
+        out146_ = IntermediateKeyWrapping.default__.IntermediateUnwrap(d_417_testUnwrap_, ((d_416_intermediateWrapOutput_).value).wrappedMaterial, default__.TEST__ALG__SUITE, d_410_encCtx_)
+        d_418_intermediateUnwrapOutput_ = out146_
+        if not((d_418_intermediateUnwrapOutput_).is_Success):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestIntermediateKeyWrapping.dfy(47,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((((d_231_intermediateUnwrapOutput_).value).plaintextDataKey) == (d_226_pdk_)):
+        if not((((d_418_intermediateUnwrapOutput_).value).plaintextDataKey) == (d_413_pdk_)):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestIntermediateKeyWrapping.dfy(48,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((((d_229_intermediateWrapOutput_).value).symmetricSigningKey) == (((d_231_intermediateUnwrapOutput_).value).symmetricSigningKey)):
+        if not((((d_416_intermediateWrapOutput_).value).symmetricSigningKey) == (((d_418_intermediateUnwrapOutput_).value).symmetricSigningKey)):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestIntermediateKeyWrapping.dfy(49,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def IntermediateGenerateAndWrapUnwrapTest():
-        d_232_encCtx_: _dafny.Map
-        d_232_encCtx_ = _dafny.Map({})
-        d_233_keyLen_: int
-        d_233_keyLen_ = (((default__.TEST__ALG__SUITE).encrypt).AES__GCM).keyLength
-        d_234_tagLen_: int
-        d_234_tagLen_ = (((default__.TEST__ALG__SUITE).encrypt).AES__GCM).tagLength
-        d_235_testGenerateAndWrap_: TestGenerateAndWrapKeyMaterial
+        d_419_encCtx_: _dafny.Map
+        d_419_encCtx_ = _dafny.Map({})
+        d_420_keyLen_: int
+        d_420_keyLen_ = (((default__.TEST__ALG__SUITE).encrypt).AES__GCM).keyLength
+        d_421_tagLen_: int
+        d_421_tagLen_ = (((default__.TEST__ALG__SUITE).encrypt).AES__GCM).tagLength
+        d_422_testGenerateAndWrap_: TestGenerateAndWrapKeyMaterial
         nw2_ = TestGenerateAndWrapKeyMaterial()
         nw2_.ctor__()
-        d_235_testGenerateAndWrap_ = nw2_
-        d_236_intermediateWrapOutput_: Wrappers.Result
-        out79_: Wrappers.Result
-        out79_ = IntermediateKeyWrapping.default__.IntermediateGenerateAndWrap(d_235_testGenerateAndWrap_, default__.TEST__ALG__SUITE, d_232_encCtx_)
-        d_236_intermediateWrapOutput_ = out79_
-        if not((d_236_intermediateWrapOutput_).is_Success):
+        d_422_testGenerateAndWrap_ = nw2_
+        d_423_intermediateWrapOutput_: Wrappers.Result
+        out147_: Wrappers.Result
+        out147_ = IntermediateKeyWrapping.default__.IntermediateGenerateAndWrap(d_422_testGenerateAndWrap_, default__.TEST__ALG__SUITE, d_419_encCtx_)
+        d_423_intermediateWrapOutput_ = out147_
+        if not((d_423_intermediateWrapOutput_).is_Success):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestIntermediateKeyWrapping.dfy(63,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((len(((d_236_intermediateWrapOutput_).value).wrappedMaterial)) == (((d_233_keyLen_) + (d_234_tagLen_)) + (len(default__.WRAPPED__MAT)))):
+        if not((len(((d_423_intermediateWrapOutput_).value).wrappedMaterial)) == (((d_420_keyLen_) + (d_421_tagLen_)) + (len(default__.WRAPPED__MAT)))):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestIntermediateKeyWrapping.dfy(64,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((_dafny.Seq((((d_236_intermediateWrapOutput_).value).wrappedMaterial)[(d_233_keyLen_) + (d_234_tagLen_)::])) == (default__.WRAPPED__MAT)):
+        if not((_dafny.Seq((((d_423_intermediateWrapOutput_).value).wrappedMaterial)[(d_420_keyLen_) + (d_421_tagLen_)::])) == (default__.WRAPPED__MAT)):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestIntermediateKeyWrapping.dfy(65,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_237_testUnwrap_: TestUnwrapKeyMaterial
+        d_424_testUnwrap_: TestUnwrapKeyMaterial
         nw3_ = TestUnwrapKeyMaterial()
         nw3_.ctor__()
-        d_237_testUnwrap_ = nw3_
-        d_238_intermediateUnwrapOutput_: Wrappers.Result
-        out80_: Wrappers.Result
-        out80_ = IntermediateKeyWrapping.default__.IntermediateUnwrap(d_237_testUnwrap_, ((d_236_intermediateWrapOutput_).value).wrappedMaterial, default__.TEST__ALG__SUITE, d_232_encCtx_)
-        d_238_intermediateUnwrapOutput_ = out80_
-        if not((d_238_intermediateUnwrapOutput_).is_Success):
+        d_424_testUnwrap_ = nw3_
+        d_425_intermediateUnwrapOutput_: Wrappers.Result
+        out148_: Wrappers.Result
+        out148_ = IntermediateKeyWrapping.default__.IntermediateUnwrap(d_424_testUnwrap_, ((d_423_intermediateWrapOutput_).value).wrappedMaterial, default__.TEST__ALG__SUITE, d_419_encCtx_)
+        d_425_intermediateUnwrapOutput_ = out148_
+        if not((d_425_intermediateUnwrapOutput_).is_Success):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestIntermediateKeyWrapping.dfy(74,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((((d_236_intermediateWrapOutput_).value).plaintextDataKey) == (((d_238_intermediateUnwrapOutput_).value).plaintextDataKey)):
+        if not((((d_423_intermediateWrapOutput_).value).plaintextDataKey) == (((d_425_intermediateUnwrapOutput_).value).plaintextDataKey)):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestIntermediateKeyWrapping.dfy(75,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((((d_236_intermediateWrapOutput_).value).symmetricSigningKey) == (((d_238_intermediateUnwrapOutput_).value).symmetricSigningKey)):
+        if not((((d_423_intermediateWrapOutput_).value).symmetricSigningKey) == (((d_425_intermediateUnwrapOutput_).value).symmetricSigningKey)):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestIntermediateKeyWrapping.dfy(76,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @_dafny.classproperty
@@ -212,10 +214,10 @@ class default__:
         return AlgorithmSuites.default__.DBE__ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384__SYMSIG__HMAC__SHA384
     @_dafny.classproperty
     def PLAINTEXT__MAT(instance):
-        return _dafny.Seq([1 for d_239___v0_ in range((((default__.TEST__ALG__SUITE).encrypt).AES__GCM).keyLength)])
+        return _dafny.Seq([1 for d_426___v0_ in range((((default__.TEST__ALG__SUITE).encrypt).AES__GCM).keyLength)])
     @_dafny.classproperty
     def WRAPPED__MAT(instance):
-        return _dafny.Seq([2 for d_240___v1_ in range((((default__.TEST__ALG__SUITE).encrypt).AES__GCM).keyLength)])
+        return _dafny.Seq([2 for d_427___v1_ in range((((default__.TEST__ALG__SUITE).encrypt).AES__GCM).keyLength)])
 
 class TestInfo:
     @_dafny.classproperty
@@ -251,10 +253,10 @@ class TestGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMaterial, A
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.GenerateAndWrapOutput.default(TestInfo.default()))()
-        d_241_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_241_valueOrError0_ = Wrappers.default__.Need(((input).algorithmSuite) == (default__.TEST__ALG__SUITE), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unexpected input on TestGenerateAndWrapMaterial")))
-        if (d_241_valueOrError0_).IsFailure():
-            res = (d_241_valueOrError0_).PropagateFailure()
+        d_428_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_428_valueOrError0_ = Wrappers.default__.Need(((input).algorithmSuite) == (default__.TEST__ALG__SUITE), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unexpected input on TestGenerateAndWrapMaterial")))
+        if (d_428_valueOrError0_).IsFailure():
+            res = (d_428_valueOrError0_).PropagateFailure()
             return res
         res = Wrappers.Result_Success(MaterialWrapping.GenerateAndWrapOutput_GenerateAndWrapOutput(default__.PLAINTEXT__MAT, default__.WRAPPED__MAT, TestInfo_TestInfo()))
         return res
@@ -273,15 +275,15 @@ class TestUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWithR
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.UnwrapOutput.default(TestInfo.default()))()
-        d_242_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_242_valueOrError0_ = Wrappers.default__.Need(((input).wrappedMaterial) == (default__.WRAPPED__MAT), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unexpected input on TestUnwrapMaterial")))
-        if (d_242_valueOrError0_).IsFailure():
-            res = (d_242_valueOrError0_).PropagateFailure()
+        d_429_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_429_valueOrError0_ = Wrappers.default__.Need(((input).wrappedMaterial) == (default__.WRAPPED__MAT), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unexpected input on TestUnwrapMaterial")))
+        if (d_429_valueOrError0_).IsFailure():
+            res = (d_429_valueOrError0_).PropagateFailure()
             return res
-        d_243_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_243_valueOrError1_ = Wrappers.default__.Need(((input).algorithmSuite) == (default__.TEST__ALG__SUITE), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unexpected input on TestUnwrapMaterial")))
-        if (d_243_valueOrError1_).IsFailure():
-            res = (d_243_valueOrError1_).PropagateFailure()
+        d_430_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_430_valueOrError1_ = Wrappers.default__.Need(((input).algorithmSuite) == (default__.TEST__ALG__SUITE), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unexpected input on TestUnwrapMaterial")))
+        if (d_430_valueOrError1_).IsFailure():
+            res = (d_430_valueOrError1_).PropagateFailure()
             return res
         res = Wrappers.Result_Success(MaterialWrapping.UnwrapOutput_UnwrapOutput(default__.PLAINTEXT__MAT, TestInfo_TestInfo()))
         return res

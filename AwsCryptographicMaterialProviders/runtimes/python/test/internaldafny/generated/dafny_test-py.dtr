@@ -2,6 +2,7 @@ file_format_version = "1.0"
 dafny_version = "4.6.0.0"
 [options_by_module.Fixtures]
 [options_by_module.TestCreateKeyStore]
+[options_by_module.TestDiscoveryGetKeys]
 [options_by_module.TestConfig]
 [options_by_module.TestGetKeys]
 [options_by_module.CleanupItems]
@@ -9,6 +10,7 @@ dafny_version = "4.6.0.0"
 [options_by_module.TestVersionKey]
 [options_by_module.TestUtils]
 [options_by_module.TestIntermediateKeyWrapping]
+[options_by_module.TestErrorMessages]
 [options_by_module.TestDefaultClientProvider]
 [options_by_module.TestRawAESKeyring]
 [options_by_module.TestMultiKeyring]

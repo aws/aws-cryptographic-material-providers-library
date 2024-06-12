@@ -203,8 +203,8 @@ class nat8:
     def default():
         return int(0)
     def _Is(source__):
-        d_47_x_: int = source__
-        return ((0) <= (d_47_x_)) and ((d_47_x_) < (128))
+        d_38_x_: int = source__
+        return ((0) <= (d_38_x_)) and ((d_38_x_) < (128))
 
 class nat16:
     def  __init__(self):
@@ -214,8 +214,8 @@ class nat16:
     def default():
         return int(0)
     def _Is(source__):
-        d_48_x_: int = source__
-        return ((0) <= (d_48_x_)) and ((d_48_x_) < (32768))
+        d_39_x_: int = source__
+        return ((0) <= (d_39_x_)) and ((d_39_x_) < (32768))
 
 class nat32:
     def  __init__(self):
@@ -225,8 +225,8 @@ class nat32:
     def default():
         return int(0)
     def _Is(source__):
-        d_49_x_: int = source__
-        return ((0) <= (d_49_x_)) and ((d_49_x_) < (2147483648))
+        d_40_x_: int = source__
+        return ((0) <= (d_40_x_)) and ((d_40_x_) < (2147483648))
 
 class nat64:
     def  __init__(self):
@@ -236,8 +236,8 @@ class nat64:
     def default():
         return int(0)
     def _Is(source__):
-        d_50_x_: int = source__
-        return ((0) <= (d_50_x_)) and ((d_50_x_) < (9223372036854775808))
+        d_41_x_: int = source__
+        return ((0) <= (d_41_x_)) and ((d_41_x_) < (9223372036854775808))
 
 class opt__byte:
     def  __init__(self):
@@ -247,5 +247,5 @@ class opt__byte:
     def default():
         return int(0)
     def _Is(source__):
-        d_51_c_: int = source__
-        return ((-1) <= (d_51_c_)) and ((d_51_c_) < (default__.TWO__TO__THE__8))
+        d_42_c_: int = source__
+        return ((-1) <= (d_42_c_)) and ((d_42_c_) < (default__.TWO__TO__THE__8))
