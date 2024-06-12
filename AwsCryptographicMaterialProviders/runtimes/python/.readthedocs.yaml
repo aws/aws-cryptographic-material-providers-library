@@ -13,7 +13,7 @@ build:
 
 # Build documentation in the doc/ directory with Sphinx
 sphinx:
-   configuration: doc/conf.py
+   configuration: AwsCryptographicMaterialProviders/runtimes/python/doc/conf.py
 
 # Don't need to build documentation for test vectors or any other
 # sub modules
