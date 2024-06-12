@@ -9,8 +9,8 @@ test/**/Output/*
 # Build Artifacts
 build
 build/*
-docs/build
-/doc/generated/*
+doc/build
+AwsCryptographicMaterialProviders/runtimes/python/doc/generated/*
 
 # Duvet output
 specification_compliance_report.html

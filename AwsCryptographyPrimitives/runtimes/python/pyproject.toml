@@ -10,11 +10,12 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.11.0"
 # TODO: Depend on PyPi once Smithy-Python publishes their Python package there
-smithy-python = { path = "../../../submodules/smithy-python/python-packages/smithy-python", develop = false}
+smithy-python = { path = "../../../smithy-dafny/codegen/smithy-dafny-codegen-modules/smithy-python/python-packages/smithy-python", develop = false}
 DafnyRuntimePython = "^4.4.0"
 standard-library = {path = "../../../StandardLibrary/runtimes/python", develop = false}
 cryptography = "^41.0.3"
 six = "^1.16.0"
+toml = "^0.10.2"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.0"
