@@ -15,10 +15,8 @@ build:
 sphinx:
    configuration: AwsCryptographicMaterialProviders/runtimes/python/doc/conf.py
 
-# Don't need to build documentation for test vectors or any other
-# sub modules
 submodules:
-  exclude: all
+  include: smithy-dafny
 
 python:
   install:
