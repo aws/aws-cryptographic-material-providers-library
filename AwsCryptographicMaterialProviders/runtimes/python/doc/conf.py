@@ -3,6 +3,8 @@ import os
 import re
 from datetime import datetime
 import toml
+from recommonmark.parser import CommonMarkParser
+
 
 VERSION_RE = re.compile(r"""__version__ = ['"]([0-9.]+)['"]""")
 HERE = os.path.abspath(os.path.dirname(__file__))
@@ -27,6 +29,10 @@ def get_version():
 
 # include_patterns = ['AwsCryptographicMaterialProviders/runtimes/python/', '']
 
+
+source_parsers = {'.md': CommonMarkParser}
+
+source_suffix = ['.rst', '.md']
 
 project = u"aws_cryptographic_materialproviders"
 version = get_version()
