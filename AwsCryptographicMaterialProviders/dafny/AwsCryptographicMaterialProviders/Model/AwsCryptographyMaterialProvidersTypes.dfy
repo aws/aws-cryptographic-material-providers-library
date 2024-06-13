@@ -6,7 +6,7 @@ include "../../AwsCryptographyKeyStore/src/Index.dfy"
 include "../../../../AwsCryptographyPrimitives/src/Index.dfy"
 include "../../../../ComAmazonawsDynamodb/src/Index.dfy"
 include "../../../../ComAmazonawsKms/src/Index.dfy"
-module {:extern "software_amazon_cryptography_materialproviders_internaldafny_types" } AwsCryptographyMaterialProvidersTypes
+module AwsCryptographyMaterialProvidersTypes
 {
   import opened Wrappers
   import opened StandardLibrary.UInt
@@ -1529,24 +1529,18 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
   import Operations : AbstractAwsCryptographyMaterialProvidersOperations
   function method DefaultMaterialProvidersConfig(): MaterialProvidersConfig
   method MaterialProviders(config: MaterialProvidersConfig := DefaultMaterialProvidersConfig())
-    // BEGIN MANUAL FIX
     returns (res: Result<MaterialProvidersClient, Error>)
-    // END MANUAL FIX
     ensures res.Success? ==>
               && fresh(res.value)
               && fresh(res.value.Modifies)
               && fresh(res.value.History)
               && res.value.ValidState()
 
-  // Helper function for the benefit of native code to create a Success(client) without referring to Dafny internals
-  // BEGIN MANUAL FIX
-  function method CreateSuccessOfClient(client: MaterialProvidersClient): Result<MaterialProvidersClient, Error> {
-    // END MANUAL FIX
+  // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
+  function method CreateSuccessOfClient(client: IAwsCryptographicMaterialProvidersClient): Result<IAwsCryptographicMaterialProvidersClient, Error> {
     Success(client)
-  } // Helper function for the benefit of native code to create a Failure(error) without referring to Dafny internals
-  // BEGIN MANUAL FIX
-  function method CreateFailureOfError(error: Error): Result<MaterialProvidersClient, Error> {
-    // END MANUAL FIX
+  }
+  function method CreateFailureOfError(error: Error): Result<IAwsCryptographicMaterialProvidersClient, Error> {
     Failure(error)
   }
   class MaterialProvidersClient extends IAwsCryptographicMaterialProvidersClient

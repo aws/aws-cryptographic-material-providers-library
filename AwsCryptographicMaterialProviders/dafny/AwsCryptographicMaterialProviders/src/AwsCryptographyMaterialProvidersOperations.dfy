@@ -50,7 +50,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   import StormTracker
   import StormTrackingCMC
   import Crypto = AwsCryptographyPrimitivesTypes
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import opened AwsKmsUtils
   import DefaultClientSupplier
   import Materials

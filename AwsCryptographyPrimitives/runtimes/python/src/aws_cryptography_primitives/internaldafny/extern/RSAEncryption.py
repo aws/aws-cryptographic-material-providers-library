@@ -1,6 +1,5 @@
-from aws_cryptography_primitives.internaldafny.generated.RSAEncryption import *
-import aws_cryptography_primitives.internaldafny.generated.RSAEncryption
-import _dafny
+# Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives.serialization import (
@@ -12,6 +11,10 @@ from cryptography.hazmat.primitives.serialization import (
   load_pem_private_key,
 )
 from cryptography.hazmat.primitives import hashes
+
+import _dafny
+
+from aws_cryptography_primitives.internaldafny.generated.RSAEncryption import *
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption
 
 # No generated class to extend
@@ -66,9 +69,7 @@ class RSA:
   @staticmethod
   def EncryptExtern(padding_mode, public_key_der, plaintext):
     plaintext_bytes = bytes(plaintext)
-    print(f"RSAEncryption {public_key_der=}")
     public_key = load_pem_public_key(bytes(public_key_der))
-    print(f"RSAEncryption {public_key=}")
 
     ct = public_key.encrypt(
         plaintext_bytes,

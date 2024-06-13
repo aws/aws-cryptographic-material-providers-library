@@ -4,7 +4,7 @@ import static Signature.ECDSA.SEC_P256;
 import static Signature.ECDSA.SEC_P384;
 import static Signature.ECDSA.SEC_PRIME_FIELD_PREFIX;
 
-import Dafny.Aws.Cryptography.Primitives.Types.InternalResult;
+import StandardLibraryInternal.InternalResult;
 import Wrappers_Compile.Result;
 import java.security.AlgorithmParameters;
 import java.security.NoSuchAlgorithmException;

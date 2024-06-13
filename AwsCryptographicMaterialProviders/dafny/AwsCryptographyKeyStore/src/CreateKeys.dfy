@@ -5,6 +5,9 @@ include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "Structure.dfy"
 include "DDBKeystoreOperations.dfy"
 include "KMSKeystoreOperations.dfy"
+include "ErrorMessages.dfy"
+include "../../AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
+include "KmsArn.dfy"
 
 module {:options "/functionSyntax:4" } CreateKeys {
   import opened StandardLibrary
@@ -13,13 +16,15 @@ module {:options "/functionSyntax:4" } CreateKeys {
   import Structure
   import KMSKeystoreOperations
   import DDBKeystoreOperations
+  import ErrorMessages = KeyStoreErrorMessages
 
   import opened Seq
   import opened UInt = StandardLibrary.UInt
   import Types = AwsCryptographyKeyStoreTypes
   import DDB = ComAmazonawsDynamodbTypes
   import KMS = ComAmazonawsKmsTypes
-
+  import AwsArnParsing
+  import KmsArn
 
   //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
   //= type=implication
@@ -27,7 +32,9 @@ module {:options "/functionSyntax:4" } CreateKeys {
   //#
   //# - `branchKeyId`: The identifier
   //# - `encryptionContext`: Additional encryption context to bind to the created keys
-  method CreateBranchAndBeaconKeys(
+
+  //  - `kmsKeyArn`: KMS key ARN used to create keys
+  method {:vcs_split_on_every_assert} CreateBranchAndBeaconKeys(
     branchKeyIdentifier: string,
     customEncryptionContext: map<string, string>,
     timestamp: string,
@@ -44,6 +51,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     requires 0 < |branchKeyVersion|
     requires forall k <- customEncryptionContext :: DDB.IsValid_AttributeName(Structure.ENCRYPTION_CONTEXT_PREFIX + k)
     requires ddbClient.Modifies !! kmsClient.Modifies
+    requires KMSKeystoreOperations.HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
 
     requires kmsClient.ValidState() && ddbClient.ValidState()
     modifies ddbClient.Modifies, kmsClient.Modifies
@@ -51,7 +59,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
     //= type=implication
-    //# This operation MUST create a [branch key](#branch-key) and a [beacon key](#beacon-key) according to
+    //# This operation MUST create a [branch key](structures.md#branch-key) and a [beacon key](structures.md#beacon-key) according to
     //# the [Branch Key and Beacon Key Creation](#branch-key-and-beacon-key-creation) section.
     ensures output.Success?
             ==>
@@ -72,7 +80,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
                                                        branchKeyVersion,
                                                        timestamp,
                                                        logicalKeyStoreName,
-                                                       kmsConfiguration.kmsKeyArn,
+                                                       KMSKeystoreOperations.GetKeyId(kmsConfiguration),
                                                        customEncryptionContext
                                                      );
 
@@ -100,8 +108,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
               //= type=implication
-              //# - `KeyId` MUST be the configured `AWS KMS Key ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore
-              && beaconKmsInput.KeyId == kmsConfiguration.kmsKeyArn
+              //# - `KeyId` MUST be [compatible with](#aws-key-arn-compatibility) the configured KMS Key in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
+              && KMSKeystoreOperations.Compatible?(kmsConfiguration, beaconKmsInput.KeyId)
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
               //= type=implication
@@ -144,6 +152,14 @@ module {:options "/functionSyntax:4" } CreateKeys {
               && var writeNewKey := Seq.Last(ddbClient.History.TransactWriteItems).input;
 
               && 3 == |writeNewKey.TransactItems|
+
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#writing-branch-key-and-beacon-key-to-keystore
+              //= type=implication
+              //# - Every key-value pair of the custom [encryption context](./structures.md#encryption-context-3) that is associated with the branch key
+              //# MUST be added with an Attribute Name of `aws-crypto-ec:` + the Key and Attribute Value (S) of the value.
+              && (forall k <- customEncryptionContext ::
+                    && Structure.ENCRYPTION_CONTEXT_PREFIX + k in decryptOnlyEncryptionContext
+                    && decryptOnlyEncryptionContext[Structure.ENCRYPTION_CONTEXT_PREFIX + k] == customEncryptionContext[k])
 
               && writeNewKey.TransactItems[0].Put.Some?
               && writeNewKey.TransactItems[0].Put.value.Item
@@ -215,18 +231,22 @@ module {:options "/functionSyntax:4" } CreateKeys {
       branchKeyVersion,
       timestamp,
       logicalKeyStoreName,
-      kmsConfiguration.kmsKeyArn,
+      KMSKeystoreOperations.GetKeyId(kmsConfiguration),
       customEncryptionContext
     );
     var activeEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyEncryptionContext);
     var beaconEncryptionContext := Structure.BeaconKeyEncryptionContext(decryptOnlyEncryptionContext);
 
+    :- Need(KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, decryptOnlyEncryptionContext),
+            Types.KeyStoreException(message := "Invalid KMS Key ARN configured for GenerateDataKeyWithoutPlaintext in CreateBranchAndBeaconKeys."));
     var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.GenerateKey(
       decryptOnlyEncryptionContext,
       kmsConfiguration,
       grantTokens,
       kmsClient
     );
+    :- Need(KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, activeEncryptionContext),
+            Types.KeyStoreException(message := "Invalid KMS Key ARN configured for ReEncrypt in CreateBranchAndBeaconKeys."));
     var wrappedActiveBranchKey :- KMSKeystoreOperations.ReEncryptKey(
       wrappedDecryptOnlyBranchKey.CiphertextBlob.value,
       decryptOnlyEncryptionContext,
@@ -235,6 +255,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
       grantTokens,
       kmsClient
     );
+    :- Need(KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, beaconEncryptionContext),
+            Types.KeyStoreException(message := "Invalid KMS Key ARN configured for GenerateDataKeyWithoutPlaintext(beacon key) in CreateBranchAndBeaconKeys."));
     var wrappedBeaconKey :- KMSKeystoreOperations.GenerateKey(
       beaconEncryptionContext,
       kmsConfiguration,
@@ -284,6 +306,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     returns (output: Result<Types.VersionKeyOutput, Types.Error>)
     requires 0 < |input.branchKeyIdentifier| && 0 < |branchKeyVersion|
     requires ddbClient.Modifies !! kmsClient.Modifies
+    requires KMSKeystoreOperations.HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
 
     requires kmsClient.ValidState() && ddbClient.ValidState()
     modifies ddbClient.Modifies, kmsClient.Modifies
@@ -309,7 +332,14 @@ module {:options "/functionSyntax:4" } CreateKeys {
               && Structure.BranchKeyItem?(oldActiveItem)
               && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD in oldActiveItem
 
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
+              //= type=implication
+              //# The `kms-arn` field of DDB response item MUST be [compatible with](#aws-key-arn-compatibility)
+              //# the configured `KMS ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
               && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, Structure.ToBranchKeyContext(oldActiveItem, logicalKeyStoreName))
+
+              && Structure.KMS_FIELD in oldActiveItem
+              && KMSKeystoreOperations.Compatible?(kmsConfiguration, oldActiveItem[Structure.KMS_FIELD].S)
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
               //= type=implication
@@ -334,8 +364,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-keystore-item
               //= type=implication
-              //# - `SourceKeyId` MUST be the configured `AWS KMS Key ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore
-              && reEncryptInput.SourceKeyId == Some(kmsConfiguration.kmsKeyArn)
+              //# - `SourceKeyId` MUST be [compatible with](#aws-key-arn-compatibility) the configured KMS Key in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
+              && KMSKeystoreOperations.OptCompatible?(kmsConfiguration, reEncryptInput.SourceKeyId)
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-keystore-item
               //= type=implication
@@ -349,8 +379,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-keystore-item
               //= type=implication
-              //# - `DestinationKeyId` MUST be the configured `AWS KMS Key ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore
-              && reEncryptInput.DestinationKeyId == kmsConfiguration.kmsKeyArn
+              //# - `DestinationKeyId` MUST be [compatible with](#aws-key-arn-compatibility) the configured KMS Key in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
+              && KMSKeystoreOperations.Compatible?(kmsConfiguration, reEncryptInput.DestinationKeyId)
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-keystore-item
               //= type=implication
@@ -460,7 +490,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
     :- Need(
       && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, oldActiveEncryptionContext),
       Types.KeyStoreException(
-        message := "Wrapping AWS KMS key in dynamodb does not match configured AWS KMS information."));
+        message := ErrorMessages.VERSION_KEY_KMS_KEY_ARN_DISAGREEMENT)
+    );
 
     var _ :- KMSKeystoreOperations.ReEncryptKey(
       oldActiveItem[Structure.BRANCH_KEY_FIELD].B,
@@ -478,6 +509,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
     );
 
     var activeEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyEncryptionContext);
+
+    assert KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, decryptOnlyEncryptionContext);
 
     var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.GenerateKey(
       decryptOnlyEncryptionContext,
@@ -528,6 +561,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
     decryptOnlyEncryptionContext: map<string, string>
   )
     reads kmsClient.History
+    requires KMSKeystoreOperations.HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
+
     requires Structure.BranchKeyContext?(decryptOnlyEncryptionContext)
     requires Structure.BRANCH_KEY_TYPE_PREFIX < decryptOnlyEncryptionContext[Structure.TYPE_FIELD]
 
@@ -548,8 +583,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
     //= type=implication
-    //# - `KeyId` MUST be the configured `AWS KMS Key ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore
-    && decryptOnlyKmsInput.KeyId == kmsConfiguration.kmsKeyArn
+    //# - `KeyId` MUST be [compatible with](#aws-key-arn-compatibility) the configured KMS Key in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
+    && KMSKeystoreOperations.Compatible?(kmsConfiguration, decryptOnlyKmsInput.KeyId)
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
     //= type=implication
@@ -577,13 +612,13 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
     //= type=implication
-    //# - `SourceKeyId` MUST be the configured `AWS KMS Key ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore
-    && activeInput.SourceKeyId == Some(kmsConfiguration.kmsKeyArn)
+    //# - `SourceKeyId` MUST be [compatible with](#aws-key-arn-compatibility) the configured KMS Key in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
+    && KMSKeystoreOperations.OptCompatible?(kmsConfiguration, activeInput.SourceKeyId)
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
     //= type=implication
-    //# - `DestinationKeyId` MUST be the configured `AWS KMS Key ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore
-    && activeInput.DestinationKeyId == kmsConfiguration.kmsKeyArn
+    //# - `DestinationKeyId` MUST be [compatible with](#aws-key-arn-compatibility) the configured KMS Key in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
+    && KMSKeystoreOperations.Compatible?(kmsConfiguration, activeInput.DestinationKeyId)
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
     //= type=implication

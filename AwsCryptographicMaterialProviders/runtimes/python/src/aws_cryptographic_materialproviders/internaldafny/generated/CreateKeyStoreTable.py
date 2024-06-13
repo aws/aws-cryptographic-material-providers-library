@@ -3,76 +3,79 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
-import System_
-import Wrappers
-import BoundedInts
-import StandardLibrary_UInt
-import StandardLibrary_String
-import StandardLibrary
-import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_primitives_internaldafny_types
-import ExternRandom
-import Random
-import AESEncryption
-import ExternDigest
-import Digest
-import HMAC
-import WrappedHMAC
-import HKDF
-import WrappedHKDF
-import Signature
-import KdfCtr
-import RSAEncryption
-import AwsCryptographyPrimitivesOperations
-import AesKdfCtr
-import Relations
-import Seq_MergeSort
-import Math
-import Seq
-import Unicode
-import Functions
-import Utf8EncodingForm
-import Utf16EncodingForm
-import UnicodeStrings
-import FileIO
-import GeneralInternals
-import MulInternalsNonlinear
-import MulInternals
-import Mul
-import ModInternalsNonlinear
-import DivInternalsNonlinear
-import ModInternals
-import DivInternals
-import DivMod
-import Power
-import Logarithm
-import StandardLibraryInterop
-import UUID
-import Time
-import Streams
-import Sorting
-import SortedSets
-import HexStrings
-import GetOpt
-import FloatCompare
-import ConcurrentCall
-import Base64
-import Base64Lemmas
-import Actions
-import DafnyLibraries
-import software_amazon_cryptography_keystore_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
-import AwsArnParsing
-import AwsKmsMrkMatchForDecrypt
-import AwsKmsUtils
-import Structure
-import KMSKeystoreOperations
-import DDBKeystoreOperations
-import CreateKeys
+import aws_cryptographic_materialproviders.internaldafny.generated.module_ as module_
+import _dafny as _dafny
+import System_ as System_
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import standard_library.internaldafny.generated.BoundedInts as BoundedInts
+import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
+import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
+import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
+import standard_library.internaldafny.generated.UTF8 as UTF8
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
+import aws_cryptography_primitives.internaldafny.generated.ExternRandom as ExternRandom
+import aws_cryptography_primitives.internaldafny.generated.Random as Random
+import aws_cryptography_primitives.internaldafny.generated.AESEncryption as AESEncryption
+import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
+import aws_cryptography_primitives.internaldafny.generated.Digest as Digest
+import aws_cryptography_primitives.internaldafny.generated.HMAC as HMAC
+import aws_cryptography_primitives.internaldafny.generated.WrappedHMAC as WrappedHMAC
+import aws_cryptography_primitives.internaldafny.generated.HKDF as HKDF
+import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as WrappedHKDF
+import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
+import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
+import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
+import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
+import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
+import com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes as ComAmazonawsKmsTypes
+import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
+import standard_library.internaldafny.generated.Relations as Relations
+import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
+import standard_library.internaldafny.generated.Math as Math
+import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.Unicode as Unicode
+import standard_library.internaldafny.generated.Functions as Functions
+import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
+import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16EncodingForm
+import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
+import standard_library.internaldafny.generated.FileIO as FileIO
+import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
+import standard_library.internaldafny.generated.MulInternalsNonlinear as MulInternalsNonlinear
+import standard_library.internaldafny.generated.MulInternals as MulInternals
+import standard_library.internaldafny.generated.Mul as Mul
+import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
+import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInternalsNonlinear
+import standard_library.internaldafny.generated.ModInternals as ModInternals
+import standard_library.internaldafny.generated.DivInternals as DivInternals
+import standard_library.internaldafny.generated.DivMod as DivMod
+import standard_library.internaldafny.generated.Power as Power
+import standard_library.internaldafny.generated.Logarithm as Logarithm
+import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
+import standard_library.internaldafny.generated.UUID as UUID
+import standard_library.internaldafny.generated.Time as Time
+import standard_library.internaldafny.generated.Streams as Streams
+import standard_library.internaldafny.generated.Sorting as Sorting
+import standard_library.internaldafny.generated.SortedSets as SortedSets
+import standard_library.internaldafny.generated.HexStrings as HexStrings
+import standard_library.internaldafny.generated.GetOpt as GetOpt
+import standard_library.internaldafny.generated.FloatCompare as FloatCompare
+import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
+import standard_library.internaldafny.generated.Base64 as Base64
+import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
+import standard_library.internaldafny.generated.Actions as Actions
+import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes as AwsCryptographyKeyStoreTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes as AwsCryptographyMaterialProvidersTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStoreErrorMessages as KeyStoreErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.KmsArn as KmsArn
+import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
+import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.CreateKeys as CreateKeys
 
 # Module: CreateKeyStoreTable
 
@@ -87,48 +90,48 @@ class default__:
     @staticmethod
     def CreateKeyStoreTable(tableName, ddbClient):
         res: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        d_220_maybeDescribeTableResponse_: Wrappers.Result
+        d_234_maybeDescribeTableResponse_: Wrappers.Result
         out27_: Wrappers.Result
-        out27_ = (ddbClient).DescribeTable(software_amazon_cryptography_services_dynamodb_internaldafny_types.DescribeTableInput_DescribeTableInput(tableName))
-        d_220_maybeDescribeTableResponse_ = out27_
-        if (d_220_maybeDescribeTableResponse_).is_Failure:
-            d_221_error_: software_amazon_cryptography_services_dynamodb_internaldafny_types.Error
-            d_221_error_ = (d_220_maybeDescribeTableResponse_).error
-            if (d_221_error_).is_ResourceNotFoundException:
-                d_222_maybeCreateTableResponse_: Wrappers.Result
+        out27_ = (ddbClient).DescribeTable(ComAmazonawsDynamodbTypes.DescribeTableInput_DescribeTableInput(tableName))
+        d_234_maybeDescribeTableResponse_ = out27_
+        if (d_234_maybeDescribeTableResponse_).is_Failure:
+            d_235_error_: ComAmazonawsDynamodbTypes.Error
+            d_235_error_ = (d_234_maybeDescribeTableResponse_).error
+            if (d_235_error_).is_ResourceNotFoundException:
+                d_236_maybeCreateTableResponse_: Wrappers.Result
                 out28_: Wrappers.Result
-                out28_ = (ddbClient).CreateTable(software_amazon_cryptography_services_dynamodb_internaldafny_types.CreateTableInput_CreateTableInput(default__.ATTRIBUTE__DEFINITIONS, tableName, default__.KEY__SCHEMA, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_Some(software_amazon_cryptography_services_dynamodb_internaldafny_types.BillingMode_PAY__PER__REQUEST()), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None()))
-                d_222_maybeCreateTableResponse_ = out28_
-                if (d_222_maybeCreateTableResponse_).is_Failure:
-                    res = Wrappers.Result_Failure(software_amazon_cryptography_keystore_internaldafny_types.Error_ComAmazonawsDynamodb((d_222_maybeCreateTableResponse_).error))
+                out28_ = (ddbClient).CreateTable(ComAmazonawsDynamodbTypes.CreateTableInput_CreateTableInput(default__.ATTRIBUTE__DEFINITIONS, tableName, default__.KEY__SCHEMA, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_Some(ComAmazonawsDynamodbTypes.BillingMode_PAY__PER__REQUEST()), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None()))
+                d_236_maybeCreateTableResponse_ = out28_
+                if (d_236_maybeCreateTableResponse_).is_Failure:
+                    res = Wrappers.Result_Failure(AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb((d_236_maybeCreateTableResponse_).error))
                 elif True:
-                    d_223_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-                    d_223_valueOrError0_ = Wrappers.default__.Need(((((d_222_maybeCreateTableResponse_).value).TableDescription).is_Some) and (default__.keyStoreHasExpectedConstruction_q((((d_222_maybeCreateTableResponse_).value).TableDescription).value)), default__.E(_dafny.Seq("Configured table name does not conform to expected Key Store construction.")))
-                    if (d_223_valueOrError0_).IsFailure():
-                        res = (d_223_valueOrError0_).PropagateFailure()
+                    d_237_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+                    d_237_valueOrError0_ = Wrappers.default__.Need(((((d_236_maybeCreateTableResponse_).value).TableDescription).is_Some) and (default__.keyStoreHasExpectedConstruction_q((((d_236_maybeCreateTableResponse_).value).TableDescription).value)), default__.E(_dafny.Seq("Configured table name does not conform to expected Key Store construction.")))
+                    if (d_237_valueOrError0_).IsFailure():
+                        res = (d_237_valueOrError0_).PropagateFailure()
                         return res
-                    res = Wrappers.Result_Success((((((d_222_maybeCreateTableResponse_).value).TableDescription).value).TableArn).value)
+                    res = Wrappers.Result_Success((((((d_236_maybeCreateTableResponse_).value).TableDescription).value).TableArn).value)
             elif True:
-                res = Wrappers.Result_Failure(software_amazon_cryptography_keystore_internaldafny_types.Error_ComAmazonawsDynamodb(d_221_error_))
+                res = Wrappers.Result_Failure(AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb(d_235_error_))
         elif True:
-            d_224_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_224_valueOrError1_ = Wrappers.default__.Need(((((d_220_maybeDescribeTableResponse_).value).Table).is_Some) and (default__.keyStoreHasExpectedConstruction_q((((d_220_maybeDescribeTableResponse_).value).Table).value)), default__.E(_dafny.Seq("Configured table name does not conform to expected Key Store construction.")))
-            if (d_224_valueOrError1_).IsFailure():
-                res = (d_224_valueOrError1_).PropagateFailure()
+            d_238_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+            d_238_valueOrError1_ = Wrappers.default__.Need(((((d_234_maybeDescribeTableResponse_).value).Table).is_Some) and (default__.keyStoreHasExpectedConstruction_q((((d_234_maybeDescribeTableResponse_).value).Table).value)), default__.E(_dafny.Seq("Configured table name does not conform to expected Key Store construction.")))
+            if (d_238_valueOrError1_).IsFailure():
+                res = (d_238_valueOrError1_).PropagateFailure()
                 return res
-            res = Wrappers.Result_Success((((((d_220_maybeDescribeTableResponse_).value).Table).value).TableArn).value)
+            res = Wrappers.Result_Success((((((d_234_maybeDescribeTableResponse_).value).Table).value).TableArn).value)
         return res
 
     @staticmethod
     def E(s):
-        return software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(s)
+        return AwsCryptographyKeyStoreTypes.Error_KeyStoreException(s)
 
     @_dafny.classproperty
     def ATTRIBUTE__DEFINITIONS(instance):
-        return _dafny.Seq([software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeDefinition_AttributeDefinition(Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD, software_amazon_cryptography_services_dynamodb_internaldafny_types.ScalarAttributeType_S()), software_amazon_cryptography_services_dynamodb_internaldafny_types.AttributeDefinition_AttributeDefinition(Structure.default__.TYPE__FIELD, software_amazon_cryptography_services_dynamodb_internaldafny_types.ScalarAttributeType_S())])
+        return _dafny.Seq([ComAmazonawsDynamodbTypes.AttributeDefinition_AttributeDefinition(Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD, ComAmazonawsDynamodbTypes.ScalarAttributeType_S()), ComAmazonawsDynamodbTypes.AttributeDefinition_AttributeDefinition(Structure.default__.TYPE__FIELD, ComAmazonawsDynamodbTypes.ScalarAttributeType_S())])
     @_dafny.classproperty
     def KEY__SCHEMA(instance):
-        return _dafny.Seq([software_amazon_cryptography_services_dynamodb_internaldafny_types.KeySchemaElement_KeySchemaElement(Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD, software_amazon_cryptography_services_dynamodb_internaldafny_types.KeyType_HASH()), software_amazon_cryptography_services_dynamodb_internaldafny_types.KeySchemaElement_KeySchemaElement(Structure.default__.TYPE__FIELD, software_amazon_cryptography_services_dynamodb_internaldafny_types.KeyType_RANGE())])
+        return _dafny.Seq([ComAmazonawsDynamodbTypes.KeySchemaElement_KeySchemaElement(Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD, ComAmazonawsDynamodbTypes.KeyType_HASH()), ComAmazonawsDynamodbTypes.KeySchemaElement_KeySchemaElement(Structure.default__.TYPE__FIELD, ComAmazonawsDynamodbTypes.KeyType_RANGE())])
 
 class keyStoreDescription:
     def  __init__(self):
@@ -136,7 +139,7 @@ class keyStoreDescription:
 
     @staticmethod
     def default():
-        return software_amazon_cryptography_services_dynamodb_internaldafny_types.TableDescription.default()()
+        return ComAmazonawsDynamodbTypes.TableDescription.default()()
     def _Is(source__):
-        d_225_t_: software_amazon_cryptography_services_dynamodb_internaldafny_types.TableDescription = source__
-        return default__.keyStoreHasExpectedConstruction_q(d_225_t_)
+        d_239_t_: ComAmazonawsDynamodbTypes.TableDescription = source__
+        return default__.keyStoreHasExpectedConstruction_q(d_239_t_)

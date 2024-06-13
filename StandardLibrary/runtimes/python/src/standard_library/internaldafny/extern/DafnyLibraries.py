@@ -45,7 +45,6 @@ class FileIO:
     def INTERNAL_WriteBytesToFile(dafny_path, dafny_bytes):
         try:
             native_path = FileIO.dafny_string_to_path(dafny_path)
-            print(f"write {native_path =}")
             FileIO.create_parent_dirs(native_path)
             native_bytes = bytes(dafny_bytes.Elements)
             native_path.write_bytes(native_bytes)
@@ -57,7 +56,6 @@ class FileIO:
     def INTERNAL_ReadBytesFromFile(dafny_path):
         try:
             native_path = FileIO.dafny_string_to_path(dafny_path)
-            print(f"read {native_path =}")
             native_bytes = native_path.read_bytes()
             dafny_bytes = _dafny.Seq(native_bytes)
             return False, dafny_bytes, _dafny.Seq([])
@@ -76,3 +74,6 @@ class FileIO:
 
 standard_library.internaldafny.generated.DafnyLibraries.FileIO = FileIO
 standard_library.internaldafny.generated.DafnyLibraries.MutableMap = MutableMap
+
+import standard_library.internaldafny.generated.FileIO
+standard_library.internaldafny.generated.FileIO.DafnyLibraries = standard_library.internaldafny.generated.DafnyLibraries

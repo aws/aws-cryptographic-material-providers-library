@@ -13,7 +13,7 @@ module {:options "-functionSyntax:4"} WrappedMaterialProvidersMain {
   import CompleteVectors
   import TestManifests
 
-  method Main(args: seq<string>) {
+  method NotMain(args: seq<string>) {
     // The expectation is that the first argument
     // is the filename or runtime
     expect 0 < |args|;

@@ -3,7 +3,7 @@
 
 include "LocalCMC.dfy"
 
-module {:options "/functionSyntax:4" } {:extern "software_amazon_cryptography_internaldafny_SynchronizedLocalCMC" } SynchronizedLocalCMC {
+module {:options "/functionSyntax:4" } SynchronizedLocalCMC {
   import opened Wrappers
   import Types = AwsCryptographyMaterialProvidersTypes
   import LocalCMC

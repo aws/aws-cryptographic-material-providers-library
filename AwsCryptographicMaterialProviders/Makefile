@@ -5,8 +5,13 @@ CORES=2
 
 include ../SharedMakefileV2.mk
 
-# TODO-Python-PYTHONPATH: Remove this. This will go into doo files.
 PYTHON_MODULE_NAME=aws_cryptographic_materialproviders
+
+TRANSLATION_RECORD_PYTHON := \
+    --translation-record ../StandardLibrary/runtimes/python/src/standard_library/internaldafny/generated/dafny_src-py.dtr \
+    --translation-record ../ComAmazonawsKms/runtimes/python/src/com_amazonaws_kms/internaldafny/generated/dafny_src-py.dtr \
+    --translation-record ../ComAmazonawsDynamodb/runtimes/python/src/com_amazonaws_dynamodb/internaldafny/generated/dafny_src-py.dtr \
+    --translation-record ../AwsCryptographyPrimitives/runtimes/python/src/aws_cryptography_primitives/internaldafny/generated/dafny_src-py.dtr
 
 PROJECT_SERVICES := \
 	AwsCryptographyKeyStore \
@@ -49,9 +54,6 @@ SERVICE_DEPS_AwsCryptographyKeyStore := \
 	ComAmazonawsDynamodb \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographicMaterialProviders \
 
-# TODO-Python-PYTHONPATH: Remove this.
-# This is a workaround to map a Smithy namespace to its wrapping Python module name.
-# This information will be in doo files.
 PYTHON_DEPENDENCY_MODULE_NAMES := \
 	--dependency-module-name=aws.cryptography.primitives=aws_cryptography_primitives \
 	--dependency-module-name=com.amazonaws.kms=com_amazonaws_kms \

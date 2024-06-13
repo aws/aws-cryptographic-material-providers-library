@@ -1,12 +1,5 @@
-import aws_cryptography_primitives
-from aws_cryptography_primitives.internaldafny.generated.Signature import *
-import aws_cryptography_primitives.internaldafny.generated.Signature
-from enum import Enum
-from software_amazon_cryptography_primitives_internaldafny_types import (
-  DigestAlgorithm_SHA__256,
-  DigestAlgorithm_SHA__384,
-  Error_AwsCryptographicPrimitivesError
-)
+# Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
 from cryptography.exceptions import (
   InvalidSignature,
   UnsupportedAlgorithm
@@ -18,22 +11,30 @@ from cryptography.hazmat.primitives.serialization import (
   PrivateFormat,
   load_pem_private_key,
 )
-import Wrappers
 import cryptography.hazmat.primitives.asymmetric.ec as ec
 from cryptography.hazmat.primitives.asymmetric.ec import (
   SECP256R1,
   SECP384R1,
 )
-import _dafny
-from collections import namedtuple
-import ExternDigest
-import six
 from cryptography.hazmat.primitives.asymmetric.utils import (
   decode_dss_signature,
   encode_dss_signature
 )
 
-aws_cryptography_primitives.internaldafny.generated.Signature.default__
+from collections import namedtuple
+import _dafny
+from enum import Enum
+
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
+from aws_cryptography_primitives.internaldafny.generated.Signature import *
+import aws_cryptography_primitives.internaldafny.generated.Signature
+from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes import (
+  DigestAlgorithm_SHA__256,
+  DigestAlgorithm_SHA__384,
+  Error_AwsCryptographicPrimitivesError
+)
+
 
 # Extend generated class
 class default__(aws_cryptography_primitives.internaldafny.generated.Signature.default__):
@@ -75,7 +76,7 @@ class default__(aws_cryptography_primitives.internaldafny.generated.Signature.de
         ))
       except UnsupportedAlgorithm:
         return Wrappers.Result_Failure(Error_AwsCryptographicPrimitivesError(
-          message="Serialized key type is not supported by OpenSSL version"
+          message="Serialized key type is not supported by cryptography provider"
         ))
 
       maybe_digest = ExternDigest.default__.internal_digest(
@@ -137,8 +138,6 @@ class default__(aws_cryptography_primitives.internaldafny.generated.Signature.de
 
 # Export extern-extended class into generated class
 aws_cryptography_primitives.internaldafny.generated.Signature.default__ = default__
-# Issue with our Dafny extern declarations. Fix is WIP on lucmcdon/signature-extern branch.
-aws_cryptography_primitives.internaldafny.generated.Signature.Signature = aws_cryptography_primitives.internaldafny.generated.Signature
 
 class SignatureAlgorithm:
   def __init__(self, curve, message_digest_algorithm, raw_signature_algorithm, expected_signature_length):
@@ -178,9 +177,8 @@ class SignatureAlgorithms(Enum):
       ))
     return Wrappers.Result_Success(signature_algorithm)
 
-# Issue with our Dafny extern declarations. Fix is WIP on lucmcdon/signature-extern branch.
+# Export extern class
 aws_cryptography_primitives.internaldafny.generated.Signature.ECDSA = default__.ECDSA
-ECDSA = default__.ECDSA
 # Remove after https://github.com/dafny-lang/dafny/issues/4853
 aws_cryptography_primitives.internaldafny.generated.Signature.ECDSA_Verify = default__.ECDSA.Verify
 ECDSA_Verify = default__.ECDSA.Verify
@@ -197,8 +195,8 @@ def _to_bytes(data):
   :returns: Data normalized to bytes
   :rtype: bytes
   """
-  if isinstance(data, six.string_types) and not isinstance(data, bytes):
-    return codecs.encode(data, aws_encryption_sdk.internal.defaults.ENCODING)
+  if isinstance(data, str) and not isinstance(data, bytes):
+    return str.encode(data)
   return data
 
 def _int_to_bytes(integer, length = None):
@@ -299,10 +297,10 @@ def _ecc_decode_compressed_point(curve, compressed_point):
   x = int.from_bytes(raw_x, "big")
   raw_y = compressed_point[0]
   # In Python3, bytes index calls return int values rather than strings
-  if isinstance(raw_y, six.integer_types):
-    raw_y = six.b(chr(raw_y))
-  elif isinstance(raw_y, six.string_types):
-    raw_y = six.b(raw_y)
+  if isinstance(raw_y, int):
+    raw_y = str.encode(chr(raw_y))
+  elif isinstance(raw_y, str):
+    raw_y = str.encode(raw_y)
   y_order = y_order_map[raw_y]
   # If curve in prime field.
   if curve.name.startswith("secp"):

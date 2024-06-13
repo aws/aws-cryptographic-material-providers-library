@@ -55,12 +55,12 @@ module {:extern "Signature"} Signature {
                    ));
   }
 
-  method {:extern "Signature.ECDSA", "ExternKeyGen"} ExternKeyGen(
+  method {:extern "ECDSA", "ExternKeyGen"} ExternKeyGen(
     s: Types.ECDSASignatureAlgorithm
   ) returns (res: Result<SignatureKeyPair, Types.Error>)
     ensures res.Success? ==> IsValidSignatureKeyPair(res.value)
 
-  method {:extern "Signature.ECDSA", "Sign"} Sign(
+  method {:extern "ECDSA", "Sign"} Sign(
     s: Types.ECDSASignatureAlgorithm,
     key: seq<uint8>,
     msg: seq<uint8>
@@ -69,7 +69,7 @@ module {:extern "Signature"} Signature {
 
   // This is a valid function
   // because the same inputs will result in the same outputs.
-  function method {:extern "Signature.ECDSA", "Verify"} Verify(
+  function method {:extern "ECDSA", "Verify"} Verify(
     s: Types.ECDSASignatureAlgorithm, key: seq<uint8>,
     msg: seq<uint8>,
     sig: seq<uint8>

@@ -3,51 +3,51 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
-import System_
-import Wrappers
-import Relations
-import Seq_MergeSort
-import Math
-import Seq
-import BoundedInts
-import Unicode
-import Functions
-import Utf8EncodingForm
-import Utf16EncodingForm
-import UnicodeStrings
-import FileIO
-import GeneralInternals
-import MulInternalsNonlinear
-import MulInternals
-import Mul
-import ModInternalsNonlinear
-import DivInternalsNonlinear
-import ModInternals
-import DivInternals
-import DivMod
-import Power
-import Logarithm
-import StandardLibraryInterop
-import StandardLibrary_UInt
-import StandardLibrary_String
-import StandardLibrary
-import UUID
-import UTF8
-import Time
-import Streams
-import Sorting
-import SortedSets
-import HexStrings
-import GetOpt
-import FloatCompare
-import ConcurrentCall
-import Base64
-import Base64Lemmas
-import Actions
-import DafnyLibraries
-import JSON_Utils_Views_Core
+import standard_library.internaldafny.generated.module_ as module_
+import _dafny as _dafny
+import System_ as System_
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import standard_library.internaldafny.generated.Relations as Relations
+import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
+import standard_library.internaldafny.generated.Math as Math
+import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.BoundedInts as BoundedInts
+import standard_library.internaldafny.generated.Unicode as Unicode
+import standard_library.internaldafny.generated.Functions as Functions
+import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
+import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16EncodingForm
+import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
+import standard_library.internaldafny.generated.FileIO as FileIO
+import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
+import standard_library.internaldafny.generated.MulInternalsNonlinear as MulInternalsNonlinear
+import standard_library.internaldafny.generated.MulInternals as MulInternals
+import standard_library.internaldafny.generated.Mul as Mul
+import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
+import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInternalsNonlinear
+import standard_library.internaldafny.generated.ModInternals as ModInternals
+import standard_library.internaldafny.generated.DivInternals as DivInternals
+import standard_library.internaldafny.generated.DivMod as DivMod
+import standard_library.internaldafny.generated.Power as Power
+import standard_library.internaldafny.generated.Logarithm as Logarithm
+import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
+import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
+import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
+import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
+import standard_library.internaldafny.generated.UUID as UUID
+import standard_library.internaldafny.generated.UTF8 as UTF8
+import standard_library.internaldafny.generated.Time as Time
+import standard_library.internaldafny.generated.Streams as Streams
+import standard_library.internaldafny.generated.Sorting as Sorting
+import standard_library.internaldafny.generated.SortedSets as SortedSets
+import standard_library.internaldafny.generated.HexStrings as HexStrings
+import standard_library.internaldafny.generated.GetOpt as GetOpt
+import standard_library.internaldafny.generated.FloatCompare as FloatCompare
+import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
+import standard_library.internaldafny.generated.Base64 as Base64
+import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
+import standard_library.internaldafny.generated.Actions as Actions
+import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
+import standard_library.internaldafny.generated.JSON_Utils_Views_Core as JSON_Utils_Views_Core
 
 # Module: JSON_Utils_Views_Writers
 
@@ -65,14 +65,14 @@ class Chain:
     def is_Chain(self) -> bool:
         return isinstance(self, Chain_Chain)
     def Length(self):
-        d_440___accumulator_ = 0
+        d_431___accumulator_ = 0
         _this = self
         while True:
             with _dafny.label():
                 if (_this).is_Empty:
-                    return (0) + (d_440___accumulator_)
+                    return (0) + (d_431___accumulator_)
                 elif True:
-                    d_440___accumulator_ = (((_this).v).Length()) + (d_440___accumulator_)
+                    d_431___accumulator_ = (((_this).v).Length()) + (d_431___accumulator_)
                     in184_ = (_this).previous
                     _this = in184_
                     
@@ -80,14 +80,14 @@ class Chain:
                 break
 
     def Count(self):
-        d_441___accumulator_ = 0
+        d_432___accumulator_ = 0
         _this = self
         while True:
             with _dafny.label():
                 if (_this).is_Empty:
-                    return (0) + (d_441___accumulator_)
+                    return (0) + (d_432___accumulator_)
                 elif True:
-                    d_441___accumulator_ = (1) + (d_441___accumulator_)
+                    d_432___accumulator_ = (1) + (d_432___accumulator_)
                     in185_ = (_this).previous
                     _this = in185_
                     
@@ -95,14 +95,14 @@ class Chain:
                 break
 
     def Bytes(self):
-        d_442___accumulator_ = _dafny.Seq([])
+        d_433___accumulator_ = _dafny.Seq([])
         _this = self
         while True:
             with _dafny.label():
                 if (_this).is_Empty:
-                    return (_dafny.Seq([])) + (d_442___accumulator_)
+                    return (_dafny.Seq([])) + (d_433___accumulator_)
                 elif True:
-                    d_442___accumulator_ = (((_this).v).Bytes()) + (d_442___accumulator_)
+                    d_433___accumulator_ = (((_this).v).Bytes()) + (d_433___accumulator_)
                     in186_ = (_this).previous
                     _this = in186_
                     
@@ -120,12 +120,12 @@ class Chain:
         while True:
             with _dafny.label():
                 if (_this).is_Chain:
-                    d_443_end_: int
-                    d_443_end_ = (end) - (((_this).v).Length())
-                    ((_this).v).CopyTo(dest, d_443_end_)
+                    d_434_end_: int
+                    d_434_end_ = (end) - (((_this).v).Length())
+                    ((_this).v).CopyTo(dest, d_434_end_)
                     in187_ = (_this).previous
                     in188_ = dest
-                    in189_ = d_443_end_
+                    in189_ = d_434_end_
                     _this = in187_
                     
                     dest = in188_

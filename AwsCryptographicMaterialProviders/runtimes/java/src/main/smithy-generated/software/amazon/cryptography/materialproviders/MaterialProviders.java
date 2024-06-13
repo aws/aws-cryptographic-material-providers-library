@@ -10,9 +10,7 @@ import java.lang.Byte;
 import java.lang.IllegalArgumentException;
 import java.nio.ByteBuffer;
 import java.util.Objects;
-//BEGIN MANUAL FIX
 import software.amazon.cryptography.materialproviders.internaldafny.MaterialProvidersClient;
-//END MANUAL FIX
 import software.amazon.cryptography.materialproviders.internaldafny.__default;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error;
 import software.amazon.cryptography.materialproviders.internaldafny.types.IAwsCryptographicMaterialProvidersClient;

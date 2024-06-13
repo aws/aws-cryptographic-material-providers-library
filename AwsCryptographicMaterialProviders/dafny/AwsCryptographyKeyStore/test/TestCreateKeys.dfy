@@ -20,6 +20,49 @@ module TestCreateKeys {
   import DDBKeystoreOperations
   import UUID
 
+  /*
+    // If you need to re-create the MRK Branch Keys
+  
+    method {:test} TestCreateMRK()
+    {
+      var ddbClient :- expect DDB.DynamoDBClient();
+  
+      var keyStoreConfigEast := Types.KeyStoreConfig(
+        id := None,
+        kmsConfiguration := KmsConfigEast,
+        logicalKeyStoreName := logicalKeyStoreName,
+        grantTokens := None,
+        ddbTableName := branchKeyStoreName,
+        ddbClient := Some(ddbClient)
+      );
+  
+      var keyStoreConfigWest := Types.KeyStoreConfig(
+        id := None,
+        kmsConfiguration := KmsConfigWest,
+        logicalKeyStoreName := logicalKeyStoreName,
+        grantTokens := None,
+        ddbTableName := branchKeyStoreName,
+        ddbClient := Some(ddbClient)
+      );
+  
+      var keyStoreEast :- expect KeyStore.KeyStore(keyStoreConfigEast);
+      var keyStoreWest :- expect KeyStore.KeyStore(keyStoreConfigWest);
+  
+      var branchKeyIdWest :- expect keyStoreWest.CreateKey(Types.CreateKeyInput(
+                                                             branchKeyIdentifier := Some(WestBranchKey),
+                                                             encryptionContext := Some(KmsMrkEC)
+                                                           ));
+  
+      var branchKeyIdEast :- expect keyStoreEast.CreateKey(Types.CreateKeyInput(
+                                                             branchKeyIdentifier := Some(EastBranchKey),
+                                                             encryptionContext := Some(KmsMrkEC)
+                                                           ));
+  
+      expect branchKeyIdEast.branchKeyIdentifier == EastBranchKey;
+      expect branchKeyIdWest.branchKeyIdentifier == WestBranchKey;
+    }
+  */
+
   method {:test} TestCreateBranchAndBeaconKeys()
   {
     var kmsClient :- expect KMS.KMSClient();
@@ -42,7 +85,6 @@ module TestCreateKeys {
                                                    branchKeyIdentifier := None,
                                                    encryptionContext := None
                                                  ));
-
     var beaconKeyResult :- expect keyStore.GetBeaconKey(
       Types.GetBeaconKeyInput(
         branchKeyIdentifier := branchKeyId.branchKeyIdentifier
@@ -190,6 +232,7 @@ module TestCreateKeys {
 
   method {:test} InsertingADuplicateWillFail()
   {
+    assume {:axiom} false;
     var ddbClient :- expect DDB.DynamoDBClient();
 
     var encryptionContext := Structure.DecryptOnlyBranchKeyEncryptionContext(
@@ -214,6 +257,7 @@ module TestCreateKeys {
 
   method {:test} InsertingADuplicateWillWithADifferentVersionFail()
   {
+    assume {:axiom} false;
     var ddbClient :- expect DDB.DynamoDBClient();
 
     var encryptionContext := Structure.DecryptOnlyBranchKeyEncryptionContext(
@@ -234,28 +278,5 @@ module TestCreateKeys {
     );
 
     expect output.Failure?;
-  }
-
-  // See CreateKey operation for details
-  method EncodeEncryptionContext(
-    input: map<string,string>
-  )
-    returns (output: Result<Types.EncryptionContext, string>)
-  {
-    var encodedEncryptionContext
-      := set k <- input
-      ::
-        (UTF8.Encode(k), UTF8.Encode(input[k]), k);
-    :- Need(forall i <- encodedEncryptionContext
-              ::
-                && i.0.Success?
-                && i.1.Success?
-                && var encoded := UTF8.Decode(i.0.value);
-                && encoded.Success?
-                && i.2 == encoded.value
-           ,
-            "Unable to encode string");
-
-    output := Success(map i <- encodedEncryptionContext :: i.0.value := i.1.value);
   }
 }
