@@ -1452,7 +1452,7 @@ module AwsCryptographyMaterialProvidersTypes
     nameonly stop: DecryptionMaterials
   )
   datatype ValidEncryptionMaterialsTransitionInput = | ValidEncryptionMaterialsTransitionInput (
-    nameonly start: EncryptionMaterials ,
+    nameonly start: EncryptionMaterialsx ,
     nameonly stop: EncryptionMaterials
   )
   datatype Error =

@@ -152,9 +152,15 @@ class HKDF:
         input_key_length: int = 0,
         output_key_length: int = 0,
     ):
+        if (hmac is None):
+            raise ValueError("hmac must be provided")
+
         self.hmac = hmac
         if (salt_length is not None) and (salt_length < 0):
             raise ValueError("salt_length must be greater than or equal to 0")
+
+        if (salt_length is None):
+            raise ValueError("salt_length must be provided")
 
         self.salt_length = salt_length
         if (input_key_length is not None) and (input_key_length < 1):
@@ -163,12 +169,18 @@ class HKDF:
         if (input_key_length is not None) and (input_key_length > 32):
             raise ValueError("input_key_length must be less than or equal to 32")
 
+        if (input_key_length is None):
+            raise ValueError("input_key_length must be provided")
+
         self.input_key_length = input_key_length
         if (output_key_length is not None) and (output_key_length < 1):
             raise ValueError("output_key_length must be greater than or equal to 1")
 
         if (output_key_length is not None) and (output_key_length > 32):
             raise ValueError("output_key_length must be less than or equal to 32")
+
+        if (output_key_length is None):
+            raise ValueError("output_key_length must be provided")
 
         self.output_key_length = output_key_length
 
@@ -485,8 +497,17 @@ class IntermediateKeyWrapping:
         mac_key_kdf: DerivationAlgorithm,
         pdk_encrypt_algorithm: Encrypt,
     ):
+        if (key_encryption_key_kdf is None):
+            raise ValueError("key_encryption_key_kdf must be provided")
+
         self.key_encryption_key_kdf = key_encryption_key_kdf
+        if (mac_key_kdf is None):
+            raise ValueError("mac_key_kdf must be provided")
+
         self.mac_key_kdf = mac_key_kdf
+        if (pdk_encrypt_algorithm is None):
+            raise ValueError("pdk_encrypt_algorithm must be provided")
+
         self.pdk_encrypt_algorithm = pdk_encrypt_algorithm
 
     def as_dict(self) -> Dict[str, Any]:
@@ -623,6 +644,9 @@ class ECDSA:
         *,
         curve: str,
     ):
+        if (curve is None):
+            raise ValueError("curve must be provided")
+
         self.curve = curve
 
     def as_dict(self) -> Dict[str, Any]:
@@ -843,14 +867,41 @@ class AlgorithmSuiteInfo:
         symmetric_signature: SymmetricSignatureAlgorithm,
         edk_wrapping: EdkWrappingAlgorithm,
     ):
+        if (id is None):
+            raise ValueError("id must be provided")
+
         self.id = id
+        if (binary_id is None):
+            raise ValueError("binary_id must be provided")
+
         self.binary_id = binary_id
+        if (message_version is None):
+            raise ValueError("message_version must be provided")
+
         self.message_version = message_version
+        if (encrypt is None):
+            raise ValueError("encrypt must be provided")
+
         self.encrypt = encrypt
+        if (kdf is None):
+            raise ValueError("kdf must be provided")
+
         self.kdf = kdf
+        if (commitment is None):
+            raise ValueError("commitment must be provided")
+
         self.commitment = commitment
+        if (signature is None):
+            raise ValueError("signature must be provided")
+
         self.signature = signature
+        if (symmetric_signature is None):
+            raise ValueError("symmetric_signature must be provided")
+
         self.symmetric_signature = symmetric_signature
+        if (edk_wrapping is None):
+            raise ValueError("edk_wrapping must be provided")
+
         self.edk_wrapping = edk_wrapping
 
     def as_dict(self) -> Dict[str, Any]:
@@ -945,6 +996,9 @@ class GetBranchKeyIdInput:
         :param encryption_context: The Encryption Context used with this encryption or
         decryption.
         """
+        if (encryption_context is None):
+            raise ValueError("encryption_context must be provided")
+
         self.encryption_context = encryption_context
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1000,6 +1054,9 @@ class GetBranchKeyIdOutput:
         responsible for wrapping or unwrapping the data key in this encryption or
         decryption.
         """
+        if (branch_key_id is None):
+            raise ValueError("branch_key_id must be provided")
+
         self.branch_key_id = branch_key_id
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1052,6 +1109,9 @@ class GetClientInput:
 
         :param region: The region the client should be created in.
         """
+        if (region is None):
+            raise ValueError("region must be provided")
+
         self.region = region
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1108,7 +1168,13 @@ class DiscoveryFilter:
         :param account_ids: A list of allowed AWS account IDs.
         :param partition: The AWS partition which is allowed.
         """
+        if (account_ids is None):
+            raise ValueError("account_ids must be provided")
+
         self.account_ids = account_ids
+        if (partition is None):
+            raise ValueError("partition must be provided")
+
         self.partition = partition
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1173,8 +1239,17 @@ class CreateAwsKmsDiscoveryKeyringInput:
         may attempt to decrypt with by AWS partition and account.
         :param grant_tokens: A list of grant tokens to be used when calling KMS.
         """
+        if (kms_client is None):
+            raise ValueError("kms_client must be provided")
+
         self.kms_client = kms_client
+        if (discovery_filter is None):
+            raise ValueError("discovery_filter must be provided")
+
         self.discovery_filter = discovery_filter
+        if (grant_tokens is None):
+            raise ValueError("grant_tokens must be provided")
+
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1261,9 +1336,21 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
         input.
         :param grant_tokens: A list of grant tokens to be used when calling KMS.
         """
+        if (regions is None):
+            raise ValueError("regions must be provided")
+
         self.regions = regions
+        if (discovery_filter is None):
+            raise ValueError("discovery_filter must be provided")
+
         self.discovery_filter = discovery_filter
+        if (client_supplier is None):
+            raise ValueError("client_supplier must be provided")
+
         self.client_supplier = client_supplier
+        if (grant_tokens is None):
+            raise ValueError("grant_tokens must be provided")
+
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1349,6 +1436,9 @@ class DefaultCache:
         if (entry_capacity is not None) and (entry_capacity < 1):
             raise ValueError("entry_capacity must be greater than or equal to 1")
 
+        if (entry_capacity is None):
+            raise ValueError("entry_capacity must be provided")
+
         self.entry_capacity = entry_capacity
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1412,9 +1502,15 @@ class MultiThreadedCache:
         if (entry_capacity is not None) and (entry_capacity < 1):
             raise ValueError("entry_capacity must be greater than or equal to 1")
 
+        if (entry_capacity is None):
+            raise ValueError("entry_capacity must be provided")
+
         self.entry_capacity = entry_capacity
         if (entry_pruning_tail_size is not None) and (entry_pruning_tail_size < 1):
             raise ValueError("entry_pruning_tail_size must be greater than or equal to 1")
+
+        if (entry_pruning_tail_size is None):
+            raise ValueError("entry_pruning_tail_size must be provided")
 
         self.entry_pruning_tail_size = entry_pruning_tail_size
 
@@ -1515,9 +1611,15 @@ class SingleThreadedCache:
         if (entry_capacity is not None) and (entry_capacity < 1):
             raise ValueError("entry_capacity must be greater than or equal to 1")
 
+        if (entry_capacity is None):
+            raise ValueError("entry_capacity must be provided")
+
         self.entry_capacity = entry_capacity
         if (entry_pruning_tail_size is not None) and (entry_pruning_tail_size < 1):
             raise ValueError("entry_pruning_tail_size must be greater than or equal to 1")
+
+        if (entry_pruning_tail_size is None):
+            raise ValueError("entry_pruning_tail_size must be provided")
 
         self.entry_pruning_tail_size = entry_pruning_tail_size
 
@@ -1613,29 +1715,50 @@ class StormTrackingCache:
         if (entry_capacity is not None) and (entry_capacity < 1):
             raise ValueError("entry_capacity must be greater than or equal to 1")
 
+        if (entry_capacity is None):
+            raise ValueError("entry_capacity must be provided")
+
         self.entry_capacity = entry_capacity
         if (entry_pruning_tail_size is not None) and (entry_pruning_tail_size < 1):
             raise ValueError("entry_pruning_tail_size must be greater than or equal to 1")
+
+        if (entry_pruning_tail_size is None):
+            raise ValueError("entry_pruning_tail_size must be provided")
 
         self.entry_pruning_tail_size = entry_pruning_tail_size
         if (grace_period is not None) and (grace_period < 1):
             raise ValueError("grace_period must be greater than or equal to 1")
 
+        if (grace_period is None):
+            raise ValueError("grace_period must be provided")
+
         self.grace_period = grace_period
         if (grace_interval is not None) and (grace_interval < 1):
             raise ValueError("grace_interval must be greater than or equal to 1")
+
+        if (grace_interval is None):
+            raise ValueError("grace_interval must be provided")
 
         self.grace_interval = grace_interval
         if (fan_out is not None) and (fan_out < 1):
             raise ValueError("fan_out must be greater than or equal to 1")
 
+        if (fan_out is None):
+            raise ValueError("fan_out must be provided")
+
         self.fan_out = fan_out
         if (in_flight_ttl is not None) and (in_flight_ttl < 1):
             raise ValueError("in_flight_ttl must be greater than or equal to 1")
 
+        if (in_flight_ttl is None):
+            raise ValueError("in_flight_ttl must be provided")
+
         self.in_flight_ttl = in_flight_ttl
         if (sleep_milli is not None) and (sleep_milli < 1):
             raise ValueError("sleep_milli must be greater than or equal to 1")
+
+        if (sleep_milli is None):
+            raise ValueError("sleep_milli must be provided")
 
         self.sleep_milli = sleep_milli
 
@@ -1932,13 +2055,28 @@ class CreateAwsKmsHierarchicalKeyringInput:
         re-authenticated with AWS KMS.
         :param cache: Which type of local cache to use.
         """
+        if (key_store is None):
+            raise ValueError("key_store must be provided")
+
         self.key_store = key_store
+        if (branch_key_id is None):
+            raise ValueError("branch_key_id must be provided")
+
         self.branch_key_id = branch_key_id
+        if (branch_key_id_supplier is None):
+            raise ValueError("branch_key_id_supplier must be provided")
+
         self.branch_key_id_supplier = branch_key_id_supplier
         if (ttl_seconds is not None) and (ttl_seconds < 0):
             raise ValueError("ttl_seconds must be greater than or equal to 0")
 
+        if (ttl_seconds is None):
+            raise ValueError("ttl_seconds must be provided")
+
         self.ttl_seconds = ttl_seconds
+        if (cache is None):
+            raise ValueError("cache must be provided")
+
         self.cache = cache
 
     def as_dict(self) -> Dict[str, Any]:
@@ -2039,8 +2177,17 @@ class CreateAwsKmsKeyringInput:
         :param kms_client: The KMS Client this Keyring will use to call KMS.
         :param grant_tokens: A list of grant tokens to be used when calling KMS.
         """
+        if (kms_key_id is None):
+            raise ValueError("kms_key_id must be provided")
+
         self.kms_key_id = kms_key_id
+        if (kms_client is None):
+            raise ValueError("kms_client must be provided")
+
         self.kms_client = kms_client
+        if (grant_tokens is None):
+            raise ValueError("grant_tokens must be provided")
+
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
@@ -2120,9 +2267,21 @@ class CreateAwsKmsMrkDiscoveryKeyringInput:
         may attempt to decrypt with by AWS partition and account.
         :param grant_tokens: A list of grant tokens to be used when calling KMS.
         """
+        if (kms_client is None):
+            raise ValueError("kms_client must be provided")
+
         self.kms_client = kms_client
+        if (region is None):
+            raise ValueError("region must be provided")
+
         self.region = region
+        if (discovery_filter is None):
+            raise ValueError("discovery_filter must be provided")
+
         self.discovery_filter = discovery_filter
+        if (grant_tokens is None):
+            raise ValueError("grant_tokens must be provided")
+
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
@@ -2214,9 +2373,21 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
         input.
         :param grant_tokens: A list of grant tokens to be used when calling KMS.
         """
+        if (regions is None):
+            raise ValueError("regions must be provided")
+
         self.regions = regions
+        if (discovery_filter is None):
+            raise ValueError("discovery_filter must be provided")
+
         self.discovery_filter = discovery_filter
+        if (client_supplier is None):
+            raise ValueError("client_supplier must be provided")
+
         self.client_supplier = client_supplier
+        if (grant_tokens is None):
+            raise ValueError("grant_tokens must be provided")
+
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
@@ -2306,8 +2477,17 @@ class CreateAwsKmsMrkKeyringInput:
         :param kms_client: The KMS Client this Keyring will use to call KMS.
         :param grant_tokens: A list of grant tokens to be used when calling KMS.
         """
+        if (kms_key_id is None):
+            raise ValueError("kms_key_id must be provided")
+
         self.kms_key_id = kms_key_id
+        if (kms_client is None):
+            raise ValueError("kms_client must be provided")
+
         self.kms_client = kms_client
+        if (grant_tokens is None):
+            raise ValueError("grant_tokens must be provided")
+
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
@@ -2394,9 +2574,21 @@ class CreateAwsKmsMrkMultiKeyringInput:
         input, the Default Client Supplier is used.
         :param grant_tokens: A list of grant tokens to be used when calling KMS.
         """
+        if (generator is None):
+            raise ValueError("generator must be provided")
+
         self.generator = generator
+        if (kms_key_ids is None):
+            raise ValueError("kms_key_ids must be provided")
+
         self.kms_key_ids = kms_key_ids
+        if (client_supplier is None):
+            raise ValueError("client_supplier must be provided")
+
         self.client_supplier = client_supplier
+        if (grant_tokens is None):
+            raise ValueError("grant_tokens must be provided")
+
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
@@ -2498,9 +2690,21 @@ class CreateAwsKmsMultiKeyringInput:
         input, the Default Client Supplier is used.
         :param grant_tokens: A list of grant tokens to be used when calling KMS.
         """
+        if (generator is None):
+            raise ValueError("generator must be provided")
+
         self.generator = generator
+        if (kms_key_ids is None):
+            raise ValueError("kms_key_ids must be provided")
+
         self.kms_key_ids = kms_key_ids
+        if (client_supplier is None):
+            raise ValueError("client_supplier must be provided")
+
         self.client_supplier = client_supplier
+        if (grant_tokens is None):
+            raise ValueError("grant_tokens must be provided")
+
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
@@ -2602,10 +2806,25 @@ class CreateAwsKmsRsaKeyringInput:
         :param kms_client: The KMS Client this Keyring will use to call KMS.
         :param grant_tokens: A list of grant tokens to be used when calling KMS.
         """
+        if (kms_key_id is None):
+            raise ValueError("kms_key_id must be provided")
+
         self.kms_key_id = kms_key_id
+        if (encryption_algorithm is None):
+            raise ValueError("encryption_algorithm must be provided")
+
         self.encryption_algorithm = encryption_algorithm
+        if (public_key is None):
+            raise ValueError("public_key must be provided")
+
         self.public_key = public_key
+        if (kms_client is None):
+            raise ValueError("kms_client must be provided")
+
         self.kms_client = kms_client
+        if (grant_tokens is None):
+            raise ValueError("grant_tokens must be provided")
+
         self.grant_tokens = grant_tokens
 
     def as_dict(self) -> Dict[str, Any]:
@@ -2692,6 +2911,9 @@ class CreateCryptographicMaterialsCacheInput:
         """
         :param cache: Which type of local cache to use.
         """
+        if (cache is None):
+            raise ValueError("cache must be provided")
+
         self.cache = cache
 
     def as_dict(self) -> Dict[str, Any]:
@@ -2771,6 +2993,9 @@ class CreateDefaultCryptographicMaterialsManagerInput:
         :param keyring: The Keyring that the created Default Cryprographic Materials
         Manager will use to wrap data keys.
         """
+        if (keyring is None):
+            raise ValueError("keyring must be provided")
+
         self.keyring = keyring
 
     def as_dict(self) -> Dict[str, Any]:
@@ -2830,7 +3055,13 @@ class CreateMultiKeyringInput:
         key. This is the first keyring that will be used to wrap the data key, and may
         be responsible for additionally generating the data key.
         """
+        if (child_keyrings is None):
+            raise ValueError("child_keyrings must be provided")
+
         self.child_keyrings = child_keyrings
+        if (generator is None):
+            raise ValueError("generator must be provided")
+
         self.generator = generator
 
     def as_dict(self) -> Dict[str, Any]:
@@ -2905,9 +3136,21 @@ class CreateRawAesKeyringInput:
         :param wrapping_alg: The AES_GCM algorithm this Keyring uses to wrap and unwrap
         data keys.
         """
+        if (key_namespace is None):
+            raise ValueError("key_namespace must be provided")
+
         self.key_namespace = key_namespace
+        if (key_name is None):
+            raise ValueError("key_name must be provided")
+
         self.key_name = key_name
+        if (wrapping_key is None):
+            raise ValueError("wrapping_key must be provided")
+
         self.wrapping_key = wrapping_key
+        if (wrapping_alg is None):
+            raise ValueError("wrapping_alg must be provided")
+
         self.wrapping_alg = wrapping_alg
 
     def as_dict(self) -> Dict[str, Any]:
@@ -3008,10 +3251,25 @@ class CreateRawRsaKeyringInput:
         this Keyring cannot be used on decrypt. A public key and/or a private key must
         be specified.
         """
+        if (key_namespace is None):
+            raise ValueError("key_namespace must be provided")
+
         self.key_namespace = key_namespace
+        if (key_name is None):
+            raise ValueError("key_name must be provided")
+
         self.key_name = key_name
+        if (padding_scheme is None):
+            raise ValueError("padding_scheme must be provided")
+
         self.padding_scheme = padding_scheme
+        if (public_key is None):
+            raise ValueError("public_key must be provided")
+
         self.public_key = public_key
+        if (private_key is None):
+            raise ValueError("private_key must be provided")
+
         self.private_key = private_key
 
     def as_dict(self) -> Dict[str, Any]:
@@ -3111,8 +3369,17 @@ class CreateRequiredEncryptionContextCMMInput:
         Either a Keyring or an underlying Cryprographic Materials Manager must be
         specified as input.
         """
+        if (required_encryption_context_keys is None):
+            raise ValueError("required_encryption_context_keys must be provided")
+
         self.required_encryption_context_keys = required_encryption_context_keys
+        if (underlying_cmm is None):
+            raise ValueError("underlying_cmm must be provided")
+
         self.underlying_cmm = underlying_cmm
+        if (keyring is None):
+            raise ValueError("keyring must be provided")
+
         self.keyring = keyring
 
     def as_dict(self) -> Dict[str, Any]:
@@ -3183,6 +3450,9 @@ class DeleteCacheEntryInput:
         *,
         identifier: bytes | bytearray,
     ):
+        if (identifier is None):
+            raise ValueError("identifier must be provided")
+
         self.identifier = identifier
 
     def as_dict(self) -> Dict[str, Any]:
@@ -3233,7 +3503,13 @@ class GetCacheEntryInput:
         identifier: bytes | bytearray,
         bytes_used: Optional[int] = None,
     ):
+        if (identifier is None):
+            raise ValueError("identifier must be provided")
+
         self.identifier = identifier
+        if (bytes_used is None):
+            raise ValueError("bytes_used must be provided")
+
         self.bytes_used = bytes_used
 
     def as_dict(self) -> Dict[str, Any]:
@@ -3303,11 +3579,29 @@ class DecryptionMaterials:
         verification_key: Optional[bytes | bytearray] = None,
         symmetric_signing_key: Optional[bytes | bytearray] = None,
     ):
+        if (algorithm_suite is None):
+            raise ValueError("algorithm_suite must be provided")
+
         self.algorithm_suite = algorithm_suite
+        if (encryption_context is None):
+            raise ValueError("encryption_context must be provided")
+
         self.encryption_context = encryption_context
+        if (required_encryption_context_keys is None):
+            raise ValueError("required_encryption_context_keys must be provided")
+
         self.required_encryption_context_keys = required_encryption_context_keys
+        if (plaintext_data_key is None):
+            raise ValueError("plaintext_data_key must be provided")
+
         self.plaintext_data_key = plaintext_data_key
+        if (verification_key is None):
+            raise ValueError("verification_key must be provided")
+
         self.verification_key = verification_key
+        if (symmetric_signing_key is None):
+            raise ValueError("symmetric_signing_key must be provided")
+
         self.symmetric_signing_key = symmetric_signing_key
 
     def as_dict(self) -> Dict[str, Any]:
@@ -3399,8 +3693,17 @@ class EncryptedDataKey:
         key_provider_info: bytes | bytearray,
         ciphertext: bytes | bytearray,
     ):
+        if (key_provider_id is None):
+            raise ValueError("key_provider_id must be provided")
+
         self.key_provider_id = key_provider_id
+        if (key_provider_info is None):
+            raise ValueError("key_provider_info must be provided")
+
         self.key_provider_info = key_provider_info
+        if (ciphertext is None):
+            raise ValueError("ciphertext must be provided")
+
         self.ciphertext = ciphertext
 
     def as_dict(self) -> Dict[str, Any]:
@@ -3471,12 +3774,33 @@ class EncryptionMaterials:
         signing_key: Optional[bytes | bytearray] = None,
         symmetric_signing_keys: Optional[list[bytes | bytearray]] = None,
     ):
+        if (algorithm_suite is None):
+            raise ValueError("algorithm_suite must be provided")
+
         self.algorithm_suite = algorithm_suite
+        if (encryption_context is None):
+            raise ValueError("encryption_context must be provided")
+
         self.encryption_context = encryption_context
+        if (encrypted_data_keys is None):
+            raise ValueError("encrypted_data_keys must be provided")
+
         self.encrypted_data_keys = encrypted_data_keys
+        if (required_encryption_context_keys is None):
+            raise ValueError("required_encryption_context_keys must be provided")
+
         self.required_encryption_context_keys = required_encryption_context_keys
+        if (plaintext_data_key is None):
+            raise ValueError("plaintext_data_key must be provided")
+
         self.plaintext_data_key = plaintext_data_key
+        if (signing_key is None):
+            raise ValueError("signing_key must be provided")
+
         self.signing_key = signing_key
+        if (symmetric_signing_keys is None):
+            raise ValueError("symmetric_signing_keys must be provided")
+
         self.symmetric_signing_keys = symmetric_signing_keys
 
     def as_dict(self) -> Dict[str, Any]:
@@ -3705,21 +4029,36 @@ class GetCacheEntryOutput:
         messages_used: int = 0,
         bytes_used: int = 0,
     ):
+        if (materials is None):
+            raise ValueError("materials must be provided")
+
         self.materials = materials
         if (creation_time is not None) and (creation_time < 0):
             raise ValueError("creation_time must be greater than or equal to 0")
+
+        if (creation_time is None):
+            raise ValueError("creation_time must be provided")
 
         self.creation_time = creation_time
         if (expiry_time is not None) and (expiry_time < 0):
             raise ValueError("expiry_time must be greater than or equal to 0")
 
+        if (expiry_time is None):
+            raise ValueError("expiry_time must be provided")
+
         self.expiry_time = expiry_time
         if (messages_used is not None) and (messages_used < 0):
             raise ValueError("messages_used must be greater than or equal to 0")
 
+        if (messages_used is None):
+            raise ValueError("messages_used must be provided")
+
         self.messages_used = messages_used
         if (bytes_used is not None) and (bytes_used < 0):
             raise ValueError("bytes_used must be greater than or equal to 0")
+
+        if (bytes_used is None):
+            raise ValueError("bytes_used must be provided")
 
         self.bytes_used = bytes_used
 
@@ -3817,22 +4156,40 @@ class PutCacheEntryInput:
         messages_used: int = 0,
         bytes_used: int = 0,
     ):
+        if (identifier is None):
+            raise ValueError("identifier must be provided")
+
         self.identifier = identifier
+        if (materials is None):
+            raise ValueError("materials must be provided")
+
         self.materials = materials
         if (creation_time is not None) and (creation_time < 0):
             raise ValueError("creation_time must be greater than or equal to 0")
+
+        if (creation_time is None):
+            raise ValueError("creation_time must be provided")
 
         self.creation_time = creation_time
         if (expiry_time is not None) and (expiry_time < 0):
             raise ValueError("expiry_time must be greater than or equal to 0")
 
+        if (expiry_time is None):
+            raise ValueError("expiry_time must be provided")
+
         self.expiry_time = expiry_time
         if (messages_used is not None) and (messages_used < 0):
             raise ValueError("messages_used must be greater than or equal to 0")
 
+        if (messages_used is None):
+            raise ValueError("messages_used must be provided")
+
         self.messages_used = messages_used
         if (bytes_used is not None) and (bytes_used < 0):
             raise ValueError("bytes_used must be greater than or equal to 0")
+
+        if (bytes_used is None):
+            raise ValueError("bytes_used must be provided")
 
         self.bytes_used = bytes_used
 
@@ -3927,9 +4284,15 @@ class UpdateUsageMetadataInput:
         identifier: bytes | bytearray,
         bytes_used: int = 0,
     ):
+        if (identifier is None):
+            raise ValueError("identifier must be provided")
+
         self.identifier = identifier
         if (bytes_used is not None) and (bytes_used < 0):
             raise ValueError("bytes_used must be greater than or equal to 0")
+
+        if (bytes_used is None):
+            raise ValueError("bytes_used must be provided")
 
         self.bytes_used = bytes_used
 
@@ -4094,10 +4457,25 @@ class DecryptMaterialsInput:
         encryption_context: dict[str, str],
         reproduced_encryption_context: Optional[dict[str, str]] = None,
     ):
+        if (algorithm_suite_id is None):
+            raise ValueError("algorithm_suite_id must be provided")
+
         self.algorithm_suite_id = algorithm_suite_id
+        if (commitment_policy is None):
+            raise ValueError("commitment_policy must be provided")
+
         self.commitment_policy = commitment_policy
+        if (encrypted_data_keys is None):
+            raise ValueError("encrypted_data_keys must be provided")
+
         self.encrypted_data_keys = encrypted_data_keys
+        if (encryption_context is None):
+            raise ValueError("encryption_context must be provided")
+
         self.encryption_context = encryption_context
+        if (reproduced_encryption_context is None):
+            raise ValueError("reproduced_encryption_context must be provided")
+
         self.reproduced_encryption_context = reproduced_encryption_context
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4172,6 +4550,9 @@ class DecryptMaterialsOutput:
         *,
         decryption_materials: DecryptionMaterials,
     ):
+        if (decryption_materials is None):
+            raise ValueError("decryption_materials must be provided")
+
         self.decryption_materials = decryption_materials
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4228,10 +4609,25 @@ class GetEncryptionMaterialsInput:
         max_plaintext_length: Optional[int] = None,
         required_encryption_context_keys: Optional[list[str]] = None,
     ):
+        if (encryption_context is None):
+            raise ValueError("encryption_context must be provided")
+
         self.encryption_context = encryption_context
+        if (commitment_policy is None):
+            raise ValueError("commitment_policy must be provided")
+
         self.commitment_policy = commitment_policy
+        if (algorithm_suite_id is None):
+            raise ValueError("algorithm_suite_id must be provided")
+
         self.algorithm_suite_id = algorithm_suite_id
+        if (max_plaintext_length is None):
+            raise ValueError("max_plaintext_length must be provided")
+
         self.max_plaintext_length = max_plaintext_length
+        if (required_encryption_context_keys is None):
+            raise ValueError("required_encryption_context_keys must be provided")
+
         self.required_encryption_context_keys = required_encryption_context_keys
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4314,6 +4710,9 @@ class GetEncryptionMaterialsOutput:
         *,
         encryption_materials: EncryptionMaterials,
     ):
+        if (encryption_materials is None):
+            raise ValueError("encryption_materials must be provided")
+
         self.encryption_materials = encryption_materials
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4366,8 +4765,17 @@ class InitializeDecryptionMaterialsInput:
         encryption_context: dict[str, str],
         required_encryption_context_keys: list[str],
     ):
+        if (algorithm_suite_id is None):
+            raise ValueError("algorithm_suite_id must be provided")
+
         self.algorithm_suite_id = algorithm_suite_id
+        if (encryption_context is None):
+            raise ValueError("encryption_context must be provided")
+
         self.encryption_context = encryption_context
+        if (required_encryption_context_keys is None):
+            raise ValueError("required_encryption_context_keys must be provided")
+
         self.required_encryption_context_keys = required_encryption_context_keys
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4434,10 +4842,25 @@ class InitializeEncryptionMaterialsInput:
         signing_key: Optional[bytes | bytearray] = None,
         verification_key: Optional[bytes | bytearray] = None,
     ):
+        if (algorithm_suite_id is None):
+            raise ValueError("algorithm_suite_id must be provided")
+
         self.algorithm_suite_id = algorithm_suite_id
+        if (encryption_context is None):
+            raise ValueError("encryption_context must be provided")
+
         self.encryption_context = encryption_context
+        if (required_encryption_context_keys is None):
+            raise ValueError("required_encryption_context_keys must be provided")
+
         self.required_encryption_context_keys = required_encryption_context_keys
+        if (signing_key is None):
+            raise ValueError("signing_key must be provided")
+
         self.signing_key = signing_key
+        if (verification_key is None):
+            raise ValueError("verification_key must be provided")
+
         self.verification_key = verification_key
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4518,7 +4941,13 @@ class OnDecryptInput:
         materials: DecryptionMaterials,
         encrypted_data_keys: list[EncryptedDataKey],
     ):
+        if (materials is None):
+            raise ValueError("materials must be provided")
+
         self.materials = materials
+        if (encrypted_data_keys is None):
+            raise ValueError("encrypted_data_keys must be provided")
+
         self.encrypted_data_keys = encrypted_data_keys
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4572,6 +5001,9 @@ class OnDecryptOutput:
         *,
         materials: DecryptionMaterials,
     ):
+        if (materials is None):
+            raise ValueError("materials must be provided")
+
         self.materials = materials
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4620,6 +5052,9 @@ class OnEncryptInput:
         *,
         materials: EncryptionMaterials,
     ):
+        if (materials is None):
+            raise ValueError("materials must be provided")
+
         self.materials = materials
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4668,6 +5103,9 @@ class OnEncryptOutput:
         *,
         materials: EncryptionMaterials,
     ):
+        if (materials is None):
+            raise ValueError("materials must be provided")
+
         self.materials = materials
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4718,7 +5156,13 @@ class ValidateCommitmentPolicyOnDecryptInput:
         algorithm: AlgorithmSuiteId,
         commitment_policy: CommitmentPolicy,
     ):
+        if (algorithm is None):
+            raise ValueError("algorithm must be provided")
+
         self.algorithm = algorithm
+        if (commitment_policy is None):
+            raise ValueError("commitment_policy must be provided")
+
         self.commitment_policy = commitment_policy
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4774,7 +5218,13 @@ class ValidateCommitmentPolicyOnEncryptInput:
         algorithm: AlgorithmSuiteId,
         commitment_policy: CommitmentPolicy,
     ):
+        if (algorithm is None):
+            raise ValueError("algorithm must be provided")
+
         self.algorithm = algorithm
+        if (commitment_policy is None):
+            raise ValueError("commitment_policy must be provided")
+
         self.commitment_policy = commitment_policy
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4830,7 +5280,13 @@ class ValidDecryptionMaterialsTransitionInput:
         start: DecryptionMaterials,
         stop: DecryptionMaterials,
     ):
+        if (start is None):
+            raise ValueError("start must be provided")
+
         self.start = start
+        if (stop is None):
+            raise ValueError("stop must be provided")
+
         self.stop = stop
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4886,7 +5342,13 @@ class ValidEncryptionMaterialsTransitionInput:
         start: EncryptionMaterials,
         stop: EncryptionMaterials,
     ):
+        if (start is None):
+            raise ValueError("start must be provided")
+
         self.start = start
+        if (stop is None):
+            raise ValueError("stop must be provided")
+
         self.stop = stop
 
     def as_dict(self) -> Dict[str, Any]:

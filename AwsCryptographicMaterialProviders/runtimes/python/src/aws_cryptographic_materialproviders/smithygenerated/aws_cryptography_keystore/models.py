@@ -18,9 +18,21 @@ class BeaconKeyMaterials:
         beacon_key: Optional[bytes | bytearray] = None,
         hmac_keys: Optional[dict[str, bytes | bytearray]] = None,
     ):
+        if (beacon_key_identifier is None):
+            raise ValueError("beacon_key_identifier must be provided")
+
         self.beacon_key_identifier = beacon_key_identifier
+        if (encryption_context is None):
+            raise ValueError("encryption_context must be provided")
+
         self.encryption_context = encryption_context
+        if (beacon_key is None):
+            raise ValueError("beacon_key must be provided")
+
         self.beacon_key = beacon_key
+        if (hmac_keys is None):
+            raise ValueError("hmac_keys must be provided")
+
         self.hmac_keys = hmac_keys
 
     def as_dict(self) -> Dict[str, Any]:
@@ -100,9 +112,21 @@ class BranchKeyMaterials:
         encryption_context: dict[str, str],
         branch_key: bytes | bytearray,
     ):
+        if (branch_key_identifier is None):
+            raise ValueError("branch_key_identifier must be provided")
+
         self.branch_key_identifier = branch_key_identifier
+        if (branch_key_version is None):
+            raise ValueError("branch_key_version must be provided")
+
         self.branch_key_version = branch_key_version
+        if (encryption_context is None):
+            raise ValueError("encryption_context must be provided")
+
         self.encryption_context = encryption_context
+        if (branch_key is None):
+            raise ValueError("branch_key must be provided")
+
         self.branch_key = branch_key
 
     def as_dict(self) -> Dict[str, Any]:
@@ -173,7 +197,13 @@ class CreateKeyInput:
         :param encryption_context: Custom encryption context for the Branch Key.
         Required if branchKeyIdentifier is set.
         """
+        if (branch_key_identifier is None):
+            raise ValueError("branch_key_identifier must be provided")
+
         self.branch_key_identifier = branch_key_identifier
+        if (encryption_context is None):
+            raise ValueError("encryption_context must be provided")
+
         self.encryption_context = encryption_context
 
     def as_dict(self) -> Dict[str, Any]:
@@ -239,6 +269,9 @@ class CreateKeyOutput:
 
         :param branch_key_identifier: A identifier for the created Branch Key.
         """
+        if (branch_key_identifier is None):
+            raise ValueError("branch_key_identifier must be provided")
+
         self.branch_key_identifier = branch_key_identifier
 
     def as_dict(self) -> Dict[str, Any]:
@@ -317,6 +350,9 @@ class CreateKeyStoreOutput:
 
         :param table_arn: The ARN of the DynamoDB table that backs this Key Store.
         """
+        if (table_arn is None):
+            raise ValueError("table_arn must be provided")
+
         self.table_arn = table_arn
 
     def as_dict(self) -> Dict[str, Any]:
@@ -396,6 +432,9 @@ class GetActiveBranchKeyInput:
         :param branch_key_identifier: The identifier for the Branch Key to get the
         ACTIVE version for.
         """
+        if (branch_key_identifier is None):
+            raise ValueError("branch_key_identifier must be provided")
+
         self.branch_key_identifier = branch_key_identifier
 
     def as_dict(self) -> Dict[str, Any]:
@@ -448,6 +487,9 @@ class GetActiveBranchKeyOutput:
 
         :param branch_key_materials: The materials for the Branch Key.
         """
+        if (branch_key_materials is None):
+            raise ValueError("branch_key_materials must be provided")
+
         self.branch_key_materials = branch_key_materials
 
     def as_dict(self) -> Dict[str, Any]:
@@ -501,6 +543,9 @@ class GetBeaconKeyInput:
         :param branch_key_identifier: The identifier of the Branch Key the Beacon Key is
         associated with.
         """
+        if (branch_key_identifier is None):
+            raise ValueError("branch_key_identifier must be provided")
+
         self.branch_key_identifier = branch_key_identifier
 
     def as_dict(self) -> Dict[str, Any]:
@@ -553,6 +598,9 @@ class GetBeaconKeyOutput:
 
         :param beacon_key_materials: The materials for the Beacon Key.
         """
+        if (beacon_key_materials is None):
+            raise ValueError("beacon_key_materials must be provided")
+
         self.beacon_key_materials = beacon_key_materials
 
     def as_dict(self) -> Dict[str, Any]:
@@ -609,7 +657,13 @@ class GetBranchKeyVersionInput:
         particular version for.
         :param branch_key_version: The version to get.
         """
+        if (branch_key_identifier is None):
+            raise ValueError("branch_key_identifier must be provided")
+
         self.branch_key_identifier = branch_key_identifier
+        if (branch_key_version is None):
+            raise ValueError("branch_key_version must be provided")
+
         self.branch_key_version = branch_key_version
 
     def as_dict(self) -> Dict[str, Any]:
@@ -667,6 +721,9 @@ class GetBranchKeyVersionOutput:
 
         :param branch_key_materials: The materials for the Branch Key.
         """
+        if (branch_key_materials is None):
+            raise ValueError("branch_key_materials must be provided")
+
         self.branch_key_materials = branch_key_materials
 
     def as_dict(self) -> Dict[str, Any]:
@@ -723,6 +780,9 @@ class MRDiscovery:
 
         if (region is not None) and (len(region) > 32):
             raise ValueError("The size of region must be less than or equal to 32")
+
+        if (region is None):
+            raise ValueError("region must be provided")
 
         self.region = region
 
@@ -940,6 +1000,9 @@ class GetKeyStoreInfoOutput:
         calls to AWS KMS.
         :param kms_configuration: Configures Key Store's KMS Key ARN restrictions.
         """
+        if (key_store_id is None):
+            raise ValueError("key_store_id must be provided")
+
         self.key_store_id = key_store_id
         if (key_store_name is not None) and (len(key_store_name) < 3):
             raise ValueError("The size of key_store_name must be greater than or equal to 3")
@@ -947,9 +1010,21 @@ class GetKeyStoreInfoOutput:
         if (key_store_name is not None) and (len(key_store_name) > 255):
             raise ValueError("The size of key_store_name must be less than or equal to 255")
 
+        if (key_store_name is None):
+            raise ValueError("key_store_name must be provided")
+
         self.key_store_name = key_store_name
+        if (logical_key_store_name is None):
+            raise ValueError("logical_key_store_name must be provided")
+
         self.logical_key_store_name = logical_key_store_name
+        if (grant_tokens is None):
+            raise ValueError("grant_tokens must be provided")
+
         self.grant_tokens = grant_tokens
+        if (kms_configuration is None):
+            raise ValueError("kms_configuration must be provided")
+
         self.kms_configuration = kms_configuration
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1022,6 +1097,9 @@ class VersionKeyInput:
 
         :param branch_key_identifier: The identifier for the Branch Key to be versioned.
         """
+        if (branch_key_identifier is None):
+            raise ValueError("branch_key_identifier must be provided")
+
         self.branch_key_identifier = branch_key_identifier
 
     def as_dict(self) -> Dict[str, Any]:

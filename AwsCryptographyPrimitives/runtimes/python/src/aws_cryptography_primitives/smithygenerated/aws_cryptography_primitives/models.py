@@ -22,6 +22,9 @@ class AES_GCM:
         if (key_length is not None) and (key_length > 32):
             raise ValueError("key_length must be less than or equal to 32")
 
+        if (key_length is None):
+            raise ValueError("key_length must be provided")
+
         self.key_length = key_length
         if (tag_length is not None) and (tag_length < 0):
             raise ValueError("tag_length must be greater than or equal to 0")
@@ -29,12 +32,18 @@ class AES_GCM:
         if (tag_length is not None) and (tag_length > 32):
             raise ValueError("tag_length must be less than or equal to 32")
 
+        if (tag_length is None):
+            raise ValueError("tag_length must be provided")
+
         self.tag_length = tag_length
         if (iv_length is not None) and (iv_length < 0):
             raise ValueError("iv_length must be greater than or equal to 0")
 
         if (iv_length is not None) and (iv_length > 255):
             raise ValueError("iv_length must be less than or equal to 255")
+
+        if (iv_length is None):
+            raise ValueError("iv_length must be provided")
 
         self.iv_length = iv_length
 
@@ -116,11 +125,29 @@ class AESDecryptInput:
         iv: bytes | bytearray,
         aad: bytes | bytearray,
     ):
+        if (enc_alg is None):
+            raise ValueError("enc_alg must be provided")
+
         self.enc_alg = enc_alg
+        if (key is None):
+            raise ValueError("key must be provided")
+
         self.key = key
+        if (cipher_txt is None):
+            raise ValueError("cipher_txt must be provided")
+
         self.cipher_txt = cipher_txt
+        if (auth_tag is None):
+            raise ValueError("auth_tag must be provided")
+
         self.auth_tag = auth_tag
+        if (iv is None):
+            raise ValueError("iv must be provided")
+
         self.iv = iv
+        if (aad is None):
+            raise ValueError("aad must be provided")
+
         self.aad = aad
 
     def as_dict(self) -> Dict[str, Any]:
@@ -202,10 +229,25 @@ class AESEncryptInput:
         msg: bytes | bytearray,
         aad: bytes | bytearray,
     ):
+        if (enc_alg is None):
+            raise ValueError("enc_alg must be provided")
+
         self.enc_alg = enc_alg
+        if (iv is None):
+            raise ValueError("iv must be provided")
+
         self.iv = iv
+        if (key is None):
+            raise ValueError("key must be provided")
+
         self.key = key
+        if (msg is None):
+            raise ValueError("msg must be provided")
+
         self.msg = msg
+        if (aad is None):
+            raise ValueError("aad must be provided")
+
         self.aad = aad
 
     def as_dict(self) -> Dict[str, Any]:
@@ -276,7 +318,13 @@ class AESEncryptOutput:
         cipher_text: bytes | bytearray,
         auth_tag: bytes | bytearray,
     ):
+        if (cipher_text is None):
+            raise ValueError("cipher_text must be provided")
+
         self.cipher_text = cipher_text
+        if (auth_tag is None):
+            raise ValueError("auth_tag must be provided")
+
         self.auth_tag = auth_tag
 
     def as_dict(self) -> Dict[str, Any]:
@@ -334,11 +382,20 @@ class AesKdfCtrInput:
         expected_length: int = 0,
         nonce: Optional[bytes | bytearray] = None,
     ):
+        if (ikm is None):
+            raise ValueError("ikm must be provided")
+
         self.ikm = ikm
         if (expected_length is not None) and (expected_length < 0):
             raise ValueError("expected_length must be greater than or equal to 0")
 
+        if (expected_length is None):
+            raise ValueError("expected_length must be provided")
+
         self.expected_length = expected_length
+        if (nonce is None):
+            raise ValueError("nonce must be provided")
+
         self.nonce = nonce
 
     def as_dict(self) -> Dict[str, Any]:
@@ -420,7 +477,13 @@ class DigestInput:
         digest_algorithm: str,
         message: bytes | bytearray,
     ):
+        if (digest_algorithm is None):
+            raise ValueError("digest_algorithm must be provided")
+
         self.digest_algorithm = digest_algorithm
+        if (message is None):
+            raise ValueError("message must be provided")
+
         self.message = message
 
     def as_dict(self) -> Dict[str, Any]:
@@ -487,8 +550,17 @@ class ECDSASignInput:
         signing_key: bytes | bytearray,
         message: bytes | bytearray,
     ):
+        if (signature_algorithm is None):
+            raise ValueError("signature_algorithm must be provided")
+
         self.signature_algorithm = signature_algorithm
+        if (signing_key is None):
+            raise ValueError("signing_key must be provided")
+
         self.signing_key = signing_key
+        if (message is None):
+            raise ValueError("message must be provided")
+
         self.message = message
 
     def as_dict(self) -> Dict[str, Any]:
@@ -553,9 +625,21 @@ class ECDSAVerifyInput:
         message: bytes | bytearray,
         signature: bytes | bytearray,
     ):
+        if (signature_algorithm is None):
+            raise ValueError("signature_algorithm must be provided")
+
         self.signature_algorithm = signature_algorithm
+        if (verification_key is None):
+            raise ValueError("verification_key must be provided")
+
         self.verification_key = verification_key
+        if (message is None):
+            raise ValueError("message must be provided")
+
         self.message = message
+        if (signature is None):
+            raise ValueError("signature must be provided")
+
         self.signature = signature
 
     def as_dict(self) -> Dict[str, Any]:
@@ -619,6 +703,9 @@ class GenerateECDSASignatureKeyInput:
         *,
         signature_algorithm: str,
     ):
+        if (signature_algorithm is None):
+            raise ValueError("signature_algorithm must be provided")
+
         self.signature_algorithm = signature_algorithm
 
     def as_dict(self) -> Dict[str, Any]:
@@ -671,8 +758,17 @@ class GenerateECDSASignatureKeyOutput:
         verification_key: bytes | bytearray,
         signing_key: bytes | bytearray,
     ):
+        if (signature_algorithm is None):
+            raise ValueError("signature_algorithm must be provided")
+
         self.signature_algorithm = signature_algorithm
+        if (verification_key is None):
+            raise ValueError("verification_key must be provided")
+
         self.verification_key = verification_key
+        if (signing_key is None):
+            raise ValueError("signing_key must be provided")
+
         self.signing_key = signing_key
 
     def as_dict(self) -> Dict[str, Any]:
@@ -734,6 +830,9 @@ class GenerateRandomBytesInput:
         if (length is not None) and (length < 0):
             raise ValueError("length must be greater than or equal to 0")
 
+        if (length is None):
+            raise ValueError("length must be provided")
+
         self.length = length
 
     def as_dict(self) -> Dict[str, Any]:
@@ -792,6 +891,9 @@ class GenerateRSAKeyPairInput:
         if (length_bits is not None) and (length_bits > 4096):
             raise ValueError("length_bits must be less than or equal to 4096")
 
+        if (length_bits is None):
+            raise ValueError("length_bits must be provided")
+
         self.length_bits = length_bits
 
     def as_dict(self) -> Dict[str, Any]:
@@ -846,9 +948,15 @@ class RSAPrivateKey:
         pem: bytes | bytearray,
         length_bits: int = 0,
     ):
+        if (pem is None):
+            raise ValueError("pem must be provided")
+
         self.pem = pem
         if (length_bits is not None) and (length_bits < 81):
             raise ValueError("length_bits must be greater than or equal to 81")
+
+        if (length_bits is None):
+            raise ValueError("length_bits must be provided")
 
         self.length_bits = length_bits
 
@@ -911,9 +1019,15 @@ class RSAPublicKey:
         pem: bytes | bytearray,
         length_bits: int = 0,
     ):
+        if (pem is None):
+            raise ValueError("pem must be provided")
+
         self.pem = pem
         if (length_bits is not None) and (length_bits < 81):
             raise ValueError("length_bits must be greater than or equal to 81")
+
+        if (length_bits is None):
+            raise ValueError("length_bits must be provided")
 
         self.length_bits = length_bits
 
@@ -976,7 +1090,13 @@ class GenerateRSAKeyPairOutput:
         public_key: RSAPublicKey,
         private_key: RSAPrivateKey,
     ):
+        if (public_key is None):
+            raise ValueError("public_key must be provided")
+
         self.public_key = public_key
+        if (private_key is None):
+            raise ValueError("private_key must be provided")
+
         self.private_key = private_key
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1030,6 +1150,9 @@ class GetRSAKeyModulusLengthInput:
         *,
         public_key: bytes | bytearray,
     ):
+        if (public_key is None):
+            raise ValueError("public_key must be provided")
+
         self.public_key = public_key
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1080,6 +1203,9 @@ class GetRSAKeyModulusLengthOutput:
     ):
         if (length is not None) and (length < 81):
             raise ValueError("length must be greater than or equal to 81")
+
+        if (length is None):
+            raise ValueError("length must be provided")
 
         self.length = length
 
@@ -1141,12 +1267,27 @@ class HkdfInput:
         salt: Optional[bytes | bytearray] = None,
         expected_length: int = 0,
     ):
+        if (digest_algorithm is None):
+            raise ValueError("digest_algorithm must be provided")
+
         self.digest_algorithm = digest_algorithm
+        if (ikm is None):
+            raise ValueError("ikm must be provided")
+
         self.ikm = ikm
+        if (info is None):
+            raise ValueError("info must be provided")
+
         self.info = info
+        if (salt is None):
+            raise ValueError("salt must be provided")
+
         self.salt = salt
         if (expected_length is not None) and (expected_length < 0):
             raise ValueError("expected_length must be greater than or equal to 0")
+
+        if (expected_length is None):
+            raise ValueError("expected_length must be provided")
 
         self.expected_length = expected_length
 
@@ -1232,11 +1373,23 @@ class HkdfExpandInput:
         info: bytes | bytearray,
         expected_length: int = 0,
     ):
+        if (digest_algorithm is None):
+            raise ValueError("digest_algorithm must be provided")
+
         self.digest_algorithm = digest_algorithm
+        if (prk is None):
+            raise ValueError("prk must be provided")
+
         self.prk = prk
+        if (info is None):
+            raise ValueError("info must be provided")
+
         self.info = info
         if (expected_length is not None) and (expected_length < 0):
             raise ValueError("expected_length must be greater than or equal to 0")
+
+        if (expected_length is None):
+            raise ValueError("expected_length must be provided")
 
         self.expected_length = expected_length
 
@@ -1311,8 +1464,17 @@ class HkdfExtractInput:
         ikm: bytes | bytearray,
         salt: Optional[bytes | bytearray] = None,
     ):
+        if (digest_algorithm is None):
+            raise ValueError("digest_algorithm must be provided")
+
         self.digest_algorithm = digest_algorithm
+        if (ikm is None):
+            raise ValueError("ikm must be provided")
+
         self.ikm = ikm
+        if (salt is None):
+            raise ValueError("salt must be provided")
+
         self.salt = salt
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1381,8 +1543,17 @@ class HMacInput:
         key: bytes | bytearray,
         message: bytes | bytearray,
     ):
+        if (digest_algorithm is None):
+            raise ValueError("digest_algorithm must be provided")
+
         self.digest_algorithm = digest_algorithm
+        if (key is None):
+            raise ValueError("key must be provided")
+
         self.key = key
+        if (message is None):
+            raise ValueError("message must be provided")
+
         self.message = message
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1449,13 +1620,28 @@ class KdfCtrInput:
         purpose: Optional[bytes | bytearray] = None,
         nonce: Optional[bytes | bytearray] = None,
     ):
+        if (digest_algorithm is None):
+            raise ValueError("digest_algorithm must be provided")
+
         self.digest_algorithm = digest_algorithm
+        if (ikm is None):
+            raise ValueError("ikm must be provided")
+
         self.ikm = ikm
         if (expected_length is not None) and (expected_length < 0):
             raise ValueError("expected_length must be greater than or equal to 0")
 
+        if (expected_length is None):
+            raise ValueError("expected_length must be provided")
+
         self.expected_length = expected_length
+        if (purpose is None):
+            raise ValueError("purpose must be provided")
+
         self.purpose = purpose
+        if (nonce is None):
+            raise ValueError("nonce must be provided")
+
         self.nonce = nonce
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1557,8 +1743,17 @@ class RSADecryptInput:
         private_key: bytes | bytearray,
         cipher_text: bytes | bytearray,
     ):
+        if (padding is None):
+            raise ValueError("padding must be provided")
+
         self.padding = padding
+        if (private_key is None):
+            raise ValueError("private_key must be provided")
+
         self.private_key = private_key
+        if (cipher_text is None):
+            raise ValueError("cipher_text must be provided")
+
         self.cipher_text = cipher_text
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1621,8 +1816,17 @@ class RSAEncryptInput:
         public_key: bytes | bytearray,
         plaintext: bytes | bytearray,
     ):
+        if (padding is None):
+            raise ValueError("padding must be provided")
+
         self.padding = padding
+        if (public_key is None):
+            raise ValueError("public_key must be provided")
+
         self.public_key = public_key
+        if (plaintext is None):
+            raise ValueError("plaintext must be provided")
+
         self.plaintext = plaintext
 
     def as_dict(self) -> Dict[str, Any]:

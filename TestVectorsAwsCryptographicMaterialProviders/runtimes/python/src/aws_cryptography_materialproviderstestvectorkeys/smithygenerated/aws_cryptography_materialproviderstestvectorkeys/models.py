@@ -27,7 +27,13 @@ class RawAES:
         key_id: str,
         provider_id: str,
     ):
+        if (key_id is None):
+            raise ValueError("key_id must be provided")
+
         self.key_id = key_id
+        if (provider_id is None):
+            raise ValueError("provider_id must be provided")
+
         self.provider_id = provider_id
 
     def as_dict(self) -> Dict[str, Any]:
@@ -81,6 +87,9 @@ class HierarchyKeyring:
         *,
         key_id: str,
     ):
+        if (key_id is None):
+            raise ValueError("key_id must be provided")
+
         self.key_id = key_id
 
     def as_dict(self) -> Dict[str, Any]:
@@ -129,6 +138,9 @@ class KMSInfo:
         *,
         key_id: str,
     ):
+        if (key_id is None):
+            raise ValueError("key_id must be provided")
+
         self.key_id = key_id
 
     def as_dict(self) -> Dict[str, Any]:
@@ -177,6 +189,9 @@ class KmsMrkAware:
         *,
         key_id: str,
     ):
+        if (key_id is None):
+            raise ValueError("key_id must be provided")
+
         self.key_id = key_id
 
     def as_dict(self) -> Dict[str, Any]:
@@ -234,8 +249,17 @@ class KmsMrkAwareDiscovery:
         AWS accounts a KMS Key may be in for a Keyring to be allowed to attempt to
         decrypt it.
         """
+        if (key_id is None):
+            raise ValueError("key_id must be provided")
+
         self.key_id = key_id
+        if (default_mrk_region is None):
+            raise ValueError("default_mrk_region must be provided")
+
         self.default_mrk_region = default_mrk_region
+        if (aws_kms_discovery_filter is None):
+            raise ValueError("aws_kms_discovery_filter must be provided")
+
         self.aws_kms_discovery_filter = aws_kms_discovery_filter
 
     def as_dict(self) -> Dict[str, Any]:
@@ -302,7 +326,13 @@ class KmsRsaKeyring:
         key_id: str,
         encryption_algorithm: str,
     ):
+        if (key_id is None):
+            raise ValueError("key_id must be provided")
+
         self.key_id = key_id
+        if (encryption_algorithm is None):
+            raise ValueError("encryption_algorithm must be provided")
+
         self.encryption_algorithm = encryption_algorithm
 
     def as_dict(self) -> Dict[str, Any]:
@@ -360,8 +390,17 @@ class RawRSA:
         provider_id: str,
         padding: str,
     ):
+        if (key_id is None):
+            raise ValueError("key_id must be provided")
+
         self.key_id = key_id
+        if (provider_id is None):
+            raise ValueError("provider_id must be provided")
+
         self.provider_id = provider_id
+        if (padding is None):
+            raise ValueError("padding must be provided")
+
         self.padding = padding
 
     def as_dict(self) -> Dict[str, Any]:
@@ -420,6 +459,9 @@ class StaticKeyring:
         *,
         key_id: str,
     ):
+        if (key_id is None):
+            raise ValueError("key_id must be provided")
+
         self.key_id = key_id
 
     def as_dict(self) -> Dict[str, Any]:
@@ -468,6 +510,9 @@ class GetKeyDescriptionInput:
         *,
         json: bytes | bytearray,
     ):
+        if (json is None):
+            raise ValueError("json must be provided")
+
         self.json = json
 
     def as_dict(self) -> Dict[str, Any]:
@@ -516,6 +561,9 @@ class SerializeKeyDescriptionOutput:
         *,
         json: bytes | bytearray,
     ):
+        if (json is None):
+            raise ValueError("json must be provided")
+
         self.json = json
 
     def as_dict(self) -> Dict[str, Any]:
@@ -558,7 +606,7 @@ class SerializeKeyDescriptionOutput:
         )
 
 class KeyDescriptionKms():
-    def __init__(self, value: 'KMSInfo'):
+    def __init__(self, value: KMSInfo):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -580,7 +628,7 @@ class KeyDescriptionKms():
         return self.value == other.value
 
 class KeyDescriptionKmsMrk():
-    def __init__(self, value: 'KmsMrkAware'):
+    def __init__(self, value: KmsMrkAware):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -602,7 +650,7 @@ class KeyDescriptionKmsMrk():
         return self.value == other.value
 
 class KeyDescriptionKmsMrkDiscovery():
-    def __init__(self, value: 'KmsMrkAwareDiscovery'):
+    def __init__(self, value: KmsMrkAwareDiscovery):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -624,7 +672,7 @@ class KeyDescriptionKmsMrkDiscovery():
         return self.value == other.value
 
 class KeyDescriptionRSA():
-    def __init__(self, value: 'RawRSA'):
+    def __init__(self, value: RawRSA):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -646,7 +694,7 @@ class KeyDescriptionRSA():
         return self.value == other.value
 
 class KeyDescriptionAES():
-    def __init__(self, value: 'RawAES'):
+    def __init__(self, value: RawAES):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -668,7 +716,7 @@ class KeyDescriptionAES():
         return self.value == other.value
 
 class KeyDescriptionStatic():
-    def __init__(self, value: 'StaticKeyring'):
+    def __init__(self, value: StaticKeyring):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -690,7 +738,7 @@ class KeyDescriptionStatic():
         return self.value == other.value
 
 class KeyDescriptionKmsRsa():
-    def __init__(self, value: 'KmsRsaKeyring'):
+    def __init__(self, value: KmsRsaKeyring):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -712,7 +760,7 @@ class KeyDescriptionKmsRsa():
         return self.value == other.value
 
 class KeyDescriptionHierarchy():
-    def __init__(self, value: 'HierarchyKeyring'):
+    def __init__(self, value: HierarchyKeyring):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -734,7 +782,7 @@ class KeyDescriptionHierarchy():
         return self.value == other.value
 
 class KeyDescriptionMulti():
-    def __init__(self, value: 'MultiKeyring'):
+    def __init__(self, value: MultiKeyring):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -756,7 +804,7 @@ class KeyDescriptionMulti():
         return self.value == other.value
 
 class KeyDescriptionRequiredEncryptionContext():
-    def __init__(self, value: 'RequiredEncryptionContextCMM'):
+    def __init__(self, value: RequiredEncryptionContextCMM):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -844,7 +892,13 @@ class RequiredEncryptionContextCMM:
         underlying: 'KeyDescription',
         required_encryption_context_keys: list[str],
     ):
+        if (underlying is None):
+            raise ValueError("underlying must be provided")
+
         self.underlying = underlying
+        if (required_encryption_context_keys is None):
+            raise ValueError("required_encryption_context_keys must be provided")
+
         self.required_encryption_context_keys = required_encryption_context_keys
 
     def as_dict(self) -> Dict[str, Any]:
@@ -898,6 +952,9 @@ class GetKeyDescriptionOutput:
         *,
         key_description: 'KeyDescription',
     ):
+        if (key_description is None):
+            raise ValueError("key_description must be provided")
+
         self.key_description = key_description
 
     def as_dict(self) -> Dict[str, Any]:
@@ -946,6 +1003,9 @@ class SerializeKeyDescriptionInput:
         *,
         key_description: 'KeyDescription',
     ):
+        if (key_description is None):
+            raise ValueError("key_description must be provided")
+
         self.key_description = key_description
 
     def as_dict(self) -> Dict[str, Any]:
@@ -996,7 +1056,13 @@ class TestVectorCmmInput:
         key_description: 'KeyDescription',
         for_operation: str,
     ):
+        if (key_description is None):
+            raise ValueError("key_description must be provided")
+
         self.key_description = key_description
+        if (for_operation is None):
+            raise ValueError("for_operation must be provided")
+
         self.for_operation = for_operation
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1050,6 +1116,9 @@ class TestVectorKeyringInput:
         *,
         key_description: 'KeyDescription',
     ):
+        if (key_description is None):
+            raise ValueError("key_description must be provided")
+
         self.key_description = key_description
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1100,7 +1169,13 @@ class MultiKeyring:
         child_keyrings: 'list[KeyDescription]',
         generator: Optional['KeyDescription'] = None,
     ):
+        if (child_keyrings is None):
+            raise ValueError("child_keyrings must be provided")
+
         self.child_keyrings = child_keyrings
+        if (generator is None):
+            raise ValueError("generator must be provided")
+
         self.generator = generator
 
     def as_dict(self) -> Dict[str, Any]:
