@@ -3,8 +3,6 @@ import os
 import re
 from datetime import datetime
 import toml
-from recommonmark.parser import CommonMarkParser
-
 
 VERSION_RE = re.compile(r"""__version__ = ['"]([0-9.]+)['"]""")
 HERE = os.path.abspath(os.path.dirname(__file__))
@@ -50,11 +48,7 @@ napoleon_include_special_with_doc = False
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
-
-source_parsers = {'.md': CommonMarkParser}
-
-source_suffix = ['.rst', '.md']  # The suffix of source filenames.
-
+source_suffix = ".rst"  # The suffix of source filenames.
 root_doc = "index"  # The master toctree document.
 
 copyright = u"%s, Amazon" % datetime.now().year
