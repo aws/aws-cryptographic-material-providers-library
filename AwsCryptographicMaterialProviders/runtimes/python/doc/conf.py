@@ -30,10 +30,6 @@ def get_version():
 # include_patterns = ['AwsCryptographicMaterialProviders/runtimes/python/', '']
 
 
-source_parsers = {'.md': CommonMarkParser}
-
-source_suffix = ['.rst', '.md']
-
 project = u"aws_cryptographic_materialproviders"
 version = get_version()
 release = get_release()
@@ -54,7 +50,11 @@ napoleon_include_special_with_doc = False
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
-source_suffix = ".rst"  # The suffix of source filenames.
+
+source_parsers = {'.md': CommonMarkParser}
+
+source_suffix = ['.rst', '.md']  # The suffix of source filenames.
+
 root_doc = "index"  # The master toctree document.
 
 copyright = u"%s, Amazon" % datetime.now().year
