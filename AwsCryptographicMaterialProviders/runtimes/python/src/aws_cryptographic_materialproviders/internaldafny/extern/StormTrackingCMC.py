@@ -2,43 +2,56 @@ import time
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC
 import standard_library.internaldafny.generated.Wrappers as Wrappers
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes
-from . import synchronized
+from . import Lock
 
 class StormTrackingCMC:
 
     def __init__(self, wrapped):
         self.wrapped = wrapped
+        self.lock = Lock()
 
-    @synchronized
     def PutCacheEntry(self, input):
-        return self.wrapped.PutCacheEntry(input)
+        self.lock.Lock__()
+        val = self.wrapped.PutCacheEntry(input)
+        self.lock.Unlock()
+        return val
     
-    @synchronized
     def UpdateUsageMetadata(self, input):
-        return self.wrapped.UpdateUsageMetadata(input)
+        self.lock.Lock__()
+        val = self.wrapped.UpdateUsageMetadata(input)
+        self.lock.Unlock()
+        return val
     
-    # NOT synchronized, as some sleeping might be involved
+    # NOT locked, as some sleeping might be involved
     def GetCacheEntry(self, input):
         return self.GetCacheEntry_k(input)
     
-    @synchronized
     def DeleteCacheEntry(self, input):
-        return self.wrapped.DeleteCacheEntry(input)
+        self.lock.Lock__()
+        val = self.wrapped.DeleteCacheEntry(input)
+        self.lock.Unlock()
+        return val
     
-    @synchronized
     def PutCacheEntry_k(self, input):
-        return self.wrapped.PutCacheEntry(input)
+        self.lock.Lock__()
+        val = self.wrapped.PutCacheEntry(input)
+        self.lock.Unlock()
+        return val
     
-    @synchronized
     def UpdateUsageMetadata_k(self, input):
-        return self.wrapped.UpdateUsageMetadata(input)
+        self.lock.Lock__()
+        val = self.wrapped.UpdateUsageMetadata(input)
+        self.lock.Unlock()
+        return val
     
     # This is the synchronization for GetCacheEntry and GetCacheEntry_k
-    @synchronized
     def GetFromCacheInner(self, input):
-        return self.wrapped.GetFromCache(input)
+        self.lock.Lock__()
+        val = self.wrapped.GetFromCache(input)
+        self.lock.Unlock()
+        return val
     
-    # NOT synchronized, because we sleep. Calls GetFromCache which IS synchronized.
+    # NOT locked, because we sleep. Calls GetFromCache which IS synchronized.
     def GetCacheEntry_k(self, input):
         while True:
             result = self.GetFromCacheInner(input)
@@ -58,9 +71,11 @@ class StormTrackingCMC:
                 except:
                     pass
 
-    @synchronized
     def DeleteCacheEntry_k(self, input):
-        return self.wrapped.DeleteCacheEntry(input)
+        self.lock.Lock__()
+        val = self.wrapped.DeleteCacheEntry(input)
+        self.lock.Unlock()
+        return val
     
     def __str__(self):
         return "StormTracker.StormTrackerCMC"
