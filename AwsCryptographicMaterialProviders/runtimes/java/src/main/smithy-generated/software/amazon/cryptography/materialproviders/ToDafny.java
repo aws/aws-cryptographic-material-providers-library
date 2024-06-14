@@ -89,7 +89,6 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.KeyAgr
 import software.amazon.cryptography.materialproviders.internaldafny.types.KmsEcdhStaticConfigurations;
 import software.amazon.cryptography.materialproviders.internaldafny.types.KmsPrivateKeyToStaticPublicKeyInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.KmsPublicKeyDiscoveryInput;
-import software.amazon.cryptography.materialproviders.internaldafny.types.KmsRecipientConfiguration;
 import software.amazon.cryptography.materialproviders.internaldafny.types.MaterialProvidersConfig;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Materials;
 import software.amazon.cryptography.materialproviders.internaldafny.types.MultiThreadedCache;
@@ -311,15 +310,11 @@ public class ToDafny {
       software.amazon.cryptography.primitives.ToDafny.ECDHCurveSpec(
         nativeValue.curveSpec()
       );
-    Option<IKMSClient> kmsClient;
+    IKMSClient kmsClient;
     kmsClient =
-      Objects.nonNull(nativeValue.kmsClient())
-        ? Option.create_Some(
-          software.amazon.cryptography.services.kms.internaldafny.ToDafny.TrentService(
-            nativeValue.kmsClient()
-          )
-        )
-        : Option.create_None();
+      software.amazon.cryptography.services.kms.internaldafny.ToDafny.TrentService(
+        nativeValue.kmsClient()
+      );
     Option<
       DafnySequence<? extends DafnySequence<? extends Character>>
     > grantTokens;
@@ -1290,12 +1285,24 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
         nativeValue.senderKmsIdentifier()
       );
-    KmsRecipientConfiguration recipientConfiguration;
-    recipientConfiguration =
-      ToDafny.KmsRecipientConfiguration(nativeValue.recipientConfiguration());
+    Option<DafnySequence<? extends Byte>> senderPublicKey;
+    senderPublicKey =
+      Objects.nonNull(nativeValue.senderPublicKey())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+            nativeValue.senderPublicKey()
+          )
+        )
+        : Option.create_None();
+    DafnySequence<? extends Byte> recipientPublicKey;
+    recipientPublicKey =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.recipientPublicKey()
+      );
     return new KmsPrivateKeyToStaticPublicKeyInput(
       senderKmsIdentifier,
-      recipientConfiguration
+      senderPublicKey,
+      recipientPublicKey
     );
   }
 
@@ -1379,12 +1386,12 @@ public class ToDafny {
   public static PublicKeyDiscoveryInput PublicKeyDiscoveryInput(
     software.amazon.cryptography.materialproviders.model.PublicKeyDiscoveryInput nativeValue
   ) {
-    DafnySequence<? extends Byte> senderStaticPrivateKey;
-    senderStaticPrivateKey =
+    DafnySequence<? extends Byte> recipientStaticPrivateKey;
+    recipientStaticPrivateKey =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-        nativeValue.senderStaticPrivateKey()
+        nativeValue.recipientStaticPrivateKey()
       );
-    return new PublicKeyDiscoveryInput(senderStaticPrivateKey);
+    return new PublicKeyDiscoveryInput(recipientStaticPrivateKey);
   }
 
   public static PutCacheEntryInput PutCacheEntryInput(
@@ -1990,30 +1997,6 @@ public class ToDafny {
       "Cannot convert " +
       nativeValue +
       " to software.amazon.cryptography.materialproviders.internaldafny.types.KmsEcdhStaticConfigurations."
-    );
-  }
-
-  public static KmsRecipientConfiguration KmsRecipientConfiguration(
-    software.amazon.cryptography.materialproviders.model.KmsRecipientConfiguration nativeValue
-  ) {
-    if (Objects.nonNull(nativeValue.RecipientKmsKeyId())) {
-      return KmsRecipientConfiguration.create_RecipientKmsKeyId(
-        software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-          nativeValue.RecipientKmsKeyId()
-        )
-      );
-    }
-    if (Objects.nonNull(nativeValue.RecipientPublicKey())) {
-      return KmsRecipientConfiguration.create_RecipientPublicKey(
-        software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
-          nativeValue.RecipientPublicKey()
-        )
-      );
-    }
-    throw new IllegalArgumentException(
-      "Cannot convert " +
-      nativeValue +
-      " to software.amazon.cryptography.materialproviders.internaldafny.types.KmsRecipientConfiguration."
     );
   }
 

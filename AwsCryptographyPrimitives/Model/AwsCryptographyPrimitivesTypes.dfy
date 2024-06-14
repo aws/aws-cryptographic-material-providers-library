@@ -68,6 +68,9 @@ module {:extern "software.amazon.cryptography.primitives.internaldafny.types" } 
       GetPublicKeyFromPrivateKey := [];
       ValidatePublicKey := [];
       DeriveSharedSecret := [];
+      CompressPublicKey := [];
+      DecompressPublicKey := [];
+      ParsePublicKey := [];
     }
     ghost var GenerateRandomBytes: seq<DafnyCallEvent<GenerateRandomBytesInput, Result<seq<uint8>, Error>>>
     ghost var Digest: seq<DafnyCallEvent<DigestInput, Result<seq<uint8>, Error>>>
@@ -90,6 +93,9 @@ module {:extern "software.amazon.cryptography.primitives.internaldafny.types" } 
     ghost var GetPublicKeyFromPrivateKey: seq<DafnyCallEvent<GetPublicKeyFromPrivateKeyInput, Result<GetPublicKeyFromPrivateKeyOutput, Error>>>
     ghost var ValidatePublicKey: seq<DafnyCallEvent<ValidatePublicKeyInput, Result<ValidatePublicKeyOutput, Error>>>
     ghost var DeriveSharedSecret: seq<DafnyCallEvent<DeriveSharedSecretInput, Result<DeriveSharedSecretOutput, Error>>>
+    ghost var CompressPublicKey: seq<DafnyCallEvent<CompressPublicKeyInput, Result<CompressPublicKeyOutput, Error>>>
+    ghost var DecompressPublicKey: seq<DafnyCallEvent<DecompressPublicKeyInput, Result<DecompressPublicKeyOutput, Error>>>
+    ghost var ParsePublicKey: seq<DafnyCallEvent<ParsePublicKeyInput, Result<ParsePublicKeyOutput, Error>>>
   }
   trait {:termination false} IAwsCryptographicPrimitivesClient
   {
@@ -415,14 +421,73 @@ module {:extern "software.amazon.cryptography.primitives.internaldafny.types" } 
       ensures DeriveSharedSecretEnsuresPublicly(input, output)
       ensures History.DeriveSharedSecret == old(History.DeriveSharedSecret) + [DafnyCallEvent(input, output)]
 
+    predicate CompressPublicKeyEnsuresPublicly(input: CompressPublicKeyInput , output: Result<CompressPublicKeyOutput, Error>)
+    // The public method to be called by library consumers
+    method CompressPublicKey ( input: CompressPublicKeyInput )
+      returns (output: Result<CompressPublicKeyOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`CompressPublicKey
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures CompressPublicKeyEnsuresPublicly(input, output)
+      ensures History.CompressPublicKey == old(History.CompressPublicKey) + [DafnyCallEvent(input, output)]
+
+    predicate DecompressPublicKeyEnsuresPublicly(input: DecompressPublicKeyInput , output: Result<DecompressPublicKeyOutput, Error>)
+    // The public method to be called by library consumers
+    method DecompressPublicKey ( input: DecompressPublicKeyInput )
+      returns (output: Result<DecompressPublicKeyOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`DecompressPublicKey
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures DecompressPublicKeyEnsuresPublicly(input, output)
+      ensures History.DecompressPublicKey == old(History.DecompressPublicKey) + [DafnyCallEvent(input, output)]
+
+    predicate ParsePublicKeyEnsuresPublicly(input: ParsePublicKeyInput , output: Result<ParsePublicKeyOutput, Error>)
+    // The public method to be called by library consumers
+    method ParsePublicKey ( input: ParsePublicKeyInput )
+      returns (output: Result<ParsePublicKeyOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`ParsePublicKey
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures ParsePublicKeyEnsuresPublicly(input, output)
+      ensures History.ParsePublicKey == old(History.ParsePublicKey) + [DafnyCallEvent(input, output)]
+
   }
+  datatype CompressPublicKeyInput = | CompressPublicKeyInput (
+    nameonly publicKey: ECCPublicKey ,
+    nameonly eccCurve: ECDHCurveSpec
+  )
+  datatype CompressPublicKeyOutput = | CompressPublicKeyOutput (
+    nameonly compressedPublicKey: seq<uint8>
+  )
   datatype CryptoConfig = | CryptoConfig (
 
                           )
+  datatype DecompressPublicKeyInput = | DecompressPublicKeyInput (
+    nameonly compressedPublicKey: seq<uint8> ,
+    nameonly eccCurve: ECDHCurveSpec
+  )
+  datatype DecompressPublicKeyOutput = | DecompressPublicKeyOutput (
+    nameonly publicKey: ECCPublicKey
+  )
   datatype DeriveSharedSecretInput = | DeriveSharedSecretInput (
     nameonly eccCurve: ECDHCurveSpec ,
-    nameonly privateKey: seq<uint8> ,
-    nameonly publicKey: seq<uint8>
+    nameonly privateKey: ECCPrivateKey ,
+    nameonly publicKey: ECCPublicKey
   )
   datatype DeriveSharedSecretOutput = | DeriveSharedSecretOutput (
     nameonly sharedSecret: seq<uint8>
@@ -434,6 +499,12 @@ module {:extern "software.amazon.cryptography.primitives.internaldafny.types" } 
   datatype DigestInput = | DigestInput (
     nameonly digestAlgorithm: DigestAlgorithm ,
     nameonly message: seq<uint8>
+  )
+  datatype ECCPrivateKey = | ECCPrivateKey (
+    nameonly pem: seq<uint8>
+  )
+  datatype ECCPublicKey = | ECCPublicKey (
+    nameonly der: seq<uint8>
   )
   datatype ECDHCurveSpec =
     | ECC_NIST_P256
@@ -459,8 +530,8 @@ module {:extern "software.amazon.cryptography.primitives.internaldafny.types" } 
   )
   datatype GenerateECCKeyPairOutput = | GenerateECCKeyPairOutput (
     nameonly eccCurve: ECDHCurveSpec ,
-    nameonly privateKey: seq<uint8> ,
-    nameonly publicKey: seq<uint8>
+    nameonly privateKey: ECCPrivateKey ,
+    nameonly publicKey: ECCPublicKey
   )
   datatype GenerateECDSASignatureKeyInput = | GenerateECDSASignatureKeyInput (
     nameonly signatureAlgorithm: ECDSASignatureAlgorithm
@@ -482,11 +553,11 @@ module {:extern "software.amazon.cryptography.primitives.internaldafny.types" } 
   )
   datatype GetPublicKeyFromPrivateKeyInput = | GetPublicKeyFromPrivateKeyInput (
     nameonly eccCurve: ECDHCurveSpec ,
-    nameonly privateKey: seq<uint8>
+    nameonly privateKey: ECCPrivateKey
   )
   datatype GetPublicKeyFromPrivateKeyOutput = | GetPublicKeyFromPrivateKeyOutput (
     nameonly eccCurve: ECDHCurveSpec ,
-    nameonly privateKey: seq<uint8> ,
+    nameonly privateKey: ECCPrivateKey ,
     nameonly publicKey: seq<uint8>
   )
   datatype GetRSAKeyModulusLengthInput = | GetRSAKeyModulusLengthInput (
@@ -524,6 +595,12 @@ module {:extern "software.amazon.cryptography.primitives.internaldafny.types" } 
     nameonly expectedLength: PositiveInteger ,
     nameonly purpose: Option<seq<uint8>> := Option.None ,
     nameonly nonce: Option<seq<uint8>> := Option.None
+  )
+  datatype ParsePublicKeyInput = | ParsePublicKeyInput (
+    nameonly publicKey: seq<uint8>
+  )
+  datatype ParsePublicKeyOutput = | ParsePublicKeyOutput (
+    nameonly publicKey: ECCPublicKey
   )
   type PositiveInteger = x: int32 | IsValid_PositiveInteger(x) witness *
   predicate method IsValid_PositiveInteger(x: int32) {
@@ -575,7 +652,6 @@ module {:extern "software.amazon.cryptography.primitives.internaldafny.types" } 
   }
   datatype ValidatePublicKeyInput = | ValidatePublicKeyInput (
     nameonly eccCurve: ECDHCurveSpec ,
-    nameonly privateKey: seq<uint8> ,
     nameonly publicKey: seq<uint8>
   )
   datatype ValidatePublicKeyOutput = | ValidatePublicKeyOutput (
@@ -1051,6 +1127,66 @@ abstract module AbstractAwsCryptographyPrimitivesService
       History.DeriveSharedSecret := History.DeriveSharedSecret + [DafnyCallEvent(input, output)];
     }
 
+    predicate CompressPublicKeyEnsuresPublicly(input: CompressPublicKeyInput , output: Result<CompressPublicKeyOutput, Error>)
+    {Operations.CompressPublicKeyEnsuresPublicly(input, output)}
+    // The public method to be called by library consumers
+    method CompressPublicKey ( input: CompressPublicKeyInput )
+      returns (output: Result<CompressPublicKeyOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`CompressPublicKey
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures CompressPublicKeyEnsuresPublicly(input, output)
+      ensures History.CompressPublicKey == old(History.CompressPublicKey) + [DafnyCallEvent(input, output)]
+    {
+      output := Operations.CompressPublicKey(config, input);
+      History.CompressPublicKey := History.CompressPublicKey + [DafnyCallEvent(input, output)];
+    }
+
+    predicate DecompressPublicKeyEnsuresPublicly(input: DecompressPublicKeyInput , output: Result<DecompressPublicKeyOutput, Error>)
+    {Operations.DecompressPublicKeyEnsuresPublicly(input, output)}
+    // The public method to be called by library consumers
+    method DecompressPublicKey ( input: DecompressPublicKeyInput )
+      returns (output: Result<DecompressPublicKeyOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`DecompressPublicKey
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures DecompressPublicKeyEnsuresPublicly(input, output)
+      ensures History.DecompressPublicKey == old(History.DecompressPublicKey) + [DafnyCallEvent(input, output)]
+    {
+      output := Operations.DecompressPublicKey(config, input);
+      History.DecompressPublicKey := History.DecompressPublicKey + [DafnyCallEvent(input, output)];
+    }
+
+    predicate ParsePublicKeyEnsuresPublicly(input: ParsePublicKeyInput , output: Result<ParsePublicKeyOutput, Error>)
+    {Operations.ParsePublicKeyEnsuresPublicly(input, output)}
+    // The public method to be called by library consumers
+    method ParsePublicKey ( input: ParsePublicKeyInput )
+      returns (output: Result<ParsePublicKeyOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`ParsePublicKey
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures ParsePublicKeyEnsuresPublicly(input, output)
+      ensures History.ParsePublicKey == old(History.ParsePublicKey) + [DafnyCallEvent(input, output)]
+    {
+      output := Operations.ParsePublicKey(config, input);
+      History.ParsePublicKey := History.ParsePublicKey + [DafnyCallEvent(input, output)];
+    }
+
   }
 }
 abstract module AbstractAwsCryptographyPrimitivesOperations {
@@ -1381,4 +1517,52 @@ abstract module AbstractAwsCryptographyPrimitivesOperations {
     ensures
       && ValidInternalConfig?(config)
     ensures DeriveSharedSecretEnsuresPublicly(input, output)
+
+
+  predicate CompressPublicKeyEnsuresPublicly(input: CompressPublicKeyInput , output: Result<CompressPublicKeyOutput, Error>)
+  // The private method to be refined by the library developer
+
+
+  method CompressPublicKey ( config: InternalConfig , input: CompressPublicKeyInput )
+    returns (output: Result<CompressPublicKeyOutput, Error>)
+    requires
+      && ValidInternalConfig?(config)
+    modifies ModifiesInternalConfig(config)
+    // Dafny will skip type parameters when generating a default decreases clause.
+    decreases ModifiesInternalConfig(config)
+    ensures
+      && ValidInternalConfig?(config)
+    ensures CompressPublicKeyEnsuresPublicly(input, output)
+
+
+  predicate DecompressPublicKeyEnsuresPublicly(input: DecompressPublicKeyInput , output: Result<DecompressPublicKeyOutput, Error>)
+  // The private method to be refined by the library developer
+
+
+  method DecompressPublicKey ( config: InternalConfig , input: DecompressPublicKeyInput )
+    returns (output: Result<DecompressPublicKeyOutput, Error>)
+    requires
+      && ValidInternalConfig?(config)
+    modifies ModifiesInternalConfig(config)
+    // Dafny will skip type parameters when generating a default decreases clause.
+    decreases ModifiesInternalConfig(config)
+    ensures
+      && ValidInternalConfig?(config)
+    ensures DecompressPublicKeyEnsuresPublicly(input, output)
+
+
+  predicate ParsePublicKeyEnsuresPublicly(input: ParsePublicKeyInput , output: Result<ParsePublicKeyOutput, Error>)
+  // The private method to be refined by the library developer
+
+
+  method ParsePublicKey ( config: InternalConfig , input: ParsePublicKeyInput )
+    returns (output: Result<ParsePublicKeyOutput, Error>)
+    requires
+      && ValidInternalConfig?(config)
+    modifies ModifiesInternalConfig(config)
+    // Dafny will skip type parameters when generating a default decreases clause.
+    decreases ModifiesInternalConfig(config)
+    ensures
+      && ValidInternalConfig?(config)
+    ensures ParsePublicKeyEnsuresPublicly(input, output)
 }

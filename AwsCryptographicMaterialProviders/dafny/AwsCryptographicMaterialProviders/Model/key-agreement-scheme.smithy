@@ -27,11 +27,6 @@ union RawEcdhStaticConfigurations {
     EphemeralPrivateKeyToStaticPublicKey: EphemeralPrivateKeyToStaticPublicKeyInput 
 }
 
-union KmsRecipientConfiguration {
-    RecipientKmsKeyId: KmsKeyId,
-    RecipientPublicKey: Secret
-}
-
 
 @javadoc("Inputs for creating a KmsPublicKeyDiscovery Configuration. This is a DECRYPT ONLY configuration")
 structure KmsPublicKeyDiscoveryInput {
@@ -45,31 +40,33 @@ structure KmsPrivateKeyToStaticPublicKeyInput {
     @required
     @javadoc("AWS KMS Key Identifier belonging to the sender")
     senderKmsIdentifier: KmsKeyId,
+    @javadoc("Sender Public Key. This is the raw public ECC key in DER format that belongs to the senderKmsIdentifier.")
+    senderPublicKey: Blob,
     @required
-    @javadoc("Recipient configuration. This can be either a KMS key identifier or a raw public key")
-    recipientConfiguration: KmsRecipientConfiguration,
+    @javadoc("Recipient Public Key. This is a raw public ECC key in DER format.")
+    recipientPublicKey: Blob,
 }
 
 @javadoc("Inputs for creating a EphemeralPrivateKeyToStaticPublicKey Configuration.")
 structure EphemeralPrivateKeyToStaticPublicKeyInput {
     @required
-    @javadoc("The recipient's public key")
-    recipientPublicKey: Secret,
+    @javadoc("The recipient's public key. MUST be DER encoded.")
+    recipientPublicKey: Blob,
 }
 
 @javadoc("Inputs for creating a PublicKeyDiscovery Configuration.")
 structure PublicKeyDiscoveryInput {
     @required
-    @javadoc("The sender's private key")
-    senderStaticPrivateKey: Secret,
+    @javadoc("The sender's private key. MUST be PEM encoded")
+    recipientStaticPrivateKey: Blob,
 }
 
 @javadoc("Inputs for creating a RawPrivateKeyToStaticPublicKey Configuration.")
 structure RawPrivateKeyToStaticPublicKeyInput {
     @required
-    @javadoc("The sender's private key")
-    senderStaticPrivateKey: Secret,
+    @javadoc("The sender's private key. MUST be PEM encoded")
+    senderStaticPrivateKey: Blob,
     @required
-    @javadoc("The recipient's public key")
-    recipientPublicKey: Secret,
+    @javadoc("The recipient's public key. MUST be DER encoded.")
+    recipientPublicKey: Blob,
 }

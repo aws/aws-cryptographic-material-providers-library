@@ -12,12 +12,12 @@ import java.util.Objects;
 public class RawPrivateKeyToStaticPublicKeyInput {
 
   /**
-   * The sender's private key
+   * The sender's private key. MUST be PEM encoded
    */
   private final ByteBuffer senderStaticPrivateKey;
 
   /**
-   * The recipient's public key
+   * The recipient's public key. MUST be DER encoded.
    */
   private final ByteBuffer recipientPublicKey;
 
@@ -27,14 +27,14 @@ public class RawPrivateKeyToStaticPublicKeyInput {
   }
 
   /**
-   * @return The sender's private key
+   * @return The sender's private key. MUST be PEM encoded
    */
   public ByteBuffer senderStaticPrivateKey() {
     return this.senderStaticPrivateKey;
   }
 
   /**
-   * @return The recipient's public key
+   * @return The recipient's public key. MUST be DER encoded.
    */
   public ByteBuffer recipientPublicKey() {
     return this.recipientPublicKey;
@@ -50,22 +50,22 @@ public class RawPrivateKeyToStaticPublicKeyInput {
 
   public interface Builder {
     /**
-     * @param senderStaticPrivateKey The sender's private key
+     * @param senderStaticPrivateKey The sender's private key. MUST be PEM encoded
      */
     Builder senderStaticPrivateKey(ByteBuffer senderStaticPrivateKey);
 
     /**
-     * @return The sender's private key
+     * @return The sender's private key. MUST be PEM encoded
      */
     ByteBuffer senderStaticPrivateKey();
 
     /**
-     * @param recipientPublicKey The recipient's public key
+     * @param recipientPublicKey The recipient's public key. MUST be DER encoded.
      */
     Builder recipientPublicKey(ByteBuffer recipientPublicKey);
 
     /**
-     * @return The recipient's public key
+     * @return The recipient's public key. MUST be DER encoded.
      */
     ByteBuffer recipientPublicKey();
 

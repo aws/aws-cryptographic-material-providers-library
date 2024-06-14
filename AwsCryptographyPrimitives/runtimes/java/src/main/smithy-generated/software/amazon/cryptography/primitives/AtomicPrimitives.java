@@ -18,7 +18,11 @@ import software.amazon.cryptography.primitives.model.AESDecryptInput;
 import software.amazon.cryptography.primitives.model.AESEncryptInput;
 import software.amazon.cryptography.primitives.model.AESEncryptOutput;
 import software.amazon.cryptography.primitives.model.AesKdfCtrInput;
+import software.amazon.cryptography.primitives.model.CompressPublicKeyInput;
+import software.amazon.cryptography.primitives.model.CompressPublicKeyOutput;
 import software.amazon.cryptography.primitives.model.CryptoConfig;
+import software.amazon.cryptography.primitives.model.DecompressPublicKeyInput;
+import software.amazon.cryptography.primitives.model.DecompressPublicKeyOutput;
 import software.amazon.cryptography.primitives.model.DeriveSharedSecretInput;
 import software.amazon.cryptography.primitives.model.DeriveSharedSecretOutput;
 import software.amazon.cryptography.primitives.model.DigestInput;
@@ -40,6 +44,8 @@ import software.amazon.cryptography.primitives.model.HkdfExpandInput;
 import software.amazon.cryptography.primitives.model.HkdfExtractInput;
 import software.amazon.cryptography.primitives.model.HkdfInput;
 import software.amazon.cryptography.primitives.model.KdfCtrInput;
+import software.amazon.cryptography.primitives.model.ParsePublicKeyInput;
+import software.amazon.cryptography.primitives.model.ParsePublicKeyOutput;
 import software.amazon.cryptography.primitives.model.RSADecryptInput;
 import software.amazon.cryptography.primitives.model.RSAEncryptInput;
 import software.amazon.cryptography.primitives.model.ValidatePublicKeyInput;
@@ -107,6 +113,36 @@ public class AtomicPrimitives {
     return software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
       result.dtor_value()
     );
+  }
+
+  public CompressPublicKeyOutput CompressPublicKey(
+    CompressPublicKeyInput input
+  ) {
+    software.amazon.cryptography.primitives.internaldafny.types.CompressPublicKeyInput dafnyValue =
+      ToDafny.CompressPublicKeyInput(input);
+    Result<
+      software.amazon.cryptography.primitives.internaldafny.types.CompressPublicKeyOutput,
+      Error
+    > result = this._impl.CompressPublicKey(dafnyValue);
+    if (result.is_Failure()) {
+      throw ToNative.Error(result.dtor_error());
+    }
+    return ToNative.CompressPublicKeyOutput(result.dtor_value());
+  }
+
+  public DecompressPublicKeyOutput DecompressPublicKey(
+    DecompressPublicKeyInput input
+  ) {
+    software.amazon.cryptography.primitives.internaldafny.types.DecompressPublicKeyInput dafnyValue =
+      ToDafny.DecompressPublicKeyInput(input);
+    Result<
+      software.amazon.cryptography.primitives.internaldafny.types.DecompressPublicKeyOutput,
+      Error
+    > result = this._impl.DecompressPublicKey(dafnyValue);
+    if (result.is_Failure()) {
+      throw ToNative.Error(result.dtor_error());
+    }
+    return ToNative.DecompressPublicKeyOutput(result.dtor_value());
   }
 
   public DeriveSharedSecretOutput DeriveSharedSecret(
@@ -311,6 +347,19 @@ public class AtomicPrimitives {
     return software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
       result.dtor_value()
     );
+  }
+
+  public ParsePublicKeyOutput ParsePublicKey(ParsePublicKeyInput input) {
+    software.amazon.cryptography.primitives.internaldafny.types.ParsePublicKeyInput dafnyValue =
+      ToDafny.ParsePublicKeyInput(input);
+    Result<
+      software.amazon.cryptography.primitives.internaldafny.types.ParsePublicKeyOutput,
+      Error
+    > result = this._impl.ParsePublicKey(dafnyValue);
+    if (result.is_Failure()) {
+      throw ToNative.Error(result.dtor_error());
+    }
+    return ToNative.ParsePublicKeyOutput(result.dtor_value());
   }
 
   public ByteBuffer RSADecrypt(RSADecryptInput input) {

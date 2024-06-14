@@ -8,8 +8,8 @@ namespace AWS.Cryptography.Primitives
     public class GenerateECCKeyPairOutput
     {
         private AWS.Cryptography.Primitives.ECDHCurveSpec _eccCurve;
-        private System.IO.MemoryStream _privateKey;
-        private System.IO.MemoryStream _publicKey;
+        private AWS.Cryptography.Primitives.ECCPrivateKey _privateKey;
+        private AWS.Cryptography.Primitives.ECCPublicKey _publicKey;
         public AWS.Cryptography.Primitives.ECDHCurveSpec EccCurve
         {
             get { return this._eccCurve; }
@@ -19,7 +19,7 @@ namespace AWS.Cryptography.Primitives
         {
             return this._eccCurve != null;
         }
-        public System.IO.MemoryStream PrivateKey
+        public AWS.Cryptography.Primitives.ECCPrivateKey PrivateKey
         {
             get { return this._privateKey; }
             set { this._privateKey = value; }
@@ -28,7 +28,7 @@ namespace AWS.Cryptography.Primitives
         {
             return this._privateKey != null;
         }
-        public System.IO.MemoryStream PublicKey
+        public AWS.Cryptography.Primitives.ECCPublicKey PublicKey
         {
             get { return this._publicKey; }
             set { this._publicKey = value; }

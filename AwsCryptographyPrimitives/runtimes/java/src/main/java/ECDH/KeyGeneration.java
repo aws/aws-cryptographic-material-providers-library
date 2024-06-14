@@ -1,6 +1,7 @@
 package ECDH;
 
 import static ECDH.ECCAlgorithm.eccAlgorithm;
+import static ECDH.ECCUtils.checkBCProvider;
 
 import Random_Compile.ExternRandom;
 import StandardLibraryInternal.InternalResult;
@@ -9,9 +10,9 @@ import dafny.DafnySequence;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.SecureRandom;
-import java.security.interfaces.ECPrivateKey;
 import java.security.interfaces.ECPublicKey;
 import java.security.spec.ECGenParameterSpec;
+import java.security.spec.X509EncodedKeySpec;
 import org.bouncycastle.asn1.gm.GMNamedCurves;
 import org.bouncycastle.asn1.x9.X9ECParameters;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
@@ -32,18 +33,19 @@ public class KeyGeneration extends _ExternBase___default {
   static final String SEC_P256 = "256r1";
   static final String SEC_P384 = "384r1";
   static final String SEC_P521 = "521r1";
-  static final String SM2 = "SM2PKE";
+  static final String SM2_KA = "SM2";
 
   public static Result<EccKeyPair, Error> GenerateKeyPair(
     ECDHCurveSpec dtor_eccAlgorithm
   ) {
+    checkBCProvider();
     final InternalResult<ECCAlgorithm, Error> maybeEccAlgorithm = eccAlgorithm(
       dtor_eccAlgorithm
     );
     if (maybeEccAlgorithm.isFailure()) {
       return CreateExternEccKeyGenFailure(maybeEccAlgorithm.error());
     }
-    if (!maybeEccAlgorithm.value().curve.equals("SM2PKE")) {
+    if (!maybeEccAlgorithm.value().curve.equals("SM2")) {
       final ECGenParameterSpec genParameterSpec = new ECGenParameterSpec(
         maybeEccAlgorithm.value().curve
       );
@@ -51,8 +53,20 @@ public class KeyGeneration extends _ExternBase___default {
       final SecureRandom secureRandom = ExternRandom.getSecureRandom();
       final KeyPairGenerator keyGen;
       try {
-        keyGen = KeyPairGenerator.getInstance(ELLIPTIC_CURVE_ALGORITHM);
+        keyGen = KeyPairGenerator.getInstance(ELLIPTIC_CURVE_ALGORITHM, "BC");
         keyGen.initialize(genParameterSpec, secureRandom);
+        final KeyPair keyPair = keyGen.generateKeyPair();
+
+        final DafnySequence<Byte> privateKey = ECCUtils.encodePrivateKey(
+          keyPair.getPrivate()
+        );
+        final byte[] publicKey = encodePublicKeyDerFormat(
+          (ECPublicKey) keyPair.getPublic()
+        );
+
+        return CreateExternEccKeyGenSuccess(
+          EccKeyPair.create(privateKey, DafnySequence.fromBytes(publicKey))
+        );
       } catch (Exception e) {
         return CreateExternEccKeyGenFailure(
           ToDafny.Error(
@@ -64,23 +78,6 @@ public class KeyGeneration extends _ExternBase___default {
           )
         );
       }
-
-      final KeyPair keyPair = keyGen.generateKeyPair();
-
-      final byte[] privateKey = encodePrivateKey(
-        (ECPrivateKey) keyPair.getPrivate()
-      );
-
-      final byte[] publicKey = encodePublicKeyDerFormat(
-        (ECPublicKey) keyPair.getPublic()
-      );
-
-      return CreateExternEccKeyGenSuccess(
-        EccKeyPair.create(
-          DafnySequence.fromBytes(privateKey),
-          DafnySequence.fromBytes(publicKey)
-        )
-      );
     } else {
       X9ECParameters SM2_X9EC_PARAMETERS = GMNamedCurves.getByName("sm2p256v1");
       ECDomainParameters domain = new ECDomainParameters(
@@ -99,7 +96,7 @@ public class KeyGeneration extends _ExternBase___default {
       final byte[] privateKey =
         ((ECPrivateKeyParameters) keypair.getPrivate()).getD().toByteArray();
       final byte[] publicKey =
-        ((ECPublicKeyParameters) keypair.getPublic()).getQ().getEncoded(true);
+        ((ECPublicKeyParameters) keypair.getPublic()).getQ().getEncoded(false);
 
       return CreateExternEccKeyGenSuccess(
         EccKeyPair.create(
@@ -111,10 +108,7 @@ public class KeyGeneration extends _ExternBase___default {
   }
 
   static byte[] encodePublicKeyDerFormat(final ECPublicKey publicKey) {
-    return publicKey.getEncoded();
-  }
-
-  static byte[] encodePrivateKey(final ECPrivateKey privateKey) {
-    return privateKey.getS().toByteArray();
+    X509EncodedKeySpec spec = new X509EncodedKeySpec(publicKey.getEncoded());
+    return spec.getEncoded();
   }
 }

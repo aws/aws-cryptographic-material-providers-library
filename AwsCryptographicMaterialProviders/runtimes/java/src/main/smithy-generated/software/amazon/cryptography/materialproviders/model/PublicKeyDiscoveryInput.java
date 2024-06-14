@@ -12,19 +12,19 @@ import java.util.Objects;
 public class PublicKeyDiscoveryInput {
 
   /**
-   * The sender's private key
+   * The sender's private key. MUST be PEM encoded
    */
-  private final ByteBuffer senderStaticPrivateKey;
+  private final ByteBuffer recipientStaticPrivateKey;
 
   protected PublicKeyDiscoveryInput(BuilderImpl builder) {
-    this.senderStaticPrivateKey = builder.senderStaticPrivateKey();
+    this.recipientStaticPrivateKey = builder.recipientStaticPrivateKey();
   }
 
   /**
-   * @return The sender's private key
+   * @return The sender's private key. MUST be PEM encoded
    */
-  public ByteBuffer senderStaticPrivateKey() {
-    return this.senderStaticPrivateKey;
+  public ByteBuffer recipientStaticPrivateKey() {
+    return this.recipientStaticPrivateKey;
   }
 
   public Builder toBuilder() {
@@ -37,41 +37,43 @@ public class PublicKeyDiscoveryInput {
 
   public interface Builder {
     /**
-     * @param senderStaticPrivateKey The sender's private key
+     * @param recipientStaticPrivateKey The sender's private key. MUST be PEM encoded
      */
-    Builder senderStaticPrivateKey(ByteBuffer senderStaticPrivateKey);
+    Builder recipientStaticPrivateKey(ByteBuffer recipientStaticPrivateKey);
 
     /**
-     * @return The sender's private key
+     * @return The sender's private key. MUST be PEM encoded
      */
-    ByteBuffer senderStaticPrivateKey();
+    ByteBuffer recipientStaticPrivateKey();
 
     PublicKeyDiscoveryInput build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected ByteBuffer senderStaticPrivateKey;
+    protected ByteBuffer recipientStaticPrivateKey;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(PublicKeyDiscoveryInput model) {
-      this.senderStaticPrivateKey = model.senderStaticPrivateKey();
+      this.recipientStaticPrivateKey = model.recipientStaticPrivateKey();
     }
 
-    public Builder senderStaticPrivateKey(ByteBuffer senderStaticPrivateKey) {
-      this.senderStaticPrivateKey = senderStaticPrivateKey;
+    public Builder recipientStaticPrivateKey(
+      ByteBuffer recipientStaticPrivateKey
+    ) {
+      this.recipientStaticPrivateKey = recipientStaticPrivateKey;
       return this;
     }
 
-    public ByteBuffer senderStaticPrivateKey() {
-      return this.senderStaticPrivateKey;
+    public ByteBuffer recipientStaticPrivateKey() {
+      return this.recipientStaticPrivateKey;
     }
 
     public PublicKeyDiscoveryInput build() {
-      if (Objects.isNull(this.senderStaticPrivateKey())) {
+      if (Objects.isNull(this.recipientStaticPrivateKey())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `senderStaticPrivateKey`"
+          "Missing value for required field `recipientStaticPrivateKey`"
         );
       }
       return new PublicKeyDiscoveryInput(this);

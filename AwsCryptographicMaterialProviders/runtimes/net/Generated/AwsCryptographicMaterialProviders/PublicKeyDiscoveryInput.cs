@@ -7,19 +7,19 @@ namespace AWS.Cryptography.MaterialProviders
 {
   public class PublicKeyDiscoveryInput
   {
-    private System.IO.MemoryStream _senderStaticPrivateKey;
-    public System.IO.MemoryStream SenderStaticPrivateKey
+    private System.IO.MemoryStream _recipientStaticPrivateKey;
+    public System.IO.MemoryStream RecipientStaticPrivateKey
     {
-      get { return this._senderStaticPrivateKey; }
-      set { this._senderStaticPrivateKey = value; }
+      get { return this._recipientStaticPrivateKey; }
+      set { this._recipientStaticPrivateKey = value; }
     }
-    public bool IsSetSenderStaticPrivateKey()
+    public bool IsSetRecipientStaticPrivateKey()
     {
-      return this._senderStaticPrivateKey != null;
+      return this._recipientStaticPrivateKey != null;
     }
     public void Validate()
     {
-      if (!IsSetSenderStaticPrivateKey()) throw new System.ArgumentException("Missing value for required property 'SenderStaticPrivateKey'");
+      if (!IsSetRecipientStaticPrivateKey()) throw new System.ArgumentException("Missing value for required property 'RecipientStaticPrivateKey'");
 
     }
   }

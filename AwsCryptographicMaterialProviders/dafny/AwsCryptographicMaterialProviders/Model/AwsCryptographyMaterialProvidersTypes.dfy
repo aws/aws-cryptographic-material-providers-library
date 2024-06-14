@@ -384,23 +384,22 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     method CreateAwsKmsEcdhKeyring ( input: CreateAwsKmsEcdhKeyringInput )
       returns (output: Result<IKeyring, Error>)
       requires
-        && ValidState() && ( input.kmsClient.Some? ==>
-                               && input.kmsClient.value.ValidState()
-                               && input.kmsClient.value.Modifies !! {History}
-           )
+        && ValidState()
+        && input.kmsClient.ValidState()
+        && input.kmsClient.Modifies !! {History}
       modifies Modifies - {History} ,
-               (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ,
+               input.kmsClient.Modifies ,
                History`CreateAwsKmsEcdhKeyring
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History} ,
-                (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {})
+                input.kmsClient.Modifies
       ensures
         && ValidState()
         && ( output.Success? ==>
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ) )
+               && fresh ( output.value.Modifies - Modifies - {History} - input.kmsClient.Modifies ) )
       ensures CreateAwsKmsEcdhKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsEcdhKeyring == old(History.CreateAwsKmsEcdhKeyring) + [DafnyCallEvent(input, output)]
 
@@ -816,7 +815,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
   datatype CreateAwsKmsEcdhKeyringInput = | CreateAwsKmsEcdhKeyringInput (
     nameonly KeyAgreementScheme: KmsEcdhStaticConfigurations ,
     nameonly curveSpec: AwsCryptographyPrimitivesTypes.ECDHCurveSpec ,
-    nameonly kmsClient: Option<ComAmazonawsKmsTypes.IKMSClient> := Option.None ,
+    nameonly kmsClient: ComAmazonawsKmsTypes.IKMSClient ,
     nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
   datatype CreateAwsKmsHierarchicalKeyringInput = | CreateAwsKmsHierarchicalKeyringInput (
@@ -1244,7 +1243,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly symmetricSigningKeys: Option<SymmetricSigningKeyList> := Option.None
   )
   datatype EphemeralPrivateKeyToStaticPublicKeyInput = | EphemeralPrivateKeyToStaticPublicKeyInput (
-    nameonly recipientPublicKey: Secret
+    nameonly recipientPublicKey: seq<uint8>
   )
   datatype ESDKAlgorithmSuiteId =
     | ALG_AES_128_GCM_IV12_TAG16_NO_KDF
@@ -1427,14 +1426,12 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
   type KmsKeyIdList = seq<KmsKeyId>
   datatype KmsPrivateKeyToStaticPublicKeyInput = | KmsPrivateKeyToStaticPublicKeyInput (
     nameonly senderKmsIdentifier: KmsKeyId ,
-    nameonly recipientConfiguration: KmsRecipientConfiguration
+    nameonly senderPublicKey: Option<seq<uint8>> := Option.None ,
+    nameonly recipientPublicKey: seq<uint8>
   )
   datatype KmsPublicKeyDiscoveryInput = | KmsPublicKeyDiscoveryInput (
     nameonly recipientKmsIdentifier: KmsKeyId
   )
-  datatype KmsRecipientConfiguration =
-    | RecipientKmsKeyId(RecipientKmsKeyId: KmsKeyId)
-    | RecipientPublicKey(RecipientPublicKey: Secret)
   datatype MaterialProvidersConfig = | MaterialProvidersConfig (
 
                                      )
@@ -1481,7 +1478,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     ( 0 <= x  )
   }
   datatype PublicKeyDiscoveryInput = | PublicKeyDiscoveryInput (
-    nameonly senderStaticPrivateKey: Secret
+    nameonly recipientStaticPrivateKey: seq<uint8>
   )
   datatype PutCacheEntryInput = | PutCacheEntryInput (
     nameonly identifier: seq<uint8> ,
@@ -1496,8 +1493,8 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     | RawPrivateKeyToStaticPublicKey(RawPrivateKeyToStaticPublicKey: RawPrivateKeyToStaticPublicKeyInput)
     | EphemeralPrivateKeyToStaticPublicKey(EphemeralPrivateKeyToStaticPublicKey: EphemeralPrivateKeyToStaticPublicKeyInput)
   datatype RawPrivateKeyToStaticPublicKeyInput = | RawPrivateKeyToStaticPublicKeyInput (
-    nameonly senderStaticPrivateKey: Secret ,
-    nameonly recipientPublicKey: Secret
+    nameonly senderStaticPrivateKey: seq<uint8> ,
+    nameonly recipientPublicKey: seq<uint8>
   )
   type Region = string
   type RegionList = seq<Region>
@@ -1954,23 +1951,22 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
     method CreateAwsKmsEcdhKeyring ( input: CreateAwsKmsEcdhKeyringInput )
       returns (output: Result<IKeyring, Error>)
       requires
-        && ValidState() && ( input.kmsClient.Some? ==>
-                               && input.kmsClient.value.ValidState()
-                               && input.kmsClient.value.Modifies !! {History}
-           )
+        && ValidState()
+        && input.kmsClient.ValidState()
+        && input.kmsClient.Modifies !! {History}
       modifies Modifies - {History} ,
-               (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ,
+               input.kmsClient.Modifies ,
                History`CreateAwsKmsEcdhKeyring
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History} ,
-                (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {})
+                input.kmsClient.Modifies
       ensures
         && ValidState()
         && ( output.Success? ==>
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ) )
+               && fresh ( output.value.Modifies - Modifies - {History} - input.kmsClient.Modifies ) )
       ensures CreateAwsKmsEcdhKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsEcdhKeyring == old(History.CreateAwsKmsEcdhKeyring) + [DafnyCallEvent(input, output)]
     {
@@ -2548,20 +2544,19 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
   method CreateAwsKmsEcdhKeyring ( config: InternalConfig , input: CreateAwsKmsEcdhKeyringInput )
     returns (output: Result<IKeyring, Error>)
     requires
-      && ValidInternalConfig?(config) && ( input.kmsClient.Some? ==>
-                                             && input.kmsClient.value.ValidState()
-         )
+      && ValidInternalConfig?(config)
+      && input.kmsClient.ValidState()
     modifies ModifiesInternalConfig(config) ,
-             (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {})
+             input.kmsClient.Modifies
     // Dafny will skip type parameters when generating a default decreases clause.
     decreases ModifiesInternalConfig(config) ,
-              (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {})
+              input.kmsClient.Modifies
     ensures
       && ValidInternalConfig?(config)
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ) )
+             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - input.kmsClient.Modifies ) )
     ensures CreateAwsKmsEcdhKeyringEnsuresPublicly(input, output)
 
 

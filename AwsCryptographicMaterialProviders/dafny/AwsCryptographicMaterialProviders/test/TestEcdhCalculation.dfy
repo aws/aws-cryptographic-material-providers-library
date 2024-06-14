@@ -31,13 +31,13 @@ module TestEcdhCalculation {
       )
     );
 
-    expect 1 <= |keyPair.publicKey| <= 8192;
+    expect 1 <= |keyPair.publicKey.der| <= 8192;
 
     var kmsSharedSecret := kmsClient.DeriveSharedSecret(
       input := Kms.Types.DeriveSharedSecretRequest(
         KeyId := senderKmsKey,
         KeyAgreementAlgorithm := Kms.Types.KeyAgreementAlgorithmSpec.ECDH,
-        PublicKey := keyPair.publicKey
+        PublicKey := keyPair.publicKey.der
       )
     );
     expect kmsSharedSecret.Success?;
@@ -58,7 +58,7 @@ module TestEcdhCalculation {
       PrimitiveTypes.DeriveSharedSecretInput(
         eccCurve := PrimitiveTypes.ECDHCurveSpec.ECC_NIST_P256,
         privateKey := keyPair.privateKey,
-        publicKey := PublicKey.value
+        publicKey := PrimitiveTypes.ECCPublicKey(der := PublicKey.value)
       )
     );
 

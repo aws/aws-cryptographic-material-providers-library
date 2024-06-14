@@ -14,7 +14,6 @@ namespace aws.cryptography.primitives
     value: "ECC_NIST_P521",
   },
   {
-    // TODO: come back and double check this is the spec kms uses
     name: "SM2",
     value: "SM2",
   },
@@ -45,6 +44,24 @@ operation DeriveSharedSecret {
     errors: []
 }
 
+operation CompressPublicKey {
+    input: CompressPublicKeyInput,
+    output: CompressPublicKeyOutput,
+    errors: []
+}
+
+operation DecompressPublicKey {
+    input: DecompressPublicKeyInput,
+    output: DecompressPublicKeyOutput,
+    errors: []
+}
+
+operation ParsePublicKey {
+    input: ParsePublicKeyInput,
+    output: ParsePublicKeyOutput,
+    errors: []
+}
+
 structure GenerateECCKeyPairInput {
     @required
     eccCurve: ECDHCurveSpec 
@@ -54,23 +71,23 @@ structure GenerateECCKeyPairOutput {
     @required
     eccCurve: ECDHCurveSpec,
     @required
-    privateKey: Blob,
+    privateKey: ECCPrivateKey,
     @required
-    publicKey: Blob 
+    publicKey: ECCPublicKey 
 }
 
 structure GetPublicKeyFromPrivateKeyInput {
     @required
     eccCurve: ECDHCurveSpec,
     @required
-    privateKey: Blob,
+    privateKey: ECCPrivateKey,
 }
 
 structure GetPublicKeyFromPrivateKeyOutput {
     @required
     eccCurve: ECDHCurveSpec,
     @required
-    privateKey: Blob,
+    privateKey: ECCPrivateKey,
     @required
     publicKey: Blob 
 }
@@ -78,8 +95,6 @@ structure GetPublicKeyFromPrivateKeyOutput {
 structure ValidatePublicKeyInput {
     @required
     eccCurve: ECDHCurveSpec,
-    @required
-    privateKey: Blob,
     @required
     publicKey: Blob 
 }
@@ -93,12 +108,56 @@ structure DeriveSharedSecretInput {
     @required
     eccCurve: ECDHCurveSpec,
     @required
-    privateKey: Blob,
+    privateKey: ECCPrivateKey,
     @required
-    publicKey: Blob 
+    publicKey: ECCPublicKey 
 }
 
 structure DeriveSharedSecretOutput {
     @required
     sharedSecret: Blob
+}
+
+structure CompressPublicKeyInput {
+    @required
+    publicKey: ECCPublicKey,
+    @required
+    eccCurve: ECDHCurveSpec
+}
+
+structure CompressPublicKeyOutput {
+    @required
+    compressedPublicKey: Blob
+} 
+
+structure DecompressPublicKeyInput {
+    @required
+    compressedPublicKey: Blob,
+    @required
+    eccCurve: ECDHCurveSpec
+}
+
+structure DecompressPublicKeyOutput {
+    @required
+    publicKey: ECCPublicKey
+}
+
+structure ECCPrivateKey {
+    @required
+    pem: Blob
+}
+
+structure ECCPublicKey {
+    @required
+    der: Blob
+}
+
+structure ParsePublicKeyInput {
+    @required
+    publicKey: Blob
+}
+
+structure ParsePublicKeyOutput {
+    @required
+    publicKey: ECCPublicKey
 }

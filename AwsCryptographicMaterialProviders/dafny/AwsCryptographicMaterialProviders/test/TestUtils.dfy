@@ -31,6 +31,18 @@ module TestUtils {
 
   const PARTITION := "aws"
 
+  // These ECC Keys are only available in the KMS
+  const KMS_ECC_256_KEY_ARN_S := "arn:aws:kms:us-east-1:370957321024:key/ab0f5ab2-82a6-4bd3-aa5f-87336cbf38bd"
+  const KMS_ECC_256_KEY_ARN_R := "arn:aws:kms:us-east-1:370957321024:key/672ec393-86fb-4581-adc2-8cdb5b3d65ba"
+
+  const KMS_ECC_384_KEY_ARN_S := "arn:aws:kms:us-east-1:370957321024:key/b29184b6-10c5-4c32-a132-6bc60e18eb0c"
+  const KMS_ECC_384_KEY_ARN_R := "arn:aws:kms:us-east-1:370957321024:key/b9a08c8f-e8ea-4bd4-8a3a-3e046136a5fa"
+
+  const KMS_ECC_521_KEY_ARN_S := "arn:aws:kms:us-east-1:370957321024:key/97c7da27-1118-4d35-ba05-973026630e90"
+  const KMS_ECC_521_KEY_ARN_R := "arn:aws:kms:us-east-1:370957321024:key/79b7cca4-5675-4b86-a6ab-28fd17ac9844"
+
+  const KMS_ECC_256_PUBLIC_KEY_S := "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAET42axdUGDjwFdW3EX4+KC5pHpgx51u36p/avvfMv7so7I85vTzm9m4vdn4aEcMTKg8UZrrVCZVlf1egbpnD6gA=="
+
   // This axiom should only be used by tests to skip UTF8 verification of long sequences
   // long to be serialized in 16 bytes, in order to avoid a false negative for from verification.
   lemma {:axiom} AssumeLongSeqIsValidUTF8(s: seq<uint8>)

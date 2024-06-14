@@ -7,20 +7,17 @@ import static ECDH.ECCUtils.dafnyArrayUnWrapper;
 import StandardLibraryInternal.InternalResult;
 import Wrappers_Compile.Result;
 import dafny.DafnySequence;
-import java.math.BigInteger;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import javax.crypto.KeyAgreement;
-import org.bouncycastle.jce.ECNamedCurveTable;
-import org.bouncycastle.jce.spec.ECParameterSpec;
-import org.bouncycastle.jce.spec.ECPrivateKeySpec;
 import software.amazon.cryptography.primitives.ToDafny;
+import software.amazon.cryptography.primitives.internaldafny.types.ECCPrivateKey;
+import software.amazon.cryptography.primitives.internaldafny.types.ECCPublicKey;
 import software.amazon.cryptography.primitives.internaldafny.types.ECDHCurveSpec;
 import software.amazon.cryptography.primitives.internaldafny.types.Error;
 import software.amazon.cryptography.primitives.model.AwsCryptographicPrimitivesError;
@@ -32,12 +29,12 @@ public class DeriveSharedSecret extends _ExternBase___default {
     Error
   > CalculateSharedSecret(
     ECDHCurveSpec dtor_eccAlgorithm,
-    DafnySequence<? extends Byte> dtor_privateKey,
-    DafnySequence<? extends Byte> dtro_publicKey
+    ECCPrivateKey dtor_privateKey,
+    ECCPublicKey dtro_publicKey
   ) {
     checkBCProvider();
-    final byte[] privateKeyBytes = dafnyArrayUnWrapper(dtor_privateKey);
-    final byte[] publicKeyBytes = dafnyArrayUnWrapper(dtro_publicKey);
+    final byte[] privateKeyBytes = dafnyArrayUnWrapper(dtor_privateKey._pem);
+    final byte[] publicKeyBytes = dafnyArrayUnWrapper(dtro_publicKey._der);
 
     final InternalResult<ECCAlgorithm, Error> maybeEccAlgorithm = eccAlgorithm(
       dtor_eccAlgorithm
@@ -50,7 +47,7 @@ public class DeriveSharedSecret extends _ExternBase___default {
       try {
         KeyAgreement keyAgreement = KeyAgreement.getInstance("ECDH", "BC");
         keyAgreement.init(
-          fromBytesPrivateKey(privateKeyBytes, maybeEccAlgorithm.value().curve),
+          ECCUtils.parsePrivateKeyEccPemBytesToPrivateKey(privateKeyBytes),
           new SecureRandom()
         );
         keyAgreement.doPhase(fromBytesPublicKey(publicKeyBytes), true);
@@ -74,20 +71,6 @@ public class DeriveSharedSecret extends _ExternBase___default {
     return CreateExternDerivesharedSecretError(
       ToDafny.Error(new RuntimeException("SM2 Not yet Supported."))
     );
-  }
-
-  private static PrivateKey fromBytesPrivateKey(
-    byte[] privateKeyBytes,
-    String curve
-  )
-    throws NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException {
-    ECParameterSpec spec = ECNamedCurveTable.getParameterSpec(curve);
-    ECPrivateKeySpec privateKeySpec = new ECPrivateKeySpec(
-      new BigInteger(privateKeyBytes),
-      spec
-    );
-    KeyFactory factory = KeyFactory.getInstance("EC", "BC");
-    return factory.generatePrivate(privateKeySpec);
   }
 
   private static PublicKey fromBytesPublicKey(byte[] publicKeyBytes)

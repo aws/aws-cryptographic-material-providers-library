@@ -453,7 +453,8 @@ structure CreateRawAesKeyringInput {
     @required
     @javadoc("The named curve that corresponds to the curve on which the sender's private and recipient's public key lie.")
     curveSpec: aws.cryptography.primitives#ECDHCurveSpec,
-    
+
+    @required 
     @javadoc("The KMS Client this Keyring will use to call KMS.")
     kmsClient: KmsClientReference,
     

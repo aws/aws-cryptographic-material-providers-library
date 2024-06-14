@@ -3,16 +3,15 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.primitives.model;
 
-import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class GenerateECCKeyPairOutput {
 
   private final ECDHCurveSpec eccCurve;
 
-  private final ByteBuffer privateKey;
+  private final ECCPrivateKey privateKey;
 
-  private final ByteBuffer publicKey;
+  private final ECCPublicKey publicKey;
 
   protected GenerateECCKeyPairOutput(BuilderImpl builder) {
     this.eccCurve = builder.eccCurve();
@@ -24,11 +23,11 @@ public class GenerateECCKeyPairOutput {
     return this.eccCurve;
   }
 
-  public ByteBuffer privateKey() {
+  public ECCPrivateKey privateKey() {
     return this.privateKey;
   }
 
-  public ByteBuffer publicKey() {
+  public ECCPublicKey publicKey() {
     return this.publicKey;
   }
 
@@ -45,13 +44,13 @@ public class GenerateECCKeyPairOutput {
 
     ECDHCurveSpec eccCurve();
 
-    Builder privateKey(ByteBuffer privateKey);
+    Builder privateKey(ECCPrivateKey privateKey);
 
-    ByteBuffer privateKey();
+    ECCPrivateKey privateKey();
 
-    Builder publicKey(ByteBuffer publicKey);
+    Builder publicKey(ECCPublicKey publicKey);
 
-    ByteBuffer publicKey();
+    ECCPublicKey publicKey();
 
     GenerateECCKeyPairOutput build();
   }
@@ -60,9 +59,9 @@ public class GenerateECCKeyPairOutput {
 
     protected ECDHCurveSpec eccCurve;
 
-    protected ByteBuffer privateKey;
+    protected ECCPrivateKey privateKey;
 
-    protected ByteBuffer publicKey;
+    protected ECCPublicKey publicKey;
 
     protected BuilderImpl() {}
 
@@ -81,21 +80,21 @@ public class GenerateECCKeyPairOutput {
       return this.eccCurve;
     }
 
-    public Builder privateKey(ByteBuffer privateKey) {
+    public Builder privateKey(ECCPrivateKey privateKey) {
       this.privateKey = privateKey;
       return this;
     }
 
-    public ByteBuffer privateKey() {
+    public ECCPrivateKey privateKey() {
       return this.privateKey;
     }
 
-    public Builder publicKey(ByteBuffer publicKey) {
+    public Builder publicKey(ECCPublicKey publicKey) {
       this.publicKey = publicKey;
       return this;
     }
 
-    public ByteBuffer publicKey() {
+    public ECCPublicKey publicKey() {
       return this.publicKey;
     }
 

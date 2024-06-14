@@ -51,6 +51,7 @@ namespace AWS.Cryptography.MaterialProviders
     {
       if (!IsSetKeyAgreementScheme()) throw new System.ArgumentException("Missing value for required property 'KeyAgreementScheme'");
       if (!IsSetCurveSpec()) throw new System.ArgumentException("Missing value for required property 'CurveSpec'");
+      if (!IsSetKmsClient()) throw new System.ArgumentException("Missing value for required property 'KmsClient'");
 
     }
   }

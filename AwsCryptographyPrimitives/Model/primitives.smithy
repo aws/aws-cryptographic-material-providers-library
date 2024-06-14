@@ -30,7 +30,10 @@ service AwsCryptographicPrimitives {
     GenerateECCKeyPair,
     GetPublicKeyFromPrivateKey,
     ValidatePublicKey,
-    DeriveSharedSecret
+    DeriveSharedSecret,
+    CompressPublicKey,
+    DecompressPublicKey,
+    ParsePublicKey
   ],
   errors: [AwsCryptographicPrimitivesError]
 }

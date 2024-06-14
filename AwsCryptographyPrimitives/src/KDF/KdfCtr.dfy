@@ -31,10 +31,10 @@ module KdfCtr {
     // currently only SHA 256 and SHA 384 are allowed
     :- Need(
       && (input.digestAlgorithm == Types.DigestAlgorithm.SHA_256 || input.digestAlgorithm == Types.DigestAlgorithm.SHA_384)
-      && |input.ikm| == 32
+      && (|input.ikm| == 32 || |input.ikm| == 48 || |input.ikm| == 66)
       && input.nonce.Some?
-      && |input.nonce.value| == 16
-      && input.expectedLength == 32
+      && (|input.nonce.value| == 16 || |input.nonce.value| == 32)
+      && (input.expectedLength == 32 || input.expectedLength == 64)
       && 0 < ((input.expectedLength as int) * 8) as int < INT32_MAX_LIMIT,
       Types.AwsCryptographicPrimitivesError(message := "Kdf in Counter Mode input is invalid.")
     );

@@ -188,6 +188,11 @@ public class CreateAwsKmsEcdhKeyringInput {
           "Missing value for required field `curveSpec`"
         );
       }
+      if (Objects.isNull(this.kmsClient())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `kmsClient`"
+        );
+      }
       return new CreateAwsKmsEcdhKeyringInput(this);
     }
   }

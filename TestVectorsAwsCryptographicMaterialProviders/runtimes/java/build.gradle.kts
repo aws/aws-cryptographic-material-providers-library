@@ -73,7 +73,7 @@ repositories {
 dependencies {
     implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
     implementation("software.amazon.smithy.dafny:conversion:0.1")
-    implementation("software.amazon.cryptography:aws-cryptographic-material-providers:1.3.0-SNAPSHOT")
+    implementation("software.amazon.cryptography:aws-cryptographic-material-providers:1.5.0-SNAPSHOT")
     implementation(platform("software.amazon.awssdk:bom:2.25.46"))
     implementation("software.amazon.awssdk:kms:9.0.0-SNAPSHOT")
     implementation("software.amazon.awssdk:apache-client")

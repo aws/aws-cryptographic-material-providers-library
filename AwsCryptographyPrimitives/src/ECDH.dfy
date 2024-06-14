@@ -18,8 +18,8 @@ module {:extern "ECDH"} ECDH {
 
     return Success(Types.GenerateECCKeyPairOutput(
                      eccCurve := input.eccCurve,
-                     privateKey := keyPair.privateKey,
-                     publicKey := keyPair.publicKey
+                     privateKey := Types.ECCPrivateKey(pem := keyPair.privateKey),
+                     publicKey := Types.ECCPublicKey(der := keyPair.publicKey)
                    ));
   }
 
@@ -45,7 +45,6 @@ module {:extern "ECDH"} ECDH {
   {
     var result :- ExternValidatePublicKey(
       input.eccCurve,
-      input.privateKey,
       input.publicKey
     );
 
@@ -68,6 +67,46 @@ module {:extern "ECDH"} ECDH {
                      sharedSecret := derivedSharedSecret));
   }
 
+  method CompressPublicKey(
+    input: Types.CompressPublicKeyInput
+  ) returns (output: Result<Types.CompressPublicKeyOutput, Types.Error>)
+  {
+    var compressedPublicKey :- ExternCompressPublicKey(
+      input.publicKey.der,
+      input.eccCurve
+    );
+
+    return Success(Types.CompressPublicKeyOutput(
+                     compressedPublicKey := compressedPublicKey
+                   ));
+  }
+
+  method DecompressPublicKey(
+    input: Types.DecompressPublicKeyInput
+  ) returns (output: Result<Types.DecompressPublicKeyOutput, Types.Error>)
+  {
+    var decompressedPublicKey :- ExternDecompressPublicKey(
+      input.compressedPublicKey,
+      input.eccCurve
+    );
+
+    return Success(Types.DecompressPublicKeyOutput(
+                     publicKey := Types.ECCPublicKey(der := decompressedPublicKey)
+                   ));
+  }
+
+  method ParsePublicKey(
+    input: Types.ParsePublicKeyInput
+  ) returns (output: Result<Types.ParsePublicKeyOutput, Types.Error>)
+  {
+    var derPublicKey :- ExternParsePublicKey(
+      input.publicKey
+    );
+    return Success(Types.ParsePublicKeyOutput(
+                     publicKey := Types.ECCPublicKey(der := derPublicKey)
+                   ));
+  }
+
   method {:extern "ECDH.KeyGeneration", "GenerateKeyPair"} ExternEccKeyGen(
     s: Types.ECDHCurveSpec
   ) returns (res: Result<EccKeyPair, Types.Error>)
@@ -75,18 +114,31 @@ module {:extern "ECDH"} ECDH {
 
   method {:extern "ECDH.ECCUtils", "GetPublicKey"} ExternGetPublicKeyFromPrivate(
     curveAlgorithm: Types.ECDHCurveSpec,
-    privateKey: seq<uint8>
+    privateKey: Types.ECCPrivateKey
   ) returns (res: Result<seq<uint8>, Types.Error>)
 
   method {:extern "ECDH.ECCUtils", "ValidatePublicKey"} ExternValidatePublicKey(
     curveAlgorithm: Types.ECDHCurveSpec,
-    privateKey: seq<uint8>,
     publicKey: seq<uint8>
   ) returns (res: Result<bool, Types.Error>)
 
   method {:extern "ECDH.DeriveSharedSecret", "CalculateSharedSecret"} ExternDeriveSharedSecret(
     curveAlgorithm: Types.ECDHCurveSpec,
-    privateKey: seq<uint8>,
+    privateKey: Types.ECCPrivateKey,
+    publicKey: Types.ECCPublicKey
+  ) returns (res: Result<seq<uint8>, Types.Error>)
+
+  method {:extern "ECDH.ECCUtils", "CompressPublicKey"} ExternCompressPublicKey(
+    publicKey: seq<uint8>,
+    curveAlgorithm: Types.ECDHCurveSpec
+  ) returns (res: Result<seq<uint8>, Types.Error>)
+
+  method {:extern "ECDH.ECCUtils", "DecompressPublicKey"} ExternDecompressPublicKey(
+    publicKey: seq<uint8>,
+    curveAlgorithm: Types.ECDHCurveSpec
+  ) returns (res: Result<seq<uint8>, Types.Error>)
+
+  method {:extern "ECDH.ECCUtils", "ParsePublicKey"} ExternParsePublicKey(
     publicKey: seq<uint8>
   ) returns (res: Result<seq<uint8>, Types.Error>)
 
@@ -122,4 +174,27 @@ module {:extern "ECDH"} ECDH {
     Failure(error)
   }
 
+  function method CreateExternCompressPublicKeyError(error: Types.Error): Result<seq<uint8>, Types.Error> {
+    Failure(error)
+  }
+
+  function method CreateExternCompressPublicKeySuccess(output: seq<uint8>): Result<seq<uint8>, Types.Error> {
+    Success(output)
+  }
+
+  function method CreateExternDecompressPublicKeyError(error: Types.Error): Result<seq<uint8>, Types.Error> {
+    Failure(error)
+  }
+
+  function method CreateExternDecompressPublicKeySuccess(output: seq<uint8>): Result<seq<uint8>, Types.Error> {
+    Success(output)
+  }
+
+  function method CreateExternParsePublicKeyError(error: Types.Error): Result<seq<uint8>, Types.Error> {
+    Failure(error)
+  }
+
+  function method CreateExternParsePublicKeySuccess(output: seq<uint8>): Result<seq<uint8>, Types.Error> {
+    Success(output)
+  }
 }

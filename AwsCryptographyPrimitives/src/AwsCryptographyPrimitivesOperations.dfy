@@ -255,4 +255,31 @@ module AwsCryptographyPrimitivesOperations refines AbstractAwsCryptographyPrimit
   {
     output := ECDH.DeriveSharedSecret(input);
   }
+
+  predicate CompressPublicKeyEnsuresPublicly(input: CompressPublicKeyInput, output: Result<CompressPublicKeyOutput, Error>)
+  {true}
+
+  method CompressPublicKey(config: InternalConfig, input: CompressPublicKeyInput)
+    returns (output: Result<CompressPublicKeyOutput, Error>)
+  {
+    output := ECDH.CompressPublicKey(input);
+  }
+
+  predicate DecompressPublicKeyEnsuresPublicly(input: DecompressPublicKeyInput, output: Result<DecompressPublicKeyOutput, Error>)
+  {true}
+
+  method DecompressPublicKey(config: InternalConfig, input: DecompressPublicKeyInput)
+    returns (output: Result<DecompressPublicKeyOutput, Error>)
+  {
+    output := ECDH.DecompressPublicKey(input);
+  }
+
+  predicate ParsePublicKeyEnsuresPublicly(input: ParsePublicKeyInput, output: Result<ParsePublicKeyOutput, Error>)
+  {true}
+
+  method ParsePublicKey(config: InternalConfig, input: ParsePublicKeyInput)
+    returns (output: Result<ParsePublicKeyOutput, Error>)
+  {
+    output := ECDH.ParsePublicKey(input);
+  }
 }

@@ -10,7 +10,7 @@ public class GetPublicKeyFromPrivateKeyOutput {
 
   private final ECDHCurveSpec eccCurve;
 
-  private final ByteBuffer privateKey;
+  private final ECCPrivateKey privateKey;
 
   private final ByteBuffer publicKey;
 
@@ -24,7 +24,7 @@ public class GetPublicKeyFromPrivateKeyOutput {
     return this.eccCurve;
   }
 
-  public ByteBuffer privateKey() {
+  public ECCPrivateKey privateKey() {
     return this.privateKey;
   }
 
@@ -45,9 +45,9 @@ public class GetPublicKeyFromPrivateKeyOutput {
 
     ECDHCurveSpec eccCurve();
 
-    Builder privateKey(ByteBuffer privateKey);
+    Builder privateKey(ECCPrivateKey privateKey);
 
-    ByteBuffer privateKey();
+    ECCPrivateKey privateKey();
 
     Builder publicKey(ByteBuffer publicKey);
 
@@ -60,7 +60,7 @@ public class GetPublicKeyFromPrivateKeyOutput {
 
     protected ECDHCurveSpec eccCurve;
 
-    protected ByteBuffer privateKey;
+    protected ECCPrivateKey privateKey;
 
     protected ByteBuffer publicKey;
 
@@ -81,12 +81,12 @@ public class GetPublicKeyFromPrivateKeyOutput {
       return this.eccCurve;
     }
 
-    public Builder privateKey(ByteBuffer privateKey) {
+    public Builder privateKey(ECCPrivateKey privateKey) {
       this.privateKey = privateKey;
       return this;
     }
 
-    public ByteBuffer privateKey() {
+    public ECCPrivateKey privateKey() {
       return this.privateKey;
     }
 

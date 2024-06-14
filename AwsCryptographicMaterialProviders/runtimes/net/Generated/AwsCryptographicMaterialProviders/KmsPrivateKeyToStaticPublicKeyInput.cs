@@ -8,7 +8,8 @@ namespace AWS.Cryptography.MaterialProviders
   public class KmsPrivateKeyToStaticPublicKeyInput
   {
     private string _senderKmsIdentifier;
-    private AWS.Cryptography.MaterialProviders.KmsRecipientConfiguration _recipientConfiguration;
+    private System.IO.MemoryStream _senderPublicKey;
+    private System.IO.MemoryStream _recipientPublicKey;
     public string SenderKmsIdentifier
     {
       get { return this._senderKmsIdentifier; }
@@ -18,19 +19,28 @@ namespace AWS.Cryptography.MaterialProviders
     {
       return this._senderKmsIdentifier != null;
     }
-    public AWS.Cryptography.MaterialProviders.KmsRecipientConfiguration RecipientConfiguration
+    public System.IO.MemoryStream SenderPublicKey
     {
-      get { return this._recipientConfiguration; }
-      set { this._recipientConfiguration = value; }
+      get { return this._senderPublicKey; }
+      set { this._senderPublicKey = value; }
     }
-    public bool IsSetRecipientConfiguration()
+    public bool IsSetSenderPublicKey()
     {
-      return this._recipientConfiguration != null;
+      return this._senderPublicKey != null;
+    }
+    public System.IO.MemoryStream RecipientPublicKey
+    {
+      get { return this._recipientPublicKey; }
+      set { this._recipientPublicKey = value; }
+    }
+    public bool IsSetRecipientPublicKey()
+    {
+      return this._recipientPublicKey != null;
     }
     public void Validate()
     {
       if (!IsSetSenderKmsIdentifier()) throw new System.ArgumentException("Missing value for required property 'SenderKmsIdentifier'");
-      if (!IsSetRecipientConfiguration()) throw new System.ArgumentException("Missing value for required property 'RecipientConfiguration'");
+      if (!IsSetRecipientPublicKey()) throw new System.ArgumentException("Missing value for required property 'RecipientPublicKey'");
 
     }
   }

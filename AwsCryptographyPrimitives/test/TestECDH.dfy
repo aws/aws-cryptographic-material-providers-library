@@ -9,6 +9,7 @@ module TestECDH {
   import opened StandardLibrary.UInt
   import Types = Aws.Cryptography.Primitives.Types
   import UTF8
+  import HexStrings
   import opened Wrappers
   import ECDH
 
@@ -16,6 +17,44 @@ module TestECDH {
   const P384 := Types.ECDHCurveSpec.ECC_NIST_P384
   const P521 := Types.ECDHCurveSpec.ECC_NIST_P521
   // TODO SM2
+
+  // THESE ARE TESTING RESOURCES; DO NOT USE IN A PROD ENVIRONMENT
+  // RUN openssl ecparam -name secp256r1 -genkey -noout -out private.pem
+  const ECC_P256_PRIVATE := "-----BEGIN PRIVATE KEY-----\n"
+                            + "MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgw+7YSKEOEAh8/DFZ\n"
+                            + "22oSTm/D3jo4nH5tN48IUp0WjyuhRANCAASnUgx7SrlHhPIn3McZfc3cEIs8+XFf\n"
+                            + "7JvhcuV1wWELGZ8AjuwnKjE0ielEwSY5HYzWCF773FvJaWGYGYGhSba8\n"
+                            + "-----END PRIVATE KEY-----"
+  // HEX REPRESENATION OF THE PUBLIC KEY
+  // RUN openssl ec -in public_key.der -pubin -outform DER | xxd -p -c 256
+  const ECC_P256_PUBLIC := "3059301306072a8648ce3d020106082a8648ce3d03010703420004a7520c7b4ab9478"
+                           + "4f227dcc7197dcddc108b3cf9715fec9be172e575c1610b199f008eec272a313489"
+                           + "e944c126391d8cd6085efbdc5bc96961981981a149b6bc"
+
+  const ECC_P384_PRIVATE := "-----BEGIN PRIVATE KEY-----\n"
+                            + "MIG2AgEAMBAGByqGSM49AgEGBSuBBAAiBIGeMIGbAgEBBDAE/GcrZaGaZKKnWsbi\n"
+                            + "6OiMB8HlhoyF1CQeaZHFdp1VFu7mSM2mUrSolCfpYRB50aahZANiAAQayPW6B3aV\n"
+                            + "GKWFBbDH3SeuMhiY2GIPG+tBEHmMZ3QUaG6qNnQxXS+QpR95IWyQWZjInyDk2upe\n"
+                            + "b1TivP0UYay+dIS8MrBFM7oLBsJIqxGiRQ1EPFIpBLv4mmteOma5qt8=\n"
+                            + "-----END PRIVATE KEY-----"
+  const ECC_384_PUBLIC := "3076301006072a8648ce3d020106052b81040022036200041ac8f5ba07769518a58505"
+                          + "b0c7dd27ae321898d8620f1beb4110798c677414686eaa3674315d2f90a51f79216c"
+                          + "905998c89f20e4daea5e6f54e2bcfd1461acbe7484bc32b04533ba0b06c248ab11a2"
+                          + "450d443c522904bbf89a6b5e3a66b9aadf"
+
+  const ECC_P521_PRIVATE := "-----BEGIN PRIVATE KEY-----\n"
+                            + "MIHuAgEAMBAGByqGSM49AgEGBSuBBAAjBIHWMIHTAgEBBEIB3azBoPIuF7SY3Z7g\n"
+                            + "xK/dEnSqoqBsHaoiI78Sfs9Ydxsd/3Ref4xZC0v58EwZjKxIMWwcqxSNzg8yLOAV\n"
+                            + "oaRbwryhgYkDgYYABAHeMnMkadh2nketUTcDvKE4WCcdTdIFKaDqwtMIbq/y5N4E\n"
+                            + "I77OxYwKP7IdGBC9n/GkcNIWx6R91zc3AId9a7VrOQF9+HitnblByL1u3N6kWhUf\n"
+                            + "C3ury11T8dkNW+LbVkmX8B3+s6VaEQWKa+SYBemPV05aJhU0xaaF/MhsLGwKLpPp\n"
+                            + "Qg==\n"
+                            + "-----END PRIVATE KEY-----"
+  const ECC_P521_PUBLIC := "30819b301006072a8648ce3d020106052b81040023038186000401de32732469d8769e"
+                           + "47ad513703bca13858271d4dd20529a0eac2d3086eaff2e4de0423becec58c0a3fb2"
+                           + "1d1810bd9ff1a470d216c7a47dd7373700877d6bb56b39017df878ad9db941c8bd6e"
+                           + "dcdea45a151f0b7babcb5d53f1d90d5be2db564997f01dfeb3a55a11058a6be49805"
+                           + "e98f574e5a261534c5a685fcc86c2c6c0a2e93e942"
 
   method {:test} TestKeyGen()
   {
@@ -28,34 +67,49 @@ module TestECDH {
           eccCurve := curve
         )
       );
+      print "\n";
+      print HexStrings.ToHexString(keypair.publicKey.der);
+      print "\n";
     }
   }
 
-  method {:test} TestGetPublicKeyFromPrivate()
+  method {:test} TestGetPublicKeyFromPrivatePem()
   {
+    var pemPrivateKeys := [ECC_P256_PRIVATE, ECC_P384_PRIVATE, ECC_P521_PRIVATE];
+    var derPublicKeys := [ECC_P256_PUBLIC, ECC_384_PUBLIC, ECC_P521_PUBLIC];
     var supportedCurves := [P256, P384, P521];
+
     for i := 0 to |supportedCurves|
     {
       var curve := supportedCurves[i];
-      var keypair :- expect ECDH.GenerateEccKeyPair(
-        Types.GenerateECCKeyPairInput(
-          eccCurve := curve
-        )
-      );
+      var privateKey :- expect UTF8.Encode(pemPrivateKeys[i]);
+      var looseHexPublicKey := expectLooseHexString(derPublicKeys[i]);
+      var publicKeyBytes := HexStrings.FromHexString(looseHexPublicKey);
+
+      var expectedPublicKey :- expect ECDH.ParsePublicKey(
+        Types.ParsePublicKeyInput(
+          publicKey := publicKeyBytes
+        ));
 
       var publicKey :- expect ECDH.GetPublicKeyFromPrivate(
         Types.GetPublicKeyFromPrivateKeyInput(
           eccCurve := curve,
-          privateKey := keypair.privateKey
+          privateKey := Types.ECCPrivateKey(pem := privateKey)
         )
       );
 
-      expect
-        && keypair.eccCurve == publicKey.eccCurve
-        && keypair.privateKey == publicKey.privateKey
-        && keypair.publicKey == publicKey.publicKey;
+      expect publicKey.publicKey == expectedPublicKey.publicKey.der;
     }
+
   }
+
+  method expectLooseHexString(s: string)
+    returns (s2: HexStrings.LooseHexString)
+  {
+    expect HexStrings.IsLooseHexString(s);
+    return s;
+  }
+
 
   method {:test} TestValidatePublicKeySuccess()
   {
@@ -77,8 +131,7 @@ module TestECDH {
       var validPublicKeyB :- expect ECDH.ValidatePublicKey(
         Types.ValidatePublicKeyInput(
           eccCurve := curve,
-          privateKey := keypairA.privateKey,
-          publicKey := keypairB.publicKey
+          publicKey := keypairB.publicKey.der
         )
       );
     }
@@ -109,8 +162,7 @@ module TestECDH {
         var validPublicKeyB := ECDH.ValidatePublicKey(
           Types.ValidatePublicKeyInput(
             eccCurve := curve_i,
-            privateKey := keypairA.privateKey,
-            publicKey := keypairB.publicKey
+            publicKey := keypairB.publicKey.der
           )
         );
 
@@ -123,6 +175,8 @@ module TestECDH {
       }
     }
   }
+
+  //TODO: Test all three validity criteria for invalid public key
 
   method {:test} TestGenerateSharedSecret()
   {
@@ -149,8 +203,7 @@ module TestECDH {
       var validPublicKeyB :- expect ECDH.ValidatePublicKey(
         Types.ValidatePublicKeyInput(
           eccCurve := curve,
-          privateKey := keypairA.privateKey,
-          publicKey := keypairB.publicKey
+          publicKey := keypairB.publicKey.der
         )
       );
 
@@ -173,4 +226,74 @@ module TestECDH {
       expect sharedSecretA == sharedSecretB;
     }
   }
+
+  method {:test} TestCompressDecompressPublicKey() {
+    var supportedCurves := [P256, P384, P521];
+    for i := 0 to |supportedCurves|
+    {
+      var curve := supportedCurves[i];
+      var keypair :- expect ECDH.GenerateEccKeyPair(
+        Types.GenerateECCKeyPairInput(
+          eccCurve := curve
+        )
+      );
+      var originalPublicKey := keypair.publicKey;
+
+      var compressedPublicKeyResult :- expect ECDH.CompressPublicKey(
+        Types.CompressPublicKeyInput(
+          publicKey := originalPublicKey,
+          eccCurve := curve
+        )
+      );
+
+      expect compressedPublicKeyResult.compressedPublicKey != originalPublicKey.der;
+
+      var compressedPublicKey := compressedPublicKeyResult.compressedPublicKey;
+
+      var decompressedPublicKeyResult :- expect ECDH.DecompressPublicKey(
+        Types.DecompressPublicKeyInput(
+          compressedPublicKey := compressedPublicKey,
+          eccCurve := curve
+        )
+      );
+
+      var decompressedPublicKey := decompressedPublicKeyResult.publicKey;
+
+      expect originalPublicKey.der == decompressedPublicKey.der;
+    }
+  }
+
+  method {:test} TestCompressDecompressConstantPublicKeys() {
+    var derX509PublicKeys := [ECC_P256_PUBLIC, ECC_384_PUBLIC, ECC_P521_PUBLIC];
+    var curves := [P256, P384, P521];
+    for i := 0 to |curves|
+    {
+      var curve := curves[i];
+      var originalPublicKey := derX509PublicKeys[i];
+      var publicKeyBytes := HexStrings.FromHexString(originalPublicKey);
+
+      var compressedPublicKeyResult :- expect ECDH.CompressPublicKey(
+        Types.CompressPublicKeyInput(
+          publicKey := Types.ECCPublicKey(der := publicKeyBytes),
+          eccCurve := curve
+        )
+      );
+
+      expect compressedPublicKeyResult.compressedPublicKey != publicKeyBytes;
+
+      var compressedPublicKey := compressedPublicKeyResult.compressedPublicKey;
+
+      var decompressedPublicKeyResult :- expect ECDH.DecompressPublicKey(
+        Types.DecompressPublicKeyInput(
+          compressedPublicKey := compressedPublicKey,
+          eccCurve := curve
+        )
+      );
+
+      var decompressedPublicKey := decompressedPublicKeyResult.publicKey;
+
+      expect publicKeyBytes == decompressedPublicKey.der;
+    }
+  }
+
 }

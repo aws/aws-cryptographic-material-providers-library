@@ -97,7 +97,6 @@ import software.amazon.cryptography.materialproviders.model.KeyAgreementScheme;
 import software.amazon.cryptography.materialproviders.model.KmsEcdhStaticConfigurations;
 import software.amazon.cryptography.materialproviders.model.KmsPrivateKeyToStaticPublicKeyInput;
 import software.amazon.cryptography.materialproviders.model.KmsPublicKeyDiscoveryInput;
-import software.amazon.cryptography.materialproviders.model.KmsRecipientConfiguration;
 import software.amazon.cryptography.materialproviders.model.MaterialProvidersConfig;
 import software.amazon.cryptography.materialproviders.model.Materials;
 import software.amazon.cryptography.materialproviders.model.MultiThreadedCache;
@@ -432,13 +431,11 @@ public class ToNative {
         dafnyValue.dtor_curveSpec()
       )
     );
-    if (dafnyValue.dtor_kmsClient().is_Some()) {
-      nativeBuilder.kmsClient(
-        software.amazon.cryptography.services.kms.internaldafny.ToNative.TrentService(
-          dafnyValue.dtor_kmsClient().dtor_value()
-        )
-      );
-    }
+    nativeBuilder.kmsClient(
+      software.amazon.cryptography.services.kms.internaldafny.ToNative.TrentService(
+        dafnyValue.dtor_kmsClient()
+      )
+    );
     if (dafnyValue.dtor_grantTokens().is_Some()) {
       nativeBuilder.grantTokens(
         ToNative.GrantTokenList(dafnyValue.dtor_grantTokens().dtor_value())
@@ -1242,9 +1239,16 @@ public class ToNative {
         dafnyValue.dtor_senderKmsIdentifier()
       )
     );
-    nativeBuilder.recipientConfiguration(
-      ToNative.KmsRecipientConfiguration(
-        dafnyValue.dtor_recipientConfiguration()
+    if (dafnyValue.dtor_senderPublicKey().is_Some()) {
+      nativeBuilder.senderPublicKey(
+        software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
+          dafnyValue.dtor_senderPublicKey().dtor_value()
+        )
+      );
+    }
+    nativeBuilder.recipientPublicKey(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
+        dafnyValue.dtor_recipientPublicKey()
       )
     );
     return nativeBuilder.build();
@@ -1346,9 +1350,9 @@ public class ToNative {
   ) {
     PublicKeyDiscoveryInput.Builder nativeBuilder =
       PublicKeyDiscoveryInput.builder();
-    nativeBuilder.senderStaticPrivateKey(
+    nativeBuilder.recipientStaticPrivateKey(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
-        dafnyValue.dtor_senderStaticPrivateKey()
+        dafnyValue.dtor_recipientStaticPrivateKey()
       )
     );
     return nativeBuilder.build();
@@ -1758,28 +1762,6 @@ public class ToNative {
       nativeBuilder.KmsPrivateKeyToStaticPublicKey(
         ToNative.KmsPrivateKeyToStaticPublicKeyInput(
           dafnyValue.dtor_KmsPrivateKeyToStaticPublicKey()
-        )
-      );
-    }
-    return nativeBuilder.build();
-  }
-
-  public static KmsRecipientConfiguration KmsRecipientConfiguration(
-    software.amazon.cryptography.materialproviders.internaldafny.types.KmsRecipientConfiguration dafnyValue
-  ) {
-    KmsRecipientConfiguration.Builder nativeBuilder =
-      KmsRecipientConfiguration.builder();
-    if (dafnyValue.is_RecipientKmsKeyId()) {
-      nativeBuilder.RecipientKmsKeyId(
-        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-          dafnyValue.dtor_RecipientKmsKeyId()
-        )
-      );
-    }
-    if (dafnyValue.is_RecipientPublicKey()) {
-      nativeBuilder.RecipientPublicKey(
-        software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
-          dafnyValue.dtor_RecipientPublicKey()
         )
       );
     }

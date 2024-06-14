@@ -8,7 +8,7 @@ namespace AWS.Cryptography.Primitives
     public class GetPublicKeyFromPrivateKeyOutput
     {
         private AWS.Cryptography.Primitives.ECDHCurveSpec _eccCurve;
-        private System.IO.MemoryStream _privateKey;
+        private AWS.Cryptography.Primitives.ECCPrivateKey _privateKey;
         private System.IO.MemoryStream _publicKey;
         public AWS.Cryptography.Primitives.ECDHCurveSpec EccCurve
         {
@@ -19,7 +19,7 @@ namespace AWS.Cryptography.Primitives
         {
             return this._eccCurve != null;
         }
-        public System.IO.MemoryStream PrivateKey
+        public AWS.Cryptography.Primitives.ECCPrivateKey PrivateKey
         {
             get { return this._privateKey; }
             set { this._privateKey = value; }

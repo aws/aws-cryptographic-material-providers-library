@@ -12,7 +12,7 @@ import java.util.Objects;
 public class EphemeralPrivateKeyToStaticPublicKeyInput {
 
   /**
-   * The recipient's public key
+   * The recipient's public key. MUST be DER encoded.
    */
   private final ByteBuffer recipientPublicKey;
 
@@ -21,7 +21,7 @@ public class EphemeralPrivateKeyToStaticPublicKeyInput {
   }
 
   /**
-   * @return The recipient's public key
+   * @return The recipient's public key. MUST be DER encoded.
    */
   public ByteBuffer recipientPublicKey() {
     return this.recipientPublicKey;
@@ -37,12 +37,12 @@ public class EphemeralPrivateKeyToStaticPublicKeyInput {
 
   public interface Builder {
     /**
-     * @param recipientPublicKey The recipient's public key
+     * @param recipientPublicKey The recipient's public key. MUST be DER encoded.
      */
     Builder recipientPublicKey(ByteBuffer recipientPublicKey);
 
     /**
-     * @return The recipient's public key
+     * @return The recipient's public key. MUST be DER encoded.
      */
     ByteBuffer recipientPublicKey();
 

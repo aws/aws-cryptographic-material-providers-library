@@ -3,6 +3,7 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.materialproviders.model;
 
+import java.nio.ByteBuffer;
 import java.util.Objects;
 
 /**
@@ -16,13 +17,19 @@ public class KmsPrivateKeyToStaticPublicKeyInput {
   private final String senderKmsIdentifier;
 
   /**
-   * Recipient configuration. This can be either a KMS key identifier or a raw public key
+   * Sender Public Key. This is the raw public ECC key in DER format that belongs to the senderKmsIdentifier.
    */
-  private final KmsRecipientConfiguration recipientConfiguration;
+  private final ByteBuffer senderPublicKey;
+
+  /**
+   * Recipient Public Key. This is a raw public ECC key in DER format.
+   */
+  private final ByteBuffer recipientPublicKey;
 
   protected KmsPrivateKeyToStaticPublicKeyInput(BuilderImpl builder) {
     this.senderKmsIdentifier = builder.senderKmsIdentifier();
-    this.recipientConfiguration = builder.recipientConfiguration();
+    this.senderPublicKey = builder.senderPublicKey();
+    this.recipientPublicKey = builder.recipientPublicKey();
   }
 
   /**
@@ -33,10 +40,17 @@ public class KmsPrivateKeyToStaticPublicKeyInput {
   }
 
   /**
-   * @return Recipient configuration. This can be either a KMS key identifier or a raw public key
+   * @return Sender Public Key. This is the raw public ECC key in DER format that belongs to the senderKmsIdentifier.
    */
-  public KmsRecipientConfiguration recipientConfiguration() {
-    return this.recipientConfiguration;
+  public ByteBuffer senderPublicKey() {
+    return this.senderPublicKey;
+  }
+
+  /**
+   * @return Recipient Public Key. This is a raw public ECC key in DER format.
+   */
+  public ByteBuffer recipientPublicKey() {
+    return this.recipientPublicKey;
   }
 
   public Builder toBuilder() {
@@ -59,16 +73,24 @@ public class KmsPrivateKeyToStaticPublicKeyInput {
     String senderKmsIdentifier();
 
     /**
-     * @param recipientConfiguration Recipient configuration. This can be either a KMS key identifier or a raw public key
+     * @param senderPublicKey Sender Public Key. This is the raw public ECC key in DER format that belongs to the senderKmsIdentifier.
      */
-    Builder recipientConfiguration(
-      KmsRecipientConfiguration recipientConfiguration
-    );
+    Builder senderPublicKey(ByteBuffer senderPublicKey);
 
     /**
-     * @return Recipient configuration. This can be either a KMS key identifier or a raw public key
+     * @return Sender Public Key. This is the raw public ECC key in DER format that belongs to the senderKmsIdentifier.
      */
-    KmsRecipientConfiguration recipientConfiguration();
+    ByteBuffer senderPublicKey();
+
+    /**
+     * @param recipientPublicKey Recipient Public Key. This is a raw public ECC key in DER format.
+     */
+    Builder recipientPublicKey(ByteBuffer recipientPublicKey);
+
+    /**
+     * @return Recipient Public Key. This is a raw public ECC key in DER format.
+     */
+    ByteBuffer recipientPublicKey();
 
     KmsPrivateKeyToStaticPublicKeyInput build();
   }
@@ -77,13 +99,16 @@ public class KmsPrivateKeyToStaticPublicKeyInput {
 
     protected String senderKmsIdentifier;
 
-    protected KmsRecipientConfiguration recipientConfiguration;
+    protected ByteBuffer senderPublicKey;
+
+    protected ByteBuffer recipientPublicKey;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(KmsPrivateKeyToStaticPublicKeyInput model) {
       this.senderKmsIdentifier = model.senderKmsIdentifier();
-      this.recipientConfiguration = model.recipientConfiguration();
+      this.senderPublicKey = model.senderPublicKey();
+      this.recipientPublicKey = model.recipientPublicKey();
     }
 
     public Builder senderKmsIdentifier(String senderKmsIdentifier) {
@@ -95,15 +120,22 @@ public class KmsPrivateKeyToStaticPublicKeyInput {
       return this.senderKmsIdentifier;
     }
 
-    public Builder recipientConfiguration(
-      KmsRecipientConfiguration recipientConfiguration
-    ) {
-      this.recipientConfiguration = recipientConfiguration;
+    public Builder senderPublicKey(ByteBuffer senderPublicKey) {
+      this.senderPublicKey = senderPublicKey;
       return this;
     }
 
-    public KmsRecipientConfiguration recipientConfiguration() {
-      return this.recipientConfiguration;
+    public ByteBuffer senderPublicKey() {
+      return this.senderPublicKey;
+    }
+
+    public Builder recipientPublicKey(ByteBuffer recipientPublicKey) {
+      this.recipientPublicKey = recipientPublicKey;
+      return this;
+    }
+
+    public ByteBuffer recipientPublicKey() {
+      return this.recipientPublicKey;
     }
 
     public KmsPrivateKeyToStaticPublicKeyInput build() {
@@ -112,9 +144,9 @@ public class KmsPrivateKeyToStaticPublicKeyInput {
           "Missing value for required field `senderKmsIdentifier`"
         );
       }
-      if (Objects.isNull(this.recipientConfiguration())) {
+      if (Objects.isNull(this.recipientPublicKey())) {
         throw new IllegalArgumentException(
-          "Missing value for required field `recipientConfiguration`"
+          "Missing value for required field `recipientPublicKey`"
         );
       }
       return new KmsPrivateKeyToStaticPublicKeyInput(this);

@@ -10,22 +10,15 @@ public class ValidatePublicKeyInput {
 
   private final ECDHCurveSpec eccCurve;
 
-  private final ByteBuffer privateKey;
-
   private final ByteBuffer publicKey;
 
   protected ValidatePublicKeyInput(BuilderImpl builder) {
     this.eccCurve = builder.eccCurve();
-    this.privateKey = builder.privateKey();
     this.publicKey = builder.publicKey();
   }
 
   public ECDHCurveSpec eccCurve() {
     return this.eccCurve;
-  }
-
-  public ByteBuffer privateKey() {
-    return this.privateKey;
   }
 
   public ByteBuffer publicKey() {
@@ -45,10 +38,6 @@ public class ValidatePublicKeyInput {
 
     ECDHCurveSpec eccCurve();
 
-    Builder privateKey(ByteBuffer privateKey);
-
-    ByteBuffer privateKey();
-
     Builder publicKey(ByteBuffer publicKey);
 
     ByteBuffer publicKey();
@@ -60,15 +49,12 @@ public class ValidatePublicKeyInput {
 
     protected ECDHCurveSpec eccCurve;
 
-    protected ByteBuffer privateKey;
-
     protected ByteBuffer publicKey;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(ValidatePublicKeyInput model) {
       this.eccCurve = model.eccCurve();
-      this.privateKey = model.privateKey();
       this.publicKey = model.publicKey();
     }
 
@@ -79,15 +65,6 @@ public class ValidatePublicKeyInput {
 
     public ECDHCurveSpec eccCurve() {
       return this.eccCurve;
-    }
-
-    public Builder privateKey(ByteBuffer privateKey) {
-      this.privateKey = privateKey;
-      return this;
-    }
-
-    public ByteBuffer privateKey() {
-      return this.privateKey;
     }
 
     public Builder publicKey(ByteBuffer publicKey) {
@@ -103,11 +80,6 @@ public class ValidatePublicKeyInput {
       if (Objects.isNull(this.eccCurve())) {
         throw new IllegalArgumentException(
           "Missing value for required field `eccCurve`"
-        );
-      }
-      if (Objects.isNull(this.privateKey())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `privateKey`"
         );
       }
       if (Objects.isNull(this.publicKey())) {

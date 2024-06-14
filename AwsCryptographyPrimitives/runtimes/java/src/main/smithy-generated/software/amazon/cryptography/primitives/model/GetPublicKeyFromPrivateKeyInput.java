@@ -3,14 +3,13 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.primitives.model;
 
-import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class GetPublicKeyFromPrivateKeyInput {
 
   private final ECDHCurveSpec eccCurve;
 
-  private final ByteBuffer privateKey;
+  private final ECCPrivateKey privateKey;
 
   protected GetPublicKeyFromPrivateKeyInput(BuilderImpl builder) {
     this.eccCurve = builder.eccCurve();
@@ -21,7 +20,7 @@ public class GetPublicKeyFromPrivateKeyInput {
     return this.eccCurve;
   }
 
-  public ByteBuffer privateKey() {
+  public ECCPrivateKey privateKey() {
     return this.privateKey;
   }
 
@@ -38,9 +37,9 @@ public class GetPublicKeyFromPrivateKeyInput {
 
     ECDHCurveSpec eccCurve();
 
-    Builder privateKey(ByteBuffer privateKey);
+    Builder privateKey(ECCPrivateKey privateKey);
 
-    ByteBuffer privateKey();
+    ECCPrivateKey privateKey();
 
     GetPublicKeyFromPrivateKeyInput build();
   }
@@ -49,7 +48,7 @@ public class GetPublicKeyFromPrivateKeyInput {
 
     protected ECDHCurveSpec eccCurve;
 
-    protected ByteBuffer privateKey;
+    protected ECCPrivateKey privateKey;
 
     protected BuilderImpl() {}
 
@@ -67,12 +66,12 @@ public class GetPublicKeyFromPrivateKeyInput {
       return this.eccCurve;
     }
 
-    public Builder privateKey(ByteBuffer privateKey) {
+    public Builder privateKey(ECCPrivateKey privateKey) {
       this.privateKey = privateKey;
       return this;
     }
 
-    public ByteBuffer privateKey() {
+    public ECCPrivateKey privateKey() {
       return this.privateKey;
     }
 
