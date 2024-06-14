@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class ECDSASignOutput {
-
   private final ByteBuffer signature;
 
   protected ECDSASignOutput(BuilderImpl builder) {
@@ -35,10 +34,10 @@ public class ECDSASignOutput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected ByteBuffer signature;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(ECDSASignOutput model) {
       this.signature = model.signature();
@@ -54,10 +53,8 @@ public class ECDSASignOutput {
     }
 
     public ECDSASignOutput build() {
-      if (Objects.isNull(this.signature())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `signature`"
-        );
+      if (Objects.isNull(this.signature()))  {
+        throw new IllegalArgumentException("Missing value for required field `signature`");
       }
       return new ECDSASignOutput(this);
     }

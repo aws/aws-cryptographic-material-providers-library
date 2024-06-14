@@ -6,7 +6,7 @@ include "../src/Digest.dfy"
 include "../src/KDF/KdfCtr.dfy"
 
 module TestKDF {
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import opened Wrappers
   import opened StandardLibrary.UInt
   import Digest
@@ -15,7 +15,7 @@ module TestKDF {
   method KdfRawDeriveTest(
     ikm: seq<uint8>,
     info: seq<uint8>,
-    L: Primitives.Types.PositiveInteger,
+    L: AtomicPrimitives.Types.PositiveInteger,
     expectedOKM: seq<uint8>
   )
     requires
@@ -33,11 +33,11 @@ module TestKDF {
   }
 
   method KdfTest(
-    input: Primitives.Types.KdfCtrInput,
+    input: AtomicPrimitives.Types.KdfCtrInput,
     expectedOKM: seq<uint8>
   )
   {
-    var client :- expect Primitives.AtomicPrimitives();
+    var client :- expect AtomicPrimitives.AtomicPrimitives();
 
     var output :- expect client.KdfCounterMode(input);
     expect |output| == input.expectedLength as nat;

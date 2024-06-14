@@ -6,7 +6,7 @@ include "../../AwsCryptographyKeyStore/src/Index.dfy"
 include "../../../../AwsCryptographyPrimitives/src/Index.dfy"
 include "../../../../ComAmazonawsDynamodb/src/Index.dfy"
 include "../../../../ComAmazonawsKms/src/Index.dfy"
-module {:extern "software.amazon.cryptography.materialproviders.internaldafny.types" } AwsCryptographyMaterialProvidersTypes
+module AwsCryptographyMaterialProvidersTypes
 {
   import opened Wrappers
   import opened StandardLibrary.UInt
@@ -1452,7 +1452,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly stop: DecryptionMaterials
   )
   datatype ValidEncryptionMaterialsTransitionInput = | ValidEncryptionMaterialsTransitionInput (
-    nameonly start: EncryptionMaterials ,
+    nameonly start: EncryptionMaterialsx ,
     nameonly stop: EncryptionMaterials
   )
   datatype Error =

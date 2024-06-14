@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class KdfCtrInput {
-
   private final DigestAlgorithm digestAlgorithm;
 
   private final ByteBuffer ikm;
@@ -79,7 +78,6 @@ public class KdfCtrInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected DigestAlgorithm digestAlgorithm;
 
     protected ByteBuffer ikm;
@@ -92,7 +90,8 @@ public class KdfCtrInput {
 
     protected ByteBuffer nonce;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(KdfCtrInput model) {
       this.digestAlgorithm = model.digestAlgorithm();
@@ -150,25 +149,17 @@ public class KdfCtrInput {
     }
 
     public KdfCtrInput build() {
-      if (Objects.isNull(this.digestAlgorithm())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `digestAlgorithm`"
-        );
+      if (Objects.isNull(this.digestAlgorithm()))  {
+        throw new IllegalArgumentException("Missing value for required field `digestAlgorithm`");
       }
-      if (Objects.isNull(this.ikm())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `ikm`"
-        );
+      if (Objects.isNull(this.ikm()))  {
+        throw new IllegalArgumentException("Missing value for required field `ikm`");
       }
       if (!this._expectedLengthSet) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `expectedLength`"
-        );
+        throw new IllegalArgumentException("Missing value for required field `expectedLength`");
       }
       if (this._expectedLengthSet && this.expectedLength() < 0) {
-        throw new IllegalArgumentException(
-          "`expectedLength` must be greater than or equal to 0"
-        );
+        throw new IllegalArgumentException("`expectedLength` must be greater than or equal to 0");
       }
       return new KdfCtrInput(this);
     }

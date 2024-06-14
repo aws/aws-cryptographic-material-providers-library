@@ -6,7 +6,7 @@ include "../src/Digest.dfy"
 include "TestKDF.dfy"
 
 module TestKDFK_TestVectors {
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import UTF8
   import opened Wrappers
   import opened StandardLibrary.UInt
@@ -22,7 +22,7 @@ module TestKDFK_TestVectors {
   // Internal Test Vectors SHOULD only call RawDerive
   const b1 := InternalTestVector(
                 name := "B.1  Test Case 1",
-                hash := Primitives.Types.SHA_256,
+                hash := AtomicPrimitives.Types.SHA_256,
                 IKM := [
                   226,   4, 214, 212, 102, 170, 213,   7,
                   255, 175, 109, 109, 171,  10,  91,  38,
@@ -49,7 +49,7 @@ module TestKDFK_TestVectors {
 
   const b2 := InternalTestVector(
                 name := "B.2  Test Case 2",
-                hash := Primitives.Types.SHA_256,
+                hash := AtomicPrimitives.Types.SHA_256,
                 IKM := [
                   174, 238, 202,  96, 246, 137, 164, 65,
                   177,  59,  12, 188, 212,  65, 216, 45,
@@ -75,7 +75,7 @@ module TestKDFK_TestVectors {
 
   const b3 := InternalTestVector(
                 name := "B.3  Test Case 3",
-                hash := Primitives.Types.SHA_256,
+                hash := AtomicPrimitives.Types.SHA_256,
                 IKM := [
                   149, 200, 247, 110,  17,  54, 126,
                   181,  85,  38, 162, 179, 147, 174,
@@ -102,7 +102,7 @@ module TestKDFK_TestVectors {
 
   const b4 := InternalTestVector(
                 name := "B.4  Test Case 4",
-                hash := Primitives.Types.SHA_256,
+                hash := AtomicPrimitives.Types.SHA_256,
                 IKM := [
                   77,   5,  57,  31, 214, 251,  30,  41,
                   46, 120, 171, 150,  25, 177, 183,  42,
@@ -128,7 +128,7 @@ module TestKDFK_TestVectors {
 
   const b5 := InternalTestVector(
                 name := "B.5  Test Case 5",
-                hash := Primitives.Types.SHA_256,
+                hash := AtomicPrimitives.Types.SHA_256,
                 IKM := [
                   15, 104, 168,  47, 241, 103,  22, 52,
                   204, 145,  54, 197, 100, 169, 224, 42,
@@ -155,7 +155,7 @@ module TestKDFK_TestVectors {
   // Generated Test Vectors CAN call KdfCounterMode
   const c1 := TestVector(
                 name := "C.1 Test Case 1",
-                hash := Primitives.Types.SHA_256,
+                hash := AtomicPrimitives.Types.SHA_256,
                 IKM := [
                   125, 201, 189, 252, 37,  52,   4, 124,
                   254,  99, 233, 235, 41, 123, 119,  82,
@@ -180,7 +180,7 @@ module TestKDFK_TestVectors {
 
   const c2 := TestVector(
                 name := "C.2 Test Case 2",
-                hash := Primitives.Types.SHA_256,
+                hash := AtomicPrimitives.Types.SHA_256,
                 IKM := [
                   80,  22, 113,  23, 118,  68,  10,  32,
                   75, 169, 199, 192, 255, 220, 214,  60,
@@ -205,7 +205,7 @@ module TestKDFK_TestVectors {
 
   const c3 := TestVector(
                 name := "C.3 Test Case 3",
-                hash := Primitives.Types.SHA_256,
+                hash := AtomicPrimitives.Types.SHA_256,
                 IKM := [
                   57,  90,  16,  46,  83, 54, 189, 241,
                   27, 242, 237, 236, 246, 66,  54, 226,
@@ -231,7 +231,7 @@ module TestKDFK_TestVectors {
 
   const c4 := TestVector(
                 name := "C.4 Test Case 4",
-                hash := Primitives.Types.SHA_256,
+                hash := AtomicPrimitives.Types.SHA_256,
                 IKM := [
                   152, 192,  25, 223, 239, 154, 175,
                   67, 237, 250, 184, 146, 228, 243,
@@ -257,7 +257,7 @@ module TestKDFK_TestVectors {
 
   const c5 := TestVector(
                 name := "C.5 Test Case 5",
-                hash := Primitives.Types.SHA_256,
+                hash := AtomicPrimitives.Types.SHA_256,
                 IKM := [
                   166, 236, 116,  51, 140, 189, 192, 175,
                   42, 154,  51,  26, 208, 149,  76, 159,
@@ -305,7 +305,7 @@ module TestKDFK_TestVectors {
     print name + "\n";
 
     TestKDF.KdfTest(
-      Primitives.Types.KdfCtrInput(
+      AtomicPrimitives.Types.KdfCtrInput(
         digestAlgorithm := hash,
         ikm := IKM,
         expectedLength := L,
@@ -318,20 +318,20 @@ module TestKDFK_TestVectors {
 
   datatype InternalTestVector = InternalTestVector(
     nameonly name: string,
-    nameonly hash: Primitives.Types.DigestAlgorithm,
+    nameonly hash: AtomicPrimitives.Types.DigestAlgorithm,
     nameonly IKM: seq<uint8>,
     nameonly info: seq<uint8>,
-    nameonly L: Primitives.Types.PositiveInteger,
+    nameonly L: AtomicPrimitives.Types.PositiveInteger,
     nameonly OKM: seq<uint8>
   )
 
   datatype TestVector = TestVector(
     nameonly name: string,
-    nameonly hash: Primitives.Types.DigestAlgorithm,
+    nameonly hash: AtomicPrimitives.Types.DigestAlgorithm,
     nameonly IKM: seq<uint8>,
     nameonly info: seq<uint8>,
     nameonly purpose: seq<uint8>,
-    nameonly L: Primitives.Types.PositiveInteger,
+    nameonly L: AtomicPrimitives.Types.PositiveInteger,
     nameonly OKM: seq<uint8>
   )
 }

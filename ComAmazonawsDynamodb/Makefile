@@ -5,6 +5,11 @@ CORES=2
 
 include ../SharedMakefileV2.mk
 
+PYTHON_MODULE_NAME=com_amazonaws_dynamodb
+
+TRANSLATION_RECORD_PYTHON := \
+    --translation-record ../StandardLibrary/runtimes/python/src/standard_library/internaldafny/generated/dafny_src-py.dtr
+
 PROJECT_SERVICES := \
 	ComAmazonawsDynamodb \
 

@@ -50,7 +50,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   import StormTracker
   import StormTrackingCMC
   import Crypto = AwsCryptographyPrimitivesTypes
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import opened AwsKmsUtils
   import DefaultClientSupplier
   import Materials
@@ -62,7 +62,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   import RequiredEncryptionContextCMM
 
   datatype Config = Config(
-    nameonly crypto: Primitives.AtomicPrimitivesClient
+    nameonly crypto: Crypto.IAwsCryptographicPrimitivesClient
   )
 
   type InternalConfig = Config

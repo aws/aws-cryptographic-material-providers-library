@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class AESEncryptInput {
-
   private final AES_GCM encAlg;
 
   private final ByteBuffer iv;
@@ -79,7 +78,6 @@ public class AESEncryptInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected AES_GCM encAlg;
 
     protected ByteBuffer iv;
@@ -90,7 +88,8 @@ public class AESEncryptInput {
 
     protected ByteBuffer aad;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(AESEncryptInput model) {
       this.encAlg = model.encAlg();
@@ -146,30 +145,20 @@ public class AESEncryptInput {
     }
 
     public AESEncryptInput build() {
-      if (Objects.isNull(this.encAlg())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `encAlg`"
-        );
+      if (Objects.isNull(this.encAlg()))  {
+        throw new IllegalArgumentException("Missing value for required field `encAlg`");
       }
-      if (Objects.isNull(this.iv())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `iv`"
-        );
+      if (Objects.isNull(this.iv()))  {
+        throw new IllegalArgumentException("Missing value for required field `iv`");
       }
-      if (Objects.isNull(this.key())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `key`"
-        );
+      if (Objects.isNull(this.key()))  {
+        throw new IllegalArgumentException("Missing value for required field `key`");
       }
-      if (Objects.isNull(this.msg())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `msg`"
-        );
+      if (Objects.isNull(this.msg()))  {
+        throw new IllegalArgumentException("Missing value for required field `msg`");
       }
-      if (Objects.isNull(this.aad())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `aad`"
-        );
+      if (Objects.isNull(this.aad()))  {
+        throw new IllegalArgumentException("Missing value for required field `aad`");
       }
       return new AESEncryptInput(this);
     }

@@ -4,8 +4,8 @@
 package software.amazon.cryptography.primitives.model;
 
 public class CryptoConfig {
-
-  protected CryptoConfig(BuilderImpl builder) {}
+  protected CryptoConfig(BuilderImpl builder) {
+  }
 
   public Builder toBuilder() {
     return new BuilderImpl(this);
@@ -20,10 +20,11 @@ public class CryptoConfig {
   }
 
   static class BuilderImpl implements Builder {
+    protected BuilderImpl() {
+    }
 
-    protected BuilderImpl() {}
-
-    protected BuilderImpl(CryptoConfig model) {}
+    protected BuilderImpl(CryptoConfig model) {
+    }
 
     public CryptoConfig build() {
       return new CryptoConfig(this);

@@ -5,6 +5,8 @@ CORES=2
 
 include ../SharedMakefileV2.mk
 
+PYTHON_MODULE_NAME=standard_library
+
 MAX_RESOURCE_COUNT=500000000
 LIBRARIES := 
 
