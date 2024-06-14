@@ -95,10 +95,7 @@ class default__:
             with _dafny.label():
                 def lambda41_(exists_var_1_):
                     d_592_c_: int = exists_var_1_
-                    if True:
-                        return ((d_592_c_) in (d_591_code_)) and ((d_592_c_) not in (default__.HEX__TABLE__16))
-                    elif True:
-                        return False
+                    return ((d_592_c_) in (d_591_code_)) and ((d_592_c_) not in (default__.HEX__TABLE__16))
 
                 if (start) >= (len(str)):
                     return Wrappers.Result_Success(prefix)

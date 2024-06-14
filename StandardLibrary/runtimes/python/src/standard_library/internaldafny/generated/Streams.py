@@ -43,13 +43,13 @@ import standard_library.internaldafny.generated.Time as Time
 class SeqReader:
     def  __init__(self):
         self.pos: int = int(0)
-        self._i_data: _dafny.Seq = _dafny.Seq({})
+        self._data: _dafny.Seq = _dafny.Seq({})
         pass
 
     def __dafnystr__(self) -> str:
         return "Streams.SeqReader"
     def ctor__(self, s):
-        (self)._i_data = s
+        (self)._data = s
         (self).pos = 0
 
     def ReadElements(self, n):
@@ -76,11 +76,11 @@ class SeqReader:
 
     @property
     def data(self):
-        return self._i_data
+        return self._data
 
 class ByteReader:
     def  __init__(self):
-        self._i_reader: SeqReader = None
+        self._reader: SeqReader = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -90,7 +90,7 @@ class ByteReader:
         nw2_ = SeqReader()
         nw2_.ctor__(s)
         d_240_mr_ = nw2_
-        (self)._i_reader = d_240_mr_
+        (self)._reader = d_240_mr_
 
     def ReadByte(self):
         res: Wrappers.Result = Wrappers.Result.default(BoundedInts.uint8.default)()
@@ -187,7 +187,7 @@ class ByteReader:
 
     @property
     def reader(self):
-        return self._i_reader
+        return self._reader
 
 class SeqWriter:
     def  __init__(self):
@@ -209,7 +209,7 @@ class SeqWriter:
 
 class ByteWriter:
     def  __init__(self):
-        self._i_writer: SeqWriter = None
+        self._writer: SeqWriter = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -219,7 +219,7 @@ class ByteWriter:
         nw3_ = SeqWriter()
         nw3_.ctor__()
         d_254_mw_ = nw3_
-        (self)._i_writer = d_254_mw_
+        (self)._writer = d_254_mw_
 
     def WriteByte(self, n):
         r: int = int(0)
@@ -257,4 +257,4 @@ class ByteWriter:
 
     @property
     def writer(self):
-        return self._i_writer
+        return self._writer

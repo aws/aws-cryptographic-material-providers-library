@@ -97,13 +97,13 @@ class Vector:
         self.size: int = int(0)
         self.capacity: int = int(0)
         self.data: _dafny.Array = _dafny.Array(None, 0)
-        self._i_a: TypeVar('A') = None
+        self._a: TypeVar('A') = None
         pass
 
     def __dafnystr__(self) -> str:
         return "JSON.Utils.Vectors.Vector"
     def ctor__(self, a0, initial__capacity):
-        (self)._i_a = a0
+        (self)._a = a0
         (self).size = 0
         (self).capacity = initial__capacity
         def lambda30_(d_478_a0_):
@@ -215,7 +215,7 @@ class Vector:
 
     @property
     def a(self):
-        return self._i_a
+        return self._a
     @property
     def MAX__CAPACITY__BEFORE__DOUBLING(self):
         return _dafny.euclidian_division(BoundedInts.default__.UINT32__MAX, 2)

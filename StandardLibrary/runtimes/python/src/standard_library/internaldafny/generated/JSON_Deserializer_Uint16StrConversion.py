@@ -111,10 +111,7 @@ class default__:
     def NumberStr(str, minus, is__digit):
         def lambda39_(forall_var_9_):
             d_583_c_: int = forall_var_9_
-            if True:
-                return not ((d_583_c_) in (_dafny.Seq((str)[1::]))) or (is__digit(d_583_c_))
-            elif True:
-                return True
+            return not ((d_583_c_) in (_dafny.Seq((str)[1::]))) or (is__digit(d_583_c_))
 
         return not ((str) != (_dafny.Seq([]))) or (((((str)[0]) == (minus)) or (is__digit((str)[0]))) and (_dafny.quantifier((_dafny.Seq((str)[1::])).UniqueElements, True, lambda39_)))
 
