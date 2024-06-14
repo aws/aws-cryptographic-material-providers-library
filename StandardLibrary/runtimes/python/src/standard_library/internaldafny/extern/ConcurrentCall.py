@@ -1,7 +1,3 @@
-# TODO-Python-PYTHONPATH: Extend generated class.
-# This copy-paste of generated code resolves a circular import,
-# but should be able to be removed as part of PYTHONPATH system removal.
-
 import standard_library.internaldafny.generated.ConcurrentCall
 
 from threading import Thread

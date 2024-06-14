@@ -1,77 +1,124 @@
+import _dafny
 from pathlib import Path
+import threading
 
 import standard_library.internaldafny.generated.DafnyLibraries
-
 from standard_library.internaldafny.generated.DafnyLibraries import *
-import _dafny
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+
+# This is copy-pasted from DafnyStandardLibraries:
+# https://github.com/dafny-lang/dafny/blob/f01af4a4e86a038ed4ea9f81464b2c9bca1955e4/Source/DafnyStandardLibraries/src/Std_Concurrent.py
+
+class Lock:
+    def ctor__(self):
+        pass
+        
+    def __init__(self) -> None:
+        self.lock = threading.Lock()
+
+    def Lock__(self):
+        self.lock.acquire()
+
+    def Unlock(self):
+        self.lock.release()
+
 
 class MutableMap(standard_library.internaldafny.generated.DafnyLibraries.MutableMap):
-    def __init__(self):
-        super().__init__()
-        self.m = {}
-
-    def content(self):
-        return _dafny.Map(self.m)
-    
-    def Put(self, k, v):
-        self.m[k] = v
+    def ctor__(self):
+        pass
+        
+    def __init__(self) -> None:
+        self.map = dict()
+        self.lock = Lock()
 
     def Keys(self):
-        return _dafny.Set(self.m.keys())
-    
+        self.lock.Lock__()
+        s = self.map.keys()
+        self.lock.Unlock()
+        return _dafny.Set(s)
+
     def HasKey(self, k):
-        return k in self.m
-    
+        self.lock.Lock__()
+        b = k in self.map
+        self.lock.Unlock()
+        return b
+
     def Values(self):
-        return _dafny.Set(self.m.values())
-    
+        self.lock.Lock__()
+        s = self.map.values()
+        self.lock.Unlock()
+        return _dafny.Set(s)
+
     def Items(self):
-        return _dafny.Set(self.m.items())
-    
-    def Select(self, k):
-        return self.m[k]
-    
-    def Remove(self, k):
+        self.lock.Lock__()
+        s = self.map.items()
+        self.lock.Unlock()
+        return _dafny.Set(s)
+
+    def Put(self, k, v):
+        self.lock.Lock__()
+        self.map[k] = v
+        self.lock.Unlock()
+
+    def Get(self, k):
+        self.lock.Lock__()
         try:
-            del self.m[k]
+            v = self.map.get(k)
         except KeyError:
-            pass
+            self.lock.Unlock()
+            return Wrappers.Option_None()
+        self.lock.Unlock()
+        return Wrappers.Option_Some(v)
+
+    def Remove(self, k):
+        self.lock.Lock__()
+        self.map.pop(k, None)
+        self.lock.Unlock()
 
     def Size(self):
-        return len(self.m)
+        self.lock.Lock__()
+        l = len(self.map)
+        self.lock.Unlock()
+        return l
+
+# This is copy-pasted from DafnyStandardLibraries:
+# https://github.com/dafny-lang/dafny/blob/f01af4a4e86a038ed4ea9f81464b2c9bca1955e4/Source/DafnyStandardLibraries/src/Std_FileIOInternalExterns.py
+
+import traceback
+import os.path
+import pathlib
 
 class FileIO:
     @staticmethod
-    def INTERNAL_WriteBytesToFile(dafny_path, dafny_bytes):
+    def INTERNAL__WriteBytesToFile(path, contents):
+        path_str = path.VerbatimString(False)
+        contents_bytes = bytes(contents)
+
         try:
-            native_path = FileIO.dafny_string_to_path(dafny_path)
-            FileIO.create_parent_dirs(native_path)
-            native_bytes = bytes(dafny_bytes.Elements)
-            native_path.write_bytes(native_bytes)
-            return False, _dafny.Seq([])
-        except Exception as e:
-            return True, _dafny.Seq(str(e))
+            pathlib.Path(path_str).parent.mkdir(parents=True, exist_ok=True)
+
+            with open(path_str, mode="wb") as file:
+                contents = file.write(contents_bytes)
+                return (False, _dafny.Seq())
+        except:
+            exc_str = traceback.format_exc()
+            exc_seq = _dafny.Seq(exc_str)
+            return (True, exc_seq)
         
     @staticmethod
-    def INTERNAL_ReadBytesFromFile(dafny_path):
+    def INTERNAL__ReadBytesFromFile(path):
+        path_str = path.VerbatimString(False)
         try:
-            native_path = FileIO.dafny_string_to_path(dafny_path)
-            native_bytes = native_path.read_bytes()
-            dafny_bytes = _dafny.Seq(native_bytes)
-            return False, dafny_bytes, _dafny.Seq([])
-        except Exception as e:
-            return True, _dafny.Seq([]), _dafny.Seq(str(e))
+            with open(path_str, mode="rb") as file:
+                contents = file.read()
+                contents_seq = _dafny.Seq(contents)
+                return (False, contents_seq, _dafny.Seq())
+        except:
+            exc_str = traceback.format_exc()
+            exc_seq = _dafny.Seq(exc_str)
+            return (True, _dafny.Seq(), exc_seq)
 
-    @staticmethod
-    def dafny_string_to_path(path_as_dafny_string):
-        return Path(_dafny.string_of(path_as_dafny_string))
-    
-    @staticmethod
-    def create_parent_dirs(native_path):
-        parent = native_path.parent
-        parent_path = Path(parent)
-        parent_path.mkdir(parents=True, exist_ok=True)
-
+# Export externs
 standard_library.internaldafny.generated.DafnyLibraries.FileIO = FileIO
 standard_library.internaldafny.generated.DafnyLibraries.MutableMap = MutableMap
 
