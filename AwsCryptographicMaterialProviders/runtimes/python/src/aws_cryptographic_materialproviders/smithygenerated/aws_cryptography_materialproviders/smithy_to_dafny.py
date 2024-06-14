@@ -86,7 +86,7 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     Materials_Encryption,
     MultiThreadedCache_MultiThreadedCache as DafnyMultiThreadedCache,
     NoCache_NoCache as DafnyNoCache,
-    None_None as DafnyNone,
+    None__None as DafnyNone,
     OnDecryptInput_OnDecryptInput as DafnyOnDecryptInput,
     OnDecryptOutput_OnDecryptOutput as DafnyOnDecryptOutput,
     OnEncryptInput_OnEncryptInput as DafnyOnEncryptInput,
