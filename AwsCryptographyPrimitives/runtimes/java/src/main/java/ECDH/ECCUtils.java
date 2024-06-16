@@ -35,6 +35,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.InvalidParameterSpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.crypto.params.ECDomainParameters;
 import org.bouncycastle.crypto.params.ECPrivateKeyParameters;
@@ -80,6 +81,27 @@ public class ECCUtils extends _ExternBase___default {
         ECParameterSpec parameterSpec = ECNamedCurveTable.getParameterSpec(
           maybeEccAlgorithm.value().curve
         );
+        BigInteger privateKeyOrder = privateKey.getParams().getOrder();
+        BigInteger parameterSpecOrder = parameterSpec
+          .getG()
+          .getCurve()
+          .getOrder();
+
+        // Compare the encoded *Order* point in the parsed private key
+        // to the defined parameters we get from the parameter spec
+        // look up. This guarantees that we only ever derive the
+        // public key if these points are equal.
+        if (privateKeyOrder.compareTo(parameterSpecOrder) != 0) {
+          return CreateExternGetPublicKeyFromPrivateError(
+            ToDafny.Error(
+              AwsCryptographicPrimitivesError
+                .builder()
+                .message("Private Key NOT on configured curve spec.")
+                .build()
+            )
+          );
+        }
+
         ECPoint Q = parameterSpec.getG().multiply(privateKey.getS());
         ECPublicKeySpec publicKeySpec = new ECPublicKeySpec(Q, parameterSpec);
 

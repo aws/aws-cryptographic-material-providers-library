@@ -547,6 +547,17 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
       var senderPublicKey :- RawECDHKeyring.DecompressPublicKey(providerInfoSenderPublicKey, this.curveSpec, this.cryptoPrimitives);
       var recipientPublicKey :- RawECDHKeyring.DecompressPublicKey(providerInfoRecipientPublicKey, this.curveSpec, this.cryptoPrimitives);
 
+      var _ :- RawECDHKeyring.ValidatePublicKey(
+        this.cryptoPrimitives,
+        this.curveSpec,
+        senderPublicKey
+      );
+
+      var _ :- RawECDHKeyring.ValidatePublicKey(
+        this.cryptoPrimitives,
+        this.curveSpec,
+        recipientPublicKey
+      );
 
       :- Need(
         && KMS.IsValid_PublicKeyType(senderPublicKey)

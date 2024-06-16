@@ -351,6 +351,12 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
         recipientPublicKey := input.KeyAgreementScheme.KmsPrivateKeyToStaticPublicKey.recipientPublicKey;
     }
 
+    var _ :- RawECDHKeyring.ValidatePublicKey(
+      config.crypto,
+      input.curveSpec,
+      recipientPublicKey
+    );
+
     var compressedRecipientPublicKey :- RawECDHKeyring.CompressPublicKey(
       Crypto.ECCPublicKey(der := recipientPublicKey),
       input.curveSpec,
@@ -362,6 +368,14 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
 
     if senderKmsKeyId.Some? {
       var _ :- ValidateKmsKeyId(senderKmsKeyId.value);
+    }
+
+    if senderPublicKey.Some? {
+      var _ :- RawECDHKeyring.ValidatePublicKey(
+        config.crypto,
+        input.curveSpec,
+        senderPublicKey.value
+      );
     }
 
     var keyring := new AwsKmsEcdhKeyring.AwsKmsEcdhKeyring(
@@ -516,6 +530,11 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
         //# - MUST provide the sender's static private key
         senderPrivateKey := Option.Some(input.KeyAgreementScheme.RawPrivateKeyToStaticPublicKey.senderStaticPrivateKey);
         var reproducedPublicKey :- GetPublicKey(input.curveSpec, Crypto.ECCPrivateKey(pem := senderPrivateKey.value), config.crypto);
+        var _ :- RawECDHKeyring.ValidatePublicKey(
+          config.crypto,
+          input.curveSpec,
+          reproducedPublicKey
+        );
         senderPublicKey := Some(reproducedPublicKey);
         var compressedSenderPublicKey? :- RawECDHKeyring.CompressPublicKey(
           Crypto.ECCPublicKey(der := reproducedPublicKey),
@@ -557,6 +576,11 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     );
 
     if senderPublicKey.Some? {
+      var _ :- RawECDHKeyring.ValidatePublicKey(
+        config.crypto,
+        input.curveSpec,
+        senderPublicKey.value
+      );
       :- Need(
         RawECDHKeyring.ValidPublicKeyLength(senderPublicKey.value),
         Types.AwsCryptographicMaterialProvidersException(message := "Invalid sender public key length")

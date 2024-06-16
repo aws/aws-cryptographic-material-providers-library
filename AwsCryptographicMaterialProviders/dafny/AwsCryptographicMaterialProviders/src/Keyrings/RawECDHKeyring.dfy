@@ -590,6 +590,18 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
       var senderPublicKey :- DecompressPublicKey(providerInfoSenderPublicKey, this.curveSpec, this.cryptoPrimitives);
       var recipientPublicKey :- DecompressPublicKey(providerInfoRecipientPublicKey, this.curveSpec, this.cryptoPrimitives);
 
+      var _ :- ValidatePublicKey(
+        this.cryptoPrimitives,
+        this.curveSpec,
+        senderPublicKey
+      );
+
+      var _ :- ValidatePublicKey(
+        this.cryptoPrimitives,
+        this.curveSpec,
+        recipientPublicKey
+      );
+
       var sharedSecretPublicKey: seq<uint8>;
       var sharedSecretPrivateKey: seq<uint8>;
       if {

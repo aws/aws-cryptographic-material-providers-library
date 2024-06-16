@@ -56,6 +56,37 @@ module TestECDH {
                            + "dcdea45a151f0b7babcb5d53f1d90d5be2db564997f01dfeb3a55a11058a6be49805"
                            + "e98f574e5a261534c5a685fcc86c2c6c0a2e93e942"
 
+  const ECC_256_PUBLIC_INF := "3059301306072a864886f70d0106082a864886f70d03010703420004000000000000"
+                              + "00000000000000000000000000000000000000000000000000000000000000000000"
+                              + "00000000000000000000000000000000000000000000000000000000"
+  const ECC_384_PUBLIC_INF := "3076301006072a864886f70d0106052b810400220362000400000000000000000000"
+                              + "00000000000000000000000000000000000000000000000000000000000000000000"
+                              + "00000000000000000000000000000000000000000000000000000000000000000000"
+                              + "00000000000000"
+  const ECC_521_PUBLIC_INF := "3081ee3010060772a8648ce3d02106052b81040023038186000400000000000000000"
+                              + "000000000000000000000000000000000000000000000000000000000000000000000"
+                              + "000000000000000000000000000000000000000000000000000000000000000000000"
+                              + "000000000000000000000000000000000000000000000000000000000000000000000"
+                              + "0000000000000000000000000000000000000000000000000000000000000000000000"
+                              + "00000000000000000000000000000000000000000000"
+
+  const ECC_P256_PUBLIC_GP := "3059301306072a864886f70d0106082a864886f70d03010703420004000000000000000"
+                              + "00000000000000000000000000000000000000000000000000000000000000000000000"
+                              + "00000000000000000000000000000000000000000000000000000000000000000000000"
+                              + "000000001"
+  const ECC_P384_PUBLIC_GP := "3076301006072a864886f70d0106052b810400220362000400000000000000000000000"
+                              + "00000000000000000000000000000000000000000000000000000000000000000000000"
+                              + "00000000000000000000000000000000000000000000000000000000000000000000000"
+                              + "00000000000000000000000000000000000000000000000000000000000000000000000"
+                              + "00000000000000000000000000000000000000000000000000000000000000000000000"
+                              + "0000000000000000000000000000001"
+  const ECC_P521_PUBLIC_GP := "3081ee3010060772a8648ce3d02106052b8104002303818600040000000000000000000"
+                              + "00000000000000000000000000000000000000000000000000000000000000000000000"
+                              + "00000000000000000000000000000000000000000000000000000000000000000000000"
+                              + "00000000000000000000000000000000000000000000000000000000000000000000000"
+                              + "00000000000000000000000000000000000000000000000000000000000000000000000"
+                              + "00000000000000000000000000000000001"
+
   method {:test} TestKeyGen()
   {
     var supportedCurves := [P256, P384, P521];
@@ -67,9 +98,6 @@ module TestECDH {
           eccCurve := curve
         )
       );
-      print "\n";
-      print HexStrings.ToHexString(keypair.publicKey.der);
-      print "\n";
     }
   }
 
@@ -100,7 +128,28 @@ module TestECDH {
 
       expect publicKey.publicKey == expectedPublicKey.publicKey.der;
     }
+  }
 
+  method {:test} TestGetPublicKeyFromPrivateIncorrectCruve()
+  {
+    var curve := P384;
+    var privateKey :- expect UTF8.Encode(ECC_P256_PRIVATE);
+    var looseHexPublicKey := expectLooseHexString(ECC_P256_PUBLIC);
+    var publicKeyBytes := HexStrings.FromHexString(looseHexPublicKey);
+
+    var expectedPublicKey :- expect ECDH.ParsePublicKey(
+      Types.ParsePublicKeyInput(
+        publicKey := publicKeyBytes
+      ));
+
+    var publicKey := ECDH.GetPublicKeyFromPrivate(
+      Types.GetPublicKeyFromPrivateKeyInput(
+        eccCurve := curve,
+        privateKey := Types.ECCPrivateKey(pem := privateKey)
+      )
+    );
+
+    expect publicKey.Failure?;
   }
 
   method expectLooseHexString(s: string)
@@ -176,7 +225,43 @@ module TestECDH {
     }
   }
 
-  //TODO: Test all three validity criteria for invalid public key
+  method {:test} TestValidatePublicKeyFailurePointAtINF()
+  {
+    var publicKeysWithPointsAtINF := [ECC_256_PUBLIC_INF, ECC_384_PUBLIC_INF, ECC_521_PUBLIC_INF];
+    var supportedCurves := [P256, P384, P521];
+    for i := 0 to |supportedCurves|
+    {
+      var looseHexPublicKey := expectLooseHexString(publicKeysWithPointsAtINF[i]);
+      var publicKeyBytes := HexStrings.FromHexString(looseHexPublicKey);
+
+      var validPublicKey:= ECDH.ValidatePublicKey(
+        Types.ValidatePublicKeyInput(
+          eccCurve := supportedCurves[i],
+          publicKey := publicKeyBytes
+        )
+      );
+      expect validPublicKey.Failure?;
+    }
+  }
+
+  method {:test} TestValidatePublicKeyFailurePointGreaterThanP()
+  {
+    var publicKeysWithPointsGreaterThanP := [ECC_P256_PUBLIC_GP, ECC_P384_PUBLIC_GP, ECC_P521_PUBLIC_GP];
+    var supportedCurves := [P256, P384, P521];
+    for i := 0 to |supportedCurves|
+    {
+      var looseHexPublicKey := expectLooseHexString(publicKeysWithPointsGreaterThanP[i]);
+      var publicKeyBytes := HexStrings.FromHexString(looseHexPublicKey);
+
+      var validPublicKey:= ECDH.ValidatePublicKey(
+        Types.ValidatePublicKeyInput(
+          eccCurve := supportedCurves[i],
+          publicKey := publicKeyBytes
+        )
+      );
+      expect validPublicKey.Failure?;
+    }
+  }
 
   method {:test} TestGenerateSharedSecret()
   {

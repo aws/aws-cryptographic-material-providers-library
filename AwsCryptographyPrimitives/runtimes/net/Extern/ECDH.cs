@@ -90,9 +90,21 @@ namespace ECDH
                 X9ECParameters p = GetX9EcParameters(curveSpec);
 
                 ECDomainParameters dp = new ECDomainParameters(p);
-                ECPrivateKeyParameters skp = new ECPrivateKeyParameters(
-                    ECCUtils.ParsePrivateKeyEccPemBytesToPrivateKey(privateKey.dtor_pem.CloneAsArray()),
-                    dp);
+                ECPrivateKeyParameters skp = ParsePrivateKeyEccPemBytesToPrivateKey(privateKey.dtor_pem.CloneAsArray());
+
+                BigInteger dpOrder = dp.Curve.Order;
+                BigInteger skpOrder = skp.Parameters.Curve.Order;
+
+                // Compare the encoded *Order* point in the parsed private key
+                // to the defined parameters we get from the parameter spec
+                // look up. This guarantees that we only ever derive the 
+                // public key if these points are equal.
+                if (dpOrder.CompareTo(skpOrder) != 0)
+                {
+                    return Result<Dafny.ISequence<byte>, _IError>.create_Failure(
+                        new Error_AwsCryptographicPrimitivesError(Sequence<char>.FromString("Private Key NOT on configured curve spec."))
+                        );
+                }
 
                 ECPoint Q = dp.G.Multiply(skp.D);
                 ECPublicKeyParameters parameters = new ECPublicKeyParameters(Q, dp);
@@ -210,10 +222,9 @@ namespace ECDH
             }
         }
 
-        public static BigInteger ParsePrivateKeyEccPemBytesToPrivateKey(byte[] pemPrivateKey)
+        public static ECPrivateKeyParameters ParsePrivateKeyEccPemBytesToPrivateKey(byte[] pemPrivateKey)
         {
-            ECPrivateKeyParameters privateKey = ParsePrivateKeyPemBytes(pemPrivateKey);
-            return privateKey.D;
+            return ParsePrivateKeyPemBytes(pemPrivateKey);
         }
 
         private static ECPrivateKeyParameters ParsePrivateKeyPemBytes(byte[] pemPrivateKey)
@@ -332,16 +343,21 @@ namespace ECDH
                 X9ECParameters p = ECCUtils.GetX9EcParameters(curveSpec);
 
                 ECDomainParameters dp = new ECDomainParameters(p.Curve, p.G, p.N, p.H);
-                ECPrivateKeyParameters skp = new ECPrivateKeyParameters(ECCUtils.ParsePrivateKeyEccPemBytesToPrivateKey(dafnyPrivateKey.dtor_pem.CloneAsArray()), dp);
+                ECPrivateKeyParameters skp = new ECPrivateKeyParameters(ECCUtils.ParsePrivateKeyEccPemBytesToPrivateKey(dafnyPrivateKey.dtor_pem.CloneAsArray()).D, dp);
 
                 ECPoint pt = p.Curve.DecodePoint(_fromBytesPublicKey((byte[])dafnyPublicKey.dtor_der.Elements.Clone(), dp));
                 ECPublicKeyParameters rkp = new ECPublicKeyParameters(pt, dp);
 
                 var ecdhKeyAgreement = new ECDHBasicAgreement();
                 ecdhKeyAgreement.Init(skp);
-                var sharedSecret = ecdhKeyAgreement.CalculateAgreement(rkp).ToByteArrayUnsigned();
+                // Calling ToByteArray or ToUnsignedByteArray does not always work
+                // because of the way the size of the array is calculated in .net
+                // This can lead to different shared secrets that are off by a byte. 
+                var sharedSecret = ecdhKeyAgreement.CalculateAgreement(rkp);
+                // Doing this specific conversion lets us tell .NET that we should be expecting a fixed-size array.
+                var keyAgreement = BigIntegers.AsUnsignedByteArray(ecdhKeyAgreement.GetFieldSize(), sharedSecret);
 
-                return new Result_Success<ibyteseq, _IError>(byteseq.FromArray(sharedSecret));
+                return new Result_Success<ibyteseq, _IError>(byteseq.FromArray(keyAgreement));
             }
             catch (Exception e)
             {

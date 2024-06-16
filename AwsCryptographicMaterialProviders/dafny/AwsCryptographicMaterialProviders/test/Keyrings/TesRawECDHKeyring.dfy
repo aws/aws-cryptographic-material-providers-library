@@ -18,6 +18,7 @@ module {:options "/functionSyntax:4" } TestRawECDHKeyring {
   import ErrorMessages
   import AlgorithmSuites
   import PrimitiveTypes = AwsCryptographyPrimitivesTypes
+  import Base64
 
   const P256 := PrimitiveTypes.ECDHCurveSpec.ECC_NIST_P256
   const P384 := PrimitiveTypes.ECDHCurveSpec.ECC_NIST_P384
@@ -484,9 +485,287 @@ module {:options "/functionSyntax:4" } TestRawECDHKeyring {
 
     expect encryptionMaterialsOut.materials.plaintextDataKey
         == decryptionMaterialsOut.materials.plaintextDataKey;
+  }
+
+  method {:test} TestPrivateKeyandPublicKeySameCurveDiffCurveDefinitionConstructionFailure ()
+  {
+    var mpl :- expect MaterialProviders.MaterialProviders();
+
+    var senderPrivateKey :- expect UTF8.Encode(TestUtils.ECC_P256_PRIVATE);
+    var recipientPrivateKey :- expect UTF8.Encode(TestUtils.ECC_P256_PRIVATE_R);
+    var recipientPublicKey :- expect Base64.Decode(TestUtils.ECC_P256_PUBLIC_R);
+
+    var rawEcdhKeyring := mpl.CreateRawEcdhKeyring(
+      Types.CreateRawEcdhKeyringInput(
+        KeyAgreementScheme := Types.RawPrivateKeyToStaticPublicKey(
+          Types.RawPrivateKeyToStaticPublicKeyInput(
+            senderStaticPrivateKey := senderPrivateKey,
+            recipientPublicKey := recipientPublicKey
+          )
+        ),
+        curveSpec := P384
+      )
+    );
+    expect rawEcdhKeyring.Failure?;
+  }
+
+  method {:test} TestPrivateKeyandPublicKeySameCurveDiffCurveDefinitionConstructionCombinationsFailure ()
+  {
+    var mpl :- expect MaterialProviders.MaterialProviders();
+
+    var senderPrivateKey256 :- expect UTF8.Encode(TestUtils.ECC_P256_PRIVATE);
+    var recipientPrivateKey256 :- expect UTF8.Encode(TestUtils.ECC_P256_PRIVATE_R);
+    var recipientPublicKey256 :- expect Base64.Decode(TestUtils.ECC_P256_PUBLIC_R);
+
+    var senderPrivateKey384 :- expect UTF8.Encode(TestUtils.ECC_P384_PRIVATE);
+    var recipientPrivateKey384 :- expect UTF8.Encode(TestUtils.ECC_P384_PRIVATE_R);
+    var recipientPublicKey384 :- expect Base64.Decode(TestUtils.ECC_P384_PUBLIC_R);
+
+    var senderPrivateKey521 :- expect UTF8.Encode(TestUtils.ECC_P521_PRIVATE);
+    var recipientPrivateKey521 :- expect UTF8.Encode(TestUtils.ECC_P521_PRIVATE_R);
+    var recipientPublicKey521 :- expect Base64.Decode(TestUtils.ECC_P521_PUBLIC_R);
 
 
+    // 1. Test that if keys are the same but if curvespec is diff construction MUST fail.
+/// P256 tests
+    var rawEcdhKeyring := mpl.CreateRawEcdhKeyring(
+      Types.CreateRawEcdhKeyringInput(
+        KeyAgreementScheme := Types.RawPrivateKeyToStaticPublicKey(
+          Types.RawPrivateKeyToStaticPublicKeyInput(
+            senderStaticPrivateKey := senderPrivateKey256,
+            recipientPublicKey := recipientPublicKey256
+          )
+        ),
+        curveSpec := P384
+      )
+    );
+    expect rawEcdhKeyring.Failure?;
 
+    rawEcdhKeyring := mpl.CreateRawEcdhKeyring(
+      Types.CreateRawEcdhKeyringInput(
+        KeyAgreementScheme := Types.RawPrivateKeyToStaticPublicKey(
+          Types.RawPrivateKeyToStaticPublicKeyInput(
+            senderStaticPrivateKey := senderPrivateKey256,
+            recipientPublicKey := recipientPublicKey256
+          )
+        ),
+        curveSpec := P521
+      )
+    );
+    expect rawEcdhKeyring.Failure?;
+
+    // P384 Tests
+    rawEcdhKeyring := mpl.CreateRawEcdhKeyring(
+      Types.CreateRawEcdhKeyringInput(
+        KeyAgreementScheme := Types.RawPrivateKeyToStaticPublicKey(
+          Types.RawPrivateKeyToStaticPublicKeyInput(
+            senderStaticPrivateKey := senderPrivateKey384,
+            recipientPublicKey := recipientPublicKey384
+          )
+        ),
+        curveSpec := P256
+      )
+    );
+    expect rawEcdhKeyring.Failure?;
+
+    rawEcdhKeyring := mpl.CreateRawEcdhKeyring(
+      Types.CreateRawEcdhKeyringInput(
+        KeyAgreementScheme := Types.RawPrivateKeyToStaticPublicKey(
+          Types.RawPrivateKeyToStaticPublicKeyInput(
+            senderStaticPrivateKey := senderPrivateKey384,
+            recipientPublicKey := recipientPublicKey384
+          )
+        ),
+        curveSpec := P521
+      )
+    );
+    expect rawEcdhKeyring.Failure?;
+
+    // P521 Tests
+    rawEcdhKeyring := mpl.CreateRawEcdhKeyring(
+      Types.CreateRawEcdhKeyringInput(
+        KeyAgreementScheme := Types.RawPrivateKeyToStaticPublicKey(
+          Types.RawPrivateKeyToStaticPublicKeyInput(
+            senderStaticPrivateKey := senderPrivateKey521,
+            recipientPublicKey := recipientPublicKey521
+          )
+        ),
+        curveSpec := P256
+      )
+    );
+    expect rawEcdhKeyring.Failure?;
+
+    rawEcdhKeyring := mpl.CreateRawEcdhKeyring(
+      Types.CreateRawEcdhKeyringInput(
+        KeyAgreementScheme := Types.RawPrivateKeyToStaticPublicKey(
+          Types.RawPrivateKeyToStaticPublicKeyInput(
+            senderStaticPrivateKey := senderPrivateKey521,
+            recipientPublicKey := recipientPublicKey521
+          )
+        ),
+        curveSpec := P384
+      )
+    );
+    expect rawEcdhKeyring.Failure?;
+
+    // 2. Test that if private and curve spec are the same but public key diff, construction MUST fail
+    var rawEcdhKeyringT2 := mpl.CreateRawEcdhKeyring(
+      Types.CreateRawEcdhKeyringInput(
+        KeyAgreementScheme := Types.RawPrivateKeyToStaticPublicKey(
+          Types.RawPrivateKeyToStaticPublicKeyInput(
+            senderStaticPrivateKey := senderPrivateKey256,
+            recipientPublicKey := recipientPublicKey384
+          )
+        ),
+        curveSpec := P256
+      )
+    );
+    expect rawEcdhKeyringT2.Failure?;
+
+    rawEcdhKeyringT2 := mpl.CreateRawEcdhKeyring(
+      Types.CreateRawEcdhKeyringInput(
+        KeyAgreementScheme := Types.RawPrivateKeyToStaticPublicKey(
+          Types.RawPrivateKeyToStaticPublicKeyInput(
+            senderStaticPrivateKey := senderPrivateKey256,
+            recipientPublicKey := recipientPublicKey521
+          )
+        ),
+        curveSpec := P256
+      )
+    );
+    expect rawEcdhKeyringT2.Failure?;
+
+    rawEcdhKeyringT2 := mpl.CreateRawEcdhKeyring(
+      Types.CreateRawEcdhKeyringInput(
+        KeyAgreementScheme := Types.RawPrivateKeyToStaticPublicKey(
+          Types.RawPrivateKeyToStaticPublicKeyInput(
+            senderStaticPrivateKey := senderPrivateKey384,
+            recipientPublicKey := recipientPublicKey256
+          )
+        ),
+        curveSpec := P384
+      )
+    );
+    expect rawEcdhKeyringT2.Failure?;
+
+    rawEcdhKeyringT2 := mpl.CreateRawEcdhKeyring(
+      Types.CreateRawEcdhKeyringInput(
+        KeyAgreementScheme := Types.RawPrivateKeyToStaticPublicKey(
+          Types.RawPrivateKeyToStaticPublicKeyInput(
+            senderStaticPrivateKey := senderPrivateKey384,
+            recipientPublicKey := recipientPublicKey521
+          )
+        ),
+        curveSpec := P384
+      )
+    );
+    expect rawEcdhKeyringT2.Failure?;
+
+    rawEcdhKeyringT2 := mpl.CreateRawEcdhKeyring(
+      Types.CreateRawEcdhKeyringInput(
+        KeyAgreementScheme := Types.RawPrivateKeyToStaticPublicKey(
+          Types.RawPrivateKeyToStaticPublicKeyInput(
+            senderStaticPrivateKey := senderPrivateKey521,
+            recipientPublicKey := recipientPublicKey256
+          )
+        ),
+        curveSpec := P521
+      )
+    );
+    expect rawEcdhKeyringT2.Failure?;
+
+    rawEcdhKeyringT2 := mpl.CreateRawEcdhKeyring(
+      Types.CreateRawEcdhKeyringInput(
+        KeyAgreementScheme := Types.RawPrivateKeyToStaticPublicKey(
+          Types.RawPrivateKeyToStaticPublicKeyInput(
+            senderStaticPrivateKey := senderPrivateKey521,
+            recipientPublicKey := recipientPublicKey384
+          )
+        ),
+        curveSpec := P521
+      )
+    );
+    expect rawEcdhKeyringT2.Failure?;
+
+    // 3. Test that if recipient public key and curve spec are the same BUT if private
+    // is on different curve, construction MUST fail
+    var rawEcdhKeyringT3 := mpl.CreateRawEcdhKeyring(
+      Types.CreateRawEcdhKeyringInput(
+        KeyAgreementScheme := Types.RawPrivateKeyToStaticPublicKey(
+          Types.RawPrivateKeyToStaticPublicKeyInput(
+            senderStaticPrivateKey := senderPrivateKey384,
+            recipientPublicKey := recipientPublicKey256
+          )
+        ),
+        curveSpec := P256
+      )
+    );
+    expect rawEcdhKeyringT3.Failure?;
+
+    rawEcdhKeyringT3 := mpl.CreateRawEcdhKeyring(
+      Types.CreateRawEcdhKeyringInput(
+        KeyAgreementScheme := Types.RawPrivateKeyToStaticPublicKey(
+          Types.RawPrivateKeyToStaticPublicKeyInput(
+            senderStaticPrivateKey := senderPrivateKey521,
+            recipientPublicKey := recipientPublicKey256
+          )
+        ),
+        curveSpec := P256
+      )
+    );
+    expect rawEcdhKeyringT3.Failure?;
+
+    rawEcdhKeyringT3 := mpl.CreateRawEcdhKeyring(
+      Types.CreateRawEcdhKeyringInput(
+        KeyAgreementScheme := Types.RawPrivateKeyToStaticPublicKey(
+          Types.RawPrivateKeyToStaticPublicKeyInput(
+            senderStaticPrivateKey := senderPrivateKey256,
+            recipientPublicKey := recipientPublicKey384
+          )
+        ),
+        curveSpec := P384
+      )
+    );
+    expect rawEcdhKeyringT3.Failure?;
+
+    rawEcdhKeyringT3 := mpl.CreateRawEcdhKeyring(
+      Types.CreateRawEcdhKeyringInput(
+        KeyAgreementScheme := Types.RawPrivateKeyToStaticPublicKey(
+          Types.RawPrivateKeyToStaticPublicKeyInput(
+            senderStaticPrivateKey := senderPrivateKey521,
+            recipientPublicKey := recipientPublicKey384
+          )
+        ),
+        curveSpec := P384
+      )
+    );
+    expect rawEcdhKeyringT3.Failure?;
+
+    rawEcdhKeyringT3 := mpl.CreateRawEcdhKeyring(
+      Types.CreateRawEcdhKeyringInput(
+        KeyAgreementScheme := Types.RawPrivateKeyToStaticPublicKey(
+          Types.RawPrivateKeyToStaticPublicKeyInput(
+            senderStaticPrivateKey := senderPrivateKey256,
+            recipientPublicKey := recipientPublicKey521
+          )
+        ),
+        curveSpec := P521
+      )
+    );
+    expect rawEcdhKeyringT3.Failure?;
+
+    rawEcdhKeyringT3 := mpl.CreateRawEcdhKeyring(
+      Types.CreateRawEcdhKeyringInput(
+        KeyAgreementScheme := Types.RawPrivateKeyToStaticPublicKey(
+          Types.RawPrivateKeyToStaticPublicKeyInput(
+            senderStaticPrivateKey := senderPrivateKey384,
+            recipientPublicKey := recipientPublicKey521
+          )
+        ),
+        curveSpec := P521
+      )
+    );
+    expect rawEcdhKeyringT3.Failure?;
   }
 
   method GetTestMaterials(suiteId: Types.AlgorithmSuiteId) returns (out: Types.EncryptionMaterials)
