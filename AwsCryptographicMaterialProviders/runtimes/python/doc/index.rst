@@ -1,5 +1,5 @@
 .. include:: ../../../../README.md
-    :parser: markdown
+    :parser: myst_parser.docutils_
 
 *******
 Modules
@@ -20,4 +20,4 @@ Modules
     aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references
 
 .. include:: ../../../../CHANGELOG.md
-    :parser: markdown
+    :parser: myst_parser.docutils_
