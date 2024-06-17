@@ -11,7 +11,7 @@ module {:options "-functionSyntax:4"} AllKmsEcdh {
   import AwsCryptographyPrimitivesTypes
 
   // These are all the PositiveKeydescription for the RawEcdhKeyring
-  const kmsKeys := ["us-east-1-256-ecc", "us-east-1-384-ecc", "us-east-1-521-ecc"]
+  const kmsKeys := ["us-west-2-256-ecc", "us-west-2-384-ecc", "us-west-2-521-ecc"]
 
   const StaticKmsDescriptionsEncryptSender :=
     set

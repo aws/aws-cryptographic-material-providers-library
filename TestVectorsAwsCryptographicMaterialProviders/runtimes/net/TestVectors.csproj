@@ -54,12 +54,6 @@
     <ItemGroup>
       <ProjectReference Include="../../../AwsCryptographicMaterialProviders/runtimes/net/MPL.csproj" />
       <ProjectReference Include="../../../ComAmazonawsKms/runtimes/net/AWS-KMS.csproj" />
-      <Reference Include="../../../AwsAssemblies/assemblies/netstandard2.0/AWSSDK.Core.dll">
-        <HintPath>AWSSDK.Core.dll</HintPath>
-      </Reference> 
-      <Reference Include="../../../AwsAssemblies/assemblies/netstandard2.0/AWSSDK.KeyManagementService.dll" >
-        <HintPath>AWSSDK.KeyManagementService.dll</HintPath>
-      </Reference>
     </ItemGroup>
 
     <!--

@@ -91,28 +91,6 @@ public class __default
     }
   }
 
-  public static Result<IKMSClient, Error> GammaKmsClient() {
-    try {
-      final KmsClientBuilder builder = KmsClient.builder();
-      final AwsRegionProviderChain regionProvider =
-        DefaultAwsRegionProviderChain.builder().build();
-      final KmsClient client = builder
-        .httpClient(ApacheHttpClient.create())
-        .endpointOverride(
-          URI.create("https://trent-sandbox.us-east-1.amazonaws.com")
-        )
-        .region(Region.US_EAST_1)
-        .build();
-      final IKMSClient shim = new Shim(client, Region.US_EAST_1.toString());
-      return CreateSuccessOfClient(shim);
-    } catch (Exception e) {
-      Error dafny_error = Error.create_KMSInternalException(
-        WrappersInterop.CreateStringSome(CharacterSequence(e.getMessage()))
-      );
-      return CreateFailureOfError(dafny_error);
-    }
-  }
-
   public static Wrappers_Compile.Option<Boolean> RegionMatch(
     final IKMSClient client,
     final DafnySequence<? extends Character> region

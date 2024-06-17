@@ -366,8 +366,7 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
       // print curveSpec;
       :- Need(curveSpec in KeyDescription.KmsKey2EccAlgorithmSpec, KeyVectorException(message := "Unknown curve spec"));
       var curveType :=  KeyDescription.KmsKey2EccAlgorithmSpec[curveSpec];
-      // change to regular client supplier
-      var kmsClient :- getEast1KmsClient();
+
       match keyAgreementScheme
       case "static" => {
         :- Need(
@@ -380,6 +379,8 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
           ComAmazonawsKmsTypes.IsValid_KeyIdType(senderKmsKey) &&
           ComAmazonawsKmsTypes.IsValid_KeyIdType(recipientKmsKey),
           KeyVectorException(message := "Not a valid Kms Key Id"));
+        var kmsClient :- getKmsClient(mpl, senderKmsKey);
+
         var senderPublicKey :- GetEcdhPublicKey(kmsClient, senderKmsKey);
         var recipientPublicKey :- GetEcdhPublicKey(kmsClient, recipientKmsKey);
 
@@ -407,6 +408,7 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
           KeyVectorException( message := "Not type: KmsEcdh" ));
 
         var recipientKmsKey := recipientMaterial?.value.recipientMaterial;
+        var kmsClient :- getKmsClient(mpl, recipientKmsKey);
 
         var schema := MPL.KmsPublicKeyDiscovery(
           MPL.KmsPublicKeyDiscoveryInput(
@@ -483,17 +485,6 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
                                           region := region.UnwrapOr("")
                                         ));
     output := tmp.MapFailure(e => AwsCryptographyMaterialProviders(e));
-  }
-
-  method getEast1KmsClient()
-    returns (output: Result<ComAmazonawsKmsTypes.IKMSClient, Error>)
-    ensures (output.Success? ==>
-               && output.value.ValidState()
-               && fresh(output.value)
-               && fresh(output.value.Modifies))
-  {
-    var kmsClient? := Kms.GammaKmsClient();
-    output := kmsClient?.MapFailure(e => KeyVectorException( message := "Unable to create KMS client"));
   }
 
   method GetEcdhPublicKey(

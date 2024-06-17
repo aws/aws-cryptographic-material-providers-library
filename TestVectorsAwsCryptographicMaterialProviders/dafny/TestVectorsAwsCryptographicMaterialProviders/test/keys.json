@@ -171,31 +171,31 @@
       "encoding": "pem",
       "material": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA27Uc/fBaMVhxCE/SpCMQ\noSBRSzQJw+o2hBaA+FiPGtiJ/aPy7sn18aCkelaSj4kwoC79b/arNHlkjc7OJFsN\n/GoFKgNvaiY4lOeJqEiWQGSSgHtsJLdbO2u4OOSxh8qIRAMKbMgQDVX4FR/PLKeK\nfc2aCDvcNSpAM++8NlNmv7+xQBJydr5ce91eISbHkFRkK3/bAM+1iddupoRw4Wo2\nr3avzrg5xBHmzR7u1FTab22Op3Hgb2dBLZH43wNKAceVwKqKA8UNAxashFON7xK9\nyy4kfOL0Z/nhxRKe4jRZ/5v508qIzgzCksYy7Y3QbMejAtiYnr7s5/d5KWw0swou\ntwIDAQAB\n-----END PUBLIC KEY-----"
     },
-    "us-east-1-256-ecc": {
+    "us-west-2-256-ecc": {
       "encrypt": true,
       "decrypt": true,
       "algorithm": "ecdh",
       "type": "aws-kms-ecdh",
-      "sender-material": "arn:aws:kms:us-east-1:370957321024:key/ab0f5ab2-82a6-4bd3-aa5f-87336cbf38bd",
-      "recipient-material": "arn:aws:kms:us-east-1:370957321024:key/672ec393-86fb-4581-adc2-8cdb5b3d65ba",
+      "sender-material": "arn:aws:kms:us-west-2:370957321024:key/eabdf483-6be2-4d2d-8ee4-8c2583d416e9",
+      "recipient-material": "arn:aws:kms:us-west-2:370957321024:key/0265c8e9-5b6a-4055-8f70-63719e09fda5",
       "key-id": "ecc-256"
     },
-    "us-east-1-384-ecc": {
+    "us-west-2-384-ecc": {
       "encrypt": true,
       "decrypt": true,
       "algorithm": "ecdh",
       "type": "aws-kms-ecdh",
-      "sender-material": "arn:aws:kms:us-east-1:370957321024:key/b29184b6-10c5-4c32-a132-6bc60e18eb0c",
-      "recipient-material": "arn:aws:kms:us-east-1:370957321024:key/b9a08c8f-e8ea-4bd4-8a3a-3e046136a5fa",
+      "sender-material": "arn:aws:kms:us-west-2:370957321024:key/7f35a704-f4fb-469d-98b1-62a1fa2cc44e",
+      "recipient-material": "arn:aws:kms:us-west-2:370957321024:key/29f0bef9-1677-4e74-b67e-acefab1295ff",
       "key-id": "ecc-384"
     },
-    "us-east-1-521-ecc": {
+    "us-west-2-521-ecc": {
       "encrypt": true,
       "decrypt": true,
       "algorithm": "ecdh",
       "type": "aws-kms-ecdh",
-      "sender-material": "arn:aws:kms:us-east-1:370957321024:key/97c7da27-1118-4d35-ba05-973026630e90",
-      "recipient-material": "arn:aws:kms:us-east-1:370957321024:key/79b7cca4-5675-4b86-a6ab-28fd17ac9844",
+      "sender-material": "arn:aws:kms:us-west-2:370957321024:key/41b502e3-cc9d-442f-bd7b-d67faed0f22e",
+      "recipient-material": "arn:aws:kms:us-west-2:370957321024:key/c45f1043-53bb-4f37-adc5-4d25d4a84f9d",
       "key-id": "ecc-521"
     }
   }

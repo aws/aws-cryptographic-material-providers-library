@@ -9,12 +9,12 @@ module TestComAmazonawsKms {
 
   const keyId :=  "arn:aws:kms:us-west-2:658956600833:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"
 
-  // ECC Curve P256 Keys - only available in gamma stack
-  const senderKmsKey := "arn:aws:kms:us-east-1:370957321024:key/ab0f5ab2-82a6-4bd3-aa5f-87336cbf38bd";
-  const recipientKmsKey := "arn:aws:kms:us-east-1:370957321024:key/672ec393-86fb-4581-adc2-8cdb5b3d65ba";
+  // ECC Curve P256 Keys
+  const senderKmsKey := "arn:aws:kms:us-west-2:370957321024:key/eabdf483-6be2-4d2d-8ee4-8c2583d416e9";
+  const recipientKmsKey := "arn:aws:kms:us-west-2:370957321024:key/0265c8e9-5b6a-4055-8f70-63719e09fda5";
 
-  // ECC Curve P384 - only available in gamma stack
-  const incorrectEccCurveKey := "arn:aws:kms:us-east-1:370957321024:key/b29184b6-10c5-4c32-a132-6bc60e18eb0c";
+  // ECC Curve P384
+  const incorrectEccCurveKey := "arn:aws:kms:us-west-2:370957321024:key/7f35a704-f4fb-469d-98b1-62a1fa2cc44e";
 
   // One test depends on knowing the region it is being run it.
   // For now, hardcode this value to the region we are currently using to test,
@@ -185,24 +185,11 @@ module TestComAmazonawsKms {
     var client :- expect Kms.KMSClientForRegion("");
   }
 
-  method {:test} GammaKmsClient(
-  ) {
-    var client :- expect Kms.GammaKmsClient();
-
-    var ret := client.ListKeys(Kms.Types.ListKeysRequest(
-                                 Limit := Kms.Wrappers.None,
-                                 Marker:= Kms.Wrappers.None
-                               ));
-
-    expect(ret.Success?);
-
-  }
-
   method BasicDeriveSharedSecretTests(
     nameonly input: Kms.Types.DeriveSharedSecretRequest
   )
   {
-    var client :- expect Kms.GammaKmsClient();
+    var client :- expect Kms.KMSClientForRegion(TEST_REGION);
 
     var ret := client.DeriveSharedSecret(
       Kms.Types.DeriveSharedSecretRequest(
@@ -232,7 +219,7 @@ module TestComAmazonawsKms {
   )
     returns (publicKey: Kms.Types.PublicKeyType)
   {
-    var client :- expect Kms.GammaKmsClient();
+    var client :- expect Kms.KMSClientForRegion(TEST_REGION);
     var ret := client.GetPublicKey(
       Kms.Types.GetPublicKeyRequest(
         KeyId := input.KeyId,

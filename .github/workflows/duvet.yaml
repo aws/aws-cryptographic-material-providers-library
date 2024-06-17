@@ -22,11 +22,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # This secret is configured on the Duvet Env of the Repo
-          # Token created on 2024/05/09
-          # expires in ~30 days 2024/06/08
-          # Grants Read to all repos josecorella has access to
-          token: ${{ secrets.PRIVATE_SPEC }}
           submodules: true
 
       - name: Install duvet

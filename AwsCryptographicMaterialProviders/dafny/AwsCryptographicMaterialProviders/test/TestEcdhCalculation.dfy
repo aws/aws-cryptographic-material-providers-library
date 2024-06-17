@@ -18,14 +18,14 @@ module TestEcdhCalculation {
   import ComAmazonawsKmsTypes
   import UTF8
 
-  // ECC Curve P256 Keys - only available in gamma stack
-  const senderKmsKey := "arn:aws:kms:us-east-1:370957321024:key/ab0f5ab2-82a6-4bd3-aa5f-87336cbf38bd";
-  const recipientKmsKey := "arn:aws:kms:us-east-1:370957321024:key/672ec393-86fb-4581-adc2-8cdb5b3d65ba";
+  // ECC Curve P256 Keys
+  const senderKmsKey    := "arn:aws:kms:us-west-2:370957321024:key/eabdf483-6be2-4d2d-8ee4-8c2583d416e9";
+  const recipientKmsKey := "arn:aws:kms:us-west-2:370957321024:key/0265c8e9-5b6a-4055-8f70-63719e09fda5";
   const senderArns := [TestUtils.KMS_ECC_256_KEY_ARN_S, TestUtils.KMS_ECC_384_KEY_ARN_S, TestUtils.KMS_ECC_521_KEY_ARN_S];
   const curveSpecs := [PrimitiveTypes.ECC_NIST_P256, PrimitiveTypes.ECC_NIST_P384, PrimitiveTypes.ECC_NIST_P521];
 
   method {:test} TestKmsDeriveSharedSecretOfflineCalculation() {
-    var kmsClient :- expect Kms.GammaKmsClient();
+    var kmsClient :- expect Kms.KMSClient();
     var primitives :- expect Primitives.AtomicPrimitives();
 
     var keyPair :- expect primitives.GenerateECCKeyPair(
@@ -70,7 +70,7 @@ module TestEcdhCalculation {
   }
 
   method {:test} TestKmsDeriveSharedSecretOfflineCalculationCurves() {
-    var kmsClient :- expect Kms.GammaKmsClient();
+    var kmsClient :- expect Kms.KMSClient();
     var primitives :- expect Primitives.AtomicPrimitives();
 
     for i := 0 to |senderArns|

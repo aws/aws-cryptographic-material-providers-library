@@ -278,9 +278,9 @@ module {:options "-functionSyntax:4"} KeyDescription {
        ]
   const KmsKey2EccAlgorithmSpec
     := map[
-         "us-east-1-256-ecc" := AwsCryptographyPrimitivesTypes.ECDHCurveSpec.ECC_NIST_P256,
-         "us-east-1-384-ecc" := AwsCryptographyPrimitivesTypes.ECDHCurveSpec.ECC_NIST_P384,
-         "us-east-1-521-ecc" := AwsCryptographyPrimitivesTypes.ECDHCurveSpec.ECC_NIST_P521
+         "us-west-2-256-ecc" := AwsCryptographyPrimitivesTypes.ECDHCurveSpec.ECC_NIST_P256,
+         "us-west-2-384-ecc" := AwsCryptographyPrimitivesTypes.ECDHCurveSpec.ECC_NIST_P384,
+         "us-west-2-521-ecc" := AwsCryptographyPrimitivesTypes.ECDHCurveSpec.ECC_NIST_P521
        ]
 
   type KeyDescriptionVersion = v: int | KeyDescriptionVersion?(v)  witness 1

@@ -337,7 +337,7 @@ module {:options "/functionSyntax:4" } TestRawECDHKeyring {
       )
     );
 
-    var kmsClient :- expect Kms.GammaKmsClient();
+    var kmsClient :- expect Kms.KMSClient();
     var publicKeyResponse := kmsClient.GetPublicKey(
       Kms.Types.GetPublicKeyRequest(
         KeyId := TestUtils.KMS_ECC_256_KEY_ARN_R,

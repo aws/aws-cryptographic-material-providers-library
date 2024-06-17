@@ -31,27 +31,6 @@ namespace software.amazon.cryptography.services.kms.internaldafny
         }
 
         public static
-            _IResult<
-                types.IKMSClient,
-                types._IError
-            >
-            GammaKmsClient()
-        {
-            var kmsConfig = new AmazonKeyManagementServiceConfig
-            {
-                EndpointProvider = new StaticEndpointProvider("https://trent-sandbox.us-east-1.amazonaws.com"),
-                RegionEndpoint = RegionEndpoint.USEast1
-            };
-            var client = new DefaultKmsClient(kmsConfig);
-
-            return Result<
-              types.IKMSClient,
-              types._IError
-            >
-              .create_Success(new KeyManagementServiceShim(client));
-        }
-
-        public static
           _IResult<
             types.IKMSClient,
             types._IError

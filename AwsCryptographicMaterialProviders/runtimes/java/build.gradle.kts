@@ -18,7 +18,7 @@ var props = Properties().apply {
 var dafnyVersion = props.getProperty("dafnyVersion")
 
 group = "software.amazon.cryptography"
-version = "1.5.0-SNAPSHOT"
+version = "1.4.0-SNAPSHOT"
 description = "AWS Cryptographic Material Providers Library"
 
 java {
@@ -50,21 +50,14 @@ if (!caPasswordString.isNullOrBlank()) {
 repositories {
     mavenCentral()
     mavenLocal()
-    // if (caUrl != null && caPassword != null) {
-    //     maven {
-    //         name = "CodeArtifact"
-    //         url = caUrl!!
-    //         credentials {
-    //             username = "aws"
-    //             password = caPassword!!
-    //         }
-    //     }
-    // }
-    maven {
-        url = URI.create("https://github-mpl-370957321024.d.codeartifact.us-west-2.amazonaws.com/maven/aws-sdk-preview-build/")
-        credentials {
-            username = "aws"
-            password = System.getenv("CODEARTIFACT_AUTH_TOKEN")
+    if (caUrl != null && caPassword != null) {
+        maven {
+            name = "CodeArtifact"
+            url = caUrl!!
+            credentials {
+                username = "aws"
+                password = caPassword!!
+            }
         }
     }
 }
@@ -81,7 +74,7 @@ dependencies {
     implementation("software.amazon.smithy.dafny:conversion:0.1")
 
     // sdk dependencies
-    implementation(platform("software.amazon.awssdk:bom:2.25.1"))
+    implementation(platform("software.amazon.awssdk:bom:2.26.3"))
     implementation("software.amazon.awssdk:dynamodb")
     implementation("software.amazon.awssdk:kms")
 

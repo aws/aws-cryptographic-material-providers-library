@@ -62,7 +62,7 @@ module {:options "/functionSyntax:4" } TestAwsKmsEcdhKeyring {
   method {:test} TestKmsEcdhConfigurationFailure() {
     var mpl :- expect MaterialProviders.MaterialProviders();
 
-    var kmsClient :- expect Kms.GammaKmsClient();
+    var kmsClient :- expect Kms.KMSClient();
 
     var kmsEcdhKeyringDiscoveryConfiguration :- expect mpl.CreateAwsKmsEcdhKeyring(
       Types.CreateAwsKmsEcdhKeyringInput(
@@ -104,7 +104,7 @@ module {:options "/functionSyntax:4" } TestAwsKmsEcdhKeyring {
   method {:test} TestKmsEcdhKeyringRecipientKmsKeyEncryptDecryptSuccess() {
     var mpl :- expect MaterialProviders.MaterialProviders();
 
-    var kmsClient :- expect Kms.GammaKmsClient();
+    var kmsClient :- expect Kms.KMSClient();
 
     var senderArns := [TestUtils.KMS_ECC_256_KEY_ARN_S, TestUtils.KMS_ECC_384_KEY_ARN_S, TestUtils.KMS_ECC_521_KEY_ARN_S];
     var recipientArns := [TestUtils.KMS_ECC_256_KEY_ARN_R, TestUtils.KMS_ECC_384_KEY_ARN_R, TestUtils.KMS_ECC_521_KEY_ARN_R];
@@ -182,7 +182,7 @@ module {:options "/functionSyntax:4" } TestAwsKmsEcdhKeyring {
   method {:test} TestKmsEcdhKeyringRecipientKmsKeyEncryptDecryptSuccessDBESDKSuite() {
     var mpl :- expect MaterialProviders.MaterialProviders();
 
-    var kmsClient :- expect Kms.GammaKmsClient();
+    var kmsClient :- expect Kms.KMSClient();
 
     var senderArns := [TestUtils.KMS_ECC_256_KEY_ARN_S, TestUtils.KMS_ECC_384_KEY_ARN_S, TestUtils.KMS_ECC_521_KEY_ARN_S];
     var recipientArns := [TestUtils.KMS_ECC_256_KEY_ARN_R, TestUtils.KMS_ECC_384_KEY_ARN_R, TestUtils.KMS_ECC_521_KEY_ARN_R];
@@ -250,7 +250,7 @@ module {:options "/functionSyntax:4" } TestAwsKmsEcdhKeyring {
   method {:test} TestKmsEcdhKeyringDiscoverySuccess() {
     var mpl :- expect MaterialProviders.MaterialProviders();
 
-    var kmsClient :- expect Kms.GammaKmsClient();
+    var kmsClient :- expect Kms.KMSClient();
 
     var senderArns := [TestUtils.KMS_ECC_256_KEY_ARN_S, TestUtils.KMS_ECC_384_KEY_ARN_S, TestUtils.KMS_ECC_521_KEY_ARN_S];
     var recipientArns := [TestUtils.KMS_ECC_256_KEY_ARN_R, TestUtils.KMS_ECC_384_KEY_ARN_R, TestUtils.KMS_ECC_521_KEY_ARN_R];
@@ -349,7 +349,7 @@ module {:options "/functionSyntax:4" } TestAwsKmsEcdhKeyring {
       )
     );
 
-    var kmsClient :- expect Kms.GammaKmsClient();
+    var kmsClient :- expect Kms.KMSClient();
     var publicKeyResponse := kmsClient.GetPublicKey(
       Kms.Types.GetPublicKeyRequest(
         KeyId := TestUtils.KMS_ECC_256_KEY_ARN_S,
@@ -433,7 +433,7 @@ module {:options "/functionSyntax:4" } TestAwsKmsEcdhKeyring {
   {
     var mpl :- expect MaterialProviders.MaterialProviders();
 
-    var kmsClient :- expect Kms.GammaKmsClient();
+    var kmsClient :- expect Kms.KMSClient();
 
     for i := 0 to |CURVES|
     {
@@ -517,7 +517,7 @@ module {:options "/functionSyntax:4" } TestAwsKmsEcdhKeyring {
   {
     var mpl :- expect MaterialProviders.MaterialProviders();
 
-    var kmsClient :- expect Kms.GammaKmsClient();
+    var kmsClient :- expect Kms.KMSClient();
 
     for i := 0 to |CURVES|
     {
@@ -602,7 +602,7 @@ module {:options "/functionSyntax:4" } TestAwsKmsEcdhKeyring {
   {
     var mpl :- expect MaterialProviders.MaterialProviders();
 
-    var kmsClient :- expect Kms.GammaKmsClient();
+    var kmsClient :- expect Kms.KMSClient();
 
     var senderPublicKey :- expect Base64.Decode(TestUtils.KMS_ECC_256_PUBLIC_KEY_S);
     var recipientPublicKey :- expect Base64.Decode(TestUtils.KMS_ECC_256_PUBLIC_KEY_R);
@@ -629,7 +629,7 @@ module {:options "/functionSyntax:4" } TestAwsKmsEcdhKeyring {
   {
     var mpl :- expect MaterialProviders.MaterialProviders();
 
-    var kmsClient :- expect Kms.GammaKmsClient();
+    var kmsClient :- expect Kms.KMSClient();
 
     var senderKmsKey256       := TestUtils.KMS_ECC_256_KEY_ARN_S;
     var senderPublicKey256    :- expect Base64.Decode(TestUtils.KMS_ECC_256_PUBLIC_KEY_S);
@@ -958,7 +958,7 @@ module {:options "/functionSyntax:4" } TestAwsKmsEcdhKeyring {
 
     var mpl :- expect MaterialProviders.MaterialProviders();
 
-    var kmsClient :- expect Kms.GammaKmsClient();
+    var kmsClient :- expect Kms.KMSClient();
 
     var encryptionContext := TestUtils.SmallEncryptionContext(TestUtils.SmallEncryptionContextVariation.A);
 

@@ -62,12 +62,6 @@
         <ProjectReference Include="../../../ComAmazonawsDynamodb/runtimes/net/ComAmazonawsDynamodb.csproj" />
         <ProjectReference Include="../../../ComAmazonawsKms/runtimes/net/AWS-KMS.csproj" />
         <ProjectReference Include="../../../StandardLibrary/runtimes/net/STD.csproj" />
-        <Reference Include="../../../AwsAssemblies/assemblies/netstandard2.0/AWSSDK.Core.dll">
-          <HintPath>AWSSDK.Core.dll</HintPath>
-        </Reference> 
-        <Reference Include="../../../AwsAssemblies/assemblies/netstandard2.0/AWSSDK.KeyManagementService.dll" >
-          <HintPath>AWSSDK.KeyManagementService.dll</HintPath>
-        </Reference>
         <!--
           System.Collections.Immutable can be removed once dafny.msbuild is updated with
           https://github.com/dafny-lang/dafny.msbuild/pull/10 and versioned

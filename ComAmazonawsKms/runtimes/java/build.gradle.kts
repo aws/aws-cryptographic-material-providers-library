@@ -33,7 +33,7 @@ java {
 
 var caUrl: URI? = null
 @Nullable
-val caUrlStr: String? = System.getenv("CODEARTIFACT_REPO_URL")
+val caUrlStr: String? = System.getenv("CODEARTIFACT_URL_JAVA_CONVERSION")
 if (!caUrlStr.isNullOrBlank()) {
     caUrl = URI.create(caUrlStr)
 }
@@ -48,21 +48,14 @@ if (!caPasswordString.isNullOrBlank()) {
 repositories {
     mavenCentral()
     mavenLocal()
-//    if (caUrl != null && caPassword != null) {
-//        maven {
-//            name = "CodeArtifact"
-//            url = caUrl!!
-//            credentials {
-//                username = "aws"
-//                password = caPassword!!
-//            }
-//        }
-//    }
-    maven {
-        url = URI.create("https://github-mpl-370957321024.d.codeartifact.us-west-2.amazonaws.com/maven/aws-sdk-preview-build/")
-        credentials {
-            username = "aws"
-            password = System.getenv("CODEARTIFACT_AUTH_TOKEN")
+    if (caUrl != null && caPassword != null) {
+        maven {
+            name = "CodeArtifact"
+            url = caUrl!!
+            credentials {
+                username = "aws"
+                password = caPassword!!
+            }
         }
     }
 }
@@ -71,8 +64,8 @@ dependencies {
     implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
     implementation("software.amazon.smithy.dafny:conversion:0.1")
     implementation("software.amazon.cryptography:StandardLibrary:1.0-SNAPSHOT")
-    implementation(platform("software.amazon.awssdk:bom:2.25.46"))
-    implementation("software.amazon.awssdk:kms:9.0.0-SNAPSHOT")
+    implementation(platform("software.amazon.awssdk:bom:2.26.3"))
+    implementation("software.amazon.awssdk:kms")
     implementation("software.amazon.awssdk:apache-client")
 }
 
@@ -104,4 +97,3 @@ tasks {
         classpath = sourceSets["test"].runtimeClasspath
     }
 }
-
