@@ -8,7 +8,6 @@ Modules
 .. autosummary::
     :toctree: generated
 
-    aws_cryptographic_materialproviders
     aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.client
     aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.config
     aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.errors

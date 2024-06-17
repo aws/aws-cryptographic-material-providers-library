@@ -16,6 +16,8 @@ standard-library = { path = "../../../StandardLibrary/runtimes/python", develop 
 amazon-cryptography-internal-dafny-shim-kms = {path = "../../../ComAmazonawsKms/runtimes/python", develop = false}
 amazon-cryptography-internal-dafny-shim-ddb = {path = "../../../ComAmazonawsDynamodb/runtimes/python", develop = false}
 aws-cryptography-primitives = {path = "../../../AwsCryptographyPrimitives/runtimes/python", develop = false}
+toml = "^0.10.2"
+myst-parser = "^3.0.1"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.0"
