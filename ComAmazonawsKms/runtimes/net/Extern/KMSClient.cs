@@ -2,6 +2,7 @@ using Amazon;
 using Amazon.KeyManagementService;
 using Wrappers_Compile;
 using Amazon.Runtime;
+using Amazon.Runtime.Endpoints;
 using Amazon.Runtime.Internal;
 using Amazon.Util;
 using Com.Amazonaws.Kms;

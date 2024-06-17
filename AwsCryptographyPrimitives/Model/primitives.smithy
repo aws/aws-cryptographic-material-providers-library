@@ -27,6 +27,13 @@ service AwsCryptographicPrimitives {
     GenerateECDSASignatureKey,
     ECDSASign,
     ECDSAVerify,
+    GenerateECCKeyPair,
+    GetPublicKeyFromPrivateKey,
+    ValidatePublicKey,
+    DeriveSharedSecret,
+    CompressPublicKey,
+    DecompressPublicKey,
+    ParsePublicKey
   ],
   errors: [AwsCryptographicPrimitivesError]
 }

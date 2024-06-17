@@ -17,6 +17,7 @@ import software.amazon.cryptography.materialproviders.ToNative;
 import software.amazon.cryptography.materialproviders.internaldafny.types.AlgorithmSuiteInfo;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsDiscoveryKeyringInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsDiscoveryMultiKeyringInput;
+import software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsEcdhKeyringInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsHierarchicalKeyringInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsKeyringInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsMrkDiscoveryKeyringInput;
@@ -30,6 +31,7 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.Create
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateDefaultCryptographicMaterialsManagerInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateMultiKeyringInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateRawAesKeyringInput;
+import software.amazon.cryptography.materialproviders.internaldafny.types.CreateRawEcdhKeyringInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateRawRsaKeyringInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateRequiredEncryptionContextCMMInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.DecryptionMaterials;
@@ -83,6 +85,21 @@ public class TestMaterialProviders
         ToNative.CreateAwsKmsDiscoveryMultiKeyringInput(dafnyInput);
       software.amazon.cryptography.materialproviders.IKeyring nativeOutput =
         this._impl.CreateAwsKmsDiscoveryMultiKeyring(nativeInput);
+      IKeyring dafnyOutput = ToDafny.Keyring(nativeOutput);
+      return Result.create_Success(dafnyOutput);
+    } catch (RuntimeException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    }
+  }
+
+  public Result<IKeyring, Error> CreateAwsKmsEcdhKeyring(
+    CreateAwsKmsEcdhKeyringInput dafnyInput
+  ) {
+    try {
+      software.amazon.cryptography.materialproviders.model.CreateAwsKmsEcdhKeyringInput nativeInput =
+        ToNative.CreateAwsKmsEcdhKeyringInput(dafnyInput);
+      software.amazon.cryptography.materialproviders.IKeyring nativeOutput =
+        this._impl.CreateAwsKmsEcdhKeyring(nativeInput);
       IKeyring dafnyOutput = ToDafny.Keyring(nativeOutput);
       return Result.create_Success(dafnyOutput);
     } catch (RuntimeException ex) {
@@ -286,6 +303,21 @@ public class TestMaterialProviders
         ToNative.CreateRawAesKeyringInput(dafnyInput);
       software.amazon.cryptography.materialproviders.IKeyring nativeOutput =
         this._impl.CreateRawAesKeyring(nativeInput);
+      IKeyring dafnyOutput = ToDafny.Keyring(nativeOutput);
+      return Result.create_Success(dafnyOutput);
+    } catch (RuntimeException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    }
+  }
+
+  public Result<IKeyring, Error> CreateRawEcdhKeyring(
+    CreateRawEcdhKeyringInput dafnyInput
+  ) {
+    try {
+      software.amazon.cryptography.materialproviders.model.CreateRawEcdhKeyringInput nativeInput =
+        ToNative.CreateRawEcdhKeyringInput(dafnyInput);
+      software.amazon.cryptography.materialproviders.IKeyring nativeOutput =
+        this._impl.CreateRawEcdhKeyring(nativeInput);
       IKeyring dafnyOutput = ToDafny.Keyring(nativeOutput);
       return Result.create_Success(dafnyOutput);
     } catch (RuntimeException ex) {

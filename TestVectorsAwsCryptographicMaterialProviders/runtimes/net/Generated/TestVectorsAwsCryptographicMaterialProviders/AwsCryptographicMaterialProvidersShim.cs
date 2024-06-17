@@ -149,6 +149,36 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
       }
 
     }
+    public Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring, software.amazon.cryptography.materialproviders.internaldafny.types._IError> CreateAwsKmsRsaKeyring(software.amazon.cryptography.materialproviders.internaldafny.types._ICreateAwsKmsRsaKeyringInput request)
+    {
+      try
+      {
+        AWS.Cryptography.MaterialProviders.CreateAwsKmsRsaKeyringInput unWrappedRequest = TypeConversion.FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S27_CreateAwsKmsRsaKeyringInput(request);
+        AWS.Cryptography.MaterialProviders.IKeyring wrappedResponse =
+        this._impl.CreateAwsKmsRsaKeyring(unWrappedRequest);
+        return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Success(TypeConversion.ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_CreateKeyringOutput(wrappedResponse));
+      }
+      catch (System.Exception ex)
+      {
+        return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Failure(this.ConvertError(ex));
+      }
+
+    }
+    public Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring, software.amazon.cryptography.materialproviders.internaldafny.types._IError> CreateAwsKmsEcdhKeyring(software.amazon.cryptography.materialproviders.internaldafny.types._ICreateAwsKmsEcdhKeyringInput request)
+    {
+      try
+      {
+        AWS.Cryptography.MaterialProviders.CreateAwsKmsEcdhKeyringInput unWrappedRequest = TypeConversion.FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput(request);
+        AWS.Cryptography.MaterialProviders.IKeyring wrappedResponse =
+        this._impl.CreateAwsKmsEcdhKeyring(unWrappedRequest);
+        return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Success(TypeConversion.ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_CreateKeyringOutput(wrappedResponse));
+      }
+      catch (System.Exception ex)
+      {
+        return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Failure(this.ConvertError(ex));
+      }
+
+    }
     public Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring, software.amazon.cryptography.materialproviders.internaldafny.types._IError> CreateMultiKeyring(software.amazon.cryptography.materialproviders.internaldafny.types._ICreateMultiKeyringInput request)
     {
       try
@@ -194,13 +224,13 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
       }
 
     }
-    public Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring, software.amazon.cryptography.materialproviders.internaldafny.types._IError> CreateAwsKmsRsaKeyring(software.amazon.cryptography.materialproviders.internaldafny.types._ICreateAwsKmsRsaKeyringInput request)
+    public Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring, software.amazon.cryptography.materialproviders.internaldafny.types._IError> CreateRawEcdhKeyring(software.amazon.cryptography.materialproviders.internaldafny.types._ICreateRawEcdhKeyringInput request)
     {
       try
       {
-        AWS.Cryptography.MaterialProviders.CreateAwsKmsRsaKeyringInput unWrappedRequest = TypeConversion.FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S27_CreateAwsKmsRsaKeyringInput(request);
+        AWS.Cryptography.MaterialProviders.CreateRawEcdhKeyringInput unWrappedRequest = TypeConversion.FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S25_CreateRawEcdhKeyringInput(request);
         AWS.Cryptography.MaterialProviders.IKeyring wrappedResponse =
-        this._impl.CreateAwsKmsRsaKeyring(unWrappedRequest);
+        this._impl.CreateRawEcdhKeyring(unWrappedRequest);
         return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Success(TypeConversion.ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_CreateKeyringOutput(wrappedResponse));
       }
       catch (System.Exception ex)

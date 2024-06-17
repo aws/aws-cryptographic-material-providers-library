@@ -41,6 +41,9 @@ module TestComAmazonawsDynamoDB {
     );
 
     var putRet := client.PutItem(putInput);
+    if putRet.Failure? {
+      print putRet.error;
+    }
     expect putRet.Success?;
 
     // Test GetItem
@@ -60,6 +63,9 @@ module TestComAmazonawsDynamoDB {
     );
 
     var getRet := client.GetItem(getInput);
+    if getRet.Failure? {
+      print getRet.error;
+    }
     expect getRet.Success?;
 
     var itemOutput := getRet.value;
@@ -100,6 +106,9 @@ module TestComAmazonawsDynamoDB {
     );
 
     var queryRet := client.Query(queryInput);
+    if queryRet.Failure? {
+      print queryRet.error;
+    }
     expect queryRet.Success?;
 
     var queryOutput := queryRet.value;
