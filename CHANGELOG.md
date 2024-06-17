@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.5.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.4.0...v1.5.0) (2024-06-17)
+
+
+### Features
+
+* **MPL:** Add Raw ECDH and AWS KMS ECDH Keyrings ([#419](https://github.com/aws/aws-cryptographic-material-providers-library/issues/419)) ([0946a7e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/0946a7ed801a6269565651cfe2ef17831d89d99c))
+
 # [1.4.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.3.0...v1.4.0) (2024-05-20)
 
 ### Features
