@@ -84,7 +84,7 @@ class MutableMap(standard_library.internaldafny.generated.DafnyLibraries.Mutable
     # Added by Crypto Tools.
     # Crypto Tools externs refer to a non-existent `Select` method.
     def Select(self, k):
-        return self.Get(k)
+        return self.Get(k).value
 
 # This is copy-pasted from DafnyStandardLibraries:
 # https://github.com/dafny-lang/dafny/blob/f01af4a4e86a038ed4ea9f81464b2c9bca1955e4/Source/DafnyStandardLibraries/src/Std_FileIOInternalExterns.py
