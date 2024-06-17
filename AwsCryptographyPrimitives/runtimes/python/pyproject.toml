@@ -16,7 +16,7 @@ standard-library = {path = "../../../StandardLibrary/runtimes/python", develop =
 cryptography = "^41.0.3"
 six = "^1.16.0"
 toml = "^0.10.2"
-recommonmark = "^0.7.1"
+recommonmark = "^0.4.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.0"
