@@ -16,10 +16,6 @@ The latest full documentation can be found at `Read the Docs`_.
 
 Find us on `GitHub`_.
 
-`Security issue notifications`_
-
-See `Support Policy`_ for details on the current support status of all major versions of this library.
-
 ***************
 Getting Started
 ***************
@@ -34,5 +30,3 @@ Required Prerequisites
 .. _cryptography installation guide: https://cryptography.io/en/latest/installation/
 .. _Read the Docs: https://aws-cryptographic-material-providers-library.readthedocs.io/en/latest/
 .. _GitHub: https://github.com/aws/aws-cryptographic-material-providers-library
-.. _Security issue notifications: ./CONTRIBUTING.md#security-issue-notifications
-.. _Support Policy: ./SUPPORT_POLICY.rst
