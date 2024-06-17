@@ -437,13 +437,13 @@ structure CreateRawAesKeyringInput {
     grantTokens: GrantTokenList
   }
   
-  @javadoc("Creates an AWS KMS ECDH Keyring, which wraps and unwraps datakeys by deriving a shared data key from the established shared secret between parties through the ECDH protocol.")
+  @javadoc("Creates an AWS KMS ECDH Keyring, which wraps and unwraps data keys by deriving a shared data key from the established shared secret between parties through the ECDH protocol.")
   operation CreateAwsKmsEcdhKeyring {
     input: CreateAwsKmsEcdhKeyringInput,
     output: CreateKeyringOutput 
   }
 
-  @javadoc("Inputs for creating a AWS KMS ECDH Keyring.")
+  @javadoc("Inputs for creating an AWS KMS ECDH Keyring.")
   structure CreateAwsKmsEcdhKeyringInput {
     
     @required
@@ -462,7 +462,7 @@ structure CreateRawAesKeyringInput {
     grantTokens: GrantTokenList
   } 
   
-  @javadoc("Creates a Raw ECDH Keyring, which wraps and unwraps datakeys by deriving a shared data key from the established shared secret between parties through the ECDH protocol.")
+  @javadoc("Creates a Raw ECDH Keyring, which wraps and unwraps data keys by deriving a shared data key from the established shared secret between parties through the ECDH protocol.")
   operation CreateRawEcdhKeyring {
     input: CreateRawEcdhKeyringInput,
     output: CreateKeyringOutput 
@@ -476,6 +476,6 @@ structure CreateRawAesKeyringInput {
     KeyAgreementScheme: RawEcdhStaticConfigurations,
     
     @required
-    @javadoc("The named curve that corresponds to the curve on which the sender's private and recipient's public key lie.")
+    @javadoc("The the curve on which the points for the sender's private and recipient's public key lie.")
     curveSpec: aws.cryptography.primitives#ECDHCurveSpec,
   }

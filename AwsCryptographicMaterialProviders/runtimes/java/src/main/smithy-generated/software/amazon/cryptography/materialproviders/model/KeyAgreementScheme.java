@@ -6,12 +6,12 @@ package software.amazon.cryptography.materialproviders.model;
 import java.util.Objects;
 
 /**
- * Supported ECDH KeyAgreement Schemes
+ * Supported ECDH Key Agreement Schemes.
  */
 public class KeyAgreementScheme {
 
   /**
-   * Supported configurations for the StaticConfiguration Key Agreement Scheme
+   * Supported configurations for the StaticConfiguration Key Agreement Scheme.
    */
   private final StaticConfigurations StaticConfiguration;
 
@@ -20,7 +20,7 @@ public class KeyAgreementScheme {
   }
 
   /**
-   * @return Supported configurations for the StaticConfiguration Key Agreement Scheme
+   * @return Supported configurations for the StaticConfiguration Key Agreement Scheme.
    */
   public StaticConfigurations StaticConfiguration() {
     return this.StaticConfiguration;
@@ -36,12 +36,12 @@ public class KeyAgreementScheme {
 
   public interface Builder {
     /**
-     * @param StaticConfiguration Supported configurations for the StaticConfiguration Key Agreement Scheme
+     * @param StaticConfiguration Supported configurations for the StaticConfiguration Key Agreement Scheme.
      */
     Builder StaticConfiguration(StaticConfigurations StaticConfiguration);
 
     /**
-     * @return Supported configurations for the StaticConfiguration Key Agreement Scheme
+     * @return Supported configurations for the StaticConfiguration Key Agreement Scheme.
      */
     StaticConfigurations StaticConfiguration();
 

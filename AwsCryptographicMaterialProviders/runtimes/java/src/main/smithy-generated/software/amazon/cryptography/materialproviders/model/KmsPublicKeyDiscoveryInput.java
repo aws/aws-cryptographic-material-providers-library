@@ -6,12 +6,12 @@ package software.amazon.cryptography.materialproviders.model;
 import java.util.Objects;
 
 /**
- * Inputs for creating a KmsPublicKeyDiscovery Configuration. This is a DECRYPT ONLY configuration
+ * Inputs for creating a KmsPublicKeyDiscovery Configuration. This is a DECRYPT ONLY configuration.
  */
 public class KmsPublicKeyDiscoveryInput {
 
   /**
-   * AWS KMS key identifier belonging to the recipient
+   * AWS KMS key identifier belonging to the recipient.
    */
   private final String recipientKmsIdentifier;
 
@@ -20,7 +20,7 @@ public class KmsPublicKeyDiscoveryInput {
   }
 
   /**
-   * @return AWS KMS key identifier belonging to the recipient
+   * @return AWS KMS key identifier belonging to the recipient.
    */
   public String recipientKmsIdentifier() {
     return this.recipientKmsIdentifier;
@@ -36,12 +36,12 @@ public class KmsPublicKeyDiscoveryInput {
 
   public interface Builder {
     /**
-     * @param recipientKmsIdentifier AWS KMS key identifier belonging to the recipient
+     * @param recipientKmsIdentifier AWS KMS key identifier belonging to the recipient.
      */
     Builder recipientKmsIdentifier(String recipientKmsIdentifier);
 
     /**
-     * @return AWS KMS key identifier belonging to the recipient
+     * @return AWS KMS key identifier belonging to the recipient.
      */
     String recipientKmsIdentifier();
 

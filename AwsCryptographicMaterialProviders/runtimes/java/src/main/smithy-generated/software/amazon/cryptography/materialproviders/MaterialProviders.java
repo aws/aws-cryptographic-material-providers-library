@@ -112,9 +112,9 @@ public class MaterialProviders {
   }
 
   /**
-   * Creates an AWS KMS ECDH Keyring, which wraps and unwraps datakeys by deriving a shared data key from the established shared secret between parties through the ECDH protocol.
+   * Creates an AWS KMS ECDH Keyring, which wraps and unwraps data keys by deriving a shared data key from the established shared secret between parties through the ECDH protocol.
    *
-   * @param input Inputs for creating a AWS KMS ECDH Keyring.
+   * @param input Inputs for creating an AWS KMS ECDH Keyring.
    * @return Outputs for creating a Keyring.
    */
   public IKeyring CreateAwsKmsEcdhKeyring(CreateAwsKmsEcdhKeyringInput input) {
@@ -383,7 +383,7 @@ public class MaterialProviders {
   }
 
   /**
-   * Creates a Raw ECDH Keyring, which wraps and unwraps datakeys by deriving a shared data key from the established shared secret between parties through the ECDH protocol.
+   * Creates a Raw ECDH Keyring, which wraps and unwraps data keys by deriving a shared data key from the established shared secret between parties through the ECDH protocol.
    *
    * @param input Inputs for creating a raw ECDH Keyring.
    * @return Outputs for creating a Keyring.

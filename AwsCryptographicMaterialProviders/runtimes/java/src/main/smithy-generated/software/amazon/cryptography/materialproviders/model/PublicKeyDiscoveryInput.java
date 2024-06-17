@@ -12,7 +12,7 @@ import java.util.Objects;
 public class PublicKeyDiscoveryInput {
 
   /**
-   * The sender's private key. MUST be PEM encoded
+   * The sender's private key. MUST be PEM encoded.
    */
   private final ByteBuffer recipientStaticPrivateKey;
 
@@ -21,7 +21,7 @@ public class PublicKeyDiscoveryInput {
   }
 
   /**
-   * @return The sender's private key. MUST be PEM encoded
+   * @return The sender's private key. MUST be PEM encoded.
    */
   public ByteBuffer recipientStaticPrivateKey() {
     return this.recipientStaticPrivateKey;
@@ -37,12 +37,12 @@ public class PublicKeyDiscoveryInput {
 
   public interface Builder {
     /**
-     * @param recipientStaticPrivateKey The sender's private key. MUST be PEM encoded
+     * @param recipientStaticPrivateKey The sender's private key. MUST be PEM encoded.
      */
     Builder recipientStaticPrivateKey(ByteBuffer recipientStaticPrivateKey);
 
     /**
-     * @return The sender's private key. MUST be PEM encoded
+     * @return The sender's private key. MUST be PEM encoded.
      */
     ByteBuffer recipientStaticPrivateKey();
 

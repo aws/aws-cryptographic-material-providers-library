@@ -6,12 +6,12 @@ package software.amazon.cryptography.materialproviders.model;
 import java.util.Objects;
 
 /**
- * Allowed configurations when using a KmsEcdhStaticConfigurations
+ * Allowed configurations when using KmsEcdhStaticConfigurations.
  */
 public class KmsEcdhStaticConfigurations {
 
   /**
-   * Inputs for creating a KmsPublicKeyDiscovery Configuration. This is a DECRYPT ONLY configuration
+   * Inputs for creating a KmsPublicKeyDiscovery Configuration. This is a DECRYPT ONLY configuration.
    */
   private final KmsPublicKeyDiscoveryInput KmsPublicKeyDiscovery;
 
@@ -27,7 +27,7 @@ public class KmsEcdhStaticConfigurations {
   }
 
   /**
-   * @return Inputs for creating a KmsPublicKeyDiscovery Configuration. This is a DECRYPT ONLY configuration
+   * @return Inputs for creating a KmsPublicKeyDiscovery Configuration. This is a DECRYPT ONLY configuration.
    */
   public KmsPublicKeyDiscoveryInput KmsPublicKeyDiscovery() {
     return this.KmsPublicKeyDiscovery;
@@ -50,14 +50,14 @@ public class KmsEcdhStaticConfigurations {
 
   public interface Builder {
     /**
-     * @param KmsPublicKeyDiscovery Inputs for creating a KmsPublicKeyDiscovery Configuration. This is a DECRYPT ONLY configuration
+     * @param KmsPublicKeyDiscovery Inputs for creating a KmsPublicKeyDiscovery Configuration. This is a DECRYPT ONLY configuration.
      */
     Builder KmsPublicKeyDiscovery(
       KmsPublicKeyDiscoveryInput KmsPublicKeyDiscovery
     );
 
     /**
-     * @return Inputs for creating a KmsPublicKeyDiscovery Configuration. This is a DECRYPT ONLY configuration
+     * @return Inputs for creating a KmsPublicKeyDiscovery Configuration. This is a DECRYPT ONLY configuration.
      */
     KmsPublicKeyDiscoveryInput KmsPublicKeyDiscovery();
 

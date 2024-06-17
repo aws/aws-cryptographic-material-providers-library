@@ -12,7 +12,7 @@ import java.util.Objects;
 public class RawPrivateKeyToStaticPublicKeyInput {
 
   /**
-   * The sender's private key. MUST be PEM encoded
+   * The sender's private key. MUST be PEM encoded.
    */
   private final ByteBuffer senderStaticPrivateKey;
 
@@ -27,7 +27,7 @@ public class RawPrivateKeyToStaticPublicKeyInput {
   }
 
   /**
-   * @return The sender's private key. MUST be PEM encoded
+   * @return The sender's private key. MUST be PEM encoded.
    */
   public ByteBuffer senderStaticPrivateKey() {
     return this.senderStaticPrivateKey;
@@ -50,12 +50,12 @@ public class RawPrivateKeyToStaticPublicKeyInput {
 
   public interface Builder {
     /**
-     * @param senderStaticPrivateKey The sender's private key. MUST be PEM encoded
+     * @param senderStaticPrivateKey The sender's private key. MUST be PEM encoded.
      */
     Builder senderStaticPrivateKey(ByteBuffer senderStaticPrivateKey);
 
     /**
-     * @return The sender's private key. MUST be PEM encoded
+     * @return The sender's private key. MUST be PEM encoded.
      */
     ByteBuffer senderStaticPrivateKey();
 

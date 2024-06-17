@@ -6,17 +6,17 @@ package software.amazon.cryptography.materialproviders.model;
 import java.util.Objects;
 
 /**
- * Supported configurations for the StaticConfiguration Key Agreement Scheme
+ * Supported configurations for the StaticConfiguration Key Agreement Scheme.
  */
 public class StaticConfigurations {
 
   /**
-   * Allowed configurations when using a KmsEcdhStaticConfigurations
+   * Allowed configurations when using KmsEcdhStaticConfigurations.
    */
   private final KmsEcdhStaticConfigurations AWS_KMS_ECDH;
 
   /**
-   * List of configurations when using a RawEcdhStaticConfigurations
+   * List of configurations when using RawEcdhStaticConfigurations.
    */
   private final RawEcdhStaticConfigurations RAW_ECDH;
 
@@ -26,14 +26,14 @@ public class StaticConfigurations {
   }
 
   /**
-   * @return Allowed configurations when using a KmsEcdhStaticConfigurations
+   * @return Allowed configurations when using KmsEcdhStaticConfigurations.
    */
   public KmsEcdhStaticConfigurations AWS_KMS_ECDH() {
     return this.AWS_KMS_ECDH;
   }
 
   /**
-   * @return List of configurations when using a RawEcdhStaticConfigurations
+   * @return List of configurations when using RawEcdhStaticConfigurations.
    */
   public RawEcdhStaticConfigurations RAW_ECDH() {
     return this.RAW_ECDH;
@@ -49,22 +49,22 @@ public class StaticConfigurations {
 
   public interface Builder {
     /**
-     * @param AWS_KMS_ECDH Allowed configurations when using a KmsEcdhStaticConfigurations
+     * @param AWS_KMS_ECDH Allowed configurations when using KmsEcdhStaticConfigurations.
      */
     Builder AWS_KMS_ECDH(KmsEcdhStaticConfigurations AWS_KMS_ECDH);
 
     /**
-     * @return Allowed configurations when using a KmsEcdhStaticConfigurations
+     * @return Allowed configurations when using KmsEcdhStaticConfigurations.
      */
     KmsEcdhStaticConfigurations AWS_KMS_ECDH();
 
     /**
-     * @param RAW_ECDH List of configurations when using a RawEcdhStaticConfigurations
+     * @param RAW_ECDH List of configurations when using RawEcdhStaticConfigurations.
      */
     Builder RAW_ECDH(RawEcdhStaticConfigurations RAW_ECDH);
 
     /**
-     * @return List of configurations when using a RawEcdhStaticConfigurations
+     * @return List of configurations when using RawEcdhStaticConfigurations.
      */
     RawEcdhStaticConfigurations RAW_ECDH();
 

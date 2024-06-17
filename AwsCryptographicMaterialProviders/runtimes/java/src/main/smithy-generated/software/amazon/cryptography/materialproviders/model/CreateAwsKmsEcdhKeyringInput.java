@@ -9,7 +9,7 @@ import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.cryptography.primitives.model.ECDHCurveSpec;
 
 /**
- * Inputs for creating a AWS KMS ECDH Keyring.
+ * Inputs for creating an AWS KMS ECDH Keyring.
  */
 public class CreateAwsKmsEcdhKeyringInput {
 

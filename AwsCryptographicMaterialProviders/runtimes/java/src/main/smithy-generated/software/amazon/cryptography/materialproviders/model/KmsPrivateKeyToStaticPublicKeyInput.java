@@ -12,7 +12,7 @@ import java.util.Objects;
 public class KmsPrivateKeyToStaticPublicKeyInput {
 
   /**
-   * AWS KMS Key Identifier belonging to the sender
+   * AWS KMS Key Identifier belonging to the sender.
    */
   private final String senderKmsIdentifier;
 
@@ -22,7 +22,7 @@ public class KmsPrivateKeyToStaticPublicKeyInput {
   private final ByteBuffer senderPublicKey;
 
   /**
-   * Recipient Public Key. This is a raw public ECC key in DER format.
+   * Recipient Public Key. This MUST be a raw public ECC key in DER format.
    */
   private final ByteBuffer recipientPublicKey;
 
@@ -33,7 +33,7 @@ public class KmsPrivateKeyToStaticPublicKeyInput {
   }
 
   /**
-   * @return AWS KMS Key Identifier belonging to the sender
+   * @return AWS KMS Key Identifier belonging to the sender.
    */
   public String senderKmsIdentifier() {
     return this.senderKmsIdentifier;
@@ -47,7 +47,7 @@ public class KmsPrivateKeyToStaticPublicKeyInput {
   }
 
   /**
-   * @return Recipient Public Key. This is a raw public ECC key in DER format.
+   * @return Recipient Public Key. This MUST be a raw public ECC key in DER format.
    */
   public ByteBuffer recipientPublicKey() {
     return this.recipientPublicKey;
@@ -63,12 +63,12 @@ public class KmsPrivateKeyToStaticPublicKeyInput {
 
   public interface Builder {
     /**
-     * @param senderKmsIdentifier AWS KMS Key Identifier belonging to the sender
+     * @param senderKmsIdentifier AWS KMS Key Identifier belonging to the sender.
      */
     Builder senderKmsIdentifier(String senderKmsIdentifier);
 
     /**
-     * @return AWS KMS Key Identifier belonging to the sender
+     * @return AWS KMS Key Identifier belonging to the sender.
      */
     String senderKmsIdentifier();
 
@@ -83,12 +83,12 @@ public class KmsPrivateKeyToStaticPublicKeyInput {
     ByteBuffer senderPublicKey();
 
     /**
-     * @param recipientPublicKey Recipient Public Key. This is a raw public ECC key in DER format.
+     * @param recipientPublicKey Recipient Public Key. This MUST be a raw public ECC key in DER format.
      */
     Builder recipientPublicKey(ByteBuffer recipientPublicKey);
 
     /**
-     * @return Recipient Public Key. This is a raw public ECC key in DER format.
+     * @return Recipient Public Key. This MUST be a raw public ECC key in DER format.
      */
     ByteBuffer recipientPublicKey();
 

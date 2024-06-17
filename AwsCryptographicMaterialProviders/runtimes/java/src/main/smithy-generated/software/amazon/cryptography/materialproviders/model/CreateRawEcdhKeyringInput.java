@@ -17,7 +17,7 @@ public class CreateRawEcdhKeyringInput {
   private final RawEcdhStaticConfigurations KeyAgreementScheme;
 
   /**
-   * The named curve that corresponds to the curve on which the sender's private and recipient's public key lie.
+   * The the curve on which the points for the sender's private and recipient's public key lie.
    */
   private final ECDHCurveSpec curveSpec;
 
@@ -34,7 +34,7 @@ public class CreateRawEcdhKeyringInput {
   }
 
   /**
-   * @return The named curve that corresponds to the curve on which the sender's private and recipient's public key lie.
+   * @return The the curve on which the points for the sender's private and recipient's public key lie.
    */
   public ECDHCurveSpec curveSpec() {
     return this.curveSpec;
@@ -60,12 +60,12 @@ public class CreateRawEcdhKeyringInput {
     RawEcdhStaticConfigurations KeyAgreementScheme();
 
     /**
-     * @param curveSpec The named curve that corresponds to the curve on which the sender's private and recipient's public key lie.
+     * @param curveSpec The the curve on which the points for the sender's private and recipient's public key lie.
      */
     Builder curveSpec(ECDHCurveSpec curveSpec);
 
     /**
-     * @return The named curve that corresponds to the curve on which the sender's private and recipient's public key lie.
+     * @return The the curve on which the points for the sender's private and recipient's public key lie.
      */
     ECDHCurveSpec curveSpec();
 

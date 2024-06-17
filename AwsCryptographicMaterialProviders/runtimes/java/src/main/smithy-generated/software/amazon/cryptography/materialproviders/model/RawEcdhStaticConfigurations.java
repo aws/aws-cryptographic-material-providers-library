@@ -6,7 +6,7 @@ package software.amazon.cryptography.materialproviders.model;
 import java.util.Objects;
 
 /**
- * List of configurations when using a RawEcdhStaticConfigurations
+ * List of configurations when using RawEcdhStaticConfigurations.
  */
 public class RawEcdhStaticConfigurations {
 
