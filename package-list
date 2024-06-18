@@ -3,6 +3,7 @@ AwsArnParsing_Compile
 AwsCryptographyKeyStoreOperations_Compile
 AwsCryptographyMaterialProvidersOperations_Compile
 AwsKmsDiscoveryKeyring_Compile
+AwsKmsEcdhKeyring_Compile
 AwsKmsHierarchicalKeyring_Compile
 AwsKmsKeyring_Compile
 AwsKmsMrkAreUnique_Compile
@@ -22,6 +23,7 @@ DefaultCMM_Compile
 DefaultClientSupplier_Compile
 Defaults_Compile
 DiscoveryMultiKeyring_Compile
+EcdhEdkWrapping_Compile
 EdkWrapping_Compile
 ErrorMessages_Compile
 GetKeys_Compile
@@ -37,11 +39,13 @@ MrkAwareDiscoveryMultiKeyring_Compile
 MrkAwareStrictMultiKeyring_Compile
 MultiKeyring_Compile
 RawAESKeyring_Compile
+RawECDHKeyring_Compile
 RawRSAKeyring_Compile
 RequiredEncryptionContextCMM_Compile
 StormTracker_Compile
 StrictMultiKeyring_Compile
 Structure_Compile
+Utils_Compile
 _System
 dafny
 software.amazon.cryptography.internaldafny.StormTrackingCMC
