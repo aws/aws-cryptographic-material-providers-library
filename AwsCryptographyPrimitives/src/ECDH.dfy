@@ -197,4 +197,20 @@ module {:extern "ECDH"} ECDH {
   function method CreateExternParsePublicKeySuccess(output: seq<uint8>): Result<seq<uint8>, Types.Error> {
     Success(output)
   }
+
+  function method CreateGetInfinityPublicKeyError(error: Types.Error): Result<seq<uint8>, Types.Error> {
+    Failure(error)
+  }
+
+  function method CreateGetInfinityPublicKeySuccess(output: seq<uint8>): Result<seq<uint8>, Types.Error> {
+    Success(output)
+  }
+
+  function method CreateGetOutOfBoundsPublicKeyError(error: Types.Error): Result<seq<uint8>, Types.Error> {
+    Failure(error)
+  }
+
+  function method CreateGetOutOfBoundsPublicKeySuccess(output: seq<uint8>): Result<seq<uint8>, Types.Error> {
+    Success(output)
+  }
 }

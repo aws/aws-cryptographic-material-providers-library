@@ -4,22 +4,18 @@
 
 using System.Security.Cryptography;
 using System.Text;
+using AWS.Cryptography.Primitives;
 using Dafny;
 using Org.BouncyCastle.Asn1;
-using Org.BouncyCastle.Asn1.Pkcs;
-using Org.BouncyCastle.Asn1.Sec;
 using Org.BouncyCastle.Asn1.X509;
 using Org.BouncyCastle.Asn1.X9;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Agreement;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Crypto.Signers;
 using Org.BouncyCastle.Math;
-using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
 using Org.BouncyCastle.Utilities;
-using Org.BouncyCastle.Utilities.IO.Pem;
 using Org.BouncyCastle.X509;
 using software.amazon.cryptography.primitives.internaldafny.types;
 using Wrappers_Compile;
@@ -27,13 +23,11 @@ using icharseq = Dafny.ISequence<char>;
 using ibyteseq = Dafny.ISequence<byte>;
 using byteseq = Dafny.Sequence<byte>;
 using _IError = software.amazon.cryptography.primitives.internaldafny.types._IError;
-using Asn1Object = ThirdParty.BouncyCastle.Asn1.Asn1Object;
 using ECCurve = Org.BouncyCastle.Math.EC.ECCurve;
 using ECPoint = Org.BouncyCastle.Math.EC.ECPoint;
 using Error_Opaque = software.amazon.cryptography.primitives.internaldafny.types.Error_Opaque;
 using PemReader = Org.BouncyCastle.OpenSsl.PemReader;
 using PemWriter = Org.BouncyCastle.OpenSsl.PemWriter;
-using X509Certificate = System.Security.Cryptography.X509Certificates.X509Certificate;
 
 namespace ECDH
 {
@@ -82,6 +76,13 @@ namespace ECDH
 
     public partial class ECCUtils
     {
+        private static Dictionary<string, int> CURVE_TO_ECC_SECRET_LENGTH_MAP = new()
+        {
+            ["P256"] = 256/8,
+            ["P384"] = 384/8,
+            ["P521"] = 521/8 + 1
+        };
+        
         public static _IResult<Dafny.ISequence<byte>, _IError> GetPublicKey(_IECDHCurveSpec curveSpec,
             _IECCPrivateKey privateKey)
         {
@@ -180,7 +181,8 @@ namespace ECDH
             }
             catch (Exception e)
             {
-                return Result<bool, _IError>.create_Failure(new Error_Opaque(e));
+                return Result<bool, _IError>.create_Failure(
+                    new Error_AwsCryptographicPrimitivesError(Sequence<char>.FromString(e.Message)));
             }
         }
 
@@ -330,6 +332,77 @@ namespace ECDH
                 throw new Exception($"Unsupported ECC Algorithm: {dtorEccCurve}");
             }
             return p;
+        }
+
+        public static _IResult<ibyteseq, _IError> GetInfinityPublicKey(_IECDHCurveSpec curve)
+        {
+            ECKeyPairGenerator generator = new ECKeyPairGenerator();
+            SecureRandom rng = new SecureRandom();
+            X9ECParameters p = GetX9EcParameters(curve);
+
+            var domainParameters = new ECDomainParameters(p.Curve, p.G, p.N, p.H);
+            generator.Init(new ECKeyGenerationParameters(domainParameters, rng));
+            AsymmetricCipherKeyPair kp = generator.GenerateKeyPair();
+            ECPublicKeyParameters publicKeyParameters = (ECPublicKeyParameters)kp.Public;
+            // serialize the public and private keys, and then return them
+            var publicKey = KeyGeneration.SerializePublicKey(kp, curve);
+            var seqWithAlgInfo = Asn1Sequence.GetInstance(publicKey.CloneAsArray());
+            
+            // Build a pub key with the point at infinity defined as a 1 byte zero array. 
+            var point = new DerBitString(new byte[1]);
+            var seq = new DerSequence(new Asn1EncodableVector(seqWithAlgInfo[0], point));
+
+            return new Result_Success<ibyteseq, _IError>(byteseq.FromArray(seq.GetDerEncoded()));
+        }
+        
+        public static _IResult<ibyteseq, _IError> GetOutOfBoundsPublicKey(_IECDHCurveSpec curve)
+        {
+            ECKeyPairGenerator generator = new ECKeyPairGenerator();
+            SecureRandom rng = new SecureRandom();
+            X9ECParameters p = GetX9EcParameters(curve);
+
+            var domainParameters = new ECDomainParameters(p.Curve, p.G, p.N, p.H);
+            generator.Init(new ECKeyGenerationParameters(domainParameters, rng));
+            AsymmetricCipherKeyPair kp = generator.GenerateKeyPair();
+            ECPublicKeyParameters publicKeyParameters = (ECPublicKeyParameters)kp.Public;
+            var publicKey = KeyGeneration.SerializePublicKey(kp, curve);
+            var seqWithAlgInfo = Asn1Sequence.GetInstance(publicKey.CloneAsArray());
+            
+            
+            // build an out of bounds public key
+            var pointArray = new byte[1 + (2 * CURVE_TO_ECC_SECRET_LENGTH_MAP[GetCurveStringName(curve)])];
+            // by casting -1 to a byte we force writing 255
+            Fill(pointArray, -1);
+            pointArray[0] = 0x04;
+            
+            // Build a pub key with the point at infinity defined as a 1 byte zero array. 
+            var point = new DerBitString(pointArray);
+            var seq = new DerSequence(new Asn1EncodableVector(seqWithAlgInfo[0], point));
+
+            return new Result_Success<ibyteseq, _IError>(byteseq.FromArray(seq.GetDerEncoded()));
+        }
+
+        private static void Fill(byte[] arr, int val)
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i] = unchecked((byte)val);
+            }
+        }
+
+        private static string GetCurveStringName(_IECDHCurveSpec curve)
+        {
+            switch (curve)
+            {
+                case ECDHCurveSpec_ECC__NIST__P256:
+                    return "P256";
+                case ECDHCurveSpec_ECC__NIST__P384:
+                    return "P384";
+                case ECDHCurveSpec_ECC__NIST__P521:
+                    return "P521";
+                default:
+                    throw new Exception("Curve not supported");
+            }
         }
     }
 

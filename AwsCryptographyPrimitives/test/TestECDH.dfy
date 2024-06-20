@@ -10,6 +10,7 @@ module TestECDH {
   import Types = Aws.Cryptography.Primitives.Types
   import UTF8
   import HexStrings
+  import Base64
   import opened Wrappers
   import ECDH
 
@@ -86,6 +87,14 @@ module TestECDH {
                               + "00000000000000000000000000000000000000000000000000000000000000000000000"
                               + "00000000000000000000000000000000000000000000000000000000000000000000000"
                               + "00000000000000000000000000000000001"
+
+  const INFINITY_POINT_ERR_MSG_JAVA := "encoded key spec not recognized: Point at infinity"
+  const INFINITY_POINT_ERR_MSG_NET6 := "Point at infinity (Parameter 'q')"
+  const INFINITY_POINT_ERR_MSG_NET48 := "Point at infinity\nParameter name: q"
+
+  const OUT_OF_BOUNDS_ERR_MSG_JAVA := "encoded key spec not recognized: x value invalid for"
+  const OUT_OF_BOUNDS_ERR_MSG_NET6 := "value invalid for Fp field element (Parameter 'x')"
+  const OUT_OF_BOUNDS_ERR_MSG_NE48 := "value invalid for Fp field element\nParameter name: x"
 
   method {:test} TestKeyGen()
   {
@@ -380,5 +389,78 @@ module TestECDH {
       expect publicKeyBytes == decompressedPublicKey.der;
     }
   }
+
+  method {:test} TestPublicKeyValidationTestVectorsInfinity()
+  {
+    var curves := [P256, P384, P521];
+
+    for i := 0 to |curves|
+    {
+      var der_ecc_inf :- expect GetInfinityPublicKey(curves[i]);
+
+      var validPublicKeyB := ECDH.ValidatePublicKey(
+        Types.ValidatePublicKeyInput(
+          eccCurve := curves[i],
+          publicKey := der_ecc_inf
+        ));
+
+      expect validPublicKeyB.Failure?;
+      expect validPublicKeyB.error.AwsCryptographicPrimitivesError?;
+      var errMsg := validPublicKeyB.error.message;
+
+      expect (
+          errMsg == INFINITY_POINT_ERR_MSG_JAVA ||
+          errMsg == INFINITY_POINT_ERR_MSG_NET6 ||
+          errMsg == INFINITY_POINT_ERR_MSG_NET48
+        );
+    }
+  }
+
+  method {:test} TestPublicKeyValidationTestVectorsOutOfBounds()
+  {
+    var curves := [P256, P384, P521];
+
+    for i := 0 to |curves|
+    {
+      var der_ecc_inf :- expect GetOutOfBoundsPublicKey(curves[i]);
+
+      var validPublicKeyB := ECDH.ValidatePublicKey(
+        Types.ValidatePublicKeyInput(
+          eccCurve := curves[i],
+          publicKey := der_ecc_inf
+        ));
+
+      expect validPublicKeyB.Failure?;
+      expect validPublicKeyB.error.AwsCryptographicPrimitivesError?;
+      var errMsg := validPublicKeyB.error.message;
+
+      expect (
+          seq_contains(errMsg, OUT_OF_BOUNDS_ERR_MSG_JAVA) ||
+          errMsg == OUT_OF_BOUNDS_ERR_MSG_NET6 ||
+          errMsg == OUT_OF_BOUNDS_ERR_MSG_NE48
+        );
+    }
+
+  }
+
+  predicate method  {:tailrecursion} seq_contains<T(==)>(haystack : seq<T>, needle : seq<T>)
+  {
+    if |needle| == 0 then
+      true
+    else if |haystack| == 0 then
+      false
+    else if |haystack| < |needle|  then
+      false
+    else if needle[0] == haystack[0] && needle[1..] <= haystack[1..] then
+      true
+    else
+      seq_contains(haystack[1..], needle)
+  }
+
+  method {:extern "ECDH.ECCUtils", "GetInfinityPublicKey" } GetInfinityPublicKey(curve: Types.ECDHCurveSpec)
+    returns (res: Result<seq<uint8>, Types.Error>)
+
+  method {:extern "ECDH.ECCUtils", "GetOutOfBoundsPublicKey" } GetOutOfBoundsPublicKey(curve: Types.ECDHCurveSpec)
+    returns (res: Result<seq<uint8>, Types.Error>)
 
 }
