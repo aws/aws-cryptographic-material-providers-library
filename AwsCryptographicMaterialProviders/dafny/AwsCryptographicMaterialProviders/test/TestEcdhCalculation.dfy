@@ -17,11 +17,15 @@ module TestEcdhCalculation {
   import PrimitiveTypes = AwsCryptographyPrimitivesTypes
   import ComAmazonawsKmsTypes
   import UTF8
+  import Base64
 
   // ECC Curve P256 Keys
   const senderKmsKey    := "arn:aws:kms:us-west-2:370957321024:key/eabdf483-6be2-4d2d-8ee4-8c2583d416e9";
   const recipientKmsKey := "arn:aws:kms:us-west-2:370957321024:key/0265c8e9-5b6a-4055-8f70-63719e09fda5";
   const senderArns := [TestUtils.KMS_ECC_256_KEY_ARN_S, TestUtils.KMS_ECC_384_KEY_ARN_S, TestUtils.KMS_ECC_521_KEY_ARN_S];
+  const senderArnPublicKeys := [TestUtils.KMS_ECC_256_PUBLIC_KEY_S, TestUtils.KMS_ECC_384_PUBLIC_KEY_S, TestUtils.KMS_ECC_521_PUBLIC_KEY_S]; 
+  const privateKeyReceivers := [TestUtils.ECC_P256_PRIVATE, TestUtils.ECC_P384_PRIVATE, TestUtils.ECC_P521_PRIVATE];
+  const publicKeyReceivers := [TestUtils.ECC_P256_PUBLIC, TestUtils.ECC_P384_PUBLIC, TestUtils.ECC_P521_PUBLIC];
   const curveSpecs := [PrimitiveTypes.ECC_NIST_P256, PrimitiveTypes.ECC_NIST_P384, PrimitiveTypes.ECC_NIST_P521];
 
   method {:test} TestKmsDeriveSharedSecretOfflineCalculation() {
@@ -113,6 +117,48 @@ module TestEcdhCalculation {
 
       expect kmsSharedSecret.value.SharedSecret.value == offlineSharedSecret.sharedSecret;
 
+    }
+  }
+
+  method {:test} TestOfflineDeriveSharedSecretStaticKeys() 
+  {
+    var kmsClient :- expect Kms.KMSClient();
+    var primitives :- expect Primitives.AtomicPrimitives();
+    
+    for i := 0 to |curveSpecs|
+    {
+      var curve := curveSpecs[i];
+      var senderArn := senderArns[i];
+      var senderPublicKey :- expect Base64.Decode(senderArnPublicKeys[i]);
+      var recipientPrivateKey :- expect UTF8.Encode(privateKeyReceivers[i]);
+      var recipientPublicKey :- expect Base64.Decode(publicKeyReceivers[i]);
+
+      var kmsSharedSecret := kmsClient.DeriveSharedSecret(
+        input := Kms.Types.DeriveSharedSecretRequest(
+          KeyId := senderArn,
+          KeyAgreementAlgorithm := Kms.Types.KeyAgreementAlgorithmSpec.ECDH,
+          PublicKey := recipientPublicKey
+        )
+      );
+      expect kmsSharedSecret.Success?;
+      expect kmsSharedSecret.value.SharedSecret.Some?;
+
+      var offlineSharedSecret :- expect primitives.DeriveSharedSecret(
+        PrimitiveTypes.DeriveSharedSecretInput(
+          eccCurve := curveSpecs[i],
+          privateKey := PrimitiveTypes.ECCPrivateKey(pem := recipientPrivateKey),
+          publicKey := PrimitiveTypes.ECCPublicKey(der := senderPublicKey)
+        )
+      );
+
+      print "\n";
+      print "KMS Derived Shared Secret: ";
+      print kmsSharedSecret.value.SharedSecret.value; 
+      print "\n";
+      print "Local Derived Shared Secret: ";
+      print offlineSharedSecret.sharedSecret;
+
+      expect kmsSharedSecret.value.SharedSecret.value == offlineSharedSecret.sharedSecret;
     }
   }
 
