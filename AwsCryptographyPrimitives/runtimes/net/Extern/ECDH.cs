@@ -78,11 +78,11 @@ namespace ECDH
     {
         private static Dictionary<string, int> CURVE_TO_ECC_SECRET_LENGTH_MAP = new()
         {
-            ["P256"] = 256/8,
-            ["P384"] = 384/8,
-            ["P521"] = 521/8 + 1
+            ["P256"] = 256 / 8,
+            ["P384"] = 384 / 8,
+            ["P521"] = 521 / 8 + 1
         };
-        
+
         public static _IResult<Dafny.ISequence<byte>, _IError> GetPublicKey(_IECDHCurveSpec curveSpec,
             _IECCPrivateKey privateKey)
         {
@@ -347,14 +347,14 @@ namespace ECDH
             // serialize the public and private keys, and then return them
             var publicKey = KeyGeneration.SerializePublicKey(kp, curve);
             var seqWithAlgInfo = Asn1Sequence.GetInstance(publicKey.CloneAsArray());
-            
+
             // Build a pub key with the point at infinity defined as a 1 byte zero array. 
             var point = new DerBitString(new byte[1]);
             var seq = new DerSequence(new Asn1EncodableVector(seqWithAlgInfo[0], point));
 
             return new Result_Success<ibyteseq, _IError>(byteseq.FromArray(seq.GetDerEncoded()));
         }
-        
+
         public static _IResult<ibyteseq, _IError> GetOutOfBoundsPublicKey(_IECDHCurveSpec curve)
         {
             ECKeyPairGenerator generator = new ECKeyPairGenerator();
@@ -367,14 +367,14 @@ namespace ECDH
             ECPublicKeyParameters publicKeyParameters = (ECPublicKeyParameters)kp.Public;
             var publicKey = KeyGeneration.SerializePublicKey(kp, curve);
             var seqWithAlgInfo = Asn1Sequence.GetInstance(publicKey.CloneAsArray());
-            
-            
+
+
             // build an out of bounds public key
             var pointArray = new byte[1 + (2 * CURVE_TO_ECC_SECRET_LENGTH_MAP[GetCurveStringName(curve)])];
             // by casting -1 to a byte we force writing 255
             Fill(pointArray, -1);
             pointArray[0] = 0x04;
-            
+
             // Build a pub key with the point at infinity defined as a 1 byte zero array. 
             var point = new DerBitString(pointArray);
             var seq = new DerSequence(new Asn1EncodableVector(seqWithAlgInfo[0], point));
