@@ -90,11 +90,11 @@ module TestECDH {
 
   const INFINITY_POINT_ERR_MSG_JAVA := "encoded key spec not recognized: Point at infinity"
   const INFINITY_POINT_ERR_MSG_NET6 := "Point at infinity (Parameter 'q')"
-  const INFINITY_POINT_ERR_MSG_NET48 := "Point at infinity\nParameter name: q"
+  const INFINITY_POINT_ERR_MSG_NET48 := "Point at infinity\r\nParameter name: q"
 
   const OUT_OF_BOUNDS_ERR_MSG_JAVA := "encoded key spec not recognized: x value invalid for"
   const OUT_OF_BOUNDS_ERR_MSG_NET6 := "value invalid for Fp field element (Parameter 'x')"
-  const OUT_OF_BOUNDS_ERR_MSG_NE48 := "value invalid for Fp field element\nParameter name: x"
+  const OUT_OF_BOUNDS_ERR_MSG_NE48 := "value invalid for Fp field element\r\nParameter name: x"
 
   method {:test} TestKeyGen()
   {
