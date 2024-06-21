@@ -407,6 +407,10 @@ public class ECCUtils extends _ExternBase___default {
     );
   }
 
+  // This is a helper test function that is not intended to be
+  // used in a production environment. This generates an invalid
+  // public key with the infinity point to test that our public key
+  // validation function works as intended.
   public static Result<
     DafnySequence<? extends Byte>,
     Error
@@ -456,6 +460,10 @@ public class ECCUtils extends _ExternBase___default {
     }
   }
 
+  // This is a helper test function. It SHOULD NOT be
+  // used in a production environment. This generates an invalid
+  // public key with the x and y coordinates outside the defined
+  // public key field.
   public static Result<
     DafnySequence<? extends Byte>,
     Error

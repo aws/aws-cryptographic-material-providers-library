@@ -334,6 +334,10 @@ namespace ECDH
             return p;
         }
 
+        // This is a helper test function that is not intended to be
+        // used in a production environment. This generates an invalid
+        // public key with the infinity point to test that our public key
+        // validation function works as intended.
         public static _IResult<ibyteseq, _IError> GetInfinityPublicKey(_IECDHCurveSpec curve)
         {
             ECKeyPairGenerator generator = new ECKeyPairGenerator();
@@ -355,6 +359,10 @@ namespace ECDH
             return new Result_Success<ibyteseq, _IError>(byteseq.FromArray(seq.GetDerEncoded()));
         }
 
+        // This is a helper test function. It SHOULD NOT be
+        // used in a production environment. This generates an invalid
+        // public key with the x and y coordinates outside the defined
+        // public key field.
         public static _IResult<ibyteseq, _IError> GetOutOfBoundsPublicKey(_IECDHCurveSpec curve)
         {
             ECKeyPairGenerator generator = new ECKeyPairGenerator();
