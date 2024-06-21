@@ -21,12 +21,14 @@ import software.amazon.cryptography.materialproviderstestvectorkeys.model.KMSInf
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.KeyDescription;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.KeyVectorException;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.KeyVectorsConfig;
+import software.amazon.cryptography.materialproviderstestvectorkeys.model.KmsEcdhKeyring;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.KmsMrkAware;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.KmsMrkAwareDiscovery;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.KmsRsaKeyring;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.MultiKeyring;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.OpaqueError;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.RawAES;
+import software.amazon.cryptography.materialproviderstestvectorkeys.model.RawEcdh;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.RawRSA;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.RequiredEncryptionContextCMM;
 import software.amazon.cryptography.materialproviderstestvectorkeys.model.SerializeKeyDescriptionInput;
@@ -132,6 +134,33 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static KmsEcdhKeyring KmsEcdhKeyring(
+    software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KmsEcdhKeyring dafnyValue
+  ) {
+    KmsEcdhKeyring.Builder nativeBuilder = KmsEcdhKeyring.builder();
+    nativeBuilder.senderKeyId(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_senderKeyId()
+      )
+    );
+    nativeBuilder.recipientKeyId(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_recipientKeyId()
+      )
+    );
+    nativeBuilder.curveSpec(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_curveSpec()
+      )
+    );
+    nativeBuilder.keyAgreementScheme(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_keyAgreementScheme()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
   public static KMSInfo KMSInfo(
     software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KMSInfo dafnyValue
   ) {
@@ -224,6 +253,38 @@ public class ToNative {
     nativeBuilder.providerId(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
         dafnyValue.dtor_providerId()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
+  public static RawEcdh RawEcdh(
+    software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.RawEcdh dafnyValue
+  ) {
+    RawEcdh.Builder nativeBuilder = RawEcdh.builder();
+    nativeBuilder.senderKeyId(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_senderKeyId()
+      )
+    );
+    nativeBuilder.recipientKeyId(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_recipientKeyId()
+      )
+    );
+    nativeBuilder.providerId(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_providerId()
+      )
+    );
+    nativeBuilder.curveSpec(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_curveSpec()
+      )
+    );
+    nativeBuilder.keyAgreementScheme(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_keyAgreementScheme()
       )
     );
     return nativeBuilder.build();
@@ -363,11 +424,17 @@ public class ToNative {
     if (dafnyValue.is_AES()) {
       nativeBuilder.AES(ToNative.RawAES(dafnyValue.dtor_AES()));
     }
+    if (dafnyValue.is_ECDH()) {
+      nativeBuilder.ECDH(ToNative.RawEcdh(dafnyValue.dtor_ECDH()));
+    }
     if (dafnyValue.is_Static()) {
       nativeBuilder.Static(ToNative.StaticKeyring(dafnyValue.dtor_Static()));
     }
     if (dafnyValue.is_KmsRsa()) {
       nativeBuilder.KmsRsa(ToNative.KmsRsaKeyring(dafnyValue.dtor_KmsRsa()));
+    }
+    if (dafnyValue.is_KmsECDH()) {
+      nativeBuilder.KmsECDH(ToNative.KmsEcdhKeyring(dafnyValue.dtor_KmsECDH()));
     }
     if (dafnyValue.is_Hierarchy()) {
       nativeBuilder.Hierarchy(

@@ -23,11 +23,13 @@ import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafn
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KMSInfo;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KeyDescription;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KeyVectorsConfig;
+import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KmsEcdhKeyring;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KmsMrkAware;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KmsMrkAwareDiscovery;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KmsRsaKeyring;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.MultiKeyring;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.RawAES;
+import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.RawEcdh;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.RawRSA;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.RequiredEncryptionContextCMM;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.SerializeKeyDescriptionInput;
@@ -112,6 +114,37 @@ public class ToDafny {
         nativeValue.keyManifestPath()
       );
     return new KeyVectorsConfig(keyManifestPath);
+  }
+
+  public static KmsEcdhKeyring KmsEcdhKeyring(
+    software.amazon.cryptography.materialproviderstestvectorkeys.model.KmsEcdhKeyring nativeValue
+  ) {
+    DafnySequence<? extends Character> senderKeyId;
+    senderKeyId =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.senderKeyId()
+      );
+    DafnySequence<? extends Character> recipientKeyId;
+    recipientKeyId =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.recipientKeyId()
+      );
+    DafnySequence<? extends Character> curveSpec;
+    curveSpec =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.curveSpec()
+      );
+    DafnySequence<? extends Character> keyAgreementScheme;
+    keyAgreementScheme =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.keyAgreementScheme()
+      );
+    return new KmsEcdhKeyring(
+      senderKeyId,
+      recipientKeyId,
+      curveSpec,
+      keyAgreementScheme
+    );
   }
 
   public static KMSInfo KMSInfo(
@@ -208,6 +241,43 @@ public class ToDafny {
         nativeValue.providerId()
       );
     return new RawAES(keyId, providerId);
+  }
+
+  public static RawEcdh RawEcdh(
+    software.amazon.cryptography.materialproviderstestvectorkeys.model.RawEcdh nativeValue
+  ) {
+    DafnySequence<? extends Character> senderKeyId;
+    senderKeyId =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.senderKeyId()
+      );
+    DafnySequence<? extends Character> recipientKeyId;
+    recipientKeyId =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.recipientKeyId()
+      );
+    DafnySequence<? extends Character> providerId;
+    providerId =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.providerId()
+      );
+    DafnySequence<? extends Character> curveSpec;
+    curveSpec =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.curveSpec()
+      );
+    DafnySequence<? extends Character> keyAgreementScheme;
+    keyAgreementScheme =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.keyAgreementScheme()
+      );
+    return new RawEcdh(
+      senderKeyId,
+      recipientKeyId,
+      providerId,
+      curveSpec,
+      keyAgreementScheme
+    );
   }
 
   public static RawRSA RawRSA(
@@ -351,6 +421,9 @@ public class ToDafny {
     if (Objects.nonNull(nativeValue.AES())) {
       return KeyDescription.create_AES(ToDafny.RawAES(nativeValue.AES()));
     }
+    if (Objects.nonNull(nativeValue.ECDH())) {
+      return KeyDescription.create_ECDH(ToDafny.RawEcdh(nativeValue.ECDH()));
+    }
     if (Objects.nonNull(nativeValue.Static())) {
       return KeyDescription.create_Static(
         ToDafny.StaticKeyring(nativeValue.Static())
@@ -359,6 +432,11 @@ public class ToDafny {
     if (Objects.nonNull(nativeValue.KmsRsa())) {
       return KeyDescription.create_KmsRsa(
         ToDafny.KmsRsaKeyring(nativeValue.KmsRsa())
+      );
+    }
+    if (Objects.nonNull(nativeValue.KmsECDH())) {
+      return KeyDescription.create_KmsECDH(
+        ToDafny.KmsEcdhKeyring(nativeValue.KmsECDH())
       );
     }
     if (Objects.nonNull(nativeValue.Hierarchy())) {

@@ -30,7 +30,7 @@ import software.amazon.cryptography.primitives.model.AwsCryptographicPrimitivesE
 import software.amazon.cryptography.primitives.model.OpaqueError;
 
 /** Helper methods for encoding and decoding Elliptic Curve public keys. */
-class PublicKeyUtils {
+public class PublicKeyUtils {
 
   /**
    * @param key The Elliptic Curve public key to encode and compress as described in SEC-1 v2
@@ -75,7 +75,7 @@ class PublicKeyUtils {
    *     array without the sign byte
    * @return The byte array
    */
-  static byte[] encodeAndCompressPublicKeyX(
+  public static byte[] encodeAndCompressPublicKeyX(
     final BigInteger bigInteger,
     final int length
   ) {
@@ -171,7 +171,7 @@ class PublicKeyUtils {
    * @return The Elliptic Curve point.
    * @see <a href="http://www.secg.org/sec1-v2.pdf">http://www.secg.org/sec1-v2.pdf</a>
    */
-  static ECPoint byteArrayToECPoint(
+  public static ECPoint byteArrayToECPoint(
     final byte[] keyAsBytes,
     final ECParameterSpec ecParameterSpec
   ) throws ECDecodingException {

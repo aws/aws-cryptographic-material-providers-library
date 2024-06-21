@@ -10,13 +10,17 @@ import StandardLibraryInterop_Compile.WrappersInterop;
 import Wrappers_Compile.Option;
 import Wrappers_Compile.Result;
 import dafny.DafnySequence;
+import java.net.URI;
 import software.amazon.awssdk.core.client.config.ClientOverrideConfiguration;
 import software.amazon.awssdk.core.client.config.SdkAdvancedClientOption;
+import software.amazon.awssdk.http.SdkHttpClient;
+import software.amazon.awssdk.http.apache.ApacheHttpClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.regions.providers.AwsRegionProviderChain;
 import software.amazon.awssdk.regions.providers.DefaultAwsRegionProviderChain;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.awssdk.services.kms.KmsClientBuilder;
+import software.amazon.awssdk.services.kms.endpoints.KmsEndpointProvider;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error;
 import software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient;
 
@@ -30,6 +34,7 @@ public class __default
         DefaultAwsRegionProviderChain.builder().build();
       final String region = regionProvider.getRegion().toString();
       final KmsClient client = builder
+        .httpClient(ApacheHttpClient.create())
         .overrideConfiguration(
           ClientOverrideConfiguration
             .builder()
