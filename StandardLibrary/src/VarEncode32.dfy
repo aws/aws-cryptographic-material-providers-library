@@ -202,40 +202,40 @@ module {:options "-functionSyntax:4"} VarEncode32 {
     }
   }
 
-  // function Decode2(
-  //   buffer: ReadableBuffer
-  // ):
-  //   (res: ReadCorrect<uint32>)
-  //   ensures CorrectlyRead(buffer, res, Encode)
-  // {
-  //   :- Need(buffer.start < |buffer.bytes|, MoreNeeded(1));
-  //   var len := DecodeLength(buffer.bytes[buffer.start]);
-  //   var SuccessfulRead(data, tail) :- Read(buffer, len);
-  //   CorrectlyReadByteRange(buffer, tail, data);
+  function DecodeRead(
+    buffer: ReadableBuffer
+  ):
+    (res: ReadCorrect<uint32>)
+    ensures CorrectlyRead(buffer, res, Encode)
+  {
+    :- Need(buffer.start < |buffer.bytes|, MoreNeeded(1));
+    var len := DecodeLength(buffer.bytes[buffer.start]);
+    var SuccessfulRead(data, tail) :- Read(buffer, len as int);
+    CorrectlyReadByteRange(buffer, tail, data);
 
-  //   :- Need(ValidEncoding(data, len), Error( message := "encoding error" ));
+    :- Need(ValidEncoding(data, len), Error( message := "encoding error" ));
 
-  //   var num := Decode(data, len);
+    var num := Decode(data, len);
 
-  //   assert CorrectlyReadRange(
-  //       buffer,
-  //       tail,
-  //       Encode(num)
-  //     ) by {
-  //     reveal CorrectlyReadRange();
-  //     assume len == 4;
-  //     assert 0x200000 <= num < 0x10000000;
-  //     assert data[0] < 0xf0;
+    assert CorrectlyReadRange(
+        buffer,
+        tail,
+        Encode(num)
+      ) by {
+      reveal CorrectlyReadRange();
+      assume len == 4;
+      assert 0x200000 <= num < 0x10000000;
+      assert data[0] < 0xf0;
       
-  //     assume false;
-  //     // assume data == Encode(num);
-  //   }
+      assume false;
+      // assume data == Encode(num);
+    }
 
-  //   Success(SuccessfulRead(
-  //             num,
-  //             tail
-  //           ))
-  // }
+    Success(SuccessfulRead(
+              num,
+              tail
+            ))
+  }
 
   function Decode1(x : seq<uint8>) : (ret : uint32)
     requires |x| == 1

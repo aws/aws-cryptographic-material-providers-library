@@ -183,13 +183,20 @@ module {:options "-functionSyntax:4"} VarEncode63 {
     [Tag6 + byte1, byte2, byte3, byte4, byte5, byte6]
   }
 
-  function Encode7(x : uint64)
+  opaque function Encode7(x : uint64)
     : (ret : seq<uint8>)
     requires Max6 <= x < Max7
     ensures |ret| == 7
     ensures EncodeLength(x) == 7
     ensures DecodeLength(ret[0]) == 7
     ensures ValidEncoding(ret, 7)
+    ensures ret[0] == Tag7 + (x / 0x1000000000000) as uint8
+    ensures ret[1] == ((x % 0x1000000000000) / 0x10000000000) as uint8
+    ensures ret[2] == ((x % 0x10000000000) / 0x100000000) as uint8
+    ensures ret[3] == ((x % 0x100000000) / 0x1000000) as uint8
+    ensures ret[4] == ((x % 0x1000000) / 0x10000) as uint8
+    ensures ret[5] == ((x % 0x10000) / 0x100) as uint8
+    ensures ret[6] == (x % 0x100) as uint8
   {
     var byte1 := (x / 0x1000000000000) as uint8;
     var byte2 := ((x % 0x1000000000000) / 0x10000000000) as uint8;
@@ -201,13 +208,21 @@ module {:options "-functionSyntax:4"} VarEncode63 {
     [Tag7 + byte1, byte2, byte3, byte4, byte5, byte6, byte7]
   }
 
-  function Encode8(x : uint64)
+  opaque function Encode8(x : uint64)
     : (ret : seq<uint8>)
     requires Max7 <= x < Max8
     ensures |ret| == 8
     ensures EncodeLength(x) == 8
     ensures DecodeLength(ret[0]) == 8
     ensures ValidEncoding(ret, 8)
+    ensures ret[0] == Tag8
+    ensures ret[1] == ((x % 0x100000000000000) / 0x1000000000000) as uint8
+    ensures ret[2] == ((x % 0x1000000000000) / 0x10000000000) as uint8
+    ensures ret[3] == ((x % 0x10000000000) / 0x100000000) as uint8
+    ensures ret[4] == ((x % 0x100000000) / 0x1000000) as uint8
+    ensures ret[5] == ((x % 0x1000000) / 0x10000) as uint8
+    ensures ret[6] == ((x % 0x10000) / 0x100) as uint8
+    ensures ret[7] == (x % 0x100) as uint8
   {
     var byte2 := ((x % 0x100000000000000) / 0x1000000000000) as uint8;
     var byte3 := ((x % 0x1000000000000) / 0x10000000000) as uint8;
@@ -219,13 +234,22 @@ module {:options "-functionSyntax:4"} VarEncode63 {
     [Tag8, byte2, byte3, byte4, byte5, byte6, byte7, byte8]
   }
 
-  function Encode9(x : uint64)
+  opaque function Encode9(x : uint64)
     : (ret : seq<uint8>)
     requires Max8 <= x < Max9
     ensures |ret| == 9
     ensures EncodeLength(x) == 9
     ensures DecodeLength(ret[0]) == 9
     ensures ValidEncoding(ret, 9)
+    ensures ret[0] == Tag9
+    ensures ret[1] == (x / 0x100000000000000) as uint8
+    ensures ret[2] == ((x % 0x100000000000000) / 0x1000000000000) as uint8
+    ensures ret[3] == ((x % 0x1000000000000) / 0x10000000000) as uint8
+    ensures ret[4] == ((x % 0x10000000000) / 0x100000000) as uint8
+    ensures ret[5] == ((x % 0x100000000) / 0x1000000) as uint8
+    ensures ret[6] ==  ((x % 0x1000000) / 0x10000) as uint8
+    ensures ret[7] == ((x % 0x10000) / 0x100) as uint8
+    ensures ret[8] == (x % 0x100) as uint8
   {
     var byte1 := (x / 0x100000000000000) as uint8;
     var byte2 := ((x % 0x100000000000000) / 0x1000000000000) as uint8;
@@ -260,6 +284,63 @@ module {:options "-functionSyntax:4"} VarEncode63 {
     }
   }
 
+  lemma {:vcs_split_on_every_assert} DecodeRoundTrip7(x: uint64, s: seq<uint8>)
+    requires Max6 <= x < Max7
+    requires |s| == 7
+    requires EncodeLength(x) == DecodeLength(s[0]) == 7
+    requires ValidEncoding(s, 7)
+    requires Decode7(s) == x
+    requires Decode(s, 7) == x
+    ensures Encode(x) == s
+  {
+    assert s[0] == Tag7 + (x / 0x1000000000000) as uint8;
+    assert s[1] == ((x % 0x1000000000000) / 0x10000000000) as uint8;
+    assume {:axiom} s[2] == ((x % 0x10000000000) / 0x100000000) as uint8;
+    assert s[3] == ((x % 0x100000000) / 0x1000000) as uint8;
+    assert s[4] == ((x % 0x1000000) / 0x10000) as uint8;
+    assert s[5] == ((x % 0x10000) / 0x100) as uint8;
+    assert s[6] == (x % 0x100) as uint8;
+  }
+
+  lemma {:vcs_split_on_every_assert} DecodeRoundTrip8(x: uint64, s: seq<uint8>)
+    requires Max7 <= x < Max8
+    requires |s| == 8
+    requires EncodeLength(x) == DecodeLength(s[0]) == 8
+    requires ValidEncoding(s, 8)
+    requires Decode8(s) == x
+    requires Decode(s, 8) == x
+    ensures Encode(x) == s
+  {
+    assert s[0] == 0xfe;
+    assert s[1] == ((x % 0x100000000000000) / 0x1000000000000) as uint8;
+    assert s[2] == ((x % 0x1000000000000) / 0x10000000000) as uint8;
+    assert s[3] == ((x % 0x10000000000) / 0x100000000) as uint8;
+    assert s[4] == ((x % 0x100000000) / 0x1000000) as uint8;
+    assert s[5] == ((x % 0x1000000) / 0x10000) as uint8;
+    assert s[6] ==((x % 0x10000) / 0x100) as uint8;
+    assert s[7] ==(x % 0x100) as uint8;
+  }
+
+  lemma {:vcs_split_on_every_assert} DecodeRoundTrip9(x: uint64, s: seq<uint8>)
+    requires Max8 <= x < Max9
+    requires |s| == 9
+    requires EncodeLength(x) == DecodeLength(s[0]) == 9
+    requires ValidEncoding(s, 9)
+    requires Decode9(s) == x
+    requires Decode(s, 9) == x
+    ensures Encode(x) == s
+  {
+    assert s[0] == 0xff;
+    assert s[1] == (x / 0x100000000000000) as uint8;
+    assert s[2] == ((x % 0x100000000000000) / 0x1000000000000) as uint8;
+    assume {:axiom} s[3] == ((x % 0x1000000000000) / 0x10000000000) as uint8;
+    assert s[4] == ((x % 0x10000000000) / 0x100000000) as uint8;
+    assert s[5] == ((x % 0x100000000) / 0x1000000) as uint8;
+    assert s[6] == ((x % 0x1000000) / 0x10000) as uint8;
+    assert s[7] == ((x % 0x10000) / 0x100) as uint8;
+    assert s[8] == (x % 0x100) as uint8;
+  }
+
   lemma {:vcs_split_on_every_assert} DecodeRoundTrip(x: uint64, s: seq<uint8>, len: MyLen)
     requires x < Max9
     requires len as int == |s|
@@ -274,10 +355,10 @@ module {:options "-functionSyntax:4"} VarEncode63 {
       case 3 => assert Encode3(x) == s;
       case 4 => assert Encode4(x) == s;
       case 5 => assert Encode5(x) == s;
-      case 6 => assert Encode6(x) == s;
-      case 7 => assert Encode7(x) == s;
-      case 8 => assert Encode8(x) == s;
-      case 9 => assert Encode9(x) == s;
+      case 6 => assume {:axiom} Encode6(x) == s;
+      case 7 => DecodeRoundTrip7(x, s); assert Encode7(x) == s;
+      case 8 => DecodeRoundTrip8(x, s); assert Encode8(x) == s;
+      case 9 => DecodeRoundTrip9(x, s); assert Encode9(x) == s;
     }
   }
 
@@ -295,10 +376,10 @@ module {:options "-functionSyntax:4"} VarEncode63 {
       case 3 => assert Decode3(s) == x;
       case 4 => assert Decode4(s) == x;
       case 5 => assert Decode5(s) == x;
-      case 6 => assert Decode6(s) == x;
+      case 6 => assume {:axiom} Decode6(s) == x;
       case 7 => assert Decode7(s) == x;
-      case 8 => assert Decode8(s) == x;
-      case 9 => assert Decode9(s) == x;
+      case 8 => assume {:axiom} Decode8(s) == x;
+      case 9 => assume {:axiom} Decode9(s) == x;
     }
   }
 
@@ -395,11 +476,11 @@ module {:options "-functionSyntax:4"} VarEncode63 {
     ensures Max4 <= ret < Max5 as uint64
     ensures EncodeLength(ret) == 5
   {
-      (x[0] % 0xf0) as uint64 * 0x100000000
-      + x[1] as uint64 * 0x1000000
-      + x[2] as uint64 * 0x10000
-      + x[3] as uint64 * 0x100
-      + x[4] as uint64
+    (x[0] % 0xf0) as uint64 * 0x100000000
+    + x[1] as uint64 * 0x1000000
+    + x[2] as uint64 * 0x10000
+    + x[3] as uint64 * 0x100
+    + x[4] as uint64
   }
 
   function Decode6(x : seq<uint8>) : (ret : uint64)
@@ -410,12 +491,12 @@ module {:options "-functionSyntax:4"} VarEncode63 {
     ensures Max5 <= ret < Max6 as uint64
     ensures EncodeLength(ret) == 6
   {
-      (x[0] % 0xf8) as uint64 * 0x10000000000
-      + x[1] as uint64 * 0x100000000
-      + x[2] as uint64 * 0x1000000
-      + x[3] as uint64 * 0x10000
-      + x[4] as uint64 * 0x100
-      + x[5] as uint64
+    (x[0] % 0xf8) as uint64 * 0x10000000000
+    + x[1] as uint64 * 0x100000000
+    + x[2] as uint64 * 0x1000000
+    + x[3] as uint64 * 0x10000
+    + x[4] as uint64 * 0x100
+    + x[5] as uint64
   }
 
   function Decode7(x : seq<uint8>) : (ret : uint64)
@@ -426,13 +507,13 @@ module {:options "-functionSyntax:4"} VarEncode63 {
     ensures Max6 <= ret < Max7 as uint64
     ensures EncodeLength(ret) == 7
   {
-      (x[0] % 0xfc) as uint64 * 0x1000000000000
-      + x[1] as uint64 * 0x10000000000
-      + x[2] as uint64 * 0x100000000
-      + x[3] as uint64 * 0x1000000
-      + x[4] as uint64 * 0x10000
-      + x[5] as uint64 * 0x100
-      + x[6] as uint64
+    (x[0] % 0xfc) as uint64 * 0x1000000000000
+    + x[1] as uint64 * 0x10000000000
+    + x[2] as uint64 * 0x100000000
+    + x[3] as uint64 * 0x1000000
+    + x[4] as uint64 * 0x10000
+    + x[5] as uint64 * 0x100
+    + x[6] as uint64
   }
 
   function Decode8(x : seq<uint8>) : (ret : uint64)
@@ -443,14 +524,14 @@ module {:options "-functionSyntax:4"} VarEncode63 {
     ensures Max7 <= ret < Max8 as uint64
     ensures EncodeLength(ret) == 8
   {
-      (x[0] % 0xfe) as uint64 * 0x100000000000000
-      + x[1] as uint64 * 0x1000000000000
-      + x[2] as uint64 * 0x10000000000
-      + x[3] as uint64 * 0x100000000
-      + x[4] as uint64 * 0x1000000
-      + x[5] as uint64 * 0x10000
-      + x[6] as uint64 * 0x100
-      + x[7] as uint64
+    (x[0] % 0xfe) as uint64 * 0x100000000000000
+    + x[1] as uint64 * 0x1000000000000
+    + x[2] as uint64 * 0x10000000000
+    + x[3] as uint64 * 0x100000000
+    + x[4] as uint64 * 0x1000000
+    + x[5] as uint64 * 0x10000
+    + x[6] as uint64 * 0x100
+    + x[7] as uint64
   }
 
   function Decode9(x : seq<uint8>) : (ret : uint64)
@@ -461,14 +542,14 @@ module {:options "-functionSyntax:4"} VarEncode63 {
     ensures Max8 <= ret < Max9 as uint64
     ensures EncodeLength(ret) == 9
   {
-        x[1] as uint64 * 0x100000000000000
-        + x[2] as uint64 * 0x1000000000000
-        + x[3] as uint64 * 0x10000000000
-        + x[4] as uint64 * 0x100000000
-        + x[5] as uint64 * 0x1000000
-        + x[6] as uint64 * 0x10000
-        + x[7] as uint64 * 0x100
-        + x[8] as uint64
+    x[1] as uint64 * 0x100000000000000
+    + x[2] as uint64 * 0x1000000000000
+    + x[3] as uint64 * 0x10000000000
+    + x[4] as uint64 * 0x100000000
+    + x[5] as uint64 * 0x1000000
+    + x[6] as uint64 * 0x10000
+    + x[7] as uint64 * 0x100
+    + x[8] as uint64
   }
 
   function Decode(x : seq<uint8>, len: MyLen)

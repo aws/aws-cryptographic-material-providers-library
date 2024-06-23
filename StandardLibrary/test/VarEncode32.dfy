@@ -3,7 +3,7 @@
 
 include "../src/VarEncode32.dfy"
 
-module {:options "-functionSyntax:4"} VarEncodeTest {
+module {:options "-functionSyntax:4"} VarEncode32Test {
   import opened VarEncode32
   import opened StandardLibrary.UInt
 
