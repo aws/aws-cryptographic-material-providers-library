@@ -202,40 +202,40 @@ module {:options "-functionSyntax:4"} VarEncode32 {
     }
   }
 
-  function DecodeRead(
-    buffer: ReadableBuffer
-  ):
-    (res: ReadCorrect<uint32>)
-    ensures CorrectlyRead(buffer, res, Encode)
-  {
-    :- Need(buffer.start < |buffer.bytes|, MoreNeeded(1));
-    var len := DecodeLength(buffer.bytes[buffer.start]);
-    var SuccessfulRead(data, tail) :- Read(buffer, len as int);
-    CorrectlyReadByteRange(buffer, tail, data);
+  // function DecodeRead(
+  //   buffer: ReadableBuffer
+  // ):
+  //   (res: ReadCorrect<uint32>)
+  //   ensures CorrectlyRead(buffer, res, Encode)
+  // {
+  //   :- Need(buffer.start < |buffer.bytes|, MoreNeeded(1));
+  //   var len := DecodeLength(buffer.bytes[buffer.start]);
+  //   var SuccessfulRead(data, tail) :- Read(buffer, len as int);
+  //   CorrectlyReadByteRange(buffer, tail, data);
 
-    :- Need(ValidEncoding(data, len), Error( message := "encoding error" ));
+  //   :- Need(ValidEncoding(data, len), Error( message := "encoding error" ));
 
-    var num := Decode(data, len);
+  //   var num := Decode(data, len);
 
-    assert CorrectlyReadRange(
-        buffer,
-        tail,
-        Encode(num)
-      ) by {
-      reveal CorrectlyReadRange();
-      assume len == 4;
-      assert 0x200000 <= num < 0x10000000;
-      assert data[0] < 0xf0;
-      
-      assume false;
-      // assume data == Encode(num);
-    }
+  //   assert CorrectlyReadRange(
+  //       buffer,
+  //       tail,
+  //       Encode(num)
+  //     ) by {
+  //     reveal CorrectlyReadRange();
+  //     assume len == 4;
+  //     assert 0x200000 <= num < 0x10000000;
+  //     assert data[0] < 0xf0;
 
-    Success(SuccessfulRead(
-              num,
-              tail
-            ))
-  }
+  //     assume false;
+  //     // assume data == Encode(num);
+  //   }
+
+  //   Success(SuccessfulRead(
+  //             num,
+  //             tail
+  //           ))
+  // }
 
   function Decode1(x : seq<uint8>) : (ret : uint32)
     requires |x| == 1
@@ -254,8 +254,8 @@ module {:options "-functionSyntax:4"} VarEncode32 {
     requires ValidEncoding(x, 2)
     ensures EncodeLength(ret) == 2
   {
-        (x[0] % 0x80) as uint32 * 0x100
-      + x[1] as uint32
+    (x[0] % 0x80) as uint32 * 0x100
+    + x[1] as uint32
   }
 
   function Decode3(x : seq<uint8>) : (ret : uint32)
@@ -278,9 +278,9 @@ module {:options "-functionSyntax:4"} VarEncode32 {
     ensures EncodeLength(ret) == 4
   {
     (x[0] % 0xe0) as uint32 * 0x1000000
-      + x[1] as uint32 * 0x10000
-      + x[2] as uint32 * 0x100
-      + x[3] as uint32
+    + x[1] as uint32 * 0x10000
+    + x[2] as uint32 * 0x100
+    + x[3] as uint32
   }
 
   function Decode5(x : seq<uint8>) : (ret : uint32)
@@ -290,10 +290,10 @@ module {:options "-functionSyntax:4"} VarEncode32 {
     requires DecodeLength(x[0]) == 5
     ensures EncodeLength(ret) == 5
   {
-      x[1] as uint32 * 0x1000000
-      + x[2] as uint32 * 0x10000
-      + x[3] as uint32 * 0x100
-      + x[4] as uint32
+    x[1] as uint32 * 0x1000000
+    + x[2] as uint32 * 0x10000
+    + x[3] as uint32 * 0x100
+    + x[4] as uint32
   }
 
   function Decode(x : seq<uint8>, len: MyLen)

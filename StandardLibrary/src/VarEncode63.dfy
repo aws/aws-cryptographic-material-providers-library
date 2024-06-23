@@ -383,7 +383,7 @@ module {:options "-functionSyntax:4"} VarEncode63 {
     }
   }
 
-  // function Decode2(
+  // function DecodeRead(
   //   buffer: ReadableBuffer
   // ):
   //   (res: ReadCorrect<uint64>)
