@@ -124,9 +124,9 @@ class default__:
 
 class AwsKmsDiscoveryKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.IKeyring):
     def  __init__(self):
-        self._i_client: ComAmazonawsKmsTypes.IKMSClient = None
-        self._i_discoveryFilter: Wrappers.Option = Wrappers.Option.default()()
-        self._i_grantTokens: _dafny.Seq = None
+        self._client: ComAmazonawsKmsTypes.IKMSClient = None
+        self._discoveryFilter: Wrappers.Option = Wrappers.Option.default()()
+        self._grantTokens: _dafny.Seq = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -142,9 +142,9 @@ class AwsKmsDiscoveryKeyring(Keyring.VerifiableInterface, AwsCryptographyMateria
         return out95_
 
     def ctor__(self, client, discoveryFilter, grantTokens):
-        (self)._i_client = client
-        (self)._i_discoveryFilter = discoveryFilter
-        (self)._i_grantTokens = grantTokens
+        (self)._client = client
+        (self)._discoveryFilter = discoveryFilter
+        (self)._grantTokens = grantTokens
 
     def OnEncrypt_k(self, input):
         output: Wrappers.Result = None
@@ -229,23 +229,23 @@ class AwsKmsDiscoveryKeyring(Keyring.VerifiableInterface, AwsCryptographyMateria
 
     @property
     def client(self):
-        return self._i_client
+        return self._client
     @property
     def discoveryFilter(self):
-        return self._i_discoveryFilter
+        return self._discoveryFilter
     @property
     def grantTokens(self):
-        return self._i_grantTokens
+        return self._grantTokens
 
 class AwsKmsEncryptedDataKeyFilter(Actions.DeterministicActionWithResult, Actions.DeterministicAction):
     def  __init__(self):
-        self._i_discoveryFilter: Wrappers.Option = Wrappers.Option.default()()
+        self._discoveryFilter: Wrappers.Option = Wrappers.Option.default()()
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsDiscoveryKeyring.AwsKmsEncryptedDataKeyFilter"
     def ctor__(self, discoveryFilter):
-        (self)._i_discoveryFilter = discoveryFilter
+        (self)._discoveryFilter = discoveryFilter
 
     def Invoke(self, edk):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.bool)()
@@ -285,7 +285,7 @@ class AwsKmsEncryptedDataKeyFilter(Actions.DeterministicActionWithResult, Action
 
     @property
     def discoveryFilter(self):
-        return self._i_discoveryFilter
+        return self._discoveryFilter
 
 class AwsKmsEncryptedDataKeyTransformer(Actions.DeterministicActionWithResult, Actions.DeterministicAction):
     def  __init__(self):
@@ -330,17 +330,17 @@ class AwsKmsEncryptedDataKeyTransformer(Actions.DeterministicActionWithResult, A
 
 class AwsKmsEncryptedDataKeyDecryptor(Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_materials: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials = None
-        self._i_client: ComAmazonawsKmsTypes.IKMSClient = None
-        self._i_grantTokens: _dafny.Seq = None
+        self._materials: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials = None
+        self._client: ComAmazonawsKmsTypes.IKMSClient = None
+        self._grantTokens: _dafny.Seq = None
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsDiscoveryKeyring.AwsKmsEncryptedDataKeyDecryptor"
     def ctor__(self, materials, client, grantTokens):
-        (self)._i_materials = materials
-        (self)._i_client = client
-        (self)._i_grantTokens = grantTokens
+        (self)._materials = materials
+        (self)._client = client
+        (self)._grantTokens = grantTokens
 
     def Invoke(self, helper):
         res: Wrappers.Result = None
@@ -381,10 +381,10 @@ class AwsKmsEncryptedDataKeyDecryptor(Actions.ActionWithResult, Actions.Action):
 
     @property
     def materials(self):
-        return self._i_materials
+        return self._materials
     @property
     def client(self):
-        return self._i_client
+        return self._client
     @property
     def grantTokens(self):
-        return self._i_grantTokens
+        return self._grantTokens

@@ -114,12 +114,12 @@ import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring
 
 class RawRSAKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.IKeyring):
     def  __init__(self):
-        self._i_cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
-        self._i_keyNamespace: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
-        self._i_keyName: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
-        self._i_paddingScheme: AwsCryptographyPrimitivesTypes.RSAPaddingMode = AwsCryptographyPrimitivesTypes.RSAPaddingMode.default()()
-        self._i_publicKey: Wrappers.Option = Wrappers.Option.default()()
-        self._i_privateKey: Wrappers.Option = Wrappers.Option.default()()
+        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._keyNamespace: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
+        self._keyName: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
+        self._paddingScheme: AwsCryptographyPrimitivesTypes.RSAPaddingMode = AwsCryptographyPrimitivesTypes.RSAPaddingMode.default()()
+        self._publicKey: Wrappers.Option = Wrappers.Option.default()()
+        self._privateKey: Wrappers.Option = Wrappers.Option.default()()
         pass
 
     def __dafnystr__(self) -> str:
@@ -135,12 +135,12 @@ class RawRSAKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvider
         return out205_
 
     def ctor__(self, namespace, name, publicKey, privateKey, paddingScheme, cryptoPrimitives):
-        (self)._i_keyNamespace = namespace
-        (self)._i_keyName = name
-        (self)._i_paddingScheme = paddingScheme
-        (self)._i_publicKey = publicKey
-        (self)._i_privateKey = privateKey
-        (self)._i_cryptoPrimitives = cryptoPrimitives
+        (self)._keyNamespace = namespace
+        (self)._keyName = name
+        (self)._paddingScheme = paddingScheme
+        (self)._publicKey = publicKey
+        (self)._privateKey = privateKey
+        (self)._cryptoPrimitives = cryptoPrimitives
 
     def OnEncrypt_k(self, input):
         output: Wrappers.Result = None
@@ -258,22 +258,22 @@ class RawRSAKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvider
 
     @property
     def cryptoPrimitives(self):
-        return self._i_cryptoPrimitives
+        return self._cryptoPrimitives
     @property
     def keyNamespace(self):
-        return self._i_keyNamespace
+        return self._keyNamespace
     @property
     def keyName(self):
-        return self._i_keyName
+        return self._keyName
     @property
     def paddingScheme(self):
-        return self._i_paddingScheme
+        return self._paddingScheme
     @property
     def publicKey(self):
-        return self._i_publicKey
+        return self._publicKey
     @property
     def privateKey(self):
-        return self._i_privateKey
+        return self._privateKey
 
 class RsaUnwrapInfo:
     @_dafny.classproperty
@@ -321,17 +321,17 @@ class RsaWrapInfo_RsaWrapInfo(RsaWrapInfo, NamedTuple('RsaWrapInfo', [])):
 
 class RsaGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMaterial, Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_publicKey: _dafny.Seq = _dafny.Seq({})
-        self._i_paddingScheme: AwsCryptographyPrimitivesTypes.RSAPaddingMode = AwsCryptographyPrimitivesTypes.RSAPaddingMode.default()()
-        self._i_cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._publicKey: _dafny.Seq = _dafny.Seq({})
+        self._paddingScheme: AwsCryptographyPrimitivesTypes.RSAPaddingMode = AwsCryptographyPrimitivesTypes.RSAPaddingMode.default()()
+        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
         pass
 
     def __dafnystr__(self) -> str:
         return "RawRSAKeyring.RsaGenerateAndWrapKeyMaterial"
     def ctor__(self, publicKey, paddingScheme, cryptoPrimitives):
-        (self)._i_publicKey = publicKey
-        (self)._i_paddingScheme = paddingScheme
-        (self)._i_cryptoPrimitives = cryptoPrimitives
+        (self)._publicKey = publicKey
+        (self)._paddingScheme = paddingScheme
+        (self)._cryptoPrimitives = cryptoPrimitives
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.GenerateAndWrapOutput.default(RsaWrapInfo.default()))()
@@ -370,27 +370,27 @@ class RsaGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMaterial, Ac
 
     @property
     def publicKey(self):
-        return self._i_publicKey
+        return self._publicKey
     @property
     def paddingScheme(self):
-        return self._i_paddingScheme
+        return self._paddingScheme
     @property
     def cryptoPrimitives(self):
-        return self._i_cryptoPrimitives
+        return self._cryptoPrimitives
 
 class RsaWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_publicKey: _dafny.Seq = _dafny.Seq({})
-        self._i_paddingScheme: AwsCryptographyPrimitivesTypes.RSAPaddingMode = AwsCryptographyPrimitivesTypes.RSAPaddingMode.default()()
-        self._i_cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._publicKey: _dafny.Seq = _dafny.Seq({})
+        self._paddingScheme: AwsCryptographyPrimitivesTypes.RSAPaddingMode = AwsCryptographyPrimitivesTypes.RSAPaddingMode.default()()
+        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
         pass
 
     def __dafnystr__(self) -> str:
         return "RawRSAKeyring.RsaWrapKeyMaterial"
     def ctor__(self, publicKey, paddingScheme, cryptoPrimitives):
-        (self)._i_publicKey = publicKey
-        (self)._i_paddingScheme = paddingScheme
-        (self)._i_cryptoPrimitives = cryptoPrimitives
+        (self)._publicKey = publicKey
+        (self)._paddingScheme = paddingScheme
+        (self)._cryptoPrimitives = cryptoPrimitives
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.WrapOutput.default(RsaWrapInfo.default()))()
@@ -416,27 +416,27 @@ class RsaWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionWithResult
 
     @property
     def publicKey(self):
-        return self._i_publicKey
+        return self._publicKey
     @property
     def paddingScheme(self):
-        return self._i_paddingScheme
+        return self._paddingScheme
     @property
     def cryptoPrimitives(self):
-        return self._i_cryptoPrimitives
+        return self._cryptoPrimitives
 
 class RsaUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_privateKey: _dafny.Seq = _dafny.Seq({})
-        self._i_paddingScheme: AwsCryptographyPrimitivesTypes.RSAPaddingMode = AwsCryptographyPrimitivesTypes.RSAPaddingMode.default()()
-        self._i_cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._privateKey: _dafny.Seq = _dafny.Seq({})
+        self._paddingScheme: AwsCryptographyPrimitivesTypes.RSAPaddingMode = AwsCryptographyPrimitivesTypes.RSAPaddingMode.default()()
+        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
         pass
 
     def __dafnystr__(self) -> str:
         return "RawRSAKeyring.RsaUnwrapKeyMaterial"
     def ctor__(self, privateKey, paddingScheme, cryptoPrimitives):
-        (self)._i_privateKey = privateKey
-        (self)._i_paddingScheme = paddingScheme
-        (self)._i_cryptoPrimitives = cryptoPrimitives
+        (self)._privateKey = privateKey
+        (self)._paddingScheme = paddingScheme
+        (self)._cryptoPrimitives = cryptoPrimitives
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.UnwrapOutput.default(RsaUnwrapInfo.default()))()
@@ -473,10 +473,10 @@ class RsaUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWithRe
 
     @property
     def privateKey(self):
-        return self._i_privateKey
+        return self._privateKey
     @property
     def paddingScheme(self):
-        return self._i_paddingScheme
+        return self._paddingScheme
     @property
     def cryptoPrimitives(self):
-        return self._i_cryptoPrimitives
+        return self._cryptoPrimitives

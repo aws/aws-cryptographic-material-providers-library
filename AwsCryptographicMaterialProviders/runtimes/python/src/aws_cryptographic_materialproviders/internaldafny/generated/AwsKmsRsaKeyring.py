@@ -149,13 +149,13 @@ class default__:
 
 class AwsKmsRsaKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.IKeyring):
     def  __init__(self):
-        self._i_cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
-        self._i_client: Wrappers.Option = Wrappers.Option.default()()
-        self._i_paddingScheme: ComAmazonawsKmsTypes.EncryptionAlgorithmSpec = ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.default()()
-        self._i_awsKmsKey: _dafny.Seq = None
-        self._i_publicKey: Wrappers.Option = Wrappers.Option.default()()
-        self._i_awsKmsArn: AwsArnParsing.AwsKmsIdentifier = None
-        self._i_grantTokens: _dafny.Seq = None
+        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._client: Wrappers.Option = Wrappers.Option.default()()
+        self._paddingScheme: ComAmazonawsKmsTypes.EncryptionAlgorithmSpec = ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.default()()
+        self._awsKmsKey: _dafny.Seq = None
+        self._publicKey: Wrappers.Option = Wrappers.Option.default()()
+        self._awsKmsArn: AwsArnParsing.AwsKmsIdentifier = None
+        self._grantTokens: _dafny.Seq = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -173,13 +173,13 @@ class AwsKmsRsaKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvi
     def ctor__(self, publicKey, awsKmsKey, paddingScheme, client, cryptoPrimitives, grantTokens):
         d_1031_parsedAwsKmsId_: Wrappers.Result
         d_1031_parsedAwsKmsId_ = AwsArnParsing.default__.ParseAwsKmsIdentifier(awsKmsKey)
-        (self)._i_publicKey = publicKey
-        (self)._i_awsKmsKey = awsKmsKey
-        (self)._i_awsKmsArn = (d_1031_parsedAwsKmsId_).value
-        (self)._i_paddingScheme = paddingScheme
-        (self)._i_client = client
-        (self)._i_cryptoPrimitives = cryptoPrimitives
-        (self)._i_grantTokens = grantTokens
+        (self)._publicKey = publicKey
+        (self)._awsKmsKey = awsKmsKey
+        (self)._awsKmsArn = (d_1031_parsedAwsKmsId_).value
+        (self)._paddingScheme = paddingScheme
+        (self)._client = client
+        (self)._cryptoPrimitives = cryptoPrimitives
+        (self)._grantTokens = grantTokens
 
     def OnEncrypt_k(self, input):
         res: Wrappers.Result = None
@@ -308,45 +308,45 @@ class AwsKmsRsaKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvi
 
     @property
     def cryptoPrimitives(self):
-        return self._i_cryptoPrimitives
+        return self._cryptoPrimitives
     @property
     def client(self):
-        return self._i_client
+        return self._client
     @property
     def paddingScheme(self):
-        return self._i_paddingScheme
+        return self._paddingScheme
     @property
     def awsKmsKey(self):
-        return self._i_awsKmsKey
+        return self._awsKmsKey
     @property
     def publicKey(self):
-        return self._i_publicKey
+        return self._publicKey
     @property
     def awsKmsArn(self):
-        return self._i_awsKmsArn
+        return self._awsKmsArn
     @property
     def grantTokens(self):
-        return self._i_grantTokens
+        return self._grantTokens
 
 class DecryptSingleAWSRSAEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_materials: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials = None
-        self._i_client: ComAmazonawsKmsTypes.IKMSClient = None
-        self._i_awsKmsKey: _dafny.Seq = None
-        self._i_paddingScheme: ComAmazonawsKmsTypes.EncryptionAlgorithmSpec = ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.default()()
-        self._i_encryptionContextDigest: _dafny.Seq = _dafny.Seq({})
-        self._i_grantTokens: _dafny.Seq = None
+        self._materials: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials = None
+        self._client: ComAmazonawsKmsTypes.IKMSClient = None
+        self._awsKmsKey: _dafny.Seq = None
+        self._paddingScheme: ComAmazonawsKmsTypes.EncryptionAlgorithmSpec = ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.default()()
+        self._encryptionContextDigest: _dafny.Seq = _dafny.Seq({})
+        self._grantTokens: _dafny.Seq = None
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsRsaKeyring.DecryptSingleAWSRSAEncryptedDataKey"
     def ctor__(self, materials, client, awsKmsKey, paddingScheme, encryptionContextDigest, grantTokens):
-        (self)._i_materials = materials
-        (self)._i_client = client
-        (self)._i_awsKmsKey = awsKmsKey
-        (self)._i_paddingScheme = paddingScheme
-        (self)._i_encryptionContextDigest = encryptionContextDigest
-        (self)._i_grantTokens = grantTokens
+        (self)._materials = materials
+        (self)._client = client
+        (self)._awsKmsKey = awsKmsKey
+        (self)._paddingScheme = paddingScheme
+        (self)._encryptionContextDigest = encryptionContextDigest
+        (self)._grantTokens = grantTokens
 
     def Invoke(self, edk):
         res: Wrappers.Result = None
@@ -376,22 +376,22 @@ class DecryptSingleAWSRSAEncryptedDataKey(Actions.ActionWithResult, Actions.Acti
 
     @property
     def materials(self):
-        return self._i_materials
+        return self._materials
     @property
     def client(self):
-        return self._i_client
+        return self._client
     @property
     def awsKmsKey(self):
-        return self._i_awsKmsKey
+        return self._awsKmsKey
     @property
     def paddingScheme(self):
-        return self._i_paddingScheme
+        return self._paddingScheme
     @property
     def encryptionContextDigest(self):
-        return self._i_encryptionContextDigest
+        return self._encryptionContextDigest
     @property
     def grantTokens(self):
-        return self._i_grantTokens
+        return self._grantTokens
 
 class KmsRsaUnwrapInfo:
     @_dafny.classproperty
@@ -439,17 +439,17 @@ class KmsRsaWrapInfo_KmsRsaWrapInfo(KmsRsaWrapInfo, NamedTuple('KmsRsaWrapInfo',
 
 class KmsRsaGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMaterial, Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_publicKey: _dafny.Seq = _dafny.Seq({})
-        self._i_cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
-        self._i_paddingScheme: ComAmazonawsKmsTypes.EncryptionAlgorithmSpec = ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.default()()
+        self._publicKey: _dafny.Seq = _dafny.Seq({})
+        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._paddingScheme: ComAmazonawsKmsTypes.EncryptionAlgorithmSpec = ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.default()()
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsRsaKeyring.KmsRsaGenerateAndWrapKeyMaterial"
     def ctor__(self, publicKey, paddingScheme, cryptoPrimitives):
-        (self)._i_publicKey = publicKey
-        (self)._i_cryptoPrimitives = cryptoPrimitives
-        (self)._i_paddingScheme = paddingScheme
+        (self)._publicKey = publicKey
+        (self)._cryptoPrimitives = cryptoPrimitives
+        (self)._paddingScheme = paddingScheme
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.GenerateAndWrapOutput.default(KmsRsaWrapInfo.default()))()
@@ -488,27 +488,27 @@ class KmsRsaGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMaterial,
 
     @property
     def publicKey(self):
-        return self._i_publicKey
+        return self._publicKey
     @property
     def cryptoPrimitives(self):
-        return self._i_cryptoPrimitives
+        return self._cryptoPrimitives
     @property
     def paddingScheme(self):
-        return self._i_paddingScheme
+        return self._paddingScheme
 
 class KmsRsaWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_publicKey: _dafny.Seq = _dafny.Seq({})
-        self._i_cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
-        self._i_paddingScheme: ComAmazonawsKmsTypes.EncryptionAlgorithmSpec = ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.default()()
+        self._publicKey: _dafny.Seq = _dafny.Seq({})
+        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._paddingScheme: ComAmazonawsKmsTypes.EncryptionAlgorithmSpec = ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.default()()
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsRsaKeyring.KmsRsaWrapKeyMaterial"
     def ctor__(self, publicKey, paddingScheme, cryptoPrimitives):
-        (self)._i_publicKey = publicKey
-        (self)._i_cryptoPrimitives = cryptoPrimitives
-        (self)._i_paddingScheme = paddingScheme
+        (self)._publicKey = publicKey
+        (self)._cryptoPrimitives = cryptoPrimitives
+        (self)._paddingScheme = paddingScheme
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.WrapOutput.default(KmsRsaWrapInfo.default()))()
@@ -557,31 +557,31 @@ class KmsRsaWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionWithRes
 
     @property
     def publicKey(self):
-        return self._i_publicKey
+        return self._publicKey
     @property
     def cryptoPrimitives(self):
-        return self._i_cryptoPrimitives
+        return self._cryptoPrimitives
     @property
     def paddingScheme(self):
-        return self._i_paddingScheme
+        return self._paddingScheme
 
 class KmsRsaUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_client: ComAmazonawsKmsTypes.IKMSClient = None
-        self._i_grantTokens: _dafny.Seq = None
-        self._i_awsKmsKey: _dafny.Seq = None
-        self._i_paddingScheme: ComAmazonawsKmsTypes.EncryptionAlgorithmSpec = ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.default()()
-        self._i_encryptionContextDigest: _dafny.Seq = _dafny.Seq({})
+        self._client: ComAmazonawsKmsTypes.IKMSClient = None
+        self._grantTokens: _dafny.Seq = None
+        self._awsKmsKey: _dafny.Seq = None
+        self._paddingScheme: ComAmazonawsKmsTypes.EncryptionAlgorithmSpec = ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.default()()
+        self._encryptionContextDigest: _dafny.Seq = _dafny.Seq({})
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsRsaKeyring.KmsRsaUnwrapKeyMaterial"
     def ctor__(self, client, awsKmsKey, paddingScheme, encryptionContextDigest, grantTokens):
-        (self)._i_client = client
-        (self)._i_awsKmsKey = awsKmsKey
-        (self)._i_paddingScheme = paddingScheme
-        (self)._i_encryptionContextDigest = encryptionContextDigest
-        (self)._i_grantTokens = grantTokens
+        (self)._client = client
+        (self)._awsKmsKey = awsKmsKey
+        (self)._paddingScheme = paddingScheme
+        (self)._encryptionContextDigest = encryptionContextDigest
+        (self)._grantTokens = grantTokens
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.UnwrapOutput.default(KmsRsaUnwrapInfo.default()))()
@@ -624,16 +624,16 @@ class KmsRsaUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWit
 
     @property
     def client(self):
-        return self._i_client
+        return self._client
     @property
     def grantTokens(self):
-        return self._i_grantTokens
+        return self._grantTokens
     @property
     def awsKmsKey(self):
-        return self._i_awsKmsKey
+        return self._awsKmsKey
     @property
     def paddingScheme(self):
-        return self._i_paddingScheme
+        return self._paddingScheme
     @property
     def encryptionContextDigest(self):
-        return self._i_encryptionContextDigest
+        return self._encryptionContextDigest

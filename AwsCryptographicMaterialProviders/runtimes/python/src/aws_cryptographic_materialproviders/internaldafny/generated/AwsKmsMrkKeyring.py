@@ -105,10 +105,10 @@ import aws_cryptographic_materialproviders.internaldafny.generated.MrkAwareDisco
 
 class AwsKmsMrkKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.IKeyring):
     def  __init__(self):
-        self._i_client: ComAmazonawsKmsTypes.IKMSClient = None
-        self._i_awsKmsKey: _dafny.Seq = None
-        self._i_grantTokens: _dafny.Seq = None
-        self._i_awsKmsArn: AwsArnParsing.AwsKmsIdentifier = None
+        self._client: ComAmazonawsKmsTypes.IKMSClient = None
+        self._awsKmsKey: _dafny.Seq = None
+        self._grantTokens: _dafny.Seq = None
+        self._awsKmsArn: AwsArnParsing.AwsKmsIdentifier = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -126,10 +126,10 @@ class AwsKmsMrkKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvi
     def ctor__(self, client, awsKmsKey, grantTokens):
         d_741_parsedAwsKmsId_: Wrappers.Result
         d_741_parsedAwsKmsId_ = AwsArnParsing.default__.ParseAwsKmsIdentifier(awsKmsKey)
-        (self)._i_client = client
-        (self)._i_awsKmsKey = awsKmsKey
-        (self)._i_awsKmsArn = (d_741_parsedAwsKmsId_).value
-        (self)._i_grantTokens = grantTokens
+        (self)._client = client
+        (self)._awsKmsKey = awsKmsKey
+        (self)._awsKmsArn = (d_741_parsedAwsKmsId_).value
+        (self)._grantTokens = grantTokens
 
     def OnEncrypt_k(self, input):
         output: Wrappers.Result = None
@@ -259,32 +259,32 @@ class AwsKmsMrkKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvi
 
     @property
     def client(self):
-        return self._i_client
+        return self._client
     @property
     def awsKmsKey(self):
-        return self._i_awsKmsKey
+        return self._awsKmsKey
     @property
     def grantTokens(self):
-        return self._i_grantTokens
+        return self._grantTokens
     @property
     def awsKmsArn(self):
-        return self._i_awsKmsArn
+        return self._awsKmsArn
 
 class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_materials: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials = None
-        self._i_client: ComAmazonawsKmsTypes.IKMSClient = None
-        self._i_awsKmsKey: _dafny.Seq = None
-        self._i_grantTokens: _dafny.Seq = None
+        self._materials: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials = None
+        self._client: ComAmazonawsKmsTypes.IKMSClient = None
+        self._awsKmsKey: _dafny.Seq = None
+        self._grantTokens: _dafny.Seq = None
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsMrkKeyring.DecryptSingleEncryptedDataKey"
     def ctor__(self, materials, client, awsKmsKey, grantTokens):
-        (self)._i_materials = materials
-        (self)._i_client = client
-        (self)._i_awsKmsKey = awsKmsKey
-        (self)._i_grantTokens = grantTokens
+        (self)._materials = materials
+        (self)._client = client
+        (self)._awsKmsKey = awsKmsKey
+        (self)._grantTokens = grantTokens
 
     def Invoke(self, edk):
         res: Wrappers.Result = None
@@ -316,13 +316,13 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
 
     @property
     def materials(self):
-        return self._i_materials
+        return self._materials
     @property
     def client(self):
-        return self._i_client
+        return self._client
     @property
     def awsKmsKey(self):
-        return self._i_awsKmsKey
+        return self._awsKmsKey
     @property
     def grantTokens(self):
-        return self._i_grantTokens
+        return self._grantTokens

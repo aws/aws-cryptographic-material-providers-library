@@ -225,15 +225,15 @@ class default__:
 
 class OnDecryptMrkAwareEncryptedDataKeyFilter(Actions.DeterministicActionWithResult, Actions.DeterministicAction):
     def  __init__(self):
-        self._i_awsKmsKey: AwsArnParsing.AwsKmsIdentifier = None
-        self._i_providerId: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
+        self._awsKmsKey: AwsArnParsing.AwsKmsIdentifier = None
+        self._providerId: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsUtils.OnDecryptMrkAwareEncryptedDataKeyFilter"
     def ctor__(self, awsKmsKey, providerId):
-        (self)._i_awsKmsKey = awsKmsKey
-        (self)._i_providerId = providerId
+        (self)._awsKmsKey = awsKmsKey
+        (self)._providerId = providerId
 
     def Invoke(self, edk):
         res: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.bool)()
@@ -263,7 +263,7 @@ class OnDecryptMrkAwareEncryptedDataKeyFilter(Actions.DeterministicActionWithRes
 
     @property
     def awsKmsKey(self):
-        return self._i_awsKmsKey
+        return self._awsKmsKey
     @property
     def providerId(self):
-        return self._i_providerId
+        return self._providerId

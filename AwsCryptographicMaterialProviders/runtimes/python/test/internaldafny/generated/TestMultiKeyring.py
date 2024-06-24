@@ -569,8 +569,8 @@ class default__:
 
 class StaticKeyring(AwsCryptographyMaterialProvidersTypes.IKeyring):
     def  __init__(self):
-        self._i_encryptionMaterials: Wrappers.Option = Wrappers.Option.default()()
-        self._i_decryptionMaterials: Wrappers.Option = Wrappers.Option.default()()
+        self._encryptionMaterials: Wrappers.Option = Wrappers.Option.default()()
+        self._decryptionMaterials: Wrappers.Option = Wrappers.Option.default()()
         pass
 
     def __dafnystr__(self) -> str:
@@ -586,8 +586,8 @@ class StaticKeyring(AwsCryptographyMaterialProvidersTypes.IKeyring):
         return out261_
 
     def ctor__(self, encryptionMaterials, decryptionMaterials):
-        (self)._i_encryptionMaterials = encryptionMaterials
-        (self)._i_decryptionMaterials = decryptionMaterials
+        (self)._encryptionMaterials = encryptionMaterials
+        (self)._decryptionMaterials = decryptionMaterials
 
     def OnEncrypt_k(self, input):
         res: Wrappers.Result = None
@@ -615,10 +615,10 @@ class StaticKeyring(AwsCryptographyMaterialProvidersTypes.IKeyring):
 
     @property
     def encryptionMaterials(self):
-        return self._i_encryptionMaterials
+        return self._encryptionMaterials
     @property
     def decryptionMaterials(self):
-        return self._i_decryptionMaterials
+        return self._decryptionMaterials
 
 class FailingKeyring(AwsCryptographyMaterialProvidersTypes.IKeyring):
     def  __init__(self):

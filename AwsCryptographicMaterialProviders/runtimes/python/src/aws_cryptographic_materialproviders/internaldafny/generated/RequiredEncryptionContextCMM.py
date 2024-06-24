@@ -120,8 +120,8 @@ import aws_cryptographic_materialproviders.internaldafny.generated.DefaultClient
 
 class RequiredEncryptionContextCMM(CMM.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager):
     def  __init__(self):
-        self._i_underlyingCMM: AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager = None
-        self._i_requiredEncryptionContextKeys: _dafny.Seq = _dafny.Seq({})
+        self._underlyingCMM: AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager = None
+        self._requiredEncryptionContextKeys: _dafny.Seq = _dafny.Seq({})
         pass
 
     def __dafnystr__(self) -> str:
@@ -154,8 +154,8 @@ class RequiredEncryptionContextCMM(CMM.VerifiableInterface, AwsCryptographyMater
                 pass
             d_1233_keySeq_ = (d_1233_keySeq_) + (_dafny.Seq([d_1234_key_]))
             d_1232_keySet_ = (d_1232_keySet_) - (_dafny.Set({d_1234_key_}))
-        (self)._i_underlyingCMM = inputCMM
-        (self)._i_requiredEncryptionContextKeys = d_1233_keySeq_
+        (self)._underlyingCMM = inputCMM
+        (self)._requiredEncryptionContextKeys = d_1233_keySeq_
 
     def GetEncryptionMaterials_k(self, input):
         output: Wrappers.Result = None
@@ -275,7 +275,7 @@ class RequiredEncryptionContextCMM(CMM.VerifiableInterface, AwsCryptographyMater
 
     @property
     def underlyingCMM(self):
-        return self._i_underlyingCMM
+        return self._underlyingCMM
     @property
     def requiredEncryptionContextKeys(self):
-        return self._i_requiredEncryptionContextKeys
+        return self._requiredEncryptionContextKeys

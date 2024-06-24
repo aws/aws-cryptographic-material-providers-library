@@ -664,3 +664,6 @@ def _smithy_error_to_dafny_error(e: ServiceError):
 
     if isinstance(e, OpaqueError):
         return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_Opaque(obj=e.obj)
+
+    else:
+        return aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_Opaque(obj=e)

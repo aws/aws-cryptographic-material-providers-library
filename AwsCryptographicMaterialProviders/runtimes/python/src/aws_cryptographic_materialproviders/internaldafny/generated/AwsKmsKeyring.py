@@ -99,10 +99,10 @@ import aws_cryptographic_materialproviders.internaldafny.generated.ErrorMessages
 
 class AwsKmsKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.IKeyring):
     def  __init__(self):
-        self._i_client: ComAmazonawsKmsTypes.IKMSClient = None
-        self._i_awsKmsKey: _dafny.Seq = None
-        self._i_grantTokens: _dafny.Seq = None
-        self._i_awsKmsArn: AwsArnParsing.AwsKmsIdentifier = None
+        self._client: ComAmazonawsKmsTypes.IKMSClient = None
+        self._awsKmsKey: _dafny.Seq = None
+        self._grantTokens: _dafny.Seq = None
+        self._awsKmsArn: AwsArnParsing.AwsKmsIdentifier = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -120,10 +120,10 @@ class AwsKmsKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvider
     def ctor__(self, client, awsKmsKey, grantTokens):
         d_556_parsedAwsKmsId_: Wrappers.Result
         d_556_parsedAwsKmsId_ = AwsArnParsing.default__.ParseAwsKmsIdentifier(awsKmsKey)
-        (self)._i_client = client
-        (self)._i_awsKmsKey = awsKmsKey
-        (self)._i_awsKmsArn = (d_556_parsedAwsKmsId_).value
-        (self)._i_grantTokens = grantTokens
+        (self)._client = client
+        (self)._awsKmsKey = awsKmsKey
+        (self)._awsKmsArn = (d_556_parsedAwsKmsId_).value
+        (self)._grantTokens = grantTokens
 
     def OnEncrypt_k(self, input):
         res: Wrappers.Result = None
@@ -253,26 +253,26 @@ class AwsKmsKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvider
 
     @property
     def client(self):
-        return self._i_client
+        return self._client
     @property
     def awsKmsKey(self):
-        return self._i_awsKmsKey
+        return self._awsKmsKey
     @property
     def grantTokens(self):
-        return self._i_grantTokens
+        return self._grantTokens
     @property
     def awsKmsArn(self):
-        return self._i_awsKmsArn
+        return self._awsKmsArn
 
 class OnDecryptEncryptedDataKeyFilter(Actions.DeterministicActionWithResult, Actions.DeterministicAction):
     def  __init__(self):
-        self._i_awsKmsKey: _dafny.Seq = None
+        self._awsKmsKey: _dafny.Seq = None
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsKeyring.OnDecryptEncryptedDataKeyFilter"
     def ctor__(self, awsKmsKey):
-        (self)._i_awsKmsKey = awsKmsKey
+        (self)._awsKmsKey = awsKmsKey
 
     def Invoke(self, edk):
         res: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.bool)()
@@ -302,23 +302,23 @@ class OnDecryptEncryptedDataKeyFilter(Actions.DeterministicActionWithResult, Act
 
     @property
     def awsKmsKey(self):
-        return self._i_awsKmsKey
+        return self._awsKmsKey
 
 class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_materials: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials = None
-        self._i_client: ComAmazonawsKmsTypes.IKMSClient = None
-        self._i_awsKmsKey: _dafny.Seq = None
-        self._i_grantTokens: _dafny.Seq = None
+        self._materials: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials = None
+        self._client: ComAmazonawsKmsTypes.IKMSClient = None
+        self._awsKmsKey: _dafny.Seq = None
+        self._grantTokens: _dafny.Seq = None
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsKeyring.DecryptSingleEncryptedDataKey"
     def ctor__(self, materials, client, awsKmsKey, grantTokens):
-        (self)._i_materials = materials
-        (self)._i_client = client
-        (self)._i_awsKmsKey = awsKmsKey
-        (self)._i_grantTokens = grantTokens
+        (self)._materials = materials
+        (self)._client = client
+        (self)._awsKmsKey = awsKmsKey
+        (self)._grantTokens = grantTokens
 
     def Invoke(self, edk):
         res: Wrappers.Result = None
@@ -350,16 +350,16 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
 
     @property
     def materials(self):
-        return self._i_materials
+        return self._materials
     @property
     def client(self):
-        return self._i_client
+        return self._client
     @property
     def awsKmsKey(self):
-        return self._i_awsKmsKey
+        return self._awsKmsKey
     @property
     def grantTokens(self):
-        return self._i_grantTokens
+        return self._grantTokens
 
 class KmsUnwrapInfo:
     @_dafny.classproperty
@@ -404,17 +404,17 @@ class KmsWrapInfo_KmsWrapInfo(KmsWrapInfo, NamedTuple('KmsWrapInfo', [('kmsKeyAr
 
 class KmsUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_client: ComAmazonawsKmsTypes.IKMSClient = None
-        self._i_grantTokens: _dafny.Seq = None
-        self._i_awsKmsKey: _dafny.Seq = None
+        self._client: ComAmazonawsKmsTypes.IKMSClient = None
+        self._grantTokens: _dafny.Seq = None
+        self._awsKmsKey: _dafny.Seq = None
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsKeyring.KmsUnwrapKeyMaterial"
     def ctor__(self, client, awsKmsKey, grantTokens):
-        (self)._i_client = client
-        (self)._i_awsKmsKey = awsKmsKey
-        (self)._i_grantTokens = grantTokens
+        (self)._client = client
+        (self)._awsKmsKey = awsKmsKey
+        (self)._grantTokens = grantTokens
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.UnwrapOutput.default(KmsUnwrapInfo.default()))()
@@ -459,27 +459,27 @@ class KmsUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWithRe
 
     @property
     def client(self):
-        return self._i_client
+        return self._client
     @property
     def grantTokens(self):
-        return self._i_grantTokens
+        return self._grantTokens
     @property
     def awsKmsKey(self):
-        return self._i_awsKmsKey
+        return self._awsKmsKey
 
 class KmsGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMaterial, Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_client: ComAmazonawsKmsTypes.IKMSClient = None
-        self._i_awsKmsKey: _dafny.Seq = None
-        self._i_grantTokens: _dafny.Seq = None
+        self._client: ComAmazonawsKmsTypes.IKMSClient = None
+        self._awsKmsKey: _dafny.Seq = None
+        self._grantTokens: _dafny.Seq = None
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsKeyring.KmsGenerateAndWrapKeyMaterial"
     def ctor__(self, client, awsKmsKey, grantTokens):
-        (self)._i_client = client
-        (self)._i_awsKmsKey = awsKmsKey
-        (self)._i_grantTokens = grantTokens
+        (self)._client = client
+        (self)._awsKmsKey = awsKmsKey
+        (self)._grantTokens = grantTokens
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.GenerateAndWrapOutput.default(KmsWrapInfo.default()))()
@@ -531,27 +531,27 @@ class KmsGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMaterial, Ac
 
     @property
     def client(self):
-        return self._i_client
+        return self._client
     @property
     def awsKmsKey(self):
-        return self._i_awsKmsKey
+        return self._awsKmsKey
     @property
     def grantTokens(self):
-        return self._i_grantTokens
+        return self._grantTokens
 
 class KmsWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_client: ComAmazonawsKmsTypes.IKMSClient = None
-        self._i_awsKmsKey: _dafny.Seq = None
-        self._i_grantTokens: _dafny.Seq = None
+        self._client: ComAmazonawsKmsTypes.IKMSClient = None
+        self._awsKmsKey: _dafny.Seq = None
+        self._grantTokens: _dafny.Seq = None
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsKeyring.KmsWrapKeyMaterial"
     def ctor__(self, client, awsKmsKey, grantTokens):
-        (self)._i_client = client
-        (self)._i_awsKmsKey = awsKmsKey
-        (self)._i_grantTokens = grantTokens
+        (self)._client = client
+        (self)._awsKmsKey = awsKmsKey
+        (self)._grantTokens = grantTokens
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.WrapOutput.default(KmsWrapInfo.default()))()
@@ -603,10 +603,10 @@ class KmsWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionWithResult
 
     @property
     def client(self):
-        return self._i_client
+        return self._client
     @property
     def awsKmsKey(self):
-        return self._i_awsKmsKey
+        return self._awsKmsKey
     @property
     def grantTokens(self):
-        return self._i_grantTokens
+        return self._grantTokens

@@ -132,11 +132,11 @@ class default__:
 
 class RawAESKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.IKeyring):
     def  __init__(self):
-        self._i_cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
-        self._i_wrappingKey: _dafny.Seq = _dafny.Seq({})
-        self._i_wrappingAlgorithm: AwsCryptographyPrimitivesTypes.AES__GCM = None
-        self._i_keyNamespace: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
-        self._i_keyName: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
+        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._wrappingKey: _dafny.Seq = _dafny.Seq({})
+        self._wrappingAlgorithm: AwsCryptographyPrimitivesTypes.AES__GCM = None
+        self._keyNamespace: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
+        self._keyName: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
         pass
 
     def __dafnystr__(self) -> str:
@@ -152,11 +152,11 @@ class RawAESKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvider
         return out196_
 
     def ctor__(self, namespace, name, key, wrappingAlgorithm, cryptoPrimitives):
-        (self)._i_keyNamespace = namespace
-        (self)._i_keyName = name
-        (self)._i_wrappingKey = key
-        (self)._i_wrappingAlgorithm = wrappingAlgorithm
-        (self)._i_cryptoPrimitives = cryptoPrimitives
+        (self)._keyNamespace = namespace
+        (self)._keyName = name
+        (self)._wrappingKey = key
+        (self)._wrappingAlgorithm = wrappingAlgorithm
+        (self)._cryptoPrimitives = cryptoPrimitives
 
     def OnEncrypt_k(self, input):
         output: Wrappers.Result = None
@@ -289,19 +289,19 @@ class RawAESKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvider
 
     @property
     def cryptoPrimitives(self):
-        return self._i_cryptoPrimitives
+        return self._cryptoPrimitives
     @property
     def wrappingKey(self):
-        return self._i_wrappingKey
+        return self._wrappingKey
     @property
     def wrappingAlgorithm(self):
-        return self._i_wrappingAlgorithm
+        return self._wrappingAlgorithm
     @property
     def keyNamespace(self):
-        return self._i_keyNamespace
+        return self._keyNamespace
     @property
     def keyName(self):
-        return self._i_keyName
+        return self._keyName
 
 class AesUnwrapInfo:
     @_dafny.classproperty
@@ -346,13 +346,13 @@ class AesWrapInfo_AesWrapInfo(AesWrapInfo, NamedTuple('AesWrapInfo', [('iv', Any
 
 class AesGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMaterial, Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_wrap: AesWrapKeyMaterial = None
+        self._wrap: AesWrapKeyMaterial = None
         pass
 
     def __dafnystr__(self) -> str:
         return "RawAESKeyring.AesGenerateAndWrapKeyMaterial"
     def ctor__(self, wrap):
-        (self)._i_wrap = wrap
+        (self)._wrap = wrap
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.GenerateAndWrapOutput.default(AesWrapInfo.default()))()
@@ -384,21 +384,21 @@ class AesGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMaterial, Ac
 
     @property
     def wrap(self):
-        return self._i_wrap
+        return self._wrap
 
 class AesWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_wrappingKey: _dafny.Seq = _dafny.Seq({})
-        self._i_wrappingAlgorithm: AwsCryptographyPrimitivesTypes.AES__GCM = None
-        self._i_cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._wrappingKey: _dafny.Seq = _dafny.Seq({})
+        self._wrappingAlgorithm: AwsCryptographyPrimitivesTypes.AES__GCM = None
+        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
         pass
 
     def __dafnystr__(self) -> str:
         return "RawAESKeyring.AesWrapKeyMaterial"
     def ctor__(self, wrappingKey, wrappingAlgorithm, cryptoPrimitives):
-        (self)._i_wrappingKey = wrappingKey
-        (self)._i_wrappingAlgorithm = wrappingAlgorithm
-        (self)._i_cryptoPrimitives = cryptoPrimitives
+        (self)._wrappingKey = wrappingKey
+        (self)._wrappingAlgorithm = wrappingAlgorithm
+        (self)._cryptoPrimitives = cryptoPrimitives
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.WrapOutput.default(AesWrapInfo.default()))()
@@ -445,29 +445,29 @@ class AesWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionWithResult
 
     @property
     def wrappingKey(self):
-        return self._i_wrappingKey
+        return self._wrappingKey
     @property
     def wrappingAlgorithm(self):
-        return self._i_wrappingAlgorithm
+        return self._wrappingAlgorithm
     @property
     def cryptoPrimitives(self):
-        return self._i_cryptoPrimitives
+        return self._cryptoPrimitives
 
 class AesUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_wrappingKey: _dafny.Seq = _dafny.Seq({})
-        self._i_iv: _dafny.Seq = _dafny.Seq({})
-        self._i_wrappingAlgorithm: AwsCryptographyPrimitivesTypes.AES__GCM = None
-        self._i_cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._wrappingKey: _dafny.Seq = _dafny.Seq({})
+        self._iv: _dafny.Seq = _dafny.Seq({})
+        self._wrappingAlgorithm: AwsCryptographyPrimitivesTypes.AES__GCM = None
+        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
         pass
 
     def __dafnystr__(self) -> str:
         return "RawAESKeyring.AesUnwrapKeyMaterial"
     def ctor__(self, wrappingKey, wrappingAlgorithm, iv, cryptoPrimitives):
-        (self)._i_wrappingKey = wrappingKey
-        (self)._i_iv = iv
-        (self)._i_wrappingAlgorithm = wrappingAlgorithm
-        (self)._i_cryptoPrimitives = cryptoPrimitives
+        (self)._wrappingKey = wrappingKey
+        (self)._iv = iv
+        (self)._wrappingAlgorithm = wrappingAlgorithm
+        (self)._cryptoPrimitives = cryptoPrimitives
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.UnwrapOutput.default(AesUnwrapInfo.default()))()
@@ -510,13 +510,13 @@ class AesUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWithRe
 
     @property
     def wrappingKey(self):
-        return self._i_wrappingKey
+        return self._wrappingKey
     @property
     def iv(self):
-        return self._i_iv
+        return self._iv
     @property
     def wrappingAlgorithm(self):
-        return self._i_wrappingAlgorithm
+        return self._wrappingAlgorithm
     @property
     def cryptoPrimitives(self):
-        return self._i_cryptoPrimitives
+        return self._cryptoPrimitives

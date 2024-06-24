@@ -116,8 +116,8 @@ class default__:
 
 class MultiKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.IKeyring):
     def  __init__(self):
-        self._i_generatorKeyring: Wrappers.Option = Wrappers.Option.default()()
-        self._i_childKeyrings: _dafny.Seq = _dafny.Seq({})
+        self._generatorKeyring: Wrappers.Option = Wrappers.Option.default()()
+        self._childKeyrings: _dafny.Seq = _dafny.Seq({})
         pass
 
     def __dafnystr__(self) -> str:
@@ -133,8 +133,8 @@ class MultiKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProviders
         return out58_
 
     def ctor__(self, generatorKeyring, childKeyrings):
-        (self)._i_generatorKeyring = generatorKeyring
-        (self)._i_childKeyrings = childKeyrings
+        (self)._generatorKeyring = generatorKeyring
+        (self)._childKeyrings = childKeyrings
 
     def OnEncrypt_k(self, input):
         res: Wrappers.Result = None
@@ -235,7 +235,7 @@ class MultiKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProviders
 
     @property
     def generatorKeyring(self):
-        return self._i_generatorKeyring
+        return self._generatorKeyring
     @property
     def childKeyrings(self):
-        return self._i_childKeyrings
+        return self._childKeyrings

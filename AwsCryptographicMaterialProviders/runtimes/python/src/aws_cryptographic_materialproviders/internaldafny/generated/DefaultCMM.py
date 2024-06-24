@@ -118,8 +118,8 @@ import aws_cryptographic_materialproviders.internaldafny.generated.Commitment as
 
 class DefaultCMM(CMM.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager):
     def  __init__(self):
-        self._i_keyring: AwsCryptographyMaterialProvidersTypes.IKeyring = None
-        self._i_cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._keyring: AwsCryptographyMaterialProvidersTypes.IKeyring = None
+        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -135,8 +135,8 @@ class DefaultCMM(CMM.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.
         return out213_
 
     def OfKeyring(self, k, c):
-        (self)._i_keyring = k
-        (self)._i_cryptoPrimitives = c
+        (self)._keyring = k
+        (self)._cryptoPrimitives = c
 
     def GetEncryptionMaterials_k(self, input):
         output: Wrappers.Result = None
@@ -266,7 +266,7 @@ class DefaultCMM(CMM.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.
 
     @property
     def keyring(self):
-        return self._i_keyring
+        return self._keyring
     @property
     def cryptoPrimitives(self):
-        return self._i_cryptoPrimitives
+        return self._cryptoPrimitives

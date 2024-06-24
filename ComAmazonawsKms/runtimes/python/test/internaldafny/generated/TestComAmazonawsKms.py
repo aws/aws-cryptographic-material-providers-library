@@ -49,8 +49,6 @@ import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import standard_library.internaldafny.generated.Actions as Actions
 import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
 import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
-import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws as Com_Amazonaws
-import com_amazonaws_kms.internaldafny.generated.Com as Com
 
 # Module: TestComAmazonawsKms
 

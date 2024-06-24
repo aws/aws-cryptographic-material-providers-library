@@ -133,10 +133,10 @@ class default__:
 
 class AwsKmsMrkDiscoveryKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.IKeyring):
     def  __init__(self):
-        self._i_client: ComAmazonawsKmsTypes.IKMSClient = None
-        self._i_region: _dafny.Seq = _dafny.Seq("")
-        self._i_discoveryFilter: Wrappers.Option = Wrappers.Option.default()()
-        self._i_grantTokens: _dafny.Seq = None
+        self._client: ComAmazonawsKmsTypes.IKMSClient = None
+        self._region: _dafny.Seq = _dafny.Seq("")
+        self._discoveryFilter: Wrappers.Option = Wrappers.Option.default()()
+        self._grantTokens: _dafny.Seq = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -152,10 +152,10 @@ class AwsKmsMrkDiscoveryKeyring(Keyring.VerifiableInterface, AwsCryptographyMate
         return out102_
 
     def ctor__(self, client, region, discoveryFilter, grantTokens):
-        (self)._i_client = client
-        (self)._i_region = region
-        (self)._i_discoveryFilter = discoveryFilter
-        (self)._i_grantTokens = grantTokens
+        (self)._client = client
+        (self)._region = region
+        (self)._discoveryFilter = discoveryFilter
+        (self)._grantTokens = grantTokens
 
     def OnEncrypt_k(self, input):
         output: Wrappers.Result = None
@@ -227,28 +227,28 @@ class AwsKmsMrkDiscoveryKeyring(Keyring.VerifiableInterface, AwsCryptographyMate
 
     @property
     def client(self):
-        return self._i_client
+        return self._client
     @property
     def region(self):
-        return self._i_region
+        return self._region
     @property
     def discoveryFilter(self):
-        return self._i_discoveryFilter
+        return self._discoveryFilter
     @property
     def grantTokens(self):
-        return self._i_grantTokens
+        return self._grantTokens
 
 class AwsKmsEncryptedDataKeyFilterTransform(Actions.DeterministicActionWithResult, Actions.DeterministicAction):
     def  __init__(self):
-        self._i_region: _dafny.Seq = _dafny.Seq("")
-        self._i_discoveryFilter: Wrappers.Option = Wrappers.Option.default()()
+        self._region: _dafny.Seq = _dafny.Seq("")
+        self._discoveryFilter: Wrappers.Option = Wrappers.Option.default()()
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsMrkDiscoveryKeyring.AwsKmsEncryptedDataKeyFilterTransform"
     def ctor__(self, region, discoveryFilter):
-        (self)._i_region = region
-        (self)._i_discoveryFilter = discoveryFilter
+        (self)._region = region
+        (self)._discoveryFilter = discoveryFilter
 
     def Invoke(self, edk):
         res: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
@@ -294,26 +294,26 @@ class AwsKmsEncryptedDataKeyFilterTransform(Actions.DeterministicActionWithResul
 
     @property
     def region(self):
-        return self._i_region
+        return self._region
     @property
     def discoveryFilter(self):
-        return self._i_discoveryFilter
+        return self._discoveryFilter
 
 class AwsKmsEncryptedDataKeyDecryptor(Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_materials: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials = None
-        self._i_client: ComAmazonawsKmsTypes.IKMSClient = None
-        self._i_region: _dafny.Seq = _dafny.Seq("")
-        self._i_grantTokens: _dafny.Seq = None
+        self._materials: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials = None
+        self._client: ComAmazonawsKmsTypes.IKMSClient = None
+        self._region: _dafny.Seq = _dafny.Seq("")
+        self._grantTokens: _dafny.Seq = None
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsMrkDiscoveryKeyring.AwsKmsEncryptedDataKeyDecryptor"
     def ctor__(self, materials, client, region, grantTokens):
-        (self)._i_materials = materials
-        (self)._i_client = client
-        (self)._i_region = region
-        (self)._i_grantTokens = grantTokens
+        (self)._materials = materials
+        (self)._client = client
+        (self)._region = region
+        (self)._grantTokens = grantTokens
 
     def Invoke(self, helper):
         res: Wrappers.Result = None
@@ -346,13 +346,13 @@ class AwsKmsEncryptedDataKeyDecryptor(Actions.ActionWithResult, Actions.Action):
 
     @property
     def materials(self):
-        return self._i_materials
+        return self._materials
     @property
     def client(self):
-        return self._i_client
+        return self._client
     @property
     def region(self):
-        return self._i_region
+        return self._region
     @property
     def grantTokens(self):
-        return self._i_grantTokens
+        return self._grantTokens

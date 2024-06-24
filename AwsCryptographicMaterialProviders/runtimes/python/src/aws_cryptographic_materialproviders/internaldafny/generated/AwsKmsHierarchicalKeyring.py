@@ -223,12 +223,12 @@ class default__:
 
 class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.IKeyring):
     def  __init__(self):
-        self._i_keyStore: AwsCryptographyKeyStoreTypes.IKeyStoreClient = None
-        self._i_cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
-        self._i_branchKeyIdSupplier: Wrappers.Option = Wrappers.Option.default()()
-        self._i_branchKeyId: Wrappers.Option = Wrappers.Option.default()()
-        self._i_ttlSeconds: int = None
-        self._i_cache: AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCache = None
+        self._keyStore: AwsCryptographyKeyStoreTypes.IKeyStoreClient = None
+        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._branchKeyIdSupplier: Wrappers.Option = Wrappers.Option.default()()
+        self._branchKeyId: Wrappers.Option = Wrappers.Option.default()()
+        self._ttlSeconds: int = None
+        self._cache: AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCache = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -244,12 +244,12 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, AwsCryptographyMate
         return out151_
 
     def ctor__(self, keyStore, branchKeyId, branchKeyIdSupplier, ttlSeconds, cmc, cryptoPrimitives):
-        (self)._i_keyStore = keyStore
-        (self)._i_branchKeyId = branchKeyId
-        (self)._i_branchKeyIdSupplier = branchKeyIdSupplier
-        (self)._i_ttlSeconds = ttlSeconds
-        (self)._i_cryptoPrimitives = cryptoPrimitives
-        (self)._i_cache = cmc
+        (self)._keyStore = keyStore
+        (self)._branchKeyId = branchKeyId
+        (self)._branchKeyIdSupplier = branchKeyIdSupplier
+        (self)._ttlSeconds = ttlSeconds
+        (self)._cryptoPrimitives = cryptoPrimitives
+        (self)._cache = cmc
 
     def GetBranchKeyId(self, context):
         ret: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
@@ -558,32 +558,32 @@ class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, AwsCryptographyMate
 
     @property
     def keyStore(self):
-        return self._i_keyStore
+        return self._keyStore
     @property
     def cryptoPrimitives(self):
-        return self._i_cryptoPrimitives
+        return self._cryptoPrimitives
     @property
     def branchKeyIdSupplier(self):
-        return self._i_branchKeyIdSupplier
+        return self._branchKeyIdSupplier
     @property
     def branchKeyId(self):
-        return self._i_branchKeyId
+        return self._branchKeyId
     @property
     def ttlSeconds(self):
-        return self._i_ttlSeconds
+        return self._ttlSeconds
     @property
     def cache(self):
-        return self._i_cache
+        return self._cache
 
 class OnDecryptHierarchyEncryptedDataKeyFilter(Actions.DeterministicActionWithResult, Actions.DeterministicAction):
     def  __init__(self):
-        self._i_branchKeyId: _dafny.Seq = _dafny.Seq("")
+        self._branchKeyId: _dafny.Seq = _dafny.Seq("")
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsHierarchicalKeyring.OnDecryptHierarchyEncryptedDataKeyFilter"
     def ctor__(self, branchKeyId):
-        (self)._i_branchKeyId = branchKeyId
+        (self)._branchKeyId = branchKeyId
 
     def Invoke(self, edk):
         res: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.bool)()
@@ -610,27 +610,27 @@ class OnDecryptHierarchyEncryptedDataKeyFilter(Actions.DeterministicActionWithRe
 
     @property
     def branchKeyId(self):
-        return self._i_branchKeyId
+        return self._branchKeyId
 
 class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_materials: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials = None
-        self._i_keyStore: AwsCryptographyKeyStoreTypes.IKeyStoreClient = None
-        self._i_cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
-        self._i_branchKeyId: _dafny.Seq = _dafny.Seq("")
-        self._i_ttlSeconds: int = None
-        self._i_cache: AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCache = None
+        self._materials: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials = None
+        self._keyStore: AwsCryptographyKeyStoreTypes.IKeyStoreClient = None
+        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._branchKeyId: _dafny.Seq = _dafny.Seq("")
+        self._ttlSeconds: int = None
+        self._cache: AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCache = None
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsHierarchicalKeyring.DecryptSingleEncryptedDataKey"
     def ctor__(self, materials, keyStore, cryptoPrimitives, branchKeyId, ttlSeconds, cache):
-        (self)._i_materials = materials
-        (self)._i_keyStore = keyStore
-        (self)._i_cryptoPrimitives = cryptoPrimitives
-        (self)._i_branchKeyId = branchKeyId
-        (self)._i_ttlSeconds = ttlSeconds
-        (self)._i_cache = cache
+        (self)._materials = materials
+        (self)._keyStore = keyStore
+        (self)._cryptoPrimitives = cryptoPrimitives
+        (self)._branchKeyId = branchKeyId
+        (self)._ttlSeconds = ttlSeconds
+        (self)._cache = cache
 
     def Invoke(self, edk):
         res: Wrappers.Result = None
@@ -849,22 +849,22 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
 
     @property
     def materials(self):
-        return self._i_materials
+        return self._materials
     @property
     def keyStore(self):
-        return self._i_keyStore
+        return self._keyStore
     @property
     def cryptoPrimitives(self):
-        return self._i_cryptoPrimitives
+        return self._cryptoPrimitives
     @property
     def branchKeyId(self):
-        return self._i_branchKeyId
+        return self._branchKeyId
     @property
     def ttlSeconds(self):
-        return self._i_ttlSeconds
+        return self._ttlSeconds
     @property
     def cache(self):
-        return self._i_cache
+        return self._cache
 
 class HierarchyUnwrapInfo:
     @_dafny.classproperty
@@ -912,19 +912,19 @@ class HierarchyWrapInfo_HierarchyWrapInfo(HierarchyWrapInfo, NamedTuple('Hierarc
 
 class KmsHierarchyUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_crypto: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
-        self._i_branchKeyIdUtf8: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
-        self._i_branchKeyVersionAsBytes: _dafny.Seq = _dafny.Seq({})
-        self._i_branchKey: _dafny.Seq = _dafny.Seq({})
+        self._crypto: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._branchKeyIdUtf8: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
+        self._branchKeyVersionAsBytes: _dafny.Seq = _dafny.Seq({})
+        self._branchKey: _dafny.Seq = _dafny.Seq({})
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsHierarchicalKeyring.KmsHierarchyUnwrapKeyMaterial"
     def ctor__(self, branchKey, branchKeyIdUtf8, branchKeyVersionAsBytes, crypto):
-        (self)._i_branchKey = branchKey
-        (self)._i_branchKeyIdUtf8 = branchKeyIdUtf8
-        (self)._i_branchKeyVersionAsBytes = branchKeyVersionAsBytes
-        (self)._i_crypto = crypto
+        (self)._branchKey = branchKey
+        (self)._branchKeyIdUtf8 = branchKeyIdUtf8
+        (self)._branchKeyVersionAsBytes = branchKeyVersionAsBytes
+        (self)._crypto = crypto
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.UnwrapOutput.default(HierarchyUnwrapInfo.default()))()
@@ -996,32 +996,32 @@ class KmsHierarchyUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.Act
 
     @property
     def crypto(self):
-        return self._i_crypto
+        return self._crypto
     @property
     def branchKeyIdUtf8(self):
-        return self._i_branchKeyIdUtf8
+        return self._branchKeyIdUtf8
     @property
     def branchKeyVersionAsBytes(self):
-        return self._i_branchKeyVersionAsBytes
+        return self._branchKeyVersionAsBytes
     @property
     def branchKey(self):
-        return self._i_branchKey
+        return self._branchKey
 
 class KmsHierarchyGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMaterial, Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_branchKey: _dafny.Seq = _dafny.Seq({})
-        self._i_branchKeyIdUtf8: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
-        self._i_branchKeyVersionAsBytes: _dafny.Seq = _dafny.Seq({})
-        self._i_crypto: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._branchKey: _dafny.Seq = _dafny.Seq({})
+        self._branchKeyIdUtf8: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
+        self._branchKeyVersionAsBytes: _dafny.Seq = _dafny.Seq({})
+        self._crypto: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsHierarchicalKeyring.KmsHierarchyGenerateAndWrapKeyMaterial"
     def ctor__(self, branchKey, branchKeyIdUtf8, branchKeyVersionAsBytes, crypto):
-        (self)._i_branchKey = branchKey
-        (self)._i_branchKeyIdUtf8 = branchKeyIdUtf8
-        (self)._i_branchKeyVersionAsBytes = branchKeyVersionAsBytes
-        (self)._i_crypto = crypto
+        (self)._branchKey = branchKey
+        (self)._branchKeyIdUtf8 = branchKeyIdUtf8
+        (self)._branchKeyVersionAsBytes = branchKeyVersionAsBytes
+        (self)._crypto = crypto
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.GenerateAndWrapOutput.default(HierarchyWrapInfo.default()))()
@@ -1062,32 +1062,32 @@ class KmsHierarchyGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMat
 
     @property
     def branchKey(self):
-        return self._i_branchKey
+        return self._branchKey
     @property
     def branchKeyIdUtf8(self):
-        return self._i_branchKeyIdUtf8
+        return self._branchKeyIdUtf8
     @property
     def branchKeyVersionAsBytes(self):
-        return self._i_branchKeyVersionAsBytes
+        return self._branchKeyVersionAsBytes
     @property
     def crypto(self):
-        return self._i_crypto
+        return self._crypto
 
 class KmsHierarchyWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._i_branchKey: _dafny.Seq = _dafny.Seq({})
-        self._i_branchKeyIdUtf8: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
-        self._i_branchKeyVersionAsBytes: _dafny.Seq = _dafny.Seq({})
-        self._i_crypto: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._branchKey: _dafny.Seq = _dafny.Seq({})
+        self._branchKeyIdUtf8: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
+        self._branchKeyVersionAsBytes: _dafny.Seq = _dafny.Seq({})
+        self._crypto: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
         pass
 
     def __dafnystr__(self) -> str:
         return "AwsKmsHierarchicalKeyring.KmsHierarchyWrapKeyMaterial"
     def ctor__(self, branchKey, branchKeyIdUtf8, branchKeyVersionAsBytes, crypto):
-        (self)._i_branchKey = branchKey
-        (self)._i_branchKeyIdUtf8 = branchKeyIdUtf8
-        (self)._i_branchKeyVersionAsBytes = branchKeyVersionAsBytes
-        (self)._i_crypto = crypto
+        (self)._branchKey = branchKey
+        (self)._branchKeyIdUtf8 = branchKeyIdUtf8
+        (self)._branchKeyVersionAsBytes = branchKeyVersionAsBytes
+        (self)._crypto = crypto
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.WrapOutput.default(HierarchyWrapInfo.default()))()
@@ -1151,13 +1151,13 @@ class KmsHierarchyWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionW
 
     @property
     def branchKey(self):
-        return self._i_branchKey
+        return self._branchKey
     @property
     def branchKeyIdUtf8(self):
-        return self._i_branchKeyIdUtf8
+        return self._branchKeyIdUtf8
     @property
     def branchKeyVersionAsBytes(self):
-        return self._i_branchKeyVersionAsBytes
+        return self._branchKeyVersionAsBytes
     @property
     def crypto(self):
-        return self._i_crypto
+        return self._crypto

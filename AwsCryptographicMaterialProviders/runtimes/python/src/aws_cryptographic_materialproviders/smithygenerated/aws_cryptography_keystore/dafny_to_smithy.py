@@ -24,7 +24,7 @@ def aws_cryptography_keystore_CreateKeyStoreInput(dafny_input):
 def aws_cryptography_keystore_CreateKeyInput(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.CreateKeyInput(
         branch_key_identifier=(dafny_input.branchKeyIdentifier.value.VerbatimString(False)) if (dafny_input.branchKeyIdentifier.is_Some) else None,
-        encryption_context=({bytes(''.join(UTF8.default__.Decode(key).value.Elements), encoding='utf-8'): bytes(''.join(UTF8.default__.Decode(value).value.Elements), encoding='utf-8') for (key, value) in dafny_input.encryptionContext.value.items }) if (dafny_input.encryptionContext.is_Some) else None,
+        encryption_context=({''.join(UTF8.default__.Decode(key).value.Elements): ''.join(UTF8.default__.Decode(value).value.Elements) for (key, value) in dafny_input.encryptionContext.value.items }) if (dafny_input.encryptionContext.is_Some) else None,
     )
 
 def aws_cryptography_keystore_VersionKeyInput(dafny_input):
@@ -98,8 +98,8 @@ def aws_cryptography_keystore_VersionKeyOutput(dafny_input):
 def aws_cryptography_keystore_BranchKeyMaterials(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.BranchKeyMaterials(
         branch_key_identifier=dafny_input.branchKeyIdentifier.VerbatimString(False),
-        branch_key_version=bytes(''.join(UTF8.default__.Decode(dafny_input.branchKeyVersion).value.Elements), encoding='utf-8'),
-        encryption_context={bytes(''.join(UTF8.default__.Decode(key).value.Elements), encoding='utf-8'): bytes(''.join(UTF8.default__.Decode(value).value.Elements), encoding='utf-8') for (key, value) in dafny_input.encryptionContext.items },
+        branch_key_version=''.join(UTF8.default__.Decode(dafny_input.branchKeyVersion).value.Elements),
+        encryption_context={''.join(UTF8.default__.Decode(key).value.Elements): ''.join(UTF8.default__.Decode(value).value.Elements) for (key, value) in dafny_input.encryptionContext.items },
         branch_key=bytes(dafny_input.branchKey),
     )
 
@@ -116,7 +116,7 @@ def aws_cryptography_keystore_GetBranchKeyVersionOutput(dafny_input):
 def aws_cryptography_keystore_BeaconKeyMaterials(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.BeaconKeyMaterials(
         beacon_key_identifier=dafny_input.beaconKeyIdentifier.VerbatimString(False),
-        encryption_context={bytes(''.join(UTF8.default__.Decode(key).value.Elements), encoding='utf-8'): bytes(''.join(UTF8.default__.Decode(value).value.Elements), encoding='utf-8') for (key, value) in dafny_input.encryptionContext.items },
+        encryption_context={''.join(UTF8.default__.Decode(key).value.Elements): ''.join(UTF8.default__.Decode(value).value.Elements) for (key, value) in dafny_input.encryptionContext.items },
         beacon_key=(bytes(dafny_input.beaconKey.value)) if (dafny_input.beaconKey.is_Some) else None,
         hmac_keys=({key.VerbatimString(False): bytes(value) for (key, value) in dafny_input.hmacKeys.value.items }) if (dafny_input.hmacKeys.is_Some) else None,
     )

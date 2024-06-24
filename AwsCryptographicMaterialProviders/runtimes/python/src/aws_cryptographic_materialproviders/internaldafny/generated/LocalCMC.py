@@ -159,19 +159,19 @@ class CacheEntry:
         self.next: Ref = Ref.default()()
         self.messagesUsed: int = None
         self.bytesUsed: int = None
-        self._i_identifier: _dafny.Seq = _dafny.Seq({})
-        self._i_materials: AwsCryptographyMaterialProvidersTypes.Materials = None
-        self._i_creationTime: int = None
-        self._i_expiryTime: int = None
+        self._identifier: _dafny.Seq = _dafny.Seq({})
+        self._materials: AwsCryptographyMaterialProvidersTypes.Materials = None
+        self._creationTime: int = None
+        self._expiryTime: int = None
         pass
 
     def __dafnystr__(self) -> str:
         return "LocalCMC.CacheEntry"
     def ctor__(self, materials_k, identifier_k, creationTime_k, expiryTime_k, messagesUsed_k, bytesUsed_k):
-        (self)._i_materials = materials_k
-        (self)._i_identifier = identifier_k
-        (self)._i_creationTime = creationTime_k
-        (self)._i_expiryTime = expiryTime_k
+        (self)._materials = materials_k
+        (self)._identifier = identifier_k
+        (self)._creationTime = creationTime_k
+        (self)._expiryTime = expiryTime_k
         (self).messagesUsed = messagesUsed_k
         (self).bytesUsed = bytesUsed_k
         (self).prev = default__.NULL
@@ -179,16 +179,16 @@ class CacheEntry:
 
     @property
     def identifier(self):
-        return self._i_identifier
+        return self._identifier
     @property
     def materials(self):
-        return self._i_materials
+        return self._materials
     @property
     def creationTime(self):
-        return self._i_creationTime
+        return self._creationTime
     @property
     def expiryTime(self):
-        return self._i_expiryTime
+        return self._expiryTime
 
 class DoublyLinkedCacheEntryList:
     def  __init__(self):
@@ -250,8 +250,8 @@ class LocalCMC(AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCach
     def  __init__(self):
         self.queue: DoublyLinkedCacheEntryList = None
         self.cache: DafnyLibraries.MutableMap = None
-        self._i_entryCapacity: int = int(0)
-        self._i_entryPruningTailSize: int = int(0)
+        self._entryCapacity: int = int(0)
+        self._entryPruningTailSize: int = int(0)
         pass
 
     def __dafnystr__(self) -> str:
@@ -277,8 +277,8 @@ class LocalCMC(AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCach
         return out118_
 
     def ctor__(self, entryCapacity_k, entryPruningTailSize_k):
-        (self)._i_entryCapacity = entryCapacity_k
-        (self)._i_entryPruningTailSize = entryPruningTailSize_k
+        (self)._entryCapacity = entryCapacity_k
+        (self)._entryPruningTailSize = entryPruningTailSize_k
         nw28_ = DafnyLibraries.MutableMap()
         (self).cache = nw28_
         nw29_ = DoublyLinkedCacheEntryList()
@@ -427,7 +427,7 @@ class LocalCMC(AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCach
 
     @property
     def entryCapacity(self):
-        return self._i_entryCapacity
+        return self._entryCapacity
     @property
     def entryPruningTailSize(self):
-        return self._i_entryPruningTailSize
+        return self._entryPruningTailSize

@@ -63,7 +63,7 @@ from standard_library.internaldafny.generated import UTF8
 
 def aws_cryptography_materialproviders_GetBranchKeyIdInput(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetBranchKeyIdInput(
-        encryption_context={bytes(''.join(UTF8.default__.Decode(key).value.Elements), encoding='utf-8'): bytes(''.join(UTF8.default__.Decode(value).value.Elements), encoding='utf-8') for (key, value) in dafny_input.encryptionContext.items },
+        encryption_context={''.join(UTF8.default__.Decode(key).value.Elements): ''.join(UTF8.default__.Decode(value).value.Elements) for (key, value) in dafny_input.encryptionContext.items },
     )
 
 def aws_cryptography_materialproviders_GetBranchKeyIdOutput(dafny_input):
@@ -100,9 +100,9 @@ def aws_cryptography_materialproviders_Materials(dafny_input):
 def aws_cryptography_materialproviders_EncryptionMaterials(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EncryptionMaterials(
         algorithm_suite=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteInfo(dafny_input.algorithmSuite),
-        encryption_context={bytes(''.join(UTF8.default__.Decode(key).value.Elements), encoding='utf-8'): bytes(''.join(UTF8.default__.Decode(value).value.Elements), encoding='utf-8') for (key, value) in dafny_input.encryptionContext.items },
+        encryption_context={''.join(UTF8.default__.Decode(key).value.Elements): ''.join(UTF8.default__.Decode(value).value.Elements) for (key, value) in dafny_input.encryptionContext.items },
         encrypted_data_keys=[aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptedDataKey(list_element) for list_element in dafny_input.encryptedDataKeys],
-        required_encryption_context_keys=[bytes(''.join(UTF8.default__.Decode(list_element).value.Elements), encoding='utf-8') for list_element in dafny_input.requiredEncryptionContextKeys],
+        required_encryption_context_keys=[''.join(UTF8.default__.Decode(list_element).value.Elements) for list_element in dafny_input.requiredEncryptionContextKeys],
         plaintext_data_key=(bytes(dafny_input.plaintextDataKey.value)) if (dafny_input.plaintextDataKey.is_Some) else None,
         signing_key=(bytes(dafny_input.signingKey.value)) if (dafny_input.signingKey.is_Some) else None,
         symmetric_signing_keys=([bytes(list_element) for list_element in dafny_input.symmetricSigningKeys.value]) if (dafny_input.symmetricSigningKeys.is_Some) else None,
@@ -111,8 +111,8 @@ def aws_cryptography_materialproviders_EncryptionMaterials(dafny_input):
 def aws_cryptography_materialproviders_DecryptionMaterials(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptionMaterials(
         algorithm_suite=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteInfo(dafny_input.algorithmSuite),
-        encryption_context={bytes(''.join(UTF8.default__.Decode(key).value.Elements), encoding='utf-8'): bytes(''.join(UTF8.default__.Decode(value).value.Elements), encoding='utf-8') for (key, value) in dafny_input.encryptionContext.items },
-        required_encryption_context_keys=[bytes(''.join(UTF8.default__.Decode(list_element).value.Elements), encoding='utf-8') for list_element in dafny_input.requiredEncryptionContextKeys],
+        encryption_context={''.join(UTF8.default__.Decode(key).value.Elements): ''.join(UTF8.default__.Decode(value).value.Elements) for (key, value) in dafny_input.encryptionContext.items },
+        required_encryption_context_keys=[''.join(UTF8.default__.Decode(list_element).value.Elements) for list_element in dafny_input.requiredEncryptionContextKeys],
         plaintext_data_key=(bytes(dafny_input.plaintextDataKey.value)) if (dafny_input.plaintextDataKey.is_Some) else None,
         verification_key=(bytes(dafny_input.verificationKey.value)) if (dafny_input.verificationKey.is_Some) else None,
         symmetric_signing_key=(bytes(dafny_input.symmetricSigningKey.value)) if (dafny_input.symmetricSigningKey.is_Some) else None,
@@ -133,7 +133,7 @@ def aws_cryptography_materialproviders_AlgorithmSuiteInfo(dafny_input):
 
 def aws_cryptography_materialproviders_EncryptedDataKey(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EncryptedDataKey(
-        key_provider_id=bytes(''.join(UTF8.default__.Decode(dafny_input.keyProviderId).value.Elements), encoding='utf-8'),
+        key_provider_id=''.join(UTF8.default__.Decode(dafny_input.keyProviderId).value.Elements),
         key_provider_info=bytes(dafny_input.keyProviderInfo),
         ciphertext=bytes(dafny_input.ciphertext),
     )
@@ -356,11 +356,11 @@ def aws_cryptography_materialproviders_DBECommitmentPolicy(dafny_input):
 
 def aws_cryptography_materialproviders_GetEncryptionMaterialsInput(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.GetEncryptionMaterialsInput(
-        encryption_context={bytes(''.join(UTF8.default__.Decode(key).value.Elements), encoding='utf-8'): bytes(''.join(UTF8.default__.Decode(value).value.Elements), encoding='utf-8') for (key, value) in dafny_input.encryptionContext.items },
+        encryption_context={''.join(UTF8.default__.Decode(key).value.Elements): ''.join(UTF8.default__.Decode(value).value.Elements) for (key, value) in dafny_input.encryptionContext.items },
         commitment_policy=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CommitmentPolicy(dafny_input.commitmentPolicy),
         algorithm_suite_id=(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteId(dafny_input.algorithmSuiteId.value)) if (dafny_input.algorithmSuiteId.is_Some) else None,
         max_plaintext_length=(dafny_input.maxPlaintextLength.value) if (dafny_input.maxPlaintextLength.is_Some) else None,
-        required_encryption_context_keys=([bytes(''.join(UTF8.default__.Decode(list_element).value.Elements), encoding='utf-8') for list_element in dafny_input.requiredEncryptionContextKeys.value]) if (dafny_input.requiredEncryptionContextKeys.is_Some) else None,
+        required_encryption_context_keys=([''.join(UTF8.default__.Decode(list_element).value.Elements) for list_element in dafny_input.requiredEncryptionContextKeys.value]) if (dafny_input.requiredEncryptionContextKeys.is_Some) else None,
     )
 
 def aws_cryptography_materialproviders_GetEncryptionMaterialsOutput(dafny_input):
@@ -373,8 +373,8 @@ def aws_cryptography_materialproviders_DecryptMaterialsInput(dafny_input):
         algorithm_suite_id=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteId(dafny_input.algorithmSuiteId),
         commitment_policy=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CommitmentPolicy(dafny_input.commitmentPolicy),
         encrypted_data_keys=[aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_EncryptedDataKey(list_element) for list_element in dafny_input.encryptedDataKeys],
-        encryption_context={bytes(''.join(UTF8.default__.Decode(key).value.Elements), encoding='utf-8'): bytes(''.join(UTF8.default__.Decode(value).value.Elements), encoding='utf-8') for (key, value) in dafny_input.encryptionContext.items },
-        reproduced_encryption_context=({bytes(''.join(UTF8.default__.Decode(key).value.Elements), encoding='utf-8'): bytes(''.join(UTF8.default__.Decode(value).value.Elements), encoding='utf-8') for (key, value) in dafny_input.reproducedEncryptionContext.value.items }) if (dafny_input.reproducedEncryptionContext.is_Some) else None,
+        encryption_context={''.join(UTF8.default__.Decode(key).value.Elements): ''.join(UTF8.default__.Decode(value).value.Elements) for (key, value) in dafny_input.encryptionContext.items },
+        reproduced_encryption_context=({''.join(UTF8.default__.Decode(key).value.Elements): ''.join(UTF8.default__.Decode(value).value.Elements) for (key, value) in dafny_input.reproducedEncryptionContext.value.items }) if (dafny_input.reproducedEncryptionContext.is_Some) else None,
     )
 
 def aws_cryptography_materialproviders_DecryptMaterialsOutput(dafny_input):
@@ -637,7 +637,7 @@ def aws_cryptography_materialproviders_CreateRequiredEncryptionContextCMMInput(d
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateRequiredEncryptionContextCMMInput(
         underlying_cmm=(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CryptographicMaterialsManagerReference(dafny_input.underlyingCMM.UnwrapOr(None))) if (dafny_input.underlyingCMM.UnwrapOr(None) is not None) else None,
         keyring=(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_KeyringReference(dafny_input.keyring.UnwrapOr(None))) if (dafny_input.keyring.UnwrapOr(None) is not None) else None,
-        required_encryption_context_keys=[bytes(''.join(UTF8.default__.Decode(list_element).value.Elements), encoding='utf-8') for list_element in dafny_input.requiredEncryptionContextKeys],
+        required_encryption_context_keys=[''.join(UTF8.default__.Decode(list_element).value.Elements) for list_element in dafny_input.requiredEncryptionContextKeys],
     )
 
 def aws_cryptography_materialproviders_CreateCryptographicMaterialsCacheInput(dafny_input):
@@ -652,8 +652,8 @@ def aws_cryptography_materialproviders_CreateDefaultClientSupplierInput(dafny_in
 def aws_cryptography_materialproviders_InitializeEncryptionMaterialsInput(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.InitializeEncryptionMaterialsInput(
         algorithm_suite_id=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteId(dafny_input.algorithmSuiteId),
-        encryption_context={bytes(''.join(UTF8.default__.Decode(key).value.Elements), encoding='utf-8'): bytes(''.join(UTF8.default__.Decode(value).value.Elements), encoding='utf-8') for (key, value) in dafny_input.encryptionContext.items },
-        required_encryption_context_keys=[bytes(''.join(UTF8.default__.Decode(list_element).value.Elements), encoding='utf-8') for list_element in dafny_input.requiredEncryptionContextKeys],
+        encryption_context={''.join(UTF8.default__.Decode(key).value.Elements): ''.join(UTF8.default__.Decode(value).value.Elements) for (key, value) in dafny_input.encryptionContext.items },
+        required_encryption_context_keys=[''.join(UTF8.default__.Decode(list_element).value.Elements) for list_element in dafny_input.requiredEncryptionContextKeys],
         signing_key=(bytes(dafny_input.signingKey.value)) if (dafny_input.signingKey.is_Some) else None,
         verification_key=(bytes(dafny_input.verificationKey.value)) if (dafny_input.verificationKey.is_Some) else None,
     )
@@ -661,8 +661,8 @@ def aws_cryptography_materialproviders_InitializeEncryptionMaterialsInput(dafny_
 def aws_cryptography_materialproviders_InitializeDecryptionMaterialsInput(dafny_input):
     return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.InitializeDecryptionMaterialsInput(
         algorithm_suite_id=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_AlgorithmSuiteId(dafny_input.algorithmSuiteId),
-        encryption_context={bytes(''.join(UTF8.default__.Decode(key).value.Elements), encoding='utf-8'): bytes(''.join(UTF8.default__.Decode(value).value.Elements), encoding='utf-8') for (key, value) in dafny_input.encryptionContext.items },
-        required_encryption_context_keys=[bytes(''.join(UTF8.default__.Decode(list_element).value.Elements), encoding='utf-8') for list_element in dafny_input.requiredEncryptionContextKeys],
+        encryption_context={''.join(UTF8.default__.Decode(key).value.Elements): ''.join(UTF8.default__.Decode(value).value.Elements) for (key, value) in dafny_input.encryptionContext.items },
+        required_encryption_context_keys=[''.join(UTF8.default__.Decode(list_element).value.Elements) for list_element in dafny_input.requiredEncryptionContextKeys],
     )
 
 def aws_cryptography_materialproviders_ValidEncryptionMaterialsTransitionInput(dafny_input):

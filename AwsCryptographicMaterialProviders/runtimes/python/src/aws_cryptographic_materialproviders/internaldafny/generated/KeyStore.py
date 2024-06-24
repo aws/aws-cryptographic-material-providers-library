@@ -220,13 +220,13 @@ class default__:
 
 class KeyStoreClient(AwsCryptographyKeyStoreTypes.IKeyStoreClient):
     def  __init__(self):
-        self._i_config: AwsCryptographyKeyStoreOperations.Config = None
+        self._config: AwsCryptographyKeyStoreOperations.Config = None
         pass
 
     def __dafnystr__(self) -> str:
         return "KeyStore.KeyStoreClient"
     def ctor__(self, config):
-        (self)._i_config = config
+        (self)._config = config
 
     def GetKeyStoreInfo(self):
         output: Wrappers.Result = None
@@ -279,4 +279,4 @@ class KeyStoreClient(AwsCryptographyKeyStoreTypes.IKeyStoreClient):
 
     @property
     def config(self):
-        return self._i_config
+        return self._config

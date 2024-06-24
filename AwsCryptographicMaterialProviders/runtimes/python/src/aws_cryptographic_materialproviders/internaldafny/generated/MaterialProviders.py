@@ -165,13 +165,13 @@ class default__:
 
 class MaterialProvidersClient(AwsCryptographyMaterialProvidersTypes.IAwsCryptographicMaterialProvidersClient):
     def  __init__(self):
-        self._i_config: AwsCryptographyMaterialProvidersOperations.Config = None
+        self._config: AwsCryptographyMaterialProvidersOperations.Config = None
         pass
 
     def __dafnystr__(self) -> str:
         return "MaterialProviders.MaterialProvidersClient"
     def ctor__(self, config):
-        (self)._i_config = config
+        (self)._config = config
 
     def CreateAwsKmsKeyring(self, input):
         output: Wrappers.Result = None
@@ -324,4 +324,4 @@ class MaterialProvidersClient(AwsCryptographyMaterialProvidersTypes.IAwsCryptogr
 
     @property
     def config(self):
-        return self._i_config
+        return self._config
