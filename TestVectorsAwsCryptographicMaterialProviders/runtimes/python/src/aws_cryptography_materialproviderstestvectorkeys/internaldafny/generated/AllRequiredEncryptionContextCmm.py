@@ -46,17 +46,17 @@ import standard_library.internaldafny.generated.Actions as Actions
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
 import aws_cryptographic_materialproviders.internaldafny.generated.Constants as Constants
+import standard_library.internaldafny.generated.UUID as UUID
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapping as MaterialWrapping
 import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
 import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
 import aws_cryptographic_materialproviders.internaldafny.generated.EdkWrapping as EdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.ErrorMessages as ErrorMessages
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsKeyring as AwsKmsKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.StrictMultiKeyring as StrictMultiKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsDiscoveryKeyring as AwsKmsDiscoveryKeyring
 import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
 import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
-import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws as Com_Amazonaws
-import com_amazonaws_dynamodb.internaldafny.generated.Com as Com
 import aws_cryptographic_materialproviders.internaldafny.generated.DiscoveryMultiKeyring as DiscoveryMultiKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkDiscoveryKeyring as AwsKmsMrkDiscoveryKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.MrkAwareDiscoveryMultiKeyring as MrkAwareDiscoveryMultiKeyring
@@ -69,7 +69,6 @@ import aws_cryptographic_materialproviders.internaldafny.generated.SynchronizedL
 import standard_library.internaldafny.generated.SortedSets as SortedSets
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker as StormTracker
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
-import standard_library.internaldafny.generated.UUID as UUID
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
@@ -82,6 +81,8 @@ import aws_cryptographic_materialproviders.internaldafny.generated.DefaultClient
 import aws_cryptographic_materialproviders.internaldafny.generated.RequiredEncryptionContextCMM as RequiredEncryptionContextCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersOperations as AwsCryptographyMaterialProvidersOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialProviders as MaterialProviders
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStoreErrorMessages as KeyStoreErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.KmsArn as KmsArn
 import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
 import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
@@ -122,10 +123,8 @@ import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes as AwsCryptographyMaterialProvidersTestVectorKeysTypes
 import standard_library.internaldafny.generated.JSON_Utils_Views_Core as JSON_Utils_Views_Core
 import standard_library.internaldafny.generated.JSON_Utils_Views_Writers as JSON_Utils_Views_Writers
-import standard_library.internaldafny.generated.JSON_Utils_Views as JSON_Utils_Views
 import standard_library.internaldafny.generated.JSON_Utils_Lexers_Core as JSON_Utils_Lexers_Core
 import standard_library.internaldafny.generated.JSON_Utils_Lexers_Strings as JSON_Utils_Lexers_Strings
-import standard_library.internaldafny.generated.JSON_Utils_Lexers as JSON_Utils_Lexers
 import standard_library.internaldafny.generated.JSON_Utils_Cursors as JSON_Utils_Cursors
 import standard_library.internaldafny.generated.JSON_Utils_Parsers as JSON_Utils_Parsers
 import standard_library.internaldafny.generated.JSON_Utils_Str_CharStrConversion as JSON_Utils_Str_CharStrConversion
@@ -133,7 +132,6 @@ import standard_library.internaldafny.generated.JSON_Utils_Str_CharStrEscaping a
 import standard_library.internaldafny.generated.JSON_Utils_Str as JSON_Utils_Str
 import standard_library.internaldafny.generated.JSON_Utils_Seq as JSON_Utils_Seq
 import standard_library.internaldafny.generated.JSON_Utils_Vectors as JSON_Utils_Vectors
-import standard_library.internaldafny.generated.JSON_Utils as JSON_Utils
 import standard_library.internaldafny.generated.JSON_Errors as JSON_Errors
 import standard_library.internaldafny.generated.JSON_Values as JSON_Values
 import standard_library.internaldafny.generated.JSON_Spec as JSON_Spec
@@ -145,7 +143,6 @@ import standard_library.internaldafny.generated.JSON_Deserializer_ByteStrConvers
 import standard_library.internaldafny.generated.JSON_Deserializer as JSON_Deserializer
 import standard_library.internaldafny.generated.JSON_ConcreteSyntax_Spec as JSON_ConcreteSyntax_Spec
 import standard_library.internaldafny.generated.JSON_ConcreteSyntax_SpecProperties as JSON_ConcreteSyntax_SpecProperties
-import standard_library.internaldafny.generated.JSON_ConcreteSyntax as JSON_ConcreteSyntax
 import standard_library.internaldafny.generated.JSON_ZeroCopy_Serializer as JSON_ZeroCopy_Serializer
 import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Core as JSON_ZeroCopy_Deserializer_Core
 import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Strings as JSON_ZeroCopy_Deserializer_Strings
@@ -159,9 +156,7 @@ import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Value
 import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_API as JSON_ZeroCopy_Deserializer_API
 import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer as JSON_ZeroCopy_Deserializer
 import standard_library.internaldafny.generated.JSON_ZeroCopy_API as JSON_ZeroCopy_API
-import standard_library.internaldafny.generated.JSON_ZeroCopy as JSON_ZeroCopy
 import standard_library.internaldafny.generated.JSON_API as JSON_API
-import standard_library.internaldafny.generated.JSON as JSON
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.JSONHelpers as JSONHelpers
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.KeyDescription as KeyDescription
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.KeyMaterial as KeyMaterial
@@ -181,7 +176,7 @@ import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllRawRSA as AllRawRSA
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllDefaultCmm as AllDefaultCmm
 
-# Module: aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllRequiredEncryptionContextCmm
+# Module: AllRequiredEncryptionContextCmm
 
 class default__:
     def  __init__(self):
@@ -208,189 +203,194 @@ class default__:
     @_dafny.classproperty
     def SuccessTestingRequiredEncryptionContextKeysReproducedEncryptionContext(instance):
         def iife68_():
-            def iife71_():
-                def lambda81_(d_747_a_, d_748_b_):
-                    return (d_747_a_) < (d_748_b_)
+            def iife70_():
+                def lambda72_(d_638_a_, d_639_b_):
+                    return (d_638_a_) < (d_639_b_)
 
-                coll39_ = _dafny.Set()
-                def lambda80_(d_747_a_, d_748_b_):
-                    return (d_747_a_) < (d_748_b_)
+                coll38_ = _dafny.Set()
+                def lambda71_(d_638_a_, d_639_b_):
+                    return (d_638_a_) < (d_639_b_)
 
-                compr_64_: _dafny.Map
-                for compr_64_ in (AllDefaultCmm.default__.SubSets(d_746_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_746_encryptionContext_).keys, lambda80_))).Elements:
-                    d_755_s_: _dafny.Map = compr_64_
-                    if (d_755_s_) in (AllDefaultCmm.default__.SubSets(d_746_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_746_encryptionContext_).keys, lambda81_))):
-                        coll39_ = coll39_.union(_dafny.Set([(d_755_s_).keys]))
-                return _dafny.Set(coll39_)
+                compr_62_: _dafny.Map
+                for compr_62_ in (AllDefaultCmm.default__.SubSets(d_637_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_637_encryptionContext_).keys, lambda71_))).Elements:
+                    d_642_s_: _dafny.Map = compr_62_
+                    if (d_642_s_) in (AllDefaultCmm.default__.SubSets(d_637_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_637_encryptionContext_).keys, lambda72_))):
+                        coll38_ = coll38_.union(_dafny.Set([(d_642_s_).keys]))
+                return _dafny.Set(coll38_)
             def iife72_():
-                def lambda83_(d_751_a_, d_752_b_):
-                    return (d_751_a_) < (d_752_b_)
+                def lambda76_(d_643_a_, d_644_b_):
+                    return (d_643_a_) < (d_644_b_)
 
                 coll40_ = _dafny.Set()
-                def lambda82_(d_751_a_, d_752_b_):
-                    return (d_751_a_) < (d_752_b_)
+                def lambda75_(d_643_a_, d_644_b_):
+                    return (d_643_a_) < (d_644_b_)
 
                 compr_65_: _dafny.Map
-                for compr_65_ in (AllDefaultCmm.default__.SubSets(d_746_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_746_encryptionContext_).keys, lambda82_))).Elements:
-                    d_756_s_: _dafny.Map = compr_65_
-                    if ((d_756_s_) in (AllDefaultCmm.default__.SubSets(d_746_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_746_encryptionContext_).keys, lambda83_)))) and ((((d_756_s_).keys).intersection(d_750_requiredEncryptionContextKeys_)) == (d_750_requiredEncryptionContextKeys_)):
-                        coll40_ = coll40_.union(_dafny.Set([d_756_s_]))
+                for compr_65_ in (AllDefaultCmm.default__.SubSets(d_637_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_637_encryptionContext_).keys, lambda75_))).Elements:
+                    d_647_s_: _dafny.Map = compr_65_
+                    if ((d_647_s_) in (AllDefaultCmm.default__.SubSets(d_637_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_637_encryptionContext_).keys, lambda76_)))) and ((((d_647_s_).keys).intersection(d_641_requiredEncryptionContextKeys_)) == (d_641_requiredEncryptionContextKeys_)):
+                        coll40_ = coll40_.union(_dafny.Set([d_647_s_]))
                 return _dafny.Set(coll40_)
             coll36_ = _dafny.Set()
             compr_59_: _dafny.Map
             for compr_59_ in (default__.encryptionContextsToTest).Elements:
-                d_746_encryptionContext_: _dafny.Map = compr_59_
-                def iife69_():
-                    def lambda77_(d_747_a_, d_748_b_):
-                        return (d_747_a_) < (d_748_b_)
+                d_637_encryptionContext_: _dafny.Map = compr_59_
+                if (d_637_encryptionContext_) in (default__.encryptionContextsToTest):
+                    def iife69_():
+                        def lambda70_(d_638_a_, d_639_b_):
+                            return (d_638_a_) < (d_639_b_)
 
-                    coll37_ = _dafny.Set()
-                    def lambda76_(d_747_a_, d_748_b_):
-                        return (d_747_a_) < (d_748_b_)
+                        coll37_ = _dafny.Set()
+                        def lambda69_(d_638_a_, d_639_b_):
+                            return (d_638_a_) < (d_639_b_)
 
-                    compr_61_: _dafny.Map
-                    for compr_61_ in (AllDefaultCmm.default__.SubSets(d_746_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_746_encryptionContext_).keys, lambda76_))).Elements:
-                        d_749_s_: _dafny.Map = compr_61_
-                        if (d_749_s_) in (AllDefaultCmm.default__.SubSets(d_746_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_746_encryptionContext_).keys, lambda77_))):
-                            coll37_ = coll37_.union(_dafny.Set([(d_749_s_).keys]))
-                    return _dafny.Set(coll37_)
-                compr_60_: _dafny.Set
-                for compr_60_ in (iife69_()
-                ).Elements:
-                    d_750_requiredEncryptionContextKeys_: _dafny.Set = compr_60_
-                    def iife70_():
-                        def lambda79_(d_751_a_, d_752_b_):
-                            return (d_751_a_) < (d_752_b_)
-
-                        coll38_ = _dafny.Set()
-                        def lambda78_(d_751_a_, d_752_b_):
-                            return (d_751_a_) < (d_752_b_)
-
-                        compr_63_: _dafny.Map
-                        for compr_63_ in (AllDefaultCmm.default__.SubSets(d_746_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_746_encryptionContext_).keys, lambda78_))).Elements:
-                            d_753_s_: _dafny.Map = compr_63_
-                            if ((d_753_s_) in (AllDefaultCmm.default__.SubSets(d_746_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_746_encryptionContext_).keys, lambda79_)))) and ((((d_753_s_).keys).intersection(d_750_requiredEncryptionContextKeys_)) == (d_750_requiredEncryptionContextKeys_)):
-                                coll38_ = coll38_.union(_dafny.Set([d_753_s_]))
-                        return _dafny.Set(coll38_)
-                    compr_62_: _dafny.Map
-                    for compr_62_ in (iife70_()
+                        compr_61_: _dafny.Map
+                        for compr_61_ in (AllDefaultCmm.default__.SubSets(d_637_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_637_encryptionContext_).keys, lambda69_))).Elements:
+                            d_640_s_: _dafny.Map = compr_61_
+                            if (d_640_s_) in (AllDefaultCmm.default__.SubSets(d_637_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_637_encryptionContext_).keys, lambda70_))):
+                                coll37_ = coll37_.union(_dafny.Set([(d_640_s_).keys]))
+                        return _dafny.Set(coll37_)
+                    compr_60_: _dafny.Set
+                    for compr_60_ in (iife69_()
                     ).Elements:
-                        d_754_reproducedEncryptionContext_: _dafny.Map = compr_62_
-                        if (((d_746_encryptionContext_) in (default__.encryptionContextsToTest)) and ((d_750_requiredEncryptionContextKeys_) in (iife71_()
-                        ))) and ((d_754_reproducedEncryptionContext_) in (iife72_()
-                        )):
-                            coll36_ = coll36_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptKeyringVector(_dafny.Seq("Success testing requiredEncryptionContextKeys/reproducedEncryptionContext"), Wrappers.Option_None(), d_746_encryptionContext_, AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(AllDefaultCmm.default__.StaticAlgorithmSuite), AllDefaultCmm.default__.StaticAlgorithmSuite, Wrappers.Option_None(), Wrappers.Option_Some(SortedSets.default__.SetToSequence(d_750_requiredEncryptionContextKeys_)), AllDefaultCmm.default__.RawAesKeyring, AllDefaultCmm.default__.RawAesKeyring, Wrappers.Option_Some(d_754_reproducedEncryptionContext_))]))
+                        d_641_requiredEncryptionContextKeys_: _dafny.Set = compr_60_
+                        if (d_641_requiredEncryptionContextKeys_) in (iife70_()
+                        ):
+                            def iife71_():
+                                def lambda74_(d_643_a_, d_644_b_):
+                                    return (d_643_a_) < (d_644_b_)
+
+                                coll39_ = _dafny.Set()
+                                def lambda73_(d_643_a_, d_644_b_):
+                                    return (d_643_a_) < (d_644_b_)
+
+                                compr_64_: _dafny.Map
+                                for compr_64_ in (AllDefaultCmm.default__.SubSets(d_637_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_637_encryptionContext_).keys, lambda73_))).Elements:
+                                    d_645_s_: _dafny.Map = compr_64_
+                                    if ((d_645_s_) in (AllDefaultCmm.default__.SubSets(d_637_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_637_encryptionContext_).keys, lambda74_)))) and ((((d_645_s_).keys).intersection(d_641_requiredEncryptionContextKeys_)) == (d_641_requiredEncryptionContextKeys_)):
+                                        coll39_ = coll39_.union(_dafny.Set([d_645_s_]))
+                                return _dafny.Set(coll39_)
+                            compr_63_: _dafny.Map
+                            for compr_63_ in (iife71_()
+                            ).Elements:
+                                d_646_reproducedEncryptionContext_: _dafny.Map = compr_63_
+                                if (d_646_reproducedEncryptionContext_) in (iife72_()
+                                ):
+                                    coll36_ = coll36_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptKeyringVector(_dafny.Seq("Success testing requiredEncryptionContextKeys/reproducedEncryptionContext"), Wrappers.Option_None(), d_637_encryptionContext_, AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(AllDefaultCmm.default__.StaticAlgorithmSuite), AllDefaultCmm.default__.StaticAlgorithmSuite, Wrappers.Option_None(), Wrappers.Option_Some(SortedSets.default__.SetToSequence(d_641_requiredEncryptionContextKeys_)), AllDefaultCmm.default__.RawAesKeyring, AllDefaultCmm.default__.RawAesKeyring, Wrappers.Option_Some(d_646_reproducedEncryptionContext_))]))
             return _dafny.Set(coll36_)
         return iife68_()
         
     @_dafny.classproperty
     def FailureBadReproducedEncryptionContext(instance):
         def iife73_():
+            def iife75_():
+                def lambda80_(d_649_a_, d_650_b_):
+                    return (d_649_a_) < (d_650_b_)
+
+                coll43_ = _dafny.Set()
+                def lambda79_(d_649_a_, d_650_b_):
+                    return (d_649_a_) < (d_650_b_)
+
+                compr_69_: _dafny.Map
+                for compr_69_ in (AllDefaultCmm.default__.SubSets(d_648_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_648_encryptionContext_).keys, lambda79_))).Elements:
+                    d_653_s_: _dafny.Map = compr_69_
+                    if (d_653_s_) in (AllDefaultCmm.default__.SubSets(d_648_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_648_encryptionContext_).keys, lambda80_))):
+                        coll43_ = coll43_.union(_dafny.Set([(d_653_s_).keys]))
+                return _dafny.Set(coll43_)
             def iife77_():
-                def lambda91_(d_758_a_, d_759_b_):
-                    return (d_758_a_) < (d_759_b_)
+                def lambda84_(d_654_a_, d_655_b_):
+                    return (d_654_a_) < (d_655_b_)
 
                 coll45_ = _dafny.Set()
-                def lambda90_(d_758_a_, d_759_b_):
-                    return (d_758_a_) < (d_759_b_)
+                def lambda83_(d_654_a_, d_655_b_):
+                    return (d_654_a_) < (d_655_b_)
 
-                compr_73_: _dafny.Map
-                for compr_73_ in (AllDefaultCmm.default__.SubSets(d_757_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_757_encryptionContext_).keys, lambda90_))).Elements:
-                    d_770_s_: _dafny.Map = compr_73_
-                    if (d_770_s_) in (AllDefaultCmm.default__.SubSets(d_757_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_757_encryptionContext_).keys, lambda91_))):
-                        coll45_ = coll45_.union(_dafny.Set([(d_770_s_).keys]))
+                compr_72_: _dafny.Map
+                for compr_72_ in (AllDefaultCmm.default__.SubSets(default__.disjointEncryptionContext, SortedSets.default__.SetToOrderedSequence2((default__.disjointEncryptionContext).keys, lambda83_))).Elements:
+                    d_658_s_: _dafny.Map = compr_72_
+                    if ((d_658_s_) in (AllDefaultCmm.default__.SubSets(default__.disjointEncryptionContext, SortedSets.default__.SetToOrderedSequence2((default__.disjointEncryptionContext).keys, lambda84_)))) and ((d_658_s_) != (_dafny.Map({}))):
+                        coll45_ = coll45_.union(_dafny.Set([d_658_s_]))
                 return _dafny.Set(coll45_)
-            def iife78_():
-                def lambda93_(d_762_a_, d_763_b_):
-                    return (d_762_a_) < (d_763_b_)
-
-                coll46_ = _dafny.Set()
-                def lambda92_(d_762_a_, d_763_b_):
-                    return (d_762_a_) < (d_763_b_)
-
-                compr_74_: _dafny.Map
-                for compr_74_ in (AllDefaultCmm.default__.SubSets(default__.disjointEncryptionContext, SortedSets.default__.SetToOrderedSequence2((default__.disjointEncryptionContext).keys, lambda92_))).Elements:
-                    d_771_s_: _dafny.Map = compr_74_
-                    if ((d_771_s_) in (AllDefaultCmm.default__.SubSets(default__.disjointEncryptionContext, SortedSets.default__.SetToOrderedSequence2((default__.disjointEncryptionContext).keys, lambda93_)))) and ((d_771_s_) != (_dafny.Map({}))):
-                        coll46_ = coll46_.union(_dafny.Set([d_771_s_]))
-                return _dafny.Set(coll46_)
             def iife79_():
-                def lambda95_(d_766_a_, d_767_b_):
-                    return (d_766_a_) < (d_767_b_)
+                def lambda88_(d_659_a_, d_660_b_):
+                    return (d_659_a_) < (d_660_b_)
 
                 coll47_ = _dafny.Set()
-                def lambda94_(d_766_a_, d_767_b_):
-                    return (d_766_a_) < (d_767_b_)
+                def lambda87_(d_659_a_, d_660_b_):
+                    return (d_659_a_) < (d_660_b_)
 
                 compr_75_: _dafny.Map
-                for compr_75_ in (AllDefaultCmm.default__.SubSets(d_757_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_757_encryptionContext_).keys, lambda94_))).Elements:
-                    d_772_s_: _dafny.Map = compr_75_
-                    if (d_772_s_) in (AllDefaultCmm.default__.SubSets(d_757_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_757_encryptionContext_).keys, lambda95_))):
-                        coll47_ = coll47_.union(_dafny.Set([(d_772_s_) | (d_765_incorrectEncryptionContext_)]))
+                for compr_75_ in (AllDefaultCmm.default__.SubSets(d_648_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_648_encryptionContext_).keys, lambda87_))).Elements:
+                    d_663_s_: _dafny.Map = compr_75_
+                    if (d_663_s_) in (AllDefaultCmm.default__.SubSets(d_648_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_648_encryptionContext_).keys, lambda88_))):
+                        coll47_ = coll47_.union(_dafny.Set([(d_663_s_) | (d_657_incorrectEncryptionContext_)]))
                 return _dafny.Set(coll47_)
             coll41_ = _dafny.Set()
             compr_66_: _dafny.Map
             for compr_66_ in (default__.encryptionContextsToTest).Elements:
-                d_757_encryptionContext_: _dafny.Map = compr_66_
-                def iife74_():
-                    def lambda85_(d_758_a_, d_759_b_):
-                        return (d_758_a_) < (d_759_b_)
+                d_648_encryptionContext_: _dafny.Map = compr_66_
+                if (d_648_encryptionContext_) in (default__.encryptionContextsToTest):
+                    def iife74_():
+                        def lambda78_(d_649_a_, d_650_b_):
+                            return (d_649_a_) < (d_650_b_)
 
-                    coll42_ = _dafny.Set()
-                    def lambda84_(d_758_a_, d_759_b_):
-                        return (d_758_a_) < (d_759_b_)
+                        coll42_ = _dafny.Set()
+                        def lambda77_(d_649_a_, d_650_b_):
+                            return (d_649_a_) < (d_650_b_)
 
-                    compr_68_: _dafny.Map
-                    for compr_68_ in (AllDefaultCmm.default__.SubSets(d_757_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_757_encryptionContext_).keys, lambda84_))).Elements:
-                        d_760_s_: _dafny.Map = compr_68_
-                        if (d_760_s_) in (AllDefaultCmm.default__.SubSets(d_757_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_757_encryptionContext_).keys, lambda85_))):
-                            coll42_ = coll42_.union(_dafny.Set([(d_760_s_).keys]))
-                    return _dafny.Set(coll42_)
-                compr_67_: _dafny.Set
-                for compr_67_ in (iife74_()
-                ).Elements:
-                    d_761_requiredEncryptionContextKeys_: _dafny.Set = compr_67_
-                    def iife75_():
-                        def lambda87_(d_762_a_, d_763_b_):
-                            return (d_762_a_) < (d_763_b_)
-
-                        coll43_ = _dafny.Set()
-                        def lambda86_(d_762_a_, d_763_b_):
-                            return (d_762_a_) < (d_763_b_)
-
-                        compr_70_: _dafny.Map
-                        for compr_70_ in (AllDefaultCmm.default__.SubSets(default__.disjointEncryptionContext, SortedSets.default__.SetToOrderedSequence2((default__.disjointEncryptionContext).keys, lambda86_))).Elements:
-                            d_764_s_: _dafny.Map = compr_70_
-                            if ((d_764_s_) in (AllDefaultCmm.default__.SubSets(default__.disjointEncryptionContext, SortedSets.default__.SetToOrderedSequence2((default__.disjointEncryptionContext).keys, lambda87_)))) and ((d_764_s_) != (_dafny.Map({}))):
-                                coll43_ = coll43_.union(_dafny.Set([d_764_s_]))
-                        return _dafny.Set(coll43_)
-                    compr_69_: _dafny.Map
-                    for compr_69_ in (iife75_()
+                        compr_68_: _dafny.Map
+                        for compr_68_ in (AllDefaultCmm.default__.SubSets(d_648_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_648_encryptionContext_).keys, lambda77_))).Elements:
+                            d_651_s_: _dafny.Map = compr_68_
+                            if (d_651_s_) in (AllDefaultCmm.default__.SubSets(d_648_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_648_encryptionContext_).keys, lambda78_))):
+                                coll42_ = coll42_.union(_dafny.Set([(d_651_s_).keys]))
+                        return _dafny.Set(coll42_)
+                    compr_67_: _dafny.Set
+                    for compr_67_ in (iife74_()
                     ).Elements:
-                        d_765_incorrectEncryptionContext_: _dafny.Map = compr_69_
-                        def iife76_():
-                            def lambda89_(d_766_a_, d_767_b_):
-                                return (d_766_a_) < (d_767_b_)
+                        d_652_requiredEncryptionContextKeys_: _dafny.Set = compr_67_
+                        if (d_652_requiredEncryptionContextKeys_) in (iife75_()
+                        ):
+                            def iife76_():
+                                def lambda82_(d_654_a_, d_655_b_):
+                                    return (d_654_a_) < (d_655_b_)
 
-                            coll44_ = _dafny.Set()
-                            def lambda88_(d_766_a_, d_767_b_):
-                                return (d_766_a_) < (d_767_b_)
+                                coll44_ = _dafny.Set()
+                                def lambda81_(d_654_a_, d_655_b_):
+                                    return (d_654_a_) < (d_655_b_)
 
-                            compr_72_: _dafny.Map
-                            for compr_72_ in (AllDefaultCmm.default__.SubSets(d_757_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_757_encryptionContext_).keys, lambda88_))).Elements:
-                                d_768_s_: _dafny.Map = compr_72_
-                                if (d_768_s_) in (AllDefaultCmm.default__.SubSets(d_757_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_757_encryptionContext_).keys, lambda89_))):
-                                    coll44_ = coll44_.union(_dafny.Set([(d_768_s_) | (d_765_incorrectEncryptionContext_)]))
-                            return _dafny.Set(coll44_)
-                        compr_71_: _dafny.Map
-                        for compr_71_ in (iife76_()
-                        ).Elements:
-                            d_769_reproducedEncryptionContext_: _dafny.Map = compr_71_
-                            if ((((d_757_encryptionContext_) in (default__.encryptionContextsToTest)) and ((d_761_requiredEncryptionContextKeys_) in (iife77_()
-                            ))) and ((d_765_incorrectEncryptionContext_) in (iife78_()
-                            ))) and ((d_769_reproducedEncryptionContext_) in (iife79_()
-                            )):
-                                coll41_ = coll41_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptNegativeDecryptKeyringVector(_dafny.Seq("Failure of reproducedEncryptionContext"), Wrappers.Option_None(), d_757_encryptionContext_, AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(AllDefaultCmm.default__.StaticAlgorithmSuite), AllDefaultCmm.default__.StaticAlgorithmSuite, Wrappers.Option_None(), Wrappers.Option_Some(SortedSets.default__.SetToSequence(d_761_requiredEncryptionContextKeys_)), _dafny.Seq("The reproducedEncryptionContext is not correct"), AllDefaultCmm.default__.RawAesKeyring, AllDefaultCmm.default__.RawAesKeyring, Wrappers.Option_Some(d_769_reproducedEncryptionContext_))]))
+                                compr_71_: _dafny.Map
+                                for compr_71_ in (AllDefaultCmm.default__.SubSets(default__.disjointEncryptionContext, SortedSets.default__.SetToOrderedSequence2((default__.disjointEncryptionContext).keys, lambda81_))).Elements:
+                                    d_656_s_: _dafny.Map = compr_71_
+                                    if ((d_656_s_) in (AllDefaultCmm.default__.SubSets(default__.disjointEncryptionContext, SortedSets.default__.SetToOrderedSequence2((default__.disjointEncryptionContext).keys, lambda82_)))) and ((d_656_s_) != (_dafny.Map({}))):
+                                        coll44_ = coll44_.union(_dafny.Set([d_656_s_]))
+                                return _dafny.Set(coll44_)
+                            compr_70_: _dafny.Map
+                            for compr_70_ in (iife76_()
+                            ).Elements:
+                                d_657_incorrectEncryptionContext_: _dafny.Map = compr_70_
+                                if (d_657_incorrectEncryptionContext_) in (iife77_()
+                                ):
+                                    def iife78_():
+                                        def lambda86_(d_659_a_, d_660_b_):
+                                            return (d_659_a_) < (d_660_b_)
+
+                                        coll46_ = _dafny.Set()
+                                        def lambda85_(d_659_a_, d_660_b_):
+                                            return (d_659_a_) < (d_660_b_)
+
+                                        compr_74_: _dafny.Map
+                                        for compr_74_ in (AllDefaultCmm.default__.SubSets(d_648_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_648_encryptionContext_).keys, lambda85_))).Elements:
+                                            d_661_s_: _dafny.Map = compr_74_
+                                            if (d_661_s_) in (AllDefaultCmm.default__.SubSets(d_648_encryptionContext_, SortedSets.default__.SetToOrderedSequence2((d_648_encryptionContext_).keys, lambda86_))):
+                                                coll46_ = coll46_.union(_dafny.Set([(d_661_s_) | (d_657_incorrectEncryptionContext_)]))
+                                        return _dafny.Set(coll46_)
+                                    compr_73_: _dafny.Map
+                                    for compr_73_ in (iife78_()
+                                    ).Elements:
+                                        d_662_reproducedEncryptionContext_: _dafny.Map = compr_73_
+                                        if (d_662_reproducedEncryptionContext_) in (iife79_()
+                                        ):
+                                            coll41_ = coll41_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptNegativeDecryptKeyringVector(_dafny.Seq("Failure of reproducedEncryptionContext"), Wrappers.Option_None(), d_648_encryptionContext_, AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(AllDefaultCmm.default__.StaticAlgorithmSuite), AllDefaultCmm.default__.StaticAlgorithmSuite, Wrappers.Option_None(), Wrappers.Option_Some(SortedSets.default__.SetToSequence(d_652_requiredEncryptionContextKeys_)), _dafny.Seq("The reproducedEncryptionContext is not correct"), AllDefaultCmm.default__.RawAesKeyring, AllDefaultCmm.default__.RawAesKeyring, Wrappers.Option_Some(d_662_reproducedEncryptionContext_))]))
             return _dafny.Set(coll41_)
         return iife73_()
         

@@ -106,7 +106,7 @@ def aws_cryptography_materialproviderstestvectorkeys_MultiKeyring(dafny_input):
 def aws_cryptography_materialproviderstestvectorkeys_RequiredEncryptionContextCMM(dafny_input):
     return aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.RequiredEncryptionContextCMM(
         underlying=aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.dafny_to_smithy.aws_cryptography_materialproviderstestvectorkeys_KeyDescription(dafny_input.underlying),
-        required_encryption_context_keys=[bytes(''.join(UTF8.default__.Decode(list_element).value.Elements), encoding='utf-8') for list_element in dafny_input.requiredEncryptionContextKeys],
+        required_encryption_context_keys=[''.join(UTF8.default__.Decode(list_element).value.Elements) for list_element in dafny_input.requiredEncryptionContextKeys],
     )
 
 def aws_cryptography_materialproviderstestvectorkeys_TestVectorKeyringInput(dafny_input):

@@ -95,7 +95,7 @@ import pathlib
 
 class FileIO:
     @staticmethod
-    def INTERNAL__WriteBytesToFile(path, contents):
+    def INTERNAL_WriteBytesToFile(path, contents):
         path_str = path.VerbatimString(False)
         contents_bytes = bytes(contents)
 
@@ -111,7 +111,7 @@ class FileIO:
             return (True, exc_seq)
         
     @staticmethod
-    def INTERNAL__ReadBytesFromFile(path):
+    def INTERNAL_ReadBytesFromFile(path):
         path_str = path.VerbatimString(False)
         try:
             with open(path_str, mode="rb") as file:

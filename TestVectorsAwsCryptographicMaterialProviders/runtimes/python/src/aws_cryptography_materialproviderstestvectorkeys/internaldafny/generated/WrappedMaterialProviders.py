@@ -118,58 +118,15 @@ import standard_library.internaldafny.generated.FloatCompare as FloatCompare
 import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
 import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.MplManifestOptions as MplManifestOptions
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllAlgorithmSuites as AllAlgorithmSuites
 
-# Module: AllAlgorithmSuites
+# Module: WrappedMaterialProviders
 
 class default__:
     def  __init__(self):
         pass
 
     @staticmethod
-    def GetCompatibleCommitmentPolicy(algorithmSuite):
-        pat_let_tv0_ = algorithmSuite
-        source0_ = (algorithmSuite).id
-        unmatched0 = True
-        if unmatched0:
-            if source0_.is_ESDK:
-                d_0___v0_ = source0_.ESDK
-                unmatched0 = False
-                if ((pat_let_tv0_).commitment).is_None:
-                    return AwsCryptographyMaterialProvidersTypes.CommitmentPolicy_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy_FORBID__ENCRYPT__ALLOW__DECRYPT())
-                elif True:
-                    return AwsCryptographyMaterialProvidersTypes.CommitmentPolicy_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT())
-        if unmatched0:
-            d_1___v1_ = source0_.DBE
-            unmatched0 = False
-            return AwsCryptographyMaterialProvidersTypes.CommitmentPolicy_DBE(AwsCryptographyMaterialProvidersTypes.DBECommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT())
-        raise Exception("unexpected control point")
+    def WrappedDefaultMaterialProvidersConfig():
+        return AwsCryptographyMaterialProvidersTypes.MaterialProvidersConfig_MaterialProvidersConfig()
 
-    @staticmethod
-    def ToHex(algorithmSuite):
-        return HexStrings.default__.ToHexString((algorithmSuite).binaryId)
-
-    @_dafny.classproperty
-    def ESDKAlgorithmSuites(instance):
-        def iife0_():
-            coll0_ = _dafny.Set()
-            compr_0_: AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId
-            for compr_0_ in AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId.AllSingletonConstructors:
-                d_2_id_: AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId = compr_0_
-                coll0_ = coll0_.union(_dafny.Set([AlgorithmSuites.default__.GetESDKSuite(d_2_id_)]))
-            return _dafny.Set(coll0_)
-        return iife0_()
-        
-    @_dafny.classproperty
-    def DBEAlgorithmSuites(instance):
-        def iife1_():
-            coll1_ = _dafny.Set()
-            compr_1_: AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId
-            for compr_1_ in AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId.AllSingletonConstructors:
-                d_3_id_: AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId = compr_1_
-                coll1_ = coll1_.union(_dafny.Set([AlgorithmSuites.default__.GetDBESuite(d_3_id_)]))
-            return _dafny.Set(coll1_)
-        return iife1_()
-        
-    @_dafny.classproperty
-    def AllAlgorithmSuites(instance):
-        return (default__.ESDKAlgorithmSuites) | (default__.DBEAlgorithmSuites)
