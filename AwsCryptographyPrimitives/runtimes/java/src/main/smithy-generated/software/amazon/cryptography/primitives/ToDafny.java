@@ -18,19 +18,32 @@ import software.amazon.cryptography.primitives.internaldafny.types.AESEncryptOut
 import software.amazon.cryptography.primitives.internaldafny.types.AES__CTR;
 import software.amazon.cryptography.primitives.internaldafny.types.AES__GCM;
 import software.amazon.cryptography.primitives.internaldafny.types.AesKdfCtrInput;
+import software.amazon.cryptography.primitives.internaldafny.types.CompressPublicKeyInput;
+import software.amazon.cryptography.primitives.internaldafny.types.CompressPublicKeyOutput;
 import software.amazon.cryptography.primitives.internaldafny.types.CryptoConfig;
+import software.amazon.cryptography.primitives.internaldafny.types.DecompressPublicKeyInput;
+import software.amazon.cryptography.primitives.internaldafny.types.DecompressPublicKeyOutput;
+import software.amazon.cryptography.primitives.internaldafny.types.DeriveSharedSecretInput;
+import software.amazon.cryptography.primitives.internaldafny.types.DeriveSharedSecretOutput;
 import software.amazon.cryptography.primitives.internaldafny.types.DigestAlgorithm;
 import software.amazon.cryptography.primitives.internaldafny.types.DigestInput;
+import software.amazon.cryptography.primitives.internaldafny.types.ECCPrivateKey;
+import software.amazon.cryptography.primitives.internaldafny.types.ECCPublicKey;
+import software.amazon.cryptography.primitives.internaldafny.types.ECDHCurveSpec;
 import software.amazon.cryptography.primitives.internaldafny.types.ECDSASignInput;
 import software.amazon.cryptography.primitives.internaldafny.types.ECDSASignatureAlgorithm;
 import software.amazon.cryptography.primitives.internaldafny.types.ECDSAVerifyInput;
 import software.amazon.cryptography.primitives.internaldafny.types.Error;
 import software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError;
+import software.amazon.cryptography.primitives.internaldafny.types.GenerateECCKeyPairInput;
+import software.amazon.cryptography.primitives.internaldafny.types.GenerateECCKeyPairOutput;
 import software.amazon.cryptography.primitives.internaldafny.types.GenerateECDSASignatureKeyInput;
 import software.amazon.cryptography.primitives.internaldafny.types.GenerateECDSASignatureKeyOutput;
 import software.amazon.cryptography.primitives.internaldafny.types.GenerateRSAKeyPairInput;
 import software.amazon.cryptography.primitives.internaldafny.types.GenerateRSAKeyPairOutput;
 import software.amazon.cryptography.primitives.internaldafny.types.GenerateRandomBytesInput;
+import software.amazon.cryptography.primitives.internaldafny.types.GetPublicKeyFromPrivateKeyInput;
+import software.amazon.cryptography.primitives.internaldafny.types.GetPublicKeyFromPrivateKeyOutput;
 import software.amazon.cryptography.primitives.internaldafny.types.GetRSAKeyModulusLengthInput;
 import software.amazon.cryptography.primitives.internaldafny.types.GetRSAKeyModulusLengthOutput;
 import software.amazon.cryptography.primitives.internaldafny.types.HMacInput;
@@ -39,11 +52,15 @@ import software.amazon.cryptography.primitives.internaldafny.types.HkdfExtractIn
 import software.amazon.cryptography.primitives.internaldafny.types.HkdfInput;
 import software.amazon.cryptography.primitives.internaldafny.types.IAwsCryptographicPrimitivesClient;
 import software.amazon.cryptography.primitives.internaldafny.types.KdfCtrInput;
+import software.amazon.cryptography.primitives.internaldafny.types.ParsePublicKeyInput;
+import software.amazon.cryptography.primitives.internaldafny.types.ParsePublicKeyOutput;
 import software.amazon.cryptography.primitives.internaldafny.types.RSADecryptInput;
 import software.amazon.cryptography.primitives.internaldafny.types.RSAEncryptInput;
 import software.amazon.cryptography.primitives.internaldafny.types.RSAPaddingMode;
 import software.amazon.cryptography.primitives.internaldafny.types.RSAPrivateKey;
 import software.amazon.cryptography.primitives.internaldafny.types.RSAPublicKey;
+import software.amazon.cryptography.primitives.internaldafny.types.ValidatePublicKeyInput;
+import software.amazon.cryptography.primitives.internaldafny.types.ValidatePublicKeyOutput;
 import software.amazon.cryptography.primitives.model.AES_CTR;
 import software.amazon.cryptography.primitives.model.AES_GCM;
 import software.amazon.cryptography.primitives.model.AwsCryptographicPrimitivesError;
@@ -222,10 +239,75 @@ public class ToDafny {
     return okm;
   }
 
+  public static CompressPublicKeyInput CompressPublicKeyInput(
+    software.amazon.cryptography.primitives.model.CompressPublicKeyInput nativeValue
+  ) {
+    ECCPublicKey publicKey;
+    publicKey = ToDafny.ECCPublicKey(nativeValue.publicKey());
+    ECDHCurveSpec eccCurve;
+    eccCurve = ToDafny.ECDHCurveSpec(nativeValue.eccCurve());
+    return new CompressPublicKeyInput(publicKey, eccCurve);
+  }
+
+  public static CompressPublicKeyOutput CompressPublicKeyOutput(
+    software.amazon.cryptography.primitives.model.CompressPublicKeyOutput nativeValue
+  ) {
+    DafnySequence<? extends Byte> compressedPublicKey;
+    compressedPublicKey =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.compressedPublicKey()
+      );
+    return new CompressPublicKeyOutput(compressedPublicKey);
+  }
+
   public static CryptoConfig CryptoConfig(
     software.amazon.cryptography.primitives.model.CryptoConfig nativeValue
   ) {
     return new CryptoConfig();
+  }
+
+  public static DecompressPublicKeyInput DecompressPublicKeyInput(
+    software.amazon.cryptography.primitives.model.DecompressPublicKeyInput nativeValue
+  ) {
+    DafnySequence<? extends Byte> compressedPublicKey;
+    compressedPublicKey =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.compressedPublicKey()
+      );
+    ECDHCurveSpec eccCurve;
+    eccCurve = ToDafny.ECDHCurveSpec(nativeValue.eccCurve());
+    return new DecompressPublicKeyInput(compressedPublicKey, eccCurve);
+  }
+
+  public static DecompressPublicKeyOutput DecompressPublicKeyOutput(
+    software.amazon.cryptography.primitives.model.DecompressPublicKeyOutput nativeValue
+  ) {
+    ECCPublicKey publicKey;
+    publicKey = ToDafny.ECCPublicKey(nativeValue.publicKey());
+    return new DecompressPublicKeyOutput(publicKey);
+  }
+
+  public static DeriveSharedSecretInput DeriveSharedSecretInput(
+    software.amazon.cryptography.primitives.model.DeriveSharedSecretInput nativeValue
+  ) {
+    ECDHCurveSpec eccCurve;
+    eccCurve = ToDafny.ECDHCurveSpec(nativeValue.eccCurve());
+    ECCPrivateKey privateKey;
+    privateKey = ToDafny.ECCPrivateKey(nativeValue.privateKey());
+    ECCPublicKey publicKey;
+    publicKey = ToDafny.ECCPublicKey(nativeValue.publicKey());
+    return new DeriveSharedSecretInput(eccCurve, privateKey, publicKey);
+  }
+
+  public static DeriveSharedSecretOutput DeriveSharedSecretOutput(
+    software.amazon.cryptography.primitives.model.DeriveSharedSecretOutput nativeValue
+  ) {
+    DafnySequence<? extends Byte> sharedSecret;
+    sharedSecret =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.sharedSecret()
+      );
+    return new DeriveSharedSecretOutput(sharedSecret);
   }
 
   public static DigestInput DigestInput(
@@ -250,6 +332,28 @@ public class ToDafny {
         nativeValue
       );
     return digest;
+  }
+
+  public static ECCPrivateKey ECCPrivateKey(
+    software.amazon.cryptography.primitives.model.ECCPrivateKey nativeValue
+  ) {
+    DafnySequence<? extends Byte> pem;
+    pem =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.pem()
+      );
+    return new ECCPrivateKey(pem);
+  }
+
+  public static ECCPublicKey ECCPublicKey(
+    software.amazon.cryptography.primitives.model.ECCPublicKey nativeValue
+  ) {
+    DafnySequence<? extends Byte> der;
+    der =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.der()
+      );
+    return new ECCPublicKey(der);
   }
 
   public static ECDSASignInput ECDSASignInput(
@@ -315,6 +419,26 @@ public class ToDafny {
     Boolean success;
     success = (nativeValue);
     return success;
+  }
+
+  public static GenerateECCKeyPairInput GenerateECCKeyPairInput(
+    software.amazon.cryptography.primitives.model.GenerateECCKeyPairInput nativeValue
+  ) {
+    ECDHCurveSpec eccCurve;
+    eccCurve = ToDafny.ECDHCurveSpec(nativeValue.eccCurve());
+    return new GenerateECCKeyPairInput(eccCurve);
+  }
+
+  public static GenerateECCKeyPairOutput GenerateECCKeyPairOutput(
+    software.amazon.cryptography.primitives.model.GenerateECCKeyPairOutput nativeValue
+  ) {
+    ECDHCurveSpec eccCurve;
+    eccCurve = ToDafny.ECDHCurveSpec(nativeValue.eccCurve());
+    ECCPrivateKey privateKey;
+    privateKey = ToDafny.ECCPrivateKey(nativeValue.privateKey());
+    ECCPublicKey publicKey;
+    publicKey = ToDafny.ECCPublicKey(nativeValue.publicKey());
+    return new GenerateECCKeyPairOutput(eccCurve, privateKey, publicKey);
   }
 
   public static GenerateECDSASignatureKeyInput GenerateECDSASignatureKeyInput(
@@ -384,6 +508,35 @@ public class ToDafny {
     RSAPrivateKey privateKey;
     privateKey = ToDafny.RSAPrivateKey(nativeValue.privateKey());
     return new GenerateRSAKeyPairOutput(publicKey, privateKey);
+  }
+
+  public static GetPublicKeyFromPrivateKeyInput GetPublicKeyFromPrivateKeyInput(
+    software.amazon.cryptography.primitives.model.GetPublicKeyFromPrivateKeyInput nativeValue
+  ) {
+    ECDHCurveSpec eccCurve;
+    eccCurve = ToDafny.ECDHCurveSpec(nativeValue.eccCurve());
+    ECCPrivateKey privateKey;
+    privateKey = ToDafny.ECCPrivateKey(nativeValue.privateKey());
+    return new GetPublicKeyFromPrivateKeyInput(eccCurve, privateKey);
+  }
+
+  public static GetPublicKeyFromPrivateKeyOutput GetPublicKeyFromPrivateKeyOutput(
+    software.amazon.cryptography.primitives.model.GetPublicKeyFromPrivateKeyOutput nativeValue
+  ) {
+    ECDHCurveSpec eccCurve;
+    eccCurve = ToDafny.ECDHCurveSpec(nativeValue.eccCurve());
+    ECCPrivateKey privateKey;
+    privateKey = ToDafny.ECCPrivateKey(nativeValue.privateKey());
+    DafnySequence<? extends Byte> publicKey;
+    publicKey =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.publicKey()
+      );
+    return new GetPublicKeyFromPrivateKeyOutput(
+      eccCurve,
+      privateKey,
+      publicKey
+    );
   }
 
   public static GetRSAKeyModulusLengthInput GetRSAKeyModulusLengthInput(
@@ -588,6 +741,25 @@ public class ToDafny {
     return okm;
   }
 
+  public static ParsePublicKeyInput ParsePublicKeyInput(
+    software.amazon.cryptography.primitives.model.ParsePublicKeyInput nativeValue
+  ) {
+    DafnySequence<? extends Byte> publicKey;
+    publicKey =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.publicKey()
+      );
+    return new ParsePublicKeyInput(publicKey);
+  }
+
+  public static ParsePublicKeyOutput ParsePublicKeyOutput(
+    software.amazon.cryptography.primitives.model.ParsePublicKeyOutput nativeValue
+  ) {
+    ECCPublicKey publicKey;
+    publicKey = ToDafny.ECCPublicKey(nativeValue.publicKey());
+    return new ParsePublicKeyOutput(publicKey);
+  }
+
   public static RSADecryptInput RSADecryptInput(
     software.amazon.cryptography.primitives.model.RSADecryptInput nativeValue
   ) {
@@ -672,6 +844,27 @@ public class ToDafny {
     return new RSAPublicKey(lengthBits, pem);
   }
 
+  public static ValidatePublicKeyInput ValidatePublicKeyInput(
+    software.amazon.cryptography.primitives.model.ValidatePublicKeyInput nativeValue
+  ) {
+    ECDHCurveSpec eccCurve;
+    eccCurve = ToDafny.ECDHCurveSpec(nativeValue.eccCurve());
+    DafnySequence<? extends Byte> publicKey;
+    publicKey =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.publicKey()
+      );
+    return new ValidatePublicKeyInput(eccCurve, publicKey);
+  }
+
+  public static ValidatePublicKeyOutput ValidatePublicKeyOutput(
+    software.amazon.cryptography.primitives.model.ValidatePublicKeyOutput nativeValue
+  ) {
+    Boolean success;
+    success = (nativeValue.success());
+    return new ValidatePublicKeyOutput(success);
+  }
+
   public static Error Error(AwsCryptographicPrimitivesError nativeValue) {
     DafnySequence<? extends Character> message;
     message =
@@ -703,6 +896,37 @@ public class ToDafny {
             "Cannot convert " +
             nativeValue +
             " to software.amazon.cryptography.primitives.internaldafny.types.DigestAlgorithm."
+          );
+        }
+    }
+  }
+
+  public static ECDHCurveSpec ECDHCurveSpec(
+    software.amazon.cryptography.primitives.model.ECDHCurveSpec nativeValue
+  ) {
+    switch (nativeValue) {
+      case ECC_NIST_P256:
+        {
+          return ECDHCurveSpec.create_ECC__NIST__P256();
+        }
+      case ECC_NIST_P384:
+        {
+          return ECDHCurveSpec.create_ECC__NIST__P384();
+        }
+      case ECC_NIST_P521:
+        {
+          return ECDHCurveSpec.create_ECC__NIST__P521();
+        }
+      case SM2:
+        {
+          return ECDHCurveSpec.create_SM2();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.primitives.internaldafny.types.ECDHCurveSpec."
           );
         }
     }

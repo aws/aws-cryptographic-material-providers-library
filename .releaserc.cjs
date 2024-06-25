@@ -23,6 +23,10 @@ const Runtimes = {
     "AwsCryptographicMaterialProviders/runtimes/java/build.gradle.kts": {
       dependencies: [],
     },
+    "TestVectorsAwsCryptographicMaterialProviders/runtimes/java/build.gradle.kts":
+      {
+        dependencies: [],
+      },
   },
   net: {
     "AwsCryptographicMaterialProviders/runtimes/net/MPL.csproj": {
@@ -53,7 +57,7 @@ const Runtimes = {
  * @type {import('semantic-release').GlobalConfig}
  */
 module.exports = {
-  //branches: ["main"],
+  branches: ["main"],
   repositoryUrl:
     "git@github.com:aws/aws-cryptographic-material-providers-library.git",
   plugins: [

@@ -1,3 +1,5 @@
+// Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.materialproviders.internaldafny.wrapped;
 
 import Wrappers_Compile.Result;
@@ -25,6 +27,8 @@ public class __default extends _ExternBase___default {
       .builder()
       .impl(impl)
       .build();
-    return Result.create_Success(wrappedClient);
+    return software.amazon.cryptography.materialproviders.internaldafny._ExternBase___default.CreateSuccessOfClient(
+      wrappedClient
+    );
   }
 }

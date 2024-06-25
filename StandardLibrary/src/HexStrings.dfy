@@ -133,19 +133,22 @@ module HexStrings {
       [HexValue(data[..2])] + FromHexString(data[2..])
   }
 
-  lemma ToHexStringRoundTrip(s : string)
+  lemma {:vcs_split_on_every_assert} ToHexStringRoundTrip(s : string)
     requires IsHexString(s)
     requires |s| % 2 == 0
     ensures ToHexString(FromHexString(s)) == s
   {
     if |s| == 0 {
+      assert ToHexString(FromHexString(s)) == s;
     }
     else if |s| == 2 {
       HexStrRoundTrip(s);
       assert FromHexString(s) == [HexValue(s[..2])];
+      assert ToHexString(FromHexString(s)) == s;
     } else {
       HexStrRoundTrip(s[..2]);
       assert FromHexString(s[..2]) == [HexValue(s[..2])];
+      assert ToHexString(FromHexString(s)) == s;
     }
   }
 

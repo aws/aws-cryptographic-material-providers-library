@@ -23,6 +23,7 @@ Resources:
         - "arn:aws:iam::370957321024:policy/Hierarchical-GitHub-KMS-Key-Policy"
         - "arn:aws:iam::370957321024:policy/PolymorphTestModels-DDB-ReadWriteDelete-us-west-2"
         - "arn:aws:iam::370957321024:policy/ESDK-Dafny-DDB-ReadWriteDelete-us-west-2"
+        - "arn:aws:iam::370957321024:policy/Github-ECDH-KMS"
       AssumeRolePolicyDocument: !Sub |
         {
           "Version": "2012-10-17",   
@@ -35,7 +36,8 @@ Resources:
                 "StringEquals": { "token.actions.githubusercontent.com:aud": "sts.amazonaws.com" },
                 "StringLike": {
                   "token.actions.githubusercontent.com:sub": [
-                    "repo:aws/aws-cryptographic-material-providers-library:*"
+                    "repo:aws/aws-cryptographic-material-providers-library:*",
+                    "repo:aws/private-aws-cryptographic-material-providers-library-dafny-staging:*"
                   ]
                 }
               }

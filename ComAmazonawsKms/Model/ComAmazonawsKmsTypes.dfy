@@ -16,6 +16,9 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     | RSAES_PKCS1_V1_5
     | RSAES_OAEP_SHA_1
     | RSAES_OAEP_SHA_256
+    | RSA_AES_KEY_WRAP_SHA_1
+    | RSA_AES_KEY_WRAP_SHA_256
+    | SM2PKE
   type AliasList = seq<AliasListEntry>
   datatype AliasListEntry = | AliasListEntry (
     nameonly AliasName: Option<AliasNameType> := Option.None ,
@@ -31,6 +34,10 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
   type ArnType = x: string | IsValid_ArnType(x) witness *
   predicate method IsValid_ArnType(x: string) {
     ( 20 <= |x| <= 2048 )
+  }
+  type AttestationDocumentType = x: seq<uint8> | IsValid_AttestationDocumentType(x) witness *
+  predicate method IsValid_AttestationDocumentType(x: seq<uint8>) {
+    ( 1 <= |x| <= 262144 )
   }
   type AWSAccountIdType = string
   type BooleanType = bool
@@ -64,6 +71,15 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     | USER_NOT_FOUND
     | USER_LOGGED_IN
     | SUBNET_NOT_FOUND
+    | INSUFFICIENT_FREE_ADDRESSES_IN_SUBNET
+    | XKS_PROXY_ACCESS_DENIED
+    | XKS_PROXY_NOT_REACHABLE
+    | XKS_VPC_ENDPOINT_SERVICE_NOT_FOUND
+    | XKS_PROXY_INVALID_RESPONSE
+    | XKS_PROXY_INVALID_CONFIGURATION
+    | XKS_VPC_ENDPOINT_SERVICE_INVALID_CONFIGURATION
+    | XKS_PROXY_TIMED_OUT
+    | XKS_PROXY_INVALID_TLS_CONFIGURATION
   datatype ConnectionStateType =
     | CONNECTED
     | CONNECTING
@@ -76,9 +92,15 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
   )
   datatype CreateCustomKeyStoreRequest = | CreateCustomKeyStoreRequest (
     nameonly CustomKeyStoreName: CustomKeyStoreNameType ,
-    nameonly CloudHsmClusterId: CloudHsmClusterIdType ,
-    nameonly TrustAnchorCertificate: TrustAnchorCertificateType ,
-    nameonly KeyStorePassword: KeyStorePasswordType
+    nameonly CloudHsmClusterId: Option<CloudHsmClusterIdType> := Option.None ,
+    nameonly TrustAnchorCertificate: Option<TrustAnchorCertificateType> := Option.None ,
+    nameonly KeyStorePassword: Option<KeyStorePasswordType> := Option.None ,
+    nameonly CustomKeyStoreType: Option<CustomKeyStoreType> := Option.None ,
+    nameonly XksProxyUriEndpoint: Option<XksProxyUriEndpointType> := Option.None ,
+    nameonly XksProxyUriPath: Option<XksProxyUriPathType> := Option.None ,
+    nameonly XksProxyVpcEndpointServiceName: Option<XksProxyVpcEndpointServiceNameType> := Option.None ,
+    nameonly XksProxyAuthenticationCredential: Option<XksProxyAuthenticationCredentialType> := Option.None ,
+    nameonly XksProxyConnectivity: Option<XksProxyConnectivityType> := Option.None
   )
   datatype CreateCustomKeyStoreResponse = | CreateCustomKeyStoreResponse (
     nameonly CustomKeyStoreId: Option<CustomKeyStoreIdType> := Option.None
@@ -90,7 +112,8 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     nameonly Operations: GrantOperationList ,
     nameonly Constraints: Option<GrantConstraints> := Option.None ,
     nameonly GrantTokens: Option<GrantTokenList> := Option.None ,
-    nameonly Name: Option<GrantNameType> := Option.None
+    nameonly Name: Option<GrantNameType> := Option.None ,
+    nameonly DryRun: Option<NullableBooleanType> := Option.None
   )
   datatype CreateGrantResponse = | CreateGrantResponse (
     nameonly GrantToken: Option<GrantTokenType> := Option.None ,
@@ -106,7 +129,8 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     nameonly CustomKeyStoreId: Option<CustomKeyStoreIdType> := Option.None ,
     nameonly BypassPolicyLockoutSafetyCheck: Option<BooleanType> := Option.None ,
     nameonly Tags: Option<TagList> := Option.None ,
-    nameonly MultiRegion: Option<NullableBooleanType> := Option.None
+    nameonly MultiRegion: Option<NullableBooleanType> := Option.None ,
+    nameonly XksKeyId: Option<XksKeyIdType> := Option.None
   )
   datatype CreateKeyResponse = | CreateKeyResponse (
     nameonly KeyMetadata: Option<KeyMetadata> := Option.None
@@ -120,6 +144,11 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     | ECC_NIST_P521
     | ECC_SECG_P256K1
     | SYMMETRIC_DEFAULT
+    | HMAC_224
+    | HMAC_256
+    | HMAC_384
+    | HMAC_512
+    | SM2
   type CustomKeyStoreIdType = x: string | IsValid_CustomKeyStoreIdType(x) witness *
   predicate method IsValid_CustomKeyStoreIdType(x: string) {
     ( 1 <= |x| <= 64 )
@@ -136,8 +165,13 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     nameonly TrustAnchorCertificate: Option<TrustAnchorCertificateType> := Option.None ,
     nameonly ConnectionState: Option<ConnectionStateType> := Option.None ,
     nameonly ConnectionErrorCode: Option<ConnectionErrorCodeType> := Option.None ,
-    nameonly CreationDate: Option<string> := Option.None
+    nameonly CreationDate: Option<string> := Option.None ,
+    nameonly CustomKeyStoreType: Option<CustomKeyStoreType> := Option.None ,
+    nameonly XksProxyConfiguration: Option<XksProxyConfigurationType> := Option.None
   )
+  datatype CustomKeyStoreType =
+    | AWS_CLOUDHSM
+    | EXTERNAL_KEY_STORE
   datatype DataKeyPairSpec =
     | RSA_2048
     | RSA_3072
@@ -146,6 +180,7 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     | ECC_NIST_P384
     | ECC_NIST_P521
     | ECC_SECG_P256K1
+    | SM2
   datatype DataKeySpec =
     | AES_256
     | AES_128
@@ -154,12 +189,15 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     nameonly EncryptionContext: Option<EncryptionContextType> := Option.None ,
     nameonly GrantTokens: Option<GrantTokenList> := Option.None ,
     nameonly KeyId: Option<KeyIdType> := Option.None ,
-    nameonly EncryptionAlgorithm: Option<EncryptionAlgorithmSpec> := Option.None
+    nameonly EncryptionAlgorithm: Option<EncryptionAlgorithmSpec> := Option.None ,
+    nameonly Recipient: Option<RecipientInfo> := Option.None ,
+    nameonly DryRun: Option<NullableBooleanType> := Option.None
   )
   datatype DecryptResponse = | DecryptResponse (
     nameonly KeyId: Option<KeyIdType> := Option.None ,
     nameonly Plaintext: Option<PlaintextType> := Option.None ,
-    nameonly EncryptionAlgorithm: Option<EncryptionAlgorithmSpec> := Option.None
+    nameonly EncryptionAlgorithm: Option<EncryptionAlgorithmSpec> := Option.None ,
+    nameonly CiphertextForRecipient: Option<CiphertextType> := Option.None
   )
   datatype DeleteAliasRequest = | DeleteAliasRequest (
     nameonly AliasName: AliasNameType
@@ -172,6 +210,21 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
                                           )
   datatype DeleteImportedKeyMaterialRequest = | DeleteImportedKeyMaterialRequest (
     nameonly KeyId: KeyIdType
+  )
+  datatype DeriveSharedSecretRequest = | DeriveSharedSecretRequest (
+    nameonly KeyId: KeyIdType ,
+    nameonly KeyAgreementAlgorithm: KeyAgreementAlgorithmSpec ,
+    nameonly PublicKey: PublicKeyType ,
+    nameonly GrantTokens: Option<GrantTokenList> := Option.None ,
+    nameonly DryRun: Option<NullableBooleanType> := Option.None ,
+    nameonly Recipient: Option<RecipientInfo> := Option.None
+  )
+  datatype DeriveSharedSecretResponse = | DeriveSharedSecretResponse (
+    nameonly KeyId: Option<KeyIdType> := Option.None ,
+    nameonly SharedSecret: Option<PlaintextType> := Option.None ,
+    nameonly CiphertextForRecipient: Option<CiphertextType> := Option.None ,
+    nameonly KeyAgreementAlgorithm: Option<KeyAgreementAlgorithmSpec> := Option.None ,
+    nameonly KeyOrigin: Option<OriginType> := Option.None
   )
   datatype DescribeCustomKeyStoresRequest = | DescribeCustomKeyStoresRequest (
     nameonly CustomKeyStoreId: Option<CustomKeyStoreIdType> := Option.None ,
@@ -211,7 +264,8 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     nameonly KeyId: KeyIdType
   )
   datatype EnableKeyRotationRequest = | EnableKeyRotationRequest (
-    nameonly KeyId: KeyIdType
+    nameonly KeyId: KeyIdType ,
+    nameonly RotationPeriodInDays: Option<RotationPeriodInDaysType> := Option.None
   )
   datatype EncryptionAlgorithmSpec =
     | SYMMETRIC_DEFAULT
@@ -226,7 +280,8 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     nameonly Plaintext: PlaintextType ,
     nameonly EncryptionContext: Option<EncryptionContextType> := Option.None ,
     nameonly GrantTokens: Option<GrantTokenList> := Option.None ,
-    nameonly EncryptionAlgorithm: Option<EncryptionAlgorithmSpec> := Option.None
+    nameonly EncryptionAlgorithm: Option<EncryptionAlgorithmSpec> := Option.None ,
+    nameonly DryRun: Option<NullableBooleanType> := Option.None
   )
   datatype EncryptResponse = | EncryptResponse (
     nameonly CiphertextBlob: Option<CiphertextType> := Option.None ,
@@ -241,20 +296,24 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     nameonly EncryptionContext: Option<EncryptionContextType> := Option.None ,
     nameonly KeyId: KeyIdType ,
     nameonly KeyPairSpec: DataKeyPairSpec ,
-    nameonly GrantTokens: Option<GrantTokenList> := Option.None
+    nameonly GrantTokens: Option<GrantTokenList> := Option.None ,
+    nameonly Recipient: Option<RecipientInfo> := Option.None ,
+    nameonly DryRun: Option<NullableBooleanType> := Option.None
   )
   datatype GenerateDataKeyPairResponse = | GenerateDataKeyPairResponse (
     nameonly PrivateKeyCiphertextBlob: Option<CiphertextType> := Option.None ,
     nameonly PrivateKeyPlaintext: Option<PlaintextType> := Option.None ,
     nameonly PublicKey: Option<PublicKeyType> := Option.None ,
     nameonly KeyId: Option<KeyIdType> := Option.None ,
-    nameonly KeyPairSpec: Option<DataKeyPairSpec> := Option.None
+    nameonly KeyPairSpec: Option<DataKeyPairSpec> := Option.None ,
+    nameonly CiphertextForRecipient: Option<CiphertextType> := Option.None
   )
   datatype GenerateDataKeyPairWithoutPlaintextRequest = | GenerateDataKeyPairWithoutPlaintextRequest (
     nameonly EncryptionContext: Option<EncryptionContextType> := Option.None ,
     nameonly KeyId: KeyIdType ,
     nameonly KeyPairSpec: DataKeyPairSpec ,
-    nameonly GrantTokens: Option<GrantTokenList> := Option.None
+    nameonly GrantTokens: Option<GrantTokenList> := Option.None ,
+    nameonly DryRun: Option<NullableBooleanType> := Option.None
   )
   datatype GenerateDataKeyPairWithoutPlaintextResponse = | GenerateDataKeyPairWithoutPlaintextResponse (
     nameonly PrivateKeyCiphertextBlob: Option<CiphertextType> := Option.None ,
@@ -267,43 +326,66 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     nameonly EncryptionContext: Option<EncryptionContextType> := Option.None ,
     nameonly NumberOfBytes: Option<NumberOfBytesType> := Option.None ,
     nameonly KeySpec: Option<DataKeySpec> := Option.None ,
-    nameonly GrantTokens: Option<GrantTokenList> := Option.None
+    nameonly GrantTokens: Option<GrantTokenList> := Option.None ,
+    nameonly Recipient: Option<RecipientInfo> := Option.None ,
+    nameonly DryRun: Option<NullableBooleanType> := Option.None
   )
   datatype GenerateDataKeyResponse = | GenerateDataKeyResponse (
     nameonly CiphertextBlob: Option<CiphertextType> := Option.None ,
     nameonly Plaintext: Option<PlaintextType> := Option.None ,
-    nameonly KeyId: Option<KeyIdType> := Option.None
+    nameonly KeyId: Option<KeyIdType> := Option.None ,
+    nameonly CiphertextForRecipient: Option<CiphertextType> := Option.None
   )
   datatype GenerateDataKeyWithoutPlaintextRequest = | GenerateDataKeyWithoutPlaintextRequest (
     nameonly KeyId: KeyIdType ,
     nameonly EncryptionContext: Option<EncryptionContextType> := Option.None ,
     nameonly KeySpec: Option<DataKeySpec> := Option.None ,
     nameonly NumberOfBytes: Option<NumberOfBytesType> := Option.None ,
-    nameonly GrantTokens: Option<GrantTokenList> := Option.None
+    nameonly GrantTokens: Option<GrantTokenList> := Option.None ,
+    nameonly DryRun: Option<NullableBooleanType> := Option.None
   )
   datatype GenerateDataKeyWithoutPlaintextResponse = | GenerateDataKeyWithoutPlaintextResponse (
     nameonly CiphertextBlob: Option<CiphertextType> := Option.None ,
     nameonly KeyId: Option<KeyIdType> := Option.None
   )
+  datatype GenerateMacRequest = | GenerateMacRequest (
+    nameonly Message: PlaintextType ,
+    nameonly KeyId: KeyIdType ,
+    nameonly MacAlgorithm: MacAlgorithmSpec ,
+    nameonly GrantTokens: Option<GrantTokenList> := Option.None ,
+    nameonly DryRun: Option<NullableBooleanType> := Option.None
+  )
+  datatype GenerateMacResponse = | GenerateMacResponse (
+    nameonly Mac: Option<CiphertextType> := Option.None ,
+    nameonly MacAlgorithm: Option<MacAlgorithmSpec> := Option.None ,
+    nameonly KeyId: Option<KeyIdType> := Option.None
+  )
   datatype GenerateRandomRequest = | GenerateRandomRequest (
     nameonly NumberOfBytes: Option<NumberOfBytesType> := Option.None ,
-    nameonly CustomKeyStoreId: Option<CustomKeyStoreIdType> := Option.None
+    nameonly CustomKeyStoreId: Option<CustomKeyStoreIdType> := Option.None ,
+    nameonly Recipient: Option<RecipientInfo> := Option.None
   )
   datatype GenerateRandomResponse = | GenerateRandomResponse (
-    nameonly Plaintext: Option<PlaintextType> := Option.None
+    nameonly Plaintext: Option<PlaintextType> := Option.None ,
+    nameonly CiphertextForRecipient: Option<CiphertextType> := Option.None
   )
   datatype GetKeyPolicyRequest = | GetKeyPolicyRequest (
     nameonly KeyId: KeyIdType ,
-    nameonly PolicyName: PolicyNameType
+    nameonly PolicyName: Option<PolicyNameType> := Option.None
   )
   datatype GetKeyPolicyResponse = | GetKeyPolicyResponse (
-    nameonly Policy: Option<PolicyType> := Option.None
+    nameonly Policy: Option<PolicyType> := Option.None ,
+    nameonly PolicyName: Option<PolicyNameType> := Option.None
   )
   datatype GetKeyRotationStatusRequest = | GetKeyRotationStatusRequest (
     nameonly KeyId: KeyIdType
   )
   datatype GetKeyRotationStatusResponse = | GetKeyRotationStatusResponse (
-    nameonly KeyRotationEnabled: Option<BooleanType> := Option.None
+    nameonly KeyRotationEnabled: Option<BooleanType> := Option.None ,
+    nameonly KeyId: Option<KeyIdType> := Option.None ,
+    nameonly RotationPeriodInDays: Option<RotationPeriodInDaysType> := Option.None ,
+    nameonly NextRotationDate: Option<string> := Option.None ,
+    nameonly OnDemandRotationStartDate: Option<string> := Option.None
   )
   datatype GetParametersForImportRequest = | GetParametersForImportRequest (
     nameonly KeyId: KeyIdType ,
@@ -327,7 +409,8 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     nameonly KeySpec: Option<KeySpec> := Option.None ,
     nameonly KeyUsage: Option<KeyUsageType> := Option.None ,
     nameonly EncryptionAlgorithms: Option<EncryptionAlgorithmSpecList> := Option.None ,
-    nameonly SigningAlgorithms: Option<SigningAlgorithmSpecList> := Option.None
+    nameonly SigningAlgorithms: Option<SigningAlgorithmSpecList> := Option.None ,
+    nameonly KeyAgreementAlgorithms: Option<KeyAgreementAlgorithmSpecList> := Option.None
   )
   datatype GrantConstraints = | GrantConstraints (
     nameonly EncryptionContextSubset: Option<EncryptionContextType> := Option.None ,
@@ -368,6 +451,9 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     | DescribeKey
     | GenerateDataKeyPair
     | GenerateDataKeyPairWithoutPlaintext
+    | GenerateMac
+    | VerifyMac
+    | DeriveSharedSecret
   type GrantOperationList = seq<GrantOperation>
   type GrantTokenList = x: seq<GrantTokenType> | IsValid_GrantTokenList(x) witness *
   predicate method IsValid_GrantTokenList(x: seq<GrantTokenType>) {
@@ -387,6 +473,11 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
   datatype ImportKeyMaterialResponse = | ImportKeyMaterialResponse (
 
                                        )
+  datatype KeyAgreementAlgorithmSpec =
+    | ECDH
+  type KeyAgreementAlgorithmSpecList = seq<KeyAgreementAlgorithmSpec>
+  datatype KeyEncryptionMechanism =
+    | RSAES_OAEP_SHA_256
   type KeyIdType = x: string | IsValid_KeyIdType(x) witness *
   predicate method IsValid_KeyIdType(x: string) {
     ( 1 <= |x| <= 2048 )
@@ -419,9 +510,12 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     nameonly KeySpec: Option<KeySpec> := Option.None ,
     nameonly EncryptionAlgorithms: Option<EncryptionAlgorithmSpecList> := Option.None ,
     nameonly SigningAlgorithms: Option<SigningAlgorithmSpecList> := Option.None ,
+    nameonly KeyAgreementAlgorithms: Option<KeyAgreementAlgorithmSpecList> := Option.None ,
     nameonly MultiRegion: Option<NullableBooleanType> := Option.None ,
     nameonly MultiRegionConfiguration: Option<MultiRegionConfiguration> := Option.None ,
-    nameonly PendingDeletionWindowInDays: Option<PendingWindowInDaysType> := Option.None
+    nameonly PendingDeletionWindowInDays: Option<PendingWindowInDaysType> := Option.None ,
+    nameonly MacAlgorithms: Option<MacAlgorithmSpecList> := Option.None ,
+    nameonly XksKeyConfiguration: Option<XksKeyConfigurationType> := Option.None
   )
   datatype KeySpec =
     | RSA_2048
@@ -432,6 +526,11 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     | ECC_NIST_P521
     | ECC_SECG_P256K1
     | SYMMETRIC_DEFAULT
+    | HMAC_224
+    | HMAC_256
+    | HMAC_384
+    | HMAC_512
+    | SM2
   datatype KeyState =
     | Creating
     | Enabled
@@ -448,6 +547,8 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
   datatype KeyUsageType =
     | SIGN_VERIFY
     | ENCRYPT_DECRYPT
+    | GENERATE_VERIFY_MAC
+    | KEY_AGREEMENT
   type LimitType = x: int32 | IsValid_LimitType(x) witness *
   predicate method IsValid_LimitType(x: int32) {
     ( 1 <= x <= 1000 )
@@ -484,9 +585,24 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     nameonly NextMarker: Option<MarkerType> := Option.None ,
     nameonly Truncated: Option<BooleanType> := Option.None
   )
+  datatype ListKeyRotationsRequest = | ListKeyRotationsRequest (
+    nameonly KeyId: KeyIdType ,
+    nameonly Limit: Option<LimitType> := Option.None ,
+    nameonly Marker: Option<MarkerType> := Option.None
+  )
+  datatype ListKeyRotationsResponse = | ListKeyRotationsResponse (
+    nameonly Rotations: Option<RotationsList> := Option.None ,
+    nameonly NextMarker: Option<MarkerType> := Option.None ,
+    nameonly Truncated: Option<BooleanType> := Option.None
+  )
   datatype ListKeysRequest = | ListKeysRequest (
     nameonly Limit: Option<LimitType> := Option.None ,
     nameonly Marker: Option<MarkerType> := Option.None
+  )
+  datatype ListKeysResponse = | ListKeysResponse (
+    nameonly Keys: Option<KeyList> := Option.None ,
+    nameonly NextMarker: Option<MarkerType> := Option.None ,
+    nameonly Truncated: Option<BooleanType> := Option.None
   )
   datatype ListResourceTagsRequest = | ListResourceTagsRequest (
     nameonly KeyId: KeyIdType ,
@@ -498,11 +614,12 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     nameonly NextMarker: Option<MarkerType> := Option.None ,
     nameonly Truncated: Option<BooleanType> := Option.None
   )
-  datatype ListRetirableGrantsRequest = | ListRetirableGrantsRequest (
-    nameonly Limit: Option<LimitType> := Option.None ,
-    nameonly Marker: Option<MarkerType> := Option.None ,
-    nameonly RetiringPrincipal: PrincipalIdType
-  )
+  datatype MacAlgorithmSpec =
+    | HMAC_SHA_224
+    | HMAC_SHA_256
+    | HMAC_SHA_384
+    | HMAC_SHA_512
+  type MacAlgorithmSpecList = seq<MacAlgorithmSpec>
   type MarkerType = x: string | IsValid_MarkerType(x) witness *
   predicate method IsValid_MarkerType(x: string) {
     ( 1 <= |x| <= 1024 )
@@ -532,6 +649,7 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     | AWS_KMS
     | EXTERNAL
     | AWS_CLOUDHSM
+    | EXTERNAL_KEY_STORE
   type PendingWindowInDaysType = x: int32 | IsValid_PendingWindowInDaysType(x) witness *
   predicate method IsValid_PendingWindowInDaysType(x: int32) {
     ( 1 <= x <= 365 )
@@ -559,9 +677,13 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
   }
   datatype PutKeyPolicyRequest = | PutKeyPolicyRequest (
     nameonly KeyId: KeyIdType ,
-    nameonly PolicyName: PolicyNameType ,
+    nameonly PolicyName: Option<PolicyNameType> := Option.None ,
     nameonly Policy: PolicyType ,
     nameonly BypassPolicyLockoutSafetyCheck: Option<BooleanType> := Option.None
+  )
+  datatype RecipientInfo = | RecipientInfo (
+    nameonly KeyEncryptionAlgorithm: Option<KeyEncryptionMechanism> := Option.None ,
+    nameonly AttestationDocument: Option<AttestationDocumentType> := Option.None
   )
   datatype ReEncryptRequest = | ReEncryptRequest (
     nameonly CiphertextBlob: CiphertextType ,
@@ -571,7 +693,8 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     nameonly DestinationEncryptionContext: Option<EncryptionContextType> := Option.None ,
     nameonly SourceEncryptionAlgorithm: Option<EncryptionAlgorithmSpec> := Option.None ,
     nameonly DestinationEncryptionAlgorithm: Option<EncryptionAlgorithmSpec> := Option.None ,
-    nameonly GrantTokens: Option<GrantTokenList> := Option.None
+    nameonly GrantTokens: Option<GrantTokenList> := Option.None ,
+    nameonly DryRun: Option<NullableBooleanType> := Option.None
   )
   datatype ReEncryptResponse = | ReEncryptResponse (
     nameonly CiphertextBlob: Option<CiphertextType> := Option.None ,
@@ -600,12 +723,33 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
   datatype RetireGrantRequest = | RetireGrantRequest (
     nameonly GrantToken: Option<GrantTokenType> := Option.None ,
     nameonly KeyId: Option<KeyIdType> := Option.None ,
-    nameonly GrantId: Option<GrantIdType> := Option.None
+    nameonly GrantId: Option<GrantIdType> := Option.None ,
+    nameonly DryRun: Option<NullableBooleanType> := Option.None
   )
   datatype RevokeGrantRequest = | RevokeGrantRequest (
     nameonly KeyId: KeyIdType ,
-    nameonly GrantId: GrantIdType
+    nameonly GrantId: GrantIdType ,
+    nameonly DryRun: Option<NullableBooleanType> := Option.None
   )
+  datatype RotateKeyOnDemandRequest = | RotateKeyOnDemandRequest (
+    nameonly KeyId: KeyIdType
+  )
+  datatype RotateKeyOnDemandResponse = | RotateKeyOnDemandResponse (
+    nameonly KeyId: Option<KeyIdType> := Option.None
+  )
+  type RotationPeriodInDaysType = x: int32 | IsValid_RotationPeriodInDaysType(x) witness *
+  predicate method IsValid_RotationPeriodInDaysType(x: int32) {
+    ( 90 <= x <= 2560 )
+  }
+  type RotationsList = seq<RotationsListEntry>
+  datatype RotationsListEntry = | RotationsListEntry (
+    nameonly KeyId: Option<KeyIdType> := Option.None ,
+    nameonly RotationDate: Option<string> := Option.None ,
+    nameonly RotationType: Option<RotationType> := Option.None
+  )
+  datatype RotationType =
+    | AUTOMATIC
+    | ON_DEMAND
   datatype ScheduleKeyDeletionRequest = | ScheduleKeyDeletionRequest (
     nameonly KeyId: KeyIdType ,
     nameonly PendingWindowInDays: Option<PendingWindowInDaysType> := Option.None
@@ -626,13 +770,15 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     | ECDSA_SHA_256
     | ECDSA_SHA_384
     | ECDSA_SHA_512
+    | SM2DSA
   type SigningAlgorithmSpecList = seq<SigningAlgorithmSpec>
   datatype SignRequest = | SignRequest (
     nameonly KeyId: KeyIdType ,
     nameonly Message: PlaintextType ,
     nameonly MessageType: Option<MessageType> := Option.None ,
     nameonly GrantTokens: Option<GrantTokenList> := Option.None ,
-    nameonly SigningAlgorithm: SigningAlgorithmSpec
+    nameonly SigningAlgorithm: SigningAlgorithmSpec ,
+    nameonly DryRun: Option<NullableBooleanType> := Option.None
   )
   datatype SignResponse = | SignResponse (
     nameonly KeyId: Option<KeyIdType> := Option.None ,
@@ -669,6 +815,7 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
       DeleteAlias := [];
       DeleteCustomKeyStore := [];
       DeleteImportedKeyMaterial := [];
+      DeriveSharedSecret := [];
       DescribeCustomKeyStores := [];
       DescribeKey := [];
       DisableKey := [];
@@ -681,6 +828,7 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
       GenerateDataKeyPair := [];
       GenerateDataKeyPairWithoutPlaintext := [];
       GenerateDataKeyWithoutPlaintext := [];
+      GenerateMac := [];
       GenerateRandom := [];
       GetKeyPolicy := [];
       GetKeyRotationStatus := [];
@@ -690,12 +838,15 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
       ListAliases := [];
       ListGrants := [];
       ListKeyPolicies := [];
+      ListKeyRotations := [];
+      ListKeys := [];
       ListResourceTags := [];
       PutKeyPolicy := [];
       ReEncrypt := [];
       ReplicateKey := [];
       RetireGrant := [];
       RevokeGrant := [];
+      RotateKeyOnDemand := [];
       ScheduleKeyDeletion := [];
       Sign := [];
       TagResource := [];
@@ -705,6 +856,7 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
       UpdateKeyDescription := [];
       UpdatePrimaryRegion := [];
       Verify := [];
+      VerifyMac := [];
     }
     ghost var CancelKeyDeletion: seq<DafnyCallEvent<CancelKeyDeletionRequest, Result<CancelKeyDeletionResponse, Error>>>
     ghost var ConnectCustomKeyStore: seq<DafnyCallEvent<ConnectCustomKeyStoreRequest, Result<ConnectCustomKeyStoreResponse, Error>>>
@@ -716,6 +868,7 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     ghost var DeleteAlias: seq<DafnyCallEvent<DeleteAliasRequest, Result<(), Error>>>
     ghost var DeleteCustomKeyStore: seq<DafnyCallEvent<DeleteCustomKeyStoreRequest, Result<DeleteCustomKeyStoreResponse, Error>>>
     ghost var DeleteImportedKeyMaterial: seq<DafnyCallEvent<DeleteImportedKeyMaterialRequest, Result<(), Error>>>
+    ghost var DeriveSharedSecret: seq<DafnyCallEvent<DeriveSharedSecretRequest, Result<DeriveSharedSecretResponse, Error>>>
     ghost var DescribeCustomKeyStores: seq<DafnyCallEvent<DescribeCustomKeyStoresRequest, Result<DescribeCustomKeyStoresResponse, Error>>>
     ghost var DescribeKey: seq<DafnyCallEvent<DescribeKeyRequest, Result<DescribeKeyResponse, Error>>>
     ghost var DisableKey: seq<DafnyCallEvent<DisableKeyRequest, Result<(), Error>>>
@@ -728,6 +881,7 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     ghost var GenerateDataKeyPair: seq<DafnyCallEvent<GenerateDataKeyPairRequest, Result<GenerateDataKeyPairResponse, Error>>>
     ghost var GenerateDataKeyPairWithoutPlaintext: seq<DafnyCallEvent<GenerateDataKeyPairWithoutPlaintextRequest, Result<GenerateDataKeyPairWithoutPlaintextResponse, Error>>>
     ghost var GenerateDataKeyWithoutPlaintext: seq<DafnyCallEvent<GenerateDataKeyWithoutPlaintextRequest, Result<GenerateDataKeyWithoutPlaintextResponse, Error>>>
+    ghost var GenerateMac: seq<DafnyCallEvent<GenerateMacRequest, Result<GenerateMacResponse, Error>>>
     ghost var GenerateRandom: seq<DafnyCallEvent<GenerateRandomRequest, Result<GenerateRandomResponse, Error>>>
     ghost var GetKeyPolicy: seq<DafnyCallEvent<GetKeyPolicyRequest, Result<GetKeyPolicyResponse, Error>>>
     ghost var GetKeyRotationStatus: seq<DafnyCallEvent<GetKeyRotationStatusRequest, Result<GetKeyRotationStatusResponse, Error>>>
@@ -737,12 +891,15 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     ghost var ListAliases: seq<DafnyCallEvent<ListAliasesRequest, Result<ListAliasesResponse, Error>>>
     ghost var ListGrants: seq<DafnyCallEvent<ListGrantsRequest, Result<ListGrantsResponse, Error>>>
     ghost var ListKeyPolicies: seq<DafnyCallEvent<ListKeyPoliciesRequest, Result<ListKeyPoliciesResponse, Error>>>
+    ghost var ListKeyRotations: seq<DafnyCallEvent<ListKeyRotationsRequest, Result<ListKeyRotationsResponse, Error>>>
+    ghost var ListKeys: seq<DafnyCallEvent<ListKeysRequest, Result<ListKeysResponse, Error>>>
     ghost var ListResourceTags: seq<DafnyCallEvent<ListResourceTagsRequest, Result<ListResourceTagsResponse, Error>>>
     ghost var PutKeyPolicy: seq<DafnyCallEvent<PutKeyPolicyRequest, Result<(), Error>>>
     ghost var ReEncrypt: seq<DafnyCallEvent<ReEncryptRequest, Result<ReEncryptResponse, Error>>>
     ghost var ReplicateKey: seq<DafnyCallEvent<ReplicateKeyRequest, Result<ReplicateKeyResponse, Error>>>
     ghost var RetireGrant: seq<DafnyCallEvent<RetireGrantRequest, Result<(), Error>>>
     ghost var RevokeGrant: seq<DafnyCallEvent<RevokeGrantRequest, Result<(), Error>>>
+    ghost var RotateKeyOnDemand: seq<DafnyCallEvent<RotateKeyOnDemandRequest, Result<RotateKeyOnDemandResponse, Error>>>
     ghost var ScheduleKeyDeletion: seq<DafnyCallEvent<ScheduleKeyDeletionRequest, Result<ScheduleKeyDeletionResponse, Error>>>
     ghost var Sign: seq<DafnyCallEvent<SignRequest, Result<SignResponse, Error>>>
     ghost var TagResource: seq<DafnyCallEvent<TagResourceRequest, Result<(), Error>>>
@@ -752,6 +909,7 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     ghost var UpdateKeyDescription: seq<DafnyCallEvent<UpdateKeyDescriptionRequest, Result<(), Error>>>
     ghost var UpdatePrimaryRegion: seq<DafnyCallEvent<UpdatePrimaryRegionRequest, Result<(), Error>>>
     ghost var Verify: seq<DafnyCallEvent<VerifyRequest, Result<VerifyResponse, Error>>>
+    ghost var VerifyMac: seq<DafnyCallEvent<VerifyMacRequest, Result<VerifyMacResponse, Error>>>
   }
   trait {:termination false} IKMSClient
   {
@@ -929,6 +1087,21 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
         && ValidState()
       ensures DeleteImportedKeyMaterialEnsuresPublicly(input, output)
       ensures History.DeleteImportedKeyMaterial == old(History.DeleteImportedKeyMaterial) + [DafnyCallEvent(input, output)]
+
+    predicate DeriveSharedSecretEnsuresPublicly(input: DeriveSharedSecretRequest , output: Result<DeriveSharedSecretResponse, Error>)
+    // The public method to be called by library consumers
+    method DeriveSharedSecret ( input: DeriveSharedSecretRequest )
+      returns (output: Result<DeriveSharedSecretResponse, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`DeriveSharedSecret
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures DeriveSharedSecretEnsuresPublicly(input, output)
+      ensures History.DeriveSharedSecret == old(History.DeriveSharedSecret) + [DafnyCallEvent(input, output)]
 
     predicate DescribeCustomKeyStoresEnsuresPublicly(input: DescribeCustomKeyStoresRequest , output: Result<DescribeCustomKeyStoresResponse, Error>)
     // The public method to be called by library consumers
@@ -1110,6 +1283,21 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
       ensures GenerateDataKeyWithoutPlaintextEnsuresPublicly(input, output)
       ensures History.GenerateDataKeyWithoutPlaintext == old(History.GenerateDataKeyWithoutPlaintext) + [DafnyCallEvent(input, output)]
 
+    predicate GenerateMacEnsuresPublicly(input: GenerateMacRequest , output: Result<GenerateMacResponse, Error>)
+    // The public method to be called by library consumers
+    method GenerateMac ( input: GenerateMacRequest )
+      returns (output: Result<GenerateMacResponse, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`GenerateMac
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures GenerateMacEnsuresPublicly(input, output)
+      ensures History.GenerateMac == old(History.GenerateMac) + [DafnyCallEvent(input, output)]
+
     predicate GenerateRandomEnsuresPublicly(input: GenerateRandomRequest , output: Result<GenerateRandomResponse, Error>)
     // The public method to be called by library consumers
     method GenerateRandom ( input: GenerateRandomRequest )
@@ -1245,6 +1433,36 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
       ensures ListKeyPoliciesEnsuresPublicly(input, output)
       ensures History.ListKeyPolicies == old(History.ListKeyPolicies) + [DafnyCallEvent(input, output)]
 
+    predicate ListKeyRotationsEnsuresPublicly(input: ListKeyRotationsRequest , output: Result<ListKeyRotationsResponse, Error>)
+    // The public method to be called by library consumers
+    method ListKeyRotations ( input: ListKeyRotationsRequest )
+      returns (output: Result<ListKeyRotationsResponse, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`ListKeyRotations
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures ListKeyRotationsEnsuresPublicly(input, output)
+      ensures History.ListKeyRotations == old(History.ListKeyRotations) + [DafnyCallEvent(input, output)]
+
+    predicate ListKeysEnsuresPublicly(input: ListKeysRequest , output: Result<ListKeysResponse, Error>)
+    // The public method to be called by library consumers
+    method ListKeys ( input: ListKeysRequest )
+      returns (output: Result<ListKeysResponse, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`ListKeys
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures ListKeysEnsuresPublicly(input, output)
+      ensures History.ListKeys == old(History.ListKeys) + [DafnyCallEvent(input, output)]
+
     predicate ListResourceTagsEnsuresPublicly(input: ListResourceTagsRequest , output: Result<ListResourceTagsResponse, Error>)
     // The public method to be called by library consumers
     method ListResourceTags ( input: ListResourceTagsRequest )
@@ -1334,6 +1552,21 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
         && ValidState()
       ensures RevokeGrantEnsuresPublicly(input, output)
       ensures History.RevokeGrant == old(History.RevokeGrant) + [DafnyCallEvent(input, output)]
+
+    predicate RotateKeyOnDemandEnsuresPublicly(input: RotateKeyOnDemandRequest , output: Result<RotateKeyOnDemandResponse, Error>)
+    // The public method to be called by library consumers
+    method RotateKeyOnDemand ( input: RotateKeyOnDemandRequest )
+      returns (output: Result<RotateKeyOnDemandResponse, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`RotateKeyOnDemand
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures RotateKeyOnDemandEnsuresPublicly(input, output)
+      ensures History.RotateKeyOnDemand == old(History.RotateKeyOnDemand) + [DafnyCallEvent(input, output)]
 
     predicate ScheduleKeyDeletionEnsuresPublicly(input: ScheduleKeyDeletionRequest , output: Result<ScheduleKeyDeletionResponse, Error>)
     // The public method to be called by library consumers
@@ -1470,6 +1703,21 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
       ensures VerifyEnsuresPublicly(input, output)
       ensures History.Verify == old(History.Verify) + [DafnyCallEvent(input, output)]
 
+    predicate VerifyMacEnsuresPublicly(input: VerifyMacRequest , output: Result<VerifyMacResponse, Error>)
+    // The public method to be called by library consumers
+    method VerifyMac ( input: VerifyMacRequest )
+      returns (output: Result<VerifyMacResponse, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`VerifyMac
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures VerifyMacEnsuresPublicly(input, output)
+      ensures History.VerifyMac == old(History.VerifyMac) + [DafnyCallEvent(input, output)]
+
   }
   type TrustAnchorCertificateType = x: string | IsValid_TrustAnchorCertificateType(x) witness *
   predicate method IsValid_TrustAnchorCertificateType(x: string) {
@@ -1487,7 +1735,12 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     nameonly CustomKeyStoreId: CustomKeyStoreIdType ,
     nameonly NewCustomKeyStoreName: Option<CustomKeyStoreNameType> := Option.None ,
     nameonly KeyStorePassword: Option<KeyStorePasswordType> := Option.None ,
-    nameonly CloudHsmClusterId: Option<CloudHsmClusterIdType> := Option.None
+    nameonly CloudHsmClusterId: Option<CloudHsmClusterIdType> := Option.None ,
+    nameonly XksProxyUriEndpoint: Option<XksProxyUriEndpointType> := Option.None ,
+    nameonly XksProxyUriPath: Option<XksProxyUriPathType> := Option.None ,
+    nameonly XksProxyVpcEndpointServiceName: Option<XksProxyVpcEndpointServiceNameType> := Option.None ,
+    nameonly XksProxyAuthenticationCredential: Option<XksProxyAuthenticationCredentialType> := Option.None ,
+    nameonly XksProxyConnectivity: Option<XksProxyConnectivityType> := Option.None
   )
   datatype UpdateCustomKeyStoreResponse = | UpdateCustomKeyStoreResponse (
 
@@ -1500,13 +1753,27 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     nameonly KeyId: KeyIdType ,
     nameonly PrimaryRegion: RegionType
   )
+  datatype VerifyMacRequest = | VerifyMacRequest (
+    nameonly Message: PlaintextType ,
+    nameonly KeyId: KeyIdType ,
+    nameonly MacAlgorithm: MacAlgorithmSpec ,
+    nameonly Mac: CiphertextType ,
+    nameonly GrantTokens: Option<GrantTokenList> := Option.None ,
+    nameonly DryRun: Option<NullableBooleanType> := Option.None
+  )
+  datatype VerifyMacResponse = | VerifyMacResponse (
+    nameonly KeyId: Option<KeyIdType> := Option.None ,
+    nameonly MacValid: Option<BooleanType> := Option.None ,
+    nameonly MacAlgorithm: Option<MacAlgorithmSpec> := Option.None
+  )
   datatype VerifyRequest = | VerifyRequest (
     nameonly KeyId: KeyIdType ,
     nameonly Message: PlaintextType ,
     nameonly MessageType: Option<MessageType> := Option.None ,
     nameonly Signature: CiphertextType ,
     nameonly SigningAlgorithm: SigningAlgorithmSpec ,
-    nameonly GrantTokens: Option<GrantTokenList> := Option.None
+    nameonly GrantTokens: Option<GrantTokenList> := Option.None ,
+    nameonly DryRun: Option<NullableBooleanType> := Option.None
   )
   datatype VerifyResponse = | VerifyResponse (
     nameonly KeyId: Option<KeyIdType> := Option.None ,
@@ -1515,6 +1782,50 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
   )
   datatype WrappingKeySpec =
     | RSA_2048
+    | RSA_3072
+    | RSA_4096
+    | SM2
+  datatype XksKeyConfigurationType = | XksKeyConfigurationType (
+    nameonly Id: Option<XksKeyIdType> := Option.None
+  )
+  type XksKeyIdType = x: string | IsValid_XksKeyIdType(x) witness *
+  predicate method IsValid_XksKeyIdType(x: string) {
+    ( 1 <= |x| <= 128 )
+  }
+  type XksProxyAuthenticationAccessKeyIdType = x: string | IsValid_XksProxyAuthenticationAccessKeyIdType(x) witness *
+  predicate method IsValid_XksProxyAuthenticationAccessKeyIdType(x: string) {
+    ( 20 <= |x| <= 30 )
+  }
+  datatype XksProxyAuthenticationCredentialType = | XksProxyAuthenticationCredentialType (
+    nameonly AccessKeyId: XksProxyAuthenticationAccessKeyIdType ,
+    nameonly RawSecretAccessKey: XksProxyAuthenticationRawSecretAccessKeyType
+  )
+  type XksProxyAuthenticationRawSecretAccessKeyType = x: string | IsValid_XksProxyAuthenticationRawSecretAccessKeyType(x) witness *
+  predicate method IsValid_XksProxyAuthenticationRawSecretAccessKeyType(x: string) {
+    ( 43 <= |x| <= 64 )
+  }
+  datatype XksProxyConfigurationType = | XksProxyConfigurationType (
+    nameonly Connectivity: Option<XksProxyConnectivityType> := Option.None ,
+    nameonly AccessKeyId: Option<XksProxyAuthenticationAccessKeyIdType> := Option.None ,
+    nameonly UriEndpoint: Option<XksProxyUriEndpointType> := Option.None ,
+    nameonly UriPath: Option<XksProxyUriPathType> := Option.None ,
+    nameonly VpcEndpointServiceName: Option<XksProxyVpcEndpointServiceNameType> := Option.None
+  )
+  datatype XksProxyConnectivityType =
+    | PUBLIC_ENDPOINT
+    | VPC_ENDPOINT_SERVICE
+  type XksProxyUriEndpointType = x: string | IsValid_XksProxyUriEndpointType(x) witness *
+  predicate method IsValid_XksProxyUriEndpointType(x: string) {
+    ( 10 <= |x| <= 128 )
+  }
+  type XksProxyUriPathType = x: string | IsValid_XksProxyUriPathType(x) witness *
+  predicate method IsValid_XksProxyUriPathType(x: string) {
+    ( 10 <= |x| <= 128 )
+  }
+  type XksProxyVpcEndpointServiceNameType = x: string | IsValid_XksProxyVpcEndpointServiceNameType(x) witness *
+  predicate method IsValid_XksProxyVpcEndpointServiceNameType(x: string) {
+    ( 20 <= |x| <= 64 )
+  }
   datatype Error =
       // Local Error structures are listed here
     | AlreadyExistsException (
@@ -1535,6 +1846,9 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     | CloudHsmClusterNotRelatedException (
         nameonly message: Option<ErrorMessageType> := Option.None
       )
+    | ConflictException (
+        nameonly message: Option<ErrorMessageType> := Option.None
+      )
     | CustomKeyStoreHasCMKsException (
         nameonly message: Option<ErrorMessageType> := Option.None
       )
@@ -1551,6 +1865,9 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
         nameonly message: Option<ErrorMessageType> := Option.None
       )
     | DisabledException (
+        nameonly message: Option<ErrorMessageType> := Option.None
+      )
+    | DryRunOperationException (
         nameonly message: Option<ErrorMessageType> := Option.None
       )
     | ExpiredImportTokenException (
@@ -1595,6 +1912,9 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
     | KMSInternalException (
         nameonly message: Option<ErrorMessageType> := Option.None
       )
+    | KMSInvalidMacException (
+        nameonly message: Option<ErrorMessageType> := Option.None
+      )
     | KMSInvalidSignatureException (
         nameonly message: Option<ErrorMessageType> := Option.None
       )
@@ -1614,6 +1934,42 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
         nameonly message: Option<ErrorMessageType> := Option.None
       )
     | UnsupportedOperationException (
+        nameonly message: Option<ErrorMessageType> := Option.None
+      )
+    | XksKeyAlreadyInUseException (
+        nameonly message: Option<ErrorMessageType> := Option.None
+      )
+    | XksKeyInvalidConfigurationException (
+        nameonly message: Option<ErrorMessageType> := Option.None
+      )
+    | XksKeyNotFoundException (
+        nameonly message: Option<ErrorMessageType> := Option.None
+      )
+    | XksProxyIncorrectAuthenticationCredentialException (
+        nameonly message: Option<ErrorMessageType> := Option.None
+      )
+    | XksProxyInvalidConfigurationException (
+        nameonly message: Option<ErrorMessageType> := Option.None
+      )
+    | XksProxyInvalidResponseException (
+        nameonly message: Option<ErrorMessageType> := Option.None
+      )
+    | XksProxyUriEndpointInUseException (
+        nameonly message: Option<ErrorMessageType> := Option.None
+      )
+    | XksProxyUriInUseException (
+        nameonly message: Option<ErrorMessageType> := Option.None
+      )
+    | XksProxyUriUnreachableException (
+        nameonly message: Option<ErrorMessageType> := Option.None
+      )
+    | XksProxyVpcEndpointServiceInUseException (
+        nameonly message: Option<ErrorMessageType> := Option.None
+      )
+    | XksProxyVpcEndpointServiceInvalidConfigurationException (
+        nameonly message: Option<ErrorMessageType> := Option.None
+      )
+    | XksProxyVpcEndpointServiceNotFoundException (
         nameonly message: Option<ErrorMessageType> := Option.None
       )
       // Any dependent models are listed here
@@ -1637,10 +1993,10 @@ abstract module AbstractComAmazonawsKmsService {
               && fresh(res.value.Modifies)
               && fresh(res.value.History)
               && res.value.ValidState()
-  // Helper function for the benefit of native code to create a Success(client) without referring to Dafny internals
+  // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
   function method CreateSuccessOfClient(client: IKMSClient): Result<IKMSClient, Error> {
     Success(client)
-  } // Helper function for the benefit of native code to create a Failure(error) without referring to Dafny internals
+  }
   function method CreateFailureOfError(error: Error): Result<IKMSClient, Error> {
     Failure(error)
   }
@@ -1811,6 +2167,22 @@ abstract module AbstractComAmazonawsKmsOperations {
     ensures
       && ValidInternalConfig?(config)
     ensures DeleteImportedKeyMaterialEnsuresPublicly(input, output)
+
+
+  predicate DeriveSharedSecretEnsuresPublicly(input: DeriveSharedSecretRequest , output: Result<DeriveSharedSecretResponse, Error>)
+  // The private method to be refined by the library developer
+
+
+  method DeriveSharedSecret ( config: InternalConfig , input: DeriveSharedSecretRequest )
+    returns (output: Result<DeriveSharedSecretResponse, Error>)
+    requires
+      && ValidInternalConfig?(config)
+    modifies ModifiesInternalConfig(config)
+    // Dafny will skip type parameters when generating a default decreases clause.
+    decreases ModifiesInternalConfig(config)
+    ensures
+      && ValidInternalConfig?(config)
+    ensures DeriveSharedSecretEnsuresPublicly(input, output)
 
 
   predicate DescribeCustomKeyStoresEnsuresPublicly(input: DescribeCustomKeyStoresRequest , output: Result<DescribeCustomKeyStoresResponse, Error>)
@@ -2005,6 +2377,22 @@ abstract module AbstractComAmazonawsKmsOperations {
     ensures GenerateDataKeyWithoutPlaintextEnsuresPublicly(input, output)
 
 
+  predicate GenerateMacEnsuresPublicly(input: GenerateMacRequest , output: Result<GenerateMacResponse, Error>)
+  // The private method to be refined by the library developer
+
+
+  method GenerateMac ( config: InternalConfig , input: GenerateMacRequest )
+    returns (output: Result<GenerateMacResponse, Error>)
+    requires
+      && ValidInternalConfig?(config)
+    modifies ModifiesInternalConfig(config)
+    // Dafny will skip type parameters when generating a default decreases clause.
+    decreases ModifiesInternalConfig(config)
+    ensures
+      && ValidInternalConfig?(config)
+    ensures GenerateMacEnsuresPublicly(input, output)
+
+
   predicate GenerateRandomEnsuresPublicly(input: GenerateRandomRequest , output: Result<GenerateRandomResponse, Error>)
   // The private method to be refined by the library developer
 
@@ -2149,6 +2537,38 @@ abstract module AbstractComAmazonawsKmsOperations {
     ensures ListKeyPoliciesEnsuresPublicly(input, output)
 
 
+  predicate ListKeyRotationsEnsuresPublicly(input: ListKeyRotationsRequest , output: Result<ListKeyRotationsResponse, Error>)
+  // The private method to be refined by the library developer
+
+
+  method ListKeyRotations ( config: InternalConfig , input: ListKeyRotationsRequest )
+    returns (output: Result<ListKeyRotationsResponse, Error>)
+    requires
+      && ValidInternalConfig?(config)
+    modifies ModifiesInternalConfig(config)
+    // Dafny will skip type parameters when generating a default decreases clause.
+    decreases ModifiesInternalConfig(config)
+    ensures
+      && ValidInternalConfig?(config)
+    ensures ListKeyRotationsEnsuresPublicly(input, output)
+
+
+  predicate ListKeysEnsuresPublicly(input: ListKeysRequest , output: Result<ListKeysResponse, Error>)
+  // The private method to be refined by the library developer
+
+
+  method ListKeys ( config: InternalConfig , input: ListKeysRequest )
+    returns (output: Result<ListKeysResponse, Error>)
+    requires
+      && ValidInternalConfig?(config)
+    modifies ModifiesInternalConfig(config)
+    // Dafny will skip type parameters when generating a default decreases clause.
+    decreases ModifiesInternalConfig(config)
+    ensures
+      && ValidInternalConfig?(config)
+    ensures ListKeysEnsuresPublicly(input, output)
+
+
   predicate ListResourceTagsEnsuresPublicly(input: ListResourceTagsRequest , output: Result<ListResourceTagsResponse, Error>)
   // The private method to be refined by the library developer
 
@@ -2243,6 +2663,22 @@ abstract module AbstractComAmazonawsKmsOperations {
     ensures
       && ValidInternalConfig?(config)
     ensures RevokeGrantEnsuresPublicly(input, output)
+
+
+  predicate RotateKeyOnDemandEnsuresPublicly(input: RotateKeyOnDemandRequest , output: Result<RotateKeyOnDemandResponse, Error>)
+  // The private method to be refined by the library developer
+
+
+  method RotateKeyOnDemand ( config: InternalConfig , input: RotateKeyOnDemandRequest )
+    returns (output: Result<RotateKeyOnDemandResponse, Error>)
+    requires
+      && ValidInternalConfig?(config)
+    modifies ModifiesInternalConfig(config)
+    // Dafny will skip type parameters when generating a default decreases clause.
+    decreases ModifiesInternalConfig(config)
+    ensures
+      && ValidInternalConfig?(config)
+    ensures RotateKeyOnDemandEnsuresPublicly(input, output)
 
 
   predicate ScheduleKeyDeletionEnsuresPublicly(input: ScheduleKeyDeletionRequest , output: Result<ScheduleKeyDeletionResponse, Error>)
@@ -2387,4 +2823,20 @@ abstract module AbstractComAmazonawsKmsOperations {
     ensures
       && ValidInternalConfig?(config)
     ensures VerifyEnsuresPublicly(input, output)
+
+
+  predicate VerifyMacEnsuresPublicly(input: VerifyMacRequest , output: Result<VerifyMacResponse, Error>)
+  // The private method to be refined by the library developer
+
+
+  method VerifyMac ( config: InternalConfig , input: VerifyMacRequest )
+    returns (output: Result<VerifyMacResponse, Error>)
+    requires
+      && ValidInternalConfig?(config)
+    modifies ModifiesInternalConfig(config)
+    // Dafny will skip type parameters when generating a default decreases clause.
+    decreases ModifiesInternalConfig(config)
+    ensures
+      && ValidInternalConfig?(config)
+    ensures VerifyMacEnsuresPublicly(input, output)
 }

@@ -33,9 +33,7 @@ public class KeyStore {
     KeyStoreConfig input = builder.KeyStoreConfig();
     software.amazon.cryptography.keystore.internaldafny.types.KeyStoreConfig dafnyValue =
       ToDafny.KeyStoreConfig(input);
-    //BEGIN MANUAL FIX
-    Result<IKeyStoreClient, Error> result = __default.KeyStore(dafnyValue);
-    //END MANUAL FIX
+    Result<KeyStoreClient, Error> result = __default.KeyStore(dafnyValue);
     if (result.is_Failure()) {
       throw ToNative.Error(result.dtor_error());
     }

@@ -5,6 +5,8 @@ include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "Structure.dfy"
 include "DDBKeystoreOperations.dfy"
 include "KMSKeystoreOperations.dfy"
+include "ErrorMessages.dfy"
+include "KmsArn.dfy"
 
 module GetKeys {
   import opened StandardLibrary
@@ -14,11 +16,13 @@ module GetKeys {
   import Structure
   import KMSKeystoreOperations
   import DDBKeystoreOperations
+  import ErrorMessages = KeyStoreErrorMessages
 
   import Types = AwsCryptographyKeyStoreTypes
   import DDB = ComAmazonawsDynamodbTypes
   import KMS = ComAmazonawsKmsTypes
   import UTF8
+  import KmsArn
 
   method GetActiveKeyAndUnwrap(
     input: Types.GetActiveBranchKeyInput,
@@ -126,11 +130,16 @@ module GetKeys {
     var encryptionContext := Structure.ToBranchKeyContext(branchKeyItem, logicalKeyStoreName);
 
     :- Need(
-      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext),
-      Types.KeyStoreException( message := "AWS KMS Key ARN does not match configured value")
+      KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD]),
+      Types.KeyStoreException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
     );
 
-    var branchKey :- KMSKeystoreOperations.DecryptKey(
+    :- Need(
+      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext),
+      Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
+    );
+
+    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
       encryptionContext,
       branchKeyItem,
       kmsConfiguration,
@@ -258,11 +267,16 @@ module GetKeys {
     var encryptionContext := Structure.ToBranchKeyContext(branchKeyItem, logicalKeyStoreName);
 
     :- Need(
+      KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD]),
+      Types.KeyStoreException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
+    );
+
+    :- Need(
       KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext),
       Types.KeyStoreException( message := "AWS KMS Key ARN does not match configured value")
     );
 
-    var branchKey :- KMSKeystoreOperations.DecryptKey(
+    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
       encryptionContext,
       branchKeyItem,
       kmsConfiguration,
@@ -280,7 +294,7 @@ module GetKeys {
                    ));
   }
 
-  method GetBeaconKeyAndUnwrap(
+  method {:vcs_split_on_every_assert} GetBeaconKeyAndUnwrap(
     input: Types.GetBeaconKeyInput,
     tableName: DDB.TableName,
     logicalKeyStoreName: string,
@@ -385,11 +399,16 @@ module GetKeys {
     var encryptionContext := Structure.ToBranchKeyContext(branchKeyItem, logicalKeyStoreName);
 
     :- Need(
+      KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD]),
+      Types.KeyStoreException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
+    );
+
+    :- Need(
       KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext),
       Types.KeyStoreException( message := "AWS KMS Key ARN does not match configured value")
     );
 
-    var branchKey :- KMSKeystoreOperations.DecryptKey(
+    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
       encryptionContext,
       branchKeyItem,
       kmsConfiguration,
@@ -432,9 +451,7 @@ module GetKeys {
     //# The operation MUST use the configured `KMS SDK Client` to decrypt the value of the branch key field.
     requires decryptHistory in kmsClient.History.Decrypt
     requires getItemHistory in ddbClient.History.GetItem
-
   {
-
     var versionItem := getItemHistory.output.value.Item.value;
     var versionEncryptionContext := Structure.ToBranchKeyContext(versionItem, logicalKeyStoreName);
 
@@ -468,14 +485,43 @@ module GetKeys {
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
     //= type=implication
-    //# When calling [AWS KMS Decrypt](https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html),
-    //# the keystore operation MUST call with a request constructed as follows:
-    && var decryptRequest := decryptHistory.input;
+    //# If the Keystore's [AWS KMS Configuration](#aws-kms-configuration) is `KMS Key ARN` or `KMS MRKey ARN`,
+    //# the `kms-arn` field of the DDB response item MUST be
+    //# [compatible with](#aws-key-arn-compatibility) the configured KMS Key in
+    //# the [AWS KMS Configuration](#aws-kms-configuration) for this keystore,
+    //# or the operation MUST fail.
+    && (kmsConfiguration.kmsKeyArn? ==> versionItem[Structure.KMS_FIELD].S == kmsConfiguration.kmsKeyArn)
+    && (kmsConfiguration.kmsMRKeyArn? ==> KMSKeystoreOperations.MrkMatch(versionItem[Structure.KMS_FIELD].S, kmsConfiguration.kmsMRKeyArn))
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
     //= type=implication
-    //# - `KeyId` MUST be the configured `AWS KMS Key ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore
-    && decryptRequest.KeyId == Some(kmsConfiguration.kmsKeyArn)
+    //# If the Keystore's [AWS KMS Configuration](#aws-kms-configuration) is `Discovery` or `MRDiscovery`,
+    //# the `kms-arn` field of DDB response item MUST NOT be an Alias
+    //# or the operation MUST fail.
+    && (kmsConfiguration.discovery? ==> KmsArn.ValidKmsArn?(versionItem[Structure.KMS_FIELD].S))
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+    //= type=implication
+    //# When calling [AWS KMS Decrypt](https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html),
+    //# the keystore operation MUST call with a request constructed as follows:
+
+    && var decryptRequest := decryptHistory.input;
+    && decryptRequest.KeyId.Some?
+       //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+       //= type=implication
+       //# - `KeyId`, if the KMS Configuration is Discovery, MUST be the `kms-arn` attribute value of the AWS DDB response item.
+    && (kmsConfiguration.discovery? ==> decryptRequest.KeyId == Some(versionItem[Structure.KMS_FIELD].S))
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+    //= type=implication
+    //# If the KMS Configuration is MRDiscovery, `KeyId` MUST be the `kms-arn` attribute value of the AWS DDB response item, with the region replaced by the configured region.
+    && (kmsConfiguration.mrDiscovery? ==> decryptRequest.KeyId == Some(KMSKeystoreOperations.replaceRegion(versionItem[Structure.KMS_FIELD].S, kmsConfiguration.mrDiscovery.region)))
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+    //= type=implication
+    //# Otherwise, it MUST BE the Keystore's configured KMS Key.
+    && (kmsConfiguration.kmsKeyArn? ==> decryptRequest.KeyId == Some(kmsConfiguration.kmsKeyArn))
+    && (kmsConfiguration.kmsMRKeyArn? ==> KMSKeystoreOperations.MrkMatch(decryptRequest.KeyId.value, kmsConfiguration.kmsMRKeyArn))
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
     //= type=implication

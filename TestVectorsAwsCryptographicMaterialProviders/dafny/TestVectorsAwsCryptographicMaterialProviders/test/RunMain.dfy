@@ -42,7 +42,7 @@ module TestWrappedMaterialProvidersMain {
   method {:test} TestDecryptManifest() {
     var result := TestManifests.StartDecrypt(
       Decrypt(
-        manifestPath := "dafny/TestVectorsAwsCryptographicMaterialProviders/"
+        manifestPath :=  "dafny/TestVectorsAwsCryptographicMaterialProviders/"
       )
     );
     if result.Failure? {

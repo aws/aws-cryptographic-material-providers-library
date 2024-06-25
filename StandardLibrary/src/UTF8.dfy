@@ -33,6 +33,27 @@ module {:extern "UTF8"} UTF8 {
   function method {:extern "Decode"} Decode(b: seq<uint8>): (res: Result<string, string>)
     ensures res.Success? ==> ValidUTF8Seq(b)
 
+  // The next four functions are for the benefit of the extern implementation to call,
+  // avoiding direct references to generic datatype constructors
+  // since their calling pattern is different between different versions of Dafny
+  // (i.e. after 4.2, explicit type descriptors are required).
+
+  function method CreateEncodeSuccess(bytes: ValidUTF8Bytes): Result<ValidUTF8Bytes, string> {
+    Success(bytes)
+  }
+
+  function method CreateEncodeFailure(error: string): Result<ValidUTF8Bytes, string> {
+    Failure(error)
+  }
+
+  function method CreateDecodeSuccess(s: string): Result<string, string> {
+    Success(s)
+  }
+
+  function method CreateDecodeFailure(error: string): Result<string, string> {
+    Failure(error)
+  }
+
   predicate method IsASCIIString(s: string) {
     forall i :: 0 <= i < |s| ==> s[i] as int < 128
   }
@@ -160,7 +181,7 @@ module {:extern "UTF8"} UTF8 {
     ValidUTF8Range(s, 0, |s|)
   }
 
-  lemma ValidUTF8Concat(s: seq<uint8>, t: seq<uint8>)
+  lemma {:vcs_split_on_every_assert} ValidUTF8Concat(s: seq<uint8>, t: seq<uint8>)
     requires ValidUTF8Seq(s) && ValidUTF8Seq(t)
     ensures ValidUTF8Seq(s + t)
   {
@@ -168,7 +189,8 @@ module {:extern "UTF8"} UTF8 {
     while lo < |s|
       invariant lo <= |s|
       invariant ValidUTF8Range(s, lo, |s|)
-      invariant ValidUTF8Range(s + t, 0, |s + t|) == ValidUTF8Range(s + t, lo, |s + t|)
+      invariant ValidUTF8Range(s + t, 0, |s + t|) ==> ValidUTF8Range(s + t, lo, |s + t|)
+      invariant ValidUTF8Range(s + t, lo, |s + t|) ==> ValidUTF8Range(s + t, 0, |s + t|)
     {
       var r := (s + t)[lo..];
       if Uses1Byte(r) {

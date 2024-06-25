@@ -6,6 +6,7 @@ import static Signature.ECDSA.TWO;
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
 
+import StandardLibraryInternal.InternalResult;
 import Wrappers_Compile.Result;
 import dafny.Array;
 import dafny.DafnySequence;
@@ -29,7 +30,7 @@ import software.amazon.cryptography.primitives.model.AwsCryptographicPrimitivesE
 import software.amazon.cryptography.primitives.model.OpaqueError;
 
 /** Helper methods for encoding and decoding Elliptic Curve public keys. */
-class PublicKeyUtils {
+public class PublicKeyUtils {
 
   /**
    * @param key The Elliptic Curve public key to encode and compress as described in SEC-1 v2
@@ -74,7 +75,7 @@ class PublicKeyUtils {
    *     array without the sign byte
    * @return The byte array
    */
-  static byte[] encodeAndCompressPublicKeyX(
+  public static byte[] encodeAndCompressPublicKeyX(
     final BigInteger bigInteger,
     final int length
   ) {
@@ -107,7 +108,7 @@ class PublicKeyUtils {
     return paddedResult;
   }
 
-  static Result<ECPublicKey, Error> decodePublicKey(
+  static InternalResult<ECPublicKey, Error> decodePublicKey(
     SignatureAlgorithm algorithm,
     DafnySequence<? extends Byte> dtor_verificationKey
   ) {
@@ -132,7 +133,7 @@ class PublicKeyUtils {
           .getInstance(ECDSA.ELLIPTIC_CURVE_ALGORITHM)
           .generatePublic(publicKeySpec);
     } catch (ECDecodingException ex) {
-      return Result.create_Failure(
+      return InternalResult.failure(
         ToDafny.Error(
           AwsCryptographicPrimitivesError
             .builder()
@@ -151,13 +152,13 @@ class PublicKeyUtils {
       | InvalidKeySpecException
       | InvalidParameterSpecException e
     ) {
-      return Result.create_Failure(
+      return InternalResult.failure(
         ToDafny.Error(
           OpaqueError.builder().obj(e).message(e.getMessage()).cause(e).build()
         )
       );
     }
-    return Result.create_Success(publicKey);
+    return InternalResult.success(publicKey);
   }
 
   /**
@@ -170,7 +171,7 @@ class PublicKeyUtils {
    * @return The Elliptic Curve point.
    * @see <a href="http://www.secg.org/sec1-v2.pdf">http://www.secg.org/sec1-v2.pdf</a>
    */
-  static ECPoint byteArrayToECPoint(
+  public static ECPoint byteArrayToECPoint(
     final byte[] keyAsBytes,
     final ECParameterSpec ecParameterSpec
   ) throws ECDecodingException {

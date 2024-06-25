@@ -12,7 +12,9 @@ include "./VectorsComposition/AllKms.dfy"
 include "./VectorsComposition/AllKmsMrkAware.dfy"
 include "./VectorsComposition/AllKmsMrkAwareDiscovery.dfy"
 include "./VectorsComposition/AllKmsRsa.dfy"
+include "./VectorsComposition/AllKmsEcdh.dfy"
 include "./VectorsComposition/AllRawAES.dfy"
+include "./VectorsComposition/AllRawECDH.dfy"
 include "./VectorsComposition/AllRawRSA.dfy"
 include "./VectorsComposition/AllMulti.dfy"
 include "./VectorsComposition/AllRequiredEncryptionContextCmm.dfy"
@@ -26,8 +28,10 @@ module {:options "-functionSyntax:4"} CompleteVectors {
   import AllKmsMrkAware
   import AllKmsMrkAwareDiscovery
   import AllKmsRsa
+  import AllKmsEcdh
   import AllRawAES
   import AllRawRSA
+  import AllRawECDH
   import AllDefaultCmm
   import AllRequiredEncryptionContextCmm
   import AllMulti
@@ -61,6 +65,8 @@ module {:options "-functionSyntax:4"} CompleteVectors {
   + AllRawRSA.Tests
   + AllMulti.Tests
   + AllRequiredEncryptionContextCmm.Tests
+  + AllRawECDH.Tests
+  + AllKmsEcdh.Tests
 
   method WriteStuff(op: MplManifestOptions.ManifestOptions)
     returns (output: Result<(), string>)

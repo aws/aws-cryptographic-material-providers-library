@@ -89,6 +89,20 @@ namespace AWS.Cryptography.MaterialProviders
       if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
       return TypeConversion.FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_CreateKeyringOutput(result.dtor_value);
     }
+    public AWS.Cryptography.MaterialProviders.IKeyring CreateAwsKmsRsaKeyring(AWS.Cryptography.MaterialProviders.CreateAwsKmsRsaKeyringInput input)
+    {
+      software.amazon.cryptography.materialproviders.internaldafny.types._ICreateAwsKmsRsaKeyringInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S27_CreateAwsKmsRsaKeyringInput(input);
+      Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring, software.amazon.cryptography.materialproviders.internaldafny.types._IError> result = _impl.CreateAwsKmsRsaKeyring(internalInput);
+      if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
+      return TypeConversion.FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_CreateKeyringOutput(result.dtor_value);
+    }
+    public AWS.Cryptography.MaterialProviders.IKeyring CreateAwsKmsEcdhKeyring(AWS.Cryptography.MaterialProviders.CreateAwsKmsEcdhKeyringInput input)
+    {
+      software.amazon.cryptography.materialproviders.internaldafny.types._ICreateAwsKmsEcdhKeyringInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput(input);
+      Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring, software.amazon.cryptography.materialproviders.internaldafny.types._IError> result = _impl.CreateAwsKmsEcdhKeyring(internalInput);
+      if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
+      return TypeConversion.FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_CreateKeyringOutput(result.dtor_value);
+    }
     public AWS.Cryptography.MaterialProviders.IKeyring CreateMultiKeyring(AWS.Cryptography.MaterialProviders.CreateMultiKeyringInput input)
     {
       software.amazon.cryptography.materialproviders.internaldafny.types._ICreateMultiKeyringInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S23_CreateMultiKeyringInput(input);
@@ -110,10 +124,10 @@ namespace AWS.Cryptography.MaterialProviders
       if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
       return TypeConversion.FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_CreateKeyringOutput(result.dtor_value);
     }
-    public AWS.Cryptography.MaterialProviders.IKeyring CreateAwsKmsRsaKeyring(AWS.Cryptography.MaterialProviders.CreateAwsKmsRsaKeyringInput input)
+    public AWS.Cryptography.MaterialProviders.IKeyring CreateRawEcdhKeyring(AWS.Cryptography.MaterialProviders.CreateRawEcdhKeyringInput input)
     {
-      software.amazon.cryptography.materialproviders.internaldafny.types._ICreateAwsKmsRsaKeyringInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S27_CreateAwsKmsRsaKeyringInput(input);
-      Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring, software.amazon.cryptography.materialproviders.internaldafny.types._IError> result = _impl.CreateAwsKmsRsaKeyring(internalInput);
+      software.amazon.cryptography.materialproviders.internaldafny.types._ICreateRawEcdhKeyringInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S25_CreateRawEcdhKeyringInput(input);
+      Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring, software.amazon.cryptography.materialproviders.internaldafny.types._IError> result = _impl.CreateRawEcdhKeyring(internalInput);
       if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
       return TypeConversion.FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_CreateKeyringOutput(result.dtor_value);
     }

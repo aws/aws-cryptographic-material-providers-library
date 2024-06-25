@@ -5,7 +5,7 @@
       <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
       <IsPackable>true</IsPackable>
       
-      <Version>1.2.0</Version>
+      <Version>1.4.0</Version>
       
       <AssemblyName>AWS.Cryptography.MaterialProviders</AssemblyName>
       <PackageId>AWS.Cryptography.MaterialProviders</PackageId>
@@ -56,9 +56,8 @@
   </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AWSSDK.Core" Version="3.7.300.2" />
         <PackageReference Include="DafnyRuntime" Version="$(DafnyVersion)" />
-        <PackageReference Include="BouncyCastle.Cryptography" Version="2.2.1" />
+        <PackageReference Include="BouncyCastle.Cryptography" Version="2.3.1" />
         <ProjectReference Include="../../../AwsCryptographyPrimitives/runtimes/net/Crypto.csproj" />
         <ProjectReference Include="../../../ComAmazonawsDynamodb/runtimes/net/ComAmazonawsDynamodb.csproj" />
         <ProjectReference Include="../../../ComAmazonawsKms/runtimes/net/AWS-KMS.csproj" />

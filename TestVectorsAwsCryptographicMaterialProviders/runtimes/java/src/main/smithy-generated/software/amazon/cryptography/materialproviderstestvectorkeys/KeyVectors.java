@@ -10,6 +10,7 @@ import software.amazon.cryptography.materialproviders.CryptographicMaterialsMana
 import software.amazon.cryptography.materialproviders.ICryptographicMaterialsManager;
 import software.amazon.cryptography.materialproviders.IKeyring;
 import software.amazon.cryptography.materialproviders.Keyring;
+import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.KeyVectorsClient;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.__default;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.Error;
 import software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.IKeyVectorsClient;
@@ -29,7 +30,7 @@ public class KeyVectors {
     KeyVectorsConfig input = builder.KeyVectorsConfig();
     software.amazon.cryptography.materialproviderstestvectorkeys.internaldafny.types.KeyVectorsConfig dafnyValue =
       ToDafny.KeyVectorsConfig(input);
-    Result<IKeyVectorsClient, Error> result = __default.KeyVectors(dafnyValue);
+    Result<KeyVectorsClient, Error> result = __default.KeyVectors(dafnyValue);
     if (result.is_Failure()) {
       throw ToNative.Error(result.dtor_error());
     }

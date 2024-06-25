@@ -41,6 +41,9 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   datatype CreateKeyStoreOutput = | CreateKeyStoreOutput (
     nameonly tableArn: ComAmazonawsDynamodbTypes.TableArn
   )
+  datatype Discovery = | Discovery (
+
+                       )
   type EncryptionContext = map<Utf8Bytes, Utf8Bytes>
   datatype GetActiveBranchKeyInput = | GetActiveBranchKeyInput (
     nameonly branchKeyIdentifier: string
@@ -232,6 +235,12 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   )
   datatype KMSConfiguration =
     | kmsKeyArn(kmsKeyArn: ComAmazonawsKmsTypes.KeyIdType)
+    | kmsMRKeyArn(kmsMRKeyArn: ComAmazonawsKmsTypes.KeyIdType)
+    | discovery(discovery: Discovery)
+    | mrDiscovery(mrDiscovery: MRDiscovery)
+  datatype MRDiscovery = | MRDiscovery (
+    nameonly region: ComAmazonawsKmsTypes.RegionType
+  )
   type Secret = seq<uint8>
   type Utf8Bytes = ValidUTF8Bytes
   datatype VersionKeyInput = | VersionKeyInput (
@@ -285,7 +294,7 @@ abstract module AbstractAwsCryptographyKeyStoreService
   import Operations : AbstractAwsCryptographyKeyStoreOperations
   function method DefaultKeyStoreConfig(): KeyStoreConfig
   method KeyStore(config: KeyStoreConfig := DefaultKeyStoreConfig())
-    returns (res: Result<IKeyStoreClient, Error>)
+    returns (res: Result<KeyStoreClient, Error>)
     requires config.ddbClient.Some? ==>
                config.ddbClient.value.ValidState()
     requires config.kmsClient.Some? ==>
@@ -313,10 +322,10 @@ abstract module AbstractAwsCryptographyKeyStoreService
     ensures config.kmsClient.Some? ==>
               config.kmsClient.value.ValidState()
 
-  // Helper function for the benefit of native code to create a Success(client) without referring to Dafny internals
+  // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
   function method CreateSuccessOfClient(client: IKeyStoreClient): Result<IKeyStoreClient, Error> {
     Success(client)
-  } // Helper function for the benefit of native code to create a Failure(error) without referring to Dafny internals
+  }
   function method CreateFailureOfError(error: Error): Result<IKeyStoreClient, Error> {
     Failure(error)
   }

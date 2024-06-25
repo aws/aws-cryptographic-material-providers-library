@@ -43,13 +43,13 @@ service KeyStore {
   //= type=implication
   //# The Keystore MUST support the following operations:
   //#
-  //#- [GetKeyStoreInfo](#getKeyStoreInfo)
+  //#- [GetKeyStoreInfo](#getkeystoreinfo)
   //#- [CreateKeyStore](#createkeystore)
   //#- [CreateKey](#createkey)
   //#- [VersionKey](#versionkey)
   //#- [GetActiveBranchKey](#getactivebranchkey)
   //#- [GetBranchKeyVersion](#getbranchkeyversion)
-  //#- [GetBeaconKey](#beacon-key)
+  //#- [GetBeaconKey](#getbeaconkey)
   operations: [
     GetKeyStoreInfo,
     CreateKeyStore,
@@ -76,10 +76,10 @@ structure KeyStoreConfig {
   @javadoc("The DynamoDB table name that backs this Key Store.")
   ddbTableName: TableName,
   @required
-  @javadoc("The AWS KMS Key that protects this Key Store.")
+  @javadoc("Configures Key Store's KMS Key ARN restrictions.")
   kmsConfiguration: KMSConfiguration,
   @required
-  @javadoc("The logical name for this Key Store, which is cryptographically bound to the keys it holds.")
+  @javadoc("The logical name for this Key Store, which is cryptographically bound to the keys it holds. This appears in the Encryption Context of KMS requests as `tablename`.")
   logicalKeyStoreName: String,
 
   //= aws-encryption-sdk-specification/framework/branch-key-store.md#initialization
@@ -95,14 +95,44 @@ structure KeyStoreConfig {
   id: String,
   @javadoc("The AWS KMS grant tokens that are used when this Key Store calls to AWS KMS.")
   grantTokens: GrantTokenList,
-  @javadoc("The DynamoDB client this Key Store uses to call Amazon DynamoDB.")
+  @javadoc("The DynamoDB client this Key Store uses to call Amazon DynamoDB. If None is provided and the KMS ARN is, the KMS ARN is used to determine the Region of the default client.")
   ddbClient: DdbClientReference,
-  @javadoc("The KMS client this Key Store uses to call AWS KMS.")
+  @javadoc("The KMS client this Key Store uses to call AWS KMS.  If None is provided and the KMS ARN is, the KMS ARN is used to determine the Region of the default client.")
   kmsClient: KmsClientReference,
 }
 
+//= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-configuration
+//= type=implication
+//# `KMS Key ARN` and `KMS MRKey ARN` MUST take an additional argument
+//# that is a KMS ARN.
+@javadoc("Configures Key Store's KMS Key ARN restrictions.")
 union KMSConfiguration {
-  kmsKeyArn: com.amazonaws.kms#KeyIdType
+  @javadoc("Key Store is restricted to only this KMS Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown. While a Multi-Region Key (MKR) may be provided, the whole ARN, including the Region, is persisted in Branch Keys and MUST strictly equal this value to be considered valid.")
+  // The Key Store (released on 2023-07-24) only allowed for this.
+  kmsKeyArn: com.amazonaws.kms#KeyIdType,
+
+  @javadoc("If an MRK ARN is provided, and the Key Store table holds an MRK ARN, then those two ARNs may differ in region, although they must be otherwise equal. If either ARN is not an MRK ARN, then mrkKmsKeyArn behaves exactly as kmsKeyArn.")
+  kmsMRKeyArn: com.amazonaws.kms#KeyIdType,
+
+
+  @javadoc("The Key Store can use the KMS Key ARNs already persisted in the Backing Table. The VersionKey and CreateKey Operations are NOT supported and will fail with a runtime exception. There is no Multi-Region logic with this configuration; if a Multi-Region Key is encountered, and the region in the ARN is not the region of the KMS Client, requests will Fail with KMS Exceptions.")
+  // Creates a Discovery Key Store
+  discovery: Discovery,
+
+  @javadoc("The Key Store can use the KMS Key ARNs already persisted in the Backing Table. The VersionKey and CreateKey Operations are NOT supported and will fail with a runtime exception. If a Multi-Region Key is encountered, the region in the ARN is changed to the configured region.")
+  // Creates an MRDiscovery Key Store
+  mrDiscovery: MRDiscovery
+}
+
+structure Discovery {}
+
+//= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-configuration
+//= type=implication
+//# `MRDiscovery` MUST take an additional argument, which is a region.
+structure MRDiscovery {
+  @required
+  @javadoc("Any MRK ARN discovered will have its region replaced with this.")
+  region : com.amazonaws.kms#RegionType
 }
 
 @javadoc("Returns the configuration information for a Key Store.")
@@ -125,7 +155,7 @@ structure GetKeyStoreInfoOutput {
   @javadoc("The AWS KMS grant tokens that are used when this Key Store calls to AWS KMS.")
   grantTokens: GrantTokenList,
   @required
-  @javadoc("The AWS KMS Key that protects this Key Store.")
+  @javadoc("Configures Key Store's KMS Key ARN restrictions.")
   kmsConfiguration: KMSConfiguration
 }
 
@@ -152,7 +182,7 @@ structure CreateKeyStoreOutput {
 // derive different beacon keys per beacon.
 @javadoc("Create a new Branch Key in the Key Store. Additionally create a Beacon Key that is tied to this Branch Key.")
 operation CreateKey {
-  input: CreateKeyInput
+  input: CreateKeyInput,
   output: CreateKeyOutput
 }
 
@@ -163,9 +193,9 @@ operation CreateKey {
 //# - An optional encryption context
 structure CreateKeyInput {
   @javadoc("The identifier for the created Branch Key.")
-  branchKeyIdentifier: String
+  branchKeyIdentifier: String,
 
-  @javadoc("Custom encryption context for the Branch Key.")
+  @javadoc("Custom encryption context for the Branch Key. Required if branchKeyIdentifier is set.")
   encryptionContext: EncryptionContext
 }
 
@@ -298,7 +328,7 @@ structure BranchKeyMaterials {
     branchKeyVersion: Utf8Bytes,
 
     @required
-    encryptionContext: EncryptionContext
+    encryptionContext: EncryptionContext,
 
     @required
     branchKey: Secret,
@@ -314,7 +344,7 @@ structure BeaconKeyMaterials {
   beaconKeyIdentifier: String,
 
   @required
-  encryptionContext: EncryptionContext
+  encryptionContext: EncryptionContext,
 
   //= aws-encryption-sdk-specification/framework/structures.md#structure-4
   //= type=implication
