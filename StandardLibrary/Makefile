@@ -16,3 +16,6 @@ LIBRARIES :=
 transpile_implementation: STD_LIBRARY=
 transpile_test: STD_LIBRARY=
 transpile_dependencies: STD_LIBRARY=
+
+build_java: transpile_java
+	./runtimes/java/gradlew -p runtimes/java build
