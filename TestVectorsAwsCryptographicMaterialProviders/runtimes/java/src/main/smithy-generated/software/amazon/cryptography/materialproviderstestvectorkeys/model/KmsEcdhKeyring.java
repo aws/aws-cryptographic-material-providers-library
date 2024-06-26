@@ -11,6 +11,10 @@ public class KmsEcdhKeyring {
 
   private final String recipientKeyId;
 
+  private final String senderPublicKey;
+
+  private final String recipientPublicKey;
+
   private final String curveSpec;
 
   private final String keyAgreementScheme;
@@ -18,6 +22,8 @@ public class KmsEcdhKeyring {
   protected KmsEcdhKeyring(BuilderImpl builder) {
     this.senderKeyId = builder.senderKeyId();
     this.recipientKeyId = builder.recipientKeyId();
+    this.senderPublicKey = builder.senderPublicKey();
+    this.recipientPublicKey = builder.recipientPublicKey();
     this.curveSpec = builder.curveSpec();
     this.keyAgreementScheme = builder.keyAgreementScheme();
   }
@@ -28,6 +34,14 @@ public class KmsEcdhKeyring {
 
   public String recipientKeyId() {
     return this.recipientKeyId;
+  }
+
+  public String senderPublicKey() {
+    return this.senderPublicKey;
+  }
+
+  public String recipientPublicKey() {
+    return this.recipientPublicKey;
   }
 
   public String curveSpec() {
@@ -55,6 +69,14 @@ public class KmsEcdhKeyring {
 
     String recipientKeyId();
 
+    Builder senderPublicKey(String senderPublicKey);
+
+    String senderPublicKey();
+
+    Builder recipientPublicKey(String recipientPublicKey);
+
+    String recipientPublicKey();
+
     Builder curveSpec(String curveSpec);
 
     String curveSpec();
@@ -72,6 +94,10 @@ public class KmsEcdhKeyring {
 
     protected String recipientKeyId;
 
+    protected String senderPublicKey;
+
+    protected String recipientPublicKey;
+
     protected String curveSpec;
 
     protected String keyAgreementScheme;
@@ -81,6 +107,8 @@ public class KmsEcdhKeyring {
     protected BuilderImpl(KmsEcdhKeyring model) {
       this.senderKeyId = model.senderKeyId();
       this.recipientKeyId = model.recipientKeyId();
+      this.senderPublicKey = model.senderPublicKey();
+      this.recipientPublicKey = model.recipientPublicKey();
       this.curveSpec = model.curveSpec();
       this.keyAgreementScheme = model.keyAgreementScheme();
     }
@@ -101,6 +129,24 @@ public class KmsEcdhKeyring {
 
     public String recipientKeyId() {
       return this.recipientKeyId;
+    }
+
+    public Builder senderPublicKey(String senderPublicKey) {
+      this.senderPublicKey = senderPublicKey;
+      return this;
+    }
+
+    public String senderPublicKey() {
+      return this.senderPublicKey;
+    }
+
+    public Builder recipientPublicKey(String recipientPublicKey) {
+      this.recipientPublicKey = recipientPublicKey;
+      return this;
+    }
+
+    public String recipientPublicKey() {
+      return this.recipientPublicKey;
     }
 
     public Builder curveSpec(String curveSpec) {
@@ -130,6 +176,16 @@ public class KmsEcdhKeyring {
       if (Objects.isNull(this.recipientKeyId())) {
         throw new IllegalArgumentException(
           "Missing value for required field `recipientKeyId`"
+        );
+      }
+      if (Objects.isNull(this.senderPublicKey())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `senderPublicKey`"
+        );
+      }
+      if (Objects.isNull(this.recipientPublicKey())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `recipientPublicKey`"
         );
       }
       if (Objects.isNull(this.curveSpec())) {
