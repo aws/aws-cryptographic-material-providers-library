@@ -1,32 +1,60 @@
-diff --git b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
-index 9084fae1..880ddcae 100644
---- b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
-+++ a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
-@@ -4179,16 +4179,9 @@ public class ToDafny {
-   }
+diff --git a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
+index c4416ed5..e0a52bfe 100644
+--- a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
++++ b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
+@@ -2300,7 +2300,13 @@ public class ToDafny {
  
-   public static Error Error(KmsException nativeValue) {
--    Option<DafnySequence<? extends Character>> message;
--    message =
--      Objects.nonNull(nativeValue.getMessage())
--        ? Option.create_Some(
--          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
--            nativeValue.getMessage()
--          )
--        )
--        : Option.create_None();
--    return new Error_Opaque(message);
+   public static DafnySequence<
+     ? extends KeyAgreementAlgorithmSpec
+-  > KeyAgreementAlgorithmSpecList(List<String> nativeValue) {
 +    // BEGIN MANUAL EDIT
-+    return new Error_Opaque(nativeValue);
++  > KeyAgreementAlgorithmSpecList(
++    List<
++      software.amazon.awssdk.services.kms.model.KeyAgreementAlgorithmSpec
++    > nativeValue
++  ) {
 +    // END MANUAL EDIT
+     return software.amazon.smithy.dafny.conversion.ToDafny.Aggregate.GenericToSequence(
+       nativeValue,
+       software.amazon.cryptography.services.kms.internaldafny.ToDafny::KeyAgreementAlgorithmSpec,
+@@ -2890,7 +2896,9 @@ public class ToDafny {
    }
  
-   public static IKMSClient TrentService(KmsClient nativeValue) {
-diff --git b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
-index b4cc1964..98e53314 100644
---- b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
-+++ a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
-@@ -103,6 +103,9 @@ import software.amazon.awssdk.services.kms.model.KeySpec;
+   public static DafnySequence<? extends MacAlgorithmSpec> MacAlgorithmSpecList(
+-    List<String> nativeValue
++    // BEGIN MANUAL EDIT
++    List<software.amazon.awssdk.services.kms.model.MacAlgorithmSpec> nativeValue
++    // END MANUAL EDIT
+   ) {
+     return software.amazon.smithy.dafny.conversion.ToDafny.Aggregate.GenericToSequence(
+       nativeValue,
+@@ -4641,7 +4649,9 @@ public class ToDafny {
+         {
+           return AlgorithmSpec.create_RSA__AES__KEY__WRAP__SHA__256();
+         }
+-      case SM2PKE:
++      // BEGIN MANUAL EDIT
++      case SM2_PKE:
++        // END MANUAL EDIT
+         {
+           return AlgorithmSpec.create_SM2PKE();
+         }
+@@ -5448,7 +5458,9 @@ public class ToDafny {
+         {
+           return SigningAlgorithmSpec.create_ECDSA__SHA__512();
+         }
+-      case SM2DSA:
++      // BEGIN MANUAL EDIT
++      case SM2_DSA:
++        // END MANUAL EDIT
+         {
+           return SigningAlgorithmSpec.create_SM2DSA();
+         }
+diff --git a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
+index 7c11a9bf..ac7b1a14 100644
+--- a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
++++ b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
+@@ -113,6 +113,9 @@ import software.amazon.awssdk.services.kms.model.KeySpec;
  import software.amazon.awssdk.services.kms.model.KeyState;
  import software.amazon.awssdk.services.kms.model.KeyUnavailableException;
  import software.amazon.awssdk.services.kms.model.KeyUsageType;
@@ -34,20 +62,19 @@ index b4cc1964..98e53314 100644
 +import software.amazon.awssdk.services.kms.model.KmsException;
 +// END MANUAL EDIT
  import software.amazon.awssdk.services.kms.model.KmsInternalException;
+ import software.amazon.awssdk.services.kms.model.KmsInvalidMacException;
  import software.amazon.awssdk.services.kms.model.KmsInvalidSignatureException;
- import software.amazon.awssdk.services.kms.model.KmsInvalidStateException;
-@@ -178,12 +181,30 @@ import software.amazon.cryptography.services.kms.internaldafny.types.Error_KeyUn
+@@ -220,6 +223,9 @@ import software.amazon.cryptography.services.kms.internaldafny.types.Error_KeyUn
  import software.amazon.cryptography.services.kms.internaldafny.types.Error_LimitExceededException;
  import software.amazon.cryptography.services.kms.internaldafny.types.Error_MalformedPolicyDocumentException;
  import software.amazon.cryptography.services.kms.internaldafny.types.Error_NotFoundException;
-+import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
- import software.amazon.cryptography.services.kms.internaldafny.types.Error_TagException;
-+// END MANUAL EDIT
-+import software.amazon.cryptography.services.kms.internaldafny.types.Error_TagException;
-+import software.amazon.cryptography.services.kms.internaldafny.types.Error_UnsupportedOperationException;
- import software.amazon.cryptography.services.kms.internaldafny.types.Error_UnsupportedOperationException;
 +// BEGIN MANUAL EDIT
- import software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient;
++import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
++// END MANUAL EDIT
+ import software.amazon.cryptography.services.kms.internaldafny.types.Error_TagException;
+ import software.amazon.cryptography.services.kms.internaldafny.types.Error_UnsupportedOperationException;
+ import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksKeyAlreadyInUseException;
+@@ -238,6 +244,19 @@ import software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient;
  
  public class ToNative {
  
@@ -67,7 +94,7 @@ index b4cc1964..98e53314 100644
    public static AlgorithmSpec AlgorithmSpec(
      software.amazon.cryptography.services.kms.internaldafny.types.AlgorithmSpec dafnyValue
    ) {
-@@ -3339,6 +3360,132 @@ public class ToNative {
+@@ -4537,6 +4556,195 @@ public class ToNative {
      return builder.build();
    }
  
@@ -101,6 +128,9 @@ index b4cc1964..98e53314 100644
 +        (Error_CloudHsmClusterNotRelatedException) dafnyValue
 +      );
 +    }
++    if (dafnyValue.is_ConflictException()) {
++      return ToNative.Error((Error_ConflictException) dafnyValue);
++    }
 +    if (dafnyValue.is_CustomKeyStoreHasCMKsException()) {
 +      return ToNative.Error((Error_CustomKeyStoreHasCMKsException) dafnyValue);
 +    }
@@ -122,6 +152,9 @@ index b4cc1964..98e53314 100644
 +    }
 +    if (dafnyValue.is_DisabledException()) {
 +      return ToNative.Error((Error_DisabledException) dafnyValue);
++    }
++    if (dafnyValue.is_DryRunOperationException()) {
++      return ToNative.Error((Error_DryRunOperationException) dafnyValue);
 +    }
 +    if (dafnyValue.is_ExpiredImportTokenException()) {
 +      return ToNative.Error((Error_ExpiredImportTokenException) dafnyValue);
@@ -165,6 +198,9 @@ index b4cc1964..98e53314 100644
 +    if (dafnyValue.is_KMSInternalException()) {
 +      return ToNative.Error((Error_KMSInternalException) dafnyValue);
 +    }
++    if (dafnyValue.is_KMSInvalidMacException()) {
++      return ToNative.Error((Error_KMSInvalidMacException) dafnyValue);
++    }
 +    if (dafnyValue.is_KMSInvalidSignatureException()) {
 +      return ToNative.Error((Error_KMSInvalidSignatureException) dafnyValue);
 +    }
@@ -187,6 +223,60 @@ index b4cc1964..98e53314 100644
 +    }
 +    if (dafnyValue.is_UnsupportedOperationException()) {
 +      return ToNative.Error((Error_UnsupportedOperationException) dafnyValue);
++    }
++    if (dafnyValue.is_XksKeyAlreadyInUseException()) {
++      return ToNative.Error((Error_XksKeyAlreadyInUseException) dafnyValue);
++    }
++    if (dafnyValue.is_XksKeyInvalidConfigurationException()) {
++      return ToNative.Error(
++        (Error_XksKeyInvalidConfigurationException) dafnyValue
++      );
++    }
++    if (dafnyValue.is_XksKeyNotFoundException()) {
++      return ToNative.Error((Error_XksKeyNotFoundException) dafnyValue);
++    }
++    if (dafnyValue.is_XksProxyIncorrectAuthenticationCredentialException()) {
++      return ToNative.Error(
++        (Error_XksProxyIncorrectAuthenticationCredentialException) dafnyValue
++      );
++    }
++    if (dafnyValue.is_XksProxyInvalidConfigurationException()) {
++      return ToNative.Error(
++        (Error_XksProxyInvalidConfigurationException) dafnyValue
++      );
++    }
++    if (dafnyValue.is_XksProxyInvalidResponseException()) {
++      return ToNative.Error(
++        (Error_XksProxyInvalidResponseException) dafnyValue
++      );
++    }
++    if (dafnyValue.is_XksProxyUriEndpointInUseException()) {
++      return ToNative.Error(
++        (Error_XksProxyUriEndpointInUseException) dafnyValue
++      );
++    }
++    if (dafnyValue.is_XksProxyUriInUseException()) {
++      return ToNative.Error((Error_XksProxyUriInUseException) dafnyValue);
++    }
++    if (dafnyValue.is_XksProxyUriUnreachableException()) {
++      return ToNative.Error((Error_XksProxyUriUnreachableException) dafnyValue);
++    }
++    if (dafnyValue.is_XksProxyVpcEndpointServiceInUseException()) {
++      return ToNative.Error(
++        (Error_XksProxyVpcEndpointServiceInUseException) dafnyValue
++      );
++    }
++    if (
++      dafnyValue.is_XksProxyVpcEndpointServiceInvalidConfigurationException()
++    ) {
++      return ToNative.Error(
++        (Error_XksProxyVpcEndpointServiceInvalidConfigurationException) dafnyValue
++      );
++    }
++    if (dafnyValue.is_XksProxyVpcEndpointServiceNotFoundException()) {
++      return ToNative.Error(
++        (Error_XksProxyVpcEndpointServiceNotFoundException) dafnyValue
++      );
 +    }
 +    if (dafnyValue.is_Opaque()) {
 +      return ToNative.Error((Error_Opaque) dafnyValue);

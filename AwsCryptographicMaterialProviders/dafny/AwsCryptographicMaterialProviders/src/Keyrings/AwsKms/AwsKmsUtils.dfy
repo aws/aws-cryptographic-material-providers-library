@@ -10,9 +10,10 @@ module AwsKmsUtils {
   import opened UInt = StandardLibrary.UInt
   import opened Actions
   import opened A = AwsKmsMrkMatchForDecrypt
+  import opened AwsArnParsing
+  import opened Seq
   import Types = AwsCryptographyMaterialProvidersTypes
   import KMS = Types.ComAmazonawsKmsTypes
-  import AwsArnParsing
   import UTF8
 
   function method StringifyEncryptionContext(utf8EncCtx: Types.EncryptionContext):
@@ -89,6 +90,55 @@ module AwsKmsUtils {
             Types.AwsCryptographicMaterialProvidersException(
               message := "Grant token list contains a grant token with invalid length"));
     Success(tokens)
+  }
+
+  method GetEcdhPublicKey(
+    client: KMS.IKMSClient,
+    awsKmsKey: AwsKmsIdentifierString
+  ) returns (res :Result<KMS.PublicKeyType, Types.Error>)
+    requires client.ValidState()
+    modifies client.Modifies
+    ensures client.ValidState()
+    ensures res.Success? ==>
+              && 0 < |client.History.GetPublicKey|
+              && Last(client.History.GetPublicKey).input
+                 == KMS.GetPublicKeyRequest(
+                      KeyId := awsKmsKey,
+                      GrantTokens := None
+                    )
+              && Last(client.History.GetPublicKey).output.Success?
+              && var getPublicKeyResponse := Last(client.History.GetPublicKey).output.value;
+              && getPublicKeyResponse.KeyId.Some?
+              && getPublicKeyResponse.KeyId.value == awsKmsKey
+              && getPublicKeyResponse.KeyUsage.Some?
+              && getPublicKeyResponse.KeyUsage.value == KMS.KeyUsageType.KEY_AGREEMENT
+              && getPublicKeyResponse.PublicKey.Some?
+              && var publicKey := getPublicKeyResponse.PublicKey.value;
+              && KMS.IsValid_PublicKeyType(publicKey);
+  {
+    var getPublicKeyRequest := KMS.GetPublicKeyRequest(
+      KeyId := awsKmsKey,
+      GrantTokens := None
+    );
+
+    var maybePublicKeyResponse := client.GetPublicKey(
+      getPublicKeyRequest
+    );
+
+    var getPublicKeyResponse :- maybePublicKeyResponse
+    .MapFailure(e => Types.ComAmazonawsKms( ComAmazonawsKms := e ));
+
+    :- Need(
+      && getPublicKeyResponse.KeyId.Some?
+      && getPublicKeyResponse.KeyId.value == awsKmsKey
+      && getPublicKeyResponse.KeyUsage.Some?
+      && getPublicKeyResponse.KeyUsage.value == KMS.KeyUsageType.KEY_AGREEMENT
+      && getPublicKeyResponse.PublicKey.Some?,
+      Types.AwsCryptographicMaterialProvidersException(
+        message := "Invalid response from KMS GetPublicKey")
+    );
+
+    return Success(getPublicKeyResponse.PublicKey.value);
   }
 
   function method ParseKeyNamespaceAndName(keyNamespace: string, keyName: string)

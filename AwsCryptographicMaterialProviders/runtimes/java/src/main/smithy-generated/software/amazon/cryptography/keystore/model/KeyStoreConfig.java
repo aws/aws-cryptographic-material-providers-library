@@ -16,7 +16,7 @@ public class KeyStoreConfig {
   private final String ddbTableName;
 
   /**
-   * Configures this Keystore's KMS Key ARN restrictions.
+   * Configures Key Store's KMS Key ARN restrictions.
    */
   private final KMSConfiguration kmsConfiguration;
 
@@ -36,12 +36,12 @@ public class KeyStoreConfig {
   private final List<String> grantTokens;
 
   /**
-   * The DynamoDB client this Key Store uses to call Amazon DynamoDB. If None is provided, a default DynamoDB Client is created using the Region from the KMS ARN.
+   * The DynamoDB client this Key Store uses to call Amazon DynamoDB. If None is provided and the KMS ARN is, the KMS ARN is used to determine the Region of the default client.
    */
   private final DynamoDbClient ddbClient;
 
   /**
-   * The KMS client this Key Store uses to call AWS KMS. If None is provided, a default KMS Client is created using the Region from the KMS ARN.
+   * The KMS client this Key Store uses to call AWS KMS.  If None is provided and the KMS ARN is, the KMS ARN is used to determine the Region of the default client.
    */
   private final KmsClient kmsClient;
 
@@ -63,7 +63,7 @@ public class KeyStoreConfig {
   }
 
   /**
-   * @return Configures this Keystore's KMS Key ARN restrictions.
+   * @return Configures Key Store's KMS Key ARN restrictions.
    */
   public KMSConfiguration kmsConfiguration() {
     return this.kmsConfiguration;
@@ -91,14 +91,14 @@ public class KeyStoreConfig {
   }
 
   /**
-   * @return The DynamoDB client this Key Store uses to call Amazon DynamoDB. If None is provided, a default DynamoDB Client is created using the Region from the KMS ARN.
+   * @return The DynamoDB client this Key Store uses to call Amazon DynamoDB. If None is provided and the KMS ARN is, the KMS ARN is used to determine the Region of the default client.
    */
   public DynamoDbClient ddbClient() {
     return this.ddbClient;
   }
 
   /**
-   * @return The KMS client this Key Store uses to call AWS KMS. If None is provided, a default KMS Client is created using the Region from the KMS ARN.
+   * @return The KMS client this Key Store uses to call AWS KMS.  If None is provided and the KMS ARN is, the KMS ARN is used to determine the Region of the default client.
    */
   public KmsClient kmsClient() {
     return this.kmsClient;
@@ -124,12 +124,12 @@ public class KeyStoreConfig {
     String ddbTableName();
 
     /**
-     * @param kmsConfiguration Configures this Keystore's KMS Key ARN restrictions.
+     * @param kmsConfiguration Configures Key Store's KMS Key ARN restrictions.
      */
     Builder kmsConfiguration(KMSConfiguration kmsConfiguration);
 
     /**
-     * @return Configures this Keystore's KMS Key ARN restrictions.
+     * @return Configures Key Store's KMS Key ARN restrictions.
      */
     KMSConfiguration kmsConfiguration();
 
@@ -164,22 +164,22 @@ public class KeyStoreConfig {
     List<String> grantTokens();
 
     /**
-     * @param ddbClient The DynamoDB client this Key Store uses to call Amazon DynamoDB. If None is provided, a default DynamoDB Client is created using the Region from the KMS ARN.
+     * @param ddbClient The DynamoDB client this Key Store uses to call Amazon DynamoDB. If None is provided and the KMS ARN is, the KMS ARN is used to determine the Region of the default client.
      */
     Builder ddbClient(DynamoDbClient ddbClient);
 
     /**
-     * @return The DynamoDB client this Key Store uses to call Amazon DynamoDB. If None is provided, a default DynamoDB Client is created using the Region from the KMS ARN.
+     * @return The DynamoDB client this Key Store uses to call Amazon DynamoDB. If None is provided and the KMS ARN is, the KMS ARN is used to determine the Region of the default client.
      */
     DynamoDbClient ddbClient();
 
     /**
-     * @param kmsClient The KMS client this Key Store uses to call AWS KMS. If None is provided, a default KMS Client is created using the Region from the KMS ARN.
+     * @param kmsClient The KMS client this Key Store uses to call AWS KMS.  If None is provided and the KMS ARN is, the KMS ARN is used to determine the Region of the default client.
      */
     Builder kmsClient(KmsClient kmsClient);
 
     /**
-     * @return The KMS client this Key Store uses to call AWS KMS. If None is provided, a default KMS Client is created using the Region from the KMS ARN.
+     * @return The KMS client this Key Store uses to call AWS KMS.  If None is provided and the KMS ARN is, the KMS ARN is used to determine the Region of the default client.
      */
     KmsClient kmsClient();
 

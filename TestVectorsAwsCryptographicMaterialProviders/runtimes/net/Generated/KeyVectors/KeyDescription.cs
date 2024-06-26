@@ -12,8 +12,10 @@ namespace AWS.Cryptography.MaterialProvidersTestVectorKeys
     private AWS.Cryptography.MaterialProvidersTestVectorKeys.KmsMrkAwareDiscovery _kmsMrkDiscovery;
     private AWS.Cryptography.MaterialProvidersTestVectorKeys.RawRSA _rSA;
     private AWS.Cryptography.MaterialProvidersTestVectorKeys.RawAES _aES;
+    private AWS.Cryptography.MaterialProvidersTestVectorKeys.RawEcdh _eCDH;
     private AWS.Cryptography.MaterialProvidersTestVectorKeys.StaticKeyring _static;
     private AWS.Cryptography.MaterialProvidersTestVectorKeys.KmsRsaKeyring _kmsRsa;
+    private AWS.Cryptography.MaterialProvidersTestVectorKeys.KmsEcdhKeyring _kmsECDH;
     private AWS.Cryptography.MaterialProvidersTestVectorKeys.HierarchyKeyring _hierarchy;
     private AWS.Cryptography.MaterialProvidersTestVectorKeys.MultiKeyring _multi;
     private AWS.Cryptography.MaterialProvidersTestVectorKeys.RequiredEncryptionContextCMM _requiredEncryptionContext;
@@ -62,6 +64,15 @@ namespace AWS.Cryptography.MaterialProvidersTestVectorKeys
     {
       return this._aES != null;
     }
+    public AWS.Cryptography.MaterialProvidersTestVectorKeys.RawEcdh ECDH
+    {
+      get { return this._eCDH; }
+      set { this._eCDH = value; }
+    }
+    public bool IsSetECDH()
+    {
+      return this._eCDH != null;
+    }
     public AWS.Cryptography.MaterialProvidersTestVectorKeys.StaticKeyring Static
     {
       get { return this._static; }
@@ -79,6 +90,15 @@ namespace AWS.Cryptography.MaterialProvidersTestVectorKeys
     public bool IsSetKmsRsa()
     {
       return this._kmsRsa != null;
+    }
+    public AWS.Cryptography.MaterialProvidersTestVectorKeys.KmsEcdhKeyring KmsECDH
+    {
+      get { return this._kmsECDH; }
+      set { this._kmsECDH = value; }
+    }
+    public bool IsSetKmsECDH()
+    {
+      return this._kmsECDH != null;
     }
     public AWS.Cryptography.MaterialProvidersTestVectorKeys.HierarchyKeyring Hierarchy
     {
@@ -114,8 +134,10 @@ namespace AWS.Cryptography.MaterialProvidersTestVectorKeys
       Convert.ToUInt16(IsSetKmsMrkDiscovery()) +
       Convert.ToUInt16(IsSetRSA()) +
       Convert.ToUInt16(IsSetAES()) +
+      Convert.ToUInt16(IsSetECDH()) +
       Convert.ToUInt16(IsSetStatic()) +
       Convert.ToUInt16(IsSetKmsRsa()) +
+      Convert.ToUInt16(IsSetKmsECDH()) +
       Convert.ToUInt16(IsSetHierarchy()) +
       Convert.ToUInt16(IsSetMulti()) +
       Convert.ToUInt16(IsSetRequiredEncryptionContext());

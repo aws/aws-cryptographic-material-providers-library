@@ -6,37 +6,63 @@ package software.amazon.cryptography.keystore.model;
 import java.util.Objects;
 
 /**
- * Configures this Keystore's KMS Key ARN restrictions.
+ * Configures Key Store's KMS Key ARN restrictions.
  */
 public class KMSConfiguration {
 
   /**
-   * Keystore is restricted to only this KMS Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown. While a Multi-Region Key (MRK) may be provided, the whole ARN, including the Region, is persisted in Branch Keys and MUST strictly equal this value to be considered valid.
+   * Key Store is restricted to only this KMS Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown. While a Multi-Region Key (MKR) may be provided, the whole ARN, including the Region, is persisted in Branch Keys and MUST strictly equal this value to be considered valid.
    */
   private final String kmsKeyArn;
 
   /**
-   * Keystore is restricted to only this replication of the KMS Multi-Region Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown. For Get* Operations, the Keystore compares the configured MRK ARN with the ARN recorded on the Branch Key. If all elements of the ARN are equal except for the Region, the Branch Key is allowed and KMS is called. Otherwise, the Branch Key is denied.
+   * If an MRK ARN is provided, and the Key Store table holds an MRK ARN, then those two ARNs may differ in region, although they must be otherwise equal. If either ARN is not an MRK ARN, then mrkKmsKeyArn behaves exactly as kmsKeyArn.
    */
   private final String kmsMRKeyArn;
+
+  /**
+   * The Key Store can use the KMS Key ARNs already persisted in the Backing Table. The VersionKey and CreateKey Operations are NOT supported and will fail with a runtime exception. There is no Multi-Region logic with this configuration; if a Multi-Region Key is encountered, and the region in the ARN is not the region of the KMS Client, requests will Fail with KMS Exceptions.
+   */
+  private final Discovery discovery;
+
+  /**
+   * The Key Store can use the KMS Key ARNs already persisted in the Backing Table. The VersionKey and CreateKey Operations are NOT supported and will fail with a runtime exception. If a Multi-Region Key is encountered, the region in the ARN is changed to the configured region.
+   */
+  private final MRDiscovery mrDiscovery;
 
   protected KMSConfiguration(BuilderImpl builder) {
     this.kmsKeyArn = builder.kmsKeyArn();
     this.kmsMRKeyArn = builder.kmsMRKeyArn();
+    this.discovery = builder.discovery();
+    this.mrDiscovery = builder.mrDiscovery();
   }
 
   /**
-   * @return Keystore is restricted to only this KMS Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown. While a Multi-Region Key (MRK) may be provided, the whole ARN, including the Region, is persisted in Branch Keys and MUST strictly equal this value to be considered valid.
+   * @return Key Store is restricted to only this KMS Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown. While a Multi-Region Key (MKR) may be provided, the whole ARN, including the Region, is persisted in Branch Keys and MUST strictly equal this value to be considered valid.
    */
   public String kmsKeyArn() {
     return this.kmsKeyArn;
   }
 
   /**
-   * @return Keystore is restricted to only this replication of the KMS Multi-Region Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown. For Get* Operations, the Keystore compares the configured MRK ARN with the ARN recorded on the Branch Key. If all elements of the ARN are equal except for the Region, the Branch Key is allowed and KMS is called. Otherwise, the Branch Key is denied.
+   * @return If an MRK ARN is provided, and the Key Store table holds an MRK ARN, then those two ARNs may differ in region, although they must be otherwise equal. If either ARN is not an MRK ARN, then mrkKmsKeyArn behaves exactly as kmsKeyArn.
    */
   public String kmsMRKeyArn() {
     return this.kmsMRKeyArn;
+  }
+
+  /**
+   * @return The Key Store can use the KMS Key ARNs already persisted in the Backing Table. The VersionKey and CreateKey Operations are NOT supported and will fail with a runtime exception. There is no Multi-Region logic with this configuration; if a Multi-Region Key is encountered, and the region in the ARN is not the region of the KMS Client, requests will Fail with KMS Exceptions.
+   */
+  public Discovery discovery() {
+    return this.discovery;
+  }
+
+  /**
+   * @return The Key Store can use the KMS Key ARNs already persisted in the Backing Table. The VersionKey and CreateKey Operations are NOT supported and will fail with a runtime exception. If a Multi-Region Key is encountered, the region in the ARN is changed to the configured region.
+   */
+  public MRDiscovery mrDiscovery() {
+    return this.mrDiscovery;
   }
 
   public Builder toBuilder() {
@@ -49,24 +75,44 @@ public class KMSConfiguration {
 
   public interface Builder {
     /**
-     * @param kmsKeyArn Keystore is restricted to only this KMS Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown. While a Multi-Region Key (MRK) may be provided, the whole ARN, including the Region, is persisted in Branch Keys and MUST strictly equal this value to be considered valid.
+     * @param kmsKeyArn Key Store is restricted to only this KMS Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown. While a Multi-Region Key (MKR) may be provided, the whole ARN, including the Region, is persisted in Branch Keys and MUST strictly equal this value to be considered valid.
      */
     Builder kmsKeyArn(String kmsKeyArn);
 
     /**
-     * @return Keystore is restricted to only this KMS Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown. While a Multi-Region Key (MRK) may be provided, the whole ARN, including the Region, is persisted in Branch Keys and MUST strictly equal this value to be considered valid.
+     * @return Key Store is restricted to only this KMS Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown. While a Multi-Region Key (MKR) may be provided, the whole ARN, including the Region, is persisted in Branch Keys and MUST strictly equal this value to be considered valid.
      */
     String kmsKeyArn();
 
     /**
-     * @param kmsMRKeyArn Keystore is restricted to only this replication of the KMS Multi-Region Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown. For Get* Operations, the Keystore compares the configured MRK ARN with the ARN recorded on the Branch Key. If all elements of the ARN are equal except for the Region, the Branch Key is allowed and KMS is called. Otherwise, the Branch Key is denied.
+     * @param kmsMRKeyArn If an MRK ARN is provided, and the Key Store table holds an MRK ARN, then those two ARNs may differ in region, although they must be otherwise equal. If either ARN is not an MRK ARN, then mrkKmsKeyArn behaves exactly as kmsKeyArn.
      */
     Builder kmsMRKeyArn(String kmsMRKeyArn);
 
     /**
-     * @return Keystore is restricted to only this replication of the KMS Multi-Region Key ARN. If a different KMS Key ARN is encountered when creating, versioning, or getting a Branch Key or Beacon Key, KMS is never called and an exception is thrown. For Get* Operations, the Keystore compares the configured MRK ARN with the ARN recorded on the Branch Key. If all elements of the ARN are equal except for the Region, the Branch Key is allowed and KMS is called. Otherwise, the Branch Key is denied.
+     * @return If an MRK ARN is provided, and the Key Store table holds an MRK ARN, then those two ARNs may differ in region, although they must be otherwise equal. If either ARN is not an MRK ARN, then mrkKmsKeyArn behaves exactly as kmsKeyArn.
      */
     String kmsMRKeyArn();
+
+    /**
+     * @param discovery The Key Store can use the KMS Key ARNs already persisted in the Backing Table. The VersionKey and CreateKey Operations are NOT supported and will fail with a runtime exception. There is no Multi-Region logic with this configuration; if a Multi-Region Key is encountered, and the region in the ARN is not the region of the KMS Client, requests will Fail with KMS Exceptions.
+     */
+    Builder discovery(Discovery discovery);
+
+    /**
+     * @return The Key Store can use the KMS Key ARNs already persisted in the Backing Table. The VersionKey and CreateKey Operations are NOT supported and will fail with a runtime exception. There is no Multi-Region logic with this configuration; if a Multi-Region Key is encountered, and the region in the ARN is not the region of the KMS Client, requests will Fail with KMS Exceptions.
+     */
+    Discovery discovery();
+
+    /**
+     * @param mrDiscovery The Key Store can use the KMS Key ARNs already persisted in the Backing Table. The VersionKey and CreateKey Operations are NOT supported and will fail with a runtime exception. If a Multi-Region Key is encountered, the region in the ARN is changed to the configured region.
+     */
+    Builder mrDiscovery(MRDiscovery mrDiscovery);
+
+    /**
+     * @return The Key Store can use the KMS Key ARNs already persisted in the Backing Table. The VersionKey and CreateKey Operations are NOT supported and will fail with a runtime exception. If a Multi-Region Key is encountered, the region in the ARN is changed to the configured region.
+     */
+    MRDiscovery mrDiscovery();
 
     KMSConfiguration build();
   }
@@ -77,11 +123,17 @@ public class KMSConfiguration {
 
     protected String kmsMRKeyArn;
 
+    protected Discovery discovery;
+
+    protected MRDiscovery mrDiscovery;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(KMSConfiguration model) {
       this.kmsKeyArn = model.kmsKeyArn();
       this.kmsMRKeyArn = model.kmsMRKeyArn();
+      this.discovery = model.discovery();
+      this.mrDiscovery = model.mrDiscovery();
     }
 
     public Builder kmsKeyArn(String kmsKeyArn) {
@@ -100,6 +152,24 @@ public class KMSConfiguration {
 
     public String kmsMRKeyArn() {
       return this.kmsMRKeyArn;
+    }
+
+    public Builder discovery(Discovery discovery) {
+      this.discovery = discovery;
+      return this;
+    }
+
+    public Discovery discovery() {
+      return this.discovery;
+    }
+
+    public Builder mrDiscovery(MRDiscovery mrDiscovery) {
+      this.mrDiscovery = mrDiscovery;
+      return this;
+    }
+
+    public MRDiscovery mrDiscovery() {
+      return this.mrDiscovery;
     }
 
     public KMSConfiguration build() {
@@ -139,7 +209,12 @@ public class KMSConfiguration {
     }
 
     private boolean onlyOneNonNull() {
-      Object[] allValues = { this.kmsKeyArn, this.kmsMRKeyArn };
+      Object[] allValues = {
+        this.kmsKeyArn,
+        this.kmsMRKeyArn,
+        this.discovery,
+        this.mrDiscovery,
+      };
       boolean haveOneNonNull = false;
       for (Object o : allValues) {
         if (Objects.nonNull(o)) {

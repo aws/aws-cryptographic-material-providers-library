@@ -22,6 +22,7 @@ import software.amazon.cryptography.keystore.internaldafny.types.CreateKeyInput;
 import software.amazon.cryptography.keystore.internaldafny.types.CreateKeyOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.CreateKeyStoreInput;
 import software.amazon.cryptography.keystore.internaldafny.types.CreateKeyStoreOutput;
+import software.amazon.cryptography.keystore.internaldafny.types.Discovery;
 import software.amazon.cryptography.keystore.internaldafny.types.Error;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStoreException;
 import software.amazon.cryptography.keystore.internaldafny.types.GetActiveBranchKeyInput;
@@ -34,6 +35,7 @@ import software.amazon.cryptography.keystore.internaldafny.types.GetKeyStoreInfo
 import software.amazon.cryptography.keystore.internaldafny.types.IKeyStoreClient;
 import software.amazon.cryptography.keystore.internaldafny.types.KMSConfiguration;
 import software.amazon.cryptography.keystore.internaldafny.types.KeyStoreConfig;
+import software.amazon.cryptography.keystore.internaldafny.types.MRDiscovery;
 import software.amazon.cryptography.keystore.internaldafny.types.VersionKeyInput;
 import software.amazon.cryptography.keystore.internaldafny.types.VersionKeyOutput;
 import software.amazon.cryptography.keystore.model.CollectionOfErrors;
@@ -205,6 +207,12 @@ public class ToDafny {
     return new CreateKeyStoreOutput(tableArn);
   }
 
+  public static Discovery Discovery(
+    software.amazon.cryptography.keystore.model.Discovery nativeValue
+  ) {
+    return new Discovery();
+  }
+
   public static GetActiveBranchKeyInput GetActiveBranchKeyInput(
     software.amazon.cryptography.keystore.model.GetActiveBranchKeyInput nativeValue
   ) {
@@ -362,6 +370,17 @@ public class ToDafny {
     );
   }
 
+  public static MRDiscovery MRDiscovery(
+    software.amazon.cryptography.keystore.model.MRDiscovery nativeValue
+  ) {
+    DafnySequence<? extends Character> region;
+    region =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.region()
+      );
+    return new MRDiscovery(region);
+  }
+
   public static VersionKeyInput VersionKeyInput(
     software.amazon.cryptography.keystore.model.VersionKeyInput nativeValue
   ) {
@@ -403,6 +422,16 @@ public class ToDafny {
         software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
           nativeValue.kmsMRKeyArn()
         )
+      );
+    }
+    if (Objects.nonNull(nativeValue.discovery())) {
+      return KMSConfiguration.create_discovery(
+        ToDafny.Discovery(nativeValue.discovery())
+      );
+    }
+    if (Objects.nonNull(nativeValue.mrDiscovery())) {
+      return KMSConfiguration.create_mrDiscovery(
+        ToDafny.MRDiscovery(nativeValue.mrDiscovery())
       );
     }
     throw new IllegalArgumentException(

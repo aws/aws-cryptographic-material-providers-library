@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "Structure.dfy"
+include "ErrorMessages.dfy"
 
 module DDBKeystoreOperations {
   import opened Wrappers
@@ -11,6 +12,7 @@ module DDBKeystoreOperations {
   import DDB = ComAmazonawsDynamodbTypes
   import UTF8
   import Structure
+  import ErrorMessages = KeyStoreErrorMessages
 
   const BRANCH_KEY_EXISTS_EXPRESSION_ATTRIBUTE_NAME := "#BranchKeyIdentifierField"
   const BRANCH_KEY_EXISTS_EXPRESSION_ATTRIBUTE_NAMES
@@ -195,8 +197,8 @@ module DDBKeystoreOperations {
     .MapFailure(e => Types.ComAmazonawsDynamodb(ComAmazonawsDynamodb := e));
 
     :- Need(
-      getItemResponse.Item.Some?,
-      Types.KeyStoreException( message := "No item found for corresponding branch key identifier.")
+      getItemResponse.Item.Some? && |getItemResponse.Item.value| >= 1,
+      Types.KeyStoreException( message := ErrorMessages.NO_CORRESPONDING_BRANCH_KEY)
     );
 
     :- Need(
@@ -262,8 +264,8 @@ module DDBKeystoreOperations {
     .MapFailure(e => Types.ComAmazonawsDynamodb(ComAmazonawsDynamodb := e));
 
     :- Need(
-      getItemResponse.Item.Some?,
-      Types.KeyStoreException( message := "No item found for corresponding branch key identifier.")
+      getItemResponse.Item.Some? && |getItemResponse.Item.value| >= 1,
+      Types.KeyStoreException( message := ErrorMessages.NO_CORRESPONDING_BRANCH_KEY)
     );
 
     :- Need(
@@ -332,8 +334,8 @@ module DDBKeystoreOperations {
     .MapFailure(e => Types.ComAmazonawsDynamodb(ComAmazonawsDynamodb := e));
 
     :- Need(
-      getItemResponse.Item.Some?,
-      Types.KeyStoreException( message := "No item found for corresponding branch key identifier.")
+      getItemResponse.Item.Some? && |getItemResponse.Item.value| >= 1,
+      Types.KeyStoreException( message := ErrorMessages.NO_CORRESPONDING_BRANCH_KEY)
     );
 
     :- Need(
