@@ -9,6 +9,8 @@ namespace AWS.Cryptography.MaterialProvidersTestVectorKeys
   {
     private string _senderKeyId;
     private string _recipientKeyId;
+    private string _senderPublicKey;
+    private string _recipientPublicKey;
     private string _providerId;
     private string _curveSpec;
     private string _keyAgreementScheme;
@@ -29,6 +31,24 @@ namespace AWS.Cryptography.MaterialProvidersTestVectorKeys
     public bool IsSetRecipientKeyId()
     {
       return this._recipientKeyId != null;
+    }
+    public string SenderPublicKey
+    {
+      get { return this._senderPublicKey; }
+      set { this._senderPublicKey = value; }
+    }
+    public bool IsSetSenderPublicKey()
+    {
+      return this._senderPublicKey != null;
+    }
+    public string RecipientPublicKey
+    {
+      get { return this._recipientPublicKey; }
+      set { this._recipientPublicKey = value; }
+    }
+    public bool IsSetRecipientPublicKey()
+    {
+      return this._recipientPublicKey != null;
     }
     public string ProviderId
     {
@@ -61,6 +81,8 @@ namespace AWS.Cryptography.MaterialProvidersTestVectorKeys
     {
       if (!IsSetSenderKeyId()) throw new System.ArgumentException("Missing value for required property 'SenderKeyId'");
       if (!IsSetRecipientKeyId()) throw new System.ArgumentException("Missing value for required property 'RecipientKeyId'");
+      if (!IsSetSenderPublicKey()) throw new System.ArgumentException("Missing value for required property 'SenderPublicKey'");
+      if (!IsSetRecipientPublicKey()) throw new System.ArgumentException("Missing value for required property 'RecipientPublicKey'");
       if (!IsSetProviderId()) throw new System.ArgumentException("Missing value for required property 'ProviderId'");
       if (!IsSetCurveSpec()) throw new System.ArgumentException("Missing value for required property 'CurveSpec'");
       if (!IsSetKeyAgreementScheme()) throw new System.ArgumentException("Missing value for required property 'KeyAgreementScheme'");
