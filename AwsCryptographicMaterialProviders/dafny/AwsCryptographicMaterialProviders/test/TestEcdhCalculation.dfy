@@ -151,12 +151,6 @@ module TestEcdhCalculation {
         )
       );
 
-      print "\n";
-      print "KMS Derived Shared Secret: ";
-      print kmsSharedSecret.value.SharedSecret.value;
-      print "\n";
-      print "Local Derived Shared Secret: ";
-      print offlineSharedSecret.sharedSecret;
 
       expect kmsSharedSecret.value.SharedSecret.value == offlineSharedSecret.sharedSecret;
     }
