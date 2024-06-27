@@ -20,6 +20,7 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
   import CreateStaticKeyrings
   import CreateStaticKeyStores
   import Seq
+  import Base64
   import KeyDescription
 
   // This is a HACK.
@@ -277,7 +278,7 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
         return keyring.MapFailure(e => AwsCryptographyMaterialProviders(e));
       }
     }
-    case ECDH(RawEcdh(senderKeyId: string, recipientKeyId: string, providerId: string, curveSpec: string, keyAgreementScheme: string)) => {
+    case ECDH(RawEcdh(senderKeyId: string, recipientKeyId: string, senderPublicKey: string, recipientPublicKey: string, providerId: string, curveSpec: string, keyAgreementScheme: string)) => {
       :- Need(curveSpec in KeyDescription.Curve2EccAlgorithmSpec, KeyVectorException(message := "Unknown curve spec"));
       var curveType :=  KeyDescription.Curve2EccAlgorithmSpec[curveSpec];
       var primitives? := Primitives.AtomicPrimitives();
@@ -290,17 +291,12 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
           KeyVectorException( message := "Not type: PrivateECDH" ));
         var senderMaterial :- UTF8.Encode(material.value.senderMaterial).MapFailure(e => KeyVectorException( message := e ));
         var recipientMaterial :- UTF8.Encode(material.value.recipientMaterial).MapFailure(e => KeyVectorException( message := e ));
-        // get the recipient publicKey
-        var recipientPublicKey? := primitives.GetPublicKeyFromPrivateKey(
-          AwsCryptographyPrimitivesTypes.GetPublicKeyFromPrivateKeyInput(
-            eccCurve := curveType,
-            privateKey := AwsCryptographyPrimitivesTypes.ECCPrivateKey(pem := recipientMaterial))
-        );
-        var recipientPublicKey :- recipientPublicKey?.MapFailure(ee => KeyVectorException( message := "Unable to create primitives client" ));
+        var recipientPublicKey :- Base64.Decode(material.value.recipientPublicKey).MapFailure(e => KeyVectorException(message := e));
+
         var schema := MPL.RawPrivateKeyToStaticPublicKey(
           MPL.RawPrivateKeyToStaticPublicKeyInput(
             senderStaticPrivateKey := senderMaterial,
-            recipientPublicKey := recipientPublicKey.publicKey
+            recipientPublicKey := recipientPublicKey
           )
         );
 
@@ -319,16 +315,11 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
           && (recipientMaterial?.value.PrivateECDH?),
           KeyVectorException( message := "Not type: PrivateECDH" ));
         var recipientMaterial :- UTF8.Encode(recipientMaterial?.value.recipientMaterial).MapFailure(e => KeyVectorException( message := e ));
-        // get the recipient publicKey
-        var recipientPublicKey? := primitives.GetPublicKeyFromPrivateKey(
-          AwsCryptographyPrimitivesTypes.GetPublicKeyFromPrivateKeyInput(
-            eccCurve := curveType,
-            privateKey := AwsCryptographyPrimitivesTypes.ECCPrivateKey(pem := recipientMaterial))
-        );
-        var recipientPublicKey :- recipientPublicKey?.MapFailure(ee => KeyVectorException( message := "Unable to create primitives client" ));
+        var recipientPublicKey :- Base64.Decode(recipientMaterial?.value.recipientPublicKey).MapFailure(e => KeyVectorException( message := e ));
+
         var schema := MPL.EphemeralPrivateKeyToStaticPublicKey(
           MPL.EphemeralPrivateKeyToStaticPublicKeyInput(
-            recipientPublicKey := recipientPublicKey.publicKey
+            recipientPublicKey := recipientPublicKey
           )
         );
         var input := MPL.CreateRawEcdhKeyringInput(
@@ -362,8 +353,7 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
         return Failure(KeyVectorException( message := "key agreement schema not recognized" ));
       }
     }
-    case KmsECDH(KmsEcdhKeyring(senderKeyId: string, recipientKeyId: string, curveSpec: string, keyAgreementScheme: string)) => {
-      // print curveSpec;
+    case KmsECDH(KmsEcdhKeyring(senderKeyId: string, recipientKeyId: string, senderPublicKey: string, recipientPublicKey: string, curveSpec: string, keyAgreementScheme: string)) => {
       :- Need(curveSpec in KeyDescription.KmsKey2EccAlgorithmSpec, KeyVectorException(message := "Unknown curve spec"));
       var curveType :=  KeyDescription.KmsKey2EccAlgorithmSpec[curveSpec];
 
@@ -381,8 +371,8 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
           KeyVectorException(message := "Not a valid Kms Key Id"));
         var kmsClient :- getKmsClient(mpl, senderKmsKey);
 
-        var senderPublicKey :- GetEcdhPublicKey(kmsClient, senderKmsKey);
-        var recipientPublicKey :- GetEcdhPublicKey(kmsClient, recipientKmsKey);
+        var senderPublicKey :- Base64.Decode(material.value.senderPublicKey).MapFailure(e => KeyVectorException(message := e));
+        var recipientPublicKey :- Base64.Decode(material.value.recipientPublicKey).MapFailure(e => KeyVectorException(message := e));
 
         var schema := MPL.KmsPrivateKeyToStaticPublicKey(
           MPL.KmsPrivateKeyToStaticPublicKeyInput(
