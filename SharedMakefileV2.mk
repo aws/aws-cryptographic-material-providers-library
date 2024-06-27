@@ -10,3 +10,8 @@ SMITHY_DAFNY_ROOT := $(PROJECT_ROOT)/smithy-dafny
 GRADLEW := ./runtimes/java/gradlew
 
 include $(SMITHY_DAFNY_ROOT)/SmithyDafnyMakefile.mk
+
+.PHONY: build_java
+
+build_java: transpile_java
+	./runtimes/java/gradlew -p runtimes/java build

@@ -46,7 +46,6 @@ if (!caPasswordString.isNullOrBlank()) {
 
 repositories {
     mavenCentral()
-    mavenLocal()
     if (caUrl != null && caPassword != null) {
         maven {
             name = "CodeArtifact"
@@ -67,17 +66,11 @@ dependencies {
 }
 
 publishing {
-    publications.create<MavenPublication>("mavenLocal") {
-        groupId = "software.amazon.cryptography"
-        artifactId = "AwsCryptographyPrimitives"
-        from(components["java"])
-    }
     publications.create<MavenPublication>("maven") {
         groupId = "software.amazon.cryptography"
         artifactId = "AwsCryptographyPrimitives"
         from(components["java"])
     }
-    repositories { mavenLocal() }
 }
 
 tasks.withType<JavaCompile>() {
