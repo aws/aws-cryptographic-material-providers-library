@@ -13,7 +13,6 @@ resource Keyring {
   operations: [OnEncrypt, OnDecrypt]
 }
 
-/////////////////////
 // Keyring Structures
 
 @reference(resource: Keyring)
@@ -45,7 +44,6 @@ list GrantTokenList {
 }
 
 
-/////////////////////
 // Keyring Operations
 
 //= aws-encryption-sdk-specification/framework/keyring-interface.md#onencrypt
@@ -89,7 +87,6 @@ structure OnDecryptOutput {
 }
 
 
-///////////////////////
 // Keyring Constructors
 
 @positional
