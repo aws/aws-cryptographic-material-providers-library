@@ -1971,7 +1971,13 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny.types" 
       )
     | XksProxyVpcEndpointServiceNotFoundException (
         nameonly message: Option<ErrorMessageType> := Option.None
+        )
+    // BEGIN MANUAL EDIT
+    | KmsException (
+       nameonly message: Option<ErrorMessageType> := Option.None,
+       nameonly obj: object
       )
+      // END MANUAL EDIT
       // Any dependent models are listed here
 
 
