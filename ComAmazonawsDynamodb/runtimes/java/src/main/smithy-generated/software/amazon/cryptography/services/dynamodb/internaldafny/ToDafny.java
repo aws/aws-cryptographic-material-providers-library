@@ -11,6 +11,7 @@ import java.lang.Boolean;
 import java.lang.Byte;
 import java.lang.Character;
 import java.lang.Double;
+import java.lang.Exception;
 import java.lang.IllegalArgumentException;
 import java.lang.Integer;
 import java.lang.Long;
@@ -269,7 +270,6 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_InvalidRestoreTimeException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ItemCollectionSizeLimitExceededException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_LimitExceededException;
-import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_Opaque;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_PointInTimeRecoveryUnavailableException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ProvisionedThroughputExceededException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ReplicaAlreadyExistsException;
@@ -10489,9 +10489,11 @@ public class ToDafny {
   }
 
   public static Error Error(DynamoDbException nativeValue) {
-    // BEGIN MANUAL EDIT
-    return new Error_Opaque(nativeValue);
-    // END MANUAL EDIT
+    return Error.create_Opaque(nativeValue);
+  }
+
+  public static Error Error(Exception nativeValue) {
+    return Error.create_Opaque(nativeValue);
   }
 
   public static IDynamoDBClient DynamoDB_20120810(DynamoDbClient nativeValue) {
