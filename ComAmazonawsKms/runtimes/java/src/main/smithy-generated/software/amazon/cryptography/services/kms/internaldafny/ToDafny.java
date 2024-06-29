@@ -10,6 +10,7 @@ import dafny.TypeDescriptor;
 import java.lang.Boolean;
 import java.lang.Byte;
 import java.lang.Character;
+import java.lang.Exception;
 import java.lang.Integer;
 import java.lang.RuntimeException;
 import java.lang.String;
@@ -142,7 +143,6 @@ import software.amazon.cryptography.services.kms.internaldafny.types.Error_KeyUn
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_LimitExceededException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_MalformedPolicyDocumentException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_NotFoundException;
-import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_TagException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_UnsupportedOperationException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksKeyAlreadyInUseException;
@@ -5730,16 +5730,11 @@ public class ToDafny {
   }
 
   public static Error Error(KmsException nativeValue) {
-    Option<DafnySequence<? extends Character>> message;
-    message =
-      Objects.nonNull(nativeValue.getMessage())
-        ? Option.create_Some(
-          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-            nativeValue.getMessage()
-          )
-        )
-        : Option.create_None();
-    return new Error_Opaque(message);
+    return Error.create_Opaque(nativeValue);
+  }
+
+  public static Error Error(Exception nativeValue) {
+    return Error.create_Opaque(nativeValue);
   }
 
   public static IKMSClient TrentService(KmsClient nativeValue) {
