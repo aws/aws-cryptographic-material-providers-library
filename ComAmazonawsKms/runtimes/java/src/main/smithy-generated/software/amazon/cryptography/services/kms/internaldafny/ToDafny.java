@@ -5566,6 +5566,7 @@ public class ToDafny {
         : Option.create_None();
     return new Error_KmsException(message, nativeValue);
   }
+
   // END MANUAL EDIT
 
   public static IKMSClient TrentService(KmsClient nativeValue) {

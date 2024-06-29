@@ -192,8 +192,8 @@ import software.amazon.awssdk.services.kms.model.XksProxyVpcEndpointServiceNotFo
 import software.amazon.cryptography.services.kms.internaldafny.types.*;
 // BEGIN MANUAL EDIT
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
-// END MANUAL EDIT
 
+// END MANUAL EDIT
 
 public class ToNative {
 
@@ -202,8 +202,10 @@ public class ToNative {
     if (dafnyValue.dtor_obj() instanceof Exception) {
       return (Exception) dafnyValue.dtor_obj();
     } else if (dafnyValue.dtor_message().is_Some()) {
-      final String message = software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-        dafnyValue.dtor_message().dtor_value());
+      final String message =
+        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+          dafnyValue.dtor_message().dtor_value()
+        );
       return new Exception(message);
     }
     return new IllegalStateException("Unknown error thrown while calling KMS.");
@@ -223,6 +225,7 @@ public class ToNative {
     }
     return (KmsException) builder.build();
   }
+
   // END MANUAL EDIT
 
   public static AlgorithmSpec AlgorithmSpec(
