@@ -189,11 +189,59 @@ import software.amazon.awssdk.services.kms.model.XksProxyUriUnreachableException
 import software.amazon.awssdk.services.kms.model.XksProxyVpcEndpointServiceInUseException;
 import software.amazon.awssdk.services.kms.model.XksProxyVpcEndpointServiceInvalidConfigurationException;
 import software.amazon.awssdk.services.kms.model.XksProxyVpcEndpointServiceNotFoundException;
-import software.amazon.cryptography.services.kms.internaldafny.types.*;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_AlreadyExistsException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterInUseException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterInvalidConfigurationException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterNotActiveException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterNotFoundException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterNotRelatedException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_ConflictException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_CustomKeyStoreHasCMKsException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_CustomKeyStoreInvalidStateException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_CustomKeyStoreNameInUseException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_CustomKeyStoreNotFoundException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_DependencyTimeoutException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_DisabledException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_DryRunOperationException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_ExpiredImportTokenException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_IncorrectKeyException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_IncorrectKeyMaterialException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_IncorrectTrustAnchorException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidAliasNameException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidArnException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidCiphertextException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidGrantIdException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidGrantTokenException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidImportTokenException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidKeyUsageException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidMarkerException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_KMSInternalException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_KMSInvalidMacException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_KMSInvalidSignatureException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_KMSInvalidStateException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_KeyUnavailableException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_LimitExceededException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_MalformedPolicyDocumentException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_NotFoundException;
 // BEGIN MANUAL EDIT
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
-
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_KmsException;
 // END MANUAL EDIT
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_TagException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_UnsupportedOperationException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksKeyAlreadyInUseException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksKeyInvalidConfigurationException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksKeyNotFoundException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyIncorrectAuthenticationCredentialException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyInvalidConfigurationException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyInvalidResponseException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyUriEndpointInUseException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyUriInUseException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyUriUnreachableException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceInUseException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceInvalidConfigurationException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceNotFoundException;
+import software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient;
 
 public class ToNative {
 
@@ -4528,7 +4576,7 @@ public class ToNative {
   }
 
   // BEGIN MANUAL EDIT
-  public static RuntimeException Error(
+  public static Exception Error(
     software.amazon.cryptography.services.kms.internaldafny.types.Error dafnyValue
   ) {
     if (dafnyValue.is_AlreadyExistsException()) {
