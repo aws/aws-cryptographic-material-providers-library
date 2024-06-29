@@ -243,12 +243,10 @@ import software.amazon.cryptography.services.kms.internaldafny.types.XksKeyConfi
 import software.amazon.cryptography.services.kms.internaldafny.types.XksProxyAuthenticationCredentialType;
 import software.amazon.cryptography.services.kms.internaldafny.types.XksProxyConfigurationType;
 import software.amazon.cryptography.services.kms.internaldafny.types.XksProxyConnectivityType;
-// prettier-ignore
 // BEGIN MANUAL EDIT
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_KmsException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
 // END MANUAL EDIT
-// prettier-ignore-end
 
 public class ToDafny {
 

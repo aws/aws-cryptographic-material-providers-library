@@ -238,25 +238,23 @@ import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksPr
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceInvalidConfigurationException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceNotFoundException;
 import software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient;
-//  prettier-ignore-start
 // BEGIN MANUAL EDIT
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_KmsException;
 // END MANUAL EDIT
-// prettier-ignore-end
 
 public class ToNative {
 
   // BEGIN MANUAL EDIT
-  public static Exception Error(Error_Opaque dafnyValue) {
+  public static RuntimeException Error(Error_Opaque dafnyValue) {
     if (dafnyValue.dtor_obj() instanceof Exception) {
-      return (Exception) dafnyValue.dtor_obj();
+      return (RuntimeException) dafnyValue.dtor_obj();
     } else if (dafnyValue.dtor_message().is_Some()) {
       final String message =
         software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
           dafnyValue.dtor_message().dtor_value()
         );
-      return new Exception(message);
+      return new RuntimeException(message);
     }
     return new IllegalStateException("Unknown error thrown while calling KMS.");
   }
@@ -4578,7 +4576,7 @@ public class ToNative {
   }
 
   // BEGIN MANUAL EDIT
-  public static Exception Error(
+  public static RuntimeException Error(
     software.amazon.cryptography.services.kms.internaldafny.types.Error dafnyValue
   ) {
     if (dafnyValue.is_AlreadyExistsException()) {
