@@ -270,8 +270,9 @@ public class ToNative {
           dafnyValue.dtor_message().dtor_value()
         )
       );
+      return (KmsException) builder.build();
     }
-    return (KmsException) builder.build();
+    return (KmsException) builder.message("Unknown error thrown while calling KMS.").build();
   }
 
   // END MANUAL EDIT
@@ -4755,14 +4756,19 @@ public class ToNative {
         (Error_XksProxyVpcEndpointServiceNotFoundException) dafnyValue
       );
     }
+    if (dafnyValue.is_KmsException()) {
+      return ToNative.Error(
+        (Error_KmsException) dafnyValue
+      );
+    }
     if (dafnyValue.is_Opaque()) {
       if (dafnyValue.dtor_obj() instanceof KmsException) {
         return (KmsException) dafnyValue.dtor_obj();
       }
       return ToNative.Error((Error_Opaque) dafnyValue);
     }
-    // TODO This should indicate a codegen bug
-    return new IllegalStateException("Unknown error recieved from KMS.");
+    // TODO This should indicate a codegen bug; every error Should have been taken care of.
+    return new IllegalStateException("Unknown error thrown while calling KMS.");
   }
 
   // END MANUAL EDIT
