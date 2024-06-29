@@ -223,10 +223,6 @@ import software.amazon.cryptography.services.kms.internaldafny.types.Error_KeyUn
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_LimitExceededException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_MalformedPolicyDocumentException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_NotFoundException;
-// BEGIN MANUAL EDIT
-import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
-import software.amazon.cryptography.services.kms.internaldafny.types.Error_KmsException;
-// END MANUAL EDIT
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_TagException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_UnsupportedOperationException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksKeyAlreadyInUseException;
@@ -242,6 +238,12 @@ import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksPr
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceInvalidConfigurationException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceNotFoundException;
 import software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient;
+//  prettier-ignore-start
+// BEGIN MANUAL EDIT
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_KmsException;
+// END MANUAL EDIT
+// prettier-ignore-end
 
 public class ToNative {
 

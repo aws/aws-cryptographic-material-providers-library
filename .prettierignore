@@ -16,3 +16,6 @@ keys.json
 
 # The smithy model files
 model.json
+
+# Prettier fucks with the Beneration; disable it for benerated
+ComAmazonawsKms/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/To*.java
