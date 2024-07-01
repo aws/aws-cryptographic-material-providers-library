@@ -6,6 +6,9 @@ package software.amazon.cryptography.services.kms.internaldafny;
 import dafny.DafnyMap;
 import dafny.DafnySequence;
 import java.lang.Character;
+import java.lang.Exception;
+import java.lang.IllegalStateException;
+import java.lang.RuntimeException;
 import java.lang.String;
 import java.util.List;
 import java.util.Map;
@@ -113,6 +116,7 @@ import software.amazon.awssdk.services.kms.model.KeySpec;
 import software.amazon.awssdk.services.kms.model.KeyState;
 import software.amazon.awssdk.services.kms.model.KeyUnavailableException;
 import software.amazon.awssdk.services.kms.model.KeyUsageType;
+import software.amazon.awssdk.services.kms.model.KmsException;
 import software.amazon.awssdk.services.kms.model.KmsInternalException;
 import software.amazon.awssdk.services.kms.model.KmsInvalidMacException;
 import software.amazon.awssdk.services.kms.model.KmsInvalidSignatureException;
@@ -220,6 +224,7 @@ import software.amazon.cryptography.services.kms.internaldafny.types.Error_KeyUn
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_LimitExceededException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_MalformedPolicyDocumentException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_NotFoundException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_TagException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_UnsupportedOperationException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksKeyAlreadyInUseException;
@@ -235,10 +240,6 @@ import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksPr
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceInvalidConfigurationException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceNotFoundException;
 import software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient;
-// BEGIN MANUAL EDIT
-import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
-import software.amazon.awssdk.services.kms.model.KmsException;
-// END MANUAL EDIT
 
 public class ToNative {
 
@@ -4727,14 +4728,17 @@ public class ToNative {
     // TODO This should indicate a codegen bug; every error Should have been taken care of.
     return new IllegalStateException(String.format("Unknown error thrown while calling KMS. %s", dafnyValue));
   }
+
   // END MANUAL EDIT
 
-  // BEGIN MANUAL EDIT
+  public static KmsClient TrentService(IKMSClient dafnyValue) {
+    return ((Shim) dafnyValue).impl();
+  }
+
   public static RuntimeException Error(Error_Opaque dafnyValue) {
     if (dafnyValue.dtor_obj() instanceof KmsException) {
       return (KmsException) dafnyValue.dtor_obj();
-    }
-    else if (dafnyValue.dtor_obj() instanceof Exception) {
+    } else if (dafnyValue.dtor_obj() instanceof Exception) {
       return (RuntimeException) dafnyValue.dtor_obj();
     } else if (dafnyValue.dtor_message().is_Some()) {
       final String message =
@@ -4743,11 +4747,8 @@ public class ToNative {
         );
       return new RuntimeException(message);
     }
-    return new IllegalStateException(String.format("Unknown error thrown while calling KMS. %s", dafnyValue));
-  }
-  // END MANUAL EDIT
-
-  public static KmsClient TrentService(IKMSClient dafnyValue) {
-    return ((Shim) dafnyValue).impl();
+    return new IllegalStateException(
+      String.format("Unknown error thrown while calling KMS. %s", dafnyValue)
+    );
   }
 }

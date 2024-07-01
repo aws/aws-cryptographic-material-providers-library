@@ -10,6 +10,7 @@ import dafny.TypeDescriptor;
 import java.lang.Boolean;
 import java.lang.Byte;
 import java.lang.Character;
+import java.lang.Exception;
 import java.lang.Integer;
 import java.lang.RuntimeException;
 import java.lang.String;
@@ -243,9 +244,6 @@ import software.amazon.cryptography.services.kms.internaldafny.types.XksKeyConfi
 import software.amazon.cryptography.services.kms.internaldafny.types.XksProxyAuthenticationCredentialType;
 import software.amazon.cryptography.services.kms.internaldafny.types.XksProxyConfigurationType;
 import software.amazon.cryptography.services.kms.internaldafny.types.XksProxyConnectivityType;
-// BEGIN MANUAL EDIT
-import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
-// END MANUAL EDIT
 
 public class ToDafny {
 
@@ -5731,14 +5729,14 @@ public class ToDafny {
     );
   }
 
-  // BEGIN MANUAL EDIT
+
   public static Error Error(KmsException nativeValue) {
     return Error.create_Opaque(nativeValue);
   }
+
   public static Error Error(Exception nativeValue) {
     return Error.create_Opaque(nativeValue);
   }
-  // END MANUAL EDIT
 
   public static IKMSClient TrentService(KmsClient nativeValue) {
     return new Shim(nativeValue, null);
