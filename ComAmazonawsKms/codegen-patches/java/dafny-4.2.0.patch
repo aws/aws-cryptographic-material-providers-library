@@ -1,107 +1,8 @@
-diff --git b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/Shim.java a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/Shim.java
-index fdbc17ce..47a015a5 100644
---- b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/Shim.java
-+++ a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/Shim.java
-@@ -419,7 +419,9 @@ public class Shim implements IKMSClient {
-     } catch (KmsException ex) {
-       return Result.create_Failure(ToDafny.Error(ex));
-     } catch (Exception ex) {
--      return Result.create_Failure(Error.create_Opaque(ex.toString()));
-+      // BEGIN MANUAL EDIT
-+      return Result.create_Failure(ToDafny.Error(ex));
-+      // END MANUAL EDIT
-     }
-   }
- 
-@@ -533,7 +535,9 @@ public class Shim implements IKMSClient {
-     } catch (KmsException ex) {
-       return Result.create_Failure(ToDafny.Error(ex));
-     } catch (Exception ex) {
--      return Result.create_Failure(Error.create_Opaque(ex.toString()));
-+      // BEGIN MANUAL EDIT
-+      return Result.create_Failure(ToDafny.Error(ex));
-+      // END MANUAL EDIT
-     }
-   }
- 
-@@ -754,7 +758,9 @@ public class Shim implements IKMSClient {
-     } catch (KmsException ex) {
-       return Result.create_Failure(ToDafny.Error(ex));
-     } catch (Exception ex) {
--      return Result.create_Failure(Error.create_Opaque(ex.toString()));
-+      // BEGIN MANUAL EDIT
-+      return Result.create_Failure(ToDafny.Error(ex));
-+      // END MANUAL EDIT
-     }
-   }
- 
-@@ -792,7 +798,9 @@ public class Shim implements IKMSClient {
-     } catch (KmsException ex) {
-       return Result.create_Failure(ToDafny.Error(ex));
-     } catch (Exception ex) {
--      return Result.create_Failure(Error.create_Opaque(ex.toString()));
-+      // BEGIN MANUAL EDIT
-+      return Result.create_Failure(ToDafny.Error(ex));
-+      // END MANUAL EDIT
-     }
-   }
- 
-@@ -913,7 +921,9 @@ public class Shim implements IKMSClient {
-     } catch (KmsException ex) {
-       return Result.create_Failure(ToDafny.Error(ex));
-     } catch (Exception ex) {
--      return Result.create_Failure(Error.create_Opaque(ex.toString()));
-+      // BEGIN MANUAL EDIT
-+      return Result.create_Failure(ToDafny.Error(ex));
-+      // END MANUAL EDIT
-     }
-   }
- 
-@@ -1105,7 +1115,9 @@ public class Shim implements IKMSClient {
-     } catch (KmsException ex) {
-       return Result.create_Failure(ToDafny.Error(ex));
-     } catch (Exception ex) {
--      return Result.create_Failure(Error.create_Opaque(ex.toString()));
-+      // BEGIN MANUAL EDIT
-+      return Result.create_Failure(ToDafny.Error(ex));
-+      // END MANUAL EDIT
-     }
-   }
- 
-@@ -1382,7 +1394,9 @@ public class Shim implements IKMSClient {
-     } catch (KmsException ex) {
-       return Result.create_Failure(ToDafny.Error(ex));
-     } catch (Exception ex) {
--      return Result.create_Failure(Error.create_Opaque(ex.toString()));
-+      // BEGIN MANUAL EDIT
-+      return Result.create_Failure(ToDafny.Error(ex));
-+      // END MANUAL EDIT
-     }
-   }
- 
 diff --git b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
-index c4416ed5..f208c8df 100644
+index aa88eaba..d14d914b 100644
 --- b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
 +++ a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
-@@ -142,7 +142,6 @@ import software.amazon.cryptography.services.kms.internaldafny.types.Error_KeyUn
- import software.amazon.cryptography.services.kms.internaldafny.types.Error_LimitExceededException;
- import software.amazon.cryptography.services.kms.internaldafny.types.Error_MalformedPolicyDocumentException;
- import software.amazon.cryptography.services.kms.internaldafny.types.Error_NotFoundException;
--import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
- import software.amazon.cryptography.services.kms.internaldafny.types.Error_TagException;
- import software.amazon.cryptography.services.kms.internaldafny.types.Error_UnsupportedOperationException;
- import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksKeyAlreadyInUseException;
-@@ -244,6 +243,9 @@ import software.amazon.cryptography.services.kms.internaldafny.types.XksKeyConfi
- import software.amazon.cryptography.services.kms.internaldafny.types.XksProxyAuthenticationCredentialType;
- import software.amazon.cryptography.services.kms.internaldafny.types.XksProxyConfigurationType;
- import software.amazon.cryptography.services.kms.internaldafny.types.XksProxyConnectivityType;
-+// BEGIN MANUAL EDIT
-+import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
-+// END MANUAL EDIT
- 
- public class ToDafny {
- 
-@@ -2300,7 +2302,13 @@ public class ToDafny {
+@@ -2300,7 +2300,13 @@ public class ToDafny {
  
    public static DafnySequence<
      ? extends KeyAgreementAlgorithmSpec
@@ -116,7 +17,7 @@ index c4416ed5..f208c8df 100644
      return software.amazon.smithy.dafny.conversion.ToDafny.Aggregate.GenericToSequence(
        nativeValue,
        software.amazon.cryptography.services.kms.internaldafny.ToDafny::KeyAgreementAlgorithmSpec,
-@@ -2890,7 +2898,9 @@ public class ToDafny {
+@@ -2890,7 +2896,9 @@ public class ToDafny {
    }
  
    public static DafnySequence<? extends MacAlgorithmSpec> MacAlgorithmSpecList(
@@ -127,7 +28,7 @@ index c4416ed5..f208c8df 100644
    ) {
      return software.amazon.smithy.dafny.conversion.ToDafny.Aggregate.GenericToSequence(
        nativeValue,
-@@ -4641,7 +4651,9 @@ public class ToDafny {
+@@ -4641,7 +4649,9 @@ public class ToDafny {
          {
            return AlgorithmSpec.create_RSA__AES__KEY__WRAP__SHA__256();
          }
@@ -138,7 +39,7 @@ index c4416ed5..f208c8df 100644
          {
            return AlgorithmSpec.create_SM2PKE();
          }
-@@ -5448,7 +5460,9 @@ public class ToDafny {
+@@ -5448,7 +5458,9 @@ public class ToDafny {
          {
            return SigningAlgorithmSpec.create_ECDSA__SHA__512();
          }
@@ -149,47 +50,19 @@ index c4416ed5..f208c8df 100644
          {
            return SigningAlgorithmSpec.create_SM2DSA();
          }
-@@ -5717,18 +5731,14 @@ public class ToDafny {
+@@ -5717,6 +5729,7 @@ public class ToDafny {
      );
    }
  
-+  // BEGIN MANUAL EDIT
++
    public static Error Error(KmsException nativeValue) {
--    Option<DafnySequence<? extends Character>> message;
--    message =
--      Objects.nonNull(nativeValue.getMessage())
--        ? Option.create_Some(
--          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
--            nativeValue.getMessage()
--          )
--        )
--        : Option.create_None();
--    return new Error_Opaque(message);
-+    return Error.create_Opaque(nativeValue);
-+  }
-+  public static Error Error(Exception nativeValue) {
-+    return Error.create_Opaque(nativeValue);
+     return Error.create_Opaque(nativeValue);
    }
-+  // END MANUAL EDIT
- 
-   public static IKMSClient TrentService(KmsClient nativeValue) {
-     return new Shim(nativeValue, null);
 diff --git b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
-index 7c11a9bf..9201ed65 100644
+index db94ec6f..b45b6424 100644
 --- b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
 +++ a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
-@@ -235,6 +235,10 @@ import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksPr
- import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceInvalidConfigurationException;
- import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceNotFoundException;
- import software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient;
-+// BEGIN MANUAL EDIT
-+import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
-+import software.amazon.awssdk.services.kms.model.KmsException;
-+// END MANUAL EDIT
- 
- public class ToNative {
- 
-@@ -4537,6 +4541,212 @@ public class ToNative {
+@@ -4542,6 +4542,195 @@ public class ToNative {
      return builder.build();
    }
  
@@ -379,24 +252,7 @@ index 7c11a9bf..9201ed65 100644
 +    // TODO This should indicate a codegen bug; every error Should have been taken care of.
 +    return new IllegalStateException(String.format("Unknown error thrown while calling KMS. %s", dafnyValue));
 +  }
-+  // END MANUAL EDIT
 +
-+  // BEGIN MANUAL EDIT
-+  public static RuntimeException Error(Error_Opaque dafnyValue) {
-+    if (dafnyValue.dtor_obj() instanceof KmsException) {
-+      return (KmsException) dafnyValue.dtor_obj();
-+    }
-+    else if (dafnyValue.dtor_obj() instanceof Exception) {
-+      return (RuntimeException) dafnyValue.dtor_obj();
-+    } else if (dafnyValue.dtor_message().is_Some()) {
-+      final String message =
-+        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-+          dafnyValue.dtor_message().dtor_value()
-+        );
-+      return new RuntimeException(message);
-+    }
-+    return new IllegalStateException(String.format("Unknown error thrown while calling KMS. %s", dafnyValue));
-+  }
 +  // END MANUAL EDIT
 +
    public static KmsClient TrentService(IKMSClient dafnyValue) {
