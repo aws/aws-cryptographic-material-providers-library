@@ -240,13 +240,15 @@ import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksPr
 import software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient;
 // BEGIN MANUAL EDIT
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
-import software.amazon.cryptography.services.kms.internaldafny.types.Error_KmsException;
 // END MANUAL EDIT
 
 public class ToNative {
 
   // BEGIN MANUAL EDIT
   public static RuntimeException Error(Error_Opaque dafnyValue) {
+    if (dafnyValue.dtor_obj() instanceof KmsException) {
+      return (KmsException) dafnyValue.dtor_obj();
+    }
     if (dafnyValue.dtor_obj() instanceof Exception) {
       return (RuntimeException) dafnyValue.dtor_obj();
     } else if (dafnyValue.dtor_message().is_Some()) {
@@ -256,25 +258,8 @@ public class ToNative {
         );
       return new RuntimeException(message);
     }
-    return new IllegalStateException("Unknown error thrown while calling KMS.");
+    return new IllegalStateException(String.format("Unknown error thrown while calling KMS. %s", dafnyValue));
   }
-
-  public static KmsException Error(Error_KmsException dafnyValue) {
-    if (dafnyValue.dtor_obj() instanceof KmsException) {
-      return (KmsException) dafnyValue.dtor_obj();
-    }
-    KmsException.Builder builder = KmsException.builder();
-    if (dafnyValue.dtor_message().is_Some()) {
-      builder.message(
-        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-          dafnyValue.dtor_message().dtor_value()
-        )
-      );
-      return (KmsException) builder.build();
-    }
-    return (KmsException) builder.message("Unknown error thrown while calling KMS.").build();
-  }
-
   // END MANUAL EDIT
 
   public static AlgorithmSpec AlgorithmSpec(
@@ -4756,19 +4741,11 @@ public class ToNative {
         (Error_XksProxyVpcEndpointServiceNotFoundException) dafnyValue
       );
     }
-    if (dafnyValue.is_KmsException()) {
-      return ToNative.Error(
-        (Error_KmsException) dafnyValue
-      );
-    }
     if (dafnyValue.is_Opaque()) {
-      if (dafnyValue.dtor_obj() instanceof KmsException) {
-        return (KmsException) dafnyValue.dtor_obj();
-      }
       return ToNative.Error((Error_Opaque) dafnyValue);
     }
     // TODO This should indicate a codegen bug; every error Should have been taken care of.
-    return new IllegalStateException("Unknown error thrown while calling KMS.");
+    return new IllegalStateException(String.format("Unknown error thrown while calling KMS. %s", dafnyValue));
   }
 
   // END MANUAL EDIT

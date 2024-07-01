@@ -244,7 +244,6 @@ import software.amazon.cryptography.services.kms.internaldafny.types.XksProxyAut
 import software.amazon.cryptography.services.kms.internaldafny.types.XksProxyConfigurationType;
 import software.amazon.cryptography.services.kms.internaldafny.types.XksProxyConnectivityType;
 // BEGIN MANUAL EDIT
-import software.amazon.cryptography.services.kms.internaldafny.types.Error_KmsException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
 // END MANUAL EDIT
 
@@ -5734,18 +5733,11 @@ public class ToDafny {
 
   // BEGIN MANUAL EDIT
   public static Error Error(KmsException nativeValue) {
-    Option<DafnySequence<? extends Character>> message;
-    message =
-      Objects.nonNull(nativeValue.getMessage())
-        ? Option.create_Some(
-          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-            nativeValue.getMessage()
-          )
-        )
-        : Option.create_None();
-    return new Error_KmsException(message, nativeValue);
+    return new Error_Opaque(nativeValue);
   }
-
+  public static Error Error(Exception nativeValue) {
+    return new Error_Opaque(nativeValue);
+  }
   // END MANUAL EDIT
 
   public static IKMSClient TrentService(KmsClient nativeValue) {
