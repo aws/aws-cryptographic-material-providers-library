@@ -113,9 +113,6 @@ import software.amazon.awssdk.services.kms.model.KeySpec;
 import software.amazon.awssdk.services.kms.model.KeyState;
 import software.amazon.awssdk.services.kms.model.KeyUnavailableException;
 import software.amazon.awssdk.services.kms.model.KeyUsageType;
-// BEGIN MANUAL EDIT
-import software.amazon.awssdk.services.kms.model.KmsException;
-// END MANUAL EDIT
 import software.amazon.awssdk.services.kms.model.KmsInternalException;
 import software.amazon.awssdk.services.kms.model.KmsInvalidMacException;
 import software.amazon.awssdk.services.kms.model.KmsInvalidSignatureException;
@@ -240,27 +237,10 @@ import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksPr
 import software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient;
 // BEGIN MANUAL EDIT
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
+import software.amazon.awssdk.services.kms.model.KmsException;
 // END MANUAL EDIT
 
 public class ToNative {
-
-  // BEGIN MANUAL EDIT
-  public static RuntimeException Error(Error_Opaque dafnyValue) {
-    if (dafnyValue.dtor_obj() instanceof KmsException) {
-      return (KmsException) dafnyValue.dtor_obj();
-    }
-    if (dafnyValue.dtor_obj() instanceof Exception) {
-      return (RuntimeException) dafnyValue.dtor_obj();
-    } else if (dafnyValue.dtor_message().is_Some()) {
-      final String message =
-        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-          dafnyValue.dtor_message().dtor_value()
-        );
-      return new RuntimeException(message);
-    }
-    return new IllegalStateException(String.format("Unknown error thrown while calling KMS. %s", dafnyValue));
-  }
-  // END MANUAL EDIT
 
   public static AlgorithmSpec AlgorithmSpec(
     software.amazon.cryptography.services.kms.internaldafny.types.AlgorithmSpec dafnyValue
@@ -4747,7 +4727,24 @@ public class ToNative {
     // TODO This should indicate a codegen bug; every error Should have been taken care of.
     return new IllegalStateException(String.format("Unknown error thrown while calling KMS. %s", dafnyValue));
   }
+  // END MANUAL EDIT
 
+  // BEGIN MANUAL EDIT
+  public static RuntimeException Error(Error_Opaque dafnyValue) {
+    if (dafnyValue.dtor_obj() instanceof KmsException) {
+      return (KmsException) dafnyValue.dtor_obj();
+    }
+    else if (dafnyValue.dtor_obj() instanceof Exception) {
+      return (RuntimeException) dafnyValue.dtor_obj();
+    } else if (dafnyValue.dtor_message().is_Some()) {
+      final String message =
+        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+          dafnyValue.dtor_message().dtor_value()
+        );
+      return new RuntimeException(message);
+    }
+    return new IllegalStateException(String.format("Unknown error thrown while calling KMS. %s", dafnyValue));
+  }
   // END MANUAL EDIT
 
   public static KmsClient TrentService(IKMSClient dafnyValue) {
