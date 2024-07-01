@@ -78,7 +78,6 @@ service AwsCryptographicMaterialProviders {
 
 structure MaterialProvidersConfig {}
 
-///////////////////
 // Errors
 
 @error("client")
