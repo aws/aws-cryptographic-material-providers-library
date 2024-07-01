@@ -80,7 +80,7 @@ index fdbc17ce..47a015a5 100644
    }
  
 diff --git b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
-index c4416ed5..64b8efbb 100644
+index c4416ed5..f208c8df 100644
 --- b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
 +++ a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
 @@ -142,7 +142,6 @@ import software.amazon.cryptography.services.kms.internaldafny.types.Error_KeyUn
@@ -165,10 +165,10 @@ index c4416ed5..64b8efbb 100644
 -        )
 -        : Option.create_None();
 -    return new Error_Opaque(message);
-+    return new Error_Opaque(nativeValue);
++    return Error.create_Opaque(nativeValue);
 +  }
 +  public static Error Error(Exception nativeValue) {
-+    return new Error_Opaque(nativeValue);
++    return Error.create_Opaque(nativeValue);
    }
 +  // END MANUAL EDIT
  
