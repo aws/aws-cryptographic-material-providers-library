@@ -5733,10 +5733,10 @@ public class ToDafny {
 
   // BEGIN MANUAL EDIT
   public static Error Error(KmsException nativeValue) {
-    return new Error_Opaque(nativeValue);
+    return Error.create_Opaque(nativeValue);
   }
   public static Error Error(Exception nativeValue) {
-    return new Error_Opaque(nativeValue);
+    return Error.create_Opaque(nativeValue);
   }
   // END MANUAL EDIT
 
