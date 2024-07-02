@@ -11,7 +11,6 @@ integer PositiveInteger
 @range(min: 0)
 long PositiveLong
 
-/////////////
 // AwsCryptographicMaterialProviders Creation
 @aws.polymorph#localService(
   sdkId: "MaterialProviders",
@@ -79,7 +78,6 @@ service AwsCryptographicMaterialProviders {
 
 structure MaterialProvidersConfig {}
 
-///////////////////
 // Errors
 
 @error("client")

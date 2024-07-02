@@ -1,6 +1,5 @@
 namespace aws.cryptography.materialProviders
 
-///////////////////////////////////
 // Algorithm Suites
 
 // For now, the actual properties of algorithm suites are only used by internal

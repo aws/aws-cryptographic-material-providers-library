@@ -1,6 +1,5 @@
 namespace aws.cryptography.materialProviders
 
-/////////////
 // Commitment
 
 //= aws-encryption-sdk-specification/framework/commitment-policy.md#supported-format-commitment-policy-enum
@@ -53,7 +52,6 @@ union CommitmentPolicy {
   DBE: DBECommitmentPolicy
 }
 
-//////////
 // Padding
 
 // Values come from: https://github.com/awslabs/aws-encryption-sdk-specification/blob/master/framework/raw-rsa-keyring.md#supported-padding-schemes
@@ -81,7 +79,6 @@ union CommitmentPolicy {
 ])
 string PaddingScheme
 
-//////////////////////////
 // AES wrapping algorithms
 @enum([
   {

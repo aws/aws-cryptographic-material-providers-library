@@ -7,7 +7,6 @@ use aws.polymorph#javadoc
 
 use com.amazonaws.kms#TrentService
 
-///////////////////
 // Basic structures
 
 string KmsKeyId
@@ -28,13 +27,11 @@ list AccountIdList {
   member: AccountId
 }
 
-//////////
 // Clients
 
 @reference(service: TrentService)
 structure KmsClientReference {}
 
-///////////////////
 // Client Suppliers
 
 @extendable

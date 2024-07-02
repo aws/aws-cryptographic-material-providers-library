@@ -19,13 +19,11 @@ resource CryptographicMaterialsManager {
   operations: [GetEncryptionMaterials, DecryptMaterials]
 }
 
-/////////////////
 // CMM Structures
 
 @reference(resource: CryptographicMaterialsManager)
 structure CryptographicMaterialsManagerReference {}
 
-/////////////////
 // CMM Operations
 
 operation GetEncryptionMaterials {
@@ -113,7 +111,6 @@ structure DecryptMaterialsOutput {
   decryptionMaterials: DecryptionMaterials 
 }
 
-///////////////////
 // CMM Constructors
 
 @positional
