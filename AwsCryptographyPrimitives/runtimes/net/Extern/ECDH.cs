@@ -18,7 +18,8 @@ using Org.BouncyCastle.Security;
 using Org.BouncyCastle.Utilities;
 using Org.BouncyCastle.X509;
 using software.amazon.cryptography.primitives.internaldafny.types;
-using Wrappers_Compile;
+using software.amazon.cryptography.primitives.internaldafny.ECDH;
+using software.amazon.cryptography.standardlibrary.internaldafny.Wrappers;
 using icharseq = Dafny.ISequence<char>;
 using ibyteseq = Dafny.ISequence<byte>;
 using byteseq = Dafny.Sequence<byte>;
@@ -29,7 +30,7 @@ using Error_Opaque = software.amazon.cryptography.primitives.internaldafny.types
 using PemReader = Org.BouncyCastle.OpenSsl.PemReader;
 using PemWriter = Org.BouncyCastle.OpenSsl.PemWriter;
 
-namespace ECDH
+namespace software.amazon.cryptography.primitives.internaldafny.ECDH
 {
     public partial class KeyGeneration
     {

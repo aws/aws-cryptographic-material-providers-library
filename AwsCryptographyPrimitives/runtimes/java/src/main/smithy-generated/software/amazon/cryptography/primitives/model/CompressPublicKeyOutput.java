@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class CompressPublicKeyOutput {
-
   private final ByteBuffer compressedPublicKey;
 
   protected CompressPublicKeyOutput(BuilderImpl builder) {
@@ -35,10 +34,10 @@ public class CompressPublicKeyOutput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected ByteBuffer compressedPublicKey;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(CompressPublicKeyOutput model) {
       this.compressedPublicKey = model.compressedPublicKey();
@@ -54,10 +53,8 @@ public class CompressPublicKeyOutput {
     }
 
     public CompressPublicKeyOutput build() {
-      if (Objects.isNull(this.compressedPublicKey())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `compressedPublicKey`"
-        );
+      if (Objects.isNull(this.compressedPublicKey()))  {
+        throw new IllegalArgumentException("Missing value for required field `compressedPublicKey`");
       }
       return new CompressPublicKeyOutput(this);
     }

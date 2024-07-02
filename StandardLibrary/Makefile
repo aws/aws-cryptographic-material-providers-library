@@ -16,3 +16,11 @@ LIBRARIES :=
 transpile_implementation: STD_LIBRARY=
 transpile_test: STD_LIBRARY=
 transpile_dependencies: STD_LIBRARY=
+
+# Java
+
+JAVA_PACKAGE_NAME=software.amazon.cryptography.standardlibrary
+
+# NET
+
+NET_NAMESPACE_NAME=software.amazon.cryptography.standardlibrary

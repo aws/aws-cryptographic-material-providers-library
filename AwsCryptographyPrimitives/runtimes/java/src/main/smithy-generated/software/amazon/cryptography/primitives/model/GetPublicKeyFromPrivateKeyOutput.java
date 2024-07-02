@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class GetPublicKeyFromPrivateKeyOutput {
-
   private final ECDHCurveSpec eccCurve;
 
   private final ECCPrivateKey privateKey;
@@ -57,14 +56,14 @@ public class GetPublicKeyFromPrivateKeyOutput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected ECDHCurveSpec eccCurve;
 
     protected ECCPrivateKey privateKey;
 
     protected ByteBuffer publicKey;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(GetPublicKeyFromPrivateKeyOutput model) {
       this.eccCurve = model.eccCurve();
@@ -100,20 +99,14 @@ public class GetPublicKeyFromPrivateKeyOutput {
     }
 
     public GetPublicKeyFromPrivateKeyOutput build() {
-      if (Objects.isNull(this.eccCurve())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `eccCurve`"
-        );
+      if (Objects.isNull(this.eccCurve()))  {
+        throw new IllegalArgumentException("Missing value for required field `eccCurve`");
       }
-      if (Objects.isNull(this.privateKey())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `privateKey`"
-        );
+      if (Objects.isNull(this.privateKey()))  {
+        throw new IllegalArgumentException("Missing value for required field `privateKey`");
       }
-      if (Objects.isNull(this.publicKey())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `publicKey`"
-        );
+      if (Objects.isNull(this.publicKey()))  {
+        throw new IllegalArgumentException("Missing value for required field `publicKey`");
       }
       return new GetPublicKeyFromPrivateKeyOutput(this);
     }

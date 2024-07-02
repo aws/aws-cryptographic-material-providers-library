@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class ParsePublicKeyInput {
-
   private final ByteBuffer publicKey;
 
   protected ParsePublicKeyInput(BuilderImpl builder) {
@@ -35,10 +34,10 @@ public class ParsePublicKeyInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected ByteBuffer publicKey;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(ParsePublicKeyInput model) {
       this.publicKey = model.publicKey();
@@ -54,10 +53,8 @@ public class ParsePublicKeyInput {
     }
 
     public ParsePublicKeyInput build() {
-      if (Objects.isNull(this.publicKey())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `publicKey`"
-        );
+      if (Objects.isNull(this.publicKey()))  {
+        throw new IllegalArgumentException("Missing value for required field `publicKey`");
       }
       return new ParsePublicKeyInput(this);
     }

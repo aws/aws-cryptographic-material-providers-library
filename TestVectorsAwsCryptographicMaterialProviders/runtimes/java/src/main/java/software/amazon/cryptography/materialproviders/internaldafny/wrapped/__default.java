@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.materialproviders.internaldafny.wrapped;
 
-import Wrappers_Compile.Result;
+import software.amazon.cryptography.standardlibrary.internaldafny.Wrappers.Result;
 import software.amazon.cryptography.materialproviders.MaterialProviders;
 import software.amazon.cryptography.materialproviders.ToNative;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error;

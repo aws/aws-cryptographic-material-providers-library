@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class ValidatePublicKeyInput {
-
   private final ECDHCurveSpec eccCurve;
 
   private final ByteBuffer publicKey;
@@ -46,12 +45,12 @@ public class ValidatePublicKeyInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected ECDHCurveSpec eccCurve;
 
     protected ByteBuffer publicKey;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(ValidatePublicKeyInput model) {
       this.eccCurve = model.eccCurve();
@@ -77,15 +76,11 @@ public class ValidatePublicKeyInput {
     }
 
     public ValidatePublicKeyInput build() {
-      if (Objects.isNull(this.eccCurve())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `eccCurve`"
-        );
+      if (Objects.isNull(this.eccCurve()))  {
+        throw new IllegalArgumentException("Missing value for required field `eccCurve`");
       }
-      if (Objects.isNull(this.publicKey())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `publicKey`"
-        );
+      if (Objects.isNull(this.publicKey()))  {
+        throw new IllegalArgumentException("Missing value for required field `publicKey`");
       }
       return new ValidatePublicKeyInput(this);
     }

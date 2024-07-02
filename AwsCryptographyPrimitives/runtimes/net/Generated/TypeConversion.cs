@@ -723,13 +723,13 @@ namespace AWS.Cryptography.Primitives
         {
             return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_PositiveInteger(value);
         }
-        public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S14_AesKdfCtrInput__M5_nonce(Wrappers_Compile._IOption<Dafny.ISequence<byte>> value)
+        public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S14_AesKdfCtrInput__M5_nonce(software.amazon.cryptography.standardlibrary.internaldafny.Wrappers._IOption<Dafny.ISequence<byte>> value)
         {
             return value.is_None ? (System.IO.MemoryStream)null : FromDafny_N6_smithy__N3_api__S4_Blob(value.Extract());
         }
-        public static Wrappers_Compile._IOption<Dafny.ISequence<byte>> ToDafny_N3_aws__N12_cryptography__N10_primitives__S14_AesKdfCtrInput__M5_nonce(System.IO.MemoryStream value)
+        public static software.amazon.cryptography.standardlibrary.internaldafny.Wrappers._IOption<Dafny.ISequence<byte>> ToDafny_N3_aws__N12_cryptography__N10_primitives__S14_AesKdfCtrInput__M5_nonce(System.IO.MemoryStream value)
         {
-            return value == null ? Wrappers_Compile.Option<Dafny.ISequence<byte>>.create_None() : Wrappers_Compile.Option<Dafny.ISequence<byte>>.create_Some(ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value));
+            return value == null ? software.amazon.cryptography.standardlibrary.internaldafny.Wrappers.Option<Dafny.ISequence<byte>>.create_None() : software.amazon.cryptography.standardlibrary.internaldafny.Wrappers.Option<Dafny.ISequence<byte>>.create_Some(ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value));
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_AesKdfCtrOutput__M3_okm(Dafny.ISequence<byte> value)
         {
@@ -1131,13 +1131,13 @@ namespace AWS.Cryptography.Primitives
         {
             return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_DigestAlgorithm(value);
         }
-        public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S16_HkdfExtractInput__M4_salt(Wrappers_Compile._IOption<Dafny.ISequence<byte>> value)
+        public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S16_HkdfExtractInput__M4_salt(software.amazon.cryptography.standardlibrary.internaldafny.Wrappers._IOption<Dafny.ISequence<byte>> value)
         {
             return value.is_None ? (System.IO.MemoryStream)null : FromDafny_N6_smithy__N3_api__S4_Blob(value.Extract());
         }
-        public static Wrappers_Compile._IOption<Dafny.ISequence<byte>> ToDafny_N3_aws__N12_cryptography__N10_primitives__S16_HkdfExtractInput__M4_salt(System.IO.MemoryStream value)
+        public static software.amazon.cryptography.standardlibrary.internaldafny.Wrappers._IOption<Dafny.ISequence<byte>> ToDafny_N3_aws__N12_cryptography__N10_primitives__S16_HkdfExtractInput__M4_salt(System.IO.MemoryStream value)
         {
-            return value == null ? Wrappers_Compile.Option<Dafny.ISequence<byte>>.create_None() : Wrappers_Compile.Option<Dafny.ISequence<byte>>.create_Some(ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value));
+            return value == null ? software.amazon.cryptography.standardlibrary.internaldafny.Wrappers.Option<Dafny.ISequence<byte>>.create_None() : software.amazon.cryptography.standardlibrary.internaldafny.Wrappers.Option<Dafny.ISequence<byte>>.create_Some(ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value));
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S16_HkdfExtractInput__M3_ikm(Dafny.ISequence<byte> value)
         {
@@ -1163,13 +1163,13 @@ namespace AWS.Cryptography.Primitives
         {
             return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_DigestAlgorithm(value);
         }
-        public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S9_HkdfInput__M4_salt(Wrappers_Compile._IOption<Dafny.ISequence<byte>> value)
+        public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S9_HkdfInput__M4_salt(software.amazon.cryptography.standardlibrary.internaldafny.Wrappers._IOption<Dafny.ISequence<byte>> value)
         {
             return value.is_None ? (System.IO.MemoryStream)null : FromDafny_N6_smithy__N3_api__S4_Blob(value.Extract());
         }
-        public static Wrappers_Compile._IOption<Dafny.ISequence<byte>> ToDafny_N3_aws__N12_cryptography__N10_primitives__S9_HkdfInput__M4_salt(System.IO.MemoryStream value)
+        public static software.amazon.cryptography.standardlibrary.internaldafny.Wrappers._IOption<Dafny.ISequence<byte>> ToDafny_N3_aws__N12_cryptography__N10_primitives__S9_HkdfInput__M4_salt(System.IO.MemoryStream value)
         {
-            return value == null ? Wrappers_Compile.Option<Dafny.ISequence<byte>>.create_None() : Wrappers_Compile.Option<Dafny.ISequence<byte>>.create_Some(ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value));
+            return value == null ? software.amazon.cryptography.standardlibrary.internaldafny.Wrappers.Option<Dafny.ISequence<byte>>.create_None() : software.amazon.cryptography.standardlibrary.internaldafny.Wrappers.Option<Dafny.ISequence<byte>>.create_Some(ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value));
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S9_HkdfInput__M3_ikm(Dafny.ISequence<byte> value)
         {
@@ -1259,21 +1259,21 @@ namespace AWS.Cryptography.Primitives
         {
             return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_PositiveInteger(value);
         }
-        public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S11_KdfCtrInput__M7_purpose(Wrappers_Compile._IOption<Dafny.ISequence<byte>> value)
+        public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S11_KdfCtrInput__M7_purpose(software.amazon.cryptography.standardlibrary.internaldafny.Wrappers._IOption<Dafny.ISequence<byte>> value)
         {
             return value.is_None ? (System.IO.MemoryStream)null : FromDafny_N6_smithy__N3_api__S4_Blob(value.Extract());
         }
-        public static Wrappers_Compile._IOption<Dafny.ISequence<byte>> ToDafny_N3_aws__N12_cryptography__N10_primitives__S11_KdfCtrInput__M7_purpose(System.IO.MemoryStream value)
+        public static software.amazon.cryptography.standardlibrary.internaldafny.Wrappers._IOption<Dafny.ISequence<byte>> ToDafny_N3_aws__N12_cryptography__N10_primitives__S11_KdfCtrInput__M7_purpose(System.IO.MemoryStream value)
         {
-            return value == null ? Wrappers_Compile.Option<Dafny.ISequence<byte>>.create_None() : Wrappers_Compile.Option<Dafny.ISequence<byte>>.create_Some(ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value));
+            return value == null ? software.amazon.cryptography.standardlibrary.internaldafny.Wrappers.Option<Dafny.ISequence<byte>>.create_None() : software.amazon.cryptography.standardlibrary.internaldafny.Wrappers.Option<Dafny.ISequence<byte>>.create_Some(ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value));
         }
-        public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S11_KdfCtrInput__M5_nonce(Wrappers_Compile._IOption<Dafny.ISequence<byte>> value)
+        public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S11_KdfCtrInput__M5_nonce(software.amazon.cryptography.standardlibrary.internaldafny.Wrappers._IOption<Dafny.ISequence<byte>> value)
         {
             return value.is_None ? (System.IO.MemoryStream)null : FromDafny_N6_smithy__N3_api__S4_Blob(value.Extract());
         }
-        public static Wrappers_Compile._IOption<Dafny.ISequence<byte>> ToDafny_N3_aws__N12_cryptography__N10_primitives__S11_KdfCtrInput__M5_nonce(System.IO.MemoryStream value)
+        public static software.amazon.cryptography.standardlibrary.internaldafny.Wrappers._IOption<Dafny.ISequence<byte>> ToDafny_N3_aws__N12_cryptography__N10_primitives__S11_KdfCtrInput__M5_nonce(System.IO.MemoryStream value)
         {
-            return value == null ? Wrappers_Compile.Option<Dafny.ISequence<byte>>.create_None() : Wrappers_Compile.Option<Dafny.ISequence<byte>>.create_Some(ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value));
+            return value == null ? software.amazon.cryptography.standardlibrary.internaldafny.Wrappers.Option<Dafny.ISequence<byte>>.create_None() : software.amazon.cryptography.standardlibrary.internaldafny.Wrappers.Option<Dafny.ISequence<byte>>.create_Some(ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value));
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S12_KdfCtrOutput__M3_okm(Dafny.ISequence<byte> value)
         {

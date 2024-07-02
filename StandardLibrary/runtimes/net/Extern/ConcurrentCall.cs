@@ -4,13 +4,13 @@
 using System;
 using System.Numerics;
 using Microsoft.VisualBasic;
-using Wrappers_Compile;
+using software.amazon.cryptography.standardlibrary.internaldafny.Wrappers;
 using ibyteseq = Dafny.ISequence<byte>;
 using byteseq = Dafny.Sequence<byte>;
 using icharseq = Dafny.ISequence<char>;
 using charseq = Dafny.Sequence<char>;
 
-namespace ConcurrentCall
+namespace software.amazon.cryptography.standardlibrary.internaldafny.ConcurrentCall
 {
 
     public partial class __default

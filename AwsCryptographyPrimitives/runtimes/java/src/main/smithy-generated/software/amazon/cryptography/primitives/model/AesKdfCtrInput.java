@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class AesKdfCtrInput {
-
   private final ByteBuffer ikm;
 
   private final int expectedLength;
@@ -57,7 +56,6 @@ public class AesKdfCtrInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected ByteBuffer ikm;
 
     protected int expectedLength;
@@ -66,7 +64,8 @@ public class AesKdfCtrInput {
 
     protected ByteBuffer nonce;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(AesKdfCtrInput model) {
       this.ikm = model.ikm();
@@ -104,20 +103,14 @@ public class AesKdfCtrInput {
     }
 
     public AesKdfCtrInput build() {
-      if (Objects.isNull(this.ikm())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `ikm`"
-        );
+      if (Objects.isNull(this.ikm()))  {
+        throw new IllegalArgumentException("Missing value for required field `ikm`");
       }
       if (!this._expectedLengthSet) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `expectedLength`"
-        );
+        throw new IllegalArgumentException("Missing value for required field `expectedLength`");
       }
       if (this._expectedLengthSet && this.expectedLength() < 0) {
-        throw new IllegalArgumentException(
-          "`expectedLength` must be greater than or equal to 0"
-        );
+        throw new IllegalArgumentException("`expectedLength` must be greater than or equal to 0");
       }
       return new AesKdfCtrInput(this);
     }

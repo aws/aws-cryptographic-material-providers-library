@@ -3,6 +3,7 @@
 
 using System;
 using software.amazon.cryptography.primitives.internaldafny.types;
+using software.amazon.cryptography.primitives.internaldafny.Signature;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
@@ -13,7 +14,7 @@ using Org.BouncyCastle.Security;
 using Org.BouncyCastle.Asn1.X9;
 using Org.BouncyCastle.Asn1;
 
-using Wrappers_Compile;
+using software.amazon.cryptography.standardlibrary.internaldafny.Wrappers;
 using icharseq = Dafny.ISequence<char>;
 using ibyteseq = Dafny.ISequence<byte>;
 using byteseq = Dafny.Sequence<byte>;
@@ -21,7 +22,7 @@ using _IError = software.amazon.cryptography.primitives.internaldafny.types._IEr
 using Error_Opaque = software.amazon.cryptography.primitives.internaldafny.types.Error_Opaque;
 using Error_AwsCryptographicPrimitivesError = software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError;
 
-namespace Signature
+namespace software.amazon.cryptography.primitives.internaldafny.Signature
 {
 
     public partial class ECDSA

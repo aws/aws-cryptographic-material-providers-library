@@ -16,7 +16,7 @@ using Org.BouncyCastle.Math;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
 
-using Wrappers_Compile;
+using software.amazon.cryptography.standardlibrary.internaldafny.Wrappers;
 using icharseq = Dafny.ISequence<char>;
 using ibyteseq = Dafny.ISequence<byte>;
 using byteseq = Dafny.Sequence<byte>;
@@ -24,7 +24,7 @@ using byteseq = Dafny.Sequence<byte>;
 using _IError = software.amazon.cryptography.primitives.internaldafny.types._IError;
 using Error_Opaque = software.amazon.cryptography.primitives.internaldafny.types.Error_Opaque;
 
-namespace RSAEncryption
+namespace software.amazon.cryptography.primitives.internaldafny.RSAEncryption
 {
 
     public partial class RSA
@@ -99,7 +99,6 @@ namespace RSAEncryption
         // key and returns the AsymmetricKeyParameter for that public key, encoded using UTF-8
         private static AsymmetricKeyParameter GetPublicKeyFromByteSeq(ibyteseq key)
         {
-            AsymmetricKeyParameter keyParam;
             using (var stringReader = new StringReader(Encoding.UTF8.GetString(key.CloneAsArray())))
             {
                 return (AsymmetricKeyParameter)new PemReader(stringReader).ReadObject();

@@ -6,7 +6,6 @@ package software.amazon.cryptography.primitives.model;
 import java.util.Objects;
 
 public class ParsePublicKeyOutput {
-
   private final ECCPublicKey publicKey;
 
   protected ParsePublicKeyOutput(BuilderImpl builder) {
@@ -34,10 +33,10 @@ public class ParsePublicKeyOutput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected ECCPublicKey publicKey;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(ParsePublicKeyOutput model) {
       this.publicKey = model.publicKey();
@@ -53,10 +52,8 @@ public class ParsePublicKeyOutput {
     }
 
     public ParsePublicKeyOutput build() {
-      if (Objects.isNull(this.publicKey())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `publicKey`"
-        );
+      if (Objects.isNull(this.publicKey()))  {
+        throw new IllegalArgumentException("Missing value for required field `publicKey`");
       }
       return new ParsePublicKeyOutput(this);
     }
