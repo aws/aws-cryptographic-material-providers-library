@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 include "UInt.dfy"
-// include "SerializeFunctions.dfy"
+  // include "SerializeFunctions.dfy"
 
 /*
   Converts unsigned numbers into variable length seq<uint8>
@@ -18,19 +18,28 @@ include "UInt.dfy"
   Encode(x : uint64) : (ret : seq<uint8>)
 
   // convert seq<uint8> to uint64
-  Decode(x : seq<uint8>) : (ret : uint64)
+  Decode(s : seq<uint8>) : (ret : uint64)
 
   // If I were to encode x, how many bytes would the result have?
   EncodeLength(x : uint64) : (ret : MyLen)
 
   // If a seq<uint8> has first byte x, how many bytes are being used for this encoded number?
   DecodeLength(x : uint8) : (ret : MyLen)
+
+  // And lemmas to prove round trip stability
+  lemma DecodeRoundTrip(x: uint32, s: seq<uint8>, len: MyLen)
+      requires Decode(s, len) == x
+      ensures Encode(x) == s
+
+  lemma EncodeRoundTrip(x: uint32, s: seq<uint8>, len: MyLen)
+    requires Encode(x) == s
+    ensures Decode(s, len) == x
 */
 
 module {:options "-functionSyntax:4"} VarEncode64a {
   import opened StandardLibrary.UInt
-  // import opened SerializeFunctions
-  // import opened Wrappers
+    // import opened SerializeFunctions
+    // import opened Wrappers
 
   const MaxLen : uint8 := 10
   newtype MyLen = x | 1 <= x <= MaxLen witness 1
@@ -55,31 +64,31 @@ module {:options "-functionSyntax:4"} VarEncode64a {
   const Tag9 : uint8 := 0xff
   const Tag10 : uint8 := 0x80
 
-  predicate MaybeValidEncoding(x : seq<uint8>)
-    requires 0 < |x|
+  predicate MaybeValidEncoding(s : seq<uint8>)
+    requires 0 < |s|
   {
-    if x[0] == 0xff then
-      1 < |x|
+    if s[0] == 0xff then
+      1 < |s|
     else
       true
   }
 
-  predicate ValidEncoding(x : seq<uint8>, len: MyLen)
-    requires len as int == |x|
-    requires MaybeValidEncoding(x)
-    requires DecodeLength(x) == len
+  predicate ValidEncoding(s : seq<uint8>, len: MyLen)
+    requires len as int == |s|
+    requires MaybeValidEncoding(s)
+    requires DecodeLength(s) == len
   {
     match len {
-      case 1 => x[0] < Tag2
-      case 2 => x[0] > Tag2 || (x[0] == Tag2 && x[1] >= 128)
-      case 3 => x[0] > Tag3 || (x[0] == Tag3 && x[1] >= 64)
-      case 4 => x[0] > Tag4 || (x[0] == Tag4 && x[1] >= 32)
-      case 5 => x[0] > 0xf0 || (x[0] == 0xf0 && x[1] >= 16)
-      case 6 => x[0] > 0xf8 || (x[0] == 0xf8 && x[1] >= 8)
-      case 7 => x[0] > 0xfc || (x[0] == 0xfc && x[1] >= 4)
-      case 8 => x[0] == 0xfe && x[1] >= 2
-      case 9 => x[0] == 0xff && 0 < x[1] < Tag2
-      case 10 => x[0] == 0xff && x[1] == Tag2 && Tag2 <= x[2] 
+      case 1 => s[0] < Tag2
+      case 2 => s[0] > Tag2 || (s[0] == Tag2 && s[1] >= 128)
+      case 3 => s[0] > Tag3 || (s[0] == Tag3 && s[1] >= 64)
+      case 4 => s[0] > Tag4 || (s[0] == Tag4 && s[1] >= 32)
+      case 5 => s[0] > 0xf0 || (s[0] == 0xf0 && s[1] >= 16)
+      case 6 => s[0] > 0xf8 || (s[0] == 0xf8 && s[1] >= 8)
+      case 7 => s[0] > 0xfc || (s[0] == 0xfc && s[1] >= 4)
+      case 8 => s[0] == 0xfe && s[1] >= 2
+      case 9 => s[0] == 0xff && 0 < s[1] < Tag2
+      case 10 => s[0] == 0xff && s[1] == Tag2 && Tag2 <= s[2]
     }
   }
 
@@ -117,14 +126,14 @@ module {:options "-functionSyntax:4"} VarEncode64a {
     else 10
   }
 
-  function DecodeLength(x : seq<uint8>) : (ret : MyLen)
-    requires 0 < |x|
-    requires MaybeValidEncoding(x)
+  function DecodeLength(s : seq<uint8>) : (ret : MyLen)
+    requires 0 < |s|
+    requires MaybeValidEncoding(s)
   {
-    if x[0] == 0xff then
-      DecodeLength2(x[1])
+    if s[0] == 0xff then
+      DecodeLength2(s[1])
     else
-      DecodeLength1(x[0])
+      DecodeLength1(s[0])
   }
 
 
@@ -400,14 +409,14 @@ module {:options "-functionSyntax:4"} VarEncode64a {
   //           ))
   // }
 
-  function Gather(x : seq<uint8>, acc : uint64) : uint64
+  function Gather(s : seq<uint8>, acc : uint64) : uint64
   {
-    if |x| == 0 then
+    if |s| == 0 then
       acc
     else
-      var newVal := (acc as int * 256) + x[0] as int;
+      var newVal := (acc as int * 256) + s[0] as int;
       assume {:axiom} newVal as int < UINT64_LIMIT;
-      Gather(x[1..], newVal as uint64)
+      Gather(s[1..], newVal as uint64)
   }
 
   function Scatter(remaining : MyLen, tag : uint8, val : uint64, acc : seq<uint8>) : (ret : seq<uint8>)
@@ -422,138 +431,138 @@ module {:options "-functionSyntax:4"} VarEncode64a {
   }
 
 
-  function Decode1(x : seq<uint8>) : (ret : uint64)
-    requires |x| == 1
-    requires x[0] < Tag2
-    requires DecodeLength(x) == 1
-    requires ValidEncoding(x, 1)
+  function Decode1(s : seq<uint8>) : (ret : uint64)
+    requires |s| == 1
+    requires s[0] < Tag2
+    requires DecodeLength(s) == 1
+    requires ValidEncoding(s, 1)
     ensures ret < Max1 as uint64
     ensures EncodeLength(ret) == 1
   {
-    Gather(x[1..], x[0] as uint64)
+    Gather(s[1..], s[0] as uint64)
   }
 
-  function Decode2(x : seq<uint8>) : (ret : uint64)
-    requires |x| == 2
-    requires Tag2 <= x[0] < Tag3
-    requires DecodeLength(x) == 2
-    requires ValidEncoding(x, 2)
+  function Decode2(s : seq<uint8>) : (ret : uint64)
+    requires |s| == 2
+    requires Tag2 <= s[0] < Tag3
+    requires DecodeLength(s) == 2
+    requires ValidEncoding(s, 2)
     ensures Max1 <= ret < Max2 as uint64
     ensures EncodeLength(ret) == 2
   {
-    Gather(x[1..], (x[0] % Tag2) as uint64)
+    Gather(s[1..], (s[0] % Tag2) as uint64)
   }
 
-  function Decode3(x : seq<uint8>) : (ret : uint64)
-    requires |x| == 3
-    requires Tag3 <= x[0] < Tag4
-    requires DecodeLength(x) == 3
-    requires ValidEncoding(x, 3)
+  function Decode3(s : seq<uint8>) : (ret : uint64)
+    requires |s| == 3
+    requires Tag3 <= s[0] < Tag4
+    requires DecodeLength(s) == 3
+    requires ValidEncoding(s, 3)
     ensures Max2 <= ret < Max3 as uint64
     ensures EncodeLength(ret) == 3
   {
-    Gather(x[1..], (x[0] % Tag3) as uint64)
+    Gather(s[1..], (s[0] % Tag3) as uint64)
   }
 
-  function Decode4(x : seq<uint8>) : (ret : uint64)
-    requires |x| == 4
-    requires Tag4 <= x[0] < Tag5
-    requires DecodeLength(x) == 4
-    requires ValidEncoding(x, 4)
+  function Decode4(s : seq<uint8>) : (ret : uint64)
+    requires |s| == 4
+    requires Tag4 <= s[0] < Tag5
+    requires DecodeLength(s) == 4
+    requires ValidEncoding(s, 4)
     ensures Max3 <= ret < Max4 as uint64
     ensures EncodeLength(ret) == 4
   {
-    Gather(x[1..], (x[0] % Tag4) as uint64)
+    Gather(s[1..], (s[0] % Tag4) as uint64)
   }
 
-  function Decode5(x : seq<uint8>) : (ret : uint64)
-    requires |x| == 5
-    requires Tag5 <= x[0] < Tag6
-    requires ValidEncoding(x, 5)
-    requires DecodeLength(x) == 5
+  function Decode5(s : seq<uint8>) : (ret : uint64)
+    requires |s| == 5
+    requires Tag5 <= s[0] < Tag6
+    requires ValidEncoding(s, 5)
+    requires DecodeLength(s) == 5
     ensures Max4 <= ret < Max5 as uint64
     ensures EncodeLength(ret) == 5
   {
-    Gather(x[1..], (x[0] % Tag5) as uint64)
+    Gather(s[1..], (s[0] % Tag5) as uint64)
   }
 
-  function Decode6(x : seq<uint8>) : (ret : uint64)
-    requires |x| == 6
-    requires Tag6 <= x[0] < Tag7
-    requires ValidEncoding(x, 6)
-    requires DecodeLength(x) == 6
+  function Decode6(s : seq<uint8>) : (ret : uint64)
+    requires |s| == 6
+    requires Tag6 <= s[0] < Tag7
+    requires ValidEncoding(s, 6)
+    requires DecodeLength(s) == 6
     ensures Max5 <= ret < Max6 as uint64
     ensures EncodeLength(ret) == 6
   {
-    Gather(x[1..], (x[0] % Tag6) as uint64)
+    Gather(s[1..], (s[0] % Tag6) as uint64)
   }
 
-  function Decode7(x : seq<uint8>) : (ret : uint64)
-    requires |x| == 7
-    requires Tag7 <= x[0] < Tag8
-    requires ValidEncoding(x, 7)
-    requires DecodeLength(x) == 7
+  function Decode7(s : seq<uint8>) : (ret : uint64)
+    requires |s| == 7
+    requires Tag7 <= s[0] < Tag8
+    requires ValidEncoding(s, 7)
+    requires DecodeLength(s) == 7
     ensures Max6 <= ret < Max7 as uint64
     ensures EncodeLength(ret) == 7
   {
-    Gather(x[1..], (x[0] % Tag7) as uint64)
+    Gather(s[1..], (s[0] % Tag7) as uint64)
   }
 
-  function Decode8(x : seq<uint8>) : (ret : uint64)
-    requires |x| == 8
-    requires Tag8 <= x[0] < Tag9
-    requires ValidEncoding(x, 8)
-    requires DecodeLength(x) == 8
+  function Decode8(s : seq<uint8>) : (ret : uint64)
+    requires |s| == 8
+    requires Tag8 <= s[0] < Tag9
+    requires ValidEncoding(s, 8)
+    requires DecodeLength(s) == 8
     ensures Max7 <= ret < Max8 as uint64
     ensures EncodeLength(ret) == 8
   {
-    Gather(x[1..], (x[0] % Tag8) as uint64)
+    Gather(s[1..], (s[0] % Tag8) as uint64)
   }
 
-  function Decode9(x : seq<uint8>) : (ret : uint64)
-    requires |x| == 9
-    requires x[0] == Tag9
-    requires MaybeValidEncoding(x)
-    requires DecodeLength(x) == 9
-    requires ValidEncoding(x, 9)
+  function Decode9(s : seq<uint8>) : (ret : uint64)
+    requires |s| == 9
+    requires s[0] == Tag9
+    requires MaybeValidEncoding(s)
+    requires DecodeLength(s) == 9
+    requires ValidEncoding(s, 9)
     ensures Max8 <= ret < Max9 as uint64
     ensures EncodeLength(ret) == 9
   {
-    Gather(x[1..], 0)
+    Gather(s[1..], 0)
   }
 
-  function Decode10(x : seq<uint8>) : (ret : uint64)
-    requires |x| == 10
-    requires x[0] == Tag9
-    requires x[1] == Tag2
-    requires MaybeValidEncoding(x)
-    requires ValidEncoding(x, 10)
-    requires DecodeLength(x) == 10
+  function Decode10(s : seq<uint8>) : (ret : uint64)
+    requires |s| == 10
+    requires s[0] == Tag9
+    requires s[1] == Tag2
+    requires MaybeValidEncoding(s)
+    requires ValidEncoding(s, 10)
+    requires DecodeLength(s) == 10
     ensures Max9 <= ret
     ensures EncodeLength(ret) == 10
   {
-    Gather(x[2..], 0)
+    Gather(s[2..], 0)
   }
 
-  function Decode(x : seq<uint8>, len: MyLen)
+  function Decode(s : seq<uint8>, len: MyLen)
     : (ret : uint64)
-    requires len as int == |x|
-    requires MaybeValidEncoding(x)
-    requires DecodeLength(x) == len
-    requires ValidEncoding(x, len)
-    ensures EncodeLength(ret) == DecodeLength(x)
+    requires len as int == |s|
+    requires MaybeValidEncoding(s)
+    requires DecodeLength(s) == len
+    requires ValidEncoding(s, len)
+    ensures EncodeLength(ret) == DecodeLength(s)
   {
     match len {
-      case 1 => Decode1(x)
-      case 2 => Decode2(x)
-      case 3 => Decode3(x)
-      case 4 => Decode4(x)
-      case 5 => Decode5(x)
-      case 6 => Decode6(x)
-      case 7 => Decode7(x)
-      case 8 => Decode8(x)
-      case 9 => Decode9(x)
-      case 10 => Decode10(x)
+      case 1 => Decode1(s)
+      case 2 => Decode2(s)
+      case 3 => Decode3(s)
+      case 4 => Decode4(s)
+      case 5 => Decode5(s)
+      case 6 => Decode6(s)
+      case 7 => Decode7(s)
+      case 8 => Decode8(s)
+      case 9 => Decode9(s)
+      case 10 => Decode10(s)
     }
   }
 }

@@ -9,7 +9,7 @@ include "SerializeFunctions.dfy"
   Seven bits per byte used to store actual data.
 
   // Type for the encoded length
-  newtype MyLen = x | 1 <= x <= 10 witness 1
+  newtype MyLen = x | 1 <= x <= 9 witness 1
 
   // checks for the very small number of invalid encoding sequences
   predicate ValidEncoding(x : seq<uint8>)

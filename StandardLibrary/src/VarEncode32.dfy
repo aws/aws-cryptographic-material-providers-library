@@ -18,13 +18,22 @@ include "SerializeFunctions.dfy"
   Encode(x : uint32) : (ret : seq<uint8>)
 
   // convert seq<uint8> to uint32
-  Decode(x : seq<uint8>) : (ret : uint32)
+  Decode(s : seq<uint8>) : (ret : uint32)
 
   // If I were to encode x, how many bytes would the result have?
   EncodeLength(x : uint32) : (ret : MyLen)
 
   // If a seq<uint8> has first byte x, how many bytes are being used for this encoded number?
   DecodeLength(x : uint8) : (ret : MyLen)
+
+  // And lemmas to prove round trip stability
+  lemma DecodeRoundTrip(x: uint32, s: seq<uint8>, len: MyLen)
+      requires Decode(s, len) == x
+      ensures Encode(x) == s
+
+  lemma EncodeRoundTrip(x: uint32, s: seq<uint8>, len: MyLen)
+    requires Encode(x) == s
+    ensures Decode(s, len) == x
 */
 
 module {:options "-functionSyntax:4"} VarEncode32 {
@@ -237,78 +246,78 @@ module {:options "-functionSyntax:4"} VarEncode32 {
   //           ))
   // }
 
-  function Decode1(x : seq<uint8>) : (ret : uint32)
-    requires |x| == 1
-    requires x[0] < Tag2
-    requires DecodeLength(x[0]) == 1
-    requires ValidEncoding(x, 1)
+  function Decode1(s : seq<uint8>) : (ret : uint32)
+    requires |s| == 1
+    requires s[0] < Tag2
+    requires DecodeLength(s[0]) == 1
+    requires ValidEncoding(s, 1)
     ensures EncodeLength(ret) == 1
   {
-    x[0] as uint32
+    s[0] as uint32
   }
 
-  function Decode2(x : seq<uint8>) : (ret : uint32)
-    requires |x| == 2
-    requires Tag2 <= x[0] < Tag3
-    requires DecodeLength(x[0]) == 2
-    requires ValidEncoding(x, 2)
+  function Decode2(s : seq<uint8>) : (ret : uint32)
+    requires |s| == 2
+    requires Tag2 <= s[0] < Tag3
+    requires DecodeLength(s[0]) == 2
+    requires ValidEncoding(s, 2)
     ensures EncodeLength(ret) == 2
   {
-    (x[0] % 0x80) as uint32 * 0x100
-    + x[1] as uint32
+    (s[0] % 0x80) as uint32 * 0x100
+    + s[1] as uint32
   }
 
-  function Decode3(x : seq<uint8>) : (ret : uint32)
-    requires |x| == 3
-    requires Tag3 <= x[0] < Tag4
-    requires DecodeLength(x[0]) == 3
-    requires ValidEncoding(x, 3)
+  function Decode3(s : seq<uint8>) : (ret : uint32)
+    requires |s| == 3
+    requires Tag3 <= s[0] < Tag4
+    requires DecodeLength(s[0]) == 3
+    requires ValidEncoding(s, 3)
     ensures EncodeLength(ret) == 3
   {
-    (x[0] % 0xc0) as uint32 * 0x10000
-    + x[1] as uint32 * 0x100
-    + x[2] as uint32
+    (s[0] % 0xc0) as uint32 * 0x10000
+    + s[1] as uint32 * 0x100
+    + s[2] as uint32
   }
 
-  function Decode4(x : seq<uint8>) : (ret : uint32)
-    requires |x| == 4
-    requires Tag4 <= x[0] < Tag5
-    requires DecodeLength(x[0]) == 4
-    requires ValidEncoding(x, 4)
+  function Decode4(s : seq<uint8>) : (ret : uint32)
+    requires |s| == 4
+    requires Tag4 <= s[0] < Tag5
+    requires DecodeLength(s[0]) == 4
+    requires ValidEncoding(s, 4)
     ensures EncodeLength(ret) == 4
   {
-    (x[0] % 0xe0) as uint32 * 0x1000000
-    + x[1] as uint32 * 0x10000
-    + x[2] as uint32 * 0x100
-    + x[3] as uint32
+    (s[0] % 0xe0) as uint32 * 0x1000000
+    + s[1] as uint32 * 0x10000
+    + s[2] as uint32 * 0x100
+    + s[3] as uint32
   }
 
-  function Decode5(x : seq<uint8>) : (ret : uint32)
-    requires |x| == 5
-    requires Tag5 <= x[0] < Tag6
-    requires ValidEncoding(x, 5)
-    requires DecodeLength(x[0]) == 5
+  function Decode5(s : seq<uint8>) : (ret : uint32)
+    requires |s| == 5
+    requires Tag5 <= s[0] < Tag6
+    requires ValidEncoding(s, 5)
+    requires DecodeLength(s[0]) == 5
     ensures EncodeLength(ret) == 5
   {
-    x[1] as uint32 * 0x1000000
-    + x[2] as uint32 * 0x10000
-    + x[3] as uint32 * 0x100
-    + x[4] as uint32
+    s[1] as uint32 * 0x1000000
+    + s[2] as uint32 * 0x10000
+    + s[3] as uint32 * 0x100
+    + s[4] as uint32
   }
 
-  function Decode(x : seq<uint8>, len: MyLen)
+  function Decode(s : seq<uint8>, len: MyLen)
     : (ret : uint32)
-    requires len as int == |x|
-    requires DecodeLength(x[0]) == len
-    requires ValidEncoding(x, len)
-    ensures EncodeLength(ret) == DecodeLength(x[0])
+    requires len as int == |s|
+    requires DecodeLength(s[0]) == len
+    requires ValidEncoding(s, len)
+    ensures EncodeLength(ret) == DecodeLength(s[0])
   {
     match len {
-      case 1 => Decode1(x)
-      case 2 => Decode2(x)
-      case 3 => Decode3(x)
-      case 4 => Decode4(x)
-      case 5 => Decode5(x)
+      case 1 => Decode1(s)
+      case 2 => Decode2(s)
+      case 3 => Decode3(s)
+      case 4 => Decode4(s)
+      case 5 => Decode5(s)
     }
   }
 }

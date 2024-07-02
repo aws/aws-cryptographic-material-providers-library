@@ -33,10 +33,10 @@ module {:options "-functionSyntax:4"} VarEncode63Test {
         var val := currPo2 + i;
         if (val < Max9 as int) {
           CheckValue(val as uint64);
-          currPo2 := currPo2 * 2;
           assert currPo2 >= 1024;
         }
       }
+      currPo2 := currPo2 * 2;
     }
   }
 }
