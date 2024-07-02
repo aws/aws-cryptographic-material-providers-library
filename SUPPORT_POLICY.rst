@@ -2,7 +2,7 @@ Overview
 ========
 This page describes the support policy for the AWS Cryptographic Material Providers Library. We regularly provide the AWS Cryptographic Material Providers Library with updates that may contain support for new or updated APIs, new features, enhancements, bug fixes, security patches, or documentation updates. Updates may also address changes with dependencies, language runtimes, and operating systems.
 
-We recommend users to stay up-to-date with Material Providers Library releases to keep up with the latest features, security updates, and underlying dependencies. Continued use of an unsupported SDK version is not recommended and is done at the user’s discretion
+We recommend users to stay up-to-date with Material Providers Library releases to keep up with the latest features, security updates, and underlying dependencies. Continued use of an unsupported SDK version is not recommended and is done at the user’s discretion.
 
 
 Major Version Lifecycle
@@ -11,7 +11,7 @@ The AWS Cryptographic Material Providers Library follows the same major version 
 
 Version Support Matrix
 ======================
-This table describes the current support status of each major version of the AWS Cryptographic Material Providers Library for Java. It also shows the next status each major version will transition to, and the date at which that transition will happen.
+This table describes the current support status of each major version of the AWS Cryptographic Material Providers Library. It also shows the next status each major version will transition to, and the date at which that transition will happen.
 
 .. list-table::
     :widths: 30 50 50 50
@@ -21,8 +21,8 @@ This table describes the current support status of each major version of the AWS
       - Current status
       - Next status
       - Next status date
-    * - 1.0.0-preview-x
-      - Developer Preview
+    * - 1.x
+      - Generally available
       -
       -
 

@@ -52,7 +52,6 @@ public class DeriveSharedSecret extends _ExternBase___default {
         );
         keyAgreement.doPhase(fromBytesPublicKey(publicKeyBytes), true);
         byte[] sharedSecret = keyAgreement.generateSecret();
-
         return CreateExternDerivesharedSecretSuccess(
           DafnySequence.fromBytes(sharedSecret)
         );

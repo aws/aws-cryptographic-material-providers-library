@@ -3,12 +3,14 @@ package ECDH;
 import static ECDH.ECCAlgorithm.eccAlgorithm;
 import static software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence;
 
+import Random_Compile.ExternRandom;
 import Signature.PublicKeyUtils;
 import Signature.PublicKeyUtils;
 import Signature.SignatureAlgorithm;
 import StandardLibraryInternal.InternalResult;
 import StandardLibraryInternal.InternalResult;
 import Wrappers_Compile.Result;
+import Wrappers_Compile.Result_Failure;
 import dafny.Array;
 import dafny.DafnySequence;
 import java.io.ByteArrayInputStream;
@@ -19,6 +21,7 @@ import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.AlgorithmParameters;
+import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -26,6 +29,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.SecureRandom;
 import java.security.Security;
 import java.security.interfaces.ECPrivateKey;
 import java.security.interfaces.ECPublicKey;
@@ -35,7 +39,17 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.InvalidParameterSpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.bouncycastle.asn1.ASN1Encodable;
+import org.bouncycastle.asn1.ASN1Sequence;
+import org.bouncycastle.asn1.DERBitString;
+import org.bouncycastle.asn1.DERSequence;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.crypto.params.ECDomainParameters;
 import org.bouncycastle.crypto.params.ECPrivateKeyParameters;
@@ -55,8 +69,22 @@ import software.amazon.cryptography.primitives.internaldafny.types.ECCPrivateKey
 import software.amazon.cryptography.primitives.internaldafny.types.ECDHCurveSpec;
 import software.amazon.cryptography.primitives.internaldafny.types.Error;
 import software.amazon.cryptography.primitives.model.AwsCryptographicPrimitivesError;
+import software.amazon.cryptography.primitives.model.OpaqueError;
 
 public class ECCUtils extends _ExternBase___default {
+
+  private static final Map<String, Integer> CURVE_TO_ECC_SECRET_LENGTH_MAP =
+    Stream
+      .of(
+        new Object[][] {
+          { "P256", 256 / 8 },
+          { "P384", 384 / 8 },
+          { "P521", 521 / 8 + 1 }, // 521/8 is not a whole number
+        }
+      )
+      .collect(
+        Collectors.toMap(data -> (String) data[0], data -> (Integer) data[1])
+      );
 
   public static Result<DafnySequence<? extends Byte>, Error> GetPublicKey(
     ECDHCurveSpec dtor_eccAlgorithm,
@@ -377,5 +405,118 @@ public class ECCUtils extends _ExternBase___default {
     return parameters.getParameterSpec(
       java.security.spec.ECParameterSpec.class
     );
+  }
+
+  // This is a helper test function that is not intended to be
+  // used in a production environment. This generates an invalid
+  // public key with the infinity point to test that our public key
+  // validation function works as intended.
+  public static Result<
+    DafnySequence<? extends Byte>,
+    Error
+  > GetInfinityPublicKey(ECDHCurveSpec curve) {
+    final InternalResult<ECCAlgorithm, Error> maybeEccAlgorithm = eccAlgorithm(
+      curve
+    );
+    if (maybeEccAlgorithm.isFailure()) {
+      return CreateGetInfinityPublicKeyError(
+        ToDafny.Error(
+          AwsCryptographicPrimitivesError
+            .builder()
+            .message(maybeEccAlgorithm.error().dtor_message().toString())
+            .build()
+        )
+      );
+    }
+
+    try {
+      final SecureRandom secureRandom = ExternRandom.getSecureRandom();
+      final KeyPairGenerator keyGen;
+      final ECGenParameterSpec genParameterSpec = new ECGenParameterSpec(
+        maybeEccAlgorithm.value().curve
+      );
+      keyGen = KeyPairGenerator.getInstance("EC", "BC");
+      keyGen.initialize(genParameterSpec, secureRandom);
+      final byte[] pubKey = keyGen.generateKeyPair().getPublic().getEncoded();
+      final ASN1Sequence seqWithAlgInfo = ASN1Sequence.getInstance(pubKey);
+
+      // Build a pub key with the point at infinity defined as a 1 byte zero array
+      final DERBitString point = new DERBitString(new byte[1]);
+      final ASN1Sequence seq = new DERSequence(
+        new ASN1Encodable[] { seqWithAlgInfo.getObjectAt(0), point }
+      );
+      return CreateGetInfinityPublicKeySuccess(
+        DafnySequence.fromBytes(seq.getEncoded("DER"))
+      );
+    } catch (Exception e) {
+      return CreateGetInfinityPublicKeyError(
+        ToDafny.Error(
+          AwsCryptographicPrimitivesError
+            .builder()
+            .message(e.getMessage())
+            .build()
+        )
+      );
+    }
+  }
+
+  // This is a helper test function. It SHOULD NOT be
+  // used in a production environment. This generates an invalid
+  // public key with the x and y coordinates outside the defined
+  // public key field.
+  public static Result<
+    DafnySequence<? extends Byte>,
+    Error
+  > GetOutOfBoundsPublicKey(ECDHCurveSpec curve) {
+    final InternalResult<ECCAlgorithm, Error> maybeEccAlgorithm = eccAlgorithm(
+      curve
+    );
+    if (maybeEccAlgorithm.isFailure()) {
+      return CreateGetInfinityPublicKeyError(
+        ToDafny.Error(
+          AwsCryptographicPrimitivesError
+            .builder()
+            .message(maybeEccAlgorithm.error().dtor_message().toString())
+            .build()
+        )
+      );
+    }
+
+    try {
+      final SecureRandom secureRandom = ExternRandom.getSecureRandom();
+      final KeyPairGenerator keyGen;
+      final ECGenParameterSpec genParameterSpec = new ECGenParameterSpec(
+        maybeEccAlgorithm.value().curve
+      );
+      keyGen = KeyPairGenerator.getInstance("EC", "BC");
+      keyGen.initialize(genParameterSpec, secureRandom);
+      final byte[] pubKey = keyGen.generateKeyPair().getPublic().getEncoded();
+      final ASN1Sequence seqWithAlgInfo = ASN1Sequence.getInstance(pubKey);
+
+      // build an out of bounds public key
+      final byte[] pointArray = new byte[1 +
+      (2 *
+        CURVE_TO_ECC_SECRET_LENGTH_MAP.get(maybeEccAlgorithm.value().name()))];
+      // by casting -1 to a byte we force writing 255
+      Arrays.fill(pointArray, (byte) -1);
+      pointArray[0] = 0x04;
+
+      final DERBitString point = new DERBitString(pointArray);
+      final ASN1Sequence seq = new DERSequence(
+        new ASN1Encodable[] { seqWithAlgInfo.getObjectAt(0), point }
+      );
+      return CreateGetOutOfBoundsPublicKeySuccess(
+        DafnySequence.fromBytes(seq.getEncoded("DER"))
+      );
+    } catch (Exception e) {
+      return CreateGetOutOfBoundsPublicKeyError(
+        ToDafny.Error(
+          AwsCryptographicPrimitivesError
+            .builder()
+            .message(e.getMessage())
+            .build()
+        )
+      );
+    }
   }
 }
