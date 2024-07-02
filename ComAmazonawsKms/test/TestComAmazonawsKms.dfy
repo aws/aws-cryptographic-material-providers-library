@@ -7,14 +7,19 @@ module TestComAmazonawsKms {
   import Com.Amazonaws.Kms
   import opened StandardLibrary.UInt
 
+  // Does not have GenerateDataKeyWithoutPlaintext permission
   const keyId :=  "arn:aws:kms:us-west-2:658956600833:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"
+  // No Permissions to call GenerateDataKeyWithoutPlaintext, set on KeyPolicy, not IAM
+  const failingKeyId := "arn:aws:kms:us-west-2:370957321024:key/e20ac7b8-3d95-46ee-b3d5-f5dca6393945"
+  // From Keystore's Test Fixtures
+  const keyIdGenerateWOPlain := "arn:aws:kms:us-west-2:370957321024:key/9d989aa2-2f9c-438c-a745-cc57d3ad0126"
 
   // ECC Curve P256 Keys
-  const senderKmsKey := "arn:aws:kms:us-west-2:370957321024:key/eabdf483-6be2-4d2d-8ee4-8c2583d416e9";
-  const recipientKmsKey := "arn:aws:kms:us-west-2:370957321024:key/0265c8e9-5b6a-4055-8f70-63719e09fda5";
+  const senderKmsKey := "arn:aws:kms:us-west-2:370957321024:key/eabdf483-6be2-4d2d-8ee4-8c2583d416e9"
+  const recipientKmsKey := "arn:aws:kms:us-west-2:370957321024:key/0265c8e9-5b6a-4055-8f70-63719e09fda5"
 
   // ECC Curve P384
-  const incorrectEccCurveKey := "arn:aws:kms:us-west-2:370957321024:key/7f35a704-f4fb-469d-98b1-62a1fa2cc44e";
+  const incorrectEccCurveKey := "arn:aws:kms:us-west-2:370957321024:key/7f35a704-f4fb-469d-98b1-62a1fa2cc44e"
 
   // One test depends on knowing the region it is being run it.
   // For now, hardcode this value to the region we are currently using to test,
@@ -74,6 +79,18 @@ module TestComAmazonawsKms {
     );
   }
 
+  method {:test} BasicGenerateWithoutPlaintextTests() {
+    BasicGenerateWithoutPlaintextTest(
+      input := Kms.Types.GenerateDataKeyWithoutPlaintextRequest(
+        KeyId := keyIdGenerateWOPlain,
+        EncryptionContext := Kms.Wrappers.None,
+        NumberOfBytes := Kms.Wrappers.Some(32 as Kms.Types.NumberOfBytesType),
+        KeySpec := Kms.Wrappers.None,
+        GrantTokens := Kms.Wrappers.None
+      )
+    );
+  }
+
   method {:test} BasicEncryptTests() {
     BasicEncryptTest(
       input := Kms.Types.EncryptRequest(
@@ -87,6 +104,26 @@ module TestComAmazonawsKms {
     );
   }
 
+  const failingInput := Kms.Types.GenerateDataKeyWithoutPlaintextRequest(
+                          KeyId := failingKeyId,
+                          EncryptionContext := Kms.Wrappers.None,
+                          NumberOfBytes := Kms.Wrappers.Some(32 as Kms.Types.NumberOfBytesType),
+                          KeySpec := Kms.Wrappers.None,
+                          GrantTokens := Kms.Wrappers.None
+                        )
+
+  method {:test} BasicFailTests() {
+    var client :- expect Kms.KMSClientForRegion(TEST_REGION);
+    var ret := client.GenerateDataKeyWithoutPlaintext(failingInput);
+    expect ret.Failure?;
+    var err: Kms.Types.Error := ret.error;
+    expect err.Opaque?;
+    match err {
+      case Opaque(obj) => expect true;
+      case _ => expect false, "Failing KMS Key MUST cause an OpaqueError that can later be unwrapped to a proper but generic KMS Exception.";
+    }
+  }
+
   method BasicDecryptTest(
     nameonly input: Kms.Types.DecryptRequest,
     nameonly expectedPlaintext: Kms.Types.PlaintextType,
@@ -97,7 +134,7 @@ module TestComAmazonawsKms {
 
     var ret := client.Decrypt(input);
 
-    print ret;
+    // print ret;
 
     expect(ret.Success?);
 
@@ -140,6 +177,38 @@ module TestComAmazonawsKms {
       expectedPlaintext := Plaintext.value,
       expectedKeyId := input.KeyId
     );
+  }
+
+  method BasicGenerateWithoutPlaintextTest(
+    nameonly input: Kms.Types.GenerateDataKeyWithoutPlaintextRequest
+  )
+    requires input.NumberOfBytes.Some?
+  {
+    var client :- expect Kms.KMSClientForRegion(TEST_REGION);
+
+    var retGenerate := client.GenerateDataKeyWithoutPlaintext(input);
+    // print retGenerate;
+    expect(retGenerate.Success?);
+
+    var GenerateDataKeyWithoutPlaintextResponse(CiphertextBlob, KeyId) := retGenerate.value;
+
+    expect CiphertextBlob.Some?;
+    expect KeyId.Some?;
+
+    var decryptInput := Kms.Types.DecryptRequest(
+      CiphertextBlob := CiphertextBlob.value,
+      EncryptionContext := input.EncryptionContext,
+      GrantTokens := input.GrantTokens,
+      KeyId := Kms.Wrappers.Some(KeyId.value),
+      EncryptionAlgorithm := Kms.Wrappers.None
+    );
+
+    var ret := client.Decrypt(decryptInput);
+    expect(ret.Success?);
+    var DecryptResponse(KeyIdTwo, Plaintext, EncryptionAlgorithm, CiphertextBlobTwo) := ret.value;
+
+    expect KeyIdTwo.Some?;
+    expect KeyIdTwo.value == KeyId.value;
   }
 
   method BasicEncryptTest(
@@ -209,7 +278,7 @@ module TestComAmazonawsKms {
 
     } else {
       expect (ret.Failure?);
-      print ret.error;
+      // print ret.error;
     }
 
   }

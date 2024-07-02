@@ -372,7 +372,6 @@ map EncryptionContext {
   value: Utf8Bytes,
 }
 
-///////////////////
 // Errors
 
 @error("client")

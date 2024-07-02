@@ -1,72 +1,8 @@
-diff --git b/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToDafny.java a/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToDafny.java
-index 04e0401a..c2f87875 100644
---- b/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToDafny.java
-+++ a/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToDafny.java
-@@ -10489,16 +10489,9 @@ public class ToDafny {
-   }
- 
-   public static Error Error(DynamoDbException nativeValue) {
--    Option<DafnySequence<? extends Character>> message;
--    message =
--      Objects.nonNull(nativeValue.getMessage())
--        ? Option.create_Some(
--          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
--            nativeValue.getMessage()
--          )
--        )
--        : Option.create_None();
--    return new Error_Opaque(message);
-+    // BEGIN MANUAL EDIT
-+    return new Error_Opaque(nativeValue);
-+    // END MANUAL EDIT
-   }
- 
-   public static IDynamoDBClient DynamoDB_20120810(DynamoDbClient nativeValue) {
 diff --git b/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java a/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
-index e3fa41d0..80bf84d1 100644
+index fcddb48a..7634f572 100644
 --- b/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
 +++ a/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
-@@ -109,6 +109,9 @@ import software.amazon.awssdk.services.dynamodb.model.DestinationStatus;
- import software.amazon.awssdk.services.dynamodb.model.DisableKinesisStreamingDestinationRequest;
- import software.amazon.awssdk.services.dynamodb.model.DisableKinesisStreamingDestinationResponse;
- import software.amazon.awssdk.services.dynamodb.model.DuplicateItemException;
-+// BEGIN MANUAL EDIT
-+import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
-+// END MANUAL EDIT
- import software.amazon.awssdk.services.dynamodb.model.EnableKinesisStreamingDestinationRequest;
- import software.amazon.awssdk.services.dynamodb.model.EnableKinesisStreamingDestinationResponse;
- import software.amazon.awssdk.services.dynamodb.model.Endpoint;
-@@ -349,6 +352,9 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_
- import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_InvalidRestoreTimeException;
- import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ItemCollectionSizeLimitExceededException;
- import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_LimitExceededException;
-+// BEGIN MANUAL EDIT
-+import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_Opaque;
-+// END MANUAL EDIT
- import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_PointInTimeRecoveryUnavailableException;
- import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ProvisionedThroughputExceededException;
- import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ReplicaAlreadyExistsException;
-@@ -422,6 +428,19 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Update
- 
- public class ToNative {
- 
-+  // BEGIN MANUAL EDIT
-+  public static RuntimeException Error(Error_Opaque dafnyValue) {
-+    if (dafnyValue.dtor_obj() instanceof DynamoDbException) {
-+      return (DynamoDbException) dafnyValue.dtor_obj();
-+    }
-+    // Because we only ever put `DynamoDbException` into `Error_Opaque`,
-+    // recieving any other type here indicates a bug with the codegen.
-+    // Bubble up some error to indicate this failure state.
-+    return new IllegalStateException("Unknown error recieved from DynamoDb.");
-+  }
-+
-+  // END MANUAL EDIT
-+
-   public static ArchivalSummary ArchivalSummary(
-     software.amazon.cryptography.services.dynamodb.internaldafny.types.ArchivalSummary dafnyValue
-   ) {
-@@ -8035,6 +8054,124 @@ public class ToNative {
+@@ -8040,6 +8040,126 @@ public class ToNative {
      return builder.build();
    }
  
@@ -183,7 +119,9 @@ index e3fa41d0..80bf84d1 100644
 +      return ToNative.Error((Error_Opaque) dafnyValue);
 +    }
 +    // TODO This should indicate a codegen bug
-+    return new IllegalStateException("Unknown error recieved from DynamoDb.");
++    return new IllegalStateException(
++      String.format("Unknown error thrown while calling DDB. %s", dafnyValue)
++    );
 +  }
 +
 +  // END MANUAL EDIT
