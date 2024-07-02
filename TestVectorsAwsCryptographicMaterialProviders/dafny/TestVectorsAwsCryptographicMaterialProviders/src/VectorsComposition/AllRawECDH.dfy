@@ -19,7 +19,9 @@ module {:options "-functionSyntax:4"} AllRawECDH {
       ::
         KeyVectorsTypes.ECDH(KeyVectorsTypes.RawEcdh(
                                senderKeyId := "ephemeral",
+                               senderPublicKey := "ephemeral",
                                recipientKeyId := key + "-private",
+                               recipientPublicKey := "recipient-material-public-key",
                                providerId := "aws-raw-vectors-persistent-ephemeral " + key,
                                keyAgreementScheme := "ephemeral",
                                curveSpec := key
@@ -31,7 +33,9 @@ module {:options "-functionSyntax:4"} AllRawECDH {
       ::
         KeyVectorsTypes.ECDH(KeyVectorsTypes.RawEcdh(
                                senderKeyId := "discovery",
+                               senderPublicKey := "discovery",
                                recipientKeyId := key + "-private",
+                               recipientPublicKey := "recipient-material-public-key",
                                providerId := "aws-raw-vectors-persistent-discovery " + key,
                                keyAgreementScheme := "discovery",
                                curveSpec := key
@@ -43,7 +47,9 @@ module {:options "-functionSyntax:4"} AllRawECDH {
       ::
         KeyVectorsTypes.ECDH(KeyVectorsTypes.RawEcdh(
                                senderKeyId := key + "-private",
+                               senderPublicKey := "sender-material-public-key",
                                recipientKeyId := key + "-private",
+                               recipientPublicKey := "recipient-material-public-key",
                                providerId := "aws-raw-vectors-persistent-static " + key,
                                keyAgreementScheme := "static",
                                curveSpec := key
@@ -55,7 +61,9 @@ module {:options "-functionSyntax:4"} AllRawECDH {
       ::
         KeyVectorsTypes.ECDH(KeyVectorsTypes.RawEcdh(
                                senderKeyId := key + "-private",
+                               senderPublicKey := "sender-material-public-key",
                                recipientKeyId := key + "-private",
+                               recipientPublicKey := "recipient-material-public-key",
                                providerId := "aws-raw-vectors-persistent-static " + key,
                                keyAgreementScheme := "static",
                                curveSpec := key

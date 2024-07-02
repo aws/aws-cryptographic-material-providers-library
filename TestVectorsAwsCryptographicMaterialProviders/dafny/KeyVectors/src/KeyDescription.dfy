@@ -135,11 +135,15 @@ module {:options "-functionSyntax:4"} KeyDescription {
     var schema :- GetString("schema", obj);
     var sender :- GetString("sender", obj);
     var recipient :- GetString("recipient", obj);
+    var senderPublicKey :- GetString("sender-public-key", obj);
+    var recipientPublicKey :- GetString("recipient-public-key", obj);
 
 
     Success(KmsECDH(KmsEcdhKeyring(
                       senderKeyId := sender,
                       recipientKeyId := recipient,
+                      senderPublicKey := senderPublicKey,
+                      recipientPublicKey := recipientPublicKey,
                       keyAgreementScheme := schema,
                       curveSpec := eccCurve
                     )))
@@ -180,9 +184,13 @@ module {:options "-functionSyntax:4"} KeyDescription {
     var sender :- GetString("sender", obj);
     var recipient :- GetString("recipient", obj);
     var schema :- GetString("schema", obj);
+    var senderPublicKey :- GetString("sender-public-key", obj);
+    var recipientPublicKey :- GetString("recipient-public-key", obj);
     Success(ECDH(RawEcdh(
                    senderKeyId := sender,
                    recipientKeyId := recipient,
+                   senderPublicKey := senderPublicKey,
+                   recipientPublicKey := recipientPublicKey,
                    providerId := providerId,
                    keyAgreementScheme := schema,
                    curveSpec := ecc_curve
@@ -342,6 +350,8 @@ module {:options "-functionSyntax:4"} KeyDescription {
                        ("type", String("raw-ecdh")),
                        ("sender", String(ECDH.senderKeyId)),
                        ("recipient", String(ECDH.recipientKeyId)),
+                       ("sender-public-key", String(ECDH.senderPublicKey)),
+                       ("recipient-public-key", String(ECDH.recipientPublicKey)),
                        ("provider-id", String(ECDH.providerId)),
                        ("ecc-curve", String(ECDH.curveSpec)),
                        ("schema", String(ECDH.keyAgreementScheme))
@@ -364,6 +374,8 @@ module {:options "-functionSyntax:4"} KeyDescription {
                        ("type", String("aws-kms-ecdh")),
                        ("sender", String(KmsECDH.senderKeyId)),
                        ("recipient", String(KmsECDH.recipientKeyId)),
+                       ("sender-public-key", String(KmsECDH.senderPublicKey)),
+                       ("recipient-public-key", String(KmsECDH.recipientPublicKey)),
                        ("ecc-curve", String(KmsECDH.curveSpec)),
                        ("schema", String(KmsECDH.keyAgreementScheme))
                      ]))

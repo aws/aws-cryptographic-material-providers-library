@@ -162,6 +162,8 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
   datatype KmsEcdhKeyring = | KmsEcdhKeyring (
     nameonly senderKeyId: string ,
     nameonly recipientKeyId: string ,
+    nameonly senderPublicKey: string ,
+    nameonly recipientPublicKey: string ,
     nameonly curveSpec: string ,
     nameonly keyAgreementScheme: string
   )
@@ -191,6 +193,8 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
   datatype RawEcdh = | RawEcdh (
     nameonly senderKeyId: string ,
     nameonly recipientKeyId: string ,
+    nameonly senderPublicKey: string ,
+    nameonly recipientPublicKey: string ,
     nameonly providerId: string ,
     nameonly curveSpec: string ,
     nameonly keyAgreementScheme: string

@@ -69,6 +69,9 @@ module {:options "-functionSyntax:4"} KeyMaterial {
         var algorithm :- GetString("algorithm", obj);
         var senderMaterial :- GetString("sender-material", obj);
         var recipientMaterial :- GetString("recipient-material", obj);
+        var encoding :- GetString("encoding", obj);
+        var senderPublicKey :- GetString("sender-material-public-key", obj);
+        var recipientPublicKey :- GetString("recipient-material-public-key", obj);
         Success(KeyMaterial.KMSEcdh(
                   name := name,
                   encrypt := encrypt,
@@ -76,7 +79,9 @@ module {:options "-functionSyntax:4"} KeyMaterial {
                   keyIdentifier := keyIdentifier,
                   algorithm := algorithm,
                   senderMaterial := senderMaterial,
-                  recipientMaterial := recipientMaterial
+                  recipientMaterial := recipientMaterial,
+                  senderPublicKey := senderPublicKey,
+                  recipientPublicKey := recipientPublicKey
                 ))
       case "ecc-private" =>
         var algorithm :- GetString("algorithm", obj);
@@ -84,6 +89,8 @@ module {:options "-functionSyntax:4"} KeyMaterial {
         var encoding :- GetString("encoding", obj);
         var senderMaterial :- GetString("sender-material", obj);
         var recipientMaterial :- GetString("recipient-material", obj);
+        var senderPublicKey :- GetString("sender-material-public-key", obj);
+        var recipientPublicKey :- GetString("recipient-material-public-key", obj);
         Success(PrivateECDH(
                   name := name,
                   encrypt := encrypt,
@@ -93,7 +100,9 @@ module {:options "-functionSyntax:4"} KeyMaterial {
                   bits := bits,
                   encoding := encoding,
                   senderMaterial := senderMaterial,
-                  recipientMaterial := recipientMaterial
+                  recipientMaterial := recipientMaterial,
+                  senderPublicKey := senderPublicKey,
+                  recipientPublicKey := recipientPublicKey
                 ))
       case _ =>
         var algorithm :- GetString("algorithm", obj);
@@ -304,6 +313,8 @@ module {:options "-functionSyntax:4"} KeyMaterial {
         encoding: string,
         senderMaterial: string,
         recipientMaterial: string,
+        senderPublicKey: string,
+        recipientPublicKey: string,
         keyIdentifier: string
       )
     | KMS(
@@ -326,7 +337,9 @@ module {:options "-functionSyntax:4"} KeyMaterial {
         keyIdentifier: string,
         algorithm: string,
         senderMaterial: string,
-        recipientMaterial: string
+        recipientMaterial: string,
+        senderPublicKey: string,
+        recipientPublicKey: string
       )
     | StaticMaterial(
         name: string,

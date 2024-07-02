@@ -431,13 +431,16 @@ namespace ECDH
 
                 var ecdhKeyAgreement = new ECDHBasicAgreement();
                 ecdhKeyAgreement.Init(skp);
-                // Calling ToByteArray or ToUnsignedByteArray does not always work
-                // because of the way the size of the array is calculated in .net
-                // This can lead to different shared secrets that are off by a byte. 
+                // Calling ToByteArray or ToUnsignedByteArray does not always produce the
+                // shared secret length we expect compared to the KMS secret.
+                // This is because the SDK converts the shared secret from KMS which is a signed byte array
+                // to unsigned; however, it does not add a sign bit at the beginning of the array to indicate so.
+                // This leads to off by one errors.
                 var sharedSecret = ecdhKeyAgreement.CalculateAgreement(rkp);
-                // Doing this specific conversion lets us tell .NET that we should be expecting a fixed-size array.
+                // Doing this specific conversion allows to get the correct shared secret according to the 
+                // conversion that the SDK is doing. It will convert the shared secret to an unsigned array BUT
+                // will limit to the expected size of the shared secret. This way no off by one error is possible.
                 var keyAgreement = BigIntegers.AsUnsignedByteArray(ecdhKeyAgreement.GetFieldSize(), sharedSecret);
-
                 return new Result_Success<ibyteseq, _IError>(byteseq.FromArray(keyAgreement));
             }
             catch (Exception e)
