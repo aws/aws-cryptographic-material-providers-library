@@ -1,5 +1,5 @@
 diff --git b/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java a/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
-index fcddb48a..7634f572 100644
+index 171a36d3..b14f1123 100644
 --- b/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
 +++ a/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
 @@ -8040,6 +8040,126 @@ public class ToNative {

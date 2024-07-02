@@ -1,68 +1,8 @@
-diff --git b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
-index aa88eaba..d14d914b 100644
---- b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
-+++ a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
-@@ -2300,7 +2300,13 @@ public class ToDafny {
- 
-   public static DafnySequence<
-     ? extends KeyAgreementAlgorithmSpec
--  > KeyAgreementAlgorithmSpecList(List<String> nativeValue) {
-+    // BEGIN MANUAL EDIT
-+  > KeyAgreementAlgorithmSpecList(
-+    List<
-+      software.amazon.awssdk.services.kms.model.KeyAgreementAlgorithmSpec
-+    > nativeValue
-+  ) {
-+    // END MANUAL EDIT
-     return software.amazon.smithy.dafny.conversion.ToDafny.Aggregate.GenericToSequence(
-       nativeValue,
-       software.amazon.cryptography.services.kms.internaldafny.ToDafny::KeyAgreementAlgorithmSpec,
-@@ -2890,7 +2896,9 @@ public class ToDafny {
-   }
- 
-   public static DafnySequence<? extends MacAlgorithmSpec> MacAlgorithmSpecList(
--    List<String> nativeValue
-+    // BEGIN MANUAL EDIT
-+    List<software.amazon.awssdk.services.kms.model.MacAlgorithmSpec> nativeValue
-+    // END MANUAL EDIT
-   ) {
-     return software.amazon.smithy.dafny.conversion.ToDafny.Aggregate.GenericToSequence(
-       nativeValue,
-@@ -4641,7 +4649,9 @@ public class ToDafny {
-         {
-           return AlgorithmSpec.create_RSA__AES__KEY__WRAP__SHA__256();
-         }
--      case SM2PKE:
-+      // BEGIN MANUAL EDIT
-+      case SM2_PKE:
-+        // END MANUAL EDIT
-         {
-           return AlgorithmSpec.create_SM2PKE();
-         }
-@@ -5448,7 +5458,9 @@ public class ToDafny {
-         {
-           return SigningAlgorithmSpec.create_ECDSA__SHA__512();
-         }
--      case SM2DSA:
-+      // BEGIN MANUAL EDIT
-+      case SM2_DSA:
-+        // END MANUAL EDIT
-         {
-           return SigningAlgorithmSpec.create_SM2DSA();
-         }
-@@ -5717,6 +5729,7 @@ public class ToDafny {
-     );
-   }
- 
-+
-   public static Error Error(KmsException nativeValue) {
-     return Error.create_Opaque(nativeValue);
-   }
 diff --git b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
-index db94ec6f..b45b6424 100644
+index 56979da2..8026628d 100644
 --- b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
 +++ a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
-@@ -4542,6 +4542,195 @@ public class ToNative {
+@@ -4542,6 +4542,194 @@ public class ToNative {
      return builder.build();
    }
  
@@ -254,7 +194,6 @@ index db94ec6f..b45b6424 100644
 +  }
 +
 +  // END MANUAL EDIT
-+
    public static KmsClient TrentService(IKMSClient dafnyValue) {
      return ((Shim) dafnyValue).impl();
    }
