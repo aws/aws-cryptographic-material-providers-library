@@ -10961,7 +10961,7 @@ index 3a03325a..914b78be 100644
    }
  
 diff --git b/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java a/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
-index 171a36d3..b14f1123 100644
+index 171a36d3..3964b7cb 100644
 --- b/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
 +++ a/ComAmazonawsDynamodb/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/dynamodb/internaldafny/ToNative.java
 @@ -8040,6 +8040,126 @@ public class ToNative {
@@ -11091,3 +11091,23 @@ index 171a36d3..b14f1123 100644
    public static DynamoDbClient DynamoDB_20120810(IDynamoDBClient dafnyValue) {
      return ((Shim) dafnyValue).impl();
    }
+@@ -8054,17 +8174,9 @@ public class ToNative {
+       return (DynamoDbException) dafnyValue.dtor_obj();
+     } else if (dafnyValue.dtor_obj() instanceof Exception) {
+       return (RuntimeException) dafnyValue.dtor_obj();
+-    } else if (dafnyValue.dtor_message().is_Some()) {
+-      final String suffix = dafnyValue.dtor_obj() != null
+-        ? String.format("  Unknown Object: %s", dafnyValue.dtor_obj())
+-        : "";
+-      final String message =
+-        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+-          dafnyValue.dtor_message().dtor_value()
+-        ) +
+-        suffix;
+-      return new RuntimeException(message);
+     }
++    // BEGIN MANUAL EDIT
++    // END MANUAL EDIT
+     return new IllegalStateException(
+       String.format(
+         "Unknown error thrown while calling Amazon DynamoDB. %s",

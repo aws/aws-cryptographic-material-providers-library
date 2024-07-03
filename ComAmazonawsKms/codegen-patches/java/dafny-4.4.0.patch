@@ -8637,7 +8637,7 @@ index 5e894e4e..9d02d333 100644
            return SigningAlgorithmSpec.create_SM2DSA();
          }
 diff --git b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
-index 56979da2..1308dbcc 100644
+index 56979da2..59df5196 100644
 --- b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
 +++ a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
 @@ -4542,6 +4542,196 @@ public class ToNative {
@@ -8837,3 +8837,23 @@ index 56979da2..1308dbcc 100644
    public static KmsClient TrentService(IKMSClient dafnyValue) {
      return ((Shim) dafnyValue).impl();
    }
+@@ -4556,17 +4746,9 @@ public class ToNative {
+       return (KmsException) dafnyValue.dtor_obj();
+     } else if (dafnyValue.dtor_obj() instanceof Exception) {
+       return (RuntimeException) dafnyValue.dtor_obj();
+-    } else if (dafnyValue.dtor_message().is_Some()) {
+-      final String suffix = dafnyValue.dtor_obj() != null
+-        ? String.format("  Unknown Object: %s", dafnyValue.dtor_obj())
+-        : "";
+-      final String message =
+-        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+-          dafnyValue.dtor_message().dtor_value()
+-        ) +
+-        suffix;
+-      return new RuntimeException(message);
+     }
++    // BEGIN MANUAL EDIT
++    // END MANUAL EDIT
+     return new IllegalStateException(
+       String.format(
+         "Unknown error thrown while calling AWS Key Management Service. %s",
