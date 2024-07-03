@@ -11,6 +11,7 @@ import java.lang.Boolean;
 import java.lang.Byte;
 import java.lang.Character;
 import java.lang.Double;
+import java.lang.Exception;
 import java.lang.IllegalArgumentException;
 import java.lang.Integer;
 import java.lang.Long;
@@ -269,7 +270,6 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_InvalidRestoreTimeException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ItemCollectionSizeLimitExceededException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_LimitExceededException;
-import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_Opaque;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_PointInTimeRecoveryUnavailableException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ProvisionedThroughputExceededException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ReplicaAlreadyExistsException;
@@ -10489,9 +10489,21 @@ public class ToDafny {
   }
 
   public static Error Error(DynamoDbException nativeValue) {
-    // BEGIN MANUAL EDIT
-    return new Error_Opaque(nativeValue);
-    // END MANUAL EDIT
+    // While this is logically identical to the other Opaque Error case,
+    // it is semantically distinct.
+    // An un-modeled Service Error is different from a Java Heap Exhaustion error.
+    // In the future, Smithy-Dafny MAY allow for this distinction.
+    // Which would allow Dafny developers to treat the two differently.
+    return Error.create_Opaque(nativeValue);
+  }
+
+  public static Error Error(Exception nativeValue) {
+    // While this is logically identical to the other Opaque Error case,
+    // it is semantically distinct.
+    // An un-modeled Service Error is different from a Java Heap Exhaustion error.
+    // In the future, Smithy-Dafny MAY allow for this distinction.
+    // Which would allow Dafny developers to treat the two differently.
+    return Error.create_Opaque(nativeValue);
   }
 
   public static IDynamoDBClient DynamoDB_20120810(DynamoDbClient nativeValue) {
