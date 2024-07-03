@@ -8174,17 +8174,9 @@ public class ToNative {
       return (DynamoDbException) dafnyValue.dtor_obj();
     } else if (dafnyValue.dtor_obj() instanceof Exception) {
       return (RuntimeException) dafnyValue.dtor_obj();
-    } else if (dafnyValue.dtor_message().is_Some()) {
-      final String suffix = dafnyValue.dtor_obj() != null
-        ? String.format("  Unknown Object: %s", dafnyValue.dtor_obj())
-        : "";
-      final String message =
-        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-          dafnyValue.dtor_message().dtor_value()
-        ) +
-        suffix;
-      return new RuntimeException(message);
     }
+    // BEGIN MANUAL EDIT
+    // END MANUAL EDIT
     return new IllegalStateException(
       String.format(
         "Unknown error thrown while calling Amazon DynamoDB. %s",
