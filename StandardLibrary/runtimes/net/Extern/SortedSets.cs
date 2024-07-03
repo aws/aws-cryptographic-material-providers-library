@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace SortedSets
+namespace software.amazon.cryptography.standardlibrary.internaldafny.SortedSets
 {
 
     public partial class __default

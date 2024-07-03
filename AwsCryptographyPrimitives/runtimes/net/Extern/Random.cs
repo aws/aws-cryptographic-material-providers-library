@@ -4,16 +4,17 @@
 using System;
 using System.Security.Cryptography;
 
+using software.amazon.cryptography.standardlibrary.internaldafny.Wrappers;
 using icharseq = Dafny.ISequence<char>;
 using ibyteseq = Dafny.ISequence<byte>;
 using _IError = software.amazon.cryptography.primitives.internaldafny.types._IError;
 using Error_Opaque = software.amazon.cryptography.primitives.internaldafny.types.Error_Opaque;
 
-namespace ExternRandom
+namespace software.amazon.cryptography.primitives.internaldafny.ExternRandom
 {
     public partial class __default
     {
-        public static Wrappers_Compile._IResult<
+        public static _IResult<
             ibyteseq,
             software.amazon.cryptography.primitives.internaldafny.types._IError
         > GenerateBytes(int i)
@@ -28,12 +29,12 @@ namespace ExternRandom
                 RandomNumberGenerator rng = RandomNumberGenerator.Create();
                 byte[] z = new byte[i];
                 rng.GetBytes(z);
-                return Wrappers_Compile.Result<ibyteseq, _IError>
+                return Result<ibyteseq, _IError>
                     .create_Success(Dafny.Sequence<byte>.FromArray(z));
             }
             catch (Exception e)
             {
-                return Wrappers_Compile.Result<ibyteseq, _IError>
+                return Result<ibyteseq, _IError>
                     .create_Failure(new Error_Opaque(e));
             }
         }

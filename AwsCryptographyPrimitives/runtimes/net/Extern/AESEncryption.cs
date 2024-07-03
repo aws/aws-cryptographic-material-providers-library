@@ -6,7 +6,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
-using Wrappers_Compile;
+using software.amazon.cryptography.standardlibrary.internaldafny.Wrappers;
 using ibyteseq = Dafny.ISequence<byte>;
 using byteseq = Dafny.Sequence<byte>;
 using icharseq = Dafny.ISequence<char>;
@@ -17,7 +17,7 @@ using _IError = software.amazon.cryptography.primitives.internaldafny.types._IEr
 using Error_Opaque = software.amazon.cryptography.primitives.internaldafny.types.Error_Opaque;
 
 
-namespace AESEncryption
+namespace software.amazon.cryptography.primitives.internaldafny.AESEncryption
 {
     public partial class AES_GCM
     {
@@ -59,7 +59,7 @@ namespace AESEncryption
             }
             catch (Exception ex)
             {
-                return Wrappers_Compile.Result<_IAESEncryptOutput, _IError>
+                return Result<_IAESEncryptOutput, _IError>
                     .create_Failure(new Error_Opaque(ex));
             }
         }
@@ -102,7 +102,7 @@ namespace AESEncryption
             }
             catch (Exception ex)
             {
-                return Wrappers_Compile.Result<ibyteseq, _IError>
+                return Result<ibyteseq, _IError>
                     .create_Failure(new Error_Opaque(ex));
             }
         }

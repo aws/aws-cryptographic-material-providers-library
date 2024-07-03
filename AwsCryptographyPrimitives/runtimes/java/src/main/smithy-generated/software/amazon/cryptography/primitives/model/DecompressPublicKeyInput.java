@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class DecompressPublicKeyInput {
-
   private final ByteBuffer compressedPublicKey;
 
   private final ECDHCurveSpec eccCurve;
@@ -46,12 +45,12 @@ public class DecompressPublicKeyInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected ByteBuffer compressedPublicKey;
 
     protected ECDHCurveSpec eccCurve;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(DecompressPublicKeyInput model) {
       this.compressedPublicKey = model.compressedPublicKey();
@@ -77,15 +76,11 @@ public class DecompressPublicKeyInput {
     }
 
     public DecompressPublicKeyInput build() {
-      if (Objects.isNull(this.compressedPublicKey())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `compressedPublicKey`"
-        );
+      if (Objects.isNull(this.compressedPublicKey()))  {
+        throw new IllegalArgumentException("Missing value for required field `compressedPublicKey`");
       }
-      if (Objects.isNull(this.eccCurve())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `eccCurve`"
-        );
+      if (Objects.isNull(this.eccCurve()))  {
+        throw new IllegalArgumentException("Missing value for required field `eccCurve`");
       }
       return new DecompressPublicKeyInput(this);
     }

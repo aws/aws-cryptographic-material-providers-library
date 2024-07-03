@@ -3,7 +3,7 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.services.kms.internaldafny;
 
-import Wrappers_Compile.Result;
+import software.amazon.cryptography.standardlibrary.internaldafny.Wrappers.Result;
 import dafny.Tuple0;
 import java.lang.Override;
 import java.lang.String;

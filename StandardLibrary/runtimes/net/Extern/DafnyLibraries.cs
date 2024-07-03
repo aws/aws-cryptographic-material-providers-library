@@ -9,7 +9,7 @@ using _System;
 using Dafny;
 
 
-namespace DafnyLibraries
+namespace software.amazon.cryptography.standardlibrary.internaldafny.DafnyLibraries
 {
     public partial class MutableMap<K, V>
     {

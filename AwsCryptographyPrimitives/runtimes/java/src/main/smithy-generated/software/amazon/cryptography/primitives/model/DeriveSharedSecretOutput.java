@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class DeriveSharedSecretOutput {
-
   private final ByteBuffer sharedSecret;
 
   protected DeriveSharedSecretOutput(BuilderImpl builder) {
@@ -35,10 +34,10 @@ public class DeriveSharedSecretOutput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected ByteBuffer sharedSecret;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(DeriveSharedSecretOutput model) {
       this.sharedSecret = model.sharedSecret();
@@ -54,10 +53,8 @@ public class DeriveSharedSecretOutput {
     }
 
     public DeriveSharedSecretOutput build() {
-      if (Objects.isNull(this.sharedSecret())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `sharedSecret`"
-        );
+      if (Objects.isNull(this.sharedSecret()))  {
+        throw new IllegalArgumentException("Missing value for required field `sharedSecret`");
       }
       return new DeriveSharedSecretOutput(this);
     }

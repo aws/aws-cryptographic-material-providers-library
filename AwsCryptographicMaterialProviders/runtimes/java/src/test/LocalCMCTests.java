@@ -1,4 +1,4 @@
-import Random_Compile.ExternRandom;
+import software.amazon.cryptography.standardlibrary.internaldafny.Random.ExternRandom;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;

@@ -6,7 +6,6 @@ package software.amazon.cryptography.primitives.model;
 import java.util.Objects;
 
 public class ValidatePublicKeyOutput {
-
   private final Boolean success;
 
   protected ValidatePublicKeyOutput(BuilderImpl builder) {
@@ -34,10 +33,10 @@ public class ValidatePublicKeyOutput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected Boolean success;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(ValidatePublicKeyOutput model) {
       this.success = model.success();
@@ -53,10 +52,8 @@ public class ValidatePublicKeyOutput {
     }
 
     public ValidatePublicKeyOutput build() {
-      if (Objects.isNull(this.success())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `success`"
-        );
+      if (Objects.isNull(this.success()))  {
+        throw new IllegalArgumentException("Missing value for required field `success`");
       }
       return new ValidatePublicKeyOutput(this);
     }

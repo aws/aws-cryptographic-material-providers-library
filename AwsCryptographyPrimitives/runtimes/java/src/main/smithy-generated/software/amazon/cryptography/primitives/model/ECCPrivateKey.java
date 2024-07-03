@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class ECCPrivateKey {
-
   private final ByteBuffer pem;
 
   protected ECCPrivateKey(BuilderImpl builder) {
@@ -35,10 +34,10 @@ public class ECCPrivateKey {
   }
 
   static class BuilderImpl implements Builder {
-
     protected ByteBuffer pem;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(ECCPrivateKey model) {
       this.pem = model.pem();
@@ -54,10 +53,8 @@ public class ECCPrivateKey {
     }
 
     public ECCPrivateKey build() {
-      if (Objects.isNull(this.pem())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `pem`"
-        );
+      if (Objects.isNull(this.pem()))  {
+        throw new IllegalArgumentException("Missing value for required field `pem`");
       }
       return new ECCPrivateKey(this);
     }

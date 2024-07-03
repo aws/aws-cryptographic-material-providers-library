@@ -6,7 +6,6 @@ package software.amazon.cryptography.primitives.model;
 import java.util.Objects;
 
 public class CompressPublicKeyInput {
-
   private final ECCPublicKey publicKey;
 
   private final ECDHCurveSpec eccCurve;
@@ -45,12 +44,12 @@ public class CompressPublicKeyInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected ECCPublicKey publicKey;
 
     protected ECDHCurveSpec eccCurve;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(CompressPublicKeyInput model) {
       this.publicKey = model.publicKey();
@@ -76,15 +75,11 @@ public class CompressPublicKeyInput {
     }
 
     public CompressPublicKeyInput build() {
-      if (Objects.isNull(this.publicKey())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `publicKey`"
-        );
+      if (Objects.isNull(this.publicKey()))  {
+        throw new IllegalArgumentException("Missing value for required field `publicKey`");
       }
-      if (Objects.isNull(this.eccCurve())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `eccCurve`"
-        );
+      if (Objects.isNull(this.eccCurve()))  {
+        throw new IllegalArgumentException("Missing value for required field `eccCurve`");
       }
       return new CompressPublicKeyInput(this);
     }

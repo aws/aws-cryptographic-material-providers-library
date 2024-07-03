@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class GenerateECDSASignatureKeyOutput {
-
   private final ECDSASignatureAlgorithm signatureAlgorithm;
 
   private final ByteBuffer verificationKey;
@@ -57,14 +56,14 @@ public class GenerateECDSASignatureKeyOutput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected ECDSASignatureAlgorithm signatureAlgorithm;
 
     protected ByteBuffer verificationKey;
 
     protected ByteBuffer signingKey;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(GenerateECDSASignatureKeyOutput model) {
       this.signatureAlgorithm = model.signatureAlgorithm();
@@ -72,9 +71,7 @@ public class GenerateECDSASignatureKeyOutput {
       this.signingKey = model.signingKey();
     }
 
-    public Builder signatureAlgorithm(
-      ECDSASignatureAlgorithm signatureAlgorithm
-    ) {
+    public Builder signatureAlgorithm(ECDSASignatureAlgorithm signatureAlgorithm) {
       this.signatureAlgorithm = signatureAlgorithm;
       return this;
     }
@@ -102,20 +99,14 @@ public class GenerateECDSASignatureKeyOutput {
     }
 
     public GenerateECDSASignatureKeyOutput build() {
-      if (Objects.isNull(this.signatureAlgorithm())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `signatureAlgorithm`"
-        );
+      if (Objects.isNull(this.signatureAlgorithm()))  {
+        throw new IllegalArgumentException("Missing value for required field `signatureAlgorithm`");
       }
-      if (Objects.isNull(this.verificationKey())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `verificationKey`"
-        );
+      if (Objects.isNull(this.verificationKey()))  {
+        throw new IllegalArgumentException("Missing value for required field `verificationKey`");
       }
-      if (Objects.isNull(this.signingKey())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `signingKey`"
-        );
+      if (Objects.isNull(this.signingKey()))  {
+        throw new IllegalArgumentException("Missing value for required field `signingKey`");
       }
       return new GenerateECDSASignatureKeyOutput(this);
     }

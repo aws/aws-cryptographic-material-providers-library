@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 
-using Wrappers_Compile;
+using software.amazon.cryptography.standardlibrary.internaldafny.Wrappers;
 using ibyteseq = Dafny.ISequence<byte>;
 using byteseq = Dafny.Sequence<byte>;
 using icharseq = Dafny.ISequence<char>;
 using charseq = Dafny.Sequence<char>;
 
-namespace UUID
+namespace software.amazon.cryptography.standardlibrary.internaldafny.UUID
 {
     public partial class __default
     {

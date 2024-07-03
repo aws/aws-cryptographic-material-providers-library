@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 using System;
-using Wrappers_Compile;
+using software.amazon.cryptography.standardlibrary.internaldafny.Wrappers;
 using icharseq = Dafny.ISequence<char>;
 using ibyteseq = Dafny.ISequence<byte>;
 using byteseq = Dafny.Sequence<byte>;
@@ -11,7 +11,7 @@ using _IError = software.amazon.cryptography.primitives.internaldafny.types._IEr
 using Error_Opaque = software.amazon.cryptography.primitives.internaldafny.types.Error_Opaque;
 using Error_AwsCryptographicPrimitivesError = software.amazon.cryptography.primitives.internaldafny.types.Error_AwsCryptographicPrimitivesError;
 
-namespace ExternDigest
+namespace software.amazon.cryptography.primitives.internaldafny.ExternDigest
 {
     public partial class __default
     {

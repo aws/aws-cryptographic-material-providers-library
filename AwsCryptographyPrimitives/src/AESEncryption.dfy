@@ -31,7 +31,7 @@ module {:extern "AESEncryption"} AESEncryption {
     Types.AESEncryptOutput(cipherText := cipherText, authTag := authTag)
   }
 
-  method {:extern "AESEncryption.AES_GCM", "AESEncryptExtern"} AESEncryptExtern(
+  method {:extern "AES_GCM", "AESEncryptExtern"} AESEncryptExtern(
     encAlg: Types.AES_GCM,
     iv: seq<uint8>,
     key: seq<uint8>,
@@ -79,7 +79,7 @@ module {:extern "AESEncryption"} AESEncryption {
     return Success(value);
   }
 
-  method {:extern "AESEncryption.AES_GCM", "AESDecryptExtern"} AESDecryptExtern(
+  method {:extern "AES_GCM", "AESDecryptExtern"} AESDecryptExtern(
     encAlg: Types.AES_GCM,
     key: seq<uint8>,
     cipherTxt: seq<uint8>,

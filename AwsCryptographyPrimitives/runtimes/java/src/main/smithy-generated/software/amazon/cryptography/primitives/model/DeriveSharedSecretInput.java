@@ -6,7 +6,6 @@ package software.amazon.cryptography.primitives.model;
 import java.util.Objects;
 
 public class DeriveSharedSecretInput {
-
   private final ECDHCurveSpec eccCurve;
 
   private final ECCPrivateKey privateKey;
@@ -56,14 +55,14 @@ public class DeriveSharedSecretInput {
   }
 
   static class BuilderImpl implements Builder {
-
     protected ECDHCurveSpec eccCurve;
 
     protected ECCPrivateKey privateKey;
 
     protected ECCPublicKey publicKey;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(DeriveSharedSecretInput model) {
       this.eccCurve = model.eccCurve();
@@ -99,20 +98,14 @@ public class DeriveSharedSecretInput {
     }
 
     public DeriveSharedSecretInput build() {
-      if (Objects.isNull(this.eccCurve())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `eccCurve`"
-        );
+      if (Objects.isNull(this.eccCurve()))  {
+        throw new IllegalArgumentException("Missing value for required field `eccCurve`");
       }
-      if (Objects.isNull(this.privateKey())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `privateKey`"
-        );
+      if (Objects.isNull(this.privateKey()))  {
+        throw new IllegalArgumentException("Missing value for required field `privateKey`");
       }
-      if (Objects.isNull(this.publicKey())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `publicKey`"
-        );
+      if (Objects.isNull(this.publicKey()))  {
+        throw new IllegalArgumentException("Missing value for required field `publicKey`");
       }
       return new DeriveSharedSecretInput(this);
     }

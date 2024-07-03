@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class ECCPublicKey {
-
   private final ByteBuffer der;
 
   protected ECCPublicKey(BuilderImpl builder) {
@@ -35,10 +34,10 @@ public class ECCPublicKey {
   }
 
   static class BuilderImpl implements Builder {
-
     protected ByteBuffer der;
 
-    protected BuilderImpl() {}
+    protected BuilderImpl() {
+    }
 
     protected BuilderImpl(ECCPublicKey model) {
       this.der = model.der();
@@ -54,10 +53,8 @@ public class ECCPublicKey {
     }
 
     public ECCPublicKey build() {
-      if (Objects.isNull(this.der())) {
-        throw new IllegalArgumentException(
-          "Missing value for required field `der`"
-        );
+      if (Objects.isNull(this.der()))  {
+        throw new IllegalArgumentException("Missing value for required field `der`");
       }
       return new ECCPublicKey(this);
     }

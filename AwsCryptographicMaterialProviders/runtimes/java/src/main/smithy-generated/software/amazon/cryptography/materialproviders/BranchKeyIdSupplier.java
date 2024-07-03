@@ -3,7 +3,7 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.materialproviders;
 
-import Wrappers_Compile.Result;
+import software.amazon.cryptography.standardlibrary.internaldafny.Wrappers.Result;
 import java.lang.IllegalArgumentException;
 import java.lang.RuntimeException;
 import java.util.Objects;

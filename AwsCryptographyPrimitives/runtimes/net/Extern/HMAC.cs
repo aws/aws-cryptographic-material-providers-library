@@ -3,7 +3,7 @@
 
 using System;
 using System.Collections.Immutable;
-using Wrappers_Compile;
+using software.amazon.cryptography.standardlibrary.internaldafny.Wrappers;
 using software.amazon.cryptography.primitives.internaldafny.types;
 using Org.BouncyCastle.Math;
 using ibyteseq = Dafny.ISequence<byte>;
@@ -11,7 +11,7 @@ using byteseq = Dafny.Sequence<byte>;
 using _IDigestAlgorithm = software.amazon.cryptography.primitives.internaldafny.types._IDigestAlgorithm;
 using Error_Opaque = software.amazon.cryptography.primitives.internaldafny.types.Error_Opaque;
 
-namespace HMAC
+namespace software.amazon.cryptography.primitives.internaldafny.HMAC
 {
 
     public partial class __default
@@ -44,7 +44,7 @@ namespace HMAC
             }
             catch (Exception ex)
             {
-                return Wrappers_Compile.Result<HMac, _IError>
+                return Result<HMac, _IError>
                     .create_Failure(AWS.Cryptography.Primitives.TypeConversion.ToDafny_CommonError(ex));
             }
 

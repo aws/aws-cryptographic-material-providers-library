@@ -7,7 +7,7 @@ import static software.amazon.smithy.dafny.conversion.ToNative.Simple.String;
 
 import StandardLibraryInterop_Compile.WrappersInterop;
 import Wrappers_Compile.Option;
-import Wrappers_Compile.Result;
+import software.amazon.cryptography.standardlibrary.internaldafny.Wrappers.Result;
 import dafny.DafnySequence;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.regions.providers.DefaultAwsRegionProviderChain;

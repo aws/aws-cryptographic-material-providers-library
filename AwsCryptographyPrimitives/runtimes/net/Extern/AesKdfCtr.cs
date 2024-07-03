@@ -3,13 +3,13 @@
 
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
-using Wrappers_Compile;
+using software.amazon.cryptography.standardlibrary.internaldafny.Wrappers;
 using ibyteseq = Dafny.ISequence<byte>;
 using byteseq = Dafny.Sequence<byte>;
 using _IError = software.amazon.cryptography.primitives.internaldafny.types._IError;
 using Error_Opaque = software.amazon.cryptography.primitives.internaldafny.types.Error_Opaque;
 
-namespace AesKdfCtr
+namespace software.amazon.cryptography.primitives.internaldafny.AesKdfCtr
 {
     public partial class __default
     {
@@ -36,7 +36,7 @@ namespace AesKdfCtr
             }
             catch (Exception ex)
             {
-                return Wrappers_Compile.Result<ibyteseq, _IError>
+                return Result<ibyteseq, _IError>
                     .create_Failure(new Error_Opaque(ex));
             }
         }
