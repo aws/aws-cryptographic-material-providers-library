@@ -1,6 +1,5 @@
 namespace aws.cryptography.materialProvidersTestVectorKeys
 
-/////////////
 // KeyVectors Creation
 @aws.polymorph#localService(
   sdkId: "KeyVectors",

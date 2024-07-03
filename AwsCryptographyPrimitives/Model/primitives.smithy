@@ -40,7 +40,6 @@ service AwsCryptographicPrimitives {
 
 structure CryptoConfig {}
 
-///////////////////
 // Errors
 
 @error("client")
