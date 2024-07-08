@@ -365,7 +365,7 @@ module TestECDH {
       var curve := curves[i];
       var originalPublicKey := derX509PublicKeys[i];
       var hexPublicKey := expectLooseHexString(originalPublicKey);
-      var publicKeyBytes := HexStrings.FromHexString(originalPublicKey);
+      var publicKeyBytes := HexStrings.FromHexString(hexPublicKey);
 
       var compressedPublicKeyResult :- expect ECDH.CompressPublicKey(
         Types.CompressPublicKeyInput(
