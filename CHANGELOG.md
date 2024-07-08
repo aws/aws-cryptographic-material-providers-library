@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.5.1](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.5.0...v1.5.1) (2024-07-08)
+
+### Java Bug Fixes
+
+- **SDK-Java:** Generic SDK Error to Opaque & Back ([#466](https://github.com/aws/aws-cryptographic-material-providers-library/issues/466)) ([f832ad1](https://github.com/aws/aws-cryptographic-material-providers-library/commit/f832ad106cea3a86c536197dae15a335b4676d42))
+
 # [1.5.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.4.0...v1.5.0) (2024-06-17)
 
 ### Features

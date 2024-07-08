@@ -18,7 +18,7 @@ var props = Properties().apply {
 var dafnyVersion = props.getProperty("dafnyVersion")
 
 group = "software.amazon.cryptography"
-version = "1.5.0-SNAPSHOT"
+version = "1.5.1"
 description = "AWS Cryptographic Material Providers Library"
 
 java {
