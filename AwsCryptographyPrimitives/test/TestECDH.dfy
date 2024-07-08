@@ -357,7 +357,7 @@ module TestECDH {
     }
   }
 
-  method {:test} TestCompressDecompressConstantPublicKeys() {
+  method {:test} {:vcs_split_on_every_assert} TestCompressDecompressConstantPublicKeys() {
     var derX509PublicKeys := [ECC_P256_PUBLIC, ECC_384_PUBLIC, ECC_P521_PUBLIC];
     var curves := [P256, P384, P521];
     for i := 0 to |curves|
