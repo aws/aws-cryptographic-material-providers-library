@@ -357,14 +357,15 @@ module TestECDH {
     }
   }
 
-  method {:test} TestCompressDecompressConstantPublicKeys() {
+  method {:test} {:vcs_split_on_every_assert} TestCompressDecompressConstantPublicKeys() {
     var derX509PublicKeys := [ECC_P256_PUBLIC, ECC_384_PUBLIC, ECC_P521_PUBLIC];
     var curves := [P256, P384, P521];
     for i := 0 to |curves|
     {
       var curve := curves[i];
       var originalPublicKey := derX509PublicKeys[i];
-      var publicKeyBytes := HexStrings.FromHexString(originalPublicKey);
+      var hexPublicKey := expectLooseHexString(originalPublicKey);
+      var publicKeyBytes := HexStrings.FromHexString(hexPublicKey);
 
       var compressedPublicKeyResult :- expect ECDH.CompressPublicKey(
         Types.CompressPublicKeyInput(
