@@ -60,7 +60,7 @@ const Runtimes = {
  * @type {import('semantic-release').GlobalConfig}
  */
 module.exports = {
-  branches: ["main", "jocorell/add-mpl-version-properties"],
+  branches: ["main"],
   repositoryUrl:
     "git@github.com:aws/aws-cryptographic-material-providers-library.git",
   plugins: [
@@ -92,7 +92,7 @@ module.exports = {
             countMatches: true,
           },
           {
-            files: Object.keys(Runtimes.java),
+            files: Object.keys(Runtimes.java['AwsCryptographicMaterialProviders/runtimes/java/build.gradle.kts']),
             from: 'version = ".*"',
             to: 'version = "${nextRelease.version}"',
             results: Object.keys(Runtimes.java).map(CheckResults),
