@@ -92,7 +92,11 @@ module.exports = {
             countMatches: true,
           },
           {
-            files: Object.keys(Runtimes.java['AwsCryptographicMaterialProviders/runtimes/java/build.gradle.kts']),
+            files: Object.keys(
+              Runtimes.java[
+                "AwsCryptographicMaterialProviders/runtimes/java/build.gradle.kts"
+              ],
+            ),
             from: 'version = ".*"',
             to: 'version = "${nextRelease.version}"',
             results: Object.keys(Runtimes.java).map(CheckResults),
