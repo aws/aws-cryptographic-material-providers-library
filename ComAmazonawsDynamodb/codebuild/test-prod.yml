@@ -21,7 +21,7 @@ phases:
       - make transpile_net
   build:
     commands:
-      - export VERSION=`grep '<Version>' runtimes/net/ComAmazonawsDynamodb.csproj.csproj | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
+      - export VERSION=`grep '<Version>' runtimes/net/ComAmazonawsDynamodb.csproj | sed 's/.*<Version>\(.*\)<\/Version>/\1/'`
       - sed -i.backup  "/\<ProjectReference Include=\"..\/ComAmazonawsDynamodb.csproj.csproj\" \/>/d" runtimes/net/tests/TestComAmazonawsDynamodb.csproj.csproj
       - dotnet add runtimes/net/tests/TestComAmazonawsDynamodb.csproj.csproj package AWS.Cryptography.Internal.ComAmazonawsDynamodb --version $VERSION
 
