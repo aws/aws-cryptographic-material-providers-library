@@ -28,8 +28,7 @@ jobs:
             AwsCryptographicMaterialProviders,
             StandardLibrary,
           ]
-        os: [macos-latest-large]
-    runs-on: ${{ matrix.os }}
+    runs-on: codebuild-AWS-MPL-Verification-${{ github.run_id }}-${{ github.run_attempt }}
     defaults:
       run:
         shell: bash
