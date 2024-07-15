@@ -162,8 +162,8 @@ Resources:
   #       S3Logs: 
   #         Status: "DISABLED"
   #         EncryptionDisabled: false
-
-
+# TODO (Ritvik) -- Add arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/${ProjectName}-prod-release in CodeBuildBatchPolicy.Properties.PolicyDocument.Statement.Resource
+# and this (,"arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${ProjectName}-prod-release","arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${ProjectName}-prod-release:*") in CodeBuildBasePolicy.Properties.PolicyDocument.Statement.Resource
 
   CodeBuildServiceRole:
     Type: "AWS::IAM::Role"
