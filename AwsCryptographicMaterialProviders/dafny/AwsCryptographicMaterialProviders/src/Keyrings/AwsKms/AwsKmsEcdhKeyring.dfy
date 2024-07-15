@@ -582,6 +582,11 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
           }
       }
 
+      :- Need(
+        KMS.IsValid_PublicKeyType(sharedSecretPublicKey),
+        E("Received Recipient Public Key of incorrect expected length")
+      );
+
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-ecdh-keyring.md#ondecrypt
       //# The keyring MUST derive the shared secret
       //# by calling [AWS KMS DeriveSharedSecret]()
