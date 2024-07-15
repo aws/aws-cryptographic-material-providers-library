@@ -119,6 +119,52 @@ Resources:
           Status: "DISABLED"
           EncryptionDisabled: false
 
+  # CodeBuildProjectProdRelease:
+  #   Type: "AWS::CodeBuild::Project"
+  #   Properties:
+  #     Name: !Sub "${ProjectName}-prod-release"
+  #     Description: !Sub "CodeBuild project for ${ProjectName} to release to prod PyPi."
+  #     Source:
+  #       Location: !Ref SourceLocation
+  #       BuildSpec: "codebuild/release-python/prod-release.yml"
+  #       GitCloneDepth: 1
+  #       GitSubmodulesConfig: 
+  #         FetchSubmodules: false
+  #       InsecureSsl: false
+  #       ReportBuildStatus: false
+  #       Type: "GITHUB"
+  #     Artifacts: 
+  #       Type: "NO_ARTIFACTS"
+  #     Cache: 
+  #       Type: "NO_CACHE"
+  #     Environment: 
+  #       ComputeType: "BUILD_GENERAL1_SMALL"
+  #       Image: "aws/codebuild/standard:3.0"
+  #       ImagePullCredentialsType: "CODEBUILD"
+  #       PrivilegedMode: false
+  #       Type: "LINUX_CONTAINER"
+  #     ServiceRole: !GetAtt CodeBuildServiceRole.Arn
+  #     TimeoutInMinutes: 60
+  #     QueuedTimeoutInMinutes: 480
+  #     EncryptionKey: !Sub "arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3"
+  #     BadgeEnabled: false
+  #     BuildBatchConfig:
+  #       ServiceRole: !GetAtt CodeBuildServiceRole.Arn
+  #       Restrictions:
+  #         MaximumBuildsAllowed: !Ref NumberOfBuildsInBatch
+  #         ComputeTypesAllowed:
+  #           - BUILD_GENERAL1_SMALL
+  #           - BUILD_GENERAL1_MEDIUM
+  #       TimeoutInMins: 480
+  #     LogsConfig: 
+  #       CloudWatchLogs: 
+  #         Status: "ENABLED"
+  #       S3Logs: 
+  #         Status: "DISABLED"
+  #         EncryptionDisabled: false
+
+
+
   CodeBuildServiceRole:
     Type: "AWS::IAM::Role"
     Properties:
