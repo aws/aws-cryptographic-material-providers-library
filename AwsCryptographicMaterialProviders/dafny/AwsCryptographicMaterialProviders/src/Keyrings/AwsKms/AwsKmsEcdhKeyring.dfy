@@ -439,7 +439,6 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
   {
     const materials: Materials.DecryptionMaterialsPendingPlaintextDataKey
     const cryptoPrimitives: Primitives.AtomicPrimitivesClient
-    const senderPublicKey: seq<uint8>
     const recipientPublicKey: seq<uint8>
     const client: KMS.IKMSClient
     const grantTokens: KMS.GrantTokenList
