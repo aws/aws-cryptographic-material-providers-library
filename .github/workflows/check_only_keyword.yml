@@ -37,3 +37,4 @@ jobs:
           COMMENT="It looks like you are adding or removing the dafny keyword {:only}.\nIs this intended?"
           COMMENT_URL="https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments"
           curl -s -H "Authorization: token ${GITHUB_TOKEN}" -X POST $COMMENT_URL -d "{\"body\":\"$COMMENT\"}"
+          exit 1
