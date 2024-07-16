@@ -17,13 +17,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check only keyword 
+      - name: Check only keyword
         id: only-keyword
         shell: bash
         run:
-         # checking in code with the dafny decorator {:only}
-         # will not verify the entire file or maybe the entire project depending on its configuration
-         # This action checks if you are either adding or removing the {:only} decorator and posting on the pr if you are. 
+          # checking in code with the dafny decorator {:only}
+          # will not verify the entire file or maybe the entire project depending on its configuration
+          # This action checks if you are either adding or removing the {:only} decorator and posting on the pr if you are.
           echo "ONLY_KEYWORD=$(git diff origin/main origin/${GITHUB_HEAD_REF} **/*.dfy | grep -i {:only})" >> "$GITHUB_OUTPUT"
 
       - name: Check if ONLY_KEYWORD is not empty
