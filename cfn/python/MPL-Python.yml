@@ -162,8 +162,10 @@ Resources:
   #       S3Logs: 
   #         Status: "DISABLED"
   #         EncryptionDisabled: false
-# TODO (Ritvik) -- Add arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/${ProjectName}-prod-release in CodeBuildBatchPolicy.Properties.PolicyDocument.Statement.Resource
+# TODO (Ritvik) -- 
+# Add arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/${ProjectName}-prod-release in CodeBuildBatchPolicy.Properties.PolicyDocument.Statement.Resource
 # and this (,"arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${ProjectName}-prod-release","arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${ProjectName}-prod-release:*") in CodeBuildBasePolicy.Properties.PolicyDocument.Statement.Resource
+# and this "arn:aws:secretsmanager:us-west-2:587316601012:secret:PyPiAdmin-ZWyd1T" to secrets manager policy
 
   CodeBuildServiceRole:
     Type: "AWS::IAM::Role"
@@ -306,8 +308,7 @@ Resources:
             {
               "Effect": "Allow",
               "Resource": [
-                "arn:aws:secretsmanager:us-west-2:587316601012:secret:TestPyPiCryptoTools-SxeLBh",
-                "arn:aws:secretsmanager:us-west-2:587316601012:secret:PyPiAdmin-ZWyd1T"
+                "arn:aws:secretsmanager:us-west-2:587316601012:secret:TestPyPiCryptoTools-SxeLBh"
               ],
               "Action": "secretsmanager:GetSecretValue"
             }
