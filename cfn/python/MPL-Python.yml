@@ -32,48 +32,48 @@ Metadata:
           - SourceLocation
 
 Resources:
-  CodeBuildProject:
-    Type: "AWS::CodeBuild::Project"
-    Properties:
-      Name: !Ref ProjectName
-      Description: !Ref ProjectDescription
-      Source:
-        Location: !Ref SourceLocation
-        GitCloneDepth: 1
-        GitSubmodulesConfig: 
-          FetchSubmodules: true
-        InsecureSsl: false
-        ReportBuildStatus: false
-        Type: "GITHUB"
-      Artifacts: 
-        Type: "NO_ARTIFACTS"
-      Cache: 
-        Type: "NO_CACHE"
-      Environment: 
-        ComputeType: "BUILD_GENERAL1_MEDIUM"
-        Image: "aws/codebuild/standard:3.0"
-        ImagePullCredentialsType: "CODEBUILD"
-        PrivilegedMode: false
-        Type: "LINUX_CONTAINER"
-      ServiceRole: !GetAtt CodeBuildCIServiceRole.Arn
-      TimeoutInMinutes: 60
-      QueuedTimeoutInMinutes: 480
-      EncryptionKey: !Sub "arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3"
-      BadgeEnabled: false
-      BuildBatchConfig:
-        ServiceRole: !GetAtt CodeBuildCIServiceRole.Arn
-        Restrictions:
-          MaximumBuildsAllowed: !Ref NumberOfBuildsInBatch
-          ComputeTypesAllowed:
-            - BUILD_GENERAL1_SMALL
-            - BUILD_GENERAL1_MEDIUM
-        TimeoutInMins: 480
-      LogsConfig: 
-        CloudWatchLogs: 
-          Status: "ENABLED"
-        S3Logs: 
-          Status: "DISABLED"
-          EncryptionDisabled: false
+  # CodeBuildProject:
+  #   Type: "AWS::CodeBuild::Project"
+  #   Properties:
+  #     Name: !Ref ProjectName
+  #     Description: !Ref ProjectDescription
+  #     Source:
+  #       Location: !Ref SourceLocation
+  #       GitCloneDepth: 1
+  #       GitSubmodulesConfig: 
+  #         FetchSubmodules: true
+  #       InsecureSsl: false
+  #       ReportBuildStatus: false
+  #       Type: "GITHUB"
+  #     Artifacts: 
+  #       Type: "NO_ARTIFACTS"
+  #     Cache: 
+  #       Type: "NO_CACHE"
+  #     Environment: 
+  #       ComputeType: "BUILD_GENERAL1_MEDIUM"
+  #       Image: "aws/codebuild/standard:3.0"
+  #       ImagePullCredentialsType: "CODEBUILD"
+  #       PrivilegedMode: false
+  #       Type: "LINUX_CONTAINER"
+  #     ServiceRole: !GetAtt CodeBuildCIServiceRole.Arn
+  #     TimeoutInMinutes: 60
+  #     QueuedTimeoutInMinutes: 480
+  #     EncryptionKey: !Sub "arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3"
+  #     BadgeEnabled: false
+  #     BuildBatchConfig:
+  #       ServiceRole: !GetAtt CodeBuildCIServiceRole.Arn
+  #       Restrictions:
+  #         MaximumBuildsAllowed: !Ref NumberOfBuildsInBatch
+  #         ComputeTypesAllowed:
+  #           - BUILD_GENERAL1_SMALL
+  #           - BUILD_GENERAL1_MEDIUM
+  #       TimeoutInMins: 480
+  #     LogsConfig: 
+  #       CloudWatchLogs: 
+  #         Status: "ENABLED"
+  #       S3Logs: 
+  #         Status: "DISABLED"
+  #         EncryptionDisabled: false
 
   CodeBuildProjectTestRelease:
     Type: "AWS::CodeBuild::Project"
@@ -167,7 +167,7 @@ Resources:
     Type: "AWS::IAM::Role"
     Properties:
       Path: "/service-role/"
-      RoleName: !Sub "codebuild-${ProjectName}-service-role"
+      RoleName: !Sub "codebuild-${ProjectName}-test-service-role"
       AssumeRolePolicyDocument: "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"codebuild.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}"
       MaxSessionDuration: 3600
       ManagedPolicyArns:
@@ -181,7 +181,7 @@ Resources:
     # Type: "AWS::IAM::Role"
     # Properties:
     #   Path: "/service-role/"
-    #   RoleName: !Sub "codebuild-${ProjectName}-service-role"
+    #   RoleName: !Sub "codebuild-${ProjectName}-prod-service-role"
     #   AssumeRolePolicyDocument: "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"codebuild.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}"
     #   MaxSessionDuration: 3600
     #   ManagedPolicyArns:
@@ -191,24 +191,24 @@ Resources:
     #     - !Ref SecretsManagerProdReleasePolicy
     #     - !Ref CodeBuildCISTSAllow
 
-  CodeBuildCIServiceRole:
-    Type: "AWS::IAM::Role"
-    Properties:
-      Path: "/service-role/"
-      RoleName: !Sub "codebuild-${ProjectName}-CI-service-role"
-      AssumeRolePolicyDocument: "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"codebuild.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}"
-      MaxSessionDuration: 3600
-      ManagedPolicyArns:
-        - !Ref CryptoToolsKMS
-        - !Ref CodeBuildCIBatchPolicy
-        - !Ref CodeBuildBasePolicy
-        - !Ref SecretsManagerCIPolicy
-        - !Ref CodeBuildCISTSAllow
+  # CodeBuildCIServiceRole:
+  #   Type: "AWS::IAM::Role"
+  #   Properties:
+  #     Path: "/service-role/"
+  #     RoleName: !Sub "codebuild-${ProjectName}-CI-service-role"
+  #     AssumeRolePolicyDocument: "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"codebuild.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}"
+  #     MaxSessionDuration: 3600
+  #     ManagedPolicyArns:
+  #       - !Ref CryptoToolsKMS
+  #       - !Ref CodeBuildCIBatchPolicy
+  #       - !Ref CodeBuildTestReleaseBasePolicy
+  #       - !Ref SecretsManagerCIPolicy
+  #       - !Ref CodeBuildCISTSAllow
         
   CodeBuildTestReleaseBatchPolicy:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
-      ManagedPolicyName: !Sub "CodeBuildBuildBatchPolicy-${ProjectName}-${AWS::Region}-codebuild-${ProjectName}-service-role"
+      ManagedPolicyName: !Sub "CodeBuildTestBuildBatchPolicy-${ProjectName}-${AWS::Region}-codebuild-${ProjectName}-test-service-role"
       Path: "/service-role/"
       PolicyDocument: !Sub |
         {
@@ -232,7 +232,7 @@ Resources:
   # CodeBuildProdReleaseBatchPolicy:
   #   Type: "AWS::IAM::ManagedPolicy"
   #   Properties:
-  #     ManagedPolicyName: !Sub "CodeBuildBuildBatchPolicy-${ProjectName}-${AWS::Region}-codebuild-${ProjectName}-service-role"
+  #     ManagedPolicyName: !Sub "CodeBuildBuildBatchPolicy-${ProjectName}-${AWS::Region}-codebuild-${ProjectName}-prod-service-role"
   #     Path: "/service-role/"
   #     PolicyDocument: !Sub |
   #       {
@@ -253,34 +253,34 @@ Resources:
   #         ]
   #       }
 
-  CodeBuildCIBatchPolicy:
-    Type: "AWS::IAM::ManagedPolicy"
-    Properties:
-      ManagedPolicyName: !Sub "CodeBuildBuildBatchPolicy-${ProjectName}-${AWS::Region}-codebuild-${ProjectName}-CI-service-role"
-      Path: "/service-role/"
-      PolicyDocument: !Sub |
-        {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Resource": [
-                "arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/${ProjectName}"
-              ],
-              "Action": [
-                "codebuild:StartBuild",
-                "codebuild:StopBuild",
-                "codebuild:RetryBuild",
-                "codebuild:BatchGetBuilds"
-              ]
-            }
-          ]
-        }
+  # CodeBuildCIBatchPolicy:
+  #   Type: "AWS::IAM::ManagedPolicy"
+  #   Properties:
+  #     ManagedPolicyName: !Sub "CodeBuildBuildBatchPolicy-${ProjectName}-${AWS::Region}-codebuild-${ProjectName}-CI-service-role"
+  #     Path: "/service-role/"
+  #     PolicyDocument: !Sub |
+  #       {
+  #         "Version": "2012-10-17",
+  #         "Statement": [
+  #           {
+  #             "Effect": "Allow",
+  #             "Resource": [
+  #               "arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/${ProjectName}"
+  #             ],
+  #             "Action": [
+  #               "codebuild:StartBuild",
+  #               "codebuild:StopBuild",
+  #               "codebuild:RetryBuild",
+  #               "codebuild:BatchGetBuilds"
+  #             ]
+  #           }
+  #         ]
+  #       }
 
   CodeBuildTestReleaseBasePolicy:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
-      ManagedPolicyName: !Sub "CodeBuildBasePolicy-${ProjectName}-${AWS::Region}"
+      ManagedPolicyName: !Sub "CodeBuildTestBasePolicy-${ProjectName}-${AWS::Region}"
       Path: "/service-role/"
       PolicyDocument: !Sub |
         {
@@ -333,7 +333,7 @@ Resources:
   # CodeBuildProdReleaseBasePolicy:
   #   Type: "AWS::IAM::ManagedPolicy"
   #   Properties:
-  #     ManagedPolicyName: !Sub "CodeBuildBasePolicy-${ProjectName}-${AWS::Region}"
+  #     ManagedPolicyName: !Sub "CodeBuildProdBasePolicy-${ProjectName}-${AWS::Region}"
   #     Path: "/service-role/"
   #     PolicyDocument: !Sub |
   #       {
@@ -386,7 +386,7 @@ Resources:
   SecretsManagerTestReleasePolicy:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
-      ManagedPolicyName: !Sub "CryptoTools-SecretsManager-${ProjectName}-release"
+      ManagedPolicyName: !Sub "CryptoTools-SecretsManagerTest-${ProjectName}-release"
       Path: "/service-role/"
       PolicyDocument: !Sub |
         {
@@ -405,7 +405,7 @@ Resources:
     # SecretsManagerProdReleasePolicy:
     # Type: "AWS::IAM::ManagedPolicy"
     # Properties:
-    #   ManagedPolicyName: !Sub "CryptoTools-SecretsManager-${ProjectName}-release"
+    #   ManagedPolicyName: !Sub "CryptoTools-SecretsManagerProd-${ProjectName}-release"
     #   Path: "/service-role/"
     #   PolicyDocument: !Sub |
     #     {
@@ -421,25 +421,25 @@ Resources:
     #       ]
     #     }
   
-  SecretsManagerCIPolicy:
-    Type: "AWS::IAM::ManagedPolicy"
-    Properties:
-      ManagedPolicyName: !Sub "CryptoTools-SecretsManagerCI-${ProjectName}-release"
-      Path: "/service-role/"
-      # Policy: Allow access to a Github fine-grained PAT that can read ESDK-Dafny "Daily CI" artifacts
-      PolicyDocument: !Sub |
-        {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Resource": [
-                "arn:aws:secretsmanager:us-west-2:587316601012:secret:Github/lucasmcdonald3-fgpat-1aAsdO"
-              ],
-              "Action": "secretsmanager:GetSecretValue"
-            }
-          ]
-        }
+  # SecretsManagerCIPolicy:
+  #   Type: "AWS::IAM::ManagedPolicy"
+  #   Properties:
+  #     ManagedPolicyName: !Sub "CryptoTools-SecretsManagerCI-${ProjectName}-release"
+  #     Path: "/service-role/"
+  #     # Policy: Allow access to a Github fine-grained PAT that can read ESDK-Dafny "Daily CI" artifacts
+  #     PolicyDocument: !Sub |
+  #       {
+  #         "Version": "2012-10-17",
+  #         "Statement": [
+  #           {
+  #             "Effect": "Allow",
+  #             "Resource": [
+  #               "arn:aws:secretsmanager:us-west-2:587316601012:secret:Github/lucasmcdonald3-fgpat-1aAsdO"
+  #             ],
+  #             "Action": "secretsmanager:GetSecretValue"
+  #           }
+  #         ]
+  #       }
 
   # There exist public AWS KMS CMKs that are used for testing
   # Take care with these CMKs they are **ONLY** for testing!!!
