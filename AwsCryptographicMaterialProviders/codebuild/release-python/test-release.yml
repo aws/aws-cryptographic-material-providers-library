@@ -26,6 +26,7 @@ phases:
       #   fi
   build:
     commands:
+      - cd AwsCryptographicMaterialProviders/runtimes/python/
       - tox -e park
       # - tox -e test-release
 
