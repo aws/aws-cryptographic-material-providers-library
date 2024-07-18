@@ -102,9 +102,17 @@ public final class Keyring implements IKeyring {
         OnDecryptOutput nativeOutput = this._impl.OnDecrypt(nativeInput);
         software.amazon.cryptography.materialproviders.internaldafny.types.OnDecryptOutput dafnyOutput =
           ToDafny.OnDecryptOutput(nativeOutput);
-        return Result.create_Success(dafnyOutput);
+        return Result.create_Success(
+          software.amazon.cryptography.materialproviders.internaldafny.types.OnDecryptOutput._typeDescriptor(),
+          Error._typeDescriptor(),
+          dafnyOutput
+        );
       } catch (RuntimeException ex) {
-        return Result.create_Failure(ToDafny.Error(ex));
+        return Result.create_Failure(
+          software.amazon.cryptography.materialproviders.internaldafny.types.OnDecryptOutput._typeDescriptor(),
+          Error._typeDescriptor(),
+          ToDafny.Error(ex)
+        );
       }
     }
 
@@ -128,9 +136,17 @@ public final class Keyring implements IKeyring {
         OnEncryptOutput nativeOutput = this._impl.OnEncrypt(nativeInput);
         software.amazon.cryptography.materialproviders.internaldafny.types.OnEncryptOutput dafnyOutput =
           ToDafny.OnEncryptOutput(nativeOutput);
-        return Result.create_Success(dafnyOutput);
+        return Result.create_Success(
+          software.amazon.cryptography.materialproviders.internaldafny.types.OnEncryptOutput._typeDescriptor(),
+          Error._typeDescriptor(),
+          dafnyOutput
+        );
       } catch (RuntimeException ex) {
-        return Result.create_Failure(ToDafny.Error(ex));
+        return Result.create_Failure(
+          software.amazon.cryptography.materialproviders.internaldafny.types.OnEncryptOutput._typeDescriptor(),
+          Error._typeDescriptor(),
+          ToDafny.Error(ex)
+        );
       }
     }
 

@@ -5,6 +5,7 @@ package software.amazon.cryptography.primitives;
 
 import Wrappers_Compile.Option;
 import dafny.DafnySequence;
+import dafny.TypeDescriptor;
 import java.lang.Boolean;
 import java.lang.Byte;
 import java.lang.Character;
@@ -220,11 +221,14 @@ public class ToDafny {
     nonce =
       Objects.nonNull(nativeValue.nonce())
         ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.nonce()
           )
         )
-        : Option.create_None();
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
+        );
     return new AesKdfCtrInput(ikm, expectedLength, nonce);
   }
 
@@ -598,11 +602,14 @@ public class ToDafny {
     salt =
       Objects.nonNull(nativeValue.salt())
         ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.salt()
           )
         )
-        : Option.create_None();
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
+        );
     DafnySequence<? extends Byte> ikm;
     ikm =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
@@ -631,11 +638,14 @@ public class ToDafny {
     salt =
       Objects.nonNull(nativeValue.salt())
         ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.salt()
           )
         )
-        : Option.create_None();
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
+        );
     DafnySequence<? extends Byte> ikm;
     ikm =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
@@ -707,20 +717,26 @@ public class ToDafny {
     purpose =
       Objects.nonNull(nativeValue.purpose())
         ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.purpose()
           )
         )
-        : Option.create_None();
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
+        );
     Option<DafnySequence<? extends Byte>> nonce;
     nonce =
       Objects.nonNull(nativeValue.nonce())
         ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
           software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
             nativeValue.nonce()
           )
         )
-        : Option.create_None();
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
+        );
     return new KdfCtrInput(
       digestAlgorithm,
       ikm,
