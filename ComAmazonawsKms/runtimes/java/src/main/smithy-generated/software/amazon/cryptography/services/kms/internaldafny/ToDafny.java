@@ -17,6 +17,7 @@ import java.lang.String;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.awssdk.services.kms.model.AlreadyExistsException;
 import software.amazon.awssdk.services.kms.model.CloudHsmClusterInUseException;
@@ -2547,6 +2548,11 @@ public class ToDafny {
           ),
           ToDafny.KeyAgreementAlgorithmSpecList(
             nativeValue.keyAgreementAlgorithms()
+            // BEGIN MANUAL EDIT
+            .stream()
+            .map(Enum::name)
+            .collect(Collectors.toList())
+            // END MANUAL EDIT
           )
         )
         : Option.create_None(
@@ -3078,6 +3084,11 @@ public class ToDafny {
           ),
           ToDafny.KeyAgreementAlgorithmSpecList(
             nativeValue.keyAgreementAlgorithms()
+              // BEGIN MANUAL EDIT
+              .stream()
+              .map(Enum::name)
+              .collect(Collectors.toList())
+              // END MANUAL EDIT
           )
         )
         : Option.create_None(
@@ -3117,7 +3128,12 @@ public class ToDafny {
           nativeValue.macAlgorithms().size() > 0)
         ? Option.create_Some(
           DafnySequence._typeDescriptor(MacAlgorithmSpec._typeDescriptor()),
-          ToDafny.MacAlgorithmSpecList(nativeValue.macAlgorithms())
+          // BEGIN MANUAL EDIT
+          ToDafny.MacAlgorithmSpecList(nativeValue.macAlgorithms()
+            .stream()
+            .map(Enum::name)
+            .collect(Collectors.toList()))
+          // END MANUAL EDIT
         )
         : Option.create_None(
           DafnySequence._typeDescriptor(MacAlgorithmSpec._typeDescriptor())
@@ -5676,7 +5692,9 @@ public class ToDafny {
         {
           return AlgorithmSpec.create_RSA__AES__KEY__WRAP__SHA__256();
         }
-      case SM2PKE:
+        // BEGIN MANUAL EDIT
+      case SM2_PKE:
+        // END MANUAL EDIT
         {
           return AlgorithmSpec.create_SM2PKE();
         }
@@ -6483,7 +6501,9 @@ public class ToDafny {
         {
           return SigningAlgorithmSpec.create_ECDSA__SHA__512();
         }
-      case SM2DSA:
+        // BEGIN MANUAL EDIT
+      case SM2_DSA:
+        // END MANUAL EDIT
         {
           return SigningAlgorithmSpec.create_SM2DSA();
         }
