@@ -2547,11 +2547,12 @@ public class ToDafny {
             KeyAgreementAlgorithmSpec._typeDescriptor()
           ),
           ToDafny.KeyAgreementAlgorithmSpecList(
-            nativeValue.keyAgreementAlgorithms()
-            // BEGIN MANUAL EDIT
-            .stream()
-            .map(Enum::name)
-            .collect(Collectors.toList())
+            nativeValue
+              .keyAgreementAlgorithms()
+              // BEGIN MANUAL EDIT
+              .stream()
+              .map(Enum::name)
+              .collect(Collectors.toList())
             // END MANUAL EDIT
           )
         )
@@ -3083,12 +3084,13 @@ public class ToDafny {
             KeyAgreementAlgorithmSpec._typeDescriptor()
           ),
           ToDafny.KeyAgreementAlgorithmSpecList(
-            nativeValue.keyAgreementAlgorithms()
+            nativeValue
+              .keyAgreementAlgorithms()
               // BEGIN MANUAL EDIT
               .stream()
               .map(Enum::name)
               .collect(Collectors.toList())
-              // END MANUAL EDIT
+            // END MANUAL EDIT
           )
         )
         : Option.create_None(
@@ -3129,10 +3131,13 @@ public class ToDafny {
         ? Option.create_Some(
           DafnySequence._typeDescriptor(MacAlgorithmSpec._typeDescriptor()),
           // BEGIN MANUAL EDIT
-          ToDafny.MacAlgorithmSpecList(nativeValue.macAlgorithms()
-            .stream()
-            .map(Enum::name)
-            .collect(Collectors.toList()))
+          ToDafny.MacAlgorithmSpecList(
+            nativeValue
+              .macAlgorithms()
+              .stream()
+              .map(Enum::name)
+              .collect(Collectors.toList())
+          )
           // END MANUAL EDIT
         )
         : Option.create_None(
@@ -5692,7 +5697,7 @@ public class ToDafny {
         {
           return AlgorithmSpec.create_RSA__AES__KEY__WRAP__SHA__256();
         }
-        // BEGIN MANUAL EDIT
+      // BEGIN MANUAL EDIT
       case SM2_PKE:
         // END MANUAL EDIT
         {
@@ -6501,7 +6506,7 @@ public class ToDafny {
         {
           return SigningAlgorithmSpec.create_ECDSA__SHA__512();
         }
-        // BEGIN MANUAL EDIT
+      // BEGIN MANUAL EDIT
       case SM2_DSA:
         // END MANUAL EDIT
         {

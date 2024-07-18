@@ -29,7 +29,8 @@ public class UnwrapGenericKmsTests {
     Result<GenerateDataKeyWithoutPlaintextResponse, Error> response =
       ikmsClient.GenerateDataKeyWithoutPlaintext(
         software.amazon.cryptography.services.kms.internaldafny.ToDafny.GenerateDataKeyWithoutPlaintextRequest(
-          software.amazon.awssdk.services.kms.model.GenerateDataKeyWithoutPlaintextRequest.builder()
+          software.amazon.awssdk.services.kms.model.GenerateDataKeyWithoutPlaintextRequest
+            .builder()
             .keyId(failingKeyId)
             .build()
         )
