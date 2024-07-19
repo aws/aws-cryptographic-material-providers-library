@@ -1,6 +1,0 @@
-file_format_version = "1.0"
-dafny_version = "4.7.0.0"
-[options_by_module.ComAmazonawsKmsTypes]
-[options_by_module.AbstractComAmazonawsKmsService]
-[options_by_module.AbstractComAmazonawsKmsOperations]
-[options_by_module."Com.Amazonaws.Kms"]
