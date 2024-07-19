@@ -84,166 +84,162 @@ class default__:
     @staticmethod
     def WriteNewKeyToStore(versionBranchKeyItem, activeBranchKeyItem, beaconKeyItem, tableName, ddbClient):
         output: Wrappers.Result = Wrappers.Result.default(ComAmazonawsDynamodbTypes.TransactWriteItemsOutput.default())()
-        d_165_items_: _dafny.Seq
-        d_165_items_ = _dafny.Seq([default__.CreateTransactWritePutItem(versionBranchKeyItem, tableName, ConditionExpression_BRANCH__KEY__NOT__EXIST()), default__.CreateTransactWritePutItem(activeBranchKeyItem, tableName, ConditionExpression_BRANCH__KEY__NOT__EXIST()), default__.CreateTransactWritePutItem(beaconKeyItem, tableName, ConditionExpression_BRANCH__KEY__NOT__EXIST())])
-        d_166_transactRequest_: ComAmazonawsDynamodbTypes.TransactWriteItemsInput
-        d_166_transactRequest_ = ComAmazonawsDynamodbTypes.TransactWriteItemsInput_TransactWriteItemsInput(d_165_items_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
-        d_167_maybeTransactWriteResponse_: Wrappers.Result
+        d_162_items_: _dafny.Seq
+        d_162_items_ = _dafny.Seq([default__.CreateTransactWritePutItem(versionBranchKeyItem, tableName, ConditionExpression_BRANCH__KEY__NOT__EXIST()), default__.CreateTransactWritePutItem(activeBranchKeyItem, tableName, ConditionExpression_BRANCH__KEY__NOT__EXIST()), default__.CreateTransactWritePutItem(beaconKeyItem, tableName, ConditionExpression_BRANCH__KEY__NOT__EXIST())])
+        d_163_transactRequest_: ComAmazonawsDynamodbTypes.TransactWriteItemsInput
+        d_163_transactRequest_ = ComAmazonawsDynamodbTypes.TransactWriteItemsInput_TransactWriteItemsInput(d_162_items_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
+        d_164_maybeTransactWriteResponse_: Wrappers.Result
         out13_: Wrappers.Result
-        out13_ = (ddbClient).TransactWriteItems(d_166_transactRequest_)
-        d_167_maybeTransactWriteResponse_ = out13_
-        d_168_transactWriteItemsResponse_: ComAmazonawsDynamodbTypes.TransactWriteItemsOutput
-        d_169_valueOrError0_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsDynamodbTypes.TransactWriteItemsOutput.default())()
-        def lambda15_(d_170_e_):
-            return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb(d_170_e_)
+        out13_ = (ddbClient).TransactWriteItems(d_163_transactRequest_)
+        d_164_maybeTransactWriteResponse_ = out13_
+        d_165_valueOrError0_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsDynamodbTypes.TransactWriteItemsOutput.default())()
+        def lambda15_(d_166_e_):
+            return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb(d_166_e_)
 
-        d_169_valueOrError0_ = (d_167_maybeTransactWriteResponse_).MapFailure(lambda15_)
-        if (d_169_valueOrError0_).IsFailure():
-            output = (d_169_valueOrError0_).PropagateFailure()
+        d_165_valueOrError0_ = (d_164_maybeTransactWriteResponse_).MapFailure(lambda15_)
+        if (d_165_valueOrError0_).IsFailure():
+            output = (d_165_valueOrError0_).PropagateFailure()
             return output
-        d_168_transactWriteItemsResponse_ = (d_169_valueOrError0_).Extract()
-        output = Wrappers.Result_Success(d_168_transactWriteItemsResponse_)
+        d_167_transactWriteItemsResponse_: ComAmazonawsDynamodbTypes.TransactWriteItemsOutput
+        d_167_transactWriteItemsResponse_ = (d_165_valueOrError0_).Extract()
+        output = Wrappers.Result_Success(d_167_transactWriteItemsResponse_)
         return output
 
     @staticmethod
     def WriteNewBranchKeyVersionToKeystore(versionBranchKeyItem, activeBranchKeyItem, tableName, ddbClient):
         output: Wrappers.Result = Wrappers.Result.default(ComAmazonawsDynamodbTypes.TransactWriteItemsOutput.default())()
-        d_171_items_: _dafny.Seq
-        d_171_items_ = _dafny.Seq([default__.CreateTransactWritePutItem(versionBranchKeyItem, tableName, ConditionExpression_BRANCH__KEY__NOT__EXIST()), default__.CreateTransactWritePutItem(activeBranchKeyItem, tableName, ConditionExpression_BRANCH__KEY__EXISTS())])
-        d_172_transactRequest_: ComAmazonawsDynamodbTypes.TransactWriteItemsInput
-        d_172_transactRequest_ = ComAmazonawsDynamodbTypes.TransactWriteItemsInput_TransactWriteItemsInput(d_171_items_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
-        d_173_maybeTransactWriteResponse_: Wrappers.Result
+        d_168_items_: _dafny.Seq
+        d_168_items_ = _dafny.Seq([default__.CreateTransactWritePutItem(versionBranchKeyItem, tableName, ConditionExpression_BRANCH__KEY__NOT__EXIST()), default__.CreateTransactWritePutItem(activeBranchKeyItem, tableName, ConditionExpression_BRANCH__KEY__EXISTS())])
+        d_169_transactRequest_: ComAmazonawsDynamodbTypes.TransactWriteItemsInput
+        d_169_transactRequest_ = ComAmazonawsDynamodbTypes.TransactWriteItemsInput_TransactWriteItemsInput(d_168_items_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
+        d_170_maybeTransactWriteResponse_: Wrappers.Result
         out14_: Wrappers.Result
-        out14_ = (ddbClient).TransactWriteItems(d_172_transactRequest_)
-        d_173_maybeTransactWriteResponse_ = out14_
-        d_174_transactWriteItemsResponse_: ComAmazonawsDynamodbTypes.TransactWriteItemsOutput
-        d_175_valueOrError0_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsDynamodbTypes.TransactWriteItemsOutput.default())()
-        def lambda16_(d_176_e_):
-            return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb(d_176_e_)
+        out14_ = (ddbClient).TransactWriteItems(d_169_transactRequest_)
+        d_170_maybeTransactWriteResponse_ = out14_
+        d_171_valueOrError0_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsDynamodbTypes.TransactWriteItemsOutput.default())()
+        def lambda16_(d_172_e_):
+            return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb(d_172_e_)
 
-        d_175_valueOrError0_ = (d_173_maybeTransactWriteResponse_).MapFailure(lambda16_)
-        if (d_175_valueOrError0_).IsFailure():
-            output = (d_175_valueOrError0_).PropagateFailure()
+        d_171_valueOrError0_ = (d_170_maybeTransactWriteResponse_).MapFailure(lambda16_)
+        if (d_171_valueOrError0_).IsFailure():
+            output = (d_171_valueOrError0_).PropagateFailure()
             return output
-        d_174_transactWriteItemsResponse_ = (d_175_valueOrError0_).Extract()
-        output = Wrappers.Result_Success(d_174_transactWriteItemsResponse_)
+        d_173_transactWriteItemsResponse_: ComAmazonawsDynamodbTypes.TransactWriteItemsOutput
+        d_173_transactWriteItemsResponse_ = (d_171_valueOrError0_).Extract()
+        output = Wrappers.Result_Success(d_173_transactWriteItemsResponse_)
         return output
 
     @staticmethod
     def GetActiveBranchKeyItem(branchKeyIdentifier, tableName, ddbClient):
         output: Wrappers.Result = None
-        d_177_dynamoDbKey_: _dafny.Map
-        d_177_dynamoDbKey_ = _dafny.Map({Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD: ComAmazonawsDynamodbTypes.AttributeValue_S(branchKeyIdentifier), Structure.default__.TYPE__FIELD: ComAmazonawsDynamodbTypes.AttributeValue_S(Structure.default__.BRANCH__KEY__ACTIVE__TYPE)})
-        d_178_ItemRequest_: ComAmazonawsDynamodbTypes.GetItemInput
-        d_178_ItemRequest_ = ComAmazonawsDynamodbTypes.GetItemInput_GetItemInput(tableName, d_177_dynamoDbKey_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
-        d_179_maybeGetItem_: Wrappers.Result
+        d_174_dynamoDbKey_: _dafny.Map
+        d_174_dynamoDbKey_ = _dafny.Map({Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD: ComAmazonawsDynamodbTypes.AttributeValue_S(branchKeyIdentifier), Structure.default__.TYPE__FIELD: ComAmazonawsDynamodbTypes.AttributeValue_S(Structure.default__.BRANCH__KEY__ACTIVE__TYPE)})
+        d_175_ItemRequest_: ComAmazonawsDynamodbTypes.GetItemInput
+        d_175_ItemRequest_ = ComAmazonawsDynamodbTypes.GetItemInput_GetItemInput(tableName, d_174_dynamoDbKey_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
+        d_176_maybeGetItem_: Wrappers.Result
         out15_: Wrappers.Result
-        out15_ = (ddbClient).GetItem(d_178_ItemRequest_)
-        d_179_maybeGetItem_ = out15_
-        d_180_getItemResponse_: ComAmazonawsDynamodbTypes.GetItemOutput
-        d_181_valueOrError0_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsDynamodbTypes.GetItemOutput.default())()
-        def lambda17_(d_182_e_):
-            return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb(d_182_e_)
+        out15_ = (ddbClient).GetItem(d_175_ItemRequest_)
+        d_176_maybeGetItem_ = out15_
+        d_177_valueOrError0_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsDynamodbTypes.GetItemOutput.default())()
+        def lambda17_(d_178_e_):
+            return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb(d_178_e_)
 
-        d_181_valueOrError0_ = (d_179_maybeGetItem_).MapFailure(lambda17_)
-        if (d_181_valueOrError0_).IsFailure():
-            output = (d_181_valueOrError0_).PropagateFailure()
+        d_177_valueOrError0_ = (d_176_maybeGetItem_).MapFailure(lambda17_)
+        if (d_177_valueOrError0_).IsFailure():
+            output = (d_177_valueOrError0_).PropagateFailure()
             return output
-        d_180_getItemResponse_ = (d_181_valueOrError0_).Extract()
-        d_183_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_183_valueOrError1_ = Wrappers.default__.Need((((d_180_getItemResponse_).Item).is_Some) and ((len(((d_180_getItemResponse_).Item).value)) >= (1)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.NO__CORRESPONDING__BRANCH__KEY))
-        if (d_183_valueOrError1_).IsFailure():
-            output = (d_183_valueOrError1_).PropagateFailure()
+        d_179_getItemResponse_: ComAmazonawsDynamodbTypes.GetItemOutput
+        d_179_getItemResponse_ = (d_177_valueOrError0_).Extract()
+        d_180_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_180_valueOrError1_ = Wrappers.default__.Need((((d_179_getItemResponse_).Item).is_Some) and ((len(((d_179_getItemResponse_).Item).value)) >= (1)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.NO__CORRESPONDING__BRANCH__KEY))
+        if (d_180_valueOrError1_).IsFailure():
+            output = (d_180_valueOrError1_).PropagateFailure()
             return output
-        d_184_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_184_valueOrError2_ = Wrappers.default__.Need((Structure.default__.ActiveBranchKeyItem_q(((d_180_getItemResponse_).Item).value)) and ((((((d_180_getItemResponse_).Item).value)[Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD]).S) == (branchKeyIdentifier)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Item found is not a valid active branch key.")))
-        if (d_184_valueOrError2_).IsFailure():
-            output = (d_184_valueOrError2_).PropagateFailure()
+        d_181_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_181_valueOrError2_ = Wrappers.default__.Need((Structure.default__.ActiveBranchKeyItem_q(((d_179_getItemResponse_).Item).value)) and ((((((d_179_getItemResponse_).Item).value)[Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD]).S) == (branchKeyIdentifier)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Item found is not a valid active branch key.")))
+        if (d_181_valueOrError2_).IsFailure():
+            output = (d_181_valueOrError2_).PropagateFailure()
             return output
-        output = Wrappers.Result_Success(((d_180_getItemResponse_).Item).value)
+        output = Wrappers.Result_Success(((d_179_getItemResponse_).Item).value)
         return output
 
     @staticmethod
     def GetVersionBranchKeyItem(branchKeyIdentifier, branchKeyVersion, tableName, ddbClient):
         output: Wrappers.Result = None
-        d_185_dynamoDbKey_: _dafny.Map
-        d_185_dynamoDbKey_ = _dafny.Map({Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD: ComAmazonawsDynamodbTypes.AttributeValue_S(branchKeyIdentifier), Structure.default__.TYPE__FIELD: ComAmazonawsDynamodbTypes.AttributeValue_S((Structure.default__.BRANCH__KEY__TYPE__PREFIX) + (branchKeyVersion))})
-        d_186_ItemRequest_: ComAmazonawsDynamodbTypes.GetItemInput
-        d_186_ItemRequest_ = ComAmazonawsDynamodbTypes.GetItemInput_GetItemInput(tableName, d_185_dynamoDbKey_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
-        d_187_maybeGetItem_: Wrappers.Result
+        d_182_dynamoDbKey_: _dafny.Map
+        d_182_dynamoDbKey_ = _dafny.Map({Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD: ComAmazonawsDynamodbTypes.AttributeValue_S(branchKeyIdentifier), Structure.default__.TYPE__FIELD: ComAmazonawsDynamodbTypes.AttributeValue_S((Structure.default__.BRANCH__KEY__TYPE__PREFIX) + (branchKeyVersion))})
+        d_183_ItemRequest_: ComAmazonawsDynamodbTypes.GetItemInput
+        d_183_ItemRequest_ = ComAmazonawsDynamodbTypes.GetItemInput_GetItemInput(tableName, d_182_dynamoDbKey_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
+        d_184_maybeGetItem_: Wrappers.Result
         out16_: Wrappers.Result
-        out16_ = (ddbClient).GetItem(d_186_ItemRequest_)
-        d_187_maybeGetItem_ = out16_
-        d_188_getItemResponse_: ComAmazonawsDynamodbTypes.GetItemOutput
-        d_189_valueOrError0_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsDynamodbTypes.GetItemOutput.default())()
-        def lambda18_(d_190_e_):
-            return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb(d_190_e_)
+        out16_ = (ddbClient).GetItem(d_183_ItemRequest_)
+        d_184_maybeGetItem_ = out16_
+        d_185_valueOrError0_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsDynamodbTypes.GetItemOutput.default())()
+        def lambda18_(d_186_e_):
+            return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb(d_186_e_)
 
-        d_189_valueOrError0_ = (d_187_maybeGetItem_).MapFailure(lambda18_)
-        if (d_189_valueOrError0_).IsFailure():
-            output = (d_189_valueOrError0_).PropagateFailure()
+        d_185_valueOrError0_ = (d_184_maybeGetItem_).MapFailure(lambda18_)
+        if (d_185_valueOrError0_).IsFailure():
+            output = (d_185_valueOrError0_).PropagateFailure()
             return output
-        d_188_getItemResponse_ = (d_189_valueOrError0_).Extract()
-        d_191_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_191_valueOrError1_ = Wrappers.default__.Need((((d_188_getItemResponse_).Item).is_Some) and ((len(((d_188_getItemResponse_).Item).value)) >= (1)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.NO__CORRESPONDING__BRANCH__KEY))
-        if (d_191_valueOrError1_).IsFailure():
-            output = (d_191_valueOrError1_).PropagateFailure()
+        d_187_getItemResponse_: ComAmazonawsDynamodbTypes.GetItemOutput
+        d_187_getItemResponse_ = (d_185_valueOrError0_).Extract()
+        d_188_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_188_valueOrError1_ = Wrappers.default__.Need((((d_187_getItemResponse_).Item).is_Some) and ((len(((d_187_getItemResponse_).Item).value)) >= (1)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.NO__CORRESPONDING__BRANCH__KEY))
+        if (d_188_valueOrError1_).IsFailure():
+            output = (d_188_valueOrError1_).PropagateFailure()
             return output
-        d_192_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_192_valueOrError2_ = Wrappers.default__.Need(((Structure.default__.VersionBranchKeyItem_q(((d_188_getItemResponse_).Item).value)) and ((((((d_188_getItemResponse_).Item).value)[Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD]).S) == (branchKeyIdentifier))) and ((((((d_188_getItemResponse_).Item).value)[Structure.default__.TYPE__FIELD]).S) == ((Structure.default__.BRANCH__KEY__TYPE__PREFIX) + (branchKeyVersion))), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Item found is not a valid branch key version.")))
-        if (d_192_valueOrError2_).IsFailure():
-            output = (d_192_valueOrError2_).PropagateFailure()
+        d_189_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_189_valueOrError2_ = Wrappers.default__.Need(((Structure.default__.VersionBranchKeyItem_q(((d_187_getItemResponse_).Item).value)) and ((((((d_187_getItemResponse_).Item).value)[Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD]).S) == (branchKeyIdentifier))) and ((((((d_187_getItemResponse_).Item).value)[Structure.default__.TYPE__FIELD]).S) == ((Structure.default__.BRANCH__KEY__TYPE__PREFIX) + (branchKeyVersion))), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Item found is not a valid branch key version.")))
+        if (d_189_valueOrError2_).IsFailure():
+            output = (d_189_valueOrError2_).PropagateFailure()
             return output
-        output = Wrappers.Result_Success(((d_188_getItemResponse_).Item).value)
+        output = Wrappers.Result_Success(((d_187_getItemResponse_).Item).value)
         return output
 
     @staticmethod
     def GetBeaconKeyItem(branchKeyIdentifier, tableName, ddbClient):
         output: Wrappers.Result = None
-        d_193_dynamoDbKey_: _dafny.Map
-        d_193_dynamoDbKey_ = _dafny.Map({Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD: ComAmazonawsDynamodbTypes.AttributeValue_S(branchKeyIdentifier), Structure.default__.TYPE__FIELD: ComAmazonawsDynamodbTypes.AttributeValue_S(Structure.default__.BEACON__KEY__TYPE__VALUE)})
-        d_194_ItemRequest_: ComAmazonawsDynamodbTypes.GetItemInput
-        d_194_ItemRequest_ = ComAmazonawsDynamodbTypes.GetItemInput_GetItemInput(tableName, d_193_dynamoDbKey_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
-        d_195_maybeGetItem_: Wrappers.Result
+        d_190_dynamoDbKey_: _dafny.Map
+        d_190_dynamoDbKey_ = _dafny.Map({Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD: ComAmazonawsDynamodbTypes.AttributeValue_S(branchKeyIdentifier), Structure.default__.TYPE__FIELD: ComAmazonawsDynamodbTypes.AttributeValue_S(Structure.default__.BEACON__KEY__TYPE__VALUE)})
+        d_191_ItemRequest_: ComAmazonawsDynamodbTypes.GetItemInput
+        d_191_ItemRequest_ = ComAmazonawsDynamodbTypes.GetItemInput_GetItemInput(tableName, d_190_dynamoDbKey_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
+        d_192_maybeGetItem_: Wrappers.Result
         out17_: Wrappers.Result
-        out17_ = (ddbClient).GetItem(d_194_ItemRequest_)
-        d_195_maybeGetItem_ = out17_
-        d_196_getItemResponse_: ComAmazonawsDynamodbTypes.GetItemOutput
-        d_197_valueOrError0_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsDynamodbTypes.GetItemOutput.default())()
-        def lambda19_(d_198_e_):
-            return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb(d_198_e_)
+        out17_ = (ddbClient).GetItem(d_191_ItemRequest_)
+        d_192_maybeGetItem_ = out17_
+        d_193_valueOrError0_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsDynamodbTypes.GetItemOutput.default())()
+        def lambda19_(d_194_e_):
+            return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb(d_194_e_)
 
-        d_197_valueOrError0_ = (d_195_maybeGetItem_).MapFailure(lambda19_)
-        if (d_197_valueOrError0_).IsFailure():
-            output = (d_197_valueOrError0_).PropagateFailure()
+        d_193_valueOrError0_ = (d_192_maybeGetItem_).MapFailure(lambda19_)
+        if (d_193_valueOrError0_).IsFailure():
+            output = (d_193_valueOrError0_).PropagateFailure()
             return output
-        d_196_getItemResponse_ = (d_197_valueOrError0_).Extract()
-        d_199_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_199_valueOrError1_ = Wrappers.default__.Need((((d_196_getItemResponse_).Item).is_Some) and ((len(((d_196_getItemResponse_).Item).value)) >= (1)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.NO__CORRESPONDING__BRANCH__KEY))
-        if (d_199_valueOrError1_).IsFailure():
-            output = (d_199_valueOrError1_).PropagateFailure()
+        d_195_getItemResponse_: ComAmazonawsDynamodbTypes.GetItemOutput
+        d_195_getItemResponse_ = (d_193_valueOrError0_).Extract()
+        d_196_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_196_valueOrError1_ = Wrappers.default__.Need((((d_195_getItemResponse_).Item).is_Some) and ((len(((d_195_getItemResponse_).Item).value)) >= (1)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.NO__CORRESPONDING__BRANCH__KEY))
+        if (d_196_valueOrError1_).IsFailure():
+            output = (d_196_valueOrError1_).PropagateFailure()
             return output
-        d_200_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_200_valueOrError2_ = Wrappers.default__.Need((Structure.default__.BeaconKeyItem_q(((d_196_getItemResponse_).Item).value)) and ((((((d_196_getItemResponse_).Item).value)[Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD]).S) == (branchKeyIdentifier)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Item found is not a valid beacon key.")))
-        if (d_200_valueOrError2_).IsFailure():
-            output = (d_200_valueOrError2_).PropagateFailure()
+        d_197_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_197_valueOrError2_ = Wrappers.default__.Need((Structure.default__.BeaconKeyItem_q(((d_195_getItemResponse_).Item).value)) and ((((((d_195_getItemResponse_).Item).value)[Structure.default__.BRANCH__KEY__IDENTIFIER__FIELD]).S) == (branchKeyIdentifier)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Item found is not a valid beacon key.")))
+        if (d_197_valueOrError2_).IsFailure():
+            output = (d_197_valueOrError2_).PropagateFailure()
             return output
-        output = Wrappers.Result_Success(((d_196_getItemResponse_).Item).value)
+        output = Wrappers.Result_Success(((d_195_getItemResponse_).Item).value)
         return output
 
     @staticmethod
     def CreateTransactWritePutItem(item, tableName, ConditionExpression):
         def lambda20_():
             source10_ = ConditionExpression
-            unmatched10 = True
-            if unmatched10:
+            if True:
                 if source10_.is_BRANCH__KEY__NOT__EXIST:
-                    unmatched10 = False
                     return default__.BRANCH__KEY__NOT__EXIST__CONDITION
-            if unmatched10:
-                unmatched10 = False
+            if True:
                 return default__.BRANCH__KEY__EXISTS__CONDITION
-            raise Exception("unexpected control point")
 
         return ComAmazonawsDynamodbTypes.TransactWriteItem_TransactWriteItem(Wrappers.Option_None(), Wrappers.Option_Some(ComAmazonawsDynamodbTypes.Put_Put(item, tableName, Wrappers.Option_Some(lambda20_()), Wrappers.Option_Some(default__.BRANCH__KEY__EXISTS__EXPRESSION__ATTRIBUTE__NAMES), Wrappers.Option_None(), Wrappers.Option_None())), Wrappers.Option_None(), Wrappers.Option_None())
 

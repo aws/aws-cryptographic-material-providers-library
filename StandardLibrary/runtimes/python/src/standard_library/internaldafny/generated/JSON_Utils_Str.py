@@ -91,15 +91,15 @@ class default__:
     @staticmethod
     def Test():
         if not((default__.OfInt(0, 10)) == (_dafny.Seq("0"))):
-            raise _dafny.HaltException("/Users/lucmcdon/workplace/aws-cryptographic-material-providers-library/libraries/src/JSON/Utils/Str.dfy(229,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("/Users/justplaz/workspace/amazon-s3-encryption-client-dafny/submodules/MaterialProviders/libraries/src/JSON/Utils/Str.dfy(229,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         if not((default__.OfInt(3, 10)) == (_dafny.Seq("3"))):
-            raise _dafny.HaltException("/Users/lucmcdon/workplace/aws-cryptographic-material-providers-library/libraries/src/JSON/Utils/Str.dfy(230,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("/Users/justplaz/workspace/amazon-s3-encryption-client-dafny/submodules/MaterialProviders/libraries/src/JSON/Utils/Str.dfy(230,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         if not((default__.OfInt(302, 10)) == (_dafny.Seq("302"))):
-            raise _dafny.HaltException("/Users/lucmcdon/workplace/aws-cryptographic-material-providers-library/libraries/src/JSON/Utils/Str.dfy(231,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("/Users/justplaz/workspace/amazon-s3-encryption-client-dafny/submodules/MaterialProviders/libraries/src/JSON/Utils/Str.dfy(231,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         if not((default__.OfInt(-3, 10)) == (_dafny.Seq("-3"))):
-            raise _dafny.HaltException("/Users/lucmcdon/workplace/aws-cryptographic-material-providers-library/libraries/src/JSON/Utils/Str.dfy(232,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("/Users/justplaz/workspace/amazon-s3-encryption-client-dafny/submodules/MaterialProviders/libraries/src/JSON/Utils/Str.dfy(232,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         if not((default__.OfInt(-302, 10)) == (_dafny.Seq("-302"))):
-            raise _dafny.HaltException("/Users/lucmcdon/workplace/aws-cryptographic-material-providers-library/libraries/src/JSON/Utils/Str.dfy(233,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("/Users/justplaz/workspace/amazon-s3-encryption-client-dafny/submodules/MaterialProviders/libraries/src/JSON/Utils/Str.dfy(233,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def OfBool(b):

@@ -103,55 +103,43 @@ class DeserializationError:
         return isinstance(self, DeserializationError_InvalidUnicode)
     def ToString(self):
         source9_ = self
-        unmatched9 = True
-        if unmatched9:
+        if True:
             if source9_.is_UnterminatedSequence:
-                unmatched9 = False
                 return _dafny.Seq("Unterminated sequence")
-        if unmatched9:
+        if True:
             if source9_.is_UnsupportedEscape:
                 d_486_str_ = source9_.str
-                unmatched9 = False
                 return (_dafny.Seq("Unsupported escape sequence: ")) + (d_486_str_)
-        if unmatched9:
+        if True:
             if source9_.is_EscapeAtEOS:
-                unmatched9 = False
                 return _dafny.Seq("Escape character at end of string")
-        if unmatched9:
+        if True:
             if source9_.is_EmptyNumber:
-                unmatched9 = False
                 return _dafny.Seq("Number must contain at least one digit")
-        if unmatched9:
+        if True:
             if source9_.is_ExpectingEOF:
-                unmatched9 = False
                 return _dafny.Seq("Expecting EOF")
-        if unmatched9:
+        if True:
             if source9_.is_IntOverflow:
-                unmatched9 = False
                 return _dafny.Seq("Input length does not fit in a 32-bit counter")
-        if unmatched9:
+        if True:
             if source9_.is_ReachedEOF:
-                unmatched9 = False
                 return _dafny.Seq("Reached EOF")
-        if unmatched9:
+        if True:
             if source9_.is_ExpectingByte:
                 d_487_b0_ = source9_.expected
                 d_488_b_ = source9_.b
-                unmatched9 = False
                 d_489_c_ = (((_dafny.Seq("'")) + (_dafny.Seq([chr(d_488_b_)]))) + (_dafny.Seq("'")) if (d_488_b_) > (0) else _dafny.Seq("EOF"))
                 return (((_dafny.Seq("Expecting '")) + (_dafny.Seq([chr(d_487_b0_)]))) + (_dafny.Seq("', read "))) + (d_489_c_)
-        if unmatched9:
+        if True:
             if source9_.is_ExpectingAnyByte:
                 d_490_bs0_ = source9_.expected__sq
                 d_491_b_ = source9_.b
-                unmatched9 = False
                 d_492_c_ = (((_dafny.Seq("'")) + (_dafny.Seq([chr(d_491_b_)]))) + (_dafny.Seq("'")) if (d_491_b_) > (0) else _dafny.Seq("EOF"))
                 d_493_c0s_ = _dafny.Seq([chr((d_490_bs0_)[d_494_idx_]) for d_494_idx_ in range(len(d_490_bs0_))])
                 return (((_dafny.Seq("Expecting one of '")) + (d_493_c0s_)) + (_dafny.Seq("', read "))) + (d_492_c_)
-        if unmatched9:
-            unmatched9 = False
+        if True:
             return _dafny.Seq("Invalid Unicode sequence")
-        raise Exception("unexpected control point")
 
 
 class DeserializationError_UnterminatedSequence(DeserializationError, NamedTuple('UnterminatedSequence', [])):
@@ -255,25 +243,19 @@ class SerializationError:
         return isinstance(self, SerializationError_InvalidUnicode)
     def ToString(self):
         source10_ = self
-        unmatched10 = True
-        if unmatched10:
+        if True:
             if source10_.is_OutOfMemory:
-                unmatched10 = False
                 return _dafny.Seq("Out of memory")
-        if unmatched10:
+        if True:
             if source10_.is_IntTooLarge:
                 d_495_i_ = source10_.i
-                unmatched10 = False
                 return (_dafny.Seq("Integer too large: ")) + (JSON_Utils_Str.default__.OfInt(d_495_i_, 10))
-        if unmatched10:
+        if True:
             if source10_.is_StringTooLong:
                 d_496_s_ = source10_.s
-                unmatched10 = False
                 return (_dafny.Seq("String too long: ")) + (d_496_s_)
-        if unmatched10:
-            unmatched10 = False
+        if True:
             return _dafny.Seq("Invalid Unicode sequence")
-        raise Exception("unexpected control point")
 
 
 class SerializationError_OutOfMemory(SerializationError, NamedTuple('OutOfMemory', [])):

@@ -37,7 +37,10 @@ class default__:
         d_168_isError_ = out1_
         d_169_bytesRead_ = out2_
         d_170_errorMsg_ = out3_
-        res = (Wrappers.Result_Failure(d_170_errorMsg_) if d_168_isError_ else Wrappers.Result_Success(d_169_bytesRead_))
+        if d_168_isError_:
+            res = Wrappers.Result_Failure(d_170_errorMsg_)
+        elif True:
+            res = Wrappers.Result_Success(d_169_bytesRead_)
         return res
         return res
 
@@ -51,7 +54,10 @@ class default__:
         out4_, out5_ = DafnyLibraries.FileIO.INTERNAL_WriteBytesToFile(path, bytes)
         d_171_isError_ = out4_
         d_172_errorMsg_ = out5_
-        res = (Wrappers.Result_Failure(d_172_errorMsg_) if d_171_isError_ else Wrappers.Result_Success(()))
+        if d_171_isError_:
+            res = Wrappers.Result_Failure(d_172_errorMsg_)
+        elif True:
+            res = Wrappers.Result_Success(())
         return res
         return res
 

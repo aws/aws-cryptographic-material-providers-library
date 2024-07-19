@@ -130,27 +130,27 @@ class default__:
     @staticmethod
     def MaterialProviders(config):
         res: Wrappers.Result = None
-        d_1364_maybeCrypto_: Wrappers.Result
+        d_1356_maybeCrypto_: Wrappers.Result
         out233_: Wrappers.Result
         out233_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
-        d_1364_maybeCrypto_ = out233_
-        d_1365_cryptoPrimitivesX_: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient
-        d_1366_valueOrError0_: Wrappers.Result = None
-        def lambda111_(d_1367_e_):
-            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_1367_e_)
+        d_1356_maybeCrypto_ = out233_
+        d_1357_valueOrError0_: Wrappers.Result = None
+        def lambda104_(d_1358_e_):
+            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_1358_e_)
 
-        d_1366_valueOrError0_ = (d_1364_maybeCrypto_).MapFailure(lambda111_)
-        if (d_1366_valueOrError0_).IsFailure():
-            res = (d_1366_valueOrError0_).PropagateFailure()
+        d_1357_valueOrError0_ = (d_1356_maybeCrypto_).MapFailure(lambda104_)
+        if (d_1357_valueOrError0_).IsFailure():
+            res = (d_1357_valueOrError0_).PropagateFailure()
             return res
-        d_1365_cryptoPrimitivesX_ = (d_1366_valueOrError0_).Extract()
-        d_1368_cryptoPrimitives_: AtomicPrimitives.AtomicPrimitivesClient
-        d_1368_cryptoPrimitives_ = d_1365_cryptoPrimitivesX_
-        d_1369_client_: MaterialProvidersClient
+        d_1359_cryptoPrimitivesX_: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient
+        d_1359_cryptoPrimitivesX_ = (d_1357_valueOrError0_).Extract()
+        d_1360_cryptoPrimitives_: AtomicPrimitives.AtomicPrimitivesClient
+        d_1360_cryptoPrimitives_ = d_1359_cryptoPrimitivesX_
+        d_1361_client_: MaterialProvidersClient
         nw72_ = MaterialProvidersClient()
-        nw72_.ctor__(AwsCryptographyMaterialProvidersOperations.Config_Config(d_1368_cryptoPrimitives_))
-        d_1369_client_ = nw72_
-        res = Wrappers.Result_Success(d_1369_client_)
+        nw72_.ctor__(AwsCryptographyMaterialProvidersOperations.Config_Config(d_1360_cryptoPrimitives_))
+        d_1361_client_ = nw72_
+        res = Wrappers.Result_Success(d_1361_client_)
         return res
         return res
 

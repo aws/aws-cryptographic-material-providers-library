@@ -134,14 +134,14 @@ class DefaultClientSupplier(AwsCryptographyMaterialProvidersTypes.IClientSupplie
 
     def GetClient_k(self, input):
         output: Wrappers.Result = None
-        d_1230_maybeClient_: Wrappers.Result
+        d_1223_maybeClient_: Wrappers.Result
         out218_: Wrappers.Result
         out218_ = Com_Amazonaws_Kms.default__.KMSClientForRegion((input).region)
-        d_1230_maybeClient_ = out218_
-        def lambda103_(d_1231_e_):
-            return AwsCryptographyMaterialProvidersTypes.Error_ComAmazonawsKms(d_1231_e_)
+        d_1223_maybeClient_ = out218_
+        def lambda98_(d_1224_e_):
+            return AwsCryptographyMaterialProvidersTypes.Error_ComAmazonawsKms(d_1224_e_)
 
-        output = (d_1230_maybeClient_).MapFailure(lambda103_)
+        output = (d_1223_maybeClient_).MapFailure(lambda98_)
         return output
         return output
 

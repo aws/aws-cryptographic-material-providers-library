@@ -75,18 +75,18 @@ class default__:
         d_54_digestAlgorithm_ = let_tmp_rhs3_.digestAlgorithm
         d_55_salt_ = let_tmp_rhs3_.salt
         d_56_ikm_ = let_tmp_rhs3_.ikm
-        d_57_hmac_: HMAC.HMac
-        d_58_valueOrError1_: Wrappers.Result = None
+        d_57_valueOrError1_: Wrappers.Result = None
         out9_: Wrappers.Result
         out9_ = HMAC.HMac.Build(d_54_digestAlgorithm_)
-        d_58_valueOrError1_ = out9_
-        if (d_58_valueOrError1_).IsFailure():
-            output = (d_58_valueOrError1_).PropagateFailure()
+        d_57_valueOrError1_ = out9_
+        if (d_57_valueOrError1_).IsFailure():
+            output = (d_57_valueOrError1_).PropagateFailure()
             return output
-        d_57_hmac_ = (d_58_valueOrError1_).Extract()
+        d_58_hmac_: HMAC.HMac
+        d_58_hmac_ = (d_57_valueOrError1_).Extract()
         d_59_prk_: _dafny.Seq
         out10_: _dafny.Seq
-        out10_ = HKDF.default__.Extract(d_57_hmac_, (d_55_salt_).UnwrapOr(StandardLibrary.default__.Fill(0, Digest.default__.Length(d_54_digestAlgorithm_))), d_56_ikm_)
+        out10_ = HKDF.default__.Extract(d_58_hmac_, (d_55_salt_).UnwrapOr(StandardLibrary.default__.Fill(0, Digest.default__.Length(d_54_digestAlgorithm_))), d_56_ikm_)
         d_59_prk_ = out10_
         output = Wrappers.Result_Success(d_59_prk_)
         return output
@@ -105,18 +105,18 @@ class default__:
         d_62_prk_ = let_tmp_rhs4_.prk
         d_63_info_ = let_tmp_rhs4_.info
         d_64_expectedLength_ = let_tmp_rhs4_.expectedLength
-        d_65_hmac_: HMAC.HMac
-        d_66_valueOrError1_: Wrappers.Result = None
+        d_65_valueOrError1_: Wrappers.Result = None
         out11_: Wrappers.Result
         out11_ = HMAC.HMac.Build(d_61_digestAlgorithm_)
-        d_66_valueOrError1_ = out11_
-        if (d_66_valueOrError1_).IsFailure():
-            output = (d_66_valueOrError1_).PropagateFailure()
+        d_65_valueOrError1_ = out11_
+        if (d_65_valueOrError1_).IsFailure():
+            output = (d_65_valueOrError1_).PropagateFailure()
             return output
-        d_65_hmac_ = (d_66_valueOrError1_).Extract()
+        d_66_hmac_: HMAC.HMac
+        d_66_hmac_ = (d_65_valueOrError1_).Extract()
         d_67_omk_: _dafny.Seq
         out12_: _dafny.Seq
-        out12_ = HKDF.default__.Expand(d_65_hmac_, d_62_prk_, d_63_info_, d_64_expectedLength_, d_61_digestAlgorithm_)
+        out12_ = HKDF.default__.Expand(d_66_hmac_, d_62_prk_, d_63_info_, d_64_expectedLength_, d_61_digestAlgorithm_)
         d_67_omk_ = out12_
         output = Wrappers.Result_Success(d_67_omk_)
         return output

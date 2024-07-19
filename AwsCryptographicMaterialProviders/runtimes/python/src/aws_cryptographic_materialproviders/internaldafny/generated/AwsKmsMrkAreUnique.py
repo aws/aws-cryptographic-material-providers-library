@@ -95,55 +95,51 @@ class default__:
 
     @staticmethod
     def AwsKmsMrkAreUnique(identifiers):
-        d_410_mrks_ = Seq.default__.Filter(AwsArnParsing.default__.IsMultiRegionAwsKmsIdentifier, identifiers)
-        if (len(d_410_mrks_)) == (0):
+        d_405_mrks_ = Seq.default__.Filter(AwsArnParsing.default__.IsMultiRegionAwsKmsIdentifier, identifiers)
+        if (len(d_405_mrks_)) == (0):
             return Wrappers.Outcome_Pass()
         elif True:
-            d_411_mrkKeyIds_ = Seq.default__.Map(default__.GetKeyId, d_410_mrks_)
-            d_412_setMrks_ = Seq.default__.ToSet(d_411_mrkKeyIds_)
-            if (len(d_411_mrkKeyIds_)) == (len(d_412_setMrks_)):
+            d_406_mrkKeyIds_ = Seq.default__.Map(default__.GetKeyId, d_405_mrks_)
+            d_407_setMrks_ = Seq.default__.ToSet(d_406_mrkKeyIds_)
+            if (len(d_406_mrkKeyIds_)) == (len(d_407_setMrks_)):
                 return Wrappers.Outcome_Pass()
             elif True:
                 def iife17_():
                     coll9_ = _dafny.Set()
                     compr_9_: _dafny.Seq
-                    for compr_9_ in (d_411_mrkKeyIds_).Elements:
-                        d_414_x_: _dafny.Seq = compr_9_
-                        if ((d_414_x_) in (d_411_mrkKeyIds_)) and (((_dafny.MultiSet(d_411_mrkKeyIds_))[d_414_x_]) >= (1)):
-                            coll9_ = coll9_.union(_dafny.Set([d_414_x_]))
+                    for compr_9_ in (d_406_mrkKeyIds_).Elements:
+                        d_409_x_: _dafny.Seq = compr_9_
+                        if ((d_409_x_) in (d_406_mrkKeyIds_)) and (((_dafny.MultiSet(d_406_mrkKeyIds_))[d_409_x_]) >= (1)):
+                            coll9_ = coll9_.union(_dafny.Set([d_409_x_]))
                     return _dafny.Set(coll9_)
-                d_413_duplicateMrkIds_ = iife17_()
+                d_408_duplicateMrkIds_ = iife17_()
 
-                def lambda42_(d_416_duplicateMrkIds_):
-                    def lambda43_(d_417_identifier_):
-                        return (default__.GetKeyId(d_417_identifier_)) in (d_416_duplicateMrkIds_)
+                def lambda42_(d_411_duplicateMrkIds_):
+                    def lambda43_(d_412_identifier_):
+                        return (default__.GetKeyId(d_412_identifier_)) in (d_411_duplicateMrkIds_)
 
                     return lambda43_
 
-                d_415_isDuplicate_ = lambda42_(d_413_duplicateMrkIds_)
-                def lambda44_(d_419_i_):
-                    return (d_419_i_).ToString()
+                d_410_isDuplicate_ = lambda42_(d_408_duplicateMrkIds_)
+                def lambda44_(d_414_i_):
+                    return (d_414_i_).ToString()
 
-                d_418_identifierToString_ = lambda44_
-                d_420_duplicateIdentifiers_ = Seq.default__.Filter(d_415_isDuplicate_, identifiers)
-                d_421_duplicates_ = Seq.default__.Map(d_418_identifierToString_, d_420_duplicateIdentifiers_)
-                if (len(d_421_duplicates_)) == (0):
+                d_413_identifierToString_ = lambda44_
+                d_415_duplicateIdentifiers_ = Seq.default__.Filter(d_410_isDuplicate_, identifiers)
+                d_416_duplicates_ = Seq.default__.Map(d_413_identifierToString_, d_415_duplicateIdentifiers_)
+                if (len(d_416_duplicates_)) == (0):
                     return Wrappers.Outcome_Fail(AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Impossible")))
                 elif True:
-                    return Wrappers.Outcome_Fail(AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(((_dafny.Seq("Related multi-Region keys: ")) + (StandardLibrary.default__.Join(d_421_duplicates_, _dafny.Seq(",")))) + (_dafny.Seq("are not allowed."))))
+                    return Wrappers.Outcome_Fail(AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(((_dafny.Seq("Related multi-Region keys: ")) + (StandardLibrary.default__.Join(d_416_duplicates_, _dafny.Seq(",")))) + (_dafny.Seq("are not allowed."))))
 
     @staticmethod
     def GetKeyId(identifier):
         source19_ = identifier
-        unmatched19 = True
-        if unmatched19:
+        if True:
             if source19_.is_AwsKmsArnIdentifier:
-                d_422_a_ = source19_.a
-                unmatched19 = False
-                return ((d_422_a_).resource).value
-        if unmatched19:
-            d_423_i_ = source19_.r
-            unmatched19 = False
-            return (d_423_i_).value
-        raise Exception("unexpected control point")
+                d_417_a_ = source19_.a
+                return ((d_417_a_).resource).value
+        if True:
+            d_418_i_ = source19_.r
+            return (d_418_i_).value
 

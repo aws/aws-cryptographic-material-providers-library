@@ -93,28 +93,22 @@ class default__:
     @staticmethod
     def LiftCursorError(err):
         source20_ = err
-        unmatched20 = True
-        if unmatched20:
+        if True:
             if source20_.is_EOF:
-                unmatched20 = False
                 return JSON_Errors.DeserializationError_ReachedEOF()
-        if unmatched20:
+        if True:
             if source20_.is_ExpectingByte:
-                d_854_expected_ = source20_.expected
-                d_855_b_ = source20_.b
-                unmatched20 = False
-                return JSON_Errors.DeserializationError_ExpectingByte(d_854_expected_, d_855_b_)
-        if unmatched20:
+                d_850_expected_ = source20_.expected
+                d_851_b_ = source20_.b
+                return JSON_Errors.DeserializationError_ExpectingByte(d_850_expected_, d_851_b_)
+        if True:
             if source20_.is_ExpectingAnyByte:
-                d_856_expected__sq_ = source20_.expected__sq
-                d_857_b_ = source20_.b
-                unmatched20 = False
-                return JSON_Errors.DeserializationError_ExpectingAnyByte(d_856_expected__sq_, d_857_b_)
-        if unmatched20:
-            d_858_err_ = source20_.err
-            unmatched20 = False
-            return d_858_err_
-        raise Exception("unexpected control point")
+                d_852_expected__sq_ = source20_.expected__sq
+                d_853_b_ = source20_.b
+                return JSON_Errors.DeserializationError_ExpectingAnyByte(d_852_expected__sq_, d_853_b_)
+        if True:
+            d_854_err_ = source20_.err
+            return d_854_err_
 
     @staticmethod
     def JSON(cs):
@@ -122,24 +116,24 @@ class default__:
 
     @staticmethod
     def Text(v):
-        d_859_valueOrError0_ = default__.JSON(JSON_Utils_Cursors.Cursor__.OfView(v))
-        if (d_859_valueOrError0_).IsFailure():
-            return (d_859_valueOrError0_).PropagateFailure()
+        d_855_valueOrError0_ = default__.JSON(JSON_Utils_Cursors.Cursor__.OfView(v))
+        if (d_855_valueOrError0_).IsFailure():
+            return (d_855_valueOrError0_).PropagateFailure()
         elif True:
-            let_tmp_rhs29_ = (d_859_valueOrError0_).Extract()
-            d_860_text_ = let_tmp_rhs29_.t
-            d_861_cs_ = let_tmp_rhs29_.cs
-            d_862_valueOrError1_ = Wrappers.default__.Need((d_861_cs_).EOF_q, JSON_Errors.DeserializationError_ExpectingEOF())
-            if (d_862_valueOrError1_).IsFailure():
-                return (d_862_valueOrError1_).PropagateFailure()
+            let_tmp_rhs29_ = (d_855_valueOrError0_).Extract()
+            d_856_text_ = let_tmp_rhs29_.t
+            d_857_cs_ = let_tmp_rhs29_.cs
+            d_858_valueOrError1_ = Wrappers.default__.Need((d_857_cs_).EOF_q, JSON_Errors.DeserializationError_ExpectingEOF())
+            if (d_858_valueOrError1_).IsFailure():
+                return (d_858_valueOrError1_).PropagateFailure()
             elif True:
-                return Wrappers.Result_Success(d_860_text_)
+                return Wrappers.Result_Success(d_856_text_)
 
     @staticmethod
     def OfBytes(bs):
-        d_863_valueOrError0_ = Wrappers.default__.Need((len(bs)) < (BoundedInts.default__.TWO__TO__THE__32), JSON_Errors.DeserializationError_IntOverflow())
-        if (d_863_valueOrError0_).IsFailure():
-            return (d_863_valueOrError0_).PropagateFailure()
+        d_859_valueOrError0_ = Wrappers.default__.Need((len(bs)) < (BoundedInts.default__.TWO__TO__THE__32), JSON_Errors.DeserializationError_IntOverflow())
+        if (d_859_valueOrError0_).IsFailure():
+            return (d_859_valueOrError0_).PropagateFailure()
         elif True:
             return default__.Text(JSON_Utils_Views_Core.View__.OfBytes(bs))
 

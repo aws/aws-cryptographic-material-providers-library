@@ -81,27 +81,27 @@ class default__:
     @staticmethod
     def ValidKmsArn_q(input):
         def iife2_(_pat_let0_0):
-            def iife3_(d_98_maybeParsed_):
-                return ((d_98_maybeParsed_).is_Success) and (((((d_98_maybeParsed_).value).resource).resourceType) == (_dafny.Seq("key")))
+            def iife3_(d_95_maybeParsed_):
+                return ((d_95_maybeParsed_).is_Success) and (((((d_95_maybeParsed_).value).resource).resourceType) == (_dafny.Seq("key")))
             return iife3_(_pat_let0_0)
         return (ComAmazonawsKmsTypes.default__.IsValid__KeyIdType(input)) and (iife2_(AwsArnParsing.default__.ParseAwsKmsArn(input)))
 
     @staticmethod
     def IsValidKeyArn(input):
-        d_99_valueOrError0_ = Wrappers.default__.Need(ComAmazonawsKmsTypes.default__.IsValid__KeyIdType(input), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.KMS__CONFIG__KMS__ARN__INVALID))
-        if (d_99_valueOrError0_).IsFailure():
-            return (d_99_valueOrError0_).PropagateFailure()
+        d_96_valueOrError0_ = Wrappers.default__.Need(ComAmazonawsKmsTypes.default__.IsValid__KeyIdType(input), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.KMS__CONFIG__KMS__ARN__INVALID))
+        if (d_96_valueOrError0_).IsFailure():
+            return (d_96_valueOrError0_).PropagateFailure()
         elif True:
-            def lambda7_(d_101_error_):
-                return AwsCryptographyKeyStoreTypes.Error_KeyStoreException(((KeyStoreErrorMessages.default__.KMS__CONFIG__KMS__ARN__INVALID) + (_dafny.Seq(". "))) + (d_101_error_))
+            def lambda7_(d_98_error_):
+                return AwsCryptographyKeyStoreTypes.Error_KeyStoreException(((KeyStoreErrorMessages.default__.KMS__CONFIG__KMS__ARN__INVALID) + (_dafny.Seq(". "))) + (d_98_error_))
 
-            d_100_valueOrError1_ = (AwsArnParsing.default__.ParseAwsKmsArn(input)).MapFailure(lambda7_)
-            if (d_100_valueOrError1_).IsFailure():
-                return (d_100_valueOrError1_).PropagateFailure()
+            d_97_valueOrError1_ = (AwsArnParsing.default__.ParseAwsKmsArn(input)).MapFailure(lambda7_)
+            if (d_97_valueOrError1_).IsFailure():
+                return (d_97_valueOrError1_).PropagateFailure()
             elif True:
-                d_102_arn_ = (d_100_valueOrError1_).Extract()
-                if (((d_102_arn_).resource).resourceType) != (_dafny.Seq("key")):
+                d_99_arn_ = (d_97_valueOrError1_).Extract()
+                if (((d_99_arn_).resource).resourceType) != (_dafny.Seq("key")):
                     return Wrappers.Result_Failure(AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.ALIAS__NOT__ALLOWED))
                 elif True:
-                    return Wrappers.Result_Success(d_102_arn_)
+                    return Wrappers.Result_Success(d_99_arn_)
 

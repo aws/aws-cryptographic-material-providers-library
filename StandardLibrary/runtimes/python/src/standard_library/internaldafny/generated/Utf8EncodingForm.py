@@ -184,15 +184,15 @@ class default__:
         d_104_rest_: _dafny.Seq
         d_104_rest_ = s
         while (len(d_104_rest_)) > (0):
-            d_105_prefix_: _dafny.Seq
-            d_106_valueOrError0_: Wrappers.Option = Wrappers.Option.default()()
-            d_106_valueOrError0_ = default__.SplitPrefixMinimalWellFormedCodeUnitSubsequence(d_104_rest_)
-            if (d_106_valueOrError0_).IsFailure():
-                maybeParts = (d_106_valueOrError0_).PropagateFailure()
+            d_105_valueOrError0_: Wrappers.Option = Wrappers.Option.default()()
+            d_105_valueOrError0_ = default__.SplitPrefixMinimalWellFormedCodeUnitSubsequence(d_104_rest_)
+            if (d_105_valueOrError0_).IsFailure():
+                maybeParts = (d_105_valueOrError0_).PropagateFailure()
                 return maybeParts
-            d_105_prefix_ = (d_106_valueOrError0_).Extract()
-            d_103_result_ = (d_103_result_) + (_dafny.Seq([d_105_prefix_]))
-            d_104_rest_ = _dafny.Seq((d_104_rest_)[len(d_105_prefix_)::])
+            d_106_prefix_: _dafny.Seq
+            d_106_prefix_ = (d_105_valueOrError0_).Extract()
+            d_103_result_ = (d_103_result_) + (_dafny.Seq([d_106_prefix_]))
+            d_104_rest_ = _dafny.Seq((d_104_rest_)[len(d_106_prefix_)::])
         maybeParts = Wrappers.Option_Some(d_103_result_)
         return maybeParts
         return maybeParts

@@ -92,112 +92,105 @@ class default__:
 
     @staticmethod
     def InitializeEncryptionMaterials(input):
-        pat_let_tv133_ = input
-        pat_let_tv134_ = input
-        pat_let_tv135_ = input
-        d_336_valueOrError0_ = Wrappers.default__.Need((default__.EC__PUBLIC__KEY__FIELD) not in ((input).encryptionContext), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption Context ")))
-        if (d_336_valueOrError0_).IsFailure():
-            return (d_336_valueOrError0_).PropagateFailure()
+        d_331_valueOrError0_ = Wrappers.default__.Need((default__.EC__PUBLIC__KEY__FIELD) not in ((input).encryptionContext), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption Context ")))
+        if (d_331_valueOrError0_).IsFailure():
+            return (d_331_valueOrError0_).PropagateFailure()
         elif True:
             def lambda34_(forall_var_8_):
-                d_338_key_: _dafny.Seq = forall_var_8_
-                if UTF8.ValidUTF8Bytes._Is(d_338_key_):
-                    return not ((d_338_key_) in ((input).requiredEncryptionContextKeys)) or ((d_338_key_) in ((input).encryptionContext))
+                d_333_key_: _dafny.Seq = forall_var_8_
+                if UTF8.ValidUTF8Bytes._Is(d_333_key_):
+                    return not ((d_333_key_) in ((input).requiredEncryptionContextKeys)) or ((d_333_key_) in ((input).encryptionContext))
                 elif True:
                     return True
 
-            d_337_valueOrError1_ = Wrappers.default__.Need(_dafny.quantifier(((input).requiredEncryptionContextKeys).UniqueElements, True, lambda34_), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Required encryption context keys do not exist in provided encryption context.")))
-            if (d_337_valueOrError1_).IsFailure():
-                return (d_337_valueOrError1_).PropagateFailure()
+            d_332_valueOrError1_ = Wrappers.default__.Need(_dafny.quantifier(((input).requiredEncryptionContextKeys).UniqueElements, True, lambda34_), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Required encryption context keys do not exist in provided encryption context.")))
+            if (d_332_valueOrError1_).IsFailure():
+                return (d_332_valueOrError1_).PropagateFailure()
             elif True:
-                d_339_suite_ = AlgorithmSuites.default__.GetSuite((input).algorithmSuiteId)
-                d_340_valueOrError2_ = Wrappers.default__.Need((((d_339_suite_).signature).is_ECDSA) == ((((input).signingKey).is_Some) and (((input).verificationKey).is_Some)), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Missing signature key for signed suite.")))
-                if (d_340_valueOrError2_).IsFailure():
-                    return (d_340_valueOrError2_).PropagateFailure()
+                d_334_suite_ = AlgorithmSuites.default__.GetSuite((input).algorithmSuiteId)
+                d_335_valueOrError2_ = Wrappers.default__.Need((((d_334_suite_).signature).is_ECDSA) == ((((input).signingKey).is_Some) and (((input).verificationKey).is_Some)), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Missing signature key for signed suite.")))
+                if (d_335_valueOrError2_).IsFailure():
+                    return (d_335_valueOrError2_).PropagateFailure()
                 elif True:
-                    d_341_valueOrError3_ = Wrappers.default__.Need((((d_339_suite_).signature).is_None) == ((((input).signingKey).is_None) and (((input).verificationKey).is_None)), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Signature key not allowed for non-signed suites.")))
-                    if (d_341_valueOrError3_).IsFailure():
-                        return (d_341_valueOrError3_).PropagateFailure()
+                    d_336_valueOrError3_ = Wrappers.default__.Need((((d_334_suite_).signature).is_None) == ((((input).signingKey).is_None) and (((input).verificationKey).is_None)), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Signature key not allowed for non-signed suites.")))
+                    if (d_336_valueOrError3_).IsFailure():
+                        return (d_336_valueOrError3_).PropagateFailure()
                     elif True:
                         def lambda35_():
-                            source18_ = (d_339_suite_).signature
-                            unmatched18 = True
-                            if unmatched18:
+                            source18_ = (d_334_suite_).signature
+                            if True:
                                 if source18_.is_ECDSA:
-                                    d_343_curve_ = source18_.ECDSA
-                                    unmatched18 = False
-                                    def lambda36_(d_345_e_):
-                                        return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_345_e_)
+                                    d_338_curve_ = source18_.ECDSA
+                                    def lambda36_(d_340_e_):
+                                        return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_340_e_)
 
-                                    d_344_valueOrError5_ = (UTF8.default__.Encode(Base64.default__.Encode(((pat_let_tv133_).verificationKey).value))).MapFailure(lambda36_)
-                                    if (d_344_valueOrError5_).IsFailure():
-                                        return (d_344_valueOrError5_).PropagateFailure()
+                                    d_339_valueOrError5_ = (UTF8.default__.Encode(Base64.default__.Encode(((input).verificationKey).value))).MapFailure(lambda36_)
+                                    if (d_339_valueOrError5_).IsFailure():
+                                        return (d_339_valueOrError5_).PropagateFailure()
                                     elif True:
-                                        d_346_enc__vk_ = (d_344_valueOrError5_).Extract()
-                                        return Wrappers.Result_Success(((pat_let_tv134_).encryptionContext).set(default__.EC__PUBLIC__KEY__FIELD, d_346_enc__vk_))
-                            if unmatched18:
-                                d_347_None_ = source18_
-                                unmatched18 = False
-                                return Wrappers.Result_Success((pat_let_tv135_).encryptionContext)
-                            raise Exception("unexpected control point")
+                                        d_341_enc__vk_ = (d_339_valueOrError5_).Extract()
+                                        return Wrappers.Result_Success(((input).encryptionContext).set(default__.EC__PUBLIC__KEY__FIELD, d_341_enc__vk_))
+                            if True:
+                                d_342_None_ = source18_
+                                return Wrappers.Result_Success((input).encryptionContext)
 
-                        d_342_valueOrError4_ = lambda35_()
-                        if (d_342_valueOrError4_).IsFailure():
-                            return (d_342_valueOrError4_).PropagateFailure()
+                        d_337_valueOrError4_ = lambda35_()
+                        if (d_337_valueOrError4_).IsFailure():
+                            return (d_337_valueOrError4_).PropagateFailure()
                         elif True:
-                            d_348_encryptionContext_ = (d_342_valueOrError4_).Extract()
-                            return Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials_EncryptionMaterials(d_339_suite_, d_348_encryptionContext_, _dafny.Seq([]), (input).requiredEncryptionContextKeys, Wrappers.Option_None(), (input).signingKey, (Wrappers.Option_None() if ((d_339_suite_).symmetricSignature).is_None else Wrappers.Option_Some(_dafny.Seq([])))))
+                            d_343_encryptionContext_ = (d_337_valueOrError4_).Extract()
+                            return Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials_EncryptionMaterials(d_334_suite_, d_343_encryptionContext_, _dafny.Seq([]), (input).requiredEncryptionContextKeys, Wrappers.Option_None(), (input).signingKey, (Wrappers.Option_None() if ((d_334_suite_).symmetricSignature).is_None else Wrappers.Option_Some(_dafny.Seq([])))))
 
     @staticmethod
     def InitializeDecryptionMaterials(input):
         def lambda37_(forall_var_9_):
-            d_350_key_: _dafny.Seq = forall_var_9_
-            if UTF8.ValidUTF8Bytes._Is(d_350_key_):
-                return not ((d_350_key_) in ((input).requiredEncryptionContextKeys)) or ((d_350_key_) in ((input).encryptionContext))
+            d_345_key_: _dafny.Seq = forall_var_9_
+            if UTF8.ValidUTF8Bytes._Is(d_345_key_):
+                return not ((d_345_key_) in ((input).requiredEncryptionContextKeys)) or ((d_345_key_) in ((input).encryptionContext))
             elif True:
                 return True
 
-        d_349_valueOrError0_ = Wrappers.default__.Need(_dafny.quantifier(((input).requiredEncryptionContextKeys).UniqueElements, True, lambda37_), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Reporoduced encryption context key did not exist in provided encryption context.")))
-        if (d_349_valueOrError0_).IsFailure():
-            return (d_349_valueOrError0_).PropagateFailure()
+        d_344_valueOrError0_ = Wrappers.default__.Need(_dafny.quantifier(((input).requiredEncryptionContextKeys).UniqueElements, True, lambda37_), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Reporoduced encryption context key did not exist in provided encryption context.")))
+        if (d_344_valueOrError0_).IsFailure():
+            return (d_344_valueOrError0_).PropagateFailure()
         elif True:
-            d_351_suite_ = AlgorithmSuites.default__.GetSuite((input).algorithmSuiteId)
-            d_352_valueOrError1_ = Wrappers.default__.Need((((d_351_suite_).signature).is_ECDSA) == ((default__.EC__PUBLIC__KEY__FIELD) in ((input).encryptionContext)), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption Context missing verification key.")))
-            if (d_352_valueOrError1_).IsFailure():
-                return (d_352_valueOrError1_).PropagateFailure()
+            d_346_suite_ = AlgorithmSuites.default__.GetSuite((input).algorithmSuiteId)
+            d_347_valueOrError1_ = Wrappers.default__.Need((((d_346_suite_).signature).is_ECDSA) == ((default__.EC__PUBLIC__KEY__FIELD) in ((input).encryptionContext)), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption Context missing verification key.")))
+            if (d_347_valueOrError1_).IsFailure():
+                return (d_347_valueOrError1_).PropagateFailure()
             elif True:
-                d_353_valueOrError2_ = Wrappers.default__.Need((((d_351_suite_).signature).is_None) == ((default__.EC__PUBLIC__KEY__FIELD) not in ((input).encryptionContext)), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Verification key can not exist in non-signed Algorithm Suites.")))
-                if (d_353_valueOrError2_).IsFailure():
-                    return (d_353_valueOrError2_).PropagateFailure()
+                d_348_valueOrError2_ = Wrappers.default__.Need((((d_346_suite_).signature).is_None) == ((default__.EC__PUBLIC__KEY__FIELD) not in ((input).encryptionContext)), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Verification key can not exist in non-signed Algorithm Suites.")))
+                if (d_348_valueOrError2_).IsFailure():
+                    return (d_348_valueOrError2_).PropagateFailure()
                 elif True:
-                    d_354_valueOrError3_ = default__.DecodeVerificationKey((input).encryptionContext)
-                    if (d_354_valueOrError3_).IsFailure():
-                        return (d_354_valueOrError3_).PropagateFailure()
+                    d_349_valueOrError3_ = default__.DecodeVerificationKey((input).encryptionContext)
+                    if (d_349_valueOrError3_).IsFailure():
+                        return (d_349_valueOrError3_).PropagateFailure()
                     elif True:
-                        d_355_verificationKey_ = (d_354_valueOrError3_).Extract()
-                        return Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials_DecryptionMaterials(d_351_suite_, (input).encryptionContext, (input).requiredEncryptionContextKeys, Wrappers.Option_None(), d_355_verificationKey_, Wrappers.Option_None()))
+                        d_350_verificationKey_ = (d_349_valueOrError3_).Extract()
+                        return Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials_DecryptionMaterials(d_346_suite_, (input).encryptionContext, (input).requiredEncryptionContextKeys, Wrappers.Option_None(), d_350_verificationKey_, Wrappers.Option_None()))
 
     @staticmethod
     def DecodeVerificationKey(encryptionContext):
         if (default__.EC__PUBLIC__KEY__FIELD) in (encryptionContext):
-            d_356_utf8Key_ = (encryptionContext)[default__.EC__PUBLIC__KEY__FIELD]
-            def lambda38_(d_358_e_):
-                return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_358_e_)
+            d_351_utf8Key_ = (encryptionContext)[default__.EC__PUBLIC__KEY__FIELD]
+            def lambda38_(d_353_e_):
+                return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_353_e_)
 
-            d_357_valueOrError0_ = (UTF8.default__.Decode(d_356_utf8Key_)).MapFailure(lambda38_)
-            if (d_357_valueOrError0_).IsFailure():
-                return (d_357_valueOrError0_).PropagateFailure()
+            d_352_valueOrError0_ = (UTF8.default__.Decode(d_351_utf8Key_)).MapFailure(lambda38_)
+            if (d_352_valueOrError0_).IsFailure():
+                return (d_352_valueOrError0_).PropagateFailure()
             elif True:
-                d_359_base64Key_ = (d_357_valueOrError0_).Extract()
-                def lambda39_(d_361_e_):
-                    return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_361_e_)
+                d_354_base64Key_ = (d_352_valueOrError0_).Extract()
+                def lambda39_(d_356_e_):
+                    return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_356_e_)
 
-                d_360_valueOrError1_ = (Base64.default__.Decode(d_359_base64Key_)).MapFailure(lambda39_)
-                if (d_360_valueOrError1_).IsFailure():
-                    return (d_360_valueOrError1_).PropagateFailure()
+                d_355_valueOrError1_ = (Base64.default__.Decode(d_354_base64Key_)).MapFailure(lambda39_)
+                if (d_355_valueOrError1_).IsFailure():
+                    return (d_355_valueOrError1_).PropagateFailure()
                 elif True:
-                    d_362_key_ = (d_360_valueOrError1_).Extract()
-                    return Wrappers.Result_Success(Wrappers.Option_Some(d_362_key_))
+                    d_357_key_ = (d_355_valueOrError1_).Extract()
+                    return Wrappers.Result_Success(Wrappers.Option_Some(d_357_key_))
         elif True:
             return Wrappers.Result_Success(Wrappers.Option_None())
 
@@ -207,32 +200,32 @@ class default__:
 
     @staticmethod
     def ValidEncryptionMaterials(encryptionMaterials):
-        pat_let_tv136_ = encryptionMaterials
-        pat_let_tv137_ = encryptionMaterials
-        pat_let_tv138_ = encryptionMaterials
-        pat_let_tv139_ = encryptionMaterials
-        pat_let_tv140_ = encryptionMaterials
-        pat_let_tv141_ = encryptionMaterials
-        pat_let_tv142_ = encryptionMaterials
-        pat_let_tv143_ = encryptionMaterials
-        pat_let_tv144_ = encryptionMaterials
-        pat_let_tv145_ = encryptionMaterials
-        pat_let_tv146_ = encryptionMaterials
-        pat_let_tv147_ = encryptionMaterials
-        pat_let_tv148_ = encryptionMaterials
-        pat_let_tv149_ = encryptionMaterials
-        pat_let_tv150_ = encryptionMaterials
-        pat_let_tv151_ = encryptionMaterials
+        pat_let_tv0_ = encryptionMaterials
+        pat_let_tv1_ = encryptionMaterials
+        pat_let_tv2_ = encryptionMaterials
+        pat_let_tv3_ = encryptionMaterials
+        pat_let_tv4_ = encryptionMaterials
+        pat_let_tv5_ = encryptionMaterials
+        pat_let_tv6_ = encryptionMaterials
+        pat_let_tv7_ = encryptionMaterials
+        pat_let_tv8_ = encryptionMaterials
+        pat_let_tv9_ = encryptionMaterials
+        pat_let_tv10_ = encryptionMaterials
+        pat_let_tv11_ = encryptionMaterials
+        pat_let_tv12_ = encryptionMaterials
+        pat_let_tv13_ = encryptionMaterials
+        pat_let_tv14_ = encryptionMaterials
+        pat_let_tv15_ = encryptionMaterials
         def iife13_(_pat_let2_0):
-            def iife14_(d_363_suite_):
+            def iife14_(d_358_suite_):
                 def lambda40_(forall_var_10_):
-                    d_364_key_: _dafny.Seq = forall_var_10_
-                    if UTF8.ValidUTF8Bytes._Is(d_364_key_):
-                        return not ((d_364_key_) in ((pat_let_tv150_).requiredEncryptionContextKeys)) or ((d_364_key_) in ((pat_let_tv151_).encryptionContext))
+                    d_359_key_: _dafny.Seq = forall_var_10_
+                    if UTF8.ValidUTF8Bytes._Is(d_359_key_):
+                        return not ((d_359_key_) in ((pat_let_tv14_).requiredEncryptionContextKeys)) or ((d_359_key_) in ((pat_let_tv15_).encryptionContext))
                     elif True:
                         return True
 
-                return ((((((((((((d_363_suite_).signature).is_None) == (((pat_let_tv136_).signingKey).is_None)) and (not (((pat_let_tv137_).plaintextDataKey).is_Some) or ((AlgorithmSuites.default__.GetEncryptKeyLength(d_363_suite_)) == (len(((pat_let_tv138_).plaintextDataKey).value))))) and (not (((pat_let_tv139_).plaintextDataKey).is_None) or ((len((pat_let_tv140_).encryptedDataKeys)) == (0)))) and ((not(((d_363_suite_).signature).is_None)) == ((default__.EC__PUBLIC__KEY__FIELD) in ((pat_let_tv141_).encryptionContext)))) and ((((d_363_suite_).signature).is_ECDSA) == (((pat_let_tv142_).signingKey).is_Some))) and ((not(((d_363_suite_).signature).is_None)) == ((default__.EC__PUBLIC__KEY__FIELD) in ((pat_let_tv143_).encryptionContext)))) and (not ((((d_363_suite_).symmetricSignature).is_HMAC) and (((pat_let_tv144_).symmetricSigningKeys).is_Some)) or ((len(((pat_let_tv145_).symmetricSigningKeys).value)) == (len((pat_let_tv146_).encryptedDataKeys))))) and (not (((d_363_suite_).symmetricSignature).is_HMAC) or (((pat_let_tv147_).symmetricSigningKeys).is_Some))) and (not (((d_363_suite_).symmetricSignature).is_None) or (((pat_let_tv148_).symmetricSigningKeys).is_None))) and (_dafny.quantifier(((pat_let_tv149_).requiredEncryptionContextKeys).UniqueElements, True, lambda40_))
+                return ((((((((((((d_358_suite_).signature).is_None) == (((pat_let_tv0_).signingKey).is_None)) and (not (((pat_let_tv1_).plaintextDataKey).is_Some) or ((AlgorithmSuites.default__.GetEncryptKeyLength(d_358_suite_)) == (len(((pat_let_tv2_).plaintextDataKey).value))))) and (not (((pat_let_tv3_).plaintextDataKey).is_None) or ((len((pat_let_tv4_).encryptedDataKeys)) == (0)))) and ((not(((d_358_suite_).signature).is_None)) == ((default__.EC__PUBLIC__KEY__FIELD) in ((pat_let_tv5_).encryptionContext)))) and ((((d_358_suite_).signature).is_ECDSA) == (((pat_let_tv6_).signingKey).is_Some))) and ((not(((d_358_suite_).signature).is_None)) == ((default__.EC__PUBLIC__KEY__FIELD) in ((pat_let_tv7_).encryptionContext)))) and (not ((((d_358_suite_).symmetricSignature).is_HMAC) and (((pat_let_tv8_).symmetricSigningKeys).is_Some)) or ((len(((pat_let_tv9_).symmetricSigningKeys).value)) == (len((pat_let_tv10_).encryptedDataKeys))))) and (not (((d_358_suite_).symmetricSignature).is_HMAC) or (((pat_let_tv11_).symmetricSigningKeys).is_Some))) and (not (((d_358_suite_).symmetricSignature).is_None) or (((pat_let_tv12_).symmetricSigningKeys).is_None))) and (_dafny.quantifier(((pat_let_tv13_).requiredEncryptionContextKeys).UniqueElements, True, lambda40_))
             return iife14_(_pat_let2_0)
         return (AlgorithmSuites.default__.AlgorithmSuite_q((encryptionMaterials).algorithmSuite)) and (iife13_((encryptionMaterials).algorithmSuite))
 
@@ -242,50 +235,50 @@ class default__:
 
     @staticmethod
     def EncryptionMaterialAddEncryptedDataKeys(encryptionMaterials, encryptedDataKeysToAdd, symmetricSigningKeysToAdd):
-        d_365_valueOrError0_ = Wrappers.default__.Need(default__.ValidEncryptionMaterials(encryptionMaterials), AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Attempt to modify invalid encryption material.")))
-        if (d_365_valueOrError0_).IsFailure():
-            return (d_365_valueOrError0_).PropagateFailure()
+        d_360_valueOrError0_ = Wrappers.default__.Need(default__.ValidEncryptionMaterials(encryptionMaterials), AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Attempt to modify invalid encryption material.")))
+        if (d_360_valueOrError0_).IsFailure():
+            return (d_360_valueOrError0_).PropagateFailure()
         elif True:
-            d_366_valueOrError1_ = Wrappers.default__.Need(((encryptionMaterials).plaintextDataKey).is_Some, AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Adding encrypted data keys without a plaintext data key is not allowed.")))
-            if (d_366_valueOrError1_).IsFailure():
-                return (d_366_valueOrError1_).PropagateFailure()
+            d_361_valueOrError1_ = Wrappers.default__.Need(((encryptionMaterials).plaintextDataKey).is_Some, AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Adding encrypted data keys without a plaintext data key is not allowed.")))
+            if (d_361_valueOrError1_).IsFailure():
+                return (d_361_valueOrError1_).PropagateFailure()
             elif True:
-                d_367_valueOrError2_ = Wrappers.default__.Need(not ((symmetricSigningKeysToAdd).is_None) or ((((encryptionMaterials).algorithmSuite).symmetricSignature).is_None), AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Adding encrypted data keys without a symmetric signing key when using symmetric signing is not allowed.")))
-                if (d_367_valueOrError2_).IsFailure():
-                    return (d_367_valueOrError2_).PropagateFailure()
+                d_362_valueOrError2_ = Wrappers.default__.Need(not ((symmetricSigningKeysToAdd).is_None) or ((((encryptionMaterials).algorithmSuite).symmetricSignature).is_None), AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Adding encrypted data keys without a symmetric signing key when using symmetric signing is not allowed.")))
+                if (d_362_valueOrError2_).IsFailure():
+                    return (d_362_valueOrError2_).PropagateFailure()
                 elif True:
-                    d_368_valueOrError3_ = Wrappers.default__.Need(not ((symmetricSigningKeysToAdd).is_Some) or (not((((encryptionMaterials).algorithmSuite).symmetricSignature).is_None)), AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Adding encrypted data keys with a symmetric signing key when not using symmetric signing is not allowed.")))
-                    if (d_368_valueOrError3_).IsFailure():
-                        return (d_368_valueOrError3_).PropagateFailure()
+                    d_363_valueOrError3_ = Wrappers.default__.Need(not ((symmetricSigningKeysToAdd).is_Some) or (not((((encryptionMaterials).algorithmSuite).symmetricSignature).is_None)), AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Adding encrypted data keys with a symmetric signing key when not using symmetric signing is not allowed.")))
+                    if (d_363_valueOrError3_).IsFailure():
+                        return (d_363_valueOrError3_).PropagateFailure()
                     elif True:
-                        d_369_symmetricSigningKeys_ = ((encryptionMaterials).symmetricSigningKeys if (symmetricSigningKeysToAdd).is_None else Wrappers.Option_Some((((encryptionMaterials).symmetricSigningKeys).value) + ((symmetricSigningKeysToAdd).value)))
-                        return Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials_EncryptionMaterials((encryptionMaterials).algorithmSuite, (encryptionMaterials).encryptionContext, ((encryptionMaterials).encryptedDataKeys) + (encryptedDataKeysToAdd), (encryptionMaterials).requiredEncryptionContextKeys, (encryptionMaterials).plaintextDataKey, (encryptionMaterials).signingKey, d_369_symmetricSigningKeys_))
+                        d_364_symmetricSigningKeys_ = ((encryptionMaterials).symmetricSigningKeys if (symmetricSigningKeysToAdd).is_None else Wrappers.Option_Some((((encryptionMaterials).symmetricSigningKeys).value) + ((symmetricSigningKeysToAdd).value)))
+                        return Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials_EncryptionMaterials((encryptionMaterials).algorithmSuite, (encryptionMaterials).encryptionContext, ((encryptionMaterials).encryptedDataKeys) + (encryptedDataKeysToAdd), (encryptionMaterials).requiredEncryptionContextKeys, (encryptionMaterials).plaintextDataKey, (encryptionMaterials).signingKey, d_364_symmetricSigningKeys_))
 
     @staticmethod
     def EncryptionMaterialAddDataKey(encryptionMaterials, plaintextDataKey, encryptedDataKeysToAdd, symmetricSigningKeysToAdd):
-        d_370_suite_ = (encryptionMaterials).algorithmSuite
-        d_371_valueOrError0_ = Wrappers.default__.Need(default__.ValidEncryptionMaterials(encryptionMaterials), AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Attempt to modify invalid encryption material.")))
-        if (d_371_valueOrError0_).IsFailure():
-            return (d_371_valueOrError0_).PropagateFailure()
+        d_365_suite_ = (encryptionMaterials).algorithmSuite
+        d_366_valueOrError0_ = Wrappers.default__.Need(default__.ValidEncryptionMaterials(encryptionMaterials), AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Attempt to modify invalid encryption material.")))
+        if (d_366_valueOrError0_).IsFailure():
+            return (d_366_valueOrError0_).PropagateFailure()
         elif True:
-            d_372_valueOrError1_ = Wrappers.default__.Need(((encryptionMaterials).plaintextDataKey).is_None, AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Attempt to modify plaintextDataKey.")))
-            if (d_372_valueOrError1_).IsFailure():
-                return (d_372_valueOrError1_).PropagateFailure()
+            d_367_valueOrError1_ = Wrappers.default__.Need(((encryptionMaterials).plaintextDataKey).is_None, AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Attempt to modify plaintextDataKey.")))
+            if (d_367_valueOrError1_).IsFailure():
+                return (d_367_valueOrError1_).PropagateFailure()
             elif True:
-                d_373_valueOrError2_ = Wrappers.default__.Need((AlgorithmSuites.default__.GetEncryptKeyLength(d_370_suite_)) == (len(plaintextDataKey)), AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("plaintextDataKey does not match Algorithm Suite specification.")))
-                if (d_373_valueOrError2_).IsFailure():
-                    return (d_373_valueOrError2_).PropagateFailure()
+                d_368_valueOrError2_ = Wrappers.default__.Need((AlgorithmSuites.default__.GetEncryptKeyLength(d_365_suite_)) == (len(plaintextDataKey)), AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("plaintextDataKey does not match Algorithm Suite specification.")))
+                if (d_368_valueOrError2_).IsFailure():
+                    return (d_368_valueOrError2_).PropagateFailure()
                 elif True:
-                    d_374_valueOrError3_ = Wrappers.default__.Need(((symmetricSigningKeysToAdd).is_None) == ((((encryptionMaterials).algorithmSuite).symmetricSignature).is_None), AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Adding encrypted data keys without a symmetric signing key when using symmetric signing is not allowed.")))
-                    if (d_374_valueOrError3_).IsFailure():
-                        return (d_374_valueOrError3_).PropagateFailure()
+                    d_369_valueOrError3_ = Wrappers.default__.Need(((symmetricSigningKeysToAdd).is_None) == ((((encryptionMaterials).algorithmSuite).symmetricSignature).is_None), AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Adding encrypted data keys without a symmetric signing key when using symmetric signing is not allowed.")))
+                    if (d_369_valueOrError3_).IsFailure():
+                        return (d_369_valueOrError3_).PropagateFailure()
                     elif True:
-                        d_375_valueOrError4_ = Wrappers.default__.Need(((symmetricSigningKeysToAdd).is_Some) == (not((((encryptionMaterials).algorithmSuite).symmetricSignature).is_None)), AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Adding encrypted data keys with a symmetric signing key when not using symmetric signing is not allowed.")))
-                        if (d_375_valueOrError4_).IsFailure():
-                            return (d_375_valueOrError4_).PropagateFailure()
+                        d_370_valueOrError4_ = Wrappers.default__.Need(((symmetricSigningKeysToAdd).is_Some) == (not((((encryptionMaterials).algorithmSuite).symmetricSignature).is_None)), AwsCryptographyMaterialProvidersTypes.Error_InvalidEncryptionMaterialsTransition(_dafny.Seq("Adding encrypted data keys with a symmetric signing key when not using symmetric signing is not allowed.")))
+                        if (d_370_valueOrError4_).IsFailure():
+                            return (d_370_valueOrError4_).PropagateFailure()
                         elif True:
-                            d_376_symmetricSigningKeys_ = ((encryptionMaterials).symmetricSigningKeys if (symmetricSigningKeysToAdd).is_None else Wrappers.Option_Some((((encryptionMaterials).symmetricSigningKeys).value) + ((symmetricSigningKeysToAdd).value)))
-                            return Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials_EncryptionMaterials((encryptionMaterials).algorithmSuite, (encryptionMaterials).encryptionContext, ((encryptionMaterials).encryptedDataKeys) + (encryptedDataKeysToAdd), (encryptionMaterials).requiredEncryptionContextKeys, Wrappers.Option_Some(plaintextDataKey), (encryptionMaterials).signingKey, d_376_symmetricSigningKeys_))
+                            d_371_symmetricSigningKeys_ = ((encryptionMaterials).symmetricSigningKeys if (symmetricSigningKeysToAdd).is_None else Wrappers.Option_Some((((encryptionMaterials).symmetricSigningKeys).value) + ((symmetricSigningKeysToAdd).value)))
+                            return Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.EncryptionMaterials_EncryptionMaterials((encryptionMaterials).algorithmSuite, (encryptionMaterials).encryptionContext, ((encryptionMaterials).encryptedDataKeys) + (encryptedDataKeysToAdd), (encryptionMaterials).requiredEncryptionContextKeys, Wrappers.Option_Some(plaintextDataKey), (encryptionMaterials).signingKey, d_371_symmetricSigningKeys_))
 
     @staticmethod
     def DecryptionMaterialsTransitionIsValid(oldMat, newMat):
@@ -293,52 +286,52 @@ class default__:
 
     @staticmethod
     def ValidDecryptionMaterials(decryptionMaterials):
-        pat_let_tv152_ = decryptionMaterials
-        pat_let_tv153_ = decryptionMaterials
-        pat_let_tv154_ = decryptionMaterials
-        pat_let_tv155_ = decryptionMaterials
-        pat_let_tv156_ = decryptionMaterials
-        pat_let_tv157_ = decryptionMaterials
-        pat_let_tv158_ = decryptionMaterials
-        pat_let_tv159_ = decryptionMaterials
-        pat_let_tv160_ = decryptionMaterials
-        pat_let_tv161_ = decryptionMaterials
-        pat_let_tv162_ = decryptionMaterials
+        pat_let_tv16_ = decryptionMaterials
+        pat_let_tv17_ = decryptionMaterials
+        pat_let_tv18_ = decryptionMaterials
+        pat_let_tv19_ = decryptionMaterials
+        pat_let_tv20_ = decryptionMaterials
+        pat_let_tv21_ = decryptionMaterials
+        pat_let_tv22_ = decryptionMaterials
+        pat_let_tv23_ = decryptionMaterials
+        pat_let_tv24_ = decryptionMaterials
+        pat_let_tv25_ = decryptionMaterials
+        pat_let_tv26_ = decryptionMaterials
         def iife15_(_pat_let3_0):
-            def iife16_(d_377_suite_):
+            def iife16_(d_372_suite_):
                 def lambda41_(forall_var_11_):
-                    d_378_k_: _dafny.Seq = forall_var_11_
-                    if UTF8.ValidUTF8Bytes._Is(d_378_k_):
-                        return not ((d_378_k_) in ((pat_let_tv161_).requiredEncryptionContextKeys)) or ((d_378_k_) in ((pat_let_tv162_).encryptionContext))
+                    d_373_k_: _dafny.Seq = forall_var_11_
+                    if UTF8.ValidUTF8Bytes._Is(d_373_k_):
+                        return not ((d_373_k_) in ((pat_let_tv25_).requiredEncryptionContextKeys)) or ((d_373_k_) in ((pat_let_tv26_).encryptionContext))
                     elif True:
                         return True
 
-                return ((((((not (((pat_let_tv152_).plaintextDataKey).is_Some) or ((AlgorithmSuites.default__.GetEncryptKeyLength(d_377_suite_)) == (len(((pat_let_tv153_).plaintextDataKey).value)))) and ((not(((d_377_suite_).signature).is_None)) == ((default__.EC__PUBLIC__KEY__FIELD) in ((pat_let_tv154_).encryptionContext)))) and ((((d_377_suite_).signature).is_ECDSA) == (((pat_let_tv155_).verificationKey).is_Some))) and ((not(((d_377_suite_).signature).is_None)) == ((default__.EC__PUBLIC__KEY__FIELD) in ((pat_let_tv156_).encryptionContext)))) and (not (not(((d_377_suite_).symmetricSignature).is_None)) or ((((pat_let_tv157_).plaintextDataKey).is_Some) == (((pat_let_tv158_).symmetricSigningKey).is_Some)))) and (not (((d_377_suite_).symmetricSignature).is_None) or (((pat_let_tv159_).symmetricSigningKey).is_None))) and (_dafny.quantifier(((pat_let_tv160_).requiredEncryptionContextKeys).UniqueElements, True, lambda41_))
+                return ((((((not (((pat_let_tv16_).plaintextDataKey).is_Some) or ((AlgorithmSuites.default__.GetEncryptKeyLength(d_372_suite_)) == (len(((pat_let_tv17_).plaintextDataKey).value)))) and ((not(((d_372_suite_).signature).is_None)) == ((default__.EC__PUBLIC__KEY__FIELD) in ((pat_let_tv18_).encryptionContext)))) and ((((d_372_suite_).signature).is_ECDSA) == (((pat_let_tv19_).verificationKey).is_Some))) and ((not(((d_372_suite_).signature).is_None)) == ((default__.EC__PUBLIC__KEY__FIELD) in ((pat_let_tv20_).encryptionContext)))) and (not (not(((d_372_suite_).symmetricSignature).is_None)) or ((((pat_let_tv21_).plaintextDataKey).is_Some) == (((pat_let_tv22_).symmetricSigningKey).is_Some)))) and (not (((d_372_suite_).symmetricSignature).is_None) or (((pat_let_tv23_).symmetricSigningKey).is_None))) and (_dafny.quantifier(((pat_let_tv24_).requiredEncryptionContextKeys).UniqueElements, True, lambda41_))
             return iife16_(_pat_let3_0)
         return (AlgorithmSuites.default__.AlgorithmSuite_q((decryptionMaterials).algorithmSuite)) and (iife15_((decryptionMaterials).algorithmSuite))
 
     @staticmethod
     def DecryptionMaterialsAddDataKey(decryptionMaterials, plaintextDataKey, symmetricSigningKey):
-        d_379_suite_ = (decryptionMaterials).algorithmSuite
-        d_380_valueOrError0_ = Wrappers.default__.Need(default__.ValidDecryptionMaterials(decryptionMaterials), AwsCryptographyMaterialProvidersTypes.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("Attempt to modify invalid decryption material.")))
-        if (d_380_valueOrError0_).IsFailure():
-            return (d_380_valueOrError0_).PropagateFailure()
+        d_374_suite_ = (decryptionMaterials).algorithmSuite
+        d_375_valueOrError0_ = Wrappers.default__.Need(default__.ValidDecryptionMaterials(decryptionMaterials), AwsCryptographyMaterialProvidersTypes.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("Attempt to modify invalid decryption material.")))
+        if (d_375_valueOrError0_).IsFailure():
+            return (d_375_valueOrError0_).PropagateFailure()
         elif True:
-            d_381_valueOrError1_ = Wrappers.default__.Need(((decryptionMaterials).plaintextDataKey).is_None, AwsCryptographyMaterialProvidersTypes.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("Attempt to modify plaintextDataKey.")))
-            if (d_381_valueOrError1_).IsFailure():
-                return (d_381_valueOrError1_).PropagateFailure()
+            d_376_valueOrError1_ = Wrappers.default__.Need(((decryptionMaterials).plaintextDataKey).is_None, AwsCryptographyMaterialProvidersTypes.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("Attempt to modify plaintextDataKey.")))
+            if (d_376_valueOrError1_).IsFailure():
+                return (d_376_valueOrError1_).PropagateFailure()
             elif True:
-                d_382_valueOrError2_ = Wrappers.default__.Need((AlgorithmSuites.default__.GetEncryptKeyLength(d_379_suite_)) == (len(plaintextDataKey)), AwsCryptographyMaterialProvidersTypes.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("plaintextDataKey does not match Algorithm Suite specification.")))
-                if (d_382_valueOrError2_).IsFailure():
-                    return (d_382_valueOrError2_).PropagateFailure()
+                d_377_valueOrError2_ = Wrappers.default__.Need((AlgorithmSuites.default__.GetEncryptKeyLength(d_374_suite_)) == (len(plaintextDataKey)), AwsCryptographyMaterialProvidersTypes.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("plaintextDataKey does not match Algorithm Suite specification.")))
+                if (d_377_valueOrError2_).IsFailure():
+                    return (d_377_valueOrError2_).PropagateFailure()
                 elif True:
-                    d_383_valueOrError3_ = Wrappers.default__.Need(((symmetricSigningKey).is_Some) == (not((((decryptionMaterials).algorithmSuite).symmetricSignature).is_None)), AwsCryptographyMaterialProvidersTypes.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("symmetric signature key must be added with plaintextDataKey if using an algorithm suite with symmetric signing.")))
-                    if (d_383_valueOrError3_).IsFailure():
-                        return (d_383_valueOrError3_).PropagateFailure()
+                    d_378_valueOrError3_ = Wrappers.default__.Need(((symmetricSigningKey).is_Some) == (not((((decryptionMaterials).algorithmSuite).symmetricSignature).is_None)), AwsCryptographyMaterialProvidersTypes.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("symmetric signature key must be added with plaintextDataKey if using an algorithm suite with symmetric signing.")))
+                    if (d_378_valueOrError3_).IsFailure():
+                        return (d_378_valueOrError3_).PropagateFailure()
                     elif True:
-                        d_384_valueOrError4_ = Wrappers.default__.Need(((symmetricSigningKey).is_None) == ((((decryptionMaterials).algorithmSuite).symmetricSignature).is_None), AwsCryptographyMaterialProvidersTypes.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("symmetric signature key cannot be added with plaintextDataKey if using an algorithm suite without symmetric signing.")))
-                        if (d_384_valueOrError4_).IsFailure():
-                            return (d_384_valueOrError4_).PropagateFailure()
+                        d_379_valueOrError4_ = Wrappers.default__.Need(((symmetricSigningKey).is_None) == ((((decryptionMaterials).algorithmSuite).symmetricSignature).is_None), AwsCryptographyMaterialProvidersTypes.Error_InvalidDecryptionMaterialsTransition(_dafny.Seq("symmetric signature key cannot be added with plaintextDataKey if using an algorithm suite without symmetric signing.")))
+                        if (d_379_valueOrError4_).IsFailure():
+                            return (d_379_valueOrError4_).PropagateFailure()
                         elif True:
                             return Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.DecryptionMaterials_DecryptionMaterials((decryptionMaterials).algorithmSuite, (decryptionMaterials).encryptionContext, (decryptionMaterials).requiredEncryptionContextKeys, Wrappers.Option_Some(plaintextDataKey), (decryptionMaterials).verificationKey, symmetricSigningKey))
 
@@ -352,8 +345,8 @@ class default__:
 
     @_dafny.classproperty
     def EC__PUBLIC__KEY__FIELD(instance):
-        d_385_s_ = _dafny.Seq([97, 119, 115, 45, 99, 114, 121, 112, 116, 111, 45, 112, 117, 98, 108, 105, 99, 45, 107, 101, 121])
-        return d_385_s_
+        d_380_s_ = _dafny.Seq([97, 119, 115, 45, 99, 114, 121, 112, 116, 111, 45, 112, 117, 98, 108, 105, 99, 45, 107, 101, 121])
+        return d_380_s_
     @_dafny.classproperty
     def RESERVED__KEY__VALUES(instance):
         return _dafny.Set({default__.EC__PUBLIC__KEY__FIELD})
@@ -366,8 +359,8 @@ class DecryptionMaterialsPendingPlaintextDataKey:
     def default():
         return AwsCryptographyMaterialProvidersTypes.DecryptionMaterials.default()()
     def _Is(source__):
-        d_386_d_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials = source__
-        return default__.DecryptionMaterialsWithoutPlaintextDataKey(d_386_d_)
+        d_381_d_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials = source__
+        return default__.DecryptionMaterialsWithoutPlaintextDataKey(d_381_d_)
 
 class SealedDecryptionMaterials:
     def  __init__(self):
@@ -377,5 +370,5 @@ class SealedDecryptionMaterials:
     def default():
         return AwsCryptographyMaterialProvidersTypes.DecryptionMaterials.default()()
     def _Is(source__):
-        d_387_d_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials = source__
-        return default__.DecryptionMaterialsWithPlaintextDataKey(d_387_d_)
+        d_382_d_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials = source__
+        return default__.DecryptionMaterialsWithPlaintextDataKey(d_382_d_)

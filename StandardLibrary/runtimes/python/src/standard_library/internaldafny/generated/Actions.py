@@ -75,16 +75,16 @@ class default__:
         d_406_rs_ = _dafny.Seq([])
         hi1_ = len(s)
         for d_407_i_ in range(0, hi1_):
-            d_408_r_: TypeVar('R__')
-            d_409_valueOrError0_: Wrappers.Result = None
+            d_408_valueOrError0_: Wrappers.Result = None
             out17_: Wrappers.Result
             out17_ = (action).Invoke((s)[d_407_i_])
-            d_409_valueOrError0_ = out17_
-            if (d_409_valueOrError0_).IsFailure():
-                res = (d_409_valueOrError0_).PropagateFailure()
+            d_408_valueOrError0_ = out17_
+            if (d_408_valueOrError0_).IsFailure():
+                res = (d_408_valueOrError0_).PropagateFailure()
                 return res
-            d_408_r_ = (d_409_valueOrError0_).Extract()
-            d_406_rs_ = (d_406_rs_) + (_dafny.Seq([d_408_r_]))
+            d_409_r_: TypeVar('R__')
+            d_409_r_ = (d_408_valueOrError0_).Extract()
+            d_406_rs_ = (d_406_rs_) + (_dafny.Seq([d_409_r_]))
         res = Wrappers.Result_Success(d_406_rs_)
         return res
         return res
@@ -112,16 +112,16 @@ class default__:
         d_413_rs_ = _dafny.Seq([])
         hi3_ = len(s)
         for d_414_i_ in range(0, hi3_):
-            d_415_r_: _dafny.Seq
-            d_416_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+            d_415_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
             out19_: Wrappers.Result
             out19_ = (action).Invoke((s)[d_414_i_])
-            d_416_valueOrError0_ = out19_
-            if (d_416_valueOrError0_).IsFailure():
-                res = (d_416_valueOrError0_).PropagateFailure()
+            d_415_valueOrError0_ = out19_
+            if (d_415_valueOrError0_).IsFailure():
+                res = (d_415_valueOrError0_).PropagateFailure()
                 return res
-            d_415_r_ = (d_416_valueOrError0_).Extract()
-            d_413_rs_ = (d_413_rs_) + (d_415_r_)
+            d_416_r_: _dafny.Seq
+            d_416_r_ = (d_415_valueOrError0_).Extract()
+            d_413_rs_ = (d_413_rs_) + (d_416_r_)
         rhs4_ = Wrappers.Result_Success(d_413_rs_)
         res = rhs4_
         return res
@@ -151,16 +151,16 @@ class default__:
         d_420_rs_ = _dafny.Seq([])
         hi5_ = len(s)
         for d_421_i_ in range(0, hi5_):
-            d_422_r_: bool
-            d_423_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.bool)()
+            d_422_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.bool)()
             out21_: Wrappers.Result
             out21_ = (action).Invoke((s)[d_421_i_])
-            d_423_valueOrError0_ = out21_
-            if (d_423_valueOrError0_).IsFailure():
-                res = (d_423_valueOrError0_).PropagateFailure()
+            d_422_valueOrError0_ = out21_
+            if (d_422_valueOrError0_).IsFailure():
+                res = (d_422_valueOrError0_).PropagateFailure()
                 return res
-            d_422_r_ = (d_423_valueOrError0_).Extract()
-            if d_422_r_:
+            d_423_r_: bool
+            d_423_r_ = (d_422_valueOrError0_).Extract()
+            if d_423_r_:
                 d_420_rs_ = (d_420_rs_) + (_dafny.Seq([(s)[d_421_i_]]))
         res = Wrappers.Result_Success(d_420_rs_)
         return res

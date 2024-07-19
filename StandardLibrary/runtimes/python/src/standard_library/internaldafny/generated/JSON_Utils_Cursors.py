@@ -111,33 +111,26 @@ class CursorError:
     def is_OtherError(self) -> bool:
         return isinstance(self, CursorError_OtherError)
     def ToString(self, pr):
-        pat_let_tv11_ = pr
         source7_ = self
-        unmatched7 = True
-        if unmatched7:
+        if True:
             if source7_.is_EOF:
-                unmatched7 = False
                 return _dafny.Seq("Reached EOF")
-        if unmatched7:
+        if True:
             if source7_.is_ExpectingByte:
                 d_436_b0_ = source7_.expected
                 d_437_b_ = source7_.b
-                unmatched7 = False
                 d_438_c_ = (((_dafny.Seq("'")) + (_dafny.Seq([chr(d_437_b_)]))) + (_dafny.Seq("'")) if (d_437_b_) > (0) else _dafny.Seq("EOF"))
                 return (((_dafny.Seq("Expecting '")) + (_dafny.Seq([chr(d_436_b0_)]))) + (_dafny.Seq("', read "))) + (d_438_c_)
-        if unmatched7:
+        if True:
             if source7_.is_ExpectingAnyByte:
                 d_439_bs0_ = source7_.expected__sq
                 d_440_b_ = source7_.b
-                unmatched7 = False
                 d_441_c_ = (((_dafny.Seq("'")) + (_dafny.Seq([chr(d_440_b_)]))) + (_dafny.Seq("'")) if (d_440_b_) > (0) else _dafny.Seq("EOF"))
                 d_442_c0s_ = _dafny.Seq([chr((d_439_bs0_)[d_443_idx_]) for d_443_idx_ in range(len(d_439_bs0_))])
                 return (((_dafny.Seq("Expecting one of '")) + (d_442_c0s_)) + (_dafny.Seq("', read "))) + (d_441_c_)
-        if unmatched7:
+        if True:
             d_444_err_ = source7_.err
-            unmatched7 = False
-            return pat_let_tv11_(d_444_err_)
-        raise Exception("unexpected control point")
+            return pr(d_444_err_)
 
 
 class CursorError_EOF(CursorError, NamedTuple('EOF', [])):
@@ -314,29 +307,32 @@ class Cursor__:
             d_460_minusone_: int
             d_460_minusone_ = -1
             d_461_c_: int
-            d_461_c_ = (d_460_minusone_ if d_459_eof_ else ((self).s)[d_456_point_k_])
+            if d_459_eof_:
+                d_461_c_ = d_460_minusone_
+            elif True:
+                d_461_c_ = ((self).s)[d_456_point_k_]
             source8_ = step(d_458_st_k_, d_461_c_)
-            unmatched8 = True
-            if unmatched8:
-                if source8_.is_Accept:
-                    unmatched8 = False
-                    pr = Wrappers.Result_Success(Cursor___Cursor((self).s, (self).beg, d_456_point_k_, (self).end))
-                    return pr
-            if unmatched8:
-                if source8_.is_Reject:
-                    d_462_err_ = source8_.err
-                    unmatched8 = False
-                    pr = Wrappers.Result_Failure(CursorError_OtherError(d_462_err_))
-                    return pr
-            if unmatched8:
-                d_463_st_k_k_ = source8_.st
-                unmatched8 = False
-                if d_459_eof_:
-                    pr = Wrappers.Result_Failure(CursorError_EOF())
-                    return pr
-                elif True:
-                    d_458_st_k_ = d_463_st_k_k_
-                    d_456_point_k_ = (d_456_point_k_) + (1)
+            with _dafny.label("match0"):
+                if True:
+                    if source8_.is_Accept:
+                        pr = Wrappers.Result_Success(Cursor___Cursor((self).s, (self).beg, d_456_point_k_, (self).end))
+                        return pr
+                        raise _dafny.Break("match0")
+                if True:
+                    if source8_.is_Reject:
+                        d_462_err_ = source8_.err
+                        pr = Wrappers.Result_Failure(CursorError_OtherError(d_462_err_))
+                        return pr
+                        raise _dafny.Break("match0")
+                if True:
+                    d_463_st_k_k_ = source8_.st
+                    if d_459_eof_:
+                        pr = Wrappers.Result_Failure(CursorError_EOF())
+                        return pr
+                    elif True:
+                        d_458_st_k_ = d_463_st_k_k_
+                        d_456_point_k_ = (d_456_point_k_) + (1)
+                pass
         return pr
 
     @property

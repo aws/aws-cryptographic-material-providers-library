@@ -114,16 +114,16 @@ class default__:
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         d_89_derivationMac_: AwsCryptographyPrimitivesTypes.DigestAlgorithm
         d_89_derivationMac_ = AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__256()
-        d_90_hmac_: HMAC.HMac
-        d_91_valueOrError0_: Wrappers.Result = None
+        d_90_valueOrError0_: Wrappers.Result = None
         out16_: Wrappers.Result
         out16_ = HMAC.HMac.Build(d_89_derivationMac_)
-        d_91_valueOrError0_ = out16_
-        if (d_91_valueOrError0_).IsFailure():
-            output = (d_91_valueOrError0_).PropagateFailure()
+        d_90_valueOrError0_ = out16_
+        if (d_90_valueOrError0_).IsFailure():
+            output = (d_90_valueOrError0_).PropagateFailure()
             return output
-        d_90_hmac_ = (d_91_valueOrError0_).Extract()
-        (d_90_hmac_).Init(ikm)
+        d_91_hmac_: HMAC.HMac
+        d_91_hmac_ = (d_90_valueOrError0_).Extract()
+        (d_91_hmac_).Init(ikm)
         d_92_macLengthBytes_: int
         d_92_macLengthBytes_ = Digest.default__.Length(d_89_derivationMac_)
         d_93_iterations_: int
@@ -134,11 +134,11 @@ class default__:
         d_95_i_ = StandardLibrary_UInt.default__.UInt32ToSeq(default__.COUNTER__START__VALUE)
         hi0_ = (d_93_iterations_) + (1)
         for d_96_iteration_ in range(1, hi0_):
-            (d_90_hmac_).BlockUpdate(d_95_i_)
-            (d_90_hmac_).BlockUpdate(explicitInfo)
+            (d_91_hmac_).BlockUpdate(d_95_i_)
+            (d_91_hmac_).BlockUpdate(explicitInfo)
             d_97_tmp_: _dafny.Seq
             out17_: _dafny.Seq
-            out17_ = (d_90_hmac_).GetResult()
+            out17_ = (d_91_hmac_).GetResult()
             d_97_tmp_ = out17_
             d_94_buffer_ = (d_94_buffer_) + (d_97_tmp_)
             d_98_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()

@@ -67,47 +67,39 @@ class default__:
     @staticmethod
     def SignatureLength(signatureAlgorithm):
         source2_ = signatureAlgorithm
-        unmatched2 = True
-        if unmatched2:
+        if True:
             if source2_.is_ECDSA__P256:
-                unmatched2 = False
                 return 71
-        if unmatched2:
-            unmatched2 = False
+        if True:
             return 103
-        raise Exception("unexpected control point")
 
     @staticmethod
     def FieldSize(signatureAlgorithm):
         source3_ = signatureAlgorithm
-        unmatched3 = True
-        if unmatched3:
+        if True:
             if source3_.is_ECDSA__P256:
-                unmatched3 = False
                 return 33
-        if unmatched3:
-            unmatched3 = False
+        if True:
             return 49
-        raise Exception("unexpected control point")
 
     @staticmethod
     def KeyGen(input):
         res: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.GenerateECDSASignatureKeyOutput.default())()
-        d_75_sigKeyPair_: SignatureKeyPair
-        d_76_valueOrError0_: Wrappers.Result = Wrappers.Result.default(SignatureKeyPair.default())()
+        d_75_valueOrError0_: Wrappers.Result = Wrappers.Result.default(SignatureKeyPair.default())()
         out14_: Wrappers.Result
         out14_ = ECDSA.ExternKeyGen((input).signatureAlgorithm)
-        d_76_valueOrError0_ = out14_
-        if (d_76_valueOrError0_).IsFailure():
-            res = (d_76_valueOrError0_).PropagateFailure()
+        d_75_valueOrError0_ = out14_
+        if (d_75_valueOrError0_).IsFailure():
+            res = (d_75_valueOrError0_).PropagateFailure()
             return res
-        d_75_sigKeyPair_ = (d_76_valueOrError0_).Extract()
+        d_76_sigKeyPair_: SignatureKeyPair
+        d_76_sigKeyPair_ = (d_75_valueOrError0_).Extract()
         d_77_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_77_valueOrError1_ = Wrappers.default__.Need((len((d_75_sigKeyPair_).verificationKey)) == (default__.FieldSize((input).signatureAlgorithm)), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect verification-key length from ExternKeyGen.")))
+        d_77_valueOrError1_ = Wrappers.default__.Need((len((d_76_sigKeyPair_).verificationKey)) == (default__.FieldSize((input).signatureAlgorithm)), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect verification-key length from ExternKeyGen.")))
         if (d_77_valueOrError1_).IsFailure():
             res = (d_77_valueOrError1_).PropagateFailure()
             return res
-        res = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.GenerateECDSASignatureKeyOutput_GenerateECDSASignatureKeyOutput((input).signatureAlgorithm, (d_75_sigKeyPair_).verificationKey, (d_75_sigKeyPair_).signingKey))
+        res = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.GenerateECDSASignatureKeyOutput_GenerateECDSASignatureKeyOutput((input).signatureAlgorithm, (d_76_sigKeyPair_).verificationKey, (d_76_sigKeyPair_).signingKey))
         return res
         return res
 

@@ -81,47 +81,35 @@ class default__:
         d_500___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
-                pat_let_tv12_ = str
-                pat_let_tv13_ = start
                 def lambda33_():
                     source11_ = (str)[start]
-                    unmatched11 = True
-                    if unmatched11:
+                    if True:
                         if (source11_) == (34):
-                            unmatched11 = False
                             return UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\\""))
-                    if unmatched11:
+                    if True:
                         if (source11_) == (92):
-                            unmatched11 = False
                             return UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\\\"))
-                    if unmatched11:
+                    if True:
                         if (source11_) == (8):
-                            unmatched11 = False
                             return UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\b"))
-                    if unmatched11:
+                    if True:
                         if (source11_) == (12):
-                            unmatched11 = False
                             return UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\f"))
-                    if unmatched11:
+                    if True:
                         if (source11_) == (10):
-                            unmatched11 = False
                             return UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\n"))
-                    if unmatched11:
+                    if True:
                         if (source11_) == (13):
-                            unmatched11 = False
                             return UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\r"))
-                    if unmatched11:
+                    if True:
                         if (source11_) == (9):
-                            unmatched11 = False
                             return UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\t"))
-                    if unmatched11:
+                    if True:
                         d_501_c_ = source11_
-                        unmatched11 = False
                         if (d_501_c_) < (31):
                             return (UnicodeStrings.default__.ASCIIToUTF16(_dafny.Seq("\\u"))) + (default__.EscapeUnicode(d_501_c_))
                         elif True:
-                            return _dafny.Seq([(pat_let_tv12_)[pat_let_tv13_]])
-                    raise Exception("unexpected control point")
+                            return _dafny.Seq([(str)[start]])
 
                 if (start) >= (len(str)):
                     return (d_500___accumulator_) + (_dafny.Seq([]))
@@ -222,34 +210,26 @@ class default__:
     @staticmethod
     def JSON(js):
         source12_ = js
-        unmatched12 = True
-        if unmatched12:
+        if True:
             if source12_.is_Null:
-                unmatched12 = False
                 return Wrappers.Result_Success(UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq("null")))
-        if unmatched12:
+        if True:
             if source12_.is_Bool:
                 d_524_b_ = source12_.b
-                unmatched12 = False
                 return Wrappers.Result_Success((UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq("true")) if d_524_b_ else UnicodeStrings.default__.ASCIIToUTF8(_dafny.Seq("false"))))
-        if unmatched12:
+        if True:
             if source12_.is_String:
                 d_525_str_ = source12_.str
-                unmatched12 = False
                 return default__.String(d_525_str_)
-        if unmatched12:
+        if True:
             if source12_.is_Number:
                 d_526_dec_ = source12_.num
-                unmatched12 = False
                 return default__.Number(d_526_dec_)
-        if unmatched12:
+        if True:
             if source12_.is_Object:
                 d_527_obj_ = source12_.obj
-                unmatched12 = False
                 return default__.Object(d_527_obj_)
-        if unmatched12:
+        if True:
             d_528_arr_ = source12_.arr
-            unmatched12 = False
             return default__.Array(d_528_arr_)
-        raise Exception("unexpected control point")
 

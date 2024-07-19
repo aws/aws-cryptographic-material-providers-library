@@ -77,26 +77,26 @@ class default__:
         d_15_key_ = let_tmp_rhs0_.key
         d_16_msg_ = let_tmp_rhs0_.msg
         d_17_aad_ = let_tmp_rhs0_.aad
-        d_18_value_: AwsCryptographyPrimitivesTypes.AESEncryptOutput
-        d_19_valueOrError1_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.AESEncryptOutput.default())()
+        d_18_valueOrError1_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.AESEncryptOutput.default())()
         out1_: Wrappers.Result
         out1_ = AESEncryption.AES_GCM.AESEncryptExtern(d_13_encAlg_, d_14_iv_, d_15_key_, d_16_msg_, d_17_aad_)
-        d_19_valueOrError1_ = out1_
-        if (d_19_valueOrError1_).IsFailure():
-            res = (d_19_valueOrError1_).PropagateFailure()
+        d_18_valueOrError1_ = out1_
+        if (d_18_valueOrError1_).IsFailure():
+            res = (d_18_valueOrError1_).PropagateFailure()
             return res
-        d_18_value_ = (d_19_valueOrError1_).Extract()
+        d_19_value_: AwsCryptographyPrimitivesTypes.AESEncryptOutput
+        d_19_value_ = (d_18_valueOrError1_).Extract()
         d_20_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_20_valueOrError2_ = Wrappers.default__.Need((len((d_18_value_).cipherText)) == (len(d_16_msg_)), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("AESEncrypt did not return cipherText of expected length")))
+        d_20_valueOrError2_ = Wrappers.default__.Need((len((d_19_value_).cipherText)) == (len(d_16_msg_)), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("AESEncrypt did not return cipherText of expected length")))
         if (d_20_valueOrError2_).IsFailure():
             res = (d_20_valueOrError2_).PropagateFailure()
             return res
         d_21_valueOrError3_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_21_valueOrError3_ = Wrappers.default__.Need((len((d_18_value_).authTag)) == ((d_13_encAlg_).tagLength), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("AESEncryption did not return valid tag")))
+        d_21_valueOrError3_ = Wrappers.default__.Need((len((d_19_value_).authTag)) == ((d_13_encAlg_).tagLength), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("AESEncryption did not return valid tag")))
         if (d_21_valueOrError3_).IsFailure():
             res = (d_21_valueOrError3_).PropagateFailure()
             return res
-        res = Wrappers.Result_Success(d_18_value_)
+        res = Wrappers.Result_Success(d_19_value_)
         return res
         return res
 
@@ -115,21 +115,21 @@ class default__:
         d_26_authTag_ = let_tmp_rhs1_.authTag
         d_27_iv_ = let_tmp_rhs1_.iv
         d_28_aad_ = let_tmp_rhs1_.aad
-        d_29_value_: _dafny.Seq
-        d_30_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_29_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out2_: Wrappers.Result
         out2_ = AESEncryption.AES_GCM.AESDecryptExtern(d_23_encAlg_, d_24_key_, d_25_cipherTxt_, d_26_authTag_, d_27_iv_, d_28_aad_)
-        d_30_valueOrError1_ = out2_
-        if (d_30_valueOrError1_).IsFailure():
-            res = (d_30_valueOrError1_).PropagateFailure()
+        d_29_valueOrError1_ = out2_
+        if (d_29_valueOrError1_).IsFailure():
+            res = (d_29_valueOrError1_).PropagateFailure()
             return res
-        d_29_value_ = (d_30_valueOrError1_).Extract()
+        d_30_value_: _dafny.Seq
+        d_30_value_ = (d_29_valueOrError1_).Extract()
         d_31_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_31_valueOrError2_ = Wrappers.default__.Need((len(d_25_cipherTxt_)) == (len(d_29_value_)), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("AESDecrypt did not return plaintext of expected length")))
+        d_31_valueOrError2_ = Wrappers.default__.Need((len(d_25_cipherTxt_)) == (len(d_30_value_)), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("AESDecrypt did not return plaintext of expected length")))
         if (d_31_valueOrError2_).IsFailure():
             res = (d_31_valueOrError2_).PropagateFailure()
             return res
-        res = Wrappers.Result_Success(d_29_value_)
+        res = Wrappers.Result_Success(d_30_value_)
         return res
         return res
 

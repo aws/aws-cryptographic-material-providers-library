@@ -184,9 +184,9 @@ class StormTracker:
         (self).lastPrune = 0
 
     def InFlightSize(self):
-        d_825_x_ = (self.inFlight).Size()
-        if (d_825_x_) <= (StandardLibrary_UInt.default__.INT64__MAX__LIMIT):
-            return d_825_x_
+        d_820_x_ = (self.inFlight).Size()
+        if (d_820_x_) <= (StandardLibrary_UInt.default__.INT64__MAX__LIMIT):
+            return d_820_x_
         elif True:
             return StandardLibrary_UInt.default__.INT64__MAX__LIMIT
 
@@ -205,11 +205,11 @@ class StormTracker:
 
     def CheckInFlight(self, identifier, result, now):
         output: CacheState = CacheState.default()()
-        d_826_fanOutReached_: bool
+        d_821_fanOutReached_: bool
         out131_: bool
         out131_ = (self).FanOutReached(now)
-        d_826_fanOutReached_ = out131_
-        if d_826_fanOutReached_:
+        d_821_fanOutReached_ = out131_
+        if d_821_fanOutReached_:
             output = CacheState_Full(result)
             return output
         elif ((result).expiryTime) <= (now):
@@ -221,9 +221,9 @@ class StormTracker:
             return output
         elif True:
             if (self.inFlight).HasKey(identifier):
-                d_827_entry_: int
-                d_827_entry_ = (self.inFlight).Select(identifier)
-                if ((self).AddLong(d_827_entry_, self.graceInterval)) > (now):
+                d_822_entry_: int
+                d_822_entry_ = (self.inFlight).Select(identifier)
+                if ((self).AddLong(d_822_entry_, self.graceInterval)) > (now):
                     output = CacheState_Full(result)
                     return output
             (self.inFlight).Put(identifier, now)
@@ -237,30 +237,30 @@ class StormTracker:
         if (self.lastPrune) == (now):
             return
         (self).lastPrune = now
-        d_828_keySet_: _dafny.Set
-        d_828_keySet_ = (self.inFlight).Keys()
-        d_829_keys_: _dafny.Seq
-        d_829_keys_ = SortedSets.default__.SetToSequence(d_828_keySet_)
-        hi7_ = len(d_829_keys_)
-        for d_830_i_ in range(0, hi7_):
-            d_831_v_: int
-            d_831_v_ = (self.inFlight).Select((d_829_keys_)[d_830_i_])
-            if (now) >= ((self).AddLong(d_831_v_, self.inFlightTTL)):
-                (self.inFlight).Remove((d_829_keys_)[d_830_i_])
+        d_823_keySet_: _dafny.Set
+        d_823_keySet_ = (self.inFlight).Keys()
+        d_824_keys_: _dafny.Seq
+        d_824_keys_ = SortedSets.default__.SetToSequence(d_823_keySet_)
+        hi7_ = len(d_824_keys_)
+        for d_825_i_ in range(0, hi7_):
+            d_826_v_: int
+            d_826_v_ = (self.inFlight).Select((d_824_keys_)[d_825_i_])
+            if (now) >= ((self).AddLong(d_826_v_, self.inFlightTTL)):
+                (self.inFlight).Remove((d_824_keys_)[d_825_i_])
 
     def CheckNewEntry(self, identifier, now):
         output: CacheState = CacheState.default()()
-        d_832_fanOutReached_: bool
+        d_827_fanOutReached_: bool
         out133_: bool
         out133_ = (self).FanOutReached(now)
-        d_832_fanOutReached_ = out133_
-        if d_832_fanOutReached_:
+        d_827_fanOutReached_ = out133_
+        if d_827_fanOutReached_:
             output = CacheState_EmptyWait()
             return output
         elif (self.inFlight).HasKey(identifier):
-            d_833_entry_: int
-            d_833_entry_ = (self.inFlight).Select(identifier)
-            if ((self).AddLong(d_833_entry_, self.graceInterval)) > (now):
+            d_828_entry_: int
+            d_828_entry_ = (self.inFlight).Select(identifier)
+            if ((self).AddLong(d_828_entry_, self.graceInterval)) > (now):
                 output = CacheState_EmptyWait()
                 return output
         (self.inFlight).Put(identifier, now)
@@ -270,51 +270,51 @@ class StormTracker:
 
     def GetFromCacheWithTime(self, input, now):
         output: Wrappers.Result = Wrappers.Result.default(CacheState.default())()
-        d_834_result_: Wrappers.Result
+        d_829_result_: Wrappers.Result
         out134_: Wrappers.Result
         out134_ = (self.wrapped).GetCacheEntryWithTime(input, now)
-        d_834_result_ = out134_
-        if (d_834_result_).is_Success:
-            d_835_newResult_: CacheState
+        d_829_result_ = out134_
+        if (d_829_result_).is_Success:
+            d_830_newResult_: CacheState
             out135_: CacheState
-            out135_ = (self).CheckInFlight((input).identifier, (d_834_result_).value, now)
-            d_835_newResult_ = out135_
-            output = Wrappers.Result_Success(d_835_newResult_)
+            out135_ = (self).CheckInFlight((input).identifier, (d_829_result_).value, now)
+            d_830_newResult_ = out135_
+            output = Wrappers.Result_Success(d_830_newResult_)
             return output
-        elif ((d_834_result_).error).is_EntryDoesNotExist:
-            d_836_newResult_: CacheState
+        elif ((d_829_result_).error).is_EntryDoesNotExist:
+            d_831_newResult_: CacheState
             out136_: CacheState
             out136_ = (self).CheckNewEntry((input).identifier, now)
-            d_836_newResult_ = out136_
-            output = Wrappers.Result_Success(d_836_newResult_)
+            d_831_newResult_ = out136_
+            output = Wrappers.Result_Success(d_831_newResult_)
             return output
         elif True:
-            output = Wrappers.Result_Failure((d_834_result_).error)
+            output = Wrappers.Result_Failure((d_829_result_).error)
             return output
         return output
 
     def GetFromCache(self, input):
         output: Wrappers.Result = Wrappers.Result.default(CacheState.default())()
-        d_837_now_: int
+        d_832_now_: int
         out137_: int
         out137_ = Time.default__.CurrentRelativeTime()
-        d_837_now_ = out137_
+        d_832_now_ = out137_
         out138_: Wrappers.Result
-        out138_ = (self).GetFromCacheWithTime(input, d_837_now_)
+        out138_ = (self).GetFromCacheWithTime(input, d_832_now_)
         output = out138_
         return output
 
     def GetCacheEntry(self, input):
         output: Wrappers.Result = None
-        d_838_result_: Wrappers.Result
+        d_833_result_: Wrappers.Result
         out139_: Wrappers.Result
         out139_ = (self).GetFromCache(input)
-        d_838_result_ = out139_
-        if (d_838_result_).is_Failure:
-            output = Wrappers.Result_Failure((d_838_result_).error)
+        d_833_result_ = out139_
+        if (d_833_result_).is_Failure:
+            output = Wrappers.Result_Failure((d_833_result_).error)
             return output
-        elif ((d_838_result_).value).is_Full:
-            output = Wrappers.Result_Success(((d_838_result_).value).data)
+        elif ((d_833_result_).value).is_Full:
+            output = Wrappers.Result_Success(((d_833_result_).value).data)
             return output
         elif True:
             output = Wrappers.Result_Failure(AwsCryptographyMaterialProvidersTypes.Error_EntryDoesNotExist(_dafny.Seq("Entry does not exist")))

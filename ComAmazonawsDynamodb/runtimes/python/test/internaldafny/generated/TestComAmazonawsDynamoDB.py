@@ -49,8 +49,6 @@ import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import standard_library.internaldafny.generated.Actions as Actions
 import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
 import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
-import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws as Com_Amazonaws
-import com_amazonaws_dynamodb.internaldafny.generated.Com as Com
 
 # Module: TestComAmazonawsDynamoDB
 
@@ -60,21 +58,21 @@ class default__:
 
     @staticmethod
     def BasicPutGetQuery():
-        d_0_client_: ComAmazonawsDynamodbTypes.IDynamoDBClient
-        d_1_valueOrError0_: Wrappers.Result = None
+        d_0_valueOrError0_: Wrappers.Result = None
         out0_: Wrappers.Result
         out0_ = Com_Amazonaws_Dynamodb.default__.DynamoDBClient()
-        d_1_valueOrError0_ = out0_
-        if not(not((d_1_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsDynamodb.dfy(20,18): " + _dafny.string_of(d_1_valueOrError0_))
-        d_0_client_ = (d_1_valueOrError0_).Extract()
+        d_0_valueOrError0_ = out0_
+        if not(not((d_0_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("test/TestComAmazonawsDynamodb.dfy(20,18): " + _dafny.string_of(d_0_valueOrError0_))
+        d_1_client_: ComAmazonawsDynamodbTypes.IDynamoDBClient
+        d_1_client_ = (d_0_valueOrError0_).Extract()
         d_2_item_: _dafny.Map
         d_2_item_ = _dafny.Map({_dafny.Seq("branch-key-id"): ComAmazonawsDynamodbTypes.AttributeValue_S(_dafny.Seq("ddb-client-test")), _dafny.Seq("type"): ComAmazonawsDynamodbTypes.AttributeValue_S(_dafny.Seq("ddb-client-test")), _dafny.Seq("status"): ComAmazonawsDynamodbTypes.AttributeValue_S(_dafny.Seq("ACTIVE"))})
         d_3_putInput_: ComAmazonawsDynamodbTypes.PutItemInput
         d_3_putInput_ = ComAmazonawsDynamodbTypes.PutItemInput_PutItemInput(default__.tableNameTest, d_2_item_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
         d_4_putRet_: Wrappers.Result
         out1_: Wrappers.Result
-        out1_ = (d_0_client_).PutItem(d_3_putInput_)
+        out1_ = (d_1_client_).PutItem(d_3_putInput_)
         d_4_putRet_ = out1_
         if not((d_4_putRet_).is_Success):
             raise _dafny.HaltException("test/TestComAmazonawsDynamodb.dfy(44,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -84,7 +82,7 @@ class default__:
         d_6_getInput_ = ComAmazonawsDynamodbTypes.GetItemInput_GetItemInput(default__.tableNameTest, d_5_Key2Get_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
         d_7_getRet_: Wrappers.Result
         out2_: Wrappers.Result
-        out2_ = (d_0_client_).GetItem(d_6_getInput_)
+        out2_ = (d_1_client_).GetItem(d_6_getInput_)
         d_7_getRet_ = out2_
         if not((d_7_getRet_).is_Success):
             raise _dafny.HaltException("test/TestComAmazonawsDynamodb.dfy(63,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -104,7 +102,7 @@ class default__:
         d_12_queryInput_ = ComAmazonawsDynamodbTypes.QueryInput_QueryInput(default__.tableNameTest, Wrappers.Option_Some(default__.secIndex), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_Some(_dafny.Seq("#status = :status and #branchKeyId = :branchKeyId")), Wrappers.Option_Some(d_10_attributeNameMap_), Wrappers.Option_Some(d_11_attributeValueMap_))
         d_13_queryRet_: Wrappers.Result
         out3_: Wrappers.Result
-        out3_ = (d_0_client_).Query(d_12_queryInput_)
+        out3_ = (d_1_client_).Query(d_12_queryInput_)
         d_13_queryRet_ = out3_
         if not((d_13_queryRet_).is_Success):
             raise _dafny.HaltException("test/TestComAmazonawsDynamodb.dfy(103,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))

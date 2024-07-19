@@ -96,16 +96,16 @@ class default__:
 
     @_dafny.classproperty
     def PROVIDER__ID(instance):
-        d_424_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115])
-        return d_424_s_
+        d_419_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115])
+        return d_419_s_
     @_dafny.classproperty
     def PROVIDER__ID__HIERARCHY(instance):
-        d_425_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115, 45, 104, 105, 101, 114, 97, 114, 99, 104, 121])
-        return d_425_s_
+        d_420_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115, 45, 104, 105, 101, 114, 97, 114, 99, 104, 121])
+        return d_420_s_
     @_dafny.classproperty
     def RSA__PROVIDER__ID(instance):
-        d_426_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115, 45, 114, 115, 97])
-        return d_426_s_
+        d_421_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115, 45, 114, 115, 97])
+        return d_421_s_
 
 class AwsKmsEncryptedDataKey:
     def  __init__(self):
@@ -115,8 +115,8 @@ class AwsKmsEncryptedDataKey:
     def default():
         return AwsCryptographyMaterialProvidersTypes.EncryptedDataKey.default()()
     def _Is(source__):
-        d_427_edk_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey = source__
-        return (((d_427_edk_).keyProviderId) == (default__.PROVIDER__ID)) and (UTF8.default__.ValidUTF8Seq((d_427_edk_).keyProviderInfo))
+        d_422_edk_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey = source__
+        return (((d_422_edk_).keyProviderId) == (default__.PROVIDER__ID)) and (UTF8.default__.ValidUTF8Seq((d_422_edk_).keyProviderInfo))
 
 class AwsKmsEdkHelper:
     @classmethod

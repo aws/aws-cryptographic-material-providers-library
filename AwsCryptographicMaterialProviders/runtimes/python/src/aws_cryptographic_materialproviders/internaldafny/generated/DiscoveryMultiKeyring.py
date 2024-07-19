@@ -106,41 +106,41 @@ class default__:
     @staticmethod
     def DiscoveryMultiKeyring(regions, discoveryFilter, clientSupplier, grantTokens):
         output: Wrappers.Result = None
-        d_694_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_694_valueOrError0_ = Wrappers.default__.Need((len(regions)) > (0), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("No regions passed.")))
-        if (d_694_valueOrError0_).IsFailure():
-            output = (d_694_valueOrError0_).PropagateFailure()
+        d_689_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_689_valueOrError0_ = Wrappers.default__.Need((len(regions)) > (0), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("No regions passed.")))
+        if (d_689_valueOrError0_).IsFailure():
+            output = (d_689_valueOrError0_).PropagateFailure()
             return output
-        d_695_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_695_valueOrError1_ = Wrappers.default__.Need((Seq.default__.IndexOfOption(regions, _dafny.Seq(""))).is_None, AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Empty string is not a valid region.")))
-        if (d_695_valueOrError1_).IsFailure():
-            output = (d_695_valueOrError1_).PropagateFailure()
+        d_690_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_690_valueOrError1_ = Wrappers.default__.Need((Seq.default__.IndexOfOption(regions, _dafny.Seq(""))).is_None, AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Empty string is not a valid region.")))
+        if (d_690_valueOrError1_).IsFailure():
+            output = (d_690_valueOrError1_).PropagateFailure()
             return output
-        d_696_children_: _dafny.Seq
-        d_696_children_ = _dafny.Seq([])
+        d_691_children_: _dafny.Seq
+        d_691_children_ = _dafny.Seq([])
         hi3_ = len(regions)
-        for d_697_i_ in range(0, hi3_):
-            d_698_region_: _dafny.Seq
-            d_698_region_ = (regions)[d_697_i_]
-            d_699_client_: ComAmazonawsKmsTypes.IKMSClient
-            d_700_valueOrError2_: Wrappers.Result = None
+        for d_692_i_ in range(0, hi3_):
+            d_693_region_: _dafny.Seq
+            d_693_region_ = (regions)[d_692_i_]
+            d_694_valueOrError2_: Wrappers.Result = None
             out100_: Wrappers.Result
-            out100_ = (clientSupplier).GetClient(AwsCryptographyMaterialProvidersTypes.GetClientInput_GetClientInput(d_698_region_))
-            d_700_valueOrError2_ = out100_
-            if (d_700_valueOrError2_).IsFailure():
-                output = (d_700_valueOrError2_).PropagateFailure()
+            out100_ = (clientSupplier).GetClient(AwsCryptographyMaterialProvidersTypes.GetClientInput_GetClientInput(d_693_region_))
+            d_694_valueOrError2_ = out100_
+            if (d_694_valueOrError2_).IsFailure():
+                output = (d_694_valueOrError2_).PropagateFailure()
                 return output
-            d_699_client_ = (d_700_valueOrError2_).Extract()
-            d_701_keyring_: AwsKmsDiscoveryKeyring.AwsKmsDiscoveryKeyring
+            d_695_client_: ComAmazonawsKmsTypes.IKMSClient
+            d_695_client_ = (d_694_valueOrError2_).Extract()
+            d_696_keyring_: AwsKmsDiscoveryKeyring.AwsKmsDiscoveryKeyring
             nw13_ = AwsKmsDiscoveryKeyring.AwsKmsDiscoveryKeyring()
-            nw13_.ctor__(d_699_client_, discoveryFilter, (grantTokens).UnwrapOr(_dafny.Seq([])))
-            d_701_keyring_ = nw13_
-            d_696_children_ = (d_696_children_) + (_dafny.Seq([d_701_keyring_]))
-        d_702_keyring_: MultiKeyring.MultiKeyring
+            nw13_.ctor__(d_695_client_, discoveryFilter, (grantTokens).UnwrapOr(_dafny.Seq([])))
+            d_696_keyring_ = nw13_
+            d_691_children_ = (d_691_children_) + (_dafny.Seq([d_696_keyring_]))
+        d_697_keyring_: MultiKeyring.MultiKeyring
         nw14_ = MultiKeyring.MultiKeyring()
-        nw14_.ctor__(Wrappers.Option_None(), d_696_children_)
-        d_702_keyring_ = nw14_
-        output = Wrappers.Result_Success(d_702_keyring_)
+        nw14_.ctor__(Wrappers.Option_None(), d_691_children_)
+        d_697_keyring_ = nw14_
+        output = Wrappers.Result_Success(d_697_keyring_)
         return output
         return output
 

@@ -110,8 +110,8 @@ class default__:
 
     @staticmethod
     def RemoveValue(k0, m):
-        d_804_m_k_: _dafny.Map
-        d_804_m_k_ = (m) - (_dafny.Set({k0}))
+        d_799_m_k_: _dafny.Map
+        d_799_m_k_ = (m) - (_dafny.Set({k0}))
 
     @_dafny.classproperty
     def NULL(instance):
@@ -203,30 +203,30 @@ class DoublyLinkedCacheEntryList:
         (self).tail = Ref_Null()
 
     def pushCell(self, toPush):
-        d_805_cRef_: Ref
-        d_805_cRef_ = Ref_Ptr(toPush)
+        d_800_cRef_: Ref
+        d_800_cRef_ = Ref_Ptr(toPush)
         if (self.head).is_Ptr:
             obj0_ = (self.head).deref
-            obj0_.prev = d_805_cRef_
+            obj0_.prev = d_800_cRef_
             (toPush).next = self.head
-            (self).head = d_805_cRef_
+            (self).head = d_800_cRef_
         elif True:
-            (self).head = d_805_cRef_
+            (self).head = d_800_cRef_
             (self).tail = self.head
 
     def moveToFront(self, c):
         if ((self.head).deref) != (c):
-            d_806_toPush_: Ref
-            d_806_toPush_ = Ref_Ptr(c)
+            d_801_toPush_: Ref
+            d_801_toPush_ = Ref_Ptr(c)
             (self).remove(c)
             if (self.head).is_Ptr:
                 obj1_ = (self.head).deref
-                obj1_.prev = d_806_toPush_
-                obj2_ = (d_806_toPush_).deref
+                obj1_.prev = d_801_toPush_
+                obj2_ = (d_801_toPush_).deref
                 obj2_.next = self.head
-                (self).head = d_806_toPush_
+                (self).head = d_801_toPush_
             elif True:
-                (self).head = d_806_toPush_
+                (self).head = d_801_toPush_
                 (self).tail = self.head
 
     def remove(self, toRemove):
@@ -287,42 +287,42 @@ class LocalCMC(AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCach
 
     def GetCacheEntry_k(self, input):
         output: Wrappers.Result = None
-        d_807_now_: int
+        d_802_now_: int
         out119_: int
         out119_ = Time.default__.CurrentRelativeTime()
-        d_807_now_ = out119_
+        d_802_now_ = out119_
         out120_: Wrappers.Result
-        out120_ = (self).GetCacheEntryWithTime(input, d_807_now_)
+        out120_ = (self).GetCacheEntryWithTime(input, d_802_now_)
         output = out120_
         return output
 
     def GetCacheEntryWithTime(self, input, now):
         output: Wrappers.Result = None
         if (self.cache).HasKey((input).identifier):
-            d_808_entry_: CacheEntry
-            d_808_entry_ = (self.cache).Select((input).identifier)
-            if (now) <= ((d_808_entry_).expiryTime):
-                (self.queue).moveToFront(d_808_entry_)
-                output = Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.GetCacheEntryOutput_GetCacheEntryOutput((d_808_entry_).materials, (d_808_entry_).creationTime, (d_808_entry_).expiryTime, d_808_entry_.messagesUsed, d_808_entry_.bytesUsed))
-                d_809___v0_: tuple
-                d_810_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+            d_803_entry_: CacheEntry
+            d_803_entry_ = (self.cache).Select((input).identifier)
+            if (now) <= ((d_803_entry_).expiryTime):
+                (self.queue).moveToFront(d_803_entry_)
+                output = Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.GetCacheEntryOutput_GetCacheEntryOutput((d_803_entry_).materials, (d_803_entry_).creationTime, (d_803_entry_).expiryTime, d_803_entry_.messagesUsed, d_803_entry_.bytesUsed))
+                d_804_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
                 out121_: Wrappers.Result
                 out121_ = (self).pruning(now)
-                d_810_valueOrError0_ = out121_
-                if (d_810_valueOrError0_).IsFailure():
-                    output = (d_810_valueOrError0_).PropagateFailure()
+                d_804_valueOrError0_ = out121_
+                if (d_804_valueOrError0_).IsFailure():
+                    output = (d_804_valueOrError0_).PropagateFailure()
                     return output
-                d_809___v0_ = (d_810_valueOrError0_).Extract()
+                d_805___v0_: tuple
+                d_805___v0_ = (d_804_valueOrError0_).Extract()
             elif True:
-                d_811___v1_: tuple
-                d_812_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+                d_806_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
                 out122_: Wrappers.Result
                 out122_ = (self).DeleteCacheEntry_k(AwsCryptographyMaterialProvidersTypes.DeleteCacheEntryInput_DeleteCacheEntryInput((input).identifier))
-                d_812_valueOrError1_ = out122_
-                if (d_812_valueOrError1_).IsFailure():
-                    output = (d_812_valueOrError1_).PropagateFailure()
+                d_806_valueOrError1_ = out122_
+                if (d_806_valueOrError1_).IsFailure():
+                    output = (d_806_valueOrError1_).PropagateFailure()
                     return output
-                d_811___v1_ = (d_812_valueOrError1_).Extract()
+                d_807___v1_: tuple
+                d_807___v1_ = (d_806_valueOrError1_).Extract()
                 output = Wrappers.Result_Failure(AwsCryptographyMaterialProvidersTypes.Error_EntryDoesNotExist(_dafny.Seq("Entry past TTL")))
         elif True:
             output = Wrappers.Result_Failure(AwsCryptographyMaterialProvidersTypes.Error_EntryDoesNotExist(_dafny.Seq("Entry does not exist")))
@@ -334,68 +334,68 @@ class LocalCMC(AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCach
             output = Wrappers.Result_Success(())
             return output
         if (self.cache).HasKey((input).identifier):
-            d_813___v2_: tuple
-            d_814_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+            d_808_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
             out123_: Wrappers.Result
             out123_ = (self).DeleteCacheEntry_k(AwsCryptographyMaterialProvidersTypes.DeleteCacheEntryInput_DeleteCacheEntryInput((input).identifier))
-            d_814_valueOrError0_ = out123_
-            if (d_814_valueOrError0_).IsFailure():
-                output = (d_814_valueOrError0_).PropagateFailure()
+            d_808_valueOrError0_ = out123_
+            if (d_808_valueOrError0_).IsFailure():
+                output = (d_808_valueOrError0_).PropagateFailure()
                 return output
-            d_813___v2_ = (d_814_valueOrError0_).Extract()
+            d_809___v2_: tuple
+            d_809___v2_ = (d_808_valueOrError0_).Extract()
         if ((self).entryCapacity) == ((self.cache).Size()):
-            d_815___v3_: tuple
-            d_816_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+            d_810_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
             out124_: Wrappers.Result
             out124_ = (self).DeleteCacheEntry_k(AwsCryptographyMaterialProvidersTypes.DeleteCacheEntryInput_DeleteCacheEntryInput(((self.queue.tail).deref).identifier))
-            d_816_valueOrError1_ = out124_
-            if (d_816_valueOrError1_).IsFailure():
-                output = (d_816_valueOrError1_).PropagateFailure()
+            d_810_valueOrError1_ = out124_
+            if (d_810_valueOrError1_).IsFailure():
+                output = (d_810_valueOrError1_).PropagateFailure()
                 return output
-            d_815___v3_ = (d_816_valueOrError1_).Extract()
-        d_817_cell_: CacheEntry
+            d_811___v3_: tuple
+            d_811___v3_ = (d_810_valueOrError1_).Extract()
+        d_812_cell_: CacheEntry
         nw30_ = CacheEntry()
         nw30_.ctor__((input).materials, (input).identifier, (input).creationTime, (input).expiryTime, ((input).messagesUsed).UnwrapOr(0), ((input).bytesUsed).UnwrapOr(0))
-        d_817_cell_ = nw30_
-        (self.queue).pushCell(d_817_cell_)
-        (self.cache).Put((input).identifier, d_817_cell_)
+        d_812_cell_ = nw30_
+        (self.queue).pushCell(d_812_cell_)
+        (self.cache).Put((input).identifier, d_812_cell_)
         output = Wrappers.Result_Success(())
         return output
 
     def DeleteCacheEntry_k(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
         if (self.cache).HasKey((input).identifier):
-            d_818_cell_: CacheEntry
-            d_818_cell_ = (self.cache).Select((input).identifier)
+            d_813_cell_: CacheEntry
+            d_813_cell_ = (self.cache).Select((input).identifier)
             with _dafny.label("1"):
                 (self.cache).Remove((input).identifier)
                 pass
-            (self.queue).remove(d_818_cell_)
+            (self.queue).remove(d_813_cell_)
         output = Wrappers.Result_Success(())
         return output
 
     def UpdateUsageMetadata_k(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
         if (self.cache).HasKey((input).identifier):
-            d_819_cell_: CacheEntry
-            d_819_cell_ = (self.cache).Select((input).identifier)
-            if ((d_819_cell_.messagesUsed) <= ((default__.INT32__MAX__VALUE) - (1))) and ((d_819_cell_.bytesUsed) <= ((default__.INT32__MAX__VALUE) - ((input).bytesUsed))):
-                rhs0_ = (d_819_cell_.messagesUsed) + (1)
-                rhs1_ = (d_819_cell_.bytesUsed) + ((input).bytesUsed)
-                lhs0_ = d_819_cell_
-                lhs1_ = d_819_cell_
+            d_814_cell_: CacheEntry
+            d_814_cell_ = (self.cache).Select((input).identifier)
+            if ((d_814_cell_.messagesUsed) <= ((default__.INT32__MAX__VALUE) - (1))) and ((d_814_cell_.bytesUsed) <= ((default__.INT32__MAX__VALUE) - ((input).bytesUsed))):
+                rhs0_ = (d_814_cell_.messagesUsed) + (1)
+                rhs1_ = (d_814_cell_.bytesUsed) + ((input).bytesUsed)
+                lhs0_ = d_814_cell_
+                lhs1_ = d_814_cell_
                 lhs0_.messagesUsed = rhs0_
                 lhs1_.bytesUsed = rhs1_
             elif True:
-                d_820___v4_: tuple
-                d_821_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+                d_815_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
                 out125_: Wrappers.Result
                 out125_ = (self).DeleteCacheEntry_k(AwsCryptographyMaterialProvidersTypes.DeleteCacheEntryInput_DeleteCacheEntryInput((input).identifier))
-                d_821_valueOrError0_ = out125_
-                if (d_821_valueOrError0_).IsFailure():
-                    output = (d_821_valueOrError0_).PropagateFailure()
+                d_815_valueOrError0_ = out125_
+                if (d_815_valueOrError0_).IsFailure():
+                    output = (d_815_valueOrError0_).PropagateFailure()
                     return output
-                d_820___v4_ = (d_821_valueOrError0_).Extract()
+                d_816___v4_: tuple
+                d_816___v4_ = (d_815_valueOrError0_).Extract()
         output = Wrappers.Result_Success(())
         return output
         return output
@@ -403,18 +403,18 @@ class LocalCMC(AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCach
     def pruning(self, now):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
         hi6_ = (self).entryPruningTailSize
-        for d_822_i_ in range(0, hi6_):
+        for d_817_i_ in range(0, hi6_):
             if (self.queue.tail).is_Ptr:
                 if (((self.queue.tail).deref).expiryTime) < (now):
-                    d_823___v5_: tuple
-                    d_824_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+                    d_818_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
                     out126_: Wrappers.Result
                     out126_ = (self).DeleteCacheEntry_k(AwsCryptographyMaterialProvidersTypes.DeleteCacheEntryInput_DeleteCacheEntryInput(((self.queue.tail).deref).identifier))
-                    d_824_valueOrError0_ = out126_
-                    if (d_824_valueOrError0_).IsFailure():
-                        output = (d_824_valueOrError0_).PropagateFailure()
+                    d_818_valueOrError0_ = out126_
+                    if (d_818_valueOrError0_).IsFailure():
+                        output = (d_818_valueOrError0_).PropagateFailure()
                         return output
-                    d_823___v5_ = (d_824_valueOrError0_).Extract()
+                    d_819___v5_: tuple
+                    d_819___v5_ = (d_818_valueOrError0_).Extract()
                 elif True:
                     output = Wrappers.Result_Success(())
                     return output

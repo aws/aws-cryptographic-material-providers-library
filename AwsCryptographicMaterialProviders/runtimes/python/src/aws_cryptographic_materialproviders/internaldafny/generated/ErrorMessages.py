@@ -105,12 +105,12 @@ class default__:
 
     @staticmethod
     def IncorrectDataKeys(encryptedDataKeys, material, errMsg):
-        d_537_valueOrError0_ = default__.IncorrectDataKeysExpectedValues(encryptedDataKeys, material, errMsg)
-        if (d_537_valueOrError0_).IsFailure():
-            return (d_537_valueOrError0_).PropagateFailure()
+        d_532_valueOrError0_ = default__.IncorrectDataKeysExpectedValues(encryptedDataKeys, material, errMsg)
+        if (d_532_valueOrError0_).IsFailure():
+            return (d_532_valueOrError0_).PropagateFailure()
         elif True:
-            d_538_expectedValue_ = (d_537_valueOrError0_).Extract()
-            return Wrappers.Result_Success((_dafny.Seq("Unable to decrypt data key: No Encrypted Data Keys found to match. \n Expected: \n")) + (d_538_expectedValue_))
+            d_533_expectedValue_ = (d_532_valueOrError0_).Extract()
+            return Wrappers.Result_Success((_dafny.Seq("Unable to decrypt data key: No Encrypted Data Keys found to match. \n Expected: \n")) + (d_533_expectedValue_))
 
     @staticmethod
     def IncorrectDataKeysExpectedValues(encryptedDataKeys, material, errMsg):
@@ -119,59 +119,59 @@ class default__:
                 if (len(encryptedDataKeys)) == (0):
                     return Wrappers.Result_Success(errMsg)
                 elif True:
-                    d_539_encryptedDataKey_ = (encryptedDataKeys)[0]
-                    def lambda56_(d_541_e_):
-                        return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_541_e_)
+                    d_534_encryptedDataKey_ = (encryptedDataKeys)[0]
+                    def lambda56_(d_536_e_):
+                        return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_536_e_)
 
-                    d_540_valueOrError0_ = (UTF8.default__.Decode((d_539_encryptedDataKey_).keyProviderId)).MapFailure(lambda56_)
-                    if (d_540_valueOrError0_).IsFailure():
-                        return (d_540_valueOrError0_).PropagateFailure()
+                    d_535_valueOrError0_ = (UTF8.default__.Decode((d_534_encryptedDataKey_).keyProviderId)).MapFailure(lambda56_)
+                    if (d_535_valueOrError0_).IsFailure():
+                        return (d_535_valueOrError0_).PropagateFailure()
                     elif True:
-                        d_542_extractedKeyProviderId_ = (d_540_valueOrError0_).Extract()
-                        def lambda57_(d_544_e_):
-                            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_544_e_)
+                        d_537_extractedKeyProviderId_ = (d_535_valueOrError0_).Extract()
+                        def lambda57_(d_539_e_):
+                            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_539_e_)
 
-                        d_543_valueOrError1_ = (UTF8.default__.Decode((d_539_encryptedDataKey_).keyProviderInfo)).MapFailure(lambda57_)
-                        if (d_543_valueOrError1_).IsFailure():
-                            return (d_543_valueOrError1_).PropagateFailure()
+                        d_538_valueOrError1_ = (UTF8.default__.Decode((d_534_encryptedDataKey_).keyProviderInfo)).MapFailure(lambda57_)
+                        if (d_538_valueOrError1_).IsFailure():
+                            return (d_538_valueOrError1_).PropagateFailure()
                         elif True:
-                            d_545_extractedKeyProviderInfo_ = (d_543_valueOrError1_).Extract()
-                            if (d_542_extractedKeyProviderId_) != (_dafny.Seq("aws-kms-hierarchy")):
+                            d_540_extractedKeyProviderInfo_ = (d_538_valueOrError1_).Extract()
+                            if (d_537_extractedKeyProviderId_) != (_dafny.Seq("aws-kms-hierarchy")):
                                 in2_ = _dafny.Seq((encryptedDataKeys)[1::])
                                 in3_ = material
-                                in4_ = (((((errMsg) + (_dafny.Seq("KeyProviderId: "))) + (d_542_extractedKeyProviderId_)) + (_dafny.Seq(", KeyProviderInfo: "))) + (d_545_extractedKeyProviderInfo_)) + (_dafny.Seq("\n"))
+                                in4_ = (((((errMsg) + (_dafny.Seq("KeyProviderId: "))) + (d_537_extractedKeyProviderId_)) + (_dafny.Seq(", KeyProviderInfo: "))) + (d_540_extractedKeyProviderInfo_)) + (_dafny.Seq("\n"))
                                 encryptedDataKeys = in2_
                                 material = in3_
                                 errMsg = in4_
                                 raise _dafny.TailCall()
                             elif True:
-                                d_546_valueOrError2_ = EdkWrapping.default__.GetProviderWrappedMaterial((d_539_encryptedDataKey_).ciphertext, material)
-                                if (d_546_valueOrError2_).IsFailure():
-                                    return (d_546_valueOrError2_).PropagateFailure()
+                                d_541_valueOrError2_ = EdkWrapping.default__.GetProviderWrappedMaterial((d_534_encryptedDataKey_).ciphertext, material)
+                                if (d_541_valueOrError2_).IsFailure():
+                                    return (d_541_valueOrError2_).PropagateFailure()
                                 elif True:
-                                    d_547_providerWrappedMaterial_ = (d_546_valueOrError2_).Extract()
-                                    d_548_EDK__CIPHERTEXT__BRANCH__KEY__VERSION__INDEX_ = (default__.SALT__LENGTH) + (default__.IV__LENGTH)
-                                    d_549_EDK__CIPHERTEXT__VERSION__INDEX_ = (d_548_EDK__CIPHERTEXT__BRANCH__KEY__VERSION__INDEX_) + (default__.VERSION__LENGTH)
-                                    d_550_valueOrError3_ = Wrappers.default__.Need((d_548_EDK__CIPHERTEXT__BRANCH__KEY__VERSION__INDEX_) < (d_549_EDK__CIPHERTEXT__VERSION__INDEX_), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Wrong branch key version index.")))
-                                    if (d_550_valueOrError3_).IsFailure():
-                                        return (d_550_valueOrError3_).PropagateFailure()
+                                    d_542_providerWrappedMaterial_ = (d_541_valueOrError2_).Extract()
+                                    d_543_EDK__CIPHERTEXT__BRANCH__KEY__VERSION__INDEX_ = (default__.SALT__LENGTH) + (default__.IV__LENGTH)
+                                    d_544_EDK__CIPHERTEXT__VERSION__INDEX_ = (d_543_EDK__CIPHERTEXT__BRANCH__KEY__VERSION__INDEX_) + (default__.VERSION__LENGTH)
+                                    d_545_valueOrError3_ = Wrappers.default__.Need((d_543_EDK__CIPHERTEXT__BRANCH__KEY__VERSION__INDEX_) < (d_544_EDK__CIPHERTEXT__VERSION__INDEX_), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Wrong branch key version index.")))
+                                    if (d_545_valueOrError3_).IsFailure():
+                                        return (d_545_valueOrError3_).PropagateFailure()
                                     elif True:
-                                        d_551_valueOrError4_ = Wrappers.default__.Need((len(d_547_providerWrappedMaterial_)) >= (d_549_EDK__CIPHERTEXT__VERSION__INDEX_), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Incorrect ciphertext structure.")))
-                                        if (d_551_valueOrError4_).IsFailure():
-                                            return (d_551_valueOrError4_).PropagateFailure()
+                                        d_546_valueOrError4_ = Wrappers.default__.Need((len(d_542_providerWrappedMaterial_)) >= (d_544_EDK__CIPHERTEXT__VERSION__INDEX_), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Incorrect ciphertext structure.")))
+                                        if (d_546_valueOrError4_).IsFailure():
+                                            return (d_546_valueOrError4_).PropagateFailure()
                                         elif True:
-                                            d_552_branchKeyVersionUuid_ = _dafny.Seq((d_547_providerWrappedMaterial_)[d_548_EDK__CIPHERTEXT__BRANCH__KEY__VERSION__INDEX_:d_549_EDK__CIPHERTEXT__VERSION__INDEX_:])
-                                            def lambda58_(d_554_e_):
-                                                return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_554_e_)
+                                            d_547_branchKeyVersionUuid_ = _dafny.Seq((d_542_providerWrappedMaterial_)[d_543_EDK__CIPHERTEXT__BRANCH__KEY__VERSION__INDEX_:d_544_EDK__CIPHERTEXT__VERSION__INDEX_:])
+                                            def lambda58_(d_549_e_):
+                                                return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_549_e_)
 
-                                            d_553_valueOrError5_ = (UUID.default__.FromByteArray(d_552_branchKeyVersionUuid_)).MapFailure(lambda58_)
-                                            if (d_553_valueOrError5_).IsFailure():
-                                                return (d_553_valueOrError5_).PropagateFailure()
+                                            d_548_valueOrError5_ = (UUID.default__.FromByteArray(d_547_branchKeyVersionUuid_)).MapFailure(lambda58_)
+                                            if (d_548_valueOrError5_).IsFailure():
+                                                return (d_548_valueOrError5_).PropagateFailure()
                                             elif True:
-                                                d_555_branchVersion_ = (d_553_valueOrError5_).Extract()
+                                                d_550_branchVersion_ = (d_548_valueOrError5_).Extract()
                                                 in5_ = _dafny.Seq((encryptedDataKeys)[1::])
                                                 in6_ = material
-                                                in7_ = (((((((errMsg) + (_dafny.Seq("KeyProviderId: "))) + (d_542_extractedKeyProviderId_)) + (_dafny.Seq(", KeyProviderInfo: "))) + (d_545_extractedKeyProviderInfo_)) + (_dafny.Seq(", BranchKeyVersion: "))) + (d_555_branchVersion_)) + (_dafny.Seq("\n"))
+                                                in7_ = (((((((errMsg) + (_dafny.Seq("KeyProviderId: "))) + (d_537_extractedKeyProviderId_)) + (_dafny.Seq(", KeyProviderInfo: "))) + (d_540_extractedKeyProviderInfo_)) + (_dafny.Seq(", BranchKeyVersion: "))) + (d_550_branchVersion_)) + (_dafny.Seq("\n"))
                                                 encryptedDataKeys = in5_
                                                 material = in6_
                                                 errMsg = in7_

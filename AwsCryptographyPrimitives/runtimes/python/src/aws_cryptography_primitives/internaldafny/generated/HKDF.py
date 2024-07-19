@@ -108,33 +108,33 @@ class default__:
         if (L) == (0):
             okm = _dafny.Seq([])
             return okm
-        d_47_hmac_: HMAC.HMac
-        d_48_valueOrError0_: Wrappers.Result = None
+        d_47_valueOrError0_: Wrappers.Result = None
         out6_: Wrappers.Result
         out6_ = HMAC.HMac.Build(digest)
-        d_48_valueOrError0_ = out6_
-        if not(not((d_48_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("src/HKDF/HKDF.dfy(222,16): " + _dafny.string_of(d_48_valueOrError0_))
-        d_47_hmac_ = (d_48_valueOrError0_).Extract()
+        d_47_valueOrError0_ = out6_
+        if not(not((d_47_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("src/HKDF/HKDF.dfy(222,16): " + _dafny.string_of(d_47_valueOrError0_))
+        d_48_hmac_: HMAC.HMac
+        d_48_hmac_ = (d_47_valueOrError0_).Extract()
         d_49_hashLength_: int
         d_49_hashLength_ = Digest.default__.Length(digest)
         d_50_nonEmptySalt_: _dafny.Seq = _dafny.Seq({})
         source1_ = salt
-        unmatched1 = True
-        if unmatched1:
-            if source1_.is_None:
-                unmatched1 = False
-                d_50_nonEmptySalt_ = StandardLibrary.default__.Fill(0, d_49_hashLength_)
-        if unmatched1:
-            d_51_s_ = source1_.value
-            unmatched1 = False
-            d_50_nonEmptySalt_ = d_51_s_
+        with _dafny.label("match0"):
+            if True:
+                if source1_.is_None:
+                    d_50_nonEmptySalt_ = StandardLibrary.default__.Fill(0, d_49_hashLength_)
+                    raise _dafny.Break("match0")
+            if True:
+                d_51_s_ = source1_.value
+                d_50_nonEmptySalt_ = d_51_s_
+            pass
         d_52_prk_: _dafny.Seq
         out7_: _dafny.Seq
-        out7_ = default__.Extract(d_47_hmac_, d_50_nonEmptySalt_, ikm)
+        out7_ = default__.Extract(d_48_hmac_, d_50_nonEmptySalt_, ikm)
         d_52_prk_ = out7_
         out8_: _dafny.Seq
-        out8_ = default__.Expand(d_47_hmac_, d_52_prk_, info, L, digest)
+        out8_ = default__.Expand(d_48_hmac_, d_52_prk_, info, L, digest)
         okm = out8_
         return okm
 

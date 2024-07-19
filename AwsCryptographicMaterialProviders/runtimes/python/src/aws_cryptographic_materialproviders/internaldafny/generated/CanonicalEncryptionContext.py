@@ -98,34 +98,34 @@ class default__:
 
     @staticmethod
     def EncryptionContextToAAD(encryptionContext):
-        d_428_valueOrError0_ = Wrappers.default__.Need((len(encryptionContext)) < (StandardLibrary_UInt.default__.UINT16__LIMIT), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption Context is too large")))
-        if (d_428_valueOrError0_).IsFailure():
-            return (d_428_valueOrError0_).PropagateFailure()
+        d_423_valueOrError0_ = Wrappers.default__.Need((len(encryptionContext)) < (StandardLibrary_UInt.default__.UINT16__LIMIT), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Encryption Context is too large")))
+        if (d_423_valueOrError0_).IsFailure():
+            return (d_423_valueOrError0_).PropagateFailure()
         elif True:
-            d_429_keys_ = StandardLibrary.default__.SetToOrderedSequence((encryptionContext).keys, StandardLibrary_UInt.default__.UInt8Less)
-            if (len(d_429_keys_)) == (0):
+            d_424_keys_ = StandardLibrary.default__.SetToOrderedSequence((encryptionContext).keys, StandardLibrary_UInt.default__.UInt8Less)
+            if (len(d_424_keys_)) == (0):
                 return Wrappers.Result_Success(_dafny.Seq([]))
             elif True:
-                def lambda45_(d_431_encryptionContext_):
-                    def lambda46_(d_432_k_):
+                def lambda45_(d_426_encryptionContext_):
+                    def lambda46_(d_427_k_):
                         def iife18_(_pat_let4_0):
-                            def iife19_(d_433_v_):
+                            def iife19_(d_428_v_):
                                 def iife20_(_pat_let5_0):
-                                    def iife21_(d_434_valueOrError1_):
-                                        return ((d_434_valueOrError1_).PropagateFailure() if (d_434_valueOrError1_).IsFailure() else Wrappers.Result_Success((((StandardLibrary_UInt.default__.UInt16ToSeq(len(d_432_k_))) + (d_432_k_)) + (StandardLibrary_UInt.default__.UInt16ToSeq(len(d_433_v_)))) + (d_433_v_)))
+                                    def iife21_(d_429_valueOrError1_):
+                                        return ((d_429_valueOrError1_).PropagateFailure() if (d_429_valueOrError1_).IsFailure() else Wrappers.Result_Success((((StandardLibrary_UInt.default__.UInt16ToSeq(len(d_427_k_))) + (d_427_k_)) + (StandardLibrary_UInt.default__.UInt16ToSeq(len(d_428_v_)))) + (d_428_v_)))
                                     return iife21_(_pat_let5_0)
-                                return iife20_(Wrappers.default__.Need((StandardLibrary_UInt.default__.HasUint16Len(d_432_k_)) and (StandardLibrary_UInt.default__.HasUint16Len(d_433_v_)), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unable to serialize encryption context"))))
+                                return iife20_(Wrappers.default__.Need((StandardLibrary_UInt.default__.HasUint16Len(d_427_k_)) and (StandardLibrary_UInt.default__.HasUint16Len(d_428_v_)), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unable to serialize encryption context"))))
                             return iife19_(_pat_let4_0)
-                        return iife18_((d_431_encryptionContext_)[d_432_k_])
+                        return iife18_((d_426_encryptionContext_)[d_427_k_])
 
                     return lambda46_
 
-                d_430_KeyIntoPairBytes_ = lambda45_(encryptionContext)
-                d_435_valueOrError2_ = Seq.default__.MapWithResult(d_430_KeyIntoPairBytes_, d_429_keys_)
-                if (d_435_valueOrError2_).IsFailure():
-                    return (d_435_valueOrError2_).PropagateFailure()
+                d_425_KeyIntoPairBytes_ = lambda45_(encryptionContext)
+                d_430_valueOrError2_ = Seq.default__.MapWithResult(d_425_KeyIntoPairBytes_, d_424_keys_)
+                if (d_430_valueOrError2_).IsFailure():
+                    return (d_430_valueOrError2_).PropagateFailure()
                 elif True:
-                    d_436_pairsBytes_ = (d_435_valueOrError2_).Extract()
-                    d_437_allBytes_ = (StandardLibrary_UInt.default__.UInt16ToSeq(len(d_429_keys_))) + (Seq.default__.Flatten(d_436_pairsBytes_))
-                    return Wrappers.Result_Success(d_437_allBytes_)
+                    d_431_pairsBytes_ = (d_430_valueOrError2_).Extract()
+                    d_432_allBytes_ = (StandardLibrary_UInt.default__.UInt16ToSeq(len(d_424_keys_))) + (Seq.default__.Flatten(d_431_pairsBytes_))
+                    return Wrappers.Result_Success(d_432_allBytes_)
 

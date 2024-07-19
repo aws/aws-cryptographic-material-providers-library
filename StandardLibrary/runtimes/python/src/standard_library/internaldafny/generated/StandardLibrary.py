@@ -184,8 +184,8 @@ class default__:
         d_231___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
-                pat_let_tv4_ = s
-                pat_let_tv5_ = less
+                pat_let_tv0_ = s
+                pat_let_tv1_ = less
                 if (s) == (_dafny.Set({})):
                     return (d_231___accumulator_) + (_dafny.Seq([]))
                 elif True:
@@ -199,7 +199,7 @@ class default__:
                                     raise _dafny.Break("_ASSIGN_SUCH_THAT_d_1")
                             raise Exception("assign-such-that search produced no value (line 369)")
                             pass
-                        return (_dafny.Seq([d_232_a_])) + (default__.SetToOrderedSequence((pat_let_tv4_) - (_dafny.Set({d_232_a_})), pat_let_tv5_))
+                        return (_dafny.Seq([d_232_a_])) + (default__.SetToOrderedSequence((pat_let_tv0_) - (_dafny.Set({d_232_a_})), pat_let_tv1_))
                     return iife1_(0)
                     
                 break

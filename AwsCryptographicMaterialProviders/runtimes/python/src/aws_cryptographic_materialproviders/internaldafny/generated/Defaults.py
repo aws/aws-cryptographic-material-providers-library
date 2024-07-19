@@ -120,25 +120,15 @@ class default__:
     @staticmethod
     def GetAlgorithmSuiteForCommitmentPolicy(commitmentPolicy):
         source31_ = commitmentPolicy
-        unmatched31 = True
-        if unmatched31:
+        if True:
             if source31_.is_ESDK:
-                d_1198_c_ = source31_.ESDK
-                unmatched31 = False
-                source32_ = d_1198_c_
-                unmatched32 = True
-                if unmatched32:
+                d_1193_c_ = source31_.ESDK
+                source32_ = d_1193_c_
+                if True:
                     if source32_.is_FORBID__ENCRYPT__ALLOW__DECRYPT:
-                        unmatched32 = False
                         return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384())
-                if unmatched32:
-                    d_1199___v0_ = source32_
-                    unmatched32 = False
+                if True:
                     return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384())
-                raise Exception("unexpected control point")
-        if unmatched31:
-            d_1200___v1_ = source31_.DBE
-            unmatched31 = False
+        if True:
             return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_DBE(AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384__SYMSIG__HMAC__SHA384())
-        raise Exception("unexpected control point")
 

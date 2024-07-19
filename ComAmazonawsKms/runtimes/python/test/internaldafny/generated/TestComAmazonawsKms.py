@@ -76,17 +76,17 @@ class default__:
 
     @staticmethod
     def BasicDecryptTest(input, expectedPlaintext, expectedKeyId):
-        d_1_client_: ComAmazonawsKmsTypes.IKMSClient
-        d_2_valueOrError0_: Wrappers.Result = None
+        d_1_valueOrError0_: Wrappers.Result = None
         out0_: Wrappers.Result
         out0_ = Com_Amazonaws_Kms.default__.KMSClientForRegion(default__.TEST__REGION)
-        d_2_valueOrError0_ = out0_
-        if not(not((d_2_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(88,18): " + _dafny.string_of(d_2_valueOrError0_))
-        d_1_client_ = (d_2_valueOrError0_).Extract()
+        d_1_valueOrError0_ = out0_
+        if not(not((d_1_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(88,18): " + _dafny.string_of(d_1_valueOrError0_))
+        d_2_client_: ComAmazonawsKmsTypes.IKMSClient
+        d_2_client_ = (d_1_valueOrError0_).Extract()
         d_3_ret_: Wrappers.Result
         out1_: Wrappers.Result
-        out1_ = (d_1_client_).Decrypt(input)
+        out1_ = (d_2_client_).Decrypt(input)
         d_3_ret_ = out1_
         _dafny.print(_dafny.string_of(d_3_ret_))
         if not((d_3_ret_).is_Success):
@@ -106,17 +106,17 @@ class default__:
 
     @staticmethod
     def BasicGenerateTest(input):
-        d_7_client_: ComAmazonawsKmsTypes.IKMSClient
-        d_8_valueOrError0_: Wrappers.Result = None
+        d_7_valueOrError0_: Wrappers.Result = None
         out2_: Wrappers.Result
         out2_ = Com_Amazonaws_Kms.default__.KMSClientForRegion(default__.TEST__REGION)
-        d_8_valueOrError0_ = out2_
-        if not(not((d_8_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(109,18): " + _dafny.string_of(d_8_valueOrError0_))
-        d_7_client_ = (d_8_valueOrError0_).Extract()
+        d_7_valueOrError0_ = out2_
+        if not(not((d_7_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(109,18): " + _dafny.string_of(d_7_valueOrError0_))
+        d_8_client_: ComAmazonawsKmsTypes.IKMSClient
+        d_8_client_ = (d_7_valueOrError0_).Extract()
         d_9_ret_: Wrappers.Result
         out3_: Wrappers.Result
-        out3_ = (d_7_client_).GenerateDataKey(input)
+        out3_ = (d_8_client_).GenerateDataKey(input)
         d_9_ret_ = out3_
         if not((d_9_ret_).is_Success):
             raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(113,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -138,17 +138,17 @@ class default__:
 
     @staticmethod
     def BasicEncryptTest(input):
-        d_14_client_: ComAmazonawsKmsTypes.IKMSClient
-        d_15_valueOrError0_: Wrappers.Result = None
+        d_14_valueOrError0_: Wrappers.Result = None
         out4_: Wrappers.Result
         out4_ = Com_Amazonaws_Kms.default__.KMSClientForRegion(default__.TEST__REGION)
-        d_15_valueOrError0_ = out4_
-        if not(not((d_15_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(141,18): " + _dafny.string_of(d_15_valueOrError0_))
-        d_14_client_ = (d_15_valueOrError0_).Extract()
+        d_14_valueOrError0_ = out4_
+        if not(not((d_14_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(141,18): " + _dafny.string_of(d_14_valueOrError0_))
+        d_15_client_: ComAmazonawsKmsTypes.IKMSClient
+        d_15_client_ = (d_14_valueOrError0_).Extract()
         d_16_ret_: Wrappers.Result
         out5_: Wrappers.Result
-        out5_ = (d_14_client_).Encrypt(input)
+        out5_ = (d_15_client_).Encrypt(input)
         d_16_ret_ = out5_
         if not((d_16_ret_).is_Success):
             raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(145,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
@@ -166,29 +166,29 @@ class default__:
 
     @staticmethod
     def RegionMatchTest():
-        d_21_client_: ComAmazonawsKmsTypes.IKMSClient
-        d_22_valueOrError0_: Wrappers.Result = None
+        d_21_valueOrError0_: Wrappers.Result = None
         out6_: Wrappers.Result
         out6_ = Com_Amazonaws_Kms.default__.KMSClientForRegion(default__.TEST__REGION)
-        d_22_valueOrError0_ = out6_
-        if not(not((d_22_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(170,18): " + _dafny.string_of(d_22_valueOrError0_))
-        d_21_client_ = (d_22_valueOrError0_).Extract()
+        d_21_valueOrError0_ = out6_
+        if not(not((d_21_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(170,18): " + _dafny.string_of(d_21_valueOrError0_))
+        d_22_client_: ComAmazonawsKmsTypes.IKMSClient
+        d_22_client_ = (d_21_valueOrError0_).Extract()
         d_23_region_: Wrappers.Option
-        d_23_region_ = Com_Amazonaws_Kms.default__.RegionMatch(d_21_client_, default__.TEST__REGION)
+        d_23_region_ = Com_Amazonaws_Kms.default__.RegionMatch(d_22_client_, default__.TEST__REGION)
         if not(((d_23_region_).is_None) or ((d_23_region_).value)):
             raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(172,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def EmptyStringIsDefaultRegion():
-        d_24_client_: ComAmazonawsKmsTypes.IKMSClient
-        d_25_valueOrError0_: Wrappers.Result = None
+        d_24_valueOrError0_: Wrappers.Result = None
         out7_: Wrappers.Result
         out7_ = Com_Amazonaws_Kms.default__.KMSClientForRegion(_dafny.Seq(""))
-        d_25_valueOrError0_ = out7_
-        if not(not((d_25_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(177,18): " + _dafny.string_of(d_25_valueOrError0_))
-        d_24_client_ = (d_25_valueOrError0_).Extract()
+        d_24_valueOrError0_ = out7_
+        if not(not((d_24_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(177,18): " + _dafny.string_of(d_24_valueOrError0_))
+        d_25_client_: ComAmazonawsKmsTypes.IKMSClient
+        d_25_client_ = (d_24_valueOrError0_).Extract()
 
     @_dafny.classproperty
     def TEST__REGION(instance):

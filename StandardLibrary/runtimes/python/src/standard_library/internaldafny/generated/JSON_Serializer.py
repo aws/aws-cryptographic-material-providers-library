@@ -113,8 +113,8 @@ class default__:
 
     @staticmethod
     def Number(dec):
-        pat_let_tv14_ = dec
-        pat_let_tv15_ = dec
+        pat_let_tv4_ = dec
+        pat_let_tv5_ = dec
         d_539_minus_ = default__.Sign((dec).n)
         d_540_valueOrError0_ = default__.Int(Math.default__.Abs((dec).n))
         if (d_540_valueOrError0_).IsFailure():
@@ -134,9 +134,9 @@ class default__:
                                         return iife19_(_pat_let9_0)
                                     return ((d_546_valueOrError2_).PropagateFailure() if (d_546_valueOrError2_).IsFailure() else iife18_((d_546_valueOrError2_).Extract()))
                                 return iife17_(_pat_let8_0)
-                            return iife16_(default__.Int(Math.default__.Abs((pat_let_tv15_).e10)))
+                            return iife16_(default__.Int(Math.default__.Abs((pat_let_tv5_).e10)))
                         return iife15_(_pat_let7_0)
-                    return iife14_(default__.Sign((pat_let_tv14_).e10))
+                    return iife14_(default__.Sign((pat_let_tv4_).e10))
                 return iife13_(_pat_let6_0)
             d_543_valueOrError1_ = (Wrappers.Result_Success(JSON_Grammar.Maybe_Empty()) if ((dec).e10) == (0) else iife12_(JSON_Utils_Views_Core.View__.OfBytes(_dafny.Seq([ord('e')]))))
             if (d_543_valueOrError1_).IsFailure():
@@ -216,56 +216,48 @@ class default__:
     @staticmethod
     def Value(js):
         source13_ = js
-        unmatched13 = True
-        if unmatched13:
+        if True:
             if source13_.is_Null:
-                unmatched13 = False
                 return Wrappers.Result_Success(JSON_Grammar.Value_Null(JSON_Utils_Views_Core.View__.OfBytes(JSON_Grammar.default__.NULL)))
-        if unmatched13:
+        if True:
             if source13_.is_Bool:
                 d_562_b_ = source13_.b
-                unmatched13 = False
                 return Wrappers.Result_Success(JSON_Grammar.Value_Bool(default__.Bool(d_562_b_)))
-        if unmatched13:
+        if True:
             if source13_.is_String:
                 d_563_str_ = source13_.str
-                unmatched13 = False
                 d_564_valueOrError0_ = default__.String(d_563_str_)
                 if (d_564_valueOrError0_).IsFailure():
                     return (d_564_valueOrError0_).PropagateFailure()
                 elif True:
                     d_565_s_ = (d_564_valueOrError0_).Extract()
                     return Wrappers.Result_Success(JSON_Grammar.Value_String(d_565_s_))
-        if unmatched13:
+        if True:
             if source13_.is_Number:
                 d_566_dec_ = source13_.num
-                unmatched13 = False
                 d_567_valueOrError1_ = default__.Number(d_566_dec_)
                 if (d_567_valueOrError1_).IsFailure():
                     return (d_567_valueOrError1_).PropagateFailure()
                 elif True:
                     d_568_n_ = (d_567_valueOrError1_).Extract()
                     return Wrappers.Result_Success(JSON_Grammar.Value_Number(d_568_n_))
-        if unmatched13:
+        if True:
             if source13_.is_Object:
                 d_569_obj_ = source13_.obj
-                unmatched13 = False
                 d_570_valueOrError2_ = default__.Object(d_569_obj_)
                 if (d_570_valueOrError2_).IsFailure():
                     return (d_570_valueOrError2_).PropagateFailure()
                 elif True:
                     d_571_o_ = (d_570_valueOrError2_).Extract()
                     return Wrappers.Result_Success(JSON_Grammar.Value_Object(d_571_o_))
-        if unmatched13:
+        if True:
             d_572_arr_ = source13_.arr
-            unmatched13 = False
             d_573_valueOrError3_ = default__.Array(d_572_arr_)
             if (d_573_valueOrError3_).IsFailure():
                 return (d_573_valueOrError3_).PropagateFailure()
             elif True:
                 d_574_a_ = (d_573_valueOrError3_).Extract()
                 return Wrappers.Result_Success(JSON_Grammar.Value_Array(d_574_a_))
-        raise Exception("unexpected control point")
 
     @staticmethod
     def JSON(js):

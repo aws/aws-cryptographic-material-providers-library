@@ -54,15 +54,15 @@ class default__:
         d_266_MyOptions_ = _dafny.Seq([Param_Flag(_dafny.Seq("foo"), _dafny.Seq("Does foo things"), default__.NullChar, False, False, Visibility_Normal(), _dafny.Seq([]), _dafny.Seq([])), Param_Opt(_dafny.Seq("two"), _dafny.Seq("Does bar things to thingy"), _dafny.Seq("thingy"), 't', Unused_UnusedOk(), False, Visibility_Normal(), _dafny.Seq([]), _dafny.Seq([]), Tri_No()), Param_Command(Options_Options(_dafny.Seq("command"), _dafny.Seq("Does command stuff"), _dafny.Seq([Param_Opt(_dafny.Seq("two"), _dafny.Seq("Does bar things to thingy"), _dafny.Seq("thingy"), 't', Unused_UnusedOk(), False, Visibility_Normal(), _dafny.Seq([]), _dafny.Seq([]), Tri_No()), Param_Flag(_dafny.Seq("foo"), _dafny.Seq("Does foo things"), default__.NullChar, False, False, Visibility_Normal(), _dafny.Seq([]), _dafny.Seq([]))])))])
         d_267_opts_: Options
         d_267_opts_ = Options_Options(_dafny.Seq("myProg"), _dafny.Seq("does prog stuff"), d_266_MyOptions_)
-        d_268_x_: Parsed
-        d_269_valueOrError0_: Wrappers.Result = Wrappers.Result.default(Parsed.default())()
-        d_269_valueOrError0_ = default__.GetOptions(d_267_opts_, args)
-        if (d_269_valueOrError0_).IsFailure():
-            output = (d_269_valueOrError0_).PropagateFailure()
+        d_268_valueOrError0_: Wrappers.Result = Wrappers.Result.default(Parsed.default())()
+        d_268_valueOrError0_ = default__.GetOptions(d_267_opts_, args)
+        if (d_268_valueOrError0_).IsFailure():
+            output = (d_268_valueOrError0_).PropagateFailure()
             return output
-        d_268_x_ = (d_269_valueOrError0_).Extract()
+        d_269_x_: Parsed
+        d_269_x_ = (d_268_valueOrError0_).Extract()
         d_270_h_: Wrappers.Option
-        d_270_h_ = default__.NeedsHelp(d_267_opts_, d_268_x_, _dafny.Seq(""))
+        d_270_h_ = default__.NeedsHelp(d_267_opts_, d_269_x_, _dafny.Seq(""))
         if (d_270_h_).is_Some:
             _dafny.print(_dafny.string_of((d_270_h_).value))
             output = Wrappers.Result_Success(True)
@@ -576,8 +576,8 @@ class default__:
 
     @staticmethod
     def PostProcess(opts, args):
-        pat_let_tv6_ = args
-        pat_let_tv7_ = args
+        pat_let_tv2_ = args
+        pat_let_tv3_ = args
         d_299_valueOrError0_ = default__.PostProcess2((opts).params, (args).params, _dafny.Seq([]))
         if (d_299_valueOrError0_).IsFailure():
             return (d_299_valueOrError0_).PropagateFailure()
@@ -599,7 +599,7 @@ class default__:
                                             def iife7_(d_306_dt__update_hparams_h0_):
                                                 return Parsed_Parsed((d_304_dt__update__tmp_h0_).command, d_306_dt__update_hparams_h0_, (d_304_dt__update__tmp_h0_).files, d_305_dt__update_hsubcommand_h0_)
                                             return iife7_(_pat_let3_0)
-                                        return iife6_(((pat_let_tv6_).params) + (d_300_newParams_))
+                                        return iife6_(((pat_let_tv2_).params) + (d_300_newParams_))
                                     return iife5_(_pat_let2_0)
                                 return iife4_(Wrappers.Option_Some(d_303_sub_))
                             return iife3_(_pat_let1_0)
@@ -613,7 +613,7 @@ class default__:
                             def iife11_(d_308_dt__update_hparams_h1_):
                                 return Parsed_Parsed((d_307_dt__update__tmp_h1_).command, d_308_dt__update_hparams_h1_, (d_307_dt__update__tmp_h1_).files, (d_307_dt__update__tmp_h1_).subcommand)
                             return iife11_(_pat_let5_0)
-                        return iife10_(((pat_let_tv7_).params) + (d_300_newParams_))
+                        return iife10_(((pat_let_tv3_).params) + (d_300_newParams_))
                     return iife9_(_pat_let4_0)
                 return Wrappers.Result_Success(iife8_(args))
 

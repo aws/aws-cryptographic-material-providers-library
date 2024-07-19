@@ -81,23 +81,17 @@ class default__:
             return True
         elif True:
             source5_ = (messageAwsKmsIdentifer, configuredAwsKmsIdentifier)
-            unmatched5 = True
-            if unmatched5:
+            if True:
                 d_00_ = source5_[0]
                 if d_00_.is_AwsKmsArnIdentifier:
-                    d_59_configuredAwsKmsArn_ = d_00_.a
+                    d_58_configuredAwsKmsArn_ = d_00_.a
                     d_10_ = source5_[1]
                     if d_10_.is_AwsKmsArnIdentifier:
-                        d_60_messageAwsKmsArn_ = d_10_.a
-                        unmatched5 = False
-                        if (not(AwsArnParsing.default__.IsMultiRegionAwsKmsArn(d_59_configuredAwsKmsArn_))) or (not(AwsArnParsing.default__.IsMultiRegionAwsKmsArn(d_60_messageAwsKmsArn_))):
+                        d_59_messageAwsKmsArn_ = d_10_.a
+                        if (not(AwsArnParsing.default__.IsMultiRegionAwsKmsArn(d_58_configuredAwsKmsArn_))) or (not(AwsArnParsing.default__.IsMultiRegionAwsKmsArn(d_59_messageAwsKmsArn_))):
                             return False
                         elif True:
-                            return (((((d_60_messageAwsKmsArn_).partition) == ((d_59_configuredAwsKmsArn_).partition)) and (((d_60_messageAwsKmsArn_).service) == ((d_59_configuredAwsKmsArn_).service))) and (((d_60_messageAwsKmsArn_).account) == ((d_59_configuredAwsKmsArn_).account))) and (((d_60_messageAwsKmsArn_).resource) == ((d_59_configuredAwsKmsArn_).resource))
-            if unmatched5:
-                d_61___v0_ = source5_[0]
-                d_62___v1_ = source5_[1]
-                unmatched5 = False
+                            return (((((d_59_messageAwsKmsArn_).partition) == ((d_58_configuredAwsKmsArn_).partition)) and (((d_59_messageAwsKmsArn_).service) == ((d_58_configuredAwsKmsArn_).service))) and (((d_59_messageAwsKmsArn_).account) == ((d_58_configuredAwsKmsArn_).account))) and (((d_59_messageAwsKmsArn_).resource) == ((d_58_configuredAwsKmsArn_).resource))
+            if True:
                 return False
-            raise Exception("unexpected control point")
 
