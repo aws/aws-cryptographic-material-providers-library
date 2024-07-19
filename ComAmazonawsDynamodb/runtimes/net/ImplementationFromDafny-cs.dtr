@@ -1,6 +1,0 @@
-file_format_version = "1.0"
-dafny_version = "4.7.0.0"
-[options_by_module.ComAmazonawsDynamodbTypes]
-[options_by_module.AbstractComAmazonawsDynamodbService]
-[options_by_module.AbstractComAmazonawsDynamodbOperations]
-[options_by_module."Com.Amazonaws.Dynamodb"]
