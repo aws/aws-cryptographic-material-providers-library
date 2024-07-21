@@ -51,10 +51,12 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
       CreateAwsKmsMrkDiscoveryKeyring := [];
       CreateAwsKmsMrkDiscoveryMultiKeyring := [];
       CreateAwsKmsHierarchicalKeyring := [];
+      CreateAwsKmsRsaKeyring := [];
+      CreateAwsKmsEcdhKeyring := [];
       CreateMultiKeyring := [];
       CreateRawAesKeyring := [];
       CreateRawRsaKeyring := [];
-      CreateAwsKmsRsaKeyring := [];
+      CreateRawEcdhKeyring := [];
       CreateDefaultCryptographicMaterialsManager := [];
       CreateRequiredEncryptionContextCMM := [];
       CreateCryptographicMaterialsCache := [];
@@ -79,10 +81,12 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     ghost var CreateAwsKmsMrkDiscoveryKeyring: seq<DafnyCallEvent<CreateAwsKmsMrkDiscoveryKeyringInput, Result<IKeyring, Error>>>
     ghost var CreateAwsKmsMrkDiscoveryMultiKeyring: seq<DafnyCallEvent<CreateAwsKmsMrkDiscoveryMultiKeyringInput, Result<IKeyring, Error>>>
     ghost var CreateAwsKmsHierarchicalKeyring: seq<DafnyCallEvent<CreateAwsKmsHierarchicalKeyringInput, Result<IKeyring, Error>>>
+    ghost var CreateAwsKmsRsaKeyring: seq<DafnyCallEvent<CreateAwsKmsRsaKeyringInput, Result<IKeyring, Error>>>
+    ghost var CreateAwsKmsEcdhKeyring: seq<DafnyCallEvent<CreateAwsKmsEcdhKeyringInput, Result<IKeyring, Error>>>
     ghost var CreateMultiKeyring: seq<DafnyCallEvent<CreateMultiKeyringInput, Result<IKeyring, Error>>>
     ghost var CreateRawAesKeyring: seq<DafnyCallEvent<CreateRawAesKeyringInput, Result<IKeyring, Error>>>
     ghost var CreateRawRsaKeyring: seq<DafnyCallEvent<CreateRawRsaKeyringInput, Result<IKeyring, Error>>>
-    ghost var CreateAwsKmsRsaKeyring: seq<DafnyCallEvent<CreateAwsKmsRsaKeyringInput, Result<IKeyring, Error>>>
+    ghost var CreateRawEcdhKeyring: seq<DafnyCallEvent<CreateRawEcdhKeyringInput, Result<IKeyring, Error>>>
     ghost var CreateDefaultCryptographicMaterialsManager: seq<DafnyCallEvent<CreateDefaultCryptographicMaterialsManagerInput, Result<ICryptographicMaterialsManager, Error>>>
     ghost var CreateRequiredEncryptionContextCMM: seq<DafnyCallEvent<CreateRequiredEncryptionContextCMMInput, Result<ICryptographicMaterialsManager, Error>>>
     ghost var CreateCryptographicMaterialsCache: seq<DafnyCallEvent<CreateCryptographicMaterialsCacheInput, Result<ICryptographicMaterialsCache, Error>>>
@@ -350,6 +354,55 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
       ensures CreateAwsKmsHierarchicalKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsHierarchicalKeyring == old(History.CreateAwsKmsHierarchicalKeyring) + [DafnyCallEvent(input, output)]
 
+    predicate CreateAwsKmsRsaKeyringEnsuresPublicly(input: CreateAwsKmsRsaKeyringInput , output: Result<IKeyring, Error>)
+    // The public method to be called by library consumers
+    method CreateAwsKmsRsaKeyring ( input: CreateAwsKmsRsaKeyringInput )
+      returns (output: Result<IKeyring, Error>)
+      requires
+        && ValidState() && ( input.kmsClient.Some? ==>
+                               && input.kmsClient.value.ValidState()
+                               && input.kmsClient.value.Modifies !! {History}
+           )
+      modifies Modifies - {History} ,
+               (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ,
+               History`CreateAwsKmsRsaKeyring
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History} ,
+                (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {})
+      ensures
+        && ValidState()
+        && ( output.Success? ==>
+               && output.value.ValidState()
+               && output.value.Modifies !! {History}
+               && fresh(output.value)
+               && fresh ( output.value.Modifies - Modifies - {History} - (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ) )
+      ensures CreateAwsKmsRsaKeyringEnsuresPublicly(input, output)
+      ensures History.CreateAwsKmsRsaKeyring == old(History.CreateAwsKmsRsaKeyring) + [DafnyCallEvent(input, output)]
+
+    predicate CreateAwsKmsEcdhKeyringEnsuresPublicly(input: CreateAwsKmsEcdhKeyringInput , output: Result<IKeyring, Error>)
+    // The public method to be called by library consumers
+    method CreateAwsKmsEcdhKeyring ( input: CreateAwsKmsEcdhKeyringInput )
+      returns (output: Result<IKeyring, Error>)
+      requires
+        && ValidState()
+        && input.kmsClient.ValidState()
+        && input.kmsClient.Modifies !! {History}
+      modifies Modifies - {History} ,
+               input.kmsClient.Modifies ,
+               History`CreateAwsKmsEcdhKeyring
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History} ,
+                input.kmsClient.Modifies
+      ensures
+        && ValidState()
+        && ( output.Success? ==>
+               && output.value.ValidState()
+               && output.value.Modifies !! {History}
+               && fresh(output.value)
+               && fresh ( output.value.Modifies - Modifies - {History} - input.kmsClient.Modifies ) )
+      ensures CreateAwsKmsEcdhKeyringEnsuresPublicly(input, output)
+      ensures History.CreateAwsKmsEcdhKeyring == old(History.CreateAwsKmsEcdhKeyring) + [DafnyCallEvent(input, output)]
+
     predicate CreateMultiKeyringEnsuresPublicly(input: CreateMultiKeyringInput , output: Result<IKeyring, Error>)
     // The public method to be called by library consumers
     method CreateMultiKeyring ( input: CreateMultiKeyringInput )
@@ -420,30 +473,25 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
       ensures CreateRawRsaKeyringEnsuresPublicly(input, output)
       ensures History.CreateRawRsaKeyring == old(History.CreateRawRsaKeyring) + [DafnyCallEvent(input, output)]
 
-    predicate CreateAwsKmsRsaKeyringEnsuresPublicly(input: CreateAwsKmsRsaKeyringInput , output: Result<IKeyring, Error>)
+    predicate CreateRawEcdhKeyringEnsuresPublicly(input: CreateRawEcdhKeyringInput , output: Result<IKeyring, Error>)
     // The public method to be called by library consumers
-    method CreateAwsKmsRsaKeyring ( input: CreateAwsKmsRsaKeyringInput )
+    method CreateRawEcdhKeyring ( input: CreateRawEcdhKeyringInput )
       returns (output: Result<IKeyring, Error>)
       requires
-        && ValidState() && ( input.kmsClient.Some? ==>
-                               && input.kmsClient.value.ValidState()
-                               && input.kmsClient.value.Modifies !! {History}
-           )
+        && ValidState()
       modifies Modifies - {History} ,
-               (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ,
-               History`CreateAwsKmsRsaKeyring
+               History`CreateRawEcdhKeyring
       // Dafny will skip type parameters when generating a default decreases clause.
-      decreases Modifies - {History} ,
-                (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {})
+      decreases Modifies - {History}
       ensures
         && ValidState()
         && ( output.Success? ==>
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ) )
-      ensures CreateAwsKmsRsaKeyringEnsuresPublicly(input, output)
-      ensures History.CreateAwsKmsRsaKeyring == old(History.CreateAwsKmsRsaKeyring) + [DafnyCallEvent(input, output)]
+               && fresh ( output.value.Modifies - Modifies - {History} ) )
+      ensures CreateRawEcdhKeyringEnsuresPublicly(input, output)
+      ensures History.CreateRawEcdhKeyring == old(History.CreateRawEcdhKeyring) + [DafnyCallEvent(input, output)]
 
     predicate CreateDefaultCryptographicMaterialsManagerEnsuresPublicly(input: CreateDefaultCryptographicMaterialsManagerInput , output: Result<ICryptographicMaterialsManager, Error>)
     // The public method to be called by library consumers
@@ -755,62 +803,68 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
   }
   datatype CreateAwsKmsDiscoveryKeyringInput = | CreateAwsKmsDiscoveryKeyringInput (
     nameonly kmsClient: ComAmazonawsKmsTypes.IKMSClient ,
-    nameonly discoveryFilter: Option<DiscoveryFilter> ,
-    nameonly grantTokens: Option<GrantTokenList>
+    nameonly discoveryFilter: Option<DiscoveryFilter> := Option.None ,
+    nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
   datatype CreateAwsKmsDiscoveryMultiKeyringInput = | CreateAwsKmsDiscoveryMultiKeyringInput (
     nameonly regions: RegionList ,
-    nameonly discoveryFilter: Option<DiscoveryFilter> ,
-    nameonly clientSupplier: Option<IClientSupplier> ,
-    nameonly grantTokens: Option<GrantTokenList>
+    nameonly discoveryFilter: Option<DiscoveryFilter> := Option.None ,
+    nameonly clientSupplier: Option<IClientSupplier> := Option.None ,
+    nameonly grantTokens: Option<GrantTokenList> := Option.None
+  )
+  datatype CreateAwsKmsEcdhKeyringInput = | CreateAwsKmsEcdhKeyringInput (
+    nameonly KeyAgreementScheme: KmsEcdhStaticConfigurations ,
+    nameonly curveSpec: AwsCryptographyPrimitivesTypes.ECDHCurveSpec ,
+    nameonly kmsClient: ComAmazonawsKmsTypes.IKMSClient ,
+    nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
   datatype CreateAwsKmsHierarchicalKeyringInput = | CreateAwsKmsHierarchicalKeyringInput (
-    nameonly branchKeyId: Option<string> ,
-    nameonly branchKeyIdSupplier: Option<IBranchKeyIdSupplier> ,
+    nameonly branchKeyId: Option<string> := Option.None ,
+    nameonly branchKeyIdSupplier: Option<IBranchKeyIdSupplier> := Option.None ,
     nameonly keyStore: AwsCryptographyKeyStoreTypes.IKeyStoreClient ,
     nameonly ttlSeconds: PositiveLong ,
-    nameonly cache: Option<CacheType>
+    nameonly cache: Option<CacheType> := Option.None
   )
   datatype CreateAwsKmsKeyringInput = | CreateAwsKmsKeyringInput (
     nameonly kmsKeyId: KmsKeyId ,
     nameonly kmsClient: ComAmazonawsKmsTypes.IKMSClient ,
-    nameonly grantTokens: Option<GrantTokenList>
+    nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
   datatype CreateAwsKmsMrkDiscoveryKeyringInput = | CreateAwsKmsMrkDiscoveryKeyringInput (
     nameonly kmsClient: ComAmazonawsKmsTypes.IKMSClient ,
-    nameonly discoveryFilter: Option<DiscoveryFilter> ,
-    nameonly grantTokens: Option<GrantTokenList> ,
+    nameonly discoveryFilter: Option<DiscoveryFilter> := Option.None ,
+    nameonly grantTokens: Option<GrantTokenList> := Option.None ,
     nameonly region: Region
   )
   datatype CreateAwsKmsMrkDiscoveryMultiKeyringInput = | CreateAwsKmsMrkDiscoveryMultiKeyringInput (
     nameonly regions: RegionList ,
-    nameonly discoveryFilter: Option<DiscoveryFilter> ,
-    nameonly clientSupplier: Option<IClientSupplier> ,
-    nameonly grantTokens: Option<GrantTokenList>
+    nameonly discoveryFilter: Option<DiscoveryFilter> := Option.None ,
+    nameonly clientSupplier: Option<IClientSupplier> := Option.None ,
+    nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
   datatype CreateAwsKmsMrkKeyringInput = | CreateAwsKmsMrkKeyringInput (
     nameonly kmsKeyId: KmsKeyId ,
     nameonly kmsClient: ComAmazonawsKmsTypes.IKMSClient ,
-    nameonly grantTokens: Option<GrantTokenList>
+    nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
   datatype CreateAwsKmsMrkMultiKeyringInput = | CreateAwsKmsMrkMultiKeyringInput (
-    nameonly generator: Option<KmsKeyId> ,
-    nameonly kmsKeyIds: Option<KmsKeyIdList> ,
-    nameonly clientSupplier: Option<IClientSupplier> ,
-    nameonly grantTokens: Option<GrantTokenList>
+    nameonly generator: Option<KmsKeyId> := Option.None ,
+    nameonly kmsKeyIds: Option<KmsKeyIdList> := Option.None ,
+    nameonly clientSupplier: Option<IClientSupplier> := Option.None ,
+    nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
   datatype CreateAwsKmsMultiKeyringInput = | CreateAwsKmsMultiKeyringInput (
-    nameonly generator: Option<KmsKeyId> ,
-    nameonly kmsKeyIds: Option<KmsKeyIdList> ,
-    nameonly clientSupplier: Option<IClientSupplier> ,
-    nameonly grantTokens: Option<GrantTokenList>
+    nameonly generator: Option<KmsKeyId> := Option.None ,
+    nameonly kmsKeyIds: Option<KmsKeyIdList> := Option.None ,
+    nameonly clientSupplier: Option<IClientSupplier> := Option.None ,
+    nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
   datatype CreateAwsKmsRsaKeyringInput = | CreateAwsKmsRsaKeyringInput (
-    nameonly publicKey: Option<Secret> ,
+    nameonly publicKey: Option<Secret> := Option.None ,
     nameonly kmsKeyId: KmsKeyId ,
     nameonly encryptionAlgorithm: ComAmazonawsKmsTypes.EncryptionAlgorithmSpec ,
-    nameonly kmsClient: Option<ComAmazonawsKmsTypes.IKMSClient> ,
-    nameonly grantTokens: Option<GrantTokenList>
+    nameonly kmsClient: Option<ComAmazonawsKmsTypes.IKMSClient> := Option.None ,
+    nameonly grantTokens: Option<GrantTokenList> := Option.None
   )
   datatype CreateCryptographicMaterialsCacheInput = | CreateCryptographicMaterialsCacheInput (
     nameonly cache: CacheType
@@ -822,7 +876,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly keyring: IKeyring
   )
   datatype CreateMultiKeyringInput = | CreateMultiKeyringInput (
-    nameonly generator: Option<IKeyring> ,
+    nameonly generator: Option<IKeyring> := Option.None ,
     nameonly childKeyrings: KeyringList
   )
   datatype CreateRawAesKeyringInput = | CreateRawAesKeyringInput (
@@ -831,16 +885,20 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly wrappingKey: seq<uint8> ,
     nameonly wrappingAlg: AesWrappingAlg
   )
+  datatype CreateRawEcdhKeyringInput = | CreateRawEcdhKeyringInput (
+    nameonly KeyAgreementScheme: RawEcdhStaticConfigurations ,
+    nameonly curveSpec: AwsCryptographyPrimitivesTypes.ECDHCurveSpec
+  )
   datatype CreateRawRsaKeyringInput = | CreateRawRsaKeyringInput (
     nameonly keyNamespace: string ,
     nameonly keyName: string ,
     nameonly paddingScheme: PaddingScheme ,
-    nameonly publicKey: Option<seq<uint8>> ,
-    nameonly privateKey: Option<seq<uint8>>
+    nameonly publicKey: Option<seq<uint8>> := Option.None ,
+    nameonly privateKey: Option<seq<uint8>> := Option.None
   )
   datatype CreateRequiredEncryptionContextCMMInput = | CreateRequiredEncryptionContextCMMInput (
-    nameonly underlyingCMM: Option<ICryptographicMaterialsManager> ,
-    nameonly keyring: Option<IKeyring> ,
+    nameonly underlyingCMM: Option<ICryptographicMaterialsManager> := Option.None ,
+    nameonly keyring: Option<IKeyring> := Option.None ,
     nameonly requiredEncryptionContextKeys: EncryptionContextKeys
   )
   class ICryptographicMaterialsCacheCallHistory {
@@ -1128,16 +1186,16 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly algorithmSuite: AlgorithmSuiteInfo ,
     nameonly encryptionContext: EncryptionContext ,
     nameonly requiredEncryptionContextKeys: EncryptionContextKeys ,
-    nameonly plaintextDataKey: Option<Secret> ,
-    nameonly verificationKey: Option<Secret> ,
-    nameonly symmetricSigningKey: Option<Secret>
+    nameonly plaintextDataKey: Option<Secret> := Option.None ,
+    nameonly verificationKey: Option<Secret> := Option.None ,
+    nameonly symmetricSigningKey: Option<Secret> := Option.None
   )
   datatype DecryptMaterialsInput = | DecryptMaterialsInput (
     nameonly algorithmSuiteId: AlgorithmSuiteId ,
     nameonly commitmentPolicy: CommitmentPolicy ,
     nameonly encryptedDataKeys: EncryptedDataKeyList ,
     nameonly encryptionContext: EncryptionContext ,
-    nameonly reproducedEncryptionContext: Option<EncryptionContext>
+    nameonly reproducedEncryptionContext: Option<EncryptionContext> := Option.None
   )
   datatype DecryptMaterialsOutput = | DecryptMaterialsOutput (
     nameonly decryptionMaterials: DecryptionMaterials
@@ -1180,9 +1238,12 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly encryptionContext: EncryptionContext ,
     nameonly encryptedDataKeys: EncryptedDataKeyList ,
     nameonly requiredEncryptionContextKeys: EncryptionContextKeys ,
-    nameonly plaintextDataKey: Option<Secret> ,
-    nameonly signingKey: Option<Secret> ,
-    nameonly symmetricSigningKeys: Option<SymmetricSigningKeyList>
+    nameonly plaintextDataKey: Option<Secret> := Option.None ,
+    nameonly signingKey: Option<Secret> := Option.None ,
+    nameonly symmetricSigningKeys: Option<SymmetricSigningKeyList> := Option.None
+  )
+  datatype EphemeralPrivateKeyToStaticPublicKeyInput = | EphemeralPrivateKeyToStaticPublicKeyInput (
+    nameonly recipientPublicKey: seq<uint8>
   )
   datatype ESDKAlgorithmSuiteId =
     | ALG_AES_128_GCM_IV12_TAG16_NO_KDF
@@ -1208,7 +1269,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
   )
   datatype GetCacheEntryInput = | GetCacheEntryInput (
     nameonly identifier: seq<uint8> ,
-    nameonly bytesUsed: Option<int64>
+    nameonly bytesUsed: Option<int64> := Option.None
   )
   datatype GetCacheEntryOutput = | GetCacheEntryOutput (
     nameonly materials: Materials ,
@@ -1223,9 +1284,9 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
   datatype GetEncryptionMaterialsInput = | GetEncryptionMaterialsInput (
     nameonly encryptionContext: EncryptionContext ,
     nameonly commitmentPolicy: CommitmentPolicy ,
-    nameonly algorithmSuiteId: Option<AlgorithmSuiteId> ,
-    nameonly maxPlaintextLength: Option<int64> ,
-    nameonly requiredEncryptionContextKeys: Option<EncryptionContextKeys>
+    nameonly algorithmSuiteId: Option<AlgorithmSuiteId> := Option.None ,
+    nameonly maxPlaintextLength: Option<int64> := Option.None ,
+    nameonly requiredEncryptionContextKeys: Option<EncryptionContextKeys> := Option.None
   )
   datatype GetEncryptionMaterialsOutput = | GetEncryptionMaterialsOutput (
     nameonly encryptionMaterials: EncryptionMaterials
@@ -1249,14 +1310,16 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly algorithmSuiteId: AlgorithmSuiteId ,
     nameonly encryptionContext: EncryptionContext ,
     nameonly requiredEncryptionContextKeys: EncryptionContextKeys ,
-    nameonly signingKey: Option<Secret> ,
-    nameonly verificationKey: Option<Secret>
+    nameonly signingKey: Option<Secret> := Option.None ,
+    nameonly verificationKey: Option<Secret> := Option.None
   )
   datatype IntermediateKeyWrapping = | IntermediateKeyWrapping (
     nameonly keyEncryptionKeyKdf: DerivationAlgorithm ,
     nameonly macKeyKdf: DerivationAlgorithm ,
     nameonly pdkEncryptAlgorithm: Encrypt
   )
+  datatype KeyAgreementScheme =
+    | StaticConfiguration(StaticConfiguration: StaticConfigurations)
   type KeyringList = seq<IKeyring>
   class IKeyringCallHistory {
     ghost constructor() {
@@ -1356,8 +1419,19 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
       ensures unchanged(History)
 
   }
+  datatype KmsEcdhStaticConfigurations =
+    | KmsPublicKeyDiscovery(KmsPublicKeyDiscovery: KmsPublicKeyDiscoveryInput)
+    | KmsPrivateKeyToStaticPublicKey(KmsPrivateKeyToStaticPublicKey: KmsPrivateKeyToStaticPublicKeyInput)
   type KmsKeyId = string
   type KmsKeyIdList = seq<KmsKeyId>
+  datatype KmsPrivateKeyToStaticPublicKeyInput = | KmsPrivateKeyToStaticPublicKeyInput (
+    nameonly senderKmsIdentifier: KmsKeyId ,
+    nameonly senderPublicKey: Option<seq<uint8>> := Option.None ,
+    nameonly recipientPublicKey: seq<uint8>
+  )
+  datatype KmsPublicKeyDiscoveryInput = | KmsPublicKeyDiscoveryInput (
+    nameonly recipientKmsIdentifier: KmsKeyId
+  )
   datatype MaterialProvidersConfig = | MaterialProvidersConfig (
 
                                      )
@@ -1368,7 +1442,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     | BeaconKey(BeaconKey: AwsCryptographyKeyStoreTypes.BeaconKeyMaterials)
   datatype MultiThreadedCache = | MultiThreadedCache (
     nameonly entryCapacity: CountingNumber ,
-    nameonly entryPruningTailSize: Option<CountingNumber>
+    nameonly entryPruningTailSize: Option<CountingNumber> := Option.None
   )
   datatype NoCache = | NoCache (
 
@@ -1403,13 +1477,24 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
   predicate method IsValid_PositiveLong(x: int64) {
     ( 0 <= x  )
   }
+  datatype PublicKeyDiscoveryInput = | PublicKeyDiscoveryInput (
+    nameonly recipientStaticPrivateKey: seq<uint8>
+  )
   datatype PutCacheEntryInput = | PutCacheEntryInput (
     nameonly identifier: seq<uint8> ,
     nameonly materials: Materials ,
     nameonly creationTime: PositiveLong ,
     nameonly expiryTime: PositiveLong ,
-    nameonly messagesUsed: Option<PositiveInteger> ,
-    nameonly bytesUsed: Option<PositiveInteger>
+    nameonly messagesUsed: Option<PositiveInteger> := Option.None ,
+    nameonly bytesUsed: Option<PositiveInteger> := Option.None
+  )
+  datatype RawEcdhStaticConfigurations =
+    | PublicKeyDiscovery(PublicKeyDiscovery: PublicKeyDiscoveryInput)
+    | RawPrivateKeyToStaticPublicKey(RawPrivateKeyToStaticPublicKey: RawPrivateKeyToStaticPublicKeyInput)
+    | EphemeralPrivateKeyToStaticPublicKey(EphemeralPrivateKeyToStaticPublicKey: EphemeralPrivateKeyToStaticPublicKeyInput)
+  datatype RawPrivateKeyToStaticPublicKeyInput = | RawPrivateKeyToStaticPublicKeyInput (
+    nameonly senderStaticPrivateKey: seq<uint8> ,
+    nameonly recipientPublicKey: seq<uint8>
   )
   type Region = string
   type RegionList = seq<Region>
@@ -1419,11 +1504,14 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     | None(None: None)
   datatype SingleThreadedCache = | SingleThreadedCache (
     nameonly entryCapacity: CountingNumber ,
-    nameonly entryPruningTailSize: Option<CountingNumber>
+    nameonly entryPruningTailSize: Option<CountingNumber> := Option.None
   )
+  datatype StaticConfigurations =
+    | AWS_KMS_ECDH(AWS_KMS_ECDH: KmsEcdhStaticConfigurations)
+    | RAW_ECDH(RAW_ECDH: RawEcdhStaticConfigurations)
   datatype StormTrackingCache = | StormTrackingCache (
     nameonly entryCapacity: CountingNumber ,
-    nameonly entryPruningTailSize: Option<CountingNumber> ,
+    nameonly entryPruningTailSize: Option<CountingNumber> := Option.None ,
     nameonly gracePeriod: CountingNumber ,
     nameonly graceInterval: CountingNumber ,
     nameonly fanOut: CountingNumber ,
@@ -1536,6 +1624,13 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
               && fresh(res.value.History)
               && res.value.ValidState()
 
+  // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
+  function method CreateSuccessOfClient(client: IAwsCryptographicMaterialProvidersClient): Result<IAwsCryptographicMaterialProvidersClient, Error> {
+    Success(client)
+  }
+  function method CreateFailureOfError(error: Error): Result<IAwsCryptographicMaterialProvidersClient, Error> {
+    Failure(error)
+  }
   class MaterialProvidersClient extends IAwsCryptographicMaterialProvidersClient
   {
     constructor(config: Operations.InternalConfig)
@@ -1820,6 +1915,65 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
       History.CreateAwsKmsHierarchicalKeyring := History.CreateAwsKmsHierarchicalKeyring + [DafnyCallEvent(input, output)];
     }
 
+    predicate CreateAwsKmsRsaKeyringEnsuresPublicly(input: CreateAwsKmsRsaKeyringInput , output: Result<IKeyring, Error>)
+    {Operations.CreateAwsKmsRsaKeyringEnsuresPublicly(input, output)}
+    // The public method to be called by library consumers
+    method CreateAwsKmsRsaKeyring ( input: CreateAwsKmsRsaKeyringInput )
+      returns (output: Result<IKeyring, Error>)
+      requires
+        && ValidState() && ( input.kmsClient.Some? ==>
+                               && input.kmsClient.value.ValidState()
+                               && input.kmsClient.value.Modifies !! {History}
+           )
+      modifies Modifies - {History} ,
+               (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ,
+               History`CreateAwsKmsRsaKeyring
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History} ,
+                (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {})
+      ensures
+        && ValidState()
+        && ( output.Success? ==>
+               && output.value.ValidState()
+               && output.value.Modifies !! {History}
+               && fresh(output.value)
+               && fresh ( output.value.Modifies - Modifies - {History} - (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ) )
+      ensures CreateAwsKmsRsaKeyringEnsuresPublicly(input, output)
+      ensures History.CreateAwsKmsRsaKeyring == old(History.CreateAwsKmsRsaKeyring) + [DafnyCallEvent(input, output)]
+    {
+      output := Operations.CreateAwsKmsRsaKeyring(config, input);
+      History.CreateAwsKmsRsaKeyring := History.CreateAwsKmsRsaKeyring + [DafnyCallEvent(input, output)];
+    }
+
+    predicate CreateAwsKmsEcdhKeyringEnsuresPublicly(input: CreateAwsKmsEcdhKeyringInput , output: Result<IKeyring, Error>)
+    {Operations.CreateAwsKmsEcdhKeyringEnsuresPublicly(input, output)}
+    // The public method to be called by library consumers
+    method CreateAwsKmsEcdhKeyring ( input: CreateAwsKmsEcdhKeyringInput )
+      returns (output: Result<IKeyring, Error>)
+      requires
+        && ValidState()
+        && input.kmsClient.ValidState()
+        && input.kmsClient.Modifies !! {History}
+      modifies Modifies - {History} ,
+               input.kmsClient.Modifies ,
+               History`CreateAwsKmsEcdhKeyring
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History} ,
+                input.kmsClient.Modifies
+      ensures
+        && ValidState()
+        && ( output.Success? ==>
+               && output.value.ValidState()
+               && output.value.Modifies !! {History}
+               && fresh(output.value)
+               && fresh ( output.value.Modifies - Modifies - {History} - input.kmsClient.Modifies ) )
+      ensures CreateAwsKmsEcdhKeyringEnsuresPublicly(input, output)
+      ensures History.CreateAwsKmsEcdhKeyring == old(History.CreateAwsKmsEcdhKeyring) + [DafnyCallEvent(input, output)]
+    {
+      output := Operations.CreateAwsKmsEcdhKeyring(config, input);
+      History.CreateAwsKmsEcdhKeyring := History.CreateAwsKmsEcdhKeyring + [DafnyCallEvent(input, output)];
+    }
+
     predicate CreateMultiKeyringEnsuresPublicly(input: CreateMultiKeyringInput , output: Result<IKeyring, Error>)
     {Operations.CreateMultiKeyringEnsuresPublicly(input, output)}
     // The public method to be called by library consumers
@@ -1905,34 +2059,29 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
       History.CreateRawRsaKeyring := History.CreateRawRsaKeyring + [DafnyCallEvent(input, output)];
     }
 
-    predicate CreateAwsKmsRsaKeyringEnsuresPublicly(input: CreateAwsKmsRsaKeyringInput , output: Result<IKeyring, Error>)
-    {Operations.CreateAwsKmsRsaKeyringEnsuresPublicly(input, output)}
+    predicate CreateRawEcdhKeyringEnsuresPublicly(input: CreateRawEcdhKeyringInput , output: Result<IKeyring, Error>)
+    {Operations.CreateRawEcdhKeyringEnsuresPublicly(input, output)}
     // The public method to be called by library consumers
-    method CreateAwsKmsRsaKeyring ( input: CreateAwsKmsRsaKeyringInput )
+    method CreateRawEcdhKeyring ( input: CreateRawEcdhKeyringInput )
       returns (output: Result<IKeyring, Error>)
       requires
-        && ValidState() && ( input.kmsClient.Some? ==>
-                               && input.kmsClient.value.ValidState()
-                               && input.kmsClient.value.Modifies !! {History}
-           )
+        && ValidState()
       modifies Modifies - {History} ,
-               (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ,
-               History`CreateAwsKmsRsaKeyring
+               History`CreateRawEcdhKeyring
       // Dafny will skip type parameters when generating a default decreases clause.
-      decreases Modifies - {History} ,
-                (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {})
+      decreases Modifies - {History}
       ensures
         && ValidState()
         && ( output.Success? ==>
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ) )
-      ensures CreateAwsKmsRsaKeyringEnsuresPublicly(input, output)
-      ensures History.CreateAwsKmsRsaKeyring == old(History.CreateAwsKmsRsaKeyring) + [DafnyCallEvent(input, output)]
+               && fresh ( output.value.Modifies - Modifies - {History} ) )
+      ensures CreateRawEcdhKeyringEnsuresPublicly(input, output)
+      ensures History.CreateRawEcdhKeyring == old(History.CreateRawEcdhKeyring) + [DafnyCallEvent(input, output)]
     {
-      output := Operations.CreateAwsKmsRsaKeyring(config, input);
-      History.CreateAwsKmsRsaKeyring := History.CreateAwsKmsRsaKeyring + [DafnyCallEvent(input, output)];
+      output := Operations.CreateRawEcdhKeyring(config, input);
+      History.CreateRawEcdhKeyring := History.CreateRawEcdhKeyring + [DafnyCallEvent(input, output)];
     }
 
     predicate CreateDefaultCryptographicMaterialsManagerEnsuresPublicly(input: CreateDefaultCryptographicMaterialsManagerInput , output: Result<ICryptographicMaterialsManager, Error>)
@@ -2364,6 +2513,53 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
     ensures CreateAwsKmsHierarchicalKeyringEnsuresPublicly(input, output)
 
 
+  predicate CreateAwsKmsRsaKeyringEnsuresPublicly(input: CreateAwsKmsRsaKeyringInput , output: Result<IKeyring, Error>)
+  // The private method to be refined by the library developer
+
+
+  method CreateAwsKmsRsaKeyring ( config: InternalConfig , input: CreateAwsKmsRsaKeyringInput )
+    returns (output: Result<IKeyring, Error>)
+    requires
+      && ValidInternalConfig?(config) && ( input.kmsClient.Some? ==>
+                                             && input.kmsClient.value.ValidState()
+         )
+    modifies ModifiesInternalConfig(config) ,
+             (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {})
+    // Dafny will skip type parameters when generating a default decreases clause.
+    decreases ModifiesInternalConfig(config) ,
+              (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {})
+    ensures
+      && ValidInternalConfig?(config)
+      && ( output.Success? ==>
+             && output.value.ValidState()
+             && fresh(output.value)
+             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ) )
+    ensures CreateAwsKmsRsaKeyringEnsuresPublicly(input, output)
+
+
+  predicate CreateAwsKmsEcdhKeyringEnsuresPublicly(input: CreateAwsKmsEcdhKeyringInput , output: Result<IKeyring, Error>)
+  // The private method to be refined by the library developer
+
+
+  method CreateAwsKmsEcdhKeyring ( config: InternalConfig , input: CreateAwsKmsEcdhKeyringInput )
+    returns (output: Result<IKeyring, Error>)
+    requires
+      && ValidInternalConfig?(config)
+      && input.kmsClient.ValidState()
+    modifies ModifiesInternalConfig(config) ,
+             input.kmsClient.Modifies
+    // Dafny will skip type parameters when generating a default decreases clause.
+    decreases ModifiesInternalConfig(config) ,
+              input.kmsClient.Modifies
+    ensures
+      && ValidInternalConfig?(config)
+      && ( output.Success? ==>
+             && output.value.ValidState()
+             && fresh(output.value)
+             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - input.kmsClient.Modifies ) )
+    ensures CreateAwsKmsEcdhKeyringEnsuresPublicly(input, output)
+
+
   predicate CreateMultiKeyringEnsuresPublicly(input: CreateMultiKeyringInput , output: Result<IKeyring, Error>)
   // The private method to be refined by the library developer
 
@@ -2432,28 +2628,24 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
     ensures CreateRawRsaKeyringEnsuresPublicly(input, output)
 
 
-  predicate CreateAwsKmsRsaKeyringEnsuresPublicly(input: CreateAwsKmsRsaKeyringInput , output: Result<IKeyring, Error>)
+  predicate CreateRawEcdhKeyringEnsuresPublicly(input: CreateRawEcdhKeyringInput , output: Result<IKeyring, Error>)
   // The private method to be refined by the library developer
 
 
-  method CreateAwsKmsRsaKeyring ( config: InternalConfig , input: CreateAwsKmsRsaKeyringInput )
+  method CreateRawEcdhKeyring ( config: InternalConfig , input: CreateRawEcdhKeyringInput )
     returns (output: Result<IKeyring, Error>)
     requires
-      && ValidInternalConfig?(config) && ( input.kmsClient.Some? ==>
-                                             && input.kmsClient.value.ValidState()
-         )
-    modifies ModifiesInternalConfig(config) ,
-             (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {})
+      && ValidInternalConfig?(config)
+    modifies ModifiesInternalConfig(config)
     // Dafny will skip type parameters when generating a default decreases clause.
-    decreases ModifiesInternalConfig(config) ,
-              (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {})
+    decreases ModifiesInternalConfig(config)
     ensures
       && ValidInternalConfig?(config)
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - (if input.kmsClient.Some? then input.kmsClient.value.Modifies else {}) ) )
-    ensures CreateAwsKmsRsaKeyringEnsuresPublicly(input, output)
+             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) ) )
+    ensures CreateRawEcdhKeyringEnsuresPublicly(input, output)
 
 
   predicate CreateDefaultCryptographicMaterialsManagerEnsuresPublicly(input: CreateDefaultCryptographicMaterialsManagerInput , output: Result<ICryptographicMaterialsManager, Error>)

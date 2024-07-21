@@ -1,16 +1,62 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>STD</RootNamespace>
+    <OutputType>Library</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <IsPackable>true</IsPackable>
+  
+    <Version>1.5.1</Version>
+    
+    <AssemblyName>AWS.Cryptography.Internal.StandardLibrary</AssemblyName>
+    <PackageId>AWS.Cryptography.Internal.StandardLibrary</PackageId>
+    <Title>StandardLibrary</Title>
+    <Description>The StandarLibrary is a library written to supply helpful Dafny functionality.</Description>
+    <Authors>Amazon Web Services</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/aws/aws-cryptographic-material-providers-library</RepositoryUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>AWS;Amazon;KMS;Encryption;Cryptography</PackageTags>
+
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <LangVersion>10</LangVersion>
-    <TargetFrameworks>net6.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net48</TargetFrameworks>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <!--
+      Ignore errors from generated code. Ideally this would be scoped to just the relevant files.
+      CS0105: duplicate namespace, CS0618: obsolete members
+    -->
+    <NoWarn>CS0105,CS0618</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- This is somewhat brittle,
+         but having the value in a properties file
+         that can be shared is worth it.
+         See: https://learn.microsoft.com/en-us/visualstudio/msbuild/property-functions?view=vs-2022
+         for more details on property functions
+         
+         This takes a properties file (a=b)
+         1. Loads the file
+         2. Splits on `dafnyVersion=` and takes everything to the right of that
+           e.g. the version + any trailing data
+         3. Splits on newline and takes the second element.
+           This SHOULD be the value of `dafnyVersion` and not contain any trailing data
+     -->
+    <projectProperties>
+      $([System.IO.File]::ReadAllText('$(MSBuildProjectDirectory)/../../../project.properties'))
+    </projectProperties>
+    <dropBeforeDafnyVersionProperty>
+      $([System.Text.RegularExpressions.Regex]::Split("$(projectProperties)", "dafnyVersion=")[1])
+    </dropBeforeDafnyVersionProperty>
+    <DafnyVersion>
+      $([System.Text.RegularExpressions.Regex]::Split("$(dropBeforeDafnyVersionProperty)", "\n")[1])
+    </DafnyVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DafnyRuntime" Version="4.0.0.50303" />
+    <PackageReference Include="DafnyRuntime" Version="$(DafnyVersion)" />
     <!--
       System.Collections.Immutable can be removed once dafny.msbuild is updated with
       https://github.com/dafny-lang/dafny.msbuild/pull/10 and versioned
@@ -27,13 +73,9 @@
     <Compile Include="ImplementationFromDafny.cs" />
   </ItemGroup>
 
-  <!--
-    TODO .NET assemblies are expected to have an ICON.
-    This MUST be replaced before launch.
-  -->
-  <!-- <ItemGroup>
-    <None Include="..\icon.png" Pack="true" PackagePath="" />
-    <None Include="..\README.md" Pack="true" PackagePath="" />
-  </ItemGroup> -->
+  <ItemGroup>
+    <None Include="..\..\..\icon.png" Pack="true" PackagePath="" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
 
 </Project>

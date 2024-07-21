@@ -16,6 +16,9 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
 
   // Begin Generated Types
 
+  datatype CmmOperation =
+    | ENCRYPT
+    | DECRYPT
   datatype GetKeyDescriptionInput = | GetKeyDescriptionInput (
     nameonly json: seq<uint8>
   )
@@ -31,18 +34,25 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
     | KmsMrkDiscovery(KmsMrkDiscovery: KmsMrkAwareDiscovery)
     | RSA(RSA: RawRSA)
     | AES(AES: RawAES)
+    | ECDH(ECDH: RawEcdh)
     | Static(Static: StaticKeyring)
     | KmsRsa(KmsRsa: KmsRsaKeyring)
+    | KmsECDH(KmsECDH: KmsEcdhKeyring)
     | Hierarchy(Hierarchy: HierarchyKeyring)
+    | Multi(Multi: MultiKeyring)
+    | RequiredEncryptionContext(RequiredEncryptionContext: RequiredEncryptionContextCMM)
+  type KeyDescriptionList = seq<KeyDescription>
   class IKeyVectorsClientCallHistory {
     ghost constructor() {
       CreateTestVectorKeyring := [];
-      CreateWappedTestVectorKeyring := [];
+      CreateWrappedTestVectorKeyring := [];
+      CreateWrappedTestVectorCmm := [];
       GetKeyDescription := [];
       SerializeKeyDescription := [];
     }
     ghost var CreateTestVectorKeyring: seq<DafnyCallEvent<TestVectorKeyringInput, Result<AwsCryptographyMaterialProvidersTypes.IKeyring, Error>>>
-    ghost var CreateWappedTestVectorKeyring: seq<DafnyCallEvent<TestVectorKeyringInput, Result<AwsCryptographyMaterialProvidersTypes.IKeyring, Error>>>
+    ghost var CreateWrappedTestVectorKeyring: seq<DafnyCallEvent<TestVectorKeyringInput, Result<AwsCryptographyMaterialProvidersTypes.IKeyring, Error>>>
+    ghost var CreateWrappedTestVectorCmm: seq<DafnyCallEvent<TestVectorCmmInput, Result<AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager, Error>>>
     ghost var GetKeyDescription: seq<DafnyCallEvent<GetKeyDescriptionInput, Result<GetKeyDescriptionOutput, Error>>>
     ghost var SerializeKeyDescription: seq<DafnyCallEvent<SerializeKeyDescriptionInput, Result<SerializeKeyDescriptionOutput, Error>>>
   }
@@ -93,14 +103,14 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
       ensures CreateTestVectorKeyringEnsuresPublicly(input, output)
       ensures History.CreateTestVectorKeyring == old(History.CreateTestVectorKeyring) + [DafnyCallEvent(input, output)]
 
-    predicate CreateWappedTestVectorKeyringEnsuresPublicly(input: TestVectorKeyringInput , output: Result<AwsCryptographyMaterialProvidersTypes.IKeyring, Error>)
+    predicate CreateWrappedTestVectorKeyringEnsuresPublicly(input: TestVectorKeyringInput , output: Result<AwsCryptographyMaterialProvidersTypes.IKeyring, Error>)
     // The public method to be called by library consumers
-    method CreateWappedTestVectorKeyring ( input: TestVectorKeyringInput )
+    method CreateWrappedTestVectorKeyring ( input: TestVectorKeyringInput )
       returns (output: Result<AwsCryptographyMaterialProvidersTypes.IKeyring, Error>)
       requires
         && ValidState()
       modifies Modifies - {History} ,
-               History`CreateWappedTestVectorKeyring
+               History`CreateWrappedTestVectorKeyring
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History}
       ensures
@@ -110,8 +120,28 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
                && output.value.Modifies !! {History}
                && fresh(output.value)
                && fresh ( output.value.Modifies - Modifies - {History} ) )
-      ensures CreateWappedTestVectorKeyringEnsuresPublicly(input, output)
-      ensures History.CreateWappedTestVectorKeyring == old(History.CreateWappedTestVectorKeyring) + [DafnyCallEvent(input, output)]
+      ensures CreateWrappedTestVectorKeyringEnsuresPublicly(input, output)
+      ensures History.CreateWrappedTestVectorKeyring == old(History.CreateWrappedTestVectorKeyring) + [DafnyCallEvent(input, output)]
+
+    predicate CreateWrappedTestVectorCmmEnsuresPublicly(input: TestVectorCmmInput , output: Result<AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager, Error>)
+    // The public method to be called by library consumers
+    method CreateWrappedTestVectorCmm ( input: TestVectorCmmInput )
+      returns (output: Result<AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`CreateWrappedTestVectorCmm
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+        && ( output.Success? ==>
+               && output.value.ValidState()
+               && output.value.Modifies !! {History}
+               && fresh(output.value)
+               && fresh ( output.value.Modifies - Modifies - {History} ) )
+      ensures CreateWrappedTestVectorCmmEnsuresPublicly(input, output)
+      ensures History.CreateWrappedTestVectorCmm == old(History.CreateWrappedTestVectorCmm) + [DafnyCallEvent(input, output)]
 
     // Functions are deterministic, no need for historical call events or ensures indirection
     // The public method to be called by library consumers
@@ -127,7 +157,15 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
 
   }
   datatype KeyVectorsConfig = | KeyVectorsConfig (
-    nameonly keyManifiestPath: string
+    nameonly keyManifestPath: string
+  )
+  datatype KmsEcdhKeyring = | KmsEcdhKeyring (
+    nameonly senderKeyId: string ,
+    nameonly recipientKeyId: string ,
+    nameonly senderPublicKey: string ,
+    nameonly recipientPublicKey: string ,
+    nameonly curveSpec: string ,
+    nameonly keyAgreementScheme: string
   )
   datatype KMSInfo = | KMSInfo (
     nameonly keyId: string
@@ -138,20 +176,37 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
   datatype KmsMrkAwareDiscovery = | KmsMrkAwareDiscovery (
     nameonly keyId: string ,
     nameonly defaultMrkRegion: string ,
-    nameonly awsKmsDiscoveryFilter: Option<AwsCryptographyMaterialProvidersTypes.DiscoveryFilter>
+    nameonly awsKmsDiscoveryFilter: Option<AwsCryptographyMaterialProvidersTypes.DiscoveryFilter> := Option.None
   )
   datatype KmsRsaKeyring = | KmsRsaKeyring (
     nameonly keyId: string ,
     nameonly encryptionAlgorithm: ComAmazonawsKmsTypes.EncryptionAlgorithmSpec
   )
+  datatype MultiKeyring = | MultiKeyring (
+    nameonly generator: Option<KeyDescription> := Option.None ,
+    nameonly childKeyrings: KeyDescriptionList
+  )
   datatype RawAES = | RawAES (
     nameonly keyId: string ,
     nameonly providerId: string
+  )
+  datatype RawEcdh = | RawEcdh (
+    nameonly senderKeyId: string ,
+    nameonly recipientKeyId: string ,
+    nameonly senderPublicKey: string ,
+    nameonly recipientPublicKey: string ,
+    nameonly providerId: string ,
+    nameonly curveSpec: string ,
+    nameonly keyAgreementScheme: string
   )
   datatype RawRSA = | RawRSA (
     nameonly keyId: string ,
     nameonly providerId: string ,
     nameonly padding: AwsCryptographyMaterialProvidersTypes.PaddingScheme
+  )
+  datatype RequiredEncryptionContextCMM = | RequiredEncryptionContextCMM (
+    nameonly underlying: KeyDescription ,
+    nameonly requiredEncryptionContextKeys: AwsCryptographyMaterialProvidersTypes.EncryptionContextKeys
   )
   datatype SerializeKeyDescriptionInput = | SerializeKeyDescriptionInput (
     nameonly keyDescription: KeyDescription
@@ -161,6 +216,10 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
   )
   datatype StaticKeyring = | StaticKeyring (
     nameonly keyId: string
+  )
+  datatype TestVectorCmmInput = | TestVectorCmmInput (
+    nameonly keyDescription: KeyDescription ,
+    nameonly forOperation: CmmOperation
   )
   datatype TestVectorKeyringInput = | TestVectorKeyringInput (
     nameonly keyDescription: KeyDescription
@@ -217,6 +276,13 @@ abstract module AbstractAwsCryptographyMaterialProvidersTestVectorKeysService
               && fresh(res.value.History)
               && res.value.ValidState()
 
+  // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
+  function method CreateSuccessOfClient(client: IKeyVectorsClient): Result<IKeyVectorsClient, Error> {
+    Success(client)
+  }
+  function method CreateFailureOfError(error: Error): Result<IKeyVectorsClient, Error> {
+    Failure(error)
+  }
   class KeyVectorsClient extends IKeyVectorsClient
   {
     constructor(config: Operations.InternalConfig)
@@ -256,15 +322,15 @@ abstract module AbstractAwsCryptographyMaterialProvidersTestVectorKeysService
       History.CreateTestVectorKeyring := History.CreateTestVectorKeyring + [DafnyCallEvent(input, output)];
     }
 
-    predicate CreateWappedTestVectorKeyringEnsuresPublicly(input: TestVectorKeyringInput , output: Result<AwsCryptographyMaterialProvidersTypes.IKeyring, Error>)
-    {Operations.CreateWappedTestVectorKeyringEnsuresPublicly(input, output)}
+    predicate CreateWrappedTestVectorKeyringEnsuresPublicly(input: TestVectorKeyringInput , output: Result<AwsCryptographyMaterialProvidersTypes.IKeyring, Error>)
+    {Operations.CreateWrappedTestVectorKeyringEnsuresPublicly(input, output)}
     // The public method to be called by library consumers
-    method CreateWappedTestVectorKeyring ( input: TestVectorKeyringInput )
+    method CreateWrappedTestVectorKeyring ( input: TestVectorKeyringInput )
       returns (output: Result<AwsCryptographyMaterialProvidersTypes.IKeyring, Error>)
       requires
         && ValidState()
       modifies Modifies - {History} ,
-               History`CreateWappedTestVectorKeyring
+               History`CreateWrappedTestVectorKeyring
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History}
       ensures
@@ -274,11 +340,36 @@ abstract module AbstractAwsCryptographyMaterialProvidersTestVectorKeysService
                && output.value.Modifies !! {History}
                && fresh(output.value)
                && fresh ( output.value.Modifies - Modifies - {History} ) )
-      ensures CreateWappedTestVectorKeyringEnsuresPublicly(input, output)
-      ensures History.CreateWappedTestVectorKeyring == old(History.CreateWappedTestVectorKeyring) + [DafnyCallEvent(input, output)]
+      ensures CreateWrappedTestVectorKeyringEnsuresPublicly(input, output)
+      ensures History.CreateWrappedTestVectorKeyring == old(History.CreateWrappedTestVectorKeyring) + [DafnyCallEvent(input, output)]
     {
-      output := Operations.CreateWappedTestVectorKeyring(config, input);
-      History.CreateWappedTestVectorKeyring := History.CreateWappedTestVectorKeyring + [DafnyCallEvent(input, output)];
+      output := Operations.CreateWrappedTestVectorKeyring(config, input);
+      History.CreateWrappedTestVectorKeyring := History.CreateWrappedTestVectorKeyring + [DafnyCallEvent(input, output)];
+    }
+
+    predicate CreateWrappedTestVectorCmmEnsuresPublicly(input: TestVectorCmmInput , output: Result<AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager, Error>)
+    {Operations.CreateWrappedTestVectorCmmEnsuresPublicly(input, output)}
+    // The public method to be called by library consumers
+    method CreateWrappedTestVectorCmm ( input: TestVectorCmmInput )
+      returns (output: Result<AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`CreateWrappedTestVectorCmm
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+        && ( output.Success? ==>
+               && output.value.ValidState()
+               && output.value.Modifies !! {History}
+               && fresh(output.value)
+               && fresh ( output.value.Modifies - Modifies - {History} ) )
+      ensures CreateWrappedTestVectorCmmEnsuresPublicly(input, output)
+      ensures History.CreateWrappedTestVectorCmm == old(History.CreateWrappedTestVectorCmm) + [DafnyCallEvent(input, output)]
+    {
+      output := Operations.CreateWrappedTestVectorCmm(config, input);
+      History.CreateWrappedTestVectorCmm := History.CreateWrappedTestVectorCmm + [DafnyCallEvent(input, output)];
     }
 
 
@@ -329,11 +420,11 @@ abstract module AbstractAwsCryptographyMaterialProvidersTestVectorKeysOperations
     ensures CreateTestVectorKeyringEnsuresPublicly(input, output)
 
 
-  predicate CreateWappedTestVectorKeyringEnsuresPublicly(input: TestVectorKeyringInput , output: Result<AwsCryptographyMaterialProvidersTypes.IKeyring, Error>)
+  predicate CreateWrappedTestVectorKeyringEnsuresPublicly(input: TestVectorKeyringInput , output: Result<AwsCryptographyMaterialProvidersTypes.IKeyring, Error>)
   // The private method to be refined by the library developer
 
 
-  method CreateWappedTestVectorKeyring ( config: InternalConfig , input: TestVectorKeyringInput )
+  method CreateWrappedTestVectorKeyring ( config: InternalConfig , input: TestVectorKeyringInput )
     returns (output: Result<AwsCryptographyMaterialProvidersTypes.IKeyring, Error>)
     requires
       && ValidInternalConfig?(config)
@@ -346,7 +437,27 @@ abstract module AbstractAwsCryptographyMaterialProvidersTestVectorKeysOperations
              && output.value.ValidState()
              && fresh(output.value)
              && fresh ( output.value.Modifies - ModifiesInternalConfig(config) ) )
-    ensures CreateWappedTestVectorKeyringEnsuresPublicly(input, output)
+    ensures CreateWrappedTestVectorKeyringEnsuresPublicly(input, output)
+
+
+  predicate CreateWrappedTestVectorCmmEnsuresPublicly(input: TestVectorCmmInput , output: Result<AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager, Error>)
+  // The private method to be refined by the library developer
+
+
+  method CreateWrappedTestVectorCmm ( config: InternalConfig , input: TestVectorCmmInput )
+    returns (output: Result<AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager, Error>)
+    requires
+      && ValidInternalConfig?(config)
+    modifies ModifiesInternalConfig(config)
+    // Dafny will skip type parameters when generating a default decreases clause.
+    decreases ModifiesInternalConfig(config)
+    ensures
+      && ValidInternalConfig?(config)
+      && ( output.Success? ==>
+             && output.value.ValidState()
+             && fresh(output.value)
+             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) ) )
+    ensures CreateWrappedTestVectorCmmEnsuresPublicly(input, output)
 
 
   // Functions are deterministic, no need for historical call events or ensures indirection

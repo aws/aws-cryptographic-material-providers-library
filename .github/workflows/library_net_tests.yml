@@ -5,29 +5,35 @@ on:
   workflow_call:
     inputs:
       dafny:
-        description: 'The Dafny version to run'
+        description: "The Dafny version to run"
         required: true
         type: string
+      regenerate-code:
+        description: "Regenerate code using smithy-dafny"
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   testDotNet:
     strategy:
+      fail-fast: false
       matrix:
-        library: [
-          StandardLibrary,
-          AwsCryptographyPrimitives,
-          ComAmazonawsKms,
-          ComAmazonawsDynamodb,
-          AwsCryptographicMaterialProviders,
-          TestVectorsAwsCryptographicMaterialProviders,
-        ]
-        dotnet-version: [ '6.0.x' ]
-        os: [
-          windows-latest,
-          ubuntu-latest,
-          macos-latest,
-        ]
+        library:
+          [
+            StandardLibrary,
+            AwsCryptographyPrimitives,
+            ComAmazonawsKms,
+            ComAmazonawsDynamodb,
+            AwsCryptographicMaterialProviders,
+            TestVectorsAwsCryptographicMaterialProviders,
+          ]
+        dotnet-version: ["6.0.x"]
+        os: [windows-latest, ubuntu-latest, macos-12]
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
     permissions:
       id-token: write
       contents: read
@@ -40,16 +46,17 @@ jobs:
           git config --global core.longpaths true
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
           role-session-name: NetTests
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       # The specification submodule is private so we don't have access, but we don't need
-      # it to verify the Dafny code. Instead we manually pull the submodule we DO need.
+      # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
       - run: git submodule update --init libraries
+      - run: git submodule update --init smithy-dafny
 
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v3
@@ -57,28 +64,70 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Setup Dafny
-        uses: dafny-lang/setup-dafny-action@v1.6.1
+        uses: dafny-lang/setup-dafny-action@v1.7.0
         with:
           dafny-version: ${{ inputs.dafny }}
 
-      - name: Download Dependencies 
+      - name: Regenerate code using smithy-dafny if necessary
+        if: ${{ inputs.regenerate-code }}
+        uses: ./.github/actions/polymorph_codegen
+        with:
+          dafny: ${{ env.DAFNY_VERSION }}
+          library: ${{ matrix.library }}
+          diff-generated-code: false
+
+      - name: Download Dependencies
         working-directory: ./${{ matrix.library }}
         run: make setup_net
 
       - name: Compile ${{ matrix.library }} implementation
-        shell: bash
         working-directory: ./${{ matrix.library }}
         run: |
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_net CORES=$CORES
 
-      - name: Test ${{ matrix.library }}
+      # .NET Framework is a software development framework
+      # for building and running applications on Windows.
+      # https://dotnet.microsoft.com/en-us/learn/dotnet/what-is-dotnet-framework
+      - name: Test ${{ matrix.library }} .NET Framework net48
+        if: matrix.os == 'windows-latest'
+        working-directory: ./${{ matrix.library }}
+        shell: bash
+        run: |
+          nuget locals all -clear
+          dotnet restore runtimes/net
+          make test_net FRAMEWORK=net48
+
+      - name: Test ${{ matrix.library }} .NET net6.0
         working-directory: ./${{ matrix.library }}
         shell: bash
         run: |
           if [ "$RUNNER_OS" == "macOS" ]; then
-            make test_net_mac_intel
+            make test_net_mac_intel FRAMEWORK=net6.0
           else
-            make test_net
+            make test_net FRAMEWORK=net6.0
           fi
+
+      - name: Test Cache Thread Safety net6.0
+        if: matrix.library == 'AwsCryptographicMaterialProviders'
+        working-directory: ./${{ matrix.library }}
+        shell: bash
+        run: |
+          dotnet restore runtimes/net/tests/LocalCMC.Tests/
+          dotnet build runtimes/net/tests/LocalCMC.Tests/
+          dotnet test runtimes/net/tests/LocalCMC.Tests/ \
+              --framework net6.0
+
+      # .NET Framework is a software development framework
+      # for building and running applications on Windows.
+      # https://dotnet.microsoft.com/en-us/learn/dotnet/what-is-dotnet-framework
+      - name: Test Cache Thread Safety .NET Framework net48
+        if: matrix.os == 'windows-latest' && matrix.library == 'AwsCryptographicMaterialProviders'
+        working-directory: ./${{ matrix.library }}
+        shell: bash
+        run: |
+          dotnet restore runtimes/net/tests/LocalCMC.Tests/
+          dotnet build runtimes/net/tests/LocalCMC.Tests/
+          dotnet test runtimes/net/tests/LocalCMC.Tests/ \
+              --framework net48

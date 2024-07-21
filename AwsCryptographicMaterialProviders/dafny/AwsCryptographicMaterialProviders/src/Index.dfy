@@ -10,6 +10,7 @@ module
 
   import Operations = AwsCryptographyMaterialProvidersOperations
   import Aws.Cryptography.Primitives
+  import Crypto = AwsCryptographyPrimitivesTypes
 
   function method DefaultMaterialProvidersConfig(): MaterialProvidersConfig
   {
@@ -18,11 +19,16 @@ module
 
   method MaterialProviders(config: MaterialProvidersConfig)
     returns (res: Result<MaterialProvidersClient, Error>)
+    ensures res.Success? ==>
+              && res.value is MaterialProvidersClient
   {
     var maybeCrypto := Primitives.AtomicPrimitives();
-    var crypto :- maybeCrypto
-    .MapFailure(e => AwsCryptographyPrimitives(e));
-    var client := new MaterialProvidersClient(Operations.Config( crypto := crypto ));
+    var cryptoPrimitivesX : Crypto.IAwsCryptographicPrimitivesClient :- maybeCrypto
+    .MapFailure(e => Types.AwsCryptographyPrimitives(e));
+    assert cryptoPrimitivesX is Primitives.AtomicPrimitivesClient;
+    var cryptoPrimitives := cryptoPrimitivesX as Primitives.AtomicPrimitivesClient;
+
+    var client := new MaterialProvidersClient(Operations.Config( crypto := cryptoPrimitives ));
     return Success(client);
   }
 

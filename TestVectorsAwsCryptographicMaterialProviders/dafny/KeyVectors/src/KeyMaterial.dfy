@@ -3,7 +3,7 @@
 
 include "../Model/AwsCryptographyMaterialProvidersTestVectorKeysTypes.dfy"
   // Yes, this is reaching across.
-  // idealy all these functions would exist in the STD Library.
+  // ideally all these functions would exist in the STD Library.
 include "../../TestVectorsAwsCryptographicMaterialProviders/src/JSONHelpers.dfy"
 
 module {:options "-functionSyntax:4"} KeyMaterial {
@@ -13,6 +13,7 @@ module {:options "-functionSyntax:4"} KeyMaterial {
   import opened JSON.Values
   import opened Wrappers
   import Seq
+  import StandardLibrary
   import opened StandardLibrary.UInt
   import opened JSONHelpers
   import HexStrings
@@ -34,7 +35,8 @@ module {:options "-functionSyntax:4"} KeyMaterial {
 
   function ToKeyMaterial(
     mpl: MPL.IAwsCryptographicMaterialProvidersClient,
-    name: string, obj: JSON
+    name: string,
+    obj: JSON
   ): Result<KeyMaterial, string>
   {
     :- Need(obj.Object?, "KeyDescription not an object");
@@ -45,63 +47,15 @@ module {:options "-functionSyntax:4"} KeyMaterial {
     :- Need(KeyMaterialString?(typ), "Unsupported KeyMaterial type:" + typ);
 
     match typ
-    case "static-material" =>
-      var algorithmSuiteHex :- GetString("algorithmSuiteId", obj);
-      :- Need(HexStrings.IsLooseHexString(algorithmSuiteHex), "Not hex encoded binnary");
-      var binaryId := HexStrings.FromHexString(algorithmSuiteHex);
-      var algorithmSuite :- mpl.GetAlgorithmSuiteInfo(binaryId)
-                            .MapFailure(e => "Invalid Suite:" + algorithmSuiteHex);
+    case "static-material" => ToStaticMaterial(mpl, name, obj)
+    case "static-branch-key" => ToStaticBranchKey(mpl, name, obj)
 
-      var encryptionContextStrings :- SmallObjectToStringStringMap("encryptionContext", obj);
-      var encryptionContext :- utf8EncodeMap(encryptionContextStrings);
-
-      var keysAsStrings :- GetArrayString("requiredEncryptionContextKeys", obj);
-      var requiredEncryptionContextKeys :- utf8EncodeSeq(keysAsStrings);
-
-      var encryptedDataKeysJSON :- GetArrayObject("encryptedDataKeys", obj);
-      var encryptedDataKeys :- Seq.MapWithResult(ToEncryptedDataKey, encryptedDataKeysJSON);
-
-      var plaintextDataKeyEncoded :- GetOptionalString("plaintextDataKey", obj);
-      var plaintextDataKey :- if plaintextDataKeyEncoded.Some? then
-                                var result := Base64.Decode(plaintextDataKeyEncoded.value);
-                                if result.Success? then Success(Some(result.value)) else Failure(result.error)
-                              else Success(None);
-      var signingKey :- GetOptionalString("signingKey", obj);
-      var verificationKey :- GetOptionalString("verificationKey", obj);
-      var symmetricSigningKeys := GetArrayString("symmetricSigningKeys", obj).ToOption();
-
-      Success(StaticMaterial(
-                name := name,
-                algorithmSuite := algorithmSuite,
-                encryptionContext := encryptionContext,
-                encryptedDataKeys := encryptedDataKeys,
-                requiredEncryptionContextKeys := requiredEncryptionContextKeys,
-                plaintextDataKey := plaintextDataKey,
-                // This is just for now...
-                signingKey := None,
-                verificationKey := None,
-                symmetricSigningKeys := None
-              ))
-    case "static-branch-key" =>
-      var keyIdentifier :- GetString("key-id", obj);
-
-      var branchKeyVersionEncoded :- GetString("branchKeyVersion", obj);
-      var branchKeyVersion :- UTF8.Encode(branchKeyVersionEncoded);
-      var branchKeyEncoded :- GetString("branchKey", obj);
-      var branchKey :- Base64.Decode(branchKeyEncoded);
-      var beaconKeyEncoded :- GetString("beaconKey", obj);
-      var beaconKey :- Base64.Decode(beaconKeyEncoded);
-
-      Success(StaticKeyStoreInformation(
-                keyIdentifier := keyIdentifier,
-                branchKeyVersion := branchKeyVersion,
-                branchKey := branchKey,
-                beaconKey := beaconKey
-              ))
     case _ =>
       var encrypt :- GetBool("encrypt", obj);
       var decrypt :- GetBool("decrypt", obj);
-      var keyIdentifier :- GetString("key-id", obj);
+      // Version 1.0 of the keys vectors does not always have this value for all elements
+      var keyIdentifierOption :- GetOptionalString("key-id", obj);
+      var keyIdentifier := keyIdentifierOption.UnwrapOr(name);
 
       match typ
       case "aws-kms" =>
@@ -111,12 +65,61 @@ module {:options "-functionSyntax:4"} KeyMaterial {
                   decrypt := decrypt,
                   keyIdentifier := keyIdentifier
                 ))
+      case "aws-kms-ecdh" =>
+        var algorithm :- GetString("algorithm", obj);
+        var senderMaterial :- GetString("sender-material", obj);
+        var recipientMaterial :- GetString("recipient-material", obj);
+        var encoding :- GetString("encoding", obj);
+        var senderPublicKey :- GetString("sender-material-public-key", obj);
+        var recipientPublicKey :- GetString("recipient-material-public-key", obj);
+        Success(KeyMaterial.KMSEcdh(
+                  name := name,
+                  encrypt := encrypt,
+                  decrypt := decrypt,
+                  keyIdentifier := keyIdentifier,
+                  algorithm := algorithm,
+                  senderMaterial := senderMaterial,
+                  recipientMaterial := recipientMaterial,
+                  senderPublicKey := senderPublicKey,
+                  recipientPublicKey := recipientPublicKey
+                ))
+      case "ecc-private" =>
+        var algorithm :- GetString("algorithm", obj);
+        var bits :- GetNat("bits", obj);
+        var encoding :- GetString("encoding", obj);
+        var senderMaterial :- GetString("sender-material", obj);
+        var recipientMaterial :- GetString("recipient-material", obj);
+        var senderPublicKey :- GetString("sender-material-public-key", obj);
+        var recipientPublicKey :- GetString("recipient-material-public-key", obj);
+        Success(PrivateECDH(
+                  name := name,
+                  encrypt := encrypt,
+                  decrypt := decrypt,
+                  keyIdentifier := keyIdentifier,
+                  algorithm := algorithm,
+                  bits := bits,
+                  encoding := encoding,
+                  senderMaterial := senderMaterial,
+                  recipientMaterial := recipientMaterial,
+                  senderPublicKey := senderPublicKey,
+                  recipientPublicKey := recipientPublicKey
+                ))
       case _ =>
         var algorithm :- GetString("algorithm", obj);
         var bits :- GetNat("bits", obj);
         var encoding :- GetString("encoding", obj);
-        var material :- GetString("material", obj);
 
+        // Version 1.0 of the keys vectors stores "material"
+        // as ["value"] as opposed to just a string.
+        var material? :- Get("material", obj);
+        var material :- match material?
+          case String(str) => Success(str)
+          case Array(arr) =>
+            :- Need(0 < |arr| && forall s <- arr :: s.String?, "Unsupported material shape.");
+            var strings := Seq.Map((s: JSON) requires s.String? => s.str, arr);
+            var material := StandardLibrary.Join(strings, "\n");
+            Success(material)
+          case _ => Failure("Unsupported material shape.");
         match typ
         case "symmetric" =>
           var materialBytes :- Base64.Decode(material);
@@ -167,6 +170,70 @@ module {:options "-functionSyntax:4"} KeyMaterial {
                   ))
   }
 
+  function ToStaticMaterial(
+    mpl: MPL.IAwsCryptographicMaterialProvidersClient,
+    name: string,
+    obj: seq<(string, JSON)>
+  ) : Result<KeyMaterial, string>
+  {
+    var algorithmSuite :- GetAlgorithmSuiteInfo(mpl, obj);
+
+    var encryptionContextStrings :- SmallObjectToStringStringMap("encryptionContext", obj);
+    var encryptionContext :- utf8EncodeMap(encryptionContextStrings);
+
+    var keysAsStrings :- GetArrayString("requiredEncryptionContextKeys", obj);
+    var requiredEncryptionContextKeys :- utf8EncodeSeq(keysAsStrings);
+
+    var encryptedDataKeysJSON :- GetArrayObject("encryptedDataKeys", obj);
+    var encryptedDataKeys :- Seq.MapWithResult(ToEncryptedDataKey, encryptedDataKeysJSON);
+
+    var plaintextDataKeyEncoded :- GetOptionalString("plaintextDataKey", obj);
+    var plaintextDataKey :- if plaintextDataKeyEncoded.Some? then
+                              var result := Base64.Decode(plaintextDataKeyEncoded.value);
+                              if result.Success? then Success(Some(result.value)) else Failure(result.error)
+                            else Success(None);
+    var signingKey :- GetOptionalString("signingKey", obj);
+    var verificationKey :- GetOptionalString("verificationKey", obj);
+    var symmetricSigningKeys := GetArrayString("symmetricSigningKeys", obj).ToOption();
+
+    Success(StaticMaterial(
+              name := name,
+              algorithmSuite := algorithmSuite,
+              encryptionContext := encryptionContext,
+              encryptedDataKeys := encryptedDataKeys,
+              requiredEncryptionContextKeys := requiredEncryptionContextKeys,
+              plaintextDataKey := plaintextDataKey,
+              // This is just for now...
+              signingKey := None,
+              verificationKey := None,
+              symmetricSigningKeys := None
+            ))
+  }
+
+  function ToStaticBranchKey(
+    mpl: MPL.IAwsCryptographicMaterialProvidersClient,
+    name: string,
+    obj: seq<(string, JSON)>
+  ) : Result<KeyMaterial, string>
+  {
+    var keyIdentifier :- GetString("key-id", obj);
+
+    var branchKeyVersionEncoded :- GetString("branchKeyVersion", obj);
+    var branchKeyVersion :- UTF8.Encode(branchKeyVersionEncoded);
+    var branchKeyEncoded :- GetString("branchKey", obj);
+    var branchKey :- Base64.Decode(branchKeyEncoded);
+    var beaconKeyEncoded :- GetString("beaconKey", obj);
+    var beaconKey :- Base64.Decode(beaconKeyEncoded);
+
+    Success(StaticKeyStoreInformation(
+              keyIdentifier := keyIdentifier,
+              branchKeyVersion := branchKeyVersion,
+              branchKey := branchKey,
+              beaconKey := beaconKey
+            ))
+  }
+
+
   function ToEncryptedDataKey(obj: seq<(string, JSON)>)
     : Result<MPL.EncryptedDataKey, string>
   {
@@ -185,6 +252,18 @@ module {:options "-functionSyntax:4"} KeyMaterial {
             ))
   }
 
+  function GetAlgorithmSuiteInfo(
+    mpl: MPL.IAwsCryptographicMaterialProvidersClient,
+    obj: seq<(string, JSON)>
+  ) : Result<MPL.AlgorithmSuiteInfo, string>
+  {
+    var algorithmSuiteHex :- GetString("algorithmSuiteId", obj);
+    :- Need(HexStrings.IsLooseHexString(algorithmSuiteHex), "Not hex encoded binary");
+    var binaryId := HexStrings.FromHexString(algorithmSuiteHex);
+    mpl.GetAlgorithmSuiteInfo(binaryId)
+    .MapFailure(e => "Invalid Suite:" + algorithmSuiteHex)
+  }
+
   predicate KeyMaterialString?(s: string)
   {
     || s == "static-material"
@@ -194,6 +273,8 @@ module {:options "-functionSyntax:4"} KeyMaterial {
     || s == "public"
     || s == "static-branch-key"
     || s == "aws-kms-rsa"
+    || s == "ecc-private"
+    || s == "aws-kms-ecdh"
   }
 
   datatype KeyMaterial =
@@ -224,6 +305,18 @@ module {:options "-functionSyntax:4"} KeyMaterial {
         material: string,
         keyIdentifier: string
       )
+    | PrivateECDH(
+        name: string,
+        encrypt: bool, decrypt: bool,
+        algorithm: string,
+        bits: nat,
+        encoding: string,
+        senderMaterial: string,
+        recipientMaterial: string,
+        senderPublicKey: string,
+        recipientPublicKey: string,
+        keyIdentifier: string
+      )
     | KMS(
         name: string,
         encrypt: bool, decrypt: bool,
@@ -237,6 +330,16 @@ module {:options "-functionSyntax:4"} KeyMaterial {
         algorithm: string,
         encoding: string,
         publicKey: MPL.Secret
+      )
+    | KMSEcdh(
+        name: string,
+        encrypt: bool, decrypt: bool,
+        keyIdentifier: string,
+        algorithm: string,
+        senderMaterial: string,
+        recipientMaterial: string,
+        senderPublicKey: string,
+        recipientPublicKey: string
       )
     | StaticMaterial(
         name: string,
@@ -255,5 +358,4 @@ module {:options "-functionSyntax:4"} KeyMaterial {
         branchKey: MPL.Secret,
         beaconKey: MPL.Secret
       )
-
 }

@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class AesKdfCtrOutput {
+
   private final ByteBuffer okm;
 
   protected AesKdfCtrOutput(BuilderImpl builder) {
@@ -34,10 +35,10 @@ public class AesKdfCtrOutput {
   }
 
   static class BuilderImpl implements Builder {
+
     protected ByteBuffer okm;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(AesKdfCtrOutput model) {
       this.okm = model.okm();
@@ -53,8 +54,10 @@ public class AesKdfCtrOutput {
     }
 
     public AesKdfCtrOutput build() {
-      if (Objects.isNull(this.okm()))  {
-        throw new IllegalArgumentException("Missing value for required field `okm`");
+      if (Objects.isNull(this.okm())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `okm`"
+        );
       }
       return new AesKdfCtrOutput(this);
     }

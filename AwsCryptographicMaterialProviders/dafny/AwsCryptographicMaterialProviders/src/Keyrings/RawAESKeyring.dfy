@@ -9,6 +9,7 @@ include "../KeyWrapping/MaterialWrapping.dfy"
 include "../KeyWrapping/EdkWrapping.dfy"
 include "../CanonicalEncryptionContext.dfy"
 include "../../Model/AwsCryptographyMaterialProvidersTypes.dfy"
+include "../ErrorMessages.dfy"
 
 module RawAESKeyring {
   import opened StandardLibrary
@@ -26,11 +27,12 @@ module RawAESKeyring {
   import Seq
   import MaterialWrapping
   import EdkWrapping
+  import ErrorMessages
 
   import Aws.Cryptography.Primitives
 
-  const AUTH_TAG_LEN_LEN := 4;
-  const IV_LEN_LEN       := 4;
+  const AUTH_TAG_LEN_LEN := 4
+  const IV_LEN_LEN       := 4
 
   class RawAESKeyring
     extends
@@ -338,11 +340,13 @@ module RawAESKeyring {
             errors := errors + [unwrapOutput.error];
           }
         } else {
+          var extractedKeyProviderId :- UTF8.Decode(input.encryptedDataKeys[i].keyProviderId).MapFailure(e => Types.AwsCryptographicMaterialProvidersException( message := e ));
           errors := errors + [
             Types.AwsCryptographicMaterialProvidersException(
-              message :="EncrypedDataKey "
-              + Base10Int2String(i)
-              + " did not match AESKeyring. " )
+              message := ErrorMessages.IncorrectRawDataKeys(Base10Int2String(i),
+                                                            "AESKeyring",
+                                                            extractedKeyProviderId
+              ))
           ];
         }
       }

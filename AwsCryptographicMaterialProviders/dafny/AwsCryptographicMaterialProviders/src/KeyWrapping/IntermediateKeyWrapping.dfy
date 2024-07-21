@@ -21,8 +21,8 @@ module IntermediateKeyWrapping {
   import HKDF
   import CanonicalEncryptionContext
 
-  const KEYWRAP_MAC_INFO := UTF8.EncodeAscii("AWS_MPL_INTERMEDIATE_KEYWRAP_MAC");
-  const KEYWRAP_ENC_INFO := UTF8.EncodeAscii("AWS_MPL_INTERMEDIATE_KEYWRAP_ENC");
+  const KEYWRAP_MAC_INFO := UTF8.EncodeAscii("AWS_MPL_INTERMEDIATE_KEYWRAP_MAC")
+  const KEYWRAP_ENC_INFO := UTF8.EncodeAscii("AWS_MPL_INTERMEDIATE_KEYWRAP_ENC")
 
   datatype IntermediateUnwrapOutput<T> = IntermediateUnwrapOutput(
     nameonly plaintextDataKey: seq<uint8>,
@@ -75,9 +75,10 @@ module IntermediateKeyWrapping {
 
   {
     var maybeCrypto := Primitives.AtomicPrimitives();
-    var cryptoPrimitives :- maybeCrypto
+    var cryptoPrimitivesX : Crypto.IAwsCryptographicPrimitivesClient :- maybeCrypto
     .MapFailure(e => Types.AwsCryptographyPrimitives(e));
-
+    assert cryptoPrimitivesX is Primitives.AtomicPrimitivesClient;
+    var cryptoPrimitives := cryptoPrimitivesX as Primitives.AtomicPrimitivesClient;
     // Deserialize the Intermediate-Wrapped material
     var deserializedWrapped :- DeserializeIntermediateWrappedMaterial(wrappedMaterial, algorithmSuite);
     var DeserializedIntermediateWrappedMaterial(encryptedPdk, providerWrappedIkm) := deserializedWrapped;
@@ -168,8 +169,12 @@ module IntermediateKeyWrapping {
            (AlgorithmSuites.GetEncryptKeyLength(algorithmSuite) + AlgorithmSuites.GetEncryptTagLength(algorithmSuite)) as nat
   {
     var maybeCrypto := Primitives.AtomicPrimitives();
-    var cryptoPrimitives :- maybeCrypto
+    var cryptoPrimitivesX : Crypto.IAwsCryptographicPrimitivesClient :- maybeCrypto
     .MapFailure(e => Types.AwsCryptographyPrimitives(e));
+
+    assert cryptoPrimitivesX is Primitives.AtomicPrimitivesClient;
+    var cryptoPrimitives := cryptoPrimitivesX as Primitives.AtomicPrimitivesClient;
+
 
     // Use the provider to get the intermediate key material, and wrapped intermediate key material
     var generateAndWrapOutput :- generateAndWrap.Invoke(

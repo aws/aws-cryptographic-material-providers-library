@@ -4,6 +4,7 @@ include "../Model/AwsCryptographyMaterialProvidersTypes.dfy"
 
 include "Keyrings/AwsKms/StrictMultiKeyring.dfy"
 include "Keyrings/MultiKeyring.dfy"
+include "Keyrings/AwsKms/AwsKmsEcdhKeyring.dfy"
 include "Keyrings/AwsKms/AwsKmsKeyring.dfy"
 include "Keyrings/AwsKms/AwsKmsHierarchicalKeyring.dfy"
 include "Keyrings/AwsKms/AwsKmsUtils.dfy"
@@ -17,6 +18,7 @@ include "Keyrings/AwsKms/MrkAwareDiscoveryMultiKeyring.dfy"
 include "Keyrings/AwsKms/AwsKmsRsaKeyring.dfy"
 include "Keyrings/RawAESKeyring.dfy"
 include "Keyrings/RawRSAKeyring.dfy"
+include "Keyrings/RawECDHKeyring.dfy"
 include "CMMs/DefaultCMM.dfy"
 include "CMCs/LocalCMC.dfy"
 include "CMCs/SynchronizedLocalCMC.dfy"
@@ -28,6 +30,7 @@ include "Commitment.dfy"
 include "AwsArnParsing.dfy"
 include "AlgorithmSuites.dfy"
 include "CMMs/RequiredEncryptionContextCMM.dfy"
+include "Utils.dfy"
 
 module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptographyMaterialProvidersOperations {
 
@@ -42,8 +45,10 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   import AwsKmsDiscoveryKeyring
   import AwsKmsMrkDiscoveryKeyring
   import AwsKmsRsaKeyring
+  import AwsKmsEcdhKeyring
   import RawAESKeyring
   import RawRSAKeyring
+  import RawECDHKeyring
   import opened C = DefaultCMM
   import LocalCMC
   import SynchronizedLocalCMC
@@ -57,6 +62,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   import Commitment
   import AlgorithmSuites
   import opened AwsArnParsing
+  import opened Utils
   import Kms = Com.Amazonaws.Kms
   import Ddb = ComAmazonawsDynamodbTypes
   import RequiredEncryptionContextCMM
@@ -286,6 +292,108 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     return Success(keyring);
   }
 
+  predicate CreateAwsKmsEcdhKeyringEnsuresPublicly(input: CreateAwsKmsEcdhKeyringInput, output: Result<IKeyring, Error>)
+  {true}
+
+  method CreateAwsKmsEcdhKeyring(config: InternalConfig, input: CreateAwsKmsEcdhKeyringInput)
+    returns (output: Result<IKeyring, Error>)
+  {
+    var grantTokens :- GetValidGrantTokens(input.grantTokens);
+    var recipientPublicKey: KMS.PublicKeyType;
+    var senderPublicKey: Option<KMS.PublicKeyType>;
+    var compressedSenderPublicKey: Option<seq<uint8>>;
+
+    if {
+      case input.KeyAgreementScheme.KmsPublicKeyDiscovery? =>
+        //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#kmspublickeydiscovery
+        //# - MUST provide the recipient's AWS KMS key identifier
+        var _ :- ValidateKmsKeyId(input.KeyAgreementScheme.KmsPublicKeyDiscovery.recipientKmsIdentifier);
+        //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#kmspublickeydiscovery
+        //# the keyring MUST call
+        //# `kms:GetPublicKey` on the recipient's configured KMS key ID.
+        // (blank line for duvet)
+        //# If the keyring fails to retrieve the public key, the keyring MUST fail.
+        recipientPublicKey :- GetEcdhPublicKey(input.kmsClient, input.KeyAgreementScheme.KmsPublicKeyDiscovery.recipientKmsIdentifier);
+        senderPublicKey := Option.None();
+        compressedSenderPublicKey := Option.None();
+      case input.KeyAgreementScheme.KmsPrivateKeyToStaticPublicKey? =>
+        if input.KeyAgreementScheme.KmsPrivateKeyToStaticPublicKey.senderPublicKey.Some? {
+          :- Need(
+            KMS.IsValid_PublicKeyType(
+              input.KeyAgreementScheme.KmsPrivateKeyToStaticPublicKey.senderPublicKey.value
+            ),
+            Types.AwsCryptographicMaterialProvidersException(message := "Invalid SenderPublicKey length."));
+          //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#kmsprivatekeytostaticpublickey
+          //# - MAY provide the sender's public key
+          //#   - Public key MUST be DER-encoded [X.509 SubjectPublicKeyInfo](https://datatracker.ietf.org/doc/html/rfc5280#section-4.1)
+          senderPublicKey := Some(input.KeyAgreementScheme.KmsPrivateKeyToStaticPublicKey.senderPublicKey.value);
+          var compressedPKU :- RawECDHKeyring.CompressPublicKey(Crypto.ECCPublicKey(der := senderPublicKey.value), input.curveSpec, config.crypto);
+          compressedSenderPublicKey := Some(compressedPKU);
+        } else {
+          var _ :- ValidateKmsKeyId(input.KeyAgreementScheme.KmsPrivateKeyToStaticPublicKey.senderKmsIdentifier);
+          //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#kmsprivatekeytostaticpublickey
+          //# On initialization, if the keyring is not configured with
+          //# a sender public key, the keyring MUST call
+          //# `kms:GetPublicKey` on the sender's configured KMS key ID.
+          // (blank line for duvet)
+          //# If the keyring fails to retrieve the public key, the keyring MUST fail.
+          var senderPublicKeyResponse :- GetEcdhPublicKey(input.kmsClient, input.KeyAgreementScheme.KmsPrivateKeyToStaticPublicKey.senderKmsIdentifier);
+          var compressedPKU :- RawECDHKeyring.CompressPublicKey(Crypto.ECCPublicKey(der := senderPublicKeyResponse), input.curveSpec, config.crypto);
+          senderPublicKey := Some(senderPublicKeyResponse);
+          compressedSenderPublicKey := Some(compressedPKU);
+        }
+
+        :- Need(
+          KMS.IsValid_PublicKeyType(
+            input.KeyAgreementScheme.KmsPrivateKeyToStaticPublicKey.recipientPublicKey
+          ),
+          Types.AwsCryptographicMaterialProvidersException(message := "Invalid RecipientPublicKey length."));
+        recipientPublicKey := input.KeyAgreementScheme.KmsPrivateKeyToStaticPublicKey.recipientPublicKey;
+    }
+
+    var _ :- RawECDHKeyring.ValidatePublicKey(
+      config.crypto,
+      input.curveSpec,
+      recipientPublicKey
+    );
+
+    var compressedRecipientPublicKey :- RawECDHKeyring.CompressPublicKey(
+      Crypto.ECCPublicKey(der := recipientPublicKey),
+      input.curveSpec,
+      config.crypto
+    );
+
+    var senderKmsKeyId := if input.KeyAgreementScheme.KmsPublicKeyDiscovery? then Option.None()
+    else Some(input.KeyAgreementScheme.KmsPrivateKeyToStaticPublicKey.senderKmsIdentifier);
+
+    if senderKmsKeyId.Some? {
+      var _ :- ValidateKmsKeyId(senderKmsKeyId.value);
+    }
+
+    if senderPublicKey.Some? {
+      var _ :- RawECDHKeyring.ValidatePublicKey(
+        config.crypto,
+        input.curveSpec,
+        senderPublicKey.value
+      );
+    }
+
+    var keyring := new AwsKmsEcdhKeyring.AwsKmsEcdhKeyring(
+      input.KeyAgreementScheme,
+      input.curveSpec,
+      input.kmsClient,
+      grantTokens,
+      senderKmsKeyId,
+      senderPublicKey,
+      recipientPublicKey,
+      compressedSenderPublicKey,
+      compressedRecipientPublicKey,
+      config.crypto
+    );
+
+    return Success(keyring);
+  }
+
   predicate CreateMultiKeyringEnsuresPublicly(input: CreateMultiKeyringInput, output: Result<IKeyring, Error>)
   {true}
 
@@ -402,6 +510,102 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     return Success(keyring);
   }
 
+  predicate CreateRawEcdhKeyringEnsuresPublicly(input: CreateRawEcdhKeyringInput, output: Result<IKeyring, Error>)
+  {true}
+
+  method CreateRawEcdhKeyring(config: InternalConfig, input: CreateRawEcdhKeyringInput)
+    returns (output: Result<IKeyring, Error>)
+  {
+    var recipientPublicKey: seq<uint8>;
+    var senderPrivateKey: Option<seq<uint8>>;
+    var senderPublicKey: Option<seq<uint8>>;
+    var compressedSenderPublicKey: Option<seq<uint8>>;
+
+    if {
+      case input.KeyAgreementScheme.RawPrivateKeyToStaticPublicKey? =>
+        //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#rawprivatekeytostaticpublickey
+        //# - MUST provide the recipient's public key
+        recipientPublicKey := input.KeyAgreementScheme.RawPrivateKeyToStaticPublicKey.recipientPublicKey;
+        //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#rawprivatekeytostaticpublickey
+        //# - MUST provide the sender's static private key
+        senderPrivateKey := Option.Some(input.KeyAgreementScheme.RawPrivateKeyToStaticPublicKey.senderStaticPrivateKey);
+        var reproducedPublicKey :- GetPublicKey(input.curveSpec, Crypto.ECCPrivateKey(pem := senderPrivateKey.value), config.crypto);
+        var _ :- RawECDHKeyring.ValidatePublicKey(
+          config.crypto,
+          input.curveSpec,
+          reproducedPublicKey
+        );
+        senderPublicKey := Some(reproducedPublicKey);
+        var compressedSenderPublicKey? :- RawECDHKeyring.CompressPublicKey(
+          Crypto.ECCPublicKey(der := reproducedPublicKey),
+          input.curveSpec,
+          config.crypto
+        );
+        compressedSenderPublicKey := Some(compressedSenderPublicKey?);
+      case input.KeyAgreementScheme.EphemeralPrivateKeyToStaticPublicKey? =>
+        //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#ephemeralprivatekeytostaticpublickey
+        //# - MUST provide the recipient's public key
+        recipientPublicKey := input.KeyAgreementScheme.EphemeralPrivateKeyToStaticPublicKey.recipientPublicKey;
+        senderPrivateKey := Option.None();
+        senderPublicKey := Option.None();
+        compressedSenderPublicKey := Option.None();
+      case input.KeyAgreementScheme.PublicKeyDiscovery? =>
+        //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#publickeydiscovery
+        //# - MUST provide the recipient's static private key
+        var reproducedPublicKey :- GetPublicKey(input.curveSpec, Crypto.ECCPrivateKey(pem := input.KeyAgreementScheme.PublicKeyDiscovery.recipientStaticPrivateKey), config.crypto);
+        recipientPublicKey := reproducedPublicKey;
+        senderPrivateKey := Option.None();
+        senderPublicKey := Option.None();
+        compressedSenderPublicKey := Option.None();
+    }
+
+    var compressedRecipientPublicKey :- RawECDHKeyring.CompressPublicKey(
+      Crypto.ECCPublicKey(der := recipientPublicKey),
+      input.curveSpec,
+      config.crypto
+    );
+
+    //= aws-encryption-sdk-specification/framework/raw-ecdh-keyring.md#initialization
+    //# On initialization, the keyring MUST assert that the recipient's public key
+    //# and the sender's private key belong to the same ECC Curve, and that
+    //# the public key's ECC points are not the "points at infinity".
+    var _ :- RawECDHKeyring.ValidatePublicKey(
+      config.crypto,
+      input.curveSpec,
+      recipientPublicKey
+    );
+
+    if senderPublicKey.Some? {
+      var _ :- RawECDHKeyring.ValidatePublicKey(
+        config.crypto,
+        input.curveSpec,
+        senderPublicKey.value
+      );
+      :- Need(
+        RawECDHKeyring.ValidPublicKeyLength(senderPublicKey.value),
+        Types.AwsCryptographicMaterialProvidersException(message := "Invalid sender public key length")
+      );
+    }
+
+    :- Need(
+      RawECDHKeyring.ValidPublicKeyLength(recipientPublicKey),
+      Types.AwsCryptographicMaterialProvidersException(message := "Invalid recipient public key length")
+    );
+
+    var keyring := new RawECDHKeyring.RawEcdhKeyring(
+      keyAgreementScheme := input.KeyAgreementScheme,
+      curveSpec := input.curveSpec,
+      senderPrivateKey := senderPrivateKey,
+      senderPublicKey := senderPublicKey,
+      recipientPublicKey := recipientPublicKey,
+      compressedSenderPublicKey := compressedSenderPublicKey,
+      compressedRecipientPublicKey := compressedRecipientPublicKey,
+      cryptoPrimitives := config.crypto
+    );
+
+    return Success(keyring);
+  }
+
   predicate CreateAwsKmsRsaKeyringEnsuresPublicly(input: CreateAwsKmsRsaKeyringInput, output: Result<IKeyring, Error>)
   {true}
 
@@ -472,7 +676,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   function method CmpError(s : string) : Error
   {
     Types.AwsCryptographicMaterialProvidersException(
-      message := "A publicKey or a kmsClient is required")
+      message := s)
   }
   predicate CreateRequiredEncryptionContextCMMEnsuresPublicly(input: CreateRequiredEncryptionContextCMMInput, output: Result<ICryptographicMaterialsManager, Error>)
   {true}
@@ -508,48 +712,48 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
         var cmc := new LocalCMC.LocalCMC(0, 1);
         return Success(cmc);
       case SingleThreaded(c) =>
-        var cmc := new LocalCMC.LocalCMC(c.entryCapacity as nat, c.entryPruningTailSize.UnwrapOr(1) as nat);
+        var cmc := new LocalCMC.LocalCMC(
+          c.entryCapacity as nat,
+          OptionalCountingNumber(c.entryPruningTailSize).UnwrapOr(1) as nat
+        );
         return Success(cmc);
       case MultiThreaded(c) =>
-        var cmc := new LocalCMC.LocalCMC(c.entryCapacity as nat, c.entryPruningTailSize.UnwrapOr(1) as nat);
+        var cmc := new LocalCMC.LocalCMC(
+          c.entryCapacity as nat,
+          OptionalCountingNumber(c.entryPruningTailSize).UnwrapOr(1) as nat
+        );
         var synCmc := new SynchronizedLocalCMC.SynchronizedLocalCMC(cmc);
         return Success(synCmc);
       case StormTracking(c) =>
-        var cmc := new StormTracker.StormTracker(c);
+        var cmc := new StormTracker.StormTracker(
+          c.( entryPruningTailSize := OptionalCountingNumber(c.entryPruningTailSize) )
+        );
         var synCmc := new StormTrackingCMC.StormTrackingCMC(cmc);
         return Success(synCmc);
     }
   }
-  /*
-      :- Need(input.entryCapacity >= 1,
-              Types.AwsCryptographicMaterialProvidersException(message := "Cache Size MUST be greater than 0"));
-  
-      var entryPruningTailSize: nat;
-  
-      if input.entryPruningTailSize.Some? {
-        :- Need(input.entryPruningTailSize.value >= 1,
-                Types.AwsCryptographicMaterialProvidersException(
-                  message := "Entry Pruning Tail Size MUST be greater than or equal to 1."));
-        entryPruningTailSize := input.entryPruningTailSize.value as nat;
-      } else {
-        entryPruningTailSize := 1;
-      }
-  
-      if input.trackerSettings.None? || input.trackerSettings.value.gracePeriod > 0 {
-        var cmc := new StormTracker.StormTracker(
-          entryCapacity := input.entryCapacity as nat,
-          entryPruningTailSize := entryPruningTailSize,
-          trackerSettings := input.trackerSettings
-        );
-        var synCmc := new StormTrackingCMC.StormTrackingCMC(cmc);
-        return Success(synCmc);
-      } else {
-        var cmc := new LocalCMC.LocalCMC(input.entryCapacity as nat, entryPruningTailSize);
-        var synCmc := new SynchronizedLocalCMC.SynchronizedLocalCMC(cmc);
-        return Success(synCmc);
-      }
-    }
-  */
+
+  // Smithy-Dafny currently uses `int` in Java to represent
+  // a `integer` in Smithy.
+  // This is problematic because in Java `int` can not be `null`.
+  // This means that an unset `int` will be `0`.
+  // When crossing back and forth between Dafny and Java then
+  // an optional integer will never be `None`.
+  // For `CountingNumber` this can be identified by checking for `0`
+  function method OptionalCountingNumber(c: Option<int32>)
+    : Option<CountingNumber>
+  {
+    if c.Some? && c.value <= 0 then
+      Wrappers.None
+    else
+      c
+  }
+
+  lemma OptionalCountingNumberCorrect(c: int32)
+    ensures 1 <= c ==> OptionalCountingNumber(Some(c)) == Some(c)
+    ensures c <= 0 ==> OptionalCountingNumber(Some(c)) == Wrappers.None
+  {}
+
   predicate CreateDefaultClientSupplierEnsuresPublicly(input: CreateDefaultClientSupplierInput, output: Result<IClientSupplier, Error>)
   {true}
 

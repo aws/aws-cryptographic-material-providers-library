@@ -172,7 +172,7 @@ module MultiKeyring {
           //# - If the generator keyring fails OnEncrypt, this OnEncrypt MUST also
           //# fail.
         :- Need(onEncryptOutput.Success?,
-                Types.AwsCryptographicMaterialProvidersException( message := "Generator keyring failed to generate plaintext data key"));
+                if onEncryptOutput.Failure? then onEncryptOutput.error else Types.AwsCryptographicMaterialProvidersException( message := "Unexpected failure. Input to Need is !Success.") );
 
           //= aws-encryption-sdk-specification/framework/multi-keyring.md#onencrypt
           //# - If the generator keyring returns encryption materials missing a
@@ -185,7 +185,7 @@ module MultiKeyring {
 
       for i := 0 to |this.childKeyrings|
         invariant returnMaterials.plaintextDataKey.Some?
-        invariant unchanged(History);
+        invariant unchanged(History)
         invariant i < |this.childKeyrings| ==> this.childKeyrings[i].Modifies <= Modifies
       {
         var onEncryptInput := Types.OnEncryptInput(materials := returnMaterials);
@@ -365,17 +365,17 @@ module MultiKeyring {
     (mod: set<object>)
   {
     (
-    set m: object, k: Types.IKeyring
-    |
-    && k in childKeyrings
-    && m in k.Modifies
-      :: m
+      set m: object, k: Types.IKeyring
+        |
+        && k in childKeyrings
+        && m in k.Modifies
+        :: m
     )
     + (
-    if generatorKeyring.Some? then
-    generatorKeyring.value.Modifies
-    else
-    {}
+      if generatorKeyring.Some? then
+        generatorKeyring.value.Modifies
+      else
+        {}
     )
   }
 }

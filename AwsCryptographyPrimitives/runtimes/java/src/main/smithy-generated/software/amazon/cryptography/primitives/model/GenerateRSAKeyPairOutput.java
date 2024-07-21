@@ -6,6 +6,7 @@ package software.amazon.cryptography.primitives.model;
 import java.util.Objects;
 
 public class GenerateRSAKeyPairOutput {
+
   private final RSAPublicKey publicKey;
 
   private final RSAPrivateKey privateKey;
@@ -44,12 +45,12 @@ public class GenerateRSAKeyPairOutput {
   }
 
   static class BuilderImpl implements Builder {
+
     protected RSAPublicKey publicKey;
 
     protected RSAPrivateKey privateKey;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(GenerateRSAKeyPairOutput model) {
       this.publicKey = model.publicKey();
@@ -75,11 +76,15 @@ public class GenerateRSAKeyPairOutput {
     }
 
     public GenerateRSAKeyPairOutput build() {
-      if (Objects.isNull(this.publicKey()))  {
-        throw new IllegalArgumentException("Missing value for required field `publicKey`");
+      if (Objects.isNull(this.publicKey())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `publicKey`"
+        );
       }
-      if (Objects.isNull(this.privateKey()))  {
-        throw new IllegalArgumentException("Missing value for required field `privateKey`");
+      if (Objects.isNull(this.privateKey())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `privateKey`"
+        );
       }
       return new GenerateRSAKeyPairOutput(this);
     }

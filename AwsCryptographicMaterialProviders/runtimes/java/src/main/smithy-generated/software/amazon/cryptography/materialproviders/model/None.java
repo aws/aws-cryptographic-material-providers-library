@@ -4,8 +4,8 @@
 package software.amazon.cryptography.materialproviders.model;
 
 public class None {
-  protected None(BuilderImpl builder) {
-  }
+
+  protected None(BuilderImpl builder) {}
 
   public Builder toBuilder() {
     return new BuilderImpl(this);
@@ -20,11 +20,10 @@ public class None {
   }
 
   static class BuilderImpl implements Builder {
-    protected BuilderImpl() {
-    }
 
-    protected BuilderImpl(None model) {
-    }
+    protected BuilderImpl() {}
+
+    protected BuilderImpl(None model) {}
 
     public None build() {
       return new None(this);

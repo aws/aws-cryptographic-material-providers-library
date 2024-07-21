@@ -10,6 +10,7 @@ import java.util.Objects;
  * The configuration information for a Key Store.
  */
 public class GetKeyStoreInfoOutput {
+
   /**
    * An identifier for this Key Store.
    */
@@ -31,7 +32,7 @@ public class GetKeyStoreInfoOutput {
   private final List<String> grantTokens;
 
   /**
-   * The AWS KMS Key that protects this Key Store.
+   * Configures Key Store's KMS Key ARN restrictions.
    */
   private final KMSConfiguration kmsConfiguration;
 
@@ -72,7 +73,7 @@ public class GetKeyStoreInfoOutput {
   }
 
   /**
-   * @return The AWS KMS Key that protects this Key Store.
+   * @return Configures Key Store's KMS Key ARN restrictions.
    */
   public KMSConfiguration kmsConfiguration() {
     return this.kmsConfiguration;
@@ -128,12 +129,12 @@ public class GetKeyStoreInfoOutput {
     List<String> grantTokens();
 
     /**
-     * @param kmsConfiguration The AWS KMS Key that protects this Key Store.
+     * @param kmsConfiguration Configures Key Store's KMS Key ARN restrictions.
      */
     Builder kmsConfiguration(KMSConfiguration kmsConfiguration);
 
     /**
-     * @return The AWS KMS Key that protects this Key Store.
+     * @return Configures Key Store's KMS Key ARN restrictions.
      */
     KMSConfiguration kmsConfiguration();
 
@@ -141,6 +142,7 @@ public class GetKeyStoreInfoOutput {
   }
 
   static class BuilderImpl implements Builder {
+
     protected String keyStoreId;
 
     protected String keyStoreName;
@@ -151,8 +153,7 @@ public class GetKeyStoreInfoOutput {
 
     protected KMSConfiguration kmsConfiguration;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(GetKeyStoreInfoOutput model) {
       this.keyStoreId = model.keyStoreId();
@@ -208,26 +209,45 @@ public class GetKeyStoreInfoOutput {
     }
 
     public GetKeyStoreInfoOutput build() {
-      if (Objects.isNull(this.keyStoreId()))  {
-        throw new IllegalArgumentException("Missing value for required field `keyStoreId`");
+      if (Objects.isNull(this.keyStoreId())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `keyStoreId`"
+        );
       }
-      if (Objects.isNull(this.keyStoreName()))  {
-        throw new IllegalArgumentException("Missing value for required field `keyStoreName`");
+      if (Objects.isNull(this.keyStoreName())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `keyStoreName`"
+        );
       }
-      if (Objects.nonNull(this.keyStoreName()) && this.keyStoreName().length() < 3) {
-        throw new IllegalArgumentException("The size of `keyStoreName` must be greater than or equal to 3");
+      if (
+        Objects.nonNull(this.keyStoreName()) && this.keyStoreName().length() < 3
+      ) {
+        throw new IllegalArgumentException(
+          "The size of `keyStoreName` must be greater than or equal to 3"
+        );
       }
-      if (Objects.nonNull(this.keyStoreName()) && this.keyStoreName().length() > 255) {
-        throw new IllegalArgumentException("The size of `keyStoreName` must be less than or equal to 255");
+      if (
+        Objects.nonNull(this.keyStoreName()) &&
+        this.keyStoreName().length() > 255
+      ) {
+        throw new IllegalArgumentException(
+          "The size of `keyStoreName` must be less than or equal to 255"
+        );
       }
-      if (Objects.isNull(this.logicalKeyStoreName()))  {
-        throw new IllegalArgumentException("Missing value for required field `logicalKeyStoreName`");
+      if (Objects.isNull(this.logicalKeyStoreName())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `logicalKeyStoreName`"
+        );
       }
-      if (Objects.isNull(this.grantTokens()))  {
-        throw new IllegalArgumentException("Missing value for required field `grantTokens`");
+      if (Objects.isNull(this.grantTokens())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `grantTokens`"
+        );
       }
-      if (Objects.isNull(this.kmsConfiguration()))  {
-        throw new IllegalArgumentException("Missing value for required field `kmsConfiguration`");
+      if (Objects.isNull(this.kmsConfiguration())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `kmsConfiguration`"
+        );
       }
       return new GetKeyStoreInfoOutput(this);
     }

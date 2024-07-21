@@ -19,8 +19,8 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   datatype BeaconKeyMaterials = | BeaconKeyMaterials (
     nameonly beaconKeyIdentifier: string ,
     nameonly encryptionContext: EncryptionContext ,
-    nameonly beaconKey: Option<Secret> ,
-    nameonly hmacKeys: Option<HmacKeyMap>
+    nameonly beaconKey: Option<Secret> := Option.None ,
+    nameonly hmacKeys: Option<HmacKeyMap> := Option.None
   )
   datatype BranchKeyMaterials = | BranchKeyMaterials (
     nameonly branchKeyIdentifier: string ,
@@ -29,8 +29,8 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly branchKey: Secret
   )
   datatype CreateKeyInput = | CreateKeyInput (
-    nameonly branchKeyIdentifier: Option<string> ,
-    nameonly encryptionContext: Option<EncryptionContext>
+    nameonly branchKeyIdentifier: Option<string> := Option.None ,
+    nameonly encryptionContext: Option<EncryptionContext> := Option.None
   )
   datatype CreateKeyOutput = | CreateKeyOutput (
     nameonly branchKeyIdentifier: string
@@ -41,6 +41,9 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   datatype CreateKeyStoreOutput = | CreateKeyStoreOutput (
     nameonly tableArn: ComAmazonawsDynamodbTypes.TableArn
   )
+  datatype Discovery = | Discovery (
+
+                       )
   type EncryptionContext = map<Utf8Bytes, Utf8Bytes>
   datatype GetActiveBranchKeyInput = | GetActiveBranchKeyInput (
     nameonly branchKeyIdentifier: string
@@ -225,13 +228,19 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly ddbTableName: ComAmazonawsDynamodbTypes.TableName ,
     nameonly kmsConfiguration: KMSConfiguration ,
     nameonly logicalKeyStoreName: string ,
-    nameonly id: Option<string> ,
-    nameonly grantTokens: Option<GrantTokenList> ,
-    nameonly ddbClient: Option<ComAmazonawsDynamodbTypes.IDynamoDBClient> ,
-    nameonly kmsClient: Option<ComAmazonawsKmsTypes.IKMSClient>
+    nameonly id: Option<string> := Option.None ,
+    nameonly grantTokens: Option<GrantTokenList> := Option.None ,
+    nameonly ddbClient: Option<ComAmazonawsDynamodbTypes.IDynamoDBClient> := Option.None ,
+    nameonly kmsClient: Option<ComAmazonawsKmsTypes.IKMSClient> := Option.None
   )
   datatype KMSConfiguration =
     | kmsKeyArn(kmsKeyArn: ComAmazonawsKmsTypes.KeyIdType)
+    | kmsMRKeyArn(kmsMRKeyArn: ComAmazonawsKmsTypes.KeyIdType)
+    | discovery(discovery: Discovery)
+    | mrDiscovery(mrDiscovery: MRDiscovery)
+  datatype MRDiscovery = | MRDiscovery (
+    nameonly region: ComAmazonawsKmsTypes.RegionType
+  )
   type Secret = seq<uint8>
   type Utf8Bytes = ValidUTF8Bytes
   datatype VersionKeyInput = | VersionKeyInput (
@@ -300,11 +309,11 @@ abstract module AbstractAwsCryptographyKeyStoreService
               && fresh(res.value)
               && fresh(res.value.Modifies
                        - ( if config.ddbClient.Some? then
-                       config.ddbClient.value.Modifies
-                       else {}
+                             config.ddbClient.value.Modifies
+                           else {}
                        ) - ( if config.kmsClient.Some? then
-                       config.kmsClient.value.Modifies
-                       else {}
+                               config.kmsClient.value.Modifies
+                             else {}
                        ) )
               && fresh(res.value.History)
               && res.value.ValidState()
@@ -313,6 +322,13 @@ abstract module AbstractAwsCryptographyKeyStoreService
     ensures config.kmsClient.Some? ==>
               config.kmsClient.value.ValidState()
 
+  // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
+  function method CreateSuccessOfClient(client: IKeyStoreClient): Result<IKeyStoreClient, Error> {
+    Success(client)
+  }
+  function method CreateFailureOfError(error: Error): Result<IKeyStoreClient, Error> {
+    Failure(error)
+  }
   class KeyStoreClient extends IKeyStoreClient
   {
     constructor(config: Operations.InternalConfig)

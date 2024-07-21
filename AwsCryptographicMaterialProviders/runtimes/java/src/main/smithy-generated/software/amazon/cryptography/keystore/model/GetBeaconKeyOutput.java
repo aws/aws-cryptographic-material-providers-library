@@ -9,6 +9,7 @@ import java.util.Objects;
  * Outputs for getting a Beacon Key
  */
 public class GetBeaconKeyOutput {
+
   /**
    * The materials for the Beacon Key.
    */
@@ -48,10 +49,10 @@ public class GetBeaconKeyOutput {
   }
 
   static class BuilderImpl implements Builder {
+
     protected BeaconKeyMaterials beaconKeyMaterials;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(GetBeaconKeyOutput model) {
       this.beaconKeyMaterials = model.beaconKeyMaterials();
@@ -67,8 +68,10 @@ public class GetBeaconKeyOutput {
     }
 
     public GetBeaconKeyOutput build() {
-      if (Objects.isNull(this.beaconKeyMaterials()))  {
-        throw new IllegalArgumentException("Missing value for required field `beaconKeyMaterials`");
+      if (Objects.isNull(this.beaconKeyMaterials())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `beaconKeyMaterials`"
+        );
       }
       return new GetBeaconKeyOutput(this);
     }

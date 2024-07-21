@@ -32,7 +32,7 @@ module {:extern "Signature"} Signature {
   ) returns (res: Result<Types.GenerateECDSASignatureKeyOutput, Types.Error>)
     ensures match res
             case Success(sigKeyPair) =>
-              //= compliance/framework/structures.txt#2.3.3.2.5
+              //= aws-encryption-sdk-specification/framework/structures.md#2.3.3.2.5
               //= type=implication
               //# The signing key MUST fit the specification described by the signature
               //# algorithm (algorithm-suites.md#signature-algorithm) included in this
@@ -74,4 +74,33 @@ module {:extern "Signature"} Signature {
     msg: seq<uint8>,
     sig: seq<uint8>
   ): (res: Result<bool, Types.Error>)
+
+  // The next six functions are for the benefit of the extern implementation to call,
+  // avoiding direct references to generic datatype constructors
+  // since their calling pattern is different between different versions of Dafny
+  // (i.e. after 4.2, explicit type descriptors are required).
+
+  function method CreateExternKeyGenSuccess(output: SignatureKeyPair): Result<SignatureKeyPair, Types.Error> {
+    Success(output)
+  }
+
+  function method CreateExternKeyGenFailure(error: Types.Error): Result<SignatureKeyPair, Types.Error> {
+    Failure(error)
+  }
+
+  function method CreateSignSuccess(bytes: seq<uint8>): Result<seq<uint8>, Types.Error> {
+    Success(bytes)
+  }
+
+  function method CreateSignFailure(error: Types.Error): Result<seq<uint8>, Types.Error> {
+    Failure(error)
+  }
+
+  function method CreateVerifySuccess(b: bool): Result<bool, Types.Error> {
+    Success(b)
+  }
+
+  function method CreateVerifyFailure(error: Types.Error): Result<bool, Types.Error> {
+    Failure(error)
+  }
 }

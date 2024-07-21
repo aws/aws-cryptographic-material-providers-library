@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class HMacOutput {
+
   private final ByteBuffer digest;
 
   protected HMacOutput(BuilderImpl builder) {
@@ -34,10 +35,10 @@ public class HMacOutput {
   }
 
   static class BuilderImpl implements Builder {
+
     protected ByteBuffer digest;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(HMacOutput model) {
       this.digest = model.digest();
@@ -53,8 +54,10 @@ public class HMacOutput {
     }
 
     public HMacOutput build() {
-      if (Objects.isNull(this.digest()))  {
-        throw new IllegalArgumentException("Missing value for required field `digest`");
+      if (Objects.isNull(this.digest())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `digest`"
+        );
       }
       return new HMacOutput(this);
     }

@@ -7,20 +7,33 @@ on:
   workflow_dispatch:
     inputs:
       dafny:
-        description: 'The Dafny version to use'
+        description: "The Dafny version to use"
         required: true
         type: string
+      regenerate-code:
+        description: "Regenerate code using smithy-dafny"
+        required: false
+        default: true
+        type: boolean
 
 jobs:
-  push-ci-verification:
+  manual-ci-format:
+    uses: ./.github/workflows/library_format.yml
+    with:
+      dafny: ${{ inputs.dafny }}
+      regenerate-code: ${{ inputs.regenerate-code }}
+  manual-ci-verification:
     uses: ./.github/workflows/library_dafny_verification.yml
     with:
       dafny: ${{ inputs.dafny }}
-  push-ci-java:
+      regenerate-code: ${{ inputs.regenerate-code }}
+  manual-ci-java:
     uses: ./.github/workflows/library_java_tests.yml
     with:
       dafny: ${{ inputs.dafny }}
-  push-ci-net:
+      regenerate-code: ${{ inputs.regenerate-code }}
+  manual-ci-net:
     uses: ./.github/workflows/library_net_tests.yml
     with:
       dafny: ${{ inputs.dafny }}
+      regenerate-code: ${{ inputs.regenerate-code }}

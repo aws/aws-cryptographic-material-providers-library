@@ -18,8 +18,8 @@ module KdfCtr {
   import HMAC
   import Digest
 
-  const SEPARATION_INDICATOR: seq<uint8> := [0x00];
-  const COUNTER_START_VALUE: uint32 := 1;
+  const SEPARATION_INDICATOR: seq<uint8> := [0x00]
+  const COUNTER_START_VALUE: uint32 := 1
 
   // This implementation of te spec is restricted to only deriving
   // 32 bytes of key material. We will have to consider the effect of allowing different
@@ -28,16 +28,13 @@ module KdfCtr {
     returns (output: Result<seq<uint8>, Types.Error>)
     ensures output.Success? ==> |output.value| == input.expectedLength as nat
   {
+    // currently only SHA 256 and SHA 384 are allowed
     :- Need(
-      // Although KDF can support multiple digests; for our use case we only want
-      // to use SHA 256; we may rethink this if we ever want to support other algorithms
-      // We are requiring the requested length to be 32 bytes since this is only used for the hierarchy
-      // keyring it requires to derive a 32 byte key.
-      && input.digestAlgorithm == Types.DigestAlgorithm.SHA_256
-      && |input.ikm| == 32
+      && (input.digestAlgorithm == Types.DigestAlgorithm.SHA_256 || input.digestAlgorithm == Types.DigestAlgorithm.SHA_384)
+      && (|input.ikm| == 32 || |input.ikm| == 48 || |input.ikm| == 66)
       && input.nonce.Some?
-      && |input.nonce.value| == 16
-      && input.expectedLength == 32
+      && (|input.nonce.value| == 16 || |input.nonce.value| == 32)
+      && (input.expectedLength == 32 || input.expectedLength == 64)
       && 0 < ((input.expectedLength as int) * 8) as int < INT32_MAX_LIMIT,
       Types.AwsCryptographicPrimitivesError(message := "Kdf in Counter Mode input is invalid.")
     );
@@ -63,26 +60,26 @@ module KdfCtr {
       Types.AwsCryptographicPrimitivesError(message := "PRF input length exceeds INT32_MAX_LIMIT.")
     );
 
-    okm :- RawDerive(ikm, explicitInfo, input.expectedLength, 0);
+    okm :- RawDerive(ikm, explicitInfo, input.expectedLength, 0, input.digestAlgorithm);
 
     return Success(okm);
   }
 
-  method RawDerive(ikm: seq<uint8>, explicitInfo: seq<uint8>, length: int32, offset: int32)
+  method RawDerive(ikm: seq<uint8>, explicitInfo: seq<uint8>, length: int32, offset: int32, digestAlgorithm: Types.DigestAlgorithm)
     returns (output: Result<seq<uint8>, Types.Error>)
     requires
-      && |ikm| == 32
-      && length == 32
+      && |ikm| >= 32
+      && length > 0
       && 4 + |explicitInfo| < INT32_MAX_LIMIT
+      && (digestAlgorithm == Types.DigestAlgorithm.SHA_256 || digestAlgorithm == Types.DigestAlgorithm.SHA_384)
       && length as int + Digest.Length(Types.DigestAlgorithm.SHA_256) < INT32_MAX_LIMIT - 1
+      && length as int + Digest.Length(Types.DigestAlgorithm.SHA_384) < INT32_MAX_LIMIT - 1
     ensures output.Success? ==> |output.value| == length as int
   {
-    // We will only support HMAC_SHA256, so no need to support additional Digests
-    var derivationMac := Types.DigestAlgorithm.SHA_256;
-    var hmac :- HMAC.HMac.Build(derivationMac);
+    var hmac :- HMAC.HMac.Build(digestAlgorithm);
     hmac.Init(key := ikm);
 
-    var macLengthBytes := Digest.Length(derivationMac) as int32; // "h" in SP800-108
+    var macLengthBytes := Digest.Length(digestAlgorithm) as int32; // "h" in SP800-108
     // Number of iterations required to compose output of required length.
     var iterations := (length + macLengthBytes - 1) / macLengthBytes; // "n" in SP800-108
     var buffer := [];

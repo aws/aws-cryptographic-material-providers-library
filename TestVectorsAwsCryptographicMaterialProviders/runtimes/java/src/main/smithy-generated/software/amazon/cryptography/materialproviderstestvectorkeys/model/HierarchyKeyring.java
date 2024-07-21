@@ -6,6 +6,7 @@ package software.amazon.cryptography.materialproviderstestvectorkeys.model;
 import java.util.Objects;
 
 public class HierarchyKeyring {
+
   private final String keyId;
 
   protected HierarchyKeyring(BuilderImpl builder) {
@@ -33,10 +34,10 @@ public class HierarchyKeyring {
   }
 
   static class BuilderImpl implements Builder {
+
     protected String keyId;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(HierarchyKeyring model) {
       this.keyId = model.keyId();
@@ -52,8 +53,10 @@ public class HierarchyKeyring {
     }
 
     public HierarchyKeyring build() {
-      if (Objects.isNull(this.keyId()))  {
-        throw new IllegalArgumentException("Missing value for required field `keyId`");
+      if (Objects.isNull(this.keyId())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `keyId`"
+        );
       }
       return new HierarchyKeyring(this);
     }

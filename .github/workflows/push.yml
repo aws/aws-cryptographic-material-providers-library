@@ -4,18 +4,35 @@ name: Push CI
 on:
   push:
     branches:
-      - main    
+      - main
 
 jobs:
+  getVersion:
+    uses: ./.github/workflows/dafny_version.yaml
+  getVerifyVersion:
+    uses: ./.github/workflows/dafny_verify_version.yaml
+  push-ci-format:
+    needs: getVersion
+    uses: ./.github/workflows/library_format.yml
+    with:
+      dafny: ${{needs.getVersion.outputs.version}}
+  push-ci-codegen:
+    needs: getVersion
+    uses: ./.github/workflows/library_codegen.yml
+    with:
+      dafny: ${{needs.getVersion.outputs.version}}
   push-ci-verification:
+    needs: getVerifyVersion
     uses: ./.github/workflows/library_dafny_verification.yml
     with:
-      dafny: '4.1.0'
+      dafny: ${{needs.getVerifyVersion.outputs.version}}
   push-ci-java:
+    needs: getVersion
     uses: ./.github/workflows/library_java_tests.yml
     with:
-      dafny: '4.1.0'
+      dafny: ${{needs.getVersion.outputs.version}}
   push-ci-net:
+    needs: getVersion
     uses: ./.github/workflows/library_net_tests.yml
     with:
-      dafny: '4.1.0'
+      dafny: ${{needs.getVersion.outputs.version}}

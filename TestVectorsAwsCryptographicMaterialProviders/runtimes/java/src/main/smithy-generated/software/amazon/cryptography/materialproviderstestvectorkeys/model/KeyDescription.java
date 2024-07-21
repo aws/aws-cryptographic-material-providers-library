@@ -6,6 +6,7 @@ package software.amazon.cryptography.materialproviderstestvectorkeys.model;
 import java.util.Objects;
 
 public class KeyDescription {
+
   private final KMSInfo Kms;
 
   private final KmsMrkAware KmsMrk;
@@ -16,11 +17,19 @@ public class KeyDescription {
 
   private final RawAES AES;
 
+  private final RawEcdh ECDH;
+
   private final StaticKeyring Static;
 
   private final KmsRsaKeyring KmsRsa;
 
+  private final KmsEcdhKeyring KmsECDH;
+
   private final HierarchyKeyring Hierarchy;
+
+  private final MultiKeyring Multi;
+
+  private final RequiredEncryptionContextCMM RequiredEncryptionContext;
 
   protected KeyDescription(BuilderImpl builder) {
     this.Kms = builder.Kms();
@@ -28,9 +37,13 @@ public class KeyDescription {
     this.KmsMrkDiscovery = builder.KmsMrkDiscovery();
     this.RSA = builder.RSA();
     this.AES = builder.AES();
+    this.ECDH = builder.ECDH();
     this.Static = builder.Static();
     this.KmsRsa = builder.KmsRsa();
+    this.KmsECDH = builder.KmsECDH();
     this.Hierarchy = builder.Hierarchy();
+    this.Multi = builder.Multi();
+    this.RequiredEncryptionContext = builder.RequiredEncryptionContext();
   }
 
   public KMSInfo Kms() {
@@ -53,6 +66,10 @@ public class KeyDescription {
     return this.AES;
   }
 
+  public RawEcdh ECDH() {
+    return this.ECDH;
+  }
+
   public StaticKeyring Static() {
     return this.Static;
   }
@@ -61,8 +78,20 @@ public class KeyDescription {
     return this.KmsRsa;
   }
 
+  public KmsEcdhKeyring KmsECDH() {
+    return this.KmsECDH;
+  }
+
   public HierarchyKeyring Hierarchy() {
     return this.Hierarchy;
+  }
+
+  public MultiKeyring Multi() {
+    return this.Multi;
+  }
+
+  public RequiredEncryptionContextCMM RequiredEncryptionContext() {
+    return this.RequiredEncryptionContext;
   }
 
   public Builder toBuilder() {
@@ -94,6 +123,10 @@ public class KeyDescription {
 
     RawAES AES();
 
+    Builder ECDH(RawEcdh ECDH);
+
+    RawEcdh ECDH();
+
     Builder Static(StaticKeyring Static);
 
     StaticKeyring Static();
@@ -102,14 +135,29 @@ public class KeyDescription {
 
     KmsRsaKeyring KmsRsa();
 
+    Builder KmsECDH(KmsEcdhKeyring KmsECDH);
+
+    KmsEcdhKeyring KmsECDH();
+
     Builder Hierarchy(HierarchyKeyring Hierarchy);
 
     HierarchyKeyring Hierarchy();
+
+    Builder Multi(MultiKeyring Multi);
+
+    MultiKeyring Multi();
+
+    Builder RequiredEncryptionContext(
+      RequiredEncryptionContextCMM RequiredEncryptionContext
+    );
+
+    RequiredEncryptionContextCMM RequiredEncryptionContext();
 
     KeyDescription build();
   }
 
   static class BuilderImpl implements Builder {
+
     protected KMSInfo Kms;
 
     protected KmsMrkAware KmsMrk;
@@ -120,14 +168,21 @@ public class KeyDescription {
 
     protected RawAES AES;
 
+    protected RawEcdh ECDH;
+
     protected StaticKeyring Static;
 
     protected KmsRsaKeyring KmsRsa;
 
+    protected KmsEcdhKeyring KmsECDH;
+
     protected HierarchyKeyring Hierarchy;
 
-    protected BuilderImpl() {
-    }
+    protected MultiKeyring Multi;
+
+    protected RequiredEncryptionContextCMM RequiredEncryptionContext;
+
+    protected BuilderImpl() {}
 
     protected BuilderImpl(KeyDescription model) {
       this.Kms = model.Kms();
@@ -135,9 +190,13 @@ public class KeyDescription {
       this.KmsMrkDiscovery = model.KmsMrkDiscovery();
       this.RSA = model.RSA();
       this.AES = model.AES();
+      this.ECDH = model.ECDH();
       this.Static = model.Static();
       this.KmsRsa = model.KmsRsa();
+      this.KmsECDH = model.KmsECDH();
       this.Hierarchy = model.Hierarchy();
+      this.Multi = model.Multi();
+      this.RequiredEncryptionContext = model.RequiredEncryptionContext();
     }
 
     public Builder Kms(KMSInfo Kms) {
@@ -185,6 +244,15 @@ public class KeyDescription {
       return this.AES;
     }
 
+    public Builder ECDH(RawEcdh ECDH) {
+      this.ECDH = ECDH;
+      return this;
+    }
+
+    public RawEcdh ECDH() {
+      return this.ECDH;
+    }
+
     public Builder Static(StaticKeyring Static) {
       this.Static = Static;
       return this;
@@ -203,6 +271,15 @@ public class KeyDescription {
       return this.KmsRsa;
     }
 
+    public Builder KmsECDH(KmsEcdhKeyring KmsECDH) {
+      this.KmsECDH = KmsECDH;
+      return this;
+    }
+
+    public KmsEcdhKeyring KmsECDH() {
+      return this.KmsECDH;
+    }
+
     public Builder Hierarchy(HierarchyKeyring Hierarchy) {
       this.Hierarchy = Hierarchy;
       return this;
@@ -212,15 +289,50 @@ public class KeyDescription {
       return this.Hierarchy;
     }
 
+    public Builder Multi(MultiKeyring Multi) {
+      this.Multi = Multi;
+      return this;
+    }
+
+    public MultiKeyring Multi() {
+      return this.Multi;
+    }
+
+    public Builder RequiredEncryptionContext(
+      RequiredEncryptionContextCMM RequiredEncryptionContext
+    ) {
+      this.RequiredEncryptionContext = RequiredEncryptionContext;
+      return this;
+    }
+
+    public RequiredEncryptionContextCMM RequiredEncryptionContext() {
+      return this.RequiredEncryptionContext;
+    }
+
     public KeyDescription build() {
       if (!onlyOneNonNull()) {
-        throw new IllegalArgumentException("`KeyDescription` is a Union. A Union MUST have one and only one value set.");
+        throw new IllegalArgumentException(
+          "`KeyDescription` is a Union. A Union MUST have one and only one value set."
+        );
       }
       return new KeyDescription(this);
     }
 
     private boolean onlyOneNonNull() {
-      Object[] allValues = {this.Kms, this.KmsMrk, this.KmsMrkDiscovery, this.RSA, this.AES, this.Static, this.KmsRsa, this.Hierarchy};
+      Object[] allValues = {
+        this.Kms,
+        this.KmsMrk,
+        this.KmsMrkDiscovery,
+        this.RSA,
+        this.AES,
+        this.ECDH,
+        this.Static,
+        this.KmsRsa,
+        this.KmsECDH,
+        this.Hierarchy,
+        this.Multi,
+        this.RequiredEncryptionContext,
+      };
       boolean haveOneNonNull = false;
       for (Object o : allValues) {
         if (Objects.nonNull(o)) {

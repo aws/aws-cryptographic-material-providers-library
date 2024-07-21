@@ -4,8 +4,8 @@
 package software.amazon.cryptography.materialproviders.model;
 
 public class IDENTITY {
-  protected IDENTITY(BuilderImpl builder) {
-  }
+
+  protected IDENTITY(BuilderImpl builder) {}
 
   public Builder toBuilder() {
     return new BuilderImpl(this);
@@ -20,11 +20,10 @@ public class IDENTITY {
   }
 
   static class BuilderImpl implements Builder {
-    protected BuilderImpl() {
-    }
 
-    protected BuilderImpl(IDENTITY model) {
-    }
+    protected BuilderImpl() {}
+
+    protected BuilderImpl(IDENTITY model) {}
 
     public IDENTITY build() {
       return new IDENTITY(this);

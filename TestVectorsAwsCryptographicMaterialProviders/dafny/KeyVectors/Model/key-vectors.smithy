@@ -1,6 +1,5 @@
 namespace aws.cryptography.materialProvidersTestVectorKeys
 
-/////////////
 // KeyVectors Creation
 @aws.polymorph#localService(
   sdkId: "KeyVectors",
@@ -11,7 +10,8 @@ service KeyVectors {
   resources: [],
   operations: [
     CreateTestVectorKeyring,
-    CreateWappedTestVectorKeyring,
+    CreateWrappedTestVectorKeyring,
+    CreateWrappedTestVectorCmm,
     GetKeyDescription,
     SerializeKeyDescription,
   ]
@@ -19,7 +19,7 @@ service KeyVectors {
 
 structure KeyVectorsConfig {
   @required
-  keyManifiestPath: String
+  keyManifestPath: String
 }
 
 operation CreateTestVectorKeyring {
@@ -27,9 +27,39 @@ operation CreateTestVectorKeyring {
   output: aws.cryptography.materialProviders#CreateKeyringOutput,
 }
 
-operation CreateWappedTestVectorKeyring {
+operation CreateWrappedTestVectorKeyring {
   input: TestVectorKeyringInput,
   output: aws.cryptography.materialProviders#CreateKeyringOutput,
+}
+
+operation CreateWrappedTestVectorCmm {
+  input: TestVectorCmmInput,
+  output: CreateWrappedTestVectorCmmOutput,
+}
+
+structure TestVectorCmmInput {
+  @required
+  keyDescription: KeyDescription,
+  @required
+  forOperation: CmmOperation,
+}
+
+@enum([
+  {
+    name: "ENCRYPT",
+    value: "ENCRYPT",
+  },
+  {
+    name: "DECRYPT",
+    value: "DECRYPT",
+  },
+])
+string CmmOperation
+
+@aws.polymorph#positional
+structure CreateWrappedTestVectorCmmOutput {
+  @required
+  cmm: aws.cryptography.materialProviders#CryptographicMaterialsManagerReference,
 }
 
 @readonly
@@ -62,10 +92,9 @@ structure SerializeKeyDescriptionOutput {
   json: Blob
 }
 
-
 structure TestVectorKeyringInput {
   @required
-  keyDescription: KeyDescription
+  keyDescription: KeyDescription,
 }
 
 union KeyDescription {
@@ -74,9 +103,13 @@ union KeyDescription {
   KmsMrkDiscovery: KmsMrkAwareDiscovery,
   RSA: RawRSA,
   AES: RawAES,
+  ECDH: RawEcdh,
   Static: StaticKeyring,
   KmsRsa: KmsRsaKeyring,
+  KmsECDH: KmsEcdhKeyring,
   Hierarchy: HierarchyKeyring,
+  Multi: MultiKeyring,
+  RequiredEncryptionContext: RequiredEncryptionContextCMM,
 }
 
 structure KMSInfo {
@@ -108,6 +141,23 @@ structure RawAES {
   @required
   providerId: String,
 }
+structure RawEcdh {
+  @required
+  senderKeyId: String,
+  @required
+  recipientKeyId: String,
+  @required
+  senderPublicKey: String,
+  @required
+  recipientPublicKey: String,
+  @required
+  providerId: String,
+  @required
+  curveSpec: String,
+  @required
+  keyAgreementScheme: String
+}
+
 structure StaticKeyring {
   @required
   keyId: String,
@@ -120,11 +170,42 @@ structure KmsRsaKeyring {
   encryptionAlgorithm: com.amazonaws.kms#EncryptionAlgorithmSpec,
 }
 
+structure KmsEcdhKeyring {
+  @required
+  senderKeyId: String,
+  @required
+  recipientKeyId: String,
+  @required
+  senderPublicKey: String,
+  @required
+  recipientPublicKey: String,
+  @required
+  curveSpec: String,
+  @required
+  keyAgreementScheme: String
+}
+
 structure HierarchyKeyring {
   @required
   keyId: String,
 }
 
+structure MultiKeyring {
+  generator: KeyDescription,
+  @required
+  childKeyrings: KeyDescriptionList,
+}
+
+list KeyDescriptionList {
+  member: KeyDescription
+}
+
+structure RequiredEncryptionContextCMM {
+  @required
+  underlying: KeyDescription,
+  @required
+  requiredEncryptionContextKeys: aws.cryptography.materialProviders#EncryptionContextKeys
+}
 
 @error("client")
 structure KeyVectorException {
