@@ -126,7 +126,6 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
         this.senderPrivateKey := PrimitiveTypes.ECCPrivateKey(pem := []);
         this.compressedSenderPublicKey := [];
       }
-      this.cryptoPrimitives := cryptoPrimitives;
 
       History := new Types.IKeyringCallHistory();
       Modifies := {History};
