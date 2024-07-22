@@ -1,14 +1,20 @@
-AWSTemplateFormatVersion: "2010-09-09"
+
+# Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0AWSTemplateFormatVersion: "2010-09-09"
 Description: "Template to build a CodeBuild Project, assumes that GitHub credentials are already set up."
-Parameters: 
-  ProjectName: 
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  Template to build a CodeBuild Project, assumes that GitHub credentials are
+  already set up.
+Parameters:
+  ProjectName:
     Type: String
     Description: The name of the CodeBuild Project
     Default: AWS-MPL-Python
   ProjectDescription:
     Type: String
     Description: The description for the CodeBuild Project
-    Default: CFN stack for managing CodeBuild projects for the AWS MPL Python
+    Default: CFN stack for managing CodeBuild projects for the AWS Material Providers Library Python
   SourceLocation:
     Type: String
     Description: The https GitHub URL for the project
@@ -17,16 +23,14 @@ Parameters:
     Type: Number
     MaxValue: 100
     MinValue: 1
-    Default: 4
+    Default: 16
     Description: The number of builds you expect to run in a batch
-
-Metadata: 
-  AWS::CloudFormation::Interface:
-    ParameterGroups: 
-      - 
-        Label: 
-          default: "Crypto Tools CodeBuild Project Template"
-        Parameters: 
+Metadata:
+  "AWS::CloudFormation::Interface":
+    ParameterGroups:
+      - Label:
+          default: Crypto Tools CodeBuild Project Template
+        Parameters:
           - ProjectName
           - ProjectDescription
           - SourceLocation
@@ -35,26 +39,28 @@ Resources:
   # CodeBuildProject:
   #   Type: "AWS::CodeBuild::Project"
   #   Properties:
-  #     Name: !Ref ProjectName
-  #     Description: !Ref ProjectDescription
+  #     Name: !Sub "${ProjectName}"
+  #     Description: !Sub "CodeBuild project for ${ProjectName}"
   #     Source:
   #       Location: !Ref SourceLocation
-  #       GitCloneDepth: 1
-  #       GitSubmodulesConfig: 
+  #       ## https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-source.html#cfn-codebuild-project-source-gitclonedepth
+  #       ## If this value is 0, greater than 25, or not provided then the full history is downloaded with each build project.
+  #       GitCloneDepth: 0
+  #       GitSubmodulesConfig:
   #         FetchSubmodules: true
   #       InsecureSsl: false
   #       ReportBuildStatus: false
-  #       Type: "GITHUB"
-  #     Artifacts: 
-  #       Type: "NO_ARTIFACTS"
-  #     Cache: 
-  #       Type: "NO_CACHE"
-  #     Environment: 
-  #       ComputeType: "BUILD_GENERAL1_MEDIUM"
-  #       Image: "aws/codebuild/standard:3.0"
-  #       ImagePullCredentialsType: "CODEBUILD"
+  #       Type: GITHUB
+  #     Artifacts:
+  #       Type: NO_ARTIFACTS
+  #     Cache:
+  #       Type: NO_CACHE
+  #     Environment:
+  #       ComputeType: BUILD_GENERAL1_LARGE
+  #       Image: "aws/codebuild/standard:5.0"
+  #       ImagePullCredentialsType: CODEBUILD
   #       PrivilegedMode: false
-  #       Type: "LINUX_CONTAINER"
+  #       Type: LINUX_CONTAINER
   #     ServiceRole: !GetAtt CodeBuildCIServiceRole.Arn
   #     TimeoutInMinutes: 60
   #     QueuedTimeoutInMinutes: 480
@@ -67,12 +73,13 @@ Resources:
   #         ComputeTypesAllowed:
   #           - BUILD_GENERAL1_SMALL
   #           - BUILD_GENERAL1_MEDIUM
+  #           - BUILD_GENERAL1_LARGE
   #       TimeoutInMins: 480
-  #     LogsConfig: 
-  #       CloudWatchLogs: 
-  #         Status: "ENABLED"
-  #       S3Logs: 
-  #         Status: "DISABLED"
+  #     LogsConfig:
+  #       CloudWatchLogs:
+  #         Status: ENABLED
+  #       S3Logs:
+  #         Status: DISABLED
   #         EncryptionDisabled: false
 
   CodeBuildProjectTestRelease:
@@ -82,23 +89,25 @@ Resources:
       Description: !Sub "CodeBuild project for ${ProjectName} to release to test PyPi."
       Source:
         Location: !Ref SourceLocation
-        BuildSpec: "codebuild/release-python/test-release.yml"
-        GitCloneDepth: 1
-        GitSubmodulesConfig: 
-          FetchSubmodules: false
+        BuildSpec: codebuild/release-python/test-release.yml
+        ## https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-source.html#cfn-codebuild-project-source-gitclonedepth
+        ## If this value is 0, greater than 25, or not provided then the full history is downloaded with each build project.
+        GitCloneDepth: 0
+        GitSubmodulesConfig:
+          FetchSubmodules: true
         InsecureSsl: false
         ReportBuildStatus: false
-        Type: "GITHUB"
-      Artifacts: 
-        Type: "NO_ARTIFACTS"
-      Cache: 
-        Type: "NO_CACHE"
-      Environment: 
-        ComputeType: "BUILD_GENERAL1_SMALL"
-        Image: "aws/codebuild/standard:3.0"
-        ImagePullCredentialsType: "CODEBUILD"
+        Type: GITHUB
+      Artifacts:
+        Type: NO_ARTIFACTS
+      Cache:
+        Type: NO_CACHE
+      Environment:
+        ComputeType: BUILD_GENERAL1_LARGE
+        Image: "aws/codebuild/standard:5.0"
+        ImagePullCredentialsType: CODEBUILD
         PrivilegedMode: false
-        Type: "LINUX_CONTAINER"
+        Type: LINUX_CONTAINER
       ServiceRole: !GetAtt CodeBuildTestReleaseServiceRole.Arn
       TimeoutInMinutes: 60
       QueuedTimeoutInMinutes: 480
@@ -111,12 +120,13 @@ Resources:
           ComputeTypesAllowed:
             - BUILD_GENERAL1_SMALL
             - BUILD_GENERAL1_MEDIUM
+            - BUILD_GENERAL1_LARGE
         TimeoutInMins: 480
-      LogsConfig: 
-        CloudWatchLogs: 
-          Status: "ENABLED"
-        S3Logs: 
-          Status: "DISABLED"
+      LogsConfig:
+        CloudWatchLogs:
+          Status: ENABLED
+        S3Logs:
+          Status: DISABLED
           EncryptionDisabled: false
 
   # CodeBuildProjectProdRelease:
@@ -126,23 +136,25 @@ Resources:
   #     Description: !Sub "CodeBuild project for ${ProjectName} to release to prod PyPi."
   #     Source:
   #       Location: !Ref SourceLocation
-  #       BuildSpec: "codebuild/release-python/prod-release.yml"
-  #       GitCloneDepth: 1
-  #       GitSubmodulesConfig: 
-  #         FetchSubmodules: false
+  #       BuildSpec: codebuild/release-python/prod-release.yml
+  #       ## https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-source.html#cfn-codebuild-project-source-gitclonedepth
+  #       ## If this value is 0, greater than 25, or not provided then the full history is downloaded with each build project.
+  #       GitCloneDepth: 0
+  #       GitSubmodulesConfig:
+  #         FetchSubmodules: true
   #       InsecureSsl: false
   #       ReportBuildStatus: false
-  #       Type: "GITHUB"
-  #     Artifacts: 
-  #       Type: "NO_ARTIFACTS"
-  #     Cache: 
-  #       Type: "NO_CACHE"
-  #     Environment: 
-  #       ComputeType: "BUILD_GENERAL1_SMALL"
-  #       Image: "aws/codebuild/standard:3.0"
-  #       ImagePullCredentialsType: "CODEBUILD"
+  #       Type: GITHUB
+  #     Artifacts:
+  #       Type: NO_ARTIFACTS
+  #     Cache:
+  #       Type: NO_CACHE
+  #     Environment:
+  #       ComputeType: BUILD_GENERAL1_LARGE
+  #       Image: "aws/codebuild/standard:5.0"
+  #       ImagePullCredentialsType: CODEBUILD
   #       PrivilegedMode: false
-  #       Type: "LINUX_CONTAINER"
+  #       Type: LINUX_CONTAINER
   #     ServiceRole: !GetAtt CodeBuildProdReleaseServiceRole.Arn
   #     TimeoutInMinutes: 60
   #     QueuedTimeoutInMinutes: 480
@@ -155,20 +167,22 @@ Resources:
   #         ComputeTypesAllowed:
   #           - BUILD_GENERAL1_SMALL
   #           - BUILD_GENERAL1_MEDIUM
+  #           - BUILD_GENERAL1_LARGE
   #       TimeoutInMins: 480
-  #     LogsConfig: 
-  #       CloudWatchLogs: 
-  #         Status: "ENABLED"
-  #       S3Logs: 
-  #         Status: "DISABLED"
+  #     LogsConfig:
+  #       CloudWatchLogs:
+  #         Status: ENABLED
+  #       S3Logs:
+  #         Status: DISABLED
   #         EncryptionDisabled: false
 
   CodeBuildTestReleaseServiceRole:
     Type: "AWS::IAM::Role"
     Properties:
-      Path: "/service-role/"
+      Path: /service-role/
       RoleName: !Sub "codebuild-${ProjectName}-test-service-role"
-      AssumeRolePolicyDocument: "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"codebuild.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}"
+      AssumeRolePolicyDocument: >-
+        {"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"codebuild.amazonaws.com"},"Action":"sts:AssumeRole"}]}
       MaxSessionDuration: 3600
       ManagedPolicyArns:
         - !Ref CryptoToolsKMS
@@ -176,13 +190,16 @@ Resources:
         - !Ref CodeBuildTestReleaseBasePolicy
         - !Ref SecretsManagerTestReleasePolicy
         - !Ref CodeBuildCISTSAllow
+        # - "arn:aws:iam::aws:policy/AWSCodeArtifactReadOnlyAccess"
+        # - "arn:aws:iam::aws:policy/AWSCodeArtifactAdminAccess"
   
     # CodeBuildProdReleaseServiceRole:
     # Type: "AWS::IAM::Role"
     # Properties:
-    #   Path: "/service-role/"
+    #   Path: /service-role/
     #   RoleName: !Sub "codebuild-${ProjectName}-prod-service-role"
-    #   AssumeRolePolicyDocument: "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"codebuild.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}"
+    #   AssumeRolePolicyDocument: >-
+    #     {"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"codebuild.amazonaws.com"},"Action":"sts:AssumeRole"}]}
     #   MaxSessionDuration: 3600
     #   ManagedPolicyArns:
     #     - !Ref CryptoToolsKMS
@@ -190,13 +207,16 @@ Resources:
     #     - !Ref CodeBuildProdReleaseBasePolicy
     #     - !Ref SecretsManagerProdReleasePolicy
     #     - !Ref CodeBuildCISTSAllow
+    #     # - "arn:aws:iam::aws:policy/AWSCodeArtifactReadOnlyAccess"
+    #     # - "arn:aws:iam::aws:policy/AWSCodeArtifactAdminAccess"
 
   # CodeBuildCIServiceRole:
   #   Type: "AWS::IAM::Role"
   #   Properties:
-  #     Path: "/service-role/"
+  #     Path: /service-role/
   #     RoleName: !Sub "codebuild-${ProjectName}-CI-service-role"
-  #     AssumeRolePolicyDocument: "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"codebuild.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}"
+  #     AssumeRolePolicyDocument: >-
+  #       {"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"codebuild.amazonaws.com"},"Action":"sts:AssumeRole"}]}
   #     MaxSessionDuration: 3600
   #     ManagedPolicyArns:
   #       - !Ref CryptoToolsKMS
@@ -204,12 +224,15 @@ Resources:
   #       - !Ref CodeBuildTestReleaseBasePolicy
   #       - !Ref SecretsManagerCIPolicy
   #       - !Ref CodeBuildCISTSAllow
+  #       # - "arn:aws:iam::aws:policy/AWSCodeArtifactReadOnlyAccess"
+  #       # - "arn:aws:iam::aws:policy/AWSCodeArtifactAdminAccess"
         
   CodeBuildTestReleaseBatchPolicy:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
-      ManagedPolicyName: !Sub "CodeBuildTestBuildBatchPolicy-${ProjectName}-${AWS::Region}-codebuild-${ProjectName}-test-service-role"
-      Path: "/service-role/"
+      ManagedPolicyName: !Sub >-
+        CodeBuildTestBuildBatchPolicy-${ProjectName}-${AWS::Region}-codebuild-${ProjectName}-test-service-role
+      Path: /service-role/
       PolicyDocument: !Sub |
         {
           "Version": "2012-10-17",
@@ -232,8 +255,9 @@ Resources:
   # CodeBuildProdReleaseBatchPolicy:
   #   Type: "AWS::IAM::ManagedPolicy"
   #   Properties:
-  #     ManagedPolicyName: !Sub "CodeBuildBuildBatchPolicy-${ProjectName}-${AWS::Region}-codebuild-${ProjectName}-prod-service-role"
-  #     Path: "/service-role/"
+  #     ManagedPolicyName: !Sub >-
+  #       CodeBuildBuildBatchPolicy-${ProjectName}-${AWS::Region}-codebuild-${ProjectName}-prod-service-role
+  #     Path: /service-role/
   #     PolicyDocument: !Sub |
   #       {
   #         "Version": "2012-10-17",
@@ -256,8 +280,9 @@ Resources:
   # CodeBuildCIBatchPolicy:
   #   Type: "AWS::IAM::ManagedPolicy"
   #   Properties:
-  #     ManagedPolicyName: !Sub "CodeBuildBuildBatchPolicy-${ProjectName}-${AWS::Region}-codebuild-${ProjectName}-CI-service-role"
-  #     Path: "/service-role/"
+  #     ManagedPolicyName: !Sub >-
+  #       CodeBuildBuildBatchPolicy-${ProjectName}-${AWS::Region}-codebuild-${ProjectName}-CI-service-role
+  #     Path: /service-role/
   #     PolicyDocument: !Sub |
   #       {
   #         "Version": "2012-10-17",
@@ -281,7 +306,7 @@ Resources:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
       ManagedPolicyName: !Sub "CodeBuildTestBasePolicy-${ProjectName}-${AWS::Region}"
-      Path: "/service-role/"
+      Path: /service-role/
       PolicyDocument: !Sub |
         {
           "Version": "2012-10-17",
@@ -334,7 +359,7 @@ Resources:
   #   Type: "AWS::IAM::ManagedPolicy"
   #   Properties:
   #     ManagedPolicyName: !Sub "CodeBuildProdBasePolicy-${ProjectName}-${AWS::Region}"
-  #     Path: "/service-role/"
+  #     Path: /service-role/
   #     PolicyDocument: !Sub |
   #       {
   #         "Version": "2012-10-17",
@@ -387,7 +412,7 @@ Resources:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
       ManagedPolicyName: !Sub "CryptoTools-SecretsManagerTest-${ProjectName}-release"
-      Path: "/service-role/"
+      Path: /service-role/
       PolicyDocument: !Sub |
         {
           "Version": "2012-10-17",
@@ -406,7 +431,7 @@ Resources:
     # Type: "AWS::IAM::ManagedPolicy"
     # Properties:
     #   ManagedPolicyName: !Sub "CryptoTools-SecretsManagerProd-${ProjectName}-release"
-    #   Path: "/service-role/"
+    #   Path: /service-role/
     #   PolicyDocument: !Sub |
     #     {
     #       "Version": "2012-10-17",
@@ -425,7 +450,7 @@ Resources:
   #   Type: "AWS::IAM::ManagedPolicy"
   #   Properties:
   #     ManagedPolicyName: !Sub "CryptoTools-SecretsManagerCI-${ProjectName}-release"
-  #     Path: "/service-role/"
+  #     Path: /service-role/
   #     # Policy: Allow access to a Github fine-grained PAT that can read ESDK-Dafny "Daily CI" artifacts
   #     PolicyDocument: !Sub |
   #       {
@@ -447,7 +472,7 @@ Resources:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
       ManagedPolicyName: !Sub "CrypotToolsKMSPolicy-${ProjectName}-${AWS::Region}-codebuild-${ProjectName}-service-role"
-      Path: "/service-role/"
+      Path: /service-role/
       PolicyDocument: !Sub |
         {
           "Version": "2012-10-17",
@@ -475,16 +500,17 @@ Resources:
   CodeBuildCISTSAllow:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
-      ManagedPolicyName: !Sub CodeBuildCISTSAllow-${ProjectName}
+      ManagedPolicyName: !Sub >-
+        CodeBuildCISTSAllow-${ProjectName}
       Path: /service-role/
-      PolicyDocument: |
+      PolicyDocument: !Sub |
         {
           "Version": "2012-10-17",
           "Statement": [
               {
                 "Effect": "Allow",
                 "Action": "sts:AssumeRole",
-                "Resource": "arn:aws:iam::370957321024:role/GitHub-CI-Public-ESDK-Python-Role-us-west-2"
+                "Resource": "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2"
               }
           ]
         }
