@@ -138,6 +138,7 @@ jobs:
       #  Not all submodules are needed.
       # We manually pull the submodule we DO need.
       - run: git submodule update --init libraries
+      - run: git submodule update --init smithy-dafny
 
       # Set up runtimes
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
