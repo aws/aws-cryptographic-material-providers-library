@@ -113,7 +113,7 @@ jobs:
             # TODO just test on mac and ubuntu for now
             # windows-latest,
             ubuntu-latest,
-            macos-latest,
+            macos-12,
           ]
         encrypting_language: [java, net]
         decrypting_language: [java, net]
