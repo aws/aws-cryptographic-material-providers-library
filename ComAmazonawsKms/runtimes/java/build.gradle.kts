@@ -28,6 +28,7 @@ java {
     }
     sourceSets["test"].java {
         srcDir("src/test/dafny-generated")
+        srcDir("src/test/java")
     }
 }
 
@@ -66,6 +67,7 @@ dependencies {
     implementation(platform("software.amazon.awssdk:bom:2.26.3"))
     implementation("software.amazon.awssdk:kms")
     implementation("software.amazon.awssdk:apache-client")
+    testImplementation("org.testng:testng:7.5")
 }
 
 publishing {
@@ -89,4 +91,42 @@ tasks {
         mainClass.set("TestsFromDafny")
         classpath = sourceSets["test"].runtimeClasspath
     }
+}
+
+tasks.test {
+    useTestNG()
+
+    // This will show System.out.println statements
+    testLogging.showStandardStreams = true
+
+    testLogging {
+        lifecycle {
+            events = mutableSetOf(org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED, org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED, org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED)
+            exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+            showExceptions = true
+            showCauses = true
+            showStackTraces = true
+            showStandardStreams = true
+        }
+        info.events = lifecycle.events
+        info.exceptionFormat = lifecycle.exceptionFormat
+    }
+
+    // See https://github.com/gradle/kotlin-dsl/issues/836
+    addTestListener(object : TestListener {
+        override fun beforeSuite(suite: TestDescriptor) {}
+        override fun beforeTest(testDescriptor: TestDescriptor) {}
+        override fun afterTest(testDescriptor: TestDescriptor, result: TestResult) {}
+
+        override fun afterSuite(suite: TestDescriptor, result: TestResult) {
+            if (suite.parent == null) { // root suite
+                logger.lifecycle("----")
+                logger.lifecycle("Test result: ${result.resultType}")
+                logger.lifecycle("Test summary: ${result.testCount} tests, " +
+                        "${result.successfulTestCount} succeeded, " +
+                        "${result.failedTestCount} failed, " +
+                        "${result.skippedTestCount} skipped")
+            }
+        }
+    })
 }

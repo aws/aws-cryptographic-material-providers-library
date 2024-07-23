@@ -19,7 +19,9 @@ module {:options "-functionSyntax:4"} AllKmsEcdh {
       ::
         KeyVectorsTypes.KmsECDH(KeyVectorsTypes.KmsEcdhKeyring(
                                   senderKeyId := key,
+                                  senderPublicKey := "sender-material-public-key",
                                   recipientKeyId := key,
+                                  recipientPublicKey := "recipient-material-public-key",
                                   curveSpec := key,
                                   keyAgreementScheme :=  "static"
                                 ))
@@ -29,7 +31,9 @@ module {:options "-functionSyntax:4"} AllKmsEcdh {
       ::
         KeyVectorsTypes.KmsECDH(KeyVectorsTypes.KmsEcdhKeyring(
                                   senderKeyId := "discovery",
+                                  senderPublicKey := "discovery",
                                   recipientKeyId := key,
+                                  recipientPublicKey := "recipient-material-public-key",
                                   curveSpec := key,
                                   keyAgreementScheme :=  "discovery"
                                 ))

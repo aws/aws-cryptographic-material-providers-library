@@ -20,7 +20,7 @@ var props = Properties().apply {
 var dafnyVersion = props.getProperty("dafnyVersion")
 
 group = "software.amazon.cryptography"
-version = "1.5.0-SNAPSHOT"
+version = "1.5.1-SNAPSHOT"
 description = "TestAwsCryptographicMaterialProviders"
 
 java {
@@ -78,7 +78,8 @@ dependencies {
     implementation("software.amazon.cryptography:ComAmazonawsKms:1.0-SNAPSHOT")
     implementation("software.amazon.cryptography:ComAmazonawsDynamodb:1.0-SNAPSHOT")
     implementation("software.amazon.cryptography:AwsCryptographyPrimitives:1.0-SNAPSHOT")
-    
+
+    //implementation("software.amazon.cryptography:aws-cryptographic-material-providers:1.5.1-SNAPSHOT")
     implementation(platform("software.amazon.awssdk:bom:2.25.1"))
     
     implementation("software.amazon.awssdk:dynamodb")

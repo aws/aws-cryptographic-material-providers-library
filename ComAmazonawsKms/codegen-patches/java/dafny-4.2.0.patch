@@ -1,7 +1,7 @@
-diff --git a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
-index c4416ed5..e0a52bfe 100644
---- a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
-+++ b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
+diff --git b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
+index 52abd119..9d02d333 100644
+--- b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
++++ a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToDafny.java
 @@ -2300,7 +2300,13 @@ public class ToDafny {
  
    public static DafnySequence<
@@ -50,51 +50,11 @@ index c4416ed5..e0a52bfe 100644
          {
            return SigningAlgorithmSpec.create_SM2DSA();
          }
-diff --git a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
-index 7c11a9bf..ac7b1a14 100644
---- a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
-+++ b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
-@@ -113,6 +113,9 @@ import software.amazon.awssdk.services.kms.model.KeySpec;
- import software.amazon.awssdk.services.kms.model.KeyState;
- import software.amazon.awssdk.services.kms.model.KeyUnavailableException;
- import software.amazon.awssdk.services.kms.model.KeyUsageType;
-+// BEGIN MANUAL EDIT
-+import software.amazon.awssdk.services.kms.model.KmsException;
-+// END MANUAL EDIT
- import software.amazon.awssdk.services.kms.model.KmsInternalException;
- import software.amazon.awssdk.services.kms.model.KmsInvalidMacException;
- import software.amazon.awssdk.services.kms.model.KmsInvalidSignatureException;
-@@ -220,6 +223,9 @@ import software.amazon.cryptography.services.kms.internaldafny.types.Error_KeyUn
- import software.amazon.cryptography.services.kms.internaldafny.types.Error_LimitExceededException;
- import software.amazon.cryptography.services.kms.internaldafny.types.Error_MalformedPolicyDocumentException;
- import software.amazon.cryptography.services.kms.internaldafny.types.Error_NotFoundException;
-+// BEGIN MANUAL EDIT
-+import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
-+// END MANUAL EDIT
- import software.amazon.cryptography.services.kms.internaldafny.types.Error_TagException;
- import software.amazon.cryptography.services.kms.internaldafny.types.Error_UnsupportedOperationException;
- import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksKeyAlreadyInUseException;
-@@ -238,6 +244,19 @@ import software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient;
- 
- public class ToNative {
- 
-+  // BEGIN MANUAL EDIT
-+  public static RuntimeException Error(Error_Opaque dafnyValue) {
-+    if (dafnyValue.dtor_obj() instanceof KmsException) {
-+      return (KmsException) dafnyValue.dtor_obj();
-+    }
-+    // Because we only ever put `KmsException` into `Error_Opaque`,
-+    // recieving any other type here indicates a bug with the codegen.
-+    // Bubble up some error to indicate this failure state.
-+    return new IllegalStateException("Unknown error recieved from KMS.");
-+  }
-+
-+  // END MANUAL EDIT
-+
-   public static AlgorithmSpec AlgorithmSpec(
-     software.amazon.cryptography.services.kms.internaldafny.types.AlgorithmSpec dafnyValue
-   ) {
-@@ -4537,6 +4556,195 @@ public class ToNative {
+diff --git b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
+index 56979da2..59df5196 100644
+--- b/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
++++ a/ComAmazonawsKms/runtimes/java/src/main/smithy-generated/software/amazon/cryptography/services/kms/internaldafny/ToNative.java
+@@ -4542,6 +4542,196 @@ public class ToNative {
      return builder.build();
    }
  
@@ -281,12 +241,33 @@ index 7c11a9bf..ac7b1a14 100644
 +    if (dafnyValue.is_Opaque()) {
 +      return ToNative.Error((Error_Opaque) dafnyValue);
 +    }
-+    // TODO This should indicate a codegen bug
-+    return new IllegalStateException("Unknown error recieved from KMS.");
++    // TODO This should indicate a codegen bug; every error Should have been taken care of.
++    return new IllegalStateException(
++      String.format("Unknown error thrown while calling KMS. %s", dafnyValue)
++    );
 +  }
 +
 +  // END MANUAL EDIT
-+
    public static KmsClient TrentService(IKMSClient dafnyValue) {
      return ((Shim) dafnyValue).impl();
    }
+@@ -4556,17 +4746,9 @@ public class ToNative {
+       return (KmsException) dafnyValue.dtor_obj();
+     } else if (dafnyValue.dtor_obj() instanceof Exception) {
+       return (RuntimeException) dafnyValue.dtor_obj();
+-    } else if (dafnyValue.dtor_message().is_Some()) {
+-      final String suffix = dafnyValue.dtor_obj() != null
+-        ? String.format("  Unknown Object: %s", dafnyValue.dtor_obj())
+-        : "";
+-      final String message =
+-        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+-          dafnyValue.dtor_message().dtor_value()
+-        ) +
+-        suffix;
+-      return new RuntimeException(message);
+     }
++    // BEGIN MANUAL EDIT
++    // END MANUAL EDIT
+     return new IllegalStateException(
+       String.format(
+         "Unknown error thrown while calling AWS Key Management Service. %s",
