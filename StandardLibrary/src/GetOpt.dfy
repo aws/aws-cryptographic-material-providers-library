@@ -555,17 +555,17 @@ module {:options "-functionSyntax:4"} GetOpt {
         GetMaps(opts[1..], longMap, shortMap, commandMap[opt.options.name := opt.options])
       else
         :- Need(opt.name !in longMap, "Duplicate long name in options : " + opt.name);
-        var longMap := longMap[opt.name := opt];
-        var shortMap :- AddShortAlias(opt.ShortAlias(), shortMap, opt.name, longMap);
-        var longMap :- AddLongAlias(opt.LongAlias(), longMap, opt);
+        var newLongMap := longMap[opt.name := opt];
+        var newShortMap :- AddShortAlias(opt.ShortAlias(), shortMap, opt.name, newLongMap);
+        var newLongMap :- AddLongAlias(opt.LongAlias(), newLongMap, opt);
         if opt.short != NullChar then
           var short := opt.short;
-          if short in shortMap then // can't be a `Need` because shortMap[short] required in message
-            Failure("Duplicate short char in options : '" + [short] + "' for " + opt.name + " and " + shortMap[short])
+          if short in newShortMap then // can't be a `Need` because newShortMap[short] required in message
+            Failure("Duplicate short char in options : '" + [short] + "' for " + opt.name + " and " + newShortMap[short])
           else
-            GetMaps(opts[1..], longMap[opt.name := opt], shortMap[short := opt.name], commandMap)
+            GetMaps(opts[1..], newLongMap[opt.name := opt], newShortMap[short := opt.name], commandMap)
         else
-          GetMaps(opts[1..], longMap[opt.name := opt], shortMap, commandMap)
+          GetMaps(opts[1..], newLongMap[opt.name := opt], newShortMap, commandMap)
   }
 
   function Print<T>(x: T): Outcome<string> {
