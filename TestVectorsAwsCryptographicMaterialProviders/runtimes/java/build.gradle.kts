@@ -11,7 +11,6 @@ tasks.wrapper {
 plugins {
     `java-library`
     `maven-publish`
-    application
 }
 
 var props = Properties().apply {
@@ -51,6 +50,7 @@ if (!caPasswordString.isNullOrBlank()) {
 
 repositories {
     mavenCentral()
+    mavenLocal()
     if (caUrl != null && caPassword != null) {
         maven {
             name = "CodeArtifact"
@@ -66,22 +66,8 @@ repositories {
 dependencies {
     implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
     implementation("software.amazon.smithy.dafny:conversion:0.1")
-    
-    // TODO: Automate keeping MPL version here and in MPL the same
-    //implementation("software.amazon.cryptography:aws-cryptographic-material-providers:1.5.0")
-    
-    // The following "transitive" dependencies of the MPL, in Java, are distributed in MPL as a "Fat Jar"
-    // But the "Fat Jar"  is not composed in CI, only during publication.
-    // So we directly depend on the SNAPSHOT versions, 
-    // via the `settings.gradle.kts` file. 
-    //implementation("software.amazon.cryptography:StandardLibrary:1.0-SNAPSHOT")
-    //implementation("software.amazon.cryptography:ComAmazonawsKms:1.0-SNAPSHOT")
-    //implementation("software.amazon.cryptography:ComAmazonawsDynamodb:1.0-SNAPSHOT")
-    //implementation("software.amazon.cryptography:AwsCryptographyPrimitives:1.0-SNAPSHOT")
-
     implementation("software.amazon.cryptography:aws-cryptographic-material-providers:1.5.1-SNAPSHOT")
     implementation(platform("software.amazon.awssdk:bom:2.25.1"))
-    
     implementation("software.amazon.awssdk:dynamodb")
     implementation("software.amazon.awssdk:dynamodb-enhanced")
     implementation("software.amazon.awssdk:kms")
@@ -93,7 +79,12 @@ publishing {
         artifactId = description
         from(components["java"])
     }
-    repositories {mavenLocal()}
+    publications.create<MavenPublication>("maven") {
+        groupId = group as String?
+        artifactId = description
+        from(components["java"])
+    }
+    repositories { mavenLocal() }
 }
 
 tasks.withType<JavaCompile>() {
@@ -111,11 +102,3 @@ tasks.register<Copy>("copyKeysJSON") {
     into(layout.projectDirectory.dir("dafny/TestVectorsAwsCryptographicMaterialProviders/test"))
 }
 
-tasks.register<Copy>("copyKeysJSONCurr") {
-    from(layout.projectDirectory.file("../../dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json"))
-    into(layout.projectDirectory.dir("."))
-}
-
-application {
-    mainClass.set("ImplementationFromDafny")
-}

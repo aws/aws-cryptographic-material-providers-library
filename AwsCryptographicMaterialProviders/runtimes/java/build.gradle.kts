@@ -49,6 +49,7 @@ if (!caPasswordString.isNullOrBlank()) {
 
 repositories {
     mavenCentral()
+    mavenLocal()
     if (caUrl != null && caPassword != null) {
         maven {
             name = "CodeArtifact"
@@ -142,6 +143,10 @@ tasks {
         mainClass.set("TestsFromDafny")
         classpath = sourceSets["test"].runtimeClasspath
     }
+}
+
+tasks.jar {
+    enabled = false
 }
 
 tasks.javadoc {
