@@ -62,11 +62,12 @@ dependencies {
     implementation("software.amazon.smithy.dafny:conversion:0.1")
 }
 publishing {
-    publications.create<MavenPublication>("maven") {
+    publications.create<MavenPublication>("mavenLocal") {
         groupId = "software.amazon.cryptography"
         artifactId = "StandardLibrary"
         from(components["java"])
     }
+    repositories { mavenLocal()}
 }
 
 tasks.withType<JavaCompile>() {

@@ -88,11 +88,12 @@ dependencies {
 }
 
 publishing {
-    publications.create<MavenPublication>("maven") {
+    publications.create<MavenPublication>("mavenLocal") {
         groupId = group as String?
         artifactId = description
         from(components["java"])
     }
+    repositories {mavenLocal()}
 }
 
 tasks.withType<JavaCompile>() {

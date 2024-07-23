@@ -85,6 +85,19 @@ dependencies {
 }
 
 publishing {
+    publications.create<MavenPublication>("mavenLocal") {
+        groupId = "software.amazon.cryptography"
+        artifactId = "aws-cryptographic-material-providers"
+        artifact(tasks["shadowJar"])
+        artifact(tasks["javadocJar"])
+        artifact(tasks["sourcesJar"])
+
+        // Since we ship the MPL bundled with our generated dependencies they should not be included in the generated pom.xml
+        // however; we also use additional dependencies runtime dependencies that are needed in order to properly run the mpl.
+        // When you bundle a shadow jar you don't need to include any dependencies in the pom.xml since everything is on the jar, but since
+        // we are selective so we have to "manually" write our own pom file.
+        buildPom(this )
+    }
 
     publications.create<MavenPublication>("maven") {
         groupId = "software.amazon.cryptography"
@@ -101,6 +114,7 @@ publishing {
     }
 
     repositories {
+        mavenLocal()
         maven {
             name = "PublishToCodeArtifactStaging"
             url = URI.create("https://crypto-tools-internal-587316601012.d.codeartifact.us-east-1.amazonaws.com/maven/java-mpl-staging/")
