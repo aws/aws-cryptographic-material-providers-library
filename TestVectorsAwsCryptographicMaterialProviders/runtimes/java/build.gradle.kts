@@ -11,6 +11,7 @@ tasks.wrapper {
 plugins {
     `java-library`
     `maven-publish`
+    `application`
 }
 
 var props = Properties().apply {
@@ -102,3 +103,11 @@ tasks.register<Copy>("copyKeysJSON") {
     into(layout.projectDirectory.dir("dafny/TestVectorsAwsCryptographicMaterialProviders/test"))
 }
 
+tasks.register<Copy>("copyKeysJSONCurr") {
+    from(layout.projectDirectory.file("../../dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json"))
+    into(layout.projectDirectory.dir("."))
+}
+
+application {
+    mainClass.set("ImplementationFromDafny")
+}
