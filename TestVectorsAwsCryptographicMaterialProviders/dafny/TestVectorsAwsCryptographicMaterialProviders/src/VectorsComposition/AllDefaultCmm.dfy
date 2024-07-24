@@ -36,6 +36,7 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
                              keyId := AesKey,
                              providerId := "aws-raw-vectors-persistent-" + AesKey
                            ))
+
   function SubSets(ec: map<Types.Utf8Bytes, Types.Utf8Bytes>, keys: seq<Types.Utf8Bytes>)
     : set<map<Types.Utf8Bytes, Types.Utf8Bytes>>
     requires keys == SortedSets.ComputeSetToOrderedSequence2(ec.Keys, (a, b) => a < b)
