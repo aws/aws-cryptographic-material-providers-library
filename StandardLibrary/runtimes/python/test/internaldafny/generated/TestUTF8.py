@@ -395,8 +395,6 @@ class default__:
         if not(not((d_54_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("test/UTF8.dfy(171,21): " + _dafny.string_of(d_54_valueOrError1_))
         d_53_redecoded_ = (d_54_valueOrError1_).Extract()
-        print(f"{d_53_redecoded_.Elements=}")
-        print(f"{d_50_decoded_.Elements=}")
         if not((d_50_decoded_) == (d_53_redecoded_)):
             raise _dafny.HaltException("test/UTF8.dfy(172,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         d_50_decoded_ = _dafny.Seq("\uD835\uDFC1")
