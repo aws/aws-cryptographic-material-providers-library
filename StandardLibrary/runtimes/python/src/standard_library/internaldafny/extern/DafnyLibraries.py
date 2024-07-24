@@ -80,6 +80,11 @@ class MutableMap(standard_library.internaldafny.generated.DafnyLibraries.Mutable
         l = len(self.map)
         self.lock.Unlock()
         return l
+    
+    # Added by Crypto Tools.
+    # Crypto Tools externs refer to a non-existent `Select` method.
+    def Select(self, k):
+        return self.Get(k).value
 
 # This is copy-pasted from DafnyStandardLibraries:
 # https://github.com/dafny-lang/dafny/blob/f01af4a4e86a038ed4ea9f81464b2c9bca1955e4/Source/DafnyStandardLibraries/src/Std_FileIOInternalExterns.py
@@ -90,7 +95,7 @@ import pathlib
 
 class FileIO:
     @staticmethod
-    def INTERNAL__WriteBytesToFile(path, contents):
+    def INTERNAL_WriteBytesToFile(path, contents):
         path_str = path.VerbatimString(False)
         contents_bytes = bytes(contents)
 
@@ -106,7 +111,7 @@ class FileIO:
             return (True, exc_seq)
         
     @staticmethod
-    def INTERNAL__ReadBytesFromFile(path):
+    def INTERNAL_ReadBytesFromFile(path):
         path_str = path.VerbatimString(False)
         try:
             with open(path_str, mode="rb") as file:
