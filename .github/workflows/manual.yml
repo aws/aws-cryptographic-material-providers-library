@@ -37,3 +37,8 @@ jobs:
     with:
       dafny: ${{ inputs.dafny }}
       regenerate-code: ${{ inputs.regenerate-code }}
+  manual-interop-test:
+    uses: ./.github/workflows/library_interop_tests.yml
+    with:
+      dafny: ${{ inputs.dafny }}
+      regenerate-code: ${{ inputs.regenerate-code }}

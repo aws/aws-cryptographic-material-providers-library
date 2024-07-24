@@ -8,6 +8,11 @@ on:
         description: "The Dafny version to run"
         required: true
         type: string
+      regenerate-code:
+        description: "Regenerate code using smithy-dafny"
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   generateEncryptVectors:
@@ -56,6 +61,14 @@ jobs:
         uses: dafny-lang/setup-dafny-action@v1.6.1
         with:
           dafny-version: ${{ inputs.dafny }}
+
+      - name: Regenerate code using smithy-dafny if necessary
+        if: ${{ inputs.regenerate-code }}
+        uses: ./.github/actions/polymorph_codegen
+        with:
+          dafny: ${{ inputs.dafny }}
+          library: ${{ matrix.library }}
+          diff-generated-code: false
 
       # Build implementation for each runtime
       - name: Build ${{ matrix.library }} implementation in Java
@@ -158,6 +171,14 @@ jobs:
         uses: dafny-lang/setup-dafny-action@v1.6.1
         with:
           dafny-version: ${{ inputs.dafny }}
+
+      - name: Regenerate code using smithy-dafny if necessary
+        if: ${{ inputs.regenerate-code }}
+        uses: ./.github/actions/polymorph_codegen
+        with:
+          dafny: ${{ inputs.dafny }}
+          library: ${{ matrix.library }}
+          diff-generated-code: false
 
       # Build implementation for each runtime
       - name: Build ${{ matrix.library }} implementation in Java

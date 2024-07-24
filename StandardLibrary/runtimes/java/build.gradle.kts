@@ -67,6 +67,11 @@ publishing {
         artifactId = "StandardLibrary"
         from(components["java"])
     }
+    publications.create<MavenPublication>("maven") {
+        groupId = "software.amazon.cryptography"
+        artifactId = "StandardLibrary"
+        from(components["java"])
+    }
     repositories { mavenLocal()}
 }
 
