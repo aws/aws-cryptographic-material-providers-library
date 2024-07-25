@@ -59,3 +59,24 @@ async def _serialize_ecdsa_sign(input, config: Config) -> DafnyRequest:
 
 async def _serialize_ecdsa_verify(input, config: Config) -> DafnyRequest:
     return DafnyRequest(operation_name="ECDSAVerify", dafny_operation_input=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_ECDSAVerifyInput(input))
+
+async def _serialize_generate_ecc_key_pair(input, config: Config) -> DafnyRequest:
+    return DafnyRequest(operation_name="GenerateECCKeyPair", dafny_operation_input=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_GenerateECCKeyPairInput(input))
+
+async def _serialize_get_public_key_from_private_key(input, config: Config) -> DafnyRequest:
+    return DafnyRequest(operation_name="GetPublicKeyFromPrivateKey", dafny_operation_input=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_GetPublicKeyFromPrivateKeyInput(input))
+
+async def _serialize_validate_public_key(input, config: Config) -> DafnyRequest:
+    return DafnyRequest(operation_name="ValidatePublicKey", dafny_operation_input=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_ValidatePublicKeyInput(input))
+
+async def _serialize_derive_shared_secret(input, config: Config) -> DafnyRequest:
+    return DafnyRequest(operation_name="DeriveSharedSecret", dafny_operation_input=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_DeriveSharedSecretInput(input))
+
+async def _serialize_compress_public_key(input, config: Config) -> DafnyRequest:
+    return DafnyRequest(operation_name="CompressPublicKey", dafny_operation_input=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_CompressPublicKeyInput(input))
+
+async def _serialize_decompress_public_key(input, config: Config) -> DafnyRequest:
+    return DafnyRequest(operation_name="DecompressPublicKey", dafny_operation_input=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_DecompressPublicKeyInput(input))
+
+async def _serialize_parse_public_key(input, config: Config) -> DafnyRequest:
+    return DafnyRequest(operation_name="ParsePublicKey", dafny_operation_input=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_ParsePublicKeyInput(input))

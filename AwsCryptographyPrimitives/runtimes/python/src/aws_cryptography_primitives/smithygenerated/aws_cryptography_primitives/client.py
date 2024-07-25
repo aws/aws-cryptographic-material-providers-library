@@ -21,20 +21,27 @@ from .deserialize import (
     _deserialize_aes_decrypt,
     _deserialize_aes_encrypt,
     _deserialize_aes_kdf_counter_mode,
+    _deserialize_compress_public_key,
+    _deserialize_decompress_public_key,
+    _deserialize_derive_shared_secret,
     _deserialize_digest,
     _deserialize_ecdsa_sign,
     _deserialize_ecdsa_verify,
+    _deserialize_generate_ecc_key_pair,
     _deserialize_generate_ecdsa_signature_key,
     _deserialize_generate_random_bytes,
     _deserialize_generate_rsa_key_pair,
+    _deserialize_get_public_key_from_private_key,
     _deserialize_get_rsa_key_modulus_length,
     _deserialize_h_mac,
     _deserialize_hkdf,
     _deserialize_hkdf_expand,
     _deserialize_hkdf_extract,
     _deserialize_kdf_counter_mode,
+    _deserialize_parse_public_key,
     _deserialize_rsa_decrypt,
     _deserialize_rsa_encrypt,
+    _deserialize_validate_public_key,
 )
 from .errors import ServiceError
 from .models import (
@@ -42,14 +49,24 @@ from .models import (
     AESEncryptInput,
     AESEncryptOutput,
     AesKdfCtrInput,
+    CompressPublicKeyInput,
+    CompressPublicKeyOutput,
+    DecompressPublicKeyInput,
+    DecompressPublicKeyOutput,
+    DeriveSharedSecretInput,
+    DeriveSharedSecretOutput,
     DigestInput,
     ECDSASignInput,
     ECDSAVerifyInput,
+    GenerateECCKeyPairInput,
+    GenerateECCKeyPairOutput,
     GenerateECDSASignatureKeyInput,
     GenerateECDSASignatureKeyOutput,
     GenerateRSAKeyPairInput,
     GenerateRSAKeyPairOutput,
     GenerateRandomBytesInput,
+    GetPublicKeyFromPrivateKeyInput,
+    GetPublicKeyFromPrivateKeyOutput,
     GetRSAKeyModulusLengthInput,
     GetRSAKeyModulusLengthOutput,
     HMacInput,
@@ -57,27 +74,38 @@ from .models import (
     HkdfExtractInput,
     HkdfInput,
     KdfCtrInput,
+    ParsePublicKeyInput,
+    ParsePublicKeyOutput,
     RSADecryptInput,
     RSAEncryptInput,
+    ValidatePublicKeyInput,
+    ValidatePublicKeyOutput,
 )
 from .serialize import (
     _serialize_aes_decrypt,
     _serialize_aes_encrypt,
     _serialize_aes_kdf_counter_mode,
+    _serialize_compress_public_key,
+    _serialize_decompress_public_key,
+    _serialize_derive_shared_secret,
     _serialize_digest,
     _serialize_ecdsa_sign,
     _serialize_ecdsa_verify,
+    _serialize_generate_ecc_key_pair,
     _serialize_generate_ecdsa_signature_key,
     _serialize_generate_random_bytes,
     _serialize_generate_rsa_key_pair,
+    _serialize_get_public_key_from_private_key,
     _serialize_get_rsa_key_modulus_length,
     _serialize_h_mac,
     _serialize_hkdf,
     _serialize_hkdf_expand,
     _serialize_hkdf_extract,
     _serialize_kdf_counter_mode,
+    _serialize_parse_public_key,
     _serialize_rsa_decrypt,
     _serialize_rsa_encrypt,
+    _serialize_validate_public_key,
 )
 
 
@@ -345,6 +373,104 @@ class AwsCryptographicPrimitives:
             deserialize=_deserialize_ecdsa_verify,
             config=self._config,
             operation_name="ECDSAVerify",
+        ))
+
+    def generate_ecc_key_pair(self, input: GenerateECCKeyPairInput) -> GenerateECCKeyPairOutput:
+        """Invokes the GenerateECCKeyPair operation.
+
+        :param input: The operation's input.
+        """
+        return asyncio.run(self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_generate_ecc_key_pair,
+            deserialize=_deserialize_generate_ecc_key_pair,
+            config=self._config,
+            operation_name="GenerateECCKeyPair",
+        ))
+
+    def get_public_key_from_private_key(self, input: GetPublicKeyFromPrivateKeyInput) -> GetPublicKeyFromPrivateKeyOutput:
+        """Invokes the GetPublicKeyFromPrivateKey operation.
+
+        :param input: The operation's input.
+        """
+        return asyncio.run(self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_get_public_key_from_private_key,
+            deserialize=_deserialize_get_public_key_from_private_key,
+            config=self._config,
+            operation_name="GetPublicKeyFromPrivateKey",
+        ))
+
+    def validate_public_key(self, input: ValidatePublicKeyInput) -> ValidatePublicKeyOutput:
+        """Invokes the ValidatePublicKey operation.
+
+        :param input: The operation's input.
+        """
+        return asyncio.run(self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_validate_public_key,
+            deserialize=_deserialize_validate_public_key,
+            config=self._config,
+            operation_name="ValidatePublicKey",
+        ))
+
+    def derive_shared_secret(self, input: DeriveSharedSecretInput) -> DeriveSharedSecretOutput:
+        """Invokes the DeriveSharedSecret operation.
+
+        :param input: The operation's input.
+        """
+        return asyncio.run(self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_derive_shared_secret,
+            deserialize=_deserialize_derive_shared_secret,
+            config=self._config,
+            operation_name="DeriveSharedSecret",
+        ))
+
+    def compress_public_key(self, input: CompressPublicKeyInput) -> CompressPublicKeyOutput:
+        """Invokes the CompressPublicKey operation.
+
+        :param input: The operation's input.
+        """
+        return asyncio.run(self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_compress_public_key,
+            deserialize=_deserialize_compress_public_key,
+            config=self._config,
+            operation_name="CompressPublicKey",
+        ))
+
+    def decompress_public_key(self, input: DecompressPublicKeyInput) -> DecompressPublicKeyOutput:
+        """Invokes the DecompressPublicKey operation.
+
+        :param input: The operation's input.
+        """
+        return asyncio.run(self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_decompress_public_key,
+            deserialize=_deserialize_decompress_public_key,
+            config=self._config,
+            operation_name="DecompressPublicKey",
+        ))
+
+    def parse_public_key(self, input: ParsePublicKeyInput) -> ParsePublicKeyOutput:
+        """Invokes the ParsePublicKey operation.
+
+        :param input: The operation's input.
+        """
+        return asyncio.run(self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_parse_public_key,
+            deserialize=_deserialize_parse_public_key,
+            config=self._config,
+            operation_name="ParsePublicKey",
         ))
 
     async def _execute_operation(

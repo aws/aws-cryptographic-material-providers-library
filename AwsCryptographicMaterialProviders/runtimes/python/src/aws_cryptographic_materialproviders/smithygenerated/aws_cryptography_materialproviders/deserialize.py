@@ -112,6 +112,18 @@ async def _deserialize_create_aws_kms_hierarchical_keyring(input: DafnyResponse,
       return _deserialize_error(input.error)
   return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(input.value)
 
+async def _deserialize_create_aws_kms_rsa_keyring(input: DafnyResponse, config: Config):
+
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(input.value)
+
+async def _deserialize_create_aws_kms_ecdh_keyring(input: DafnyResponse, config: Config):
+
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(input.value)
+
 async def _deserialize_create_multi_keyring(input: DafnyResponse, config: Config):
 
   if input.IsFailure():
@@ -130,7 +142,7 @@ async def _deserialize_create_raw_rsa_keyring(input: DafnyResponse, config: Conf
       return _deserialize_error(input.error)
   return aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateKeyringOutput(input.value)
 
-async def _deserialize_create_aws_kms_rsa_keyring(input: DafnyResponse, config: Config):
+async def _deserialize_create_raw_ecdh_keyring(input: DafnyResponse, config: Config):
 
   if input.IsFailure():
       return _deserialize_error(input.error)

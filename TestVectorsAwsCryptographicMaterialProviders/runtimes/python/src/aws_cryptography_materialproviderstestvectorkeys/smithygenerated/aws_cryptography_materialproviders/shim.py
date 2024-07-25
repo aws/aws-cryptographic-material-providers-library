@@ -6,6 +6,7 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     AlgorithmSuiteInfo_AlgorithmSuiteInfo as DafnyAlgorithmSuiteInfo,
     CreateAwsKmsDiscoveryKeyringInput_CreateAwsKmsDiscoveryKeyringInput as DafnyCreateAwsKmsDiscoveryKeyringInput,
     CreateAwsKmsDiscoveryMultiKeyringInput_CreateAwsKmsDiscoveryMultiKeyringInput as DafnyCreateAwsKmsDiscoveryMultiKeyringInput,
+    CreateAwsKmsEcdhKeyringInput_CreateAwsKmsEcdhKeyringInput as DafnyCreateAwsKmsEcdhKeyringInput,
     CreateAwsKmsHierarchicalKeyringInput_CreateAwsKmsHierarchicalKeyringInput as DafnyCreateAwsKmsHierarchicalKeyringInput,
     CreateAwsKmsKeyringInput_CreateAwsKmsKeyringInput as DafnyCreateAwsKmsKeyringInput,
     CreateAwsKmsMrkDiscoveryKeyringInput_CreateAwsKmsMrkDiscoveryKeyringInput as DafnyCreateAwsKmsMrkDiscoveryKeyringInput,
@@ -19,6 +20,7 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     CreateDefaultCryptographicMaterialsManagerInput_CreateDefaultCryptographicMaterialsManagerInput as DafnyCreateDefaultCryptographicMaterialsManagerInput,
     CreateMultiKeyringInput_CreateMultiKeyringInput as DafnyCreateMultiKeyringInput,
     CreateRawAesKeyringInput_CreateRawAesKeyringInput as DafnyCreateRawAesKeyringInput,
+    CreateRawEcdhKeyringInput_CreateRawEcdhKeyringInput as DafnyCreateRawEcdhKeyringInput,
     CreateRawRsaKeyringInput_CreateRawRsaKeyringInput as DafnyCreateRawRsaKeyringInput,
     CreateRequiredEncryptionContextCMMInput_CreateRequiredEncryptionContextCMMInput as DafnyCreateRequiredEncryptionContextCMMInput,
     DecryptionMaterials_DecryptionMaterials as DafnyDecryptionMaterials,
@@ -124,6 +126,22 @@ class MaterialProvidersShim(aws_cryptographic_materialproviders.internaldafny.ge
         except Exception as e:
             return Wrappers.Result_Failure(_smithy_error_to_dafny_error(e))
 
+    def CreateAwsKmsRsaKeyring(self, input):
+        try:
+            smithy_client_request: aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsRsaKeyringInput = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(input)
+            smithy_client_response = self._impl.create_aws_kms_rsa_keyring(smithy_client_request)
+            return Wrappers.Result_Success(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
+        except Exception as e:
+            return Wrappers.Result_Failure(_smithy_error_to_dafny_error(e))
+
+    def CreateAwsKmsEcdhKeyring(self, input):
+        try:
+            smithy_client_request: aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsEcdhKeyringInput = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsEcdhKeyringInput(input)
+            smithy_client_response = self._impl.create_aws_kms_ecdh_keyring(smithy_client_request)
+            return Wrappers.Result_Success(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
+        except Exception as e:
+            return Wrappers.Result_Failure(_smithy_error_to_dafny_error(e))
+
     def CreateMultiKeyring(self, input):
         try:
             smithy_client_request: aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateMultiKeyringInput = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateMultiKeyringInput(input)
@@ -148,10 +166,10 @@ class MaterialProvidersShim(aws_cryptographic_materialproviders.internaldafny.ge
         except Exception as e:
             return Wrappers.Result_Failure(_smithy_error_to_dafny_error(e))
 
-    def CreateAwsKmsRsaKeyring(self, input):
+    def CreateRawEcdhKeyring(self, input):
         try:
-            smithy_client_request: aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateAwsKmsRsaKeyringInput = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(input)
-            smithy_client_response = self._impl.create_aws_kms_rsa_keyring(smithy_client_request)
+            smithy_client_request: aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.CreateRawEcdhKeyringInput = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_CreateRawEcdhKeyringInput(input)
+            smithy_client_response = self._impl.create_raw_ecdh_keyring(smithy_client_request)
             return Wrappers.Result_Success(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateKeyringOutput(smithy_client_response))
         except Exception as e:
             return Wrappers.Result_Failure(_smithy_error_to_dafny_error(e))

@@ -5,11 +5,18 @@
 import _dafny
 from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes import (
     AESEncryptOutput_AESEncryptOutput as DafnyAESEncryptOutput,
+    CompressPublicKeyOutput_CompressPublicKeyOutput as DafnyCompressPublicKeyOutput,
+    DecompressPublicKeyOutput_DecompressPublicKeyOutput as DafnyDecompressPublicKeyOutput,
+    DeriveSharedSecretOutput_DeriveSharedSecretOutput as DafnyDeriveSharedSecretOutput,
     Error,
     Error_AwsCryptographicPrimitivesError,
+    GenerateECCKeyPairOutput_GenerateECCKeyPairOutput as DafnyGenerateECCKeyPairOutput,
     GenerateECDSASignatureKeyOutput_GenerateECDSASignatureKeyOutput as DafnyGenerateECDSASignatureKeyOutput,
     GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput as DafnyGenerateRSAKeyPairOutput,
+    GetPublicKeyFromPrivateKeyOutput_GetPublicKeyFromPrivateKeyOutput as DafnyGetPublicKeyFromPrivateKeyOutput,
     GetRSAKeyModulusLengthOutput_GetRSAKeyModulusLengthOutput as DafnyGetRSAKeyModulusLengthOutput,
+    ParsePublicKeyOutput_ParsePublicKeyOutput as DafnyParsePublicKeyOutput,
+    ValidatePublicKeyOutput_ValidatePublicKeyOutput as DafnyValidatePublicKeyOutput,
 )
 import aws_cryptography_primitives.internaldafny.generated.module_
 import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy
@@ -127,6 +134,48 @@ async def _deserialize_ecdsa_verify(input: DafnyResponse, config: Config):
   if input.IsFailure():
       return _deserialize_error(input.error)
   return aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy.aws_cryptography_primitives_ECDSAVerifyOutput(input.value)
+
+async def _deserialize_generate_ecc_key_pair(input: DafnyResponse, config: Config):
+
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy.aws_cryptography_primitives_GenerateECCKeyPairOutput(input.value)
+
+async def _deserialize_get_public_key_from_private_key(input: DafnyResponse, config: Config):
+
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy.aws_cryptography_primitives_GetPublicKeyFromPrivateKeyOutput(input.value)
+
+async def _deserialize_validate_public_key(input: DafnyResponse, config: Config):
+
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy.aws_cryptography_primitives_ValidatePublicKeyOutput(input.value)
+
+async def _deserialize_derive_shared_secret(input: DafnyResponse, config: Config):
+
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy.aws_cryptography_primitives_DeriveSharedSecretOutput(input.value)
+
+async def _deserialize_compress_public_key(input: DafnyResponse, config: Config):
+
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy.aws_cryptography_primitives_CompressPublicKeyOutput(input.value)
+
+async def _deserialize_decompress_public_key(input: DafnyResponse, config: Config):
+
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy.aws_cryptography_primitives_DecompressPublicKeyOutput(input.value)
+
+async def _deserialize_parse_public_key(input: DafnyResponse, config: Config):
+
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy.aws_cryptography_primitives_ParsePublicKeyOutput(input.value)
 
 def _deserialize_error(error: Error) -> ServiceError:
     if error.is_Opaque:

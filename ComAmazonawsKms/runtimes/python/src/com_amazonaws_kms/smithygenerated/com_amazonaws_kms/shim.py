@@ -20,6 +20,8 @@ from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     DeleteCustomKeyStoreRequest_DeleteCustomKeyStoreRequest as DafnyDeleteCustomKeyStoreRequest,
     DeleteCustomKeyStoreResponse_DeleteCustomKeyStoreResponse as DafnyDeleteCustomKeyStoreResponse,
     DeleteImportedKeyMaterialRequest_DeleteImportedKeyMaterialRequest as DafnyDeleteImportedKeyMaterialRequest,
+    DeriveSharedSecretRequest_DeriveSharedSecretRequest as DafnyDeriveSharedSecretRequest,
+    DeriveSharedSecretResponse_DeriveSharedSecretResponse as DafnyDeriveSharedSecretResponse,
     DescribeCustomKeyStoresRequest_DescribeCustomKeyStoresRequest as DafnyDescribeCustomKeyStoresRequest,
     DescribeCustomKeyStoresResponse_DescribeCustomKeyStoresResponse as DafnyDescribeCustomKeyStoresResponse,
     DescribeKeyRequest_DescribeKeyRequest as DafnyDescribeKeyRequest,
@@ -40,6 +42,8 @@ from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     GenerateDataKeyResponse_GenerateDataKeyResponse as DafnyGenerateDataKeyResponse,
     GenerateDataKeyWithoutPlaintextRequest_GenerateDataKeyWithoutPlaintextRequest as DafnyGenerateDataKeyWithoutPlaintextRequest,
     GenerateDataKeyWithoutPlaintextResponse_GenerateDataKeyWithoutPlaintextResponse as DafnyGenerateDataKeyWithoutPlaintextResponse,
+    GenerateMacRequest_GenerateMacRequest as DafnyGenerateMacRequest,
+    GenerateMacResponse_GenerateMacResponse as DafnyGenerateMacResponse,
     GenerateRandomRequest_GenerateRandomRequest as DafnyGenerateRandomRequest,
     GenerateRandomResponse_GenerateRandomResponse as DafnyGenerateRandomResponse,
     GetKeyPolicyRequest_GetKeyPolicyRequest as DafnyGetKeyPolicyRequest,
@@ -58,6 +62,10 @@ from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     ListGrantsResponse_ListGrantsResponse as DafnyListGrantsResponse,
     ListKeyPoliciesRequest_ListKeyPoliciesRequest as DafnyListKeyPoliciesRequest,
     ListKeyPoliciesResponse_ListKeyPoliciesResponse as DafnyListKeyPoliciesResponse,
+    ListKeyRotationsRequest_ListKeyRotationsRequest as DafnyListKeyRotationsRequest,
+    ListKeyRotationsResponse_ListKeyRotationsResponse as DafnyListKeyRotationsResponse,
+    ListKeysRequest_ListKeysRequest as DafnyListKeysRequest,
+    ListKeysResponse_ListKeysResponse as DafnyListKeysResponse,
     ListResourceTagsRequest_ListResourceTagsRequest as DafnyListResourceTagsRequest,
     ListResourceTagsResponse_ListResourceTagsResponse as DafnyListResourceTagsResponse,
     PutKeyPolicyRequest_PutKeyPolicyRequest as DafnyPutKeyPolicyRequest,
@@ -67,6 +75,8 @@ from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     ReplicateKeyResponse_ReplicateKeyResponse as DafnyReplicateKeyResponse,
     RetireGrantRequest_RetireGrantRequest as DafnyRetireGrantRequest,
     RevokeGrantRequest_RevokeGrantRequest as DafnyRevokeGrantRequest,
+    RotateKeyOnDemandRequest_RotateKeyOnDemandRequest as DafnyRotateKeyOnDemandRequest,
+    RotateKeyOnDemandResponse_RotateKeyOnDemandResponse as DafnyRotateKeyOnDemandResponse,
     ScheduleKeyDeletionRequest_ScheduleKeyDeletionRequest as DafnyScheduleKeyDeletionRequest,
     ScheduleKeyDeletionResponse_ScheduleKeyDeletionResponse as DafnyScheduleKeyDeletionResponse,
     SignRequest_SignRequest as DafnySignRequest,
@@ -78,6 +88,8 @@ from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     UpdateCustomKeyStoreResponse_UpdateCustomKeyStoreResponse as DafnyUpdateCustomKeyStoreResponse,
     UpdateKeyDescriptionRequest_UpdateKeyDescriptionRequest as DafnyUpdateKeyDescriptionRequest,
     UpdatePrimaryRegionRequest_UpdatePrimaryRegionRequest as DafnyUpdatePrimaryRegionRequest,
+    VerifyMacRequest_VerifyMacRequest as DafnyVerifyMacRequest,
+    VerifyMacResponse_VerifyMacResponse as DafnyVerifyMacResponse,
     VerifyRequest_VerifyRequest as DafnyVerifyRequest,
     VerifyResponse_VerifyResponse as DafnyVerifyResponse,
 )
@@ -115,6 +127,9 @@ def _sdk_error_to_dafny_error(e: ClientError):
     elif e.response['Error']['Code'] == 'CloudHsmClusterNotRelatedException':
         return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CloudHsmClusterNotRelatedException(e.response)
 
+    elif e.response['Error']['Code'] == 'ConflictException':
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ConflictException(e.response)
+
     elif e.response['Error']['Code'] == 'CustomKeyStoreHasCMKsException':
         return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoreHasCMKsException(e.response)
 
@@ -132,6 +147,9 @@ def _sdk_error_to_dafny_error(e: ClientError):
 
     elif e.response['Error']['Code'] == 'DisabledException':
         return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DisabledException(e.response)
+
+    elif e.response['Error']['Code'] == 'DryRunOperationException':
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DryRunOperationException(e.response)
 
     elif e.response['Error']['Code'] == 'ExpiredImportTokenException':
         return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ExpiredImportTokenException(e.response)
@@ -175,6 +193,9 @@ def _sdk_error_to_dafny_error(e: ClientError):
     elif e.response['Error']['Code'] == 'KMSInternalException':
         return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KMSInternalException(e.response)
 
+    elif e.response['Error']['Code'] == 'KMSInvalidMacException':
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KMSInvalidMacException(e.response)
+
     elif e.response['Error']['Code'] == 'KMSInvalidSignatureException':
         return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KMSInvalidSignatureException(e.response)
 
@@ -195,6 +216,42 @@ def _sdk_error_to_dafny_error(e: ClientError):
 
     elif e.response['Error']['Code'] == 'UnsupportedOperationException':
         return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_UnsupportedOperationException(e.response)
+
+    elif e.response['Error']['Code'] == 'XksKeyAlreadyInUseException':
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksKeyAlreadyInUseException(e.response)
+
+    elif e.response['Error']['Code'] == 'XksKeyInvalidConfigurationException':
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksKeyInvalidConfigurationException(e.response)
+
+    elif e.response['Error']['Code'] == 'XksKeyNotFoundException':
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksKeyNotFoundException(e.response)
+
+    elif e.response['Error']['Code'] == 'XksProxyIncorrectAuthenticationCredentialException':
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyIncorrectAuthenticationCredentialException(e.response)
+
+    elif e.response['Error']['Code'] == 'XksProxyInvalidConfigurationException':
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyInvalidConfigurationException(e.response)
+
+    elif e.response['Error']['Code'] == 'XksProxyInvalidResponseException':
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyInvalidResponseException(e.response)
+
+    elif e.response['Error']['Code'] == 'XksProxyUriEndpointInUseException':
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyUriEndpointInUseException(e.response)
+
+    elif e.response['Error']['Code'] == 'XksProxyUriInUseException':
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyUriInUseException(e.response)
+
+    elif e.response['Error']['Code'] == 'XksProxyUriUnreachableException':
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyUriUnreachableException(e.response)
+
+    elif e.response['Error']['Code'] == 'XksProxyVpcEndpointServiceInUseException':
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException(e.response)
+
+    elif e.response['Error']['Code'] == 'XksProxyVpcEndpointServiceInvalidConfigurationException':
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException(e.response)
+
+    elif e.response['Error']['Code'] == 'XksProxyVpcEndpointServiceNotFoundException':
+        return com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException(e.response)
 
     return com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes.Error_Opaque(obj=e)
 
@@ -292,6 +349,15 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(None)
+
+    def DeriveSharedSecret(self, input: DafnyDeriveSharedSecretRequest) -> DafnyDeriveSharedSecretResponse:
+        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DeriveSharedSecretRequest(input)
+        try:
+            boto_response_dict = self._impl.derive_shared_secret(**boto_request_dict)
+        except ClientError as e:
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
+
+        return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DeriveSharedSecretResponse(boto_response_dict))
 
     def DescribeCustomKeyStores(self, input: DafnyDescribeCustomKeyStoresRequest) -> DafnyDescribeCustomKeyStoresResponse:
         boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DescribeCustomKeyStoresRequest(input)
@@ -401,6 +467,15 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GenerateDataKeyWithoutPlaintextResponse(boto_response_dict))
 
+    def GenerateMac(self, input: DafnyGenerateMacRequest) -> DafnyGenerateMacResponse:
+        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GenerateMacRequest(input)
+        try:
+            boto_response_dict = self._impl.generate_mac(**boto_request_dict)
+        except ClientError as e:
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
+
+        return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GenerateMacResponse(boto_response_dict))
+
     def GenerateRandom(self, input: DafnyGenerateRandomRequest) -> DafnyGenerateRandomResponse:
         boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_GenerateRandomRequest(input)
         try:
@@ -482,6 +557,24 @@ class KMSClientShim:
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ListKeyPoliciesResponse(boto_response_dict))
 
+    def ListKeyRotations(self, input: DafnyListKeyRotationsRequest) -> DafnyListKeyRotationsResponse:
+        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ListKeyRotationsRequest(input)
+        try:
+            boto_response_dict = self._impl.list_key_rotations(**boto_request_dict)
+        except ClientError as e:
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
+
+        return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ListKeyRotationsResponse(boto_response_dict))
+
+    def ListKeys(self, input: DafnyListKeysRequest) -> DafnyListKeysResponse:
+        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ListKeysRequest(input)
+        try:
+            boto_response_dict = self._impl.list_keys(**boto_request_dict)
+        except ClientError as e:
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
+
+        return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ListKeysResponse(boto_response_dict))
+
     def ListResourceTags(self, input: DafnyListResourceTagsRequest) -> DafnyListResourceTagsResponse:
         boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ListResourceTagsRequest(input)
         try:
@@ -535,6 +628,15 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(None)
+
+    def RotateKeyOnDemand(self, input: DafnyRotateKeyOnDemandRequest) -> DafnyRotateKeyOnDemandResponse:
+        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_RotateKeyOnDemandRequest(input)
+        try:
+            boto_response_dict = self._impl.rotate_key_on_demand(**boto_request_dict)
+        except ClientError as e:
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
+
+        return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RotateKeyOnDemandResponse(boto_response_dict))
 
     def ScheduleKeyDeletion(self, input: DafnyScheduleKeyDeletionRequest) -> DafnyScheduleKeyDeletionResponse:
         boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_ScheduleKeyDeletionRequest(input)
@@ -616,3 +718,12 @@ class KMSClientShim:
             return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
 
         return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_VerifyResponse(boto_response_dict))
+
+    def VerifyMac(self, input: DafnyVerifyMacRequest) -> DafnyVerifyMacResponse:
+        boto_request_dict = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_VerifyMacRequest(input)
+        try:
+            boto_response_dict = self._impl.verify_mac(**boto_request_dict)
+        except ClientError as e:
+            return Wrappers.Result_Failure(_sdk_error_to_dafny_error(e))
+
+        return Wrappers.Result_Success(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_VerifyMacResponse(boto_response_dict))

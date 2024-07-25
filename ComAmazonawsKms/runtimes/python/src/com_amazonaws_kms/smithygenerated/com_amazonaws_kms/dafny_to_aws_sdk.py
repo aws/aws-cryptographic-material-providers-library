@@ -6,8 +6,12 @@ from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     AlgorithmSpec_RSAES__OAEP__SHA__1,
     AlgorithmSpec_RSAES__OAEP__SHA__256,
     AlgorithmSpec_RSAES__PKCS1__V1__5,
+    AlgorithmSpec_RSA__AES__KEY__WRAP__SHA__1,
+    AlgorithmSpec_RSA__AES__KEY__WRAP__SHA__256,
+    AlgorithmSpec_SM2PKE,
     ConnectionErrorCodeType_CLUSTER__NOT__FOUND,
     ConnectionErrorCodeType_INSUFFICIENT__CLOUDHSM__HSMS,
+    ConnectionErrorCodeType_INSUFFICIENT__FREE__ADDRESSES__IN__SUBNET,
     ConnectionErrorCodeType_INTERNAL__ERROR,
     ConnectionErrorCodeType_INVALID__CREDENTIALS,
     ConnectionErrorCodeType_NETWORK__ERRORS,
@@ -15,18 +19,33 @@ from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     ConnectionErrorCodeType_USER__LOCKED__OUT,
     ConnectionErrorCodeType_USER__LOGGED__IN,
     ConnectionErrorCodeType_USER__NOT__FOUND,
+    ConnectionErrorCodeType_XKS__PROXY__ACCESS__DENIED,
+    ConnectionErrorCodeType_XKS__PROXY__INVALID__CONFIGURATION,
+    ConnectionErrorCodeType_XKS__PROXY__INVALID__RESPONSE,
+    ConnectionErrorCodeType_XKS__PROXY__INVALID__TLS__CONFIGURATION,
+    ConnectionErrorCodeType_XKS__PROXY__NOT__REACHABLE,
+    ConnectionErrorCodeType_XKS__PROXY__TIMED__OUT,
+    ConnectionErrorCodeType_XKS__VPC__ENDPOINT__SERVICE__INVALID__CONFIGURATION,
+    ConnectionErrorCodeType_XKS__VPC__ENDPOINT__SERVICE__NOT__FOUND,
     ConnectionStateType_CONNECTED,
     ConnectionStateType_CONNECTING,
     ConnectionStateType_DISCONNECTED,
     ConnectionStateType_DISCONNECTING,
     ConnectionStateType_FAILED,
+    CustomKeyStoreType_AWS__CLOUDHSM,
+    CustomKeyStoreType_EXTERNAL__KEY__STORE,
     CustomerMasterKeySpec_ECC__NIST__P256,
     CustomerMasterKeySpec_ECC__NIST__P384,
     CustomerMasterKeySpec_ECC__NIST__P521,
     CustomerMasterKeySpec_ECC__SECG__P256K1,
+    CustomerMasterKeySpec_HMAC__224,
+    CustomerMasterKeySpec_HMAC__256,
+    CustomerMasterKeySpec_HMAC__384,
+    CustomerMasterKeySpec_HMAC__512,
     CustomerMasterKeySpec_RSA__2048,
     CustomerMasterKeySpec_RSA__3072,
     CustomerMasterKeySpec_RSA__4096,
+    CustomerMasterKeySpec_SM2,
     CustomerMasterKeySpec_SYMMETRIC__DEFAULT,
     DataKeyPairSpec_ECC__NIST__P256,
     DataKeyPairSpec_ECC__NIST__P384,
@@ -35,6 +54,7 @@ from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     DataKeyPairSpec_RSA__2048,
     DataKeyPairSpec_RSA__3072,
     DataKeyPairSpec_RSA__4096,
+    DataKeyPairSpec_SM2,
     DataKeySpec_AES__128,
     DataKeySpec_AES__256,
     EncryptionAlgorithmSpec_RSAES__OAEP__SHA__1,
@@ -44,27 +64,37 @@ from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     ExpirationModelType_KEY__MATERIAL__EXPIRES,
     GrantOperation_CreateGrant,
     GrantOperation_Decrypt,
+    GrantOperation_DeriveSharedSecret,
     GrantOperation_DescribeKey,
     GrantOperation_Encrypt,
     GrantOperation_GenerateDataKey,
     GrantOperation_GenerateDataKeyPair,
     GrantOperation_GenerateDataKeyPairWithoutPlaintext,
     GrantOperation_GenerateDataKeyWithoutPlaintext,
+    GrantOperation_GenerateMac,
     GrantOperation_GetPublicKey,
     GrantOperation_ReEncryptFrom,
     GrantOperation_ReEncryptTo,
     GrantOperation_RetireGrant,
     GrantOperation_Sign,
     GrantOperation_Verify,
+    GrantOperation_VerifyMac,
+    KeyAgreementAlgorithmSpec_ECDH,
+    KeyEncryptionMechanism_RSAES__OAEP__SHA__256,
     KeyManagerType_AWS,
     KeyManagerType_CUSTOMER,
     KeySpec_ECC__NIST__P256,
     KeySpec_ECC__NIST__P384,
     KeySpec_ECC__NIST__P521,
     KeySpec_ECC__SECG__P256K1,
+    KeySpec_HMAC__224,
+    KeySpec_HMAC__256,
+    KeySpec_HMAC__384,
+    KeySpec_HMAC__512,
     KeySpec_RSA__2048,
     KeySpec_RSA__3072,
     KeySpec_RSA__4096,
+    KeySpec_SM2,
     KeySpec_SYMMETRIC__DEFAULT,
     KeyState_Creating,
     KeyState_Disabled,
@@ -75,7 +105,13 @@ from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     KeyState_Unavailable,
     KeyState_Updating,
     KeyUsageType_ENCRYPT__DECRYPT,
+    KeyUsageType_GENERATE__VERIFY__MAC,
+    KeyUsageType_KEY__AGREEMENT,
     KeyUsageType_SIGN__VERIFY,
+    MacAlgorithmSpec_HMAC__SHA__224,
+    MacAlgorithmSpec_HMAC__SHA__256,
+    MacAlgorithmSpec_HMAC__SHA__384,
+    MacAlgorithmSpec_HMAC__SHA__512,
     MessageType_DIGEST,
     MessageType_RAW,
     MultiRegionKeyType_PRIMARY,
@@ -83,6 +119,9 @@ from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     OriginType_AWS__CLOUDHSM,
     OriginType_AWS__KMS,
     OriginType_EXTERNAL,
+    OriginType_EXTERNAL__KEY__STORE,
+    RotationType_AUTOMATIC,
+    RotationType_ON__DEMAND,
     SigningAlgorithmSpec_ECDSA__SHA__256,
     SigningAlgorithmSpec_ECDSA__SHA__384,
     SigningAlgorithmSpec_ECDSA__SHA__512,
@@ -92,7 +131,13 @@ from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     SigningAlgorithmSpec_RSASSA__PSS__SHA__256,
     SigningAlgorithmSpec_RSASSA__PSS__SHA__384,
     SigningAlgorithmSpec_RSASSA__PSS__SHA__512,
+    SigningAlgorithmSpec_SM2DSA,
     WrappingKeySpec_RSA__2048,
+    WrappingKeySpec_RSA__3072,
+    WrappingKeySpec_RSA__4096,
+    WrappingKeySpec_SM2,
+    XksProxyConnectivityType_PUBLIC__ENDPOINT,
+    XksProxyConnectivityType_VPC__ENDPOINT__SERVICE,
 )
 import com_amazonaws_kms.internaldafny.generated.module_
 import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk
@@ -140,6 +185,13 @@ def com_amazonaws_kms_CloudHsmClusterNotRelatedException(dafny_input):
 
     return output
 
+def com_amazonaws_kms_ConflictException(dafny_input):
+    output = {}
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
+
+    return output
+
 def com_amazonaws_kms_CustomKeyStoreHasCMKsException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
@@ -176,6 +228,13 @@ def com_amazonaws_kms_DependencyTimeoutException(dafny_input):
     return output
 
 def com_amazonaws_kms_DisabledException(dafny_input):
+    output = {}
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
+
+    return output
+
+def com_amazonaws_kms_DryRunOperationException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
         output["message"] = dafny_input.message.value.VerbatimString(False)
@@ -280,6 +339,13 @@ def com_amazonaws_kms_KMSInternalException(dafny_input):
 
     return output
 
+def com_amazonaws_kms_KMSInvalidMacException(dafny_input):
+    output = {}
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
+
+    return output
+
 def com_amazonaws_kms_KMSInvalidSignatureException(dafny_input):
     output = {}
     if dafny_input.message.is_Some:
@@ -329,6 +395,90 @@ def com_amazonaws_kms_UnsupportedOperationException(dafny_input):
 
     return output
 
+def com_amazonaws_kms_XksKeyAlreadyInUseException(dafny_input):
+    output = {}
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
+
+    return output
+
+def com_amazonaws_kms_XksKeyInvalidConfigurationException(dafny_input):
+    output = {}
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
+
+    return output
+
+def com_amazonaws_kms_XksKeyNotFoundException(dafny_input):
+    output = {}
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
+
+    return output
+
+def com_amazonaws_kms_XksProxyIncorrectAuthenticationCredentialException(dafny_input):
+    output = {}
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
+
+    return output
+
+def com_amazonaws_kms_XksProxyInvalidConfigurationException(dafny_input):
+    output = {}
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
+
+    return output
+
+def com_amazonaws_kms_XksProxyInvalidResponseException(dafny_input):
+    output = {}
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
+
+    return output
+
+def com_amazonaws_kms_XksProxyUriEndpointInUseException(dafny_input):
+    output = {}
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
+
+    return output
+
+def com_amazonaws_kms_XksProxyUriInUseException(dafny_input):
+    output = {}
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
+
+    return output
+
+def com_amazonaws_kms_XksProxyUriUnreachableException(dafny_input):
+    output = {}
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
+
+    return output
+
+def com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException(dafny_input):
+    output = {}
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
+
+    return output
+
+def com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException(dafny_input):
+    output = {}
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
+
+    return output
+
+def com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException(dafny_input):
+    output = {}
+    if dafny_input.message.is_Some:
+        output["message"] = dafny_input.message.value.VerbatimString(False)
+
+    return output
+
 def com_amazonaws_kms_CancelKeyDeletionRequest(dafny_input):
     output = {}
     output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
@@ -356,12 +506,64 @@ def com_amazonaws_kms_CreateAliasRequest(dafny_input):
     output["TargetKeyId"] = dafny_input.TargetKeyId.VerbatimString(False)
     return output
 
+def com_amazonaws_kms_CustomKeyStoreType(dafny_input):
+    # Convert CustomKeyStoreType
+    if isinstance(dafny_input, CustomKeyStoreType_AWS__CLOUDHSM):
+        return "AWS_CLOUDHSM"
+
+    elif isinstance(dafny_input, CustomKeyStoreType_EXTERNAL__KEY__STORE):
+        return "EXTERNAL_KEY_STORE"
+
+    else:
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
+
+def com_amazonaws_kms_XksProxyAuthenticationCredentialType(dafny_input):
+    output = {}
+    output["AccessKeyId"] = dafny_input.AccessKeyId.VerbatimString(False)
+    output["RawSecretAccessKey"] = dafny_input.RawSecretAccessKey.VerbatimString(False)
+    return output
+
+def com_amazonaws_kms_XksProxyConnectivityType(dafny_input):
+    # Convert XksProxyConnectivityType
+    if isinstance(dafny_input, XksProxyConnectivityType_PUBLIC__ENDPOINT):
+        return "PUBLIC_ENDPOINT"
+
+    elif isinstance(dafny_input, XksProxyConnectivityType_VPC__ENDPOINT__SERVICE):
+        return "VPC_ENDPOINT_SERVICE"
+
+    else:
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
+
 def com_amazonaws_kms_CreateCustomKeyStoreRequest(dafny_input):
     output = {}
     output["CustomKeyStoreName"] = dafny_input.CustomKeyStoreName.VerbatimString(False)
-    output["CloudHsmClusterId"] = dafny_input.CloudHsmClusterId.VerbatimString(False)
-    output["TrustAnchorCertificate"] = dafny_input.TrustAnchorCertificate.VerbatimString(False)
-    output["KeyStorePassword"] = dafny_input.KeyStorePassword.VerbatimString(False)
+    if dafny_input.CloudHsmClusterId.is_Some:
+        output["CloudHsmClusterId"] = dafny_input.CloudHsmClusterId.value.VerbatimString(False)
+
+    if dafny_input.TrustAnchorCertificate.is_Some:
+        output["TrustAnchorCertificate"] = dafny_input.TrustAnchorCertificate.value.VerbatimString(False)
+
+    if dafny_input.KeyStorePassword.is_Some:
+        output["KeyStorePassword"] = dafny_input.KeyStorePassword.value.VerbatimString(False)
+
+    if dafny_input.CustomKeyStoreType.is_Some:
+        output["CustomKeyStoreType"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_CustomKeyStoreType(dafny_input.CustomKeyStoreType.value)
+
+    if dafny_input.XksProxyUriEndpoint.is_Some:
+        output["XksProxyUriEndpoint"] = dafny_input.XksProxyUriEndpoint.value.VerbatimString(False)
+
+    if dafny_input.XksProxyUriPath.is_Some:
+        output["XksProxyUriPath"] = dafny_input.XksProxyUriPath.value.VerbatimString(False)
+
+    if dafny_input.XksProxyVpcEndpointServiceName.is_Some:
+        output["XksProxyVpcEndpointServiceName"] = dafny_input.XksProxyVpcEndpointServiceName.value.VerbatimString(False)
+
+    if dafny_input.XksProxyAuthenticationCredential.is_Some:
+        output["XksProxyAuthenticationCredential"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_XksProxyAuthenticationCredentialType(dafny_input.XksProxyAuthenticationCredential.value)
+
+    if dafny_input.XksProxyConnectivity.is_Some:
+        output["XksProxyConnectivity"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_XksProxyConnectivityType(dafny_input.XksProxyConnectivity.value)
+
     return output
 
 def com_amazonaws_kms_CreateCustomKeyStoreResponse(dafny_input):
@@ -415,6 +617,15 @@ def com_amazonaws_kms_GrantOperation(dafny_input):
     elif isinstance(dafny_input, GrantOperation_GenerateDataKeyPairWithoutPlaintext):
         return "GenerateDataKeyPairWithoutPlaintext"
 
+    elif isinstance(dafny_input, GrantOperation_GenerateMac):
+        return "GenerateMac"
+
+    elif isinstance(dafny_input, GrantOperation_VerifyMac):
+        return "VerifyMac"
+
+    elif isinstance(dafny_input, GrantOperation_DeriveSharedSecret):
+        return "DeriveSharedSecret"
+
     else:
         raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
@@ -445,6 +656,9 @@ def com_amazonaws_kms_CreateGrantRequest(dafny_input):
     if dafny_input.Name.is_Some:
         output["Name"] = dafny_input.Name.value.VerbatimString(False)
 
+    if dafny_input.DryRun.is_Some:
+        output["DryRun"] = dafny_input.DryRun.value
+
     return output
 
 def com_amazonaws_kms_CreateGrantResponse(dafny_input):
@@ -464,6 +678,12 @@ def com_amazonaws_kms_KeyUsageType(dafny_input):
 
     elif isinstance(dafny_input, KeyUsageType_ENCRYPT__DECRYPT):
         return "ENCRYPT_DECRYPT"
+
+    elif isinstance(dafny_input, KeyUsageType_GENERATE__VERIFY__MAC):
+        return "GENERATE_VERIFY_MAC"
+
+    elif isinstance(dafny_input, KeyUsageType_KEY__AGREEMENT):
+        return "KEY_AGREEMENT"
 
     else:
         raise ValueError("No recognized enum value in enum type: " + dafny_input)
@@ -494,6 +714,21 @@ def com_amazonaws_kms_CustomerMasterKeySpec(dafny_input):
     elif isinstance(dafny_input, CustomerMasterKeySpec_SYMMETRIC__DEFAULT):
         return "SYMMETRIC_DEFAULT"
 
+    elif isinstance(dafny_input, CustomerMasterKeySpec_HMAC__224):
+        return "HMAC_224"
+
+    elif isinstance(dafny_input, CustomerMasterKeySpec_HMAC__256):
+        return "HMAC_256"
+
+    elif isinstance(dafny_input, CustomerMasterKeySpec_HMAC__384):
+        return "HMAC_384"
+
+    elif isinstance(dafny_input, CustomerMasterKeySpec_HMAC__512):
+        return "HMAC_512"
+
+    elif isinstance(dafny_input, CustomerMasterKeySpec_SM2):
+        return "SM2"
+
     else:
         raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
@@ -523,6 +758,21 @@ def com_amazonaws_kms_KeySpec(dafny_input):
     elif isinstance(dafny_input, KeySpec_SYMMETRIC__DEFAULT):
         return "SYMMETRIC_DEFAULT"
 
+    elif isinstance(dafny_input, KeySpec_HMAC__224):
+        return "HMAC_224"
+
+    elif isinstance(dafny_input, KeySpec_HMAC__256):
+        return "HMAC_256"
+
+    elif isinstance(dafny_input, KeySpec_HMAC__384):
+        return "HMAC_384"
+
+    elif isinstance(dafny_input, KeySpec_HMAC__512):
+        return "HMAC_512"
+
+    elif isinstance(dafny_input, KeySpec_SM2):
+        return "SM2"
+
     else:
         raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
@@ -536,6 +786,9 @@ def com_amazonaws_kms_OriginType(dafny_input):
 
     elif isinstance(dafny_input, OriginType_AWS__CLOUDHSM):
         return "AWS_CLOUDHSM"
+
+    elif isinstance(dafny_input, OriginType_EXTERNAL__KEY__STORE):
+        return "EXTERNAL_KEY_STORE"
 
     else:
         raise ValueError("No recognized enum value in enum type: " + dafny_input)
@@ -577,6 +830,9 @@ def com_amazonaws_kms_CreateKeyRequest(dafny_input):
 
     if dafny_input.MultiRegion.is_Some:
         output["MultiRegion"] = dafny_input.MultiRegion.value
+
+    if dafny_input.XksKeyId.is_Some:
+        output["XksKeyId"] = dafny_input.XksKeyId.value.VerbatimString(False)
 
     return output
 
@@ -637,6 +893,9 @@ def com_amazonaws_kms_KeyMetadata(dafny_input):
     if dafny_input.SigningAlgorithms.is_Some:
         output["SigningAlgorithms"] = [com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_SigningAlgorithmSpec(list_element) for list_element in dafny_input.SigningAlgorithms.value]
 
+    if dafny_input.KeyAgreementAlgorithms.is_Some:
+        output["KeyAgreementAlgorithms"] = [com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_KeyAgreementAlgorithmSpec(list_element) for list_element in dafny_input.KeyAgreementAlgorithms.value]
+
     if dafny_input.MultiRegion.is_Some:
         output["MultiRegion"] = dafny_input.MultiRegion.value
 
@@ -645,6 +904,12 @@ def com_amazonaws_kms_KeyMetadata(dafny_input):
 
     if dafny_input.PendingDeletionWindowInDays.is_Some:
         output["PendingDeletionWindowInDays"] = dafny_input.PendingDeletionWindowInDays.value
+
+    if dafny_input.MacAlgorithms.is_Some:
+        output["MacAlgorithms"] = [com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_MacAlgorithmSpec(list_element) for list_element in dafny_input.MacAlgorithms.value]
+
+    if dafny_input.XksKeyConfiguration.is_Some:
+        output["XksKeyConfiguration"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_XksKeyConfigurationType(dafny_input.XksKeyConfiguration.value)
 
     return output
 
@@ -742,6 +1007,17 @@ def com_amazonaws_kms_SigningAlgorithmSpec(dafny_input):
     elif isinstance(dafny_input, SigningAlgorithmSpec_ECDSA__SHA__512):
         return "ECDSA_SHA_512"
 
+    elif isinstance(dafny_input, SigningAlgorithmSpec_SM2DSA):
+        return "SM2DSA"
+
+    else:
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
+
+def com_amazonaws_kms_KeyAgreementAlgorithmSpec(dafny_input):
+    # Convert KeyAgreementAlgorithmSpec
+    if isinstance(dafny_input, KeyAgreementAlgorithmSpec_ECDH):
+        return "ECDH"
+
     else:
         raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
@@ -755,6 +1031,30 @@ def com_amazonaws_kms_MultiRegionConfiguration(dafny_input):
 
     if dafny_input.ReplicaKeys.is_Some:
         output["ReplicaKeys"] = [com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_MultiRegionKey(list_element) for list_element in dafny_input.ReplicaKeys.value]
+
+    return output
+
+def com_amazonaws_kms_MacAlgorithmSpec(dafny_input):
+    # Convert MacAlgorithmSpec
+    if isinstance(dafny_input, MacAlgorithmSpec_HMAC__SHA__224):
+        return "HMAC_SHA_224"
+
+    elif isinstance(dafny_input, MacAlgorithmSpec_HMAC__SHA__256):
+        return "HMAC_SHA_256"
+
+    elif isinstance(dafny_input, MacAlgorithmSpec_HMAC__SHA__384):
+        return "HMAC_SHA_384"
+
+    elif isinstance(dafny_input, MacAlgorithmSpec_HMAC__SHA__512):
+        return "HMAC_SHA_512"
+
+    else:
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
+
+def com_amazonaws_kms_XksKeyConfigurationType(dafny_input):
+    output = {}
+    if dafny_input.Id.is_Some:
+        output["Id"] = dafny_input.Id.value.VerbatimString(False)
 
     return output
 
@@ -786,6 +1086,24 @@ def com_amazonaws_kms_CreateKeyResponse(dafny_input):
 
     return output
 
+def com_amazonaws_kms_RecipientInfo(dafny_input):
+    output = {}
+    if dafny_input.KeyEncryptionAlgorithm.is_Some:
+        output["KeyEncryptionAlgorithm"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_KeyEncryptionMechanism(dafny_input.KeyEncryptionAlgorithm.value)
+
+    if dafny_input.AttestationDocument.is_Some:
+        output["AttestationDocument"] = bytes(dafny_input.AttestationDocument.value)
+
+    return output
+
+def com_amazonaws_kms_KeyEncryptionMechanism(dafny_input):
+    # Convert KeyEncryptionMechanism
+    if isinstance(dafny_input, KeyEncryptionMechanism_RSAES__OAEP__SHA__256):
+        return "RSAES_OAEP_SHA_256"
+
+    else:
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
+
 def com_amazonaws_kms_DecryptRequest(dafny_input):
     output = {}
     output["CiphertextBlob"] = bytes(dafny_input.CiphertextBlob)
@@ -801,6 +1119,12 @@ def com_amazonaws_kms_DecryptRequest(dafny_input):
     if dafny_input.EncryptionAlgorithm.is_Some:
         output["EncryptionAlgorithm"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EncryptionAlgorithmSpec(dafny_input.EncryptionAlgorithm.value)
 
+    if dafny_input.Recipient.is_Some:
+        output["Recipient"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_RecipientInfo(dafny_input.Recipient.value)
+
+    if dafny_input.DryRun.is_Some:
+        output["DryRun"] = dafny_input.DryRun.value
+
     return output
 
 def com_amazonaws_kms_DecryptResponse(dafny_input):
@@ -813,6 +1137,9 @@ def com_amazonaws_kms_DecryptResponse(dafny_input):
 
     if dafny_input.EncryptionAlgorithm.is_Some:
         output["EncryptionAlgorithm"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EncryptionAlgorithmSpec(dafny_input.EncryptionAlgorithm.value)
+
+    if dafny_input.CiphertextForRecipient.is_Some:
+        output["CiphertextForRecipient"] = bytes(dafny_input.CiphertextForRecipient.value)
 
     return output
 
@@ -833,6 +1160,41 @@ def com_amazonaws_kms_DeleteCustomKeyStoreResponse(dafny_input):
 def com_amazonaws_kms_DeleteImportedKeyMaterialRequest(dafny_input):
     output = {}
     output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    return output
+
+def com_amazonaws_kms_DeriveSharedSecretRequest(dafny_input):
+    output = {}
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["KeyAgreementAlgorithm"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_KeyAgreementAlgorithmSpec(dafny_input.KeyAgreementAlgorithm)
+    output["PublicKey"] = bytes(dafny_input.PublicKey)
+    if dafny_input.GrantTokens.is_Some:
+        output["GrantTokens"] = [list_element.VerbatimString(False) for list_element in dafny_input.GrantTokens.value]
+
+    if dafny_input.DryRun.is_Some:
+        output["DryRun"] = dafny_input.DryRun.value
+
+    if dafny_input.Recipient.is_Some:
+        output["Recipient"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_RecipientInfo(dafny_input.Recipient.value)
+
+    return output
+
+def com_amazonaws_kms_DeriveSharedSecretResponse(dafny_input):
+    output = {}
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+
+    if dafny_input.SharedSecret.is_Some:
+        output["SharedSecret"] = bytes(dafny_input.SharedSecret.value)
+
+    if dafny_input.CiphertextForRecipient.is_Some:
+        output["CiphertextForRecipient"] = bytes(dafny_input.CiphertextForRecipient.value)
+
+    if dafny_input.KeyAgreementAlgorithm.is_Some:
+        output["KeyAgreementAlgorithm"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_KeyAgreementAlgorithmSpec(dafny_input.KeyAgreementAlgorithm.value)
+
+    if dafny_input.KeyOrigin.is_Some:
+        output["KeyOrigin"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_OriginType(dafny_input.KeyOrigin.value)
+
     return output
 
 def com_amazonaws_kms_DescribeCustomKeyStoresRequest(dafny_input):
@@ -873,6 +1235,12 @@ def com_amazonaws_kms_CustomKeyStoresListEntry(dafny_input):
 
     if dafny_input.CreationDate.is_Some:
         output["CreationDate"] = TypeError("TimestampShape not supported")
+
+    if dafny_input.CustomKeyStoreType.is_Some:
+        output["CustomKeyStoreType"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_CustomKeyStoreType(dafny_input.CustomKeyStoreType.value)
+
+    if dafny_input.XksProxyConfiguration.is_Some:
+        output["XksProxyConfiguration"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_XksProxyConfigurationType(dafny_input.XksProxyConfiguration.value)
 
     return output
 
@@ -925,8 +1293,54 @@ def com_amazonaws_kms_ConnectionErrorCodeType(dafny_input):
     elif isinstance(dafny_input, ConnectionErrorCodeType_SUBNET__NOT__FOUND):
         return "SUBNET_NOT_FOUND"
 
+    elif isinstance(dafny_input, ConnectionErrorCodeType_INSUFFICIENT__FREE__ADDRESSES__IN__SUBNET):
+        return "INSUFFICIENT_FREE_ADDRESSES_IN_SUBNET"
+
+    elif isinstance(dafny_input, ConnectionErrorCodeType_XKS__PROXY__ACCESS__DENIED):
+        return "XKS_PROXY_ACCESS_DENIED"
+
+    elif isinstance(dafny_input, ConnectionErrorCodeType_XKS__PROXY__NOT__REACHABLE):
+        return "XKS_PROXY_NOT_REACHABLE"
+
+    elif isinstance(dafny_input, ConnectionErrorCodeType_XKS__VPC__ENDPOINT__SERVICE__NOT__FOUND):
+        return "XKS_VPC_ENDPOINT_SERVICE_NOT_FOUND"
+
+    elif isinstance(dafny_input, ConnectionErrorCodeType_XKS__PROXY__INVALID__RESPONSE):
+        return "XKS_PROXY_INVALID_RESPONSE"
+
+    elif isinstance(dafny_input, ConnectionErrorCodeType_XKS__PROXY__INVALID__CONFIGURATION):
+        return "XKS_PROXY_INVALID_CONFIGURATION"
+
+    elif isinstance(dafny_input, ConnectionErrorCodeType_XKS__VPC__ENDPOINT__SERVICE__INVALID__CONFIGURATION):
+        return "XKS_VPC_ENDPOINT_SERVICE_INVALID_CONFIGURATION"
+
+    elif isinstance(dafny_input, ConnectionErrorCodeType_XKS__PROXY__TIMED__OUT):
+        return "XKS_PROXY_TIMED_OUT"
+
+    elif isinstance(dafny_input, ConnectionErrorCodeType_XKS__PROXY__INVALID__TLS__CONFIGURATION):
+        return "XKS_PROXY_INVALID_TLS_CONFIGURATION"
+
     else:
         raise ValueError("No recognized enum value in enum type: " + dafny_input)
+
+def com_amazonaws_kms_XksProxyConfigurationType(dafny_input):
+    output = {}
+    if dafny_input.Connectivity.is_Some:
+        output["Connectivity"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_XksProxyConnectivityType(dafny_input.Connectivity.value)
+
+    if dafny_input.AccessKeyId.is_Some:
+        output["AccessKeyId"] = dafny_input.AccessKeyId.value.VerbatimString(False)
+
+    if dafny_input.UriEndpoint.is_Some:
+        output["UriEndpoint"] = dafny_input.UriEndpoint.value.VerbatimString(False)
+
+    if dafny_input.UriPath.is_Some:
+        output["UriPath"] = dafny_input.UriPath.value.VerbatimString(False)
+
+    if dafny_input.VpcEndpointServiceName.is_Some:
+        output["VpcEndpointServiceName"] = dafny_input.VpcEndpointServiceName.value.VerbatimString(False)
+
+    return output
 
 def com_amazonaws_kms_DescribeCustomKeyStoresResponse(dafny_input):
     output = {}
@@ -983,6 +1397,9 @@ def com_amazonaws_kms_EnableKeyRequest(dafny_input):
 def com_amazonaws_kms_EnableKeyRotationRequest(dafny_input):
     output = {}
     output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    if dafny_input.RotationPeriodInDays.is_Some:
+        output["RotationPeriodInDays"] = dafny_input.RotationPeriodInDays.value
+
     return output
 
 def com_amazonaws_kms_EncryptRequest(dafny_input):
@@ -997,6 +1414,9 @@ def com_amazonaws_kms_EncryptRequest(dafny_input):
 
     if dafny_input.EncryptionAlgorithm.is_Some:
         output["EncryptionAlgorithm"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_EncryptionAlgorithmSpec(dafny_input.EncryptionAlgorithm.value)
+
+    if dafny_input.DryRun.is_Some:
+        output["DryRun"] = dafny_input.DryRun.value
 
     return output
 
@@ -1039,6 +1459,12 @@ def com_amazonaws_kms_GenerateDataKeyRequest(dafny_input):
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [list_element.VerbatimString(False) for list_element in dafny_input.GrantTokens.value]
 
+    if dafny_input.Recipient.is_Some:
+        output["Recipient"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_RecipientInfo(dafny_input.Recipient.value)
+
+    if dafny_input.DryRun.is_Some:
+        output["DryRun"] = dafny_input.DryRun.value
+
     return output
 
 def com_amazonaws_kms_GenerateDataKeyResponse(dafny_input):
@@ -1051,6 +1477,9 @@ def com_amazonaws_kms_GenerateDataKeyResponse(dafny_input):
 
     if dafny_input.KeyId.is_Some:
         output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+
+    if dafny_input.CiphertextForRecipient.is_Some:
+        output["CiphertextForRecipient"] = bytes(dafny_input.CiphertextForRecipient.value)
 
     return output
 
@@ -1077,6 +1506,9 @@ def com_amazonaws_kms_DataKeyPairSpec(dafny_input):
     elif isinstance(dafny_input, DataKeyPairSpec_ECC__SECG__P256K1):
         return "ECC_SECG_P256K1"
 
+    elif isinstance(dafny_input, DataKeyPairSpec_SM2):
+        return "SM2"
+
     else:
         raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
@@ -1089,6 +1521,12 @@ def com_amazonaws_kms_GenerateDataKeyPairRequest(dafny_input):
     output["KeyPairSpec"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DataKeyPairSpec(dafny_input.KeyPairSpec)
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [list_element.VerbatimString(False) for list_element in dafny_input.GrantTokens.value]
+
+    if dafny_input.Recipient.is_Some:
+        output["Recipient"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_RecipientInfo(dafny_input.Recipient.value)
+
+    if dafny_input.DryRun.is_Some:
+        output["DryRun"] = dafny_input.DryRun.value
 
     return output
 
@@ -1109,6 +1547,9 @@ def com_amazonaws_kms_GenerateDataKeyPairResponse(dafny_input):
     if dafny_input.KeyPairSpec.is_Some:
         output["KeyPairSpec"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DataKeyPairSpec(dafny_input.KeyPairSpec.value)
 
+    if dafny_input.CiphertextForRecipient.is_Some:
+        output["CiphertextForRecipient"] = bytes(dafny_input.CiphertextForRecipient.value)
+
     return output
 
 def com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextRequest(dafny_input):
@@ -1120,6 +1561,9 @@ def com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextRequest(dafny_input):
     output["KeyPairSpec"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_DataKeyPairSpec(dafny_input.KeyPairSpec)
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [list_element.VerbatimString(False) for list_element in dafny_input.GrantTokens.value]
+
+    if dafny_input.DryRun.is_Some:
+        output["DryRun"] = dafny_input.DryRun.value
 
     return output
 
@@ -1154,12 +1598,41 @@ def com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest(dafny_input):
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [list_element.VerbatimString(False) for list_element in dafny_input.GrantTokens.value]
 
+    if dafny_input.DryRun.is_Some:
+        output["DryRun"] = dafny_input.DryRun.value
+
     return output
 
 def com_amazonaws_kms_GenerateDataKeyWithoutPlaintextResponse(dafny_input):
     output = {}
     if dafny_input.CiphertextBlob.is_Some:
         output["CiphertextBlob"] = bytes(dafny_input.CiphertextBlob.value)
+
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+
+    return output
+
+def com_amazonaws_kms_GenerateMacRequest(dafny_input):
+    output = {}
+    output["Message"] = bytes(dafny_input.Message)
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["MacAlgorithm"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_MacAlgorithmSpec(dafny_input.MacAlgorithm)
+    if dafny_input.GrantTokens.is_Some:
+        output["GrantTokens"] = [list_element.VerbatimString(False) for list_element in dafny_input.GrantTokens.value]
+
+    if dafny_input.DryRun.is_Some:
+        output["DryRun"] = dafny_input.DryRun.value
+
+    return output
+
+def com_amazonaws_kms_GenerateMacResponse(dafny_input):
+    output = {}
+    if dafny_input.Mac.is_Some:
+        output["Mac"] = bytes(dafny_input.Mac.value)
+
+    if dafny_input.MacAlgorithm.is_Some:
+        output["MacAlgorithm"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_MacAlgorithmSpec(dafny_input.MacAlgorithm.value)
 
     if dafny_input.KeyId.is_Some:
         output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
@@ -1174,6 +1647,9 @@ def com_amazonaws_kms_GenerateRandomRequest(dafny_input):
     if dafny_input.CustomKeyStoreId.is_Some:
         output["CustomKeyStoreId"] = dafny_input.CustomKeyStoreId.value.VerbatimString(False)
 
+    if dafny_input.Recipient.is_Some:
+        output["Recipient"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_RecipientInfo(dafny_input.Recipient.value)
+
     return output
 
 def com_amazonaws_kms_GenerateRandomResponse(dafny_input):
@@ -1181,18 +1657,26 @@ def com_amazonaws_kms_GenerateRandomResponse(dafny_input):
     if dafny_input.Plaintext.is_Some:
         output["Plaintext"] = bytes(dafny_input.Plaintext.value)
 
+    if dafny_input.CiphertextForRecipient.is_Some:
+        output["CiphertextForRecipient"] = bytes(dafny_input.CiphertextForRecipient.value)
+
     return output
 
 def com_amazonaws_kms_GetKeyPolicyRequest(dafny_input):
     output = {}
     output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
-    output["PolicyName"] = dafny_input.PolicyName.VerbatimString(False)
+    if dafny_input.PolicyName.is_Some:
+        output["PolicyName"] = dafny_input.PolicyName.value.VerbatimString(False)
+
     return output
 
 def com_amazonaws_kms_GetKeyPolicyResponse(dafny_input):
     output = {}
     if dafny_input.Policy.is_Some:
         output["Policy"] = dafny_input.Policy.value.VerbatimString(False)
+
+    if dafny_input.PolicyName.is_Some:
+        output["PolicyName"] = dafny_input.PolicyName.value.VerbatimString(False)
 
     return output
 
@@ -1205,6 +1689,18 @@ def com_amazonaws_kms_GetKeyRotationStatusResponse(dafny_input):
     output = {}
     if dafny_input.KeyRotationEnabled.is_Some:
         output["KeyRotationEnabled"] = dafny_input.KeyRotationEnabled.value
+
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+
+    if dafny_input.RotationPeriodInDays.is_Some:
+        output["RotationPeriodInDays"] = dafny_input.RotationPeriodInDays.value
+
+    if dafny_input.NextRotationDate.is_Some:
+        output["NextRotationDate"] = TypeError("TimestampShape not supported")
+
+    if dafny_input.OnDemandRotationStartDate.is_Some:
+        output["OnDemandRotationStartDate"] = TypeError("TimestampShape not supported")
 
     return output
 
@@ -1219,6 +1715,15 @@ def com_amazonaws_kms_AlgorithmSpec(dafny_input):
     elif isinstance(dafny_input, AlgorithmSpec_RSAES__OAEP__SHA__256):
         return "RSAES_OAEP_SHA_256"
 
+    elif isinstance(dafny_input, AlgorithmSpec_RSA__AES__KEY__WRAP__SHA__1):
+        return "RSA_AES_KEY_WRAP_SHA_1"
+
+    elif isinstance(dafny_input, AlgorithmSpec_RSA__AES__KEY__WRAP__SHA__256):
+        return "RSA_AES_KEY_WRAP_SHA_256"
+
+    elif isinstance(dafny_input, AlgorithmSpec_SM2PKE):
+        return "SM2PKE"
+
     else:
         raise ValueError("No recognized enum value in enum type: " + dafny_input)
 
@@ -1226,6 +1731,15 @@ def com_amazonaws_kms_WrappingKeySpec(dafny_input):
     # Convert WrappingKeySpec
     if isinstance(dafny_input, WrappingKeySpec_RSA__2048):
         return "RSA_2048"
+
+    elif isinstance(dafny_input, WrappingKeySpec_RSA__3072):
+        return "RSA_3072"
+
+    elif isinstance(dafny_input, WrappingKeySpec_RSA__4096):
+        return "RSA_4096"
+
+    elif isinstance(dafny_input, WrappingKeySpec_SM2):
+        return "SM2"
 
     else:
         raise ValueError("No recognized enum value in enum type: " + dafny_input)
@@ -1283,6 +1797,9 @@ def com_amazonaws_kms_GetPublicKeyResponse(dafny_input):
 
     if dafny_input.SigningAlgorithms.is_Some:
         output["SigningAlgorithms"] = [com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_SigningAlgorithmSpec(list_element) for list_element in dafny_input.SigningAlgorithms.value]
+
+    if dafny_input.KeyAgreementAlgorithms.is_Some:
+        output["KeyAgreementAlgorithms"] = [com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_KeyAgreementAlgorithmSpec(list_element) for list_element in dafny_input.KeyAgreementAlgorithms.value]
 
     return output
 
@@ -1433,6 +1950,87 @@ def com_amazonaws_kms_ListKeyPoliciesResponse(dafny_input):
 
     return output
 
+def com_amazonaws_kms_ListKeyRotationsRequest(dafny_input):
+    output = {}
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    if dafny_input.Limit.is_Some:
+        output["Limit"] = dafny_input.Limit.value
+
+    if dafny_input.Marker.is_Some:
+        output["Marker"] = dafny_input.Marker.value.VerbatimString(False)
+
+    return output
+
+def com_amazonaws_kms_RotationsListEntry(dafny_input):
+    output = {}
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+
+    if dafny_input.RotationDate.is_Some:
+        output["RotationDate"] = TypeError("TimestampShape not supported")
+
+    if dafny_input.RotationType.is_Some:
+        output["RotationType"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_RotationType(dafny_input.RotationType.value)
+
+    return output
+
+def com_amazonaws_kms_RotationType(dafny_input):
+    # Convert RotationType
+    if isinstance(dafny_input, RotationType_AUTOMATIC):
+        return "AUTOMATIC"
+
+    elif isinstance(dafny_input, RotationType_ON__DEMAND):
+        return "ON_DEMAND"
+
+    else:
+        raise ValueError("No recognized enum value in enum type: " + dafny_input)
+
+def com_amazonaws_kms_ListKeyRotationsResponse(dafny_input):
+    output = {}
+    if dafny_input.Rotations.is_Some:
+        output["Rotations"] = [com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_RotationsListEntry(list_element) for list_element in dafny_input.Rotations.value]
+
+    if dafny_input.NextMarker.is_Some:
+        output["NextMarker"] = dafny_input.NextMarker.value.VerbatimString(False)
+
+    if dafny_input.Truncated.is_Some:
+        output["Truncated"] = dafny_input.Truncated.value
+
+    return output
+
+def com_amazonaws_kms_ListKeysRequest(dafny_input):
+    output = {}
+    if dafny_input.Limit.is_Some:
+        output["Limit"] = dafny_input.Limit.value
+
+    if dafny_input.Marker.is_Some:
+        output["Marker"] = dafny_input.Marker.value.VerbatimString(False)
+
+    return output
+
+def com_amazonaws_kms_KeyListEntry(dafny_input):
+    output = {}
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+
+    if dafny_input.KeyArn.is_Some:
+        output["KeyArn"] = dafny_input.KeyArn.value.VerbatimString(False)
+
+    return output
+
+def com_amazonaws_kms_ListKeysResponse(dafny_input):
+    output = {}
+    if dafny_input.Keys.is_Some:
+        output["Keys"] = [com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_KeyListEntry(list_element) for list_element in dafny_input.Keys.value]
+
+    if dafny_input.NextMarker.is_Some:
+        output["NextMarker"] = dafny_input.NextMarker.value.VerbatimString(False)
+
+    if dafny_input.Truncated.is_Some:
+        output["Truncated"] = dafny_input.Truncated.value
+
+    return output
+
 def com_amazonaws_kms_ListResourceTagsRequest(dafny_input):
     output = {}
     output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
@@ -1460,7 +2058,9 @@ def com_amazonaws_kms_ListResourceTagsResponse(dafny_input):
 def com_amazonaws_kms_PutKeyPolicyRequest(dafny_input):
     output = {}
     output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
-    output["PolicyName"] = dafny_input.PolicyName.VerbatimString(False)
+    if dafny_input.PolicyName.is_Some:
+        output["PolicyName"] = dafny_input.PolicyName.value.VerbatimString(False)
+
     output["Policy"] = dafny_input.Policy.VerbatimString(False)
     if dafny_input.BypassPolicyLockoutSafetyCheck.is_Some:
         output["BypassPolicyLockoutSafetyCheck"] = dafny_input.BypassPolicyLockoutSafetyCheck.value
@@ -1488,6 +2088,9 @@ def com_amazonaws_kms_ReEncryptRequest(dafny_input):
 
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [list_element.VerbatimString(False) for list_element in dafny_input.GrantTokens.value]
+
+    if dafny_input.DryRun.is_Some:
+        output["DryRun"] = dafny_input.DryRun.value
 
     return output
 
@@ -1552,12 +2155,30 @@ def com_amazonaws_kms_RetireGrantRequest(dafny_input):
     if dafny_input.GrantId.is_Some:
         output["GrantId"] = dafny_input.GrantId.value.VerbatimString(False)
 
+    if dafny_input.DryRun.is_Some:
+        output["DryRun"] = dafny_input.DryRun.value
+
     return output
 
 def com_amazonaws_kms_RevokeGrantRequest(dafny_input):
     output = {}
     output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
     output["GrantId"] = dafny_input.GrantId.VerbatimString(False)
+    if dafny_input.DryRun.is_Some:
+        output["DryRun"] = dafny_input.DryRun.value
+
+    return output
+
+def com_amazonaws_kms_RotateKeyOnDemandRequest(dafny_input):
+    output = {}
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    return output
+
+def com_amazonaws_kms_RotateKeyOnDemandResponse(dafny_input):
+    output = {}
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+
     return output
 
 def com_amazonaws_kms_ScheduleKeyDeletionRequest(dafny_input):
@@ -1606,6 +2227,9 @@ def com_amazonaws_kms_SignRequest(dafny_input):
         output["GrantTokens"] = [list_element.VerbatimString(False) for list_element in dafny_input.GrantTokens.value]
 
     output["SigningAlgorithm"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_SigningAlgorithmSpec(dafny_input.SigningAlgorithm)
+    if dafny_input.DryRun.is_Some:
+        output["DryRun"] = dafny_input.DryRun.value
+
     return output
 
 def com_amazonaws_kms_SignResponse(dafny_input):
@@ -1651,6 +2275,21 @@ def com_amazonaws_kms_UpdateCustomKeyStoreRequest(dafny_input):
     if dafny_input.CloudHsmClusterId.is_Some:
         output["CloudHsmClusterId"] = dafny_input.CloudHsmClusterId.value.VerbatimString(False)
 
+    if dafny_input.XksProxyUriEndpoint.is_Some:
+        output["XksProxyUriEndpoint"] = dafny_input.XksProxyUriEndpoint.value.VerbatimString(False)
+
+    if dafny_input.XksProxyUriPath.is_Some:
+        output["XksProxyUriPath"] = dafny_input.XksProxyUriPath.value.VerbatimString(False)
+
+    if dafny_input.XksProxyVpcEndpointServiceName.is_Some:
+        output["XksProxyVpcEndpointServiceName"] = dafny_input.XksProxyVpcEndpointServiceName.value.VerbatimString(False)
+
+    if dafny_input.XksProxyAuthenticationCredential.is_Some:
+        output["XksProxyAuthenticationCredential"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_XksProxyAuthenticationCredentialType(dafny_input.XksProxyAuthenticationCredential.value)
+
+    if dafny_input.XksProxyConnectivity.is_Some:
+        output["XksProxyConnectivity"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_XksProxyConnectivityType(dafny_input.XksProxyConnectivity.value)
+
     return output
 
 def com_amazonaws_kms_UpdateCustomKeyStoreResponse(dafny_input):
@@ -1681,6 +2320,9 @@ def com_amazonaws_kms_VerifyRequest(dafny_input):
     if dafny_input.GrantTokens.is_Some:
         output["GrantTokens"] = [list_element.VerbatimString(False) for list_element in dafny_input.GrantTokens.value]
 
+    if dafny_input.DryRun.is_Some:
+        output["DryRun"] = dafny_input.DryRun.value
+
     return output
 
 def com_amazonaws_kms_VerifyResponse(dafny_input):
@@ -1693,5 +2335,32 @@ def com_amazonaws_kms_VerifyResponse(dafny_input):
 
     if dafny_input.SigningAlgorithm.is_Some:
         output["SigningAlgorithm"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_SigningAlgorithmSpec(dafny_input.SigningAlgorithm.value)
+
+    return output
+
+def com_amazonaws_kms_VerifyMacRequest(dafny_input):
+    output = {}
+    output["Message"] = bytes(dafny_input.Message)
+    output["KeyId"] = dafny_input.KeyId.VerbatimString(False)
+    output["MacAlgorithm"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_MacAlgorithmSpec(dafny_input.MacAlgorithm)
+    output["Mac"] = bytes(dafny_input.Mac)
+    if dafny_input.GrantTokens.is_Some:
+        output["GrantTokens"] = [list_element.VerbatimString(False) for list_element in dafny_input.GrantTokens.value]
+
+    if dafny_input.DryRun.is_Some:
+        output["DryRun"] = dafny_input.DryRun.value
+
+    return output
+
+def com_amazonaws_kms_VerifyMacResponse(dafny_input):
+    output = {}
+    if dafny_input.KeyId.is_Some:
+        output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
+
+    if dafny_input.MacValid.is_Some:
+        output["MacValid"] = dafny_input.MacValid.value
+
+    if dafny_input.MacAlgorithm.is_Some:
+        output["MacAlgorithm"] = com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_MacAlgorithmSpec(dafny_input.MacAlgorithm.value)
 
     return output

@@ -35,6 +35,13 @@ class DafnyImplInterface:
                 "GenerateECDSASignatureKey": self.impl.GenerateECDSASignatureKey,
                 "ECDSASign": self.impl.ECDSASign,
                 "ECDSAVerify": self.impl.ECDSAVerify,
+                "GenerateECCKeyPair": self.impl.GenerateECCKeyPair,
+                "GetPublicKeyFromPrivateKey": self.impl.GetPublicKeyFromPrivateKey,
+                "ValidatePublicKey": self.impl.ValidatePublicKey,
+                "DeriveSharedSecret": self.impl.DeriveSharedSecret,
+                "CompressPublicKey": self.impl.CompressPublicKey,
+                "DecompressPublicKey": self.impl.DecompressPublicKey,
+                "ParsePublicKey": self.impl.ParsePublicKey,
             }
 
          # This logic is where a typical Smithy client would expect the "server" to be.

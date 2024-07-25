@@ -19,6 +19,7 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     CommitmentPolicy_ESDK,
     CreateAwsKmsDiscoveryKeyringInput_CreateAwsKmsDiscoveryKeyringInput as DafnyCreateAwsKmsDiscoveryKeyringInput,
     CreateAwsKmsDiscoveryMultiKeyringInput_CreateAwsKmsDiscoveryMultiKeyringInput as DafnyCreateAwsKmsDiscoveryMultiKeyringInput,
+    CreateAwsKmsEcdhKeyringInput_CreateAwsKmsEcdhKeyringInput as DafnyCreateAwsKmsEcdhKeyringInput,
     CreateAwsKmsHierarchicalKeyringInput_CreateAwsKmsHierarchicalKeyringInput as DafnyCreateAwsKmsHierarchicalKeyringInput,
     CreateAwsKmsKeyringInput_CreateAwsKmsKeyringInput as DafnyCreateAwsKmsKeyringInput,
     CreateAwsKmsMrkDiscoveryKeyringInput_CreateAwsKmsMrkDiscoveryKeyringInput as DafnyCreateAwsKmsMrkDiscoveryKeyringInput,
@@ -32,6 +33,7 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     CreateDefaultCryptographicMaterialsManagerInput_CreateDefaultCryptographicMaterialsManagerInput as DafnyCreateDefaultCryptographicMaterialsManagerInput,
     CreateMultiKeyringInput_CreateMultiKeyringInput as DafnyCreateMultiKeyringInput,
     CreateRawAesKeyringInput_CreateRawAesKeyringInput as DafnyCreateRawAesKeyringInput,
+    CreateRawEcdhKeyringInput_CreateRawEcdhKeyringInput as DafnyCreateRawEcdhKeyringInput,
     CreateRawRsaKeyringInput_CreateRawRsaKeyringInput as DafnyCreateRawRsaKeyringInput,
     CreateRequiredEncryptionContextCMMInput_CreateRequiredEncryptionContextCMMInput as DafnyCreateRequiredEncryptionContextCMMInput,
     DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384__SYMSIG__HMAC__SHA384,
@@ -67,6 +69,7 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     Encrypt_AES__GCM,
     EncryptedDataKey_EncryptedDataKey as DafnyEncryptedDataKey,
     EncryptionMaterials_EncryptionMaterials as DafnyEncryptionMaterials,
+    EphemeralPrivateKeyToStaticPublicKeyInput_EphemeralPrivateKeyToStaticPublicKeyInput as DafnyEphemeralPrivateKeyToStaticPublicKeyInput,
     GetBranchKeyIdInput_GetBranchKeyIdInput as DafnyGetBranchKeyIdInput,
     GetBranchKeyIdOutput_GetBranchKeyIdOutput as DafnyGetBranchKeyIdOutput,
     GetCacheEntryInput_GetCacheEntryInput as DafnyGetCacheEntryInput,
@@ -79,6 +82,10 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     InitializeDecryptionMaterialsInput_InitializeDecryptionMaterialsInput as DafnyInitializeDecryptionMaterialsInput,
     InitializeEncryptionMaterialsInput_InitializeEncryptionMaterialsInput as DafnyInitializeEncryptionMaterialsInput,
     IntermediateKeyWrapping_IntermediateKeyWrapping as DafnyIntermediateKeyWrapping,
+    KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey,
+    KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery,
+    KmsPrivateKeyToStaticPublicKeyInput_KmsPrivateKeyToStaticPublicKeyInput as DafnyKmsPrivateKeyToStaticPublicKeyInput,
+    KmsPublicKeyDiscoveryInput_KmsPublicKeyDiscoveryInput as DafnyKmsPublicKeyDiscoveryInput,
     MaterialProvidersConfig_MaterialProvidersConfig as DafnyMaterialProvidersConfig,
     Materials_BeaconKey,
     Materials_BranchKey,
@@ -96,7 +103,12 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
     PaddingScheme_OAEP__SHA384__MGF1,
     PaddingScheme_OAEP__SHA512__MGF1,
     PaddingScheme_PKCS1,
+    PublicKeyDiscoveryInput_PublicKeyDiscoveryInput as DafnyPublicKeyDiscoveryInput,
     PutCacheEntryInput_PutCacheEntryInput as DafnyPutCacheEntryInput,
+    RawEcdhStaticConfigurations_EphemeralPrivateKeyToStaticPublicKey,
+    RawEcdhStaticConfigurations_PublicKeyDiscovery,
+    RawEcdhStaticConfigurations_RawPrivateKeyToStaticPublicKey,
+    RawPrivateKeyToStaticPublicKeyInput_RawPrivateKeyToStaticPublicKeyInput as DafnyRawPrivateKeyToStaticPublicKeyInput,
     SignatureAlgorithm_ECDSA,
     SignatureAlgorithm_None,
     SingleThreadedCache_SingleThreadedCache as DafnySingleThreadedCache,
@@ -598,6 +610,45 @@ def aws_cryptography_materialproviders_StormTrackingCache(native_input):
         sleepMilli=native_input.sleep_milli,
     )
 
+def aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(native_input):
+    return DafnyCreateAwsKmsRsaKeyringInput(
+        publicKey=((Option_Some(Seq(native_input.public_key))) if (native_input.public_key is not None) else (Option_None())),
+        kmsKeyId=Seq(native_input.kms_key_id),
+        encryptionAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(native_input.encryption_algorithm),
+        kmsClient=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_KmsClientReference(native_input.kms_client))) if ((native_input.kms_client is not None) and (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_KmsClientReference(native_input.kms_client) is not None)) else (Option_None())),
+        grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in native_input.grant_tokens]))) if (native_input.grant_tokens is not None) else (Option_None())),
+    )
+
+def aws_cryptography_materialproviders_CreateAwsKmsEcdhKeyringInput(native_input):
+    return DafnyCreateAwsKmsEcdhKeyringInput(
+        KeyAgreementScheme=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_KmsEcdhStaticConfigurations(native_input.key_agreement_scheme),
+        curveSpec=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_ECDHCurveSpec(native_input.curve_spec),
+        kmsClient=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_KmsClientReference(native_input.kms_client),
+        grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in native_input.grant_tokens]))) if (native_input.grant_tokens is not None) else (Option_None())),
+    )
+
+def aws_cryptography_materialproviders_KmsEcdhStaticConfigurations(native_input):
+    if isinstance(native_input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery):
+        KmsEcdhStaticConfigurations_union_value = KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_KmsPublicKeyDiscoveryInput(native_input.value))
+    elif isinstance(native_input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey):
+        KmsEcdhStaticConfigurations_union_value = KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_KmsPrivateKeyToStaticPublicKeyInput(native_input.value))
+    else:
+        raise ValueError("No recognized union value in union type: " + str(native_input))
+
+    return KmsEcdhStaticConfigurations_union_value
+
+def aws_cryptography_materialproviders_KmsPublicKeyDiscoveryInput(native_input):
+    return DafnyKmsPublicKeyDiscoveryInput(
+        recipientKmsIdentifier=Seq(native_input.recipient_kms_identifier),
+    )
+
+def aws_cryptography_materialproviders_KmsPrivateKeyToStaticPublicKeyInput(native_input):
+    return DafnyKmsPrivateKeyToStaticPublicKeyInput(
+        senderKmsIdentifier=Seq(native_input.sender_kms_identifier),
+        senderPublicKey=((Option_Some(Seq(native_input.sender_public_key))) if (native_input.sender_public_key is not None) else (Option_None())),
+        recipientPublicKey=Seq(native_input.recipient_public_key),
+    )
+
 def aws_cryptography_materialproviders_CreateMultiKeyringInput(native_input):
     return DafnyCreateMultiKeyringInput(
         generator=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_KeyringReference(native_input.generator))) if ((native_input.generator is not None) and (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_KeyringReference(native_input.generator) is not None)) else (Option_None())),
@@ -660,13 +711,38 @@ def aws_cryptography_materialproviders_PaddingScheme(native_input):
     else:
         raise ValueError(f'No recognized enum value in enum type: {native_input=}')
 
-def aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(native_input):
-    return DafnyCreateAwsKmsRsaKeyringInput(
-        publicKey=((Option_Some(Seq(native_input.public_key))) if (native_input.public_key is not None) else (Option_None())),
-        kmsKeyId=Seq(native_input.kms_key_id),
-        encryptionAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(native_input.encryption_algorithm),
-        kmsClient=((Option_Some(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_KmsClientReference(native_input.kms_client))) if ((native_input.kms_client is not None) and (aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_KmsClientReference(native_input.kms_client) is not None)) else (Option_None())),
-        grantTokens=((Option_Some(Seq([Seq(list_element) for list_element in native_input.grant_tokens]))) if (native_input.grant_tokens is not None) else (Option_None())),
+def aws_cryptography_materialproviders_CreateRawEcdhKeyringInput(native_input):
+    return DafnyCreateRawEcdhKeyringInput(
+        KeyAgreementScheme=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_RawEcdhStaticConfigurations(native_input.key_agreement_scheme),
+        curveSpec=aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_ECDHCurveSpec(native_input.curve_spec),
+    )
+
+def aws_cryptography_materialproviders_RawEcdhStaticConfigurations(native_input):
+    if isinstance(native_input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.RawEcdhStaticConfigurationsPublicKeyDiscovery):
+        RawEcdhStaticConfigurations_union_value = RawEcdhStaticConfigurations_PublicKeyDiscovery(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_PublicKeyDiscoveryInput(native_input.value))
+    elif isinstance(native_input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey):
+        RawEcdhStaticConfigurations_union_value = RawEcdhStaticConfigurations_RawPrivateKeyToStaticPublicKey(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_RawPrivateKeyToStaticPublicKeyInput(native_input.value))
+    elif isinstance(native_input, aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey):
+        RawEcdhStaticConfigurations_union_value = RawEcdhStaticConfigurations_EphemeralPrivateKeyToStaticPublicKey(aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_EphemeralPrivateKeyToStaticPublicKeyInput(native_input.value))
+    else:
+        raise ValueError("No recognized union value in union type: " + str(native_input))
+
+    return RawEcdhStaticConfigurations_union_value
+
+def aws_cryptography_materialproviders_PublicKeyDiscoveryInput(native_input):
+    return DafnyPublicKeyDiscoveryInput(
+        recipientStaticPrivateKey=Seq(native_input.recipient_static_private_key),
+    )
+
+def aws_cryptography_materialproviders_RawPrivateKeyToStaticPublicKeyInput(native_input):
+    return DafnyRawPrivateKeyToStaticPublicKeyInput(
+        senderStaticPrivateKey=Seq(native_input.sender_static_private_key),
+        recipientPublicKey=Seq(native_input.recipient_public_key),
+    )
+
+def aws_cryptography_materialproviders_EphemeralPrivateKeyToStaticPublicKeyInput(native_input):
+    return DafnyEphemeralPrivateKeyToStaticPublicKeyInput(
+        recipientPublicKey=Seq(native_input.recipient_public_key),
     )
 
 def aws_cryptography_materialproviders_CreateDefaultCryptographicMaterialsManagerInput(native_input):

@@ -36,6 +36,12 @@ async def _serialize_create_aws_kms_mrk_discovery_multi_keyring(input, config: C
 async def _serialize_create_aws_kms_hierarchical_keyring(input, config: Config) -> DafnyRequest:
     return DafnyRequest(operation_name="CreateAwsKmsHierarchicalKeyring", dafny_operation_input=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateAwsKmsHierarchicalKeyringInput(input))
 
+async def _serialize_create_aws_kms_rsa_keyring(input, config: Config) -> DafnyRequest:
+    return DafnyRequest(operation_name="CreateAwsKmsRsaKeyring", dafny_operation_input=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(input))
+
+async def _serialize_create_aws_kms_ecdh_keyring(input, config: Config) -> DafnyRequest:
+    return DafnyRequest(operation_name="CreateAwsKmsEcdhKeyring", dafny_operation_input=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateAwsKmsEcdhKeyringInput(input))
+
 async def _serialize_create_multi_keyring(input, config: Config) -> DafnyRequest:
     return DafnyRequest(operation_name="CreateMultiKeyring", dafny_operation_input=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateMultiKeyringInput(input))
 
@@ -45,8 +51,8 @@ async def _serialize_create_raw_aes_keyring(input, config: Config) -> DafnyReque
 async def _serialize_create_raw_rsa_keyring(input, config: Config) -> DafnyRequest:
     return DafnyRequest(operation_name="CreateRawRsaKeyring", dafny_operation_input=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateRawRsaKeyringInput(input))
 
-async def _serialize_create_aws_kms_rsa_keyring(input, config: Config) -> DafnyRequest:
-    return DafnyRequest(operation_name="CreateAwsKmsRsaKeyring", dafny_operation_input=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateAwsKmsRsaKeyringInput(input))
+async def _serialize_create_raw_ecdh_keyring(input, config: Config) -> DafnyRequest:
+    return DafnyRequest(operation_name="CreateRawEcdhKeyring", dafny_operation_input=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateRawEcdhKeyringInput(input))
 
 async def _serialize_create_default_cryptographic_materials_manager(input, config: Config) -> DafnyRequest:
     return DafnyRequest(operation_name="CreateDefaultCryptographicMaterialsManager", dafny_operation_input=aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_CreateDefaultCryptographicMaterialsManagerInput(input))

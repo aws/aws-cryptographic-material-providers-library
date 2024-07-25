@@ -21,6 +21,7 @@ from .config import Plugin
 from .deserialize import (
     _deserialize_create_aws_kms_discovery_keyring,
     _deserialize_create_aws_kms_discovery_multi_keyring,
+    _deserialize_create_aws_kms_ecdh_keyring,
     _deserialize_create_aws_kms_hierarchical_keyring,
     _deserialize_create_aws_kms_keyring,
     _deserialize_create_aws_kms_mrk_discovery_keyring,
@@ -34,6 +35,7 @@ from .deserialize import (
     _deserialize_create_default_cryptographic_materials_manager,
     _deserialize_create_multi_keyring,
     _deserialize_create_raw_aes_keyring,
+    _deserialize_create_raw_ecdh_keyring,
     _deserialize_create_raw_rsa_keyring,
     _deserialize_create_required_encryption_context_cmm,
     _deserialize_decryption_materials_with_plaintext_data_key,
@@ -52,6 +54,7 @@ from .models import (
     AlgorithmSuiteInfo,
     CreateAwsKmsDiscoveryKeyringInput,
     CreateAwsKmsDiscoveryMultiKeyringInput,
+    CreateAwsKmsEcdhKeyringInput,
     CreateAwsKmsHierarchicalKeyringInput,
     CreateAwsKmsKeyringInput,
     CreateAwsKmsMrkDiscoveryKeyringInput,
@@ -65,6 +68,7 @@ from .models import (
     CreateDefaultCryptographicMaterialsManagerInput,
     CreateMultiKeyringInput,
     CreateRawAesKeyringInput,
+    CreateRawEcdhKeyringInput,
     CreateRawRsaKeyringInput,
     CreateRequiredEncryptionContextCMMInput,
     DecryptionMaterials,
@@ -80,6 +84,7 @@ from .models import (
 from .serialize import (
     _serialize_create_aws_kms_discovery_keyring,
     _serialize_create_aws_kms_discovery_multi_keyring,
+    _serialize_create_aws_kms_ecdh_keyring,
     _serialize_create_aws_kms_hierarchical_keyring,
     _serialize_create_aws_kms_keyring,
     _serialize_create_aws_kms_mrk_discovery_keyring,
@@ -93,6 +98,7 @@ from .serialize import (
     _serialize_create_default_cryptographic_materials_manager,
     _serialize_create_multi_keyring,
     _serialize_create_raw_aes_keyring,
+    _serialize_create_raw_ecdh_keyring,
     _serialize_create_raw_rsa_keyring,
     _serialize_create_required_encryption_context_cmm,
     _serialize_decryption_materials_with_plaintext_data_key,
@@ -112,7 +118,7 @@ Input = TypeVar("Input")
 Output = TypeVar("Output")
 
 class AwsCryptographicMaterialProviders:
-    """//////////
+    """Client for AwsCryptographicMaterialProviders
 
     :param config: Configuration for the client.
     """
@@ -262,6 +268,34 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsHierarchicalKeyring",
         ))
 
+    def create_aws_kms_rsa_keyring(self, input: CreateAwsKmsRsaKeyringInput) -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+        """Creates an AWS KMS RSA Keyring, which wraps and unwraps data keys using a single asymmetric AWS KMS Key for RSA.
+
+        :param input: Inputs for creating a AWS KMS RSA Keyring.
+        """
+        return asyncio.run(self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_aws_kms_rsa_keyring,
+            deserialize=_deserialize_create_aws_kms_rsa_keyring,
+            config=self._config,
+            operation_name="CreateAwsKmsRsaKeyring",
+        ))
+
+    def create_aws_kms_ecdh_keyring(self, input: CreateAwsKmsEcdhKeyringInput) -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+        """Creates an AWS KMS ECDH Keyring, which wraps and unwraps data keys by deriving a shared data key from the established shared secret between parties through the ECDH protocol.
+
+        :param input: Inputs for creating an AWS KMS ECDH Keyring.
+        """
+        return asyncio.run(self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_create_aws_kms_ecdh_keyring,
+            deserialize=_deserialize_create_aws_kms_ecdh_keyring,
+            config=self._config,
+            operation_name="CreateAwsKmsEcdhKeyring",
+        ))
+
     def create_multi_keyring(self, input: CreateMultiKeyringInput) -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
         """Creates a Multi-Keyring comprised of one or more other Keyrings.
 
@@ -304,18 +338,18 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateRawRsaKeyring",
         ))
 
-    def create_aws_kms_rsa_keyring(self, input: CreateAwsKmsRsaKeyringInput) -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
-        """Creates an AWS KMS RSA Keyring, which wraps and unwraps data keys using a single asymmetric AWS KMS Key for RSA.
+    def create_raw_ecdh_keyring(self, input: CreateRawEcdhKeyringInput) -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+        """Creates a Raw ECDH Keyring, which wraps and unwraps data keys by deriving a shared data key from the established shared secret between parties through the ECDH protocol.
 
-        :param input: Inputs for creating a AWS KMS RSA Keyring.
+        :param input: Inputs for creating a raw ECDH Keyring.
         """
         return asyncio.run(self._execute_operation(
             input=input,
             plugins=[],
-            serialize=_serialize_create_aws_kms_rsa_keyring,
-            deserialize=_deserialize_create_aws_kms_rsa_keyring,
+            serialize=_serialize_create_raw_ecdh_keyring,
+            deserialize=_deserialize_create_raw_ecdh_keyring,
             config=self._config,
-            operation_name="CreateAwsKmsRsaKeyring",
+            operation_name="CreateRawEcdhKeyring",
         ))
 
     def create_default_cryptographic_materials_manager(self, input: CreateDefaultCryptographicMaterialsManagerInput) -> 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsManager':

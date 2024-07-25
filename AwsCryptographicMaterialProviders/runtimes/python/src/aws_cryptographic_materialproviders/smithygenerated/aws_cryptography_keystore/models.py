@@ -773,6 +773,12 @@ class KMSConfigurationKmsKeyArn():
     Keys and MUST strictly equal this value to be considered valid.
     """
     def __init__(self, value: str):
+        if (value is not None) and (len(value) < 1):
+            raise ValueError("The size of value must be greater than or equal to 1")
+
+        if (value is not None) and (len(value) > 2048):
+            raise ValueError("The size of value must be less than or equal to 2048")
+
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -799,6 +805,12 @@ class KMSConfigurationKmsMRKeyArn():
     ARN is not an MRK ARN, then mrkKmsKeyArn behaves exactly as kmsKeyArn.
     """
     def __init__(self, value: str):
+        if (value is not None) and (len(value) < 1):
+            raise ValueError("The size of value must be greater than or equal to 1")
+
+        if (value is not None) and (len(value) > 2048):
+            raise ValueError("The size of value must be less than or equal to 2048")
+
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:

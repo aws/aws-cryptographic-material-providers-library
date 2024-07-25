@@ -12,8 +12,10 @@ from aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.Aw
     HierarchyKeyring_HierarchyKeyring as DafnyHierarchyKeyring,
     KMSInfo_KMSInfo as DafnyKMSInfo,
     KeyDescription_AES,
+    KeyDescription_ECDH,
     KeyDescription_Hierarchy,
     KeyDescription_Kms,
+    KeyDescription_KmsECDH,
     KeyDescription_KmsMrk,
     KeyDescription_KmsMrkDiscovery,
     KeyDescription_KmsRsa,
@@ -22,11 +24,13 @@ from aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.Aw
     KeyDescription_RequiredEncryptionContext,
     KeyDescription_Static,
     KeyVectorsConfig_KeyVectorsConfig as DafnyKeyVectorsConfig,
+    KmsEcdhKeyring_KmsEcdhKeyring as DafnyKmsEcdhKeyring,
     KmsMrkAwareDiscovery_KmsMrkAwareDiscovery as DafnyKmsMrkAwareDiscovery,
     KmsMrkAware_KmsMrkAware as DafnyKmsMrkAware,
     KmsRsaKeyring_KmsRsaKeyring as DafnyKmsRsaKeyring,
     MultiKeyring_MultiKeyring as DafnyMultiKeyring,
     RawAES_RawAES as DafnyRawAES,
+    RawEcdh_RawEcdh as DafnyRawEcdh,
     RawRSA_RawRSA as DafnyRawRSA,
     RequiredEncryptionContextCMM_RequiredEncryptionContextCMM as DafnyRequiredEncryptionContextCMM,
     SerializeKeyDescriptionInput_SerializeKeyDescriptionInput as DafnySerializeKeyDescriptionInput,
@@ -59,10 +63,14 @@ def aws_cryptography_materialproviderstestvectorkeys_KeyDescription(native_input
         KeyDescription_union_value = KeyDescription_RSA(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_RawRSA(native_input.value))
     elif isinstance(native_input, aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KeyDescriptionAES):
         KeyDescription_union_value = KeyDescription_AES(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_RawAES(native_input.value))
+    elif isinstance(native_input, aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KeyDescriptionECDH):
+        KeyDescription_union_value = KeyDescription_ECDH(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_RawEcdh(native_input.value))
     elif isinstance(native_input, aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KeyDescriptionStatic):
         KeyDescription_union_value = KeyDescription_Static(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_StaticKeyring(native_input.value))
     elif isinstance(native_input, aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KeyDescriptionKmsRsa):
         KeyDescription_union_value = KeyDescription_KmsRsa(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_KmsRsaKeyring(native_input.value))
+    elif isinstance(native_input, aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KeyDescriptionKmsECDH):
+        KeyDescription_union_value = KeyDescription_KmsECDH(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_KmsEcdhKeyring(native_input.value))
     elif isinstance(native_input, aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KeyDescriptionHierarchy):
         KeyDescription_union_value = KeyDescription_Hierarchy(aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.smithy_to_dafny.aws_cryptography_materialproviderstestvectorkeys_HierarchyKeyring(native_input.value))
     elif isinstance(native_input, aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KeyDescriptionMulti):
@@ -104,6 +112,17 @@ def aws_cryptography_materialproviderstestvectorkeys_RawAES(native_input):
         providerId=Seq(native_input.provider_id),
     )
 
+def aws_cryptography_materialproviderstestvectorkeys_RawEcdh(native_input):
+    return DafnyRawEcdh(
+        senderKeyId=Seq(native_input.sender_key_id),
+        recipientKeyId=Seq(native_input.recipient_key_id),
+        senderPublicKey=Seq(native_input.sender_public_key),
+        recipientPublicKey=Seq(native_input.recipient_public_key),
+        providerId=Seq(native_input.provider_id),
+        curveSpec=Seq(native_input.curve_spec),
+        keyAgreementScheme=Seq(native_input.key_agreement_scheme),
+    )
+
 def aws_cryptography_materialproviderstestvectorkeys_StaticKeyring(native_input):
     return DafnyStaticKeyring(
         keyId=Seq(native_input.key_id),
@@ -113,6 +132,16 @@ def aws_cryptography_materialproviderstestvectorkeys_KmsRsaKeyring(native_input)
     return DafnyKmsRsaKeyring(
         keyId=Seq(native_input.key_id),
         encryptionAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(native_input.encryption_algorithm),
+    )
+
+def aws_cryptography_materialproviderstestvectorkeys_KmsEcdhKeyring(native_input):
+    return DafnyKmsEcdhKeyring(
+        senderKeyId=Seq(native_input.sender_key_id),
+        recipientKeyId=Seq(native_input.recipient_key_id),
+        senderPublicKey=Seq(native_input.sender_public_key),
+        recipientPublicKey=Seq(native_input.recipient_public_key),
+        curveSpec=Seq(native_input.curve_spec),
+        keyAgreementScheme=Seq(native_input.key_agreement_scheme),
     )
 
 def aws_cryptography_materialproviderstestvectorkeys_HierarchyKeyring(native_input):

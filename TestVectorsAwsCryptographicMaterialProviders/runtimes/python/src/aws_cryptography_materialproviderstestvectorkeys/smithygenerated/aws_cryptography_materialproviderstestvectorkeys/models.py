@@ -74,6 +74,102 @@ class RawAES:
             for a in attributes
         )
 
+class RawEcdh:
+    sender_key_id: str
+    recipient_key_id: str
+    sender_public_key: str
+    recipient_public_key: str
+    provider_id: str
+    curve_spec: str
+    key_agreement_scheme: str
+    def __init__(
+        self,
+        *,
+        sender_key_id: str,
+        recipient_key_id: str,
+        sender_public_key: str,
+        recipient_public_key: str,
+        provider_id: str,
+        curve_spec: str,
+        key_agreement_scheme: str,
+    ):
+        self.sender_key_id = sender_key_id
+        self.recipient_key_id = recipient_key_id
+        self.sender_public_key = sender_public_key
+        self.recipient_public_key = recipient_public_key
+        self.provider_id = provider_id
+        self.curve_spec = curve_spec
+        self.key_agreement_scheme = key_agreement_scheme
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the RawEcdh to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "senderKeyId": self.sender_key_id,
+            "recipientKeyId": self.recipient_key_id,
+            "senderPublicKey": self.sender_public_key,
+            "recipientPublicKey": self.recipient_public_key,
+            "providerId": self.provider_id,
+            "curveSpec": self.curve_spec,
+            "keyAgreementScheme": self.key_agreement_scheme,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "RawEcdh":
+        """Creates a RawEcdh from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "sender_key_id": d["senderKeyId"],
+            "recipient_key_id": d["recipientKeyId"],
+            "sender_public_key": d["senderPublicKey"],
+            "recipient_public_key": d["recipientPublicKey"],
+            "provider_id": d["providerId"],
+            "curve_spec": d["curveSpec"],
+            "key_agreement_scheme": d["keyAgreementScheme"],
+        }
+
+        return RawEcdh(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "RawEcdh("
+        if self.sender_key_id is not None:
+            result += f"sender_key_id={repr(self.sender_key_id)}, "
+
+        if self.recipient_key_id is not None:
+            result += f"recipient_key_id={repr(self.recipient_key_id)}, "
+
+        if self.sender_public_key is not None:
+            result += f"sender_public_key={repr(self.sender_public_key)}, "
+
+        if self.recipient_public_key is not None:
+            result += f"recipient_public_key={repr(self.recipient_public_key)}, "
+
+        if self.provider_id is not None:
+            result += f"provider_id={repr(self.provider_id)}, "
+
+        if self.curve_spec is not None:
+            result += f"curve_spec={repr(self.curve_spec)}, "
+
+        if self.key_agreement_scheme is not None:
+            result += f"key_agreement_scheme={repr(self.key_agreement_scheme)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, RawEcdh):
+            return False
+        attributes: list[str] = ['sender_key_id','recipient_key_id','sender_public_key','recipient_public_key','provider_id','curve_spec','key_agreement_scheme',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
+
 class HierarchyKeyring:
     key_id: str
     def __init__(
@@ -165,6 +261,94 @@ class KMSInfo:
         if not isinstance(other, KMSInfo):
             return False
         attributes: list[str] = ['key_id',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
+
+class KmsEcdhKeyring:
+    sender_key_id: str
+    recipient_key_id: str
+    sender_public_key: str
+    recipient_public_key: str
+    curve_spec: str
+    key_agreement_scheme: str
+    def __init__(
+        self,
+        *,
+        sender_key_id: str,
+        recipient_key_id: str,
+        sender_public_key: str,
+        recipient_public_key: str,
+        curve_spec: str,
+        key_agreement_scheme: str,
+    ):
+        self.sender_key_id = sender_key_id
+        self.recipient_key_id = recipient_key_id
+        self.sender_public_key = sender_public_key
+        self.recipient_public_key = recipient_public_key
+        self.curve_spec = curve_spec
+        self.key_agreement_scheme = key_agreement_scheme
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the KmsEcdhKeyring to a dictionary.
+
+        The dictionary uses the modeled shape names rather than the parameter names as
+        keys to be mostly compatible with boto3.
+        """
+        return {
+            "senderKeyId": self.sender_key_id,
+            "recipientKeyId": self.recipient_key_id,
+            "senderPublicKey": self.sender_public_key,
+            "recipientPublicKey": self.recipient_public_key,
+            "curveSpec": self.curve_spec,
+            "keyAgreementScheme": self.key_agreement_scheme,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KmsEcdhKeyring":
+        """Creates a KmsEcdhKeyring from a dictionary.
+
+        The dictionary is expected to use the modeled shape names rather than the
+        parameter names as keys to be mostly compatible with boto3.
+        """
+        kwargs: Dict[str, Any] = {
+            "sender_key_id": d["senderKeyId"],
+            "recipient_key_id": d["recipientKeyId"],
+            "sender_public_key": d["senderPublicKey"],
+            "recipient_public_key": d["recipientPublicKey"],
+            "curve_spec": d["curveSpec"],
+            "key_agreement_scheme": d["keyAgreementScheme"],
+        }
+
+        return KmsEcdhKeyring(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "KmsEcdhKeyring("
+        if self.sender_key_id is not None:
+            result += f"sender_key_id={repr(self.sender_key_id)}, "
+
+        if self.recipient_key_id is not None:
+            result += f"recipient_key_id={repr(self.recipient_key_id)}, "
+
+        if self.sender_public_key is not None:
+            result += f"sender_public_key={repr(self.sender_public_key)}, "
+
+        if self.recipient_public_key is not None:
+            result += f"recipient_public_key={repr(self.recipient_public_key)}, "
+
+        if self.curve_spec is not None:
+            result += f"curve_spec={repr(self.curve_spec)}, "
+
+        if self.key_agreement_scheme is not None:
+            result += f"key_agreement_scheme={repr(self.key_agreement_scheme)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KmsEcdhKeyring):
+            return False
+        attributes: list[str] = ['sender_key_id','recipient_key_id','sender_public_key','recipient_public_key','curve_spec','key_agreement_scheme',]
         return all(
             getattr(self, a) == getattr(other, a)
             for a in attributes
@@ -667,6 +851,28 @@ class KeyDescriptionAES():
             return False
         return self.value == other.value
 
+class KeyDescriptionECDH():
+    def __init__(self, value: RawEcdh):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"ECDH": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KeyDescriptionECDH":
+        if (len(d) != 1):
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return KeyDescriptionECDH(RawEcdh.from_dict(d["ECDH"]))
+
+    def __repr__(self) -> str:
+        return f"KeyDescriptionECDH(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KeyDescriptionECDH):
+            return False
+        return self.value == other.value
+
 class KeyDescriptionStatic():
     def __init__(self, value: StaticKeyring):
         self.value = value
@@ -708,6 +914,28 @@ class KeyDescriptionKmsRsa():
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, KeyDescriptionKmsRsa):
+            return False
+        return self.value == other.value
+
+class KeyDescriptionKmsECDH():
+    def __init__(self, value: KmsEcdhKeyring):
+        self.value = value
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {"KmsECDH": self.value.as_dict()}
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KeyDescriptionKmsECDH":
+        if (len(d) != 1):
+            raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
+        return KeyDescriptionKmsECDH(KmsEcdhKeyring.from_dict(d["KmsECDH"]))
+
+    def __repr__(self) -> str:
+        return f"KeyDescriptionKmsECDH(value=repr(self.value))"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KeyDescriptionKmsECDH):
             return False
         return self.value == other.value
 
@@ -801,7 +1029,7 @@ class KeyDescription():
     def __repr__(self) -> str:
         return f"KeyDescription(tag={self.tag})"
 
-KeyDescription = Union[KeyDescriptionKms, KeyDescriptionKmsMrk, KeyDescriptionKmsMrkDiscovery, KeyDescriptionRSA, KeyDescriptionAES, KeyDescriptionStatic, KeyDescriptionKmsRsa, KeyDescriptionHierarchy, KeyDescriptionMulti, KeyDescriptionRequiredEncryptionContext, KeyDescription]
+KeyDescription = Union[KeyDescriptionKms, KeyDescriptionKmsMrk, KeyDescriptionKmsMrkDiscovery, KeyDescriptionRSA, KeyDescriptionAES, KeyDescriptionECDH, KeyDescriptionStatic, KeyDescriptionKmsRsa, KeyDescriptionKmsECDH, KeyDescriptionHierarchy, KeyDescriptionMulti, KeyDescriptionRequiredEncryptionContext, KeyDescription]
 def _key_description_from_dict(d: Dict[str, Any]) -> KeyDescription:
     if "Kms" in d:
         return KeyDescriptionKms.from_dict(d)
@@ -818,11 +1046,17 @@ def _key_description_from_dict(d: Dict[str, Any]) -> KeyDescription:
     if "AES" in d:
         return KeyDescriptionAES.from_dict(d)
 
+    if "ECDH" in d:
+        return KeyDescriptionECDH.from_dict(d)
+
     if "Static" in d:
         return KeyDescriptionStatic.from_dict(d)
 
     if "KmsRsa" in d:
         return KeyDescriptionKmsRsa.from_dict(d)
+
+    if "KmsECDH" in d:
+        return KeyDescriptionKmsECDH.from_dict(d)
 
     if "Hierarchy" in d:
         return KeyDescriptionHierarchy.from_dict(d)
