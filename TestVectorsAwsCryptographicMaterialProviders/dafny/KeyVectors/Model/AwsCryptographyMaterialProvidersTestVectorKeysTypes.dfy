@@ -34,8 +34,10 @@ module AwsCryptographyMaterialProvidersTestVectorKeysTypes
     | KmsMrkDiscovery(KmsMrkDiscovery: KmsMrkAwareDiscovery)
     | RSA(RSA: RawRSA)
     | AES(AES: RawAES)
+    | ECDH(ECDH: RawEcdh)
     | Static(Static: StaticKeyring)
     | KmsRsa(KmsRsa: KmsRsaKeyring)
+    | KmsECDH(KmsECDH: KmsEcdhKeyring)
     | Hierarchy(Hierarchy: HierarchyKeyring)
     | Multi(Multi: MultiKeyring)
     | RequiredEncryptionContext(RequiredEncryptionContext: RequiredEncryptionContextCMM)
@@ -157,6 +159,14 @@ module AwsCryptographyMaterialProvidersTestVectorKeysTypes
   datatype KeyVectorsConfig = | KeyVectorsConfig (
     nameonly keyManifestPath: string
   )
+  datatype KmsEcdhKeyring = | KmsEcdhKeyring (
+    nameonly senderKeyId: string ,
+    nameonly recipientKeyId: string ,
+    nameonly senderPublicKey: string ,
+    nameonly recipientPublicKey: string ,
+    nameonly curveSpec: string ,
+    nameonly keyAgreementScheme: string
+  )
   datatype KMSInfo = | KMSInfo (
     nameonly keyId: string
   )
@@ -179,6 +189,15 @@ module AwsCryptographyMaterialProvidersTestVectorKeysTypes
   datatype RawAES = | RawAES (
     nameonly keyId: string ,
     nameonly providerId: string
+  )
+  datatype RawEcdh = | RawEcdh (
+    nameonly senderKeyId: string ,
+    nameonly recipientKeyId: string ,
+    nameonly senderPublicKey: string ,
+    nameonly recipientPublicKey: string ,
+    nameonly providerId: string ,
+    nameonly curveSpec: string ,
+    nameonly keyAgreementScheme: string
   )
   datatype RawRSA = | RawRSA (
     nameonly keyId: string ,

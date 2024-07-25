@@ -8,6 +8,9 @@ import dafny.DafnySequence;
 import java.lang.Byte;
 import java.lang.Character;
 import java.lang.Double;
+import java.lang.Exception;
+import java.lang.IllegalStateException;
+import java.lang.RuntimeException;
 import java.lang.String;
 import java.util.List;
 import java.util.Map;
@@ -109,9 +112,7 @@ import software.amazon.awssdk.services.dynamodb.model.DestinationStatus;
 import software.amazon.awssdk.services.dynamodb.model.DisableKinesisStreamingDestinationRequest;
 import software.amazon.awssdk.services.dynamodb.model.DisableKinesisStreamingDestinationResponse;
 import software.amazon.awssdk.services.dynamodb.model.DuplicateItemException;
-// BEGIN MANUAL EDIT
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
-// END MANUAL EDIT
 import software.amazon.awssdk.services.dynamodb.model.EnableKinesisStreamingDestinationRequest;
 import software.amazon.awssdk.services.dynamodb.model.EnableKinesisStreamingDestinationResponse;
 import software.amazon.awssdk.services.dynamodb.model.Endpoint;
@@ -352,9 +353,7 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_InvalidRestoreTimeException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ItemCollectionSizeLimitExceededException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_LimitExceededException;
-// BEGIN MANUAL EDIT
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_Opaque;
-// END MANUAL EDIT
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_PointInTimeRecoveryUnavailableException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ProvisionedThroughputExceededException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ReplicaAlreadyExistsException;
@@ -427,19 +426,6 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Update
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateTimeToLiveOutput;
 
 public class ToNative {
-
-  // BEGIN MANUAL EDIT
-  public static RuntimeException Error(Error_Opaque dafnyValue) {
-    if (dafnyValue.dtor_obj() instanceof DynamoDbException) {
-      return (DynamoDbException) dafnyValue.dtor_obj();
-    }
-    // Because we only ever put `DynamoDbException` into `Error_Opaque`,
-    // recieving any other type here indicates a bug with the codegen.
-    // Bubble up some error to indicate this failure state.
-    return new IllegalStateException("Unknown error recieved from DynamoDb.");
-  }
-
-  // END MANUAL EDIT
 
   public static ArchivalSummary ArchivalSummary(
     software.amazon.cryptography.services.dynamodb.internaldafny.types.ArchivalSummary dafnyValue
@@ -8167,12 +8153,35 @@ public class ToNative {
       return ToNative.Error((Error_Opaque) dafnyValue);
     }
     // TODO This should indicate a codegen bug
-    return new IllegalStateException("Unknown error recieved from DynamoDb.");
+    return new IllegalStateException(
+      String.format("Unknown error thrown while calling DDB. %s", dafnyValue)
+    );
   }
 
   // END MANUAL EDIT
 
   public static DynamoDbClient DynamoDB_20120810(IDynamoDBClient dafnyValue) {
     return ((Shim) dafnyValue).impl();
+  }
+
+  public static RuntimeException Error(Error_Opaque dafnyValue) {
+    // While the first two cases are logically identical,
+    // there is a semantic distinction.
+    // An un-modeled Service Error is different from a Java Heap Exhaustion error.
+    // In the future, Smithy-Dafny MAY allow for this distinction.
+    // Which would allow Dafny developers to treat the two differently.
+    if (dafnyValue.dtor_obj() instanceof DynamoDbException) {
+      return (DynamoDbException) dafnyValue.dtor_obj();
+    } else if (dafnyValue.dtor_obj() instanceof Exception) {
+      return (RuntimeException) dafnyValue.dtor_obj();
+    }
+    // BEGIN MANUAL EDIT
+    // END MANUAL EDIT
+    return new IllegalStateException(
+      String.format(
+        "Unknown error thrown while calling Amazon DynamoDB. %s",
+        dafnyValue
+      )
+    );
   }
 }

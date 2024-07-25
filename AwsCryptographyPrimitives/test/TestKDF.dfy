@@ -15,16 +15,21 @@ module TestKDF {
   method KdfRawDeriveTest(
     ikm: seq<uint8>,
     info: seq<uint8>,
-    L: AtomicPrimitives.Types.PositiveInteger,
-    expectedOKM: seq<uint8>
+    L: Primitives.Types.PositiveInteger,
+    expectedOKM: seq<uint8>,
+    digestAlgorithm: Primitives.Types.DigestAlgorithm
   )
     requires
-      && |ikm| == 32
-      && L == 32
+      && |ikm| >= 32
+      && L > 0
       && 4 + |info| < INT32_MAX_LIMIT
+      && L as int + Digest.Length(Primitives.Types.DigestAlgorithm.SHA_256) < INT32_MAX_LIMIT - 1
+      && L as int + Digest.Length(Primitives.Types.DigestAlgorithm.SHA_384) < INT32_MAX_LIMIT - 1
+      && (digestAlgorithm == Primitives.Types.DigestAlgorithm.SHA_256
+          || digestAlgorithm == Primitives.Types.DigestAlgorithm.SHA_384)
   {
 
-    var output := KdfCtr.RawDerive(ikm, info, L, 0);
+    var output := KdfCtr.RawDerive(ikm, info, L, 0, digestAlgorithm);
 
     if output.Success? {
       expect |output.value| == L as nat;

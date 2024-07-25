@@ -917,6 +917,8 @@ module AwsKmsKeyring {
 
       var maybeGenerateResponse := client.GenerateDataKey(generatorRequest);
 
+
+
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#onencrypt
       //# If the call to [AWS KMS GenerateDataKey]
       //# (https://docs.aws.amazon.com/kms/latest/APIReference/API_GenerateDataKey.html)
@@ -947,6 +949,13 @@ module AwsKmsKeyring {
         && KMS.IsValid_CiphertextType(generateResponse.CiphertextBlob.value),
         Types.AwsCryptographicMaterialProvidersException(
           message := "Invalid response from AWS KMS GeneratedDataKey: Invalid ciphertext")
+      );
+
+      :- Need(
+        && generateResponse.CiphertextForRecipient.None?,
+        Types.AwsCryptographicMaterialProvidersException(
+          message := "Invalid response from AWS KMS GeneratedDataKey: Invalid CiphertextForRecipient")
+
       );
 
       var output := MaterialWrapping.GenerateAndWrapOutput(

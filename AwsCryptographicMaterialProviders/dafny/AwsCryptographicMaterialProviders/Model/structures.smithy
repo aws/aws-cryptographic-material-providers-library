@@ -10,7 +10,6 @@ string Utf8Bytes
 //# While these structures will usually be represented as objects, lower level languages MAY represent
 //# these fields in a less strictly defined way as long as all field properties are still upheld.
 
-///////////////////////////////////
 // Encryption Materials 
 
 // In the future, we have several improvements we can consider here:

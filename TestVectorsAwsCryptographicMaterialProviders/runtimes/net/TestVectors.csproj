@@ -7,7 +7,7 @@
         <LangVersion>10</LangVersion>
         <TargetFrameworks>net6.0;net48</TargetFrameworks>
         <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-        <OutputType>Library</OutputType>
+        <OutputType>Exe</OutputType>
     </PropertyGroup>
 
   <PropertyGroup>
@@ -53,6 +53,7 @@
 
     <ItemGroup>
       <ProjectReference Include="../../../AwsCryptographicMaterialProviders/runtimes/net/MPL.csproj" />
+      <ProjectReference Include="../../../ComAmazonawsKms/runtimes/net/AWS-KMS.csproj" />
     </ItemGroup>
 
     <!--

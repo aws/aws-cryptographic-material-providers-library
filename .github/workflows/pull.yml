@@ -7,6 +7,8 @@ on:
 jobs:
   getVersion:
     uses: ./.github/workflows/dafny_version.yaml
+  getVerifyVersion:
+    uses: ./.github/workflows/dafny_verify_version.yaml
   pr-ci-format:
     needs: getVersion
     uses: ./.github/workflows/library_format.yml
@@ -18,10 +20,10 @@ jobs:
     with:
       dafny: ${{needs.getVersion.outputs.version}}
   pr-ci-verification:
-    needs: getVersion
+    needs: getVerifyVersion
     uses: ./.github/workflows/library_dafny_verification.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVerifyVersion.outputs.version}}
   pr-ci-java:
     needs: getVersion
     uses: ./.github/workflows/library_java_tests.yml
@@ -36,5 +38,10 @@ jobs:
     needs: getVersion
     uses: ./.github/workflows/library_python_tests.yml
     with:
-      # TODO: Once minimum Dafny version is 4.4.0, point this at `getVersion` output
-      dafny: 4.4.0
+      # TODO: Once minimum Dafny version is 4.7.0, point this at `getVersion` output
+      dafny: 4.7.0
+  pr-interop-test:
+    needs: getVersion
+    uses: ./.github/workflows/library_interop_tests.yml
+    with:
+      dafny: ${{needs.getVersion.outputs.version}}
