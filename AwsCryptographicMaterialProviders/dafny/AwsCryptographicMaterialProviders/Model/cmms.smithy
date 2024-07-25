@@ -11,7 +11,7 @@ use aws.polymorph#javadoc
 @extendable
 //= aws-encryption-sdk-specification/framework/cmm-interface.md#overview
 //= type=implication
-//# The CMM interface describes the interface that all CMMs MUST implement.
+//# The CMM interface describes the interface that all CMMs MUST implement
 resource CryptographicMaterialsManager {
   //= aws-encryption-sdk-specification/framework/cmm-interface.md#behaviors
   //= type=implication
