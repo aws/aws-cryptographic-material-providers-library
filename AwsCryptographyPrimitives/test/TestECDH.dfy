@@ -5,9 +5,9 @@ include "../src/Index.dfy"
 include "../src/ECDH.dfy"
 
 module TestECDH {
-  import Aws.Cryptography.Primitives
+  import Primitives = AtomicPrimitives
   import opened StandardLibrary.UInt
-  import Types = Aws.Cryptography.Primitives.Types
+  import Types = AwsCryptographyPrimitivesTypes
   import UTF8
   import HexStrings
   import Base64

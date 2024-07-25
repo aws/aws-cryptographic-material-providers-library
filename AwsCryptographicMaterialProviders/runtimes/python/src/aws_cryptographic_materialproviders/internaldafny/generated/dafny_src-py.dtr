@@ -1,5 +1,5 @@
 file_format_version = "1.0"
-dafny_version = "4.6.0.0"
+dafny_version = "4.7.0.0"
 [options_by_module.AwsCryptographyKeyStoreTypes]
 python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AbstractAwsCryptographyKeyStoreOperations]
@@ -88,6 +88,12 @@ python-module-name = "aws_cryptographic_materialproviders.internaldafny.generate
 python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.AwsKmsRsaKeyring]
 python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
+[options_by_module.EcdhEdkWrapping]
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
+[options_by_module.RawECDHKeyring]
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
+[options_by_module.AwsKmsEcdhKeyring]
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.RawAESKeyring]
 python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.RawRSAKeyring]
@@ -101,6 +107,8 @@ python-module-name = "aws_cryptographic_materialproviders.internaldafny.generate
 [options_by_module.DefaultCMM]
 python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.DefaultClientSupplier]
+python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
+[options_by_module.Utils]
 python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"
 [options_by_module.RequiredEncryptionContextCMM]
 python-module-name = "aws_cryptographic_materialproviders.internaldafny.generated"

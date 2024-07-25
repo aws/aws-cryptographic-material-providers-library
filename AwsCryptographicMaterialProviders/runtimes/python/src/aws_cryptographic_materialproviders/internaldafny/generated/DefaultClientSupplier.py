@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -107,6 +108,9 @@ import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker 
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.EcdhEdkWrapping as EcdhEdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.RawECDHKeyring as RawECDHKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsEcdhKeyring as AwsKmsEcdhKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawRSAKeyring as RawRSAKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.CMM as CMM
@@ -124,9 +128,9 @@ class DefaultClientSupplier(AwsCryptographyMaterialProvidersTypes.IClientSupplie
     def __dafnystr__(self) -> str:
         return "DefaultClientSupplier.DefaultClientSupplier"
     def GetClient(self, input):
-        out217_: Wrappers.Result
-        out217_ = AwsCryptographyMaterialProvidersTypes.IClientSupplier.GetClient(self, input)
-        return out217_
+        out260_: Wrappers.Result
+        out260_ = AwsCryptographyMaterialProvidersTypes.IClientSupplier.GetClient(self, input)
+        return out260_
 
     def ctor__(self):
         pass
@@ -134,14 +138,14 @@ class DefaultClientSupplier(AwsCryptographyMaterialProvidersTypes.IClientSupplie
 
     def GetClient_k(self, input):
         output: Wrappers.Result = None
-        d_1230_maybeClient_: Wrappers.Result
-        out218_: Wrappers.Result
-        out218_ = Com_Amazonaws_Kms.default__.KMSClientForRegion((input).region)
-        d_1230_maybeClient_ = out218_
-        def lambda103_(d_1231_e_):
-            return AwsCryptographyMaterialProvidersTypes.Error_ComAmazonawsKms(d_1231_e_)
+        d_1498_maybeClient_: Wrappers.Result
+        out261_: Wrappers.Result
+        out261_ = Com_Amazonaws_Kms.default__.KMSClientForRegion((input).region)
+        d_1498_maybeClient_ = out261_
+        def lambda117_(d_1499_e_):
+            return AwsCryptographyMaterialProvidersTypes.Error_ComAmazonawsKms(d_1499_e_)
 
-        output = (d_1230_maybeClient_).MapFailure(lambda103_)
+        output = (d_1498_maybeClient_).MapFailure(lambda117_)
         return output
         return output
 

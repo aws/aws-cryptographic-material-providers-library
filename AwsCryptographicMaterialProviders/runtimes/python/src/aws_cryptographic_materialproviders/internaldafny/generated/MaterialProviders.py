@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -107,6 +108,9 @@ import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker 
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.EcdhEdkWrapping as EcdhEdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.RawECDHKeyring as RawECDHKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsEcdhKeyring as AwsKmsEcdhKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawRSAKeyring as RawRSAKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.CMM as CMM
@@ -114,6 +118,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.Defaults as D
 import aws_cryptographic_materialproviders.internaldafny.generated.Commitment as Commitment
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultCMM as DefaultCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultClientSupplier as DefaultClientSupplier
+import aws_cryptographic_materialproviders.internaldafny.generated.Utils as Utils
 import aws_cryptographic_materialproviders.internaldafny.generated.RequiredEncryptionContextCMM as RequiredEncryptionContextCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersOperations as AwsCryptographyMaterialProvidersOperations
 
@@ -130,27 +135,27 @@ class default__:
     @staticmethod
     def MaterialProviders(config):
         res: Wrappers.Result = None
-        d_1364_maybeCrypto_: Wrappers.Result
-        out233_: Wrappers.Result
-        out233_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
-        d_1364_maybeCrypto_ = out233_
-        d_1365_cryptoPrimitivesX_: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient
-        d_1366_valueOrError0_: Wrappers.Result = None
-        def lambda111_(d_1367_e_):
-            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_1367_e_)
+        d_1684_maybeCrypto_: Wrappers.Result
+        out291_: Wrappers.Result
+        out291_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
+        d_1684_maybeCrypto_ = out291_
+        d_1685_cryptoPrimitivesX_: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient
+        d_1686_valueOrError0_: Wrappers.Result = None
+        def lambda126_(d_1687_e_):
+            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_1687_e_)
 
-        d_1366_valueOrError0_ = (d_1364_maybeCrypto_).MapFailure(lambda111_)
-        if (d_1366_valueOrError0_).IsFailure():
-            res = (d_1366_valueOrError0_).PropagateFailure()
+        d_1686_valueOrError0_ = (d_1684_maybeCrypto_).MapFailure(lambda126_)
+        if (d_1686_valueOrError0_).IsFailure():
+            res = (d_1686_valueOrError0_).PropagateFailure()
             return res
-        d_1365_cryptoPrimitivesX_ = (d_1366_valueOrError0_).Extract()
-        d_1368_cryptoPrimitives_: AtomicPrimitives.AtomicPrimitivesClient
-        d_1368_cryptoPrimitives_ = d_1365_cryptoPrimitivesX_
-        d_1369_client_: MaterialProvidersClient
-        nw72_ = MaterialProvidersClient()
-        nw72_.ctor__(AwsCryptographyMaterialProvidersOperations.Config_Config(d_1368_cryptoPrimitives_))
-        d_1369_client_ = nw72_
-        res = Wrappers.Result_Success(d_1369_client_)
+        d_1685_cryptoPrimitivesX_ = (d_1686_valueOrError0_).Extract()
+        d_1688_cryptoPrimitives_: AtomicPrimitives.AtomicPrimitivesClient
+        d_1688_cryptoPrimitives_ = d_1685_cryptoPrimitivesX_
+        d_1689_client_: MaterialProvidersClient
+        nw85_ = MaterialProvidersClient()
+        nw85_.ctor__(AwsCryptographyMaterialProvidersOperations.Config_Config(d_1688_cryptoPrimitives_))
+        d_1689_client_ = nw85_
+        res = Wrappers.Result_Success(d_1689_client_)
         return res
         return res
 
@@ -175,121 +180,135 @@ class MaterialProvidersClient(AwsCryptographyMaterialProvidersTypes.IAwsCryptogr
 
     def CreateAwsKmsKeyring(self, input):
         output: Wrappers.Result = None
-        out234_: Wrappers.Result
-        out234_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsKeyring((self).config, input)
-        output = out234_
+        out292_: Wrappers.Result
+        out292_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsKeyring((self).config, input)
+        output = out292_
         return output
 
     def CreateAwsKmsDiscoveryKeyring(self, input):
         output: Wrappers.Result = None
-        out235_: Wrappers.Result
-        out235_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsDiscoveryKeyring((self).config, input)
-        output = out235_
+        out293_: Wrappers.Result
+        out293_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsDiscoveryKeyring((self).config, input)
+        output = out293_
         return output
 
     def CreateAwsKmsMultiKeyring(self, input):
         output: Wrappers.Result = None
-        out236_: Wrappers.Result
-        out236_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsMultiKeyring((self).config, input)
-        output = out236_
+        out294_: Wrappers.Result
+        out294_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsMultiKeyring((self).config, input)
+        output = out294_
         return output
 
     def CreateAwsKmsDiscoveryMultiKeyring(self, input):
         output: Wrappers.Result = None
-        out237_: Wrappers.Result
-        out237_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsDiscoveryMultiKeyring((self).config, input)
-        output = out237_
+        out295_: Wrappers.Result
+        out295_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsDiscoveryMultiKeyring((self).config, input)
+        output = out295_
         return output
 
     def CreateAwsKmsMrkKeyring(self, input):
         output: Wrappers.Result = None
-        out238_: Wrappers.Result
-        out238_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsMrkKeyring((self).config, input)
-        output = out238_
+        out296_: Wrappers.Result
+        out296_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsMrkKeyring((self).config, input)
+        output = out296_
         return output
 
     def CreateAwsKmsMrkMultiKeyring(self, input):
         output: Wrappers.Result = None
-        out239_: Wrappers.Result
-        out239_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsMrkMultiKeyring((self).config, input)
-        output = out239_
+        out297_: Wrappers.Result
+        out297_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsMrkMultiKeyring((self).config, input)
+        output = out297_
         return output
 
     def CreateAwsKmsMrkDiscoveryKeyring(self, input):
         output: Wrappers.Result = None
-        out240_: Wrappers.Result
-        out240_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsMrkDiscoveryKeyring((self).config, input)
-        output = out240_
+        out298_: Wrappers.Result
+        out298_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsMrkDiscoveryKeyring((self).config, input)
+        output = out298_
         return output
 
     def CreateAwsKmsMrkDiscoveryMultiKeyring(self, input):
         output: Wrappers.Result = None
-        out241_: Wrappers.Result
-        out241_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsMrkDiscoveryMultiKeyring((self).config, input)
-        output = out241_
+        out299_: Wrappers.Result
+        out299_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsMrkDiscoveryMultiKeyring((self).config, input)
+        output = out299_
         return output
 
     def CreateAwsKmsHierarchicalKeyring(self, input):
         output: Wrappers.Result = None
-        out242_: Wrappers.Result
-        out242_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsHierarchicalKeyring((self).config, input)
-        output = out242_
-        return output
-
-    def CreateMultiKeyring(self, input):
-        output: Wrappers.Result = None
-        out243_: Wrappers.Result
-        out243_ = AwsCryptographyMaterialProvidersOperations.default__.CreateMultiKeyring((self).config, input)
-        output = out243_
-        return output
-
-    def CreateRawAesKeyring(self, input):
-        output: Wrappers.Result = None
-        out244_: Wrappers.Result
-        out244_ = AwsCryptographyMaterialProvidersOperations.default__.CreateRawAesKeyring((self).config, input)
-        output = out244_
-        return output
-
-    def CreateRawRsaKeyring(self, input):
-        output: Wrappers.Result = None
-        out245_: Wrappers.Result
-        out245_ = AwsCryptographyMaterialProvidersOperations.default__.CreateRawRsaKeyring((self).config, input)
-        output = out245_
+        out300_: Wrappers.Result
+        out300_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsHierarchicalKeyring((self).config, input)
+        output = out300_
         return output
 
     def CreateAwsKmsRsaKeyring(self, input):
         output: Wrappers.Result = None
-        out246_: Wrappers.Result
-        out246_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsRsaKeyring((self).config, input)
-        output = out246_
+        out301_: Wrappers.Result
+        out301_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsRsaKeyring((self).config, input)
+        output = out301_
+        return output
+
+    def CreateAwsKmsEcdhKeyring(self, input):
+        output: Wrappers.Result = None
+        out302_: Wrappers.Result
+        out302_ = AwsCryptographyMaterialProvidersOperations.default__.CreateAwsKmsEcdhKeyring((self).config, input)
+        output = out302_
+        return output
+
+    def CreateMultiKeyring(self, input):
+        output: Wrappers.Result = None
+        out303_: Wrappers.Result
+        out303_ = AwsCryptographyMaterialProvidersOperations.default__.CreateMultiKeyring((self).config, input)
+        output = out303_
+        return output
+
+    def CreateRawAesKeyring(self, input):
+        output: Wrappers.Result = None
+        out304_: Wrappers.Result
+        out304_ = AwsCryptographyMaterialProvidersOperations.default__.CreateRawAesKeyring((self).config, input)
+        output = out304_
+        return output
+
+    def CreateRawRsaKeyring(self, input):
+        output: Wrappers.Result = None
+        out305_: Wrappers.Result
+        out305_ = AwsCryptographyMaterialProvidersOperations.default__.CreateRawRsaKeyring((self).config, input)
+        output = out305_
+        return output
+
+    def CreateRawEcdhKeyring(self, input):
+        output: Wrappers.Result = None
+        out306_: Wrappers.Result
+        out306_ = AwsCryptographyMaterialProvidersOperations.default__.CreateRawEcdhKeyring((self).config, input)
+        output = out306_
         return output
 
     def CreateDefaultCryptographicMaterialsManager(self, input):
         output: Wrappers.Result = None
-        out247_: Wrappers.Result
-        out247_ = AwsCryptographyMaterialProvidersOperations.default__.CreateDefaultCryptographicMaterialsManager((self).config, input)
-        output = out247_
+        out307_: Wrappers.Result
+        out307_ = AwsCryptographyMaterialProvidersOperations.default__.CreateDefaultCryptographicMaterialsManager((self).config, input)
+        output = out307_
         return output
 
     def CreateRequiredEncryptionContextCMM(self, input):
         output: Wrappers.Result = None
-        out248_: Wrappers.Result
-        out248_ = AwsCryptographyMaterialProvidersOperations.default__.CreateRequiredEncryptionContextCMM((self).config, input)
-        output = out248_
+        out308_: Wrappers.Result
+        out308_ = AwsCryptographyMaterialProvidersOperations.default__.CreateRequiredEncryptionContextCMM((self).config, input)
+        output = out308_
         return output
 
     def CreateCryptographicMaterialsCache(self, input):
         output: Wrappers.Result = None
-        out249_: Wrappers.Result
-        out249_ = AwsCryptographyMaterialProvidersOperations.default__.CreateCryptographicMaterialsCache((self).config, input)
-        output = out249_
+        out309_: Wrappers.Result
+        out309_ = AwsCryptographyMaterialProvidersOperations.default__.CreateCryptographicMaterialsCache((self).config, input)
+        output = out309_
         return output
 
     def CreateDefaultClientSupplier(self, input):
         output: Wrappers.Result = None
-        out250_: Wrappers.Result
-        out250_ = AwsCryptographyMaterialProvidersOperations.default__.CreateDefaultClientSupplier((self).config, input)
-        output = out250_
+        out310_: Wrappers.Result
+        out310_ = AwsCryptographyMaterialProvidersOperations.default__.CreateDefaultClientSupplier((self).config, input)
+        output = out310_
         return output
 
     def InitializeEncryptionMaterials(self, input):

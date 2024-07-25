@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -71,6 +72,9 @@ import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker 
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.EcdhEdkWrapping as EcdhEdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.RawECDHKeyring as RawECDHKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsEcdhKeyring as AwsKmsEcdhKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawRSAKeyring as RawRSAKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.CMM as CMM
@@ -78,6 +82,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.Defaults as D
 import aws_cryptographic_materialproviders.internaldafny.generated.Commitment as Commitment
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultCMM as DefaultCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultClientSupplier as DefaultClientSupplier
+import aws_cryptographic_materialproviders.internaldafny.generated.Utils as Utils
 import aws_cryptographic_materialproviders.internaldafny.generated.RequiredEncryptionContextCMM as RequiredEncryptionContextCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersOperations as AwsCryptographyMaterialProvidersOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialProviders as MaterialProviders
@@ -173,52 +178,51 @@ class default__:
     @staticmethod
     def ToCmm(mpl, keys, description, forOperation):
         output: Wrappers.Result = None
-        d_390_material_: Wrappers.Option
-        d_390_material_ = KeyringFromKeyDescription.default__.GetKeyMaterial(keys, description)
-        source14_ = description
-        unmatched14 = True
-        if unmatched14:
-            if source14_.is_RequiredEncryptionContext:
-                d_391_cmm_ = source14_.RequiredEncryptionContext
-                unmatched14 = False
+        d_519_material_: Wrappers.Option
+        d_519_material_ = KeyringFromKeyDescription.default__.GetKeyMaterial(keys, description)
+        source18_ = description
+        unmatched18 = True
+        if unmatched18:
+            if source18_.is_RequiredEncryptionContext:
+                d_520_cmm_ = source18_.RequiredEncryptionContext
+                unmatched18 = False
                 if True:
-                    d_392_underlying_: AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager
-                    d_393_valueOrError0_: Wrappers.Result = None
-                    out20_: Wrappers.Result
-                    out20_ = default__.ToCmm(mpl, keys, (d_391_cmm_).underlying, forOperation)
-                    d_393_valueOrError0_ = out20_
-                    if (d_393_valueOrError0_).IsFailure():
-                        output = (d_393_valueOrError0_).PropagateFailure()
+                    d_521_underlying_: AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager
+                    d_522_valueOrError0_: Wrappers.Result = None
+                    out29_: Wrappers.Result
+                    out29_ = default__.ToCmm(mpl, keys, (d_520_cmm_).underlying, forOperation)
+                    d_522_valueOrError0_ = out29_
+                    if (d_522_valueOrError0_).IsFailure():
+                        output = (d_522_valueOrError0_).PropagateFailure()
                         return output
-                    d_392_underlying_ = (d_393_valueOrError0_).Extract()
-                    d_394_output_k_: Wrappers.Result
-                    out21_: Wrappers.Result
-                    out21_ = (mpl).CreateRequiredEncryptionContextCMM(AwsCryptographyMaterialProvidersTypes.CreateRequiredEncryptionContextCMMInput_CreateRequiredEncryptionContextCMMInput(Wrappers.Option_Some(d_392_underlying_), Wrappers.Option_None(), (d_391_cmm_).requiredEncryptionContextKeys))
-                    d_394_output_k_ = out21_
-                    def lambda33_(d_395_e_):
-                        return AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_AwsCryptographyMaterialProviders(d_395_e_)
+                    d_521_underlying_ = (d_522_valueOrError0_).Extract()
+                    d_523_output_k_: Wrappers.Result
+                    out30_: Wrappers.Result
+                    out30_ = (mpl).CreateRequiredEncryptionContextCMM(AwsCryptographyMaterialProvidersTypes.CreateRequiredEncryptionContextCMMInput_CreateRequiredEncryptionContextCMMInput(Wrappers.Option_Some(d_521_underlying_), Wrappers.Option_None(), (d_520_cmm_).requiredEncryptionContextKeys))
+                    d_523_output_k_ = out30_
+                    def lambda48_(d_524_e_):
+                        return AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_AwsCryptographyMaterialProviders(d_524_e_)
 
-                    output = (d_394_output_k_).MapFailure(lambda33_)
-        if unmatched14:
-            d_396___v0_ = source14_
-            unmatched14 = False
+                    output = (d_523_output_k_).MapFailure(lambda48_)
+        if unmatched18:
+            unmatched18 = False
             if True:
-                d_397_keyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
-                d_398_valueOrError1_: Wrappers.Result = None
-                out22_: Wrappers.Result
-                out22_ = KeyringFromKeyDescription.default__.ToKeyring(mpl, keys, description)
-                d_398_valueOrError1_ = out22_
-                if (d_398_valueOrError1_).IsFailure():
-                    output = (d_398_valueOrError1_).PropagateFailure()
+                d_525_keyring_: AwsCryptographyMaterialProvidersTypes.IKeyring
+                d_526_valueOrError1_: Wrappers.Result = None
+                out31_: Wrappers.Result
+                out31_ = KeyringFromKeyDescription.default__.ToKeyring(mpl, keys, description)
+                d_526_valueOrError1_ = out31_
+                if (d_526_valueOrError1_).IsFailure():
+                    output = (d_526_valueOrError1_).PropagateFailure()
                     return output
-                d_397_keyring_ = (d_398_valueOrError1_).Extract()
-                d_399_output_k_: Wrappers.Result
-                out23_: Wrappers.Result
-                out23_ = (mpl).CreateDefaultCryptographicMaterialsManager(AwsCryptographyMaterialProvidersTypes.CreateDefaultCryptographicMaterialsManagerInput_CreateDefaultCryptographicMaterialsManagerInput(d_397_keyring_))
-                d_399_output_k_ = out23_
-                def lambda34_(d_400_e_):
-                    return AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_AwsCryptographyMaterialProviders(d_400_e_)
+                d_525_keyring_ = (d_526_valueOrError1_).Extract()
+                d_527_output_k_: Wrappers.Result
+                out32_: Wrappers.Result
+                out32_ = (mpl).CreateDefaultCryptographicMaterialsManager(AwsCryptographyMaterialProvidersTypes.CreateDefaultCryptographicMaterialsManagerInput_CreateDefaultCryptographicMaterialsManagerInput(d_525_keyring_))
+                d_527_output_k_ = out32_
+                def lambda49_(d_528_e_):
+                    return AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_AwsCryptographyMaterialProviders(d_528_e_)
 
-                output = (d_399_output_k_).MapFailure(lambda34_)
+                output = (d_527_output_k_).MapFailure(lambda49_)
         return output
 

@@ -60,6 +60,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 
 # Module: AtomicPrimitives
@@ -75,11 +76,11 @@ class default__:
     @staticmethod
     def AtomicPrimitives(config):
         res: Wrappers.Result = None
-        d_111_client_: AtomicPrimitivesClient
+        d_124_client_: AtomicPrimitivesClient
         nw0_ = AtomicPrimitivesClient()
         nw0_.ctor__(AwsCryptographyPrimitivesOperations.Config_Config())
-        d_111_client_ = nw0_
-        res = Wrappers.Result_Success(d_111_client_)
+        d_124_client_ = nw0_
+        res = Wrappers.Result_Success(d_124_client_)
         return res
         return res
 
@@ -104,16 +105,16 @@ class AtomicPrimitivesClient(AwsCryptographyPrimitivesTypes.IAwsCryptographicPri
 
     def GenerateRandomBytes(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out36_: Wrappers.Result
-        out36_ = AwsCryptographyPrimitivesOperations.default__.GenerateRandomBytes((self).config, input)
-        output = out36_
+        out50_: Wrappers.Result
+        out50_ = AwsCryptographyPrimitivesOperations.default__.GenerateRandomBytes((self).config, input)
+        output = out50_
         return output
 
     def Digest(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out37_: Wrappers.Result
-        out37_ = AwsCryptographyPrimitivesOperations.default__.Digest((self).config, input)
-        output = out37_
+        out51_: Wrappers.Result
+        out51_ = AwsCryptographyPrimitivesOperations.default__.Digest((self).config, input)
+        output = out51_
         return output
 
     def HMac(self, input):
@@ -121,58 +122,58 @@ class AtomicPrimitivesClient(AwsCryptographyPrimitivesTypes.IAwsCryptographicPri
 
     def HkdfExtract(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out38_: Wrappers.Result
-        out38_ = AwsCryptographyPrimitivesOperations.default__.HkdfExtract((self).config, input)
-        output = out38_
+        out52_: Wrappers.Result
+        out52_ = AwsCryptographyPrimitivesOperations.default__.HkdfExtract((self).config, input)
+        output = out52_
         return output
 
     def HkdfExpand(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out39_: Wrappers.Result
-        out39_ = AwsCryptographyPrimitivesOperations.default__.HkdfExpand((self).config, input)
-        output = out39_
+        out53_: Wrappers.Result
+        out53_ = AwsCryptographyPrimitivesOperations.default__.HkdfExpand((self).config, input)
+        output = out53_
         return output
 
     def Hkdf(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out40_: Wrappers.Result
-        out40_ = AwsCryptographyPrimitivesOperations.default__.Hkdf((self).config, input)
-        output = out40_
+        out54_: Wrappers.Result
+        out54_ = AwsCryptographyPrimitivesOperations.default__.Hkdf((self).config, input)
+        output = out54_
         return output
 
     def KdfCounterMode(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out41_: Wrappers.Result
-        out41_ = AwsCryptographyPrimitivesOperations.default__.KdfCounterMode((self).config, input)
-        output = out41_
+        out55_: Wrappers.Result
+        out55_ = AwsCryptographyPrimitivesOperations.default__.KdfCounterMode((self).config, input)
+        output = out55_
         return output
 
     def AesKdfCounterMode(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out42_: Wrappers.Result
-        out42_ = AwsCryptographyPrimitivesOperations.default__.AesKdfCounterMode((self).config, input)
-        output = out42_
+        out56_: Wrappers.Result
+        out56_ = AwsCryptographyPrimitivesOperations.default__.AesKdfCounterMode((self).config, input)
+        output = out56_
         return output
 
     def AESEncrypt(self, input):
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.AESEncryptOutput.default())()
-        out43_: Wrappers.Result
-        out43_ = AwsCryptographyPrimitivesOperations.default__.AESEncrypt((self).config, input)
-        output = out43_
+        out57_: Wrappers.Result
+        out57_ = AwsCryptographyPrimitivesOperations.default__.AESEncrypt((self).config, input)
+        output = out57_
         return output
 
     def AESDecrypt(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out44_: Wrappers.Result
-        out44_ = AwsCryptographyPrimitivesOperations.default__.AESDecrypt((self).config, input)
-        output = out44_
+        out58_: Wrappers.Result
+        out58_ = AwsCryptographyPrimitivesOperations.default__.AESDecrypt((self).config, input)
+        output = out58_
         return output
 
     def GenerateRSAKeyPair(self, input):
         output: Wrappers.Result = None
-        out45_: Wrappers.Result
-        out45_ = AwsCryptographyPrimitivesOperations.default__.GenerateRSAKeyPair((self).config, input)
-        output = out45_
+        out59_: Wrappers.Result
+        out59_ = AwsCryptographyPrimitivesOperations.default__.GenerateRSAKeyPair((self).config, input)
+        output = out59_
         return output
 
     def GetRSAKeyModulusLength(self, input):
@@ -180,37 +181,86 @@ class AtomicPrimitivesClient(AwsCryptographyPrimitivesTypes.IAwsCryptographicPri
 
     def RSADecrypt(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out46_: Wrappers.Result
-        out46_ = AwsCryptographyPrimitivesOperations.default__.RSADecrypt((self).config, input)
-        output = out46_
+        out60_: Wrappers.Result
+        out60_ = AwsCryptographyPrimitivesOperations.default__.RSADecrypt((self).config, input)
+        output = out60_
         return output
 
     def RSAEncrypt(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out47_: Wrappers.Result
-        out47_ = AwsCryptographyPrimitivesOperations.default__.RSAEncrypt((self).config, input)
-        output = out47_
+        out61_: Wrappers.Result
+        out61_ = AwsCryptographyPrimitivesOperations.default__.RSAEncrypt((self).config, input)
+        output = out61_
         return output
 
     def GenerateECDSASignatureKey(self, input):
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.GenerateECDSASignatureKeyOutput.default())()
-        out48_: Wrappers.Result
-        out48_ = AwsCryptographyPrimitivesOperations.default__.GenerateECDSASignatureKey((self).config, input)
-        output = out48_
+        out62_: Wrappers.Result
+        out62_ = AwsCryptographyPrimitivesOperations.default__.GenerateECDSASignatureKey((self).config, input)
+        output = out62_
         return output
 
     def ECDSASign(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out49_: Wrappers.Result
-        out49_ = AwsCryptographyPrimitivesOperations.default__.ECDSASign((self).config, input)
-        output = out49_
+        out63_: Wrappers.Result
+        out63_ = AwsCryptographyPrimitivesOperations.default__.ECDSASign((self).config, input)
+        output = out63_
         return output
 
     def ECDSAVerify(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.bool)()
-        out50_: Wrappers.Result
-        out50_ = AwsCryptographyPrimitivesOperations.default__.ECDSAVerify((self).config, input)
-        output = out50_
+        out64_: Wrappers.Result
+        out64_ = AwsCryptographyPrimitivesOperations.default__.ECDSAVerify((self).config, input)
+        output = out64_
+        return output
+
+    def GenerateECCKeyPair(self, input):
+        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.GenerateECCKeyPairOutput.default())()
+        out65_: Wrappers.Result
+        out65_ = AwsCryptographyPrimitivesOperations.default__.GenerateECCKeyPair((self).config, input)
+        output = out65_
+        return output
+
+    def GetPublicKeyFromPrivateKey(self, input):
+        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.GetPublicKeyFromPrivateKeyOutput.default())()
+        out66_: Wrappers.Result
+        out66_ = AwsCryptographyPrimitivesOperations.default__.GetPublicKeyFromPrivateKey((self).config, input)
+        output = out66_
+        return output
+
+    def ValidatePublicKey(self, input):
+        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.ValidatePublicKeyOutput.default())()
+        out67_: Wrappers.Result
+        out67_ = AwsCryptographyPrimitivesOperations.default__.ValidatePublicKey((self).config, input)
+        output = out67_
+        return output
+
+    def DeriveSharedSecret(self, input):
+        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.DeriveSharedSecretOutput.default())()
+        out68_: Wrappers.Result
+        out68_ = AwsCryptographyPrimitivesOperations.default__.DeriveSharedSecret((self).config, input)
+        output = out68_
+        return output
+
+    def CompressPublicKey(self, input):
+        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.CompressPublicKeyOutput.default())()
+        out69_: Wrappers.Result
+        out69_ = AwsCryptographyPrimitivesOperations.default__.CompressPublicKey((self).config, input)
+        output = out69_
+        return output
+
+    def DecompressPublicKey(self, input):
+        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.DecompressPublicKeyOutput.default())()
+        out70_: Wrappers.Result
+        out70_ = AwsCryptographyPrimitivesOperations.default__.DecompressPublicKey((self).config, input)
+        output = out70_
+        return output
+
+    def ParsePublicKey(self, input):
+        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.ParsePublicKeyOutput.default())()
+        out71_: Wrappers.Result
+        out71_ = AwsCryptographyPrimitivesOperations.default__.ParsePublicKey((self).config, input)
+        output = out71_
         return output
 
     @property

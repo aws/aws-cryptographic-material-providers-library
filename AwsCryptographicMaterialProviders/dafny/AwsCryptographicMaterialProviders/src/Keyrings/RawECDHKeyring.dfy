@@ -22,7 +22,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
   import opened Constants
   import Types = AwsCryptographyMaterialProvidersTypes
   import PrimitiveTypes = AwsCryptographyPrimitivesTypes
-  import Aws.Cryptography.Primitives
+  import Primitives = AtomicPrimitives
   import Keyring
   import Materials
   import opened AlgorithmSuites

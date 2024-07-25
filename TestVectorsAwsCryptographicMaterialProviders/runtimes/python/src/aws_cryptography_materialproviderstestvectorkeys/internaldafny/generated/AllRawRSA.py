@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -71,6 +72,9 @@ import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker 
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.EcdhEdkWrapping as EcdhEdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.RawECDHKeyring as RawECDHKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsEcdhKeyring as AwsKmsEcdhKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawRSAKeyring as RawRSAKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.CMM as CMM
@@ -78,6 +82,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.Defaults as D
 import aws_cryptographic_materialproviders.internaldafny.generated.Commitment as Commitment
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultCMM as DefaultCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultClientSupplier as DefaultClientSupplier
+import aws_cryptographic_materialproviders.internaldafny.generated.Utils as Utils
 import aws_cryptographic_materialproviders.internaldafny.generated.RequiredEncryptionContextCMM as RequiredEncryptionContextCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersOperations as AwsCryptographyMaterialProvidersOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialProviders as MaterialProviders
@@ -172,6 +177,7 @@ import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKmsMrkAware as AllKmsMrkAware
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKmsMrkAwareDiscovery as AllKmsMrkAwareDiscovery
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKmsRsa as AllKmsRsa
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKmsEcdh as AllKmsEcdh
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllRawAES as AllRawAES
 
 # Module: AllRawRSA
@@ -185,68 +191,68 @@ class default__:
         return _dafny.Seq([_dafny.Seq("rsa-4096")])
     @_dafny.classproperty
     def KeyDescriptions(instance):
-        def iife37_():
-            coll21_ = _dafny.Set()
-            compr_36_: _dafny.Seq
-            for compr_36_ in (default__.rsaPersistentKeyNamesWithoutPublicPrivate).Elements:
-                d_595_key_: _dafny.Seq = compr_36_
-                if (d_595_key_) in (default__.rsaPersistentKeyNamesWithoutPublicPrivate):
-                    compr_37_: AwsCryptographyMaterialProvidersTypes.PaddingScheme
-                    for compr_37_ in AwsCryptographyMaterialProvidersTypes.PaddingScheme.AllSingletonConstructors:
-                        d_596_padding_: AwsCryptographyMaterialProvidersTypes.PaddingScheme = compr_37_
-                        coll21_ = coll21_.union(_dafny.Set([AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_RSA(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawRSA_RawRSA(d_595_key_, (_dafny.Seq("aws-raw-vectors-persistent-")) + (d_595_key_), d_596_padding_))]))
-            return _dafny.Set(coll21_)
-        return iife37_()
+        def iife41_():
+            coll25_ = _dafny.Set()
+            compr_46_: _dafny.Seq
+            for compr_46_ in (default__.rsaPersistentKeyNamesWithoutPublicPrivate).Elements:
+                d_632_key_: _dafny.Seq = compr_46_
+                if (d_632_key_) in (default__.rsaPersistentKeyNamesWithoutPublicPrivate):
+                    compr_47_: AwsCryptographyMaterialProvidersTypes.PaddingScheme
+                    for compr_47_ in AwsCryptographyMaterialProvidersTypes.PaddingScheme.AllSingletonConstructors:
+                        d_633_padding_: AwsCryptographyMaterialProvidersTypes.PaddingScheme = compr_47_
+                        coll25_ = coll25_.union(_dafny.Set([AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_RSA(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawRSA_RawRSA(d_632_key_, (_dafny.Seq("aws-raw-vectors-persistent-")) + (d_632_key_), d_633_padding_))]))
+            return _dafny.Set(coll25_)
+        return iife41_()
         
     @_dafny.classproperty
     def Tests(instance):
-        def iife38_():
-            coll22_ = _dafny.Set()
-            compr_38_: AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription
-            for compr_38_ in (default__.KeyDescriptions).Elements:
-                d_597_keyDescription_: AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription = compr_38_
-                if (d_597_keyDescription_) in (default__.KeyDescriptions):
-                    compr_39_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
-                    for compr_39_ in (AllAlgorithmSuites.default__.AllAlgorithmSuites).Elements:
-                        d_598_algorithmSuite_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo = compr_39_
-                        if (d_598_algorithmSuite_) in (AllAlgorithmSuites.default__.AllAlgorithmSuites):
-                            compr_40_: AwsCryptographyMaterialProvidersTypes.CommitmentPolicy
-                            for compr_40_ in [AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_598_algorithmSuite_)]:
-                                d_599_commitmentPolicy_: AwsCryptographyMaterialProvidersTypes.CommitmentPolicy = compr_40_
-                                if (d_599_commitmentPolicy_) == (AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_598_algorithmSuite_)):
-                                    def iife39_(_pat_let8_0):
-                                        def iife40_(d_600_dt__update__tmp_h0_):
-                                            def iife42_(_pat_let10_0):
-                                                def iife43_(d_601_dt__update__tmp_h1_):
-                                                    def iife44_(_pat_let11_0):
-                                                        def iife45_(d_602_dt__update_hkeyId_h0_):
-                                                            return AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawRSA_RawRSA(d_602_dt__update_hkeyId_h0_, (d_601_dt__update__tmp_h1_).providerId, (d_601_dt__update__tmp_h1_).padding)
-                                                        return iife45_(_pat_let11_0)
-                                                    return iife44_((((d_597_keyDescription_).RSA).keyId) + (_dafny.Seq("-public")))
-                                                return iife43_(_pat_let10_0)
-                                            def iife41_(_pat_let9_0):
-                                                def iife46_(d_603_dt__update_hRSA_h0_):
-                                                    return AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_RSA(d_603_dt__update_hRSA_h0_)
-                                                return iife46_(_pat_let9_0)
-                                            return iife41_(iife42_((d_597_keyDescription_).RSA))
-                                        return iife40_(_pat_let8_0)
-                                    def iife47_(_pat_let12_0):
-                                        def iife48_(d_604_dt__update__tmp_h2_):
-                                            def iife50_(_pat_let14_0):
-                                                def iife51_(d_605_dt__update__tmp_h3_):
-                                                    def iife52_(_pat_let15_0):
-                                                        def iife53_(d_606_dt__update_hkeyId_h1_):
-                                                            return AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawRSA_RawRSA(d_606_dt__update_hkeyId_h1_, (d_605_dt__update__tmp_h3_).providerId, (d_605_dt__update__tmp_h3_).padding)
-                                                        return iife53_(_pat_let15_0)
-                                                    return iife52_((((d_597_keyDescription_).RSA).keyId) + (_dafny.Seq("-private")))
-                                                return iife51_(_pat_let14_0)
-                                            def iife49_(_pat_let13_0):
-                                                def iife54_(d_607_dt__update_hRSA_h1_):
-                                                    return AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_RSA(d_607_dt__update_hRSA_h1_)
-                                                return iife54_(_pat_let13_0)
-                                            return iife49_(iife50_((d_597_keyDescription_).RSA))
-                                        return iife48_(_pat_let12_0)
-                                    coll22_ = coll22_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptKeyringVector((_dafny.Seq("Generated RawRSA ")) + (((d_597_keyDescription_).RSA).keyId), Wrappers.Option_None(), _dafny.Map({}), d_599_commitmentPolicy_, d_598_algorithmSuite_, Wrappers.Option_None(), Wrappers.Option_None(), iife39_(d_597_keyDescription_), iife47_(d_597_keyDescription_), Wrappers.Option_None())]))
-            return _dafny.Set(coll22_)
-        return iife38_()
+        def iife42_():
+            coll26_ = _dafny.Set()
+            compr_48_: AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription
+            for compr_48_ in (default__.KeyDescriptions).Elements:
+                d_634_keyDescription_: AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription = compr_48_
+                if (d_634_keyDescription_) in (default__.KeyDescriptions):
+                    compr_49_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
+                    for compr_49_ in (AllAlgorithmSuites.default__.AllAlgorithmSuites).Elements:
+                        d_635_algorithmSuite_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo = compr_49_
+                        if (d_635_algorithmSuite_) in (AllAlgorithmSuites.default__.AllAlgorithmSuites):
+                            compr_50_: AwsCryptographyMaterialProvidersTypes.CommitmentPolicy
+                            for compr_50_ in [AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_635_algorithmSuite_)]:
+                                d_636_commitmentPolicy_: AwsCryptographyMaterialProvidersTypes.CommitmentPolicy = compr_50_
+                                if (d_636_commitmentPolicy_) == (AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_635_algorithmSuite_)):
+                                    def iife43_(_pat_let8_0):
+                                        def iife44_(d_637_dt__update__tmp_h0_):
+                                            def iife46_(_pat_let10_0):
+                                                def iife47_(d_638_dt__update__tmp_h1_):
+                                                    def iife48_(_pat_let11_0):
+                                                        def iife49_(d_639_dt__update_hkeyId_h0_):
+                                                            return AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawRSA_RawRSA(d_639_dt__update_hkeyId_h0_, (d_638_dt__update__tmp_h1_).providerId, (d_638_dt__update__tmp_h1_).padding)
+                                                        return iife49_(_pat_let11_0)
+                                                    return iife48_((((d_634_keyDescription_).RSA).keyId) + (_dafny.Seq("-public")))
+                                                return iife47_(_pat_let10_0)
+                                            def iife45_(_pat_let9_0):
+                                                def iife50_(d_640_dt__update_hRSA_h0_):
+                                                    return AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_RSA(d_640_dt__update_hRSA_h0_)
+                                                return iife50_(_pat_let9_0)
+                                            return iife45_(iife46_((d_634_keyDescription_).RSA))
+                                        return iife44_(_pat_let8_0)
+                                    def iife51_(_pat_let12_0):
+                                        def iife52_(d_641_dt__update__tmp_h2_):
+                                            def iife54_(_pat_let14_0):
+                                                def iife55_(d_642_dt__update__tmp_h3_):
+                                                    def iife56_(_pat_let15_0):
+                                                        def iife57_(d_643_dt__update_hkeyId_h1_):
+                                                            return AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawRSA_RawRSA(d_643_dt__update_hkeyId_h1_, (d_642_dt__update__tmp_h3_).providerId, (d_642_dt__update__tmp_h3_).padding)
+                                                        return iife57_(_pat_let15_0)
+                                                    return iife56_((((d_634_keyDescription_).RSA).keyId) + (_dafny.Seq("-private")))
+                                                return iife55_(_pat_let14_0)
+                                            def iife53_(_pat_let13_0):
+                                                def iife58_(d_644_dt__update_hRSA_h1_):
+                                                    return AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_RSA(d_644_dt__update_hRSA_h1_)
+                                                return iife58_(_pat_let13_0)
+                                            return iife53_(iife54_((d_634_keyDescription_).RSA))
+                                        return iife52_(_pat_let12_0)
+                                    coll26_ = coll26_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptKeyringVector((_dafny.Seq("Generated RawRSA ")) + (((d_634_keyDescription_).RSA).keyId), Wrappers.Option_None(), _dafny.Map({}), d_636_commitmentPolicy_, d_635_algorithmSuite_, Wrappers.Option_None(), Wrappers.Option_None(), iife43_(d_634_keyDescription_), iife51_(d_634_keyDescription_), Wrappers.Option_None())]))
+            return _dafny.Set(coll26_)
+        return iife42_()
         

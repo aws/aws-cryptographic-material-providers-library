@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -71,6 +72,9 @@ import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker 
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.EcdhEdkWrapping as EcdhEdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.RawECDHKeyring as RawECDHKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsEcdhKeyring as AwsKmsEcdhKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawRSAKeyring as RawRSAKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.CMM as CMM
@@ -78,6 +82,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.Defaults as D
 import aws_cryptographic_materialproviders.internaldafny.generated.Commitment as Commitment
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultCMM as DefaultCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultClientSupplier as DefaultClientSupplier
+import aws_cryptographic_materialproviders.internaldafny.generated.Utils as Utils
 import aws_cryptographic_materialproviders.internaldafny.generated.RequiredEncryptionContextCMM as RequiredEncryptionContextCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersOperations as AwsCryptographyMaterialProvidersOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialProviders as MaterialProviders
@@ -179,67 +184,67 @@ class default__:
     @staticmethod
     def KeyVectors(config):
         res: Wrappers.Result = None
-        d_427_keysManifestBv_: _dafny.Seq
-        d_428_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out30_: Wrappers.Result
-        out30_ = FileIO.default__.ReadBytesFromFile((config).keyManifestPath)
-        d_428_valueOrError0_ = out30_
-        if not(not((d_428_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/KeyVectors/src/Index.dfy(30,26): " + _dafny.string_of(d_428_valueOrError0_))
-        d_427_keysManifestBv_ = (d_428_valueOrError0_).Extract()
-        d_429_keysManifestBytes_: _dafny.Seq
-        d_429_keysManifestBytes_ = JSONHelpers.default__.BvToBytes(d_427_keysManifestBv_)
-        d_430_keysManifestJSON_: JSON_Values.JSON
-        d_431_valueOrError1_: Wrappers.Result = Wrappers.Result.default(JSON_Values.JSON.default())()
-        def lambda42_(d_432_e_):
-            return AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_KeyVectorException((d_432_e_).ToString())
+        d_555_keysManifestBv_: _dafny.Seq
+        d_556_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        out39_: Wrappers.Result
+        out39_ = FileIO.default__.ReadBytesFromFile((config).keyManifestPath)
+        d_556_valueOrError0_ = out39_
+        if not(not((d_556_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/KeyVectors/src/Index.dfy(30,26): " + _dafny.string_of(d_556_valueOrError0_))
+        d_555_keysManifestBv_ = (d_556_valueOrError0_).Extract()
+        d_557_keysManifestBytes_: _dafny.Seq
+        d_557_keysManifestBytes_ = JSONHelpers.default__.BvToBytes(d_555_keysManifestBv_)
+        d_558_keysManifestJSON_: JSON_Values.JSON
+        d_559_valueOrError1_: Wrappers.Result = Wrappers.Result.default(JSON_Values.JSON.default())()
+        def lambda57_(d_560_e_):
+            return AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_KeyVectorException((d_560_e_).ToString())
 
-        d_431_valueOrError1_ = (JSON_API.default__.Deserialize(d_429_keysManifestBytes_)).MapFailure(lambda42_)
-        if (d_431_valueOrError1_).IsFailure():
-            res = (d_431_valueOrError1_).PropagateFailure()
+        d_559_valueOrError1_ = (JSON_API.default__.Deserialize(d_557_keysManifestBytes_)).MapFailure(lambda57_)
+        if (d_559_valueOrError1_).IsFailure():
+            res = (d_559_valueOrError1_).PropagateFailure()
             return res
-        d_430_keysManifestJSON_ = (d_431_valueOrError1_).Extract()
-        if not((d_430_keysManifestJSON_).is_Object):
+        d_558_keysManifestJSON_ = (d_559_valueOrError1_).Extract()
+        if not((d_558_keysManifestJSON_).is_Object):
             raise _dafny.HaltException("dafny/KeyVectors/src/Index.dfy(36,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_433_keysObject_: JSON_Values.JSON
-        d_434_valueOrError2_: Wrappers.Result = Wrappers.Result.default(JSON_Values.JSON.default())()
-        d_434_valueOrError2_ = JSONHelpers.default__.Get(_dafny.Seq("keys"), (d_430_keysManifestJSON_).obj)
-        if not(not((d_434_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("dafny/KeyVectors/src/Index.dfy(37,22): " + _dafny.string_of(d_434_valueOrError2_))
-        d_433_keysObject_ = (d_434_valueOrError2_).Extract()
-        if not((d_433_keysObject_).is_Object):
+        d_561_keysObject_: JSON_Values.JSON
+        d_562_valueOrError2_: Wrappers.Result = Wrappers.Result.default(JSON_Values.JSON.default())()
+        d_562_valueOrError2_ = JSONHelpers.default__.Get(_dafny.Seq("keys"), (d_558_keysManifestJSON_).obj)
+        if not(not((d_562_valueOrError2_).IsFailure())):
+            raise _dafny.HaltException("dafny/KeyVectors/src/Index.dfy(37,22): " + _dafny.string_of(d_562_valueOrError2_))
+        d_561_keysObject_ = (d_562_valueOrError2_).Extract()
+        if not((d_561_keysObject_).is_Object):
             raise _dafny.HaltException("dafny/KeyVectors/src/Index.dfy(38,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_435_maybeMpl_: Wrappers.Result
-        out31_: Wrappers.Result
-        out31_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
-        d_435_maybeMpl_ = out31_
-        d_436_mpl_: MaterialProviders.MaterialProvidersClient
-        d_437_valueOrError3_: Wrappers.Result = None
-        def lambda43_(d_438_e_):
-            return AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_AwsCryptographyMaterialProviders(d_438_e_)
+        d_563_maybeMpl_: Wrappers.Result
+        out40_: Wrappers.Result
+        out40_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
+        d_563_maybeMpl_ = out40_
+        d_564_mpl_: MaterialProviders.MaterialProvidersClient
+        d_565_valueOrError3_: Wrappers.Result = None
+        def lambda58_(d_566_e_):
+            return AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_AwsCryptographyMaterialProviders(d_566_e_)
 
-        d_437_valueOrError3_ = (d_435_maybeMpl_).MapFailure(lambda43_)
-        if (d_437_valueOrError3_).IsFailure():
-            res = (d_437_valueOrError3_).PropagateFailure()
+        d_565_valueOrError3_ = (d_563_maybeMpl_).MapFailure(lambda58_)
+        if (d_565_valueOrError3_).IsFailure():
+            res = (d_565_valueOrError3_).PropagateFailure()
             return res
-        d_436_mpl_ = (d_437_valueOrError3_).Extract()
-        d_439_keys_: _dafny.Map
-        d_440_valueOrError4_: Wrappers.Result = Wrappers.Result.default(_dafny.Map)()
-        def lambda44_(d_441_e_):
-            return AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_KeyVectorException(d_441_e_)
+        d_564_mpl_ = (d_565_valueOrError3_).Extract()
+        d_567_keys_: _dafny.Map
+        d_568_valueOrError4_: Wrappers.Result = Wrappers.Result.default(_dafny.Map)()
+        def lambda59_(d_569_e_):
+            return AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error_KeyVectorException(d_569_e_)
 
-        d_440_valueOrError4_ = (KeyMaterial.default__.BuildKeyMaterials(d_436_mpl_, (d_433_keysObject_).obj)).MapFailure(lambda44_)
-        if (d_440_valueOrError4_).IsFailure():
-            res = (d_440_valueOrError4_).PropagateFailure()
+        d_568_valueOrError4_ = (KeyMaterial.default__.BuildKeyMaterials(d_564_mpl_, (d_561_keysObject_).obj)).MapFailure(lambda59_)
+        if (d_568_valueOrError4_).IsFailure():
+            res = (d_568_valueOrError4_).PropagateFailure()
             return res
-        d_439_keys_ = (d_440_valueOrError4_).Extract()
-        d_442_config_: KeysVectorOperations.Config
-        d_442_config_ = KeysVectorOperations.Config_Config(d_439_keys_, d_430_keysManifestJSON_)
-        d_443_client_: KeyVectorsClient
+        d_567_keys_ = (d_568_valueOrError4_).Extract()
+        d_570_config_: KeysVectorOperations.Config
+        d_570_config_ = KeysVectorOperations.Config_Config(d_567_keys_, d_558_keysManifestJSON_)
+        d_571_client_: KeyVectorsClient
         nw2_ = KeyVectorsClient()
-        nw2_.ctor__(d_442_config_)
-        d_443_client_ = nw2_
-        res = Wrappers.Result_Success(d_443_client_)
+        nw2_.ctor__(d_570_config_)
+        d_571_client_ = nw2_
+        res = Wrappers.Result_Success(d_571_client_)
         return res
 
     @staticmethod
@@ -263,23 +268,23 @@ class KeyVectorsClient(AwsCryptographyMaterialProvidersTestVectorKeysTypes.IKeyV
 
     def CreateTestVectorKeyring(self, input):
         output: Wrappers.Result = None
-        out32_: Wrappers.Result
-        out32_ = KeysVectorOperations.default__.CreateTestVectorKeyring((self).config, input)
-        output = out32_
+        out41_: Wrappers.Result
+        out41_ = KeysVectorOperations.default__.CreateTestVectorKeyring((self).config, input)
+        output = out41_
         return output
 
     def CreateWrappedTestVectorKeyring(self, input):
         output: Wrappers.Result = None
-        out33_: Wrappers.Result
-        out33_ = KeysVectorOperations.default__.CreateWrappedTestVectorKeyring((self).config, input)
-        output = out33_
+        out42_: Wrappers.Result
+        out42_ = KeysVectorOperations.default__.CreateWrappedTestVectorKeyring((self).config, input)
+        output = out42_
         return output
 
     def CreateWrappedTestVectorCmm(self, input):
         output: Wrappers.Result = None
-        out34_: Wrappers.Result
-        out34_ = KeysVectorOperations.default__.CreateWrappedTestVectorCmm((self).config, input)
-        output = out34_
+        out43_: Wrappers.Result
+        out43_ = KeysVectorOperations.default__.CreateWrappedTestVectorCmm((self).config, input)
+        output = out43_
         return output
 
     def GetKeyDescription(self, input):

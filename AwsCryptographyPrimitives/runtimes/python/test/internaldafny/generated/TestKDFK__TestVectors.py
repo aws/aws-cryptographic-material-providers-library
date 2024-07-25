@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
@@ -96,9 +97,11 @@ class default__:
         d_62_L_ = let_tmp_rhs1_.L
         d_63_OKM_ = let_tmp_rhs1_.OKM
         _dafny.print(_dafny.string_of((d_58_name_) + (_dafny.Seq("\n"))))
-        if not((((len(d_60_IKM_)) == (32)) and ((d_62_L_) == (32))) and (((4) + (len(d_61_info_))) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT))):
-            raise _dafny.HaltException("test/TestKDF_TestVectors.dfy(297,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        TestKDF.default__.KdfRawDeriveTest(d_60_IKM_, d_61_info_, d_62_L_, d_63_OKM_)
+        if not((((((len(d_60_IKM_)) == (32)) or ((len(d_60_IKM_)) == (48))) and ((d_62_L_) > (0))) and (((4) + (len(d_61_info_))) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT))) and (((d_59_hash_) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__256())) or ((d_59_hash_) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__384())))):
+            raise _dafny.HaltException("test/TestKDF_TestVectors.dfy(364,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+        if not((((d_62_L_) + (Digest.default__.Length(AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__256()))) < ((StandardLibrary_UInt.default__.INT32__MAX__LIMIT) - (1))) and (((d_62_L_) + (Digest.default__.Length(AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__384()))) < ((StandardLibrary_UInt.default__.INT32__MAX__LIMIT) - (1)))):
+            raise _dafny.HaltException("test/TestKDF_TestVectors.dfy(365,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+        TestKDF.default__.KdfRawDeriveTest(d_60_IKM_, d_61_info_, d_62_L_, d_63_OKM_, d_59_hash_)
 
     @staticmethod
     def ExpectTestVector(vector):
@@ -129,8 +132,23 @@ class default__:
     def b5(instance):
         return InternalTestVector_InternalTestVector(_dafny.Seq("B.5  Test Case 5"), AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__256(), _dafny.Seq([15, 104, 168, 47, 241, 103, 22, 52, 204, 145, 54, 197, 100, 169, 224, 42, 118, 118, 33, 221, 116, 161, 191, 92, 36, 18, 155, 128, 130, 20, 183, 82]), _dafny.Seq([100, 133, 153, 128, 156, 44, 78, 124, 106, 94, 108, 68, 159, 0, 49, 235, 245, 92, 54, 97, 168, 149, 180, 77, 176, 87, 46, 232, 128, 131, 177, 244, 177, 38, 2, 170, 85, 252, 29, 241, 80, 166, 90, 109, 110, 237, 160, 170, 121, 164, 52, 161, 3, 155, 145, 181, 165, 143, 199, 241]), 32, _dafny.Seq([226, 151, 100, 15, 119, 104, 72, 93, 74, 110, 124, 254, 36, 95, 139, 250, 132, 112, 13, 153, 118, 38, 146, 234, 26, 66, 92, 204, 2, 117, 232, 245]))
     @_dafny.classproperty
+    def b6(instance):
+        return InternalTestVector_InternalTestVector(_dafny.Seq("B.6 Test Case 6"), AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__384(), _dafny.Seq([130, 44, 118, 74, 27, 17, 112, 133, 193, 15, 14, 104, 152, 20, 210, 191, 189, 155, 67, 40, 127, 26, 140, 117, 215, 149, 169, 131, 26, 40, 97, 132, 200, 88, 111, 53, 119, 182, 229, 187, 206, 22, 55, 146, 94, 4, 252, 71]), _dafny.Seq([175, 52, 97, 16, 185, 65, 177, 29, 33, 137, 49, 108, 159, 194, 185, 244, 33, 55, 117, 165, 215, 54, 141, 53, 65, 38, 120, 162, 143, 205, 3, 176, 127, 5, 73, 102, 110, 253, 243, 12, 128, 240, 171, 85, 99, 114, 10, 86, 239, 97, 106, 19, 187, 143, 119, 128, 3, 111, 192, 142]), 32, _dafny.Seq([224, 174, 35, 92, 184, 35, 128, 82, 123, 231, 105, 52, 166, 150, 34, 57, 109, 144, 231, 191, 167, 226, 210, 149, 228, 55, 91, 206, 224, 209, 177, 1]))
+    @_dafny.classproperty
+    def b7(instance):
+        return InternalTestVector_InternalTestVector(_dafny.Seq("B.7 Test Case 7"), AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__384(), _dafny.Seq([52, 14, 33, 45, 117, 142, 131, 204, 91, 137, 228, 181, 106, 134, 238, 140, 150, 49, 174, 78, 75, 186, 236, 21, 172, 9, 94, 164, 64, 123, 199, 182, 52, 173, 99, 13, 208, 190, 133, 169, 28, 8, 168, 199, 225, 225, 3, 11]), _dafny.Seq([60, 213, 86, 26, 209, 47, 173, 252, 228, 8, 224, 65, 128, 175, 206, 227, 139, 131, 21, 107, 158, 75, 224, 119, 156, 79, 13, 185, 226, 107, 254, 92, 205, 67, 225, 89, 33, 151, 124, 210, 107, 29, 184, 40, 139, 128, 8, 158, 183, 209, 187, 215, 245, 158, 16, 17, 179, 225, 139, 81]), 32, _dafny.Seq([5, 250, 87, 123, 112, 129, 33, 14, 124, 157, 230, 157, 176, 61, 124, 32, 38, 207, 68, 105, 169, 11, 250, 41, 241, 194, 193, 8, 24, 212, 99, 224]))
+    @_dafny.classproperty
+    def b8(instance):
+        return InternalTestVector_InternalTestVector(_dafny.Seq("B.8 Test Case 8"), AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__384(), _dafny.Seq([0, 161, 45, 60, 228, 255, 117, 166, 227, 15, 65, 243, 85, 124, 130, 106, 241, 50, 107, 99, 2, 244, 206, 136, 123, 173, 61, 51, 23, 165, 72, 200, 192, 58, 5, 114, 132, 220, 195, 141, 139, 198, 144, 189, 74, 86, 95, 71]), _dafny.Seq([36, 197, 192, 178, 200, 16, 223, 160, 142, 53, 215, 254, 235, 184, 199, 142, 12, 215, 38, 201, 46, 205, 66, 217, 23, 16, 19, 115, 140, 162, 83, 26, 148, 127, 82, 60, 55, 246, 76, 219, 4, 48, 91, 217, 105, 209, 214, 249, 236, 212, 100, 5, 210, 130, 128, 249, 104, 80, 11, 167]), 32, _dafny.Seq([174, 243, 213, 124, 141, 167, 217, 88, 44, 93, 28, 98, 214, 182, 72, 150, 218, 155, 27, 14, 64, 18, 164, 76, 220, 61, 207, 75, 112, 173, 108, 102]))
+    @_dafny.classproperty
+    def b9(instance):
+        return InternalTestVector_InternalTestVector(_dafny.Seq("B.9 Test Case 9"), AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__384(), _dafny.Seq([0, 0, 217, 183, 236, 111, 190, 253, 242, 86, 253, 104, 34, 11, 82, 5, 172, 101, 162, 0, 17, 69, 17, 140, 80, 186, 107, 101, 112, 50, 25, 139, 139, 124, 227, 178, 247, 6, 138, 120, 13, 193, 124, 34, 69, 154, 242, 183]), _dafny.Seq([216, 87, 84, 28, 98, 184, 87, 86, 220, 115, 222, 125, 194, 216, 111, 93, 94, 139, 40, 51, 139, 176, 169, 69, 181, 196, 253, 124, 129, 247, 25, 97, 185, 112, 93, 61, 21, 59, 25, 25, 93, 0, 59, 116, 33, 32, 104, 237, 16, 249, 108, 83, 67, 134, 83, 8, 122, 1, 82, 207]), 20, _dafny.Seq([121, 62, 241, 19, 249, 99, 151, 171, 0, 49, 234, 160, 250, 167, 119, 193, 7, 231, 208, 60]))
+    @_dafny.classproperty
+    def b10(instance):
+        return InternalTestVector_InternalTestVector(_dafny.Seq("B.10 Test Case 10"), AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__384(), _dafny.Seq([79, 61, 116, 77, 62, 68, 158, 6, 39, 191, 68, 152, 116, 56, 40, 248, 110, 99, 143, 96, 98, 10, 126, 212, 167, 201, 181, 176, 115, 105, 28, 158, 201, 71, 40, 197, 136, 34, 232, 39, 240, 246, 204, 248, 109, 188, 28, 174]), _dafny.Seq([48, 31, 238, 178, 94, 108, 168, 80, 62, 205, 130, 31, 29, 55, 135, 174, 191, 179, 208, 236, 81, 139, 179, 17, 116, 245, 32, 155, 42, 193, 242, 142, 211, 230, 152, 115, 107, 173, 16, 161, 142, 60, 189, 181, 220, 39, 187, 209, 45, 5, 139, 54, 219, 8, 146, 249, 207, 208, 131, 0]), 20, _dafny.Seq([133, 239, 149, 5, 178, 48, 86, 94, 204, 242, 166, 74, 179, 222, 83, 229, 169, 28, 123, 81]))
+    @_dafny.classproperty
     def rawTestVectors(instance):
-        return _dafny.Seq([default__.b1, default__.b2, default__.b3, default__.b4, default__.b5])
+        return _dafny.Seq([default__.b1, default__.b2, default__.b3, default__.b4, default__.b5, default__.b6, default__.b7, default__.b8, default__.b9, default__.b10])
     @_dafny.classproperty
     def PURPOSE(instance):
         return UTF8.default__.EncodeAscii(_dafny.Seq("aws-kms-hierarchy"))

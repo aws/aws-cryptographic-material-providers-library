@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -82,15 +83,15 @@ class default__:
 
     @staticmethod
     def replaceRegion(arn, region):
-        d_127_parsed_ = AwsArnParsing.default__.ParseAwsKmsArn(arn)
-        if (d_127_parsed_).is_Failure:
+        d_130_parsed_ = AwsArnParsing.default__.ParseAwsKmsArn(arn)
+        if (d_130_parsed_).is_Failure:
             return arn
-        elif not(AwsArnParsing.default__.IsMultiRegionAwsKmsArn((d_127_parsed_).value)):
+        elif not(AwsArnParsing.default__.IsMultiRegionAwsKmsArn((d_130_parsed_).value)):
             return arn
         elif True:
-            d_128_newArn_ = ((d_127_parsed_).value).ToArnString(Wrappers.Option_Some(region))
-            if ComAmazonawsKmsTypes.default__.IsValid__KeyIdType(d_128_newArn_):
-                return d_128_newArn_
+            d_131_newArn_ = ((d_130_parsed_).value).ToArnString(Wrappers.Option_Some(region))
+            if ComAmazonawsKmsTypes.default__.IsValid__KeyIdType(d_131_newArn_):
+                return d_131_newArn_
             elif True:
                 return arn
 
@@ -102,23 +103,23 @@ class default__:
         unmatched6 = True
         if unmatched6:
             if source6_.is_kmsKeyArn:
-                d_129_arn_ = source6_.kmsKeyArn
+                d_132_arn_ = source6_.kmsKeyArn
                 unmatched6 = False
-                return d_129_arn_
+                return d_132_arn_
         if unmatched6:
             if source6_.is_kmsMRKeyArn:
-                d_130_arn_ = source6_.kmsMRKeyArn
+                d_133_arn_ = source6_.kmsMRKeyArn
                 unmatched6 = False
-                return d_130_arn_
+                return d_133_arn_
         if unmatched6:
             if source6_.is_discovery:
-                d_131_obj_ = source6_.discovery
+                d_134_obj_ = source6_.discovery
                 unmatched6 = False
                 return pat_let_tv0_
         if unmatched6:
-            d_132_region_ = source6_.mrDiscovery
+            d_135_region_ = source6_.mrDiscovery
             unmatched6 = False
-            return default__.replaceRegion(pat_let_tv1_, (d_132_region_).region)
+            return default__.replaceRegion(pat_let_tv1_, (d_135_region_).region)
         raise Exception("unexpected control point")
 
     @staticmethod
@@ -131,21 +132,21 @@ class default__:
         unmatched7 = True
         if unmatched7:
             if source7_.is_kmsKeyArn:
-                d_133_arn_ = source7_.kmsKeyArn
+                d_136_arn_ = source7_.kmsKeyArn
                 unmatched7 = False
-                return ((d_133_arn_) == ((pat_let_tv2_)[Structure.default__.KMS__FIELD])) and (KmsArn.default__.ValidKmsArn_q(d_133_arn_))
+                return ((d_136_arn_) == ((pat_let_tv2_)[Structure.default__.KMS__FIELD])) and (KmsArn.default__.ValidKmsArn_q(d_136_arn_))
         if unmatched7:
             if source7_.is_kmsMRKeyArn:
-                d_134_arn_ = source7_.kmsMRKeyArn
+                d_137_arn_ = source7_.kmsMRKeyArn
                 unmatched7 = False
-                return (default__.MrkMatch(d_134_arn_, (pat_let_tv3_)[Structure.default__.KMS__FIELD])) and (KmsArn.default__.ValidKmsArn_q(d_134_arn_))
+                return (default__.MrkMatch(d_137_arn_, (pat_let_tv3_)[Structure.default__.KMS__FIELD])) and (KmsArn.default__.ValidKmsArn_q(d_137_arn_))
         if unmatched7:
             if source7_.is_discovery:
-                d_135_obj_ = source7_.discovery
+                d_138_obj_ = source7_.discovery
                 unmatched7 = False
                 return KmsArn.default__.ValidKmsArn_q((pat_let_tv4_)[Structure.default__.KMS__FIELD])
         if unmatched7:
-            d_136_obj_ = source7_.mrDiscovery
+            d_139_obj_ = source7_.mrDiscovery
             unmatched7 = False
             return KmsArn.default__.ValidKmsArn_q((pat_let_tv5_)[Structure.default__.KMS__FIELD])
         raise Exception("unexpected control point")
@@ -158,13 +159,13 @@ class default__:
         unmatched8 = True
         if unmatched8:
             if source8_.is_kmsKeyArn:
-                d_137_arn_ = source8_.kmsKeyArn
+                d_140_arn_ = source8_.kmsKeyArn
                 unmatched8 = False
-                return (d_137_arn_) == (pat_let_tv6_)
+                return (d_140_arn_) == (pat_let_tv6_)
         if unmatched8:
-            d_138_arn_ = source8_.kmsMRKeyArn
+            d_141_arn_ = source8_.kmsMRKeyArn
             unmatched8 = False
-            return default__.MrkMatch(d_138_arn_, pat_let_tv7_)
+            return default__.MrkMatch(d_141_arn_, pat_let_tv7_)
         raise Exception("unexpected control point")
 
     @staticmethod
@@ -173,12 +174,12 @@ class default__:
 
     @staticmethod
     def MrkMatch(x, y):
-        d_139_xArn_ = AwsArnParsing.default__.ParseAwsKmsArn(x)
-        d_140_yArn_ = AwsArnParsing.default__.ParseAwsKmsArn(y)
-        if ((d_139_xArn_).is_Failure) or ((d_140_yArn_).is_Failure):
+        d_142_xArn_ = AwsArnParsing.default__.ParseAwsKmsArn(x)
+        d_143_yArn_ = AwsArnParsing.default__.ParseAwsKmsArn(y)
+        if ((d_142_xArn_).is_Failure) or ((d_143_yArn_).is_Failure):
             return False
         elif True:
-            return AwsKmsMrkMatchForDecrypt.default__.AwsKmsMrkMatchForDecrypt(AwsArnParsing.AwsKmsIdentifier_AwsKmsArnIdentifier((d_139_xArn_).value), AwsArnParsing.AwsKmsIdentifier_AwsKmsArnIdentifier((d_140_yArn_).value))
+            return AwsKmsMrkMatchForDecrypt.default__.AwsKmsMrkMatchForDecrypt(AwsArnParsing.AwsKmsIdentifier_AwsKmsArnIdentifier((d_142_xArn_).value), AwsArnParsing.AwsKmsIdentifier_AwsKmsArnIdentifier((d_143_yArn_).value))
 
     @staticmethod
     def HasKeyId(kmsConfiguration):
@@ -190,109 +191,109 @@ class default__:
         unmatched9 = True
         if unmatched9:
             if source9_.is_kmsKeyArn:
-                d_141_arn_ = source9_.kmsKeyArn
+                d_144_arn_ = source9_.kmsKeyArn
                 unmatched9 = False
-                return d_141_arn_
+                return d_144_arn_
         if unmatched9:
-            d_142_arn_ = source9_.kmsMRKeyArn
+            d_145_arn_ = source9_.kmsMRKeyArn
             unmatched9 = False
-            return d_142_arn_
+            return d_145_arn_
         raise Exception("unexpected control point")
 
     @staticmethod
     def GenerateKey(encryptionContext, kmsConfiguration, grantTokens, kmsClient):
         res: Wrappers.Result = Wrappers.Result.default(ComAmazonawsKmsTypes.GenerateDataKeyWithoutPlaintextResponse.default())()
-        d_143_kmsKeyArn_: _dafny.Seq
-        d_143_kmsKeyArn_ = default__.GetKeyId(kmsConfiguration)
-        d_144_generatorRequest_: ComAmazonawsKmsTypes.GenerateDataKeyWithoutPlaintextRequest
-        d_144_generatorRequest_ = ComAmazonawsKmsTypes.GenerateDataKeyWithoutPlaintextRequest_GenerateDataKeyWithoutPlaintextRequest(d_143_kmsKeyArn_, Wrappers.Option_Some(encryptionContext), Wrappers.Option_None(), Wrappers.Option_Some(32), Wrappers.Option_Some(grantTokens))
-        d_145_maybeGenerateResponse_: Wrappers.Result
-        out10_: Wrappers.Result
-        out10_ = (kmsClient).GenerateDataKeyWithoutPlaintext(d_144_generatorRequest_)
-        d_145_maybeGenerateResponse_ = out10_
-        d_146_generateResponse_: ComAmazonawsKmsTypes.GenerateDataKeyWithoutPlaintextResponse
-        d_147_valueOrError0_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsKmsTypes.GenerateDataKeyWithoutPlaintextResponse.default())()
-        def lambda12_(d_148_e_):
-            return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsKms(d_148_e_)
+        d_146_kmsKeyArn_: _dafny.Seq
+        d_146_kmsKeyArn_ = default__.GetKeyId(kmsConfiguration)
+        d_147_generatorRequest_: ComAmazonawsKmsTypes.GenerateDataKeyWithoutPlaintextRequest
+        d_147_generatorRequest_ = ComAmazonawsKmsTypes.GenerateDataKeyWithoutPlaintextRequest_GenerateDataKeyWithoutPlaintextRequest(d_146_kmsKeyArn_, Wrappers.Option_Some(encryptionContext), Wrappers.Option_None(), Wrappers.Option_Some(32), Wrappers.Option_Some(grantTokens), Wrappers.Option_None())
+        d_148_maybeGenerateResponse_: Wrappers.Result
+        out11_: Wrappers.Result
+        out11_ = (kmsClient).GenerateDataKeyWithoutPlaintext(d_147_generatorRequest_)
+        d_148_maybeGenerateResponse_ = out11_
+        d_149_generateResponse_: ComAmazonawsKmsTypes.GenerateDataKeyWithoutPlaintextResponse
+        d_150_valueOrError0_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsKmsTypes.GenerateDataKeyWithoutPlaintextResponse.default())()
+        def lambda13_(d_151_e_):
+            return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsKms(d_151_e_)
 
-        d_147_valueOrError0_ = (d_145_maybeGenerateResponse_).MapFailure(lambda12_)
-        if (d_147_valueOrError0_).IsFailure():
-            res = (d_147_valueOrError0_).PropagateFailure()
+        d_150_valueOrError0_ = (d_148_maybeGenerateResponse_).MapFailure(lambda13_)
+        if (d_150_valueOrError0_).IsFailure():
+            res = (d_150_valueOrError0_).PropagateFailure()
             return res
-        d_146_generateResponse_ = (d_147_valueOrError0_).Extract()
-        d_149_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_149_valueOrError1_ = Wrappers.default__.Need((True) and (((d_146_generateResponse_).KeyId).is_Some), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Invalid response from KMS GenerateDataKey:: Invalid Key Id")))
-        if (d_149_valueOrError1_).IsFailure():
-            res = (d_149_valueOrError1_).PropagateFailure()
+        d_149_generateResponse_ = (d_150_valueOrError0_).Extract()
+        d_152_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_152_valueOrError1_ = Wrappers.default__.Need((True) and (((d_149_generateResponse_).KeyId).is_Some), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Invalid response from KMS GenerateDataKey:: Invalid Key Id")))
+        if (d_152_valueOrError1_).IsFailure():
+            res = (d_152_valueOrError1_).PropagateFailure()
             return res
-        d_150_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_150_valueOrError2_ = Wrappers.default__.Need((((d_146_generateResponse_).CiphertextBlob).is_Some) and (ComAmazonawsKmsTypes.default__.IsValid__CiphertextType(((d_146_generateResponse_).CiphertextBlob).value)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Invalid response from AWS KMS GenerateDataKey: Invalid ciphertext")))
-        if (d_150_valueOrError2_).IsFailure():
-            res = (d_150_valueOrError2_).PropagateFailure()
+        d_153_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_153_valueOrError2_ = Wrappers.default__.Need((((d_149_generateResponse_).CiphertextBlob).is_Some) and (ComAmazonawsKmsTypes.default__.IsValid__CiphertextType(((d_149_generateResponse_).CiphertextBlob).value)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Invalid response from AWS KMS GenerateDataKey: Invalid ciphertext")))
+        if (d_153_valueOrError2_).IsFailure():
+            res = (d_153_valueOrError2_).PropagateFailure()
             return res
-        res = Wrappers.Result_Success(d_146_generateResponse_)
+        res = Wrappers.Result_Success(d_149_generateResponse_)
         return res
         return res
 
     @staticmethod
     def ReEncryptKey(ciphertext, sourceEncryptionContext, destinationEncryptionContext, kmsConfiguration, grantTokens, kmsClient):
         res: Wrappers.Result = Wrappers.Result.default(ComAmazonawsKmsTypes.ReEncryptResponse.default())()
-        d_151_kmsKeyArn_: _dafny.Seq
-        d_151_kmsKeyArn_ = default__.GetKeyId(kmsConfiguration)
-        d_152_reEncryptRequest_: ComAmazonawsKmsTypes.ReEncryptRequest
-        d_152_reEncryptRequest_ = ComAmazonawsKmsTypes.ReEncryptRequest_ReEncryptRequest(ciphertext, Wrappers.Option_Some(sourceEncryptionContext), Wrappers.Option_Some(d_151_kmsKeyArn_), d_151_kmsKeyArn_, Wrappers.Option_Some(destinationEncryptionContext), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_Some(grantTokens))
-        d_153_maybeReEncryptResponse_: Wrappers.Result
-        out11_: Wrappers.Result
-        out11_ = (kmsClient).ReEncrypt(d_152_reEncryptRequest_)
-        d_153_maybeReEncryptResponse_ = out11_
-        d_154_reEncryptResponse_: ComAmazonawsKmsTypes.ReEncryptResponse
-        d_155_valueOrError0_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsKmsTypes.ReEncryptResponse.default())()
-        def lambda13_(d_156_e_):
-            return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsKms(d_156_e_)
+        d_154_kmsKeyArn_: _dafny.Seq
+        d_154_kmsKeyArn_ = default__.GetKeyId(kmsConfiguration)
+        d_155_reEncryptRequest_: ComAmazonawsKmsTypes.ReEncryptRequest
+        d_155_reEncryptRequest_ = ComAmazonawsKmsTypes.ReEncryptRequest_ReEncryptRequest(ciphertext, Wrappers.Option_Some(sourceEncryptionContext), Wrappers.Option_Some(d_154_kmsKeyArn_), d_154_kmsKeyArn_, Wrappers.Option_Some(destinationEncryptionContext), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_Some(grantTokens), Wrappers.Option_None())
+        d_156_maybeReEncryptResponse_: Wrappers.Result
+        out12_: Wrappers.Result
+        out12_ = (kmsClient).ReEncrypt(d_155_reEncryptRequest_)
+        d_156_maybeReEncryptResponse_ = out12_
+        d_157_reEncryptResponse_: ComAmazonawsKmsTypes.ReEncryptResponse
+        d_158_valueOrError0_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsKmsTypes.ReEncryptResponse.default())()
+        def lambda14_(d_159_e_):
+            return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsKms(d_159_e_)
 
-        d_155_valueOrError0_ = (d_153_maybeReEncryptResponse_).MapFailure(lambda13_)
-        if (d_155_valueOrError0_).IsFailure():
-            res = (d_155_valueOrError0_).PropagateFailure()
+        d_158_valueOrError0_ = (d_156_maybeReEncryptResponse_).MapFailure(lambda14_)
+        if (d_158_valueOrError0_).IsFailure():
+            res = (d_158_valueOrError0_).PropagateFailure()
             return res
-        d_154_reEncryptResponse_ = (d_155_valueOrError0_).Extract()
-        d_157_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_157_valueOrError1_ = Wrappers.default__.Need((((((d_154_reEncryptResponse_).SourceKeyId).is_Some) and (((d_154_reEncryptResponse_).KeyId).is_Some)) and ((((d_154_reEncryptResponse_).SourceKeyId).value) == (d_151_kmsKeyArn_))) and ((((d_154_reEncryptResponse_).KeyId).value) == (d_151_kmsKeyArn_)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Invalid response from KMS ReEncrypt:: Invalid Key Id")))
-        if (d_157_valueOrError1_).IsFailure():
-            res = (d_157_valueOrError1_).PropagateFailure()
+        d_157_reEncryptResponse_ = (d_158_valueOrError0_).Extract()
+        d_160_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_160_valueOrError1_ = Wrappers.default__.Need((((((d_157_reEncryptResponse_).SourceKeyId).is_Some) and (((d_157_reEncryptResponse_).KeyId).is_Some)) and ((((d_157_reEncryptResponse_).SourceKeyId).value) == (d_154_kmsKeyArn_))) and ((((d_157_reEncryptResponse_).KeyId).value) == (d_154_kmsKeyArn_)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Invalid response from KMS ReEncrypt:: Invalid Key Id")))
+        if (d_160_valueOrError1_).IsFailure():
+            res = (d_160_valueOrError1_).PropagateFailure()
             return res
-        d_158_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_158_valueOrError2_ = Wrappers.default__.Need((((d_154_reEncryptResponse_).CiphertextBlob).is_Some) and (ComAmazonawsKmsTypes.default__.IsValid__CiphertextType(((d_154_reEncryptResponse_).CiphertextBlob).value)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Invalid response from AWS KMS ReEncrypt: Invalid ciphertext.")))
-        if (d_158_valueOrError2_).IsFailure():
-            res = (d_158_valueOrError2_).PropagateFailure()
+        d_161_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_161_valueOrError2_ = Wrappers.default__.Need((((d_157_reEncryptResponse_).CiphertextBlob).is_Some) and (ComAmazonawsKmsTypes.default__.IsValid__CiphertextType(((d_157_reEncryptResponse_).CiphertextBlob).value)), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Invalid response from AWS KMS ReEncrypt: Invalid ciphertext.")))
+        if (d_161_valueOrError2_).IsFailure():
+            res = (d_161_valueOrError2_).PropagateFailure()
             return res
-        res = Wrappers.Result_Success(d_154_reEncryptResponse_)
+        res = Wrappers.Result_Success(d_157_reEncryptResponse_)
         return res
         return res
 
     @staticmethod
     def DecryptKey(encryptionContext, item, kmsConfiguration, grantTokens, kmsClient):
         output: Wrappers.Result = Wrappers.Result.default(ComAmazonawsKmsTypes.DecryptResponse.default())()
-        d_159_kmsKeyArn_: _dafny.Seq
-        d_159_kmsKeyArn_ = default__.GetArn(kmsConfiguration, (encryptionContext)[Structure.default__.KMS__FIELD])
-        d_160_maybeDecryptResponse_: Wrappers.Result
-        out12_: Wrappers.Result
-        out12_ = (kmsClient).Decrypt(ComAmazonawsKmsTypes.DecryptRequest_DecryptRequest(((item)[Structure.default__.BRANCH__KEY__FIELD]).B, Wrappers.Option_Some(encryptionContext), Wrappers.Option_Some(grantTokens), Wrappers.Option_Some(d_159_kmsKeyArn_), Wrappers.Option_None()))
-        d_160_maybeDecryptResponse_ = out12_
-        d_161_decryptResponse_: ComAmazonawsKmsTypes.DecryptResponse
-        d_162_valueOrError0_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsKmsTypes.DecryptResponse.default())()
-        def lambda14_(d_163_e_):
-            return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsKms(d_163_e_)
+        d_162_kmsKeyArn_: _dafny.Seq
+        d_162_kmsKeyArn_ = default__.GetArn(kmsConfiguration, (encryptionContext)[Structure.default__.KMS__FIELD])
+        d_163_maybeDecryptResponse_: Wrappers.Result
+        out13_: Wrappers.Result
+        out13_ = (kmsClient).Decrypt(ComAmazonawsKmsTypes.DecryptRequest_DecryptRequest(((item)[Structure.default__.BRANCH__KEY__FIELD]).B, Wrappers.Option_Some(encryptionContext), Wrappers.Option_Some(grantTokens), Wrappers.Option_Some(d_162_kmsKeyArn_), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None()))
+        d_163_maybeDecryptResponse_ = out13_
+        d_164_decryptResponse_: ComAmazonawsKmsTypes.DecryptResponse
+        d_165_valueOrError0_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsKmsTypes.DecryptResponse.default())()
+        def lambda15_(d_166_e_):
+            return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsKms(d_166_e_)
 
-        d_162_valueOrError0_ = (d_160_maybeDecryptResponse_).MapFailure(lambda14_)
-        if (d_162_valueOrError0_).IsFailure():
-            output = (d_162_valueOrError0_).PropagateFailure()
+        d_165_valueOrError0_ = (d_163_maybeDecryptResponse_).MapFailure(lambda15_)
+        if (d_165_valueOrError0_).IsFailure():
+            output = (d_165_valueOrError0_).PropagateFailure()
             return output
-        d_161_decryptResponse_ = (d_162_valueOrError0_).Extract()
-        d_164_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_164_valueOrError1_ = Wrappers.default__.Need((((d_161_decryptResponse_).Plaintext).is_Some) and ((32) == (len(((d_161_decryptResponse_).Plaintext).value))), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Invalid response from AWS KMS Decrypt: Key is not 32 bytes.")))
-        if (d_164_valueOrError1_).IsFailure():
-            output = (d_164_valueOrError1_).PropagateFailure()
+        d_164_decryptResponse_ = (d_165_valueOrError0_).Extract()
+        d_167_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_167_valueOrError1_ = Wrappers.default__.Need((((d_164_decryptResponse_).Plaintext).is_Some) and ((32) == (len(((d_164_decryptResponse_).Plaintext).value))), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Invalid response from AWS KMS Decrypt: Key is not 32 bytes.")))
+        if (d_167_valueOrError1_).IsFailure():
+            output = (d_167_valueOrError1_).PropagateFailure()
             return output
-        output = Wrappers.Result_Success(d_161_decryptResponse_)
+        output = Wrappers.Result_Success(d_164_decryptResponse_)
         return output
 

@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -234,6 +235,12 @@ class IAwsCryptographicMaterialProvidersClient:
     def CreateAwsKmsHierarchicalKeyring(self, input):
         pass
 
+    def CreateAwsKmsRsaKeyring(self, input):
+        pass
+
+    def CreateAwsKmsEcdhKeyring(self, input):
+        pass
+
     def CreateMultiKeyring(self, input):
         pass
 
@@ -243,7 +250,7 @@ class IAwsCryptographicMaterialProvidersClient:
     def CreateRawRsaKeyring(self, input):
         pass
 
-    def CreateAwsKmsRsaKeyring(self, input):
+    def CreateRawEcdhKeyring(self, input):
         pass
 
     def CreateDefaultCryptographicMaterialsManager(self, input):
@@ -449,6 +456,25 @@ class CreateAwsKmsDiscoveryMultiKeyringInput_CreateAwsKmsDiscoveryMultiKeyringIn
         return f'AwsCryptographyMaterialProvidersTypes.CreateAwsKmsDiscoveryMultiKeyringInput.CreateAwsKmsDiscoveryMultiKeyringInput({_dafny.string_of(self.regions)}, {_dafny.string_of(self.discoveryFilter)}, {_dafny.string_of(self.clientSupplier)}, {_dafny.string_of(self.grantTokens)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, CreateAwsKmsDiscoveryMultiKeyringInput_CreateAwsKmsDiscoveryMultiKeyringInput) and self.regions == __o.regions and self.discoveryFilter == __o.discoveryFilter and self.clientSupplier == __o.clientSupplier and self.grantTokens == __o.grantTokens
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class CreateAwsKmsEcdhKeyringInput:
+    @classmethod
+    def default(cls, ):
+        return lambda: CreateAwsKmsEcdhKeyringInput_CreateAwsKmsEcdhKeyringInput(KmsEcdhStaticConfigurations.default()(), AwsCryptographyPrimitivesTypes.ECDHCurveSpec.default()(), None, Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_CreateAwsKmsEcdhKeyringInput(self) -> bool:
+        return isinstance(self, CreateAwsKmsEcdhKeyringInput_CreateAwsKmsEcdhKeyringInput)
+
+class CreateAwsKmsEcdhKeyringInput_CreateAwsKmsEcdhKeyringInput(CreateAwsKmsEcdhKeyringInput, NamedTuple('CreateAwsKmsEcdhKeyringInput', [('KeyAgreementScheme', Any), ('curveSpec', Any), ('kmsClient', Any), ('grantTokens', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTypes.CreateAwsKmsEcdhKeyringInput.CreateAwsKmsEcdhKeyringInput({_dafny.string_of(self.KeyAgreementScheme)}, {_dafny.string_of(self.curveSpec)}, {_dafny.string_of(self.kmsClient)}, {_dafny.string_of(self.grantTokens)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, CreateAwsKmsEcdhKeyringInput_CreateAwsKmsEcdhKeyringInput) and self.KeyAgreementScheme == __o.KeyAgreementScheme and self.curveSpec == __o.curveSpec and self.kmsClient == __o.kmsClient and self.grantTokens == __o.grantTokens
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -699,6 +725,25 @@ class CreateRawAesKeyringInput_CreateRawAesKeyringInput(CreateRawAesKeyringInput
         return f'AwsCryptographyMaterialProvidersTypes.CreateRawAesKeyringInput.CreateRawAesKeyringInput({_dafny.string_of(self.keyNamespace)}, {_dafny.string_of(self.keyName)}, {_dafny.string_of(self.wrappingKey)}, {_dafny.string_of(self.wrappingAlg)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, CreateRawAesKeyringInput_CreateRawAesKeyringInput) and self.keyNamespace == __o.keyNamespace and self.keyName == __o.keyName and self.wrappingKey == __o.wrappingKey and self.wrappingAlg == __o.wrappingAlg
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class CreateRawEcdhKeyringInput:
+    @classmethod
+    def default(cls, ):
+        return lambda: CreateRawEcdhKeyringInput_CreateRawEcdhKeyringInput(RawEcdhStaticConfigurations.default()(), AwsCryptographyPrimitivesTypes.ECDHCurveSpec.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_CreateRawEcdhKeyringInput(self) -> bool:
+        return isinstance(self, CreateRawEcdhKeyringInput_CreateRawEcdhKeyringInput)
+
+class CreateRawEcdhKeyringInput_CreateRawEcdhKeyringInput(CreateRawEcdhKeyringInput, NamedTuple('CreateRawEcdhKeyringInput', [('KeyAgreementScheme', Any), ('curveSpec', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTypes.CreateRawEcdhKeyringInput.CreateRawEcdhKeyringInput({_dafny.string_of(self.KeyAgreementScheme)}, {_dafny.string_of(self.curveSpec)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, CreateRawEcdhKeyringInput_CreateRawEcdhKeyringInput) and self.KeyAgreementScheme == __o.KeyAgreementScheme and self.curveSpec == __o.curveSpec
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -1189,6 +1234,25 @@ class EncryptionMaterials_EncryptionMaterials(EncryptionMaterials, NamedTuple('E
         return super().__hash__()
 
 
+class EphemeralPrivateKeyToStaticPublicKeyInput:
+    @classmethod
+    def default(cls, ):
+        return lambda: EphemeralPrivateKeyToStaticPublicKeyInput_EphemeralPrivateKeyToStaticPublicKeyInput(_dafny.Seq({}))
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_EphemeralPrivateKeyToStaticPublicKeyInput(self) -> bool:
+        return isinstance(self, EphemeralPrivateKeyToStaticPublicKeyInput_EphemeralPrivateKeyToStaticPublicKeyInput)
+
+class EphemeralPrivateKeyToStaticPublicKeyInput_EphemeralPrivateKeyToStaticPublicKeyInput(EphemeralPrivateKeyToStaticPublicKeyInput, NamedTuple('EphemeralPrivateKeyToStaticPublicKeyInput', [('recipientPublicKey', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTypes.EphemeralPrivateKeyToStaticPublicKeyInput.EphemeralPrivateKeyToStaticPublicKeyInput({_dafny.string_of(self.recipientPublicKey)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, EphemeralPrivateKeyToStaticPublicKeyInput_EphemeralPrivateKeyToStaticPublicKeyInput) and self.recipientPublicKey == __o.recipientPublicKey
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
 class ESDKAlgorithmSuiteId:
     @_dafny.classproperty
     def AllSingletonConstructors(cls):
@@ -1596,6 +1660,25 @@ class IntermediateKeyWrapping_IntermediateKeyWrapping(IntermediateKeyWrapping, N
         return super().__hash__()
 
 
+class KeyAgreementScheme:
+    @classmethod
+    def default(cls, ):
+        return lambda: KeyAgreementScheme_StaticConfiguration(StaticConfigurations.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_StaticConfiguration(self) -> bool:
+        return isinstance(self, KeyAgreementScheme_StaticConfiguration)
+
+class KeyAgreementScheme_StaticConfiguration(KeyAgreementScheme, NamedTuple('StaticConfiguration', [('StaticConfiguration', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTypes.KeyAgreementScheme.StaticConfiguration({_dafny.string_of(self.StaticConfiguration)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KeyAgreementScheme_StaticConfiguration) and self.StaticConfiguration == __o.StaticConfiguration
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
 class IKeyringCallHistory:
     def  __init__(self):
         pass
@@ -1634,6 +1717,74 @@ class IKeyring:
 
     def OnDecrypt_k(self, input):
         pass
+
+
+class KmsEcdhStaticConfigurations:
+    @classmethod
+    def default(cls, ):
+        return lambda: KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery(KmsPublicKeyDiscoveryInput.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_KmsPublicKeyDiscovery(self) -> bool:
+        return isinstance(self, KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery)
+    @property
+    def is_KmsPrivateKeyToStaticPublicKey(self) -> bool:
+        return isinstance(self, KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey)
+
+class KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery(KmsEcdhStaticConfigurations, NamedTuple('KmsPublicKeyDiscovery', [('KmsPublicKeyDiscovery', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations.KmsPublicKeyDiscovery({_dafny.string_of(self.KmsPublicKeyDiscovery)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery) and self.KmsPublicKeyDiscovery == __o.KmsPublicKeyDiscovery
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey(KmsEcdhStaticConfigurations, NamedTuple('KmsPrivateKeyToStaticPublicKey', [('KmsPrivateKeyToStaticPublicKey', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations.KmsPrivateKeyToStaticPublicKey({_dafny.string_of(self.KmsPrivateKeyToStaticPublicKey)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey) and self.KmsPrivateKeyToStaticPublicKey == __o.KmsPrivateKeyToStaticPublicKey
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class KmsPrivateKeyToStaticPublicKeyInput:
+    @classmethod
+    def default(cls, ):
+        return lambda: KmsPrivateKeyToStaticPublicKeyInput_KmsPrivateKeyToStaticPublicKeyInput(_dafny.Seq(""), Wrappers.Option.default()(), _dafny.Seq({}))
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_KmsPrivateKeyToStaticPublicKeyInput(self) -> bool:
+        return isinstance(self, KmsPrivateKeyToStaticPublicKeyInput_KmsPrivateKeyToStaticPublicKeyInput)
+
+class KmsPrivateKeyToStaticPublicKeyInput_KmsPrivateKeyToStaticPublicKeyInput(KmsPrivateKeyToStaticPublicKeyInput, NamedTuple('KmsPrivateKeyToStaticPublicKeyInput', [('senderKmsIdentifier', Any), ('senderPublicKey', Any), ('recipientPublicKey', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTypes.KmsPrivateKeyToStaticPublicKeyInput.KmsPrivateKeyToStaticPublicKeyInput({_dafny.string_of(self.senderKmsIdentifier)}, {_dafny.string_of(self.senderPublicKey)}, {_dafny.string_of(self.recipientPublicKey)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KmsPrivateKeyToStaticPublicKeyInput_KmsPrivateKeyToStaticPublicKeyInput) and self.senderKmsIdentifier == __o.senderKmsIdentifier and self.senderPublicKey == __o.senderPublicKey and self.recipientPublicKey == __o.recipientPublicKey
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class KmsPublicKeyDiscoveryInput:
+    @classmethod
+    def default(cls, ):
+        return lambda: KmsPublicKeyDiscoveryInput_KmsPublicKeyDiscoveryInput(_dafny.Seq(""))
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_KmsPublicKeyDiscoveryInput(self) -> bool:
+        return isinstance(self, KmsPublicKeyDiscoveryInput_KmsPublicKeyDiscoveryInput)
+
+class KmsPublicKeyDiscoveryInput_KmsPublicKeyDiscoveryInput(KmsPublicKeyDiscoveryInput, NamedTuple('KmsPublicKeyDiscoveryInput', [('recipientKmsIdentifier', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTypes.KmsPublicKeyDiscoveryInput.KmsPublicKeyDiscoveryInput({_dafny.string_of(self.recipientKmsIdentifier)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KmsPublicKeyDiscoveryInput_KmsPublicKeyDiscoveryInput) and self.recipientKmsIdentifier == __o.recipientKmsIdentifier
+    def __hash__(self) -> int:
+        return super().__hash__()
 
 
 class MaterialProvidersConfig:
@@ -1941,6 +2092,25 @@ class PositiveLong:
             return default__.IsValid__PositiveLong(d_3_x_)
         return False
 
+class PublicKeyDiscoveryInput:
+    @classmethod
+    def default(cls, ):
+        return lambda: PublicKeyDiscoveryInput_PublicKeyDiscoveryInput(_dafny.Seq({}))
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_PublicKeyDiscoveryInput(self) -> bool:
+        return isinstance(self, PublicKeyDiscoveryInput_PublicKeyDiscoveryInput)
+
+class PublicKeyDiscoveryInput_PublicKeyDiscoveryInput(PublicKeyDiscoveryInput, NamedTuple('PublicKeyDiscoveryInput', [('recipientStaticPrivateKey', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTypes.PublicKeyDiscoveryInput.PublicKeyDiscoveryInput({_dafny.string_of(self.recipientStaticPrivateKey)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, PublicKeyDiscoveryInput_PublicKeyDiscoveryInput) and self.recipientStaticPrivateKey == __o.recipientStaticPrivateKey
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
 class PutCacheEntryInput:
     @classmethod
     def default(cls, ):
@@ -1956,6 +2126,66 @@ class PutCacheEntryInput_PutCacheEntryInput(PutCacheEntryInput, NamedTuple('PutC
         return f'AwsCryptographyMaterialProvidersTypes.PutCacheEntryInput.PutCacheEntryInput({_dafny.string_of(self.identifier)}, {_dafny.string_of(self.materials)}, {_dafny.string_of(self.creationTime)}, {_dafny.string_of(self.expiryTime)}, {_dafny.string_of(self.messagesUsed)}, {_dafny.string_of(self.bytesUsed)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, PutCacheEntryInput_PutCacheEntryInput) and self.identifier == __o.identifier and self.materials == __o.materials and self.creationTime == __o.creationTime and self.expiryTime == __o.expiryTime and self.messagesUsed == __o.messagesUsed and self.bytesUsed == __o.bytesUsed
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class RawEcdhStaticConfigurations:
+    @classmethod
+    def default(cls, ):
+        return lambda: RawEcdhStaticConfigurations_PublicKeyDiscovery(PublicKeyDiscoveryInput.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_PublicKeyDiscovery(self) -> bool:
+        return isinstance(self, RawEcdhStaticConfigurations_PublicKeyDiscovery)
+    @property
+    def is_RawPrivateKeyToStaticPublicKey(self) -> bool:
+        return isinstance(self, RawEcdhStaticConfigurations_RawPrivateKeyToStaticPublicKey)
+    @property
+    def is_EphemeralPrivateKeyToStaticPublicKey(self) -> bool:
+        return isinstance(self, RawEcdhStaticConfigurations_EphemeralPrivateKeyToStaticPublicKey)
+
+class RawEcdhStaticConfigurations_PublicKeyDiscovery(RawEcdhStaticConfigurations, NamedTuple('PublicKeyDiscovery', [('PublicKeyDiscovery', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations.PublicKeyDiscovery({_dafny.string_of(self.PublicKeyDiscovery)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, RawEcdhStaticConfigurations_PublicKeyDiscovery) and self.PublicKeyDiscovery == __o.PublicKeyDiscovery
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class RawEcdhStaticConfigurations_RawPrivateKeyToStaticPublicKey(RawEcdhStaticConfigurations, NamedTuple('RawPrivateKeyToStaticPublicKey', [('RawPrivateKeyToStaticPublicKey', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations.RawPrivateKeyToStaticPublicKey({_dafny.string_of(self.RawPrivateKeyToStaticPublicKey)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, RawEcdhStaticConfigurations_RawPrivateKeyToStaticPublicKey) and self.RawPrivateKeyToStaticPublicKey == __o.RawPrivateKeyToStaticPublicKey
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class RawEcdhStaticConfigurations_EphemeralPrivateKeyToStaticPublicKey(RawEcdhStaticConfigurations, NamedTuple('EphemeralPrivateKeyToStaticPublicKey', [('EphemeralPrivateKeyToStaticPublicKey', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTypes.RawEcdhStaticConfigurations.EphemeralPrivateKeyToStaticPublicKey({_dafny.string_of(self.EphemeralPrivateKeyToStaticPublicKey)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, RawEcdhStaticConfigurations_EphemeralPrivateKeyToStaticPublicKey) and self.EphemeralPrivateKeyToStaticPublicKey == __o.EphemeralPrivateKeyToStaticPublicKey
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class RawPrivateKeyToStaticPublicKeyInput:
+    @classmethod
+    def default(cls, ):
+        return lambda: RawPrivateKeyToStaticPublicKeyInput_RawPrivateKeyToStaticPublicKeyInput(_dafny.Seq({}), _dafny.Seq({}))
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_RawPrivateKeyToStaticPublicKeyInput(self) -> bool:
+        return isinstance(self, RawPrivateKeyToStaticPublicKeyInput_RawPrivateKeyToStaticPublicKeyInput)
+
+class RawPrivateKeyToStaticPublicKeyInput_RawPrivateKeyToStaticPublicKeyInput(RawPrivateKeyToStaticPublicKeyInput, NamedTuple('RawPrivateKeyToStaticPublicKeyInput', [('senderStaticPrivateKey', Any), ('recipientPublicKey', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTypes.RawPrivateKeyToStaticPublicKeyInput.RawPrivateKeyToStaticPublicKeyInput({_dafny.string_of(self.senderStaticPrivateKey)}, {_dafny.string_of(self.recipientPublicKey)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, RawPrivateKeyToStaticPublicKeyInput_RawPrivateKeyToStaticPublicKeyInput) and self.senderStaticPrivateKey == __o.senderStaticPrivateKey and self.recipientPublicKey == __o.recipientPublicKey
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -2005,6 +2235,36 @@ class SingleThreadedCache_SingleThreadedCache(SingleThreadedCache, NamedTuple('S
         return f'AwsCryptographyMaterialProvidersTypes.SingleThreadedCache.SingleThreadedCache({_dafny.string_of(self.entryCapacity)}, {_dafny.string_of(self.entryPruningTailSize)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, SingleThreadedCache_SingleThreadedCache) and self.entryCapacity == __o.entryCapacity and self.entryPruningTailSize == __o.entryPruningTailSize
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class StaticConfigurations:
+    @classmethod
+    def default(cls, ):
+        return lambda: StaticConfigurations_AWS__KMS__ECDH(KmsEcdhStaticConfigurations.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_AWS__KMS__ECDH(self) -> bool:
+        return isinstance(self, StaticConfigurations_AWS__KMS__ECDH)
+    @property
+    def is_RAW__ECDH(self) -> bool:
+        return isinstance(self, StaticConfigurations_RAW__ECDH)
+
+class StaticConfigurations_AWS__KMS__ECDH(StaticConfigurations, NamedTuple('AWS__KMS__ECDH', [('AWS__KMS__ECDH', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTypes.StaticConfigurations.AWS_KMS_ECDH({_dafny.string_of(self.AWS__KMS__ECDH)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, StaticConfigurations_AWS__KMS__ECDH) and self.AWS__KMS__ECDH == __o.AWS__KMS__ECDH
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class StaticConfigurations_RAW__ECDH(StaticConfigurations, NamedTuple('RAW__ECDH', [('RAW__ECDH', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTypes.StaticConfigurations.RAW_ECDH({_dafny.string_of(self.RAW__ECDH)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, StaticConfigurations_RAW__ECDH) and self.RAW__ECDH == __o.RAW__ECDH
     def __hash__(self) -> int:
         return super().__hash__()
 

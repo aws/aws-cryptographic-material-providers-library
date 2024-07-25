@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -71,6 +72,9 @@ import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker 
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.EcdhEdkWrapping as EcdhEdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.RawECDHKeyring as RawECDHKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsEcdhKeyring as AwsKmsEcdhKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawRSAKeyring as RawRSAKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.CMM as CMM
@@ -78,6 +82,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.Defaults as D
 import aws_cryptographic_materialproviders.internaldafny.generated.Commitment as Commitment
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultCMM as DefaultCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultClientSupplier as DefaultClientSupplier
+import aws_cryptographic_materialproviders.internaldafny.generated.Utils as Utils
 import aws_cryptographic_materialproviders.internaldafny.generated.RequiredEncryptionContextCMM as RequiredEncryptionContextCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersOperations as AwsCryptographyMaterialProvidersOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialProviders as MaterialProviders
@@ -255,11 +260,17 @@ class KeyDescription:
     def is_AES(self) -> bool:
         return isinstance(self, KeyDescription_AES)
     @property
+    def is_ECDH(self) -> bool:
+        return isinstance(self, KeyDescription_ECDH)
+    @property
     def is_Static(self) -> bool:
         return isinstance(self, KeyDescription_Static)
     @property
     def is_KmsRsa(self) -> bool:
         return isinstance(self, KeyDescription_KmsRsa)
+    @property
+    def is_KmsECDH(self) -> bool:
+        return isinstance(self, KeyDescription_KmsECDH)
     @property
     def is_Hierarchy(self) -> bool:
         return isinstance(self, KeyDescription_Hierarchy)
@@ -310,6 +321,14 @@ class KeyDescription_AES(KeyDescription, NamedTuple('AES', [('AES', Any)])):
     def __hash__(self) -> int:
         return super().__hash__()
 
+class KeyDescription_ECDH(KeyDescription, NamedTuple('ECDH', [('ECDH', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription.ECDH({_dafny.string_of(self.ECDH)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KeyDescription_ECDH) and self.ECDH == __o.ECDH
+    def __hash__(self) -> int:
+        return super().__hash__()
+
 class KeyDescription_Static(KeyDescription, NamedTuple('Static', [('Static', Any)])):
     def __dafnystr__(self) -> str:
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription.Static({_dafny.string_of(self.Static)})'
@@ -323,6 +342,14 @@ class KeyDescription_KmsRsa(KeyDescription, NamedTuple('KmsRsa', [('KmsRsa', Any
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription.KmsRsa({_dafny.string_of(self.KmsRsa)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, KeyDescription_KmsRsa) and self.KmsRsa == __o.KmsRsa
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class KeyDescription_KmsECDH(KeyDescription, NamedTuple('KmsECDH', [('KmsECDH', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription.KmsECDH({_dafny.string_of(self.KmsECDH)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KeyDescription_KmsECDH) and self.KmsECDH == __o.KmsECDH
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -385,6 +412,25 @@ class KeyVectorsConfig_KeyVectorsConfig(KeyVectorsConfig, NamedTuple('KeyVectors
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyVectorsConfig.KeyVectorsConfig({_dafny.string_of(self.keyManifestPath)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, KeyVectorsConfig_KeyVectorsConfig) and self.keyManifestPath == __o.keyManifestPath
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class KmsEcdhKeyring:
+    @classmethod
+    def default(cls, ):
+        return lambda: KmsEcdhKeyring_KmsEcdhKeyring(_dafny.Seq(""), _dafny.Seq(""), _dafny.Seq(""), _dafny.Seq(""), _dafny.Seq(""), _dafny.Seq(""))
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_KmsEcdhKeyring(self) -> bool:
+        return isinstance(self, KmsEcdhKeyring_KmsEcdhKeyring)
+
+class KmsEcdhKeyring_KmsEcdhKeyring(KmsEcdhKeyring, NamedTuple('KmsEcdhKeyring', [('senderKeyId', Any), ('recipientKeyId', Any), ('senderPublicKey', Any), ('recipientPublicKey', Any), ('curveSpec', Any), ('keyAgreementScheme', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.KmsEcdhKeyring.KmsEcdhKeyring({_dafny.string_of(self.senderKeyId)}, {_dafny.string_of(self.recipientKeyId)}, {_dafny.string_of(self.senderPublicKey)}, {_dafny.string_of(self.recipientPublicKey)}, {_dafny.string_of(self.curveSpec)}, {_dafny.string_of(self.keyAgreementScheme)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KmsEcdhKeyring_KmsEcdhKeyring) and self.senderKeyId == __o.senderKeyId and self.recipientKeyId == __o.recipientKeyId and self.senderPublicKey == __o.senderPublicKey and self.recipientPublicKey == __o.recipientPublicKey and self.curveSpec == __o.curveSpec and self.keyAgreementScheme == __o.keyAgreementScheme
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -499,6 +545,25 @@ class RawAES_RawAES(RawAES, NamedTuple('RawAES', [('keyId', Any), ('providerId',
         return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawAES.RawAES({_dafny.string_of(self.keyId)}, {_dafny.string_of(self.providerId)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, RawAES_RawAES) and self.keyId == __o.keyId and self.providerId == __o.providerId
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class RawEcdh:
+    @classmethod
+    def default(cls, ):
+        return lambda: RawEcdh_RawEcdh(_dafny.Seq(""), _dafny.Seq(""), _dafny.Seq(""), _dafny.Seq(""), _dafny.Seq(""), _dafny.Seq(""), _dafny.Seq(""))
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_RawEcdh(self) -> bool:
+        return isinstance(self, RawEcdh_RawEcdh)
+
+class RawEcdh_RawEcdh(RawEcdh, NamedTuple('RawEcdh', [('senderKeyId', Any), ('recipientKeyId', Any), ('senderPublicKey', Any), ('recipientPublicKey', Any), ('providerId', Any), ('curveSpec', Any), ('keyAgreementScheme', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawEcdh.RawEcdh({_dafny.string_of(self.senderKeyId)}, {_dafny.string_of(self.recipientKeyId)}, {_dafny.string_of(self.senderPublicKey)}, {_dafny.string_of(self.recipientPublicKey)}, {_dafny.string_of(self.providerId)}, {_dafny.string_of(self.curveSpec)}, {_dafny.string_of(self.keyAgreementScheme)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, RawEcdh_RawEcdh) and self.senderKeyId == __o.senderKeyId and self.recipientKeyId == __o.recipientKeyId and self.senderPublicKey == __o.senderPublicKey and self.recipientPublicKey == __o.recipientPublicKey and self.providerId == __o.providerId and self.curveSpec == __o.curveSpec and self.keyAgreementScheme == __o.keyAgreementScheme
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -707,5 +772,5 @@ class OpaqueError:
     def default():
         return Error.default()()
     def _Is(source__):
-        d_4_e_: Error = source__
-        return (d_4_e_).is_Opaque
+        d_2_e_: Error = source__
+        return (d_2_e_).is_Opaque

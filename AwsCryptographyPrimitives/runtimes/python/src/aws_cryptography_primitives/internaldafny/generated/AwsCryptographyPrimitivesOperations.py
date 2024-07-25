@@ -60,6 +60,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 
 # Module: AwsCryptographyPrimitivesOperations
 
@@ -70,17 +71,17 @@ class default__:
     @staticmethod
     def GenerateRandomBytes(config, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out22_: Wrappers.Result
-        out22_ = Random.default__.GenerateBytes((input).length)
-        output = out22_
+        out29_: Wrappers.Result
+        out29_ = Random.default__.GenerateBytes((input).length)
+        output = out29_
         return output
 
     @staticmethod
     def Digest(config, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out23_: Wrappers.Result
-        out23_ = Digest.default__.Digest(input)
-        output = out23_
+        out30_: Wrappers.Result
+        out30_ = Digest.default__.Digest(input)
+        output = out30_
         return output
 
     @staticmethod
@@ -90,33 +91,33 @@ class default__:
     @staticmethod
     def HkdfExtract(config, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out24_: Wrappers.Result
-        out24_ = WrappedHKDF.default__.Extract(input)
-        output = out24_
+        out31_: Wrappers.Result
+        out31_ = WrappedHKDF.default__.Extract(input)
+        output = out31_
         return output
 
     @staticmethod
     def HkdfExpand(config, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out25_: Wrappers.Result
-        out25_ = WrappedHKDF.default__.Expand(input)
-        output = out25_
+        out32_: Wrappers.Result
+        out32_ = WrappedHKDF.default__.Expand(input)
+        output = out32_
         return output
 
     @staticmethod
     def Hkdf(config, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out26_: Wrappers.Result
-        out26_ = WrappedHKDF.default__.Hkdf(input)
-        output = out26_
+        out33_: Wrappers.Result
+        out33_ = WrappedHKDF.default__.Hkdf(input)
+        output = out33_
         return output
 
     @staticmethod
     def KdfCounterMode(config, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out27_: Wrappers.Result
-        out27_ = KdfCtr.default__.KdfCounterMode(input)
-        output = out27_
+        out34_: Wrappers.Result
+        out34_ = KdfCtr.default__.KdfCounterMode(input)
+        output = out34_
         return output
 
     @staticmethod
@@ -128,77 +129,133 @@ class default__:
     @staticmethod
     def AESEncrypt(config, input):
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.AESEncryptOutput.default())()
-        out28_: Wrappers.Result
-        out28_ = AESEncryption.default__.AESEncrypt(input)
-        output = out28_
+        out35_: Wrappers.Result
+        out35_ = AESEncryption.default__.AESEncrypt(input)
+        output = out35_
         return output
 
     @staticmethod
     def AESDecrypt(config, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out29_: Wrappers.Result
-        out29_ = AESEncryption.default__.AESDecrypt(input)
-        output = out29_
+        out36_: Wrappers.Result
+        out36_ = AESEncryption.default__.AESDecrypt(input)
+        output = out36_
         return output
 
     @staticmethod
     def GenerateRSAKeyPair(config, input):
         output: Wrappers.Result = None
-        d_107_publicKey_: AwsCryptographyPrimitivesTypes.RSAPublicKey
-        d_108_privateKey_: AwsCryptographyPrimitivesTypes.RSAPrivateKey
-        out30_: AwsCryptographyPrimitivesTypes.RSAPublicKey
-        out31_: AwsCryptographyPrimitivesTypes.RSAPrivateKey
-        out30_, out31_ = RSAEncryption.default__.GenerateKeyPair((input).lengthBits)
-        d_107_publicKey_ = out30_
-        d_108_privateKey_ = out31_
-        output = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput(d_107_publicKey_, d_108_privateKey_))
+        d_120_publicKey_: AwsCryptographyPrimitivesTypes.RSAPublicKey
+        d_121_privateKey_: AwsCryptographyPrimitivesTypes.RSAPrivateKey
+        out37_: AwsCryptographyPrimitivesTypes.RSAPublicKey
+        out38_: AwsCryptographyPrimitivesTypes.RSAPrivateKey
+        out37_, out38_ = RSAEncryption.default__.GenerateKeyPair((input).lengthBits)
+        d_120_publicKey_ = out37_
+        d_121_privateKey_ = out38_
+        output = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput(d_120_publicKey_, d_121_privateKey_))
         return output
 
     @staticmethod
     def GetRSAKeyModulusLength(config, input):
-        d_109_valueOrError0_ = RSAEncryption.default__.GetRSAKeyModulusLength((input).publicKey)
-        if (d_109_valueOrError0_).IsFailure():
-            return (d_109_valueOrError0_).PropagateFailure()
+        d_122_valueOrError0_ = RSAEncryption.default__.GetRSAKeyModulusLength((input).publicKey)
+        if (d_122_valueOrError0_).IsFailure():
+            return (d_122_valueOrError0_).PropagateFailure()
         elif True:
-            d_110_length_ = (d_109_valueOrError0_).Extract()
-            return Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.GetRSAKeyModulusLengthOutput_GetRSAKeyModulusLengthOutput(d_110_length_))
+            d_123_length_ = (d_122_valueOrError0_).Extract()
+            return Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.GetRSAKeyModulusLengthOutput_GetRSAKeyModulusLengthOutput(d_123_length_))
 
     @staticmethod
     def RSADecrypt(config, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out32_: Wrappers.Result
-        out32_ = RSAEncryption.default__.Decrypt(input)
-        output = out32_
+        out39_: Wrappers.Result
+        out39_ = RSAEncryption.default__.Decrypt(input)
+        output = out39_
         return output
 
     @staticmethod
     def RSAEncrypt(config, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out33_: Wrappers.Result
-        out33_ = RSAEncryption.default__.Encrypt(input)
-        output = out33_
+        out40_: Wrappers.Result
+        out40_ = RSAEncryption.default__.Encrypt(input)
+        output = out40_
         return output
 
     @staticmethod
     def GenerateECDSASignatureKey(config, input):
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.GenerateECDSASignatureKeyOutput.default())()
-        out34_: Wrappers.Result
-        out34_ = Signature.default__.KeyGen(input)
-        output = out34_
+        out41_: Wrappers.Result
+        out41_ = Signature.default__.KeyGen(input)
+        output = out41_
         return output
 
     @staticmethod
     def ECDSASign(config, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out35_: Wrappers.Result
-        out35_ = ECDSA.Sign((input).signatureAlgorithm, (input).signingKey, (input).message)
-        output = out35_
+        out42_: Wrappers.Result
+        out42_ = Signature.ECDSA.Sign((input).signatureAlgorithm, (input).signingKey, (input).message)
+        output = out42_
         return output
 
     @staticmethod
     def ECDSAVerify(config, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.bool)()
-        output = ECDSA_Verify((input).signatureAlgorithm, (input).verificationKey, (input).message, (input).signature)
+        output = Signature.ECDSA_Verify((input).signatureAlgorithm, (input).verificationKey, (input).message, (input).signature)
+        return output
+
+    @staticmethod
+    def GenerateECCKeyPair(config, input):
+        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.GenerateECCKeyPairOutput.default())()
+        out43_: Wrappers.Result
+        out43_ = ECDH.default__.GenerateEccKeyPair(input)
+        output = out43_
+        return output
+
+    @staticmethod
+    def GetPublicKeyFromPrivateKey(config, input):
+        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.GetPublicKeyFromPrivateKeyOutput.default())()
+        out44_: Wrappers.Result
+        out44_ = ECDH.default__.GetPublicKeyFromPrivate(input)
+        output = out44_
+        return output
+
+    @staticmethod
+    def ValidatePublicKey(config, input):
+        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.ValidatePublicKeyOutput.default())()
+        out45_: Wrappers.Result
+        out45_ = ECDH.default__.ValidatePublicKey(input)
+        output = out45_
+        return output
+
+    @staticmethod
+    def DeriveSharedSecret(config, input):
+        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.DeriveSharedSecretOutput.default())()
+        out46_: Wrappers.Result
+        out46_ = ECDH.default__.DeriveSharedSecret(input)
+        output = out46_
+        return output
+
+    @staticmethod
+    def CompressPublicKey(config, input):
+        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.CompressPublicKeyOutput.default())()
+        out47_: Wrappers.Result
+        out47_ = ECDH.default__.CompressPublicKey(input)
+        output = out47_
+        return output
+
+    @staticmethod
+    def DecompressPublicKey(config, input):
+        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.DecompressPublicKeyOutput.default())()
+        out48_: Wrappers.Result
+        out48_ = ECDH.default__.DecompressPublicKey(input)
+        output = out48_
+        return output
+
+    @staticmethod
+    def ParsePublicKey(config, input):
+        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.ParsePublicKeyOutput.default())()
+        out49_: Wrappers.Result
+        out49_ = ECDH.default__.ParsePublicKey(input)
+        output = out49_
         return output
 
 

@@ -1,5 +1,5 @@
 file_format_version = "1.0"
-dafny_version = "4.6.0.0"
+dafny_version = "4.7.0.0"
 [options_by_module.MplManifestOptions]
 python-module-name = "aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated"
 [options_by_module.AllAlgorithmSuites]
@@ -44,9 +44,13 @@ python-module-name = "aws_cryptography_materialproviderstestvectorkeys.internald
 python-module-name = "aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated"
 [options_by_module.AllKmsRsa]
 python-module-name = "aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated"
+[options_by_module.AllKmsEcdh]
+python-module-name = "aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated"
 [options_by_module.AllRawAES]
 python-module-name = "aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated"
 [options_by_module.AllRawRSA]
+python-module-name = "aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated"
+[options_by_module.AllRawECDH]
 python-module-name = "aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated"
 [options_by_module.AllDefaultCmm]
 python-module-name = "aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated"

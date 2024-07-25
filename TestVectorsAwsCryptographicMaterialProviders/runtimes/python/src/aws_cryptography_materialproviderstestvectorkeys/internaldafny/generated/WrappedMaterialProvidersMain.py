@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -71,6 +72,9 @@ import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker 
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.EcdhEdkWrapping as EcdhEdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.RawECDHKeyring as RawECDHKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsEcdhKeyring as AwsKmsEcdhKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawRSAKeyring as RawRSAKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.CMM as CMM
@@ -78,6 +82,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.Defaults as D
 import aws_cryptographic_materialproviders.internaldafny.generated.Commitment as Commitment
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultCMM as DefaultCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultClientSupplier as DefaultClientSupplier
+import aws_cryptographic_materialproviders.internaldafny.generated.Utils as Utils
 import aws_cryptographic_materialproviders.internaldafny.generated.RequiredEncryptionContextCMM as RequiredEncryptionContextCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersOperations as AwsCryptographyMaterialProvidersOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialProviders as MaterialProviders
@@ -172,8 +177,10 @@ import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKmsMrkAware as AllKmsMrkAware
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKmsMrkAwareDiscovery as AllKmsMrkAwareDiscovery
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKmsRsa as AllKmsRsa
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKmsEcdh as AllKmsEcdh
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllRawAES as AllRawAES
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllRawRSA as AllRawRSA
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllRawECDH as AllRawECDH
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllDefaultCmm as AllDefaultCmm
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllRequiredEncryptionContextCmm as AllRequiredEncryptionContextCmm
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllMulti as AllMulti
@@ -189,121 +196,117 @@ class default__:
         pass
 
     @staticmethod
-    def NotMain(args):
+    def Main(args):
+        d_991_vectorOptions_: GetOpt.Options
+        d_991_vectorOptions_ = GetOpt.Options_Options(_dafny.Seq("test-vectors"), _dafny.Seq("?"), _dafny.Seq([GetOpt.Param_Command(GetOpt.Options_Options(_dafny.Seq("decrypt"), _dafny.Seq("decrypt command for test-vectors"), _dafny.Seq([GetOpt.Param_Opt(_dafny.Seq("manifest-path"), _dafny.Seq("relative path to the location of the manifest"), _dafny.Seq("arg"), GetOpt.default__.NullChar, GetOpt.Unused_Required(), False, GetOpt.Visibility_Normal(), _dafny.Seq([]), _dafny.Seq([]), GetOpt.Tri_No()), GetOpt.Param_Opt(_dafny.Seq("test-name"), _dafny.Seq("id of the test to run"), _dafny.Seq("arg"), GetOpt.default__.NullChar, GetOpt.Unused_UnusedOk(), False, GetOpt.Visibility_Normal(), _dafny.Seq([]), _dafny.Seq([]), GetOpt.Tri_No())]))), GetOpt.Param_Command(GetOpt.Options_Options(_dafny.Seq("encrypt"), _dafny.Seq("encrypt command for test-vectors"), _dafny.Seq([GetOpt.Param_Opt(_dafny.Seq("manifest-path"), _dafny.Seq("relative path to the location of the manifest"), _dafny.Seq("arg"), GetOpt.default__.NullChar, GetOpt.Unused_Required(), False, GetOpt.Visibility_Normal(), _dafny.Seq([]), _dafny.Seq([]), GetOpt.Tri_No()), GetOpt.Param_Opt(_dafny.Seq("decrypt-manifest-path"), _dafny.Seq("relative path to the location where the decrypted manifest will be written to."), _dafny.Seq("arg"), GetOpt.default__.NullChar, GetOpt.Unused_Required(), False, GetOpt.Visibility_Normal(), _dafny.Seq([]), _dafny.Seq([]), GetOpt.Tri_No()), GetOpt.Param_Opt(_dafny.Seq("test-name"), _dafny.Seq("id of the test to run"), _dafny.Seq("arg"), GetOpt.default__.NullChar, GetOpt.Unused_UnusedOk(), False, GetOpt.Visibility_Normal(), _dafny.Seq([]), _dafny.Seq([]), GetOpt.Tri_No())]))), GetOpt.Param_Command(GetOpt.Options_Options(_dafny.Seq("encrypt-manifest"), _dafny.Seq("encryp manifest command for test-vectors"), _dafny.Seq([GetOpt.Param_Opt(_dafny.Seq("encrypt-manifest-output"), _dafny.Seq("relative path of where to store the encrypt-manifest produced"), _dafny.Seq("arg"), GetOpt.default__.NullChar, GetOpt.Unused_Required(), False, GetOpt.Visibility_Normal(), _dafny.Seq([]), _dafny.Seq([]), GetOpt.Tri_No())])))]))
         if not((0) < (len(args))):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/Index.dfy(19,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_991_op_q_: Wrappers.Result
-        d_991_op_q_ = default__.ParseCommandLineOptions(_dafny.Seq((args)[1::]))
-        if (d_991_op_q_).is_Success:
-            d_992_op_: MplManifestOptions.ManifestOptions
-            d_992_op_ = (d_991_op_q_).value
-            if (d_992_op_).is_Decrypt:
-                pass
-            elif (d_992_op_).is_Encrypt:
-                d_993_result_: Wrappers.Result
-                out61_: Wrappers.Result
-                out61_ = TestManifests.default__.StartEncrypt(d_992_op_)
-                d_993_result_ = out61_
-                if (d_993_result_).is_Failure:
-                    _dafny.print(_dafny.string_of((d_993_result_).error))
-                if not((d_993_result_).is_Success):
-                    raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/Index.dfy(33,8): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-            elif (d_992_op_).is_EncryptManifest:
-                d_994_result_: Wrappers.Result
-                out62_: Wrappers.Result
-                out62_ = CompleteVectors.default__.WriteStuff(d_992_op_)
-                d_994_result_ = out62_
-                if (d_994_result_).is_Failure:
-                    _dafny.print(_dafny.string_of((d_994_result_).error))
-                if not((d_994_result_).is_Success):
-                    raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/Index.dfy(39,8): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/Index.dfy(38,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+        d_992_parsedOptions_q_: Wrappers.Result
+        d_992_parsedOptions_q_ = GetOpt.default__.GetOptions(d_991_vectorOptions_, args)
+        if (d_992_parsedOptions_q_).is_Success:
+            d_993_op_q_: Wrappers.Result
+            d_993_op_q_ = default__.ParseCommandLineOptions((d_992_parsedOptions_q_).value)
+            if (d_993_op_q_).is_Success:
+                d_994_op_: MplManifestOptions.ManifestOptions
+                d_994_op_ = (d_993_op_q_).value
+                if (d_994_op_).is_Decrypt:
+                    d_995_result_: Wrappers.Result
+                    out70_: Wrappers.Result
+                    out70_ = TestManifests.default__.StartDecrypt(d_994_op_)
+                    d_995_result_ = out70_
+                    if (d_995_result_).is_Failure:
+                        _dafny.print(_dafny.string_of((d_995_result_).error))
+                    if not((d_995_result_).is_Success):
+                        raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/Index.dfy(52,10): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                elif (d_994_op_).is_Encrypt:
+                    d_996_result_: Wrappers.Result
+                    out71_: Wrappers.Result
+                    out71_ = TestManifests.default__.StartEncrypt(d_994_op_)
+                    d_996_result_ = out71_
+                    if (d_996_result_).is_Failure:
+                        _dafny.print(_dafny.string_of((d_996_result_).error))
+                    if not((d_996_result_).is_Success):
+                        raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/Index.dfy(58,10): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                elif (d_994_op_).is_EncryptManifest:
+                    d_997_result_: Wrappers.Result
+                    out72_: Wrappers.Result
+                    out72_ = CompleteVectors.default__.WriteStuff(d_994_op_)
+                    d_997_result_ = out72_
+                    if (d_997_result_).is_Failure:
+                        _dafny.print(_dafny.string_of((d_997_result_).error))
+                    if not((d_997_result_).is_Success):
+                        raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/Index.dfy(64,10): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                elif True:
+                    raise Exception("unreachable alternative")
             elif True:
-                raise Exception("unreachable alternative")
+                _dafny.print(_dafny.string_of(((d_993_op_q_).error) + (_dafny.Seq("\n"))))
+                _dafny.print(_dafny.string_of(_dafny.Seq("help\n")))
         elif True:
-            _dafny.print(_dafny.string_of((d_991_op_q_).error))
-            _dafny.print(_dafny.string_of(_dafny.Seq("help")))
+            _dafny.print(_dafny.string_of(((d_992_parsedOptions_q_).error) + (_dafny.Seq("\n"))))
 
     @staticmethod
-    def ParseCommandLineOptions(args):
-        d_995_valueOrError0_ = Wrappers.default__.Need((1) < (len(args)), _dafny.Seq("Not enough arguments."))
-        if (d_995_valueOrError0_).IsFailure():
-            return (d_995_valueOrError0_).PropagateFailure()
-        elif True:
-            d_996_valueOrError1_ = Wrappers.default__.Need(default__.CommandOption_q((args)[0]), (_dafny.Seq("Unknown argument:")) + ((args)[0]))
-            if (d_996_valueOrError1_).IsFailure():
-                return (d_996_valueOrError1_).PropagateFailure()
-            elif True:
-                d_997_op_ = (default__.Options2Map(_dafny.Seq((args)[1::])) if (_dafny.euclidian_modulus((len(args)) - (1), 2)) == (0) else default__.Options2Map(_dafny.Seq((args)[1:(len(args)) - (1):])))
-                source30_ = (args)[0]
-                unmatched30 = True
-                if unmatched30:
-                    if (source30_) == (_dafny.Seq("decrypt")):
-                        unmatched30 = False
-                        return default__.ParseDecryptOptions(d_997_op_)
-                if unmatched30:
-                    if (source30_) == (_dafny.Seq("encrypt")):
-                        unmatched30 = False
-                        return default__.ParseEncryptOptions(d_997_op_)
-                if unmatched30:
-                    if (source30_) == (_dafny.Seq("encrypt-manifest")):
-                        unmatched30 = False
-                        return default__.ParseEncryptManifestOptions(d_997_op_)
-                raise Exception("unexpected control point")
-
-    @staticmethod
-    def ParseDecryptOptions(op):
-        d_998_valueOrError0_ = Wrappers.default__.Need(default__.DecryptOptions_q(op), _dafny.Seq("Incorrect arguments"))
+    def ParseCommandLineOptions(parsedOptions):
+        pat_let_tv89_ = parsedOptions
+        pat_let_tv90_ = parsedOptions
+        pat_let_tv91_ = parsedOptions
+        d_998_valueOrError0_ = Wrappers.default__.Need(((parsedOptions).subcommand).is_Some, _dafny.Seq("Must supply subcommand\n"))
         if (d_998_valueOrError0_).IsFailure():
             return (d_998_valueOrError0_).PropagateFailure()
         elif True:
-            return Wrappers.Result_Success(MplManifestOptions.ManifestOptions_Decrypt(((op)[_dafny.Seq("-manifest-path")] if (Seq.default__.Last((op)[_dafny.Seq("-manifest-path")])) == ('/') else ((op)[_dafny.Seq("-manifest-path")]) + (_dafny.Seq("/"))), (Wrappers.Option_Some((op)[_dafny.Seq("-test-name")]) if (_dafny.Seq("-test-name")) in (op) else Wrappers.Option_None())))
+            source34_ = (((parsedOptions).subcommand).value).command
+            unmatched34 = True
+            if unmatched34:
+                if (source34_) == (_dafny.Seq("decrypt")):
+                    unmatched34 = False
+                    return default__.ParseDecryptCmd((((pat_let_tv89_).subcommand).value).params)
+            if unmatched34:
+                if (source34_) == (_dafny.Seq("encrypt")):
+                    unmatched34 = False
+                    return default__.ParseEncryptCmd((((pat_let_tv90_).subcommand).value).params)
+            if unmatched34:
+                if (source34_) == (_dafny.Seq("encrypt-manifest")):
+                    unmatched34 = False
+                    return default__.ParseEncryptManifestCmd((((pat_let_tv91_).subcommand).value).params)
+            if unmatched34:
+                unmatched34 = False
+                return Wrappers.Result_Failure(_dafny.Seq("Received unknown subcommand"))
+            raise Exception("unexpected control point")
 
     @staticmethod
-    def ParseEncryptOptions(op):
-        d_999_valueOrError0_ = Wrappers.default__.Need(default__.EncryptOptions_q(op), _dafny.Seq("Incorrect arguments"))
-        if (d_999_valueOrError0_).IsFailure():
-            return (d_999_valueOrError0_).PropagateFailure()
+    def ParseDecryptCmd(params):
+        d_999_manifestPath_q_ = GetOpt.default__.OptValue(params, _dafny.Seq("manifest-path"))
+        d_1000_testName_q_ = GetOpt.default__.OptValue(params, _dafny.Seq("test-name"))
+        d_1001_manifestPath_ = ((d_999_manifestPath_q_).value if (d_999_manifestPath_q_).is_Some else _dafny.Seq("."))
+        d_1002_valueOrError0_ = Wrappers.default__.Need((0) < (len(d_1001_manifestPath_)), _dafny.Seq("Invalid manifest path length\n"))
+        if (d_1002_valueOrError0_).IsFailure():
+            return (d_1002_valueOrError0_).PropagateFailure()
         elif True:
-            return Wrappers.Result_Success(MplManifestOptions.ManifestOptions_Encrypt(((op)[_dafny.Seq("-manifest-path")] if (Seq.default__.Last((op)[_dafny.Seq("-manifest-path")])) == ('/') else ((op)[_dafny.Seq("-manifest-path")]) + (_dafny.Seq("/"))), (op)[_dafny.Seq("-decrypt-manifest-output")], (Wrappers.Option_Some((op)[_dafny.Seq("-test-name")]) if (_dafny.Seq("-test-name")) in (op) else Wrappers.Option_None())))
+            return Wrappers.Result_Success(MplManifestOptions.ManifestOptions_Decrypt((d_1001_manifestPath_ if (Seq.default__.Last(d_1001_manifestPath_)) == ('/') else (d_1001_manifestPath_) + (_dafny.Seq("/"))), (d_1000_testName_q_ if (d_1000_testName_q_).is_Some else Wrappers.Option_None())))
 
     @staticmethod
-    def ParseEncryptManifestOptions(op):
-        d_1000_valueOrError0_ = Wrappers.default__.Need(default__.EncryptManifestOptions_q(op), _dafny.Seq("Incorrect arguments"))
-        if (d_1000_valueOrError0_).IsFailure():
-            return (d_1000_valueOrError0_).PropagateFailure()
+    def ParseEncryptCmd(params):
+        d_1003_manifestPath_q_ = GetOpt.default__.OptValue(params, _dafny.Seq("manifest-path"))
+        d_1004_decryptManifestPath_q_ = GetOpt.default__.OptValue(params, _dafny.Seq("decrypt-manifest-path"))
+        d_1005_testName_q_ = GetOpt.default__.OptValue(params, _dafny.Seq("test-name"))
+        d_1006_manifestPath_ = ((d_1003_manifestPath_q_).value if (d_1003_manifestPath_q_).is_Some else _dafny.Seq("."))
+        d_1007_decryptManifestPath_ = ((d_1004_decryptManifestPath_q_).value if (d_1004_decryptManifestPath_q_).is_Some else _dafny.Seq("."))
+        d_1008_valueOrError0_ = Wrappers.default__.Need(((0) < (len(d_1006_manifestPath_))) and ((0) < (len(d_1007_decryptManifestPath_))), _dafny.Seq("Invalid manifest or decrypt manifest path length\n"))
+        if (d_1008_valueOrError0_).IsFailure():
+            return (d_1008_valueOrError0_).PropagateFailure()
         elif True:
-            return Wrappers.Result_Success(MplManifestOptions.ManifestOptions_EncryptManifest(((op)[_dafny.Seq("-encrypt-manifest-output")] if (Seq.default__.Last((op)[_dafny.Seq("-encrypt-manifest-output")])) == ('/') else ((op)[_dafny.Seq("-encrypt-manifest-output")]) + (_dafny.Seq("/")))))
+            return Wrappers.Result_Success(MplManifestOptions.ManifestOptions_Encrypt((d_1006_manifestPath_ if (Seq.default__.Last(d_1006_manifestPath_)) == ('/') else (d_1006_manifestPath_) + (_dafny.Seq("/"))), (d_1007_decryptManifestPath_ if (Seq.default__.Last(d_1007_decryptManifestPath_)) == ('/') else (d_1007_decryptManifestPath_) + (_dafny.Seq("/"))), (d_1005_testName_q_ if (d_1005_testName_q_).is_Some else Wrappers.Option_None())))
 
     @staticmethod
-    def CommandOption_q(s):
-        return (((s) == (_dafny.Seq("decrypt"))) or ((s) == (_dafny.Seq("encrypt")))) or ((s) == (_dafny.Seq("encrypt-manifest")))
-
-    @staticmethod
-    def DecryptOptions_q(op):
-        return (((((1) <= (len(op))) and ((len(op)) <= (2))) and ((_dafny.Seq("-manifest-path")) in (op))) and ((0) < (len((op)[_dafny.Seq("-manifest-path")])))) and (not ((len(op)) == (2)) or ((_dafny.Seq("-test-name")) in (op)))
-
-    @staticmethod
-    def EncryptOptions_q(op):
-        return ((((((3) <= (len(op))) and ((len(op)) <= (4))) and ((_dafny.Seq("-manifest-path")) in (op))) and ((0) < (len((op)[_dafny.Seq("-manifest-path")])))) and ((_dafny.Seq("-decrypt-manifest-output")) in (op))) and (not ((len(op)) == (4)) or ((_dafny.Seq("-test-name")) in (op)))
-
-    @staticmethod
-    def EncryptManifestOptions_q(op):
-        return ((((1) <= (len(op))) and ((len(op)) <= (2))) and ((_dafny.Seq("-encrypt-manifest-output")) in (op))) and ((0) < (len((op)[_dafny.Seq("-encrypt-manifest-output")])))
+    def ParseEncryptManifestCmd(params):
+        d_1009_encryptManifestOutput_q_ = GetOpt.default__.OptValue(params, _dafny.Seq("encrypt-manifest-output"))
+        d_1010_encryptManifestOutput_ = ((d_1009_encryptManifestOutput_q_).value if (d_1009_encryptManifestOutput_q_).is_Some else _dafny.Seq("."))
+        d_1011_valueOrError0_ = Wrappers.default__.Need((0) < (len(d_1010_encryptManifestOutput_)), _dafny.Seq("Invalid encrypt manifest output length"))
+        if (d_1011_valueOrError0_).IsFailure():
+            return (d_1011_valueOrError0_).PropagateFailure()
+        elif True:
+            return Wrappers.Result_Success(MplManifestOptions.ManifestOptions_EncryptManifest((d_1010_encryptManifestOutput_ if (Seq.default__.Last(d_1010_encryptManifestOutput_)) == ('/') else (d_1010_encryptManifestOutput_) + (_dafny.Seq("/")))))
 
     @staticmethod
     def DecryptSingleOptions_q(op):
         return ((((3) == (len(op))) and ((_dafny.Seq("-keys-path")) in (op))) and ((_dafny.Seq("-key-description")) in (op))) and ((_dafny.Seq("-base64-bytes")) in (op))
-
-    @staticmethod
-    def DecryptRequiredOptions_q(s):
-        return (False) or ((s) == (_dafny.Seq("manifest-path")))
-
-    @staticmethod
-    def Options2Map(args):
-        if (len(args)) == (0):
-            return _dafny.Map({})
-        elif True:
-            d_1001_key_ = (args)[0]
-            d_1002_value_ = (args)[1]
-            return (_dafny.Map({d_1001_key_: d_1002_value_})) | (default__.Options2Map(_dafny.Seq((args)[2::])))
 

@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -108,41 +109,41 @@ class default__:
     @staticmethod
     def MrkAwareDiscoveryMultiKeyring(regions, discoveryFilter, clientSupplier, grantTokens):
         output: Wrappers.Result = None
-        d_732_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_732_valueOrError0_ = Wrappers.default__.Need((len(regions)) > (0), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("No regions passed.")))
-        if (d_732_valueOrError0_).IsFailure():
-            output = (d_732_valueOrError0_).PropagateFailure()
+        d_734_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_734_valueOrError0_ = Wrappers.default__.Need((len(regions)) > (0), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("No regions passed.")))
+        if (d_734_valueOrError0_).IsFailure():
+            output = (d_734_valueOrError0_).PropagateFailure()
             return output
-        d_733_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_733_valueOrError1_ = Wrappers.default__.Need((Seq.default__.IndexOfOption(regions, _dafny.Seq(""))).is_None, AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Empty string is not a valid region.")))
-        if (d_733_valueOrError1_).IsFailure():
-            output = (d_733_valueOrError1_).PropagateFailure()
+        d_735_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_735_valueOrError1_ = Wrappers.default__.Need((Seq.default__.IndexOfOption(regions, _dafny.Seq(""))).is_None, AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Empty string is not a valid region.")))
+        if (d_735_valueOrError1_).IsFailure():
+            output = (d_735_valueOrError1_).PropagateFailure()
             return output
-        d_734_children_: _dafny.Seq
-        d_734_children_ = _dafny.Seq([])
+        d_736_children_: _dafny.Seq
+        d_736_children_ = _dafny.Seq([])
         hi4_ = len(regions)
-        for d_735_i_ in range(0, hi4_):
-            d_736_region_: _dafny.Seq
-            d_736_region_ = (regions)[d_735_i_]
-            d_737_client_: ComAmazonawsKmsTypes.IKMSClient
-            d_738_valueOrError2_: Wrappers.Result = None
-            out106_: Wrappers.Result
-            out106_ = (clientSupplier).GetClient(AwsCryptographyMaterialProvidersTypes.GetClientInput_GetClientInput(d_736_region_))
-            d_738_valueOrError2_ = out106_
-            if (d_738_valueOrError2_).IsFailure():
-                output = (d_738_valueOrError2_).PropagateFailure()
+        for d_737_i_ in range(0, hi4_):
+            d_738_region_: _dafny.Seq
+            d_738_region_ = (regions)[d_737_i_]
+            d_739_client_: ComAmazonawsKmsTypes.IKMSClient
+            d_740_valueOrError2_: Wrappers.Result = None
+            out107_: Wrappers.Result
+            out107_ = (clientSupplier).GetClient(AwsCryptographyMaterialProvidersTypes.GetClientInput_GetClientInput(d_738_region_))
+            d_740_valueOrError2_ = out107_
+            if (d_740_valueOrError2_).IsFailure():
+                output = (d_740_valueOrError2_).PropagateFailure()
                 return output
-            d_737_client_ = (d_738_valueOrError2_).Extract()
-            d_739_keyring_: AwsKmsMrkDiscoveryKeyring.AwsKmsMrkDiscoveryKeyring
+            d_739_client_ = (d_740_valueOrError2_).Extract()
+            d_741_keyring_: AwsKmsMrkDiscoveryKeyring.AwsKmsMrkDiscoveryKeyring
             nw18_ = AwsKmsMrkDiscoveryKeyring.AwsKmsMrkDiscoveryKeyring()
-            nw18_.ctor__(d_737_client_, d_736_region_, discoveryFilter, (grantTokens).UnwrapOr(_dafny.Seq([])))
-            d_739_keyring_ = nw18_
-            d_734_children_ = (d_734_children_) + (_dafny.Seq([d_739_keyring_]))
-        d_740_keyring_: MultiKeyring.MultiKeyring
+            nw18_.ctor__(d_739_client_, d_738_region_, discoveryFilter, (grantTokens).UnwrapOr(_dafny.Seq([])))
+            d_741_keyring_ = nw18_
+            d_736_children_ = (d_736_children_) + (_dafny.Seq([d_741_keyring_]))
+        d_742_keyring_: MultiKeyring.MultiKeyring
         nw19_ = MultiKeyring.MultiKeyring()
-        nw19_.ctor__(Wrappers.Option_None(), d_734_children_)
-        d_740_keyring_ = nw19_
-        output = Wrappers.Result_Success(d_740_keyring_)
+        nw19_.ctor__(Wrappers.Option_None(), d_736_children_)
+        d_742_keyring_ = nw19_
+        output = Wrappers.Result_Success(d_742_keyring_)
         return output
         return output
 

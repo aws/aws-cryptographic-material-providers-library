@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -95,17 +96,107 @@ class default__:
         pass
 
     @_dafny.classproperty
-    def PROVIDER__ID(instance):
-        d_424_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115])
-        return d_424_s_
+    def ECDH__PROVIDER__INFO__RPL__INDEX(instance):
+        return 1
     @_dafny.classproperty
-    def PROVIDER__ID__HIERARCHY(instance):
-        d_425_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115, 45, 104, 105, 101, 114, 97, 114, 99, 104, 121])
+    def ECDH__PROVIDER__INFO__PUBLIC__KEY__LEN(instance):
+        return 4
+    @_dafny.classproperty
+    def ECDH__PROVIDER__INFO__RPK__INDEX(instance):
+        return (default__.ECDH__PROVIDER__INFO__RPL__INDEX) + (default__.ECDH__PROVIDER__INFO__PUBLIC__KEY__LEN)
+    @_dafny.classproperty
+    def ECDH__AES__256__ENC__KEY__LENGTH(instance):
+        return 32
+    @_dafny.classproperty
+    def ECDH__AES__256__ENC__TAG__LENGTH(instance):
+        return 16
+    @_dafny.classproperty
+    def ECDH__AES__256__ENC__IV__LENGTH(instance):
+        return 12
+    @_dafny.classproperty
+    def ECDH__AES__256__ENC__ALG(instance):
+        return AwsCryptographyPrimitivesTypes.AES__GCM_AES__GCM(default__.ECDH__AES__256__ENC__KEY__LENGTH, default__.ECDH__AES__256__ENC__TAG__LENGTH, default__.ECDH__AES__256__ENC__IV__LENGTH)
+    @_dafny.classproperty
+    def PROVIDER__ID(instance):
+        d_425_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115])
         return d_425_s_
     @_dafny.classproperty
-    def RSA__PROVIDER__ID(instance):
-        d_426_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115, 45, 114, 115, 97])
+    def UINT32__TO__SEQ__LEN(instance):
+        return 4
+    @_dafny.classproperty
+    def KDF__SALT__LEN(instance):
+        return 32
+    @_dafny.classproperty
+    def KDF__EXPECTED__LEN(instance):
+        return 64
+    @_dafny.classproperty
+    def ECDH__COMMITMENT__KEY__LENGTH(instance):
+        return 32
+    @_dafny.classproperty
+    def ECDH__COMMITMENT__KEY__INDEX(instance):
+        return 32
+    @_dafny.classproperty
+    def ECDH__WRAPPED__KEY__MATERIAL__INDEX(instance):
+        return 64
+    @_dafny.classproperty
+    def ECDH__KDF__STRING(instance):
+        return _dafny.Seq("ecdh-key-derivation")
+    @_dafny.classproperty
+    def ECDH__KDF__PRF__STRING(instance):
+        return _dafny.Seq("HMAC_SHA384")
+    @_dafny.classproperty
+    def ECDH__KDF__DELIMETER(instance):
+        return _dafny.Seq([0])
+    @_dafny.classproperty
+    def ECDH__PROVIDER__INFO__256__LEN(instance):
+        return 75
+    @_dafny.classproperty
+    def ECDH__PROVIDER__INFO__384__LEN(instance):
+        return 107
+    @_dafny.classproperty
+    def ECDH__PROVIDER__INFO__521__LEN(instance):
+        return 143
+    @_dafny.classproperty
+    def ECDH__PUBLIC__KEY__LEN__ECC__NIST__256(instance):
+        return 91
+    @_dafny.classproperty
+    def ECDH__PUBLIC__KEY__LEN__ECC__NIST__384(instance):
+        return 120
+    @_dafny.classproperty
+    def ECDH__PUBLIC__KEY__LEN__ECC__NIST__521(instance):
+        return 158
+    @_dafny.classproperty
+    def ECDH__PUBLIC__KEY__COMPRESSED__LEN__ECC__NIST__256(instance):
+        return 33
+    @_dafny.classproperty
+    def ECDH__PUBLIC__KEY__COMPRESSED__LEN__ECC__NIST__384(instance):
+        return 49
+    @_dafny.classproperty
+    def ECDH__PUBLIC__KEY__COMPRESSED__LEN__ECC__NIST__521(instance):
+        return 67
+    @_dafny.classproperty
+    def CIPHERTEXT__WRAPPED__MATERIAL__INDEX(instance):
+        return 68
+    @_dafny.classproperty
+    def PROVIDER__ID__HIERARCHY(instance):
+        d_426_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115, 45, 104, 105, 101, 114, 97, 114, 99, 104, 121])
         return d_426_s_
+    @_dafny.classproperty
+    def RSA__PROVIDER__ID(instance):
+        d_427_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115, 45, 114, 115, 97])
+        return d_427_s_
+    @_dafny.classproperty
+    def KMS__ECDH__PROVIDER__ID(instance):
+        return UTF8.default__.EncodeAscii(_dafny.Seq("aws-kms-ecdh"))
+    @_dafny.classproperty
+    def RAW__ECDH__PROVIDER__ID(instance):
+        return UTF8.default__.EncodeAscii(_dafny.Seq("raw-ecdh"))
+    @_dafny.classproperty
+    def ECDH__KDF__PRF__NAME(instance):
+        return UTF8.default__.EncodeAscii(_dafny.Seq("HMAC_SHA384"))
+    @_dafny.classproperty
+    def ECDH__KDF__UTF8(instance):
+        return UTF8.default__.EncodeAscii(_dafny.Seq("ecdh-key-derivation"))
 
 class AwsKmsEncryptedDataKey:
     def  __init__(self):
@@ -115,8 +206,8 @@ class AwsKmsEncryptedDataKey:
     def default():
         return AwsCryptographyMaterialProvidersTypes.EncryptedDataKey.default()()
     def _Is(source__):
-        d_427_edk_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey = source__
-        return (((d_427_edk_).keyProviderId) == (default__.PROVIDER__ID)) and (UTF8.default__.ValidUTF8Seq((d_427_edk_).keyProviderInfo))
+        d_428_edk_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey = source__
+        return (((d_428_edk_).keyProviderId) == (default__.PROVIDER__ID)) and (UTF8.default__.ValidUTF8Seq((d_428_edk_).keyProviderInfo))
 
 class AwsKmsEdkHelper:
     @classmethod

@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -107,6 +108,9 @@ import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker 
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.EcdhEdkWrapping as EcdhEdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.RawECDHKeyring as RawECDHKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsEcdhKeyring as AwsKmsEcdhKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawRSAKeyring as RawRSAKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.CMM as CMM
@@ -119,26 +123,24 @@ class default__:
 
     @staticmethod
     def GetAlgorithmSuiteForCommitmentPolicy(commitmentPolicy):
-        source31_ = commitmentPolicy
-        unmatched31 = True
-        if unmatched31:
-            if source31_.is_ESDK:
-                d_1198_c_ = source31_.ESDK
-                unmatched31 = False
-                source32_ = d_1198_c_
-                unmatched32 = True
-                if unmatched32:
-                    if source32_.is_FORBID__ENCRYPT__ALLOW__DECRYPT:
-                        unmatched32 = False
+        source33_ = commitmentPolicy
+        unmatched33 = True
+        if unmatched33:
+            if source33_.is_ESDK:
+                d_1468_c_ = source33_.ESDK
+                unmatched33 = False
+                source34_ = d_1468_c_
+                unmatched34 = True
+                if unmatched34:
+                    if source34_.is_FORBID__ENCRYPT__ALLOW__DECRYPT:
+                        unmatched34 = False
                         return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__IV12__TAG16__HKDF__SHA384__ECDSA__P384())
-                if unmatched32:
-                    d_1199___v0_ = source32_
-                    unmatched32 = False
+                if unmatched34:
+                    unmatched34 = False
                     return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384())
                 raise Exception("unexpected control point")
-        if unmatched31:
-            d_1200___v1_ = source31_.DBE
-            unmatched31 = False
+        if unmatched33:
+            unmatched33 = False
             return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteId_DBE(AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId_ALG__AES__256__GCM__HKDF__SHA512__COMMIT__KEY__ECDSA__P384__SYMSIG__HMAC__SHA384())
         raise Exception("unexpected control point")
 

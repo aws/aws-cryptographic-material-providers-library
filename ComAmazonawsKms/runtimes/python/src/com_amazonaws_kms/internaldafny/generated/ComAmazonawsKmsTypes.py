@@ -63,6 +63,10 @@ class default__:
         return ((20) <= (len(x))) and ((len(x)) <= (2048))
 
     @staticmethod
+    def IsValid__AttestationDocumentType(x):
+        return ((1) <= (len(x))) and ((len(x)) <= (262144))
+
+    @staticmethod
     def IsValid__CiphertextType(x):
         return ((1) <= (len(x))) and ((len(x)) <= (6144))
 
@@ -147,6 +151,10 @@ class default__:
         return ((1) <= (len(x))) and ((len(x)) <= (32))
 
     @staticmethod
+    def IsValid__RotationPeriodInDaysType(x):
+        return ((90) <= (x)) and ((x) <= (2560))
+
+    @staticmethod
     def IsValid__TagKeyType(x):
         return ((1) <= (len(x))) and ((len(x)) <= (128))
 
@@ -157,6 +165,30 @@ class default__:
     @staticmethod
     def IsValid__TrustAnchorCertificateType(x):
         return ((1) <= (len(x))) and ((len(x)) <= (5000))
+
+    @staticmethod
+    def IsValid__XksKeyIdType(x):
+        return ((1) <= (len(x))) and ((len(x)) <= (128))
+
+    @staticmethod
+    def IsValid__XksProxyAuthenticationAccessKeyIdType(x):
+        return ((20) <= (len(x))) and ((len(x)) <= (30))
+
+    @staticmethod
+    def IsValid__XksProxyAuthenticationRawSecretAccessKeyType(x):
+        return ((43) <= (len(x))) and ((len(x)) <= (64))
+
+    @staticmethod
+    def IsValid__XksProxyUriEndpointType(x):
+        return ((10) <= (len(x))) and ((len(x)) <= (128))
+
+    @staticmethod
+    def IsValid__XksProxyUriPathType(x):
+        return ((10) <= (len(x))) and ((len(x)) <= (128))
+
+    @staticmethod
+    def IsValid__XksProxyVpcEndpointServiceNameType(x):
+        return ((20) <= (len(x))) and ((len(x)) <= (64))
 
 
 class DafnyCallEvent:
@@ -181,7 +213,7 @@ class DafnyCallEvent_DafnyCallEvent(DafnyCallEvent, NamedTuple('DafnyCallEvent',
 class AlgorithmSpec:
     @_dafny.classproperty
     def AllSingletonConstructors(cls):
-        return [AlgorithmSpec_RSAES__PKCS1__V1__5(), AlgorithmSpec_RSAES__OAEP__SHA__1(), AlgorithmSpec_RSAES__OAEP__SHA__256()]
+        return [AlgorithmSpec_RSAES__PKCS1__V1__5(), AlgorithmSpec_RSAES__OAEP__SHA__1(), AlgorithmSpec_RSAES__OAEP__SHA__256(), AlgorithmSpec_RSA__AES__KEY__WRAP__SHA__1(), AlgorithmSpec_RSA__AES__KEY__WRAP__SHA__256(), AlgorithmSpec_SM2PKE()]
     @classmethod
     def default(cls, ):
         return lambda: AlgorithmSpec_RSAES__PKCS1__V1__5()
@@ -196,6 +228,15 @@ class AlgorithmSpec:
     @property
     def is_RSAES__OAEP__SHA__256(self) -> bool:
         return isinstance(self, AlgorithmSpec_RSAES__OAEP__SHA__256)
+    @property
+    def is_RSA__AES__KEY__WRAP__SHA__1(self) -> bool:
+        return isinstance(self, AlgorithmSpec_RSA__AES__KEY__WRAP__SHA__1)
+    @property
+    def is_RSA__AES__KEY__WRAP__SHA__256(self) -> bool:
+        return isinstance(self, AlgorithmSpec_RSA__AES__KEY__WRAP__SHA__256)
+    @property
+    def is_SM2PKE(self) -> bool:
+        return isinstance(self, AlgorithmSpec_SM2PKE)
 
 class AlgorithmSpec_RSAES__PKCS1__V1__5(AlgorithmSpec, NamedTuple('RSAES__PKCS1__V1__5', [])):
     def __dafnystr__(self) -> str:
@@ -218,6 +259,30 @@ class AlgorithmSpec_RSAES__OAEP__SHA__256(AlgorithmSpec, NamedTuple('RSAES__OAEP
         return f'ComAmazonawsKmsTypes.AlgorithmSpec.RSAES_OAEP_SHA_256'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, AlgorithmSpec_RSAES__OAEP__SHA__256)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class AlgorithmSpec_RSA__AES__KEY__WRAP__SHA__1(AlgorithmSpec, NamedTuple('RSA__AES__KEY__WRAP__SHA__1', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.AlgorithmSpec.RSA_AES_KEY_WRAP_SHA_1'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, AlgorithmSpec_RSA__AES__KEY__WRAP__SHA__1)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class AlgorithmSpec_RSA__AES__KEY__WRAP__SHA__256(AlgorithmSpec, NamedTuple('RSA__AES__KEY__WRAP__SHA__256', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.AlgorithmSpec.RSA_AES_KEY_WRAP_SHA_256'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, AlgorithmSpec_RSA__AES__KEY__WRAP__SHA__256)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class AlgorithmSpec_SM2PKE(AlgorithmSpec, NamedTuple('SM2PKE', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.AlgorithmSpec.SM2PKE'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, AlgorithmSpec_SM2PKE)
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -262,6 +327,17 @@ class ArnType:
     def _Is(source__):
         d_1_x_: _dafny.Seq = source__
         return default__.IsValid__ArnType(d_1_x_)
+
+class AttestationDocumentType:
+    def  __init__(self):
+        pass
+
+    @staticmethod
+    def default():
+        return _dafny.Seq({})
+    def _Is(source__):
+        d_2_x_: _dafny.Seq = source__
+        return default__.IsValid__AttestationDocumentType(d_2_x_)
 
 class CancelKeyDeletionRequest:
     @classmethod
@@ -309,8 +385,8 @@ class CiphertextType:
     def default():
         return _dafny.Seq({})
     def _Is(source__):
-        d_2_x_: _dafny.Seq = source__
-        return default__.IsValid__CiphertextType(d_2_x_)
+        d_3_x_: _dafny.Seq = source__
+        return default__.IsValid__CiphertextType(d_3_x_)
 
 class CloudHsmClusterIdType:
     def  __init__(self):
@@ -320,8 +396,8 @@ class CloudHsmClusterIdType:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_3_x_: _dafny.Seq = source__
-        return default__.IsValid__CloudHsmClusterIdType(d_3_x_)
+        d_4_x_: _dafny.Seq = source__
+        return default__.IsValid__CloudHsmClusterIdType(d_4_x_)
 
 class ConnectCustomKeyStoreRequest:
     @classmethod
@@ -367,7 +443,7 @@ class ConnectCustomKeyStoreResponse_ConnectCustomKeyStoreResponse(ConnectCustomK
 class ConnectionErrorCodeType:
     @_dafny.classproperty
     def AllSingletonConstructors(cls):
-        return [ConnectionErrorCodeType_INVALID__CREDENTIALS(), ConnectionErrorCodeType_CLUSTER__NOT__FOUND(), ConnectionErrorCodeType_NETWORK__ERRORS(), ConnectionErrorCodeType_INTERNAL__ERROR(), ConnectionErrorCodeType_INSUFFICIENT__CLOUDHSM__HSMS(), ConnectionErrorCodeType_USER__LOCKED__OUT(), ConnectionErrorCodeType_USER__NOT__FOUND(), ConnectionErrorCodeType_USER__LOGGED__IN(), ConnectionErrorCodeType_SUBNET__NOT__FOUND()]
+        return [ConnectionErrorCodeType_INVALID__CREDENTIALS(), ConnectionErrorCodeType_CLUSTER__NOT__FOUND(), ConnectionErrorCodeType_NETWORK__ERRORS(), ConnectionErrorCodeType_INTERNAL__ERROR(), ConnectionErrorCodeType_INSUFFICIENT__CLOUDHSM__HSMS(), ConnectionErrorCodeType_USER__LOCKED__OUT(), ConnectionErrorCodeType_USER__NOT__FOUND(), ConnectionErrorCodeType_USER__LOGGED__IN(), ConnectionErrorCodeType_SUBNET__NOT__FOUND(), ConnectionErrorCodeType_INSUFFICIENT__FREE__ADDRESSES__IN__SUBNET(), ConnectionErrorCodeType_XKS__PROXY__ACCESS__DENIED(), ConnectionErrorCodeType_XKS__PROXY__NOT__REACHABLE(), ConnectionErrorCodeType_XKS__VPC__ENDPOINT__SERVICE__NOT__FOUND(), ConnectionErrorCodeType_XKS__PROXY__INVALID__RESPONSE(), ConnectionErrorCodeType_XKS__PROXY__INVALID__CONFIGURATION(), ConnectionErrorCodeType_XKS__VPC__ENDPOINT__SERVICE__INVALID__CONFIGURATION(), ConnectionErrorCodeType_XKS__PROXY__TIMED__OUT(), ConnectionErrorCodeType_XKS__PROXY__INVALID__TLS__CONFIGURATION()]
     @classmethod
     def default(cls, ):
         return lambda: ConnectionErrorCodeType_INVALID__CREDENTIALS()
@@ -400,6 +476,33 @@ class ConnectionErrorCodeType:
     @property
     def is_SUBNET__NOT__FOUND(self) -> bool:
         return isinstance(self, ConnectionErrorCodeType_SUBNET__NOT__FOUND)
+    @property
+    def is_INSUFFICIENT__FREE__ADDRESSES__IN__SUBNET(self) -> bool:
+        return isinstance(self, ConnectionErrorCodeType_INSUFFICIENT__FREE__ADDRESSES__IN__SUBNET)
+    @property
+    def is_XKS__PROXY__ACCESS__DENIED(self) -> bool:
+        return isinstance(self, ConnectionErrorCodeType_XKS__PROXY__ACCESS__DENIED)
+    @property
+    def is_XKS__PROXY__NOT__REACHABLE(self) -> bool:
+        return isinstance(self, ConnectionErrorCodeType_XKS__PROXY__NOT__REACHABLE)
+    @property
+    def is_XKS__VPC__ENDPOINT__SERVICE__NOT__FOUND(self) -> bool:
+        return isinstance(self, ConnectionErrorCodeType_XKS__VPC__ENDPOINT__SERVICE__NOT__FOUND)
+    @property
+    def is_XKS__PROXY__INVALID__RESPONSE(self) -> bool:
+        return isinstance(self, ConnectionErrorCodeType_XKS__PROXY__INVALID__RESPONSE)
+    @property
+    def is_XKS__PROXY__INVALID__CONFIGURATION(self) -> bool:
+        return isinstance(self, ConnectionErrorCodeType_XKS__PROXY__INVALID__CONFIGURATION)
+    @property
+    def is_XKS__VPC__ENDPOINT__SERVICE__INVALID__CONFIGURATION(self) -> bool:
+        return isinstance(self, ConnectionErrorCodeType_XKS__VPC__ENDPOINT__SERVICE__INVALID__CONFIGURATION)
+    @property
+    def is_XKS__PROXY__TIMED__OUT(self) -> bool:
+        return isinstance(self, ConnectionErrorCodeType_XKS__PROXY__TIMED__OUT)
+    @property
+    def is_XKS__PROXY__INVALID__TLS__CONFIGURATION(self) -> bool:
+        return isinstance(self, ConnectionErrorCodeType_XKS__PROXY__INVALID__TLS__CONFIGURATION)
 
 class ConnectionErrorCodeType_INVALID__CREDENTIALS(ConnectionErrorCodeType, NamedTuple('INVALID__CREDENTIALS', [])):
     def __dafnystr__(self) -> str:
@@ -470,6 +573,78 @@ class ConnectionErrorCodeType_SUBNET__NOT__FOUND(ConnectionErrorCodeType, NamedT
         return f'ComAmazonawsKmsTypes.ConnectionErrorCodeType.SUBNET_NOT_FOUND'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, ConnectionErrorCodeType_SUBNET__NOT__FOUND)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class ConnectionErrorCodeType_INSUFFICIENT__FREE__ADDRESSES__IN__SUBNET(ConnectionErrorCodeType, NamedTuple('INSUFFICIENT__FREE__ADDRESSES__IN__SUBNET', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.ConnectionErrorCodeType.INSUFFICIENT_FREE_ADDRESSES_IN_SUBNET'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ConnectionErrorCodeType_INSUFFICIENT__FREE__ADDRESSES__IN__SUBNET)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class ConnectionErrorCodeType_XKS__PROXY__ACCESS__DENIED(ConnectionErrorCodeType, NamedTuple('XKS__PROXY__ACCESS__DENIED', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.ConnectionErrorCodeType.XKS_PROXY_ACCESS_DENIED'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ConnectionErrorCodeType_XKS__PROXY__ACCESS__DENIED)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class ConnectionErrorCodeType_XKS__PROXY__NOT__REACHABLE(ConnectionErrorCodeType, NamedTuple('XKS__PROXY__NOT__REACHABLE', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.ConnectionErrorCodeType.XKS_PROXY_NOT_REACHABLE'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ConnectionErrorCodeType_XKS__PROXY__NOT__REACHABLE)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class ConnectionErrorCodeType_XKS__VPC__ENDPOINT__SERVICE__NOT__FOUND(ConnectionErrorCodeType, NamedTuple('XKS__VPC__ENDPOINT__SERVICE__NOT__FOUND', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.ConnectionErrorCodeType.XKS_VPC_ENDPOINT_SERVICE_NOT_FOUND'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ConnectionErrorCodeType_XKS__VPC__ENDPOINT__SERVICE__NOT__FOUND)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class ConnectionErrorCodeType_XKS__PROXY__INVALID__RESPONSE(ConnectionErrorCodeType, NamedTuple('XKS__PROXY__INVALID__RESPONSE', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.ConnectionErrorCodeType.XKS_PROXY_INVALID_RESPONSE'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ConnectionErrorCodeType_XKS__PROXY__INVALID__RESPONSE)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class ConnectionErrorCodeType_XKS__PROXY__INVALID__CONFIGURATION(ConnectionErrorCodeType, NamedTuple('XKS__PROXY__INVALID__CONFIGURATION', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.ConnectionErrorCodeType.XKS_PROXY_INVALID_CONFIGURATION'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ConnectionErrorCodeType_XKS__PROXY__INVALID__CONFIGURATION)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class ConnectionErrorCodeType_XKS__VPC__ENDPOINT__SERVICE__INVALID__CONFIGURATION(ConnectionErrorCodeType, NamedTuple('XKS__VPC__ENDPOINT__SERVICE__INVALID__CONFIGURATION', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.ConnectionErrorCodeType.XKS_VPC_ENDPOINT_SERVICE_INVALID_CONFIGURATION'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ConnectionErrorCodeType_XKS__VPC__ENDPOINT__SERVICE__INVALID__CONFIGURATION)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class ConnectionErrorCodeType_XKS__PROXY__TIMED__OUT(ConnectionErrorCodeType, NamedTuple('XKS__PROXY__TIMED__OUT', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.ConnectionErrorCodeType.XKS_PROXY_TIMED_OUT'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ConnectionErrorCodeType_XKS__PROXY__TIMED__OUT)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class ConnectionErrorCodeType_XKS__PROXY__INVALID__TLS__CONFIGURATION(ConnectionErrorCodeType, NamedTuple('XKS__PROXY__INVALID__TLS__CONFIGURATION', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.ConnectionErrorCodeType.XKS_PROXY_INVALID_TLS_CONFIGURATION'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ConnectionErrorCodeType_XKS__PROXY__INVALID__TLS__CONFIGURATION)
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -562,18 +737,18 @@ class CreateAliasRequest_CreateAliasRequest(CreateAliasRequest, NamedTuple('Crea
 class CreateCustomKeyStoreRequest:
     @classmethod
     def default(cls, ):
-        return lambda: CreateCustomKeyStoreRequest_CreateCustomKeyStoreRequest(_dafny.Seq(""), _dafny.Seq(""), _dafny.Seq(""), _dafny.Seq(""))
+        return lambda: CreateCustomKeyStoreRequest_CreateCustomKeyStoreRequest(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_CreateCustomKeyStoreRequest(self) -> bool:
         return isinstance(self, CreateCustomKeyStoreRequest_CreateCustomKeyStoreRequest)
 
-class CreateCustomKeyStoreRequest_CreateCustomKeyStoreRequest(CreateCustomKeyStoreRequest, NamedTuple('CreateCustomKeyStoreRequest', [('CustomKeyStoreName', Any), ('CloudHsmClusterId', Any), ('TrustAnchorCertificate', Any), ('KeyStorePassword', Any)])):
+class CreateCustomKeyStoreRequest_CreateCustomKeyStoreRequest(CreateCustomKeyStoreRequest, NamedTuple('CreateCustomKeyStoreRequest', [('CustomKeyStoreName', Any), ('CloudHsmClusterId', Any), ('TrustAnchorCertificate', Any), ('KeyStorePassword', Any), ('CustomKeyStoreType', Any), ('XksProxyUriEndpoint', Any), ('XksProxyUriPath', Any), ('XksProxyVpcEndpointServiceName', Any), ('XksProxyAuthenticationCredential', Any), ('XksProxyConnectivity', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.CreateCustomKeyStoreRequest.CreateCustomKeyStoreRequest({_dafny.string_of(self.CustomKeyStoreName)}, {_dafny.string_of(self.CloudHsmClusterId)}, {_dafny.string_of(self.TrustAnchorCertificate)}, {_dafny.string_of(self.KeyStorePassword)})'
+        return f'ComAmazonawsKmsTypes.CreateCustomKeyStoreRequest.CreateCustomKeyStoreRequest({_dafny.string_of(self.CustomKeyStoreName)}, {_dafny.string_of(self.CloudHsmClusterId)}, {_dafny.string_of(self.TrustAnchorCertificate)}, {_dafny.string_of(self.KeyStorePassword)}, {_dafny.string_of(self.CustomKeyStoreType)}, {_dafny.string_of(self.XksProxyUriEndpoint)}, {_dafny.string_of(self.XksProxyUriPath)}, {_dafny.string_of(self.XksProxyVpcEndpointServiceName)}, {_dafny.string_of(self.XksProxyAuthenticationCredential)}, {_dafny.string_of(self.XksProxyConnectivity)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, CreateCustomKeyStoreRequest_CreateCustomKeyStoreRequest) and self.CustomKeyStoreName == __o.CustomKeyStoreName and self.CloudHsmClusterId == __o.CloudHsmClusterId and self.TrustAnchorCertificate == __o.TrustAnchorCertificate and self.KeyStorePassword == __o.KeyStorePassword
+        return isinstance(__o, CreateCustomKeyStoreRequest_CreateCustomKeyStoreRequest) and self.CustomKeyStoreName == __o.CustomKeyStoreName and self.CloudHsmClusterId == __o.CloudHsmClusterId and self.TrustAnchorCertificate == __o.TrustAnchorCertificate and self.KeyStorePassword == __o.KeyStorePassword and self.CustomKeyStoreType == __o.CustomKeyStoreType and self.XksProxyUriEndpoint == __o.XksProxyUriEndpoint and self.XksProxyUriPath == __o.XksProxyUriPath and self.XksProxyVpcEndpointServiceName == __o.XksProxyVpcEndpointServiceName and self.XksProxyAuthenticationCredential == __o.XksProxyAuthenticationCredential and self.XksProxyConnectivity == __o.XksProxyConnectivity
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -600,18 +775,18 @@ class CreateCustomKeyStoreResponse_CreateCustomKeyStoreResponse(CreateCustomKeyS
 class CreateGrantRequest:
     @classmethod
     def default(cls, ):
-        return lambda: CreateGrantRequest_CreateGrantRequest(_dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()(), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: CreateGrantRequest_CreateGrantRequest(_dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()(), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_CreateGrantRequest(self) -> bool:
         return isinstance(self, CreateGrantRequest_CreateGrantRequest)
 
-class CreateGrantRequest_CreateGrantRequest(CreateGrantRequest, NamedTuple('CreateGrantRequest', [('KeyId', Any), ('GranteePrincipal', Any), ('RetiringPrincipal', Any), ('Operations', Any), ('Constraints', Any), ('GrantTokens', Any), ('Name', Any)])):
+class CreateGrantRequest_CreateGrantRequest(CreateGrantRequest, NamedTuple('CreateGrantRequest', [('KeyId', Any), ('GranteePrincipal', Any), ('RetiringPrincipal', Any), ('Operations', Any), ('Constraints', Any), ('GrantTokens', Any), ('Name', Any), ('DryRun', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.CreateGrantRequest.CreateGrantRequest({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.GranteePrincipal)}, {_dafny.string_of(self.RetiringPrincipal)}, {_dafny.string_of(self.Operations)}, {_dafny.string_of(self.Constraints)}, {_dafny.string_of(self.GrantTokens)}, {_dafny.string_of(self.Name)})'
+        return f'ComAmazonawsKmsTypes.CreateGrantRequest.CreateGrantRequest({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.GranteePrincipal)}, {_dafny.string_of(self.RetiringPrincipal)}, {_dafny.string_of(self.Operations)}, {_dafny.string_of(self.Constraints)}, {_dafny.string_of(self.GrantTokens)}, {_dafny.string_of(self.Name)}, {_dafny.string_of(self.DryRun)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, CreateGrantRequest_CreateGrantRequest) and self.KeyId == __o.KeyId and self.GranteePrincipal == __o.GranteePrincipal and self.RetiringPrincipal == __o.RetiringPrincipal and self.Operations == __o.Operations and self.Constraints == __o.Constraints and self.GrantTokens == __o.GrantTokens and self.Name == __o.Name
+        return isinstance(__o, CreateGrantRequest_CreateGrantRequest) and self.KeyId == __o.KeyId and self.GranteePrincipal == __o.GranteePrincipal and self.RetiringPrincipal == __o.RetiringPrincipal and self.Operations == __o.Operations and self.Constraints == __o.Constraints and self.GrantTokens == __o.GrantTokens and self.Name == __o.Name and self.DryRun == __o.DryRun
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -638,18 +813,18 @@ class CreateGrantResponse_CreateGrantResponse(CreateGrantResponse, NamedTuple('C
 class CreateKeyRequest:
     @classmethod
     def default(cls, ):
-        return lambda: CreateKeyRequest_CreateKeyRequest(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: CreateKeyRequest_CreateKeyRequest(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_CreateKeyRequest(self) -> bool:
         return isinstance(self, CreateKeyRequest_CreateKeyRequest)
 
-class CreateKeyRequest_CreateKeyRequest(CreateKeyRequest, NamedTuple('CreateKeyRequest', [('Policy', Any), ('Description', Any), ('KeyUsage', Any), ('CustomerMasterKeySpec', Any), ('KeySpec', Any), ('Origin', Any), ('CustomKeyStoreId', Any), ('BypassPolicyLockoutSafetyCheck', Any), ('Tags', Any), ('MultiRegion', Any)])):
+class CreateKeyRequest_CreateKeyRequest(CreateKeyRequest, NamedTuple('CreateKeyRequest', [('Policy', Any), ('Description', Any), ('KeyUsage', Any), ('CustomerMasterKeySpec', Any), ('KeySpec', Any), ('Origin', Any), ('CustomKeyStoreId', Any), ('BypassPolicyLockoutSafetyCheck', Any), ('Tags', Any), ('MultiRegion', Any), ('XksKeyId', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.CreateKeyRequest.CreateKeyRequest({_dafny.string_of(self.Policy)}, {_dafny.string_of(self.Description)}, {_dafny.string_of(self.KeyUsage)}, {_dafny.string_of(self.CustomerMasterKeySpec)}, {_dafny.string_of(self.KeySpec)}, {_dafny.string_of(self.Origin)}, {_dafny.string_of(self.CustomKeyStoreId)}, {_dafny.string_of(self.BypassPolicyLockoutSafetyCheck)}, {_dafny.string_of(self.Tags)}, {_dafny.string_of(self.MultiRegion)})'
+        return f'ComAmazonawsKmsTypes.CreateKeyRequest.CreateKeyRequest({_dafny.string_of(self.Policy)}, {_dafny.string_of(self.Description)}, {_dafny.string_of(self.KeyUsage)}, {_dafny.string_of(self.CustomerMasterKeySpec)}, {_dafny.string_of(self.KeySpec)}, {_dafny.string_of(self.Origin)}, {_dafny.string_of(self.CustomKeyStoreId)}, {_dafny.string_of(self.BypassPolicyLockoutSafetyCheck)}, {_dafny.string_of(self.Tags)}, {_dafny.string_of(self.MultiRegion)}, {_dafny.string_of(self.XksKeyId)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, CreateKeyRequest_CreateKeyRequest) and self.Policy == __o.Policy and self.Description == __o.Description and self.KeyUsage == __o.KeyUsage and self.CustomerMasterKeySpec == __o.CustomerMasterKeySpec and self.KeySpec == __o.KeySpec and self.Origin == __o.Origin and self.CustomKeyStoreId == __o.CustomKeyStoreId and self.BypassPolicyLockoutSafetyCheck == __o.BypassPolicyLockoutSafetyCheck and self.Tags == __o.Tags and self.MultiRegion == __o.MultiRegion
+        return isinstance(__o, CreateKeyRequest_CreateKeyRequest) and self.Policy == __o.Policy and self.Description == __o.Description and self.KeyUsage == __o.KeyUsage and self.CustomerMasterKeySpec == __o.CustomerMasterKeySpec and self.KeySpec == __o.KeySpec and self.Origin == __o.Origin and self.CustomKeyStoreId == __o.CustomKeyStoreId and self.BypassPolicyLockoutSafetyCheck == __o.BypassPolicyLockoutSafetyCheck and self.Tags == __o.Tags and self.MultiRegion == __o.MultiRegion and self.XksKeyId == __o.XksKeyId
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -676,7 +851,7 @@ class CreateKeyResponse_CreateKeyResponse(CreateKeyResponse, NamedTuple('CreateK
 class CustomerMasterKeySpec:
     @_dafny.classproperty
     def AllSingletonConstructors(cls):
-        return [CustomerMasterKeySpec_RSA__2048(), CustomerMasterKeySpec_RSA__3072(), CustomerMasterKeySpec_RSA__4096(), CustomerMasterKeySpec_ECC__NIST__P256(), CustomerMasterKeySpec_ECC__NIST__P384(), CustomerMasterKeySpec_ECC__NIST__P521(), CustomerMasterKeySpec_ECC__SECG__P256K1(), CustomerMasterKeySpec_SYMMETRIC__DEFAULT()]
+        return [CustomerMasterKeySpec_RSA__2048(), CustomerMasterKeySpec_RSA__3072(), CustomerMasterKeySpec_RSA__4096(), CustomerMasterKeySpec_ECC__NIST__P256(), CustomerMasterKeySpec_ECC__NIST__P384(), CustomerMasterKeySpec_ECC__NIST__P521(), CustomerMasterKeySpec_ECC__SECG__P256K1(), CustomerMasterKeySpec_SYMMETRIC__DEFAULT(), CustomerMasterKeySpec_HMAC__224(), CustomerMasterKeySpec_HMAC__256(), CustomerMasterKeySpec_HMAC__384(), CustomerMasterKeySpec_HMAC__512(), CustomerMasterKeySpec_SM2()]
     @classmethod
     def default(cls, ):
         return lambda: CustomerMasterKeySpec_RSA__2048()
@@ -706,6 +881,21 @@ class CustomerMasterKeySpec:
     @property
     def is_SYMMETRIC__DEFAULT(self) -> bool:
         return isinstance(self, CustomerMasterKeySpec_SYMMETRIC__DEFAULT)
+    @property
+    def is_HMAC__224(self) -> bool:
+        return isinstance(self, CustomerMasterKeySpec_HMAC__224)
+    @property
+    def is_HMAC__256(self) -> bool:
+        return isinstance(self, CustomerMasterKeySpec_HMAC__256)
+    @property
+    def is_HMAC__384(self) -> bool:
+        return isinstance(self, CustomerMasterKeySpec_HMAC__384)
+    @property
+    def is_HMAC__512(self) -> bool:
+        return isinstance(self, CustomerMasterKeySpec_HMAC__512)
+    @property
+    def is_SM2(self) -> bool:
+        return isinstance(self, CustomerMasterKeySpec_SM2)
 
 class CustomerMasterKeySpec_RSA__2048(CustomerMasterKeySpec, NamedTuple('RSA__2048', [])):
     def __dafnystr__(self) -> str:
@@ -771,6 +961,46 @@ class CustomerMasterKeySpec_SYMMETRIC__DEFAULT(CustomerMasterKeySpec, NamedTuple
     def __hash__(self) -> int:
         return super().__hash__()
 
+class CustomerMasterKeySpec_HMAC__224(CustomerMasterKeySpec, NamedTuple('HMAC__224', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.CustomerMasterKeySpec.HMAC_224'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, CustomerMasterKeySpec_HMAC__224)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class CustomerMasterKeySpec_HMAC__256(CustomerMasterKeySpec, NamedTuple('HMAC__256', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.CustomerMasterKeySpec.HMAC_256'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, CustomerMasterKeySpec_HMAC__256)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class CustomerMasterKeySpec_HMAC__384(CustomerMasterKeySpec, NamedTuple('HMAC__384', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.CustomerMasterKeySpec.HMAC_384'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, CustomerMasterKeySpec_HMAC__384)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class CustomerMasterKeySpec_HMAC__512(CustomerMasterKeySpec, NamedTuple('HMAC__512', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.CustomerMasterKeySpec.HMAC_512'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, CustomerMasterKeySpec_HMAC__512)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class CustomerMasterKeySpec_SM2(CustomerMasterKeySpec, NamedTuple('SM2', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.CustomerMasterKeySpec.SM2'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, CustomerMasterKeySpec_SM2)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
 
 class CustomKeyStoreIdType:
     def  __init__(self):
@@ -780,8 +1010,8 @@ class CustomKeyStoreIdType:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_4_x_: _dafny.Seq = source__
-        return default__.IsValid__CustomKeyStoreIdType(d_4_x_)
+        d_5_x_: _dafny.Seq = source__
+        return default__.IsValid__CustomKeyStoreIdType(d_5_x_)
 
 class CustomKeyStoreNameType:
     def  __init__(self):
@@ -791,24 +1021,57 @@ class CustomKeyStoreNameType:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_5_x_: _dafny.Seq = source__
-        return default__.IsValid__CustomKeyStoreNameType(d_5_x_)
+        d_6_x_: _dafny.Seq = source__
+        return default__.IsValid__CustomKeyStoreNameType(d_6_x_)
 
 class CustomKeyStoresListEntry:
     @classmethod
     def default(cls, ):
-        return lambda: CustomKeyStoresListEntry_CustomKeyStoresListEntry(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: CustomKeyStoresListEntry_CustomKeyStoresListEntry(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_CustomKeyStoresListEntry(self) -> bool:
         return isinstance(self, CustomKeyStoresListEntry_CustomKeyStoresListEntry)
 
-class CustomKeyStoresListEntry_CustomKeyStoresListEntry(CustomKeyStoresListEntry, NamedTuple('CustomKeyStoresListEntry', [('CustomKeyStoreId', Any), ('CustomKeyStoreName', Any), ('CloudHsmClusterId', Any), ('TrustAnchorCertificate', Any), ('ConnectionState', Any), ('ConnectionErrorCode', Any), ('CreationDate', Any)])):
+class CustomKeyStoresListEntry_CustomKeyStoresListEntry(CustomKeyStoresListEntry, NamedTuple('CustomKeyStoresListEntry', [('CustomKeyStoreId', Any), ('CustomKeyStoreName', Any), ('CloudHsmClusterId', Any), ('TrustAnchorCertificate', Any), ('ConnectionState', Any), ('ConnectionErrorCode', Any), ('CreationDate', Any), ('CustomKeyStoreType', Any), ('XksProxyConfiguration', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.CustomKeyStoresListEntry.CustomKeyStoresListEntry({_dafny.string_of(self.CustomKeyStoreId)}, {_dafny.string_of(self.CustomKeyStoreName)}, {_dafny.string_of(self.CloudHsmClusterId)}, {_dafny.string_of(self.TrustAnchorCertificate)}, {_dafny.string_of(self.ConnectionState)}, {_dafny.string_of(self.ConnectionErrorCode)}, {_dafny.string_of(self.CreationDate)})'
+        return f'ComAmazonawsKmsTypes.CustomKeyStoresListEntry.CustomKeyStoresListEntry({_dafny.string_of(self.CustomKeyStoreId)}, {_dafny.string_of(self.CustomKeyStoreName)}, {_dafny.string_of(self.CloudHsmClusterId)}, {_dafny.string_of(self.TrustAnchorCertificate)}, {_dafny.string_of(self.ConnectionState)}, {_dafny.string_of(self.ConnectionErrorCode)}, {_dafny.string_of(self.CreationDate)}, {_dafny.string_of(self.CustomKeyStoreType)}, {_dafny.string_of(self.XksProxyConfiguration)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, CustomKeyStoresListEntry_CustomKeyStoresListEntry) and self.CustomKeyStoreId == __o.CustomKeyStoreId and self.CustomKeyStoreName == __o.CustomKeyStoreName and self.CloudHsmClusterId == __o.CloudHsmClusterId and self.TrustAnchorCertificate == __o.TrustAnchorCertificate and self.ConnectionState == __o.ConnectionState and self.ConnectionErrorCode == __o.ConnectionErrorCode and self.CreationDate == __o.CreationDate
+        return isinstance(__o, CustomKeyStoresListEntry_CustomKeyStoresListEntry) and self.CustomKeyStoreId == __o.CustomKeyStoreId and self.CustomKeyStoreName == __o.CustomKeyStoreName and self.CloudHsmClusterId == __o.CloudHsmClusterId and self.TrustAnchorCertificate == __o.TrustAnchorCertificate and self.ConnectionState == __o.ConnectionState and self.ConnectionErrorCode == __o.ConnectionErrorCode and self.CreationDate == __o.CreationDate and self.CustomKeyStoreType == __o.CustomKeyStoreType and self.XksProxyConfiguration == __o.XksProxyConfiguration
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class CustomKeyStoreType:
+    @_dafny.classproperty
+    def AllSingletonConstructors(cls):
+        return [CustomKeyStoreType_AWS__CLOUDHSM(), CustomKeyStoreType_EXTERNAL__KEY__STORE()]
+    @classmethod
+    def default(cls, ):
+        return lambda: CustomKeyStoreType_AWS__CLOUDHSM()
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_AWS__CLOUDHSM(self) -> bool:
+        return isinstance(self, CustomKeyStoreType_AWS__CLOUDHSM)
+    @property
+    def is_EXTERNAL__KEY__STORE(self) -> bool:
+        return isinstance(self, CustomKeyStoreType_EXTERNAL__KEY__STORE)
+
+class CustomKeyStoreType_AWS__CLOUDHSM(CustomKeyStoreType, NamedTuple('AWS__CLOUDHSM', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.CustomKeyStoreType.AWS_CLOUDHSM'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, CustomKeyStoreType_AWS__CLOUDHSM)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class CustomKeyStoreType_EXTERNAL__KEY__STORE(CustomKeyStoreType, NamedTuple('EXTERNAL__KEY__STORE', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.CustomKeyStoreType.EXTERNAL_KEY_STORE'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, CustomKeyStoreType_EXTERNAL__KEY__STORE)
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -816,7 +1079,7 @@ class CustomKeyStoresListEntry_CustomKeyStoresListEntry(CustomKeyStoresListEntry
 class DataKeyPairSpec:
     @_dafny.classproperty
     def AllSingletonConstructors(cls):
-        return [DataKeyPairSpec_RSA__2048(), DataKeyPairSpec_RSA__3072(), DataKeyPairSpec_RSA__4096(), DataKeyPairSpec_ECC__NIST__P256(), DataKeyPairSpec_ECC__NIST__P384(), DataKeyPairSpec_ECC__NIST__P521(), DataKeyPairSpec_ECC__SECG__P256K1()]
+        return [DataKeyPairSpec_RSA__2048(), DataKeyPairSpec_RSA__3072(), DataKeyPairSpec_RSA__4096(), DataKeyPairSpec_ECC__NIST__P256(), DataKeyPairSpec_ECC__NIST__P384(), DataKeyPairSpec_ECC__NIST__P521(), DataKeyPairSpec_ECC__SECG__P256K1(), DataKeyPairSpec_SM2()]
     @classmethod
     def default(cls, ):
         return lambda: DataKeyPairSpec_RSA__2048()
@@ -843,6 +1106,9 @@ class DataKeyPairSpec:
     @property
     def is_ECC__SECG__P256K1(self) -> bool:
         return isinstance(self, DataKeyPairSpec_ECC__SECG__P256K1)
+    @property
+    def is_SM2(self) -> bool:
+        return isinstance(self, DataKeyPairSpec_SM2)
 
 class DataKeyPairSpec_RSA__2048(DataKeyPairSpec, NamedTuple('RSA__2048', [])):
     def __dafnystr__(self) -> str:
@@ -900,6 +1166,14 @@ class DataKeyPairSpec_ECC__SECG__P256K1(DataKeyPairSpec, NamedTuple('ECC__SECG__
     def __hash__(self) -> int:
         return super().__hash__()
 
+class DataKeyPairSpec_SM2(DataKeyPairSpec, NamedTuple('SM2', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.DataKeyPairSpec.SM2'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, DataKeyPairSpec_SM2)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
 
 class DataKeySpec:
     @_dafny.classproperty
@@ -937,18 +1211,18 @@ class DataKeySpec_AES__128(DataKeySpec, NamedTuple('AES__128', [])):
 class DecryptRequest:
     @classmethod
     def default(cls, ):
-        return lambda: DecryptRequest_DecryptRequest(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: DecryptRequest_DecryptRequest(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_DecryptRequest(self) -> bool:
         return isinstance(self, DecryptRequest_DecryptRequest)
 
-class DecryptRequest_DecryptRequest(DecryptRequest, NamedTuple('DecryptRequest', [('CiphertextBlob', Any), ('EncryptionContext', Any), ('GrantTokens', Any), ('KeyId', Any), ('EncryptionAlgorithm', Any)])):
+class DecryptRequest_DecryptRequest(DecryptRequest, NamedTuple('DecryptRequest', [('CiphertextBlob', Any), ('EncryptionContext', Any), ('GrantTokens', Any), ('KeyId', Any), ('EncryptionAlgorithm', Any), ('Recipient', Any), ('DryRun', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.DecryptRequest.DecryptRequest({_dafny.string_of(self.CiphertextBlob)}, {_dafny.string_of(self.EncryptionContext)}, {_dafny.string_of(self.GrantTokens)}, {_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.EncryptionAlgorithm)})'
+        return f'ComAmazonawsKmsTypes.DecryptRequest.DecryptRequest({_dafny.string_of(self.CiphertextBlob)}, {_dafny.string_of(self.EncryptionContext)}, {_dafny.string_of(self.GrantTokens)}, {_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.EncryptionAlgorithm)}, {_dafny.string_of(self.Recipient)}, {_dafny.string_of(self.DryRun)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, DecryptRequest_DecryptRequest) and self.CiphertextBlob == __o.CiphertextBlob and self.EncryptionContext == __o.EncryptionContext and self.GrantTokens == __o.GrantTokens and self.KeyId == __o.KeyId and self.EncryptionAlgorithm == __o.EncryptionAlgorithm
+        return isinstance(__o, DecryptRequest_DecryptRequest) and self.CiphertextBlob == __o.CiphertextBlob and self.EncryptionContext == __o.EncryptionContext and self.GrantTokens == __o.GrantTokens and self.KeyId == __o.KeyId and self.EncryptionAlgorithm == __o.EncryptionAlgorithm and self.Recipient == __o.Recipient and self.DryRun == __o.DryRun
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -956,18 +1230,18 @@ class DecryptRequest_DecryptRequest(DecryptRequest, NamedTuple('DecryptRequest',
 class DecryptResponse:
     @classmethod
     def default(cls, ):
-        return lambda: DecryptResponse_DecryptResponse(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: DecryptResponse_DecryptResponse(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_DecryptResponse(self) -> bool:
         return isinstance(self, DecryptResponse_DecryptResponse)
 
-class DecryptResponse_DecryptResponse(DecryptResponse, NamedTuple('DecryptResponse', [('KeyId', Any), ('Plaintext', Any), ('EncryptionAlgorithm', Any)])):
+class DecryptResponse_DecryptResponse(DecryptResponse, NamedTuple('DecryptResponse', [('KeyId', Any), ('Plaintext', Any), ('EncryptionAlgorithm', Any), ('CiphertextForRecipient', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.DecryptResponse.DecryptResponse({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.Plaintext)}, {_dafny.string_of(self.EncryptionAlgorithm)})'
+        return f'ComAmazonawsKmsTypes.DecryptResponse.DecryptResponse({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.Plaintext)}, {_dafny.string_of(self.EncryptionAlgorithm)}, {_dafny.string_of(self.CiphertextForRecipient)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, DecryptResponse_DecryptResponse) and self.KeyId == __o.KeyId and self.Plaintext == __o.Plaintext and self.EncryptionAlgorithm == __o.EncryptionAlgorithm
+        return isinstance(__o, DecryptResponse_DecryptResponse) and self.KeyId == __o.KeyId and self.Plaintext == __o.Plaintext and self.EncryptionAlgorithm == __o.EncryptionAlgorithm and self.CiphertextForRecipient == __o.CiphertextForRecipient
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -1047,6 +1321,44 @@ class DeleteImportedKeyMaterialRequest_DeleteImportedKeyMaterialRequest(DeleteIm
         return f'ComAmazonawsKmsTypes.DeleteImportedKeyMaterialRequest.DeleteImportedKeyMaterialRequest({_dafny.string_of(self.KeyId)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, DeleteImportedKeyMaterialRequest_DeleteImportedKeyMaterialRequest) and self.KeyId == __o.KeyId
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class DeriveSharedSecretRequest:
+    @classmethod
+    def default(cls, ):
+        return lambda: DeriveSharedSecretRequest_DeriveSharedSecretRequest(_dafny.Seq(""), KeyAgreementAlgorithmSpec.default()(), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_DeriveSharedSecretRequest(self) -> bool:
+        return isinstance(self, DeriveSharedSecretRequest_DeriveSharedSecretRequest)
+
+class DeriveSharedSecretRequest_DeriveSharedSecretRequest(DeriveSharedSecretRequest, NamedTuple('DeriveSharedSecretRequest', [('KeyId', Any), ('KeyAgreementAlgorithm', Any), ('PublicKey', Any), ('GrantTokens', Any), ('DryRun', Any), ('Recipient', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.DeriveSharedSecretRequest.DeriveSharedSecretRequest({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.KeyAgreementAlgorithm)}, {_dafny.string_of(self.PublicKey)}, {_dafny.string_of(self.GrantTokens)}, {_dafny.string_of(self.DryRun)}, {_dafny.string_of(self.Recipient)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, DeriveSharedSecretRequest_DeriveSharedSecretRequest) and self.KeyId == __o.KeyId and self.KeyAgreementAlgorithm == __o.KeyAgreementAlgorithm and self.PublicKey == __o.PublicKey and self.GrantTokens == __o.GrantTokens and self.DryRun == __o.DryRun and self.Recipient == __o.Recipient
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class DeriveSharedSecretResponse:
+    @classmethod
+    def default(cls, ):
+        return lambda: DeriveSharedSecretResponse_DeriveSharedSecretResponse(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_DeriveSharedSecretResponse(self) -> bool:
+        return isinstance(self, DeriveSharedSecretResponse_DeriveSharedSecretResponse)
+
+class DeriveSharedSecretResponse_DeriveSharedSecretResponse(DeriveSharedSecretResponse, NamedTuple('DeriveSharedSecretResponse', [('KeyId', Any), ('SharedSecret', Any), ('CiphertextForRecipient', Any), ('KeyAgreementAlgorithm', Any), ('KeyOrigin', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.DeriveSharedSecretResponse.DeriveSharedSecretResponse({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.SharedSecret)}, {_dafny.string_of(self.CiphertextForRecipient)}, {_dafny.string_of(self.KeyAgreementAlgorithm)}, {_dafny.string_of(self.KeyOrigin)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, DeriveSharedSecretResponse_DeriveSharedSecretResponse) and self.KeyId == __o.KeyId and self.SharedSecret == __o.SharedSecret and self.CiphertextForRecipient == __o.CiphertextForRecipient and self.KeyAgreementAlgorithm == __o.KeyAgreementAlgorithm and self.KeyOrigin == __o.KeyOrigin
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -1135,8 +1447,8 @@ class DescriptionType:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_6_x_: _dafny.Seq = source__
-        return default__.IsValid__DescriptionType(d_6_x_)
+        d_7_x_: _dafny.Seq = source__
+        return default__.IsValid__DescriptionType(d_7_x_)
 
 class DisableKeyRequest:
     @classmethod
@@ -1239,18 +1551,18 @@ class EnableKeyRequest_EnableKeyRequest(EnableKeyRequest, NamedTuple('EnableKeyR
 class EnableKeyRotationRequest:
     @classmethod
     def default(cls, ):
-        return lambda: EnableKeyRotationRequest_EnableKeyRotationRequest(_dafny.Seq(""))
+        return lambda: EnableKeyRotationRequest_EnableKeyRotationRequest(_dafny.Seq(""), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_EnableKeyRotationRequest(self) -> bool:
         return isinstance(self, EnableKeyRotationRequest_EnableKeyRotationRequest)
 
-class EnableKeyRotationRequest_EnableKeyRotationRequest(EnableKeyRotationRequest, NamedTuple('EnableKeyRotationRequest', [('KeyId', Any)])):
+class EnableKeyRotationRequest_EnableKeyRotationRequest(EnableKeyRotationRequest, NamedTuple('EnableKeyRotationRequest', [('KeyId', Any), ('RotationPeriodInDays', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.EnableKeyRotationRequest.EnableKeyRotationRequest({_dafny.string_of(self.KeyId)})'
+        return f'ComAmazonawsKmsTypes.EnableKeyRotationRequest.EnableKeyRotationRequest({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.RotationPeriodInDays)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, EnableKeyRotationRequest_EnableKeyRotationRequest) and self.KeyId == __o.KeyId
+        return isinstance(__o, EnableKeyRotationRequest_EnableKeyRotationRequest) and self.KeyId == __o.KeyId and self.RotationPeriodInDays == __o.RotationPeriodInDays
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -1302,18 +1614,18 @@ class EncryptionAlgorithmSpec_RSAES__OAEP__SHA__256(EncryptionAlgorithmSpec, Nam
 class EncryptRequest:
     @classmethod
     def default(cls, ):
-        return lambda: EncryptRequest_EncryptRequest(_dafny.Seq(""), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: EncryptRequest_EncryptRequest(_dafny.Seq(""), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_EncryptRequest(self) -> bool:
         return isinstance(self, EncryptRequest_EncryptRequest)
 
-class EncryptRequest_EncryptRequest(EncryptRequest, NamedTuple('EncryptRequest', [('KeyId', Any), ('Plaintext', Any), ('EncryptionContext', Any), ('GrantTokens', Any), ('EncryptionAlgorithm', Any)])):
+class EncryptRequest_EncryptRequest(EncryptRequest, NamedTuple('EncryptRequest', [('KeyId', Any), ('Plaintext', Any), ('EncryptionContext', Any), ('GrantTokens', Any), ('EncryptionAlgorithm', Any), ('DryRun', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.EncryptRequest.EncryptRequest({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.Plaintext)}, {_dafny.string_of(self.EncryptionContext)}, {_dafny.string_of(self.GrantTokens)}, {_dafny.string_of(self.EncryptionAlgorithm)})'
+        return f'ComAmazonawsKmsTypes.EncryptRequest.EncryptRequest({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.Plaintext)}, {_dafny.string_of(self.EncryptionContext)}, {_dafny.string_of(self.GrantTokens)}, {_dafny.string_of(self.EncryptionAlgorithm)}, {_dafny.string_of(self.DryRun)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, EncryptRequest_EncryptRequest) and self.KeyId == __o.KeyId and self.Plaintext == __o.Plaintext and self.EncryptionContext == __o.EncryptionContext and self.GrantTokens == __o.GrantTokens and self.EncryptionAlgorithm == __o.EncryptionAlgorithm
+        return isinstance(__o, EncryptRequest_EncryptRequest) and self.KeyId == __o.KeyId and self.Plaintext == __o.Plaintext and self.EncryptionContext == __o.EncryptionContext and self.GrantTokens == __o.GrantTokens and self.EncryptionAlgorithm == __o.EncryptionAlgorithm and self.DryRun == __o.DryRun
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -1373,18 +1685,18 @@ class ExpirationModelType_KEY__MATERIAL__DOES__NOT__EXPIRE(ExpirationModelType, 
 class GenerateDataKeyPairRequest:
     @classmethod
     def default(cls, ):
-        return lambda: GenerateDataKeyPairRequest_GenerateDataKeyPairRequest(Wrappers.Option.default()(), _dafny.Seq(""), DataKeyPairSpec.default()(), Wrappers.Option.default()())
+        return lambda: GenerateDataKeyPairRequest_GenerateDataKeyPairRequest(Wrappers.Option.default()(), _dafny.Seq(""), DataKeyPairSpec.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_GenerateDataKeyPairRequest(self) -> bool:
         return isinstance(self, GenerateDataKeyPairRequest_GenerateDataKeyPairRequest)
 
-class GenerateDataKeyPairRequest_GenerateDataKeyPairRequest(GenerateDataKeyPairRequest, NamedTuple('GenerateDataKeyPairRequest', [('EncryptionContext', Any), ('KeyId', Any), ('KeyPairSpec', Any), ('GrantTokens', Any)])):
+class GenerateDataKeyPairRequest_GenerateDataKeyPairRequest(GenerateDataKeyPairRequest, NamedTuple('GenerateDataKeyPairRequest', [('EncryptionContext', Any), ('KeyId', Any), ('KeyPairSpec', Any), ('GrantTokens', Any), ('Recipient', Any), ('DryRun', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.GenerateDataKeyPairRequest.GenerateDataKeyPairRequest({_dafny.string_of(self.EncryptionContext)}, {_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.KeyPairSpec)}, {_dafny.string_of(self.GrantTokens)})'
+        return f'ComAmazonawsKmsTypes.GenerateDataKeyPairRequest.GenerateDataKeyPairRequest({_dafny.string_of(self.EncryptionContext)}, {_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.KeyPairSpec)}, {_dafny.string_of(self.GrantTokens)}, {_dafny.string_of(self.Recipient)}, {_dafny.string_of(self.DryRun)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, GenerateDataKeyPairRequest_GenerateDataKeyPairRequest) and self.EncryptionContext == __o.EncryptionContext and self.KeyId == __o.KeyId and self.KeyPairSpec == __o.KeyPairSpec and self.GrantTokens == __o.GrantTokens
+        return isinstance(__o, GenerateDataKeyPairRequest_GenerateDataKeyPairRequest) and self.EncryptionContext == __o.EncryptionContext and self.KeyId == __o.KeyId and self.KeyPairSpec == __o.KeyPairSpec and self.GrantTokens == __o.GrantTokens and self.Recipient == __o.Recipient and self.DryRun == __o.DryRun
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -1392,18 +1704,18 @@ class GenerateDataKeyPairRequest_GenerateDataKeyPairRequest(GenerateDataKeyPairR
 class GenerateDataKeyPairResponse:
     @classmethod
     def default(cls, ):
-        return lambda: GenerateDataKeyPairResponse_GenerateDataKeyPairResponse(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: GenerateDataKeyPairResponse_GenerateDataKeyPairResponse(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_GenerateDataKeyPairResponse(self) -> bool:
         return isinstance(self, GenerateDataKeyPairResponse_GenerateDataKeyPairResponse)
 
-class GenerateDataKeyPairResponse_GenerateDataKeyPairResponse(GenerateDataKeyPairResponse, NamedTuple('GenerateDataKeyPairResponse', [('PrivateKeyCiphertextBlob', Any), ('PrivateKeyPlaintext', Any), ('PublicKey', Any), ('KeyId', Any), ('KeyPairSpec', Any)])):
+class GenerateDataKeyPairResponse_GenerateDataKeyPairResponse(GenerateDataKeyPairResponse, NamedTuple('GenerateDataKeyPairResponse', [('PrivateKeyCiphertextBlob', Any), ('PrivateKeyPlaintext', Any), ('PublicKey', Any), ('KeyId', Any), ('KeyPairSpec', Any), ('CiphertextForRecipient', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.GenerateDataKeyPairResponse.GenerateDataKeyPairResponse({_dafny.string_of(self.PrivateKeyCiphertextBlob)}, {_dafny.string_of(self.PrivateKeyPlaintext)}, {_dafny.string_of(self.PublicKey)}, {_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.KeyPairSpec)})'
+        return f'ComAmazonawsKmsTypes.GenerateDataKeyPairResponse.GenerateDataKeyPairResponse({_dafny.string_of(self.PrivateKeyCiphertextBlob)}, {_dafny.string_of(self.PrivateKeyPlaintext)}, {_dafny.string_of(self.PublicKey)}, {_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.KeyPairSpec)}, {_dafny.string_of(self.CiphertextForRecipient)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, GenerateDataKeyPairResponse_GenerateDataKeyPairResponse) and self.PrivateKeyCiphertextBlob == __o.PrivateKeyCiphertextBlob and self.PrivateKeyPlaintext == __o.PrivateKeyPlaintext and self.PublicKey == __o.PublicKey and self.KeyId == __o.KeyId and self.KeyPairSpec == __o.KeyPairSpec
+        return isinstance(__o, GenerateDataKeyPairResponse_GenerateDataKeyPairResponse) and self.PrivateKeyCiphertextBlob == __o.PrivateKeyCiphertextBlob and self.PrivateKeyPlaintext == __o.PrivateKeyPlaintext and self.PublicKey == __o.PublicKey and self.KeyId == __o.KeyId and self.KeyPairSpec == __o.KeyPairSpec and self.CiphertextForRecipient == __o.CiphertextForRecipient
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -1411,18 +1723,18 @@ class GenerateDataKeyPairResponse_GenerateDataKeyPairResponse(GenerateDataKeyPai
 class GenerateDataKeyPairWithoutPlaintextRequest:
     @classmethod
     def default(cls, ):
-        return lambda: GenerateDataKeyPairWithoutPlaintextRequest_GenerateDataKeyPairWithoutPlaintextRequest(Wrappers.Option.default()(), _dafny.Seq(""), DataKeyPairSpec.default()(), Wrappers.Option.default()())
+        return lambda: GenerateDataKeyPairWithoutPlaintextRequest_GenerateDataKeyPairWithoutPlaintextRequest(Wrappers.Option.default()(), _dafny.Seq(""), DataKeyPairSpec.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_GenerateDataKeyPairWithoutPlaintextRequest(self) -> bool:
         return isinstance(self, GenerateDataKeyPairWithoutPlaintextRequest_GenerateDataKeyPairWithoutPlaintextRequest)
 
-class GenerateDataKeyPairWithoutPlaintextRequest_GenerateDataKeyPairWithoutPlaintextRequest(GenerateDataKeyPairWithoutPlaintextRequest, NamedTuple('GenerateDataKeyPairWithoutPlaintextRequest', [('EncryptionContext', Any), ('KeyId', Any), ('KeyPairSpec', Any), ('GrantTokens', Any)])):
+class GenerateDataKeyPairWithoutPlaintextRequest_GenerateDataKeyPairWithoutPlaintextRequest(GenerateDataKeyPairWithoutPlaintextRequest, NamedTuple('GenerateDataKeyPairWithoutPlaintextRequest', [('EncryptionContext', Any), ('KeyId', Any), ('KeyPairSpec', Any), ('GrantTokens', Any), ('DryRun', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.GenerateDataKeyPairWithoutPlaintextRequest.GenerateDataKeyPairWithoutPlaintextRequest({_dafny.string_of(self.EncryptionContext)}, {_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.KeyPairSpec)}, {_dafny.string_of(self.GrantTokens)})'
+        return f'ComAmazonawsKmsTypes.GenerateDataKeyPairWithoutPlaintextRequest.GenerateDataKeyPairWithoutPlaintextRequest({_dafny.string_of(self.EncryptionContext)}, {_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.KeyPairSpec)}, {_dafny.string_of(self.GrantTokens)}, {_dafny.string_of(self.DryRun)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, GenerateDataKeyPairWithoutPlaintextRequest_GenerateDataKeyPairWithoutPlaintextRequest) and self.EncryptionContext == __o.EncryptionContext and self.KeyId == __o.KeyId and self.KeyPairSpec == __o.KeyPairSpec and self.GrantTokens == __o.GrantTokens
+        return isinstance(__o, GenerateDataKeyPairWithoutPlaintextRequest_GenerateDataKeyPairWithoutPlaintextRequest) and self.EncryptionContext == __o.EncryptionContext and self.KeyId == __o.KeyId and self.KeyPairSpec == __o.KeyPairSpec and self.GrantTokens == __o.GrantTokens and self.DryRun == __o.DryRun
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -1449,18 +1761,18 @@ class GenerateDataKeyPairWithoutPlaintextResponse_GenerateDataKeyPairWithoutPlai
 class GenerateDataKeyRequest:
     @classmethod
     def default(cls, ):
-        return lambda: GenerateDataKeyRequest_GenerateDataKeyRequest(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: GenerateDataKeyRequest_GenerateDataKeyRequest(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_GenerateDataKeyRequest(self) -> bool:
         return isinstance(self, GenerateDataKeyRequest_GenerateDataKeyRequest)
 
-class GenerateDataKeyRequest_GenerateDataKeyRequest(GenerateDataKeyRequest, NamedTuple('GenerateDataKeyRequest', [('KeyId', Any), ('EncryptionContext', Any), ('NumberOfBytes', Any), ('KeySpec', Any), ('GrantTokens', Any)])):
+class GenerateDataKeyRequest_GenerateDataKeyRequest(GenerateDataKeyRequest, NamedTuple('GenerateDataKeyRequest', [('KeyId', Any), ('EncryptionContext', Any), ('NumberOfBytes', Any), ('KeySpec', Any), ('GrantTokens', Any), ('Recipient', Any), ('DryRun', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.GenerateDataKeyRequest.GenerateDataKeyRequest({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.EncryptionContext)}, {_dafny.string_of(self.NumberOfBytes)}, {_dafny.string_of(self.KeySpec)}, {_dafny.string_of(self.GrantTokens)})'
+        return f'ComAmazonawsKmsTypes.GenerateDataKeyRequest.GenerateDataKeyRequest({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.EncryptionContext)}, {_dafny.string_of(self.NumberOfBytes)}, {_dafny.string_of(self.KeySpec)}, {_dafny.string_of(self.GrantTokens)}, {_dafny.string_of(self.Recipient)}, {_dafny.string_of(self.DryRun)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, GenerateDataKeyRequest_GenerateDataKeyRequest) and self.KeyId == __o.KeyId and self.EncryptionContext == __o.EncryptionContext and self.NumberOfBytes == __o.NumberOfBytes and self.KeySpec == __o.KeySpec and self.GrantTokens == __o.GrantTokens
+        return isinstance(__o, GenerateDataKeyRequest_GenerateDataKeyRequest) and self.KeyId == __o.KeyId and self.EncryptionContext == __o.EncryptionContext and self.NumberOfBytes == __o.NumberOfBytes and self.KeySpec == __o.KeySpec and self.GrantTokens == __o.GrantTokens and self.Recipient == __o.Recipient and self.DryRun == __o.DryRun
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -1468,18 +1780,18 @@ class GenerateDataKeyRequest_GenerateDataKeyRequest(GenerateDataKeyRequest, Name
 class GenerateDataKeyResponse:
     @classmethod
     def default(cls, ):
-        return lambda: GenerateDataKeyResponse_GenerateDataKeyResponse(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: GenerateDataKeyResponse_GenerateDataKeyResponse(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_GenerateDataKeyResponse(self) -> bool:
         return isinstance(self, GenerateDataKeyResponse_GenerateDataKeyResponse)
 
-class GenerateDataKeyResponse_GenerateDataKeyResponse(GenerateDataKeyResponse, NamedTuple('GenerateDataKeyResponse', [('CiphertextBlob', Any), ('Plaintext', Any), ('KeyId', Any)])):
+class GenerateDataKeyResponse_GenerateDataKeyResponse(GenerateDataKeyResponse, NamedTuple('GenerateDataKeyResponse', [('CiphertextBlob', Any), ('Plaintext', Any), ('KeyId', Any), ('CiphertextForRecipient', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.GenerateDataKeyResponse.GenerateDataKeyResponse({_dafny.string_of(self.CiphertextBlob)}, {_dafny.string_of(self.Plaintext)}, {_dafny.string_of(self.KeyId)})'
+        return f'ComAmazonawsKmsTypes.GenerateDataKeyResponse.GenerateDataKeyResponse({_dafny.string_of(self.CiphertextBlob)}, {_dafny.string_of(self.Plaintext)}, {_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.CiphertextForRecipient)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, GenerateDataKeyResponse_GenerateDataKeyResponse) and self.CiphertextBlob == __o.CiphertextBlob and self.Plaintext == __o.Plaintext and self.KeyId == __o.KeyId
+        return isinstance(__o, GenerateDataKeyResponse_GenerateDataKeyResponse) and self.CiphertextBlob == __o.CiphertextBlob and self.Plaintext == __o.Plaintext and self.KeyId == __o.KeyId and self.CiphertextForRecipient == __o.CiphertextForRecipient
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -1487,18 +1799,18 @@ class GenerateDataKeyResponse_GenerateDataKeyResponse(GenerateDataKeyResponse, N
 class GenerateDataKeyWithoutPlaintextRequest:
     @classmethod
     def default(cls, ):
-        return lambda: GenerateDataKeyWithoutPlaintextRequest_GenerateDataKeyWithoutPlaintextRequest(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: GenerateDataKeyWithoutPlaintextRequest_GenerateDataKeyWithoutPlaintextRequest(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_GenerateDataKeyWithoutPlaintextRequest(self) -> bool:
         return isinstance(self, GenerateDataKeyWithoutPlaintextRequest_GenerateDataKeyWithoutPlaintextRequest)
 
-class GenerateDataKeyWithoutPlaintextRequest_GenerateDataKeyWithoutPlaintextRequest(GenerateDataKeyWithoutPlaintextRequest, NamedTuple('GenerateDataKeyWithoutPlaintextRequest', [('KeyId', Any), ('EncryptionContext', Any), ('KeySpec', Any), ('NumberOfBytes', Any), ('GrantTokens', Any)])):
+class GenerateDataKeyWithoutPlaintextRequest_GenerateDataKeyWithoutPlaintextRequest(GenerateDataKeyWithoutPlaintextRequest, NamedTuple('GenerateDataKeyWithoutPlaintextRequest', [('KeyId', Any), ('EncryptionContext', Any), ('KeySpec', Any), ('NumberOfBytes', Any), ('GrantTokens', Any), ('DryRun', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.GenerateDataKeyWithoutPlaintextRequest.GenerateDataKeyWithoutPlaintextRequest({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.EncryptionContext)}, {_dafny.string_of(self.KeySpec)}, {_dafny.string_of(self.NumberOfBytes)}, {_dafny.string_of(self.GrantTokens)})'
+        return f'ComAmazonawsKmsTypes.GenerateDataKeyWithoutPlaintextRequest.GenerateDataKeyWithoutPlaintextRequest({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.EncryptionContext)}, {_dafny.string_of(self.KeySpec)}, {_dafny.string_of(self.NumberOfBytes)}, {_dafny.string_of(self.GrantTokens)}, {_dafny.string_of(self.DryRun)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, GenerateDataKeyWithoutPlaintextRequest_GenerateDataKeyWithoutPlaintextRequest) and self.KeyId == __o.KeyId and self.EncryptionContext == __o.EncryptionContext and self.KeySpec == __o.KeySpec and self.NumberOfBytes == __o.NumberOfBytes and self.GrantTokens == __o.GrantTokens
+        return isinstance(__o, GenerateDataKeyWithoutPlaintextRequest_GenerateDataKeyWithoutPlaintextRequest) and self.KeyId == __o.KeyId and self.EncryptionContext == __o.EncryptionContext and self.KeySpec == __o.KeySpec and self.NumberOfBytes == __o.NumberOfBytes and self.GrantTokens == __o.GrantTokens and self.DryRun == __o.DryRun
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -1522,21 +1834,59 @@ class GenerateDataKeyWithoutPlaintextResponse_GenerateDataKeyWithoutPlaintextRes
         return super().__hash__()
 
 
+class GenerateMacRequest:
+    @classmethod
+    def default(cls, ):
+        return lambda: GenerateMacRequest_GenerateMacRequest(_dafny.Seq({}), _dafny.Seq(""), MacAlgorithmSpec.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_GenerateMacRequest(self) -> bool:
+        return isinstance(self, GenerateMacRequest_GenerateMacRequest)
+
+class GenerateMacRequest_GenerateMacRequest(GenerateMacRequest, NamedTuple('GenerateMacRequest', [('Message', Any), ('KeyId', Any), ('MacAlgorithm', Any), ('GrantTokens', Any), ('DryRun', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.GenerateMacRequest.GenerateMacRequest({_dafny.string_of(self.Message)}, {_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.MacAlgorithm)}, {_dafny.string_of(self.GrantTokens)}, {_dafny.string_of(self.DryRun)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, GenerateMacRequest_GenerateMacRequest) and self.Message == __o.Message and self.KeyId == __o.KeyId and self.MacAlgorithm == __o.MacAlgorithm and self.GrantTokens == __o.GrantTokens and self.DryRun == __o.DryRun
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class GenerateMacResponse:
+    @classmethod
+    def default(cls, ):
+        return lambda: GenerateMacResponse_GenerateMacResponse(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_GenerateMacResponse(self) -> bool:
+        return isinstance(self, GenerateMacResponse_GenerateMacResponse)
+
+class GenerateMacResponse_GenerateMacResponse(GenerateMacResponse, NamedTuple('GenerateMacResponse', [('Mac', Any), ('MacAlgorithm', Any), ('KeyId', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.GenerateMacResponse.GenerateMacResponse({_dafny.string_of(self.Mac)}, {_dafny.string_of(self.MacAlgorithm)}, {_dafny.string_of(self.KeyId)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, GenerateMacResponse_GenerateMacResponse) and self.Mac == __o.Mac and self.MacAlgorithm == __o.MacAlgorithm and self.KeyId == __o.KeyId
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
 class GenerateRandomRequest:
     @classmethod
     def default(cls, ):
-        return lambda: GenerateRandomRequest_GenerateRandomRequest(Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: GenerateRandomRequest_GenerateRandomRequest(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_GenerateRandomRequest(self) -> bool:
         return isinstance(self, GenerateRandomRequest_GenerateRandomRequest)
 
-class GenerateRandomRequest_GenerateRandomRequest(GenerateRandomRequest, NamedTuple('GenerateRandomRequest', [('NumberOfBytes', Any), ('CustomKeyStoreId', Any)])):
+class GenerateRandomRequest_GenerateRandomRequest(GenerateRandomRequest, NamedTuple('GenerateRandomRequest', [('NumberOfBytes', Any), ('CustomKeyStoreId', Any), ('Recipient', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.GenerateRandomRequest.GenerateRandomRequest({_dafny.string_of(self.NumberOfBytes)}, {_dafny.string_of(self.CustomKeyStoreId)})'
+        return f'ComAmazonawsKmsTypes.GenerateRandomRequest.GenerateRandomRequest({_dafny.string_of(self.NumberOfBytes)}, {_dafny.string_of(self.CustomKeyStoreId)}, {_dafny.string_of(self.Recipient)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, GenerateRandomRequest_GenerateRandomRequest) and self.NumberOfBytes == __o.NumberOfBytes and self.CustomKeyStoreId == __o.CustomKeyStoreId
+        return isinstance(__o, GenerateRandomRequest_GenerateRandomRequest) and self.NumberOfBytes == __o.NumberOfBytes and self.CustomKeyStoreId == __o.CustomKeyStoreId and self.Recipient == __o.Recipient
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -1544,18 +1894,18 @@ class GenerateRandomRequest_GenerateRandomRequest(GenerateRandomRequest, NamedTu
 class GenerateRandomResponse:
     @classmethod
     def default(cls, ):
-        return lambda: GenerateRandomResponse_GenerateRandomResponse(Wrappers.Option.default()())
+        return lambda: GenerateRandomResponse_GenerateRandomResponse(Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_GenerateRandomResponse(self) -> bool:
         return isinstance(self, GenerateRandomResponse_GenerateRandomResponse)
 
-class GenerateRandomResponse_GenerateRandomResponse(GenerateRandomResponse, NamedTuple('GenerateRandomResponse', [('Plaintext', Any)])):
+class GenerateRandomResponse_GenerateRandomResponse(GenerateRandomResponse, NamedTuple('GenerateRandomResponse', [('Plaintext', Any), ('CiphertextForRecipient', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.GenerateRandomResponse.GenerateRandomResponse({_dafny.string_of(self.Plaintext)})'
+        return f'ComAmazonawsKmsTypes.GenerateRandomResponse.GenerateRandomResponse({_dafny.string_of(self.Plaintext)}, {_dafny.string_of(self.CiphertextForRecipient)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, GenerateRandomResponse_GenerateRandomResponse) and self.Plaintext == __o.Plaintext
+        return isinstance(__o, GenerateRandomResponse_GenerateRandomResponse) and self.Plaintext == __o.Plaintext and self.CiphertextForRecipient == __o.CiphertextForRecipient
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -1563,7 +1913,7 @@ class GenerateRandomResponse_GenerateRandomResponse(GenerateRandomResponse, Name
 class GetKeyPolicyRequest:
     @classmethod
     def default(cls, ):
-        return lambda: GetKeyPolicyRequest_GetKeyPolicyRequest(_dafny.Seq(""), _dafny.Seq(""))
+        return lambda: GetKeyPolicyRequest_GetKeyPolicyRequest(_dafny.Seq(""), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -1582,18 +1932,18 @@ class GetKeyPolicyRequest_GetKeyPolicyRequest(GetKeyPolicyRequest, NamedTuple('G
 class GetKeyPolicyResponse:
     @classmethod
     def default(cls, ):
-        return lambda: GetKeyPolicyResponse_GetKeyPolicyResponse(Wrappers.Option.default()())
+        return lambda: GetKeyPolicyResponse_GetKeyPolicyResponse(Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_GetKeyPolicyResponse(self) -> bool:
         return isinstance(self, GetKeyPolicyResponse_GetKeyPolicyResponse)
 
-class GetKeyPolicyResponse_GetKeyPolicyResponse(GetKeyPolicyResponse, NamedTuple('GetKeyPolicyResponse', [('Policy', Any)])):
+class GetKeyPolicyResponse_GetKeyPolicyResponse(GetKeyPolicyResponse, NamedTuple('GetKeyPolicyResponse', [('Policy', Any), ('PolicyName', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.GetKeyPolicyResponse.GetKeyPolicyResponse({_dafny.string_of(self.Policy)})'
+        return f'ComAmazonawsKmsTypes.GetKeyPolicyResponse.GetKeyPolicyResponse({_dafny.string_of(self.Policy)}, {_dafny.string_of(self.PolicyName)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, GetKeyPolicyResponse_GetKeyPolicyResponse) and self.Policy == __o.Policy
+        return isinstance(__o, GetKeyPolicyResponse_GetKeyPolicyResponse) and self.Policy == __o.Policy and self.PolicyName == __o.PolicyName
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -1620,18 +1970,18 @@ class GetKeyRotationStatusRequest_GetKeyRotationStatusRequest(GetKeyRotationStat
 class GetKeyRotationStatusResponse:
     @classmethod
     def default(cls, ):
-        return lambda: GetKeyRotationStatusResponse_GetKeyRotationStatusResponse(Wrappers.Option.default()())
+        return lambda: GetKeyRotationStatusResponse_GetKeyRotationStatusResponse(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_GetKeyRotationStatusResponse(self) -> bool:
         return isinstance(self, GetKeyRotationStatusResponse_GetKeyRotationStatusResponse)
 
-class GetKeyRotationStatusResponse_GetKeyRotationStatusResponse(GetKeyRotationStatusResponse, NamedTuple('GetKeyRotationStatusResponse', [('KeyRotationEnabled', Any)])):
+class GetKeyRotationStatusResponse_GetKeyRotationStatusResponse(GetKeyRotationStatusResponse, NamedTuple('GetKeyRotationStatusResponse', [('KeyRotationEnabled', Any), ('KeyId', Any), ('RotationPeriodInDays', Any), ('NextRotationDate', Any), ('OnDemandRotationStartDate', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.GetKeyRotationStatusResponse.GetKeyRotationStatusResponse({_dafny.string_of(self.KeyRotationEnabled)})'
+        return f'ComAmazonawsKmsTypes.GetKeyRotationStatusResponse.GetKeyRotationStatusResponse({_dafny.string_of(self.KeyRotationEnabled)}, {_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.RotationPeriodInDays)}, {_dafny.string_of(self.NextRotationDate)}, {_dafny.string_of(self.OnDemandRotationStartDate)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, GetKeyRotationStatusResponse_GetKeyRotationStatusResponse) and self.KeyRotationEnabled == __o.KeyRotationEnabled
+        return isinstance(__o, GetKeyRotationStatusResponse_GetKeyRotationStatusResponse) and self.KeyRotationEnabled == __o.KeyRotationEnabled and self.KeyId == __o.KeyId and self.RotationPeriodInDays == __o.RotationPeriodInDays and self.NextRotationDate == __o.NextRotationDate and self.OnDemandRotationStartDate == __o.OnDemandRotationStartDate
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -1696,18 +2046,18 @@ class GetPublicKeyRequest_GetPublicKeyRequest(GetPublicKeyRequest, NamedTuple('G
 class GetPublicKeyResponse:
     @classmethod
     def default(cls, ):
-        return lambda: GetPublicKeyResponse_GetPublicKeyResponse(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: GetPublicKeyResponse_GetPublicKeyResponse(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_GetPublicKeyResponse(self) -> bool:
         return isinstance(self, GetPublicKeyResponse_GetPublicKeyResponse)
 
-class GetPublicKeyResponse_GetPublicKeyResponse(GetPublicKeyResponse, NamedTuple('GetPublicKeyResponse', [('KeyId', Any), ('PublicKey', Any), ('CustomerMasterKeySpec', Any), ('KeySpec', Any), ('KeyUsage', Any), ('EncryptionAlgorithms', Any), ('SigningAlgorithms', Any)])):
+class GetPublicKeyResponse_GetPublicKeyResponse(GetPublicKeyResponse, NamedTuple('GetPublicKeyResponse', [('KeyId', Any), ('PublicKey', Any), ('CustomerMasterKeySpec', Any), ('KeySpec', Any), ('KeyUsage', Any), ('EncryptionAlgorithms', Any), ('SigningAlgorithms', Any), ('KeyAgreementAlgorithms', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.GetPublicKeyResponse.GetPublicKeyResponse({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.PublicKey)}, {_dafny.string_of(self.CustomerMasterKeySpec)}, {_dafny.string_of(self.KeySpec)}, {_dafny.string_of(self.KeyUsage)}, {_dafny.string_of(self.EncryptionAlgorithms)}, {_dafny.string_of(self.SigningAlgorithms)})'
+        return f'ComAmazonawsKmsTypes.GetPublicKeyResponse.GetPublicKeyResponse({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.PublicKey)}, {_dafny.string_of(self.CustomerMasterKeySpec)}, {_dafny.string_of(self.KeySpec)}, {_dafny.string_of(self.KeyUsage)}, {_dafny.string_of(self.EncryptionAlgorithms)}, {_dafny.string_of(self.SigningAlgorithms)}, {_dafny.string_of(self.KeyAgreementAlgorithms)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, GetPublicKeyResponse_GetPublicKeyResponse) and self.KeyId == __o.KeyId and self.PublicKey == __o.PublicKey and self.CustomerMasterKeySpec == __o.CustomerMasterKeySpec and self.KeySpec == __o.KeySpec and self.KeyUsage == __o.KeyUsage and self.EncryptionAlgorithms == __o.EncryptionAlgorithms and self.SigningAlgorithms == __o.SigningAlgorithms
+        return isinstance(__o, GetPublicKeyResponse_GetPublicKeyResponse) and self.KeyId == __o.KeyId and self.PublicKey == __o.PublicKey and self.CustomerMasterKeySpec == __o.CustomerMasterKeySpec and self.KeySpec == __o.KeySpec and self.KeyUsage == __o.KeyUsage and self.EncryptionAlgorithms == __o.EncryptionAlgorithms and self.SigningAlgorithms == __o.SigningAlgorithms and self.KeyAgreementAlgorithms == __o.KeyAgreementAlgorithms
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -1739,8 +2089,8 @@ class GrantIdType:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_7_x_: _dafny.Seq = source__
-        return default__.IsValid__GrantIdType(d_7_x_)
+        d_8_x_: _dafny.Seq = source__
+        return default__.IsValid__GrantIdType(d_8_x_)
 
 class GrantListEntry:
     @classmethod
@@ -1769,13 +2119,13 @@ class GrantNameType:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_8_x_: _dafny.Seq = source__
-        return default__.IsValid__GrantNameType(d_8_x_)
+        d_9_x_: _dafny.Seq = source__
+        return default__.IsValid__GrantNameType(d_9_x_)
 
 class GrantOperation:
     @_dafny.classproperty
     def AllSingletonConstructors(cls):
-        return [GrantOperation_Decrypt(), GrantOperation_Encrypt(), GrantOperation_GenerateDataKey(), GrantOperation_GenerateDataKeyWithoutPlaintext(), GrantOperation_ReEncryptFrom(), GrantOperation_ReEncryptTo(), GrantOperation_Sign(), GrantOperation_Verify(), GrantOperation_GetPublicKey(), GrantOperation_CreateGrant(), GrantOperation_RetireGrant(), GrantOperation_DescribeKey(), GrantOperation_GenerateDataKeyPair(), GrantOperation_GenerateDataKeyPairWithoutPlaintext()]
+        return [GrantOperation_Decrypt(), GrantOperation_Encrypt(), GrantOperation_GenerateDataKey(), GrantOperation_GenerateDataKeyWithoutPlaintext(), GrantOperation_ReEncryptFrom(), GrantOperation_ReEncryptTo(), GrantOperation_Sign(), GrantOperation_Verify(), GrantOperation_GetPublicKey(), GrantOperation_CreateGrant(), GrantOperation_RetireGrant(), GrantOperation_DescribeKey(), GrantOperation_GenerateDataKeyPair(), GrantOperation_GenerateDataKeyPairWithoutPlaintext(), GrantOperation_GenerateMac(), GrantOperation_VerifyMac(), GrantOperation_DeriveSharedSecret()]
     @classmethod
     def default(cls, ):
         return lambda: GrantOperation_Decrypt()
@@ -1823,6 +2173,15 @@ class GrantOperation:
     @property
     def is_GenerateDataKeyPairWithoutPlaintext(self) -> bool:
         return isinstance(self, GrantOperation_GenerateDataKeyPairWithoutPlaintext)
+    @property
+    def is_GenerateMac(self) -> bool:
+        return isinstance(self, GrantOperation_GenerateMac)
+    @property
+    def is_VerifyMac(self) -> bool:
+        return isinstance(self, GrantOperation_VerifyMac)
+    @property
+    def is_DeriveSharedSecret(self) -> bool:
+        return isinstance(self, GrantOperation_DeriveSharedSecret)
 
 class GrantOperation_Decrypt(GrantOperation, NamedTuple('Decrypt', [])):
     def __dafnystr__(self) -> str:
@@ -1936,6 +2295,30 @@ class GrantOperation_GenerateDataKeyPairWithoutPlaintext(GrantOperation, NamedTu
     def __hash__(self) -> int:
         return super().__hash__()
 
+class GrantOperation_GenerateMac(GrantOperation, NamedTuple('GenerateMac', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.GrantOperation.GenerateMac'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, GrantOperation_GenerateMac)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class GrantOperation_VerifyMac(GrantOperation, NamedTuple('VerifyMac', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.GrantOperation.VerifyMac'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, GrantOperation_VerifyMac)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class GrantOperation_DeriveSharedSecret(GrantOperation, NamedTuple('DeriveSharedSecret', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.GrantOperation.DeriveSharedSecret'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, GrantOperation_DeriveSharedSecret)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
 
 class GrantTokenList:
     def  __init__(self):
@@ -1945,8 +2328,8 @@ class GrantTokenList:
     def default():
         return _dafny.Seq({})
     def _Is(source__):
-        d_9_x_: _dafny.Seq = source__
-        return default__.IsValid__GrantTokenList(d_9_x_)
+        d_10_x_: _dafny.Seq = source__
+        return default__.IsValid__GrantTokenList(d_10_x_)
 
 class GrantTokenType:
     def  __init__(self):
@@ -1956,8 +2339,8 @@ class GrantTokenType:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_10_x_: _dafny.Seq = source__
-        return default__.IsValid__GrantTokenType(d_10_x_)
+        d_11_x_: _dafny.Seq = source__
+        return default__.IsValid__GrantTokenType(d_11_x_)
 
 class ImportKeyMaterialRequest:
     @classmethod
@@ -2000,6 +2383,50 @@ class ImportKeyMaterialResponse_ImportKeyMaterialResponse(ImportKeyMaterialRespo
         return super().__hash__()
 
 
+class KeyAgreementAlgorithmSpec:
+    @_dafny.classproperty
+    def AllSingletonConstructors(cls):
+        return [KeyAgreementAlgorithmSpec_ECDH()]
+    @classmethod
+    def default(cls, ):
+        return lambda: KeyAgreementAlgorithmSpec_ECDH()
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_ECDH(self) -> bool:
+        return isinstance(self, KeyAgreementAlgorithmSpec_ECDH)
+
+class KeyAgreementAlgorithmSpec_ECDH(KeyAgreementAlgorithmSpec, NamedTuple('ECDH', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.KeyAgreementAlgorithmSpec.ECDH'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KeyAgreementAlgorithmSpec_ECDH)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class KeyEncryptionMechanism:
+    @_dafny.classproperty
+    def AllSingletonConstructors(cls):
+        return [KeyEncryptionMechanism_RSAES__OAEP__SHA__256()]
+    @classmethod
+    def default(cls, ):
+        return lambda: KeyEncryptionMechanism_RSAES__OAEP__SHA__256()
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_RSAES__OAEP__SHA__256(self) -> bool:
+        return isinstance(self, KeyEncryptionMechanism_RSAES__OAEP__SHA__256)
+
+class KeyEncryptionMechanism_RSAES__OAEP__SHA__256(KeyEncryptionMechanism, NamedTuple('RSAES__OAEP__SHA__256', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.KeyEncryptionMechanism.RSAES_OAEP_SHA_256'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KeyEncryptionMechanism_RSAES__OAEP__SHA__256)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
 class KeyIdType:
     def  __init__(self):
         pass
@@ -2008,8 +2435,8 @@ class KeyIdType:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_11_x_: _dafny.Seq = source__
-        return default__.IsValid__KeyIdType(d_11_x_)
+        d_12_x_: _dafny.Seq = source__
+        return default__.IsValid__KeyIdType(d_12_x_)
 
 class KeyListEntry:
     @classmethod
@@ -2066,18 +2493,18 @@ class KeyManagerType_CUSTOMER(KeyManagerType, NamedTuple('CUSTOMER', [])):
 class KeyMetadata:
     @classmethod
     def default(cls, ):
-        return lambda: KeyMetadata_KeyMetadata(Wrappers.Option.default()(), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: KeyMetadata_KeyMetadata(Wrappers.Option.default()(), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_KeyMetadata(self) -> bool:
         return isinstance(self, KeyMetadata_KeyMetadata)
 
-class KeyMetadata_KeyMetadata(KeyMetadata, NamedTuple('KeyMetadata', [('AWSAccountId', Any), ('KeyId', Any), ('Arn', Any), ('CreationDate', Any), ('Enabled', Any), ('Description', Any), ('KeyUsage', Any), ('KeyState', Any), ('DeletionDate', Any), ('ValidTo', Any), ('Origin', Any), ('CustomKeyStoreId', Any), ('CloudHsmClusterId', Any), ('ExpirationModel', Any), ('KeyManager', Any), ('CustomerMasterKeySpec', Any), ('KeySpec', Any), ('EncryptionAlgorithms', Any), ('SigningAlgorithms', Any), ('MultiRegion', Any), ('MultiRegionConfiguration', Any), ('PendingDeletionWindowInDays', Any)])):
+class KeyMetadata_KeyMetadata(KeyMetadata, NamedTuple('KeyMetadata', [('AWSAccountId', Any), ('KeyId', Any), ('Arn', Any), ('CreationDate', Any), ('Enabled', Any), ('Description', Any), ('KeyUsage', Any), ('KeyState', Any), ('DeletionDate', Any), ('ValidTo', Any), ('Origin', Any), ('CustomKeyStoreId', Any), ('CloudHsmClusterId', Any), ('ExpirationModel', Any), ('KeyManager', Any), ('CustomerMasterKeySpec', Any), ('KeySpec', Any), ('EncryptionAlgorithms', Any), ('SigningAlgorithms', Any), ('KeyAgreementAlgorithms', Any), ('MultiRegion', Any), ('MultiRegionConfiguration', Any), ('PendingDeletionWindowInDays', Any), ('MacAlgorithms', Any), ('XksKeyConfiguration', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.KeyMetadata.KeyMetadata({_dafny.string_of(self.AWSAccountId)}, {_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.Arn)}, {_dafny.string_of(self.CreationDate)}, {_dafny.string_of(self.Enabled)}, {_dafny.string_of(self.Description)}, {_dafny.string_of(self.KeyUsage)}, {_dafny.string_of(self.KeyState)}, {_dafny.string_of(self.DeletionDate)}, {_dafny.string_of(self.ValidTo)}, {_dafny.string_of(self.Origin)}, {_dafny.string_of(self.CustomKeyStoreId)}, {_dafny.string_of(self.CloudHsmClusterId)}, {_dafny.string_of(self.ExpirationModel)}, {_dafny.string_of(self.KeyManager)}, {_dafny.string_of(self.CustomerMasterKeySpec)}, {_dafny.string_of(self.KeySpec)}, {_dafny.string_of(self.EncryptionAlgorithms)}, {_dafny.string_of(self.SigningAlgorithms)}, {_dafny.string_of(self.MultiRegion)}, {_dafny.string_of(self.MultiRegionConfiguration)}, {_dafny.string_of(self.PendingDeletionWindowInDays)})'
+        return f'ComAmazonawsKmsTypes.KeyMetadata.KeyMetadata({_dafny.string_of(self.AWSAccountId)}, {_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.Arn)}, {_dafny.string_of(self.CreationDate)}, {_dafny.string_of(self.Enabled)}, {_dafny.string_of(self.Description)}, {_dafny.string_of(self.KeyUsage)}, {_dafny.string_of(self.KeyState)}, {_dafny.string_of(self.DeletionDate)}, {_dafny.string_of(self.ValidTo)}, {_dafny.string_of(self.Origin)}, {_dafny.string_of(self.CustomKeyStoreId)}, {_dafny.string_of(self.CloudHsmClusterId)}, {_dafny.string_of(self.ExpirationModel)}, {_dafny.string_of(self.KeyManager)}, {_dafny.string_of(self.CustomerMasterKeySpec)}, {_dafny.string_of(self.KeySpec)}, {_dafny.string_of(self.EncryptionAlgorithms)}, {_dafny.string_of(self.SigningAlgorithms)}, {_dafny.string_of(self.KeyAgreementAlgorithms)}, {_dafny.string_of(self.MultiRegion)}, {_dafny.string_of(self.MultiRegionConfiguration)}, {_dafny.string_of(self.PendingDeletionWindowInDays)}, {_dafny.string_of(self.MacAlgorithms)}, {_dafny.string_of(self.XksKeyConfiguration)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, KeyMetadata_KeyMetadata) and self.AWSAccountId == __o.AWSAccountId and self.KeyId == __o.KeyId and self.Arn == __o.Arn and self.CreationDate == __o.CreationDate and self.Enabled == __o.Enabled and self.Description == __o.Description and self.KeyUsage == __o.KeyUsage and self.KeyState == __o.KeyState and self.DeletionDate == __o.DeletionDate and self.ValidTo == __o.ValidTo and self.Origin == __o.Origin and self.CustomKeyStoreId == __o.CustomKeyStoreId and self.CloudHsmClusterId == __o.CloudHsmClusterId and self.ExpirationModel == __o.ExpirationModel and self.KeyManager == __o.KeyManager and self.CustomerMasterKeySpec == __o.CustomerMasterKeySpec and self.KeySpec == __o.KeySpec and self.EncryptionAlgorithms == __o.EncryptionAlgorithms and self.SigningAlgorithms == __o.SigningAlgorithms and self.MultiRegion == __o.MultiRegion and self.MultiRegionConfiguration == __o.MultiRegionConfiguration and self.PendingDeletionWindowInDays == __o.PendingDeletionWindowInDays
+        return isinstance(__o, KeyMetadata_KeyMetadata) and self.AWSAccountId == __o.AWSAccountId and self.KeyId == __o.KeyId and self.Arn == __o.Arn and self.CreationDate == __o.CreationDate and self.Enabled == __o.Enabled and self.Description == __o.Description and self.KeyUsage == __o.KeyUsage and self.KeyState == __o.KeyState and self.DeletionDate == __o.DeletionDate and self.ValidTo == __o.ValidTo and self.Origin == __o.Origin and self.CustomKeyStoreId == __o.CustomKeyStoreId and self.CloudHsmClusterId == __o.CloudHsmClusterId and self.ExpirationModel == __o.ExpirationModel and self.KeyManager == __o.KeyManager and self.CustomerMasterKeySpec == __o.CustomerMasterKeySpec and self.KeySpec == __o.KeySpec and self.EncryptionAlgorithms == __o.EncryptionAlgorithms and self.SigningAlgorithms == __o.SigningAlgorithms and self.KeyAgreementAlgorithms == __o.KeyAgreementAlgorithms and self.MultiRegion == __o.MultiRegion and self.MultiRegionConfiguration == __o.MultiRegionConfiguration and self.PendingDeletionWindowInDays == __o.PendingDeletionWindowInDays and self.MacAlgorithms == __o.MacAlgorithms and self.XksKeyConfiguration == __o.XksKeyConfiguration
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -2085,7 +2512,7 @@ class KeyMetadata_KeyMetadata(KeyMetadata, NamedTuple('KeyMetadata', [('AWSAccou
 class KeySpec:
     @_dafny.classproperty
     def AllSingletonConstructors(cls):
-        return [KeySpec_RSA__2048(), KeySpec_RSA__3072(), KeySpec_RSA__4096(), KeySpec_ECC__NIST__P256(), KeySpec_ECC__NIST__P384(), KeySpec_ECC__NIST__P521(), KeySpec_ECC__SECG__P256K1(), KeySpec_SYMMETRIC__DEFAULT()]
+        return [KeySpec_RSA__2048(), KeySpec_RSA__3072(), KeySpec_RSA__4096(), KeySpec_ECC__NIST__P256(), KeySpec_ECC__NIST__P384(), KeySpec_ECC__NIST__P521(), KeySpec_ECC__SECG__P256K1(), KeySpec_SYMMETRIC__DEFAULT(), KeySpec_HMAC__224(), KeySpec_HMAC__256(), KeySpec_HMAC__384(), KeySpec_HMAC__512(), KeySpec_SM2()]
     @classmethod
     def default(cls, ):
         return lambda: KeySpec_RSA__2048()
@@ -2115,6 +2542,21 @@ class KeySpec:
     @property
     def is_SYMMETRIC__DEFAULT(self) -> bool:
         return isinstance(self, KeySpec_SYMMETRIC__DEFAULT)
+    @property
+    def is_HMAC__224(self) -> bool:
+        return isinstance(self, KeySpec_HMAC__224)
+    @property
+    def is_HMAC__256(self) -> bool:
+        return isinstance(self, KeySpec_HMAC__256)
+    @property
+    def is_HMAC__384(self) -> bool:
+        return isinstance(self, KeySpec_HMAC__384)
+    @property
+    def is_HMAC__512(self) -> bool:
+        return isinstance(self, KeySpec_HMAC__512)
+    @property
+    def is_SM2(self) -> bool:
+        return isinstance(self, KeySpec_SM2)
 
 class KeySpec_RSA__2048(KeySpec, NamedTuple('RSA__2048', [])):
     def __dafnystr__(self) -> str:
@@ -2177,6 +2619,46 @@ class KeySpec_SYMMETRIC__DEFAULT(KeySpec, NamedTuple('SYMMETRIC__DEFAULT', [])):
         return f'ComAmazonawsKmsTypes.KeySpec.SYMMETRIC_DEFAULT'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, KeySpec_SYMMETRIC__DEFAULT)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class KeySpec_HMAC__224(KeySpec, NamedTuple('HMAC__224', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.KeySpec.HMAC_224'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KeySpec_HMAC__224)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class KeySpec_HMAC__256(KeySpec, NamedTuple('HMAC__256', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.KeySpec.HMAC_256'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KeySpec_HMAC__256)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class KeySpec_HMAC__384(KeySpec, NamedTuple('HMAC__384', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.KeySpec.HMAC_384'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KeySpec_HMAC__384)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class KeySpec_HMAC__512(KeySpec, NamedTuple('HMAC__512', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.KeySpec.HMAC_512'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KeySpec_HMAC__512)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class KeySpec_SM2(KeySpec, NamedTuple('SM2', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.KeySpec.SM2'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KeySpec_SM2)
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -2288,13 +2770,13 @@ class KeyStorePasswordType:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_12_x_: _dafny.Seq = source__
-        return default__.IsValid__KeyStorePasswordType(d_12_x_)
+        d_13_x_: _dafny.Seq = source__
+        return default__.IsValid__KeyStorePasswordType(d_13_x_)
 
 class KeyUsageType:
     @_dafny.classproperty
     def AllSingletonConstructors(cls):
-        return [KeyUsageType_SIGN__VERIFY(), KeyUsageType_ENCRYPT__DECRYPT()]
+        return [KeyUsageType_SIGN__VERIFY(), KeyUsageType_ENCRYPT__DECRYPT(), KeyUsageType_GENERATE__VERIFY__MAC(), KeyUsageType_KEY__AGREEMENT()]
     @classmethod
     def default(cls, ):
         return lambda: KeyUsageType_SIGN__VERIFY()
@@ -2306,6 +2788,12 @@ class KeyUsageType:
     @property
     def is_ENCRYPT__DECRYPT(self) -> bool:
         return isinstance(self, KeyUsageType_ENCRYPT__DECRYPT)
+    @property
+    def is_GENERATE__VERIFY__MAC(self) -> bool:
+        return isinstance(self, KeyUsageType_GENERATE__VERIFY__MAC)
+    @property
+    def is_KEY__AGREEMENT(self) -> bool:
+        return isinstance(self, KeyUsageType_KEY__AGREEMENT)
 
 class KeyUsageType_SIGN__VERIFY(KeyUsageType, NamedTuple('SIGN__VERIFY', [])):
     def __dafnystr__(self) -> str:
@@ -2323,6 +2811,22 @@ class KeyUsageType_ENCRYPT__DECRYPT(KeyUsageType, NamedTuple('ENCRYPT__DECRYPT',
     def __hash__(self) -> int:
         return super().__hash__()
 
+class KeyUsageType_GENERATE__VERIFY__MAC(KeyUsageType, NamedTuple('GENERATE__VERIFY__MAC', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.KeyUsageType.GENERATE_VERIFY_MAC'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KeyUsageType_GENERATE__VERIFY__MAC)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class KeyUsageType_KEY__AGREEMENT(KeyUsageType, NamedTuple('KEY__AGREEMENT', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.KeyUsageType.KEY_AGREEMENT'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, KeyUsageType_KEY__AGREEMENT)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
 
 class LimitType:
     def  __init__(self):
@@ -2332,9 +2836,9 @@ class LimitType:
     def default():
         return int(0)
     def _Is(source__):
-        d_13_x_: int = source__
+        d_14_x_: int = source__
         if True:
-            return default__.IsValid__LimitType(d_13_x_)
+            return default__.IsValid__LimitType(d_14_x_)
         return False
 
 class ListAliasesRequest:
@@ -2451,6 +2955,44 @@ class ListKeyPoliciesResponse_ListKeyPoliciesResponse(ListKeyPoliciesResponse, N
         return super().__hash__()
 
 
+class ListKeyRotationsRequest:
+    @classmethod
+    def default(cls, ):
+        return lambda: ListKeyRotationsRequest_ListKeyRotationsRequest(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_ListKeyRotationsRequest(self) -> bool:
+        return isinstance(self, ListKeyRotationsRequest_ListKeyRotationsRequest)
+
+class ListKeyRotationsRequest_ListKeyRotationsRequest(ListKeyRotationsRequest, NamedTuple('ListKeyRotationsRequest', [('KeyId', Any), ('Limit', Any), ('Marker', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.ListKeyRotationsRequest.ListKeyRotationsRequest({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.Limit)}, {_dafny.string_of(self.Marker)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ListKeyRotationsRequest_ListKeyRotationsRequest) and self.KeyId == __o.KeyId and self.Limit == __o.Limit and self.Marker == __o.Marker
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class ListKeyRotationsResponse:
+    @classmethod
+    def default(cls, ):
+        return lambda: ListKeyRotationsResponse_ListKeyRotationsResponse(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_ListKeyRotationsResponse(self) -> bool:
+        return isinstance(self, ListKeyRotationsResponse_ListKeyRotationsResponse)
+
+class ListKeyRotationsResponse_ListKeyRotationsResponse(ListKeyRotationsResponse, NamedTuple('ListKeyRotationsResponse', [('Rotations', Any), ('NextMarker', Any), ('Truncated', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.ListKeyRotationsResponse.ListKeyRotationsResponse({_dafny.string_of(self.Rotations)}, {_dafny.string_of(self.NextMarker)}, {_dafny.string_of(self.Truncated)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ListKeyRotationsResponse_ListKeyRotationsResponse) and self.Rotations == __o.Rotations and self.NextMarker == __o.NextMarker and self.Truncated == __o.Truncated
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
 class ListKeysRequest:
     @classmethod
     def default(cls, ):
@@ -2466,6 +3008,25 @@ class ListKeysRequest_ListKeysRequest(ListKeysRequest, NamedTuple('ListKeysReque
         return f'ComAmazonawsKmsTypes.ListKeysRequest.ListKeysRequest({_dafny.string_of(self.Limit)}, {_dafny.string_of(self.Marker)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, ListKeysRequest_ListKeysRequest) and self.Limit == __o.Limit and self.Marker == __o.Marker
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class ListKeysResponse:
+    @classmethod
+    def default(cls, ):
+        return lambda: ListKeysResponse_ListKeysResponse(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_ListKeysResponse(self) -> bool:
+        return isinstance(self, ListKeysResponse_ListKeysResponse)
+
+class ListKeysResponse_ListKeysResponse(ListKeysResponse, NamedTuple('ListKeysResponse', [('Keys', Any), ('NextMarker', Any), ('Truncated', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.ListKeysResponse.ListKeysResponse({_dafny.string_of(self.Keys)}, {_dafny.string_of(self.NextMarker)}, {_dafny.string_of(self.Truncated)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ListKeysResponse_ListKeysResponse) and self.Keys == __o.Keys and self.NextMarker == __o.NextMarker and self.Truncated == __o.Truncated
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -2508,21 +3069,57 @@ class ListResourceTagsResponse_ListResourceTagsResponse(ListResourceTagsResponse
         return super().__hash__()
 
 
-class ListRetirableGrantsRequest:
+class MacAlgorithmSpec:
+    @_dafny.classproperty
+    def AllSingletonConstructors(cls):
+        return [MacAlgorithmSpec_HMAC__SHA__224(), MacAlgorithmSpec_HMAC__SHA__256(), MacAlgorithmSpec_HMAC__SHA__384(), MacAlgorithmSpec_HMAC__SHA__512()]
     @classmethod
     def default(cls, ):
-        return lambda: ListRetirableGrantsRequest_ListRetirableGrantsRequest(Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq(""))
+        return lambda: MacAlgorithmSpec_HMAC__SHA__224()
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
-    def is_ListRetirableGrantsRequest(self) -> bool:
-        return isinstance(self, ListRetirableGrantsRequest_ListRetirableGrantsRequest)
+    def is_HMAC__SHA__224(self) -> bool:
+        return isinstance(self, MacAlgorithmSpec_HMAC__SHA__224)
+    @property
+    def is_HMAC__SHA__256(self) -> bool:
+        return isinstance(self, MacAlgorithmSpec_HMAC__SHA__256)
+    @property
+    def is_HMAC__SHA__384(self) -> bool:
+        return isinstance(self, MacAlgorithmSpec_HMAC__SHA__384)
+    @property
+    def is_HMAC__SHA__512(self) -> bool:
+        return isinstance(self, MacAlgorithmSpec_HMAC__SHA__512)
 
-class ListRetirableGrantsRequest_ListRetirableGrantsRequest(ListRetirableGrantsRequest, NamedTuple('ListRetirableGrantsRequest', [('Limit', Any), ('Marker', Any), ('RetiringPrincipal', Any)])):
+class MacAlgorithmSpec_HMAC__SHA__224(MacAlgorithmSpec, NamedTuple('HMAC__SHA__224', [])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.ListRetirableGrantsRequest.ListRetirableGrantsRequest({_dafny.string_of(self.Limit)}, {_dafny.string_of(self.Marker)}, {_dafny.string_of(self.RetiringPrincipal)})'
+        return f'ComAmazonawsKmsTypes.MacAlgorithmSpec.HMAC_SHA_224'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, ListRetirableGrantsRequest_ListRetirableGrantsRequest) and self.Limit == __o.Limit and self.Marker == __o.Marker and self.RetiringPrincipal == __o.RetiringPrincipal
+        return isinstance(__o, MacAlgorithmSpec_HMAC__SHA__224)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class MacAlgorithmSpec_HMAC__SHA__256(MacAlgorithmSpec, NamedTuple('HMAC__SHA__256', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.MacAlgorithmSpec.HMAC_SHA_256'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, MacAlgorithmSpec_HMAC__SHA__256)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class MacAlgorithmSpec_HMAC__SHA__384(MacAlgorithmSpec, NamedTuple('HMAC__SHA__384', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.MacAlgorithmSpec.HMAC_SHA_384'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, MacAlgorithmSpec_HMAC__SHA__384)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class MacAlgorithmSpec_HMAC__SHA__512(MacAlgorithmSpec, NamedTuple('HMAC__SHA__512', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.MacAlgorithmSpec.HMAC_SHA_512'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, MacAlgorithmSpec_HMAC__SHA__512)
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -2535,8 +3132,8 @@ class MarkerType:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_14_x_: _dafny.Seq = source__
-        return default__.IsValid__MarkerType(d_14_x_)
+        d_15_x_: _dafny.Seq = source__
+        return default__.IsValid__MarkerType(d_15_x_)
 
 class MessageType:
     @_dafny.classproperty
@@ -2650,15 +3247,15 @@ class NumberOfBytesType:
     def default():
         return int(0)
     def _Is(source__):
-        d_15_x_: int = source__
+        d_16_x_: int = source__
         if True:
-            return default__.IsValid__NumberOfBytesType(d_15_x_)
+            return default__.IsValid__NumberOfBytesType(d_16_x_)
         return False
 
 class OriginType:
     @_dafny.classproperty
     def AllSingletonConstructors(cls):
-        return [OriginType_AWS__KMS(), OriginType_EXTERNAL(), OriginType_AWS__CLOUDHSM()]
+        return [OriginType_AWS__KMS(), OriginType_EXTERNAL(), OriginType_AWS__CLOUDHSM(), OriginType_EXTERNAL__KEY__STORE()]
     @classmethod
     def default(cls, ):
         return lambda: OriginType_AWS__KMS()
@@ -2673,6 +3270,9 @@ class OriginType:
     @property
     def is_AWS__CLOUDHSM(self) -> bool:
         return isinstance(self, OriginType_AWS__CLOUDHSM)
+    @property
+    def is_EXTERNAL__KEY__STORE(self) -> bool:
+        return isinstance(self, OriginType_EXTERNAL__KEY__STORE)
 
 class OriginType_AWS__KMS(OriginType, NamedTuple('AWS__KMS', [])):
     def __dafnystr__(self) -> str:
@@ -2698,6 +3298,14 @@ class OriginType_AWS__CLOUDHSM(OriginType, NamedTuple('AWS__CLOUDHSM', [])):
     def __hash__(self) -> int:
         return super().__hash__()
 
+class OriginType_EXTERNAL__KEY__STORE(OriginType, NamedTuple('EXTERNAL__KEY__STORE', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.OriginType.EXTERNAL_KEY_STORE'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, OriginType_EXTERNAL__KEY__STORE)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
 
 class PendingWindowInDaysType:
     def  __init__(self):
@@ -2707,9 +3315,9 @@ class PendingWindowInDaysType:
     def default():
         return int(0)
     def _Is(source__):
-        d_16_x_: int = source__
+        d_17_x_: int = source__
         if True:
-            return default__.IsValid__PendingWindowInDaysType(d_16_x_)
+            return default__.IsValid__PendingWindowInDaysType(d_17_x_)
         return False
 
 class PlaintextType:
@@ -2720,8 +3328,8 @@ class PlaintextType:
     def default():
         return _dafny.Seq({})
     def _Is(source__):
-        d_17_x_: _dafny.Seq = source__
-        return default__.IsValid__PlaintextType(d_17_x_)
+        d_18_x_: _dafny.Seq = source__
+        return default__.IsValid__PlaintextType(d_18_x_)
 
 class PolicyNameType:
     def  __init__(self):
@@ -2731,8 +3339,8 @@ class PolicyNameType:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_18_x_: _dafny.Seq = source__
-        return default__.IsValid__PolicyNameType(d_18_x_)
+        d_19_x_: _dafny.Seq = source__
+        return default__.IsValid__PolicyNameType(d_19_x_)
 
 class PolicyType:
     def  __init__(self):
@@ -2742,8 +3350,8 @@ class PolicyType:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_19_x_: _dafny.Seq = source__
-        return default__.IsValid__PolicyType(d_19_x_)
+        d_20_x_: _dafny.Seq = source__
+        return default__.IsValid__PolicyType(d_20_x_)
 
 class PrincipalIdType:
     def  __init__(self):
@@ -2753,8 +3361,8 @@ class PrincipalIdType:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_20_x_: _dafny.Seq = source__
-        return default__.IsValid__PrincipalIdType(d_20_x_)
+        d_21_x_: _dafny.Seq = source__
+        return default__.IsValid__PrincipalIdType(d_21_x_)
 
 class PublicKeyType:
     def  __init__(self):
@@ -2764,13 +3372,13 @@ class PublicKeyType:
     def default():
         return _dafny.Seq({})
     def _Is(source__):
-        d_21_x_: _dafny.Seq = source__
-        return default__.IsValid__PublicKeyType(d_21_x_)
+        d_22_x_: _dafny.Seq = source__
+        return default__.IsValid__PublicKeyType(d_22_x_)
 
 class PutKeyPolicyRequest:
     @classmethod
     def default(cls, ):
-        return lambda: PutKeyPolicyRequest_PutKeyPolicyRequest(_dafny.Seq(""), _dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()())
+        return lambda: PutKeyPolicyRequest_PutKeyPolicyRequest(_dafny.Seq(""), Wrappers.Option.default()(), _dafny.Seq(""), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -2786,21 +3394,40 @@ class PutKeyPolicyRequest_PutKeyPolicyRequest(PutKeyPolicyRequest, NamedTuple('P
         return super().__hash__()
 
 
+class RecipientInfo:
+    @classmethod
+    def default(cls, ):
+        return lambda: RecipientInfo_RecipientInfo(Wrappers.Option.default()(), Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_RecipientInfo(self) -> bool:
+        return isinstance(self, RecipientInfo_RecipientInfo)
+
+class RecipientInfo_RecipientInfo(RecipientInfo, NamedTuple('RecipientInfo', [('KeyEncryptionAlgorithm', Any), ('AttestationDocument', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.RecipientInfo.RecipientInfo({_dafny.string_of(self.KeyEncryptionAlgorithm)}, {_dafny.string_of(self.AttestationDocument)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, RecipientInfo_RecipientInfo) and self.KeyEncryptionAlgorithm == __o.KeyEncryptionAlgorithm and self.AttestationDocument == __o.AttestationDocument
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
 class ReEncryptRequest:
     @classmethod
     def default(cls, ):
-        return lambda: ReEncryptRequest_ReEncryptRequest(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: ReEncryptRequest_ReEncryptRequest(_dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), _dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_ReEncryptRequest(self) -> bool:
         return isinstance(self, ReEncryptRequest_ReEncryptRequest)
 
-class ReEncryptRequest_ReEncryptRequest(ReEncryptRequest, NamedTuple('ReEncryptRequest', [('CiphertextBlob', Any), ('SourceEncryptionContext', Any), ('SourceKeyId', Any), ('DestinationKeyId', Any), ('DestinationEncryptionContext', Any), ('SourceEncryptionAlgorithm', Any), ('DestinationEncryptionAlgorithm', Any), ('GrantTokens', Any)])):
+class ReEncryptRequest_ReEncryptRequest(ReEncryptRequest, NamedTuple('ReEncryptRequest', [('CiphertextBlob', Any), ('SourceEncryptionContext', Any), ('SourceKeyId', Any), ('DestinationKeyId', Any), ('DestinationEncryptionContext', Any), ('SourceEncryptionAlgorithm', Any), ('DestinationEncryptionAlgorithm', Any), ('GrantTokens', Any), ('DryRun', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.ReEncryptRequest.ReEncryptRequest({_dafny.string_of(self.CiphertextBlob)}, {_dafny.string_of(self.SourceEncryptionContext)}, {_dafny.string_of(self.SourceKeyId)}, {_dafny.string_of(self.DestinationKeyId)}, {_dafny.string_of(self.DestinationEncryptionContext)}, {_dafny.string_of(self.SourceEncryptionAlgorithm)}, {_dafny.string_of(self.DestinationEncryptionAlgorithm)}, {_dafny.string_of(self.GrantTokens)})'
+        return f'ComAmazonawsKmsTypes.ReEncryptRequest.ReEncryptRequest({_dafny.string_of(self.CiphertextBlob)}, {_dafny.string_of(self.SourceEncryptionContext)}, {_dafny.string_of(self.SourceKeyId)}, {_dafny.string_of(self.DestinationKeyId)}, {_dafny.string_of(self.DestinationEncryptionContext)}, {_dafny.string_of(self.SourceEncryptionAlgorithm)}, {_dafny.string_of(self.DestinationEncryptionAlgorithm)}, {_dafny.string_of(self.GrantTokens)}, {_dafny.string_of(self.DryRun)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, ReEncryptRequest_ReEncryptRequest) and self.CiphertextBlob == __o.CiphertextBlob and self.SourceEncryptionContext == __o.SourceEncryptionContext and self.SourceKeyId == __o.SourceKeyId and self.DestinationKeyId == __o.DestinationKeyId and self.DestinationEncryptionContext == __o.DestinationEncryptionContext and self.SourceEncryptionAlgorithm == __o.SourceEncryptionAlgorithm and self.DestinationEncryptionAlgorithm == __o.DestinationEncryptionAlgorithm and self.GrantTokens == __o.GrantTokens
+        return isinstance(__o, ReEncryptRequest_ReEncryptRequest) and self.CiphertextBlob == __o.CiphertextBlob and self.SourceEncryptionContext == __o.SourceEncryptionContext and self.SourceKeyId == __o.SourceKeyId and self.DestinationKeyId == __o.DestinationKeyId and self.DestinationEncryptionContext == __o.DestinationEncryptionContext and self.SourceEncryptionAlgorithm == __o.SourceEncryptionAlgorithm and self.DestinationEncryptionAlgorithm == __o.DestinationEncryptionAlgorithm and self.GrantTokens == __o.GrantTokens and self.DryRun == __o.DryRun
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -2832,8 +3459,8 @@ class RegionType:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_22_x_: _dafny.Seq = source__
-        return default__.IsValid__RegionType(d_22_x_)
+        d_23_x_: _dafny.Seq = source__
+        return default__.IsValid__RegionType(d_23_x_)
 
 class ReplicateKeyRequest:
     @classmethod
@@ -2876,18 +3503,18 @@ class ReplicateKeyResponse_ReplicateKeyResponse(ReplicateKeyResponse, NamedTuple
 class RetireGrantRequest:
     @classmethod
     def default(cls, ):
-        return lambda: RetireGrantRequest_RetireGrantRequest(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: RetireGrantRequest_RetireGrantRequest(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_RetireGrantRequest(self) -> bool:
         return isinstance(self, RetireGrantRequest_RetireGrantRequest)
 
-class RetireGrantRequest_RetireGrantRequest(RetireGrantRequest, NamedTuple('RetireGrantRequest', [('GrantToken', Any), ('KeyId', Any), ('GrantId', Any)])):
+class RetireGrantRequest_RetireGrantRequest(RetireGrantRequest, NamedTuple('RetireGrantRequest', [('GrantToken', Any), ('KeyId', Any), ('GrantId', Any), ('DryRun', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.RetireGrantRequest.RetireGrantRequest({_dafny.string_of(self.GrantToken)}, {_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.GrantId)})'
+        return f'ComAmazonawsKmsTypes.RetireGrantRequest.RetireGrantRequest({_dafny.string_of(self.GrantToken)}, {_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.GrantId)}, {_dafny.string_of(self.DryRun)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, RetireGrantRequest_RetireGrantRequest) and self.GrantToken == __o.GrantToken and self.KeyId == __o.KeyId and self.GrantId == __o.GrantId
+        return isinstance(__o, RetireGrantRequest_RetireGrantRequest) and self.GrantToken == __o.GrantToken and self.KeyId == __o.KeyId and self.GrantId == __o.GrantId and self.DryRun == __o.DryRun
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -2895,18 +3522,121 @@ class RetireGrantRequest_RetireGrantRequest(RetireGrantRequest, NamedTuple('Reti
 class RevokeGrantRequest:
     @classmethod
     def default(cls, ):
-        return lambda: RevokeGrantRequest_RevokeGrantRequest(_dafny.Seq(""), _dafny.Seq(""))
+        return lambda: RevokeGrantRequest_RevokeGrantRequest(_dafny.Seq(""), _dafny.Seq(""), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_RevokeGrantRequest(self) -> bool:
         return isinstance(self, RevokeGrantRequest_RevokeGrantRequest)
 
-class RevokeGrantRequest_RevokeGrantRequest(RevokeGrantRequest, NamedTuple('RevokeGrantRequest', [('KeyId', Any), ('GrantId', Any)])):
+class RevokeGrantRequest_RevokeGrantRequest(RevokeGrantRequest, NamedTuple('RevokeGrantRequest', [('KeyId', Any), ('GrantId', Any), ('DryRun', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.RevokeGrantRequest.RevokeGrantRequest({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.GrantId)})'
+        return f'ComAmazonawsKmsTypes.RevokeGrantRequest.RevokeGrantRequest({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.GrantId)}, {_dafny.string_of(self.DryRun)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, RevokeGrantRequest_RevokeGrantRequest) and self.KeyId == __o.KeyId and self.GrantId == __o.GrantId
+        return isinstance(__o, RevokeGrantRequest_RevokeGrantRequest) and self.KeyId == __o.KeyId and self.GrantId == __o.GrantId and self.DryRun == __o.DryRun
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class RotateKeyOnDemandRequest:
+    @classmethod
+    def default(cls, ):
+        return lambda: RotateKeyOnDemandRequest_RotateKeyOnDemandRequest(_dafny.Seq(""))
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_RotateKeyOnDemandRequest(self) -> bool:
+        return isinstance(self, RotateKeyOnDemandRequest_RotateKeyOnDemandRequest)
+
+class RotateKeyOnDemandRequest_RotateKeyOnDemandRequest(RotateKeyOnDemandRequest, NamedTuple('RotateKeyOnDemandRequest', [('KeyId', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.RotateKeyOnDemandRequest.RotateKeyOnDemandRequest({_dafny.string_of(self.KeyId)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, RotateKeyOnDemandRequest_RotateKeyOnDemandRequest) and self.KeyId == __o.KeyId
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class RotateKeyOnDemandResponse:
+    @classmethod
+    def default(cls, ):
+        return lambda: RotateKeyOnDemandResponse_RotateKeyOnDemandResponse(Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_RotateKeyOnDemandResponse(self) -> bool:
+        return isinstance(self, RotateKeyOnDemandResponse_RotateKeyOnDemandResponse)
+
+class RotateKeyOnDemandResponse_RotateKeyOnDemandResponse(RotateKeyOnDemandResponse, NamedTuple('RotateKeyOnDemandResponse', [('KeyId', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.RotateKeyOnDemandResponse.RotateKeyOnDemandResponse({_dafny.string_of(self.KeyId)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, RotateKeyOnDemandResponse_RotateKeyOnDemandResponse) and self.KeyId == __o.KeyId
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class RotationPeriodInDaysType:
+    def  __init__(self):
+        pass
+
+    @staticmethod
+    def default():
+        return int(0)
+    def _Is(source__):
+        d_24_x_: int = source__
+        if True:
+            return default__.IsValid__RotationPeriodInDaysType(d_24_x_)
+        return False
+
+class RotationsListEntry:
+    @classmethod
+    def default(cls, ):
+        return lambda: RotationsListEntry_RotationsListEntry(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_RotationsListEntry(self) -> bool:
+        return isinstance(self, RotationsListEntry_RotationsListEntry)
+
+class RotationsListEntry_RotationsListEntry(RotationsListEntry, NamedTuple('RotationsListEntry', [('KeyId', Any), ('RotationDate', Any), ('RotationType', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.RotationsListEntry.RotationsListEntry({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.RotationDate)}, {_dafny.string_of(self.RotationType)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, RotationsListEntry_RotationsListEntry) and self.KeyId == __o.KeyId and self.RotationDate == __o.RotationDate and self.RotationType == __o.RotationType
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class RotationType:
+    @_dafny.classproperty
+    def AllSingletonConstructors(cls):
+        return [RotationType_AUTOMATIC(), RotationType_ON__DEMAND()]
+    @classmethod
+    def default(cls, ):
+        return lambda: RotationType_AUTOMATIC()
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_AUTOMATIC(self) -> bool:
+        return isinstance(self, RotationType_AUTOMATIC)
+    @property
+    def is_ON__DEMAND(self) -> bool:
+        return isinstance(self, RotationType_ON__DEMAND)
+
+class RotationType_AUTOMATIC(RotationType, NamedTuple('AUTOMATIC', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.RotationType.AUTOMATIC'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, RotationType_AUTOMATIC)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class RotationType_ON__DEMAND(RotationType, NamedTuple('ON__DEMAND', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.RotationType.ON_DEMAND'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, RotationType_ON__DEMAND)
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -2952,7 +3682,7 @@ class ScheduleKeyDeletionResponse_ScheduleKeyDeletionResponse(ScheduleKeyDeletio
 class SigningAlgorithmSpec:
     @_dafny.classproperty
     def AllSingletonConstructors(cls):
-        return [SigningAlgorithmSpec_RSASSA__PSS__SHA__256(), SigningAlgorithmSpec_RSASSA__PSS__SHA__384(), SigningAlgorithmSpec_RSASSA__PSS__SHA__512(), SigningAlgorithmSpec_RSASSA__PKCS1__V1__5__SHA__256(), SigningAlgorithmSpec_RSASSA__PKCS1__V1__5__SHA__384(), SigningAlgorithmSpec_RSASSA__PKCS1__V1__5__SHA__512(), SigningAlgorithmSpec_ECDSA__SHA__256(), SigningAlgorithmSpec_ECDSA__SHA__384(), SigningAlgorithmSpec_ECDSA__SHA__512()]
+        return [SigningAlgorithmSpec_RSASSA__PSS__SHA__256(), SigningAlgorithmSpec_RSASSA__PSS__SHA__384(), SigningAlgorithmSpec_RSASSA__PSS__SHA__512(), SigningAlgorithmSpec_RSASSA__PKCS1__V1__5__SHA__256(), SigningAlgorithmSpec_RSASSA__PKCS1__V1__5__SHA__384(), SigningAlgorithmSpec_RSASSA__PKCS1__V1__5__SHA__512(), SigningAlgorithmSpec_ECDSA__SHA__256(), SigningAlgorithmSpec_ECDSA__SHA__384(), SigningAlgorithmSpec_ECDSA__SHA__512(), SigningAlgorithmSpec_SM2DSA()]
     @classmethod
     def default(cls, ):
         return lambda: SigningAlgorithmSpec_RSASSA__PSS__SHA__256()
@@ -2985,6 +3715,9 @@ class SigningAlgorithmSpec:
     @property
     def is_ECDSA__SHA__512(self) -> bool:
         return isinstance(self, SigningAlgorithmSpec_ECDSA__SHA__512)
+    @property
+    def is_SM2DSA(self) -> bool:
+        return isinstance(self, SigningAlgorithmSpec_SM2DSA)
 
 class SigningAlgorithmSpec_RSASSA__PSS__SHA__256(SigningAlgorithmSpec, NamedTuple('RSASSA__PSS__SHA__256', [])):
     def __dafnystr__(self) -> str:
@@ -3058,22 +3791,30 @@ class SigningAlgorithmSpec_ECDSA__SHA__512(SigningAlgorithmSpec, NamedTuple('ECD
     def __hash__(self) -> int:
         return super().__hash__()
 
+class SigningAlgorithmSpec_SM2DSA(SigningAlgorithmSpec, NamedTuple('SM2DSA', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.SigningAlgorithmSpec.SM2DSA'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, SigningAlgorithmSpec_SM2DSA)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
 
 class SignRequest:
     @classmethod
     def default(cls, ):
-        return lambda: SignRequest_SignRequest(_dafny.Seq(""), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), SigningAlgorithmSpec.default()())
+        return lambda: SignRequest_SignRequest(_dafny.Seq(""), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()(), SigningAlgorithmSpec.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_SignRequest(self) -> bool:
         return isinstance(self, SignRequest_SignRequest)
 
-class SignRequest_SignRequest(SignRequest, NamedTuple('SignRequest', [('KeyId', Any), ('Message', Any), ('MessageType', Any), ('GrantTokens', Any), ('SigningAlgorithm', Any)])):
+class SignRequest_SignRequest(SignRequest, NamedTuple('SignRequest', [('KeyId', Any), ('Message', Any), ('MessageType', Any), ('GrantTokens', Any), ('SigningAlgorithm', Any), ('DryRun', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.SignRequest.SignRequest({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.Message)}, {_dafny.string_of(self.MessageType)}, {_dafny.string_of(self.GrantTokens)}, {_dafny.string_of(self.SigningAlgorithm)})'
+        return f'ComAmazonawsKmsTypes.SignRequest.SignRequest({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.Message)}, {_dafny.string_of(self.MessageType)}, {_dafny.string_of(self.GrantTokens)}, {_dafny.string_of(self.SigningAlgorithm)}, {_dafny.string_of(self.DryRun)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, SignRequest_SignRequest) and self.KeyId == __o.KeyId and self.Message == __o.Message and self.MessageType == __o.MessageType and self.GrantTokens == __o.GrantTokens and self.SigningAlgorithm == __o.SigningAlgorithm
+        return isinstance(__o, SignRequest_SignRequest) and self.KeyId == __o.KeyId and self.Message == __o.Message and self.MessageType == __o.MessageType and self.GrantTokens == __o.GrantTokens and self.SigningAlgorithm == __o.SigningAlgorithm and self.DryRun == __o.DryRun
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -3124,8 +3865,8 @@ class TagKeyType:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_23_x_: _dafny.Seq = source__
-        return default__.IsValid__TagKeyType(d_23_x_)
+        d_25_x_: _dafny.Seq = source__
+        return default__.IsValid__TagKeyType(d_25_x_)
 
 class TagResourceRequest:
     @classmethod
@@ -3154,8 +3895,8 @@ class TagValueType:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_24_x_: _dafny.Seq = source__
-        return default__.IsValid__TagValueType(d_24_x_)
+        d_26_x_: _dafny.Seq = source__
+        return default__.IsValid__TagValueType(d_26_x_)
 
 class IKMSClientCallHistory:
     def  __init__(self):
@@ -3196,6 +3937,9 @@ class IKMSClient:
     def DeleteImportedKeyMaterial(self, input):
         pass
 
+    def DeriveSharedSecret(self, input):
+        pass
+
     def DescribeCustomKeyStores(self, input):
         pass
 
@@ -3232,6 +3976,9 @@ class IKMSClient:
     def GenerateDataKeyWithoutPlaintext(self, input):
         pass
 
+    def GenerateMac(self, input):
+        pass
+
     def GenerateRandom(self, input):
         pass
 
@@ -3259,6 +4006,12 @@ class IKMSClient:
     def ListKeyPolicies(self, input):
         pass
 
+    def ListKeyRotations(self, input):
+        pass
+
+    def ListKeys(self, input):
+        pass
+
     def ListResourceTags(self, input):
         pass
 
@@ -3275,6 +4028,9 @@ class IKMSClient:
         pass
 
     def RevokeGrant(self, input):
+        pass
+
+    def RotateKeyOnDemand(self, input):
         pass
 
     def ScheduleKeyDeletion(self, input):
@@ -3304,6 +4060,9 @@ class IKMSClient:
     def Verify(self, input):
         pass
 
+    def VerifyMac(self, input):
+        pass
+
 
 class TrustAnchorCertificateType:
     def  __init__(self):
@@ -3313,8 +4072,8 @@ class TrustAnchorCertificateType:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_25_x_: _dafny.Seq = source__
-        return default__.IsValid__TrustAnchorCertificateType(d_25_x_)
+        d_27_x_: _dafny.Seq = source__
+        return default__.IsValid__TrustAnchorCertificateType(d_27_x_)
 
 class UntagResourceRequest:
     @classmethod
@@ -3357,18 +4116,18 @@ class UpdateAliasRequest_UpdateAliasRequest(UpdateAliasRequest, NamedTuple('Upda
 class UpdateCustomKeyStoreRequest:
     @classmethod
     def default(cls, ):
-        return lambda: UpdateCustomKeyStoreRequest_UpdateCustomKeyStoreRequest(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: UpdateCustomKeyStoreRequest_UpdateCustomKeyStoreRequest(_dafny.Seq(""), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_UpdateCustomKeyStoreRequest(self) -> bool:
         return isinstance(self, UpdateCustomKeyStoreRequest_UpdateCustomKeyStoreRequest)
 
-class UpdateCustomKeyStoreRequest_UpdateCustomKeyStoreRequest(UpdateCustomKeyStoreRequest, NamedTuple('UpdateCustomKeyStoreRequest', [('CustomKeyStoreId', Any), ('NewCustomKeyStoreName', Any), ('KeyStorePassword', Any), ('CloudHsmClusterId', Any)])):
+class UpdateCustomKeyStoreRequest_UpdateCustomKeyStoreRequest(UpdateCustomKeyStoreRequest, NamedTuple('UpdateCustomKeyStoreRequest', [('CustomKeyStoreId', Any), ('NewCustomKeyStoreName', Any), ('KeyStorePassword', Any), ('CloudHsmClusterId', Any), ('XksProxyUriEndpoint', Any), ('XksProxyUriPath', Any), ('XksProxyVpcEndpointServiceName', Any), ('XksProxyAuthenticationCredential', Any), ('XksProxyConnectivity', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.UpdateCustomKeyStoreRequest.UpdateCustomKeyStoreRequest({_dafny.string_of(self.CustomKeyStoreId)}, {_dafny.string_of(self.NewCustomKeyStoreName)}, {_dafny.string_of(self.KeyStorePassword)}, {_dafny.string_of(self.CloudHsmClusterId)})'
+        return f'ComAmazonawsKmsTypes.UpdateCustomKeyStoreRequest.UpdateCustomKeyStoreRequest({_dafny.string_of(self.CustomKeyStoreId)}, {_dafny.string_of(self.NewCustomKeyStoreName)}, {_dafny.string_of(self.KeyStorePassword)}, {_dafny.string_of(self.CloudHsmClusterId)}, {_dafny.string_of(self.XksProxyUriEndpoint)}, {_dafny.string_of(self.XksProxyUriPath)}, {_dafny.string_of(self.XksProxyVpcEndpointServiceName)}, {_dafny.string_of(self.XksProxyAuthenticationCredential)}, {_dafny.string_of(self.XksProxyConnectivity)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, UpdateCustomKeyStoreRequest_UpdateCustomKeyStoreRequest) and self.CustomKeyStoreId == __o.CustomKeyStoreId and self.NewCustomKeyStoreName == __o.NewCustomKeyStoreName and self.KeyStorePassword == __o.KeyStorePassword and self.CloudHsmClusterId == __o.CloudHsmClusterId
+        return isinstance(__o, UpdateCustomKeyStoreRequest_UpdateCustomKeyStoreRequest) and self.CustomKeyStoreId == __o.CustomKeyStoreId and self.NewCustomKeyStoreName == __o.NewCustomKeyStoreName and self.KeyStorePassword == __o.KeyStorePassword and self.CloudHsmClusterId == __o.CloudHsmClusterId and self.XksProxyUriEndpoint == __o.XksProxyUriEndpoint and self.XksProxyUriPath == __o.XksProxyUriPath and self.XksProxyVpcEndpointServiceName == __o.XksProxyVpcEndpointServiceName and self.XksProxyAuthenticationCredential == __o.XksProxyAuthenticationCredential and self.XksProxyConnectivity == __o.XksProxyConnectivity
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -3433,21 +4192,59 @@ class UpdatePrimaryRegionRequest_UpdatePrimaryRegionRequest(UpdatePrimaryRegionR
         return super().__hash__()
 
 
+class VerifyMacRequest:
+    @classmethod
+    def default(cls, ):
+        return lambda: VerifyMacRequest_VerifyMacRequest(_dafny.Seq({}), _dafny.Seq(""), MacAlgorithmSpec.default()(), _dafny.Seq({}), Wrappers.Option.default()(), Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_VerifyMacRequest(self) -> bool:
+        return isinstance(self, VerifyMacRequest_VerifyMacRequest)
+
+class VerifyMacRequest_VerifyMacRequest(VerifyMacRequest, NamedTuple('VerifyMacRequest', [('Message', Any), ('KeyId', Any), ('MacAlgorithm', Any), ('Mac', Any), ('GrantTokens', Any), ('DryRun', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.VerifyMacRequest.VerifyMacRequest({_dafny.string_of(self.Message)}, {_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.MacAlgorithm)}, {_dafny.string_of(self.Mac)}, {_dafny.string_of(self.GrantTokens)}, {_dafny.string_of(self.DryRun)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, VerifyMacRequest_VerifyMacRequest) and self.Message == __o.Message and self.KeyId == __o.KeyId and self.MacAlgorithm == __o.MacAlgorithm and self.Mac == __o.Mac and self.GrantTokens == __o.GrantTokens and self.DryRun == __o.DryRun
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class VerifyMacResponse:
+    @classmethod
+    def default(cls, ):
+        return lambda: VerifyMacResponse_VerifyMacResponse(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_VerifyMacResponse(self) -> bool:
+        return isinstance(self, VerifyMacResponse_VerifyMacResponse)
+
+class VerifyMacResponse_VerifyMacResponse(VerifyMacResponse, NamedTuple('VerifyMacResponse', [('KeyId', Any), ('MacValid', Any), ('MacAlgorithm', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.VerifyMacResponse.VerifyMacResponse({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.MacValid)}, {_dafny.string_of(self.MacAlgorithm)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, VerifyMacResponse_VerifyMacResponse) and self.KeyId == __o.KeyId and self.MacValid == __o.MacValid and self.MacAlgorithm == __o.MacAlgorithm
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
 class VerifyRequest:
     @classmethod
     def default(cls, ):
-        return lambda: VerifyRequest_VerifyRequest(_dafny.Seq(""), _dafny.Seq({}), Wrappers.Option.default()(), _dafny.Seq({}), SigningAlgorithmSpec.default()(), Wrappers.Option.default()())
+        return lambda: VerifyRequest_VerifyRequest(_dafny.Seq(""), _dafny.Seq({}), Wrappers.Option.default()(), _dafny.Seq({}), SigningAlgorithmSpec.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
     def is_VerifyRequest(self) -> bool:
         return isinstance(self, VerifyRequest_VerifyRequest)
 
-class VerifyRequest_VerifyRequest(VerifyRequest, NamedTuple('VerifyRequest', [('KeyId', Any), ('Message', Any), ('MessageType', Any), ('Signature', Any), ('SigningAlgorithm', Any), ('GrantTokens', Any)])):
+class VerifyRequest_VerifyRequest(VerifyRequest, NamedTuple('VerifyRequest', [('KeyId', Any), ('Message', Any), ('MessageType', Any), ('Signature', Any), ('SigningAlgorithm', Any), ('GrantTokens', Any), ('DryRun', Any)])):
     def __dafnystr__(self) -> str:
-        return f'ComAmazonawsKmsTypes.VerifyRequest.VerifyRequest({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.Message)}, {_dafny.string_of(self.MessageType)}, {_dafny.string_of(self.Signature)}, {_dafny.string_of(self.SigningAlgorithm)}, {_dafny.string_of(self.GrantTokens)})'
+        return f'ComAmazonawsKmsTypes.VerifyRequest.VerifyRequest({_dafny.string_of(self.KeyId)}, {_dafny.string_of(self.Message)}, {_dafny.string_of(self.MessageType)}, {_dafny.string_of(self.Signature)}, {_dafny.string_of(self.SigningAlgorithm)}, {_dafny.string_of(self.GrantTokens)}, {_dafny.string_of(self.DryRun)})'
     def __eq__(self, __o: object) -> bool:
-        return isinstance(__o, VerifyRequest_VerifyRequest) and self.KeyId == __o.KeyId and self.Message == __o.Message and self.MessageType == __o.MessageType and self.Signature == __o.Signature and self.SigningAlgorithm == __o.SigningAlgorithm and self.GrantTokens == __o.GrantTokens
+        return isinstance(__o, VerifyRequest_VerifyRequest) and self.KeyId == __o.KeyId and self.Message == __o.Message and self.MessageType == __o.MessageType and self.Signature == __o.Signature and self.SigningAlgorithm == __o.SigningAlgorithm and self.GrantTokens == __o.GrantTokens and self.DryRun == __o.DryRun
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -3474,7 +4271,7 @@ class VerifyResponse_VerifyResponse(VerifyResponse, NamedTuple('VerifyResponse',
 class WrappingKeySpec:
     @_dafny.classproperty
     def AllSingletonConstructors(cls):
-        return [WrappingKeySpec_RSA__2048()]
+        return [WrappingKeySpec_RSA__2048(), WrappingKeySpec_RSA__3072(), WrappingKeySpec_RSA__4096(), WrappingKeySpec_SM2()]
     @classmethod
     def default(cls, ):
         return lambda: WrappingKeySpec_RSA__2048()
@@ -3483,6 +4280,15 @@ class WrappingKeySpec:
     @property
     def is_RSA__2048(self) -> bool:
         return isinstance(self, WrappingKeySpec_RSA__2048)
+    @property
+    def is_RSA__3072(self) -> bool:
+        return isinstance(self, WrappingKeySpec_RSA__3072)
+    @property
+    def is_RSA__4096(self) -> bool:
+        return isinstance(self, WrappingKeySpec_RSA__4096)
+    @property
+    def is_SM2(self) -> bool:
+        return isinstance(self, WrappingKeySpec_SM2)
 
 class WrappingKeySpec_RSA__2048(WrappingKeySpec, NamedTuple('RSA__2048', [])):
     def __dafnystr__(self) -> str:
@@ -3492,6 +4298,186 @@ class WrappingKeySpec_RSA__2048(WrappingKeySpec, NamedTuple('RSA__2048', [])):
     def __hash__(self) -> int:
         return super().__hash__()
 
+class WrappingKeySpec_RSA__3072(WrappingKeySpec, NamedTuple('RSA__3072', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.WrappingKeySpec.RSA_3072'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, WrappingKeySpec_RSA__3072)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class WrappingKeySpec_RSA__4096(WrappingKeySpec, NamedTuple('RSA__4096', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.WrappingKeySpec.RSA_4096'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, WrappingKeySpec_RSA__4096)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class WrappingKeySpec_SM2(WrappingKeySpec, NamedTuple('SM2', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.WrappingKeySpec.SM2'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, WrappingKeySpec_SM2)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class XksKeyConfigurationType:
+    @classmethod
+    def default(cls, ):
+        return lambda: XksKeyConfigurationType_XksKeyConfigurationType(Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_XksKeyConfigurationType(self) -> bool:
+        return isinstance(self, XksKeyConfigurationType_XksKeyConfigurationType)
+
+class XksKeyConfigurationType_XksKeyConfigurationType(XksKeyConfigurationType, NamedTuple('XksKeyConfigurationType', [('Id', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.XksKeyConfigurationType.XksKeyConfigurationType({_dafny.string_of(self.Id)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, XksKeyConfigurationType_XksKeyConfigurationType) and self.Id == __o.Id
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class XksKeyIdType:
+    def  __init__(self):
+        pass
+
+    @staticmethod
+    def default():
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_28_x_: _dafny.Seq = source__
+        return default__.IsValid__XksKeyIdType(d_28_x_)
+
+class XksProxyAuthenticationAccessKeyIdType:
+    def  __init__(self):
+        pass
+
+    @staticmethod
+    def default():
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_29_x_: _dafny.Seq = source__
+        return default__.IsValid__XksProxyAuthenticationAccessKeyIdType(d_29_x_)
+
+class XksProxyAuthenticationCredentialType:
+    @classmethod
+    def default(cls, ):
+        return lambda: XksProxyAuthenticationCredentialType_XksProxyAuthenticationCredentialType(_dafny.Seq(""), _dafny.Seq(""))
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_XksProxyAuthenticationCredentialType(self) -> bool:
+        return isinstance(self, XksProxyAuthenticationCredentialType_XksProxyAuthenticationCredentialType)
+
+class XksProxyAuthenticationCredentialType_XksProxyAuthenticationCredentialType(XksProxyAuthenticationCredentialType, NamedTuple('XksProxyAuthenticationCredentialType', [('AccessKeyId', Any), ('RawSecretAccessKey', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.XksProxyAuthenticationCredentialType.XksProxyAuthenticationCredentialType({_dafny.string_of(self.AccessKeyId)}, {_dafny.string_of(self.RawSecretAccessKey)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, XksProxyAuthenticationCredentialType_XksProxyAuthenticationCredentialType) and self.AccessKeyId == __o.AccessKeyId and self.RawSecretAccessKey == __o.RawSecretAccessKey
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class XksProxyAuthenticationRawSecretAccessKeyType:
+    def  __init__(self):
+        pass
+
+    @staticmethod
+    def default():
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_30_x_: _dafny.Seq = source__
+        return default__.IsValid__XksProxyAuthenticationRawSecretAccessKeyType(d_30_x_)
+
+class XksProxyConfigurationType:
+    @classmethod
+    def default(cls, ):
+        return lambda: XksProxyConfigurationType_XksProxyConfigurationType(Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_XksProxyConfigurationType(self) -> bool:
+        return isinstance(self, XksProxyConfigurationType_XksProxyConfigurationType)
+
+class XksProxyConfigurationType_XksProxyConfigurationType(XksProxyConfigurationType, NamedTuple('XksProxyConfigurationType', [('Connectivity', Any), ('AccessKeyId', Any), ('UriEndpoint', Any), ('UriPath', Any), ('VpcEndpointServiceName', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.XksProxyConfigurationType.XksProxyConfigurationType({_dafny.string_of(self.Connectivity)}, {_dafny.string_of(self.AccessKeyId)}, {_dafny.string_of(self.UriEndpoint)}, {_dafny.string_of(self.UriPath)}, {_dafny.string_of(self.VpcEndpointServiceName)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, XksProxyConfigurationType_XksProxyConfigurationType) and self.Connectivity == __o.Connectivity and self.AccessKeyId == __o.AccessKeyId and self.UriEndpoint == __o.UriEndpoint and self.UriPath == __o.UriPath and self.VpcEndpointServiceName == __o.VpcEndpointServiceName
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class XksProxyConnectivityType:
+    @_dafny.classproperty
+    def AllSingletonConstructors(cls):
+        return [XksProxyConnectivityType_PUBLIC__ENDPOINT(), XksProxyConnectivityType_VPC__ENDPOINT__SERVICE()]
+    @classmethod
+    def default(cls, ):
+        return lambda: XksProxyConnectivityType_PUBLIC__ENDPOINT()
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_PUBLIC__ENDPOINT(self) -> bool:
+        return isinstance(self, XksProxyConnectivityType_PUBLIC__ENDPOINT)
+    @property
+    def is_VPC__ENDPOINT__SERVICE(self) -> bool:
+        return isinstance(self, XksProxyConnectivityType_VPC__ENDPOINT__SERVICE)
+
+class XksProxyConnectivityType_PUBLIC__ENDPOINT(XksProxyConnectivityType, NamedTuple('PUBLIC__ENDPOINT', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.XksProxyConnectivityType.PUBLIC_ENDPOINT'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, XksProxyConnectivityType_PUBLIC__ENDPOINT)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class XksProxyConnectivityType_VPC__ENDPOINT__SERVICE(XksProxyConnectivityType, NamedTuple('VPC__ENDPOINT__SERVICE', [])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.XksProxyConnectivityType.VPC_ENDPOINT_SERVICE'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, XksProxyConnectivityType_VPC__ENDPOINT__SERVICE)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class XksProxyUriEndpointType:
+    def  __init__(self):
+        pass
+
+    @staticmethod
+    def default():
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_31_x_: _dafny.Seq = source__
+        return default__.IsValid__XksProxyUriEndpointType(d_31_x_)
+
+class XksProxyUriPathType:
+    def  __init__(self):
+        pass
+
+    @staticmethod
+    def default():
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_32_x_: _dafny.Seq = source__
+        return default__.IsValid__XksProxyUriPathType(d_32_x_)
+
+class XksProxyVpcEndpointServiceNameType:
+    def  __init__(self):
+        pass
+
+    @staticmethod
+    def default():
+        return _dafny.Seq("")
+    def _Is(source__):
+        d_33_x_: _dafny.Seq = source__
+        return default__.IsValid__XksProxyVpcEndpointServiceNameType(d_33_x_)
 
 class Error:
     @classmethod
@@ -3518,6 +4504,9 @@ class Error:
     def is_CloudHsmClusterNotRelatedException(self) -> bool:
         return isinstance(self, Error_CloudHsmClusterNotRelatedException)
     @property
+    def is_ConflictException(self) -> bool:
+        return isinstance(self, Error_ConflictException)
+    @property
     def is_CustomKeyStoreHasCMKsException(self) -> bool:
         return isinstance(self, Error_CustomKeyStoreHasCMKsException)
     @property
@@ -3535,6 +4524,9 @@ class Error:
     @property
     def is_DisabledException(self) -> bool:
         return isinstance(self, Error_DisabledException)
+    @property
+    def is_DryRunOperationException(self) -> bool:
+        return isinstance(self, Error_DryRunOperationException)
     @property
     def is_ExpiredImportTokenException(self) -> bool:
         return isinstance(self, Error_ExpiredImportTokenException)
@@ -3578,6 +4570,9 @@ class Error:
     def is_KMSInternalException(self) -> bool:
         return isinstance(self, Error_KMSInternalException)
     @property
+    def is_KMSInvalidMacException(self) -> bool:
+        return isinstance(self, Error_KMSInvalidMacException)
+    @property
     def is_KMSInvalidSignatureException(self) -> bool:
         return isinstance(self, Error_KMSInvalidSignatureException)
     @property
@@ -3598,6 +4593,42 @@ class Error:
     @property
     def is_UnsupportedOperationException(self) -> bool:
         return isinstance(self, Error_UnsupportedOperationException)
+    @property
+    def is_XksKeyAlreadyInUseException(self) -> bool:
+        return isinstance(self, Error_XksKeyAlreadyInUseException)
+    @property
+    def is_XksKeyInvalidConfigurationException(self) -> bool:
+        return isinstance(self, Error_XksKeyInvalidConfigurationException)
+    @property
+    def is_XksKeyNotFoundException(self) -> bool:
+        return isinstance(self, Error_XksKeyNotFoundException)
+    @property
+    def is_XksProxyIncorrectAuthenticationCredentialException(self) -> bool:
+        return isinstance(self, Error_XksProxyIncorrectAuthenticationCredentialException)
+    @property
+    def is_XksProxyInvalidConfigurationException(self) -> bool:
+        return isinstance(self, Error_XksProxyInvalidConfigurationException)
+    @property
+    def is_XksProxyInvalidResponseException(self) -> bool:
+        return isinstance(self, Error_XksProxyInvalidResponseException)
+    @property
+    def is_XksProxyUriEndpointInUseException(self) -> bool:
+        return isinstance(self, Error_XksProxyUriEndpointInUseException)
+    @property
+    def is_XksProxyUriInUseException(self) -> bool:
+        return isinstance(self, Error_XksProxyUriInUseException)
+    @property
+    def is_XksProxyUriUnreachableException(self) -> bool:
+        return isinstance(self, Error_XksProxyUriUnreachableException)
+    @property
+    def is_XksProxyVpcEndpointServiceInUseException(self) -> bool:
+        return isinstance(self, Error_XksProxyVpcEndpointServiceInUseException)
+    @property
+    def is_XksProxyVpcEndpointServiceInvalidConfigurationException(self) -> bool:
+        return isinstance(self, Error_XksProxyVpcEndpointServiceInvalidConfigurationException)
+    @property
+    def is_XksProxyVpcEndpointServiceNotFoundException(self) -> bool:
+        return isinstance(self, Error_XksProxyVpcEndpointServiceNotFoundException)
     @property
     def is_Opaque(self) -> bool:
         return isinstance(self, Error_Opaque)
@@ -3650,6 +4681,14 @@ class Error_CloudHsmClusterNotRelatedException(Error, NamedTuple('CloudHsmCluste
     def __hash__(self) -> int:
         return super().__hash__()
 
+class Error_ConflictException(Error, NamedTuple('ConflictException', [('message', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.Error.ConflictException({_dafny.string_of(self.message)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, Error_ConflictException) and self.message == __o.message
+    def __hash__(self) -> int:
+        return super().__hash__()
+
 class Error_CustomKeyStoreHasCMKsException(Error, NamedTuple('CustomKeyStoreHasCMKsException', [('message', Any)])):
     def __dafnystr__(self) -> str:
         return f'ComAmazonawsKmsTypes.Error.CustomKeyStoreHasCMKsException({_dafny.string_of(self.message)})'
@@ -3695,6 +4734,14 @@ class Error_DisabledException(Error, NamedTuple('DisabledException', [('message'
         return f'ComAmazonawsKmsTypes.Error.DisabledException({_dafny.string_of(self.message)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, Error_DisabledException) and self.message == __o.message
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class Error_DryRunOperationException(Error, NamedTuple('DryRunOperationException', [('message', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.Error.DryRunOperationException({_dafny.string_of(self.message)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, Error_DryRunOperationException) and self.message == __o.message
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -3810,6 +4857,14 @@ class Error_KMSInternalException(Error, NamedTuple('KMSInternalException', [('me
     def __hash__(self) -> int:
         return super().__hash__()
 
+class Error_KMSInvalidMacException(Error, NamedTuple('KMSInvalidMacException', [('message', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.Error.KMSInvalidMacException({_dafny.string_of(self.message)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, Error_KMSInvalidMacException) and self.message == __o.message
+    def __hash__(self) -> int:
+        return super().__hash__()
+
 class Error_KMSInvalidSignatureException(Error, NamedTuple('KMSInvalidSignatureException', [('message', Any)])):
     def __dafnystr__(self) -> str:
         return f'ComAmazonawsKmsTypes.Error.KMSInvalidSignatureException({_dafny.string_of(self.message)})'
@@ -3866,6 +4921,102 @@ class Error_UnsupportedOperationException(Error, NamedTuple('UnsupportedOperatio
     def __hash__(self) -> int:
         return super().__hash__()
 
+class Error_XksKeyAlreadyInUseException(Error, NamedTuple('XksKeyAlreadyInUseException', [('message', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.Error.XksKeyAlreadyInUseException({_dafny.string_of(self.message)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, Error_XksKeyAlreadyInUseException) and self.message == __o.message
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class Error_XksKeyInvalidConfigurationException(Error, NamedTuple('XksKeyInvalidConfigurationException', [('message', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.Error.XksKeyInvalidConfigurationException({_dafny.string_of(self.message)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, Error_XksKeyInvalidConfigurationException) and self.message == __o.message
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class Error_XksKeyNotFoundException(Error, NamedTuple('XksKeyNotFoundException', [('message', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.Error.XksKeyNotFoundException({_dafny.string_of(self.message)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, Error_XksKeyNotFoundException) and self.message == __o.message
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class Error_XksProxyIncorrectAuthenticationCredentialException(Error, NamedTuple('XksProxyIncorrectAuthenticationCredentialException', [('message', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.Error.XksProxyIncorrectAuthenticationCredentialException({_dafny.string_of(self.message)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, Error_XksProxyIncorrectAuthenticationCredentialException) and self.message == __o.message
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class Error_XksProxyInvalidConfigurationException(Error, NamedTuple('XksProxyInvalidConfigurationException', [('message', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.Error.XksProxyInvalidConfigurationException({_dafny.string_of(self.message)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, Error_XksProxyInvalidConfigurationException) and self.message == __o.message
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class Error_XksProxyInvalidResponseException(Error, NamedTuple('XksProxyInvalidResponseException', [('message', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.Error.XksProxyInvalidResponseException({_dafny.string_of(self.message)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, Error_XksProxyInvalidResponseException) and self.message == __o.message
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class Error_XksProxyUriEndpointInUseException(Error, NamedTuple('XksProxyUriEndpointInUseException', [('message', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.Error.XksProxyUriEndpointInUseException({_dafny.string_of(self.message)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, Error_XksProxyUriEndpointInUseException) and self.message == __o.message
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class Error_XksProxyUriInUseException(Error, NamedTuple('XksProxyUriInUseException', [('message', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.Error.XksProxyUriInUseException({_dafny.string_of(self.message)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, Error_XksProxyUriInUseException) and self.message == __o.message
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class Error_XksProxyUriUnreachableException(Error, NamedTuple('XksProxyUriUnreachableException', [('message', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.Error.XksProxyUriUnreachableException({_dafny.string_of(self.message)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, Error_XksProxyUriUnreachableException) and self.message == __o.message
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class Error_XksProxyVpcEndpointServiceInUseException(Error, NamedTuple('XksProxyVpcEndpointServiceInUseException', [('message', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.Error.XksProxyVpcEndpointServiceInUseException({_dafny.string_of(self.message)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, Error_XksProxyVpcEndpointServiceInUseException) and self.message == __o.message
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class Error_XksProxyVpcEndpointServiceInvalidConfigurationException(Error, NamedTuple('XksProxyVpcEndpointServiceInvalidConfigurationException', [('message', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.Error.XksProxyVpcEndpointServiceInvalidConfigurationException({_dafny.string_of(self.message)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, Error_XksProxyVpcEndpointServiceInvalidConfigurationException) and self.message == __o.message
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class Error_XksProxyVpcEndpointServiceNotFoundException(Error, NamedTuple('XksProxyVpcEndpointServiceNotFoundException', [('message', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'ComAmazonawsKmsTypes.Error.XksProxyVpcEndpointServiceNotFoundException({_dafny.string_of(self.message)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, Error_XksProxyVpcEndpointServiceNotFoundException) and self.message == __o.message
+    def __hash__(self) -> int:
+        return super().__hash__()
+
 class Error_Opaque(Error, NamedTuple('Opaque', [('obj', Any)])):
     def __dafnystr__(self) -> str:
         return f'ComAmazonawsKmsTypes.Error.Opaque({_dafny.string_of(self.obj)})'
@@ -3883,5 +5034,5 @@ class OpaqueError:
     def default():
         return Error.default()()
     def _Is(source__):
-        d_26_e_: Error = source__
-        return (d_26_e_).is_Opaque
+        d_34_e_: Error = source__
+        return (d_34_e_).is_Opaque

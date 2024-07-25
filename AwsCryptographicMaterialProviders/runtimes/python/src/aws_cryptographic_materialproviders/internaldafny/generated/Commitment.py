@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -107,6 +108,9 @@ import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker 
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.EcdhEdkWrapping as EcdhEdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.RawECDHKeyring as RawECDHKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsEcdhKeyring as AwsKmsEcdhKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawRSAKeyring as RawRSAKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.CMM as CMM
@@ -120,18 +124,18 @@ class default__:
 
     @staticmethod
     def ValidateCommitmentPolicyOnEncrypt(algorithm, commitmentPolicy):
-        d_1201_suite_ = AlgorithmSuites.default__.GetSuite(algorithm)
-        if ((commitmentPolicy) == (AwsCryptographyMaterialProvidersTypes.CommitmentPolicy_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy_FORBID__ENCRYPT__ALLOW__DECRYPT()))) and (not(((d_1201_suite_).commitment).is_None)):
+        d_1469_suite_ = AlgorithmSuites.default__.GetSuite(algorithm)
+        if ((commitmentPolicy) == (AwsCryptographyMaterialProvidersTypes.CommitmentPolicy_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy_FORBID__ENCRYPT__ALLOW__DECRYPT()))) and (not(((d_1469_suite_).commitment).is_None)):
             return Wrappers.Outcome_Fail(AwsCryptographyMaterialProvidersTypes.Error_InvalidAlgorithmSuiteInfoOnEncrypt(_dafny.Seq("Configuration conflict. Commitment policy requires only non-committing algorithm suites")))
-        elif ((((commitmentPolicy) == (AwsCryptographyMaterialProvidersTypes.CommitmentPolicy_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy_REQUIRE__ENCRYPT__ALLOW__DECRYPT()))) or ((commitmentPolicy) == (AwsCryptographyMaterialProvidersTypes.CommitmentPolicy_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT())))) or ((commitmentPolicy) == (AwsCryptographyMaterialProvidersTypes.CommitmentPolicy_DBE(AwsCryptographyMaterialProvidersTypes.DBECommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT())))) and (((d_1201_suite_).commitment).is_None):
+        elif ((((commitmentPolicy) == (AwsCryptographyMaterialProvidersTypes.CommitmentPolicy_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy_REQUIRE__ENCRYPT__ALLOW__DECRYPT()))) or ((commitmentPolicy) == (AwsCryptographyMaterialProvidersTypes.CommitmentPolicy_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT())))) or ((commitmentPolicy) == (AwsCryptographyMaterialProvidersTypes.CommitmentPolicy_DBE(AwsCryptographyMaterialProvidersTypes.DBECommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT())))) and (((d_1469_suite_).commitment).is_None):
             return Wrappers.Outcome_Fail(AwsCryptographyMaterialProvidersTypes.Error_InvalidAlgorithmSuiteInfoOnEncrypt(_dafny.Seq("Configuration conflict. Commitment policy requires only committing algorithm suites")))
         elif True:
             return Wrappers.Outcome_Pass()
 
     @staticmethod
     def ValidateCommitmentPolicyOnDecrypt(algorithm, commitmentPolicy):
-        d_1202_suite_ = AlgorithmSuites.default__.GetSuite(algorithm)
-        if ((True) and (((commitmentPolicy) == (AwsCryptographyMaterialProvidersTypes.CommitmentPolicy_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT()))) or ((commitmentPolicy) == (AwsCryptographyMaterialProvidersTypes.CommitmentPolicy_DBE(AwsCryptographyMaterialProvidersTypes.DBECommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT()))))) and (((d_1202_suite_).commitment).is_None):
+        d_1470_suite_ = AlgorithmSuites.default__.GetSuite(algorithm)
+        if ((True) and (((commitmentPolicy) == (AwsCryptographyMaterialProvidersTypes.CommitmentPolicy_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT()))) or ((commitmentPolicy) == (AwsCryptographyMaterialProvidersTypes.CommitmentPolicy_DBE(AwsCryptographyMaterialProvidersTypes.DBECommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT()))))) and (((d_1470_suite_).commitment).is_None):
             return Wrappers.Outcome_Fail(AwsCryptographyMaterialProvidersTypes.Error_InvalidAlgorithmSuiteInfoOnDecrypt(_dafny.Seq("Configuration conflict. Commitment policy requires only committing algorithm suites")))
         elif True:
             return Wrappers.Outcome_Pass()

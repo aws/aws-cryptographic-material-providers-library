@@ -97,8 +97,8 @@ class default__:
 
     @staticmethod
     def DafnyUserAgentSuffix(runtime):
-        d_27_version_ = _dafny.Seq("1.0.1")
-        return (((_dafny.Seq("AwsCryptographicMPL/")) + (runtime)) + (_dafny.Seq("/"))) + (d_27_version_)
+        d_35_version_ = _dafny.Seq("1.0.1")
+        return (((_dafny.Seq("AwsCryptographicMPL/")) + (runtime)) + (_dafny.Seq("/"))) + (d_35_version_)
 
     @staticmethod
     def CreateSuccessOfClient(client):

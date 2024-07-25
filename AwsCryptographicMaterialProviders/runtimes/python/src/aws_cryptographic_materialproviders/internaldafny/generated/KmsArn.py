@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -81,27 +82,27 @@ class default__:
     @staticmethod
     def ValidKmsArn_q(input):
         def iife2_(_pat_let0_0):
-            def iife3_(d_98_maybeParsed_):
-                return ((d_98_maybeParsed_).is_Success) and (((((d_98_maybeParsed_).value).resource).resourceType) == (_dafny.Seq("key")))
+            def iife3_(d_101_maybeParsed_):
+                return ((d_101_maybeParsed_).is_Success) and (((((d_101_maybeParsed_).value).resource).resourceType) == (_dafny.Seq("key")))
             return iife3_(_pat_let0_0)
         return (ComAmazonawsKmsTypes.default__.IsValid__KeyIdType(input)) and (iife2_(AwsArnParsing.default__.ParseAwsKmsArn(input)))
 
     @staticmethod
     def IsValidKeyArn(input):
-        d_99_valueOrError0_ = Wrappers.default__.Need(ComAmazonawsKmsTypes.default__.IsValid__KeyIdType(input), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.KMS__CONFIG__KMS__ARN__INVALID))
-        if (d_99_valueOrError0_).IsFailure():
-            return (d_99_valueOrError0_).PropagateFailure()
+        d_102_valueOrError0_ = Wrappers.default__.Need(ComAmazonawsKmsTypes.default__.IsValid__KeyIdType(input), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.KMS__CONFIG__KMS__ARN__INVALID))
+        if (d_102_valueOrError0_).IsFailure():
+            return (d_102_valueOrError0_).PropagateFailure()
         elif True:
-            def lambda7_(d_101_error_):
-                return AwsCryptographyKeyStoreTypes.Error_KeyStoreException(((KeyStoreErrorMessages.default__.KMS__CONFIG__KMS__ARN__INVALID) + (_dafny.Seq(". "))) + (d_101_error_))
+            def lambda8_(d_104_error_):
+                return AwsCryptographyKeyStoreTypes.Error_KeyStoreException(((KeyStoreErrorMessages.default__.KMS__CONFIG__KMS__ARN__INVALID) + (_dafny.Seq(". "))) + (d_104_error_))
 
-            d_100_valueOrError1_ = (AwsArnParsing.default__.ParseAwsKmsArn(input)).MapFailure(lambda7_)
-            if (d_100_valueOrError1_).IsFailure():
-                return (d_100_valueOrError1_).PropagateFailure()
+            d_103_valueOrError1_ = (AwsArnParsing.default__.ParseAwsKmsArn(input)).MapFailure(lambda8_)
+            if (d_103_valueOrError1_).IsFailure():
+                return (d_103_valueOrError1_).PropagateFailure()
             elif True:
-                d_102_arn_ = (d_100_valueOrError1_).Extract()
-                if (((d_102_arn_).resource).resourceType) != (_dafny.Seq("key")):
+                d_105_arn_ = (d_103_valueOrError1_).Extract()
+                if (((d_105_arn_).resource).resourceType) != (_dafny.Seq("key")):
                     return Wrappers.Result_Failure(AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.ALIAS__NOT__ALLOWED))
                 elif True:
-                    return Wrappers.Result_Success(d_102_arn_)
+                    return Wrappers.Result_Success(d_105_arn_)
 

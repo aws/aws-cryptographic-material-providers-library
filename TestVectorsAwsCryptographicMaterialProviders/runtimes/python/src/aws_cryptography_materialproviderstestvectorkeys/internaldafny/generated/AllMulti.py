@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -71,6 +72,9 @@ import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker 
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.EcdhEdkWrapping as EcdhEdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.RawECDHKeyring as RawECDHKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsEcdhKeyring as AwsKmsEcdhKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawRSAKeyring as RawRSAKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.CMM as CMM
@@ -78,6 +82,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.Defaults as D
 import aws_cryptographic_materialproviders.internaldafny.generated.Commitment as Commitment
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultCMM as DefaultCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultClientSupplier as DefaultClientSupplier
+import aws_cryptographic_materialproviders.internaldafny.generated.Utils as Utils
 import aws_cryptographic_materialproviders.internaldafny.generated.RequiredEncryptionContextCMM as RequiredEncryptionContextCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersOperations as AwsCryptographyMaterialProvidersOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialProviders as MaterialProviders
@@ -172,8 +177,10 @@ import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKmsMrkAware as AllKmsMrkAware
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKmsMrkAwareDiscovery as AllKmsMrkAwareDiscovery
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKmsRsa as AllKmsRsa
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKmsEcdh as AllKmsEcdh
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllRawAES as AllRawAES
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllRawRSA as AllRawRSA
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllRawECDH as AllRawECDH
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllDefaultCmm as AllDefaultCmm
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllRequiredEncryptionContextCmm as AllRequiredEncryptionContextCmm
 
@@ -185,11 +192,11 @@ class default__:
 
     @staticmethod
     def getChildKeyrings(keys, key, i):
-        d_664___accumulator_ = _dafny.Seq([])
+        d_717___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (i) == (len(keys)):
-                    return (d_664___accumulator_) + (_dafny.Seq([]))
+                    return (d_717___accumulator_) + (_dafny.Seq([]))
                 elif ((keys)[i]) == (key):
                     in3_ = keys
                     in4_ = key
@@ -199,7 +206,7 @@ class default__:
                     i = in5_
                     raise _dafny.TailCall()
                 elif True:
-                    d_664___accumulator_ = (d_664___accumulator_) + (_dafny.Seq([AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_AES(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawAES_RawAES((keys)[i], (_dafny.Seq("aws-raw-vectors-persistent-")) + ((keys)[i])))]))
+                    d_717___accumulator_ = (d_717___accumulator_) + (_dafny.Seq([AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_AES(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawAES_RawAES((keys)[i], (_dafny.Seq("aws-raw-vectors-persistent-")) + ((keys)[i])))]))
                     in6_ = keys
                     in7_ = key
                     in8_ = (i) + (1)
@@ -211,48 +218,48 @@ class default__:
 
     @_dafny.classproperty
     def KeyDescriptionsGeneratorAndChildren(instance):
-        def iife80_():
-            coll48_ = _dafny.Set()
-            compr_76_: _dafny.Seq
-            for compr_76_ in (AllRawAES.default__.aesPersistentKeyNames).Elements:
-                d_665_key_: _dafny.Seq = compr_76_
-                if (d_665_key_) in (AllRawAES.default__.aesPersistentKeyNames):
-                    coll48_ = coll48_.union(_dafny.Set([AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_Multi(AwsCryptographyMaterialProvidersTestVectorKeysTypes.MultiKeyring_MultiKeyring(Wrappers.Option_Some(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_AES(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawAES_RawAES(d_665_key_, (_dafny.Seq("aws-raw-vectors-persistent-")) + (d_665_key_)))), default__.getChildKeyrings(AllRawAES.default__.aesPersistentKeyNames, d_665_key_, 0)))]))
-            return _dafny.Set(coll48_)
-        return iife80_()
+        def iife91_():
+            coll59_ = _dafny.Set()
+            compr_102_: _dafny.Seq
+            for compr_102_ in (AllRawAES.default__.aesPersistentKeyNames).Elements:
+                d_718_key_: _dafny.Seq = compr_102_
+                if (d_718_key_) in (AllRawAES.default__.aesPersistentKeyNames):
+                    coll59_ = coll59_.union(_dafny.Set([AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_Multi(AwsCryptographyMaterialProvidersTestVectorKeysTypes.MultiKeyring_MultiKeyring(Wrappers.Option_Some(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_AES(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawAES_RawAES(d_718_key_, (_dafny.Seq("aws-raw-vectors-persistent-")) + (d_718_key_)))), default__.getChildKeyrings(AllRawAES.default__.aesPersistentKeyNames, d_718_key_, 0)))]))
+            return _dafny.Set(coll59_)
+        return iife91_()
         
     @_dafny.classproperty
     def OnlyGeneratorKeyDescriptions(instance):
-        def iife81_():
-            coll49_ = _dafny.Set()
-            compr_77_: _dafny.Seq
-            for compr_77_ in (AllRawAES.default__.aesPersistentKeyNames).Elements:
-                d_666_key_: _dafny.Seq = compr_77_
-                if (d_666_key_) in (AllRawAES.default__.aesPersistentKeyNames):
-                    coll49_ = coll49_.union(_dafny.Set([AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_Multi(AwsCryptographyMaterialProvidersTestVectorKeysTypes.MultiKeyring_MultiKeyring(Wrappers.Option_Some(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_AES(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawAES_RawAES(d_666_key_, (_dafny.Seq("aws-raw-vectors-persistent-")) + (d_666_key_)))), _dafny.Seq([])))]))
-            return _dafny.Set(coll49_)
-        return iife81_()
+        def iife92_():
+            coll60_ = _dafny.Set()
+            compr_103_: _dafny.Seq
+            for compr_103_ in (AllRawAES.default__.aesPersistentKeyNames).Elements:
+                d_719_key_: _dafny.Seq = compr_103_
+                if (d_719_key_) in (AllRawAES.default__.aesPersistentKeyNames):
+                    coll60_ = coll60_.union(_dafny.Set([AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_Multi(AwsCryptographyMaterialProvidersTestVectorKeysTypes.MultiKeyring_MultiKeyring(Wrappers.Option_Some(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_AES(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawAES_RawAES(d_719_key_, (_dafny.Seq("aws-raw-vectors-persistent-")) + (d_719_key_)))), _dafny.Seq([])))]))
+            return _dafny.Set(coll60_)
+        return iife92_()
         
     @_dafny.classproperty
     def KeyDescriptions(instance):
         return (default__.OnlyGeneratorKeyDescriptions) | (default__.KeyDescriptionsGeneratorAndChildren)
     @_dafny.classproperty
     def Tests(instance):
-        def iife82_():
-            coll50_ = _dafny.Set()
-            compr_78_: AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription
-            for compr_78_ in (default__.KeyDescriptions).Elements:
-                d_667_keyDescription_: AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription = compr_78_
-                if (d_667_keyDescription_) in (default__.KeyDescriptions):
-                    compr_79_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
-                    for compr_79_ in (AllAlgorithmSuites.default__.AllAlgorithmSuites).Elements:
-                        d_668_algorithmSuite_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo = compr_79_
-                        if (d_668_algorithmSuite_) in (AllAlgorithmSuites.default__.AllAlgorithmSuites):
-                            compr_80_: AwsCryptographyMaterialProvidersTypes.CommitmentPolicy
-                            for compr_80_ in [AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_668_algorithmSuite_)]:
-                                d_669_commitmentPolicy_: AwsCryptographyMaterialProvidersTypes.CommitmentPolicy = compr_80_
-                                if (d_669_commitmentPolicy_) == (AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_668_algorithmSuite_)):
-                                    coll50_ = coll50_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptKeyringVector((_dafny.Seq("MultiKeyring ")) + ((((((d_667_keyDescription_).Multi).generator).value).AES).keyId), Wrappers.Option_None(), _dafny.Map({}), d_669_commitmentPolicy_, d_668_algorithmSuite_, Wrappers.Option_None(), Wrappers.Option_None(), d_667_keyDescription_, d_667_keyDescription_, Wrappers.Option_None())]))
-            return _dafny.Set(coll50_)
-        return iife82_()
+        def iife93_():
+            coll61_ = _dafny.Set()
+            compr_104_: AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription
+            for compr_104_ in (default__.KeyDescriptions).Elements:
+                d_720_keyDescription_: AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription = compr_104_
+                if (d_720_keyDescription_) in (default__.KeyDescriptions):
+                    compr_105_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
+                    for compr_105_ in (AllAlgorithmSuites.default__.AllAlgorithmSuites).Elements:
+                        d_721_algorithmSuite_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo = compr_105_
+                        if (d_721_algorithmSuite_) in (AllAlgorithmSuites.default__.AllAlgorithmSuites):
+                            compr_106_: AwsCryptographyMaterialProvidersTypes.CommitmentPolicy
+                            for compr_106_ in [AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_721_algorithmSuite_)]:
+                                d_722_commitmentPolicy_: AwsCryptographyMaterialProvidersTypes.CommitmentPolicy = compr_106_
+                                if (d_722_commitmentPolicy_) == (AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_721_algorithmSuite_)):
+                                    coll61_ = coll61_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptKeyringVector((_dafny.Seq("MultiKeyring ")) + ((((((d_720_keyDescription_).Multi).generator).value).AES).keyId), Wrappers.Option_None(), _dafny.Map({}), d_722_commitmentPolicy_, d_721_algorithmSuite_, Wrappers.Option_None(), Wrappers.Option_None(), d_720_keyDescription_, d_720_keyDescription_, Wrappers.Option_None())]))
+            return _dafny.Set(coll61_)
+        return iife93_()
         

@@ -154,7 +154,7 @@ module TestKDFK_TestVectors {
 
   const b6 := InternalTestVector(
                 name := "B.6 Test Case 6",
-                hash := Primitives.Types.SHA_384,
+                hash := AtomicPrimitives.Types.SHA_384,
                 IKM := [
                   130,44,118,74,27,17,112,133,193,
                   15,14,104,152,20,210,191,189,155,
@@ -183,7 +183,7 @@ module TestKDFK_TestVectors {
 
   const b7 := InternalTestVector(
                 name := "B.7 Test Case 7",
-                hash := Primitives.Types.SHA_384,
+                hash := AtomicPrimitives.Types.SHA_384,
                 IKM := [52,14,33,45,117,142,131,204,91,137,228,181,106,134,238,140,150,49,174,78,75,186,236,21,172,9,94,164,64,123,199,182,52,173,99,13,208,190,133,169,28,8,168,199,225,225,3,11],
                 info := [60,213,86,26,209,47,173,252,228,8,224,65,128,175,206,227,139,131,21,107,158,75,224,119,156,79,13,185,226,107,254,92,205,67,225,89,33,151,124,210,107,29,184,40,139,128,8,158,183,209,187,215,245,158,16,17,179,225,139,81],
                 L := 32,
@@ -194,7 +194,7 @@ module TestKDFK_TestVectors {
 
   const b8 := InternalTestVector(
                 name := "B.8 Test Case 8",
-                hash := Primitives.Types.SHA_384,
+                hash := AtomicPrimitives.Types.SHA_384,
                 IKM := [0,161,45,60,228,255,117,166,227,15,65,243,85,124,130,106,241,50,107,99,2,244,206,136,123,173,61,51,23,165,72,200,192,58,5,114,132,220,195,141,139,198,144,189,74,86,95,71],
                 info := [36,197,192,178,200,16,223,160,142,53,215,254,235,184,199,142,12,215,38,201,46,205,66,217,23,16,19,115,140,162,83,26,148,127,82,60,55,246,76,219,4,48,91,217,105,209,214,249,236,212,100,5,210,130,128,249,104,80,11,167],
                 L := 32,
@@ -203,7 +203,7 @@ module TestKDFK_TestVectors {
 
   const b9 := InternalTestVector(
                 name := "B.9 Test Case 9",
-                hash := Primitives.Types.SHA_384,
+                hash := AtomicPrimitives.Types.SHA_384,
                 IKM := [0,0,217,183,236,111,190,253,242,86,253,104,34,11,82,5,172,101,162,0,17,69,17,140,80,186,107,101,112,50,25,139,139,124,227,178,247,6,138,120,13,193,124,34,69,154,242,183],
                 info := [216,87,84,28,98,184,87,86,220,115,222,125,194,216,111,93,94,139,40,51,139,176,169,69,181,196,253,124,129,247,25,97,185,112,93,61,21,59,25,25,93,0,59,116,33,32,104,237,16,249,108,83,67,134,83,8,122,1,82,207],
                 L := 20,
@@ -212,7 +212,7 @@ module TestKDFK_TestVectors {
 
   const b10 := InternalTestVector(
                  name := "B.10 Test Case 10",
-                 hash := Primitives.Types.SHA_384,
+                 hash := AtomicPrimitives.Types.SHA_384,
                  IKM := [79,61,116,77,62,68,158,6,39,191,68,152,116,56,40,248,110,99,143,96,98,10,126,212,167,201,181,176,115,105,28,158,201,71,40,197,136,34,232,39,240,246,204,248,109,188,28,174],
                  info := [48,31,238,178,94,108,168,80,62,205,130,31,29,55,135,174,191,179,208,236,81,139,179,17,116,245,32,155,42,193,242,142,211,230,152,115,107,173,16,161,142,60,189,181,220,39,187,209,45,5,139,54,219,8,146,249,207,208,131,0],
                  L := 20,
@@ -361,10 +361,10 @@ module TestKDFK_TestVectors {
   {
     var InternalTestVector(name, hash, IKM, info, L, OKM) := vector;
     print name + "\n";
-    expect (|IKM| == 32 || |IKM| == 48) && L > 0 && 4 + |info| < INT32_MAX_LIMIT && (hash == Primitives.Types.SHA_256 || hash == Primitives.Types.SHA_384);
+    expect (|IKM| == 32 || |IKM| == 48) && L > 0 && 4 + |info| < INT32_MAX_LIMIT && (hash == AtomicPrimitives.Types.SHA_256 || hash == AtomicPrimitives.Types.SHA_384);
     expect
-      L as int + Digest.Length(Primitives.Types.DigestAlgorithm.SHA_256) < INT32_MAX_LIMIT - 1
-      && L as int + Digest.Length(Primitives.Types.DigestAlgorithm.SHA_384) < INT32_MAX_LIMIT - 1;
+      L as int + Digest.Length(AtomicPrimitives.Types.DigestAlgorithm.SHA_256) < INT32_MAX_LIMIT - 1
+      && L as int + Digest.Length(AtomicPrimitives.Types.DigestAlgorithm.SHA_384) < INT32_MAX_LIMIT - 1;
 
     TestKDF.KdfRawDeriveTest(IKM, info, L, OKM, hash);
   }

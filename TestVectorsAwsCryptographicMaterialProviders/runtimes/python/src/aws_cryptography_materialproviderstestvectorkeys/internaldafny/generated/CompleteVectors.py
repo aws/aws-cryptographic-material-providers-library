@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -71,6 +72,9 @@ import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker 
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.EcdhEdkWrapping as EcdhEdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.RawECDHKeyring as RawECDHKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsEcdhKeyring as AwsKmsEcdhKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawRSAKeyring as RawRSAKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.CMM as CMM
@@ -78,6 +82,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.Defaults as D
 import aws_cryptographic_materialproviders.internaldafny.generated.Commitment as Commitment
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultCMM as DefaultCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultClientSupplier as DefaultClientSupplier
+import aws_cryptographic_materialproviders.internaldafny.generated.Utils as Utils
 import aws_cryptographic_materialproviders.internaldafny.generated.RequiredEncryptionContextCMM as RequiredEncryptionContextCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersOperations as AwsCryptographyMaterialProvidersOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialProviders as MaterialProviders
@@ -172,8 +177,10 @@ import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKmsMrkAware as AllKmsMrkAware
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKmsMrkAwareDiscovery as AllKmsMrkAwareDiscovery
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKmsRsa as AllKmsRsa
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKmsEcdh as AllKmsEcdh
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllRawAES as AllRawAES
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllRawRSA as AllRawRSA
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllRawECDH as AllRawECDH
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllDefaultCmm as AllDefaultCmm
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllRequiredEncryptionContextCmm as AllRequiredEncryptionContextCmm
 import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllMulti as AllMulti
@@ -188,132 +195,132 @@ class default__:
     @staticmethod
     def WriteStuff(op):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
-        d_770_tests_: _dafny.Seq
-        d_770_tests_ = SortedSets.default__.SetToSequence(default__.AllPositiveKeyringTests)
-        d_771_testsJSON_: _dafny.Seq
-        d_771_testsJSON_ = _dafny.Seq([])
-        hi1_ = len(d_770_tests_)
-        for d_772_i_ in range(0, hi1_):
-            d_773_name_: _dafny.Seq
-            d_774_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-            out41_: Wrappers.Result
-            out41_ = UUID.default__.GenerateUUID()
-            d_774_valueOrError0_ = out41_
-            if (d_774_valueOrError0_).IsFailure():
-                output = (d_774_valueOrError0_).PropagateFailure()
+        d_775_tests_: _dafny.Seq
+        d_775_tests_ = SortedSets.default__.SetToSequence(default__.AllPositiveKeyringTests)
+        d_776_testsJSON_: _dafny.Seq
+        d_776_testsJSON_ = _dafny.Seq([])
+        hi1_ = len(d_775_tests_)
+        for d_777_i_ in range(0, hi1_):
+            d_778_name_: _dafny.Seq
+            d_779_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+            out50_: Wrappers.Result
+            out50_ = UUID.default__.GenerateUUID()
+            d_779_valueOrError0_ = out50_
+            if (d_779_valueOrError0_).IsFailure():
+                output = (d_779_valueOrError0_).PropagateFailure()
                 return output
-            d_773_name_ = (d_774_valueOrError0_).Extract()
-            d_775_test_: JSON_Values.JSON
-            d_776_valueOrError1_: Wrappers.Result = Wrappers.Result.default(JSON_Values.JSON.default())()
-            d_776_valueOrError1_ = WriteJsonManifests.default__.EncryptTestVectorToJson((d_770_tests_)[d_772_i_])
-            if (d_776_valueOrError1_).IsFailure():
-                output = (d_776_valueOrError1_).PropagateFailure()
+            d_778_name_ = (d_779_valueOrError0_).Extract()
+            d_780_test_: JSON_Values.JSON
+            d_781_valueOrError1_: Wrappers.Result = Wrappers.Result.default(JSON_Values.JSON.default())()
+            d_781_valueOrError1_ = WriteJsonManifests.default__.EncryptTestVectorToJson((d_775_tests_)[d_777_i_])
+            if (d_781_valueOrError1_).IsFailure():
+                output = (d_781_valueOrError1_).PropagateFailure()
                 return output
-            d_775_test_ = (d_776_valueOrError1_).Extract()
-            d_771_testsJSON_ = (d_771_testsJSON_) + (_dafny.Seq([(d_773_name_, d_775_test_)]))
-        d_777_mplEncryptManifest_: JSON_Values.JSON
-        d_777_mplEncryptManifest_ = JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("manifest"), JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("version"), JSON_Values.JSON_Number(JSON_Values.default__.Int(4))), (_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("awses-mpl-encrypt")))]))), (_dafny.Seq("keys"), JSON_Values.JSON_String(_dafny.Seq("file://keys.json"))), (_dafny.Seq("tests"), JSON_Values.JSON_Object(d_771_testsJSON_))]))
-        d_778_mplEncryptManifestBytes_: _dafny.Seq
-        d_779_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        def lambda93_(d_780_e_):
-            return (d_780_e_).ToString()
+            d_780_test_ = (d_781_valueOrError1_).Extract()
+            d_776_testsJSON_ = (d_776_testsJSON_) + (_dafny.Seq([(d_778_name_, d_780_test_)]))
+        d_782_mplEncryptManifest_: JSON_Values.JSON
+        d_782_mplEncryptManifest_ = JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("manifest"), JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("version"), JSON_Values.JSON_Number(JSON_Values.default__.Int(4))), (_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("awses-mpl-encrypt")))]))), (_dafny.Seq("keys"), JSON_Values.JSON_String(_dafny.Seq("file://keys.json"))), (_dafny.Seq("tests"), JSON_Values.JSON_Object(d_776_testsJSON_))]))
+        d_783_mplEncryptManifestBytes_: _dafny.Seq
+        d_784_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        def lambda108_(d_785_e_):
+            return (d_785_e_).ToString()
 
-        d_779_valueOrError2_ = (JSON_API.default__.Serialize(d_777_mplEncryptManifest_)).MapFailure(lambda93_)
-        if (d_779_valueOrError2_).IsFailure():
-            output = (d_779_valueOrError2_).PropagateFailure()
+        d_784_valueOrError2_ = (JSON_API.default__.Serialize(d_782_mplEncryptManifest_)).MapFailure(lambda108_)
+        if (d_784_valueOrError2_).IsFailure():
+            output = (d_784_valueOrError2_).PropagateFailure()
             return output
-        d_778_mplEncryptManifestBytes_ = (d_779_valueOrError2_).Extract()
-        d_781___v0_: tuple
-        d_782_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
-        out42_: Wrappers.Result
-        out42_ = default__.WriteVectorsFile(((op).encryptManifestOutput) + (_dafny.Seq("manifest.json")), d_778_mplEncryptManifestBytes_)
-        d_782_valueOrError3_ = out42_
-        if (d_782_valueOrError3_).IsFailure():
-            output = (d_782_valueOrError3_).PropagateFailure()
+        d_783_mplEncryptManifestBytes_ = (d_784_valueOrError2_).Extract()
+        d_786___v0_: tuple
+        d_787_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+        out51_: Wrappers.Result
+        out51_ = default__.WriteVectorsFile(((op).encryptManifestOutput) + (_dafny.Seq("manifest.json")), d_783_mplEncryptManifestBytes_)
+        d_787_valueOrError3_ = out51_
+        if (d_787_valueOrError3_).IsFailure():
+            output = (d_787_valueOrError3_).PropagateFailure()
             return output
-        d_781___v0_ = (d_782_valueOrError3_).Extract()
+        d_786___v0_ = (d_787_valueOrError3_).Extract()
         output = Wrappers.Result_Success(())
         return output
 
     @staticmethod
     def WriteDecryptManifest(op, keys, tests):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
-        d_783_testsJSON_: _dafny.Seq
-        d_783_testsJSON_ = _dafny.Seq([])
+        d_788_testsJSON_: _dafny.Seq
+        d_788_testsJSON_ = _dafny.Seq([])
         hi2_ = len(tests)
-        for d_784_i_ in range(0, hi2_):
-            d_785_name_: _dafny.Seq
-            d_786_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-            out43_: Wrappers.Result
-            out43_ = UUID.default__.GenerateUUID()
-            d_786_valueOrError0_ = out43_
-            if (d_786_valueOrError0_).IsFailure():
-                output = (d_786_valueOrError0_).PropagateFailure()
+        for d_789_i_ in range(0, hi2_):
+            d_790_name_: _dafny.Seq
+            d_791_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+            out52_: Wrappers.Result
+            out52_ = UUID.default__.GenerateUUID()
+            d_791_valueOrError0_ = out52_
+            if (d_791_valueOrError0_).IsFailure():
+                output = (d_791_valueOrError0_).PropagateFailure()
                 return output
-            d_785_name_ = (d_786_valueOrError0_).Extract()
-            d_787_test_: JSON_Values.JSON
-            d_788_valueOrError1_: Wrappers.Result = Wrappers.Result.default(JSON_Values.JSON.default())()
-            d_788_valueOrError1_ = WriteJsonManifests.default__.DecryptTestVectorToJson((tests)[d_784_i_])
-            if (d_788_valueOrError1_).IsFailure():
-                output = (d_788_valueOrError1_).PropagateFailure()
+            d_790_name_ = (d_791_valueOrError0_).Extract()
+            d_792_test_: JSON_Values.JSON
+            d_793_valueOrError1_: Wrappers.Result = Wrappers.Result.default(JSON_Values.JSON.default())()
+            d_793_valueOrError1_ = WriteJsonManifests.default__.DecryptTestVectorToJson((tests)[d_789_i_])
+            if (d_793_valueOrError1_).IsFailure():
+                output = (d_793_valueOrError1_).PropagateFailure()
                 return output
-            d_787_test_ = (d_788_valueOrError1_).Extract()
-            d_783_testsJSON_ = (d_783_testsJSON_) + (_dafny.Seq([(d_785_name_, d_787_test_)]))
-        d_789_mplDecryptManifest_: JSON_Values.JSON
-        d_789_mplDecryptManifest_ = JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("manifest"), JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("version"), JSON_Values.JSON_Number(JSON_Values.default__.Int(4))), (_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("awses-mpl-decrypt")))]))), (_dafny.Seq("client"), JSON_Values.JSON_String(_dafny.Seq("mpl-dafny"))), (_dafny.Seq("keys"), JSON_Values.JSON_String(_dafny.Seq("file://keys.json"))), (_dafny.Seq("tests"), JSON_Values.JSON_Object(d_783_testsJSON_))]))
-        d_790_mplDecryptManifestBytes_: _dafny.Seq
-        d_791_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        def lambda94_(d_792_e_):
-            return (d_792_e_).ToString()
+            d_792_test_ = (d_793_valueOrError1_).Extract()
+            d_788_testsJSON_ = (d_788_testsJSON_) + (_dafny.Seq([(d_790_name_, d_792_test_)]))
+        d_794_mplDecryptManifest_: JSON_Values.JSON
+        d_794_mplDecryptManifest_ = JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("manifest"), JSON_Values.JSON_Object(_dafny.Seq([(_dafny.Seq("version"), JSON_Values.JSON_Number(JSON_Values.default__.Int(4))), (_dafny.Seq("type"), JSON_Values.JSON_String(_dafny.Seq("awses-mpl-decrypt")))]))), (_dafny.Seq("client"), JSON_Values.JSON_String(_dafny.Seq("mpl-dafny"))), (_dafny.Seq("keys"), JSON_Values.JSON_String(_dafny.Seq("file://keys.json"))), (_dafny.Seq("tests"), JSON_Values.JSON_Object(d_788_testsJSON_))]))
+        d_795_mplDecryptManifestBytes_: _dafny.Seq
+        d_796_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        def lambda109_(d_797_e_):
+            return (d_797_e_).ToString()
 
-        d_791_valueOrError2_ = (JSON_API.default__.Serialize(d_789_mplDecryptManifest_)).MapFailure(lambda94_)
-        if (d_791_valueOrError2_).IsFailure():
-            output = (d_791_valueOrError2_).PropagateFailure()
+        d_796_valueOrError2_ = (JSON_API.default__.Serialize(d_794_mplDecryptManifest_)).MapFailure(lambda109_)
+        if (d_796_valueOrError2_).IsFailure():
+            output = (d_796_valueOrError2_).PropagateFailure()
             return output
-        d_790_mplDecryptManifestBytes_ = (d_791_valueOrError2_).Extract()
-        d_793___v1_: tuple
-        d_794_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
-        out44_: Wrappers.Result
-        out44_ = default__.WriteVectorsFile(((op).decryptManifestOutput) + (_dafny.Seq("manifest.json")), d_790_mplDecryptManifestBytes_)
-        d_794_valueOrError3_ = out44_
-        if (d_794_valueOrError3_).IsFailure():
-            output = (d_794_valueOrError3_).PropagateFailure()
+        d_795_mplDecryptManifestBytes_ = (d_796_valueOrError2_).Extract()
+        d_798___v1_: tuple
+        d_799_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+        out53_: Wrappers.Result
+        out53_ = default__.WriteVectorsFile(((op).decryptManifestOutput) + (_dafny.Seq("manifest.json")), d_795_mplDecryptManifestBytes_)
+        d_799_valueOrError3_ = out53_
+        if (d_799_valueOrError3_).IsFailure():
+            output = (d_799_valueOrError3_).PropagateFailure()
             return output
-        d_793___v1_ = (d_794_valueOrError3_).Extract()
-        d_795_keysJsonFileName_: _dafny.Seq
-        d_795_keysJsonFileName_ = _dafny.Seq("keys.json")
-        d_796_keysJsonBytes_: _dafny.Seq
-        d_797_valueOrError4_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        def lambda95_(d_798_e_):
-            return (d_798_e_).ToString()
+        d_798___v1_ = (d_799_valueOrError3_).Extract()
+        d_800_keysJsonFileName_: _dafny.Seq
+        d_800_keysJsonFileName_ = _dafny.Seq("keys.json")
+        d_801_keysJsonBytes_: _dafny.Seq
+        d_802_valueOrError4_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        def lambda110_(d_803_e_):
+            return (d_803_e_).ToString()
 
-        d_797_valueOrError4_ = (JSON_API.default__.Serialize(((keys).config).keysJson)).MapFailure(lambda95_)
-        if (d_797_valueOrError4_).IsFailure():
-            output = (d_797_valueOrError4_).PropagateFailure()
+        d_802_valueOrError4_ = (JSON_API.default__.Serialize(((keys).config).keysJson)).MapFailure(lambda110_)
+        if (d_802_valueOrError4_).IsFailure():
+            output = (d_802_valueOrError4_).PropagateFailure()
             return output
-        d_796_keysJsonBytes_ = (d_797_valueOrError4_).Extract()
-        d_799___v2_: tuple
-        d_800_valueOrError5_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
-        out45_: Wrappers.Result
-        out45_ = default__.WriteVectorsFile(((op).decryptManifestOutput) + (d_795_keysJsonFileName_), d_796_keysJsonBytes_)
-        d_800_valueOrError5_ = out45_
-        if (d_800_valueOrError5_).IsFailure():
-            output = (d_800_valueOrError5_).PropagateFailure()
+        d_801_keysJsonBytes_ = (d_802_valueOrError4_).Extract()
+        d_804___v2_: tuple
+        d_805_valueOrError5_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+        out54_: Wrappers.Result
+        out54_ = default__.WriteVectorsFile(((op).decryptManifestOutput) + (d_800_keysJsonFileName_), d_801_keysJsonBytes_)
+        d_805_valueOrError5_ = out54_
+        if (d_805_valueOrError5_).IsFailure():
+            output = (d_805_valueOrError5_).PropagateFailure()
             return output
-        d_799___v2_ = (d_800_valueOrError5_).Extract()
+        d_804___v2_ = (d_805_valueOrError5_).Extract()
         output = Wrappers.Result_Success(())
         return output
 
     @staticmethod
     def WriteVectorsFile(location, bytes):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
-        d_801_bv_: _dafny.Seq
-        d_801_bv_ = JSONHelpers.default__.BytesBv(bytes)
-        out46_: Wrappers.Result
-        out46_ = FileIO.default__.WriteBytesToFile(location, d_801_bv_)
-        output = out46_
+        d_806_bv_: _dafny.Seq
+        d_806_bv_ = JSONHelpers.default__.BytesBv(bytes)
+        out55_: Wrappers.Result
+        out55_ = FileIO.default__.WriteBytesToFile(location, d_806_bv_)
+        output = out55_
         return output
 
     @_dafny.classproperty
     def AllPositiveKeyringTests(instance):
-        return ((((((((((_dafny.Set({})) | (AllDefaultCmm.default__.Tests)) | (AllHierarchy.default__.Tests)) | (AllKms.default__.Tests)) | (AllKmsMrkAware.default__.Tests)) | (AllKmsMrkAwareDiscovery.default__.Tests)) | (AllKmsRsa.default__.Tests)) | (AllRawAES.default__.Tests)) | (AllRawRSA.default__.Tests)) | (AllMulti.default__.Tests)) | (AllRequiredEncryptionContextCmm.default__.Tests)
+        return ((((((((((((_dafny.Set({})) | (AllDefaultCmm.default__.Tests)) | (AllHierarchy.default__.Tests)) | (AllKms.default__.Tests)) | (AllKmsMrkAware.default__.Tests)) | (AllKmsMrkAwareDiscovery.default__.Tests)) | (AllKmsRsa.default__.Tests)) | (AllRawAES.default__.Tests)) | (AllRawRSA.default__.Tests)) | (AllMulti.default__.Tests)) | (AllRequiredEncryptionContextCmm.default__.Tests)) | (AllRawECDH.default__.Tests)) | (AllKmsEcdh.default__.Tests)

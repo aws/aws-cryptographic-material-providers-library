@@ -70,37 +70,37 @@ class default__:
     def GenerateKeyPair(lengthBits):
         publicKey: AwsCryptographyPrimitivesTypes.RSAPublicKey = None
         privateKey: AwsCryptographyPrimitivesTypes.RSAPrivateKey = None
-        d_100_pemPublic_: _dafny.Seq
-        d_101_pemPrivate_: _dafny.Seq
+        d_99_pemPublic_: _dafny.Seq
+        d_100_pemPrivate_: _dafny.Seq
         out18_: _dafny.Seq
         out19_: _dafny.Seq
         out18_, out19_ = RSA.GenerateKeyPairExtern(lengthBits)
-        d_100_pemPublic_ = out18_
-        d_101_pemPrivate_ = out19_
-        privateKey = AwsCryptographyPrimitivesTypes.RSAPrivateKey_RSAPrivateKey(lengthBits, d_101_pemPrivate_)
-        publicKey = AwsCryptographyPrimitivesTypes.RSAPublicKey_RSAPublicKey(lengthBits, d_100_pemPublic_)
+        d_99_pemPublic_ = out18_
+        d_100_pemPrivate_ = out19_
+        privateKey = AwsCryptographyPrimitivesTypes.RSAPrivateKey_RSAPrivateKey(lengthBits, d_100_pemPrivate_)
+        publicKey = AwsCryptographyPrimitivesTypes.RSAPublicKey_RSAPublicKey(lengthBits, d_99_pemPublic_)
         return publicKey, privateKey
 
     @staticmethod
     def GetRSAKeyModulusLength(publicKey):
-        d_102_valueOrError0_ = RSA_GetRSAKeyModulusLengthExtern(publicKey)
-        if (d_102_valueOrError0_).IsFailure():
-            return (d_102_valueOrError0_).PropagateFailure()
+        d_101_valueOrError0_ = RSA_GetRSAKeyModulusLengthExtern(publicKey)
+        if (d_101_valueOrError0_).IsFailure():
+            return (d_101_valueOrError0_).PropagateFailure()
         elif True:
-            d_103_length_ = (d_102_valueOrError0_).Extract()
-            d_104_valueOrError1_ = Wrappers.default__.Need(((81) <= (d_103_length_)) and ((d_103_length_) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT)), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Unsupported length for RSA modulus.")))
-            if (d_104_valueOrError1_).IsFailure():
-                return (d_104_valueOrError1_).PropagateFailure()
+            d_102_length_ = (d_101_valueOrError0_).Extract()
+            d_103_valueOrError1_ = Wrappers.default__.Need(((81) <= (d_102_length_)) and ((d_102_length_) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT)), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Unsupported length for RSA modulus.")))
+            if (d_103_valueOrError1_).IsFailure():
+                return (d_103_valueOrError1_).PropagateFailure()
             elif True:
-                return Wrappers.Result_Success(d_103_length_)
+                return Wrappers.Result_Success(d_102_length_)
 
     @staticmethod
     def Decrypt(input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        d_105_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_105_valueOrError0_ = Wrappers.default__.Need(((0) < (len((input).privateKey))) and ((0) < (len((input).cipherText))), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("")))
-        if (d_105_valueOrError0_).IsFailure():
-            output = (d_105_valueOrError0_).PropagateFailure()
+        d_104_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_104_valueOrError0_ = Wrappers.default__.Need(((0) < (len((input).privateKey))) and ((0) < (len((input).cipherText))), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("")))
+        if (d_104_valueOrError0_).IsFailure():
+            output = (d_104_valueOrError0_).PropagateFailure()
             return output
         out20_: Wrappers.Result
         out20_ = RSA.DecryptExtern((input).padding, (input).privateKey, (input).cipherText)
@@ -110,10 +110,10 @@ class default__:
     @staticmethod
     def Encrypt(input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        d_106_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_106_valueOrError0_ = Wrappers.default__.Need(((0) < (len((input).publicKey))) and ((0) < (len((input).plaintext))), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("")))
-        if (d_106_valueOrError0_).IsFailure():
-            output = (d_106_valueOrError0_).PropagateFailure()
+        d_105_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_105_valueOrError0_ = Wrappers.default__.Need(((0) < (len((input).publicKey))) and ((0) < (len((input).plaintext))), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("")))
+        if (d_105_valueOrError0_).IsFailure():
+            output = (d_105_valueOrError0_).PropagateFailure()
             return output
         out21_: Wrappers.Result
         out21_ = RSA.EncryptExtern((input).padding, (input).publicKey, (input).plaintext)

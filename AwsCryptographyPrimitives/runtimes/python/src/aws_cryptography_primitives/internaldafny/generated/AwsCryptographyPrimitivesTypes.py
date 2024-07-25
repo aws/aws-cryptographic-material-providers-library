@@ -266,6 +266,65 @@ class IAwsCryptographicPrimitivesClient:
     def ECDSAVerify(self, input):
         pass
 
+    def GenerateECCKeyPair(self, input):
+        pass
+
+    def GetPublicKeyFromPrivateKey(self, input):
+        pass
+
+    def ValidatePublicKey(self, input):
+        pass
+
+    def DeriveSharedSecret(self, input):
+        pass
+
+    def CompressPublicKey(self, input):
+        pass
+
+    def DecompressPublicKey(self, input):
+        pass
+
+    def ParsePublicKey(self, input):
+        pass
+
+
+class CompressPublicKeyInput:
+    @classmethod
+    def default(cls, ):
+        return lambda: CompressPublicKeyInput_CompressPublicKeyInput(ECCPublicKey.default()(), ECDHCurveSpec.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_CompressPublicKeyInput(self) -> bool:
+        return isinstance(self, CompressPublicKeyInput_CompressPublicKeyInput)
+
+class CompressPublicKeyInput_CompressPublicKeyInput(CompressPublicKeyInput, NamedTuple('CompressPublicKeyInput', [('publicKey', Any), ('eccCurve', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyPrimitivesTypes.CompressPublicKeyInput.CompressPublicKeyInput({_dafny.string_of(self.publicKey)}, {_dafny.string_of(self.eccCurve)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, CompressPublicKeyInput_CompressPublicKeyInput) and self.publicKey == __o.publicKey and self.eccCurve == __o.eccCurve
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class CompressPublicKeyOutput:
+    @classmethod
+    def default(cls, ):
+        return lambda: CompressPublicKeyOutput_CompressPublicKeyOutput(_dafny.Seq({}))
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_CompressPublicKeyOutput(self) -> bool:
+        return isinstance(self, CompressPublicKeyOutput_CompressPublicKeyOutput)
+
+class CompressPublicKeyOutput_CompressPublicKeyOutput(CompressPublicKeyOutput, NamedTuple('CompressPublicKeyOutput', [('compressedPublicKey', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyPrimitivesTypes.CompressPublicKeyOutput.CompressPublicKeyOutput({_dafny.string_of(self.compressedPublicKey)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, CompressPublicKeyOutput_CompressPublicKeyOutput) and self.compressedPublicKey == __o.compressedPublicKey
+    def __hash__(self) -> int:
+        return super().__hash__()
+
 
 class CryptoConfig:
     @_dafny.classproperty
@@ -285,6 +344,82 @@ class CryptoConfig_CryptoConfig(CryptoConfig, NamedTuple('CryptoConfig', [])):
         return f'AwsCryptographyPrimitivesTypes.CryptoConfig.CryptoConfig'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, CryptoConfig_CryptoConfig)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class DecompressPublicKeyInput:
+    @classmethod
+    def default(cls, ):
+        return lambda: DecompressPublicKeyInput_DecompressPublicKeyInput(_dafny.Seq({}), ECDHCurveSpec.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_DecompressPublicKeyInput(self) -> bool:
+        return isinstance(self, DecompressPublicKeyInput_DecompressPublicKeyInput)
+
+class DecompressPublicKeyInput_DecompressPublicKeyInput(DecompressPublicKeyInput, NamedTuple('DecompressPublicKeyInput', [('compressedPublicKey', Any), ('eccCurve', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyPrimitivesTypes.DecompressPublicKeyInput.DecompressPublicKeyInput({_dafny.string_of(self.compressedPublicKey)}, {_dafny.string_of(self.eccCurve)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, DecompressPublicKeyInput_DecompressPublicKeyInput) and self.compressedPublicKey == __o.compressedPublicKey and self.eccCurve == __o.eccCurve
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class DecompressPublicKeyOutput:
+    @classmethod
+    def default(cls, ):
+        return lambda: DecompressPublicKeyOutput_DecompressPublicKeyOutput(ECCPublicKey.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_DecompressPublicKeyOutput(self) -> bool:
+        return isinstance(self, DecompressPublicKeyOutput_DecompressPublicKeyOutput)
+
+class DecompressPublicKeyOutput_DecompressPublicKeyOutput(DecompressPublicKeyOutput, NamedTuple('DecompressPublicKeyOutput', [('publicKey', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyPrimitivesTypes.DecompressPublicKeyOutput.DecompressPublicKeyOutput({_dafny.string_of(self.publicKey)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, DecompressPublicKeyOutput_DecompressPublicKeyOutput) and self.publicKey == __o.publicKey
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class DeriveSharedSecretInput:
+    @classmethod
+    def default(cls, ):
+        return lambda: DeriveSharedSecretInput_DeriveSharedSecretInput(ECDHCurveSpec.default()(), ECCPrivateKey.default()(), ECCPublicKey.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_DeriveSharedSecretInput(self) -> bool:
+        return isinstance(self, DeriveSharedSecretInput_DeriveSharedSecretInput)
+
+class DeriveSharedSecretInput_DeriveSharedSecretInput(DeriveSharedSecretInput, NamedTuple('DeriveSharedSecretInput', [('eccCurve', Any), ('privateKey', Any), ('publicKey', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyPrimitivesTypes.DeriveSharedSecretInput.DeriveSharedSecretInput({_dafny.string_of(self.eccCurve)}, {_dafny.string_of(self.privateKey)}, {_dafny.string_of(self.publicKey)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, DeriveSharedSecretInput_DeriveSharedSecretInput) and self.eccCurve == __o.eccCurve and self.privateKey == __o.privateKey and self.publicKey == __o.publicKey
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class DeriveSharedSecretOutput:
+    @classmethod
+    def default(cls, ):
+        return lambda: DeriveSharedSecretOutput_DeriveSharedSecretOutput(_dafny.Seq({}))
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_DeriveSharedSecretOutput(self) -> bool:
+        return isinstance(self, DeriveSharedSecretOutput_DeriveSharedSecretOutput)
+
+class DeriveSharedSecretOutput_DeriveSharedSecretOutput(DeriveSharedSecretOutput, NamedTuple('DeriveSharedSecretOutput', [('sharedSecret', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyPrimitivesTypes.DeriveSharedSecretOutput.DeriveSharedSecretOutput({_dafny.string_of(self.sharedSecret)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, DeriveSharedSecretOutput_DeriveSharedSecretOutput) and self.sharedSecret == __o.sharedSecret
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -348,6 +483,99 @@ class DigestInput_DigestInput(DigestInput, NamedTuple('DigestInput', [('digestAl
         return f'AwsCryptographyPrimitivesTypes.DigestInput.DigestInput({_dafny.string_of(self.digestAlgorithm)}, {_dafny.string_of(self.message)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, DigestInput_DigestInput) and self.digestAlgorithm == __o.digestAlgorithm and self.message == __o.message
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class ECCPrivateKey:
+    @classmethod
+    def default(cls, ):
+        return lambda: ECCPrivateKey_ECCPrivateKey(_dafny.Seq({}))
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_ECCPrivateKey(self) -> bool:
+        return isinstance(self, ECCPrivateKey_ECCPrivateKey)
+
+class ECCPrivateKey_ECCPrivateKey(ECCPrivateKey, NamedTuple('ECCPrivateKey', [('pem', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyPrimitivesTypes.ECCPrivateKey.ECCPrivateKey({_dafny.string_of(self.pem)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ECCPrivateKey_ECCPrivateKey) and self.pem == __o.pem
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class ECCPublicKey:
+    @classmethod
+    def default(cls, ):
+        return lambda: ECCPublicKey_ECCPublicKey(_dafny.Seq({}))
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_ECCPublicKey(self) -> bool:
+        return isinstance(self, ECCPublicKey_ECCPublicKey)
+
+class ECCPublicKey_ECCPublicKey(ECCPublicKey, NamedTuple('ECCPublicKey', [('der', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyPrimitivesTypes.ECCPublicKey.ECCPublicKey({_dafny.string_of(self.der)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ECCPublicKey_ECCPublicKey) and self.der == __o.der
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class ECDHCurveSpec:
+    @_dafny.classproperty
+    def AllSingletonConstructors(cls):
+        return [ECDHCurveSpec_ECC__NIST__P256(), ECDHCurveSpec_ECC__NIST__P384(), ECDHCurveSpec_ECC__NIST__P521(), ECDHCurveSpec_SM2()]
+    @classmethod
+    def default(cls, ):
+        return lambda: ECDHCurveSpec_ECC__NIST__P256()
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_ECC__NIST__P256(self) -> bool:
+        return isinstance(self, ECDHCurveSpec_ECC__NIST__P256)
+    @property
+    def is_ECC__NIST__P384(self) -> bool:
+        return isinstance(self, ECDHCurveSpec_ECC__NIST__P384)
+    @property
+    def is_ECC__NIST__P521(self) -> bool:
+        return isinstance(self, ECDHCurveSpec_ECC__NIST__P521)
+    @property
+    def is_SM2(self) -> bool:
+        return isinstance(self, ECDHCurveSpec_SM2)
+
+class ECDHCurveSpec_ECC__NIST__P256(ECDHCurveSpec, NamedTuple('ECC__NIST__P256', [])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyPrimitivesTypes.ECDHCurveSpec.ECC_NIST_P256'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ECDHCurveSpec_ECC__NIST__P256)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class ECDHCurveSpec_ECC__NIST__P384(ECDHCurveSpec, NamedTuple('ECC__NIST__P384', [])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyPrimitivesTypes.ECDHCurveSpec.ECC_NIST_P384'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ECDHCurveSpec_ECC__NIST__P384)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class ECDHCurveSpec_ECC__NIST__P521(ECDHCurveSpec, NamedTuple('ECC__NIST__P521', [])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyPrimitivesTypes.ECDHCurveSpec.ECC_NIST_P521'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ECDHCurveSpec_ECC__NIST__P521)
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+class ECDHCurveSpec_SM2(ECDHCurveSpec, NamedTuple('SM2', [])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyPrimitivesTypes.ECDHCurveSpec.SM2'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ECDHCurveSpec_SM2)
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -419,6 +647,44 @@ class ECDSAVerifyInput_ECDSAVerifyInput(ECDSAVerifyInput, NamedTuple('ECDSAVerif
         return f'AwsCryptographyPrimitivesTypes.ECDSAVerifyInput.ECDSAVerifyInput({_dafny.string_of(self.signatureAlgorithm)}, {_dafny.string_of(self.verificationKey)}, {_dafny.string_of(self.message)}, {_dafny.string_of(self.signature)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, ECDSAVerifyInput_ECDSAVerifyInput) and self.signatureAlgorithm == __o.signatureAlgorithm and self.verificationKey == __o.verificationKey and self.message == __o.message and self.signature == __o.signature
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class GenerateECCKeyPairInput:
+    @classmethod
+    def default(cls, ):
+        return lambda: GenerateECCKeyPairInput_GenerateECCKeyPairInput(ECDHCurveSpec.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_GenerateECCKeyPairInput(self) -> bool:
+        return isinstance(self, GenerateECCKeyPairInput_GenerateECCKeyPairInput)
+
+class GenerateECCKeyPairInput_GenerateECCKeyPairInput(GenerateECCKeyPairInput, NamedTuple('GenerateECCKeyPairInput', [('eccCurve', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyPrimitivesTypes.GenerateECCKeyPairInput.GenerateECCKeyPairInput({_dafny.string_of(self.eccCurve)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, GenerateECCKeyPairInput_GenerateECCKeyPairInput) and self.eccCurve == __o.eccCurve
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class GenerateECCKeyPairOutput:
+    @classmethod
+    def default(cls, ):
+        return lambda: GenerateECCKeyPairOutput_GenerateECCKeyPairOutput(ECDHCurveSpec.default()(), ECCPrivateKey.default()(), ECCPublicKey.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_GenerateECCKeyPairOutput(self) -> bool:
+        return isinstance(self, GenerateECCKeyPairOutput_GenerateECCKeyPairOutput)
+
+class GenerateECCKeyPairOutput_GenerateECCKeyPairOutput(GenerateECCKeyPairOutput, NamedTuple('GenerateECCKeyPairOutput', [('eccCurve', Any), ('privateKey', Any), ('publicKey', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyPrimitivesTypes.GenerateECCKeyPairOutput.GenerateECCKeyPairOutput({_dafny.string_of(self.eccCurve)}, {_dafny.string_of(self.privateKey)}, {_dafny.string_of(self.publicKey)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, GenerateECCKeyPairOutput_GenerateECCKeyPairOutput) and self.eccCurve == __o.eccCurve and self.privateKey == __o.privateKey and self.publicKey == __o.publicKey
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -514,6 +780,44 @@ class GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput(GenerateRSAKeyPairOutput
         return f'AwsCryptographyPrimitivesTypes.GenerateRSAKeyPairOutput.GenerateRSAKeyPairOutput({_dafny.string_of(self.publicKey)}, {_dafny.string_of(self.privateKey)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput) and self.publicKey == __o.publicKey and self.privateKey == __o.privateKey
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class GetPublicKeyFromPrivateKeyInput:
+    @classmethod
+    def default(cls, ):
+        return lambda: GetPublicKeyFromPrivateKeyInput_GetPublicKeyFromPrivateKeyInput(ECDHCurveSpec.default()(), ECCPrivateKey.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_GetPublicKeyFromPrivateKeyInput(self) -> bool:
+        return isinstance(self, GetPublicKeyFromPrivateKeyInput_GetPublicKeyFromPrivateKeyInput)
+
+class GetPublicKeyFromPrivateKeyInput_GetPublicKeyFromPrivateKeyInput(GetPublicKeyFromPrivateKeyInput, NamedTuple('GetPublicKeyFromPrivateKeyInput', [('eccCurve', Any), ('privateKey', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyPrimitivesTypes.GetPublicKeyFromPrivateKeyInput.GetPublicKeyFromPrivateKeyInput({_dafny.string_of(self.eccCurve)}, {_dafny.string_of(self.privateKey)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, GetPublicKeyFromPrivateKeyInput_GetPublicKeyFromPrivateKeyInput) and self.eccCurve == __o.eccCurve and self.privateKey == __o.privateKey
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class GetPublicKeyFromPrivateKeyOutput:
+    @classmethod
+    def default(cls, ):
+        return lambda: GetPublicKeyFromPrivateKeyOutput_GetPublicKeyFromPrivateKeyOutput(ECDHCurveSpec.default()(), ECCPrivateKey.default()(), _dafny.Seq({}))
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_GetPublicKeyFromPrivateKeyOutput(self) -> bool:
+        return isinstance(self, GetPublicKeyFromPrivateKeyOutput_GetPublicKeyFromPrivateKeyOutput)
+
+class GetPublicKeyFromPrivateKeyOutput_GetPublicKeyFromPrivateKeyOutput(GetPublicKeyFromPrivateKeyOutput, NamedTuple('GetPublicKeyFromPrivateKeyOutput', [('eccCurve', Any), ('privateKey', Any), ('publicKey', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyPrimitivesTypes.GetPublicKeyFromPrivateKeyOutput.GetPublicKeyFromPrivateKeyOutput({_dafny.string_of(self.eccCurve)}, {_dafny.string_of(self.privateKey)}, {_dafny.string_of(self.publicKey)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, GetPublicKeyFromPrivateKeyOutput_GetPublicKeyFromPrivateKeyOutput) and self.eccCurve == __o.eccCurve and self.privateKey == __o.privateKey and self.publicKey == __o.publicKey
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -647,6 +951,44 @@ class KdfCtrInput_KdfCtrInput(KdfCtrInput, NamedTuple('KdfCtrInput', [('digestAl
         return f'AwsCryptographyPrimitivesTypes.KdfCtrInput.KdfCtrInput({_dafny.string_of(self.digestAlgorithm)}, {_dafny.string_of(self.ikm)}, {_dafny.string_of(self.expectedLength)}, {_dafny.string_of(self.purpose)}, {_dafny.string_of(self.nonce)})'
     def __eq__(self, __o: object) -> bool:
         return isinstance(__o, KdfCtrInput_KdfCtrInput) and self.digestAlgorithm == __o.digestAlgorithm and self.ikm == __o.ikm and self.expectedLength == __o.expectedLength and self.purpose == __o.purpose and self.nonce == __o.nonce
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class ParsePublicKeyInput:
+    @classmethod
+    def default(cls, ):
+        return lambda: ParsePublicKeyInput_ParsePublicKeyInput(_dafny.Seq({}))
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_ParsePublicKeyInput(self) -> bool:
+        return isinstance(self, ParsePublicKeyInput_ParsePublicKeyInput)
+
+class ParsePublicKeyInput_ParsePublicKeyInput(ParsePublicKeyInput, NamedTuple('ParsePublicKeyInput', [('publicKey', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyPrimitivesTypes.ParsePublicKeyInput.ParsePublicKeyInput({_dafny.string_of(self.publicKey)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ParsePublicKeyInput_ParsePublicKeyInput) and self.publicKey == __o.publicKey
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class ParsePublicKeyOutput:
+    @classmethod
+    def default(cls, ):
+        return lambda: ParsePublicKeyOutput_ParsePublicKeyOutput(ECCPublicKey.default()())
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_ParsePublicKeyOutput(self) -> bool:
+        return isinstance(self, ParsePublicKeyOutput_ParsePublicKeyOutput)
+
+class ParsePublicKeyOutput_ParsePublicKeyOutput(ParsePublicKeyOutput, NamedTuple('ParsePublicKeyOutput', [('publicKey', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyPrimitivesTypes.ParsePublicKeyOutput.ParsePublicKeyOutput({_dafny.string_of(self.publicKey)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ParsePublicKeyOutput_ParsePublicKeyOutput) and self.publicKey == __o.publicKey
     def __hash__(self) -> int:
         return super().__hash__()
 
@@ -870,6 +1212,44 @@ class Uint8Bytes:
         if True:
             return default__.IsValid__Uint8Bytes(d_5_x_)
         return False
+
+class ValidatePublicKeyInput:
+    @classmethod
+    def default(cls, ):
+        return lambda: ValidatePublicKeyInput_ValidatePublicKeyInput(ECDHCurveSpec.default()(), _dafny.Seq({}))
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_ValidatePublicKeyInput(self) -> bool:
+        return isinstance(self, ValidatePublicKeyInput_ValidatePublicKeyInput)
+
+class ValidatePublicKeyInput_ValidatePublicKeyInput(ValidatePublicKeyInput, NamedTuple('ValidatePublicKeyInput', [('eccCurve', Any), ('publicKey', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyPrimitivesTypes.ValidatePublicKeyInput.ValidatePublicKeyInput({_dafny.string_of(self.eccCurve)}, {_dafny.string_of(self.publicKey)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ValidatePublicKeyInput_ValidatePublicKeyInput) and self.eccCurve == __o.eccCurve and self.publicKey == __o.publicKey
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+class ValidatePublicKeyOutput:
+    @classmethod
+    def default(cls, ):
+        return lambda: ValidatePublicKeyOutput_ValidatePublicKeyOutput(False)
+    def __ne__(self, __o: object) -> bool:
+        return not self.__eq__(__o)
+    @property
+    def is_ValidatePublicKeyOutput(self) -> bool:
+        return isinstance(self, ValidatePublicKeyOutput_ValidatePublicKeyOutput)
+
+class ValidatePublicKeyOutput_ValidatePublicKeyOutput(ValidatePublicKeyOutput, NamedTuple('ValidatePublicKeyOutput', [('success', Any)])):
+    def __dafnystr__(self) -> str:
+        return f'AwsCryptographyPrimitivesTypes.ValidatePublicKeyOutput.ValidatePublicKeyOutput({_dafny.string_of(self.success)})'
+    def __eq__(self, __o: object) -> bool:
+        return isinstance(__o, ValidatePublicKeyOutput_ValidatePublicKeyOutput) and self.success == __o.success
+    def __hash__(self) -> int:
+        return super().__hash__()
+
 
 class Error:
     @classmethod

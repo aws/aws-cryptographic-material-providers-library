@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -81,11 +82,11 @@ class default__:
 
     @staticmethod
     def BranchKeyContext_q(m):
-        def lambda8_(forall_var_4_):
-            d_103_k_: _dafny.Seq = forall_var_4_
-            return not ((d_103_k_) in ((m).keys)) or (ComAmazonawsDynamodbTypes.default__.IsValid__AttributeName(d_103_k_))
+        def lambda9_(forall_var_4_):
+            d_106_k_: _dafny.Seq = forall_var_4_
+            return not ((d_106_k_) in ((m).keys)) or (ComAmazonawsDynamodbTypes.default__.IsValid__AttributeName(d_106_k_))
 
-        return ((((((((((((((default__.BRANCH__KEY__IDENTIFIER__FIELD) in (m)) and ((default__.TYPE__FIELD) in (m))) and ((default__.KEY__CREATE__TIME) in (m))) and ((default__.HIERARCHY__VERSION) in (m))) and ((default__.TABLE__FIELD) in (m))) and ((default__.KMS__FIELD) in (m))) and (ComAmazonawsKmsTypes.default__.IsValid__KeyIdType((m)[default__.KMS__FIELD]))) and ((default__.BRANCH__KEY__FIELD) not in ((m).keys))) and ((0) < (len((m)[default__.BRANCH__KEY__IDENTIFIER__FIELD])))) and ((0) < (len((m)[default__.TYPE__FIELD])))) and (_dafny.quantifier(((m).keys).Elements, True, lambda8_))) and (((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) in (m)) == ((True) and (((m)[default__.TYPE__FIELD]) == (default__.BRANCH__KEY__ACTIVE__TYPE))))) and (not ((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) in (m)) or ((True) and ((default__.BRANCH__KEY__TYPE__PREFIX) < ((m)[default__.BRANCH__KEY__ACTIVE__VERSION__FIELD]))))) and (((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) not in (m)) == ((((m)[default__.TYPE__FIELD]) == (default__.BEACON__KEY__TYPE__VALUE)) or ((default__.BRANCH__KEY__TYPE__PREFIX) < ((m)[default__.TYPE__FIELD]))))
+        return ((((((((((((((default__.BRANCH__KEY__IDENTIFIER__FIELD) in (m)) and ((default__.TYPE__FIELD) in (m))) and ((default__.KEY__CREATE__TIME) in (m))) and ((default__.HIERARCHY__VERSION) in (m))) and ((default__.TABLE__FIELD) in (m))) and ((default__.KMS__FIELD) in (m))) and (ComAmazonawsKmsTypes.default__.IsValid__KeyIdType((m)[default__.KMS__FIELD]))) and ((default__.BRANCH__KEY__FIELD) not in ((m).keys))) and ((0) < (len((m)[default__.BRANCH__KEY__IDENTIFIER__FIELD])))) and ((0) < (len((m)[default__.TYPE__FIELD])))) and (_dafny.quantifier(((m).keys).Elements, True, lambda9_))) and (((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) in (m)) == ((True) and (((m)[default__.TYPE__FIELD]) == (default__.BRANCH__KEY__ACTIVE__TYPE))))) and (not ((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) in (m)) or ((True) and ((default__.BRANCH__KEY__TYPE__PREFIX) < ((m)[default__.BRANCH__KEY__ACTIVE__VERSION__FIELD]))))) and (((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) not in (m)) == ((((m)[default__.TYPE__FIELD]) == (default__.BEACON__KEY__TYPE__VALUE)) or ((default__.BRANCH__KEY__TYPE__PREFIX) < ((m)[default__.TYPE__FIELD]))))
 
     @staticmethod
     def ToAttributeMap(encryptionContext, encryptedKey):
@@ -93,10 +94,10 @@ class default__:
             coll2_ = _dafny.Map()
             compr_2_: _dafny.Seq
             for compr_2_ in ((((encryptionContext).keys) | (_dafny.Set({default__.BRANCH__KEY__FIELD}))) - (_dafny.Set({default__.TABLE__FIELD}))).Elements:
-                d_104_k_: _dafny.Seq = compr_2_
-                if ComAmazonawsDynamodbTypes.AttributeName._Is(d_104_k_):
-                    if (d_104_k_) in ((((encryptionContext).keys) | (_dafny.Set({default__.BRANCH__KEY__FIELD}))) - (_dafny.Set({default__.TABLE__FIELD}))):
-                        coll2_[d_104_k_] = (ComAmazonawsDynamodbTypes.AttributeValue_N((encryptionContext)[default__.HIERARCHY__VERSION]) if (d_104_k_) == (default__.HIERARCHY__VERSION) else (ComAmazonawsDynamodbTypes.AttributeValue_B(encryptedKey) if (d_104_k_) == (default__.BRANCH__KEY__FIELD) else ComAmazonawsDynamodbTypes.AttributeValue_S((encryptionContext)[d_104_k_])))
+                d_107_k_: _dafny.Seq = compr_2_
+                if ComAmazonawsDynamodbTypes.AttributeName._Is(d_107_k_):
+                    if (d_107_k_) in ((((encryptionContext).keys) | (_dafny.Set({default__.BRANCH__KEY__FIELD}))) - (_dafny.Set({default__.TABLE__FIELD}))):
+                        coll2_[d_107_k_] = (ComAmazonawsDynamodbTypes.AttributeValue_N((encryptionContext)[default__.HIERARCHY__VERSION]) if (d_107_k_) == (default__.HIERARCHY__VERSION) else (ComAmazonawsDynamodbTypes.AttributeValue_B(encryptedKey) if (d_107_k_) == (default__.BRANCH__KEY__FIELD) else ComAmazonawsDynamodbTypes.AttributeValue_S((encryptionContext)[d_107_k_])))
             return _dafny.Map(coll2_)
         return iife4_()
         
@@ -107,40 +108,40 @@ class default__:
             coll3_ = _dafny.Map()
             compr_3_: _dafny.Seq
             for compr_3_ in ((((item).keys) - (_dafny.Set({default__.BRANCH__KEY__FIELD}))) | (_dafny.Set({default__.TABLE__FIELD}))).Elements:
-                d_105_k_: _dafny.Seq = compr_3_
-                if (d_105_k_) in ((((item).keys) - (_dafny.Set({default__.BRANCH__KEY__FIELD}))) | (_dafny.Set({default__.TABLE__FIELD}))):
-                    coll3_[d_105_k_] = (((item)[d_105_k_]).N if (d_105_k_) == (default__.HIERARCHY__VERSION) else (logicalKeyStoreName if (d_105_k_) == (default__.TABLE__FIELD) else ((item)[d_105_k_]).S))
+                d_108_k_: _dafny.Seq = compr_3_
+                if (d_108_k_) in ((((item).keys) - (_dafny.Set({default__.BRANCH__KEY__FIELD}))) | (_dafny.Set({default__.TABLE__FIELD}))):
+                    coll3_[d_108_k_] = (((item)[d_108_k_]).N if (d_108_k_) == (default__.HIERARCHY__VERSION) else (logicalKeyStoreName if (d_108_k_) == (default__.TABLE__FIELD) else ((item)[d_108_k_]).S))
             return _dafny.Map(coll3_)
         return iife5_()
         
 
     @staticmethod
     def ToBranchKeyMaterials(encryptionContext, plaintextKey):
-        d_106_versionInformation_ = ((encryptionContext)[default__.BRANCH__KEY__ACTIVE__VERSION__FIELD] if (default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) in (encryptionContext) else (encryptionContext)[default__.TYPE__FIELD])
-        d_107_branchKeyVersion_ = _dafny.Seq((d_106_versionInformation_)[len(default__.BRANCH__KEY__TYPE__PREFIX)::])
-        def lambda9_(d_109_e_):
-            return AwsCryptographyKeyStoreTypes.Error_KeyStoreException(d_109_e_)
+        d_109_versionInformation_ = ((encryptionContext)[default__.BRANCH__KEY__ACTIVE__VERSION__FIELD] if (default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) in (encryptionContext) else (encryptionContext)[default__.TYPE__FIELD])
+        d_110_branchKeyVersion_ = _dafny.Seq((d_109_versionInformation_)[len(default__.BRANCH__KEY__TYPE__PREFIX)::])
+        def lambda10_(d_112_e_):
+            return AwsCryptographyKeyStoreTypes.Error_KeyStoreException(d_112_e_)
 
-        d_108_valueOrError0_ = (UTF8.default__.Encode(d_107_branchKeyVersion_)).MapFailure(lambda9_)
-        if (d_108_valueOrError0_).IsFailure():
-            return (d_108_valueOrError0_).PropagateFailure()
+        d_111_valueOrError0_ = (UTF8.default__.Encode(d_110_branchKeyVersion_)).MapFailure(lambda10_)
+        if (d_111_valueOrError0_).IsFailure():
+            return (d_111_valueOrError0_).PropagateFailure()
         elif True:
-            d_110_branchKeyVersionUtf8_ = (d_108_valueOrError0_).Extract()
-            d_111_valueOrError1_ = default__.ExtractCustomEncryptionContext(encryptionContext)
-            if (d_111_valueOrError1_).IsFailure():
-                return (d_111_valueOrError1_).PropagateFailure()
+            d_113_branchKeyVersionUtf8_ = (d_111_valueOrError0_).Extract()
+            d_114_valueOrError1_ = default__.ExtractCustomEncryptionContext(encryptionContext)
+            if (d_114_valueOrError1_).IsFailure():
+                return (d_114_valueOrError1_).PropagateFailure()
             elif True:
-                d_112_customEncryptionContext_ = (d_111_valueOrError1_).Extract()
-                return Wrappers.Result_Success(AwsCryptographyKeyStoreTypes.BranchKeyMaterials_BranchKeyMaterials((encryptionContext)[default__.BRANCH__KEY__IDENTIFIER__FIELD], d_110_branchKeyVersionUtf8_, d_112_customEncryptionContext_, plaintextKey))
+                d_115_customEncryptionContext_ = (d_114_valueOrError1_).Extract()
+                return Wrappers.Result_Success(AwsCryptographyKeyStoreTypes.BranchKeyMaterials_BranchKeyMaterials((encryptionContext)[default__.BRANCH__KEY__IDENTIFIER__FIELD], d_113_branchKeyVersionUtf8_, d_115_customEncryptionContext_, plaintextKey))
 
     @staticmethod
     def ToBeaconKeyMaterials(encryptionContext, plaintextKey):
-        d_113_valueOrError0_ = default__.ExtractCustomEncryptionContext(encryptionContext)
-        if (d_113_valueOrError0_).IsFailure():
-            return (d_113_valueOrError0_).PropagateFailure()
+        d_116_valueOrError0_ = default__.ExtractCustomEncryptionContext(encryptionContext)
+        if (d_116_valueOrError0_).IsFailure():
+            return (d_116_valueOrError0_).PropagateFailure()
         elif True:
-            d_114_customEncryptionContext_ = (d_113_valueOrError0_).Extract()
-            return Wrappers.Result_Success(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials_BeaconKeyMaterials((encryptionContext)[default__.BRANCH__KEY__IDENTIFIER__FIELD], d_114_customEncryptionContext_, Wrappers.Option_Some(plaintextKey), Wrappers.Option_None()))
+            d_117_customEncryptionContext_ = (d_116_valueOrError0_).Extract()
+            return Wrappers.Result_Success(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials_BeaconKeyMaterials((encryptionContext)[default__.BRANCH__KEY__IDENTIFIER__FIELD], d_117_customEncryptionContext_, Wrappers.Option_Some(plaintextKey), Wrappers.Option_None()))
 
     @staticmethod
     def ExtractCustomEncryptionContext(encryptionContext):
@@ -148,27 +149,27 @@ class default__:
             coll4_ = _dafny.Set()
             compr_4_: _dafny.Seq
             for compr_4_ in (encryptionContext).keys.Elements:
-                d_116_k_: _dafny.Seq = compr_4_
-                if ((d_116_k_) in (encryptionContext)) and ((default__.ENCRYPTION__CONTEXT__PREFIX) < (d_116_k_)):
-                    coll4_ = coll4_.union(_dafny.Set([(UTF8.default__.Encode(_dafny.Seq((d_116_k_)[len(default__.ENCRYPTION__CONTEXT__PREFIX)::])), UTF8.default__.Encode((encryptionContext)[d_116_k_]))]))
+                d_119_k_: _dafny.Seq = compr_4_
+                if ((d_119_k_) in (encryptionContext)) and ((default__.ENCRYPTION__CONTEXT__PREFIX) < (d_119_k_)):
+                    coll4_ = coll4_.union(_dafny.Set([(UTF8.default__.Encode(_dafny.Seq((d_119_k_)[len(default__.ENCRYPTION__CONTEXT__PREFIX)::])), UTF8.default__.Encode((encryptionContext)[d_119_k_]))]))
             return _dafny.Set(coll4_)
-        d_115_encodedEncryptionContext_ = iife6_()
+        d_118_encodedEncryptionContext_ = iife6_()
 
-        def lambda10_(forall_var_5_):
-            d_118_i_: tuple = forall_var_5_
-            return not ((d_118_i_) in (d_115_encodedEncryptionContext_)) or ((((d_118_i_)[0]).is_Success) and (((d_118_i_)[1]).is_Success))
+        def lambda11_(forall_var_5_):
+            d_121_i_: tuple = forall_var_5_
+            return not ((d_121_i_) in (d_118_encodedEncryptionContext_)) or ((((d_121_i_)[0]).is_Success) and (((d_121_i_)[1]).is_Success))
 
-        d_117_valueOrError0_ = Wrappers.default__.Need(_dafny.quantifier((d_115_encodedEncryptionContext_).Elements, True, lambda10_), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Unable to encode string")))
-        if (d_117_valueOrError0_).IsFailure():
-            return (d_117_valueOrError0_).PropagateFailure()
+        d_120_valueOrError0_ = Wrappers.default__.Need(_dafny.quantifier((d_118_encodedEncryptionContext_).Elements, True, lambda11_), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Unable to encode string")))
+        if (d_120_valueOrError0_).IsFailure():
+            return (d_120_valueOrError0_).PropagateFailure()
         elif True:
             def iife7_():
                 coll5_ = _dafny.Map()
                 compr_5_: tuple
-                for compr_5_ in (d_115_encodedEncryptionContext_).Elements:
-                    d_119_i_: tuple = compr_5_
-                    if (d_119_i_) in (d_115_encodedEncryptionContext_):
-                        coll5_[((d_119_i_)[0]).value] = ((d_119_i_)[1]).value
+                for compr_5_ in (d_118_encodedEncryptionContext_).Elements:
+                    d_122_i_: tuple = compr_5_
+                    if (d_122_i_) in (d_118_encodedEncryptionContext_):
+                        coll5_[((d_122_i_)[0]).value] = ((d_122_i_)[1]).value
                 return _dafny.Map(coll5_)
             return Wrappers.Result_Success(iife7_()
 )
@@ -179,9 +180,9 @@ class default__:
             coll6_ = _dafny.Map()
             compr_6_: _dafny.Seq
             for compr_6_ in (customEncryptionContext).keys.Elements:
-                d_120_k_: _dafny.Seq = compr_6_
-                if (d_120_k_) in (customEncryptionContext):
-                    coll6_[(default__.ENCRYPTION__CONTEXT__PREFIX) + (d_120_k_)] = (customEncryptionContext)[d_120_k_]
+                d_123_k_: _dafny.Seq = compr_6_
+                if (d_123_k_) in (customEncryptionContext):
+                    coll6_[(default__.ENCRYPTION__CONTEXT__PREFIX) + (d_123_k_)] = (customEncryptionContext)[d_123_k_]
             return _dafny.Map(coll6_)
         return (_dafny.Map({default__.BRANCH__KEY__IDENTIFIER__FIELD: branchKeyId, default__.TYPE__FIELD: (default__.BRANCH__KEY__TYPE__PREFIX) + (branchKeyVersion), default__.KEY__CREATE__TIME: timestamp, default__.TABLE__FIELD: logicalKeyStoreName, default__.KMS__FIELD: kmsKeyArn, default__.HIERARCHY__VERSION: _dafny.Seq("1")})) | (iife8_()
         )
@@ -200,11 +201,11 @@ class default__:
 
     @staticmethod
     def BranchKeyItem_q(m):
-        def lambda11_(forall_var_6_):
-            d_121_k_: _dafny.Seq = forall_var_6_
-            return not ((d_121_k_) in (((m).keys) - (_dafny.Set({default__.BRANCH__KEY__FIELD, default__.HIERARCHY__VERSION})))) or (((m)[d_121_k_]).is_S)
+        def lambda12_(forall_var_6_):
+            d_124_k_: _dafny.Seq = forall_var_6_
+            return not ((d_124_k_) in (((m).keys) - (_dafny.Set({default__.BRANCH__KEY__FIELD, default__.HIERARCHY__VERSION})))) or (((m)[d_124_k_]).is_S)
 
-        return (((((((((((((((((((((default__.BRANCH__KEY__IDENTIFIER__FIELD) in (m)) and (((m)[default__.BRANCH__KEY__IDENTIFIER__FIELD]).is_S)) and ((default__.TYPE__FIELD) in (m))) and (((m)[default__.TYPE__FIELD]).is_S)) and ((default__.KEY__CREATE__TIME) in (m))) and (((m)[default__.KEY__CREATE__TIME]).is_S)) and ((default__.HIERARCHY__VERSION) in (m))) and (((m)[default__.HIERARCHY__VERSION]).is_N)) and ((default__.TABLE__FIELD) not in (m))) and ((default__.KMS__FIELD) in (m))) and (((m)[default__.KMS__FIELD]).is_S)) and (ComAmazonawsKmsTypes.default__.IsValid__KeyIdType(((m)[default__.KMS__FIELD]).S))) and ((default__.BRANCH__KEY__FIELD) in (m))) and (((m)[default__.BRANCH__KEY__FIELD]).is_B)) and ((0) < (len(((m)[default__.BRANCH__KEY__IDENTIFIER__FIELD]).S)))) and ((0) < (len(((m)[default__.TYPE__FIELD]).S)))) and (_dafny.quantifier((((m).keys) - (_dafny.Set({default__.BRANCH__KEY__FIELD, default__.HIERARCHY__VERSION}))).Elements, True, lambda11_))) and (((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) in (m)) == ((True) and ((((m)[default__.TYPE__FIELD]).S) == (default__.BRANCH__KEY__ACTIVE__TYPE))))) and (not ((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) in (m)) or ((True) and ((default__.BRANCH__KEY__TYPE__PREFIX) < (((m)[default__.BRANCH__KEY__ACTIVE__VERSION__FIELD]).S))))) and (((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) not in (m)) == (((((m)[default__.TYPE__FIELD]).S) == (default__.BEACON__KEY__TYPE__VALUE)) or ((default__.BRANCH__KEY__TYPE__PREFIX) < (((m)[default__.TYPE__FIELD]).S))))) and (ComAmazonawsKmsTypes.default__.IsValid__CiphertextType(((m)[default__.BRANCH__KEY__FIELD]).B))
+        return (((((((((((((((((((((default__.BRANCH__KEY__IDENTIFIER__FIELD) in (m)) and (((m)[default__.BRANCH__KEY__IDENTIFIER__FIELD]).is_S)) and ((default__.TYPE__FIELD) in (m))) and (((m)[default__.TYPE__FIELD]).is_S)) and ((default__.KEY__CREATE__TIME) in (m))) and (((m)[default__.KEY__CREATE__TIME]).is_S)) and ((default__.HIERARCHY__VERSION) in (m))) and (((m)[default__.HIERARCHY__VERSION]).is_N)) and ((default__.TABLE__FIELD) not in (m))) and ((default__.KMS__FIELD) in (m))) and (((m)[default__.KMS__FIELD]).is_S)) and (ComAmazonawsKmsTypes.default__.IsValid__KeyIdType(((m)[default__.KMS__FIELD]).S))) and ((default__.BRANCH__KEY__FIELD) in (m))) and (((m)[default__.BRANCH__KEY__FIELD]).is_B)) and ((0) < (len(((m)[default__.BRANCH__KEY__IDENTIFIER__FIELD]).S)))) and ((0) < (len(((m)[default__.TYPE__FIELD]).S)))) and (_dafny.quantifier((((m).keys) - (_dafny.Set({default__.BRANCH__KEY__FIELD, default__.HIERARCHY__VERSION}))).Elements, True, lambda12_))) and (((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) in (m)) == ((True) and ((((m)[default__.TYPE__FIELD]).S) == (default__.BRANCH__KEY__ACTIVE__TYPE))))) and (not ((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) in (m)) or ((True) and ((default__.BRANCH__KEY__TYPE__PREFIX) < (((m)[default__.BRANCH__KEY__ACTIVE__VERSION__FIELD]).S))))) and (((default__.BRANCH__KEY__ACTIVE__VERSION__FIELD) not in (m)) == (((((m)[default__.TYPE__FIELD]).S) == (default__.BEACON__KEY__TYPE__VALUE)) or ((default__.BRANCH__KEY__TYPE__PREFIX) < (((m)[default__.TYPE__FIELD]).S))))) and (ComAmazonawsKmsTypes.default__.IsValid__CiphertextType(((m)[default__.BRANCH__KEY__FIELD]).B))
 
     @staticmethod
     def ActiveBranchKeyItem_q(m):
@@ -263,8 +264,8 @@ class BranchKeyContext:
     def default():
         return _dafny.Map({})
     def _Is(source__):
-        d_122_m_: _dafny.Map = source__
-        return default__.BranchKeyContext_q(d_122_m_)
+        d_125_m_: _dafny.Map = source__
+        return default__.BranchKeyContext_q(d_125_m_)
 
 class BranchKeyItem:
     def  __init__(self):
@@ -274,8 +275,8 @@ class BranchKeyItem:
     def default():
         return _dafny.Map({})
     def _Is(source__):
-        d_123_m_: _dafny.Map = source__
-        return default__.BranchKeyItem_q(d_123_m_)
+        d_126_m_: _dafny.Map = source__
+        return default__.BranchKeyItem_q(d_126_m_)
 
 class ActiveBranchKeyItem:
     def  __init__(self):
@@ -285,8 +286,8 @@ class ActiveBranchKeyItem:
     def default():
         return _dafny.Map({})
     def _Is(source__):
-        d_124_m_: _dafny.Map = source__
-        return default__.ActiveBranchKeyItem_q(d_124_m_)
+        d_127_m_: _dafny.Map = source__
+        return default__.ActiveBranchKeyItem_q(d_127_m_)
 
 class VersionBranchKeyItem:
     def  __init__(self):
@@ -296,8 +297,8 @@ class VersionBranchKeyItem:
     def default():
         return _dafny.Map({})
     def _Is(source__):
-        d_125_m_: _dafny.Map = source__
-        return default__.VersionBranchKeyItem_q(d_125_m_)
+        d_128_m_: _dafny.Map = source__
+        return default__.VersionBranchKeyItem_q(d_128_m_)
 
 class BeaconKeyItem:
     def  __init__(self):
@@ -307,5 +308,5 @@ class BeaconKeyItem:
     def default():
         return _dafny.Map({})
     def _Is(source__):
-        d_126_m_: _dafny.Map = source__
-        return default__.BeaconKeyItem_q(d_126_m_)
+        d_129_m_: _dafny.Map = source__
+        return default__.BeaconKeyItem_q(d_129_m_)

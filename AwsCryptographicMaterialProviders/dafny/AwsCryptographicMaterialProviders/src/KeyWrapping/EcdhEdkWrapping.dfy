@@ -20,7 +20,7 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
   import opened AlgorithmSuites
   import PrimitiveTypes = AwsCryptographyPrimitivesTypes
   import Types = AwsCryptographyMaterialProvidersTypes
-  import Aws.Cryptography.Primitives
+  import Primitives = AtomicPrimitives
   import Materials
 
   datatype EcdhUnwrapInfo = EcdhUnwrapInfo()

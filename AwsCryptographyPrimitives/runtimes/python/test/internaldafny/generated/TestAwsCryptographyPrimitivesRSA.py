@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
@@ -200,8 +201,7 @@ class default__:
             compr_0_: AwsCryptographyPrimitivesTypes.RSAPaddingMode
             for compr_0_ in AwsCryptographyPrimitivesTypes.RSAPaddingMode.AllSingletonConstructors:
                 d_98_p_: AwsCryptographyPrimitivesTypes.RSAPaddingMode = compr_0_
-                if True:
-                    coll0_ = coll0_.union(_dafny.Set([d_98_p_]))
+                coll0_ = coll0_.union(_dafny.Set([d_98_p_]))
             return _dafny.Set(coll0_)
         d_97_allPadding_ = iife0_()
         
@@ -240,8 +240,7 @@ class default__:
             compr_1_: AwsCryptographyPrimitivesTypes.RSAPaddingMode
             for compr_1_ in AwsCryptographyPrimitivesTypes.RSAPaddingMode.AllSingletonConstructors:
                 d_106_p_: AwsCryptographyPrimitivesTypes.RSAPaddingMode = compr_1_
-                if True:
-                    coll1_ = coll1_.union(_dafny.Set([d_106_p_]))
+                coll1_ = coll1_.union(_dafny.Set([d_106_p_]))
             return _dafny.Set(coll1_)
         d_105_allPadding_ = iife1_()
         

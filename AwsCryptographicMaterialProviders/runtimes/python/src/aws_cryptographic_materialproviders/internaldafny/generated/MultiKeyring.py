@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -95,21 +96,21 @@ class default__:
     @staticmethod
     def AttemptDecryptDataKey(keyring, input):
         res: Wrappers.Result = None
-        d_388_output_: AwsCryptographyMaterialProvidersTypes.OnDecryptOutput
-        d_389_valueOrError0_: Wrappers.Result = None
-        out56_: Wrappers.Result
-        out56_ = (keyring).OnDecrypt(input)
-        d_389_valueOrError0_ = out56_
-        if (d_389_valueOrError0_).IsFailure():
-            res = (d_389_valueOrError0_).PropagateFailure()
+        d_389_output_: AwsCryptographyMaterialProvidersTypes.OnDecryptOutput
+        d_390_valueOrError0_: Wrappers.Result = None
+        out57_: Wrappers.Result
+        out57_ = (keyring).OnDecrypt(input)
+        d_390_valueOrError0_ = out57_
+        if (d_390_valueOrError0_).IsFailure():
+            res = (d_390_valueOrError0_).PropagateFailure()
             return res
-        d_388_output_ = (d_389_valueOrError0_).Extract()
-        d_390_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_390_valueOrError1_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsTransitionIsValid((input).materials, (d_388_output_).materials), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Keyring performed invalid material transition")))
-        if (d_390_valueOrError1_).IsFailure():
-            res = (d_390_valueOrError1_).PropagateFailure()
+        d_389_output_ = (d_390_valueOrError0_).Extract()
+        d_391_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_391_valueOrError1_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsTransitionIsValid((input).materials, (d_389_output_).materials), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Keyring performed invalid material transition")))
+        if (d_391_valueOrError1_).IsFailure():
+            res = (d_391_valueOrError1_).PropagateFailure()
             return res
-        res = Wrappers.Result_Success(d_388_output_)
+        res = Wrappers.Result_Success(d_389_output_)
         return res
         return res
 
@@ -123,14 +124,14 @@ class MultiKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProviders
     def __dafnystr__(self) -> str:
         return "MultiKeyring.MultiKeyring"
     def OnDecrypt(self, input):
-        out57_: Wrappers.Result
-        out57_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnDecrypt(self, input)
-        return out57_
+        out58_: Wrappers.Result
+        out58_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnDecrypt(self, input)
+        return out58_
 
     def OnEncrypt(self, input):
-        out58_: Wrappers.Result
-        out58_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnEncrypt(self, input)
-        return out58_
+        out59_: Wrappers.Result
+        out59_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnEncrypt(self, input)
+        return out59_
 
     def ctor__(self, generatorKeyring, childKeyrings):
         (self)._generatorKeyring = generatorKeyring
@@ -139,97 +140,97 @@ class MultiKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProviders
     def OnEncrypt_k(self, input):
         res: Wrappers.Result = None
         if (((self).generatorKeyring).is_None) and ((((input).materials).plaintextDataKey).is_None):
-            d_391_exception_: _dafny.Seq
-            d_391_exception_ = _dafny.Seq("Need either a generator keyring or input encryption materials which contain a plaintext data key")
-            res = Wrappers.Result_Failure(AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_391_exception_))
+            d_392_exception_: _dafny.Seq
+            d_392_exception_ = _dafny.Seq("Need either a generator keyring or input encryption materials which contain a plaintext data key")
+            res = Wrappers.Result_Failure(AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_392_exception_))
             return res
-        d_392_returnMaterials_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
-        d_392_returnMaterials_ = (input).materials
+        d_393_returnMaterials_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
+        d_393_returnMaterials_ = (input).materials
         if ((self).generatorKeyring).is_Some:
-            d_393_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_393_valueOrError0_ = Wrappers.default__.Need((((input).materials).plaintextDataKey).is_None, AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("This multi keyring has a generator but provided Encryption Materials already contain plaintext data key")))
-            if (d_393_valueOrError0_).IsFailure():
-                res = (d_393_valueOrError0_).PropagateFailure()
+            d_394_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+            d_394_valueOrError0_ = Wrappers.default__.Need((((input).materials).plaintextDataKey).is_None, AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("This multi keyring has a generator but provided Encryption Materials already contain plaintext data key")))
+            if (d_394_valueOrError0_).IsFailure():
+                res = (d_394_valueOrError0_).PropagateFailure()
                 return res
-            d_394_onEncryptOutput_: Wrappers.Result
-            out59_: Wrappers.Result
-            out59_ = (((self).generatorKeyring).value).OnEncrypt(input)
-            d_394_onEncryptOutput_ = out59_
-            d_395_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_395_valueOrError1_ = Wrappers.default__.Need((d_394_onEncryptOutput_).is_Success, ((d_394_onEncryptOutput_).error if (d_394_onEncryptOutput_).is_Failure else AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unexpected failure. Input to Need is !Success."))))
-            if (d_395_valueOrError1_).IsFailure():
-                res = (d_395_valueOrError1_).PropagateFailure()
-                return res
-            d_396_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_396_valueOrError2_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterialsTransition((input).materials, ((d_394_onEncryptOutput_).value).materials), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Generator keyring returned invalid encryption materials")))
-            if (d_396_valueOrError2_).IsFailure():
-                res = (d_396_valueOrError2_).PropagateFailure()
-                return res
-            d_392_returnMaterials_ = ((d_394_onEncryptOutput_).value).materials
-        hi0_ = len((self).childKeyrings)
-        for d_397_i_ in range(0, hi0_):
-            d_398_onEncryptInput_: AwsCryptographyMaterialProvidersTypes.OnEncryptInput
-            d_398_onEncryptInput_ = AwsCryptographyMaterialProvidersTypes.OnEncryptInput_OnEncryptInput(d_392_returnMaterials_)
-            d_399_onEncryptOutput_: Wrappers.Result
+            d_395_onEncryptOutput_: Wrappers.Result
             out60_: Wrappers.Result
-            out60_ = (((self).childKeyrings)[d_397_i_]).OnEncrypt(d_398_onEncryptInput_)
-            d_399_onEncryptOutput_ = out60_
-            d_400_valueOrError3_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_400_valueOrError3_ = Wrappers.default__.Need((d_399_onEncryptOutput_).is_Success, AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Child keyring failed to encrypt plaintext data key")))
-            if (d_400_valueOrError3_).IsFailure():
-                res = (d_400_valueOrError3_).PropagateFailure()
+            out60_ = (((self).generatorKeyring).value).OnEncrypt(input)
+            d_395_onEncryptOutput_ = out60_
+            d_396_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+            d_396_valueOrError1_ = Wrappers.default__.Need((d_395_onEncryptOutput_).is_Success, ((d_395_onEncryptOutput_).error if (d_395_onEncryptOutput_).is_Failure else AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Unexpected failure. Input to Need is !Success."))))
+            if (d_396_valueOrError1_).IsFailure():
+                res = (d_396_valueOrError1_).PropagateFailure()
                 return res
-            d_401_valueOrError4_: Wrappers.Outcome = Wrappers.Outcome.default()()
-            d_401_valueOrError4_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterialsTransition(d_392_returnMaterials_, ((d_399_onEncryptOutput_).value).materials), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Child keyring performed invalid transition on encryption materials")))
-            if (d_401_valueOrError4_).IsFailure():
-                res = (d_401_valueOrError4_).PropagateFailure()
+            d_397_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
+            d_397_valueOrError2_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterialsTransition((input).materials, ((d_395_onEncryptOutput_).value).materials), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Generator keyring returned invalid encryption materials")))
+            if (d_397_valueOrError2_).IsFailure():
+                res = (d_397_valueOrError2_).PropagateFailure()
                 return res
-            d_392_returnMaterials_ = ((d_399_onEncryptOutput_).value).materials
-        d_402_valueOrError5_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_402_valueOrError5_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterialsTransition((input).materials, d_392_returnMaterials_), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("A child or generator keyring modified the encryption materials in illegal ways.")))
-        if (d_402_valueOrError5_).IsFailure():
-            res = (d_402_valueOrError5_).PropagateFailure()
+            d_393_returnMaterials_ = ((d_395_onEncryptOutput_).value).materials
+        hi0_ = len((self).childKeyrings)
+        for d_398_i_ in range(0, hi0_):
+            d_399_onEncryptInput_: AwsCryptographyMaterialProvidersTypes.OnEncryptInput
+            d_399_onEncryptInput_ = AwsCryptographyMaterialProvidersTypes.OnEncryptInput_OnEncryptInput(d_393_returnMaterials_)
+            d_400_onEncryptOutput_: Wrappers.Result
+            out61_: Wrappers.Result
+            out61_ = (((self).childKeyrings)[d_398_i_]).OnEncrypt(d_399_onEncryptInput_)
+            d_400_onEncryptOutput_ = out61_
+            d_401_valueOrError3_: Wrappers.Outcome = Wrappers.Outcome.default()()
+            d_401_valueOrError3_ = Wrappers.default__.Need((d_400_onEncryptOutput_).is_Success, AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Child keyring failed to encrypt plaintext data key")))
+            if (d_401_valueOrError3_).IsFailure():
+                res = (d_401_valueOrError3_).PropagateFailure()
+                return res
+            d_402_valueOrError4_: Wrappers.Outcome = Wrappers.Outcome.default()()
+            d_402_valueOrError4_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterialsTransition(d_393_returnMaterials_, ((d_400_onEncryptOutput_).value).materials), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Child keyring performed invalid transition on encryption materials")))
+            if (d_402_valueOrError4_).IsFailure():
+                res = (d_402_valueOrError4_).PropagateFailure()
+                return res
+            d_393_returnMaterials_ = ((d_400_onEncryptOutput_).value).materials
+        d_403_valueOrError5_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_403_valueOrError5_ = Wrappers.default__.Need(Materials.default__.ValidEncryptionMaterialsTransition((input).materials, d_393_returnMaterials_), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("A child or generator keyring modified the encryption materials in illegal ways.")))
+        if (d_403_valueOrError5_).IsFailure():
+            res = (d_403_valueOrError5_).PropagateFailure()
             return res
-        res = Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.OnEncryptOutput_OnEncryptOutput(d_392_returnMaterials_))
+        res = Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.OnEncryptOutput_OnEncryptOutput(d_393_returnMaterials_))
         return res
         return res
 
     def OnDecrypt_k(self, input):
         res: Wrappers.Result = None
-        d_403_materials_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
-        d_403_materials_ = (input).materials
-        d_404_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_404_valueOrError0_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsWithoutPlaintextDataKey((input).materials), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Keyring received decryption materials that already contain a plaintext data key.")))
-        if (d_404_valueOrError0_).IsFailure():
-            res = (d_404_valueOrError0_).PropagateFailure()
+        d_404_materials_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
+        d_404_materials_ = (input).materials
+        d_405_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_405_valueOrError0_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsWithoutPlaintextDataKey((input).materials), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Keyring received decryption materials that already contain a plaintext data key.")))
+        if (d_405_valueOrError0_).IsFailure():
+            res = (d_405_valueOrError0_).PropagateFailure()
             return res
-        d_405_failures_: _dafny.Seq
-        d_405_failures_ = _dafny.Seq([])
+        d_406_failures_: _dafny.Seq
+        d_406_failures_ = _dafny.Seq([])
         if ((self).generatorKeyring).is_Some:
-            d_406_result_: Wrappers.Result
-            out61_: Wrappers.Result
-            out61_ = default__.AttemptDecryptDataKey(((self).generatorKeyring).value, input)
-            d_406_result_ = out61_
-            if (d_406_result_).is_Success:
-                if ((((d_406_result_).value).materials).plaintextDataKey).is_Some:
-                    res = Wrappers.Result_Success((d_406_result_).value)
+            d_407_result_: Wrappers.Result
+            out62_: Wrappers.Result
+            out62_ = default__.AttemptDecryptDataKey(((self).generatorKeyring).value, input)
+            d_407_result_ = out62_
+            if (d_407_result_).is_Success:
+                if ((((d_407_result_).value).materials).plaintextDataKey).is_Some:
+                    res = Wrappers.Result_Success((d_407_result_).value)
                     return res
             elif True:
-                d_405_failures_ = (d_405_failures_) + (_dafny.Seq([(d_406_result_).error]))
+                d_406_failures_ = (d_406_failures_) + (_dafny.Seq([(d_407_result_).error]))
         hi1_ = len((self).childKeyrings)
-        for d_407_j_ in range(0, hi1_):
-            d_408_result_: Wrappers.Result
-            out62_: Wrappers.Result
-            out62_ = default__.AttemptDecryptDataKey(((self).childKeyrings)[d_407_j_], input)
-            d_408_result_ = out62_
-            if (d_408_result_).is_Success:
-                res = Wrappers.Result_Success((d_408_result_).value)
+        for d_408_j_ in range(0, hi1_):
+            d_409_result_: Wrappers.Result
+            out63_: Wrappers.Result
+            out63_ = default__.AttemptDecryptDataKey(((self).childKeyrings)[d_408_j_], input)
+            d_409_result_ = out63_
+            if (d_409_result_).is_Success:
+                res = Wrappers.Result_Success((d_409_result_).value)
                 return res
             elif True:
-                d_405_failures_ = (d_405_failures_) + (_dafny.Seq([(d_408_result_).error]))
-        d_409_combinedResult_: AwsCryptographyMaterialProvidersTypes.Error
-        d_409_combinedResult_ = AwsCryptographyMaterialProvidersTypes.Error_CollectionOfErrors(d_405_failures_, _dafny.Seq("No Configured Keyring was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`."))
-        res = Wrappers.Result_Failure(d_409_combinedResult_)
+                d_406_failures_ = (d_406_failures_) + (_dafny.Seq([(d_409_result_).error]))
+        d_410_combinedResult_: AwsCryptographyMaterialProvidersTypes.Error
+        d_410_combinedResult_ = AwsCryptographyMaterialProvidersTypes.Error_CollectionOfErrors(d_406_failures_, _dafny.Seq("No Configured Keyring was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`."))
+        res = Wrappers.Result_Failure(d_410_combinedResult_)
         return res
         return res
 

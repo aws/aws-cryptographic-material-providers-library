@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -71,6 +72,9 @@ import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker 
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.EcdhEdkWrapping as EcdhEdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.RawECDHKeyring as RawECDHKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsEcdhKeyring as AwsKmsEcdhKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawRSAKeyring as RawRSAKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.CMM as CMM
@@ -78,6 +82,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.Defaults as D
 import aws_cryptographic_materialproviders.internaldafny.generated.Commitment as Commitment
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultCMM as DefaultCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultClientSupplier as DefaultClientSupplier
+import aws_cryptographic_materialproviders.internaldafny.generated.Utils as Utils
 import aws_cryptographic_materialproviders.internaldafny.generated.RequiredEncryptionContextCMM as RequiredEncryptionContextCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersOperations as AwsCryptographyMaterialProvidersOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialProviders as MaterialProviders
@@ -132,14 +137,12 @@ class default__:
         unmatched0 = True
         if unmatched0:
             if source0_.is_ESDK:
-                d_0___v0_ = source0_.ESDK
                 unmatched0 = False
                 if ((pat_let_tv0_).commitment).is_None:
                     return AwsCryptographyMaterialProvidersTypes.CommitmentPolicy_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy_FORBID__ENCRYPT__ALLOW__DECRYPT())
                 elif True:
                     return AwsCryptographyMaterialProvidersTypes.CommitmentPolicy_ESDK(AwsCryptographyMaterialProvidersTypes.ESDKCommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT())
         if unmatched0:
-            d_1___v1_ = source0_.DBE
             unmatched0 = False
             return AwsCryptographyMaterialProvidersTypes.CommitmentPolicy_DBE(AwsCryptographyMaterialProvidersTypes.DBECommitmentPolicy_REQUIRE__ENCRYPT__REQUIRE__DECRYPT())
         raise Exception("unexpected control point")
@@ -154,8 +157,8 @@ class default__:
             coll0_ = _dafny.Set()
             compr_0_: AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId
             for compr_0_ in AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId.AllSingletonConstructors:
-                d_2_id_: AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId = compr_0_
-                coll0_ = coll0_.union(_dafny.Set([AlgorithmSuites.default__.GetESDKSuite(d_2_id_)]))
+                d_0_id_: AwsCryptographyMaterialProvidersTypes.ESDKAlgorithmSuiteId = compr_0_
+                coll0_ = coll0_.union(_dafny.Set([AlgorithmSuites.default__.GetESDKSuite(d_0_id_)]))
             return _dafny.Set(coll0_)
         return iife0_()
         
@@ -165,8 +168,8 @@ class default__:
             coll1_ = _dafny.Set()
             compr_1_: AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId
             for compr_1_ in AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId.AllSingletonConstructors:
-                d_3_id_: AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId = compr_1_
-                coll1_ = coll1_.union(_dafny.Set([AlgorithmSuites.default__.GetDBESuite(d_3_id_)]))
+                d_1_id_: AwsCryptographyMaterialProvidersTypes.DBEAlgorithmSuiteId = compr_1_
+                coll1_ = coll1_.union(_dafny.Set([AlgorithmSuites.default__.GetDBESuite(d_1_id_)]))
             return _dafny.Set(coll1_)
         return iife1_()
         

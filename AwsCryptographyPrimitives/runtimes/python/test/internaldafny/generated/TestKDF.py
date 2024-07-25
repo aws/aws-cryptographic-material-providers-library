@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
@@ -77,16 +78,16 @@ class default__:
         pass
 
     @staticmethod
-    def KdfRawDeriveTest(ikm, info, L, expectedOKM):
+    def KdfRawDeriveTest(ikm, info, L, expectedOKM, digestAlgorithm):
         d_51_output_: Wrappers.Result
         out11_: Wrappers.Result
-        out11_ = KdfCtr.default__.RawDerive(ikm, info, L, 0)
+        out11_ = KdfCtr.default__.RawDerive(ikm, info, L, 0, digestAlgorithm)
         d_51_output_ = out11_
         if (d_51_output_).is_Success:
             if not((len((d_51_output_).value)) == (L)):
-                raise _dafny.HaltException("test/TestKDF.dfy(30,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                raise _dafny.HaltException("test/TestKDF.dfy(35,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
             if not(((d_51_output_).value) == (expectedOKM)):
-                raise _dafny.HaltException("test/TestKDF.dfy(31,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                raise _dafny.HaltException("test/TestKDF.dfy(36,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def KdfTest(input, expectedOKM):
@@ -96,7 +97,7 @@ class default__:
         out12_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_53_valueOrError0_ = out12_
         if not(not((d_53_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestKDF.dfy(40,18): " + _dafny.string_of(d_53_valueOrError0_))
+            raise _dafny.HaltException("test/TestKDF.dfy(45,18): " + _dafny.string_of(d_53_valueOrError0_))
         d_52_client_ = (d_53_valueOrError0_).Extract()
         d_54_output_: _dafny.Seq
         d_55_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
@@ -104,10 +105,10 @@ class default__:
         out13_ = (d_52_client_).KdfCounterMode(input)
         d_55_valueOrError1_ = out13_
         if not(not((d_55_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/TestKDF.dfy(42,18): " + _dafny.string_of(d_55_valueOrError1_))
+            raise _dafny.HaltException("test/TestKDF.dfy(47,18): " + _dafny.string_of(d_55_valueOrError1_))
         d_54_output_ = (d_55_valueOrError1_).Extract()
         if not((len(d_54_output_)) == ((input).expectedLength)):
-            raise _dafny.HaltException("test/TestKDF.dfy(43,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("test/TestKDF.dfy(48,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         if not((d_54_output_) == (expectedOKM)):
-            raise _dafny.HaltException("test/TestKDF.dfy(44,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("test/TestKDF.dfy(49,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 

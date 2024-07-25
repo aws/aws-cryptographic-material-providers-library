@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -85,18 +86,16 @@ class default__:
             if unmatched5:
                 d_00_ = source5_[0]
                 if d_00_.is_AwsKmsArnIdentifier:
-                    d_59_configuredAwsKmsArn_ = d_00_.a
+                    d_58_configuredAwsKmsArn_ = d_00_.a
                     d_10_ = source5_[1]
                     if d_10_.is_AwsKmsArnIdentifier:
-                        d_60_messageAwsKmsArn_ = d_10_.a
+                        d_59_messageAwsKmsArn_ = d_10_.a
                         unmatched5 = False
-                        if (not(AwsArnParsing.default__.IsMultiRegionAwsKmsArn(d_59_configuredAwsKmsArn_))) or (not(AwsArnParsing.default__.IsMultiRegionAwsKmsArn(d_60_messageAwsKmsArn_))):
+                        if (not(AwsArnParsing.default__.IsMultiRegionAwsKmsArn(d_58_configuredAwsKmsArn_))) or (not(AwsArnParsing.default__.IsMultiRegionAwsKmsArn(d_59_messageAwsKmsArn_))):
                             return False
                         elif True:
-                            return (((((d_60_messageAwsKmsArn_).partition) == ((d_59_configuredAwsKmsArn_).partition)) and (((d_60_messageAwsKmsArn_).service) == ((d_59_configuredAwsKmsArn_).service))) and (((d_60_messageAwsKmsArn_).account) == ((d_59_configuredAwsKmsArn_).account))) and (((d_60_messageAwsKmsArn_).resource) == ((d_59_configuredAwsKmsArn_).resource))
+                            return (((((d_59_messageAwsKmsArn_).partition) == ((d_58_configuredAwsKmsArn_).partition)) and (((d_59_messageAwsKmsArn_).service) == ((d_58_configuredAwsKmsArn_).service))) and (((d_59_messageAwsKmsArn_).account) == ((d_58_configuredAwsKmsArn_).account))) and (((d_59_messageAwsKmsArn_).resource) == ((d_58_configuredAwsKmsArn_).resource))
             if unmatched5:
-                d_61___v0_ = source5_[0]
-                d_62___v1_ = source5_[1]
                 unmatched5 = False
                 return False
             raise Exception("unexpected control point")

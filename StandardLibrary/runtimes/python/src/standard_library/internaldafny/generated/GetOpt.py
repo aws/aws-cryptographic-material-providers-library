@@ -468,25 +468,25 @@ class default__:
                         if (d_292_valueOrError1_).IsFailure():
                             return (d_292_valueOrError1_).PropagateFailure()
                         elif True:
-                            d_293_longMap_ = (longMap).set((d_290_opt_).name, d_290_opt_)
+                            d_293_newLongMap_ = (longMap).set((d_290_opt_).name, d_290_opt_)
                             d_294_valueOrError2_ = default__.AddShortAlias((d_290_opt_).ShortAlias(), shortMap, (d_290_opt_).name)
                             if (d_294_valueOrError2_).IsFailure():
                                 return (d_294_valueOrError2_).PropagateFailure()
                             elif True:
-                                d_295_shortMap_ = (d_294_valueOrError2_).Extract()
-                                d_296_valueOrError3_ = default__.AddLongAlias((d_290_opt_).LongAlias(), d_293_longMap_, d_290_opt_)
+                                d_295_newShortMap_ = (d_294_valueOrError2_).Extract()
+                                d_296_valueOrError3_ = default__.AddLongAlias((d_290_opt_).LongAlias(), d_293_newLongMap_, d_290_opt_)
                                 if (d_296_valueOrError3_).IsFailure():
                                     return (d_296_valueOrError3_).PropagateFailure()
                                 elif True:
-                                    d_297_longMap_ = (d_296_valueOrError3_).Extract()
+                                    d_297_newLongMap_ = (d_296_valueOrError3_).Extract()
                                     if ((d_290_opt_).short) != (default__.NullChar):
                                         d_298_short_ = (d_290_opt_).short
-                                        if (d_298_short_) in (d_295_shortMap_):
-                                            return Wrappers.Result_Failure((((((_dafny.Seq("Duplicate short char in options : '")) + (_dafny.Seq([d_298_short_]))) + (_dafny.Seq("' for "))) + ((d_290_opt_).name)) + (_dafny.Seq(" and "))) + ((d_295_shortMap_)[d_298_short_]))
+                                        if (d_298_short_) in (d_295_newShortMap_):
+                                            return Wrappers.Result_Failure((((((_dafny.Seq("Duplicate short char in options : '")) + (_dafny.Seq([d_298_short_]))) + (_dafny.Seq("' for "))) + ((d_290_opt_).name)) + (_dafny.Seq(" and "))) + ((d_295_newShortMap_)[d_298_short_]))
                                         elif True:
                                             in126_ = _dafny.Seq((opts)[1::])
-                                            in127_ = (d_297_longMap_).set((d_290_opt_).name, d_290_opt_)
-                                            in128_ = (d_295_shortMap_).set(d_298_short_, (d_290_opt_).name)
+                                            in127_ = (d_297_newLongMap_).set((d_290_opt_).name, d_290_opt_)
+                                            in128_ = (d_295_newShortMap_).set(d_298_short_, (d_290_opt_).name)
                                             in129_ = commandMap
                                             opts = in126_
                                             longMap = in127_
@@ -495,8 +495,8 @@ class default__:
                                             raise _dafny.TailCall()
                                     elif True:
                                         in130_ = _dafny.Seq((opts)[1::])
-                                        in131_ = (d_297_longMap_).set((d_290_opt_).name, d_290_opt_)
-                                        in132_ = d_295_shortMap_
+                                        in131_ = (d_297_newLongMap_).set((d_290_opt_).name, d_290_opt_)
+                                        in132_ = d_295_newShortMap_
                                         in133_ = commandMap
                                         opts = in130_
                                         longMap = in131_

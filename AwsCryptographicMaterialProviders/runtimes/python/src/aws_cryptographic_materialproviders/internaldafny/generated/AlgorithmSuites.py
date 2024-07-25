@@ -25,6 +25,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
@@ -219,7 +220,7 @@ class default__:
         pat_let_tv105_ = a
         pat_let_tv106_ = a
         pat_let_tv107_ = a
-        def lambda32_():
+        def lambda33_():
             source11_ = ((a).id).ESDK
             unmatched11 = True
             if unmatched11:
@@ -267,7 +268,7 @@ class default__:
                 return ((((((((((((pat_let_tv98_).binaryId) == (_dafny.Seq([5, 120]))) and (((pat_let_tv99_).messageVersion) == (2))) and (True)) and (((((pat_let_tv100_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv101_).kdf).is_HKDF)) and (((((pat_let_tv102_).kdf).HKDF).hmac) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__512()))) and (((pat_let_tv103_).signature).is_ECDSA)) and (((((pat_let_tv104_).signature).ECDSA).curve) == (AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm_ECDSA__P384()))) and (((pat_let_tv105_).commitment).is_HKDF)) and (((pat_let_tv106_).symmetricSignature).is_None)) and (((pat_let_tv107_).edkWrapping).is_DIRECT__KEY__WRAPPING)
             raise Exception("unexpected control point")
 
-        return ((default__.AlgorithmSuiteInfo_q(a)) and (default__.SupportedESDKEncrypt_q((a).encrypt))) and (lambda32_())
+        return ((default__.AlgorithmSuiteInfo_q(a)) and (default__.SupportedESDKEncrypt_q((a).encrypt))) and (lambda33_())
 
     @staticmethod
     def DBEAlgorithmSuite_q(a):
@@ -294,7 +295,7 @@ class default__:
         pat_let_tv128_ = a
         pat_let_tv129_ = a
         pat_let_tv130_ = a
-        def lambda33_():
+        def lambda34_():
             source12_ = ((a).id).DBE
             unmatched12 = True
             if unmatched12:
@@ -306,7 +307,7 @@ class default__:
                 return (((((((((((((((pat_let_tv119_).binaryId) == (_dafny.Seq([103, 1]))) and (((pat_let_tv120_).messageVersion) == (1))) and (True)) and (((((pat_let_tv121_).encrypt).AES__GCM).keyLength) == (32))) and (((pat_let_tv122_).kdf).is_HKDF)) and (((((pat_let_tv123_).kdf).HKDF).hmac) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__512()))) and (((pat_let_tv124_).signature).is_ECDSA)) and (((((pat_let_tv125_).signature).ECDSA).curve) == (AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm_ECDSA__P384()))) and (((pat_let_tv126_).commitment).is_HKDF)) and (((pat_let_tv127_).symmetricSignature).is_HMAC)) and ((((pat_let_tv128_).symmetricSignature).HMAC) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__384()))) and (((pat_let_tv129_).edkWrapping).is_IntermediateKeyWrapping)) and (True)) and (((((((pat_let_tv130_).edkWrapping).IntermediateKeyWrapping).pdkEncryptAlgorithm).AES__GCM).keyLength) == (32))
             raise Exception("unexpected control point")
 
-        return (((default__.AlgorithmSuiteInfo_q(a)) and (default__.SupportedDBEEncrypt_q((a).encrypt))) and (default__.SupportedDBEEDKWrapping_q((a).edkWrapping))) and (lambda33_())
+        return (((default__.AlgorithmSuiteInfo_q(a)) and (default__.SupportedDBEEncrypt_q((a).encrypt))) and (default__.SupportedDBEEDKWrapping_q((a).edkWrapping))) and (lambda34_())
 
     @staticmethod
     def AlgorithmSuite_q(a):
@@ -316,11 +317,9 @@ class default__:
         unmatched13 = True
         if unmatched13:
             if source13_.is_ESDK:
-                d_327___v0_ = source13_.ESDK
                 unmatched13 = False
                 return default__.ESDKAlgorithmSuite_q(pat_let_tv131_)
         if unmatched13:
-            d_328___v1_ = source13_.DBE
             unmatched13 = False
             return default__.DBEAlgorithmSuite_q(pat_let_tv132_)
         raise Exception("unexpected control point")
@@ -343,13 +342,13 @@ class default__:
         unmatched14 = True
         if unmatched14:
             if source14_.is_ESDK:
-                d_329_e_ = source14_.ESDK
+                d_330_e_ = source14_.ESDK
                 unmatched14 = False
-                return default__.GetESDKSuite(d_329_e_)
+                return default__.GetESDKSuite(d_330_e_)
         if unmatched14:
-            d_330_e_ = source14_.DBE
+            d_331_e_ = source14_.DBE
             unmatched14 = False
-            return default__.GetDBESuite(d_330_e_)
+            return default__.GetDBESuite(d_331_e_)
         raise Exception("unexpected control point")
 
     @staticmethod
@@ -365,9 +364,9 @@ class default__:
         source15_ = (a).encrypt
         unmatched15 = True
         if unmatched15:
-            d_331_e_ = source15_.AES__GCM
+            d_332_e_ = source15_.AES__GCM
             unmatched15 = False
-            return (d_331_e_).keyLength
+            return (d_332_e_).keyLength
         raise Exception("unexpected control point")
 
     @staticmethod
@@ -375,9 +374,9 @@ class default__:
         source16_ = (a).encrypt
         unmatched16 = True
         if unmatched16:
-            d_332_e_ = source16_.AES__GCM
+            d_333_e_ = source16_.AES__GCM
             unmatched16 = False
-            return (d_332_e_).tagLength
+            return (d_333_e_).tagLength
         raise Exception("unexpected control point")
 
     @staticmethod
@@ -385,16 +384,16 @@ class default__:
         source17_ = (a).encrypt
         unmatched17 = True
         if unmatched17:
-            d_333_e_ = source17_.AES__GCM
+            d_334_e_ = source17_.AES__GCM
             unmatched17 = False
-            return (d_333_e_).ivLength
+            return (d_334_e_).ivLength
         raise Exception("unexpected control point")
 
     @staticmethod
     def GetAlgorithmSuiteInfo(binaryId_q):
-        d_334_valueOrError0_ = Wrappers.default__.Need((binaryId_q) in (default__.AlgorithmSuiteInfoByBinaryId), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid BinaryId")))
-        if (d_334_valueOrError0_).IsFailure():
-            return (d_334_valueOrError0_).PropagateFailure()
+        d_335_valueOrError0_ = Wrappers.default__.Need((binaryId_q) in (default__.AlgorithmSuiteInfoByBinaryId), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid BinaryId")))
+        if (d_335_valueOrError0_).IsFailure():
+            return (d_335_valueOrError0_).PropagateFailure()
         elif True:
             return Wrappers.Result_Success((default__.AlgorithmSuiteInfoByBinaryId)[binaryId_q])
 
@@ -482,5 +481,5 @@ class AlgorithmSuite:
     def default():
         return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo.default()()
     def _Is(source__):
-        d_335_a_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo = source__
-        return default__.AlgorithmSuite_q(d_335_a_)
+        d_336_a_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo = source__
+        return default__.AlgorithmSuite_q(d_336_a_)
