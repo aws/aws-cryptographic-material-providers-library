@@ -66,12 +66,12 @@ SERVICE_DEPS_KeyVectors := \
 # 1) this is only for wrapped localService shims, which are only for testing
 # 2) this is a test package
 PYTHON_DEPENDENCY_MODULE_NAMES := \
-	--dependency-module-name=aws.cryptography.primitives=aws_cryptography_primitives \
-	--dependency-module-name=com.amazonaws.kms=com_amazonaws_kms \
-	--dependency-module-name=com.amazonaws.dynamodb=com_amazonaws_dynamodb \
-	--dependency-module-name=aws.cryptography.materialProviders=aws_cryptographic_materialproviders \
-	--dependency-module-name=aws.cryptography.keyStore=aws_cryptographic_materialproviders \
-	--dependency-module-name=smithy.api=aws_cryptographic_materialproviders
+	--dependency-library-name=aws.cryptography.primitives=aws_cryptography_primitives \
+	--dependency-library-name=com.amazonaws.kms=com_amazonaws_kms \
+	--dependency-library-name=com.amazonaws.dynamodb=com_amazonaws_dynamodb \
+	--dependency-library-name=aws.cryptography.materialProviders=aws_cryptographic_materialproviders \
+	--dependency-library-name=aws.cryptography.keyStore=aws_cryptographic_materialproviders \
+	--dependency-library-name=smithy.api=aws_cryptographic_materialproviders
 
 PYTHON_MODULE_NAME=aws_cryptography_materialproviderstestvectorkeys
 

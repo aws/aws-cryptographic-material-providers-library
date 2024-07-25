@@ -55,8 +55,8 @@ SERVICE_DEPS_AwsCryptographyKeyStore := \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographicMaterialProviders \
 
 PYTHON_DEPENDENCY_MODULE_NAMES := \
-	--dependency-module-name=aws.cryptography.primitives=aws_cryptography_primitives \
-	--dependency-module-name=com.amazonaws.kms=com_amazonaws_kms \
-	--dependency-module-name=com.amazonaws.dynamodb=com_amazonaws_dynamodb \
-	--dependency-module-name=aws.cryptography.materialProviders=aws_cryptographic_materialproviders \
-	--dependency-module-name=aws.cryptography.keyStore=aws_cryptographic_materialproviders \
+	--dependency-library-name=aws.cryptography.primitives=aws_cryptography_primitives \
+	--dependency-library-name=com.amazonaws.kms=com_amazonaws_kms \
+	--dependency-library-name=com.amazonaws.dynamodb=com_amazonaws_dynamodb \
+	--dependency-library-name=aws.cryptography.materialProviders=aws_cryptographic_materialproviders \
+	--dependency-library-name=aws.cryptography.keyStore=aws_cryptographic_materialproviders \
