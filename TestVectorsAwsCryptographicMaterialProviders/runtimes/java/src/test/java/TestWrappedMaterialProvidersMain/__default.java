@@ -1,7 +1,7 @@
 package TestWrappedMaterialProvidersMain;
 
 import dafny.DafnySequence;
-import AwsCryptographyMaterialProvidersTestVectorKeysTypes;
+import AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error;
 
 public class __default {
 
