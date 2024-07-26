@@ -22,8 +22,8 @@
 
   <ItemGroup>
     <ProjectReference Include="../TestVectors.csproj" />
-    <Compile Include="Extern/**/*.cs" />
     <Compile Include="TestsFromDafny.cs" />
+    <Compile Include="Extern/**/*.cs" />
   </ItemGroup>
 
 
