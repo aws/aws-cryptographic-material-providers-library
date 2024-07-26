@@ -1,7 +1,7 @@
 namespace aws.cryptography.primitives
 
 // Key-Derivation Function in Counter Mode
-// https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-108r1.pdf
+// https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-108r1.pd
 operation KdfCounterMode {
   input: KdfCtrInput,
   output: KdfCtrOutput
