@@ -1,6 +1,6 @@
 using byteseq = Dafny.Sequence<byte>;
 
-namespace TestWrappedMaterialProvidersMain {
+namespace TestWrappedMaterialProvidersMain_Compile {
 
   public partial class __default {
 

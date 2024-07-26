@@ -1,4 +1,4 @@
-package TestWrappedMaterialProvidersMain;
+package TestWrappedMaterialProvidersMain_Compile;
 
 import dafny.DafnySequence;
 
