@@ -1,13 +1,14 @@
 package TestWrappedMaterialProvidersMain;
 
 import dafny.DafnySequence;
+import AwsCryptographyMaterialProvidersTestVectorKeysTypes;
 
 public class __default {
 
-  public Wrappers.Result<
+  public Wrappers_Compile.Result<
     dafny.DafnySequence<? extends Character>,
     AwsCryptographyMaterialProvidersTestVectorKeysTypes.Error
   > GetTestVectorExecutionDirectory() {
-    return Wrappers.Result_Success(DafnySequence.fromString(""));
+    return Wrappers_Compile.Result_Success(DafnySequence.asString(""));
   }
 }
