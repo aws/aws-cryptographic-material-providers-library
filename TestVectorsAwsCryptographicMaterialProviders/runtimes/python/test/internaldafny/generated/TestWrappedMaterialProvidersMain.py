@@ -198,34 +198,46 @@ class default__:
 
     @staticmethod
     def TestGenerateEncryptManifest():
-        d_0_result_: Wrappers.Result
-        out0_: Wrappers.Result
-        out0_ = CompleteVectors.default__.WriteStuff(MplManifestOptions.ManifestOptions_EncryptManifest(_dafny.Seq("/Users/lucmcdon/workplace/aws-cryptographic-material-providers-library/TestVectorsAwsCryptographicMaterialProviders/dafny/TestVectorsAwsCryptographicMaterialProviders/test/")))
-        d_0_result_ = out0_
-        if (d_0_result_).is_Failure:
-            _dafny.print(_dafny.string_of((d_0_result_).error))
-        if not((d_0_result_).is_Success):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/test/RunMain.dfy(31,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-
-    @staticmethod
-    def TestEncryptManifest():
+        d_0_directory_: _dafny.Seq
+        out0_: _dafny.Seq
+        out0_ = default__.GetTestVectorExecutionDirectory()
+        d_0_directory_ = out0_
         d_1_result_: Wrappers.Result
         out1_: Wrappers.Result
-        out1_ = TestManifests.default__.StartEncrypt(MplManifestOptions.ManifestOptions_Encrypt(_dafny.Seq("/Users/lucmcdon/workplace/aws-cryptographic-material-providers-library/TestVectorsAwsCryptographicMaterialProviders/dafny/TestVectorsAwsCryptographicMaterialProviders/test/"), _dafny.Seq("/Users/lucmcdon/workplace/aws-cryptographic-material-providers-library/TestVectorsAwsCryptographicMaterialProviders/dafny/TestVectorsAwsCryptographicMaterialProviders/"), Wrappers.Option_None()))
+        out1_ = CompleteVectors.default__.WriteStuff(MplManifestOptions.ManifestOptions_EncryptManifest((d_0_directory_) + (_dafny.Seq("dafny/TestVectorsAwsCryptographicMaterialProviders/test/"))))
         d_1_result_ = out1_
         if (d_1_result_).is_Failure:
             _dafny.print(_dafny.string_of((d_1_result_).error))
         if not((d_1_result_).is_Success):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/test/RunMain.dfy(30,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+
+    @staticmethod
+    def TestEncryptManifest():
+        d_2_directory_: _dafny.Seq
+        out2_: _dafny.Seq
+        out2_ = default__.GetTestVectorExecutionDirectory()
+        d_2_directory_ = out2_
+        d_3_result_: Wrappers.Result
+        out3_: Wrappers.Result
+        out3_ = TestManifests.default__.StartEncrypt(MplManifestOptions.ManifestOptions_Encrypt((d_2_directory_) + (_dafny.Seq("dafny/TestVectorsAwsCryptographicMaterialProviders/test/")), (d_2_directory_) + (_dafny.Seq("dafny/TestVectorsAwsCryptographicMaterialProviders/")), Wrappers.Option_None()))
+        d_3_result_ = out3_
+        if (d_3_result_).is_Failure:
+            _dafny.print(_dafny.string_of((d_3_result_).error))
+        if not((d_3_result_).is_Success):
             raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/test/RunMain.dfy(45,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def TestDecryptManifest():
-        d_2_result_: Wrappers.Result
-        out2_: Wrappers.Result
-        out2_ = TestManifests.default__.StartDecrypt(MplManifestOptions.ManifestOptions_Decrypt(_dafny.Seq("/Users/lucmcdon/workplace/aws-cryptographic-material-providers-library/TestVectorsAwsCryptographicMaterialProviders/dafny/TestVectorsAwsCryptographicMaterialProviders/"), Wrappers.Option_None()))
-        d_2_result_ = out2_
-        if (d_2_result_).is_Failure:
-            _dafny.print(_dafny.string_of(d_2_result_))
-        if not((d_2_result_).is_Success):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/test/RunMain.dfy(57,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+        d_4_directory_: _dafny.Seq
+        out4_: _dafny.Seq
+        out4_ = default__.GetTestVectorExecutionDirectory()
+        d_4_directory_ = out4_
+        d_5_result_: Wrappers.Result
+        out5_: Wrappers.Result
+        out5_ = TestManifests.default__.StartDecrypt(MplManifestOptions.ManifestOptions_Decrypt((d_4_directory_) + (_dafny.Seq("dafny/TestVectorsAwsCryptographicMaterialProviders/")), Wrappers.Option_None()))
+        d_5_result_ = out5_
+        if (d_5_result_).is_Failure:
+            _dafny.print(_dafny.string_of(d_5_result_))
+        if not((d_5_result_).is_Success):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/test/RunMain.dfy(58,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 

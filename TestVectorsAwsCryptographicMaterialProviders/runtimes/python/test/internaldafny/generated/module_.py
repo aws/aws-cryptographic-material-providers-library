@@ -199,8 +199,8 @@ class default__:
 
     @staticmethod
     def Test____Main____(noArgsParameter__):
-        d_3_success_: bool
-        d_3_success_ = True
+        d_6_success_: bool
+        d_6_success_ = True
         _dafny.print(_dafny.string_of(_dafny.Seq("TestWrappedMaterialProvidersMain.TestGenerateEncryptManifest: ")))
         try:
             if True:
@@ -208,12 +208,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_4_haltMessage_ = e.message
+            d_7_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_4_haltMessage_))
+                _dafny.print(_dafny.string_of(d_7_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_3_success_ = False
+                d_6_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestWrappedMaterialProvidersMain.TestEncryptManifest: ")))
         try:
             if True:
@@ -221,12 +221,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_5_haltMessage_ = e.message
+            d_8_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_5_haltMessage_))
+                _dafny.print(_dafny.string_of(d_8_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_3_success_ = False
+                d_6_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestWrappedMaterialProvidersMain.TestDecryptManifest: ")))
         try:
             if True:
@@ -234,12 +234,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_6_haltMessage_ = e.message
+            d_9_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_6_haltMessage_))
+                _dafny.print(_dafny.string_of(d_9_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_3_success_ = False
-        if not(d_3_success_):
+                d_6_success_ = False
+        if not(d_6_success_):
             raise _dafny.HaltException("<stdin>(1,0): " + _dafny.string_of(_dafny.Seq("Test failures occurred: see above.\n")))
 

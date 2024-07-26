@@ -7,23 +7,22 @@
 // it is easy to kick off a test run.
 include "../src/Index.dfy"
 
-module TestWrappedMaterialProvidersMain {
+module {:extern} TestWrappedMaterialProvidersMain {
   import WrappedMaterialProvidersMain
   import TestManifests
   import CompleteVectors
   import opened MplManifestOptions
 
   // Test execution directory is different for different runtimes.
-  // TODO: - Replace all /Users/lucmcdon/work... below with call to this function
-  //       - Write this extern in Python to return absolute path (import os; return os.getcwd() should do it)
-  //       - Write this extern in NET/Java to return empty sring
-  // method {:extern} GetTestDirectory() returns (res: Result<string, Types.OpaqueError>)
+  // Runtime should define an extern to return the expected test execution directory.
+  method {:extern} GetTestVectorExecutionDirectory() returns (res: string)
 
   // This MUST go before TestEncryptManifest
   method {:test} TestGenerateEncryptManifest() {
+    var directory := GetTestVectorExecutionDirectory();
     var result := CompleteVectors.WriteStuff(
       EncryptManifest(
-        encryptManifestOutput := "/Users/lucmcdon/workplace/aws-cryptographic-material-providers-library/TestVectorsAwsCryptographicMaterialProviders/dafny/TestVectorsAwsCryptographicMaterialProviders/test/"
+        encryptManifestOutput := directory + "dafny/TestVectorsAwsCryptographicMaterialProviders/test/"
       ));
     if result.Failure? {
       print result.error;
@@ -33,10 +32,11 @@ module TestWrappedMaterialProvidersMain {
 
   // This MUST go before TestDecryptManifest
   method {:test} TestEncryptManifest() {
+    var directory := GetTestVectorExecutionDirectory();
     var result := TestManifests.StartEncrypt(
       Encrypt(
-        manifestPath := "/Users/lucmcdon/workplace/aws-cryptographic-material-providers-library/TestVectorsAwsCryptographicMaterialProviders/dafny/TestVectorsAwsCryptographicMaterialProviders/test/",
-        decryptManifestOutput := "/Users/lucmcdon/workplace/aws-cryptographic-material-providers-library/TestVectorsAwsCryptographicMaterialProviders/dafny/TestVectorsAwsCryptographicMaterialProviders/"
+        manifestPath := directory + "dafny/TestVectorsAwsCryptographicMaterialProviders/test/",
+        decryptManifestOutput := directory + "dafny/TestVectorsAwsCryptographicMaterialProviders/"
       )
     );
     if result.Failure? {
@@ -46,9 +46,10 @@ module TestWrappedMaterialProvidersMain {
   }
 
   method {:test} TestDecryptManifest() {
+    var directory := GetTestVectorExecutionDirectory();
     var result := TestManifests.StartDecrypt(
       Decrypt(
-        manifestPath := "/Users/lucmcdon/workplace/aws-cryptographic-material-providers-library/TestVectorsAwsCryptographicMaterialProviders/dafny/TestVectorsAwsCryptographicMaterialProviders/"
+        manifestPath := directory + "dafny/TestVectorsAwsCryptographicMaterialProviders/"
       )
     );
     if result.Failure? {
