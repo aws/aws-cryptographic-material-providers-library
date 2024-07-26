@@ -32,6 +32,7 @@ java {
     }
     sourceSets["test"].java {
         srcDir("src/test/dafny-generated")
+        srcDir("src/test/java")
     }
 }
 
