@@ -12,8 +12,6 @@ module {:extern} TestWrappedMaterialProvidersMain {
   import TestManifests
   import CompleteVectors
   import opened MplManifestOptions
-  import opened Wrappers
-  import Types = AwsCryptographyMaterialProvidersTestVectorKeysTypes
 
   // Test execution directory is different for different runtimes.
   // Runtime should define an extern to return the expected test execution directory.
