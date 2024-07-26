@@ -20,7 +20,7 @@ list ServiceList {
   member: String
 }
 // A trait for explicitly modeling the configuration options that should be
-// available in the generated methods for creating clients
+// available in the generated methods for creating clients.
 @trait(selector: "service")
 structure localService {
   @required
