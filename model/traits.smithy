@@ -1,6 +1,6 @@
 namespace aws.polymorph
 
-// Smithy doesn't allow passing resources or services as members of structures
+// Smithy doesn't allow passing resources or services as members of structures, 
 // since it doesn't make sense in a client-server world to pass these over the
 // wire. However, in our world we do want to be able to pass around references
 // to things like Keyrings, so we create a new trait which indicates that 
