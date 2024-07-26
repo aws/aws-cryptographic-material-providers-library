@@ -26,7 +26,6 @@ java {
         srcDir("src/main/smithy-generated")
     }
     sourceSets["test"].java {
-        srcDir("src/test/java")
         srcDir("src/test/dafny-generated")
     }
 }

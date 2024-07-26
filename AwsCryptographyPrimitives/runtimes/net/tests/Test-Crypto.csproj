@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="../Crypto.csproj" />
-    <Compile Include="Extern/**/*.cs" />
     <Compile Include="TestsFromDafny.cs" />
   </ItemGroup>
 

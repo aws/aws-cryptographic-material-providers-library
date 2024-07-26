@@ -16,9 +16,7 @@ module TestWrappedMaterialProvidersMain {
   import Types = AwsCryptographyMaterialProvidersTestVectorKeysTypes
 
   // Test execution directory is different for different runtimes.
-  // TODO: - Replace all /Users/lucmcdon/work... below with call to this function
-  //       - Write this extern in Python to return absolute path (import os; return os.getcwd() should do it)
-  //       - Write this extern in NET/Java to return empty sring
+  // Runtime should define an extern to return the expected test execution directory.
   method {:extern} GetTestVectorExecutionDirectory() returns (res: Result<string, Types.OpaqueError>)
 
   // This MUST go before TestEncryptManifest
