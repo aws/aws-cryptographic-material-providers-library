@@ -24,7 +24,7 @@ module TestWrappedMaterialProvidersMain {
     var directory := GetTestVectorExecutionDirectory();
     var result := CompleteVectors.WriteStuff(
       EncryptManifest(
-        encryptManifestOutput := directory.value + "dafny/TestVectorsAwsCryptographicMaterialProviders/test/"
+        encryptManifestOutput := directory + "dafny/TestVectorsAwsCryptographicMaterialProviders/test/"
       ));
     if result.Failure? {
       print result.error;
@@ -37,8 +37,8 @@ module TestWrappedMaterialProvidersMain {
     var directory := GetTestVectorExecutionDirectory();
     var result := TestManifests.StartEncrypt(
       Encrypt(
-        manifestPath := directory.value + "dafny/TestVectorsAwsCryptographicMaterialProviders/test/",
-        decryptManifestOutput := directory.value + "dafny/TestVectorsAwsCryptographicMaterialProviders/"
+        manifestPath := directory + "dafny/TestVectorsAwsCryptographicMaterialProviders/test/",
+        decryptManifestOutput := directory + "dafny/TestVectorsAwsCryptographicMaterialProviders/"
       )
     );
     if result.Failure? {
@@ -51,7 +51,7 @@ module TestWrappedMaterialProvidersMain {
     var directory := GetTestVectorExecutionDirectory();
     var result := TestManifests.StartDecrypt(
       Decrypt(
-        manifestPath := directory.value + "dafny/TestVectorsAwsCryptographicMaterialProviders/"
+        manifestPath := directory + "dafny/TestVectorsAwsCryptographicMaterialProviders/"
       )
     );
     if result.Failure? {
