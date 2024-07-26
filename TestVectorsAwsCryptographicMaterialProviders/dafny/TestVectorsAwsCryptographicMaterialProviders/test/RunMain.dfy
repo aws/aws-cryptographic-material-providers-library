@@ -7,7 +7,7 @@
 // it is easy to kick off a test run.
 include "../src/Index.dfy"
 
-module TestWrappedMaterialProvidersMain {
+module {:extern} TestWrappedMaterialProvidersMain {
   import WrappedMaterialProvidersMain
   import TestManifests
   import CompleteVectors
