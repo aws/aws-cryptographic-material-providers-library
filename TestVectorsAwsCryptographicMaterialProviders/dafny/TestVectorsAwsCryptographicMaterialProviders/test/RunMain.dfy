@@ -17,7 +17,7 @@ module TestWrappedMaterialProvidersMain {
 
   // Test execution directory is different for different runtimes.
   // Runtime should define an extern to return the expected test execution directory.
-  method {:extern} GetTestVectorExecutionDirectory() returns (res: Result<string, Types.OpaqueError>)
+  method {:extern} GetTestVectorExecutionDirectory() returns (res: string)
 
   // This MUST go before TestEncryptManifest
   method {:test} TestGenerateEncryptManifest() {
