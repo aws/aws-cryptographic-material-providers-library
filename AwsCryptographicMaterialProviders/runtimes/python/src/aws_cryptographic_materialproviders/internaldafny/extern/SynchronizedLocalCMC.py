@@ -65,6 +65,6 @@ class SynchronizedLocalCMC:
         return val
     
     def __str__(self):
-        return "LocalCMC.StormTrackerCMC"
+        return "LocalCMC.SynchronizedLocalCMC"
 
 aws_cryptographic_materialproviders.internaldafny.generated.SynchronizedLocalCMC.SynchronizedLocalCMC = SynchronizedLocalCMC
