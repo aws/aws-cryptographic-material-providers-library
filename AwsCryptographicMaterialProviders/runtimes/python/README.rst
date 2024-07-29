@@ -38,8 +38,21 @@ Required Prerequisites
 * toml
 * myst-parser
 
+*************
+Thread safety
+*************
+
+The ``MaterialProviders`` client and all provided ``CryptoMaterialsManager``s (CMMs) are thread safe.
+But keyrings that call KeyManagementService (KMS) and CMMs that use keyrings that call KMS MUST not be shared between threads, for reasons outlined in `the boto3 docs`_.
+
+(Keyrings that call KMS are identified by the string ``Kms`` in their name. ex. ``AwsKmsKeyring``, ``AwsKmsMrkDiscoveryMultiKeyring``, etc.)
+
+Finally, while the provided implementations of ``ICryptographicMaterialsCache`` are thread-safe,
+there is currently no thread-safe keyring implementation that supports using a cache.
+
 .. _cryptography: https://cryptography.io/en/latest/
 .. _cryptography installation guide: https://cryptography.io/en/latest/installation/
 .. _Read the Docs: https://aws-cryptographic-material-providers-library.readthedocs.io/en/latest/
 .. _GitHub: https://github.com/aws/aws-cryptographic-material-providers-library
 .. _vulnerability reporting page : http://aws.amazon.com/security/vulnerability-reporting/
+.. _the boto3 docs: https://boto3.amazonaws.com/v1/documentation/api/latest/guide/resources.html#multithreading-or-multiprocessing-with-resources
