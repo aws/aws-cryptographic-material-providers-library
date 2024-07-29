@@ -82,6 +82,8 @@ module Fixtures {
   const KmsConfigWest : Types.KMSConfiguration := Types.KMSConfiguration.kmsKeyArn(MrkArnWest)
   const KmsMrkConfigEast : Types.KMSConfiguration := Types.KMSConfiguration.kmsMRKeyArn(MrkArnEast)
   const KmsMrkConfigWest : Types.KMSConfiguration := Types.KMSConfiguration.kmsMRKeyArn(MrkArnWest)
+  const KmsSrkConfigEast : Types.KMSConfiguration := Types.KMSConfiguration.kmsKeyArn(MrkArnEast)
+  const KmsSrkConfigWest : Types.KMSConfiguration := Types.KMSConfiguration.kmsKeyArn(MrkArnWest)
   const KmsMrkConfigAP : Types.KMSConfiguration := Types.KMSConfiguration.kmsMRKeyArn(MrkArnAP)
   const KmsMrkEC : Types.EncryptionContext := map[UTF8.EncodeAscii("abc") := UTF8.EncodeAscii("123")]
   const EastBranchKey : string := "MyEastBranch2"
@@ -93,4 +95,9 @@ module Fixtures {
   const kmsKeyAlias := "arn:aws:kms:us-west-2:370957321024:alias/postalHorn"
   const postalHornBranchKeyId := "682dfba7-4c35-491d-8d6a-5a9c56194061"
   const postalHornBranchKeyActiveVersion := "6b7a8ef4-8c1c-4f63-b196-a6ef7e496e50"
+
+  // Creation of this particular illegal Branch Key is detailed here:
+  // `git rev-parse --show-toplevel`/cfn/lyingBranchKeyCreation.md
+  const lyingBranchKeyId := "kms-arn-attribute-is-lying"
+  const lyingBranchKeyDecryptOnlyVersion := "129c5c87-308a-41c9-8b9d-a27f66e915f4"
 }

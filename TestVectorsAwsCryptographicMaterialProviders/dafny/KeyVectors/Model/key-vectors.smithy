@@ -1,6 +1,5 @@
 namespace aws.cryptography.materialProvidersTestVectorKeys
 
-/////////////
 // KeyVectors Creation
 @aws.polymorph#localService(
   sdkId: "KeyVectors",
@@ -104,8 +103,10 @@ union KeyDescription {
   KmsMrkDiscovery: KmsMrkAwareDiscovery,
   RSA: RawRSA,
   AES: RawAES,
+  ECDH: RawEcdh,
   Static: StaticKeyring,
   KmsRsa: KmsRsaKeyring,
+  KmsECDH: KmsEcdhKeyring,
   Hierarchy: HierarchyKeyring,
   Multi: MultiKeyring,
   RequiredEncryptionContext: RequiredEncryptionContextCMM,
@@ -140,6 +141,23 @@ structure RawAES {
   @required
   providerId: String,
 }
+structure RawEcdh {
+  @required
+  senderKeyId: String,
+  @required
+  recipientKeyId: String,
+  @required
+  senderPublicKey: String,
+  @required
+  recipientPublicKey: String,
+  @required
+  providerId: String,
+  @required
+  curveSpec: String,
+  @required
+  keyAgreementScheme: String
+}
+
 structure StaticKeyring {
   @required
   keyId: String,
@@ -150,6 +168,21 @@ structure KmsRsaKeyring {
   keyId: String,
   @required
   encryptionAlgorithm: com.amazonaws.kms#EncryptionAlgorithmSpec,
+}
+
+structure KmsEcdhKeyring {
+  @required
+  senderKeyId: String,
+  @required
+  recipientKeyId: String,
+  @required
+  senderPublicKey: String,
+  @required
+  recipientPublicKey: String,
+  @required
+  curveSpec: String,
+  @required
+  keyAgreementScheme: String
 }
 
 structure HierarchyKeyring {

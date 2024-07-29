@@ -49,6 +49,7 @@ module {:options "-functionSyntax:4"} KeyMaterial {
     match typ
     case "static-material" => ToStaticMaterial(mpl, name, obj)
     case "static-branch-key" => ToStaticBranchKey(mpl, name, obj)
+
     case _ =>
       var encrypt :- GetBool("encrypt", obj);
       var decrypt :- GetBool("decrypt", obj);
@@ -63,6 +64,45 @@ module {:options "-functionSyntax:4"} KeyMaterial {
                   encrypt := encrypt,
                   decrypt := decrypt,
                   keyIdentifier := keyIdentifier
+                ))
+      case "aws-kms-ecdh" =>
+        var algorithm :- GetString("algorithm", obj);
+        var senderMaterial :- GetString("sender-material", obj);
+        var recipientMaterial :- GetString("recipient-material", obj);
+        var encoding :- GetString("encoding", obj);
+        var senderPublicKey :- GetString("sender-material-public-key", obj);
+        var recipientPublicKey :- GetString("recipient-material-public-key", obj);
+        Success(KeyMaterial.KMSEcdh(
+                  name := name,
+                  encrypt := encrypt,
+                  decrypt := decrypt,
+                  keyIdentifier := keyIdentifier,
+                  algorithm := algorithm,
+                  senderMaterial := senderMaterial,
+                  recipientMaterial := recipientMaterial,
+                  senderPublicKey := senderPublicKey,
+                  recipientPublicKey := recipientPublicKey
+                ))
+      case "ecc-private" =>
+        var algorithm :- GetString("algorithm", obj);
+        var bits :- GetNat("bits", obj);
+        var encoding :- GetString("encoding", obj);
+        var senderMaterial :- GetString("sender-material", obj);
+        var recipientMaterial :- GetString("recipient-material", obj);
+        var senderPublicKey :- GetString("sender-material-public-key", obj);
+        var recipientPublicKey :- GetString("recipient-material-public-key", obj);
+        Success(PrivateECDH(
+                  name := name,
+                  encrypt := encrypt,
+                  decrypt := decrypt,
+                  keyIdentifier := keyIdentifier,
+                  algorithm := algorithm,
+                  bits := bits,
+                  encoding := encoding,
+                  senderMaterial := senderMaterial,
+                  recipientMaterial := recipientMaterial,
+                  senderPublicKey := senderPublicKey,
+                  recipientPublicKey := recipientPublicKey
                 ))
       case _ =>
         var algorithm :- GetString("algorithm", obj);
@@ -233,6 +273,8 @@ module {:options "-functionSyntax:4"} KeyMaterial {
     || s == "public"
     || s == "static-branch-key"
     || s == "aws-kms-rsa"
+    || s == "ecc-private"
+    || s == "aws-kms-ecdh"
   }
 
   datatype KeyMaterial =
@@ -263,6 +305,18 @@ module {:options "-functionSyntax:4"} KeyMaterial {
         material: string,
         keyIdentifier: string
       )
+    | PrivateECDH(
+        name: string,
+        encrypt: bool, decrypt: bool,
+        algorithm: string,
+        bits: nat,
+        encoding: string,
+        senderMaterial: string,
+        recipientMaterial: string,
+        senderPublicKey: string,
+        recipientPublicKey: string,
+        keyIdentifier: string
+      )
     | KMS(
         name: string,
         encrypt: bool, decrypt: bool,
@@ -276,6 +330,16 @@ module {:options "-functionSyntax:4"} KeyMaterial {
         algorithm: string,
         encoding: string,
         publicKey: MPL.Secret
+      )
+    | KMSEcdh(
+        name: string,
+        encrypt: bool, decrypt: bool,
+        keyIdentifier: string,
+        algorithm: string,
+        senderMaterial: string,
+        recipientMaterial: string,
+        senderPublicKey: string,
+        recipientPublicKey: string
       )
     | StaticMaterial(
         name: string,

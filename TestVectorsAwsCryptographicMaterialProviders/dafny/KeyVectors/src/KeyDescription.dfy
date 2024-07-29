@@ -9,6 +9,7 @@ include "../../TestVectorsAwsCryptographicMaterialProviders/src/JSONHelpers.dfy"
 module {:options "-functionSyntax:4"} KeyDescription {
   import opened Wrappers
   import opened JSON.Values
+  import AwsCryptographyPrimitivesTypes
   import AwsCryptographyMaterialProvidersTypes
   import opened Types = AwsCryptographyMaterialProvidersTestVectorKeysTypes
   import opened JSONHelpers
@@ -67,6 +68,8 @@ module {:options "-functionSyntax:4"} KeyDescription {
                     underlying := underlying,
                     requiredEncryptionContextKeys := requiredEncryptionContextKeys
                   )))
+      case "raw-ecdh" => ToRawEcdh(obj)
+      case "aws-kms-ecdh" => ToAwsKmsEcdh(obj)
       case _ =>
         var key :- GetString("key", obj);
         match typ
@@ -123,6 +126,29 @@ module {:options "-functionSyntax:4"} KeyDescription {
     Success(KmsRsa(KmsRsaKeyring( keyId := key, encryptionAlgorithm := encryptionAlgorithm )))
   }
 
+  function ToAwsKmsEcdh(obj: seq<(string, JSON)>)
+    : Result<KeyDescription, string>
+  {
+    var eccCurve :- GetString("ecc-curve", obj);
+    :- Need(eccCurve in KmsKey2EccAlgorithmSpec,
+            "Unsupported ECC Curve Spec:" + eccCurve);
+    var schema :- GetString("schema", obj);
+    var sender :- GetString("sender", obj);
+    var recipient :- GetString("recipient", obj);
+    var senderPublicKey :- GetString("sender-public-key", obj);
+    var recipientPublicKey :- GetString("recipient-public-key", obj);
+
+
+    Success(KmsECDH(KmsEcdhKeyring(
+                      senderKeyId := sender,
+                      recipientKeyId := recipient,
+                      senderPublicKey := senderPublicKey,
+                      recipientPublicKey := recipientPublicKey,
+                      keyAgreementScheme := schema,
+                      curveSpec := eccCurve
+                    )))
+  }
+
   function ToRawAes(key: string, obj: seq<(string, JSON)>)
     : Result<KeyDescription, string>
   {
@@ -148,6 +174,27 @@ module {:options "-functionSyntax:4"} KeyDescription {
                   providerId := providerId,
                   padding := String2PaddingAlgorithm[(paddingAlgorithm, paddingHash)]
                 )))
+  }
+
+  function ToRawEcdh(obj: seq<(string, JSON)>)
+    : Result<KeyDescription, string>
+  {
+    var providerId :- GetString("provider-id", obj);
+    var ecc_curve :- GetString("ecc-curve", obj);
+    var sender :- GetString("sender", obj);
+    var recipient :- GetString("recipient", obj);
+    var schema :- GetString("schema", obj);
+    var senderPublicKey :- GetString("sender-public-key", obj);
+    var recipientPublicKey :- GetString("recipient-public-key", obj);
+    Success(ECDH(RawEcdh(
+                   senderKeyId := sender,
+                   recipientKeyId := recipient,
+                   senderPublicKey := senderPublicKey,
+                   recipientPublicKey := recipientPublicKey,
+                   providerId := providerId,
+                   keyAgreementScheme := schema,
+                   curveSpec := ecc_curve
+                 )))
   }
 
   function ToMultiKeyring(
@@ -183,8 +230,10 @@ module {:options "-functionSyntax:4"} KeyDescription {
     || s == "aws-kms-mrk-aware"
     || s == "aws-kms-mrk-aware-discovery"
     || s == "raw"
+    || s == "raw-ecdh"
     || s == "aws-kms-hierarchy"
     || s == "aws-kms-rsa"
+    || s == "aws-kms-ecdh"
     || s == "required-encryption-context-cmm"
     || s == "multi-keyring"
   }
@@ -216,6 +265,30 @@ module {:options "-functionSyntax:4"} KeyDescription {
          ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.RSAES_OAEP_SHA_1 := "RSAES_OAEP_SHA_1",
          ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.RSAES_OAEP_SHA_256 := "RSAES_OAEP_SHA_256"
          // SYMMETRIC_DEFAULT is not supported because RSA is asymmetric only
+       ]
+
+  const String2EccAlgorithmSpec
+    := reveal Injective(); Invert(EccAlgorithmSpec2string)
+  const EccAlgorithmSpec2string
+    := map[
+         AwsCryptographyPrimitivesTypes.ECDHCurveSpec.ECC_NIST_P256 := "secp256r1",
+         AwsCryptographyPrimitivesTypes.ECDHCurveSpec.ECC_NIST_P384 := "secp384r1",
+         AwsCryptographyPrimitivesTypes.ECDHCurveSpec.ECC_NIST_P521 := "secp521r1"
+       ]
+
+  const EccAlgorithmSpec2Spec
+    := reveal Injective(); Invert(Curve2EccAlgorithmSpec)
+  const Curve2EccAlgorithmSpec
+    := map[
+         "ecc-256" := AwsCryptographyPrimitivesTypes.ECDHCurveSpec.ECC_NIST_P256,
+         "ecc-384" := AwsCryptographyPrimitivesTypes.ECDHCurveSpec.ECC_NIST_P384,
+         "ecc-521" := AwsCryptographyPrimitivesTypes.ECDHCurveSpec.ECC_NIST_P521
+       ]
+  const KmsKey2EccAlgorithmSpec
+    := map[
+         "us-west-2-256-ecc" := AwsCryptographyPrimitivesTypes.ECDHCurveSpec.ECC_NIST_P256,
+         "us-west-2-384-ecc" := AwsCryptographyPrimitivesTypes.ECDHCurveSpec.ECC_NIST_P384,
+         "us-west-2-521-ecc" := AwsCryptographyPrimitivesTypes.ECDHCurveSpec.ECC_NIST_P521
        ]
 
   type KeyDescriptionVersion = v: int | KeyDescriptionVersion?(v)  witness 1
@@ -272,6 +345,17 @@ module {:options "-functionSyntax:4"} KeyDescription {
                        ("provider-id", String(AES.providerId)),
                        ("encryption-algorithm", String("aes"))
                      ]))
+    case ECDH(ECDH) =>
+      Success(Object([
+                       ("type", String("raw-ecdh")),
+                       ("sender", String(ECDH.senderKeyId)),
+                       ("recipient", String(ECDH.recipientKeyId)),
+                       ("sender-public-key", String(ECDH.senderPublicKey)),
+                       ("recipient-public-key", String(ECDH.recipientPublicKey)),
+                       ("provider-id", String(ECDH.providerId)),
+                       ("ecc-curve", String(ECDH.curveSpec)),
+                       ("schema", String(ECDH.keyAgreementScheme))
+                     ]))
     case Static(Static) =>
       Success(Object([
                        ("type", String("static-material-keyring")),
@@ -284,6 +368,16 @@ module {:options "-functionSyntax:4"} KeyDescription {
                        ("type", String("aws-kms-rsa")),
                        ("key", String(KmsRsa.keyId)),
                        ("encryption-algorithm", String(encryptionAlgorithm))
+                     ]))
+    case KmsECDH(KmsECDH) =>
+      Success(Object([
+                       ("type", String("aws-kms-ecdh")),
+                       ("sender", String(KmsECDH.senderKeyId)),
+                       ("recipient", String(KmsECDH.recipientKeyId)),
+                       ("sender-public-key", String(KmsECDH.senderPublicKey)),
+                       ("recipient-public-key", String(KmsECDH.recipientPublicKey)),
+                       ("ecc-curve", String(KmsECDH.curveSpec)),
+                       ("schema", String(KmsECDH.keyAgreementScheme))
                      ]))
     case Hierarchy(Hierarchy) =>
       Success(Object([
@@ -338,8 +432,10 @@ module {:options "-functionSyntax:4"} KeyDescription {
     || description.KmsMrkDiscovery?
     || description.RSA?
     || description.AES?
+    || description.ECDH?
     || description.Static?
     || description.KmsRsa?
+    || description.KmsECDH?
     || description.Hierarchy?
     || description.Multi?
   }

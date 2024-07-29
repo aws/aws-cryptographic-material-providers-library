@@ -7,17 +7,22 @@
 // it is easy to kick off a test run.
 include "../src/Index.dfy"
 
-module TestWrappedMaterialProvidersMain {
+module {:extern} TestWrappedMaterialProvidersMain {
   import WrappedMaterialProvidersMain
   import TestManifests
   import CompleteVectors
   import opened MplManifestOptions
 
+  // Test execution directory is different for different runtimes.
+  // Runtime should define an extern to return the expected test execution directory.
+  method {:extern} GetTestVectorExecutionDirectory() returns (res: string)
+
   // This MUST go before TestEncryptManifest
   method {:test} TestGenerateEncryptManifest() {
+    var directory := GetTestVectorExecutionDirectory();
     var result := CompleteVectors.WriteStuff(
       EncryptManifest(
-        encryptManifestOutput := "dafny/TestVectorsAwsCryptographicMaterialProviders/test/"
+        encryptManifestOutput := directory + "dafny/TestVectorsAwsCryptographicMaterialProviders/test/"
       ));
     if result.Failure? {
       print result.error;
@@ -27,10 +32,11 @@ module TestWrappedMaterialProvidersMain {
 
   // This MUST go before TestDecryptManifest
   method {:test} TestEncryptManifest() {
+    var directory := GetTestVectorExecutionDirectory();
     var result := TestManifests.StartEncrypt(
       Encrypt(
-        manifestPath := "dafny/TestVectorsAwsCryptographicMaterialProviders/test/",
-        decryptManifestOutput := "dafny/TestVectorsAwsCryptographicMaterialProviders/"
+        manifestPath := directory + "dafny/TestVectorsAwsCryptographicMaterialProviders/test/",
+        decryptManifestOutput := directory + "dafny/TestVectorsAwsCryptographicMaterialProviders/"
       )
     );
     if result.Failure? {
@@ -40,9 +46,10 @@ module TestWrappedMaterialProvidersMain {
   }
 
   method {:test} TestDecryptManifest() {
+    var directory := GetTestVectorExecutionDirectory();
     var result := TestManifests.StartDecrypt(
       Decrypt(
-        manifestPath := "dafny/TestVectorsAwsCryptographicMaterialProviders/"
+        manifestPath := directory + "dafny/TestVectorsAwsCryptographicMaterialProviders/"
       )
     );
     if result.Failure? {
