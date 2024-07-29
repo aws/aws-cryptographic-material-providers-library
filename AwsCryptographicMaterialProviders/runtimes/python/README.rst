@@ -25,7 +25,7 @@ Security
 
 If you discover a potential security issue in this project
 we ask that you notify AWS/Amazon Security via our
-[vulnerability reporting page](http://aws.amazon.com/security/vulnerability-reporting/).
+`vulnerability reporting page`_.
 Please **do not** create a public GitHub issue.
 
 ***************
@@ -42,3 +42,4 @@ Required Prerequisites
 .. _cryptography installation guide: https://cryptography.io/en/latest/installation/
 .. _Read the Docs: https://aws-cryptographic-material-providers-library.readthedocs.io/en/latest/
 .. _GitHub: https://github.com/aws/aws-cryptographic-material-providers-library
+.. _vulnerability reporting page : http://aws.amazon.com/security/vulnerability-reporting/
