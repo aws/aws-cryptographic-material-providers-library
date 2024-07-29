@@ -145,5 +145,54 @@ namespace AWS.Cryptography.Primitives
             if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
             return TypeConversion.FromDafny_N3_aws__N12_cryptography__N10_primitives__S17_ECDSAVerifyOutput(result.dtor_value);
         }
+        public AWS.Cryptography.Primitives.GenerateECCKeyPairOutput GenerateECCKeyPair(AWS.Cryptography.Primitives.GenerateECCKeyPairInput input)
+        {
+            software.amazon.cryptography.primitives.internaldafny.types._IGenerateECCKeyPairInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_GenerateECCKeyPairInput(input);
+            Wrappers_Compile._IResult<software.amazon.cryptography.primitives.internaldafny.types._IGenerateECCKeyPairOutput, software.amazon.cryptography.primitives.internaldafny.types._IError> result = _impl.GenerateECCKeyPair(internalInput);
+            if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
+            return TypeConversion.FromDafny_N3_aws__N12_cryptography__N10_primitives__S24_GenerateECCKeyPairOutput(result.dtor_value);
+        }
+        public AWS.Cryptography.Primitives.GetPublicKeyFromPrivateKeyOutput GetPublicKeyFromPrivateKey(AWS.Cryptography.Primitives.GetPublicKeyFromPrivateKeyInput input)
+        {
+            software.amazon.cryptography.primitives.internaldafny.types._IGetPublicKeyFromPrivateKeyInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N10_primitives__S31_GetPublicKeyFromPrivateKeyInput(input);
+            Wrappers_Compile._IResult<software.amazon.cryptography.primitives.internaldafny.types._IGetPublicKeyFromPrivateKeyOutput, software.amazon.cryptography.primitives.internaldafny.types._IError> result = _impl.GetPublicKeyFromPrivateKey(internalInput);
+            if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
+            return TypeConversion.FromDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput(result.dtor_value);
+        }
+        public AWS.Cryptography.Primitives.ValidatePublicKeyOutput ValidatePublicKey(AWS.Cryptography.Primitives.ValidatePublicKeyInput input)
+        {
+            software.amazon.cryptography.primitives.internaldafny.types._IValidatePublicKeyInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N10_primitives__S22_ValidatePublicKeyInput(input);
+            Wrappers_Compile._IResult<software.amazon.cryptography.primitives.internaldafny.types._IValidatePublicKeyOutput, software.amazon.cryptography.primitives.internaldafny.types._IError> result = _impl.ValidatePublicKey(internalInput);
+            if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
+            return TypeConversion.FromDafny_N3_aws__N12_cryptography__N10_primitives__S23_ValidatePublicKeyOutput(result.dtor_value);
+        }
+        public AWS.Cryptography.Primitives.DeriveSharedSecretOutput DeriveSharedSecret(AWS.Cryptography.Primitives.DeriveSharedSecretInput input)
+        {
+            software.amazon.cryptography.primitives.internaldafny.types._IDeriveSharedSecretInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput(input);
+            Wrappers_Compile._IResult<software.amazon.cryptography.primitives.internaldafny.types._IDeriveSharedSecretOutput, software.amazon.cryptography.primitives.internaldafny.types._IError> result = _impl.DeriveSharedSecret(internalInput);
+            if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
+            return TypeConversion.FromDafny_N3_aws__N12_cryptography__N10_primitives__S24_DeriveSharedSecretOutput(result.dtor_value);
+        }
+        public AWS.Cryptography.Primitives.CompressPublicKeyOutput CompressPublicKey(AWS.Cryptography.Primitives.CompressPublicKeyInput input)
+        {
+            software.amazon.cryptography.primitives.internaldafny.types._ICompressPublicKeyInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N10_primitives__S22_CompressPublicKeyInput(input);
+            Wrappers_Compile._IResult<software.amazon.cryptography.primitives.internaldafny.types._ICompressPublicKeyOutput, software.amazon.cryptography.primitives.internaldafny.types._IError> result = _impl.CompressPublicKey(internalInput);
+            if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
+            return TypeConversion.FromDafny_N3_aws__N12_cryptography__N10_primitives__S23_CompressPublicKeyOutput(result.dtor_value);
+        }
+        public AWS.Cryptography.Primitives.DecompressPublicKeyOutput DecompressPublicKey(AWS.Cryptography.Primitives.DecompressPublicKeyInput input)
+        {
+            software.amazon.cryptography.primitives.internaldafny.types._IDecompressPublicKeyInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N10_primitives__S24_DecompressPublicKeyInput(input);
+            Wrappers_Compile._IResult<software.amazon.cryptography.primitives.internaldafny.types._IDecompressPublicKeyOutput, software.amazon.cryptography.primitives.internaldafny.types._IError> result = _impl.DecompressPublicKey(internalInput);
+            if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
+            return TypeConversion.FromDafny_N3_aws__N12_cryptography__N10_primitives__S25_DecompressPublicKeyOutput(result.dtor_value);
+        }
+        public AWS.Cryptography.Primitives.ParsePublicKeyOutput ParsePublicKey(AWS.Cryptography.Primitives.ParsePublicKeyInput input)
+        {
+            software.amazon.cryptography.primitives.internaldafny.types._IParsePublicKeyInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N10_primitives__S19_ParsePublicKeyInput(input);
+            Wrappers_Compile._IResult<software.amazon.cryptography.primitives.internaldafny.types._IParsePublicKeyOutput, software.amazon.cryptography.primitives.internaldafny.types._IError> result = _impl.ParsePublicKey(internalInput);
+            if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
+            return TypeConversion.FromDafny_N3_aws__N12_cryptography__N10_primitives__S20_ParsePublicKeyOutput(result.dtor_value);
+        }
     }
 }

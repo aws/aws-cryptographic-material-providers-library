@@ -14,6 +14,10 @@ module ErrorMessages {
   const IV_LENGTH := 12
   const VERSION_LENGTH := 16
 
+  const KMS_ECDH_DISCOVERY_ENCRYPT_ERROR := "KmsPublicKeyDiscovery Key Agreement Scheme is forbidden on encrypt."
+  const RAW_ECDH_DISCOVERY_ENCRYPT_ERROR := "PublicKeyDiscovery Key Agreement Scheme is forbidden on encrypt."
+  const RAW_ECDH_EPHEMERAL_DECRYPT_ERROR := "EphemeralPrivateKeyToStaticPublicKey Key Agreement Scheme is forbidden on decrypt."
+
   function method IncorrectRawDataKeys(datakey: string, keyringName: string, keyProviderId: string)
     : string
   {

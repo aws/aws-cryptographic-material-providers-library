@@ -14,12 +14,14 @@ import software.amazon.awssdk.services.kms.model.CloudHsmClusterInvalidConfigura
 import software.amazon.awssdk.services.kms.model.CloudHsmClusterNotActiveException;
 import software.amazon.awssdk.services.kms.model.CloudHsmClusterNotFoundException;
 import software.amazon.awssdk.services.kms.model.CloudHsmClusterNotRelatedException;
+import software.amazon.awssdk.services.kms.model.ConflictException;
 import software.amazon.awssdk.services.kms.model.CustomKeyStoreHasCmKsException;
 import software.amazon.awssdk.services.kms.model.CustomKeyStoreInvalidStateException;
 import software.amazon.awssdk.services.kms.model.CustomKeyStoreNameInUseException;
 import software.amazon.awssdk.services.kms.model.CustomKeyStoreNotFoundException;
 import software.amazon.awssdk.services.kms.model.DependencyTimeoutException;
 import software.amazon.awssdk.services.kms.model.DisabledException;
+import software.amazon.awssdk.services.kms.model.DryRunOperationException;
 import software.amazon.awssdk.services.kms.model.ExpiredImportTokenException;
 import software.amazon.awssdk.services.kms.model.IncorrectKeyException;
 import software.amazon.awssdk.services.kms.model.IncorrectKeyMaterialException;
@@ -35,6 +37,7 @@ import software.amazon.awssdk.services.kms.model.InvalidMarkerException;
 import software.amazon.awssdk.services.kms.model.KeyUnavailableException;
 import software.amazon.awssdk.services.kms.model.KmsException;
 import software.amazon.awssdk.services.kms.model.KmsInternalException;
+import software.amazon.awssdk.services.kms.model.KmsInvalidMacException;
 import software.amazon.awssdk.services.kms.model.KmsInvalidSignatureException;
 import software.amazon.awssdk.services.kms.model.KmsInvalidStateException;
 import software.amazon.awssdk.services.kms.model.LimitExceededException;
@@ -42,6 +45,18 @@ import software.amazon.awssdk.services.kms.model.MalformedPolicyDocumentExceptio
 import software.amazon.awssdk.services.kms.model.NotFoundException;
 import software.amazon.awssdk.services.kms.model.TagException;
 import software.amazon.awssdk.services.kms.model.UnsupportedOperationException;
+import software.amazon.awssdk.services.kms.model.XksKeyAlreadyInUseException;
+import software.amazon.awssdk.services.kms.model.XksKeyInvalidConfigurationException;
+import software.amazon.awssdk.services.kms.model.XksKeyNotFoundException;
+import software.amazon.awssdk.services.kms.model.XksProxyIncorrectAuthenticationCredentialException;
+import software.amazon.awssdk.services.kms.model.XksProxyInvalidConfigurationException;
+import software.amazon.awssdk.services.kms.model.XksProxyInvalidResponseException;
+import software.amazon.awssdk.services.kms.model.XksProxyUriEndpointInUseException;
+import software.amazon.awssdk.services.kms.model.XksProxyUriInUseException;
+import software.amazon.awssdk.services.kms.model.XksProxyUriUnreachableException;
+import software.amazon.awssdk.services.kms.model.XksProxyVpcEndpointServiceInUseException;
+import software.amazon.awssdk.services.kms.model.XksProxyVpcEndpointServiceInvalidConfigurationException;
+import software.amazon.awssdk.services.kms.model.XksProxyVpcEndpointServiceNotFoundException;
 import software.amazon.cryptography.services.kms.internaldafny.types.CancelKeyDeletionRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.CancelKeyDeletionResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.ConnectCustomKeyStoreRequest;
@@ -59,6 +74,8 @@ import software.amazon.cryptography.services.kms.internaldafny.types.DeleteAlias
 import software.amazon.cryptography.services.kms.internaldafny.types.DeleteCustomKeyStoreRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.DeleteCustomKeyStoreResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.DeleteImportedKeyMaterialRequest;
+import software.amazon.cryptography.services.kms.internaldafny.types.DeriveSharedSecretRequest;
+import software.amazon.cryptography.services.kms.internaldafny.types.DeriveSharedSecretResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.DescribeCustomKeyStoresRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.DescribeCustomKeyStoresResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.DescribeKeyRequest;
@@ -80,6 +97,8 @@ import software.amazon.cryptography.services.kms.internaldafny.types.GenerateDat
 import software.amazon.cryptography.services.kms.internaldafny.types.GenerateDataKeyResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.GenerateDataKeyWithoutPlaintextRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.GenerateDataKeyWithoutPlaintextResponse;
+import software.amazon.cryptography.services.kms.internaldafny.types.GenerateMacRequest;
+import software.amazon.cryptography.services.kms.internaldafny.types.GenerateMacResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.GenerateRandomRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.GenerateRandomResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.GetKeyPolicyRequest;
@@ -99,6 +118,10 @@ import software.amazon.cryptography.services.kms.internaldafny.types.ListGrantsR
 import software.amazon.cryptography.services.kms.internaldafny.types.ListGrantsResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.ListKeyPoliciesRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.ListKeyPoliciesResponse;
+import software.amazon.cryptography.services.kms.internaldafny.types.ListKeyRotationsRequest;
+import software.amazon.cryptography.services.kms.internaldafny.types.ListKeyRotationsResponse;
+import software.amazon.cryptography.services.kms.internaldafny.types.ListKeysRequest;
+import software.amazon.cryptography.services.kms.internaldafny.types.ListKeysResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.ListResourceTagsRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.ListResourceTagsResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.PutKeyPolicyRequest;
@@ -108,6 +131,8 @@ import software.amazon.cryptography.services.kms.internaldafny.types.ReplicateKe
 import software.amazon.cryptography.services.kms.internaldafny.types.ReplicateKeyResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.RetireGrantRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.RevokeGrantRequest;
+import software.amazon.cryptography.services.kms.internaldafny.types.RotateKeyOnDemandRequest;
+import software.amazon.cryptography.services.kms.internaldafny.types.RotateKeyOnDemandResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.ScheduleKeyDeletionRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.ScheduleKeyDeletionResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.SignRequest;
@@ -119,6 +144,8 @@ import software.amazon.cryptography.services.kms.internaldafny.types.UpdateCusto
 import software.amazon.cryptography.services.kms.internaldafny.types.UpdateCustomKeyStoreResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.UpdateKeyDescriptionRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.UpdatePrimaryRegionRequest;
+import software.amazon.cryptography.services.kms.internaldafny.types.VerifyMacRequest;
+import software.amazon.cryptography.services.kms.internaldafny.types.VerifyMacResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.VerifyRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.VerifyResponse;
 
@@ -166,7 +193,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -195,7 +222,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -223,7 +250,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -253,10 +280,30 @@ public class Shim implements IKMSClient {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
+    } catch (LimitExceededException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksProxyIncorrectAuthenticationCredentialException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksProxyInvalidConfigurationException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksProxyInvalidResponseException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksProxyUriEndpointInUseException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksProxyUriInUseException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksProxyUriUnreachableException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksProxyVpcEndpointServiceInUseException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksProxyVpcEndpointServiceInvalidConfigurationException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksProxyVpcEndpointServiceNotFoundException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -275,6 +322,8 @@ public class Shim implements IKMSClient {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
+    } catch (DryRunOperationException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantTokenException ex) {
@@ -290,7 +339,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -323,10 +372,16 @@ public class Shim implements IKMSClient {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (UnsupportedOperationException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksKeyAlreadyInUseException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksKeyInvalidConfigurationException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksKeyNotFoundException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -342,6 +397,8 @@ public class Shim implements IKMSClient {
     } catch (DependencyTimeoutException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (DryRunOperationException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (IncorrectKeyException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -362,7 +419,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -384,7 +441,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -411,7 +468,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -439,7 +496,44 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
+    }
+  }
+
+  @Override
+  public Result<DeriveSharedSecretResponse, Error> DeriveSharedSecret(
+    DeriveSharedSecretRequest input
+  ) {
+    software.amazon.awssdk.services.kms.model.DeriveSharedSecretRequest converted =
+      ToNative.DeriveSharedSecretRequest(input);
+    try {
+      software.amazon.awssdk.services.kms.model.DeriveSharedSecretResponse result =
+        _impl.deriveSharedSecret(converted);
+      DeriveSharedSecretResponse dafnyResponse =
+        ToDafny.DeriveSharedSecretResponse(result);
+      return Result.create_Success(dafnyResponse);
+    } catch (DependencyTimeoutException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (DisabledException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (DryRunOperationException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (InvalidGrantTokenException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (InvalidKeyUsageException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KeyUnavailableException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KmsInternalException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KmsInvalidStateException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (NotFoundException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KmsException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (Exception ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -464,7 +558,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -490,7 +584,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -514,7 +608,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -544,7 +638,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -570,7 +664,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -596,7 +690,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -626,7 +720,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -643,6 +737,8 @@ public class Shim implements IKMSClient {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
+    } catch (DryRunOperationException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantTokenException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidKeyUsageException ex) {
@@ -658,7 +754,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -679,6 +775,8 @@ public class Shim implements IKMSClient {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
+    } catch (DryRunOperationException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantTokenException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidKeyUsageException ex) {
@@ -694,7 +792,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -714,6 +812,8 @@ public class Shim implements IKMSClient {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
+    } catch (DryRunOperationException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantTokenException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidKeyUsageException ex) {
@@ -731,7 +831,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -754,6 +854,8 @@ public class Shim implements IKMSClient {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
+    } catch (DryRunOperationException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantTokenException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidKeyUsageException ex) {
@@ -771,7 +873,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -794,6 +896,8 @@ public class Shim implements IKMSClient {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
+    } catch (DryRunOperationException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantTokenException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidKeyUsageException ex) {
@@ -809,7 +913,41 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
+    }
+  }
+
+  @Override
+  public Result<GenerateMacResponse, Error> GenerateMac(
+    GenerateMacRequest input
+  ) {
+    software.amazon.awssdk.services.kms.model.GenerateMacRequest converted =
+      ToNative.GenerateMacRequest(input);
+    try {
+      software.amazon.awssdk.services.kms.model.GenerateMacResponse result =
+        _impl.generateMac(converted);
+      GenerateMacResponse dafnyResponse = ToDafny.GenerateMacResponse(result);
+      return Result.create_Success(dafnyResponse);
+    } catch (DisabledException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (DryRunOperationException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (InvalidGrantTokenException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (InvalidKeyUsageException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KeyUnavailableException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KmsInternalException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KmsInvalidStateException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (NotFoundException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KmsException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (Exception ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -834,10 +972,12 @@ public class Shim implements IKMSClient {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
+    } catch (UnsupportedOperationException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -865,7 +1005,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -896,7 +1036,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -927,7 +1067,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -965,7 +1105,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -1004,7 +1144,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -1032,7 +1172,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -1062,7 +1202,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -1092,7 +1232,61 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
+    }
+  }
+
+  @Override
+  public Result<ListKeyRotationsResponse, Error> ListKeyRotations(
+    ListKeyRotationsRequest input
+  ) {
+    software.amazon.awssdk.services.kms.model.ListKeyRotationsRequest converted =
+      ToNative.ListKeyRotationsRequest(input);
+    try {
+      software.amazon.awssdk.services.kms.model.ListKeyRotationsResponse result =
+        _impl.listKeyRotations(converted);
+      ListKeyRotationsResponse dafnyResponse = ToDafny.ListKeyRotationsResponse(
+        result
+      );
+      return Result.create_Success(dafnyResponse);
+    } catch (InvalidArnException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (InvalidMarkerException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KmsInternalException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KmsInvalidStateException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (NotFoundException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (UnsupportedOperationException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KmsException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (Exception ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    }
+  }
+
+  @Override
+  public Result<ListKeysResponse, Error> ListKeys(ListKeysRequest input) {
+    software.amazon.awssdk.services.kms.model.ListKeysRequest converted =
+      ToNative.ListKeysRequest(input);
+    try {
+      software.amazon.awssdk.services.kms.model.ListKeysResponse result =
+        _impl.listKeys(converted);
+      ListKeysResponse dafnyResponse = ToDafny.ListKeysResponse(result);
+      return Result.create_Success(dafnyResponse);
+    } catch (DependencyTimeoutException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (InvalidMarkerException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KmsInternalException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KmsException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (Exception ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -1120,7 +1314,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -1150,7 +1344,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -1166,6 +1360,8 @@ public class Shim implements IKMSClient {
     } catch (DependencyTimeoutException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (DryRunOperationException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (IncorrectKeyException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -1186,7 +1382,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -1224,7 +1420,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -1236,6 +1432,8 @@ public class Shim implements IKMSClient {
       _impl.retireGrant(converted);
       return Result.create_Success(Tuple0.create());
     } catch (DependencyTimeoutException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (DryRunOperationException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -1252,7 +1450,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -1264,6 +1462,8 @@ public class Shim implements IKMSClient {
       _impl.revokeGrant(converted);
       return Result.create_Success(Tuple0.create());
     } catch (DependencyTimeoutException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (DryRunOperationException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidArnException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -1278,7 +1478,44 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
+    }
+  }
+
+  @Override
+  public Result<RotateKeyOnDemandResponse, Error> RotateKeyOnDemand(
+    RotateKeyOnDemandRequest input
+  ) {
+    software.amazon.awssdk.services.kms.model.RotateKeyOnDemandRequest converted =
+      ToNative.RotateKeyOnDemandRequest(input);
+    try {
+      software.amazon.awssdk.services.kms.model.RotateKeyOnDemandResponse result =
+        _impl.rotateKeyOnDemand(converted);
+      RotateKeyOnDemandResponse dafnyResponse =
+        ToDafny.RotateKeyOnDemandResponse(result);
+      return Result.create_Success(dafnyResponse);
+    } catch (ConflictException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (DependencyTimeoutException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (DisabledException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (InvalidArnException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KmsInternalException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KmsInvalidStateException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (LimitExceededException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (NotFoundException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (UnsupportedOperationException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KmsException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (Exception ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -1307,7 +1544,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -1324,6 +1561,8 @@ public class Shim implements IKMSClient {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
+    } catch (DryRunOperationException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantTokenException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidKeyUsageException ex) {
@@ -1339,7 +1578,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -1365,7 +1604,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -1389,7 +1628,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -1413,7 +1652,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -1445,10 +1684,28 @@ public class Shim implements IKMSClient {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsInternalException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksProxyIncorrectAuthenticationCredentialException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksProxyInvalidConfigurationException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksProxyInvalidResponseException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksProxyUriEndpointInUseException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksProxyUriInUseException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksProxyUriUnreachableException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksProxyVpcEndpointServiceInUseException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksProxyVpcEndpointServiceInvalidConfigurationException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (XksProxyVpcEndpointServiceNotFoundException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -1474,7 +1731,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -1502,7 +1759,7 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 
@@ -1518,6 +1775,8 @@ public class Shim implements IKMSClient {
     } catch (DependencyTimeoutException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (DisabledException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (DryRunOperationException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (InvalidGrantTokenException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
@@ -1536,7 +1795,41 @@ public class Shim implements IKMSClient {
     } catch (KmsException ex) {
       return Result.create_Failure(ToDafny.Error(ex));
     } catch (Exception ex) {
-      return Result.create_Failure(Error.create_Opaque(ex.toString()));
+      return Result.create_Failure(ToDafny.Error(ex));
+    }
+  }
+
+  @Override
+  public Result<VerifyMacResponse, Error> VerifyMac(VerifyMacRequest input) {
+    software.amazon.awssdk.services.kms.model.VerifyMacRequest converted =
+      ToNative.VerifyMacRequest(input);
+    try {
+      software.amazon.awssdk.services.kms.model.VerifyMacResponse result =
+        _impl.verifyMac(converted);
+      VerifyMacResponse dafnyResponse = ToDafny.VerifyMacResponse(result);
+      return Result.create_Success(dafnyResponse);
+    } catch (DisabledException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (DryRunOperationException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (InvalidGrantTokenException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (InvalidKeyUsageException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KeyUnavailableException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KmsInternalException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KmsInvalidMacException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KmsInvalidStateException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (NotFoundException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (KmsException ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
+    } catch (Exception ex) {
+      return Result.create_Failure(ToDafny.Error(ex));
     }
   }
 }

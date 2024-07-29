@@ -11,7 +11,6 @@ integer PositiveInteger
 @range(min: 0)
 long PositiveLong
 
-/////////////
 // AwsCryptographicMaterialProviders Creation
 @aws.polymorph#localService(
   sdkId: "MaterialProviders",
@@ -41,10 +40,12 @@ service AwsCryptographicMaterialProviders {
     CreateAwsKmsMrkDiscoveryKeyring,
     CreateAwsKmsMrkDiscoveryMultiKeyring,
     CreateAwsKmsHierarchicalKeyring,
+    CreateAwsKmsRsaKeyring,
+    CreateAwsKmsEcdhKeyring,
     CreateMultiKeyring,
     CreateRawAesKeyring,
     CreateRawRsaKeyring,
-    CreateAwsKmsRsaKeyring,
+    CreateRawEcdhKeyring,
 
     // CMMs
     CreateDefaultCryptographicMaterialsManager,
@@ -77,7 +78,6 @@ service AwsCryptographicMaterialProviders {
 
 structure MaterialProvidersConfig {}
 
-///////////////////
 // Errors
 
 @error("client")

@@ -294,7 +294,7 @@ module GetKeys {
                    ));
   }
 
-  method GetBeaconKeyAndUnwrap(
+  method {:vcs_split_on_every_assert} GetBeaconKeyAndUnwrap(
     input: Types.GetBeaconKeyInput,
     tableName: DDB.TableName,
     logicalKeyStoreName: string,

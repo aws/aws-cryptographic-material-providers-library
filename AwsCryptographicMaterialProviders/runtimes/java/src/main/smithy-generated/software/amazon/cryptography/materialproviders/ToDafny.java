@@ -26,6 +26,7 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.CacheT
 import software.amazon.cryptography.materialproviders.internaldafny.types.CommitmentPolicy;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsDiscoveryKeyringInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsDiscoveryMultiKeyringInput;
+import software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsEcdhKeyringInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsHierarchicalKeyringInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsKeyringInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsMrkDiscoveryKeyringInput;
@@ -39,6 +40,7 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.Create
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateDefaultCryptographicMaterialsManagerInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateMultiKeyringInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateRawAesKeyringInput;
+import software.amazon.cryptography.materialproviders.internaldafny.types.CreateRawEcdhKeyringInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateRawRsaKeyringInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateRequiredEncryptionContextCMMInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.DBEAlgorithmSuiteId;
@@ -58,6 +60,7 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.EdkWra
 import software.amazon.cryptography.materialproviders.internaldafny.types.Encrypt;
 import software.amazon.cryptography.materialproviders.internaldafny.types.EncryptedDataKey;
 import software.amazon.cryptography.materialproviders.internaldafny.types.EncryptionMaterials;
+import software.amazon.cryptography.materialproviders.internaldafny.types.EphemeralPrivateKeyToStaticPublicKeyInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_EntryAlreadyExists;
@@ -82,6 +85,10 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.IDENTI
 import software.amazon.cryptography.materialproviders.internaldafny.types.InitializeDecryptionMaterialsInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.InitializeEncryptionMaterialsInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.IntermediateKeyWrapping;
+import software.amazon.cryptography.materialproviders.internaldafny.types.KeyAgreementScheme;
+import software.amazon.cryptography.materialproviders.internaldafny.types.KmsEcdhStaticConfigurations;
+import software.amazon.cryptography.materialproviders.internaldafny.types.KmsPrivateKeyToStaticPublicKeyInput;
+import software.amazon.cryptography.materialproviders.internaldafny.types.KmsPublicKeyDiscoveryInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.MaterialProvidersConfig;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Materials;
 import software.amazon.cryptography.materialproviders.internaldafny.types.MultiThreadedCache;
@@ -92,9 +99,13 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.OnDecr
 import software.amazon.cryptography.materialproviders.internaldafny.types.OnEncryptInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.OnEncryptOutput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.PaddingScheme;
+import software.amazon.cryptography.materialproviders.internaldafny.types.PublicKeyDiscoveryInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.PutCacheEntryInput;
+import software.amazon.cryptography.materialproviders.internaldafny.types.RawEcdhStaticConfigurations;
+import software.amazon.cryptography.materialproviders.internaldafny.types.RawPrivateKeyToStaticPublicKeyInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.SignatureAlgorithm;
 import software.amazon.cryptography.materialproviders.internaldafny.types.SingleThreadedCache;
+import software.amazon.cryptography.materialproviders.internaldafny.types.StaticConfigurations;
 import software.amazon.cryptography.materialproviders.internaldafny.types.StormTrackingCache;
 import software.amazon.cryptography.materialproviders.internaldafny.types.SymmetricSignatureAlgorithm;
 import software.amazon.cryptography.materialproviders.internaldafny.types.UpdateUsageMetadataInput;
@@ -116,6 +127,7 @@ import software.amazon.cryptography.materialproviders.model.InvalidEncryptionMat
 import software.amazon.cryptography.materialproviders.model.InvalidEncryptionMaterialsTransition;
 import software.amazon.cryptography.materialproviders.model.OpaqueError;
 import software.amazon.cryptography.primitives.internaldafny.types.DigestAlgorithm;
+import software.amazon.cryptography.primitives.internaldafny.types.ECDHCurveSpec;
 import software.amazon.cryptography.primitives.internaldafny.types.ECDSASignatureAlgorithm;
 import software.amazon.cryptography.services.kms.internaldafny.types.EncryptionAlgorithmSpec;
 import software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient;
@@ -283,6 +295,38 @@ public class ToDafny {
       regions,
       discoveryFilter,
       clientSupplier,
+      grantTokens
+    );
+  }
+
+  public static CreateAwsKmsEcdhKeyringInput CreateAwsKmsEcdhKeyringInput(
+    software.amazon.cryptography.materialproviders.model.CreateAwsKmsEcdhKeyringInput nativeValue
+  ) {
+    KmsEcdhStaticConfigurations keyAgreementScheme;
+    keyAgreementScheme =
+      ToDafny.KmsEcdhStaticConfigurations(nativeValue.KeyAgreementScheme());
+    ECDHCurveSpec curveSpec;
+    curveSpec =
+      software.amazon.cryptography.primitives.ToDafny.ECDHCurveSpec(
+        nativeValue.curveSpec()
+      );
+    IKMSClient kmsClient;
+    kmsClient =
+      software.amazon.cryptography.services.kms.internaldafny.ToDafny.TrentService(
+        nativeValue.kmsClient()
+      );
+    Option<
+      DafnySequence<? extends DafnySequence<? extends Character>>
+    > grantTokens;
+    grantTokens =
+      (Objects.nonNull(nativeValue.grantTokens()) &&
+          nativeValue.grantTokens().size() > 0)
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
+    return new CreateAwsKmsEcdhKeyringInput(
+      keyAgreementScheme,
+      curveSpec,
+      kmsClient,
       grantTokens
     );
   }
@@ -655,6 +699,20 @@ public class ToDafny {
     );
   }
 
+  public static CreateRawEcdhKeyringInput CreateRawEcdhKeyringInput(
+    software.amazon.cryptography.materialproviders.model.CreateRawEcdhKeyringInput nativeValue
+  ) {
+    RawEcdhStaticConfigurations keyAgreementScheme;
+    keyAgreementScheme =
+      ToDafny.RawEcdhStaticConfigurations(nativeValue.KeyAgreementScheme());
+    ECDHCurveSpec curveSpec;
+    curveSpec =
+      software.amazon.cryptography.primitives.ToDafny.ECDHCurveSpec(
+        nativeValue.curveSpec()
+      );
+    return new CreateRawEcdhKeyringInput(keyAgreementScheme, curveSpec);
+  }
+
   public static CreateRawRsaKeyringInput CreateRawRsaKeyringInput(
     software.amazon.cryptography.materialproviders.model.CreateRawRsaKeyringInput nativeValue
   ) {
@@ -962,6 +1020,17 @@ public class ToDafny {
     );
   }
 
+  public static EphemeralPrivateKeyToStaticPublicKeyInput EphemeralPrivateKeyToStaticPublicKeyInput(
+    software.amazon.cryptography.materialproviders.model.EphemeralPrivateKeyToStaticPublicKeyInput nativeValue
+  ) {
+    DafnySequence<? extends Byte> recipientPublicKey;
+    recipientPublicKey =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.recipientPublicKey()
+      );
+    return new EphemeralPrivateKeyToStaticPublicKeyInput(recipientPublicKey);
+  }
+
   public static DafnySequence<? extends Byte> GetAlgorithmSuiteInfoInput(
     ByteBuffer nativeValue
   ) {
@@ -1208,6 +1277,46 @@ public class ToDafny {
     );
   }
 
+  public static KmsPrivateKeyToStaticPublicKeyInput KmsPrivateKeyToStaticPublicKeyInput(
+    software.amazon.cryptography.materialproviders.model.KmsPrivateKeyToStaticPublicKeyInput nativeValue
+  ) {
+    DafnySequence<? extends Character> senderKmsIdentifier;
+    senderKmsIdentifier =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.senderKmsIdentifier()
+      );
+    Option<DafnySequence<? extends Byte>> senderPublicKey;
+    senderPublicKey =
+      Objects.nonNull(nativeValue.senderPublicKey())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+            nativeValue.senderPublicKey()
+          )
+        )
+        : Option.create_None();
+    DafnySequence<? extends Byte> recipientPublicKey;
+    recipientPublicKey =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.recipientPublicKey()
+      );
+    return new KmsPrivateKeyToStaticPublicKeyInput(
+      senderKmsIdentifier,
+      senderPublicKey,
+      recipientPublicKey
+    );
+  }
+
+  public static KmsPublicKeyDiscoveryInput KmsPublicKeyDiscoveryInput(
+    software.amazon.cryptography.materialproviders.model.KmsPublicKeyDiscoveryInput nativeValue
+  ) {
+    DafnySequence<? extends Character> recipientKmsIdentifier;
+    recipientKmsIdentifier =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.recipientKmsIdentifier()
+      );
+    return new KmsPublicKeyDiscoveryInput(recipientKmsIdentifier);
+  }
+
   public static MaterialProvidersConfig MaterialProvidersConfig(
     software.amazon.cryptography.materialproviders.model.MaterialProvidersConfig nativeValue
   ) {
@@ -1274,6 +1383,17 @@ public class ToDafny {
     return new OnEncryptOutput(materials);
   }
 
+  public static PublicKeyDiscoveryInput PublicKeyDiscoveryInput(
+    software.amazon.cryptography.materialproviders.model.PublicKeyDiscoveryInput nativeValue
+  ) {
+    DafnySequence<? extends Byte> recipientStaticPrivateKey;
+    recipientStaticPrivateKey =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.recipientStaticPrivateKey()
+      );
+    return new PublicKeyDiscoveryInput(recipientStaticPrivateKey);
+  }
+
   public static PutCacheEntryInput PutCacheEntryInput(
     software.amazon.cryptography.materialproviders.model.PutCacheEntryInput nativeValue
   ) {
@@ -1305,6 +1425,25 @@ public class ToDafny {
       expiryTime,
       messagesUsed,
       bytesUsed
+    );
+  }
+
+  public static RawPrivateKeyToStaticPublicKeyInput RawPrivateKeyToStaticPublicKeyInput(
+    software.amazon.cryptography.materialproviders.model.RawPrivateKeyToStaticPublicKeyInput nativeValue
+  ) {
+    DafnySequence<? extends Byte> senderStaticPrivateKey;
+    senderStaticPrivateKey =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.senderStaticPrivateKey()
+      );
+    DafnySequence<? extends Byte> recipientPublicKey;
+    recipientPublicKey =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.recipientPublicKey()
+      );
+    return new RawPrivateKeyToStaticPublicKeyInput(
+      senderStaticPrivateKey,
+      recipientPublicKey
     );
   }
 
@@ -1824,6 +1963,43 @@ public class ToDafny {
     );
   }
 
+  public static KeyAgreementScheme KeyAgreementScheme(
+    software.amazon.cryptography.materialproviders.model.KeyAgreementScheme nativeValue
+  ) {
+    if (Objects.nonNull(nativeValue.StaticConfiguration())) {
+      return KeyAgreementScheme.create(
+        ToDafny.StaticConfigurations(nativeValue.StaticConfiguration())
+      );
+    }
+    throw new IllegalArgumentException(
+      "Cannot convert " +
+      nativeValue +
+      " to software.amazon.cryptography.materialproviders.internaldafny.types.KeyAgreementScheme."
+    );
+  }
+
+  public static KmsEcdhStaticConfigurations KmsEcdhStaticConfigurations(
+    software.amazon.cryptography.materialproviders.model.KmsEcdhStaticConfigurations nativeValue
+  ) {
+    if (Objects.nonNull(nativeValue.KmsPublicKeyDiscovery())) {
+      return KmsEcdhStaticConfigurations.create_KmsPublicKeyDiscovery(
+        ToDafny.KmsPublicKeyDiscoveryInput(nativeValue.KmsPublicKeyDiscovery())
+      );
+    }
+    if (Objects.nonNull(nativeValue.KmsPrivateKeyToStaticPublicKey())) {
+      return KmsEcdhStaticConfigurations.create_KmsPrivateKeyToStaticPublicKey(
+        ToDafny.KmsPrivateKeyToStaticPublicKeyInput(
+          nativeValue.KmsPrivateKeyToStaticPublicKey()
+        )
+      );
+    }
+    throw new IllegalArgumentException(
+      "Cannot convert " +
+      nativeValue +
+      " to software.amazon.cryptography.materialproviders.internaldafny.types.KmsEcdhStaticConfigurations."
+    );
+  }
+
   public static Materials Materials(
     software.amazon.cryptography.materialproviders.model.Materials nativeValue
   ) {
@@ -1858,6 +2034,35 @@ public class ToDafny {
     );
   }
 
+  public static RawEcdhStaticConfigurations RawEcdhStaticConfigurations(
+    software.amazon.cryptography.materialproviders.model.RawEcdhStaticConfigurations nativeValue
+  ) {
+    if (Objects.nonNull(nativeValue.PublicKeyDiscovery())) {
+      return RawEcdhStaticConfigurations.create_PublicKeyDiscovery(
+        ToDafny.PublicKeyDiscoveryInput(nativeValue.PublicKeyDiscovery())
+      );
+    }
+    if (Objects.nonNull(nativeValue.RawPrivateKeyToStaticPublicKey())) {
+      return RawEcdhStaticConfigurations.create_RawPrivateKeyToStaticPublicKey(
+        ToDafny.RawPrivateKeyToStaticPublicKeyInput(
+          nativeValue.RawPrivateKeyToStaticPublicKey()
+        )
+      );
+    }
+    if (Objects.nonNull(nativeValue.EphemeralPrivateKeyToStaticPublicKey())) {
+      return RawEcdhStaticConfigurations.create_EphemeralPrivateKeyToStaticPublicKey(
+        ToDafny.EphemeralPrivateKeyToStaticPublicKeyInput(
+          nativeValue.EphemeralPrivateKeyToStaticPublicKey()
+        )
+      );
+    }
+    throw new IllegalArgumentException(
+      "Cannot convert " +
+      nativeValue +
+      " to software.amazon.cryptography.materialproviders.internaldafny.types.RawEcdhStaticConfigurations."
+    );
+  }
+
   public static SignatureAlgorithm SignatureAlgorithm(
     software.amazon.cryptography.materialproviders.model.SignatureAlgorithm nativeValue
   ) {
@@ -1873,6 +2078,26 @@ public class ToDafny {
       "Cannot convert " +
       nativeValue +
       " to software.amazon.cryptography.materialproviders.internaldafny.types.SignatureAlgorithm."
+    );
+  }
+
+  public static StaticConfigurations StaticConfigurations(
+    software.amazon.cryptography.materialproviders.model.StaticConfigurations nativeValue
+  ) {
+    if (Objects.nonNull(nativeValue.AWS_KMS_ECDH())) {
+      return StaticConfigurations.create_AWS__KMS__ECDH(
+        ToDafny.KmsEcdhStaticConfigurations(nativeValue.AWS_KMS_ECDH())
+      );
+    }
+    if (Objects.nonNull(nativeValue.RAW_ECDH())) {
+      return StaticConfigurations.create_RAW__ECDH(
+        ToDafny.RawEcdhStaticConfigurations(nativeValue.RAW_ECDH())
+      );
+    }
+    throw new IllegalArgumentException(
+      "Cannot convert " +
+      nativeValue +
+      " to software.amazon.cryptography.materialproviders.internaldafny.types.StaticConfigurations."
     );
   }
 
