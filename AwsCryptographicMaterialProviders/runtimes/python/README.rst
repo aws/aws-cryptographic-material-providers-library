@@ -42,7 +42,7 @@ Required Prerequisites
 Thread safety
 *************
 
-The ``MaterialProviders`` client and all provided ``CryptoMaterialsManager``s (CMMs) are thread safe.
+The ``MaterialProviders`` client and all provided ``CryptoMaterialsManagers`` (CMMs) are thread safe.
 But keyrings that call KeyManagementService (KMS) and CMMs that use keyrings that call KMS MUST not be shared between threads, for reasons outlined in `the boto3 docs`_.
 
 (Keyrings that call KMS are identified by the string ``Kms`` in their name. ex. ``AwsKmsKeyring``, ``AwsKmsMrkDiscoveryMultiKeyring``, etc.)
