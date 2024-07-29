@@ -23,7 +23,14 @@ class AesWrappingAlg:
 
     # This set contains every possible value known at the time this was generated. New
     # values may be added in the future.
-    values = frozenset({"ALG_AES128_GCM_IV12_TAG16", "ALG_AES192_GCM_IV12_TAG16", "ALG_AES256_GCM_IV12_TAG16"})
+    values = frozenset(
+        {
+            "ALG_AES128_GCM_IV12_TAG16",
+            "ALG_AES192_GCM_IV12_TAG16",
+            "ALG_AES256_GCM_IV12_TAG16",
+        }
+    )
+
 
 class DBEAlgorithmSuiteId:
     ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY_SYMSIG_HMAC_SHA384 = "0x6700"
@@ -33,6 +40,7 @@ class DBEAlgorithmSuiteId:
     # This set contains every possible value known at the time this was generated. New
     # values may be added in the future.
     values = frozenset({"0x6700", "0x6701"})
+
 
 class ESDKAlgorithmSuiteId:
     ALG_AES_128_GCM_IV12_TAG16_NO_KDF = "0x0014"
@@ -59,9 +67,24 @@ class ESDKAlgorithmSuiteId:
 
     # This set contains every possible value known at the time this was generated. New
     # values may be added in the future.
-    values = frozenset({"0x0014", "0x0046", "0x0078", "0x0114", "0x0146", "0x0178", "0x0214", "0x0346", "0x0378", "0x0478", "0x0578"})
+    values = frozenset(
+        {
+            "0x0014",
+            "0x0046",
+            "0x0078",
+            "0x0114",
+            "0x0146",
+            "0x0178",
+            "0x0214",
+            "0x0346",
+            "0x0378",
+            "0x0478",
+            "0x0578",
+        }
+    )
 
-class AlgorithmSuiteIdESDK():
+
+class AlgorithmSuiteIdESDK:
     def __init__(self, value: str):
         self.value = value
 
@@ -70,7 +93,7 @@ class AlgorithmSuiteIdESDK():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "AlgorithmSuiteIdESDK":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return AlgorithmSuiteIdESDK(d["ESDK"])
@@ -83,7 +106,8 @@ class AlgorithmSuiteIdESDK():
             return False
         return self.value == other.value
 
-class AlgorithmSuiteIdDBE():
+
+class AlgorithmSuiteIdDBE:
     def __init__(self, value: str):
         self.value = value
 
@@ -92,7 +116,7 @@ class AlgorithmSuiteIdDBE():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "AlgorithmSuiteIdDBE":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return AlgorithmSuiteIdDBE(d["DBE"])
@@ -105,7 +129,8 @@ class AlgorithmSuiteIdDBE():
             return False
         return self.value == other.value
 
-class AlgorithmSuiteId():
+
+class AlgorithmSuiteId:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -122,14 +147,17 @@ class AlgorithmSuiteId():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "AlgorithmSuiteId":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return AlgorithmSuiteId(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
         return f"AlgorithmSuiteId(tag={self.tag})"
 
+
 AlgorithmSuiteId = Union[AlgorithmSuiteIdESDK, AlgorithmSuiteIdDBE, AlgorithmSuiteId]
+
+
 def _algorithm_suite_id_from_dict(d: Dict[str, Any]) -> AlgorithmSuiteId:
     if "ESDK" in d:
         return AlgorithmSuiteIdESDK.from_dict(d)
@@ -137,13 +165,15 @@ def _algorithm_suite_id_from_dict(d: Dict[str, Any]) -> AlgorithmSuiteId:
     if "DBE" in d:
         return AlgorithmSuiteIdDBE.from_dict(d)
 
-    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
+    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
 
 class HKDF:
     hmac: str
     salt_length: int
     input_key_length: int
     output_key_length: int
+
     def __init__(
         self,
         *,
@@ -234,11 +264,14 @@ class HKDF:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, HKDF):
             return False
-        attributes: list[str] = ['hmac','salt_length','input_key_length','output_key_length',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "hmac",
+            "salt_length",
+            "input_key_length",
+            "output_key_length",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class IDENTITY:
     def as_dict(self) -> Dict[str, Any]:
@@ -266,6 +299,7 @@ class IDENTITY:
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, IDENTITY)
 
+
 class None_:
     def as_dict(self) -> Dict[str, Any]:
         """Converts the None_ to a dictionary.
@@ -292,7 +326,8 @@ class None_:
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, None_)
 
-class DerivationAlgorithmHKDF():
+
+class DerivationAlgorithmHKDF:
     def __init__(self, value: HKDF):
         self.value = value
 
@@ -301,7 +336,7 @@ class DerivationAlgorithmHKDF():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "DerivationAlgorithmHKDF":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return DerivationAlgorithmHKDF(HKDF.from_dict(d["HKDF"]))
@@ -314,7 +349,8 @@ class DerivationAlgorithmHKDF():
             return False
         return self.value == other.value
 
-class DerivationAlgorithmIDENTITY():
+
+class DerivationAlgorithmIDENTITY:
     def __init__(self, value: IDENTITY):
         self.value = value
 
@@ -323,7 +359,7 @@ class DerivationAlgorithmIDENTITY():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "DerivationAlgorithmIDENTITY":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return DerivationAlgorithmIDENTITY(IDENTITY.from_dict(d["IDENTITY"]))
@@ -336,7 +372,8 @@ class DerivationAlgorithmIDENTITY():
             return False
         return self.value == other.value
 
-class DerivationAlgorithmNone():
+
+class DerivationAlgorithmNone:
     def __init__(self, value: None_):
         self.value = value
 
@@ -345,7 +382,7 @@ class DerivationAlgorithmNone():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "DerivationAlgorithmNone":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return DerivationAlgorithmNone(None_.from_dict(d["None"]))
@@ -358,7 +395,8 @@ class DerivationAlgorithmNone():
             return False
         return self.value == other.value
 
-class DerivationAlgorithm():
+
+class DerivationAlgorithm:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -375,14 +413,22 @@ class DerivationAlgorithm():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "DerivationAlgorithm":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return DerivationAlgorithm(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
         return f"DerivationAlgorithm(tag={self.tag})"
 
-DerivationAlgorithm = Union[DerivationAlgorithmHKDF, DerivationAlgorithmIDENTITY, DerivationAlgorithmNone, DerivationAlgorithm]
+
+DerivationAlgorithm = Union[
+    DerivationAlgorithmHKDF,
+    DerivationAlgorithmIDENTITY,
+    DerivationAlgorithmNone,
+    DerivationAlgorithm,
+]
+
+
 def _derivation_algorithm_from_dict(d: Dict[str, Any]) -> DerivationAlgorithm:
     if "HKDF" in d:
         return DerivationAlgorithmHKDF.from_dict(d)
@@ -393,7 +439,8 @@ def _derivation_algorithm_from_dict(d: Dict[str, Any]) -> DerivationAlgorithm:
     if "None" in d:
         return DerivationAlgorithmNone.from_dict(d)
 
-    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
+    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
 
 class DIRECT_KEY_WRAPPING:
     def as_dict(self) -> Dict[str, Any]:
@@ -421,7 +468,8 @@ class DIRECT_KEY_WRAPPING:
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, DIRECT_KEY_WRAPPING)
 
-class EncryptAES_GCM():
+
+class EncryptAES_GCM:
     def __init__(self, value: AES_GCM):
         self.value = value
 
@@ -430,7 +478,7 @@ class EncryptAES_GCM():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "EncryptAES_GCM":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return EncryptAES_GCM(AES_GCM.from_dict(d["AES_GCM"]))
@@ -443,7 +491,8 @@ class EncryptAES_GCM():
             return False
         return self.value == other.value
 
-class Encrypt():
+
+class Encrypt:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -460,24 +509,29 @@ class Encrypt():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "Encrypt":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return Encrypt(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
         return f"Encrypt(tag={self.tag})"
 
+
 Encrypt = Union[EncryptAES_GCM, Encrypt]
+
+
 def _encrypt_from_dict(d: Dict[str, Any]) -> Encrypt:
     if "AES_GCM" in d:
         return EncryptAES_GCM.from_dict(d)
 
-    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
+    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
 
 class IntermediateKeyWrapping:
     key_encryption_key_kdf: DerivationAlgorithm
     mac_key_kdf: DerivationAlgorithm
     pdk_encrypt_algorithm: Encrypt
+
     def __init__(
         self,
         *,
@@ -509,7 +563,9 @@ class IntermediateKeyWrapping:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "key_encryption_key_kdf": _derivation_algorithm_from_dict(d["keyEncryptionKeyKdf"]),
+            "key_encryption_key_kdf": _derivation_algorithm_from_dict(
+                d["keyEncryptionKeyKdf"]
+            ),
             "mac_key_kdf": _derivation_algorithm_from_dict(d["macKeyKdf"]),
             "pdk_encrypt_algorithm": _encrypt_from_dict(d["pdkEncryptAlgorithm"]),
         }
@@ -532,13 +588,15 @@ class IntermediateKeyWrapping:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, IntermediateKeyWrapping):
             return False
-        attributes: list[str] = ['key_encryption_key_kdf','mac_key_kdf','pdk_encrypt_algorithm',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "key_encryption_key_kdf",
+            "mac_key_kdf",
+            "pdk_encrypt_algorithm",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
-class EdkWrappingAlgorithmDIRECT_KEY_WRAPPING():
+
+class EdkWrappingAlgorithmDIRECT_KEY_WRAPPING:
     def __init__(self, value: DIRECT_KEY_WRAPPING):
         self.value = value
 
@@ -547,10 +605,12 @@ class EdkWrappingAlgorithmDIRECT_KEY_WRAPPING():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "EdkWrappingAlgorithmDIRECT_KEY_WRAPPING":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-        return EdkWrappingAlgorithmDIRECT_KEY_WRAPPING(DIRECT_KEY_WRAPPING.from_dict(d["DIRECT_KEY_WRAPPING"]))
+        return EdkWrappingAlgorithmDIRECT_KEY_WRAPPING(
+            DIRECT_KEY_WRAPPING.from_dict(d["DIRECT_KEY_WRAPPING"])
+        )
 
     def __repr__(self) -> str:
         return f"EdkWrappingAlgorithmDIRECT_KEY_WRAPPING(value=repr(self.value))"
@@ -560,7 +620,8 @@ class EdkWrappingAlgorithmDIRECT_KEY_WRAPPING():
             return False
         return self.value == other.value
 
-class EdkWrappingAlgorithmIntermediateKeyWrapping():
+
+class EdkWrappingAlgorithmIntermediateKeyWrapping:
     def __init__(self, value: IntermediateKeyWrapping):
         self.value = value
 
@@ -569,10 +630,12 @@ class EdkWrappingAlgorithmIntermediateKeyWrapping():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "EdkWrappingAlgorithmIntermediateKeyWrapping":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-        return EdkWrappingAlgorithmIntermediateKeyWrapping(IntermediateKeyWrapping.from_dict(d["IntermediateKeyWrapping"]))
+        return EdkWrappingAlgorithmIntermediateKeyWrapping(
+            IntermediateKeyWrapping.from_dict(d["IntermediateKeyWrapping"])
+        )
 
     def __repr__(self) -> str:
         return f"EdkWrappingAlgorithmIntermediateKeyWrapping(value=repr(self.value))"
@@ -582,7 +645,8 @@ class EdkWrappingAlgorithmIntermediateKeyWrapping():
             return False
         return self.value == other.value
 
-class EdkWrappingAlgorithm():
+
+class EdkWrappingAlgorithm:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -599,14 +663,21 @@ class EdkWrappingAlgorithm():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "EdkWrappingAlgorithm":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return EdkWrappingAlgorithm(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
         return f"EdkWrappingAlgorithm(tag={self.tag})"
 
-EdkWrappingAlgorithm = Union[EdkWrappingAlgorithmDIRECT_KEY_WRAPPING, EdkWrappingAlgorithmIntermediateKeyWrapping, EdkWrappingAlgorithm]
+
+EdkWrappingAlgorithm = Union[
+    EdkWrappingAlgorithmDIRECT_KEY_WRAPPING,
+    EdkWrappingAlgorithmIntermediateKeyWrapping,
+    EdkWrappingAlgorithm,
+]
+
+
 def _edk_wrapping_algorithm_from_dict(d: Dict[str, Any]) -> EdkWrappingAlgorithm:
     if "DIRECT_KEY_WRAPPING" in d:
         return EdkWrappingAlgorithmDIRECT_KEY_WRAPPING.from_dict(d)
@@ -614,10 +685,12 @@ def _edk_wrapping_algorithm_from_dict(d: Dict[str, Any]) -> EdkWrappingAlgorithm
     if "IntermediateKeyWrapping" in d:
         return EdkWrappingAlgorithmIntermediateKeyWrapping.from_dict(d)
 
-    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
+    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
 
 class ECDSA:
     curve: str
+
     def __init__(
         self,
         *,
@@ -658,13 +731,13 @@ class ECDSA:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, ECDSA):
             return False
-        attributes: list[str] = ['curve',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "curve",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
-class SignatureAlgorithmECDSA():
+
+class SignatureAlgorithmECDSA:
     def __init__(self, value: ECDSA):
         self.value = value
 
@@ -673,7 +746,7 @@ class SignatureAlgorithmECDSA():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "SignatureAlgorithmECDSA":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return SignatureAlgorithmECDSA(ECDSA.from_dict(d["ECDSA"]))
@@ -686,7 +759,8 @@ class SignatureAlgorithmECDSA():
             return False
         return self.value == other.value
 
-class SignatureAlgorithmNone():
+
+class SignatureAlgorithmNone:
     def __init__(self, value: None_):
         self.value = value
 
@@ -695,7 +769,7 @@ class SignatureAlgorithmNone():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "SignatureAlgorithmNone":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return SignatureAlgorithmNone(None_.from_dict(d["None"]))
@@ -708,7 +782,8 @@ class SignatureAlgorithmNone():
             return False
         return self.value == other.value
 
-class SignatureAlgorithm():
+
+class SignatureAlgorithm:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -725,14 +800,19 @@ class SignatureAlgorithm():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "SignatureAlgorithm":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return SignatureAlgorithm(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
         return f"SignatureAlgorithm(tag={self.tag})"
 
-SignatureAlgorithm = Union[SignatureAlgorithmECDSA, SignatureAlgorithmNone, SignatureAlgorithm]
+
+SignatureAlgorithm = Union[
+    SignatureAlgorithmECDSA, SignatureAlgorithmNone, SignatureAlgorithm
+]
+
+
 def _signature_algorithm_from_dict(d: Dict[str, Any]) -> SignatureAlgorithm:
     if "ECDSA" in d:
         return SignatureAlgorithmECDSA.from_dict(d)
@@ -740,9 +820,10 @@ def _signature_algorithm_from_dict(d: Dict[str, Any]) -> SignatureAlgorithm:
     if "None" in d:
         return SignatureAlgorithmNone.from_dict(d)
 
-    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
+    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-class SymmetricSignatureAlgorithmHMAC():
+
+class SymmetricSignatureAlgorithmHMAC:
     def __init__(self, value: str):
         self.value = value
 
@@ -751,7 +832,7 @@ class SymmetricSignatureAlgorithmHMAC():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "SymmetricSignatureAlgorithmHMAC":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return SymmetricSignatureAlgorithmHMAC(d["HMAC"])
@@ -764,7 +845,8 @@ class SymmetricSignatureAlgorithmHMAC():
             return False
         return self.value == other.value
 
-class SymmetricSignatureAlgorithmNone():
+
+class SymmetricSignatureAlgorithmNone:
     def __init__(self, value: None_):
         self.value = value
 
@@ -773,7 +855,7 @@ class SymmetricSignatureAlgorithmNone():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "SymmetricSignatureAlgorithmNone":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return SymmetricSignatureAlgorithmNone(None_.from_dict(d["None"]))
@@ -786,7 +868,8 @@ class SymmetricSignatureAlgorithmNone():
             return False
         return self.value == other.value
 
-class SymmetricSignatureAlgorithm():
+
+class SymmetricSignatureAlgorithm:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -803,22 +886,32 @@ class SymmetricSignatureAlgorithm():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "SymmetricSignatureAlgorithm":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return SymmetricSignatureAlgorithm(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
         return f"SymmetricSignatureAlgorithm(tag={self.tag})"
 
-SymmetricSignatureAlgorithm = Union[SymmetricSignatureAlgorithmHMAC, SymmetricSignatureAlgorithmNone, SymmetricSignatureAlgorithm]
-def _symmetric_signature_algorithm_from_dict(d: Dict[str, Any]) -> SymmetricSignatureAlgorithm:
+
+SymmetricSignatureAlgorithm = Union[
+    SymmetricSignatureAlgorithmHMAC,
+    SymmetricSignatureAlgorithmNone,
+    SymmetricSignatureAlgorithm,
+]
+
+
+def _symmetric_signature_algorithm_from_dict(
+    d: Dict[str, Any]
+) -> SymmetricSignatureAlgorithm:
     if "HMAC" in d:
         return SymmetricSignatureAlgorithmHMAC.from_dict(d)
 
     if "None" in d:
         return SymmetricSignatureAlgorithmNone.from_dict(d)
 
-    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
+    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
 
 class AlgorithmSuiteInfo:
     id: AlgorithmSuiteId
@@ -830,6 +923,7 @@ class AlgorithmSuiteInfo:
     signature: SignatureAlgorithm
     symmetric_signature: SymmetricSignatureAlgorithm
     edk_wrapping: EdkWrappingAlgorithm
+
     def __init__(
         self,
         *,
@@ -886,7 +980,9 @@ class AlgorithmSuiteInfo:
             "kdf": _derivation_algorithm_from_dict(d["kdf"]),
             "commitment": _derivation_algorithm_from_dict(d["commitment"]),
             "signature": _signature_algorithm_from_dict(d["signature"]),
-            "symmetric_signature": _symmetric_signature_algorithm_from_dict(d["symmetricSignature"]),
+            "symmetric_signature": _symmetric_signature_algorithm_from_dict(
+                d["symmetricSignature"]
+            ),
             "edk_wrapping": _edk_wrapping_algorithm_from_dict(d["edkWrapping"]),
         }
 
@@ -926,14 +1022,23 @@ class AlgorithmSuiteInfo:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, AlgorithmSuiteInfo):
             return False
-        attributes: list[str] = ['id','binary_id','message_version','encrypt','kdf','commitment','signature','symmetric_signature','edk_wrapping',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "id",
+            "binary_id",
+            "message_version",
+            "encrypt",
+            "kdf",
+            "commitment",
+            "signature",
+            "symmetric_signature",
+            "edk_wrapping",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GetBranchKeyIdInput:
     encryption_context: dict[str, str]
+
     def __init__(
         self,
         *,
@@ -980,14 +1085,15 @@ class GetBranchKeyIdInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GetBranchKeyIdInput):
             return False
-        attributes: list[str] = ['encryption_context',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "encryption_context",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GetBranchKeyIdOutput:
     branch_key_id: str
+
     def __init__(
         self,
         *,
@@ -1035,14 +1141,15 @@ class GetBranchKeyIdOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GetBranchKeyIdOutput):
             return False
-        attributes: list[str] = ['branch_key_id',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "branch_key_id",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GetClientInput:
     region: str
+
     def __init__(
         self,
         *,
@@ -1087,15 +1194,16 @@ class GetClientInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GetClientInput):
             return False
-        attributes: list[str] = ['region',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "region",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class DiscoveryFilter:
     account_ids: list[str]
     partition: str
+
     def __init__(
         self,
         *,
@@ -1149,20 +1257,22 @@ class DiscoveryFilter:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, DiscoveryFilter):
             return False
-        attributes: list[str] = ['account_ids','partition',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "account_ids",
+            "partition",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class CreateAwsKmsDiscoveryKeyringInput:
-    kms_client: 'botocore.client.BaseClient'
+    kms_client: "botocore.client.BaseClient"
     discovery_filter: Optional[DiscoveryFilter]
     grant_tokens: Optional[list[str]]
+
     def __init__(
         self,
         *,
-        kms_client: 'botocore.client.BaseClient',
+        kms_client: "botocore.client.BaseClient",
         discovery_filter: Optional[DiscoveryFilter] = None,
         grant_tokens: Optional[list[str]] = None,
     ):
@@ -1203,6 +1313,7 @@ class CreateAwsKmsDiscoveryKeyringInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         from botocore.client import BaseClient
+
         kwargs: Dict[str, Any] = {
             "kms_client": BaseClient.from_dict(d["kmsClient"]),
         }
@@ -1231,23 +1342,30 @@ class CreateAwsKmsDiscoveryKeyringInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateAwsKmsDiscoveryKeyringInput):
             return False
-        attributes: list[str] = ['kms_client','discovery_filter','grant_tokens',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "kms_client",
+            "discovery_filter",
+            "grant_tokens",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class CreateAwsKmsDiscoveryMultiKeyringInput:
     regions: list[str]
     discovery_filter: Optional[DiscoveryFilter]
-    client_supplier: Optional['aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier']
+    client_supplier: Optional[
+        "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
+    ]
     grant_tokens: Optional[list[str]]
+
     def __init__(
         self,
         *,
         regions: list[str],
         discovery_filter: Optional[DiscoveryFilter] = None,
-        client_supplier: Optional['aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier'] = None,
+        client_supplier: Optional[
+            "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
+        ] = None,
         grant_tokens: Optional[list[str]] = None,
     ):
         """Inputs for for creating an AWS KMS Discovery Multi-Keyring.
@@ -1294,7 +1412,10 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
         The dictionary is expected to use the modeled shape names rather than the
         parameter names as keys to be mostly compatible with boto3.
         """
-        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import ClientSupplier
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
+            ClientSupplier,
+        )
+
         kwargs: Dict[str, Any] = {
             "regions": d["regions"],
         }
@@ -1329,16 +1450,20 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateAwsKmsDiscoveryMultiKeyringInput):
             return False
-        attributes: list[str] = ['regions','discovery_filter','client_supplier','grant_tokens',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "regions",
+            "discovery_filter",
+            "client_supplier",
+            "grant_tokens",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class KmsPrivateKeyToStaticPublicKeyInput:
     sender_kms_identifier: str
     sender_public_key: Optional[bytes | bytearray]
     recipient_public_key: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -1407,14 +1532,17 @@ class KmsPrivateKeyToStaticPublicKeyInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, KmsPrivateKeyToStaticPublicKeyInput):
             return False
-        attributes: list[str] = ['sender_kms_identifier','sender_public_key','recipient_public_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "sender_kms_identifier",
+            "sender_public_key",
+            "recipient_public_key",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class KmsPublicKeyDiscoveryInput:
     recipient_kms_identifier: str
+
     def __init__(
         self,
         *,
@@ -1461,16 +1589,17 @@ class KmsPublicKeyDiscoveryInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, KmsPublicKeyDiscoveryInput):
             return False
-        attributes: list[str] = ['recipient_kms_identifier',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "recipient_kms_identifier",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
-class KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery():
+
+class KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery:
     """Inputs for creating a KmsPublicKeyDiscovery Configuration. This is a DECRYPT
     ONLY configuration.
     """
+
     def __init__(self, value: KmsPublicKeyDiscoveryInput):
         self.value = value
 
@@ -1478,23 +1607,30 @@ class KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery():
         return {"KmsPublicKeyDiscovery": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery":
-        if (len(d) != 1):
+    def from_dict(
+        d: Dict[str, Any]
+    ) -> "KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery":
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-        return KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery(KmsPublicKeyDiscoveryInput.from_dict(d["KmsPublicKeyDiscovery"]))
+        return KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery(
+            KmsPublicKeyDiscoveryInput.from_dict(d["KmsPublicKeyDiscovery"])
+        )
 
     def __repr__(self) -> str:
-        return f"KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery(value=repr(self.value))"
+        return (
+            f"KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery(value=repr(self.value))"
+        )
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery):
             return False
         return self.value == other.value
 
-class KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey():
-    """Inputs for creating a KmsPrivateKeyToStaticPublicKey Configuration.
-    """
+
+class KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey:
+    """Inputs for creating a KmsPrivateKeyToStaticPublicKey Configuration."""
+
     def __init__(self, value: KmsPrivateKeyToStaticPublicKeyInput):
         self.value = value
 
@@ -1502,21 +1638,30 @@ class KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey():
         return {"KmsPrivateKeyToStaticPublicKey": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey":
-        if (len(d) != 1):
+    def from_dict(
+        d: Dict[str, Any]
+    ) -> "KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey":
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-        return KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey(KmsPrivateKeyToStaticPublicKeyInput.from_dict(d["KmsPrivateKeyToStaticPublicKey"]))
+        return KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey(
+            KmsPrivateKeyToStaticPublicKeyInput.from_dict(
+                d["KmsPrivateKeyToStaticPublicKey"]
+            )
+        )
 
     def __repr__(self) -> str:
         return f"KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey(value=repr(self.value))"
 
     def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey):
+        if not isinstance(
+            other, KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey
+        ):
             return False
         return self.value == other.value
 
-class KmsEcdhStaticConfigurations():
+
+class KmsEcdhStaticConfigurations:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -1533,35 +1678,46 @@ class KmsEcdhStaticConfigurations():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "KmsEcdhStaticConfigurations":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return KmsEcdhStaticConfigurations(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
         return f"KmsEcdhStaticConfigurations(tag={self.tag})"
 
+
 # Allowed configurations when using KmsEcdhStaticConfigurations.
-KmsEcdhStaticConfigurations = Union[KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery, KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey, KmsEcdhStaticConfigurations]
-def _kms_ecdh_static_configurations_from_dict(d: Dict[str, Any]) -> KmsEcdhStaticConfigurations:
+KmsEcdhStaticConfigurations = Union[
+    KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery,
+    KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey,
+    KmsEcdhStaticConfigurations,
+]
+
+
+def _kms_ecdh_static_configurations_from_dict(
+    d: Dict[str, Any]
+) -> KmsEcdhStaticConfigurations:
     if "KmsPublicKeyDiscovery" in d:
         return KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery.from_dict(d)
 
     if "KmsPrivateKeyToStaticPublicKey" in d:
         return KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey.from_dict(d)
 
-    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
+    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
 
 class CreateAwsKmsEcdhKeyringInput:
     key_agreement_scheme: KmsEcdhStaticConfigurations
     curve_spec: str
-    kms_client: 'botocore.client.BaseClient'
+    kms_client: "botocore.client.BaseClient"
     grant_tokens: Optional[list[str]]
+
     def __init__(
         self,
         *,
         key_agreement_scheme: KmsEcdhStaticConfigurations,
         curve_spec: str,
-        kms_client: 'botocore.client.BaseClient',
+        kms_client: "botocore.client.BaseClient",
         grant_tokens: Optional[list[str]] = None,
     ):
         """Inputs for creating an AWS KMS ECDH Keyring.
@@ -1603,8 +1759,11 @@ class CreateAwsKmsEcdhKeyringInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         from botocore.client import BaseClient
+
         kwargs: Dict[str, Any] = {
-            "key_agreement_scheme": _kms_ecdh_static_configurations_from_dict(d["KeyAgreementScheme"]),
+            "key_agreement_scheme": _kms_ecdh_static_configurations_from_dict(
+                d["KeyAgreementScheme"]
+            ),
             "curve_spec": d["curveSpec"],
             "kms_client": BaseClient.from_dict(d["kmsClient"]),
         }
@@ -1633,14 +1792,18 @@ class CreateAwsKmsEcdhKeyringInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateAwsKmsEcdhKeyringInput):
             return False
-        attributes: list[str] = ['key_agreement_scheme','curve_spec','kms_client','grant_tokens',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "key_agreement_scheme",
+            "curve_spec",
+            "kms_client",
+            "grant_tokens",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class DefaultCache:
     entry_capacity: int
+
     def __init__(
         self,
         *,
@@ -1692,15 +1855,16 @@ class DefaultCache:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, DefaultCache):
             return False
-        attributes: list[str] = ['entry_capacity',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "entry_capacity",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class MultiThreadedCache:
     entry_capacity: int
     entry_pruning_tail_size: int
+
     def __init__(
         self,
         *,
@@ -1718,7 +1882,9 @@ class MultiThreadedCache:
 
         self.entry_capacity = entry_capacity
         if (entry_pruning_tail_size is not None) and (entry_pruning_tail_size < 1):
-            raise ValueError("entry_pruning_tail_size must be greater than or equal to 1")
+            raise ValueError(
+                "entry_pruning_tail_size must be greater than or equal to 1"
+            )
 
         self.entry_pruning_tail_size = entry_pruning_tail_size
 
@@ -1768,15 +1934,16 @@ class MultiThreadedCache:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, MultiThreadedCache):
             return False
-        attributes: list[str] = ['entry_capacity','entry_pruning_tail_size',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "entry_capacity",
+            "entry_pruning_tail_size",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class NoCache:
-    """Nothing should ever be cached.
-    """
+    """Nothing should ever be cached."""
+
     def as_dict(self) -> Dict[str, Any]:
         """Converts the NoCache to a dictionary.
 
@@ -1802,9 +1969,11 @@ class NoCache:
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, NoCache)
 
+
 class SingleThreadedCache:
     entry_capacity: int
     entry_pruning_tail_size: int
+
     def __init__(
         self,
         *,
@@ -1821,7 +1990,9 @@ class SingleThreadedCache:
 
         self.entry_capacity = entry_capacity
         if (entry_pruning_tail_size is not None) and (entry_pruning_tail_size < 1):
-            raise ValueError("entry_pruning_tail_size must be greater than or equal to 1")
+            raise ValueError(
+                "entry_pruning_tail_size must be greater than or equal to 1"
+            )
 
         self.entry_pruning_tail_size = entry_pruning_tail_size
 
@@ -1871,11 +2042,12 @@ class SingleThreadedCache:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, SingleThreadedCache):
             return False
-        attributes: list[str] = ['entry_capacity','entry_pruning_tail_size',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "entry_capacity",
+            "entry_pruning_tail_size",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class StormTrackingCache:
     entry_capacity: int
@@ -1885,6 +2057,7 @@ class StormTrackingCache:
     fan_out: int
     in_flight_ttl: int
     sleep_milli: int
+
     def __init__(
         self,
         *,
@@ -1919,7 +2092,9 @@ class StormTrackingCache:
 
         self.entry_capacity = entry_capacity
         if (entry_pruning_tail_size is not None) and (entry_pruning_tail_size < 1):
-            raise ValueError("entry_pruning_tail_size must be greater than or equal to 1")
+            raise ValueError(
+                "entry_pruning_tail_size must be greater than or equal to 1"
+            )
 
         self.entry_pruning_tail_size = entry_pruning_tail_size
         if (grace_period is not None) and (grace_period < 1):
@@ -2034,15 +2209,21 @@ class StormTrackingCache:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, StormTrackingCache):
             return False
-        attributes: list[str] = ['entry_capacity','entry_pruning_tail_size','grace_period','grace_interval','fan_out','in_flight_ttl','sleep_milli',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "entry_capacity",
+            "entry_pruning_tail_size",
+            "grace_period",
+            "grace_interval",
+            "fan_out",
+            "in_flight_ttl",
+            "sleep_milli",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
-class CacheTypeDefault():
-    """The best choice for most situations. Probably a StormTrackingCache.
-    """
+
+class CacheTypeDefault:
+    """The best choice for most situations. Probably a StormTrackingCache."""
+
     def __init__(self, value: DefaultCache):
         self.value = value
 
@@ -2051,7 +2232,7 @@ class CacheTypeDefault():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CacheTypeDefault":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return CacheTypeDefault(DefaultCache.from_dict(d["Default"]))
@@ -2064,9 +2245,10 @@ class CacheTypeDefault():
             return False
         return self.value == other.value
 
-class CacheTypeNo():
-    """Nothing should ever be cached.
-    """
+
+class CacheTypeNo:
+    """Nothing should ever be cached."""
+
     def __init__(self, value: NoCache):
         self.value = value
 
@@ -2075,7 +2257,7 @@ class CacheTypeNo():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CacheTypeNo":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return CacheTypeNo(NoCache.from_dict(d["No"]))
@@ -2088,9 +2270,10 @@ class CacheTypeNo():
             return False
         return self.value == other.value
 
-class CacheTypeSingleThreaded():
-    """A cache that is NOT safe for use in a multi threaded environment.
-    """
+
+class CacheTypeSingleThreaded:
+    """A cache that is NOT safe for use in a multi threaded environment."""
+
     def __init__(self, value: SingleThreadedCache):
         self.value = value
 
@@ -2099,10 +2282,12 @@ class CacheTypeSingleThreaded():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CacheTypeSingleThreaded":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-        return CacheTypeSingleThreaded(SingleThreadedCache.from_dict(d["SingleThreaded"]))
+        return CacheTypeSingleThreaded(
+            SingleThreadedCache.from_dict(d["SingleThreaded"])
+        )
 
     def __repr__(self) -> str:
         return f"CacheTypeSingleThreaded(value=repr(self.value))"
@@ -2112,10 +2297,12 @@ class CacheTypeSingleThreaded():
             return False
         return self.value == other.value
 
-class CacheTypeMultiThreaded():
+
+class CacheTypeMultiThreaded:
     """A cache that is safe for use in a multi threaded environment, but no extra
     functionality.
     """
+
     def __init__(self, value: MultiThreadedCache):
         self.value = value
 
@@ -2124,7 +2311,7 @@ class CacheTypeMultiThreaded():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CacheTypeMultiThreaded":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return CacheTypeMultiThreaded(MultiThreadedCache.from_dict(d["MultiThreaded"]))
@@ -2137,11 +2324,13 @@ class CacheTypeMultiThreaded():
             return False
         return self.value == other.value
 
-class CacheTypeStormTracking():
+
+class CacheTypeStormTracking:
     """A cache that is safe for use in a multi threaded environment,
     and tries to
     prevent redundant or overly parallel backend calls.
     """
+
     def __init__(self, value: StormTrackingCache):
         self.value = value
 
@@ -2150,7 +2339,7 @@ class CacheTypeStormTracking():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CacheTypeStormTracking":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return CacheTypeStormTracking(StormTrackingCache.from_dict(d["StormTracking"]))
@@ -2163,7 +2352,8 @@ class CacheTypeStormTracking():
             return False
         return self.value == other.value
 
-class CacheType():
+
+class CacheType:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -2180,14 +2370,24 @@ class CacheType():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CacheType":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return CacheType(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
         return f"CacheType(tag={self.tag})"
 
-CacheType = Union[CacheTypeDefault, CacheTypeNo, CacheTypeSingleThreaded, CacheTypeMultiThreaded, CacheTypeStormTracking, CacheType]
+
+CacheType = Union[
+    CacheTypeDefault,
+    CacheTypeNo,
+    CacheTypeSingleThreaded,
+    CacheTypeMultiThreaded,
+    CacheTypeStormTracking,
+    CacheType,
+]
+
+
 def _cache_type_from_dict(d: Dict[str, Any]) -> CacheType:
     if "Default" in d:
         return CacheTypeDefault.from_dict(d)
@@ -2204,20 +2404,26 @@ def _cache_type_from_dict(d: Dict[str, Any]) -> CacheType:
     if "StormTracking" in d:
         return CacheTypeStormTracking.from_dict(d)
 
-    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
+    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
 
 class CreateAwsKmsHierarchicalKeyringInput:
     branch_key_id: Optional[str]
-    branch_key_id_supplier: Optional['aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.BranchKeyIdSupplier']
-    key_store: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.client.KeyStore'
+    branch_key_id_supplier: Optional[
+        "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.BranchKeyIdSupplier"
+    ]
+    key_store: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.client.KeyStore"
     ttl_seconds: int
     cache: Optional[CacheType]
+
     def __init__(
         self,
         *,
-        key_store: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.client.KeyStore',
+        key_store: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.client.KeyStore",
         branch_key_id: Optional[str] = None,
-        branch_key_id_supplier: Optional['aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.BranchKeyIdSupplier'] = None,
+        branch_key_id_supplier: Optional[
+            "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.BranchKeyIdSupplier"
+        ] = None,
         ttl_seconds: int = 0,
         cache: Optional[CacheType] = None,
     ):
@@ -2276,8 +2482,13 @@ class CreateAwsKmsHierarchicalKeyringInput:
         The dictionary is expected to use the modeled shape names rather than the
         parameter names as keys to be mostly compatible with boto3.
         """
-        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import BranchKeyIdSupplier
-        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.client import KeyStore
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
+            BranchKeyIdSupplier,
+        )
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.client import (
+            KeyStore,
+        )
+
         kwargs: Dict[str, Any] = {
             "key_store": KeyStore.from_dict(d["keyStore"]),
         }
@@ -2286,13 +2497,15 @@ class CreateAwsKmsHierarchicalKeyringInput:
             kwargs["branch_key_id"] = d["branchKeyId"]
 
         if "branchKeyIdSupplier" in d:
-            kwargs["branch_key_id_supplier"] = BranchKeyIdSupplier.from_dict(d["branchKeyIdSupplier"])
+            kwargs["branch_key_id_supplier"] = BranchKeyIdSupplier.from_dict(
+                d["branchKeyIdSupplier"]
+            )
 
         if "ttlSeconds" in d:
             kwargs["ttl_seconds"] = d["ttlSeconds"]
 
         if "cache" in d:
-            kwargs["cache"] = _cache_type_from_dict(d["cache"]),
+            kwargs["cache"] = (_cache_type_from_dict(d["cache"]),)
 
         return CreateAwsKmsHierarchicalKeyringInput(**kwargs)
 
@@ -2318,21 +2531,26 @@ class CreateAwsKmsHierarchicalKeyringInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateAwsKmsHierarchicalKeyringInput):
             return False
-        attributes: list[str] = ['branch_key_id','branch_key_id_supplier','key_store','ttl_seconds','cache',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "branch_key_id",
+            "branch_key_id_supplier",
+            "key_store",
+            "ttl_seconds",
+            "cache",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class CreateAwsKmsKeyringInput:
     kms_key_id: str
-    kms_client: 'botocore.client.BaseClient'
+    kms_client: "botocore.client.BaseClient"
     grant_tokens: Optional[list[str]]
+
     def __init__(
         self,
         *,
         kms_key_id: str,
-        kms_client: 'botocore.client.BaseClient',
+        kms_client: "botocore.client.BaseClient",
         grant_tokens: Optional[list[str]] = None,
     ):
         """Inputs for for creating a AWS KMS Keyring.
@@ -2371,6 +2589,7 @@ class CreateAwsKmsKeyringInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         from botocore.client import BaseClient
+
         kwargs: Dict[str, Any] = {
             "kms_key_id": d["kmsKeyId"],
             "kms_client": BaseClient.from_dict(d["kmsClient"]),
@@ -2397,21 +2616,24 @@ class CreateAwsKmsKeyringInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateAwsKmsKeyringInput):
             return False
-        attributes: list[str] = ['kms_key_id','kms_client','grant_tokens',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "kms_key_id",
+            "kms_client",
+            "grant_tokens",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class CreateAwsKmsMrkDiscoveryKeyringInput:
-    kms_client: 'botocore.client.BaseClient'
+    kms_client: "botocore.client.BaseClient"
     discovery_filter: Optional[DiscoveryFilter]
     grant_tokens: Optional[list[str]]
     region: str
+
     def __init__(
         self,
         *,
-        kms_client: 'botocore.client.BaseClient',
+        kms_client: "botocore.client.BaseClient",
         region: str,
         discovery_filter: Optional[DiscoveryFilter] = None,
         grant_tokens: Optional[list[str]] = None,
@@ -2456,6 +2678,7 @@ class CreateAwsKmsMrkDiscoveryKeyringInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         from botocore.client import BaseClient
+
         kwargs: Dict[str, Any] = {
             "kms_client": BaseClient.from_dict(d["kmsClient"]),
             "region": d["region"],
@@ -2488,23 +2711,31 @@ class CreateAwsKmsMrkDiscoveryKeyringInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateAwsKmsMrkDiscoveryKeyringInput):
             return False
-        attributes: list[str] = ['kms_client','discovery_filter','grant_tokens','region',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "kms_client",
+            "discovery_filter",
+            "grant_tokens",
+            "region",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
     regions: list[str]
     discovery_filter: Optional[DiscoveryFilter]
-    client_supplier: Optional['aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier']
+    client_supplier: Optional[
+        "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
+    ]
     grant_tokens: Optional[list[str]]
+
     def __init__(
         self,
         *,
         regions: list[str],
         discovery_filter: Optional[DiscoveryFilter] = None,
-        client_supplier: Optional['aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier'] = None,
+        client_supplier: Optional[
+            "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
+        ] = None,
         grant_tokens: Optional[list[str]] = None,
     ):
         """Inputs for for creating a AWS KMS MRK Discovery Multi-Keyring.
@@ -2551,7 +2782,10 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
         The dictionary is expected to use the modeled shape names rather than the
         parameter names as keys to be mostly compatible with boto3.
         """
-        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import ClientSupplier
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
+            ClientSupplier,
+        )
+
         kwargs: Dict[str, Any] = {
             "regions": d["regions"],
         }
@@ -2586,21 +2820,25 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateAwsKmsMrkDiscoveryMultiKeyringInput):
             return False
-        attributes: list[str] = ['regions','discovery_filter','client_supplier','grant_tokens',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "regions",
+            "discovery_filter",
+            "client_supplier",
+            "grant_tokens",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class CreateAwsKmsMrkKeyringInput:
     kms_key_id: str
-    kms_client: 'botocore.client.BaseClient'
+    kms_client: "botocore.client.BaseClient"
     grant_tokens: Optional[list[str]]
+
     def __init__(
         self,
         *,
         kms_key_id: str,
-        kms_client: 'botocore.client.BaseClient',
+        kms_client: "botocore.client.BaseClient",
         grant_tokens: Optional[list[str]] = None,
     ):
         """Inputs for for creating an AWS KMS MRK Keyring.
@@ -2638,6 +2876,7 @@ class CreateAwsKmsMrkKeyringInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         from botocore.client import BaseClient
+
         kwargs: Dict[str, Any] = {
             "kms_key_id": d["kmsKeyId"],
             "kms_client": BaseClient.from_dict(d["kmsClient"]),
@@ -2664,23 +2903,30 @@ class CreateAwsKmsMrkKeyringInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateAwsKmsMrkKeyringInput):
             return False
-        attributes: list[str] = ['kms_key_id','kms_client','grant_tokens',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "kms_key_id",
+            "kms_client",
+            "grant_tokens",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class CreateAwsKmsMrkMultiKeyringInput:
     generator: Optional[str]
     kms_key_ids: Optional[list[str]]
-    client_supplier: Optional['aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier']
+    client_supplier: Optional[
+        "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
+    ]
     grant_tokens: Optional[list[str]]
+
     def __init__(
         self,
         *,
         generator: Optional[str] = None,
         kms_key_ids: Optional[list[str]] = None,
-        client_supplier: Optional['aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier'] = None,
+        client_supplier: Optional[
+            "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
+        ] = None,
         grant_tokens: Optional[list[str]] = None,
     ):
         """Inputs for for creating a AWS KMS MRK Multi-Keyring.
@@ -2732,7 +2978,10 @@ class CreateAwsKmsMrkMultiKeyringInput:
         The dictionary is expected to use the modeled shape names rather than the
         parameter names as keys to be mostly compatible with boto3.
         """
-        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import ClientSupplier
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
+            ClientSupplier,
+        )
+
         kwargs: Dict[str, Any] = {}
 
         if "generator" in d:
@@ -2768,23 +3017,31 @@ class CreateAwsKmsMrkMultiKeyringInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateAwsKmsMrkMultiKeyringInput):
             return False
-        attributes: list[str] = ['generator','kms_key_ids','client_supplier','grant_tokens',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "generator",
+            "kms_key_ids",
+            "client_supplier",
+            "grant_tokens",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class CreateAwsKmsMultiKeyringInput:
     generator: Optional[str]
     kms_key_ids: Optional[list[str]]
-    client_supplier: Optional['aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier']
+    client_supplier: Optional[
+        "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
+    ]
     grant_tokens: Optional[list[str]]
+
     def __init__(
         self,
         *,
         generator: Optional[str] = None,
         kms_key_ids: Optional[list[str]] = None,
-        client_supplier: Optional['aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier'] = None,
+        client_supplier: Optional[
+            "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier"
+        ] = None,
         grant_tokens: Optional[list[str]] = None,
     ):
         """Inputs for for creating a AWS KMS Multi-Keyring.
@@ -2836,7 +3093,10 @@ class CreateAwsKmsMultiKeyringInput:
         The dictionary is expected to use the modeled shape names rather than the
         parameter names as keys to be mostly compatible with boto3.
         """
-        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import ClientSupplier
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
+            ClientSupplier,
+        )
+
         kwargs: Dict[str, Any] = {}
 
         if "generator" in d:
@@ -2872,25 +3132,29 @@ class CreateAwsKmsMultiKeyringInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateAwsKmsMultiKeyringInput):
             return False
-        attributes: list[str] = ['generator','kms_key_ids','client_supplier','grant_tokens',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "generator",
+            "kms_key_ids",
+            "client_supplier",
+            "grant_tokens",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class CreateAwsKmsRsaKeyringInput:
     public_key: Optional[bytes | bytearray]
     kms_key_id: str
     encryption_algorithm: str
-    kms_client: Optional['botocore.client.BaseClient']
+    kms_client: Optional["botocore.client.BaseClient"]
     grant_tokens: Optional[list[str]]
+
     def __init__(
         self,
         *,
         kms_key_id: str,
         encryption_algorithm: str,
         public_key: Optional[bytes | bytearray] = None,
-        kms_client: Optional['botocore.client.BaseClient'] = None,
+        kms_client: Optional["botocore.client.BaseClient"] = None,
         grant_tokens: Optional[list[str]] = None,
     ):
         """Inputs for creating a AWS KMS RSA Keyring.
@@ -2942,6 +3206,7 @@ class CreateAwsKmsRsaKeyringInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         from botocore.client import BaseClient
+
         kwargs: Dict[str, Any] = {
             "kms_key_id": d["kmsKeyId"],
             "encryption_algorithm": d["encryptionAlgorithm"],
@@ -2980,14 +3245,19 @@ class CreateAwsKmsRsaKeyringInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateAwsKmsRsaKeyringInput):
             return False
-        attributes: list[str] = ['public_key','kms_key_id','encryption_algorithm','kms_client','grant_tokens',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "public_key",
+            "kms_key_id",
+            "encryption_algorithm",
+            "kms_client",
+            "grant_tokens",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class CreateCryptographicMaterialsCacheInput:
     cache: CacheType
+
     def __init__(
         self,
         *,
@@ -3031,11 +3301,11 @@ class CreateCryptographicMaterialsCacheInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateCryptographicMaterialsCacheInput):
             return False
-        attributes: list[str] = ['cache',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "cache",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class CreateDefaultClientSupplierInput:
     def as_dict(self) -> Dict[str, Any]:
@@ -3063,12 +3333,14 @@ class CreateDefaultClientSupplierInput:
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, CreateDefaultClientSupplierInput)
 
+
 class CreateDefaultCryptographicMaterialsManagerInput:
-    keyring: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring'
+    keyring: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
+
     def __init__(
         self,
         *,
-        keyring: 'aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring',
+        keyring: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring",
     ):
         """Inputs for creating a Default Cryptographic Materials Manager.
 
@@ -3088,13 +3360,18 @@ class CreateDefaultCryptographicMaterialsManagerInput:
         }
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CreateDefaultCryptographicMaterialsManagerInput":
+    def from_dict(
+        d: Dict[str, Any]
+    ) -> "CreateDefaultCryptographicMaterialsManagerInput":
         """Creates a CreateDefaultCryptographicMaterialsManagerInput from a dictionary.
 
         The dictionary is expected to use the modeled shape names rather than the
         parameter names as keys to be mostly compatible with boto3.
         """
-        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import Keyring
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
+            Keyring,
+        )
+
         kwargs: Dict[str, Any] = {
             "keyring": Keyring.from_dict(d["keyring"]),
         }
@@ -3111,20 +3388,29 @@ class CreateDefaultCryptographicMaterialsManagerInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateDefaultCryptographicMaterialsManagerInput):
             return False
-        attributes: list[str] = ['keyring',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "keyring",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class CreateMultiKeyringInput:
-    generator: Optional['aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring']
-    child_keyrings: list['aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring']
+    generator: Optional[
+        "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
+    ]
+    child_keyrings: list[
+        "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
+    ]
+
     def __init__(
         self,
         *,
-        child_keyrings: list['aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring'],
-        generator: Optional['aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring'] = None,
+        child_keyrings: list[
+            "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
+        ],
+        generator: Optional[
+            "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
+        ] = None,
     ):
         """Inputs for creating a Multi-Keyring.
 
@@ -3159,7 +3445,10 @@ class CreateMultiKeyringInput:
         The dictionary is expected to use the modeled shape names rather than the
         parameter names as keys to be mostly compatible with boto3.
         """
-        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import Keyring
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
+            Keyring,
+        )
+
         kwargs: Dict[str, Any] = {
             "child_keyrings": d["childKeyrings"],
         }
@@ -3182,17 +3471,19 @@ class CreateMultiKeyringInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateMultiKeyringInput):
             return False
-        attributes: list[str] = ['generator','child_keyrings',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "generator",
+            "child_keyrings",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class CreateRawAesKeyringInput:
     key_namespace: str
     key_name: str
     wrapping_key: bytes | bytearray
     wrapping_alg: str
+
     def __init__(
         self,
         *,
@@ -3262,14 +3553,18 @@ class CreateRawAesKeyringInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateRawAesKeyringInput):
             return False
-        attributes: list[str] = ['key_namespace','key_name','wrapping_key','wrapping_alg',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "key_namespace",
+            "key_name",
+            "wrapping_key",
+            "wrapping_alg",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class EphemeralPrivateKeyToStaticPublicKeyInput:
     recipient_public_key: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -3314,14 +3609,15 @@ class EphemeralPrivateKeyToStaticPublicKeyInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, EphemeralPrivateKeyToStaticPublicKeyInput):
             return False
-        attributes: list[str] = ['recipient_public_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "recipient_public_key",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class PublicKeyDiscoveryInput:
     recipient_static_private_key: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -3367,15 +3663,16 @@ class PublicKeyDiscoveryInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PublicKeyDiscoveryInput):
             return False
-        attributes: list[str] = ['recipient_static_private_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "recipient_static_private_key",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class RawPrivateKeyToStaticPublicKeyInput:
     sender_static_private_key: bytes | bytearray
     recipient_public_key: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -3418,7 +3715,9 @@ class RawPrivateKeyToStaticPublicKeyInput:
     def __repr__(self) -> str:
         result = "RawPrivateKeyToStaticPublicKeyInput("
         if self.sender_static_private_key is not None:
-            result += f"sender_static_private_key={repr(self.sender_static_private_key)}, "
+            result += (
+                f"sender_static_private_key={repr(self.sender_static_private_key)}, "
+            )
 
         if self.recipient_public_key is not None:
             result += f"recipient_public_key={repr(self.recipient_public_key)}"
@@ -3428,15 +3727,16 @@ class RawPrivateKeyToStaticPublicKeyInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, RawPrivateKeyToStaticPublicKeyInput):
             return False
-        attributes: list[str] = ['sender_static_private_key','recipient_public_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "sender_static_private_key",
+            "recipient_public_key",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
-class RawEcdhStaticConfigurationsPublicKeyDiscovery():
-    """Inputs for creating a PublicKeyDiscovery Configuration.
-    """
+
+class RawEcdhStaticConfigurationsPublicKeyDiscovery:
+    """Inputs for creating a PublicKeyDiscovery Configuration."""
+
     def __init__(self, value: PublicKeyDiscoveryInput):
         self.value = value
 
@@ -3445,10 +3745,12 @@ class RawEcdhStaticConfigurationsPublicKeyDiscovery():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "RawEcdhStaticConfigurationsPublicKeyDiscovery":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-        return RawEcdhStaticConfigurationsPublicKeyDiscovery(PublicKeyDiscoveryInput.from_dict(d["PublicKeyDiscovery"]))
+        return RawEcdhStaticConfigurationsPublicKeyDiscovery(
+            PublicKeyDiscoveryInput.from_dict(d["PublicKeyDiscovery"])
+        )
 
     def __repr__(self) -> str:
         return f"RawEcdhStaticConfigurationsPublicKeyDiscovery(value=repr(self.value))"
@@ -3458,9 +3760,10 @@ class RawEcdhStaticConfigurationsPublicKeyDiscovery():
             return False
         return self.value == other.value
 
-class RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey():
-    """Inputs for creating a RawPrivateKeyToStaticPublicKey Configuration.
-    """
+
+class RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey:
+    """Inputs for creating a RawPrivateKeyToStaticPublicKey Configuration."""
+
     def __init__(self, value: RawPrivateKeyToStaticPublicKeyInput):
         self.value = value
 
@@ -3468,23 +3771,32 @@ class RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey():
         return {"RawPrivateKeyToStaticPublicKey": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey":
-        if (len(d) != 1):
+    def from_dict(
+        d: Dict[str, Any]
+    ) -> "RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey":
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-        return RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey(RawPrivateKeyToStaticPublicKeyInput.from_dict(d["RawPrivateKeyToStaticPublicKey"]))
+        return RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey(
+            RawPrivateKeyToStaticPublicKeyInput.from_dict(
+                d["RawPrivateKeyToStaticPublicKey"]
+            )
+        )
 
     def __repr__(self) -> str:
         return f"RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey(value=repr(self.value))"
 
     def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey):
+        if not isinstance(
+            other, RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey
+        ):
             return False
         return self.value == other.value
 
-class RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey():
-    """Inputs for creating a EphemeralPrivateKeyToStaticPublicKey Configuration.
-    """
+
+class RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey:
+    """Inputs for creating a EphemeralPrivateKeyToStaticPublicKey Configuration."""
+
     def __init__(self, value: EphemeralPrivateKeyToStaticPublicKeyInput):
         self.value = value
 
@@ -3492,21 +3804,30 @@ class RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey():
         return {"EphemeralPrivateKeyToStaticPublicKey": self.value.as_dict()}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey":
-        if (len(d) != 1):
+    def from_dict(
+        d: Dict[str, Any]
+    ) -> "RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey":
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-        return RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey(EphemeralPrivateKeyToStaticPublicKeyInput.from_dict(d["EphemeralPrivateKeyToStaticPublicKey"]))
+        return RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey(
+            EphemeralPrivateKeyToStaticPublicKeyInput.from_dict(
+                d["EphemeralPrivateKeyToStaticPublicKey"]
+            )
+        )
 
     def __repr__(self) -> str:
         return f"RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey(value=repr(self.value))"
 
     def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey):
+        if not isinstance(
+            other, RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey
+        ):
             return False
         return self.value == other.value
 
-class RawEcdhStaticConfigurations():
+
+class RawEcdhStaticConfigurations:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -3523,16 +3844,26 @@ class RawEcdhStaticConfigurations():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "RawEcdhStaticConfigurations":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return RawEcdhStaticConfigurations(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
         return f"RawEcdhStaticConfigurations(tag={self.tag})"
 
+
 # List of configurations when using RawEcdhStaticConfigurations.
-RawEcdhStaticConfigurations = Union[RawEcdhStaticConfigurationsPublicKeyDiscovery, RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey, RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey, RawEcdhStaticConfigurations]
-def _raw_ecdh_static_configurations_from_dict(d: Dict[str, Any]) -> RawEcdhStaticConfigurations:
+RawEcdhStaticConfigurations = Union[
+    RawEcdhStaticConfigurationsPublicKeyDiscovery,
+    RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey,
+    RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey,
+    RawEcdhStaticConfigurations,
+]
+
+
+def _raw_ecdh_static_configurations_from_dict(
+    d: Dict[str, Any]
+) -> RawEcdhStaticConfigurations:
     if "PublicKeyDiscovery" in d:
         return RawEcdhStaticConfigurationsPublicKeyDiscovery.from_dict(d)
 
@@ -3540,13 +3871,17 @@ def _raw_ecdh_static_configurations_from_dict(d: Dict[str, Any]) -> RawEcdhStati
         return RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey.from_dict(d)
 
     if "EphemeralPrivateKeyToStaticPublicKey" in d:
-        return RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey.from_dict(d)
+        return (
+            RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey.from_dict(d)
+        )
 
-    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
+    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
 
 class CreateRawEcdhKeyringInput:
     key_agreement_scheme: RawEcdhStaticConfigurations
     curve_spec: str
+
     def __init__(
         self,
         *,
@@ -3582,7 +3917,9 @@ class CreateRawEcdhKeyringInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "key_agreement_scheme": _raw_ecdh_static_configurations_from_dict(d["KeyAgreementScheme"]),
+            "key_agreement_scheme": _raw_ecdh_static_configurations_from_dict(
+                d["KeyAgreementScheme"]
+            ),
             "curve_spec": d["curveSpec"],
         }
 
@@ -3601,11 +3938,12 @@ class CreateRawEcdhKeyringInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateRawEcdhKeyringInput):
             return False
-        attributes: list[str] = ['key_agreement_scheme','curve_spec',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "key_agreement_scheme",
+            "curve_spec",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class PaddingScheme:
     PKCS1 = "PKCS1"
@@ -3620,7 +3958,16 @@ class PaddingScheme:
 
     # This set contains every possible value known at the time this was generated. New
     # values may be added in the future.
-    values = frozenset({"PKCS1", "OAEP_SHA1_MGF1", "OAEP_SHA256_MGF1", "OAEP_SHA384_MGF1", "OAEP_SHA512_MGF1"})
+    values = frozenset(
+        {
+            "PKCS1",
+            "OAEP_SHA1_MGF1",
+            "OAEP_SHA256_MGF1",
+            "OAEP_SHA384_MGF1",
+            "OAEP_SHA512_MGF1",
+        }
+    )
+
 
 class CreateRawRsaKeyringInput:
     key_namespace: str
@@ -3628,6 +3975,7 @@ class CreateRawRsaKeyringInput:
     padding_scheme: str
     public_key: Optional[bytes | bytearray]
     private_key: Optional[bytes | bytearray]
+
     def __init__(
         self,
         *,
@@ -3720,22 +4068,35 @@ class CreateRawRsaKeyringInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateRawRsaKeyringInput):
             return False
-        attributes: list[str] = ['key_namespace','key_name','padding_scheme','public_key','private_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "key_namespace",
+            "key_name",
+            "padding_scheme",
+            "public_key",
+            "private_key",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class CreateRequiredEncryptionContextCMMInput:
-    underlying_cmm: Optional['aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsManager']
-    keyring: Optional['aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring']
+    underlying_cmm: Optional[
+        "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsManager"
+    ]
+    keyring: Optional[
+        "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
+    ]
     required_encryption_context_keys: list[str]
+
     def __init__(
         self,
         *,
         required_encryption_context_keys: list[str],
-        underlying_cmm: Optional['aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsManager'] = None,
-        keyring: Optional['aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring'] = None,
+        underlying_cmm: Optional[
+            "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsManager"
+        ] = None,
+        keyring: Optional[
+            "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references.Keyring"
+        ] = None,
     ):
         """Inputs for creating an Required Encryption Context Cryptographic Materials
         Manager.
@@ -3783,14 +4144,21 @@ class CreateRequiredEncryptionContextCMMInput:
         The dictionary is expected to use the modeled shape names rather than the
         parameter names as keys to be mostly compatible with boto3.
         """
-        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import CryptographicMaterialsManager
-        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import Keyring
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
+            CryptographicMaterialsManager,
+        )
+        from aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.references import (
+            Keyring,
+        )
+
         kwargs: Dict[str, Any] = {
             "required_encryption_context_keys": d["requiredEncryptionContextKeys"],
         }
 
         if "underlyingCMM" in d:
-            kwargs["underlying_cmm"] = CryptographicMaterialsManager.from_dict(d["underlyingCMM"])
+            kwargs["underlying_cmm"] = CryptographicMaterialsManager.from_dict(
+                d["underlyingCMM"]
+            )
 
         if "keyring" in d:
             kwargs["keyring"] = Keyring.from_dict(d["keyring"])
@@ -3813,14 +4181,17 @@ class CreateRequiredEncryptionContextCMMInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateRequiredEncryptionContextCMMInput):
             return False
-        attributes: list[str] = ['underlying_cmm','keyring','required_encryption_context_keys',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "underlying_cmm",
+            "keyring",
+            "required_encryption_context_keys",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class DeleteCacheEntryInput:
     identifier: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -3861,15 +4232,16 @@ class DeleteCacheEntryInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, DeleteCacheEntryInput):
             return False
-        attributes: list[str] = ['identifier',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "identifier",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GetCacheEntryInput:
     identifier: bytes | bytearray
     bytes_used: Optional[int]
+
     def __init__(
         self,
         *,
@@ -3923,11 +4295,12 @@ class GetCacheEntryInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GetCacheEntryInput):
             return False
-        attributes: list[str] = ['identifier','bytes_used',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "identifier",
+            "bytes_used",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class DecryptionMaterials:
     algorithm_suite: AlgorithmSuiteInfo
@@ -3936,6 +4309,7 @@ class DecryptionMaterials:
     plaintext_data_key: Optional[bytes | bytearray]
     verification_key: Optional[bytes | bytearray]
     symmetric_signing_key: Optional[bytes | bytearray]
+
     def __init__(
         self,
         *,
@@ -4025,16 +4399,22 @@ class DecryptionMaterials:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, DecryptionMaterials):
             return False
-        attributes: list[str] = ['algorithm_suite','encryption_context','required_encryption_context_keys','plaintext_data_key','verification_key','symmetric_signing_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "algorithm_suite",
+            "encryption_context",
+            "required_encryption_context_keys",
+            "plaintext_data_key",
+            "verification_key",
+            "symmetric_signing_key",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class EncryptedDataKey:
     key_provider_id: str
     key_provider_info: bytes | bytearray
     ciphertext: bytes | bytearray
+
     def __init__(
         self,
         *,
@@ -4089,11 +4469,13 @@ class EncryptedDataKey:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, EncryptedDataKey):
             return False
-        attributes: list[str] = ['key_provider_id','key_provider_info','ciphertext',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "key_provider_id",
+            "key_provider_info",
+            "ciphertext",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class EncryptionMaterials:
     algorithm_suite: AlgorithmSuiteInfo
@@ -4103,6 +4485,7 @@ class EncryptionMaterials:
     plaintext_data_key: Optional[bytes | bytearray]
     signing_key: Optional[bytes | bytearray]
     symmetric_signing_keys: Optional[list[bytes | bytearray]]
+
     def __init__(
         self,
         *,
@@ -4131,7 +4514,9 @@ class EncryptionMaterials:
         d: Dict[str, Any] = {
             "algorithmSuite": self.algorithm_suite.as_dict(),
             "encryptionContext": self.encryption_context,
-            "encryptedDataKeys": _encrypted_data_key_list_as_dict(self.encrypted_data_keys),
+            "encryptedDataKeys": _encrypted_data_key_list_as_dict(
+                self.encrypted_data_keys
+            ),
             "requiredEncryptionContextKeys": self.required_encryption_context_keys,
         }
 
@@ -4156,7 +4541,9 @@ class EncryptionMaterials:
         kwargs: Dict[str, Any] = {
             "algorithm_suite": AlgorithmSuiteInfo.from_dict(d["algorithmSuite"]),
             "encryption_context": d["encryptionContext"],
-            "encrypted_data_keys": _encrypted_data_key_list_from_dict(d["encryptedDataKeys"]),
+            "encrypted_data_keys": _encrypted_data_key_list_from_dict(
+                d["encryptedDataKeys"]
+            ),
             "required_encryption_context_keys": d["requiredEncryptionContextKeys"],
         }
 
@@ -4199,13 +4586,19 @@ class EncryptionMaterials:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, EncryptionMaterials):
             return False
-        attributes: list[str] = ['algorithm_suite','encryption_context','encrypted_data_keys','required_encryption_context_keys','plaintext_data_key','signing_key','symmetric_signing_keys',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "algorithm_suite",
+            "encryption_context",
+            "encrypted_data_keys",
+            "required_encryption_context_keys",
+            "plaintext_data_key",
+            "signing_key",
+            "symmetric_signing_keys",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
-class MaterialsEncryption():
+
+class MaterialsEncryption:
     def __init__(self, value: EncryptionMaterials):
         self.value = value
 
@@ -4214,7 +4607,7 @@ class MaterialsEncryption():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "MaterialsEncryption":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return MaterialsEncryption(EncryptionMaterials.from_dict(d["Encryption"]))
@@ -4227,7 +4620,8 @@ class MaterialsEncryption():
             return False
         return self.value == other.value
 
-class MaterialsDecryption():
+
+class MaterialsDecryption:
     def __init__(self, value: DecryptionMaterials):
         self.value = value
 
@@ -4236,7 +4630,7 @@ class MaterialsDecryption():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "MaterialsDecryption":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return MaterialsDecryption(DecryptionMaterials.from_dict(d["Decryption"]))
@@ -4249,7 +4643,8 @@ class MaterialsDecryption():
             return False
         return self.value == other.value
 
-class MaterialsBranchKey():
+
+class MaterialsBranchKey:
     def __init__(self, value: BranchKeyMaterials):
         self.value = value
 
@@ -4258,7 +4653,7 @@ class MaterialsBranchKey():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "MaterialsBranchKey":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return MaterialsBranchKey(BranchKeyMaterials.from_dict(d["BranchKey"]))
@@ -4271,7 +4666,8 @@ class MaterialsBranchKey():
             return False
         return self.value == other.value
 
-class MaterialsBeaconKey():
+
+class MaterialsBeaconKey:
     def __init__(self, value: BeaconKeyMaterials):
         self.value = value
 
@@ -4280,7 +4676,7 @@ class MaterialsBeaconKey():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "MaterialsBeaconKey":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return MaterialsBeaconKey(BeaconKeyMaterials.from_dict(d["BeaconKey"]))
@@ -4293,7 +4689,8 @@ class MaterialsBeaconKey():
             return False
         return self.value == other.value
 
-class Materials():
+
+class Materials:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -4310,14 +4707,23 @@ class Materials():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "Materials":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return Materials(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
         return f"Materials(tag={self.tag})"
 
-Materials = Union[MaterialsEncryption, MaterialsDecryption, MaterialsBranchKey, MaterialsBeaconKey, Materials]
+
+Materials = Union[
+    MaterialsEncryption,
+    MaterialsDecryption,
+    MaterialsBranchKey,
+    MaterialsBeaconKey,
+    Materials,
+]
+
+
 def _materials_from_dict(d: Dict[str, Any]) -> Materials:
     if "Encryption" in d:
         return MaterialsEncryption.from_dict(d)
@@ -4331,7 +4737,8 @@ def _materials_from_dict(d: Dict[str, Any]) -> Materials:
     if "BeaconKey" in d:
         return MaterialsBeaconKey.from_dict(d)
 
-    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
+    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
 
 class GetCacheEntryOutput:
     materials: Materials
@@ -4339,6 +4746,7 @@ class GetCacheEntryOutput:
     expiry_time: int
     messages_used: int
     bytes_used: int
+
     def __init__(
         self,
         *,
@@ -4437,11 +4845,15 @@ class GetCacheEntryOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GetCacheEntryOutput):
             return False
-        attributes: list[str] = ['materials','creation_time','expiry_time','messages_used','bytes_used',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "materials",
+            "creation_time",
+            "expiry_time",
+            "messages_used",
+            "bytes_used",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class PutCacheEntryInput:
     identifier: bytes | bytearray
@@ -4450,6 +4862,7 @@ class PutCacheEntryInput:
     expiry_time: int
     messages_used: int
     bytes_used: int
+
     def __init__(
         self,
         *,
@@ -4555,15 +4968,21 @@ class PutCacheEntryInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, PutCacheEntryInput):
             return False
-        attributes: list[str] = ['identifier','materials','creation_time','expiry_time','messages_used','bytes_used',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "identifier",
+            "materials",
+            "creation_time",
+            "expiry_time",
+            "messages_used",
+            "bytes_used",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class UpdateUsageMetadataInput:
     identifier: bytes | bytearray
     bytes_used: int
+
     def __init__(
         self,
         *,
@@ -4620,11 +5039,12 @@ class UpdateUsageMetadataInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, UpdateUsageMetadataInput):
             return False
-        attributes: list[str] = ['identifier','bytes_used',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "identifier",
+            "bytes_used",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class DBECommitmentPolicy:
     REQUIRE_ENCRYPT_REQUIRE_DECRYPT = "REQUIRE_ENCRYPT_REQUIRE_DECRYPT"
@@ -4632,6 +5052,7 @@ class DBECommitmentPolicy:
     # This set contains every possible value known at the time this was generated. New
     # values may be added in the future.
     values = frozenset({"REQUIRE_ENCRYPT_REQUIRE_DECRYPT"})
+
 
 class ESDKCommitmentPolicy:
     FORBID_ENCRYPT_ALLOW_DECRYPT = "FORBID_ENCRYPT_ALLOW_DECRYPT"
@@ -4642,9 +5063,16 @@ class ESDKCommitmentPolicy:
 
     # This set contains every possible value known at the time this was generated. New
     # values may be added in the future.
-    values = frozenset({"FORBID_ENCRYPT_ALLOW_DECRYPT", "REQUIRE_ENCRYPT_ALLOW_DECRYPT", "REQUIRE_ENCRYPT_REQUIRE_DECRYPT"})
+    values = frozenset(
+        {
+            "FORBID_ENCRYPT_ALLOW_DECRYPT",
+            "REQUIRE_ENCRYPT_ALLOW_DECRYPT",
+            "REQUIRE_ENCRYPT_REQUIRE_DECRYPT",
+        }
+    )
 
-class CommitmentPolicyESDK():
+
+class CommitmentPolicyESDK:
     def __init__(self, value: str):
         self.value = value
 
@@ -4653,7 +5081,7 @@ class CommitmentPolicyESDK():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CommitmentPolicyESDK":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return CommitmentPolicyESDK(d["ESDK"])
@@ -4666,7 +5094,8 @@ class CommitmentPolicyESDK():
             return False
         return self.value == other.value
 
-class CommitmentPolicyDBE():
+
+class CommitmentPolicyDBE:
     def __init__(self, value: str):
         self.value = value
 
@@ -4675,7 +5104,7 @@ class CommitmentPolicyDBE():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CommitmentPolicyDBE":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return CommitmentPolicyDBE(d["DBE"])
@@ -4688,7 +5117,8 @@ class CommitmentPolicyDBE():
             return False
         return self.value == other.value
 
-class CommitmentPolicy():
+
+class CommitmentPolicy:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -4705,14 +5135,17 @@ class CommitmentPolicy():
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CommitmentPolicy":
-        if (len(d) != 1):
+        if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return CommitmentPolicy(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
         return f"CommitmentPolicy(tag={self.tag})"
 
+
 CommitmentPolicy = Union[CommitmentPolicyESDK, CommitmentPolicyDBE, CommitmentPolicy]
+
+
 def _commitment_policy_from_dict(d: Dict[str, Any]) -> CommitmentPolicy:
     if "ESDK" in d:
         return CommitmentPolicyESDK.from_dict(d)
@@ -4720,7 +5153,8 @@ def _commitment_policy_from_dict(d: Dict[str, Any]) -> CommitmentPolicy:
     if "DBE" in d:
         return CommitmentPolicyDBE.from_dict(d)
 
-    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
+    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
+
 
 class DecryptMaterialsInput:
     algorithm_suite_id: AlgorithmSuiteId
@@ -4728,6 +5162,7 @@ class DecryptMaterialsInput:
     encrypted_data_keys: list[EncryptedDataKey]
     encryption_context: dict[str, str]
     reproduced_encryption_context: Optional[dict[str, str]]
+
     def __init__(
         self,
         *,
@@ -4752,7 +5187,9 @@ class DecryptMaterialsInput:
         d: Dict[str, Any] = {
             "algorithmSuiteId": self.algorithm_suite_id.as_dict(),
             "commitmentPolicy": self.commitment_policy.as_dict(),
-            "encryptedDataKeys": _encrypted_data_key_list_as_dict(self.encrypted_data_keys),
+            "encryptedDataKeys": _encrypted_data_key_list_as_dict(
+                self.encrypted_data_keys
+            ),
             "encryptionContext": self.encryption_context,
         }
 
@@ -4771,7 +5208,9 @@ class DecryptMaterialsInput:
         kwargs: Dict[str, Any] = {
             "algorithm_suite_id": _algorithm_suite_id_from_dict(d["algorithmSuiteId"]),
             "commitment_policy": _commitment_policy_from_dict(d["commitmentPolicy"]),
-            "encrypted_data_keys": _encrypted_data_key_list_from_dict(d["encryptedDataKeys"]),
+            "encrypted_data_keys": _encrypted_data_key_list_from_dict(
+                d["encryptedDataKeys"]
+            ),
             "encryption_context": d["encryptionContext"],
         }
 
@@ -4802,14 +5241,19 @@ class DecryptMaterialsInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, DecryptMaterialsInput):
             return False
-        attributes: list[str] = ['algorithm_suite_id','commitment_policy','encrypted_data_keys','encryption_context','reproduced_encryption_context',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "algorithm_suite_id",
+            "commitment_policy",
+            "encrypted_data_keys",
+            "encryption_context",
+            "reproduced_encryption_context",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class DecryptMaterialsOutput:
     decryption_materials: DecryptionMaterials
+
     def __init__(
         self,
         *,
@@ -4835,7 +5279,9 @@ class DecryptMaterialsOutput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "decryption_materials": DecryptionMaterials.from_dict(d["decryptionMaterials"]),
+            "decryption_materials": DecryptionMaterials.from_dict(
+                d["decryptionMaterials"]
+            ),
         }
 
         return DecryptMaterialsOutput(**kwargs)
@@ -4850,11 +5296,11 @@ class DecryptMaterialsOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, DecryptMaterialsOutput):
             return False
-        attributes: list[str] = ['decryption_materials',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "decryption_materials",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GetEncryptionMaterialsInput:
     encryption_context: dict[str, str]
@@ -4862,6 +5308,7 @@ class GetEncryptionMaterialsInput:
     algorithm_suite_id: Optional[AlgorithmSuiteId]
     max_plaintext_length: Optional[int]
     required_encryption_context_keys: Optional[list[str]]
+
     def __init__(
         self,
         *,
@@ -4912,13 +5359,17 @@ class GetEncryptionMaterialsInput:
         }
 
         if "algorithmSuiteId" in d:
-            kwargs["algorithm_suite_id"] = _algorithm_suite_id_from_dict(d["algorithmSuiteId"]),
+            kwargs["algorithm_suite_id"] = (
+                _algorithm_suite_id_from_dict(d["algorithmSuiteId"]),
+            )
 
         if "maxPlaintextLength" in d:
             kwargs["max_plaintext_length"] = d["maxPlaintextLength"]
 
         if "requiredEncryptionContextKeys" in d:
-            kwargs["required_encryption_context_keys"] = d["requiredEncryptionContextKeys"]
+            kwargs["required_encryption_context_keys"] = d[
+                "requiredEncryptionContextKeys"
+            ]
 
         return GetEncryptionMaterialsInput(**kwargs)
 
@@ -4944,14 +5395,19 @@ class GetEncryptionMaterialsInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GetEncryptionMaterialsInput):
             return False
-        attributes: list[str] = ['encryption_context','commitment_policy','algorithm_suite_id','max_plaintext_length','required_encryption_context_keys',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "encryption_context",
+            "commitment_policy",
+            "algorithm_suite_id",
+            "max_plaintext_length",
+            "required_encryption_context_keys",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class GetEncryptionMaterialsOutput:
     encryption_materials: EncryptionMaterials
+
     def __init__(
         self,
         *,
@@ -4977,7 +5433,9 @@ class GetEncryptionMaterialsOutput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "encryption_materials": EncryptionMaterials.from_dict(d["encryptionMaterials"]),
+            "encryption_materials": EncryptionMaterials.from_dict(
+                d["encryptionMaterials"]
+            ),
         }
 
         return GetEncryptionMaterialsOutput(**kwargs)
@@ -4992,16 +5450,17 @@ class GetEncryptionMaterialsOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, GetEncryptionMaterialsOutput):
             return False
-        attributes: list[str] = ['encryption_materials',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "encryption_materials",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class InitializeDecryptionMaterialsInput:
     algorithm_suite_id: AlgorithmSuiteId
     encryption_context: dict[str, str]
     required_encryption_context_keys: list[str]
+
     def __init__(
         self,
         *,
@@ -5056,11 +5515,13 @@ class InitializeDecryptionMaterialsInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InitializeDecryptionMaterialsInput):
             return False
-        attributes: list[str] = ['algorithm_suite_id','encryption_context','required_encryption_context_keys',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "algorithm_suite_id",
+            "encryption_context",
+            "required_encryption_context_keys",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class InitializeEncryptionMaterialsInput:
     algorithm_suite_id: AlgorithmSuiteId
@@ -5068,6 +5529,7 @@ class InitializeEncryptionMaterialsInput:
     required_encryption_context_keys: list[str]
     signing_key: Optional[bytes | bytearray]
     verification_key: Optional[bytes | bytearray]
+
     def __init__(
         self,
         *,
@@ -5146,15 +5608,20 @@ class InitializeEncryptionMaterialsInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InitializeEncryptionMaterialsInput):
             return False
-        attributes: list[str] = ['algorithm_suite_id','encryption_context','required_encryption_context_keys','signing_key','verification_key',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "algorithm_suite_id",
+            "encryption_context",
+            "required_encryption_context_keys",
+            "signing_key",
+            "verification_key",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class OnDecryptInput:
     materials: DecryptionMaterials
     encrypted_data_keys: list[EncryptedDataKey]
+
     def __init__(
         self,
         *,
@@ -5172,7 +5639,9 @@ class OnDecryptInput:
         """
         return {
             "materials": self.materials.as_dict(),
-            "encryptedDataKeys": _encrypted_data_key_list_as_dict(self.encrypted_data_keys),
+            "encryptedDataKeys": _encrypted_data_key_list_as_dict(
+                self.encrypted_data_keys
+            ),
         }
 
     @staticmethod
@@ -5184,7 +5653,9 @@ class OnDecryptInput:
         """
         kwargs: Dict[str, Any] = {
             "materials": DecryptionMaterials.from_dict(d["materials"]),
-            "encrypted_data_keys": _encrypted_data_key_list_from_dict(d["encryptedDataKeys"]),
+            "encrypted_data_keys": _encrypted_data_key_list_from_dict(
+                d["encryptedDataKeys"]
+            ),
         }
 
         return OnDecryptInput(**kwargs)
@@ -5202,14 +5673,16 @@ class OnDecryptInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, OnDecryptInput):
             return False
-        attributes: list[str] = ['materials','encrypted_data_keys',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "materials",
+            "encrypted_data_keys",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class OnDecryptOutput:
     materials: DecryptionMaterials
+
     def __init__(
         self,
         *,
@@ -5250,14 +5723,15 @@ class OnDecryptOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, OnDecryptOutput):
             return False
-        attributes: list[str] = ['materials',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "materials",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class OnEncryptInput:
     materials: EncryptionMaterials
+
     def __init__(
         self,
         *,
@@ -5298,14 +5772,15 @@ class OnEncryptInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, OnEncryptInput):
             return False
-        attributes: list[str] = ['materials',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "materials",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class OnEncryptOutput:
     materials: EncryptionMaterials
+
     def __init__(
         self,
         *,
@@ -5346,15 +5821,16 @@ class OnEncryptOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, OnEncryptOutput):
             return False
-        attributes: list[str] = ['materials',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "materials",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class ValidateCommitmentPolicyOnDecryptInput:
     algorithm: AlgorithmSuiteId
     commitment_policy: CommitmentPolicy
+
     def __init__(
         self,
         *,
@@ -5402,15 +5878,17 @@ class ValidateCommitmentPolicyOnDecryptInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, ValidateCommitmentPolicyOnDecryptInput):
             return False
-        attributes: list[str] = ['algorithm','commitment_policy',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "algorithm",
+            "commitment_policy",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class ValidateCommitmentPolicyOnEncryptInput:
     algorithm: AlgorithmSuiteId
     commitment_policy: CommitmentPolicy
+
     def __init__(
         self,
         *,
@@ -5458,15 +5936,17 @@ class ValidateCommitmentPolicyOnEncryptInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, ValidateCommitmentPolicyOnEncryptInput):
             return False
-        attributes: list[str] = ['algorithm','commitment_policy',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "algorithm",
+            "commitment_policy",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class ValidDecryptionMaterialsTransitionInput:
     start: DecryptionMaterials
     stop: DecryptionMaterials
+
     def __init__(
         self,
         *,
@@ -5514,15 +5994,17 @@ class ValidDecryptionMaterialsTransitionInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, ValidDecryptionMaterialsTransitionInput):
             return False
-        attributes: list[str] = ['start','stop',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "start",
+            "stop",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 class ValidEncryptionMaterialsTransitionInput:
     start: EncryptionMaterials
     stop: EncryptionMaterials
+
     def __init__(
         self,
         *,
@@ -5570,17 +6052,20 @@ class ValidEncryptionMaterialsTransitionInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, ValidEncryptionMaterialsTransitionInput):
             return False
-        attributes: list[str] = ['start','stop',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "start",
+            "stop",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 def _encrypted_data_key_list_as_dict(given: list[EncryptedDataKey]) -> List[Any]:
     return [v.as_dict() for v in given]
 
+
 def _encrypted_data_key_list_from_dict(given: List[Any]) -> list[EncryptedDataKey]:
     return [EncryptedDataKey.from_dict(v) for v in given]
+
 
 class Unit:
     pass

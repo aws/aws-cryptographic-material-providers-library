@@ -298,262 +298,319 @@ from standard_library.internaldafny.generated.Wrappers import Option_None, Optio
 
 def com_amazonaws_kms_AlreadyExistsException(native_input):
     return Error_AlreadyExistsException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_CloudHsmClusterInUseException(native_input):
     return Error_CloudHsmClusterInUseException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_CloudHsmClusterInvalidConfigurationException(native_input):
     return Error_CloudHsmClusterInvalidConfigurationException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_CloudHsmClusterNotActiveException(native_input):
     return Error_CloudHsmClusterNotActiveException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_CloudHsmClusterNotFoundException(native_input):
     return Error_CloudHsmClusterNotFoundException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_CloudHsmClusterNotRelatedException(native_input):
     return Error_CloudHsmClusterNotRelatedException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_ConflictException(native_input):
     return Error_ConflictException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_CustomKeyStoreHasCMKsException(native_input):
     return Error_CustomKeyStoreHasCMKsException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_CustomKeyStoreInvalidStateException(native_input):
     return Error_CustomKeyStoreInvalidStateException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_CustomKeyStoreNameInUseException(native_input):
     return Error_CustomKeyStoreNameInUseException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_CustomKeyStoreNotFoundException(native_input):
     return Error_CustomKeyStoreNotFoundException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_DependencyTimeoutException(native_input):
     return Error_DependencyTimeoutException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_DisabledException(native_input):
     return Error_DisabledException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_DryRunOperationException(native_input):
     return Error_DryRunOperationException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_ExpiredImportTokenException(native_input):
     return Error_ExpiredImportTokenException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_IncorrectKeyException(native_input):
     return Error_IncorrectKeyException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_IncorrectKeyMaterialException(native_input):
     return Error_IncorrectKeyMaterialException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_IncorrectTrustAnchorException(native_input):
     return Error_IncorrectTrustAnchorException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_InvalidAliasNameException(native_input):
     return Error_InvalidAliasNameException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_InvalidArnException(native_input):
     return Error_InvalidArnException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_InvalidCiphertextException(native_input):
     return Error_InvalidCiphertextException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_InvalidGrantIdException(native_input):
     return Error_InvalidGrantIdException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_InvalidGrantTokenException(native_input):
     return Error_InvalidGrantTokenException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_InvalidImportTokenException(native_input):
     return Error_InvalidImportTokenException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_InvalidKeyUsageException(native_input):
     return Error_InvalidKeyUsageException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_InvalidMarkerException(native_input):
     return Error_InvalidMarkerException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_KeyUnavailableException(native_input):
     return Error_KeyUnavailableException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_KMSInternalException(native_input):
     return Error_KMSInternalException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_KMSInvalidMacException(native_input):
     return Error_KMSInvalidMacException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_KMSInvalidSignatureException(native_input):
     return Error_KMSInvalidSignatureException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_KMSInvalidStateException(native_input):
     return Error_KMSInvalidStateException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_LimitExceededException(native_input):
     return Error_LimitExceededException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_MalformedPolicyDocumentException(native_input):
     return Error_MalformedPolicyDocumentException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_NotFoundException(native_input):
     return Error_NotFoundException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_TagException(native_input):
     return Error_TagException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_UnsupportedOperationException(native_input):
     return Error_UnsupportedOperationException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_XksKeyAlreadyInUseException(native_input):
     return Error_XksKeyAlreadyInUseException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_XksKeyInvalidConfigurationException(native_input):
     return Error_XksKeyInvalidConfigurationException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_XksKeyNotFoundException(native_input):
     return Error_XksKeyNotFoundException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_XksProxyIncorrectAuthenticationCredentialException(native_input):
     return Error_XksProxyIncorrectAuthenticationCredentialException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_XksProxyInvalidConfigurationException(native_input):
     return Error_XksProxyInvalidConfigurationException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_XksProxyInvalidResponseException(native_input):
     return Error_XksProxyInvalidResponseException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_XksProxyUriEndpointInUseException(native_input):
     return Error_XksProxyUriEndpointInUseException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_XksProxyUriInUseException(native_input):
     return Error_XksProxyUriInUseException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_XksProxyUriUnreachableException(native_input):
     return Error_XksProxyUriUnreachableException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_XksProxyVpcEndpointServiceInUseException(native_input):
     return Error_XksProxyVpcEndpointServiceInUseException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
 
-def com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException(native_input):
+
+def com_amazonaws_kms_XksProxyVpcEndpointServiceInvalidConfigurationException(
+    native_input,
+):
     return Error_XksProxyVpcEndpointServiceInvalidConfigurationException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_XksProxyVpcEndpointServiceNotFoundException(native_input):
     return Error_XksProxyVpcEndpointServiceNotFoundException(
-        message=Seq(native_input['Error']["Message"]),
+        message=Seq(native_input["Error"]["Message"]),
     )
+
 
 def com_amazonaws_kms_CancelKeyDeletionRequest(native_input):
     return DafnyCancelKeyDeletionRequest(
         KeyId=Seq(native_input["KeyId"]),
     )
 
+
 def com_amazonaws_kms_CancelKeyDeletionResponse(native_input):
     return DafnyCancelKeyDeletionResponse(
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_ConnectCustomKeyStoreRequest(native_input):
     return DafnyConnectCustomKeyStoreRequest(
         CustomKeyStoreId=Seq(native_input["CustomKeyStoreId"]),
     )
 
+
 def com_amazonaws_kms_ConnectCustomKeyStoreResponse(native_input):
-    return DafnyConnectCustomKeyStoreResponse(
-    )
+    return DafnyConnectCustomKeyStoreResponse()
+
 
 def com_amazonaws_kms_CreateAliasRequest(native_input):
     return DafnyCreateAliasRequest(
@@ -561,19 +618,69 @@ def com_amazonaws_kms_CreateAliasRequest(native_input):
         TargetKeyId=Seq(native_input["TargetKeyId"]),
     )
 
+
 def com_amazonaws_kms_CreateCustomKeyStoreRequest(native_input):
     return DafnyCreateCustomKeyStoreRequest(
         CustomKeyStoreName=Seq(native_input["CustomKeyStoreName"]),
-        CloudHsmClusterId=Option_Some(Seq(native_input["CloudHsmClusterId"])) if "CloudHsmClusterId" in native_input.keys() else Option_None(),
-        TrustAnchorCertificate=Option_Some(Seq(native_input["TrustAnchorCertificate"])) if "TrustAnchorCertificate" in native_input.keys() else Option_None(),
-        KeyStorePassword=Option_Some(Seq(native_input["KeyStorePassword"])) if "KeyStorePassword" in native_input.keys() else Option_None(),
-        CustomKeyStoreType=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoreType(native_input["CustomKeyStoreType"])) if "CustomKeyStoreType" in native_input.keys() else Option_None(),
-        XksProxyUriEndpoint=Option_Some(Seq(native_input["XksProxyUriEndpoint"])) if "XksProxyUriEndpoint" in native_input.keys() else Option_None(),
-        XksProxyUriPath=Option_Some(Seq(native_input["XksProxyUriPath"])) if "XksProxyUriPath" in native_input.keys() else Option_None(),
-        XksProxyVpcEndpointServiceName=Option_Some(Seq(native_input["XksProxyVpcEndpointServiceName"])) if "XksProxyVpcEndpointServiceName" in native_input.keys() else Option_None(),
-        XksProxyAuthenticationCredential=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyAuthenticationCredentialType(native_input["XksProxyAuthenticationCredential"])) if "XksProxyAuthenticationCredential" in native_input.keys() else Option_None(),
-        XksProxyConnectivity=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyConnectivityType(native_input["XksProxyConnectivity"])) if "XksProxyConnectivity" in native_input.keys() else Option_None(),
+        CloudHsmClusterId=(
+            Option_Some(Seq(native_input["CloudHsmClusterId"]))
+            if "CloudHsmClusterId" in native_input.keys()
+            else Option_None()
+        ),
+        TrustAnchorCertificate=(
+            Option_Some(Seq(native_input["TrustAnchorCertificate"]))
+            if "TrustAnchorCertificate" in native_input.keys()
+            else Option_None()
+        ),
+        KeyStorePassword=(
+            Option_Some(Seq(native_input["KeyStorePassword"]))
+            if "KeyStorePassword" in native_input.keys()
+            else Option_None()
+        ),
+        CustomKeyStoreType=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoreType(
+                    native_input["CustomKeyStoreType"]
+                )
+            )
+            if "CustomKeyStoreType" in native_input.keys()
+            else Option_None()
+        ),
+        XksProxyUriEndpoint=(
+            Option_Some(Seq(native_input["XksProxyUriEndpoint"]))
+            if "XksProxyUriEndpoint" in native_input.keys()
+            else Option_None()
+        ),
+        XksProxyUriPath=(
+            Option_Some(Seq(native_input["XksProxyUriPath"]))
+            if "XksProxyUriPath" in native_input.keys()
+            else Option_None()
+        ),
+        XksProxyVpcEndpointServiceName=(
+            Option_Some(Seq(native_input["XksProxyVpcEndpointServiceName"]))
+            if "XksProxyVpcEndpointServiceName" in native_input.keys()
+            else Option_None()
+        ),
+        XksProxyAuthenticationCredential=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyAuthenticationCredentialType(
+                    native_input["XksProxyAuthenticationCredential"]
+                )
+            )
+            if "XksProxyAuthenticationCredential" in native_input.keys()
+            else Option_None()
+        ),
+        XksProxyConnectivity=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyConnectivityType(
+                    native_input["XksProxyConnectivity"]
+                )
+            )
+            if "XksProxyConnectivity" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_CustomKeyStoreType(native_input):
     # Convert CustomKeyStoreType
@@ -584,11 +691,13 @@ def com_amazonaws_kms_CustomKeyStoreType(native_input):
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
+
 def com_amazonaws_kms_XksProxyAuthenticationCredentialType(native_input):
     return DafnyXksProxyAuthenticationCredentialType(
         AccessKeyId=Seq(native_input["AccessKeyId"]),
         RawSecretAccessKey=Seq(native_input["RawSecretAccessKey"]),
     )
+
 
 def com_amazonaws_kms_XksProxyConnectivityType(native_input):
     # Convert XksProxyConnectivityType
@@ -599,22 +708,62 @@ def com_amazonaws_kms_XksProxyConnectivityType(native_input):
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
+
 def com_amazonaws_kms_CreateCustomKeyStoreResponse(native_input):
     return DafnyCreateCustomKeyStoreResponse(
-        CustomKeyStoreId=Option_Some(Seq(native_input["CustomKeyStoreId"])) if "CustomKeyStoreId" in native_input.keys() else Option_None(),
+        CustomKeyStoreId=(
+            Option_Some(Seq(native_input["CustomKeyStoreId"]))
+            if "CustomKeyStoreId" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_CreateGrantRequest(native_input):
     return DafnyCreateGrantRequest(
         KeyId=Seq(native_input["KeyId"]),
         GranteePrincipal=Seq(native_input["GranteePrincipal"]),
-        RetiringPrincipal=Option_Some(Seq(native_input["RetiringPrincipal"])) if "RetiringPrincipal" in native_input.keys() else Option_None(),
-        Operations=Seq([com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GrantOperation(list_element) for list_element in native_input["Operations"]]),
-        Constraints=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GrantConstraints(native_input["Constraints"])) if "Constraints" in native_input.keys() else Option_None(),
-        GrantTokens=Option_Some(Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])) if "GrantTokens" in native_input.keys() else Option_None(),
-        Name=Option_Some(Seq(native_input["Name"])) if "Name" in native_input.keys() else Option_None(),
-        DryRun=Option_Some(native_input["DryRun"]) if "DryRun" in native_input.keys() else Option_None(),
+        RetiringPrincipal=(
+            Option_Some(Seq(native_input["RetiringPrincipal"]))
+            if "RetiringPrincipal" in native_input.keys()
+            else Option_None()
+        ),
+        Operations=Seq(
+            [
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GrantOperation(
+                    list_element
+                )
+                for list_element in native_input["Operations"]
+            ]
+        ),
+        Constraints=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GrantConstraints(
+                    native_input["Constraints"]
+                )
+            )
+            if "Constraints" in native_input.keys()
+            else Option_None()
+        ),
+        GrantTokens=(
+            Option_Some(
+                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+            )
+            if "GrantTokens" in native_input.keys()
+            else Option_None()
+        ),
+        Name=(
+            Option_Some(Seq(native_input["Name"]))
+            if "Name" in native_input.keys()
+            else Option_None()
+        ),
+        DryRun=(
+            Option_Some(native_input["DryRun"])
+            if "DryRun" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_GrantOperation(native_input):
     # Convert GrantOperation
@@ -655,32 +804,139 @@ def com_amazonaws_kms_GrantOperation(native_input):
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
+
 def com_amazonaws_kms_GrantConstraints(native_input):
     return DafnyGrantConstraints(
-        EncryptionContextSubset=Option_Some(Map({Seq(key): Seq(value) for (key, value) in native_input["EncryptionContextSubset"].items() })) if "EncryptionContextSubset" in native_input.keys() else Option_None(),
-        EncryptionContextEquals=Option_Some(Map({Seq(key): Seq(value) for (key, value) in native_input["EncryptionContextEquals"].items() })) if "EncryptionContextEquals" in native_input.keys() else Option_None(),
+        EncryptionContextSubset=(
+            Option_Some(
+                Map(
+                    {
+                        Seq(key): Seq(value)
+                        for (key, value) in native_input[
+                            "EncryptionContextSubset"
+                        ].items()
+                    }
+                )
+            )
+            if "EncryptionContextSubset" in native_input.keys()
+            else Option_None()
+        ),
+        EncryptionContextEquals=(
+            Option_Some(
+                Map(
+                    {
+                        Seq(key): Seq(value)
+                        for (key, value) in native_input[
+                            "EncryptionContextEquals"
+                        ].items()
+                    }
+                )
+            )
+            if "EncryptionContextEquals" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_CreateGrantResponse(native_input):
     return DafnyCreateGrantResponse(
-        GrantToken=Option_Some(Seq(native_input["GrantToken"])) if "GrantToken" in native_input.keys() else Option_None(),
-        GrantId=Option_Some(Seq(native_input["GrantId"])) if "GrantId" in native_input.keys() else Option_None(),
+        GrantToken=(
+            Option_Some(Seq(native_input["GrantToken"]))
+            if "GrantToken" in native_input.keys()
+            else Option_None()
+        ),
+        GrantId=(
+            Option_Some(Seq(native_input["GrantId"]))
+            if "GrantId" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_CreateKeyRequest(native_input):
     return DafnyCreateKeyRequest(
-        Policy=Option_Some(Seq(native_input["Policy"])) if "Policy" in native_input.keys() else Option_None(),
-        Description=Option_Some(Seq(native_input["Description"])) if "Description" in native_input.keys() else Option_None(),
-        KeyUsage=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyUsageType(native_input["KeyUsage"])) if "KeyUsage" in native_input.keys() else Option_None(),
-        CustomerMasterKeySpec=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomerMasterKeySpec(native_input["CustomerMasterKeySpec"])) if "CustomerMasterKeySpec" in native_input.keys() else Option_None(),
-        KeySpec=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeySpec(native_input["KeySpec"])) if "KeySpec" in native_input.keys() else Option_None(),
-        Origin=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_OriginType(native_input["Origin"])) if "Origin" in native_input.keys() else Option_None(),
-        CustomKeyStoreId=Option_Some(Seq(native_input["CustomKeyStoreId"])) if "CustomKeyStoreId" in native_input.keys() else Option_None(),
-        BypassPolicyLockoutSafetyCheck=Option_Some(native_input["BypassPolicyLockoutSafetyCheck"]) if "BypassPolicyLockoutSafetyCheck" in native_input.keys() else Option_None(),
-        Tags=Option_Some(Seq([com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(list_element) for list_element in native_input["Tags"]])) if "Tags" in native_input.keys() else Option_None(),
-        MultiRegion=Option_Some(native_input["MultiRegion"]) if "MultiRegion" in native_input.keys() else Option_None(),
-        XksKeyId=Option_Some(Seq(native_input["XksKeyId"])) if "XksKeyId" in native_input.keys() else Option_None(),
+        Policy=(
+            Option_Some(Seq(native_input["Policy"]))
+            if "Policy" in native_input.keys()
+            else Option_None()
+        ),
+        Description=(
+            Option_Some(Seq(native_input["Description"]))
+            if "Description" in native_input.keys()
+            else Option_None()
+        ),
+        KeyUsage=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyUsageType(
+                    native_input["KeyUsage"]
+                )
+            )
+            if "KeyUsage" in native_input.keys()
+            else Option_None()
+        ),
+        CustomerMasterKeySpec=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomerMasterKeySpec(
+                    native_input["CustomerMasterKeySpec"]
+                )
+            )
+            if "CustomerMasterKeySpec" in native_input.keys()
+            else Option_None()
+        ),
+        KeySpec=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeySpec(
+                    native_input["KeySpec"]
+                )
+            )
+            if "KeySpec" in native_input.keys()
+            else Option_None()
+        ),
+        Origin=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_OriginType(
+                    native_input["Origin"]
+                )
+            )
+            if "Origin" in native_input.keys()
+            else Option_None()
+        ),
+        CustomKeyStoreId=(
+            Option_Some(Seq(native_input["CustomKeyStoreId"]))
+            if "CustomKeyStoreId" in native_input.keys()
+            else Option_None()
+        ),
+        BypassPolicyLockoutSafetyCheck=(
+            Option_Some(native_input["BypassPolicyLockoutSafetyCheck"])
+            if "BypassPolicyLockoutSafetyCheck" in native_input.keys()
+            else Option_None()
+        ),
+        Tags=(
+            Option_Some(
+                Seq(
+                    [
+                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(
+                            list_element
+                        )
+                        for list_element in native_input["Tags"]
+                    ]
+                )
+            )
+            if "Tags" in native_input.keys()
+            else Option_None()
+        ),
+        MultiRegion=(
+            Option_Some(native_input["MultiRegion"])
+            if "MultiRegion" in native_input.keys()
+            else Option_None()
+        ),
+        XksKeyId=(
+            Option_Some(Seq(native_input["XksKeyId"]))
+            if "XksKeyId" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_KeyUsageType(native_input):
     # Convert KeyUsageType
@@ -694,6 +950,7 @@ def com_amazonaws_kms_KeyUsageType(native_input):
         return KeyUsageType_KEY__AGREEMENT()
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
+
 
 def com_amazonaws_kms_CustomerMasterKeySpec(native_input):
     # Convert CustomerMasterKeySpec
@@ -726,6 +983,7 @@ def com_amazonaws_kms_CustomerMasterKeySpec(native_input):
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
+
 def com_amazonaws_kms_KeySpec(native_input):
     # Convert KeySpec
     if native_input == "RSA_2048":
@@ -757,6 +1015,7 @@ def com_amazonaws_kms_KeySpec(native_input):
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
+
 def com_amazonaws_kms_OriginType(native_input):
     # Convert OriginType
     if native_input == "AWS_KMS":
@@ -770,45 +1029,225 @@ def com_amazonaws_kms_OriginType(native_input):
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
+
 def com_amazonaws_kms_Tag(native_input):
     return DafnyTag(
         TagKey=Seq(native_input["TagKey"]),
         TagValue=Seq(native_input["TagValue"]),
     )
 
+
 def com_amazonaws_kms_CreateKeyResponse(native_input):
     return DafnyCreateKeyResponse(
-        KeyMetadata=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyMetadata(native_input["KeyMetadata"])) if "KeyMetadata" in native_input.keys() else Option_None(),
+        KeyMetadata=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyMetadata(
+                    native_input["KeyMetadata"]
+                )
+            )
+            if "KeyMetadata" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_KeyMetadata(native_input):
     return DafnyKeyMetadata(
-        AWSAccountId=Option_Some(Seq(native_input["AWSAccountId"])) if "AWSAccountId" in native_input.keys() else Option_None(),
+        AWSAccountId=(
+            Option_Some(Seq(native_input["AWSAccountId"]))
+            if "AWSAccountId" in native_input.keys()
+            else Option_None()
+        ),
         KeyId=Seq(native_input["KeyId"]),
-        Arn=Option_Some(Seq(native_input["Arn"])) if "Arn" in native_input.keys() else Option_None(),
-        CreationDate=Option_Some(TypeError("TimestampShape not supported")) if "CreationDate" in native_input.keys() else Option_None(),
-        Enabled=Option_Some(native_input["Enabled"]) if "Enabled" in native_input.keys() else Option_None(),
-        Description=Option_Some(Seq(native_input["Description"])) if "Description" in native_input.keys() else Option_None(),
-        KeyUsage=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyUsageType(native_input["KeyUsage"])) if "KeyUsage" in native_input.keys() else Option_None(),
-        KeyState=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyState(native_input["KeyState"])) if "KeyState" in native_input.keys() else Option_None(),
-        DeletionDate=Option_Some(TypeError("TimestampShape not supported")) if "DeletionDate" in native_input.keys() else Option_None(),
-        ValidTo=Option_Some(TypeError("TimestampShape not supported")) if "ValidTo" in native_input.keys() else Option_None(),
-        Origin=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_OriginType(native_input["Origin"])) if "Origin" in native_input.keys() else Option_None(),
-        CustomKeyStoreId=Option_Some(Seq(native_input["CustomKeyStoreId"])) if "CustomKeyStoreId" in native_input.keys() else Option_None(),
-        CloudHsmClusterId=Option_Some(Seq(native_input["CloudHsmClusterId"])) if "CloudHsmClusterId" in native_input.keys() else Option_None(),
-        ExpirationModel=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ExpirationModelType(native_input["ExpirationModel"])) if "ExpirationModel" in native_input.keys() else Option_None(),
-        KeyManager=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyManagerType(native_input["KeyManager"])) if "KeyManager" in native_input.keys() else Option_None(),
-        CustomerMasterKeySpec=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomerMasterKeySpec(native_input["CustomerMasterKeySpec"])) if "CustomerMasterKeySpec" in native_input.keys() else Option_None(),
-        KeySpec=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeySpec(native_input["KeySpec"])) if "KeySpec" in native_input.keys() else Option_None(),
-        EncryptionAlgorithms=Option_Some(Seq([com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(list_element) for list_element in native_input["EncryptionAlgorithms"]])) if "EncryptionAlgorithms" in native_input.keys() else Option_None(),
-        SigningAlgorithms=Option_Some(Seq([com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(list_element) for list_element in native_input["SigningAlgorithms"]])) if "SigningAlgorithms" in native_input.keys() else Option_None(),
-        KeyAgreementAlgorithms=Option_Some(Seq([com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyAgreementAlgorithmSpec(list_element) for list_element in native_input["KeyAgreementAlgorithms"]])) if "KeyAgreementAlgorithms" in native_input.keys() else Option_None(),
-        MultiRegion=Option_Some(native_input["MultiRegion"]) if "MultiRegion" in native_input.keys() else Option_None(),
-        MultiRegionConfiguration=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MultiRegionConfiguration(native_input["MultiRegionConfiguration"])) if "MultiRegionConfiguration" in native_input.keys() else Option_None(),
-        PendingDeletionWindowInDays=Option_Some(native_input["PendingDeletionWindowInDays"]) if "PendingDeletionWindowInDays" in native_input.keys() else Option_None(),
-        MacAlgorithms=Option_Some(Seq([com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(list_element) for list_element in native_input["MacAlgorithms"]])) if "MacAlgorithms" in native_input.keys() else Option_None(),
-        XksKeyConfiguration=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksKeyConfigurationType(native_input["XksKeyConfiguration"])) if "XksKeyConfiguration" in native_input.keys() else Option_None(),
+        Arn=(
+            Option_Some(Seq(native_input["Arn"]))
+            if "Arn" in native_input.keys()
+            else Option_None()
+        ),
+        CreationDate=(
+            Option_Some(TypeError("TimestampShape not supported"))
+            if "CreationDate" in native_input.keys()
+            else Option_None()
+        ),
+        Enabled=(
+            Option_Some(native_input["Enabled"])
+            if "Enabled" in native_input.keys()
+            else Option_None()
+        ),
+        Description=(
+            Option_Some(Seq(native_input["Description"]))
+            if "Description" in native_input.keys()
+            else Option_None()
+        ),
+        KeyUsage=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyUsageType(
+                    native_input["KeyUsage"]
+                )
+            )
+            if "KeyUsage" in native_input.keys()
+            else Option_None()
+        ),
+        KeyState=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyState(
+                    native_input["KeyState"]
+                )
+            )
+            if "KeyState" in native_input.keys()
+            else Option_None()
+        ),
+        DeletionDate=(
+            Option_Some(TypeError("TimestampShape not supported"))
+            if "DeletionDate" in native_input.keys()
+            else Option_None()
+        ),
+        ValidTo=(
+            Option_Some(TypeError("TimestampShape not supported"))
+            if "ValidTo" in native_input.keys()
+            else Option_None()
+        ),
+        Origin=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_OriginType(
+                    native_input["Origin"]
+                )
+            )
+            if "Origin" in native_input.keys()
+            else Option_None()
+        ),
+        CustomKeyStoreId=(
+            Option_Some(Seq(native_input["CustomKeyStoreId"]))
+            if "CustomKeyStoreId" in native_input.keys()
+            else Option_None()
+        ),
+        CloudHsmClusterId=(
+            Option_Some(Seq(native_input["CloudHsmClusterId"]))
+            if "CloudHsmClusterId" in native_input.keys()
+            else Option_None()
+        ),
+        ExpirationModel=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ExpirationModelType(
+                    native_input["ExpirationModel"]
+                )
+            )
+            if "ExpirationModel" in native_input.keys()
+            else Option_None()
+        ),
+        KeyManager=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyManagerType(
+                    native_input["KeyManager"]
+                )
+            )
+            if "KeyManager" in native_input.keys()
+            else Option_None()
+        ),
+        CustomerMasterKeySpec=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomerMasterKeySpec(
+                    native_input["CustomerMasterKeySpec"]
+                )
+            )
+            if "CustomerMasterKeySpec" in native_input.keys()
+            else Option_None()
+        ),
+        KeySpec=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeySpec(
+                    native_input["KeySpec"]
+                )
+            )
+            if "KeySpec" in native_input.keys()
+            else Option_None()
+        ),
+        EncryptionAlgorithms=(
+            Option_Some(
+                Seq(
+                    [
+                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+                            list_element
+                        )
+                        for list_element in native_input["EncryptionAlgorithms"]
+                    ]
+                )
+            )
+            if "EncryptionAlgorithms" in native_input.keys()
+            else Option_None()
+        ),
+        SigningAlgorithms=(
+            Option_Some(
+                Seq(
+                    [
+                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(
+                            list_element
+                        )
+                        for list_element in native_input["SigningAlgorithms"]
+                    ]
+                )
+            )
+            if "SigningAlgorithms" in native_input.keys()
+            else Option_None()
+        ),
+        KeyAgreementAlgorithms=(
+            Option_Some(
+                Seq(
+                    [
+                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyAgreementAlgorithmSpec(
+                            list_element
+                        )
+                        for list_element in native_input["KeyAgreementAlgorithms"]
+                    ]
+                )
+            )
+            if "KeyAgreementAlgorithms" in native_input.keys()
+            else Option_None()
+        ),
+        MultiRegion=(
+            Option_Some(native_input["MultiRegion"])
+            if "MultiRegion" in native_input.keys()
+            else Option_None()
+        ),
+        MultiRegionConfiguration=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MultiRegionConfiguration(
+                    native_input["MultiRegionConfiguration"]
+                )
+            )
+            if "MultiRegionConfiguration" in native_input.keys()
+            else Option_None()
+        ),
+        PendingDeletionWindowInDays=(
+            Option_Some(native_input["PendingDeletionWindowInDays"])
+            if "PendingDeletionWindowInDays" in native_input.keys()
+            else Option_None()
+        ),
+        MacAlgorithms=(
+            Option_Some(
+                Seq(
+                    [
+                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(
+                            list_element
+                        )
+                        for list_element in native_input["MacAlgorithms"]
+                    ]
+                )
+            )
+            if "MacAlgorithms" in native_input.keys()
+            else Option_None()
+        ),
+        XksKeyConfiguration=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksKeyConfigurationType(
+                    native_input["XksKeyConfiguration"]
+                )
+            )
+            if "XksKeyConfiguration" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_KeyState(native_input):
     # Convert KeyState
@@ -831,6 +1270,7 @@ def com_amazonaws_kms_KeyState(native_input):
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
+
 def com_amazonaws_kms_ExpirationModelType(native_input):
     # Convert ExpirationModelType
     if native_input == "KEY_MATERIAL_EXPIRES":
@@ -840,6 +1280,7 @@ def com_amazonaws_kms_ExpirationModelType(native_input):
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
+
 def com_amazonaws_kms_KeyManagerType(native_input):
     # Convert KeyManagerType
     if native_input == "AWS":
@@ -848,6 +1289,7 @@ def com_amazonaws_kms_KeyManagerType(native_input):
         return KeyManagerType_CUSTOMER()
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
+
 
 def com_amazonaws_kms_EncryptionAlgorithmSpec(native_input):
     # Convert EncryptionAlgorithmSpec
@@ -859,6 +1301,7 @@ def com_amazonaws_kms_EncryptionAlgorithmSpec(native_input):
         return EncryptionAlgorithmSpec_RSAES__OAEP__SHA__256()
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
+
 
 def com_amazonaws_kms_SigningAlgorithmSpec(native_input):
     # Convert SigningAlgorithmSpec
@@ -885,6 +1328,7 @@ def com_amazonaws_kms_SigningAlgorithmSpec(native_input):
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
+
 def com_amazonaws_kms_KeyAgreementAlgorithmSpec(native_input):
     # Convert KeyAgreementAlgorithmSpec
     if native_input == "ECDH":
@@ -892,12 +1336,43 @@ def com_amazonaws_kms_KeyAgreementAlgorithmSpec(native_input):
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
+
 def com_amazonaws_kms_MultiRegionConfiguration(native_input):
     return DafnyMultiRegionConfiguration(
-        MultiRegionKeyType=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MultiRegionKeyType(native_input["MultiRegionKeyType"])) if "MultiRegionKeyType" in native_input.keys() else Option_None(),
-        PrimaryKey=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MultiRegionKey(native_input["PrimaryKey"])) if "PrimaryKey" in native_input.keys() else Option_None(),
-        ReplicaKeys=Option_Some(Seq([com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MultiRegionKey(list_element) for list_element in native_input["ReplicaKeys"]])) if "ReplicaKeys" in native_input.keys() else Option_None(),
+        MultiRegionKeyType=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MultiRegionKeyType(
+                    native_input["MultiRegionKeyType"]
+                )
+            )
+            if "MultiRegionKeyType" in native_input.keys()
+            else Option_None()
+        ),
+        PrimaryKey=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MultiRegionKey(
+                    native_input["PrimaryKey"]
+                )
+            )
+            if "PrimaryKey" in native_input.keys()
+            else Option_None()
+        ),
+        ReplicaKeys=(
+            Option_Some(
+                Seq(
+                    [
+                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MultiRegionKey(
+                            list_element
+                        )
+                        for list_element in native_input["ReplicaKeys"]
+                    ]
+                )
+            )
+            if "ReplicaKeys" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_MacAlgorithmSpec(native_input):
     # Convert MacAlgorithmSpec
@@ -912,10 +1387,16 @@ def com_amazonaws_kms_MacAlgorithmSpec(native_input):
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
+
 def com_amazonaws_kms_XksKeyConfigurationType(native_input):
     return DafnyXksKeyConfigurationType(
-        Id=Option_Some(Seq(native_input["Id"])) if "Id" in native_input.keys() else Option_None(),
+        Id=(
+            Option_Some(Seq(native_input["Id"]))
+            if "Id" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_MultiRegionKeyType(native_input):
     # Convert MultiRegionKeyType
@@ -926,28 +1407,93 @@ def com_amazonaws_kms_MultiRegionKeyType(native_input):
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
+
 def com_amazonaws_kms_MultiRegionKey(native_input):
     return DafnyMultiRegionKey(
-        Arn=Option_Some(Seq(native_input["Arn"])) if "Arn" in native_input.keys() else Option_None(),
-        Region=Option_Some(Seq(native_input["Region"])) if "Region" in native_input.keys() else Option_None(),
+        Arn=(
+            Option_Some(Seq(native_input["Arn"]))
+            if "Arn" in native_input.keys()
+            else Option_None()
+        ),
+        Region=(
+            Option_Some(Seq(native_input["Region"]))
+            if "Region" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_DecryptRequest(native_input):
     return DafnyDecryptRequest(
         CiphertextBlob=Seq(native_input["CiphertextBlob"]),
-        EncryptionContext=Option_Some(Map({Seq(key): Seq(value) for (key, value) in native_input["EncryptionContext"].items() })) if "EncryptionContext" in native_input.keys() else Option_None(),
-        GrantTokens=Option_Some(Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])) if "GrantTokens" in native_input.keys() else Option_None(),
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
-        EncryptionAlgorithm=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(native_input["EncryptionAlgorithm"])) if "EncryptionAlgorithm" in native_input.keys() else Option_None(),
-        Recipient=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RecipientInfo(native_input["Recipient"])) if "Recipient" in native_input.keys() else Option_None(),
-        DryRun=Option_Some(native_input["DryRun"]) if "DryRun" in native_input.keys() else Option_None(),
+        EncryptionContext=(
+            Option_Some(
+                Map(
+                    {
+                        Seq(key): Seq(value)
+                        for (key, value) in native_input["EncryptionContext"].items()
+                    }
+                )
+            )
+            if "EncryptionContext" in native_input.keys()
+            else Option_None()
+        ),
+        GrantTokens=(
+            Option_Some(
+                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+            )
+            if "GrantTokens" in native_input.keys()
+            else Option_None()
+        ),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
+        EncryptionAlgorithm=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+                    native_input["EncryptionAlgorithm"]
+                )
+            )
+            if "EncryptionAlgorithm" in native_input.keys()
+            else Option_None()
+        ),
+        Recipient=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RecipientInfo(
+                    native_input["Recipient"]
+                )
+            )
+            if "Recipient" in native_input.keys()
+            else Option_None()
+        ),
+        DryRun=(
+            Option_Some(native_input["DryRun"])
+            if "DryRun" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_RecipientInfo(native_input):
     return DafnyRecipientInfo(
-        KeyEncryptionAlgorithm=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyEncryptionMechanism(native_input["KeyEncryptionAlgorithm"])) if "KeyEncryptionAlgorithm" in native_input.keys() else Option_None(),
-        AttestationDocument=Option_Some(Seq(native_input["AttestationDocument"])) if "AttestationDocument" in native_input.keys() else Option_None(),
+        KeyEncryptionAlgorithm=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyEncryptionMechanism(
+                    native_input["KeyEncryptionAlgorithm"]
+                )
+            )
+            if "KeyEncryptionAlgorithm" in native_input.keys()
+            else Option_None()
+        ),
+        AttestationDocument=(
+            Option_Some(Seq(native_input["AttestationDocument"]))
+            if "AttestationDocument" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_KeyEncryptionMechanism(native_input):
     # Convert KeyEncryptionMechanism
@@ -956,79 +1502,246 @@ def com_amazonaws_kms_KeyEncryptionMechanism(native_input):
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
+
 def com_amazonaws_kms_DecryptResponse(native_input):
     return DafnyDecryptResponse(
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
-        Plaintext=Option_Some(Seq(native_input["Plaintext"])) if "Plaintext" in native_input.keys() else Option_None(),
-        EncryptionAlgorithm=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(native_input["EncryptionAlgorithm"])) if "EncryptionAlgorithm" in native_input.keys() else Option_None(),
-        CiphertextForRecipient=Option_Some(Seq(native_input["CiphertextForRecipient"])) if "CiphertextForRecipient" in native_input.keys() else Option_None(),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
+        Plaintext=(
+            Option_Some(Seq(native_input["Plaintext"]))
+            if "Plaintext" in native_input.keys()
+            else Option_None()
+        ),
+        EncryptionAlgorithm=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+                    native_input["EncryptionAlgorithm"]
+                )
+            )
+            if "EncryptionAlgorithm" in native_input.keys()
+            else Option_None()
+        ),
+        CiphertextForRecipient=(
+            Option_Some(Seq(native_input["CiphertextForRecipient"]))
+            if "CiphertextForRecipient" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_DeleteAliasRequest(native_input):
     return DafnyDeleteAliasRequest(
         AliasName=Seq(native_input["AliasName"]),
     )
 
+
 def com_amazonaws_kms_DeleteCustomKeyStoreRequest(native_input):
     return DafnyDeleteCustomKeyStoreRequest(
         CustomKeyStoreId=Seq(native_input["CustomKeyStoreId"]),
     )
 
+
 def com_amazonaws_kms_DeleteCustomKeyStoreResponse(native_input):
-    return DafnyDeleteCustomKeyStoreResponse(
-    )
+    return DafnyDeleteCustomKeyStoreResponse()
+
 
 def com_amazonaws_kms_DeleteImportedKeyMaterialRequest(native_input):
     return DafnyDeleteImportedKeyMaterialRequest(
         KeyId=Seq(native_input["KeyId"]),
     )
 
+
 def com_amazonaws_kms_DeriveSharedSecretRequest(native_input):
     return DafnyDeriveSharedSecretRequest(
         KeyId=Seq(native_input["KeyId"]),
-        KeyAgreementAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyAgreementAlgorithmSpec(native_input["KeyAgreementAlgorithm"]),
+        KeyAgreementAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyAgreementAlgorithmSpec(
+            native_input["KeyAgreementAlgorithm"]
+        ),
         PublicKey=Seq(native_input["PublicKey"]),
-        GrantTokens=Option_Some(Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])) if "GrantTokens" in native_input.keys() else Option_None(),
-        DryRun=Option_Some(native_input["DryRun"]) if "DryRun" in native_input.keys() else Option_None(),
-        Recipient=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RecipientInfo(native_input["Recipient"])) if "Recipient" in native_input.keys() else Option_None(),
+        GrantTokens=(
+            Option_Some(
+                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+            )
+            if "GrantTokens" in native_input.keys()
+            else Option_None()
+        ),
+        DryRun=(
+            Option_Some(native_input["DryRun"])
+            if "DryRun" in native_input.keys()
+            else Option_None()
+        ),
+        Recipient=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RecipientInfo(
+                    native_input["Recipient"]
+                )
+            )
+            if "Recipient" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_DeriveSharedSecretResponse(native_input):
     return DafnyDeriveSharedSecretResponse(
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
-        SharedSecret=Option_Some(Seq(native_input["SharedSecret"])) if "SharedSecret" in native_input.keys() else Option_None(),
-        CiphertextForRecipient=Option_Some(Seq(native_input["CiphertextForRecipient"])) if "CiphertextForRecipient" in native_input.keys() else Option_None(),
-        KeyAgreementAlgorithm=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyAgreementAlgorithmSpec(native_input["KeyAgreementAlgorithm"])) if "KeyAgreementAlgorithm" in native_input.keys() else Option_None(),
-        KeyOrigin=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_OriginType(native_input["KeyOrigin"])) if "KeyOrigin" in native_input.keys() else Option_None(),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
+        SharedSecret=(
+            Option_Some(Seq(native_input["SharedSecret"]))
+            if "SharedSecret" in native_input.keys()
+            else Option_None()
+        ),
+        CiphertextForRecipient=(
+            Option_Some(Seq(native_input["CiphertextForRecipient"]))
+            if "CiphertextForRecipient" in native_input.keys()
+            else Option_None()
+        ),
+        KeyAgreementAlgorithm=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyAgreementAlgorithmSpec(
+                    native_input["KeyAgreementAlgorithm"]
+                )
+            )
+            if "KeyAgreementAlgorithm" in native_input.keys()
+            else Option_None()
+        ),
+        KeyOrigin=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_OriginType(
+                    native_input["KeyOrigin"]
+                )
+            )
+            if "KeyOrigin" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_DescribeCustomKeyStoresRequest(native_input):
     return DafnyDescribeCustomKeyStoresRequest(
-        CustomKeyStoreId=Option_Some(Seq(native_input["CustomKeyStoreId"])) if "CustomKeyStoreId" in native_input.keys() else Option_None(),
-        CustomKeyStoreName=Option_Some(Seq(native_input["CustomKeyStoreName"])) if "CustomKeyStoreName" in native_input.keys() else Option_None(),
-        Limit=Option_Some(native_input["Limit"]) if "Limit" in native_input.keys() else Option_None(),
-        Marker=Option_Some(Seq(native_input["Marker"])) if "Marker" in native_input.keys() else Option_None(),
+        CustomKeyStoreId=(
+            Option_Some(Seq(native_input["CustomKeyStoreId"]))
+            if "CustomKeyStoreId" in native_input.keys()
+            else Option_None()
+        ),
+        CustomKeyStoreName=(
+            Option_Some(Seq(native_input["CustomKeyStoreName"]))
+            if "CustomKeyStoreName" in native_input.keys()
+            else Option_None()
+        ),
+        Limit=(
+            Option_Some(native_input["Limit"])
+            if "Limit" in native_input.keys()
+            else Option_None()
+        ),
+        Marker=(
+            Option_Some(Seq(native_input["Marker"]))
+            if "Marker" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_DescribeCustomKeyStoresResponse(native_input):
     return DafnyDescribeCustomKeyStoresResponse(
-        CustomKeyStores=Option_Some(Seq([com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoresListEntry(list_element) for list_element in native_input["CustomKeyStores"]])) if "CustomKeyStores" in native_input.keys() else Option_None(),
-        NextMarker=Option_Some(Seq(native_input["NextMarker"])) if "NextMarker" in native_input.keys() else Option_None(),
-        Truncated=Option_Some(native_input["Truncated"]) if "Truncated" in native_input.keys() else Option_None(),
+        CustomKeyStores=(
+            Option_Some(
+                Seq(
+                    [
+                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoresListEntry(
+                            list_element
+                        )
+                        for list_element in native_input["CustomKeyStores"]
+                    ]
+                )
+            )
+            if "CustomKeyStores" in native_input.keys()
+            else Option_None()
+        ),
+        NextMarker=(
+            Option_Some(Seq(native_input["NextMarker"]))
+            if "NextMarker" in native_input.keys()
+            else Option_None()
+        ),
+        Truncated=(
+            Option_Some(native_input["Truncated"])
+            if "Truncated" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_CustomKeyStoresListEntry(native_input):
     return DafnyCustomKeyStoresListEntry(
-        CustomKeyStoreId=Option_Some(Seq(native_input["CustomKeyStoreId"])) if "CustomKeyStoreId" in native_input.keys() else Option_None(),
-        CustomKeyStoreName=Option_Some(Seq(native_input["CustomKeyStoreName"])) if "CustomKeyStoreName" in native_input.keys() else Option_None(),
-        CloudHsmClusterId=Option_Some(Seq(native_input["CloudHsmClusterId"])) if "CloudHsmClusterId" in native_input.keys() else Option_None(),
-        TrustAnchorCertificate=Option_Some(Seq(native_input["TrustAnchorCertificate"])) if "TrustAnchorCertificate" in native_input.keys() else Option_None(),
-        ConnectionState=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ConnectionStateType(native_input["ConnectionState"])) if "ConnectionState" in native_input.keys() else Option_None(),
-        ConnectionErrorCode=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ConnectionErrorCodeType(native_input["ConnectionErrorCode"])) if "ConnectionErrorCode" in native_input.keys() else Option_None(),
-        CreationDate=Option_Some(TypeError("TimestampShape not supported")) if "CreationDate" in native_input.keys() else Option_None(),
-        CustomKeyStoreType=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoreType(native_input["CustomKeyStoreType"])) if "CustomKeyStoreType" in native_input.keys() else Option_None(),
-        XksProxyConfiguration=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyConfigurationType(native_input["XksProxyConfiguration"])) if "XksProxyConfiguration" in native_input.keys() else Option_None(),
+        CustomKeyStoreId=(
+            Option_Some(Seq(native_input["CustomKeyStoreId"]))
+            if "CustomKeyStoreId" in native_input.keys()
+            else Option_None()
+        ),
+        CustomKeyStoreName=(
+            Option_Some(Seq(native_input["CustomKeyStoreName"]))
+            if "CustomKeyStoreName" in native_input.keys()
+            else Option_None()
+        ),
+        CloudHsmClusterId=(
+            Option_Some(Seq(native_input["CloudHsmClusterId"]))
+            if "CloudHsmClusterId" in native_input.keys()
+            else Option_None()
+        ),
+        TrustAnchorCertificate=(
+            Option_Some(Seq(native_input["TrustAnchorCertificate"]))
+            if "TrustAnchorCertificate" in native_input.keys()
+            else Option_None()
+        ),
+        ConnectionState=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ConnectionStateType(
+                    native_input["ConnectionState"]
+                )
+            )
+            if "ConnectionState" in native_input.keys()
+            else Option_None()
+        ),
+        ConnectionErrorCode=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ConnectionErrorCodeType(
+                    native_input["ConnectionErrorCode"]
+                )
+            )
+            if "ConnectionErrorCode" in native_input.keys()
+            else Option_None()
+        ),
+        CreationDate=(
+            Option_Some(TypeError("TimestampShape not supported"))
+            if "CreationDate" in native_input.keys()
+            else Option_None()
+        ),
+        CustomKeyStoreType=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomKeyStoreType(
+                    native_input["CustomKeyStoreType"]
+                )
+            )
+            if "CustomKeyStoreType" in native_input.keys()
+            else Option_None()
+        ),
+        XksProxyConfiguration=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyConfigurationType(
+                    native_input["XksProxyConfiguration"]
+                )
+            )
+            if "XksProxyConfiguration" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_ConnectionStateType(native_input):
     # Convert ConnectionStateType
@@ -1044,6 +1757,7 @@ def com_amazonaws_kms_ConnectionStateType(native_input):
         return ConnectionStateType_DISCONNECTING()
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
+
 
 def com_amazonaws_kms_ConnectionErrorCodeType(native_input):
     # Convert ConnectionErrorCodeType
@@ -1078,7 +1792,9 @@ def com_amazonaws_kms_ConnectionErrorCodeType(native_input):
     elif native_input == "XKS_PROXY_INVALID_CONFIGURATION":
         return ConnectionErrorCodeType_XKS__PROXY__INVALID__CONFIGURATION()
     elif native_input == "XKS_VPC_ENDPOINT_SERVICE_INVALID_CONFIGURATION":
-        return ConnectionErrorCodeType_XKS__VPC__ENDPOINT__SERVICE__INVALID__CONFIGURATION()
+        return (
+            ConnectionErrorCodeType_XKS__VPC__ENDPOINT__SERVICE__INVALID__CONFIGURATION()
+        )
     elif native_input == "XKS_PROXY_TIMED_OUT":
         return ConnectionErrorCodeType_XKS__PROXY__TIMED__OUT()
     elif native_input == "XKS_PROXY_INVALID_TLS_CONFIGURATION":
@@ -1086,83 +1802,223 @@ def com_amazonaws_kms_ConnectionErrorCodeType(native_input):
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
+
 def com_amazonaws_kms_XksProxyConfigurationType(native_input):
     return DafnyXksProxyConfigurationType(
-        Connectivity=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyConnectivityType(native_input["Connectivity"])) if "Connectivity" in native_input.keys() else Option_None(),
-        AccessKeyId=Option_Some(Seq(native_input["AccessKeyId"])) if "AccessKeyId" in native_input.keys() else Option_None(),
-        UriEndpoint=Option_Some(Seq(native_input["UriEndpoint"])) if "UriEndpoint" in native_input.keys() else Option_None(),
-        UriPath=Option_Some(Seq(native_input["UriPath"])) if "UriPath" in native_input.keys() else Option_None(),
-        VpcEndpointServiceName=Option_Some(Seq(native_input["VpcEndpointServiceName"])) if "VpcEndpointServiceName" in native_input.keys() else Option_None(),
+        Connectivity=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyConnectivityType(
+                    native_input["Connectivity"]
+                )
+            )
+            if "Connectivity" in native_input.keys()
+            else Option_None()
+        ),
+        AccessKeyId=(
+            Option_Some(Seq(native_input["AccessKeyId"]))
+            if "AccessKeyId" in native_input.keys()
+            else Option_None()
+        ),
+        UriEndpoint=(
+            Option_Some(Seq(native_input["UriEndpoint"]))
+            if "UriEndpoint" in native_input.keys()
+            else Option_None()
+        ),
+        UriPath=(
+            Option_Some(Seq(native_input["UriPath"]))
+            if "UriPath" in native_input.keys()
+            else Option_None()
+        ),
+        VpcEndpointServiceName=(
+            Option_Some(Seq(native_input["VpcEndpointServiceName"]))
+            if "VpcEndpointServiceName" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_DescribeKeyRequest(native_input):
     return DafnyDescribeKeyRequest(
         KeyId=Seq(native_input["KeyId"]),
-        GrantTokens=Option_Some(Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])) if "GrantTokens" in native_input.keys() else Option_None(),
+        GrantTokens=(
+            Option_Some(
+                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+            )
+            if "GrantTokens" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_DescribeKeyResponse(native_input):
     return DafnyDescribeKeyResponse(
-        KeyMetadata=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyMetadata(native_input["KeyMetadata"])) if "KeyMetadata" in native_input.keys() else Option_None(),
+        KeyMetadata=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyMetadata(
+                    native_input["KeyMetadata"]
+                )
+            )
+            if "KeyMetadata" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_DisableKeyRequest(native_input):
     return DafnyDisableKeyRequest(
         KeyId=Seq(native_input["KeyId"]),
     )
 
+
 def com_amazonaws_kms_DisableKeyRotationRequest(native_input):
     return DafnyDisableKeyRotationRequest(
         KeyId=Seq(native_input["KeyId"]),
     )
+
 
 def com_amazonaws_kms_DisconnectCustomKeyStoreRequest(native_input):
     return DafnyDisconnectCustomKeyStoreRequest(
         CustomKeyStoreId=Seq(native_input["CustomKeyStoreId"]),
     )
 
+
 def com_amazonaws_kms_DisconnectCustomKeyStoreResponse(native_input):
-    return DafnyDisconnectCustomKeyStoreResponse(
-    )
+    return DafnyDisconnectCustomKeyStoreResponse()
+
 
 def com_amazonaws_kms_EnableKeyRequest(native_input):
     return DafnyEnableKeyRequest(
         KeyId=Seq(native_input["KeyId"]),
     )
 
+
 def com_amazonaws_kms_EnableKeyRotationRequest(native_input):
     return DafnyEnableKeyRotationRequest(
         KeyId=Seq(native_input["KeyId"]),
-        RotationPeriodInDays=Option_Some(native_input["RotationPeriodInDays"]) if "RotationPeriodInDays" in native_input.keys() else Option_None(),
+        RotationPeriodInDays=(
+            Option_Some(native_input["RotationPeriodInDays"])
+            if "RotationPeriodInDays" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_EncryptRequest(native_input):
     return DafnyEncryptRequest(
         KeyId=Seq(native_input["KeyId"]),
         Plaintext=Seq(native_input["Plaintext"]),
-        EncryptionContext=Option_Some(Map({Seq(key): Seq(value) for (key, value) in native_input["EncryptionContext"].items() })) if "EncryptionContext" in native_input.keys() else Option_None(),
-        GrantTokens=Option_Some(Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])) if "GrantTokens" in native_input.keys() else Option_None(),
-        EncryptionAlgorithm=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(native_input["EncryptionAlgorithm"])) if "EncryptionAlgorithm" in native_input.keys() else Option_None(),
-        DryRun=Option_Some(native_input["DryRun"]) if "DryRun" in native_input.keys() else Option_None(),
+        EncryptionContext=(
+            Option_Some(
+                Map(
+                    {
+                        Seq(key): Seq(value)
+                        for (key, value) in native_input["EncryptionContext"].items()
+                    }
+                )
+            )
+            if "EncryptionContext" in native_input.keys()
+            else Option_None()
+        ),
+        GrantTokens=(
+            Option_Some(
+                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+            )
+            if "GrantTokens" in native_input.keys()
+            else Option_None()
+        ),
+        EncryptionAlgorithm=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+                    native_input["EncryptionAlgorithm"]
+                )
+            )
+            if "EncryptionAlgorithm" in native_input.keys()
+            else Option_None()
+        ),
+        DryRun=(
+            Option_Some(native_input["DryRun"])
+            if "DryRun" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_EncryptResponse(native_input):
     return DafnyEncryptResponse(
-        CiphertextBlob=Option_Some(Seq(native_input["CiphertextBlob"])) if "CiphertextBlob" in native_input.keys() else Option_None(),
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
-        EncryptionAlgorithm=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(native_input["EncryptionAlgorithm"])) if "EncryptionAlgorithm" in native_input.keys() else Option_None(),
+        CiphertextBlob=(
+            Option_Some(Seq(native_input["CiphertextBlob"]))
+            if "CiphertextBlob" in native_input.keys()
+            else Option_None()
+        ),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
+        EncryptionAlgorithm=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+                    native_input["EncryptionAlgorithm"]
+                )
+            )
+            if "EncryptionAlgorithm" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_GenerateDataKeyRequest(native_input):
     return DafnyGenerateDataKeyRequest(
         KeyId=Seq(native_input["KeyId"]),
-        EncryptionContext=Option_Some(Map({Seq(key): Seq(value) for (key, value) in native_input["EncryptionContext"].items() })) if "EncryptionContext" in native_input.keys() else Option_None(),
-        NumberOfBytes=Option_Some(native_input["NumberOfBytes"]) if "NumberOfBytes" in native_input.keys() else Option_None(),
-        KeySpec=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeySpec(native_input["KeySpec"])) if "KeySpec" in native_input.keys() else Option_None(),
-        GrantTokens=Option_Some(Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])) if "GrantTokens" in native_input.keys() else Option_None(),
-        Recipient=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RecipientInfo(native_input["Recipient"])) if "Recipient" in native_input.keys() else Option_None(),
-        DryRun=Option_Some(native_input["DryRun"]) if "DryRun" in native_input.keys() else Option_None(),
+        EncryptionContext=(
+            Option_Some(
+                Map(
+                    {
+                        Seq(key): Seq(value)
+                        for (key, value) in native_input["EncryptionContext"].items()
+                    }
+                )
+            )
+            if "EncryptionContext" in native_input.keys()
+            else Option_None()
+        ),
+        NumberOfBytes=(
+            Option_Some(native_input["NumberOfBytes"])
+            if "NumberOfBytes" in native_input.keys()
+            else Option_None()
+        ),
+        KeySpec=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeySpec(
+                    native_input["KeySpec"]
+                )
+            )
+            if "KeySpec" in native_input.keys()
+            else Option_None()
+        ),
+        GrantTokens=(
+            Option_Some(
+                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+            )
+            if "GrantTokens" in native_input.keys()
+            else Option_None()
+        ),
+        Recipient=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RecipientInfo(
+                    native_input["Recipient"]
+                )
+            )
+            if "Recipient" in native_input.keys()
+            else Option_None()
+        ),
+        DryRun=(
+            Option_Some(native_input["DryRun"])
+            if "DryRun" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_DataKeySpec(native_input):
     # Convert DataKeySpec
@@ -1173,23 +2029,73 @@ def com_amazonaws_kms_DataKeySpec(native_input):
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
+
 def com_amazonaws_kms_GenerateDataKeyResponse(native_input):
     return DafnyGenerateDataKeyResponse(
-        CiphertextBlob=Option_Some(Seq(native_input["CiphertextBlob"])) if "CiphertextBlob" in native_input.keys() else Option_None(),
-        Plaintext=Option_Some(Seq(native_input["Plaintext"])) if "Plaintext" in native_input.keys() else Option_None(),
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
-        CiphertextForRecipient=Option_Some(Seq(native_input["CiphertextForRecipient"])) if "CiphertextForRecipient" in native_input.keys() else Option_None(),
+        CiphertextBlob=(
+            Option_Some(Seq(native_input["CiphertextBlob"]))
+            if "CiphertextBlob" in native_input.keys()
+            else Option_None()
+        ),
+        Plaintext=(
+            Option_Some(Seq(native_input["Plaintext"]))
+            if "Plaintext" in native_input.keys()
+            else Option_None()
+        ),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
+        CiphertextForRecipient=(
+            Option_Some(Seq(native_input["CiphertextForRecipient"]))
+            if "CiphertextForRecipient" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_GenerateDataKeyPairRequest(native_input):
     return DafnyGenerateDataKeyPairRequest(
-        EncryptionContext=Option_Some(Map({Seq(key): Seq(value) for (key, value) in native_input["EncryptionContext"].items() })) if "EncryptionContext" in native_input.keys() else Option_None(),
+        EncryptionContext=(
+            Option_Some(
+                Map(
+                    {
+                        Seq(key): Seq(value)
+                        for (key, value) in native_input["EncryptionContext"].items()
+                    }
+                )
+            )
+            if "EncryptionContext" in native_input.keys()
+            else Option_None()
+        ),
         KeyId=Seq(native_input["KeyId"]),
-        KeyPairSpec=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeyPairSpec(native_input["KeyPairSpec"]),
-        GrantTokens=Option_Some(Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])) if "GrantTokens" in native_input.keys() else Option_None(),
-        Recipient=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RecipientInfo(native_input["Recipient"])) if "Recipient" in native_input.keys() else Option_None(),
-        DryRun=Option_Some(native_input["DryRun"]) if "DryRun" in native_input.keys() else Option_None(),
+        KeyPairSpec=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeyPairSpec(
+            native_input["KeyPairSpec"]
+        ),
+        GrantTokens=(
+            Option_Some(
+                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+            )
+            if "GrantTokens" in native_input.keys()
+            else Option_None()
+        ),
+        Recipient=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RecipientInfo(
+                    native_input["Recipient"]
+                )
+            )
+            if "Recipient" in native_input.keys()
+            else Option_None()
+        ),
+        DryRun=(
+            Option_Some(native_input["DryRun"])
+            if "DryRun" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_DataKeyPairSpec(native_input):
     # Convert DataKeyPairSpec
@@ -1212,110 +2118,325 @@ def com_amazonaws_kms_DataKeyPairSpec(native_input):
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
+
 def com_amazonaws_kms_GenerateDataKeyPairResponse(native_input):
     return DafnyGenerateDataKeyPairResponse(
-        PrivateKeyCiphertextBlob=Option_Some(Seq(native_input["PrivateKeyCiphertextBlob"])) if "PrivateKeyCiphertextBlob" in native_input.keys() else Option_None(),
-        PrivateKeyPlaintext=Option_Some(Seq(native_input["PrivateKeyPlaintext"])) if "PrivateKeyPlaintext" in native_input.keys() else Option_None(),
-        PublicKey=Option_Some(Seq(native_input["PublicKey"])) if "PublicKey" in native_input.keys() else Option_None(),
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
-        KeyPairSpec=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeyPairSpec(native_input["KeyPairSpec"])) if "KeyPairSpec" in native_input.keys() else Option_None(),
-        CiphertextForRecipient=Option_Some(Seq(native_input["CiphertextForRecipient"])) if "CiphertextForRecipient" in native_input.keys() else Option_None(),
+        PrivateKeyCiphertextBlob=(
+            Option_Some(Seq(native_input["PrivateKeyCiphertextBlob"]))
+            if "PrivateKeyCiphertextBlob" in native_input.keys()
+            else Option_None()
+        ),
+        PrivateKeyPlaintext=(
+            Option_Some(Seq(native_input["PrivateKeyPlaintext"]))
+            if "PrivateKeyPlaintext" in native_input.keys()
+            else Option_None()
+        ),
+        PublicKey=(
+            Option_Some(Seq(native_input["PublicKey"]))
+            if "PublicKey" in native_input.keys()
+            else Option_None()
+        ),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
+        KeyPairSpec=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeyPairSpec(
+                    native_input["KeyPairSpec"]
+                )
+            )
+            if "KeyPairSpec" in native_input.keys()
+            else Option_None()
+        ),
+        CiphertextForRecipient=(
+            Option_Some(Seq(native_input["CiphertextForRecipient"]))
+            if "CiphertextForRecipient" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextRequest(native_input):
     return DafnyGenerateDataKeyPairWithoutPlaintextRequest(
-        EncryptionContext=Option_Some(Map({Seq(key): Seq(value) for (key, value) in native_input["EncryptionContext"].items() })) if "EncryptionContext" in native_input.keys() else Option_None(),
+        EncryptionContext=(
+            Option_Some(
+                Map(
+                    {
+                        Seq(key): Seq(value)
+                        for (key, value) in native_input["EncryptionContext"].items()
+                    }
+                )
+            )
+            if "EncryptionContext" in native_input.keys()
+            else Option_None()
+        ),
         KeyId=Seq(native_input["KeyId"]),
-        KeyPairSpec=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeyPairSpec(native_input["KeyPairSpec"]),
-        GrantTokens=Option_Some(Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])) if "GrantTokens" in native_input.keys() else Option_None(),
-        DryRun=Option_Some(native_input["DryRun"]) if "DryRun" in native_input.keys() else Option_None(),
+        KeyPairSpec=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeyPairSpec(
+            native_input["KeyPairSpec"]
+        ),
+        GrantTokens=(
+            Option_Some(
+                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+            )
+            if "GrantTokens" in native_input.keys()
+            else Option_None()
+        ),
+        DryRun=(
+            Option_Some(native_input["DryRun"])
+            if "DryRun" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextResponse(native_input):
     return DafnyGenerateDataKeyPairWithoutPlaintextResponse(
-        PrivateKeyCiphertextBlob=Option_Some(Seq(native_input["PrivateKeyCiphertextBlob"])) if "PrivateKeyCiphertextBlob" in native_input.keys() else Option_None(),
-        PublicKey=Option_Some(Seq(native_input["PublicKey"])) if "PublicKey" in native_input.keys() else Option_None(),
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
-        KeyPairSpec=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeyPairSpec(native_input["KeyPairSpec"])) if "KeyPairSpec" in native_input.keys() else Option_None(),
+        PrivateKeyCiphertextBlob=(
+            Option_Some(Seq(native_input["PrivateKeyCiphertextBlob"]))
+            if "PrivateKeyCiphertextBlob" in native_input.keys()
+            else Option_None()
+        ),
+        PublicKey=(
+            Option_Some(Seq(native_input["PublicKey"]))
+            if "PublicKey" in native_input.keys()
+            else Option_None()
+        ),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
+        KeyPairSpec=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeyPairSpec(
+                    native_input["KeyPairSpec"]
+                )
+            )
+            if "KeyPairSpec" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest(native_input):
     return DafnyGenerateDataKeyWithoutPlaintextRequest(
         KeyId=Seq(native_input["KeyId"]),
-        EncryptionContext=Option_Some(Map({Seq(key): Seq(value) for (key, value) in native_input["EncryptionContext"].items() })) if "EncryptionContext" in native_input.keys() else Option_None(),
-        KeySpec=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeySpec(native_input["KeySpec"])) if "KeySpec" in native_input.keys() else Option_None(),
-        NumberOfBytes=Option_Some(native_input["NumberOfBytes"]) if "NumberOfBytes" in native_input.keys() else Option_None(),
-        GrantTokens=Option_Some(Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])) if "GrantTokens" in native_input.keys() else Option_None(),
-        DryRun=Option_Some(native_input["DryRun"]) if "DryRun" in native_input.keys() else Option_None(),
+        EncryptionContext=(
+            Option_Some(
+                Map(
+                    {
+                        Seq(key): Seq(value)
+                        for (key, value) in native_input["EncryptionContext"].items()
+                    }
+                )
+            )
+            if "EncryptionContext" in native_input.keys()
+            else Option_None()
+        ),
+        KeySpec=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_DataKeySpec(
+                    native_input["KeySpec"]
+                )
+            )
+            if "KeySpec" in native_input.keys()
+            else Option_None()
+        ),
+        NumberOfBytes=(
+            Option_Some(native_input["NumberOfBytes"])
+            if "NumberOfBytes" in native_input.keys()
+            else Option_None()
+        ),
+        GrantTokens=(
+            Option_Some(
+                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+            )
+            if "GrantTokens" in native_input.keys()
+            else Option_None()
+        ),
+        DryRun=(
+            Option_Some(native_input["DryRun"])
+            if "DryRun" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_GenerateDataKeyWithoutPlaintextResponse(native_input):
     return DafnyGenerateDataKeyWithoutPlaintextResponse(
-        CiphertextBlob=Option_Some(Seq(native_input["CiphertextBlob"])) if "CiphertextBlob" in native_input.keys() else Option_None(),
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
+        CiphertextBlob=(
+            Option_Some(Seq(native_input["CiphertextBlob"]))
+            if "CiphertextBlob" in native_input.keys()
+            else Option_None()
+        ),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_GenerateMacRequest(native_input):
     return DafnyGenerateMacRequest(
         Message=Seq(native_input["Message"]),
         KeyId=Seq(native_input["KeyId"]),
-        MacAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(native_input["MacAlgorithm"]),
-        GrantTokens=Option_Some(Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])) if "GrantTokens" in native_input.keys() else Option_None(),
-        DryRun=Option_Some(native_input["DryRun"]) if "DryRun" in native_input.keys() else Option_None(),
+        MacAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(
+            native_input["MacAlgorithm"]
+        ),
+        GrantTokens=(
+            Option_Some(
+                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+            )
+            if "GrantTokens" in native_input.keys()
+            else Option_None()
+        ),
+        DryRun=(
+            Option_Some(native_input["DryRun"])
+            if "DryRun" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_GenerateMacResponse(native_input):
     return DafnyGenerateMacResponse(
-        Mac=Option_Some(Seq(native_input["Mac"])) if "Mac" in native_input.keys() else Option_None(),
-        MacAlgorithm=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(native_input["MacAlgorithm"])) if "MacAlgorithm" in native_input.keys() else Option_None(),
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
+        Mac=(
+            Option_Some(Seq(native_input["Mac"]))
+            if "Mac" in native_input.keys()
+            else Option_None()
+        ),
+        MacAlgorithm=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(
+                    native_input["MacAlgorithm"]
+                )
+            )
+            if "MacAlgorithm" in native_input.keys()
+            else Option_None()
+        ),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_GenerateRandomRequest(native_input):
     return DafnyGenerateRandomRequest(
-        NumberOfBytes=Option_Some(native_input["NumberOfBytes"]) if "NumberOfBytes" in native_input.keys() else Option_None(),
-        CustomKeyStoreId=Option_Some(Seq(native_input["CustomKeyStoreId"])) if "CustomKeyStoreId" in native_input.keys() else Option_None(),
-        Recipient=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RecipientInfo(native_input["Recipient"])) if "Recipient" in native_input.keys() else Option_None(),
+        NumberOfBytes=(
+            Option_Some(native_input["NumberOfBytes"])
+            if "NumberOfBytes" in native_input.keys()
+            else Option_None()
+        ),
+        CustomKeyStoreId=(
+            Option_Some(Seq(native_input["CustomKeyStoreId"]))
+            if "CustomKeyStoreId" in native_input.keys()
+            else Option_None()
+        ),
+        Recipient=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RecipientInfo(
+                    native_input["Recipient"]
+                )
+            )
+            if "Recipient" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_GenerateRandomResponse(native_input):
     return DafnyGenerateRandomResponse(
-        Plaintext=Option_Some(Seq(native_input["Plaintext"])) if "Plaintext" in native_input.keys() else Option_None(),
-        CiphertextForRecipient=Option_Some(Seq(native_input["CiphertextForRecipient"])) if "CiphertextForRecipient" in native_input.keys() else Option_None(),
+        Plaintext=(
+            Option_Some(Seq(native_input["Plaintext"]))
+            if "Plaintext" in native_input.keys()
+            else Option_None()
+        ),
+        CiphertextForRecipient=(
+            Option_Some(Seq(native_input["CiphertextForRecipient"]))
+            if "CiphertextForRecipient" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_GetKeyPolicyRequest(native_input):
     return DafnyGetKeyPolicyRequest(
         KeyId=Seq(native_input["KeyId"]),
-        PolicyName=Option_Some(Seq(native_input["PolicyName"])) if "PolicyName" in native_input.keys() else Option_None(),
+        PolicyName=(
+            Option_Some(Seq(native_input["PolicyName"]))
+            if "PolicyName" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_GetKeyPolicyResponse(native_input):
     return DafnyGetKeyPolicyResponse(
-        Policy=Option_Some(Seq(native_input["Policy"])) if "Policy" in native_input.keys() else Option_None(),
-        PolicyName=Option_Some(Seq(native_input["PolicyName"])) if "PolicyName" in native_input.keys() else Option_None(),
+        Policy=(
+            Option_Some(Seq(native_input["Policy"]))
+            if "Policy" in native_input.keys()
+            else Option_None()
+        ),
+        PolicyName=(
+            Option_Some(Seq(native_input["PolicyName"]))
+            if "PolicyName" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_GetKeyRotationStatusRequest(native_input):
     return DafnyGetKeyRotationStatusRequest(
         KeyId=Seq(native_input["KeyId"]),
     )
 
+
 def com_amazonaws_kms_GetKeyRotationStatusResponse(native_input):
     return DafnyGetKeyRotationStatusResponse(
-        KeyRotationEnabled=Option_Some(native_input["KeyRotationEnabled"]) if "KeyRotationEnabled" in native_input.keys() else Option_None(),
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
-        RotationPeriodInDays=Option_Some(native_input["RotationPeriodInDays"]) if "RotationPeriodInDays" in native_input.keys() else Option_None(),
-        NextRotationDate=Option_Some(TypeError("TimestampShape not supported")) if "NextRotationDate" in native_input.keys() else Option_None(),
-        OnDemandRotationStartDate=Option_Some(TypeError("TimestampShape not supported")) if "OnDemandRotationStartDate" in native_input.keys() else Option_None(),
+        KeyRotationEnabled=(
+            Option_Some(native_input["KeyRotationEnabled"])
+            if "KeyRotationEnabled" in native_input.keys()
+            else Option_None()
+        ),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
+        RotationPeriodInDays=(
+            Option_Some(native_input["RotationPeriodInDays"])
+            if "RotationPeriodInDays" in native_input.keys()
+            else Option_None()
+        ),
+        NextRotationDate=(
+            Option_Some(TypeError("TimestampShape not supported"))
+            if "NextRotationDate" in native_input.keys()
+            else Option_None()
+        ),
+        OnDemandRotationStartDate=(
+            Option_Some(TypeError("TimestampShape not supported"))
+            if "OnDemandRotationStartDate" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_GetParametersForImportRequest(native_input):
     return DafnyGetParametersForImportRequest(
         KeyId=Seq(native_input["KeyId"]),
-        WrappingAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_AlgorithmSpec(native_input["WrappingAlgorithm"]),
-        WrappingKeySpec=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_WrappingKeySpec(native_input["WrappingKeySpec"]),
+        WrappingAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_AlgorithmSpec(
+            native_input["WrappingAlgorithm"]
+        ),
+        WrappingKeySpec=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_WrappingKeySpec(
+            native_input["WrappingKeySpec"]
+        ),
     )
+
 
 def com_amazonaws_kms_AlgorithmSpec(native_input):
     # Convert AlgorithmSpec
@@ -1334,6 +2455,7 @@ def com_amazonaws_kms_AlgorithmSpec(native_input):
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
+
 def com_amazonaws_kms_WrappingKeySpec(native_input):
     # Convert WrappingKeySpec
     if native_input == "RSA_2048":
@@ -1347,131 +2469,458 @@ def com_amazonaws_kms_WrappingKeySpec(native_input):
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
+
 def com_amazonaws_kms_GetParametersForImportResponse(native_input):
     return DafnyGetParametersForImportResponse(
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
-        ImportToken=Option_Some(Seq(native_input["ImportToken"])) if "ImportToken" in native_input.keys() else Option_None(),
-        PublicKey=Option_Some(Seq(native_input["PublicKey"])) if "PublicKey" in native_input.keys() else Option_None(),
-        ParametersValidTo=Option_Some(TypeError("TimestampShape not supported")) if "ParametersValidTo" in native_input.keys() else Option_None(),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
+        ImportToken=(
+            Option_Some(Seq(native_input["ImportToken"]))
+            if "ImportToken" in native_input.keys()
+            else Option_None()
+        ),
+        PublicKey=(
+            Option_Some(Seq(native_input["PublicKey"]))
+            if "PublicKey" in native_input.keys()
+            else Option_None()
+        ),
+        ParametersValidTo=(
+            Option_Some(TypeError("TimestampShape not supported"))
+            if "ParametersValidTo" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_GetPublicKeyRequest(native_input):
     return DafnyGetPublicKeyRequest(
         KeyId=Seq(native_input["KeyId"]),
-        GrantTokens=Option_Some(Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])) if "GrantTokens" in native_input.keys() else Option_None(),
+        GrantTokens=(
+            Option_Some(
+                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+            )
+            if "GrantTokens" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_GetPublicKeyResponse(native_input):
     return DafnyGetPublicKeyResponse(
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
-        PublicKey=Option_Some(Seq(native_input["PublicKey"])) if "PublicKey" in native_input.keys() else Option_None(),
-        CustomerMasterKeySpec=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomerMasterKeySpec(native_input["CustomerMasterKeySpec"])) if "CustomerMasterKeySpec" in native_input.keys() else Option_None(),
-        KeySpec=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeySpec(native_input["KeySpec"])) if "KeySpec" in native_input.keys() else Option_None(),
-        KeyUsage=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyUsageType(native_input["KeyUsage"])) if "KeyUsage" in native_input.keys() else Option_None(),
-        EncryptionAlgorithms=Option_Some(Seq([com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(list_element) for list_element in native_input["EncryptionAlgorithms"]])) if "EncryptionAlgorithms" in native_input.keys() else Option_None(),
-        SigningAlgorithms=Option_Some(Seq([com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(list_element) for list_element in native_input["SigningAlgorithms"]])) if "SigningAlgorithms" in native_input.keys() else Option_None(),
-        KeyAgreementAlgorithms=Option_Some(Seq([com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyAgreementAlgorithmSpec(list_element) for list_element in native_input["KeyAgreementAlgorithms"]])) if "KeyAgreementAlgorithms" in native_input.keys() else Option_None(),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
+        PublicKey=(
+            Option_Some(Seq(native_input["PublicKey"]))
+            if "PublicKey" in native_input.keys()
+            else Option_None()
+        ),
+        CustomerMasterKeySpec=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_CustomerMasterKeySpec(
+                    native_input["CustomerMasterKeySpec"]
+                )
+            )
+            if "CustomerMasterKeySpec" in native_input.keys()
+            else Option_None()
+        ),
+        KeySpec=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeySpec(
+                    native_input["KeySpec"]
+                )
+            )
+            if "KeySpec" in native_input.keys()
+            else Option_None()
+        ),
+        KeyUsage=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyUsageType(
+                    native_input["KeyUsage"]
+                )
+            )
+            if "KeyUsage" in native_input.keys()
+            else Option_None()
+        ),
+        EncryptionAlgorithms=(
+            Option_Some(
+                Seq(
+                    [
+                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+                            list_element
+                        )
+                        for list_element in native_input["EncryptionAlgorithms"]
+                    ]
+                )
+            )
+            if "EncryptionAlgorithms" in native_input.keys()
+            else Option_None()
+        ),
+        SigningAlgorithms=(
+            Option_Some(
+                Seq(
+                    [
+                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(
+                            list_element
+                        )
+                        for list_element in native_input["SigningAlgorithms"]
+                    ]
+                )
+            )
+            if "SigningAlgorithms" in native_input.keys()
+            else Option_None()
+        ),
+        KeyAgreementAlgorithms=(
+            Option_Some(
+                Seq(
+                    [
+                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyAgreementAlgorithmSpec(
+                            list_element
+                        )
+                        for list_element in native_input["KeyAgreementAlgorithms"]
+                    ]
+                )
+            )
+            if "KeyAgreementAlgorithms" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_ImportKeyMaterialRequest(native_input):
     return DafnyImportKeyMaterialRequest(
         KeyId=Seq(native_input["KeyId"]),
         ImportToken=Seq(native_input["ImportToken"]),
         EncryptedKeyMaterial=Seq(native_input["EncryptedKeyMaterial"]),
-        ValidTo=Option_Some(TypeError("TimestampShape not supported")) if "ValidTo" in native_input.keys() else Option_None(),
-        ExpirationModel=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ExpirationModelType(native_input["ExpirationModel"])) if "ExpirationModel" in native_input.keys() else Option_None(),
+        ValidTo=(
+            Option_Some(TypeError("TimestampShape not supported"))
+            if "ValidTo" in native_input.keys()
+            else Option_None()
+        ),
+        ExpirationModel=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_ExpirationModelType(
+                    native_input["ExpirationModel"]
+                )
+            )
+            if "ExpirationModel" in native_input.keys()
+            else Option_None()
+        ),
     )
 
+
 def com_amazonaws_kms_ImportKeyMaterialResponse(native_input):
-    return DafnyImportKeyMaterialResponse(
-    )
+    return DafnyImportKeyMaterialResponse()
+
 
 def com_amazonaws_kms_ListAliasesRequest(native_input):
     return DafnyListAliasesRequest(
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
-        Limit=Option_Some(native_input["Limit"]) if "Limit" in native_input.keys() else Option_None(),
-        Marker=Option_Some(Seq(native_input["Marker"])) if "Marker" in native_input.keys() else Option_None(),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
+        Limit=(
+            Option_Some(native_input["Limit"])
+            if "Limit" in native_input.keys()
+            else Option_None()
+        ),
+        Marker=(
+            Option_Some(Seq(native_input["Marker"]))
+            if "Marker" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_ListAliasesResponse(native_input):
     return DafnyListAliasesResponse(
-        Aliases=Option_Some(Seq([com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_AliasListEntry(list_element) for list_element in native_input["Aliases"]])) if "Aliases" in native_input.keys() else Option_None(),
-        NextMarker=Option_Some(Seq(native_input["NextMarker"])) if "NextMarker" in native_input.keys() else Option_None(),
-        Truncated=Option_Some(native_input["Truncated"]) if "Truncated" in native_input.keys() else Option_None(),
+        Aliases=(
+            Option_Some(
+                Seq(
+                    [
+                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_AliasListEntry(
+                            list_element
+                        )
+                        for list_element in native_input["Aliases"]
+                    ]
+                )
+            )
+            if "Aliases" in native_input.keys()
+            else Option_None()
+        ),
+        NextMarker=(
+            Option_Some(Seq(native_input["NextMarker"]))
+            if "NextMarker" in native_input.keys()
+            else Option_None()
+        ),
+        Truncated=(
+            Option_Some(native_input["Truncated"])
+            if "Truncated" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_AliasListEntry(native_input):
     return DafnyAliasListEntry(
-        AliasName=Option_Some(Seq(native_input["AliasName"])) if "AliasName" in native_input.keys() else Option_None(),
-        AliasArn=Option_Some(Seq(native_input["AliasArn"])) if "AliasArn" in native_input.keys() else Option_None(),
-        TargetKeyId=Option_Some(Seq(native_input["TargetKeyId"])) if "TargetKeyId" in native_input.keys() else Option_None(),
-        CreationDate=Option_Some(TypeError("TimestampShape not supported")) if "CreationDate" in native_input.keys() else Option_None(),
-        LastUpdatedDate=Option_Some(TypeError("TimestampShape not supported")) if "LastUpdatedDate" in native_input.keys() else Option_None(),
+        AliasName=(
+            Option_Some(Seq(native_input["AliasName"]))
+            if "AliasName" in native_input.keys()
+            else Option_None()
+        ),
+        AliasArn=(
+            Option_Some(Seq(native_input["AliasArn"]))
+            if "AliasArn" in native_input.keys()
+            else Option_None()
+        ),
+        TargetKeyId=(
+            Option_Some(Seq(native_input["TargetKeyId"]))
+            if "TargetKeyId" in native_input.keys()
+            else Option_None()
+        ),
+        CreationDate=(
+            Option_Some(TypeError("TimestampShape not supported"))
+            if "CreationDate" in native_input.keys()
+            else Option_None()
+        ),
+        LastUpdatedDate=(
+            Option_Some(TypeError("TimestampShape not supported"))
+            if "LastUpdatedDate" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_ListGrantsRequest(native_input):
     return DafnyListGrantsRequest(
-        Limit=Option_Some(native_input["Limit"]) if "Limit" in native_input.keys() else Option_None(),
-        Marker=Option_Some(Seq(native_input["Marker"])) if "Marker" in native_input.keys() else Option_None(),
+        Limit=(
+            Option_Some(native_input["Limit"])
+            if "Limit" in native_input.keys()
+            else Option_None()
+        ),
+        Marker=(
+            Option_Some(Seq(native_input["Marker"]))
+            if "Marker" in native_input.keys()
+            else Option_None()
+        ),
         KeyId=Seq(native_input["KeyId"]),
-        GrantId=Option_Some(Seq(native_input["GrantId"])) if "GrantId" in native_input.keys() else Option_None(),
-        GranteePrincipal=Option_Some(Seq(native_input["GranteePrincipal"])) if "GranteePrincipal" in native_input.keys() else Option_None(),
+        GrantId=(
+            Option_Some(Seq(native_input["GrantId"]))
+            if "GrantId" in native_input.keys()
+            else Option_None()
+        ),
+        GranteePrincipal=(
+            Option_Some(Seq(native_input["GranteePrincipal"]))
+            if "GranteePrincipal" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_ListGrantsResponse(native_input):
     return DafnyListGrantsResponse(
-        Grants=Option_Some(Seq([com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GrantListEntry(list_element) for list_element in native_input["Grants"]])) if "Grants" in native_input.keys() else Option_None(),
-        NextMarker=Option_Some(Seq(native_input["NextMarker"])) if "NextMarker" in native_input.keys() else Option_None(),
-        Truncated=Option_Some(native_input["Truncated"]) if "Truncated" in native_input.keys() else Option_None(),
+        Grants=(
+            Option_Some(
+                Seq(
+                    [
+                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GrantListEntry(
+                            list_element
+                        )
+                        for list_element in native_input["Grants"]
+                    ]
+                )
+            )
+            if "Grants" in native_input.keys()
+            else Option_None()
+        ),
+        NextMarker=(
+            Option_Some(Seq(native_input["NextMarker"]))
+            if "NextMarker" in native_input.keys()
+            else Option_None()
+        ),
+        Truncated=(
+            Option_Some(native_input["Truncated"])
+            if "Truncated" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_GrantListEntry(native_input):
     return DafnyGrantListEntry(
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
-        GrantId=Option_Some(Seq(native_input["GrantId"])) if "GrantId" in native_input.keys() else Option_None(),
-        Name=Option_Some(Seq(native_input["Name"])) if "Name" in native_input.keys() else Option_None(),
-        CreationDate=Option_Some(TypeError("TimestampShape not supported")) if "CreationDate" in native_input.keys() else Option_None(),
-        GranteePrincipal=Option_Some(Seq(native_input["GranteePrincipal"])) if "GranteePrincipal" in native_input.keys() else Option_None(),
-        RetiringPrincipal=Option_Some(Seq(native_input["RetiringPrincipal"])) if "RetiringPrincipal" in native_input.keys() else Option_None(),
-        IssuingAccount=Option_Some(Seq(native_input["IssuingAccount"])) if "IssuingAccount" in native_input.keys() else Option_None(),
-        Operations=Option_Some(Seq([com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GrantOperation(list_element) for list_element in native_input["Operations"]])) if "Operations" in native_input.keys() else Option_None(),
-        Constraints=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GrantConstraints(native_input["Constraints"])) if "Constraints" in native_input.keys() else Option_None(),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
+        GrantId=(
+            Option_Some(Seq(native_input["GrantId"]))
+            if "GrantId" in native_input.keys()
+            else Option_None()
+        ),
+        Name=(
+            Option_Some(Seq(native_input["Name"]))
+            if "Name" in native_input.keys()
+            else Option_None()
+        ),
+        CreationDate=(
+            Option_Some(TypeError("TimestampShape not supported"))
+            if "CreationDate" in native_input.keys()
+            else Option_None()
+        ),
+        GranteePrincipal=(
+            Option_Some(Seq(native_input["GranteePrincipal"]))
+            if "GranteePrincipal" in native_input.keys()
+            else Option_None()
+        ),
+        RetiringPrincipal=(
+            Option_Some(Seq(native_input["RetiringPrincipal"]))
+            if "RetiringPrincipal" in native_input.keys()
+            else Option_None()
+        ),
+        IssuingAccount=(
+            Option_Some(Seq(native_input["IssuingAccount"]))
+            if "IssuingAccount" in native_input.keys()
+            else Option_None()
+        ),
+        Operations=(
+            Option_Some(
+                Seq(
+                    [
+                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GrantOperation(
+                            list_element
+                        )
+                        for list_element in native_input["Operations"]
+                    ]
+                )
+            )
+            if "Operations" in native_input.keys()
+            else Option_None()
+        ),
+        Constraints=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_GrantConstraints(
+                    native_input["Constraints"]
+                )
+            )
+            if "Constraints" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_ListKeyPoliciesRequest(native_input):
     return DafnyListKeyPoliciesRequest(
         KeyId=Seq(native_input["KeyId"]),
-        Limit=Option_Some(native_input["Limit"]) if "Limit" in native_input.keys() else Option_None(),
-        Marker=Option_Some(Seq(native_input["Marker"])) if "Marker" in native_input.keys() else Option_None(),
+        Limit=(
+            Option_Some(native_input["Limit"])
+            if "Limit" in native_input.keys()
+            else Option_None()
+        ),
+        Marker=(
+            Option_Some(Seq(native_input["Marker"]))
+            if "Marker" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_ListKeyPoliciesResponse(native_input):
     return DafnyListKeyPoliciesResponse(
-        PolicyNames=Option_Some(Seq([Seq(list_element) for list_element in native_input["PolicyNames"]])) if "PolicyNames" in native_input.keys() else Option_None(),
-        NextMarker=Option_Some(Seq(native_input["NextMarker"])) if "NextMarker" in native_input.keys() else Option_None(),
-        Truncated=Option_Some(native_input["Truncated"]) if "Truncated" in native_input.keys() else Option_None(),
+        PolicyNames=(
+            Option_Some(
+                Seq([Seq(list_element) for list_element in native_input["PolicyNames"]])
+            )
+            if "PolicyNames" in native_input.keys()
+            else Option_None()
+        ),
+        NextMarker=(
+            Option_Some(Seq(native_input["NextMarker"]))
+            if "NextMarker" in native_input.keys()
+            else Option_None()
+        ),
+        Truncated=(
+            Option_Some(native_input["Truncated"])
+            if "Truncated" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_ListKeyRotationsRequest(native_input):
     return DafnyListKeyRotationsRequest(
         KeyId=Seq(native_input["KeyId"]),
-        Limit=Option_Some(native_input["Limit"]) if "Limit" in native_input.keys() else Option_None(),
-        Marker=Option_Some(Seq(native_input["Marker"])) if "Marker" in native_input.keys() else Option_None(),
+        Limit=(
+            Option_Some(native_input["Limit"])
+            if "Limit" in native_input.keys()
+            else Option_None()
+        ),
+        Marker=(
+            Option_Some(Seq(native_input["Marker"]))
+            if "Marker" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_ListKeyRotationsResponse(native_input):
     return DafnyListKeyRotationsResponse(
-        Rotations=Option_Some(Seq([com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RotationsListEntry(list_element) for list_element in native_input["Rotations"]])) if "Rotations" in native_input.keys() else Option_None(),
-        NextMarker=Option_Some(Seq(native_input["NextMarker"])) if "NextMarker" in native_input.keys() else Option_None(),
-        Truncated=Option_Some(native_input["Truncated"]) if "Truncated" in native_input.keys() else Option_None(),
+        Rotations=(
+            Option_Some(
+                Seq(
+                    [
+                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RotationsListEntry(
+                            list_element
+                        )
+                        for list_element in native_input["Rotations"]
+                    ]
+                )
+            )
+            if "Rotations" in native_input.keys()
+            else Option_None()
+        ),
+        NextMarker=(
+            Option_Some(Seq(native_input["NextMarker"]))
+            if "NextMarker" in native_input.keys()
+            else Option_None()
+        ),
+        Truncated=(
+            Option_Some(native_input["Truncated"])
+            if "Truncated" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_RotationsListEntry(native_input):
     return DafnyRotationsListEntry(
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
-        RotationDate=Option_Some(TypeError("TimestampShape not supported")) if "RotationDate" in native_input.keys() else Option_None(),
-        RotationType=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RotationType(native_input["RotationType"])) if "RotationType" in native_input.keys() else Option_None(),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
+        RotationDate=(
+            Option_Some(TypeError("TimestampShape not supported"))
+            if "RotationDate" in native_input.keys()
+            else Option_None()
+        ),
+        RotationType=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_RotationType(
+                    native_input["RotationType"]
+                )
+            )
+            if "RotationType" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_RotationType(native_input):
     # Convert RotationType
@@ -1482,134 +2931,428 @@ def com_amazonaws_kms_RotationType(native_input):
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
+
 def com_amazonaws_kms_ListKeysRequest(native_input):
     return DafnyListKeysRequest(
-        Limit=Option_Some(native_input["Limit"]) if "Limit" in native_input.keys() else Option_None(),
-        Marker=Option_Some(Seq(native_input["Marker"])) if "Marker" in native_input.keys() else Option_None(),
+        Limit=(
+            Option_Some(native_input["Limit"])
+            if "Limit" in native_input.keys()
+            else Option_None()
+        ),
+        Marker=(
+            Option_Some(Seq(native_input["Marker"]))
+            if "Marker" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_ListKeysResponse(native_input):
     return DafnyListKeysResponse(
-        Keys=Option_Some(Seq([com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyListEntry(list_element) for list_element in native_input["Keys"]])) if "Keys" in native_input.keys() else Option_None(),
-        NextMarker=Option_Some(Seq(native_input["NextMarker"])) if "NextMarker" in native_input.keys() else Option_None(),
-        Truncated=Option_Some(native_input["Truncated"]) if "Truncated" in native_input.keys() else Option_None(),
+        Keys=(
+            Option_Some(
+                Seq(
+                    [
+                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyListEntry(
+                            list_element
+                        )
+                        for list_element in native_input["Keys"]
+                    ]
+                )
+            )
+            if "Keys" in native_input.keys()
+            else Option_None()
+        ),
+        NextMarker=(
+            Option_Some(Seq(native_input["NextMarker"]))
+            if "NextMarker" in native_input.keys()
+            else Option_None()
+        ),
+        Truncated=(
+            Option_Some(native_input["Truncated"])
+            if "Truncated" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_KeyListEntry(native_input):
     return DafnyKeyListEntry(
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
-        KeyArn=Option_Some(Seq(native_input["KeyArn"])) if "KeyArn" in native_input.keys() else Option_None(),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
+        KeyArn=(
+            Option_Some(Seq(native_input["KeyArn"]))
+            if "KeyArn" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_ListResourceTagsRequest(native_input):
     return DafnyListResourceTagsRequest(
         KeyId=Seq(native_input["KeyId"]),
-        Limit=Option_Some(native_input["Limit"]) if "Limit" in native_input.keys() else Option_None(),
-        Marker=Option_Some(Seq(native_input["Marker"])) if "Marker" in native_input.keys() else Option_None(),
+        Limit=(
+            Option_Some(native_input["Limit"])
+            if "Limit" in native_input.keys()
+            else Option_None()
+        ),
+        Marker=(
+            Option_Some(Seq(native_input["Marker"]))
+            if "Marker" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_ListResourceTagsResponse(native_input):
     return DafnyListResourceTagsResponse(
-        Tags=Option_Some(Seq([com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(list_element) for list_element in native_input["Tags"]])) if "Tags" in native_input.keys() else Option_None(),
-        NextMarker=Option_Some(Seq(native_input["NextMarker"])) if "NextMarker" in native_input.keys() else Option_None(),
-        Truncated=Option_Some(native_input["Truncated"]) if "Truncated" in native_input.keys() else Option_None(),
+        Tags=(
+            Option_Some(
+                Seq(
+                    [
+                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(
+                            list_element
+                        )
+                        for list_element in native_input["Tags"]
+                    ]
+                )
+            )
+            if "Tags" in native_input.keys()
+            else Option_None()
+        ),
+        NextMarker=(
+            Option_Some(Seq(native_input["NextMarker"]))
+            if "NextMarker" in native_input.keys()
+            else Option_None()
+        ),
+        Truncated=(
+            Option_Some(native_input["Truncated"])
+            if "Truncated" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_PutKeyPolicyRequest(native_input):
     return DafnyPutKeyPolicyRequest(
         KeyId=Seq(native_input["KeyId"]),
-        PolicyName=Option_Some(Seq(native_input["PolicyName"])) if "PolicyName" in native_input.keys() else Option_None(),
+        PolicyName=(
+            Option_Some(Seq(native_input["PolicyName"]))
+            if "PolicyName" in native_input.keys()
+            else Option_None()
+        ),
         Policy=Seq(native_input["Policy"]),
-        BypassPolicyLockoutSafetyCheck=Option_Some(native_input["BypassPolicyLockoutSafetyCheck"]) if "BypassPolicyLockoutSafetyCheck" in native_input.keys() else Option_None(),
+        BypassPolicyLockoutSafetyCheck=(
+            Option_Some(native_input["BypassPolicyLockoutSafetyCheck"])
+            if "BypassPolicyLockoutSafetyCheck" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_ReEncryptRequest(native_input):
     return DafnyReEncryptRequest(
         CiphertextBlob=Seq(native_input["CiphertextBlob"]),
-        SourceEncryptionContext=Option_Some(Map({Seq(key): Seq(value) for (key, value) in native_input["SourceEncryptionContext"].items() })) if "SourceEncryptionContext" in native_input.keys() else Option_None(),
-        SourceKeyId=Option_Some(Seq(native_input["SourceKeyId"])) if "SourceKeyId" in native_input.keys() else Option_None(),
+        SourceEncryptionContext=(
+            Option_Some(
+                Map(
+                    {
+                        Seq(key): Seq(value)
+                        for (key, value) in native_input[
+                            "SourceEncryptionContext"
+                        ].items()
+                    }
+                )
+            )
+            if "SourceEncryptionContext" in native_input.keys()
+            else Option_None()
+        ),
+        SourceKeyId=(
+            Option_Some(Seq(native_input["SourceKeyId"]))
+            if "SourceKeyId" in native_input.keys()
+            else Option_None()
+        ),
         DestinationKeyId=Seq(native_input["DestinationKeyId"]),
-        DestinationEncryptionContext=Option_Some(Map({Seq(key): Seq(value) for (key, value) in native_input["DestinationEncryptionContext"].items() })) if "DestinationEncryptionContext" in native_input.keys() else Option_None(),
-        SourceEncryptionAlgorithm=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(native_input["SourceEncryptionAlgorithm"])) if "SourceEncryptionAlgorithm" in native_input.keys() else Option_None(),
-        DestinationEncryptionAlgorithm=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(native_input["DestinationEncryptionAlgorithm"])) if "DestinationEncryptionAlgorithm" in native_input.keys() else Option_None(),
-        GrantTokens=Option_Some(Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])) if "GrantTokens" in native_input.keys() else Option_None(),
-        DryRun=Option_Some(native_input["DryRun"]) if "DryRun" in native_input.keys() else Option_None(),
+        DestinationEncryptionContext=(
+            Option_Some(
+                Map(
+                    {
+                        Seq(key): Seq(value)
+                        for (key, value) in native_input[
+                            "DestinationEncryptionContext"
+                        ].items()
+                    }
+                )
+            )
+            if "DestinationEncryptionContext" in native_input.keys()
+            else Option_None()
+        ),
+        SourceEncryptionAlgorithm=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+                    native_input["SourceEncryptionAlgorithm"]
+                )
+            )
+            if "SourceEncryptionAlgorithm" in native_input.keys()
+            else Option_None()
+        ),
+        DestinationEncryptionAlgorithm=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+                    native_input["DestinationEncryptionAlgorithm"]
+                )
+            )
+            if "DestinationEncryptionAlgorithm" in native_input.keys()
+            else Option_None()
+        ),
+        GrantTokens=(
+            Option_Some(
+                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+            )
+            if "GrantTokens" in native_input.keys()
+            else Option_None()
+        ),
+        DryRun=(
+            Option_Some(native_input["DryRun"])
+            if "DryRun" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_ReEncryptResponse(native_input):
     return DafnyReEncryptResponse(
-        CiphertextBlob=Option_Some(Seq(native_input["CiphertextBlob"])) if "CiphertextBlob" in native_input.keys() else Option_None(),
-        SourceKeyId=Option_Some(Seq(native_input["SourceKeyId"])) if "SourceKeyId" in native_input.keys() else Option_None(),
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
-        SourceEncryptionAlgorithm=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(native_input["SourceEncryptionAlgorithm"])) if "SourceEncryptionAlgorithm" in native_input.keys() else Option_None(),
-        DestinationEncryptionAlgorithm=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(native_input["DestinationEncryptionAlgorithm"])) if "DestinationEncryptionAlgorithm" in native_input.keys() else Option_None(),
+        CiphertextBlob=(
+            Option_Some(Seq(native_input["CiphertextBlob"]))
+            if "CiphertextBlob" in native_input.keys()
+            else Option_None()
+        ),
+        SourceKeyId=(
+            Option_Some(Seq(native_input["SourceKeyId"]))
+            if "SourceKeyId" in native_input.keys()
+            else Option_None()
+        ),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
+        SourceEncryptionAlgorithm=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+                    native_input["SourceEncryptionAlgorithm"]
+                )
+            )
+            if "SourceEncryptionAlgorithm" in native_input.keys()
+            else Option_None()
+        ),
+        DestinationEncryptionAlgorithm=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_EncryptionAlgorithmSpec(
+                    native_input["DestinationEncryptionAlgorithm"]
+                )
+            )
+            if "DestinationEncryptionAlgorithm" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_ReplicateKeyRequest(native_input):
     return DafnyReplicateKeyRequest(
         KeyId=Seq(native_input["KeyId"]),
         ReplicaRegion=Seq(native_input["ReplicaRegion"]),
-        Policy=Option_Some(Seq(native_input["Policy"])) if "Policy" in native_input.keys() else Option_None(),
-        BypassPolicyLockoutSafetyCheck=Option_Some(native_input["BypassPolicyLockoutSafetyCheck"]) if "BypassPolicyLockoutSafetyCheck" in native_input.keys() else Option_None(),
-        Description=Option_Some(Seq(native_input["Description"])) if "Description" in native_input.keys() else Option_None(),
-        Tags=Option_Some(Seq([com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(list_element) for list_element in native_input["Tags"]])) if "Tags" in native_input.keys() else Option_None(),
+        Policy=(
+            Option_Some(Seq(native_input["Policy"]))
+            if "Policy" in native_input.keys()
+            else Option_None()
+        ),
+        BypassPolicyLockoutSafetyCheck=(
+            Option_Some(native_input["BypassPolicyLockoutSafetyCheck"])
+            if "BypassPolicyLockoutSafetyCheck" in native_input.keys()
+            else Option_None()
+        ),
+        Description=(
+            Option_Some(Seq(native_input["Description"]))
+            if "Description" in native_input.keys()
+            else Option_None()
+        ),
+        Tags=(
+            Option_Some(
+                Seq(
+                    [
+                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(
+                            list_element
+                        )
+                        for list_element in native_input["Tags"]
+                    ]
+                )
+            )
+            if "Tags" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_ReplicateKeyResponse(native_input):
     return DafnyReplicateKeyResponse(
-        ReplicaKeyMetadata=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyMetadata(native_input["ReplicaKeyMetadata"])) if "ReplicaKeyMetadata" in native_input.keys() else Option_None(),
-        ReplicaPolicy=Option_Some(Seq(native_input["ReplicaPolicy"])) if "ReplicaPolicy" in native_input.keys() else Option_None(),
-        ReplicaTags=Option_Some(Seq([com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(list_element) for list_element in native_input["ReplicaTags"]])) if "ReplicaTags" in native_input.keys() else Option_None(),
+        ReplicaKeyMetadata=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyMetadata(
+                    native_input["ReplicaKeyMetadata"]
+                )
+            )
+            if "ReplicaKeyMetadata" in native_input.keys()
+            else Option_None()
+        ),
+        ReplicaPolicy=(
+            Option_Some(Seq(native_input["ReplicaPolicy"]))
+            if "ReplicaPolicy" in native_input.keys()
+            else Option_None()
+        ),
+        ReplicaTags=(
+            Option_Some(
+                Seq(
+                    [
+                        com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(
+                            list_element
+                        )
+                        for list_element in native_input["ReplicaTags"]
+                    ]
+                )
+            )
+            if "ReplicaTags" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_RetireGrantRequest(native_input):
     return DafnyRetireGrantRequest(
-        GrantToken=Option_Some(Seq(native_input["GrantToken"])) if "GrantToken" in native_input.keys() else Option_None(),
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
-        GrantId=Option_Some(Seq(native_input["GrantId"])) if "GrantId" in native_input.keys() else Option_None(),
-        DryRun=Option_Some(native_input["DryRun"]) if "DryRun" in native_input.keys() else Option_None(),
+        GrantToken=(
+            Option_Some(Seq(native_input["GrantToken"]))
+            if "GrantToken" in native_input.keys()
+            else Option_None()
+        ),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
+        GrantId=(
+            Option_Some(Seq(native_input["GrantId"]))
+            if "GrantId" in native_input.keys()
+            else Option_None()
+        ),
+        DryRun=(
+            Option_Some(native_input["DryRun"])
+            if "DryRun" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_RevokeGrantRequest(native_input):
     return DafnyRevokeGrantRequest(
         KeyId=Seq(native_input["KeyId"]),
         GrantId=Seq(native_input["GrantId"]),
-        DryRun=Option_Some(native_input["DryRun"]) if "DryRun" in native_input.keys() else Option_None(),
+        DryRun=(
+            Option_Some(native_input["DryRun"])
+            if "DryRun" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_RotateKeyOnDemandRequest(native_input):
     return DafnyRotateKeyOnDemandRequest(
         KeyId=Seq(native_input["KeyId"]),
     )
 
+
 def com_amazonaws_kms_RotateKeyOnDemandResponse(native_input):
     return DafnyRotateKeyOnDemandResponse(
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_ScheduleKeyDeletionRequest(native_input):
     return DafnyScheduleKeyDeletionRequest(
         KeyId=Seq(native_input["KeyId"]),
-        PendingWindowInDays=Option_Some(native_input["PendingWindowInDays"]) if "PendingWindowInDays" in native_input.keys() else Option_None(),
+        PendingWindowInDays=(
+            Option_Some(native_input["PendingWindowInDays"])
+            if "PendingWindowInDays" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_ScheduleKeyDeletionResponse(native_input):
     return DafnyScheduleKeyDeletionResponse(
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
-        DeletionDate=Option_Some(TypeError("TimestampShape not supported")) if "DeletionDate" in native_input.keys() else Option_None(),
-        KeyState=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyState(native_input["KeyState"])) if "KeyState" in native_input.keys() else Option_None(),
-        PendingWindowInDays=Option_Some(native_input["PendingWindowInDays"]) if "PendingWindowInDays" in native_input.keys() else Option_None(),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
+        DeletionDate=(
+            Option_Some(TypeError("TimestampShape not supported"))
+            if "DeletionDate" in native_input.keys()
+            else Option_None()
+        ),
+        KeyState=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_KeyState(
+                    native_input["KeyState"]
+                )
+            )
+            if "KeyState" in native_input.keys()
+            else Option_None()
+        ),
+        PendingWindowInDays=(
+            Option_Some(native_input["PendingWindowInDays"])
+            if "PendingWindowInDays" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_SignRequest(native_input):
     return DafnySignRequest(
         KeyId=Seq(native_input["KeyId"]),
         Message=Seq(native_input["Message"]),
-        MessageType=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MessageType(native_input["MessageType"])) if "MessageType" in native_input.keys() else Option_None(),
-        GrantTokens=Option_Some(Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])) if "GrantTokens" in native_input.keys() else Option_None(),
-        SigningAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(native_input["SigningAlgorithm"]),
-        DryRun=Option_Some(native_input["DryRun"]) if "DryRun" in native_input.keys() else Option_None(),
+        MessageType=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MessageType(
+                    native_input["MessageType"]
+                )
+            )
+            if "MessageType" in native_input.keys()
+            else Option_None()
+        ),
+        GrantTokens=(
+            Option_Some(
+                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+            )
+            if "GrantTokens" in native_input.keys()
+            else Option_None()
+        ),
+        SigningAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(
+            native_input["SigningAlgorithm"]
+        ),
+        DryRun=(
+            Option_Some(native_input["DryRun"])
+            if "DryRun" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_MessageType(native_input):
     # Convert MessageType
@@ -1620,18 +3363,44 @@ def com_amazonaws_kms_MessageType(native_input):
     else:
         raise ValueError("No recognized enum value in enum type: " + native_input)
 
+
 def com_amazonaws_kms_SignResponse(native_input):
     return DafnySignResponse(
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
-        Signature=Option_Some(Seq(native_input["Signature"])) if "Signature" in native_input.keys() else Option_None(),
-        SigningAlgorithm=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(native_input["SigningAlgorithm"])) if "SigningAlgorithm" in native_input.keys() else Option_None(),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
+        Signature=(
+            Option_Some(Seq(native_input["Signature"]))
+            if "Signature" in native_input.keys()
+            else Option_None()
+        ),
+        SigningAlgorithm=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(
+                    native_input["SigningAlgorithm"]
+                )
+            )
+            if "SigningAlgorithm" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_TagResourceRequest(native_input):
     return DafnyTagResourceRequest(
         KeyId=Seq(native_input["KeyId"]),
-        Tags=Seq([com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(list_element) for list_element in native_input["Tags"]]),
+        Tags=Seq(
+            [
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_Tag(
+                    list_element
+                )
+                for list_element in native_input["Tags"]
+            ]
+        ),
     )
+
 
 def com_amazonaws_kms_UntagResourceRequest(native_input):
     return DafnyUntagResourceRequest(
@@ -1639,28 +3408,71 @@ def com_amazonaws_kms_UntagResourceRequest(native_input):
         TagKeys=Seq([Seq(list_element) for list_element in native_input["TagKeys"]]),
     )
 
+
 def com_amazonaws_kms_UpdateAliasRequest(native_input):
     return DafnyUpdateAliasRequest(
         AliasName=Seq(native_input["AliasName"]),
         TargetKeyId=Seq(native_input["TargetKeyId"]),
     )
 
+
 def com_amazonaws_kms_UpdateCustomKeyStoreRequest(native_input):
     return DafnyUpdateCustomKeyStoreRequest(
         CustomKeyStoreId=Seq(native_input["CustomKeyStoreId"]),
-        NewCustomKeyStoreName=Option_Some(Seq(native_input["NewCustomKeyStoreName"])) if "NewCustomKeyStoreName" in native_input.keys() else Option_None(),
-        KeyStorePassword=Option_Some(Seq(native_input["KeyStorePassword"])) if "KeyStorePassword" in native_input.keys() else Option_None(),
-        CloudHsmClusterId=Option_Some(Seq(native_input["CloudHsmClusterId"])) if "CloudHsmClusterId" in native_input.keys() else Option_None(),
-        XksProxyUriEndpoint=Option_Some(Seq(native_input["XksProxyUriEndpoint"])) if "XksProxyUriEndpoint" in native_input.keys() else Option_None(),
-        XksProxyUriPath=Option_Some(Seq(native_input["XksProxyUriPath"])) if "XksProxyUriPath" in native_input.keys() else Option_None(),
-        XksProxyVpcEndpointServiceName=Option_Some(Seq(native_input["XksProxyVpcEndpointServiceName"])) if "XksProxyVpcEndpointServiceName" in native_input.keys() else Option_None(),
-        XksProxyAuthenticationCredential=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyAuthenticationCredentialType(native_input["XksProxyAuthenticationCredential"])) if "XksProxyAuthenticationCredential" in native_input.keys() else Option_None(),
-        XksProxyConnectivity=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyConnectivityType(native_input["XksProxyConnectivity"])) if "XksProxyConnectivity" in native_input.keys() else Option_None(),
+        NewCustomKeyStoreName=(
+            Option_Some(Seq(native_input["NewCustomKeyStoreName"]))
+            if "NewCustomKeyStoreName" in native_input.keys()
+            else Option_None()
+        ),
+        KeyStorePassword=(
+            Option_Some(Seq(native_input["KeyStorePassword"]))
+            if "KeyStorePassword" in native_input.keys()
+            else Option_None()
+        ),
+        CloudHsmClusterId=(
+            Option_Some(Seq(native_input["CloudHsmClusterId"]))
+            if "CloudHsmClusterId" in native_input.keys()
+            else Option_None()
+        ),
+        XksProxyUriEndpoint=(
+            Option_Some(Seq(native_input["XksProxyUriEndpoint"]))
+            if "XksProxyUriEndpoint" in native_input.keys()
+            else Option_None()
+        ),
+        XksProxyUriPath=(
+            Option_Some(Seq(native_input["XksProxyUriPath"]))
+            if "XksProxyUriPath" in native_input.keys()
+            else Option_None()
+        ),
+        XksProxyVpcEndpointServiceName=(
+            Option_Some(Seq(native_input["XksProxyVpcEndpointServiceName"]))
+            if "XksProxyVpcEndpointServiceName" in native_input.keys()
+            else Option_None()
+        ),
+        XksProxyAuthenticationCredential=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyAuthenticationCredentialType(
+                    native_input["XksProxyAuthenticationCredential"]
+                )
+            )
+            if "XksProxyAuthenticationCredential" in native_input.keys()
+            else Option_None()
+        ),
+        XksProxyConnectivity=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_XksProxyConnectivityType(
+                    native_input["XksProxyConnectivity"]
+                )
+            )
+            if "XksProxyConnectivity" in native_input.keys()
+            else Option_None()
+        ),
     )
 
+
 def com_amazonaws_kms_UpdateCustomKeyStoreResponse(native_input):
-    return DafnyUpdateCustomKeyStoreResponse(
-    )
+    return DafnyUpdateCustomKeyStoreResponse()
+
 
 def com_amazonaws_kms_UpdateKeyDescriptionRequest(native_input):
     return DafnyUpdateKeyDescriptionRequest(
@@ -1668,43 +3480,112 @@ def com_amazonaws_kms_UpdateKeyDescriptionRequest(native_input):
         Description=Seq(native_input["Description"]),
     )
 
+
 def com_amazonaws_kms_UpdatePrimaryRegionRequest(native_input):
     return DafnyUpdatePrimaryRegionRequest(
         KeyId=Seq(native_input["KeyId"]),
         PrimaryRegion=Seq(native_input["PrimaryRegion"]),
     )
 
+
 def com_amazonaws_kms_VerifyRequest(native_input):
     return DafnyVerifyRequest(
         KeyId=Seq(native_input["KeyId"]),
         Message=Seq(native_input["Message"]),
-        MessageType=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MessageType(native_input["MessageType"])) if "MessageType" in native_input.keys() else Option_None(),
+        MessageType=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MessageType(
+                    native_input["MessageType"]
+                )
+            )
+            if "MessageType" in native_input.keys()
+            else Option_None()
+        ),
         Signature=Seq(native_input["Signature"]),
-        SigningAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(native_input["SigningAlgorithm"]),
-        GrantTokens=Option_Some(Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])) if "GrantTokens" in native_input.keys() else Option_None(),
-        DryRun=Option_Some(native_input["DryRun"]) if "DryRun" in native_input.keys() else Option_None(),
+        SigningAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(
+            native_input["SigningAlgorithm"]
+        ),
+        GrantTokens=(
+            Option_Some(
+                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+            )
+            if "GrantTokens" in native_input.keys()
+            else Option_None()
+        ),
+        DryRun=(
+            Option_Some(native_input["DryRun"])
+            if "DryRun" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_VerifyResponse(native_input):
     return DafnyVerifyResponse(
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
-        SignatureValid=Option_Some(native_input["SignatureValid"]) if "SignatureValid" in native_input.keys() else Option_None(),
-        SigningAlgorithm=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(native_input["SigningAlgorithm"])) if "SigningAlgorithm" in native_input.keys() else Option_None(),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
+        SignatureValid=(
+            Option_Some(native_input["SignatureValid"])
+            if "SignatureValid" in native_input.keys()
+            else Option_None()
+        ),
+        SigningAlgorithm=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_SigningAlgorithmSpec(
+                    native_input["SigningAlgorithm"]
+                )
+            )
+            if "SigningAlgorithm" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_VerifyMacRequest(native_input):
     return DafnyVerifyMacRequest(
         Message=Seq(native_input["Message"]),
         KeyId=Seq(native_input["KeyId"]),
-        MacAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(native_input["MacAlgorithm"]),
+        MacAlgorithm=com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(
+            native_input["MacAlgorithm"]
+        ),
         Mac=Seq(native_input["Mac"]),
-        GrantTokens=Option_Some(Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])) if "GrantTokens" in native_input.keys() else Option_None(),
-        DryRun=Option_Some(native_input["DryRun"]) if "DryRun" in native_input.keys() else Option_None(),
+        GrantTokens=(
+            Option_Some(
+                Seq([Seq(list_element) for list_element in native_input["GrantTokens"]])
+            )
+            if "GrantTokens" in native_input.keys()
+            else Option_None()
+        ),
+        DryRun=(
+            Option_Some(native_input["DryRun"])
+            if "DryRun" in native_input.keys()
+            else Option_None()
+        ),
     )
+
 
 def com_amazonaws_kms_VerifyMacResponse(native_input):
     return DafnyVerifyMacResponse(
-        KeyId=Option_Some(Seq(native_input["KeyId"])) if "KeyId" in native_input.keys() else Option_None(),
-        MacValid=Option_Some(native_input["MacValid"]) if "MacValid" in native_input.keys() else Option_None(),
-        MacAlgorithm=Option_Some(com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(native_input["MacAlgorithm"])) if "MacAlgorithm" in native_input.keys() else Option_None(),
+        KeyId=(
+            Option_Some(Seq(native_input["KeyId"]))
+            if "KeyId" in native_input.keys()
+            else Option_None()
+        ),
+        MacValid=(
+            Option_Some(native_input["MacValid"])
+            if "MacValid" in native_input.keys()
+            else Option_None()
+        ),
+        MacAlgorithm=(
+            Option_Some(
+                com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_MacAlgorithmSpec(
+                    native_input["MacAlgorithm"]
+                )
+            )
+            if "MacAlgorithm" in native_input.keys()
+            else Option_None()
+        ),
     )

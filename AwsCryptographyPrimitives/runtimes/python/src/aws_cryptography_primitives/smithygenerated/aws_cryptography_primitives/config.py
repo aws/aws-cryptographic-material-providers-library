@@ -17,6 +17,8 @@ from smithy_python.interfaces.retries import RetryStrategy
 
 
 _ServiceInterceptor = Any
+
+
 @dataclass(init=False)
 class Config:
     """Configuration for AwsCryptographicPrimitives."""
@@ -46,8 +48,10 @@ class Config:
         self.retry_strategy = retry_strategy or SimpleRetryStrategy()
         self.dafnyImplInterface = dafnyImplInterface
 
+
 # A callable that allows customizing the config object on each request.
 Plugin: TypeAlias = Callable[[Config], None]
+
 
 class CryptoConfig(Config):
     """
@@ -56,23 +60,26 @@ class CryptoConfig(Config):
 
     def __init__(
         self,
-
     ):
-        """Constructor for CryptoConfig.
-
-        """
+        """Constructor for CryptoConfig."""
         super().__init__()
+
 
 def dafny_config_to_smithy_config(dafny_config) -> CryptoConfig:
     """
     Converts the provided Dafny shape for this localService's config
     into the corresponding Smithy-modelled shape.
     """
-    return aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy.aws_cryptography_primitives_CryptoConfig(dafny_config)
+    return aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.dafny_to_smithy.aws_cryptography_primitives_CryptoConfig(
+        dafny_config
+    )
+
 
 def smithy_config_to_dafny_config(smithy_config) -> DafnyCryptoConfig:
     """
     Converts the provided Smithy-modelled shape for this localService's config
     into the corresponding Dafny shape.
     """
-    return aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_CryptoConfig(smithy_config)
+    return aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.smithy_to_dafny.aws_cryptography_primitives_CryptoConfig(
+        smithy_config
+    )
