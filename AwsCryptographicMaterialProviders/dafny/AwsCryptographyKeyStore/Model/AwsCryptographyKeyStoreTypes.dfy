@@ -16,6 +16,13 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
 
   // Begin Generated Types
 
+  datatype ActiveHierarchicalSymmetricBeacon = | ActiveHierarchicalSymmetricBeacon (
+
+                                               )
+  datatype AwsKms = | AwsKms (
+    nameonly grantTokens: Option<GrantTokenList> := Option.None ,
+    nameonly kmsClient: Option<ComAmazonawsKmsTypes.IKMSClient> := Option.None
+  )
   datatype BeaconKeyMaterials = | BeaconKeyMaterials (
     nameonly beaconKeyIdentifier: string ,
     nameonly encryptionContext: EncryptionContext ,
@@ -28,6 +35,10 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly encryptionContext: EncryptionContext ,
     nameonly branchKey: Secret
   )
+  datatype BranchKeyType =
+    | ActiveHierarchicalSymmetricVersion(ActiveHierarchicalSymmetricVersion: string)
+    | HierarchicalSymmetricVersion(HierarchicalSymmetricVersion: string)
+    | ActiveHierarchicalSymmetricBeacon(ActiveHierarchicalSymmetricBeacon: ActiveHierarchicalSymmetricBeacon)
   datatype CreateKeyInput = | CreateKeyInput (
     nameonly branchKeyIdentifier: Option<string> := Option.None ,
     nameonly encryptionContext: Option<EncryptionContext> := Option.None
@@ -44,7 +55,250 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   datatype Discovery = | Discovery (
 
                        )
+  datatype DynamoDBTable = | DynamoDBTable (
+    nameonly ddbTableName: ComAmazonawsDynamodbTypes.TableName ,
+    nameonly ddbClient: Option<ComAmazonawsDynamodbTypes.IDynamoDBClient> := Option.None
+  )
+  datatype EncryptedHierarchicalKey = | EncryptedHierarchicalKey (
+    nameonly Identifier: string ,
+    nameonly Type: BranchKeyType ,
+    nameonly CreateTime: string ,
+    nameonly KmsArn: string ,
+    nameonly EncryptionContext: EncryptionContextString ,
+    nameonly CiphertextBlob: seq<uint8>
+  )
+  class IEncryptedKeyStoreCallHistory {
+    ghost constructor() {
+      WriteNewBranchKeyVersionToKeystore := [];
+      GetEncryptedActiveBranchKey := [];
+      GetTableName := [];
+      WriteNewKeyToStore := [];
+      GetEncryptedBranchKeyVersion := [];
+      GetEncryptedBeaconKey := [];
+    }
+    ghost var WriteNewBranchKeyVersionToKeystore: seq<DafnyCallEvent<WriteNewBranchKeyVersionToKeystoreInput, Result<WriteNewBranchKeyVersionToKeystoreOutput, Error>>>
+    ghost var GetEncryptedActiveBranchKey: seq<DafnyCallEvent<GetEncryptedActiveBranchKeyInput, Result<GetEncryptedActiveBranchKeyOutput, Error>>>
+    ghost var GetTableName: seq<DafnyCallEvent<GetTableNameInput, Result<GetTableNameOutput, Error>>>
+    ghost var WriteNewKeyToStore: seq<DafnyCallEvent<WriteNewKeyToStoreInput, Result<WriteNewKeyToStoreOutput, Error>>>
+    ghost var GetEncryptedBranchKeyVersion: seq<DafnyCallEvent<GetEncryptedBranchKeyVersionInput, Result<GetEncryptedBranchKeyVersionOutput, Error>>>
+    ghost var GetEncryptedBeaconKey: seq<DafnyCallEvent<GetEncryptedBeaconKeyInput, Result<GetEncryptedBeaconKeyOutput, Error>>>
+  }
+  trait {:termination false} IEncryptedKeyStore
+  {
+    // Helper to define any additional modifies/reads clauses.
+    // If your operations need to mutate state,
+    // add it in your constructor function:
+    // Modifies := {your, fields, here, History};
+    // If you do not need to mutate anything:
+    // Modifies := {History};
+
+    ghost const Modifies: set<object>
+    // For an unassigned field defined in a trait,
+    // Dafny can only assign a value in the constructor.
+    // This means that for Dafny to reason about this value,
+    // it needs some way to know (an invariant),
+    // about the state of the object.
+    // This builds on the Valid/Repr paradigm
+    // To make this kind requires safe to add
+    // to methods called from unverified code,
+    // the predicate MUST NOT take any arguments.
+    // This means that the correctness of this requires
+    // MUST only be evaluated by the class itself.
+    // If you require any additional mutation,
+    // then you MUST ensure everything you need in ValidState.
+    // You MUST also ensure ValidState in your constructor.
+    predicate ValidState()
+      ensures ValidState() ==> History in Modifies
+    ghost const History: IEncryptedKeyStoreCallHistory
+    predicate WriteNewBranchKeyVersionToKeystoreEnsuresPublicly(input: WriteNewBranchKeyVersionToKeystoreInput , output: Result<WriteNewBranchKeyVersionToKeystoreOutput, Error>)
+    // The public method to be called by library consumers
+    method WriteNewBranchKeyVersionToKeystore ( input: WriteNewBranchKeyVersionToKeystoreInput )
+      returns (output: Result<WriteNewBranchKeyVersionToKeystoreOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`WriteNewBranchKeyVersionToKeystore
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures WriteNewBranchKeyVersionToKeystoreEnsuresPublicly(input, output)
+      ensures History.WriteNewBranchKeyVersionToKeystore == old(History.WriteNewBranchKeyVersionToKeystore) + [DafnyCallEvent(input, output)]
+    {
+      output := WriteNewBranchKeyVersionToKeystore' (input);
+      History.WriteNewBranchKeyVersionToKeystore := History.WriteNewBranchKeyVersionToKeystore + [DafnyCallEvent(input, output)];
+    }
+    // The method to implement in the concrete class.
+    method WriteNewBranchKeyVersionToKeystore' ( input: WriteNewBranchKeyVersionToKeystoreInput )
+      returns (output: Result<WriteNewBranchKeyVersionToKeystoreOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History}
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures WriteNewBranchKeyVersionToKeystoreEnsuresPublicly(input, output)
+      ensures unchanged(History)
+
+    predicate GetEncryptedActiveBranchKeyEnsuresPublicly(input: GetEncryptedActiveBranchKeyInput , output: Result<GetEncryptedActiveBranchKeyOutput, Error>)
+    // The public method to be called by library consumers
+    method GetEncryptedActiveBranchKey ( input: GetEncryptedActiveBranchKeyInput )
+      returns (output: Result<GetEncryptedActiveBranchKeyOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`GetEncryptedActiveBranchKey
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures GetEncryptedActiveBranchKeyEnsuresPublicly(input, output)
+      ensures History.GetEncryptedActiveBranchKey == old(History.GetEncryptedActiveBranchKey) + [DafnyCallEvent(input, output)]
+    {
+      output := GetEncryptedActiveBranchKey' (input);
+      History.GetEncryptedActiveBranchKey := History.GetEncryptedActiveBranchKey + [DafnyCallEvent(input, output)];
+    }
+    // The method to implement in the concrete class.
+    method GetEncryptedActiveBranchKey' ( input: GetEncryptedActiveBranchKeyInput )
+      returns (output: Result<GetEncryptedActiveBranchKeyOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History}
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures GetEncryptedActiveBranchKeyEnsuresPublicly(input, output)
+      ensures unchanged(History)
+
+    predicate GetTableNameEnsuresPublicly(input: GetTableNameInput , output: Result<GetTableNameOutput, Error>)
+    // The public method to be called by library consumers
+    method GetTableName ( input: GetTableNameInput )
+      returns (output: Result<GetTableNameOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`GetTableName
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures GetTableNameEnsuresPublicly(input, output)
+      ensures History.GetTableName == old(History.GetTableName) + [DafnyCallEvent(input, output)]
+    {
+      output := GetTableName' (input);
+      History.GetTableName := History.GetTableName + [DafnyCallEvent(input, output)];
+    }
+    // The method to implement in the concrete class.
+    method GetTableName' ( input: GetTableNameInput )
+      returns (output: Result<GetTableNameOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History}
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures GetTableNameEnsuresPublicly(input, output)
+      ensures unchanged(History)
+
+    predicate WriteNewKeyToStoreEnsuresPublicly(input: WriteNewKeyToStoreInput , output: Result<WriteNewKeyToStoreOutput, Error>)
+    // The public method to be called by library consumers
+    method WriteNewKeyToStore ( input: WriteNewKeyToStoreInput )
+      returns (output: Result<WriteNewKeyToStoreOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`WriteNewKeyToStore
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures WriteNewKeyToStoreEnsuresPublicly(input, output)
+      ensures History.WriteNewKeyToStore == old(History.WriteNewKeyToStore) + [DafnyCallEvent(input, output)]
+    {
+      output := WriteNewKeyToStore' (input);
+      History.WriteNewKeyToStore := History.WriteNewKeyToStore + [DafnyCallEvent(input, output)];
+    }
+    // The method to implement in the concrete class.
+    method WriteNewKeyToStore' ( input: WriteNewKeyToStoreInput )
+      returns (output: Result<WriteNewKeyToStoreOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History}
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures WriteNewKeyToStoreEnsuresPublicly(input, output)
+      ensures unchanged(History)
+
+    predicate GetEncryptedBranchKeyVersionEnsuresPublicly(input: GetEncryptedBranchKeyVersionInput , output: Result<GetEncryptedBranchKeyVersionOutput, Error>)
+    // The public method to be called by library consumers
+    method GetEncryptedBranchKeyVersion ( input: GetEncryptedBranchKeyVersionInput )
+      returns (output: Result<GetEncryptedBranchKeyVersionOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`GetEncryptedBranchKeyVersion
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures GetEncryptedBranchKeyVersionEnsuresPublicly(input, output)
+      ensures History.GetEncryptedBranchKeyVersion == old(History.GetEncryptedBranchKeyVersion) + [DafnyCallEvent(input, output)]
+    {
+      output := GetEncryptedBranchKeyVersion' (input);
+      History.GetEncryptedBranchKeyVersion := History.GetEncryptedBranchKeyVersion + [DafnyCallEvent(input, output)];
+    }
+    // The method to implement in the concrete class.
+    method GetEncryptedBranchKeyVersion' ( input: GetEncryptedBranchKeyVersionInput )
+      returns (output: Result<GetEncryptedBranchKeyVersionOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History}
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures GetEncryptedBranchKeyVersionEnsuresPublicly(input, output)
+      ensures unchanged(History)
+
+    predicate GetEncryptedBeaconKeyEnsuresPublicly(input: GetEncryptedBeaconKeyInput , output: Result<GetEncryptedBeaconKeyOutput, Error>)
+    // The public method to be called by library consumers
+    method GetEncryptedBeaconKey ( input: GetEncryptedBeaconKeyInput )
+      returns (output: Result<GetEncryptedBeaconKeyOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`GetEncryptedBeaconKey
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures GetEncryptedBeaconKeyEnsuresPublicly(input, output)
+      ensures History.GetEncryptedBeaconKey == old(History.GetEncryptedBeaconKey) + [DafnyCallEvent(input, output)]
+    {
+      output := GetEncryptedBeaconKey' (input);
+      History.GetEncryptedBeaconKey := History.GetEncryptedBeaconKey + [DafnyCallEvent(input, output)];
+    }
+    // The method to implement in the concrete class.
+    method GetEncryptedBeaconKey' ( input: GetEncryptedBeaconKeyInput )
+      returns (output: Result<GetEncryptedBeaconKeyOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History}
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures GetEncryptedBeaconKeyEnsuresPublicly(input, output)
+      ensures unchanged(History)
+
+  }
   type EncryptionContext = map<Utf8Bytes, Utf8Bytes>
+  type EncryptionContextString = map<string, string>
   datatype GetActiveBranchKeyInput = | GetActiveBranchKeyInput (
     nameonly branchKeyIdentifier: string
   )
@@ -64,15 +318,42 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   datatype GetBranchKeyVersionOutput = | GetBranchKeyVersionOutput (
     nameonly branchKeyMaterials: BranchKeyMaterials
   )
+  datatype GetEncryptedActiveBranchKeyInput = | GetEncryptedActiveBranchKeyInput (
+    nameonly Identifier: string
+  )
+  datatype GetEncryptedActiveBranchKeyOutput = | GetEncryptedActiveBranchKeyOutput (
+    nameonly Item: EncryptedHierarchicalKey
+  )
+  datatype GetEncryptedBeaconKeyInput = | GetEncryptedBeaconKeyInput (
+    nameonly Identifier: string
+  )
+  datatype GetEncryptedBeaconKeyOutput = | GetEncryptedBeaconKeyOutput (
+    nameonly Item: EncryptedHierarchicalKey
+  )
+  datatype GetEncryptedBranchKeyVersionInput = | GetEncryptedBranchKeyVersionInput (
+    nameonly Identifier: string ,
+    nameonly Version: string
+  )
+  datatype GetEncryptedBranchKeyVersionOutput = | GetEncryptedBranchKeyVersionOutput (
+    nameonly Item: EncryptedHierarchicalKey
+  )
   datatype GetKeyStoreInfoOutput = | GetKeyStoreInfoOutput (
     nameonly keyStoreId: string ,
-    nameonly keyStoreName: ComAmazonawsDynamodbTypes.TableName ,
+    nameonly keyStoreName: string ,
     nameonly logicalKeyStoreName: string ,
     nameonly grantTokens: GrantTokenList ,
     nameonly kmsConfiguration: KMSConfiguration
   )
+  datatype GetTableNameInput = | GetTableNameInput (
+
+                               )
+  datatype GetTableNameOutput = | GetTableNameOutput (
+    nameonly Name: Utf8Bytes
+  )
   type GrantTokenList = seq<string>
   type HmacKeyMap = map<string, Secret>
+  datatype KeyManagement =
+    | kms(kms: AwsKms)
   class IKeyStoreClientCallHistory {
     ghost constructor() {
       GetKeyStoreInfo := [];
@@ -225,11 +506,13 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
 
   }
   datatype KeyStoreConfig = | KeyStoreConfig (
-    nameonly ddbTableName: ComAmazonawsDynamodbTypes.TableName ,
     nameonly kmsConfiguration: KMSConfiguration ,
     nameonly logicalKeyStoreName: string ,
+    nameonly keyManagement: Option<KeyManagement> := Option.None ,
+    nameonly ddbTableName: Option<ComAmazonawsDynamodbTypes.TableName> := Option.None ,
     nameonly id: Option<string> := Option.None ,
     nameonly grantTokens: Option<GrantTokenList> := Option.None ,
+    nameonly storage: Option<Storage> := Option.None ,
     nameonly ddbClient: Option<ComAmazonawsDynamodbTypes.IDynamoDBClient> := Option.None ,
     nameonly kmsClient: Option<ComAmazonawsKmsTypes.IKMSClient> := Option.None
   )
@@ -242,6 +525,9 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly region: ComAmazonawsKmsTypes.RegionType
   )
   type Secret = seq<uint8>
+  datatype Storage =
+    | ddb(ddb: DynamoDBTable)
+    | custom(custom: IEncryptedKeyStore)
   type Utf8Bytes = ValidUTF8Bytes
   datatype VersionKeyInput = | VersionKeyInput (
     nameonly branchKeyIdentifier: string
@@ -249,6 +535,22 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   datatype VersionKeyOutput = | VersionKeyOutput (
 
                               )
+  datatype WriteNewBranchKeyVersionToKeystoreInput = | WriteNewBranchKeyVersionToKeystoreInput (
+    nameonly Active: EncryptedHierarchicalKey ,
+    nameonly Version: EncryptedHierarchicalKey ,
+    nameonly oldActive: EncryptedHierarchicalKey
+  )
+  datatype WriteNewBranchKeyVersionToKeystoreOutput = | WriteNewBranchKeyVersionToKeystoreOutput (
+
+                                                      )
+  datatype WriteNewKeyToStoreInput = | WriteNewKeyToStoreInput (
+    nameonly Active: EncryptedHierarchicalKey ,
+    nameonly Version: EncryptedHierarchicalKey ,
+    nameonly Beacon: EncryptedHierarchicalKey
+  )
+  datatype WriteNewKeyToStoreOutput = | WriteNewKeyToStoreOutput (
+
+                                      )
   datatype Error =
       // Local Error structures are listed here
     | KeyStoreException (
@@ -299,11 +601,41 @@ abstract module AbstractAwsCryptographyKeyStoreService
                config.ddbClient.value.ValidState()
     requires config.kmsClient.Some? ==>
                config.kmsClient.value.ValidState()
+    requires config.storage.Some? ==>
+               config.storage.value.custom? ==>
+                 config.storage.value.custom.ValidState()
+    requires config.keyManagement.Some? ==>
+               config.keyManagement.value.kms? ==>
+                 config.keyManagement.value.kms.kmsClient.Some? ==>
+                   config.keyManagement.value.kms.kmsClient.value.ValidState()
+    requires config.storage.Some? ==>
+               config.storage.value.ddb? ==>
+                 config.storage.value.ddb.ddbClient.Some? ==>
+                   config.storage.value.ddb.ddbClient.value.ValidState()
     modifies if config.ddbClient.Some? then
                config.ddbClient.value.Modifies
              else {}
     modifies if config.kmsClient.Some? then
                config.kmsClient.value.Modifies
+             else {}
+    modifies if config.storage.Some? then
+               if config.storage.value.custom? then
+                 config.storage.value.custom.Modifies
+               else {}
+             else {}
+    modifies if config.keyManagement.Some? then
+               if config.keyManagement.value.kms? then
+                 if config.keyManagement.value.kms.kmsClient.Some? then
+                   config.keyManagement.value.kms.kmsClient.value.Modifies
+                 else {}
+               else {}
+             else {}
+    modifies if config.storage.Some? then
+               if config.storage.value.ddb? then
+                 if config.storage.value.ddb.ddbClient.Some? then
+                   config.storage.value.ddb.ddbClient.value.Modifies
+                 else {}
+               else {}
              else {}
     ensures res.Success? ==>
               && fresh(res.value)
@@ -314,6 +646,25 @@ abstract module AbstractAwsCryptographyKeyStoreService
                        ) - ( if config.kmsClient.Some? then
                                config.kmsClient.value.Modifies
                              else {}
+                       ) - ( if config.storage.Some? then
+                               if config.storage.value.custom? then
+                                 config.storage.value.custom.Modifies
+                               else {}
+                             else {}
+                       ) - ( if config.keyManagement.Some? then
+                               if config.keyManagement.value.kms? then
+                                 if config.keyManagement.value.kms.kmsClient.Some? then
+                                   config.keyManagement.value.kms.kmsClient.value.Modifies
+                                 else {}
+                               else {}
+                             else {}
+                       ) - ( if config.storage.Some? then
+                               if config.storage.value.ddb? then
+                                 if config.storage.value.ddb.ddbClient.Some? then
+                                   config.storage.value.ddb.ddbClient.value.Modifies
+                                 else {}
+                               else {}
+                             else {}
                        ) )
               && fresh(res.value.History)
               && res.value.ValidState()
@@ -321,6 +672,17 @@ abstract module AbstractAwsCryptographyKeyStoreService
               config.ddbClient.value.ValidState()
     ensures config.kmsClient.Some? ==>
               config.kmsClient.value.ValidState()
+    ensures config.storage.Some? ==>
+              config.storage.value.custom? ==>
+                config.storage.value.custom.ValidState()
+    ensures config.keyManagement.Some? ==>
+              config.keyManagement.value.kms? ==>
+                config.keyManagement.value.kms.kmsClient.Some? ==>
+                  config.keyManagement.value.kms.kmsClient.value.ValidState()
+    ensures config.storage.Some? ==>
+              config.storage.value.ddb? ==>
+                config.storage.value.ddb.ddbClient.Some? ==>
+                  config.storage.value.ddb.ddbClient.value.ValidState()
 
   // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
   function method CreateSuccessOfClient(client: IKeyStoreClient): Result<IKeyStoreClient, Error> {
