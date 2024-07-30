@@ -58,7 +58,7 @@ jobs:
           java-version: 17
 
       - name: Setup Dafny
-        uses: dafny-lang/setup-dafny-action@v1.6.1
+        uses: dafny-lang/setup-dafny-action@v1.7.2
         with:
           dafny-version: ${{ inputs.dafny }}
 
@@ -168,7 +168,7 @@ jobs:
           java-version: 17
 
       - name: Setup Dafny
-        uses: dafny-lang/setup-dafny-action@v1.6.1
+        uses: dafny-lang/setup-dafny-action@v1.7.2
         with:
           dafny-version: ${{ inputs.dafny }}
 
