@@ -5,11 +5,6 @@ CORES=2
 
 include ../SharedMakefileV2.mk
 
-PYTHON_MODULE_NAME=com_amazonaws_kms
-
-TRANSLATION_RECORD_PYTHON := \
-    --translation-record ../StandardLibrary/runtimes/python/src/standard_library/internaldafny/generated/dafny_src-py.dtr
-
 PROJECT_SERVICES := \
 	ComAmazonawsKms \
 
@@ -21,3 +16,10 @@ SMITHY_DEPS=model
 
 format_net:
 	pushd runtimes/net && dotnet format && popd
+
+# Python
+
+PYTHON_MODULE_NAME=com_amazonaws_kms
+
+TRANSLATION_RECORD_PYTHON := \
+    --translation-record ../StandardLibrary/runtimes/python/src/standard_library/internaldafny/generated/dafny_src-py.dtr
