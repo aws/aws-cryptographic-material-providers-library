@@ -11,8 +11,6 @@ PROJECT_SERVICES := \
 
 SERVICE_NAMESPACE_AwsCryptographicMaterialProviders=aws.cryptography.materialProviders
 SERVICE_NAMESPACE_AwsCryptographyKeyStore=aws.cryptography.keyStore
-# OUTPUT_LOCAL_SERVICE_AwsCryptographicMaterialProviders := --local-service-test
-# OUTPUT_LOCAL_SERVICE_AwsCryptographyKeyStore := --local-service-test
 
 MAX_RESOURCE_COUNT=90000000
 # Order is important
