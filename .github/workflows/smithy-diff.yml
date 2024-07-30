@@ -29,7 +29,7 @@ jobs:
         env:
           PR_NUMBER: ${{ github.event.number }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FILES: ${{ steps.file-changes.outputs.smithyFILES }}
+          smithyFILES: ${{ steps.file-changes.outputs.smithyFILES }}
         if: ${{env.FILES != ''}}
         run: |
           # TODO: If https://github.com/smithy-lang/smithy-dafny/issues/491 is resolved, remove comment about this issue.
