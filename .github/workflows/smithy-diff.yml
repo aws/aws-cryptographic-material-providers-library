@@ -30,7 +30,7 @@ jobs:
           PR_NUMBER: ${{ github.event.number }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           smithyFILES: ${{ steps.file-changes.outputs.smithyFILES }}
-        if: ${{env.FILES != ''}}
+        if: ${{env.smithyFILES != ''}}
         run: |
           # TODO: If https://github.com/smithy-lang/smithy-dafny/issues/491 is resolved, remove comment about this issue.
           COMMENT="@${{github.actor}}, I noticed you are updating the smithy model files.\nDoes this update need new or updated javadoc trait documentation?\n Are you adding constraints inside list, map or union? Do you know about this issue: https://github.com/smithy-lang/smithy-dafny/issues/491?"
