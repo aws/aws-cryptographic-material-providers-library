@@ -5,11 +5,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <IsPackable>true</IsPackable>
   
-<<<<<<< HEAD
-    <Version>1.4.0</Version>
-=======
     <Version>1.5.1</Version>
->>>>>>> main
     
     <AssemblyName>AWS.Cryptography.Internal.StandardLibrary</AssemblyName>
     <PackageId>AWS.Cryptography.Internal.StandardLibrary</PackageId>
