@@ -119,13 +119,9 @@ index 171a36d3..3964b7cb 100644
 +      return ToNative.Error((Error_Opaque) dafnyValue);
 +    }
 +    // TODO This should indicate a codegen bug
-<<<<<<< HEAD
-+    return new IllegalStateException("Unknown error recieved from DynamoDb.");
-=======
 +    return new IllegalStateException(
 +      String.format("Unknown error thrown while calling DDB. %s", dafnyValue)
 +    );
->>>>>>> main
 +  }
 +
 +  // END MANUAL EDIT
@@ -133,8 +129,6 @@ index 171a36d3..3964b7cb 100644
    public static DynamoDbClient DynamoDB_20120810(IDynamoDBClient dafnyValue) {
      return ((Shim) dafnyValue).impl();
    }
-<<<<<<< HEAD
-=======
 @@ -8054,17 +8174,9 @@ public class ToNative {
        return (DynamoDbException) dafnyValue.dtor_obj();
      } else if (dafnyValue.dtor_obj() instanceof Exception) {
@@ -155,4 +149,3 @@ index 171a36d3..3964b7cb 100644
      return new IllegalStateException(
        String.format(
          "Unknown error thrown while calling Amazon DynamoDB. %s",
->>>>>>> main

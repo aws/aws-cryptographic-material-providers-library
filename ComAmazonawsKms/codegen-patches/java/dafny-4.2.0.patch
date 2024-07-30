@@ -88,12 +88,9 @@ index 56979da2..59df5196 100644
 +        (Error_CloudHsmClusterNotRelatedException) dafnyValue
 +      );
 +    }
-<<<<<<< HEAD
-=======
 +    if (dafnyValue.is_ConflictException()) {
 +      return ToNative.Error((Error_ConflictException) dafnyValue);
 +    }
->>>>>>> main
 +    if (dafnyValue.is_CustomKeyStoreHasCMKsException()) {
 +      return ToNative.Error((Error_CustomKeyStoreHasCMKsException) dafnyValue);
 +    }
@@ -116,12 +113,9 @@ index 56979da2..59df5196 100644
 +    if (dafnyValue.is_DisabledException()) {
 +      return ToNative.Error((Error_DisabledException) dafnyValue);
 +    }
-<<<<<<< HEAD
-=======
 +    if (dafnyValue.is_DryRunOperationException()) {
 +      return ToNative.Error((Error_DryRunOperationException) dafnyValue);
 +    }
->>>>>>> main
 +    if (dafnyValue.is_ExpiredImportTokenException()) {
 +      return ToNative.Error((Error_ExpiredImportTokenException) dafnyValue);
 +    }
@@ -164,12 +158,9 @@ index 56979da2..59df5196 100644
 +    if (dafnyValue.is_KMSInternalException()) {
 +      return ToNative.Error((Error_KMSInternalException) dafnyValue);
 +    }
-<<<<<<< HEAD
-=======
 +    if (dafnyValue.is_KMSInvalidMacException()) {
 +      return ToNative.Error((Error_KMSInvalidMacException) dafnyValue);
 +    }
->>>>>>> main
 +    if (dafnyValue.is_KMSInvalidSignatureException()) {
 +      return ToNative.Error((Error_KMSInvalidSignatureException) dafnyValue);
 +    }
@@ -193,20 +184,6 @@ index 56979da2..59df5196 100644
 +    if (dafnyValue.is_UnsupportedOperationException()) {
 +      return ToNative.Error((Error_UnsupportedOperationException) dafnyValue);
 +    }
-<<<<<<< HEAD
-+    if (dafnyValue.is_Opaque()) {
-+      return ToNative.Error((Error_Opaque) dafnyValue);
-+    }
-+    // TODO This should indicate a codegen bug
-+    return new IllegalStateException("Unknown error recieved from KMS.");
-+  }
-+
-+  // END MANUAL EDIT
-+
-   public static KmsClient TrentService(IKMSClient dafnyValue) {
-     return ((Shim) dafnyValue).impl();
-   }
-=======
 +    if (dafnyValue.is_XksKeyAlreadyInUseException()) {
 +      return ToNative.Error((Error_XksKeyAlreadyInUseException) dafnyValue);
 +    }
@@ -294,4 +271,3 @@ index 56979da2..59df5196 100644
      return new IllegalStateException(
        String.format(
          "Unknown error thrown while calling AWS Key Management Service. %s",
->>>>>>> main
