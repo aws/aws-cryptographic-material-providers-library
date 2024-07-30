@@ -1,5 +1,5 @@
-# This workflow performs MPL Java release
-name: MPL-Release-Java
+# This workflow WOULD perform MPL Java release
+name: TODO-MPL-Release-Java
 
 on:
   workflow_call:

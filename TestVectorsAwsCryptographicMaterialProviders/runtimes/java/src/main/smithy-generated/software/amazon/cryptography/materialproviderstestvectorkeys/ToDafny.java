@@ -129,6 +129,16 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
         nativeValue.recipientKeyId()
       );
+    DafnySequence<? extends Character> senderPublicKey;
+    senderPublicKey =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.senderPublicKey()
+      );
+    DafnySequence<? extends Character> recipientPublicKey;
+    recipientPublicKey =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.recipientPublicKey()
+      );
     DafnySequence<? extends Character> curveSpec;
     curveSpec =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
@@ -142,6 +152,8 @@ public class ToDafny {
     return new KmsEcdhKeyring(
       senderKeyId,
       recipientKeyId,
+      senderPublicKey,
+      recipientPublicKey,
       curveSpec,
       keyAgreementScheme
     );
@@ -256,6 +268,16 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
         nativeValue.recipientKeyId()
       );
+    DafnySequence<? extends Character> senderPublicKey;
+    senderPublicKey =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.senderPublicKey()
+      );
+    DafnySequence<? extends Character> recipientPublicKey;
+    recipientPublicKey =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.recipientPublicKey()
+      );
     DafnySequence<? extends Character> providerId;
     providerId =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
@@ -274,6 +296,8 @@ public class ToDafny {
     return new RawEcdh(
       senderKeyId,
       recipientKeyId,
+      senderPublicKey,
+      recipientPublicKey,
       providerId,
       curveSpec,
       keyAgreementScheme

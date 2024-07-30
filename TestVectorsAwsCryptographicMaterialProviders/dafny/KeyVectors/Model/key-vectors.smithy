@@ -1,6 +1,5 @@
 namespace aws.cryptography.materialProvidersTestVectorKeys
 
-/////////////
 // KeyVectors Creation
 @aws.polymorph#localService(
   sdkId: "KeyVectors",
@@ -148,6 +147,10 @@ structure RawEcdh {
   @required
   recipientKeyId: String,
   @required
+  senderPublicKey: String,
+  @required
+  recipientPublicKey: String,
+  @required
   providerId: String,
   @required
   curveSpec: String,
@@ -172,6 +175,10 @@ structure KmsEcdhKeyring {
   senderKeyId: String,
   @required
   recipientKeyId: String,
+  @required
+  senderPublicKey: String,
+  @required
+  recipientPublicKey: String,
   @required
   curveSpec: String,
   @required

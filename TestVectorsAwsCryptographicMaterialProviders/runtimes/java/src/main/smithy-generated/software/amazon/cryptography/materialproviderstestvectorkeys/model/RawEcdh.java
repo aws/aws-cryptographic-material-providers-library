@@ -11,6 +11,10 @@ public class RawEcdh {
 
   private final String recipientKeyId;
 
+  private final String senderPublicKey;
+
+  private final String recipientPublicKey;
+
   private final String providerId;
 
   private final String curveSpec;
@@ -20,6 +24,8 @@ public class RawEcdh {
   protected RawEcdh(BuilderImpl builder) {
     this.senderKeyId = builder.senderKeyId();
     this.recipientKeyId = builder.recipientKeyId();
+    this.senderPublicKey = builder.senderPublicKey();
+    this.recipientPublicKey = builder.recipientPublicKey();
     this.providerId = builder.providerId();
     this.curveSpec = builder.curveSpec();
     this.keyAgreementScheme = builder.keyAgreementScheme();
@@ -31,6 +37,14 @@ public class RawEcdh {
 
   public String recipientKeyId() {
     return this.recipientKeyId;
+  }
+
+  public String senderPublicKey() {
+    return this.senderPublicKey;
+  }
+
+  public String recipientPublicKey() {
+    return this.recipientPublicKey;
   }
 
   public String providerId() {
@@ -62,6 +76,14 @@ public class RawEcdh {
 
     String recipientKeyId();
 
+    Builder senderPublicKey(String senderPublicKey);
+
+    String senderPublicKey();
+
+    Builder recipientPublicKey(String recipientPublicKey);
+
+    String recipientPublicKey();
+
     Builder providerId(String providerId);
 
     String providerId();
@@ -83,6 +105,10 @@ public class RawEcdh {
 
     protected String recipientKeyId;
 
+    protected String senderPublicKey;
+
+    protected String recipientPublicKey;
+
     protected String providerId;
 
     protected String curveSpec;
@@ -94,6 +120,8 @@ public class RawEcdh {
     protected BuilderImpl(RawEcdh model) {
       this.senderKeyId = model.senderKeyId();
       this.recipientKeyId = model.recipientKeyId();
+      this.senderPublicKey = model.senderPublicKey();
+      this.recipientPublicKey = model.recipientPublicKey();
       this.providerId = model.providerId();
       this.curveSpec = model.curveSpec();
       this.keyAgreementScheme = model.keyAgreementScheme();
@@ -115,6 +143,24 @@ public class RawEcdh {
 
     public String recipientKeyId() {
       return this.recipientKeyId;
+    }
+
+    public Builder senderPublicKey(String senderPublicKey) {
+      this.senderPublicKey = senderPublicKey;
+      return this;
+    }
+
+    public String senderPublicKey() {
+      return this.senderPublicKey;
+    }
+
+    public Builder recipientPublicKey(String recipientPublicKey) {
+      this.recipientPublicKey = recipientPublicKey;
+      return this;
+    }
+
+    public String recipientPublicKey() {
+      return this.recipientPublicKey;
     }
 
     public Builder providerId(String providerId) {
@@ -153,6 +199,16 @@ public class RawEcdh {
       if (Objects.isNull(this.recipientKeyId())) {
         throw new IllegalArgumentException(
           "Missing value for required field `recipientKeyId`"
+        );
+      }
+      if (Objects.isNull(this.senderPublicKey())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `senderPublicKey`"
+        );
+      }
+      if (Objects.isNull(this.recipientPublicKey())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `recipientPublicKey`"
         );
       }
       if (Objects.isNull(this.providerId())) {

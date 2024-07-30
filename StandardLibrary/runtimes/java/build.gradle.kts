@@ -45,7 +45,6 @@ if (!caPasswordString.isNullOrBlank()) {
 
 repositories {
     mavenCentral()
-    mavenLocal()
     if (caUrl != null && caPassword != null) {
         maven {
             name = "CodeArtifact"
@@ -73,7 +72,7 @@ publishing {
         artifactId = "StandardLibrary"
         from(components["java"])
     }
-    repositories { mavenLocal() }
+    repositories { mavenLocal()}
 }
 
 tasks.withType<JavaCompile>() {

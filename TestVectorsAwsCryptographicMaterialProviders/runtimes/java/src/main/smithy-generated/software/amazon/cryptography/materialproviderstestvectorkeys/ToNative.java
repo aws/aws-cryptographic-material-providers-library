@@ -148,6 +148,16 @@ public class ToNative {
         dafnyValue.dtor_recipientKeyId()
       )
     );
+    nativeBuilder.senderPublicKey(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_senderPublicKey()
+      )
+    );
+    nativeBuilder.recipientPublicKey(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_recipientPublicKey()
+      )
+    );
     nativeBuilder.curveSpec(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
         dafnyValue.dtor_curveSpec()
@@ -270,6 +280,16 @@ public class ToNative {
     nativeBuilder.recipientKeyId(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
         dafnyValue.dtor_recipientKeyId()
+      )
+    );
+    nativeBuilder.senderPublicKey(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_senderPublicKey()
+      )
+    );
+    nativeBuilder.recipientPublicKey(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_recipientPublicKey()
       )
     );
     nativeBuilder.providerId(

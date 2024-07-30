@@ -20,6 +20,9 @@
 // We model all the files and the runtimes here in this structure
 const Runtimes = {
   java: {
+    "project.properties": {
+      dependencies: [],
+    },
     "AwsCryptographicMaterialProviders/runtimes/java/build.gradle.kts": {
       dependencies: [],
     },
@@ -83,12 +86,18 @@ module.exports = {
           // Does not update the dependencies
           {
             files: Object.keys(Runtimes.java),
+            from: 'mplVersion=".*"',
+            to: 'mplVersion="${nextRelease.version}"',
+            results: Object.keys(Runtimes.java).map(CheckResults),
+            countMatches: true,
+          },
+          {
+            files: Object.keys(Runtimes.java),
             from: 'version = ".*"',
             to: 'version = "${nextRelease.version}"',
             results: Object.keys(Runtimes.java).map(CheckResults),
             countMatches: true,
           },
-
           // Now update the Gradle Java  dependencies
           ...Object.entries(Runtimes.java).flatMap(([file, { dependencies }]) =>
             dependencies.map((dependency) => ({

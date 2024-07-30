@@ -126,7 +126,6 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
         this.senderPrivateKey := PrimitiveTypes.ECCPrivateKey(pem := []);
         this.compressedSenderPublicKey := [];
       }
-      this.cryptoPrimitives := cryptoPrimitives;
 
       History := new Types.IKeyringCallHistory();
       Modifies := {History};
@@ -541,7 +540,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
         && Materials.DecryptionMaterialsTransitionIsValid(materials, res.value)
 
     }
-    method {:vcs_split_on_every_assert} {:only} Invoke(
+    method {:vcs_split_on_every_assert} Invoke(
       edk: Types.EncryptedDataKey,
       ghost attemptsState: seq<ActionInvoke<Types.EncryptedDataKey, Result<Materials.SealedDecryptionMaterials, Types.Error>>>
     ) returns (res: Result<Materials.SealedDecryptionMaterials, Types.Error>)
