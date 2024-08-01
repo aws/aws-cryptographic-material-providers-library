@@ -14,7 +14,7 @@ module TestAwsCryptographyPrimitivesHKDF {
     // https://tools.ietf.org/html/rfc5869#appendix-A
     // A.1.  Test Case 1 Basic test case with SHA-256
 
-    var hash := Primitives.Types.SHA_256;
+    var hashtype := Primitives.Types.SHA_256;
     var IKM := [
       11, 11, 11, 11, 11, 11, 11,
       11, 11, 11, 11, 11, 11, 11,
@@ -49,7 +49,7 @@ module TestAwsCryptographyPrimitivesHKDF {
 
     BasicExtractTest(
       Primitives.Types.HkdfExtractInput(
-        digestAlgorithm := hash,
+        digestAlgorithm := hashtype,
         salt := Some(salt),
         ikm := IKM
       ),
@@ -58,7 +58,7 @@ module TestAwsCryptographyPrimitivesHKDF {
 
     BasicExpandTest(
       Primitives.Types.HkdfExpandInput(
-        digestAlgorithm := hash,
+        digestAlgorithm := hashtype,
         prk := PRK,
         info := info,
         expectedLength := L
@@ -68,7 +68,7 @@ module TestAwsCryptographyPrimitivesHKDF {
 
     BasicHkdfTest(
       Primitives.Types.HkdfInput(
-        digestAlgorithm := hash,
+        digestAlgorithm := hashtype,
         salt := Some(salt),
         ikm := IKM,
         info := info,

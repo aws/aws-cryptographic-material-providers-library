@@ -31,7 +31,7 @@ module TestHKDF_Rfc5869TestVectors {
   //         34007208d5b887185865 (42 octets)
   const a1 := RFCTestVector(
                 name := "A.1.  Test Case 1",
-                hash := Primitives.Types.SHA_256,
+                hashtype := Primitives.Types.SHA_256,
                 IKM := [
                   11, 11, 11, 11, 11, 11, 11,
                   11, 11, 11, 11, 11, 11, 11,
@@ -96,7 +96,7 @@ module TestHKDF_Rfc5869TestVectors {
   //       1d87 (82 octets)
   const {:vcs_split_on_every_assert} a2 := RFCTestVector(
                                              name := "A.2.  Test Case 2",
-                                             hash := Primitives.Types.SHA_256,
+                                             hashtype := Primitives.Types.SHA_256,
                                              IKM := [
                                                0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11,
                                                12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
@@ -161,7 +161,7 @@ module TestHKDF_Rfc5869TestVectors {
   //       9d201395faa4b61a96c8 (42 octets)
   const a3 := RFCTestVector(
                 name := "A.3.  Test Case 3",
-                hash := Primitives.Types.SHA_256,
+                hashtype := Primitives.Types.SHA_256,
                 IKM := [
                   11, 11, 11, 11, 11, 11, 11,
                   11, 11, 11, 11, 11, 11, 11,
@@ -199,12 +199,12 @@ module TestHKDF_Rfc5869TestVectors {
   }
 
   method ExpectTestVector(vector: RFCTestVector) {
-    var RFCTestVector(name, hash, IKM, salt, info, L, PRK, OKM) := vector;
+    var RFCTestVector(name, hashtype, IKM, salt, info, L, PRK, OKM) := vector;
     print name + "\n";
 
     BasicExtractTest(
       Primitives.Types.HkdfExtractInput(
-        digestAlgorithm := hash,
+        digestAlgorithm := hashtype,
         salt := if |salt| > 0 then Some(salt) else None,
         ikm := IKM
       ),
@@ -213,7 +213,7 @@ module TestHKDF_Rfc5869TestVectors {
 
     BasicExpandTest(
       Primitives.Types.HkdfExpandInput(
-        digestAlgorithm := hash,
+        digestAlgorithm := hashtype,
         prk := PRK,
         info := info,
         expectedLength := L
@@ -223,7 +223,7 @@ module TestHKDF_Rfc5869TestVectors {
 
     BasicHkdfTest(
       Primitives.Types.HkdfInput(
-        digestAlgorithm := hash,
+        digestAlgorithm := hashtype,
         salt := if |salt| > 0 then Some(salt) else None,
         ikm := IKM,
         info := info,
@@ -235,7 +235,7 @@ module TestHKDF_Rfc5869TestVectors {
 
   datatype RFCTestVector = RFCTestVector(
     nameonly name: string,
-    nameonly hash: Primitives.Types.DigestAlgorithm,
+    nameonly hashtype: Primitives.Types.DigestAlgorithm,
     nameonly IKM: seq<uint8>,
     nameonly salt: seq<uint8>,
     nameonly info: seq<uint8>,
