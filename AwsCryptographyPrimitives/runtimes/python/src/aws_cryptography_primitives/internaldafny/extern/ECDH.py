@@ -321,9 +321,6 @@ class ECCUtils:
         return Wrappers.Result_Success(b"todo")
 
 
-
-
-
 class CustomECCAlgorithm(cryptography.hazmat.primitives.asymmetric.ec.EllipticCurve):
     def __init__(self, name, key_size):
         self.name = name
