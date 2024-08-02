@@ -82,6 +82,13 @@ TRANSLATION_RECORD_PYTHON := \
     --translation-record ../AwsCryptographyPrimitives/runtimes/python/src/aws_cryptography_primitives/internaldafny/generated/dafny_src-py.dtr \
 	--translation-record ../AwsCryptographicMaterialProviders/runtimes/python/src/aws_cryptographic_materialproviders/internaldafny/generated/dafny_src-py.dtr
 
+# Python
+
+# Override default test_python to run tox environment for Dafny tests
+test_python:
+	rm -rf runtimes/python/.tox
+	python3 -m tox -c runtimes/python -e dafnytests --verbose
+
 # Commands to generate and test test vectors
 test_generate_vectors_java:
 	gradle -p runtimes/java run --args="encrypt-manifest --encrypt-manifest-output ."

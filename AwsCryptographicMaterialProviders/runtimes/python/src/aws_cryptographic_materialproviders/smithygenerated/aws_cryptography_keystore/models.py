@@ -871,7 +871,10 @@ class KMSConfigurationDiscovery:
     the KMS Client, requests will Fail with KMS Exceptions.
     """
 
-    def __init__(self, value: Discovery):
+    def __init__(
+        self,
+        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.Discovery",
+    ):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -900,7 +903,10 @@ class KMSConfigurationMrDiscovery:
     is changed to the configured region.
     """
 
-    def __init__(self, value: MRDiscovery):
+    def __init__(
+        self,
+        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.MRDiscovery",
+    ):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:

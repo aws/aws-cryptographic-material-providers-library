@@ -774,7 +774,10 @@ class SerializeKeyDescriptionOutput:
 
 
 class KeyDescriptionKms:
-    def __init__(self, value: KMSInfo):
+    def __init__(
+        self,
+        value: "aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KMSInfo",
+    ):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -797,7 +800,10 @@ class KeyDescriptionKms:
 
 
 class KeyDescriptionKmsMrk:
-    def __init__(self, value: KmsMrkAware):
+    def __init__(
+        self,
+        value: "aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KmsMrkAware",
+    ):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -820,7 +826,10 @@ class KeyDescriptionKmsMrk:
 
 
 class KeyDescriptionKmsMrkDiscovery:
-    def __init__(self, value: KmsMrkAwareDiscovery):
+    def __init__(
+        self,
+        value: "aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KmsMrkAwareDiscovery",
+    ):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -845,7 +854,10 @@ class KeyDescriptionKmsMrkDiscovery:
 
 
 class KeyDescriptionRSA:
-    def __init__(self, value: RawRSA):
+    def __init__(
+        self,
+        value: "aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.RawRSA",
+    ):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -868,7 +880,10 @@ class KeyDescriptionRSA:
 
 
 class KeyDescriptionAES:
-    def __init__(self, value: RawAES):
+    def __init__(
+        self,
+        value: "aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.RawAES",
+    ):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -891,7 +906,10 @@ class KeyDescriptionAES:
 
 
 class KeyDescriptionECDH:
-    def __init__(self, value: RawEcdh):
+    def __init__(
+        self,
+        value: "aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.RawEcdh",
+    ):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -914,7 +932,10 @@ class KeyDescriptionECDH:
 
 
 class KeyDescriptionStatic:
-    def __init__(self, value: StaticKeyring):
+    def __init__(
+        self,
+        value: "aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.StaticKeyring",
+    ):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -937,7 +958,10 @@ class KeyDescriptionStatic:
 
 
 class KeyDescriptionKmsRsa:
-    def __init__(self, value: KmsRsaKeyring):
+    def __init__(
+        self,
+        value: "aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KmsRsaKeyring",
+    ):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -960,7 +984,10 @@ class KeyDescriptionKmsRsa:
 
 
 class KeyDescriptionKmsECDH:
-    def __init__(self, value: KmsEcdhKeyring):
+    def __init__(
+        self,
+        value: "aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.KmsEcdhKeyring",
+    ):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -983,7 +1010,10 @@ class KeyDescriptionKmsECDH:
 
 
 class KeyDescriptionHierarchy:
-    def __init__(self, value: HierarchyKeyring):
+    def __init__(
+        self,
+        value: "aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.HierarchyKeyring",
+    ):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1006,7 +1036,10 @@ class KeyDescriptionHierarchy:
 
 
 class KeyDescriptionMulti:
-    def __init__(self, value: MultiKeyring):
+    def __init__(
+        self,
+        value: "aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.MultiKeyring",
+    ):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1029,7 +1062,10 @@ class KeyDescriptionMulti:
 
 
 class KeyDescriptionRequiredEncryptionContext:
-    def __init__(self, value: RequiredEncryptionContextCMM):
+    def __init__(
+        self,
+        value: "aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviderstestvectorkeys.models.RequiredEncryptionContextCMM",
+    ):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
