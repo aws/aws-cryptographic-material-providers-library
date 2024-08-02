@@ -16,6 +16,7 @@ import _dafny
 
 from aws_cryptography_primitives.internaldafny.generated.RSAEncryption import *
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption
+from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.errors import _smithy_error_to_dafny_error
 
 # No generated class to extend
 class RSA:
@@ -68,15 +69,22 @@ class RSA:
 
   @staticmethod
   def EncryptExtern(padding_mode, public_key_der, plaintext):
-    plaintext_bytes = bytes(plaintext)
-    public_key = load_pem_public_key(bytes(public_key_der))
+    try:
+      plaintext_bytes = bytes(plaintext)
+      public_key = load_pem_public_key(bytes(public_key_der))
 
-    ct = public_key.encrypt(
-        plaintext_bytes,
-        RSA.GetPaddingForPaddingMode(padding_mode)
-    )
+      ct = public_key.encrypt(
+          plaintext_bytes,
+          RSA.GetPaddingForPaddingMode(padding_mode)
+      )
 
-    return Wrappers.Result_Success(_dafny.Seq(ct))
+      return Wrappers.Result_Success(_dafny.Seq(ct))
+    except Exception as e:
+      return Wrappers.Result_Failure(
+        _smithy_error_to_dafny_error(
+          e
+        )
+      )
 
   @staticmethod
   def DecryptExtern(padding_mode, private_key_der, ciphertext):
@@ -88,10 +96,14 @@ class RSA:
           ciphertext_bytes,
           RSA.GetPaddingForPaddingMode(padding_mode)
       )
-    except ValueError as ve:
-      return Wrappers.Result_Failure(_dafny.Seq(str(ve)))
 
-    return Wrappers.Result_Success(_dafny.Seq(pt))
+      return Wrappers.Result_Success(_dafny.Seq(pt))
+    except Exception as e:
+      return Wrappers.Result_Failure(
+        _smithy_error_to_dafny_error(
+          e
+        )
+      )
 
   @staticmethod
   def GetRSAKeyModulusLengthExtern(public_key_pem):
