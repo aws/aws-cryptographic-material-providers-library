@@ -93,8 +93,8 @@ class RSA:
 
     try:
       pt = private_key.decrypt(
-          ciphertext_bytes,
-          RSA.GetPaddingForPaddingMode(padding_mode)
+        ciphertext_bytes,
+        RSA.GetPaddingForPaddingMode(padding_mode)
       )
 
       return Wrappers.Result_Success(_dafny.Seq(pt))
