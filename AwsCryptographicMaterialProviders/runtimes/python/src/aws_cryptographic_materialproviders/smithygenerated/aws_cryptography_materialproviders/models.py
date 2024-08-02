@@ -328,10 +328,7 @@ class None_:
 
 
 class DerivationAlgorithmHKDF:
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.HKDF",
-    ):
+    def __init__(self, value: "HKDF"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -354,10 +351,7 @@ class DerivationAlgorithmHKDF:
 
 
 class DerivationAlgorithmIDENTITY:
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.IDENTITY",
-    ):
+    def __init__(self, value: "IDENTITY"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -380,10 +374,7 @@ class DerivationAlgorithmIDENTITY:
 
 
 class DerivationAlgorithmNone:
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.None_",
-    ):
+    def __init__(self, value: "None_"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -479,10 +470,7 @@ class DIRECT_KEY_WRAPPING:
 
 
 class EncryptAES_GCM:
-    def __init__(
-        self,
-        value: "aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.models.AES_GCM",
-    ):
+    def __init__(self, value: "AES_GCM"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -609,10 +597,7 @@ class IntermediateKeyWrapping:
 
 
 class EdkWrappingAlgorithmDIRECT_KEY_WRAPPING:
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DIRECT_KEY_WRAPPING",
-    ):
+    def __init__(self, value: "DIRECT_KEY_WRAPPING"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -637,10 +622,7 @@ class EdkWrappingAlgorithmDIRECT_KEY_WRAPPING:
 
 
 class EdkWrappingAlgorithmIntermediateKeyWrapping:
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.IntermediateKeyWrapping",
-    ):
+    def __init__(self, value: "IntermediateKeyWrapping"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -756,10 +738,7 @@ class ECDSA:
 
 
 class SignatureAlgorithmECDSA:
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.ECDSA",
-    ):
+    def __init__(self, value: "ECDSA"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -782,10 +761,7 @@ class SignatureAlgorithmECDSA:
 
 
 class SignatureAlgorithmNone:
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.None_",
-    ):
+    def __init__(self, value: "None_"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -871,10 +847,7 @@ class SymmetricSignatureAlgorithmHMAC:
 
 
 class SymmetricSignatureAlgorithmNone:
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.None_",
-    ):
+    def __init__(self, value: "None_"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1627,10 +1600,7 @@ class KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery:
     ONLY configuration.
     """
 
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.KmsPublicKeyDiscoveryInput",
-    ):
+    def __init__(self, value: "KmsPublicKeyDiscoveryInput"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1661,10 +1631,7 @@ class KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery:
 class KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey:
     """Inputs for creating a KmsPrivateKeyToStaticPublicKey Configuration."""
 
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.KmsPrivateKeyToStaticPublicKeyInput",
-    ):
+    def __init__(self, value: "KmsPrivateKeyToStaticPublicKeyInput"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -2257,10 +2224,7 @@ class StormTrackingCache:
 class CacheTypeDefault:
     """The best choice for most situations. Probably a StormTrackingCache."""
 
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DefaultCache",
-    ):
+    def __init__(self, value: "DefaultCache"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -2285,10 +2249,7 @@ class CacheTypeDefault:
 class CacheTypeNo:
     """Nothing should ever be cached."""
 
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.NoCache",
-    ):
+    def __init__(self, value: "NoCache"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -2313,10 +2274,7 @@ class CacheTypeNo:
 class CacheTypeSingleThreaded:
     """A cache that is NOT safe for use in a multi threaded environment."""
 
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.SingleThreadedCache",
-    ):
+    def __init__(self, value: "SingleThreadedCache"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -2345,10 +2303,7 @@ class CacheTypeMultiThreaded:
     functionality.
     """
 
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.MultiThreadedCache",
-    ):
+    def __init__(self, value: "MultiThreadedCache"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -2376,10 +2331,7 @@ class CacheTypeStormTracking:
     prevent redundant or overly parallel backend calls.
     """
 
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.StormTrackingCache",
-    ):
+    def __init__(self, value: "StormTrackingCache"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -3785,10 +3737,7 @@ class RawPrivateKeyToStaticPublicKeyInput:
 class RawEcdhStaticConfigurationsPublicKeyDiscovery:
     """Inputs for creating a PublicKeyDiscovery Configuration."""
 
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.PublicKeyDiscoveryInput",
-    ):
+    def __init__(self, value: "PublicKeyDiscoveryInput"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -3815,10 +3764,7 @@ class RawEcdhStaticConfigurationsPublicKeyDiscovery:
 class RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey:
     """Inputs for creating a RawPrivateKeyToStaticPublicKey Configuration."""
 
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.RawPrivateKeyToStaticPublicKeyInput",
-    ):
+    def __init__(self, value: "RawPrivateKeyToStaticPublicKeyInput"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -3851,10 +3797,7 @@ class RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey:
 class RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey:
     """Inputs for creating a EphemeralPrivateKeyToStaticPublicKey Configuration."""
 
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EphemeralPrivateKeyToStaticPublicKeyInput",
-    ):
+    def __init__(self, value: "EphemeralPrivateKeyToStaticPublicKeyInput"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4656,10 +4599,7 @@ class EncryptionMaterials:
 
 
 class MaterialsEncryption:
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.EncryptionMaterials",
-    ):
+    def __init__(self, value: "EncryptionMaterials"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4682,10 +4622,7 @@ class MaterialsEncryption:
 
 
 class MaterialsDecryption:
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.models.DecryptionMaterials",
-    ):
+    def __init__(self, value: "DecryptionMaterials"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4708,10 +4645,7 @@ class MaterialsDecryption:
 
 
 class MaterialsBranchKey:
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.BranchKeyMaterials",
-    ):
+    def __init__(self, value: "BranchKeyMaterials"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -4734,10 +4668,7 @@ class MaterialsBranchKey:
 
 
 class MaterialsBeaconKey:
-    def __init__(
-        self,
-        value: "aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models.BeaconKeyMaterials",
-    ):
+    def __init__(self, value: "BeaconKeyMaterials"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
