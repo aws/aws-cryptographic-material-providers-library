@@ -107,9 +107,16 @@ class RSA:
 
   @staticmethod
   def GetRSAKeyModulusLengthExtern(public_key_pem):
-    public_key = load_pem_public_key(bytes(public_key_pem))
-    modulus_bit_length = public_key.key_size
-    return Wrappers.Result_Success(modulus_bit_length)
+    try:
+      public_key = load_pem_public_key(bytes(public_key_pem))
+      modulus_bit_length = public_key.key_size
+      return Wrappers.Result_Success(modulus_bit_length)
+    except Exception as e:
+      return Wrappers.Result_Failure(
+        _smithy_error_to_dafny_error(
+          e
+        )
+      )
 
 # Export extern class into the generated module
 aws_cryptography_primitives.internaldafny.generated.RSAEncryption.RSA = RSA
