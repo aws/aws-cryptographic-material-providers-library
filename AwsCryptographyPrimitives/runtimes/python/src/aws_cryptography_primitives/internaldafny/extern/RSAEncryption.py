@@ -74,8 +74,8 @@ class RSA:
       public_key = load_pem_public_key(bytes(public_key_der))
 
       ct = public_key.encrypt(
-          plaintext_bytes,
-          RSA.GetPaddingForPaddingMode(padding_mode)
+        plaintext_bytes,
+        RSA.GetPaddingForPaddingMode(padding_mode)
       )
 
       return Wrappers.Result_Success(_dafny.Seq(ct))
