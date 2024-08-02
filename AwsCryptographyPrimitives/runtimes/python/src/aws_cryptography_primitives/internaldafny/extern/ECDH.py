@@ -278,16 +278,6 @@ class ECCUtils:
                 public_key.public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
             )
         )
-        
-        public_key_bytes = bytes(dafny_publicKeyDerBytes)
-        public_key = load_pem_public_key(public_key_bytes)
-        compressed_public_key = _ecc_encode_compressed_point_public_key(public_key)
-        return CreateExternCompressPublicKeySuccess(
-            _dafny.Seq(
-                compressed_public_key
-            )
-        )
-
     
     # We should've made this a test-only extern
     def GetInfinityPublicKey(dafny_eccAlgorithm):
@@ -326,6 +316,9 @@ class ECCUtils:
                 encoded_public_key
             )
         )
+    
+    def GetOutOfBoundsPublicKey(dafny_curve):
+        return Wrappers.Result_Success(b"todo")
 
 
 
