@@ -66,20 +66,20 @@ module TestECDH {
   // Known value out of bounds public keys.
   // These MUST fail with a known error message when loaded by the crypto provider.
   const ECC_P256_PUBLIC_GP_FAIL_ON_LOAD :=
-                                "3059301306072a8648ce3d020106082a8648ce3d03010703420004fffffffffffffffff"
-                              + "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-                              + "ffffffffffffffffffffffffffffffffffffffffff"
+    "3059301306072a8648ce3d020106082a8648ce3d03010703420004fffffffffffffffff"
+    + "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    + "ffffffffffffffffffffffffffffffffffffffffff"
   const ECC_P384_PUBLIC_GP_FAIL_ON_LOAD :=
-                                "3076301006072a8648ce3d020106052b8104002203620004fffffffffffffffffffffff"
-                              + "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-                              + "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-                              + "fffffffffffffffffffffffffffff"
+    "3076301006072a8648ce3d020106052b8104002203620004fffffffffffffffffffffff"
+    + "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    + "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    + "fffffffffffffffffffffffffffff"
   const ECC_P521_PUBLIC_GP_FAIL_ON_LOAD :=
-                                "30819b301006072a8648ce3d020106052b810400230381860004ffffffffffffffffffff"
-                              + "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-                              + "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-                              + "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-                              + "ffffffffffffffffffffffffffffffffff"
+    "30819b301006072a8648ce3d020106052b810400230381860004ffffffffffffffffffff"
+    + "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    + "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    + "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    + "ffffffffffffffffffffffffffffffffff"
 
   // Known value infinity public keys.
   // These MUST fail when loaded by the crypto provider or when running extern NIST validation.
@@ -328,7 +328,7 @@ module TestECDH {
         )
       );
       expect validPublicKey.Failure?;
-      
+
       var errMsg := validPublicKey.error.message;
       expect (
           seq_contains(errMsg, OUT_OF_BOUNDS_ERR_MSG_JAVA) ||
