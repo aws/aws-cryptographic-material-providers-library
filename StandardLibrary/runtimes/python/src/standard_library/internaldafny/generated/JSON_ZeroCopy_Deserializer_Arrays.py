@@ -89,101 +89,101 @@ class default__:
 
     @staticmethod
     def Array(cs, json):
-        d_790_valueOrError0_ = default__.Bracketed(cs, json)
-        if (d_790_valueOrError0_).IsFailure():
-            return (d_790_valueOrError0_).PropagateFailure()
+        d_786_valueOrError0_ = default__.Bracketed(cs, json)
+        if (d_786_valueOrError0_).IsFailure():
+            return (d_786_valueOrError0_).PropagateFailure()
         elif True:
-            d_791_sp_ = (d_790_valueOrError0_).Extract()
-            return Wrappers.Result_Success(d_791_sp_)
+            d_787_sp_ = (d_786_valueOrError0_).Extract()
+            return Wrappers.Result_Success(d_787_sp_)
 
     @staticmethod
     def Open(cs):
-        d_792_valueOrError0_ = (cs).AssertByte(JSON_ZeroCopy_Deserializer_ArrayParams.default__.OPEN)
-        if (d_792_valueOrError0_).IsFailure():
-            return (d_792_valueOrError0_).PropagateFailure()
+        d_788_valueOrError0_ = (cs).AssertByte(JSON_ZeroCopy_Deserializer_ArrayParams.default__.OPEN)
+        if (d_788_valueOrError0_).IsFailure():
+            return (d_788_valueOrError0_).PropagateFailure()
         elif True:
-            d_793_cs_ = (d_792_valueOrError0_).Extract()
-            return Wrappers.Result_Success((d_793_cs_).Split())
+            d_789_cs_ = (d_788_valueOrError0_).Extract()
+            return Wrappers.Result_Success((d_789_cs_).Split())
 
     @staticmethod
     def Close(cs):
-        d_794_valueOrError0_ = (cs).AssertByte(JSON_ZeroCopy_Deserializer_ArrayParams.default__.CLOSE)
-        if (d_794_valueOrError0_).IsFailure():
-            return (d_794_valueOrError0_).PropagateFailure()
+        d_790_valueOrError0_ = (cs).AssertByte(JSON_ZeroCopy_Deserializer_ArrayParams.default__.CLOSE)
+        if (d_790_valueOrError0_).IsFailure():
+            return (d_790_valueOrError0_).PropagateFailure()
         elif True:
-            d_795_cs_ = (d_794_valueOrError0_).Extract()
-            return Wrappers.Result_Success((d_795_cs_).Split())
+            d_791_cs_ = (d_790_valueOrError0_).Extract()
+            return Wrappers.Result_Success((d_791_cs_).Split())
 
     @staticmethod
     def BracketedFromParts(open, elems, close):
-        d_796_sp_ = JSON_Utils_Cursors.Split_SP(JSON_Grammar.Bracketed_Bracketed((open).t, (elems).t, (close).t), (close).cs)
-        return d_796_sp_
+        d_792_sp_ = JSON_Utils_Cursors.Split_SP(JSON_Grammar.Bracketed_Bracketed((open).t, (elems).t, (close).t), (close).cs)
+        return d_792_sp_
 
     @staticmethod
     def AppendWithSuffix(elems, elem, sep):
-        d_797_suffixed_ = JSON_Grammar.Suffixed_Suffixed((elem).t, JSON_Grammar.Maybe_NonEmpty((sep).t))
-        d_798_elems_k_ = JSON_Utils_Cursors.Split_SP(((elems).t) + (_dafny.Seq([d_797_suffixed_])), (sep).cs)
-        return d_798_elems_k_
+        d_793_suffixed_ = JSON_Grammar.Suffixed_Suffixed((elem).t, JSON_Grammar.Maybe_NonEmpty((sep).t))
+        d_794_elems_k_ = JSON_Utils_Cursors.Split_SP(((elems).t) + (_dafny.Seq([d_793_suffixed_])), (sep).cs)
+        return d_794_elems_k_
 
     @staticmethod
     def AppendLast(elems, elem, sep):
-        d_799_suffixed_ = JSON_Grammar.Suffixed_Suffixed((elem).t, JSON_Grammar.Maybe_Empty())
-        d_800_elems_k_ = JSON_Utils_Cursors.Split_SP(((elems).t) + (_dafny.Seq([d_799_suffixed_])), (elem).cs)
-        return d_800_elems_k_
+        d_795_suffixed_ = JSON_Grammar.Suffixed_Suffixed((elem).t, JSON_Grammar.Maybe_Empty())
+        d_796_elems_k_ = JSON_Utils_Cursors.Split_SP(((elems).t) + (_dafny.Seq([d_795_suffixed_])), (elem).cs)
+        return d_796_elems_k_
 
     @staticmethod
     def Elements(json, open, elems):
         while True:
             with _dafny.label():
-                d_801_valueOrError0_ = JSON_ZeroCopy_Deserializer_ArrayParams.default__.Element((elems).cs, json)
-                if (d_801_valueOrError0_).IsFailure():
-                    return (d_801_valueOrError0_).PropagateFailure()
+                d_797_valueOrError0_ = JSON_ZeroCopy_Deserializer_ArrayParams.default__.Element((elems).cs, json)
+                if (d_797_valueOrError0_).IsFailure():
+                    return (d_797_valueOrError0_).PropagateFailure()
                 elif True:
-                    d_802_elem_ = (d_801_valueOrError0_).Extract()
-                    if ((d_802_elem_).cs).EOF_q:
+                    d_798_elem_ = (d_797_valueOrError0_).Extract()
+                    if ((d_798_elem_).cs).EOF_q:
                         return Wrappers.Result_Failure(JSON_Utils_Cursors.CursorError_EOF())
                     elif True:
-                        d_803_sep_ = JSON_ZeroCopy_Deserializer_Core.default__.TryStructural((d_802_elem_).cs)
-                        d_804_s0_ = (((d_803_sep_).t).t).Peek()
-                        if ((d_804_s0_) == (default__.SEPARATOR)) and (((((d_803_sep_).t).t).Length()) == (1)):
-                            d_805_sep_ = d_803_sep_
-                            d_806_elems_ = default__.AppendWithSuffix(elems, d_802_elem_, d_805_sep_)
+                        d_799_sep_ = JSON_ZeroCopy_Deserializer_Core.default__.TryStructural((d_798_elem_).cs)
+                        d_800_s0_ = (((d_799_sep_).t).t).Peek()
+                        if ((d_800_s0_) == (default__.SEPARATOR)) and (((((d_799_sep_).t).t).Length()) == (1)):
+                            d_801_sep_ = d_799_sep_
+                            d_802_elems_ = default__.AppendWithSuffix(elems, d_798_elem_, d_801_sep_)
                             in229_ = json
                             in230_ = open
-                            in231_ = d_806_elems_
+                            in231_ = d_802_elems_
                             json = in229_
                             open = in230_
                             elems = in231_
                             raise _dafny.TailCall()
-                        elif ((d_804_s0_) == (JSON_ZeroCopy_Deserializer_ArrayParams.default__.CLOSE)) and (((((d_803_sep_).t).t).Length()) == (1)):
-                            d_807_sep_ = d_803_sep_
-                            d_808_elems_k_ = default__.AppendLast(elems, d_802_elem_, d_807_sep_)
-                            d_809_bracketed_ = default__.BracketedFromParts(open, d_808_elems_k_, d_807_sep_)
-                            return Wrappers.Result_Success(d_809_bracketed_)
+                        elif ((d_800_s0_) == (JSON_ZeroCopy_Deserializer_ArrayParams.default__.CLOSE)) and (((((d_799_sep_).t).t).Length()) == (1)):
+                            d_803_sep_ = d_799_sep_
+                            d_804_elems_k_ = default__.AppendLast(elems, d_798_elem_, d_803_sep_)
+                            d_805_bracketed_ = default__.BracketedFromParts(open, d_804_elems_k_, d_803_sep_)
+                            return Wrappers.Result_Success(d_805_bracketed_)
                         elif True:
-                            d_810_separator_ = default__.SEPARATOR
-                            d_811_pr_ = Wrappers.Result_Failure(JSON_Utils_Cursors.CursorError_ExpectingAnyByte(_dafny.Seq([JSON_ZeroCopy_Deserializer_ArrayParams.default__.CLOSE, d_810_separator_]), d_804_s0_))
-                            return d_811_pr_
+                            d_806_separator_ = default__.SEPARATOR
+                            d_807_pr_ = Wrappers.Result_Failure(JSON_Utils_Cursors.CursorError_ExpectingAnyByte(_dafny.Seq([JSON_ZeroCopy_Deserializer_ArrayParams.default__.CLOSE, d_806_separator_]), d_800_s0_))
+                            return d_807_pr_
                 break
 
     @staticmethod
     def Bracketed(cs, json):
-        d_812_valueOrError0_ = JSON_ZeroCopy_Deserializer_Core.default__.Structural(cs, JSON_Utils_Parsers.Parser___Parser(default__.Open))
-        if (d_812_valueOrError0_).IsFailure():
-            return (d_812_valueOrError0_).PropagateFailure()
+        d_808_valueOrError0_ = JSON_ZeroCopy_Deserializer_Core.default__.Structural(cs, JSON_Utils_Parsers.Parser___Parser(default__.Open))
+        if (d_808_valueOrError0_).IsFailure():
+            return (d_808_valueOrError0_).PropagateFailure()
         elif True:
-            d_813_open_ = (d_812_valueOrError0_).Extract()
-            d_814_elems_ = JSON_Utils_Cursors.Split_SP(_dafny.Seq([]), (d_813_open_).cs)
-            if (((d_813_open_).cs).Peek()) == (JSON_ZeroCopy_Deserializer_ArrayParams.default__.CLOSE):
-                d_815_p_ = JSON_Utils_Parsers.Parser___Parser(default__.Close)
-                d_816_valueOrError1_ = JSON_ZeroCopy_Deserializer_Core.default__.Structural((d_813_open_).cs, d_815_p_)
-                if (d_816_valueOrError1_).IsFailure():
-                    return (d_816_valueOrError1_).PropagateFailure()
+            d_809_open_ = (d_808_valueOrError0_).Extract()
+            d_810_elems_ = JSON_Utils_Cursors.Split_SP(_dafny.Seq([]), (d_809_open_).cs)
+            if (((d_809_open_).cs).Peek()) == (JSON_ZeroCopy_Deserializer_ArrayParams.default__.CLOSE):
+                d_811_p_ = JSON_Utils_Parsers.Parser___Parser(default__.Close)
+                d_812_valueOrError1_ = JSON_ZeroCopy_Deserializer_Core.default__.Structural((d_809_open_).cs, d_811_p_)
+                if (d_812_valueOrError1_).IsFailure():
+                    return (d_812_valueOrError1_).PropagateFailure()
                 elif True:
-                    d_817_close_ = (d_816_valueOrError1_).Extract()
-                    return Wrappers.Result_Success(default__.BracketedFromParts(d_813_open_, d_814_elems_, d_817_close_))
+                    d_813_close_ = (d_812_valueOrError1_).Extract()
+                    return Wrappers.Result_Success(default__.BracketedFromParts(d_809_open_, d_810_elems_, d_813_close_))
             elif True:
-                return default__.Elements(json, d_813_open_, d_814_elems_)
+                return default__.Elements(json, d_809_open_, d_810_elems_)
 
     @_dafny.classproperty
     def SpecViewOpen(instance):

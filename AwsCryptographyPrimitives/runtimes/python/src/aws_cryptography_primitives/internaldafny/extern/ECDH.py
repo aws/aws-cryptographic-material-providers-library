@@ -54,7 +54,11 @@ from cryptography.hazmat.primitives.serialization import PublicFormat
 
 from cryptography.hazmat.primitives.asymmetric.ec import EllipticCurvePublicKey
 
-
+CURVE_TO_ECC_SECRET_LENGTH_MAP = {
+    "secp256r1": int(256 / 8),
+    "secpP384r1": int(384 / 8),
+    "secpP521r1": int(521 / 8 + 1)
+}
 
         
 from pyasn1.type import univ, namedtype
@@ -282,7 +286,7 @@ class ECCUtils:
         
         if curve.name != "SM2": # ?? magic string? what?
             try:
-                print(f"{public_key_bytes=}")
+                # print(f"{public_key_bytes=}")
                 if not ECCUtils.ValidatePublicKeyIsNotInfinityDER(public_key_bytes):
                 # if not ECCUtils.ValidatePublicKeyIsNotInfinity(public_key.public_numbers()):
                     return CreateExternValidatePublicKeyError(
@@ -293,7 +297,7 @@ class ECCUtils:
                         )
                     )
         
-                print("loading public key")
+                # print("loading public key")
                 public_key = load_der_public_key(public_key_bytes)
                 public_key_curve_name = public_key.curve.name
                 if not (public_key_curve_name == curve.name):
@@ -311,8 +315,8 @@ class ECCUtils:
                     valid_public_key
                 )
             except Exception as e:
-                print(e)
-                print(type(e))
+                # print(e)
+                # print(type(e))
                 return CreateExternValidatePublicKeyError(
                     _smithy_error_to_dafny_error(
                         AwsCryptographicPrimitivesError(
@@ -385,101 +389,75 @@ class ECCUtils:
                 maybe_ecc_algorithm.error
             )
         
-        # curve = maybe_ecc_algorithm.value
-        
-        # public_key_der = ec.generate_private_key(
-        #     curve.value
-        # ).public_key().public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
-
-        # asn1_public_key_der =
-
-
-        inf_public_numbers = EllipticCurvePublicNumbers(x=0, y=0, curve=ec.SECP256R1())
-        # public_key = inf_public_numbers.public_key(backend=default_backend())
-
         # Manually create the ASN.1 encoded public key
         from pyasn1.type.univ import Sequence, BitString, ObjectIdentifier
         from pyasn1.codec.der.encoder import encode as der_encode
         from pyasn1.codec.der.decoder import decode as der_decode
 
-        # generate a random public/private key
+        # generate a random public/private key to get valid alg_info
         private_key = ec.generate_private_key(
             maybe_ecc_algorithm.value.value
         )
         public_key_der = private_key.public_key().public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
-        public_key_point_bytes = private_key.public_key().public_bytes(Encoding.X962, PublicFormat.UncompressedPoint)
-        # input(f"{public_key_point_bytes=}")
-        # input(f"{len(public_key_point_bytes)=}")
-        inf_public_key_point_bytes = b"\x00"
-        # input(f"{inf_public_key_point_bytes=}")
-        # input(f"{len(inf_public_key_point_bytes)=}")
+
         alg_info_seq, _ = der_decode(public_key_der, asn1Spec=Sequence())
-        # input(f"{alg_info_seq.getComponentByPosition(0)=}")
-        # input(f"{alg_info_seq.getComponentByPosition(1)=}")
         alg_info = alg_info_seq.getComponentByPosition(0)
-        input(f"{alg_info=}")
-        # Build a pub key with the point at infinity defined as a 1 byte zero array
-
-        # generate random point on curve
-        import os
-        curve = private_key.curve
-        field_size = curve.key_size // 8
-        random_x = int.from_bytes(os.urandom(field_size), byteorder='big')
-        random_y = int.from_bytes(os.urandom(field_size), byteorder='big')
-        random_x = random_x % (1 << field_size * 8)
-        random_y = random_y % (1 << field_size * 8)
-        random_point_bytes = b'\x04' + random_x.to_bytes(field_size, byteorder='big') + random_y.to_bytes(field_size, byteorder='big')
-        random_point_bitstring = BitString.fromOctetString(inf_public_key_point_bytes)
-
         
-        point_at_infinity = der_encode(BitString.fromOctetString(b'\x00'))
-        enc_point = BitString.fromOctetString(point_at_infinity)
-        input(f"{point_at_infinity=}")
+        # inf point defined as 1 byte of 0s
+        point_at_infinity = BitString.fromOctetString(b'\x00')
+
         seq = Sequence()
         seq.setComponentByPosition(0, alg_info)
-        seq.setComponentByPosition(1, enc_point)
-        # input(f"{seq.getComponentByPosition(0)=}")
-        # input(f"{seq.getComponentByPosition(1)=}")
-        # input(f"{der_encode(seq)=}")
-        # input(f"orig {public_key_der=}")
-        # return der_encode(seq)
+        seq.setComponentByPosition(1, point_at_infinity)
 
-    
-
-        # ec_public_key_info = Sequence()
-        # ec_public_key_info.setComponentByPosition(0, ObjectIdentifier('1.2.840.10045.2.1'))  # id-ecPublicKey
-        # # todo others?
-        # ec_public_key_info.setComponentByPosition(1, ObjectIdentifier('1.2.840.10045.3.1.7'))  # prime256v1 (SECP256R1)
-        # ec_point_bitstring = BitString.fromOctetString(b'\x01' * 32 + b'\x01' * 32)
-        # ec_public_key_sequence = Sequence()
-        # ec_public_key_sequence.setComponentByPosition(0, ec_public_key_info)
-        # ec_public_key_sequence.setComponentByPosition(1, ec_point_bitstring)
-
-        # import binascii
-        # public_key_bitstring = univ.BitString("'00000000'H")
-
-        # # Define the OID for the EC public key
-        # oid_ec_public_key = univ.ObjectIdentifier('1.2.840.10045.2.1')
-
-        # asn1_public_key = ECPublicKey()
-        # asn1_public_key.setComponentByName('algorithm', oid_ec_public_key)
-        # asn1_public_key.setComponentByName('publicKey', univ.BitString(public_key_bitstring))
-                
-        # # Encode the ASN.1 structure to DER
-        # encoded_public_key = der_encoder(asn1_public_key)     
-
-        # key = INF_PUBLIC_KEY_DER
-        
-        print("inf")
-          
         return CreateGetInfinityPublicKeySuccess(
             _dafny.Seq(
                 der_encode(seq)
             )
         )
     
-    def GetOutOfBoundsPublicKey(dafny_curve):
-        return Wrappers.Result_Success(b"todo")
+    def GetOutOfBoundsPublicKey(dafny_eccAlgorithm):
+        maybe_ecc_algorithm = ECCAlgorithms.eccAlgorithm(dafny_eccAlgorithm)
+        if maybe_ecc_algorithm.is_Failure:
+            return CreateGetInfinityPublicKeyError(
+                maybe_ecc_algorithm.error
+            )
+        
+        curve = maybe_ecc_algorithm.value
+        
+        # Manually create the ASN.1 encoded public key
+        from pyasn1.type.univ import Sequence, BitString, ObjectIdentifier
+        from pyasn1.codec.der.encoder import encode as der_encode
+        from pyasn1.codec.der.decoder import decode as der_decode
+
+        # generate a random public/private key to get valid alg_info
+        private_key = ec.generate_private_key(
+            maybe_ecc_algorithm.value.value
+        )
+        public_key_der = private_key.public_key().public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
+
+        alg_info_seq, _ = der_decode(public_key_der, asn1Spec=Sequence())
+        alg_info = alg_info_seq.getComponentByPosition(0)
+        # print(f"{alg_info_seq.getComponentByPosition(1)=}")
+
+        length = CURVE_TO_ECC_SECRET_LENGTH_MAP[curve.name]
+
+        out_of_bounds_point = b'\x04' + (b'\xFF' * (2 * length))
+        
+        # inf point defined as 1 byte of 0s
+        point_at_infinity = BitString.fromOctetString(out_of_bounds_point)
+
+        seq = Sequence()
+        seq.setComponentByPosition(0, alg_info)
+        seq.setComponentByPosition(1, point_at_infinity)
+
+        # print(f"{len(point_at_infinity)=}")
+
+        return CreateGetInfinityPublicKeySuccess(
+            _dafny.Seq(
+                der_encode(seq)
+            )
+        )
 
 
 class CustomECCAlgorithm(cryptography.hazmat.primitives.asymmetric.ec.EllipticCurve):

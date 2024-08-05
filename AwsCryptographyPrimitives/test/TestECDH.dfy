@@ -57,6 +57,11 @@ module TestECDH {
                            + "dcdea45a151f0b7babcb5d53f1d90d5be2db564997f01dfeb3a55a11058a6be49805"
                            + "e98f574e5a261534c5a685fcc86c2c6c0a2e93e942"
 
+  // const ECC_256_PUBLIC_INF := "3019301306072a8648ce3d020106082a8648ce3d03010703020000"
+  // const ECC_384_PUBLIC_INF := "3016301006072a8648ce3d020106052b8104002203020000"
+  // const ECC_521_PUBLIC_INF := "3016301006072a8648ce3d020106052b8104002303020000"
+
+
   const ECC_256_PUBLIC_INF := "3059301306072a864886f70d0106082a864886f70d03010703420004000000000000"
                               + "00000000000000000000000000000000000000000000000000000000000000000000"
                               + "00000000000000000000000000000000000000000000000000000000"
@@ -71,10 +76,7 @@ module TestECDH {
                               + "0000000000000000000000000000000000000000000000000000000000000000000000"
                               + "00000000000000000000000000000000000000000000"
 
-  const ECC_P256_PUBLIC_GP := "3059301306072a864886f70d0106082a864886f70d03010703420004000000000000000"
-                              + "00000000000000000000000000000000000000000000000000000000000000000000000"
-                              + "00000000000000000000000000000000000000000000000000000000000000000000000"
-                              + "000000001"
+  const ECC_P256_PUBLIC_GP := "3059301306072a8648ce3d020106082a8648ce3d03010703420004ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
   const ECC_P384_PUBLIC_GP := "3076301006072a864886f70d0106052b810400220362000400000000000000000000000"
                               + "00000000000000000000000000000000000000000000000000000000000000000000000"
                               + "00000000000000000000000000000000000000000000000000000000000000000000000"
@@ -91,7 +93,7 @@ module TestECDH {
   const INFINITY_POINT_ERR_MSG_JAVA := "encoded key spec not recognized: Point at infinity"
   const INFINITY_POINT_ERR_MSG_NET6 := "Point at infinity (Parameter 'q')"
   const INFINITY_POINT_ERR_MSG_NET48 := "Point at infinity\r\nParameter name: q"
-  const INFINITY_POINT_ERR_MSG_PYTHON := "Provided public key is the point at infinity."
+  const INFINITY_POINT_ERR_MSG_PYTHON := "('Unable to load EC key', [<OpenSSLError(code=134217832, lib=16, reason=104, reason_text=invalid form)>, <OpenSSLError(code=50331853, lib=6, reason=205, reason_text=keymgmt export failure)>])"
 
   const OUT_OF_BOUNDS_ERR_MSG_JAVA := "encoded key spec not recognized: x value invalid for"
   const OUT_OF_BOUNDS_ERR_MSG_NET6 := "value invalid for Fp field element (Parameter 'x')"
@@ -251,6 +253,7 @@ module TestECDH {
         )
       );
       expect validPublicKey.Failure?;
+      print(validPublicKey.error);
     }
   }
 
@@ -270,6 +273,7 @@ module TestECDH {
         )
       );
       expect validPublicKey.Failure?;
+      print(validPublicKey.error);
     }
   }
 
