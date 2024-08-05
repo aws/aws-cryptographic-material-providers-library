@@ -98,13 +98,13 @@ class default__:
 
     @staticmethod
     def ConcatBytes(ts, fT):
-        d_637___accumulator_ = _dafny.Seq([])
+        d_641___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (len(ts)) == (0):
-                    return (d_637___accumulator_) + (_dafny.Seq([]))
+                    return (d_641___accumulator_) + (_dafny.Seq([]))
                 elif True:
-                    d_637___accumulator_ = (d_637___accumulator_) + (fT((ts)[0]))
+                    d_641___accumulator_ = (d_641___accumulator_) + (fT((ts)[0]))
                     in224_ = _dafny.Seq((ts)[1::])
                     in225_ = fT
                     ts = in224_
@@ -150,9 +150,9 @@ class default__:
 
     @staticmethod
     def Object(obj):
-        def lambda48_(d_638_obj_):
-            def lambda49_(d_639_d_):
-                return default__.Member(d_639_d_)
+        def lambda48_(d_642_obj_):
+            def lambda49_(d_643_d_):
+                return default__.Member(d_643_d_)
 
             return lambda49_
 
@@ -160,9 +160,9 @@ class default__:
 
     @staticmethod
     def Array(arr):
-        def lambda50_(d_640_arr_):
-            def lambda51_(d_641_d_):
-                return default__.Item(d_641_d_)
+        def lambda50_(d_644_arr_):
+            def lambda51_(d_645_d_):
+                return default__.Item(d_645_d_)
 
             return lambda51_
 
@@ -174,33 +174,33 @@ class default__:
         unmatched18 = True
         if unmatched18:
             if source18_.is_Null:
-                d_642_n_ = source18_.n
+                d_646_n_ = source18_.n
                 unmatched18 = False
-                return default__.View(d_642_n_)
+                return default__.View(d_646_n_)
         if unmatched18:
             if source18_.is_Bool:
-                d_643_b_ = source18_.b
+                d_647_b_ = source18_.b
                 unmatched18 = False
-                return default__.View(d_643_b_)
+                return default__.View(d_647_b_)
         if unmatched18:
             if source18_.is_String:
-                d_644_str_ = source18_.str
+                d_648_str_ = source18_.str
                 unmatched18 = False
-                return default__.String(d_644_str_)
+                return default__.String(d_648_str_)
         if unmatched18:
             if source18_.is_Number:
-                d_645_num_ = source18_.num
+                d_649_num_ = source18_.num
                 unmatched18 = False
-                return default__.Number(d_645_num_)
+                return default__.Number(d_649_num_)
         if unmatched18:
             if source18_.is_Object:
-                d_646_obj_ = source18_.obj
+                d_650_obj_ = source18_.obj
                 unmatched18 = False
-                return default__.Object(d_646_obj_)
+                return default__.Object(d_650_obj_)
         if unmatched18:
-            d_647_arr_ = source18_.arr
+            d_651_arr_ = source18_.arr
             unmatched18 = False
-            return default__.Array(d_647_arr_)
+            return default__.Array(d_651_arr_)
         raise Exception("unexpected control point")
 
     @staticmethod

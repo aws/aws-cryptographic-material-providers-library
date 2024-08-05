@@ -85,55 +85,55 @@ class default__:
     @staticmethod
     def StringBody(cs):
         pr: Wrappers.Result = Wrappers.Result.default(JSON_Utils_Cursors.Cursor.default)()
-        d_704_escaped_: bool
-        d_704_escaped_ = False
+        d_708_escaped_: bool
+        d_708_escaped_ = False
         hi11_ = (cs).end
-        for d_705_point_k_ in range((cs).point, hi11_):
-            d_706_byte_: int
-            d_706_byte_ = ((cs).s)[d_705_point_k_]
-            if ((d_706_byte_) == (ord('\"'))) and (not(d_704_escaped_)):
-                pr = Wrappers.Result_Success(JSON_Utils_Cursors.Cursor___Cursor((cs).s, (cs).beg, d_705_point_k_, (cs).end))
+        for d_709_point_k_ in range((cs).point, hi11_):
+            d_710_byte_: int
+            d_710_byte_ = ((cs).s)[d_709_point_k_]
+            if ((d_710_byte_) == (ord('\"'))) and (not(d_708_escaped_)):
+                pr = Wrappers.Result_Success(JSON_Utils_Cursors.Cursor___Cursor((cs).s, (cs).beg, d_709_point_k_, (cs).end))
                 return pr
-            elif (d_706_byte_) == (ord('\\')):
-                d_704_escaped_ = not(d_704_escaped_)
+            elif (d_710_byte_) == (ord('\\')):
+                d_708_escaped_ = not(d_708_escaped_)
             elif True:
-                d_704_escaped_ = False
+                d_708_escaped_ = False
         pr = Wrappers.Result_Failure(JSON_Utils_Cursors.CursorError_EOF())
         return pr
         return pr
 
     @staticmethod
     def Quote(cs):
-        d_707_valueOrError0_ = (cs).AssertChar('\"')
-        if (d_707_valueOrError0_).IsFailure():
-            return (d_707_valueOrError0_).PropagateFailure()
+        d_711_valueOrError0_ = (cs).AssertChar('\"')
+        if (d_711_valueOrError0_).IsFailure():
+            return (d_711_valueOrError0_).PropagateFailure()
         elif True:
-            d_708_cs_ = (d_707_valueOrError0_).Extract()
-            return Wrappers.Result_Success((d_708_cs_).Split())
+            d_712_cs_ = (d_711_valueOrError0_).Extract()
+            return Wrappers.Result_Success((d_712_cs_).Split())
 
     @staticmethod
     def String(cs):
-        d_709_valueOrError0_ = default__.Quote(cs)
-        if (d_709_valueOrError0_).IsFailure():
-            return (d_709_valueOrError0_).PropagateFailure()
+        d_713_valueOrError0_ = default__.Quote(cs)
+        if (d_713_valueOrError0_).IsFailure():
+            return (d_713_valueOrError0_).PropagateFailure()
         elif True:
-            let_tmp_rhs14_ = (d_709_valueOrError0_).Extract()
-            d_710_lq_ = let_tmp_rhs14_.t
-            d_711_cs_ = let_tmp_rhs14_.cs
-            d_712_valueOrError1_ = default__.StringBody(d_711_cs_)
-            if (d_712_valueOrError1_).IsFailure():
-                return (d_712_valueOrError1_).PropagateFailure()
+            let_tmp_rhs14_ = (d_713_valueOrError0_).Extract()
+            d_714_lq_ = let_tmp_rhs14_.t
+            d_715_cs_ = let_tmp_rhs14_.cs
+            d_716_valueOrError1_ = default__.StringBody(d_715_cs_)
+            if (d_716_valueOrError1_).IsFailure():
+                return (d_716_valueOrError1_).PropagateFailure()
             elif True:
-                d_713_contents_ = (d_712_valueOrError1_).Extract()
-                let_tmp_rhs15_ = (d_713_contents_).Split()
-                d_714_contents_ = let_tmp_rhs15_.t
-                d_715_cs_ = let_tmp_rhs15_.cs
-                d_716_valueOrError2_ = default__.Quote(d_715_cs_)
-                if (d_716_valueOrError2_).IsFailure():
-                    return (d_716_valueOrError2_).PropagateFailure()
+                d_717_contents_ = (d_716_valueOrError1_).Extract()
+                let_tmp_rhs15_ = (d_717_contents_).Split()
+                d_718_contents_ = let_tmp_rhs15_.t
+                d_719_cs_ = let_tmp_rhs15_.cs
+                d_720_valueOrError2_ = default__.Quote(d_719_cs_)
+                if (d_720_valueOrError2_).IsFailure():
+                    return (d_720_valueOrError2_).PropagateFailure()
                 elif True:
-                    let_tmp_rhs16_ = (d_716_valueOrError2_).Extract()
-                    d_717_rq_ = let_tmp_rhs16_.t
-                    d_718_cs_ = let_tmp_rhs16_.cs
-                    return Wrappers.Result_Success(JSON_Utils_Cursors.Split_SP(JSON_Grammar.jstring_JString(d_710_lq_, d_714_contents_, d_717_rq_), d_718_cs_))
+                    let_tmp_rhs16_ = (d_720_valueOrError2_).Extract()
+                    d_721_rq_ = let_tmp_rhs16_.t
+                    d_722_cs_ = let_tmp_rhs16_.cs
+                    return Wrappers.Result_Success(JSON_Utils_Cursors.Split_SP(JSON_Grammar.jstring_JString(d_714_lq_, d_718_contents_, d_721_rq_), d_722_cs_))
 

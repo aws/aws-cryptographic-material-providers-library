@@ -69,7 +69,6 @@ class default__:
 
     @staticmethod
     def GenerateEccKeyPair(input):
-        import aws_cryptography_primitives
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.GenerateECCKeyPairOutput.default())()
         d_106_keyPair_: EccKeyPair
         d_107_valueOrError0_: Wrappers.Result = Wrappers.Result.default(EccKeyPair.default())()

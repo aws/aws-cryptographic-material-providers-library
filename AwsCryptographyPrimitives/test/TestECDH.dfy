@@ -91,6 +91,7 @@ module TestECDH {
   const INFINITY_POINT_ERR_MSG_JAVA := "encoded key spec not recognized: Point at infinity"
   const INFINITY_POINT_ERR_MSG_NET6 := "Point at infinity (Parameter 'q')"
   const INFINITY_POINT_ERR_MSG_NET48 := "Point at infinity\r\nParameter name: q"
+  const INFINITY_POINT_ERR_MSG_PYTHON := "Provided public key is the point at infinity."
 
   const OUT_OF_BOUNDS_ERR_MSG_JAVA := "encoded key spec not recognized: x value invalid for"
   const OUT_OF_BOUNDS_ERR_MSG_NET6 := "value invalid for Fp field element (Parameter 'x')"
@@ -411,7 +412,8 @@ module TestECDH {
       expect (
           errMsg == INFINITY_POINT_ERR_MSG_JAVA ||
           errMsg == INFINITY_POINT_ERR_MSG_NET6 ||
-          errMsg == INFINITY_POINT_ERR_MSG_NET48
+          errMsg == INFINITY_POINT_ERR_MSG_NET48 ||
+          errMsg == INFINITY_POINT_ERR_MSG_PYTHON
         );
     }
   }

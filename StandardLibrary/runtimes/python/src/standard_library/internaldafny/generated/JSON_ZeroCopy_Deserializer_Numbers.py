@@ -89,12 +89,12 @@ class default__:
 
     @staticmethod
     def NonEmptyDigits(cs):
-        d_719_sp_ = default__.Digits(cs)
-        d_720_valueOrError0_ = Wrappers.default__.Need(not(((d_719_sp_).t).Empty_q), JSON_Utils_Cursors.CursorError_OtherError(JSON_Errors.DeserializationError_EmptyNumber()))
-        if (d_720_valueOrError0_).IsFailure():
-            return (d_720_valueOrError0_).PropagateFailure()
+        d_723_sp_ = default__.Digits(cs)
+        d_724_valueOrError0_ = Wrappers.default__.Need(not(((d_723_sp_).t).Empty_q), JSON_Utils_Cursors.CursorError_OtherError(JSON_Errors.DeserializationError_EmptyNumber()))
+        if (d_724_valueOrError0_).IsFailure():
+            return (d_724_valueOrError0_).PropagateFailure()
         elif True:
-            return Wrappers.Result_Success(d_719_sp_)
+            return Wrappers.Result_Success(d_723_sp_)
 
     @staticmethod
     def NonZeroInt(cs):
@@ -102,94 +102,94 @@ class default__:
 
     @staticmethod
     def OptionalMinus(cs):
-        def lambda55_(d_721_c_):
-            return (d_721_c_) == (ord('-'))
+        def lambda55_(d_725_c_):
+            return (d_725_c_) == (ord('-'))
 
         return ((cs).SkipIf(lambda55_)).Split()
 
     @staticmethod
     def OptionalSign(cs):
-        def lambda56_(d_722_c_):
-            return ((d_722_c_) == (ord('-'))) or ((d_722_c_) == (ord('+')))
+        def lambda56_(d_726_c_):
+            return ((d_726_c_) == (ord('-'))) or ((d_726_c_) == (ord('+')))
 
         return ((cs).SkipIf(lambda56_)).Split()
 
     @staticmethod
     def TrimmedInt(cs):
-        def lambda57_(d_724_c_):
-            return (d_724_c_) == (ord('0'))
+        def lambda57_(d_728_c_):
+            return (d_728_c_) == (ord('0'))
 
-        d_723_sp_ = ((cs).SkipIf(lambda57_)).Split()
-        if ((d_723_sp_).t).Empty_q:
-            return default__.NonZeroInt((d_723_sp_).cs)
+        d_727_sp_ = ((cs).SkipIf(lambda57_)).Split()
+        if ((d_727_sp_).t).Empty_q:
+            return default__.NonZeroInt((d_727_sp_).cs)
         elif True:
-            return Wrappers.Result_Success(d_723_sp_)
+            return Wrappers.Result_Success(d_727_sp_)
 
     @staticmethod
     def Exp(cs):
-        def lambda58_(d_725_c_):
-            return ((d_725_c_) == (ord('e'))) or ((d_725_c_) == (ord('E')))
+        def lambda58_(d_729_c_):
+            return ((d_729_c_) == (ord('e'))) or ((d_729_c_) == (ord('E')))
 
         let_tmp_rhs17_ = ((cs).SkipIf(lambda58_)).Split()
-        d_726_e_ = let_tmp_rhs17_.t
-        d_727_cs_ = let_tmp_rhs17_.cs
-        if (d_726_e_).Empty_q:
-            return Wrappers.Result_Success(JSON_Utils_Cursors.Split_SP(JSON_Grammar.Maybe_Empty(), d_727_cs_))
+        d_730_e_ = let_tmp_rhs17_.t
+        d_731_cs_ = let_tmp_rhs17_.cs
+        if (d_730_e_).Empty_q:
+            return Wrappers.Result_Success(JSON_Utils_Cursors.Split_SP(JSON_Grammar.Maybe_Empty(), d_731_cs_))
         elif True:
-            let_tmp_rhs18_ = default__.OptionalSign(d_727_cs_)
-            d_728_sign_ = let_tmp_rhs18_.t
-            d_729_cs_ = let_tmp_rhs18_.cs
-            d_730_valueOrError0_ = default__.NonEmptyDigits(d_729_cs_)
-            if (d_730_valueOrError0_).IsFailure():
-                return (d_730_valueOrError0_).PropagateFailure()
+            let_tmp_rhs18_ = default__.OptionalSign(d_731_cs_)
+            d_732_sign_ = let_tmp_rhs18_.t
+            d_733_cs_ = let_tmp_rhs18_.cs
+            d_734_valueOrError0_ = default__.NonEmptyDigits(d_733_cs_)
+            if (d_734_valueOrError0_).IsFailure():
+                return (d_734_valueOrError0_).PropagateFailure()
             elif True:
-                let_tmp_rhs19_ = (d_730_valueOrError0_).Extract()
-                d_731_num_ = let_tmp_rhs19_.t
-                d_732_cs_ = let_tmp_rhs19_.cs
-                return Wrappers.Result_Success(JSON_Utils_Cursors.Split_SP(JSON_Grammar.Maybe_NonEmpty(JSON_Grammar.jexp_JExp(d_726_e_, d_728_sign_, d_731_num_)), d_732_cs_))
+                let_tmp_rhs19_ = (d_734_valueOrError0_).Extract()
+                d_735_num_ = let_tmp_rhs19_.t
+                d_736_cs_ = let_tmp_rhs19_.cs
+                return Wrappers.Result_Success(JSON_Utils_Cursors.Split_SP(JSON_Grammar.Maybe_NonEmpty(JSON_Grammar.jexp_JExp(d_730_e_, d_732_sign_, d_735_num_)), d_736_cs_))
 
     @staticmethod
     def Frac(cs):
-        def lambda59_(d_733_c_):
-            return (d_733_c_) == (ord('.'))
+        def lambda59_(d_737_c_):
+            return (d_737_c_) == (ord('.'))
 
         let_tmp_rhs20_ = ((cs).SkipIf(lambda59_)).Split()
-        d_734_period_ = let_tmp_rhs20_.t
-        d_735_cs_ = let_tmp_rhs20_.cs
-        if (d_734_period_).Empty_q:
-            return Wrappers.Result_Success(JSON_Utils_Cursors.Split_SP(JSON_Grammar.Maybe_Empty(), d_735_cs_))
+        d_738_period_ = let_tmp_rhs20_.t
+        d_739_cs_ = let_tmp_rhs20_.cs
+        if (d_738_period_).Empty_q:
+            return Wrappers.Result_Success(JSON_Utils_Cursors.Split_SP(JSON_Grammar.Maybe_Empty(), d_739_cs_))
         elif True:
-            d_736_valueOrError0_ = default__.NonEmptyDigits(d_735_cs_)
-            if (d_736_valueOrError0_).IsFailure():
-                return (d_736_valueOrError0_).PropagateFailure()
+            d_740_valueOrError0_ = default__.NonEmptyDigits(d_739_cs_)
+            if (d_740_valueOrError0_).IsFailure():
+                return (d_740_valueOrError0_).PropagateFailure()
             elif True:
-                let_tmp_rhs21_ = (d_736_valueOrError0_).Extract()
-                d_737_num_ = let_tmp_rhs21_.t
-                d_738_cs_ = let_tmp_rhs21_.cs
-                return Wrappers.Result_Success(JSON_Utils_Cursors.Split_SP(JSON_Grammar.Maybe_NonEmpty(JSON_Grammar.jfrac_JFrac(d_734_period_, d_737_num_)), d_738_cs_))
+                let_tmp_rhs21_ = (d_740_valueOrError0_).Extract()
+                d_741_num_ = let_tmp_rhs21_.t
+                d_742_cs_ = let_tmp_rhs21_.cs
+                return Wrappers.Result_Success(JSON_Utils_Cursors.Split_SP(JSON_Grammar.Maybe_NonEmpty(JSON_Grammar.jfrac_JFrac(d_738_period_, d_741_num_)), d_742_cs_))
 
     @staticmethod
     def NumberFromParts(minus, num, frac, exp):
-        d_739_sp_ = JSON_Utils_Cursors.Split_SP(JSON_Grammar.jnumber_JNumber((minus).t, (num).t, (frac).t, (exp).t), (exp).cs)
-        return d_739_sp_
+        d_743_sp_ = JSON_Utils_Cursors.Split_SP(JSON_Grammar.jnumber_JNumber((minus).t, (num).t, (frac).t, (exp).t), (exp).cs)
+        return d_743_sp_
 
     @staticmethod
     def Number(cs):
-        d_740_minus_ = default__.OptionalMinus(cs)
-        d_741_valueOrError0_ = default__.TrimmedInt((d_740_minus_).cs)
-        if (d_741_valueOrError0_).IsFailure():
-            return (d_741_valueOrError0_).PropagateFailure()
+        d_744_minus_ = default__.OptionalMinus(cs)
+        d_745_valueOrError0_ = default__.TrimmedInt((d_744_minus_).cs)
+        if (d_745_valueOrError0_).IsFailure():
+            return (d_745_valueOrError0_).PropagateFailure()
         elif True:
-            d_742_num_ = (d_741_valueOrError0_).Extract()
-            d_743_valueOrError1_ = default__.Frac((d_742_num_).cs)
-            if (d_743_valueOrError1_).IsFailure():
-                return (d_743_valueOrError1_).PropagateFailure()
+            d_746_num_ = (d_745_valueOrError0_).Extract()
+            d_747_valueOrError1_ = default__.Frac((d_746_num_).cs)
+            if (d_747_valueOrError1_).IsFailure():
+                return (d_747_valueOrError1_).PropagateFailure()
             elif True:
-                d_744_frac_ = (d_743_valueOrError1_).Extract()
-                d_745_valueOrError2_ = default__.Exp((d_744_frac_).cs)
-                if (d_745_valueOrError2_).IsFailure():
-                    return (d_745_valueOrError2_).PropagateFailure()
+                d_748_frac_ = (d_747_valueOrError1_).Extract()
+                d_749_valueOrError2_ = default__.Exp((d_748_frac_).cs)
+                if (d_749_valueOrError2_).IsFailure():
+                    return (d_749_valueOrError2_).PropagateFailure()
                 elif True:
-                    d_746_exp_ = (d_745_valueOrError2_).Extract()
-                    return Wrappers.Result_Success(default__.NumberFromParts(d_740_minus_, d_742_num_, d_744_frac_, d_746_exp_))
+                    d_750_exp_ = (d_749_valueOrError2_).Extract()
+                    return Wrappers.Result_Success(default__.NumberFromParts(d_744_minus_, d_746_num_, d_748_frac_, d_750_exp_))
 

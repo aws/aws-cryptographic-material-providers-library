@@ -83,38 +83,38 @@ class default__:
     @staticmethod
     def Serialize(js):
         rbs: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.pointer)()
-        d_648_writer_: JSON_Utils_Views_Writers.Writer__
-        d_648_writer_ = default__.Text(js)
-        d_649_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_649_valueOrError0_ = Wrappers.default__.Need((d_648_writer_).Unsaturated_q, JSON_Errors.SerializationError_OutOfMemory())
-        if (d_649_valueOrError0_).IsFailure():
-            rbs = (d_649_valueOrError0_).PropagateFailure()
+        d_652_writer_: JSON_Utils_Views_Writers.Writer__
+        d_652_writer_ = default__.Text(js)
+        d_653_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_653_valueOrError0_ = Wrappers.default__.Need((d_652_writer_).Unsaturated_q, JSON_Errors.SerializationError_OutOfMemory())
+        if (d_653_valueOrError0_).IsFailure():
+            rbs = (d_653_valueOrError0_).PropagateFailure()
             return rbs
-        d_650_bs_: _dafny.Array
+        d_654_bs_: _dafny.Array
         out24_: _dafny.Array
-        out24_ = (d_648_writer_).ToArray()
-        d_650_bs_ = out24_
-        rbs = Wrappers.Result_Success(d_650_bs_)
+        out24_ = (d_652_writer_).ToArray()
+        d_654_bs_ = out24_
+        rbs = Wrappers.Result_Success(d_654_bs_)
         return rbs
         return rbs
 
     @staticmethod
     def SerializeTo(js, dest):
         len: Wrappers.Result = Wrappers.Result.default(BoundedInts.uint32.default)()
-        d_651_writer_: JSON_Utils_Views_Writers.Writer__
-        d_651_writer_ = default__.Text(js)
-        d_652_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_652_valueOrError0_ = Wrappers.default__.Need((d_651_writer_).Unsaturated_q, JSON_Errors.SerializationError_OutOfMemory())
-        if (d_652_valueOrError0_).IsFailure():
-            len = (d_652_valueOrError0_).PropagateFailure()
+        d_655_writer_: JSON_Utils_Views_Writers.Writer__
+        d_655_writer_ = default__.Text(js)
+        d_656_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_656_valueOrError0_ = Wrappers.default__.Need((d_655_writer_).Unsaturated_q, JSON_Errors.SerializationError_OutOfMemory())
+        if (d_656_valueOrError0_).IsFailure():
+            len = (d_656_valueOrError0_).PropagateFailure()
             return len
-        d_653_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_653_valueOrError1_ = Wrappers.default__.Need(((d_651_writer_).length) <= ((dest).length(0)), JSON_Errors.SerializationError_OutOfMemory())
-        if (d_653_valueOrError1_).IsFailure():
-            len = (d_653_valueOrError1_).PropagateFailure()
+        d_657_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_657_valueOrError1_ = Wrappers.default__.Need(((d_655_writer_).length) <= ((dest).length(0)), JSON_Errors.SerializationError_OutOfMemory())
+        if (d_657_valueOrError1_).IsFailure():
+            len = (d_657_valueOrError1_).PropagateFailure()
             return len
-        (d_651_writer_).CopyTo(dest)
-        len = Wrappers.Result_Success((d_651_writer_).length)
+        (d_655_writer_).CopyTo(dest)
+        len = Wrappers.Result_Success((d_655_writer_).length)
         return len
         return len
 
@@ -124,9 +124,9 @@ class default__:
 
     @staticmethod
     def JSON(js, writer):
-        def lambda52_(d_654_js_):
-            def lambda53_(d_655_wr_):
-                return default__.Value((d_654_js_).t, d_655_wr_)
+        def lambda52_(d_658_js_):
+            def lambda53_(d_659_wr_):
+                return default__.Value((d_658_js_).t, d_659_wr_)
 
             return lambda53_
 
@@ -144,38 +144,38 @@ class default__:
         unmatched19 = True
         if unmatched19:
             if source19_.is_Null:
-                d_656_n_ = source19_.n
+                d_660_n_ = source19_.n
                 unmatched19 = False
-                return (pat_let_tv16_).Append(d_656_n_)
+                return (pat_let_tv16_).Append(d_660_n_)
         if unmatched19:
             if source19_.is_Bool:
-                d_657_b_ = source19_.b
+                d_661_b_ = source19_.b
                 unmatched19 = False
-                d_658_wr_ = (pat_let_tv17_).Append(d_657_b_)
-                return d_658_wr_
-        if unmatched19:
-            if source19_.is_String:
-                d_659_str_ = source19_.str
-                unmatched19 = False
-                d_660_wr_ = default__.String(d_659_str_, pat_let_tv18_)
-                return d_660_wr_
-        if unmatched19:
-            if source19_.is_Number:
-                d_661_num_ = source19_.num
-                unmatched19 = False
-                d_662_wr_ = default__.Number(d_661_num_, pat_let_tv19_)
+                d_662_wr_ = (pat_let_tv17_).Append(d_661_b_)
                 return d_662_wr_
         if unmatched19:
-            if source19_.is_Object:
-                d_663_obj_ = source19_.obj
+            if source19_.is_String:
+                d_663_str_ = source19_.str
                 unmatched19 = False
-                d_664_wr_ = default__.Object(d_663_obj_, pat_let_tv20_)
+                d_664_wr_ = default__.String(d_663_str_, pat_let_tv18_)
                 return d_664_wr_
         if unmatched19:
-            d_665_arr_ = source19_.arr
+            if source19_.is_Number:
+                d_665_num_ = source19_.num
+                unmatched19 = False
+                d_666_wr_ = default__.Number(d_665_num_, pat_let_tv19_)
+                return d_666_wr_
+        if unmatched19:
+            if source19_.is_Object:
+                d_667_obj_ = source19_.obj
+                unmatched19 = False
+                d_668_wr_ = default__.Object(d_667_obj_, pat_let_tv20_)
+                return d_668_wr_
+        if unmatched19:
+            d_669_arr_ = source19_.arr
             unmatched19 = False
-            d_666_wr_ = default__.Array(d_665_arr_, pat_let_tv21_)
-            return d_666_wr_
+            d_670_wr_ = default__.Array(d_669_arr_, pat_let_tv21_)
+            return d_670_wr_
         raise Exception("unexpected control point")
 
     @staticmethod
@@ -184,10 +184,10 @@ class default__:
 
     @staticmethod
     def Number(num, writer):
-        d_667_wr_ = ((writer).Append((num).minus)).Append((num).num)
-        d_668_wr_ = (((d_667_wr_).Append((((num).frac).t).period)).Append((((num).frac).t).num) if ((num).frac).is_NonEmpty else d_667_wr_)
-        d_669_wr_ = ((((d_668_wr_).Append((((num).exp).t).e)).Append((((num).exp).t).sign)).Append((((num).exp).t).num) if ((num).exp).is_NonEmpty else d_668_wr_)
-        return d_669_wr_
+        d_671_wr_ = ((writer).Append((num).minus)).Append((num).num)
+        d_672_wr_ = (((d_671_wr_).Append((((num).frac).t).period)).Append((((num).frac).t).num) if ((num).frac).is_NonEmpty else d_671_wr_)
+        d_673_wr_ = ((((d_672_wr_).Append((((num).exp).t).e)).Append((((num).exp).t).sign)).Append((((num).exp).t).num) if ((num).exp).is_NonEmpty else d_672_wr_)
+        return d_673_wr_
 
     @staticmethod
     def StructuralView(st, writer):
@@ -195,17 +195,17 @@ class default__:
 
     @staticmethod
     def Object(obj, writer):
-        d_670_wr_ = default__.StructuralView((obj).l, writer)
-        d_671_wr_ = default__.Members(obj, d_670_wr_)
-        d_672_wr_ = default__.StructuralView((obj).r, d_671_wr_)
-        return d_672_wr_
+        d_674_wr_ = default__.StructuralView((obj).l, writer)
+        d_675_wr_ = default__.Members(obj, d_674_wr_)
+        d_676_wr_ = default__.StructuralView((obj).r, d_675_wr_)
+        return d_676_wr_
 
     @staticmethod
     def Array(arr, writer):
-        d_673_wr_ = default__.StructuralView((arr).l, writer)
-        d_674_wr_ = default__.Items(arr, d_673_wr_)
-        d_675_wr_ = default__.StructuralView((arr).r, d_674_wr_)
-        return d_675_wr_
+        d_677_wr_ = default__.StructuralView((arr).l, writer)
+        d_678_wr_ = default__.Items(arr, d_677_wr_)
+        d_679_wr_ = default__.StructuralView((arr).r, d_678_wr_)
+        return d_679_wr_
 
     @staticmethod
     def Members(obj, writer):
@@ -227,35 +227,35 @@ class default__:
     def MembersImpl(obj, writer):
         wr: JSON_Utils_Views_Writers.Writer__ = JSON_Utils_Views_Writers.Writer.default()
         wr = writer
-        d_676_members_: _dafny.Seq
-        d_676_members_ = (obj).data
-        hi9_ = len(d_676_members_)
-        for d_677_i_ in range(0, hi9_):
-            wr = default__.Member((d_676_members_)[d_677_i_], wr)
+        d_680_members_: _dafny.Seq
+        d_680_members_ = (obj).data
+        hi9_ = len(d_680_members_)
+        for d_681_i_ in range(0, hi9_):
+            wr = default__.Member((d_680_members_)[d_681_i_], wr)
         return wr
 
     @staticmethod
     def ItemsImpl(arr, writer):
         wr: JSON_Utils_Views_Writers.Writer__ = JSON_Utils_Views_Writers.Writer.default()
         wr = writer
-        d_678_items_: _dafny.Seq
-        d_678_items_ = (arr).data
-        hi10_ = len(d_678_items_)
-        for d_679_i_ in range(0, hi10_):
-            wr = default__.Item((d_678_items_)[d_679_i_], wr)
+        d_682_items_: _dafny.Seq
+        d_682_items_ = (arr).data
+        hi10_ = len(d_682_items_)
+        for d_683_i_ in range(0, hi10_):
+            wr = default__.Item((d_682_items_)[d_683_i_], wr)
         return wr
 
     @staticmethod
     def Member(m, writer):
-        d_680_wr_ = default__.String(((m).t).k, writer)
-        d_681_wr_ = default__.StructuralView(((m).t).colon, d_680_wr_)
-        d_682_wr_ = default__.Value(((m).t).v, d_681_wr_)
-        d_683_wr_ = (d_682_wr_ if ((m).suffix).is_Empty else default__.StructuralView(((m).suffix).t, d_682_wr_))
-        return d_683_wr_
+        d_684_wr_ = default__.String(((m).t).k, writer)
+        d_685_wr_ = default__.StructuralView(((m).t).colon, d_684_wr_)
+        d_686_wr_ = default__.Value(((m).t).v, d_685_wr_)
+        d_687_wr_ = (d_686_wr_ if ((m).suffix).is_Empty else default__.StructuralView(((m).suffix).t, d_686_wr_))
+        return d_687_wr_
 
     @staticmethod
     def Item(m, writer):
-        d_684_wr_ = default__.Value((m).t, writer)
-        d_685_wr_ = (d_684_wr_ if ((m).suffix).is_Empty else default__.StructuralView(((m).suffix).t, d_684_wr_))
-        return d_685_wr_
+        d_688_wr_ = default__.Value((m).t, writer)
+        d_689_wr_ = (d_688_wr_ if ((m).suffix).is_Empty else default__.StructuralView(((m).suffix).t, d_688_wr_))
+        return d_689_wr_
 

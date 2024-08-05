@@ -153,6 +153,7 @@ class default__:
                                         unmatched14 = False
                                         return 9
                                 if unmatched14:
+                                    d_595___v0_ = source14_
                                     unmatched14 = False
                                     return 0
                                 raise Exception("unexpected control point")
@@ -180,42 +181,42 @@ class default__:
 
     @staticmethod
     def String(js):
-        d_595_valueOrError0_ = (UnicodeStrings.default__.FromUTF8Checked(((js).contents).Bytes())).ToResult_k(JSON_Errors.DeserializationError_InvalidUnicode())
-        if (d_595_valueOrError0_).IsFailure():
-            return (d_595_valueOrError0_).PropagateFailure()
+        d_596_valueOrError0_ = (UnicodeStrings.default__.FromUTF8Checked(((js).contents).Bytes())).ToResult_k(JSON_Errors.DeserializationError_InvalidUnicode())
+        if (d_596_valueOrError0_).IsFailure():
+            return (d_596_valueOrError0_).PropagateFailure()
         elif True:
-            d_596_asUtf32_ = (d_595_valueOrError0_).Extract()
-            d_597_valueOrError1_ = (UnicodeStrings.default__.ToUTF16Checked(d_596_asUtf32_)).ToResult_k(JSON_Errors.DeserializationError_InvalidUnicode())
-            if (d_597_valueOrError1_).IsFailure():
-                return (d_597_valueOrError1_).PropagateFailure()
+            d_597_asUtf32_ = (d_596_valueOrError0_).Extract()
+            d_598_valueOrError1_ = (UnicodeStrings.default__.ToUTF16Checked(d_597_asUtf32_)).ToResult_k(JSON_Errors.DeserializationError_InvalidUnicode())
+            if (d_598_valueOrError1_).IsFailure():
+                return (d_598_valueOrError1_).PropagateFailure()
             elif True:
-                d_598_asUint16_ = (d_597_valueOrError1_).Extract()
-                d_599_valueOrError2_ = default__.Unescape(d_598_asUint16_, 0, _dafny.Seq([]))
-                if (d_599_valueOrError2_).IsFailure():
-                    return (d_599_valueOrError2_).PropagateFailure()
+                d_599_asUint16_ = (d_598_valueOrError1_).Extract()
+                d_600_valueOrError2_ = default__.Unescape(d_599_asUint16_, 0, _dafny.Seq([]))
+                if (d_600_valueOrError2_).IsFailure():
+                    return (d_600_valueOrError2_).PropagateFailure()
                 elif True:
-                    d_600_unescaped_ = (d_599_valueOrError2_).Extract()
-                    return (UnicodeStrings.default__.FromUTF16Checked(d_600_unescaped_)).ToResult_k(JSON_Errors.DeserializationError_InvalidUnicode())
+                    d_601_unescaped_ = (d_600_valueOrError2_).Extract()
+                    return (UnicodeStrings.default__.FromUTF16Checked(d_601_unescaped_)).ToResult_k(JSON_Errors.DeserializationError_InvalidUnicode())
 
     @staticmethod
     def ToInt(sign, n):
-        d_601_n_ = JSON_Deserializer_ByteStrConversion.default__.ToNat__any((n).Bytes(), 10, default__.DIGITS)
-        return Wrappers.Result_Success(((0) - (d_601_n_) if (sign).Char_q('-') else d_601_n_))
+        d_602_n_ = JSON_Deserializer_ByteStrConversion.default__.ToNat__any((n).Bytes(), 10, default__.DIGITS)
+        return Wrappers.Result_Success(((0) - (d_602_n_) if (sign).Char_q('-') else d_602_n_))
 
     @staticmethod
     def Number(js):
         let_tmp_rhs7_ = js
-        d_602_minus_ = let_tmp_rhs7_.minus
-        d_603_num_ = let_tmp_rhs7_.num
-        d_604_frac_ = let_tmp_rhs7_.frac
-        d_605_exp_ = let_tmp_rhs7_.exp
-        d_606_valueOrError0_ = default__.ToInt(d_602_minus_, d_603_num_)
-        if (d_606_valueOrError0_).IsFailure():
-            return (d_606_valueOrError0_).PropagateFailure()
+        d_603_minus_ = let_tmp_rhs7_.minus
+        d_604_num_ = let_tmp_rhs7_.num
+        d_605_frac_ = let_tmp_rhs7_.frac
+        d_606_exp_ = let_tmp_rhs7_.exp
+        d_607_valueOrError0_ = default__.ToInt(d_603_minus_, d_604_num_)
+        if (d_607_valueOrError0_).IsFailure():
+            return (d_607_valueOrError0_).PropagateFailure()
         elif True:
-            d_607_n_ = (d_606_valueOrError0_).Extract()
+            d_608_n_ = (d_607_valueOrError0_).Extract()
             def lambda43_():
-                source15_ = d_605_exp_
+                source15_ = d_606_exp_
                 unmatched15 = True
                 if unmatched15:
                     if source15_.is_Empty:
@@ -223,55 +224,57 @@ class default__:
                         return Wrappers.Result_Success(0)
                 if unmatched15:
                     t0 = source15_.t
-                    d_609_sign_ = t0.sign
-                    d_610_num_ = t0.num
+                    d_610___v1_ = t0.e
+                    d_611_sign_ = t0.sign
+                    d_612_num_ = t0.num
                     unmatched15 = False
-                    return default__.ToInt(d_609_sign_, d_610_num_)
+                    return default__.ToInt(d_611_sign_, d_612_num_)
                 raise Exception("unexpected control point")
 
-            d_608_valueOrError1_ = lambda43_()
-            if (d_608_valueOrError1_).IsFailure():
-                return (d_608_valueOrError1_).PropagateFailure()
+            d_609_valueOrError1_ = lambda43_()
+            if (d_609_valueOrError1_).IsFailure():
+                return (d_609_valueOrError1_).PropagateFailure()
             elif True:
-                d_611_e10_ = (d_608_valueOrError1_).Extract()
-                source16_ = d_604_frac_
+                d_613_e10_ = (d_609_valueOrError1_).Extract()
+                source16_ = d_605_frac_
                 unmatched16 = True
                 if unmatched16:
                     if source16_.is_Empty:
                         unmatched16 = False
-                        return Wrappers.Result_Success(JSON_Values.Decimal_Decimal(d_607_n_, d_611_e10_))
+                        return Wrappers.Result_Success(JSON_Values.Decimal_Decimal(d_608_n_, d_613_e10_))
                 if unmatched16:
                     t1 = source16_.t
-                    d_612_num_ = t1.num
+                    d_614___v2_ = t1.period
+                    d_615_num_ = t1.num
                     unmatched16 = False
-                    d_613_pow10_ = (d_612_num_).Length()
-                    d_614_valueOrError2_ = default__.ToInt(d_602_minus_, d_612_num_)
-                    if (d_614_valueOrError2_).IsFailure():
-                        return (d_614_valueOrError2_).PropagateFailure()
+                    d_616_pow10_ = (d_615_num_).Length()
+                    d_617_valueOrError2_ = default__.ToInt(d_603_minus_, d_615_num_)
+                    if (d_617_valueOrError2_).IsFailure():
+                        return (d_617_valueOrError2_).PropagateFailure()
                     elif True:
-                        d_615_frac_ = (d_614_valueOrError2_).Extract()
-                        return Wrappers.Result_Success(JSON_Values.Decimal_Decimal(((d_607_n_) * (Power.default__.Pow(10, d_613_pow10_))) + (d_615_frac_), (d_611_e10_) - (d_613_pow10_)))
+                        d_618_frac_ = (d_617_valueOrError2_).Extract()
+                        return Wrappers.Result_Success(JSON_Values.Decimal_Decimal(((d_608_n_) * (Power.default__.Pow(10, d_616_pow10_))) + (d_618_frac_), (d_613_e10_) - (d_616_pow10_)))
                 raise Exception("unexpected control point")
 
     @staticmethod
     def KeyValue(js):
-        d_616_valueOrError0_ = default__.String((js).k)
-        if (d_616_valueOrError0_).IsFailure():
-            return (d_616_valueOrError0_).PropagateFailure()
+        d_619_valueOrError0_ = default__.String((js).k)
+        if (d_619_valueOrError0_).IsFailure():
+            return (d_619_valueOrError0_).PropagateFailure()
         elif True:
-            d_617_k_ = (d_616_valueOrError0_).Extract()
-            d_618_valueOrError1_ = default__.Value((js).v)
-            if (d_618_valueOrError1_).IsFailure():
-                return (d_618_valueOrError1_).PropagateFailure()
+            d_620_k_ = (d_619_valueOrError0_).Extract()
+            d_621_valueOrError1_ = default__.Value((js).v)
+            if (d_621_valueOrError1_).IsFailure():
+                return (d_621_valueOrError1_).PropagateFailure()
             elif True:
-                d_619_v_ = (d_618_valueOrError1_).Extract()
-                return Wrappers.Result_Success((d_617_k_, d_619_v_))
+                d_622_v_ = (d_621_valueOrError1_).Extract()
+                return Wrappers.Result_Success((d_620_k_, d_622_v_))
 
     @staticmethod
     def Object(js):
-        def lambda44_(d_620_js_):
-            def lambda45_(d_621_d_):
-                return default__.KeyValue((d_621_d_).t)
+        def lambda44_(d_623_js_):
+            def lambda45_(d_624_d_):
+                return default__.KeyValue((d_624_d_).t)
 
             return lambda45_
 
@@ -279,9 +282,9 @@ class default__:
 
     @staticmethod
     def Array(js):
-        def lambda46_(d_622_js_):
-            def lambda47_(d_623_d_):
-                return default__.Value((d_623_d_).t)
+        def lambda46_(d_625_js_):
+            def lambda47_(d_626_d_):
+                return default__.Value((d_626_d_).t)
 
             return lambda47_
 
@@ -293,52 +296,53 @@ class default__:
         unmatched17 = True
         if unmatched17:
             if source17_.is_Null:
+                d_627___v3_ = source17_.n
                 unmatched17 = False
                 return Wrappers.Result_Success(JSON_Values.JSON_Null())
         if unmatched17:
             if source17_.is_Bool:
-                d_624_b_ = source17_.b
+                d_628_b_ = source17_.b
                 unmatched17 = False
-                return Wrappers.Result_Success(JSON_Values.JSON_Bool(default__.Bool(d_624_b_)))
+                return Wrappers.Result_Success(JSON_Values.JSON_Bool(default__.Bool(d_628_b_)))
         if unmatched17:
             if source17_.is_String:
-                d_625_str_ = source17_.str
+                d_629_str_ = source17_.str
                 unmatched17 = False
-                d_626_valueOrError0_ = default__.String(d_625_str_)
-                if (d_626_valueOrError0_).IsFailure():
-                    return (d_626_valueOrError0_).PropagateFailure()
+                d_630_valueOrError0_ = default__.String(d_629_str_)
+                if (d_630_valueOrError0_).IsFailure():
+                    return (d_630_valueOrError0_).PropagateFailure()
                 elif True:
-                    d_627_s_ = (d_626_valueOrError0_).Extract()
-                    return Wrappers.Result_Success(JSON_Values.JSON_String(d_627_s_))
+                    d_631_s_ = (d_630_valueOrError0_).Extract()
+                    return Wrappers.Result_Success(JSON_Values.JSON_String(d_631_s_))
         if unmatched17:
             if source17_.is_Number:
-                d_628_dec_ = source17_.num
+                d_632_dec_ = source17_.num
                 unmatched17 = False
-                d_629_valueOrError1_ = default__.Number(d_628_dec_)
-                if (d_629_valueOrError1_).IsFailure():
-                    return (d_629_valueOrError1_).PropagateFailure()
+                d_633_valueOrError1_ = default__.Number(d_632_dec_)
+                if (d_633_valueOrError1_).IsFailure():
+                    return (d_633_valueOrError1_).PropagateFailure()
                 elif True:
-                    d_630_n_ = (d_629_valueOrError1_).Extract()
-                    return Wrappers.Result_Success(JSON_Values.JSON_Number(d_630_n_))
+                    d_634_n_ = (d_633_valueOrError1_).Extract()
+                    return Wrappers.Result_Success(JSON_Values.JSON_Number(d_634_n_))
         if unmatched17:
             if source17_.is_Object:
-                d_631_obj_ = source17_.obj
+                d_635_obj_ = source17_.obj
                 unmatched17 = False
-                d_632_valueOrError2_ = default__.Object(d_631_obj_)
-                if (d_632_valueOrError2_).IsFailure():
-                    return (d_632_valueOrError2_).PropagateFailure()
+                d_636_valueOrError2_ = default__.Object(d_635_obj_)
+                if (d_636_valueOrError2_).IsFailure():
+                    return (d_636_valueOrError2_).PropagateFailure()
                 elif True:
-                    d_633_o_ = (d_632_valueOrError2_).Extract()
-                    return Wrappers.Result_Success(JSON_Values.JSON_Object(d_633_o_))
+                    d_637_o_ = (d_636_valueOrError2_).Extract()
+                    return Wrappers.Result_Success(JSON_Values.JSON_Object(d_637_o_))
         if unmatched17:
-            d_634_arr_ = source17_.arr
+            d_638_arr_ = source17_.arr
             unmatched17 = False
-            d_635_valueOrError3_ = default__.Array(d_634_arr_)
-            if (d_635_valueOrError3_).IsFailure():
-                return (d_635_valueOrError3_).PropagateFailure()
+            d_639_valueOrError3_ = default__.Array(d_638_arr_)
+            if (d_639_valueOrError3_).IsFailure():
+                return (d_639_valueOrError3_).PropagateFailure()
             elif True:
-                d_636_a_ = (d_635_valueOrError3_).Extract()
-                return Wrappers.Result_Success(JSON_Values.JSON_Array(d_636_a_))
+                d_640_a_ = (d_639_valueOrError3_).Extract()
+                return Wrappers.Result_Success(JSON_Values.JSON_Array(d_640_a_))
         raise Exception("unexpected control point")
 
     @staticmethod

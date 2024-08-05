@@ -1,5 +1,5 @@
 file_format_version = "1.0"
-dafny_version = "4.7.0.0"
+dafny_version = "4.6.0.0"
 [options_by_module.Wrappers]
 python-module-name = "standard_library.internaldafny.generated"
 [options_by_module.Relations]
