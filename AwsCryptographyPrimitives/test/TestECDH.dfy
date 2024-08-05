@@ -280,7 +280,7 @@ module TestECDH {
         )
       );
       expect validPublicKey.Failure?;
-      
+
       expect validPublicKey.error.AwsCryptographicPrimitivesError?;
       var errMsg := validPublicKey.error.message;
 
