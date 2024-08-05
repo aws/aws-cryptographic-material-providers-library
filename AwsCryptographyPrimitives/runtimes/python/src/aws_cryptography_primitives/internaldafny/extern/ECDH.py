@@ -56,8 +56,8 @@ from cryptography.hazmat.primitives.asymmetric.ec import EllipticCurvePublicKey
 
 CURVE_TO_ECC_SECRET_LENGTH_MAP = {
     "secp256r1": int(256 / 8),
-    "secpP384r1": int(384 / 8),
-    "secpP521r1": int(521 / 8 + 1)
+    "secp384r1": int(384 / 8),
+    "secp521r1": int(521 / 8 + 1)
 }
 
         
