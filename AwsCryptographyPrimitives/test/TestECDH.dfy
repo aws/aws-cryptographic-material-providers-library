@@ -280,7 +280,8 @@ module TestECDH {
         )
       );
       expect validPublicKey.Failure?;
-
+      
+      expect validPublicKey.error.AwsCryptographicPrimitivesError?;
       var errMsg := validPublicKey.error.message;
 
       expect (
@@ -329,6 +330,7 @@ module TestECDH {
       );
       expect validPublicKey.Failure?;
 
+      expect validPublicKey.error.AwsCryptographicPrimitivesError?;
       var errMsg := validPublicKey.error.message;
       expect (
           seq_contains(errMsg, OUT_OF_BOUNDS_ERR_MSG_JAVA) ||
