@@ -408,15 +408,16 @@ class ECCUtils:
         )
         public_key_der = private_key.public_key().public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
         public_key_point_bytes = private_key.public_key().public_bytes(Encoding.X962, PublicFormat.UncompressedPoint)
-        input(f"{public_key_point_bytes=}")
-        input(f"{len(public_key_point_bytes)=}")
+        # input(f"{public_key_point_bytes=}")
+        # input(f"{len(public_key_point_bytes)=}")
         inf_public_key_point_bytes = b"\x00"
-        input(f"{inf_public_key_point_bytes=}")
-        input(f"{len(inf_public_key_point_bytes)=}")
+        # input(f"{inf_public_key_point_bytes=}")
+        # input(f"{len(inf_public_key_point_bytes)=}")
         alg_info_seq, _ = der_decode(public_key_der, asn1Spec=Sequence())
-        input(f"{alg_info_seq.getComponentByPosition(0)=}")
-        input(f"{alg_info_seq.getComponentByPosition(1)=}")
+        # input(f"{alg_info_seq.getComponentByPosition(0)=}")
+        # input(f"{alg_info_seq.getComponentByPosition(1)=}")
         alg_info = alg_info_seq.getComponentByPosition(0)
+        input(f"{alg_info=}")
         # Build a pub key with the point at infinity defined as a 1 byte zero array
 
         # generate random point on curve
@@ -430,14 +431,17 @@ class ECCUtils:
         random_point_bytes = b'\x04' + random_x.to_bytes(field_size, byteorder='big') + random_y.to_bytes(field_size, byteorder='big')
         random_point_bitstring = BitString.fromOctetString(inf_public_key_point_bytes)
 
-        point_at_infinity = BitString.fromOctetString(b'\x12')
+        
+        point_at_infinity = der_encode(BitString.fromOctetString(b'\x00'))
+        enc_point = BitString.fromOctetString(point_at_infinity)
+        input(f"{point_at_infinity=}")
         seq = Sequence()
         seq.setComponentByPosition(0, alg_info)
-        seq.setComponentByPosition(1, random_point_bitstring)
-        input(f"{seq.getComponentByPosition(0)=}")
-        input(f"{seq.getComponentByPosition(1)=}")
-        input(f"{der_encode(seq)=}")
-        input(f"orig {public_key_der=}")
+        seq.setComponentByPosition(1, enc_point)
+        # input(f"{seq.getComponentByPosition(0)=}")
+        # input(f"{seq.getComponentByPosition(1)=}")
+        # input(f"{der_encode(seq)=}")
+        # input(f"orig {public_key_der=}")
         # return der_encode(seq)
 
     
