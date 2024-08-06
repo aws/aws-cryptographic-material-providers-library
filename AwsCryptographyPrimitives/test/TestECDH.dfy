@@ -345,6 +345,35 @@ module TestECDH {
     }
   }
 
+  method {:test} TestValidatePublicKeyFailurePointGreaterThanPFailOnLoad()
+  {
+    var publicKeysWithPointsGreaterThanP := [
+      ECC_P256_PUBLIC_GP_FAIL_ON_LOAD, ECC_P384_PUBLIC_GP_FAIL_ON_LOAD, ECC_P521_PUBLIC_GP_FAIL_ON_LOAD
+    ];
+    var supportedCurves := [P256, P384, P521];
+    for i := 0 to |supportedCurves|
+    {
+      var looseHexPublicKey := expectLooseHexString(publicKeysWithPointsGreaterThanP[i]);
+      var publicKeyBytes := HexStrings.FromHexString(looseHexPublicKey);
+
+      var validPublicKey:= ECDH.ValidatePublicKey(
+        Types.ValidatePublicKeyInput(
+          eccCurve := supportedCurves[i],
+          publicKey := publicKeyBytes
+        )
+      );
+      expect validPublicKey.Failure?;
+
+      expect validPublicKey.error.AwsCryptographicPrimitivesError?;
+      var errMsg := validPublicKey.error.message;
+      expect (
+          seq_contains(errMsg, OUT_OF_BOUNDS_ERR_MSG_JAVA) ||
+          errMsg == OUT_OF_BOUNDS_ERR_MSG_NET6 ||
+          errMsg == OUT_OF_BOUNDS_ERR_MSG_NE48
+        );
+    }
+  }
+
   method {:test} TestValidatePublicKeyFailurePointGreaterThanP()
   {
     var publicKeysWithPointsGreaterThanP := [ECC_P256_PUBLIC_GP, ECC_P384_PUBLIC_GP, ECC_P521_PUBLIC_GP];
