@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class HkdfInput {
+
   private final DigestAlgorithm digestAlgorithm;
 
   private final ByteBuffer salt;
@@ -78,6 +79,7 @@ public class HkdfInput {
   }
 
   static class BuilderImpl implements Builder {
+
     protected DigestAlgorithm digestAlgorithm;
 
     protected ByteBuffer salt;
@@ -90,8 +92,7 @@ public class HkdfInput {
 
     private boolean _expectedLengthSet = false;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(HkdfInput model) {
       this.digestAlgorithm = model.digestAlgorithm();
@@ -149,20 +150,30 @@ public class HkdfInput {
     }
 
     public HkdfInput build() {
-      if (Objects.isNull(this.digestAlgorithm()))  {
-        throw new IllegalArgumentException("Missing value for required field `digestAlgorithm`");
+      if (Objects.isNull(this.digestAlgorithm())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `digestAlgorithm`"
+        );
       }
-      if (Objects.isNull(this.ikm()))  {
-        throw new IllegalArgumentException("Missing value for required field `ikm`");
+      if (Objects.isNull(this.ikm())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `ikm`"
+        );
       }
-      if (Objects.isNull(this.info()))  {
-        throw new IllegalArgumentException("Missing value for required field `info`");
+      if (Objects.isNull(this.info())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `info`"
+        );
       }
       if (!this._expectedLengthSet) {
-        throw new IllegalArgumentException("Missing value for required field `expectedLength`");
+        throw new IllegalArgumentException(
+          "Missing value for required field `expectedLength`"
+        );
       }
       if (this._expectedLengthSet && this.expectedLength() < 0) {
-        throw new IllegalArgumentException("`expectedLength` must be greater than or equal to 0");
+        throw new IllegalArgumentException(
+          "`expectedLength` must be greater than or equal to 0"
+        );
       }
       return new HkdfInput(this);
     }

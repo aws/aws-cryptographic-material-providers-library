@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class GetRSAKeyModulusLengthInput {
+
   private final ByteBuffer publicKey;
 
   protected GetRSAKeyModulusLengthInput(BuilderImpl builder) {
@@ -34,10 +35,10 @@ public class GetRSAKeyModulusLengthInput {
   }
 
   static class BuilderImpl implements Builder {
+
     protected ByteBuffer publicKey;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(GetRSAKeyModulusLengthInput model) {
       this.publicKey = model.publicKey();
@@ -53,8 +54,10 @@ public class GetRSAKeyModulusLengthInput {
     }
 
     public GetRSAKeyModulusLengthInput build() {
-      if (Objects.isNull(this.publicKey()))  {
-        throw new IllegalArgumentException("Missing value for required field `publicKey`");
+      if (Objects.isNull(this.publicKey())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `publicKey`"
+        );
       }
       return new GetRSAKeyModulusLengthInput(this);
     }
