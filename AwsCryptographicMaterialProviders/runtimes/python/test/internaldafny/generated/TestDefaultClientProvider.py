@@ -58,6 +58,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapping as MaterialWrapping
@@ -81,6 +82,9 @@ import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker 
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.EcdhEdkWrapping as EcdhEdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.RawECDHKeyring as RawECDHKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsEcdhKeyring as AwsKmsEcdhKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawRSAKeyring as RawRSAKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.CMM as CMM
@@ -88,6 +92,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.Defaults as D
 import aws_cryptographic_materialproviders.internaldafny.generated.Commitment as Commitment
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultCMM as DefaultCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultClientSupplier as DefaultClientSupplier
+import aws_cryptographic_materialproviders.internaldafny.generated.Utils as Utils
 import aws_cryptographic_materialproviders.internaldafny.generated.RequiredEncryptionContextCMM as RequiredEncryptionContextCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersOperations as AwsCryptographyMaterialProvidersOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialProviders as MaterialProviders
@@ -119,6 +124,7 @@ import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
 import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import Fixtures as Fixtures
 import TestCreateKeyStore as TestCreateKeyStore
+import TestLyingBranchKey as TestLyingBranchKey
 import TestDiscoveryGetKeys as TestDiscoveryGetKeys
 import TestConfig as TestConfig
 import TestGetKeys as TestGetKeys
@@ -137,38 +143,38 @@ class default__:
 
     @staticmethod
     def GetUsWestTwo():
-        d_440_mpl_: MaterialProviders.MaterialProvidersClient
-        d_441_valueOrError0_: Wrappers.Result = None
-        out149_: Wrappers.Result
-        out149_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
-        d_441_valueOrError0_ = out149_
-        if not(not((d_441_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestDefaultClientProvider.dfy(18,15): " + _dafny.string_of(d_441_valueOrError0_))
-        d_440_mpl_ = (d_441_valueOrError0_).Extract()
-        d_442_clientSupplier_: AwsCryptographyMaterialProvidersTypes.IClientSupplier
-        d_443_valueOrError1_: Wrappers.Result = None
-        out150_: Wrappers.Result
-        out150_ = (d_440_mpl_).CreateDefaultClientSupplier(AwsCryptographyMaterialProvidersTypes.CreateDefaultClientSupplierInput_CreateDefaultClientSupplierInput())
-        d_443_valueOrError1_ = out150_
-        if not(not((d_443_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestDefaultClientProvider.dfy(20,26): " + _dafny.string_of(d_443_valueOrError1_))
-        d_442_clientSupplier_ = (d_443_valueOrError1_).Extract()
-        d_444_client_: ComAmazonawsKmsTypes.IKMSClient
-        d_445_valueOrError2_: Wrappers.Result = None
-        out151_: Wrappers.Result
-        out151_ = (d_442_clientSupplier_).GetClient(AwsCryptographyMaterialProvidersTypes.GetClientInput_GetClientInput(_dafny.Seq("us-west-2")))
-        d_445_valueOrError2_ = out151_
-        if not(not((d_445_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestDefaultClientProvider.dfy(22,18): " + _dafny.string_of(d_445_valueOrError2_))
-        d_444_client_ = (d_445_valueOrError2_).Extract()
-        d_446_kmsRequest_: ComAmazonawsKmsTypes.GenerateDataKeyRequest
-        d_446_kmsRequest_ = ComAmazonawsKmsTypes.GenerateDataKeyRequest_GenerateDataKeyRequest(TestUtils.default__.SHARED__TEST__KEY__ARN, Wrappers.Option_None(), Wrappers.Option_Some(24), Wrappers.Option_None(), Wrappers.Option_None())
-        d_447_kmsReply_: ComAmazonawsKmsTypes.GenerateDataKeyResponse
-        d_448_valueOrError3_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsKmsTypes.GenerateDataKeyResponse.default())()
-        out152_: Wrappers.Result
-        out152_ = (d_444_client_).GenerateDataKey(d_446_kmsRequest_)
-        d_448_valueOrError3_ = out152_
-        if not(not((d_448_valueOrError3_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestDefaultClientProvider.dfy(36,20): " + _dafny.string_of(d_448_valueOrError3_))
-        d_447_kmsReply_ = (d_448_valueOrError3_).Extract()
+        d_490_mpl_: MaterialProviders.MaterialProvidersClient
+        d_491_valueOrError0_: Wrappers.Result = None
+        out169_: Wrappers.Result
+        out169_ = MaterialProviders.default__.MaterialProviders(MaterialProviders.default__.DefaultMaterialProvidersConfig())
+        d_491_valueOrError0_ = out169_
+        if not(not((d_491_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestDefaultClientProvider.dfy(18,15): " + _dafny.string_of(d_491_valueOrError0_))
+        d_490_mpl_ = (d_491_valueOrError0_).Extract()
+        d_492_clientSupplier_: AwsCryptographyMaterialProvidersTypes.IClientSupplier
+        d_493_valueOrError1_: Wrappers.Result = None
+        out170_: Wrappers.Result
+        out170_ = (d_490_mpl_).CreateDefaultClientSupplier(AwsCryptographyMaterialProvidersTypes.CreateDefaultClientSupplierInput_CreateDefaultClientSupplierInput())
+        d_493_valueOrError1_ = out170_
+        if not(not((d_493_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestDefaultClientProvider.dfy(20,26): " + _dafny.string_of(d_493_valueOrError1_))
+        d_492_clientSupplier_ = (d_493_valueOrError1_).Extract()
+        d_494_client_: ComAmazonawsKmsTypes.IKMSClient
+        d_495_valueOrError2_: Wrappers.Result = None
+        out171_: Wrappers.Result
+        out171_ = (d_492_clientSupplier_).GetClient(AwsCryptographyMaterialProvidersTypes.GetClientInput_GetClientInput(_dafny.Seq("us-west-2")))
+        d_495_valueOrError2_ = out171_
+        if not(not((d_495_valueOrError2_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestDefaultClientProvider.dfy(22,18): " + _dafny.string_of(d_495_valueOrError2_))
+        d_494_client_ = (d_495_valueOrError2_).Extract()
+        d_496_kmsRequest_: ComAmazonawsKmsTypes.GenerateDataKeyRequest
+        d_496_kmsRequest_ = ComAmazonawsKmsTypes.GenerateDataKeyRequest_GenerateDataKeyRequest(TestUtils.default__.SHARED__TEST__KEY__ARN, Wrappers.Option_None(), Wrappers.Option_Some(24), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
+        d_497_kmsReply_: ComAmazonawsKmsTypes.GenerateDataKeyResponse
+        d_498_valueOrError3_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsKmsTypes.GenerateDataKeyResponse.default())()
+        out172_: Wrappers.Result
+        out172_ = (d_494_client_).GenerateDataKey(d_496_kmsRequest_)
+        d_498_valueOrError3_ = out172_
+        if not(not((d_498_valueOrError3_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestDefaultClientProvider.dfy(36,20): " + _dafny.string_of(d_498_valueOrError3_))
+        d_497_kmsReply_ = (d_498_valueOrError3_).Extract()
 
