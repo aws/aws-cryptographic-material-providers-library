@@ -6,8 +6,8 @@ CORES=2
 include ../SharedMakefileV2.mk
 
 PROJECT_SERVICES := \
-	AwsCryptographicMaterialProviders \
 	AwsCryptographyKeyStore \
+	AwsCryptographicMaterialProviders \
 
 SERVICE_NAMESPACE_AwsCryptographicMaterialProviders=aws.cryptography.materialProviders
 SERVICE_NAMESPACE_AwsCryptographyKeyStore=aws.cryptography.keyStore
@@ -44,3 +44,19 @@ SERVICE_DEPS_AwsCryptographyKeyStore := \
 	ComAmazonawsDynamodb \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographicMaterialProviders \
 
+# Python
+
+PYTHON_MODULE_NAME=aws_cryptographic_materialproviders
+
+TRANSLATION_RECORD_PYTHON := \
+    --translation-record ../StandardLibrary/runtimes/python/src/standard_library/internaldafny/generated/dafny_src-py.dtr \
+    --translation-record ../ComAmazonawsKms/runtimes/python/src/com_amazonaws_kms/internaldafny/generated/dafny_src-py.dtr \
+    --translation-record ../ComAmazonawsDynamodb/runtimes/python/src/com_amazonaws_dynamodb/internaldafny/generated/dafny_src-py.dtr \
+    --translation-record ../AwsCryptographyPrimitives/runtimes/python/src/aws_cryptography_primitives/internaldafny/generated/dafny_src-py.dtr
+
+PYTHON_DEPENDENCY_MODULE_NAMES := \
+	--dependency-library-name=aws.cryptography.primitives=aws_cryptography_primitives \
+	--dependency-library-name=com.amazonaws.kms=com_amazonaws_kms \
+	--dependency-library-name=com.amazonaws.dynamodb=com_amazonaws_dynamodb \
+	--dependency-library-name=aws.cryptography.materialProviders=aws_cryptographic_materialproviders \
+	--dependency-library-name=aws.cryptography.keyStore=aws_cryptographic_materialproviders \
