@@ -18,6 +18,7 @@ six = "^1.16.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.0"
+pyasn1 = "^0.6.0"
 
 [build-system]
 requires = ["poetry-core"]

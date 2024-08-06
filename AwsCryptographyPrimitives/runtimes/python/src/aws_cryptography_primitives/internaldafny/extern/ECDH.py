@@ -18,8 +18,6 @@ CreateExternDecompressPublicKeySuccess = default__.CreateExternDecompressPublicK
 CreateGetInfinityPublicKeyError = default__.CreateGetInfinityPublicKeyError
 CreateGetInfinityPublicKeySuccess = default__.CreateGetInfinityPublicKeySuccess
 
-import ecdsa
-
 import cryptography.hazmat.primitives.asymmetric.ec
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.serialization import (
@@ -70,10 +68,13 @@ INF_PUBLIC_KEY_DER =  b"-----BEGIN PUBLIC KEY-----\n" \
                    b"AAAAAAAAAAAAAAAAAAAAAAAAAA==\n" \
                    b"-----END PUBLIC KEY-----\n" 
 
+from aws_cryptography_primitives.internaldafny.extern.Signature import _ECC_CURVE_PARAMETERS
+
+
 curve_mapping = {
-    "secp256r1": ecdsa.curves.NIST256p,
-    "secp384r1": ecdsa.curves.NIST384p,
-    "secp521r1": ecdsa.curves.NIST521p
+    "secp256r1": _ECC_CURVE_PARAMETERS["secp256r1"],
+    "secp384r1": _ECC_CURVE_PARAMETERS["secp384r1"],
+    "secp521r1": _ECC_CURVE_PARAMETERS["secp521r1"],
 }
 
 # Define the ASN.1 structure for an EC public key
@@ -158,9 +159,9 @@ class DeriveSharedSecret:
         
 def validate_point(curve, x, y):
     # Get curve parameters
-    a = curve.a()
-    b = curve.b()
-    p = curve.p()
+    a = curve.a
+    b = curve.b
+    p = curve.p
 
     # Check if point is within the field range
     if not (0 <= x < p and 0 <= y < p):
@@ -329,7 +330,7 @@ class ECCUtils:
         public_numbers = public_key.public_numbers()
         pyca_curve_name = public_key.curve.name
         ecdsa_curve = curve_mapping[pyca_curve_name]
-        validate_point(ecdsa_curve.curve, public_numbers.x, public_numbers.y)
+        validate_point(ecdsa_curve, public_numbers.x, public_numbers.y)
         return (
             ECCUtils.ValidatePublicKeyIsNotInfinity(public_numbers) and
             ECCUtils.CoordinateBetween0AndP(public_numbers.x, ecdsa_curve) and
@@ -345,7 +346,7 @@ class ECCUtils:
     def CoordinateBetween0AndP(coordinate, curve):
         return (
             coordinate > 0 and
-            coordinate < curve.curve.p()
+            coordinate < curve.p
         )
     
     def CompressPublicKey(dafny_publicKeyDerBytes, dafny_eccAlgorithm):
