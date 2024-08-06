@@ -14,9 +14,6 @@ smithy-python = { path = "../../../smithy-dafny/codegen/smithy-dafny-codegen-mod
 DafnyRuntimePython = "^4.7.0"
 standard-library = {path = "../../../StandardLibrary/runtimes/python", develop = false}
 cryptography = "^41.0.3"
-six = "^1.16.0"
-ecdsa = "^0.19.0"
-pyasn1 = "^0.6.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.0"

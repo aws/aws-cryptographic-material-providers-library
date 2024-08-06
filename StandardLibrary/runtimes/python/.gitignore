@@ -11,4 +11,3 @@ dist
 # Python test artifacts
 .tox
 .pytest_cache
-
