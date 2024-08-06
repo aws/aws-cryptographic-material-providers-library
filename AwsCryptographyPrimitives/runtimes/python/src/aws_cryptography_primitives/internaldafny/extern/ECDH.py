@@ -58,10 +58,7 @@ CURVE_TO_ECC_SECRET_LENGTH_MAP = {
     "secp521r1": int(521 / 8 + 1)
 }
 
-        
-from pyasn1.type import univ, namedtype
-from pyasn1.codec.der.encoder import encode as der_encoder
-from pyasn1.codec.der.decoder import decode as der_decoder
+
 
 INF_PUBLIC_KEY_DER =  b"-----BEGIN PUBLIC KEY-----\n" \
                    b"MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n" \
