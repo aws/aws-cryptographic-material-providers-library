@@ -74,14 +74,6 @@ curve_mapping = {
     "secp521r1": _ECC_CURVE_PARAMETERS["secp521r1"],
 }
 
-# Define the ASN.1 structure for an EC public key
-class ECPublicKey(univ.Sequence):
-    componentType = namedtype.NamedTypes(
-        namedtype.NamedType('algorithm', univ.ObjectIdentifier()),
-        namedtype.NamedType('publicKey', univ.BitString())
-    )
-
-
 def _ecc_encode_compressed_point_public_key(public_key: EllipticCurvePublicKey):
   """Encodes a compressed elliptic curve point
       as described in SEC-1 v2 section 2.3.3
