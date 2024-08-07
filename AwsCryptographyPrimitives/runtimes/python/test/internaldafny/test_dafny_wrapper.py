@@ -1,3 +1,5 @@
+# Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
 """
 Wrapper file for executing Dafny tests from pytest.
 This allows us to import modules required by Dafny-generated tests
@@ -12,6 +14,8 @@ internaldafny_dir = '/'.join(__file__.split("/")[:-1])
 
 sys.path.append(internaldafny_dir + "/extern")
 sys.path.append(internaldafny_dir + "/generated")
+
+from . import extern
 
 def test_dafny():
   from .generated import __main__
