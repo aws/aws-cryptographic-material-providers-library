@@ -1,6 +1,7 @@
 package ECDH;
 
 import static ECDH.ECCAlgorithm.eccAlgorithm;
+import static ECDH.KeyGeneration.SM2_KA;
 import static software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence;
 
 import Random_Compile.ExternRandom;
@@ -100,7 +101,7 @@ public class ECCUtils extends _ExternBase___default {
       );
     }
 
-    if (!maybeEccAlgorithm.value().curve.equals("SM2PKE")) {
+    if (!maybeEccAlgorithm.value().curve.equals(SM2_KA)) {
       try {
         final byte[] pem = dafnyArrayUnWrapper(dtor_privateKey._pem);
         final ECPrivateKey privateKey =
@@ -181,7 +182,7 @@ public class ECCUtils extends _ExternBase___default {
       return CreateExternValidatePublicKeyError(maybeEccAlgorithm.error());
     }
 
-    if (!maybeEccAlgorithm.value().curve.equals("SM2")) {
+    if (!maybeEccAlgorithm.value().curve.equals(SM2_KA)) {
       try {
         final boolean validPublicKey = NistPublicKeyValidationCriteria(
           publicKeyBytes,
