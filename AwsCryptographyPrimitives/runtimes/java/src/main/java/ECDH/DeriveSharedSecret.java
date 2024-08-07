@@ -3,6 +3,7 @@ package ECDH;
 import static ECDH.ECCAlgorithm.eccAlgorithm;
 import static ECDH.ECCUtils.checkBCProvider;
 import static ECDH.ECCUtils.dafnyArrayUnWrapper;
+import static ECDH.KeyGeneration.SM2_KA;
 
 import StandardLibraryInternal.InternalResult;
 import Wrappers_Compile.Result;
@@ -43,7 +44,7 @@ public class DeriveSharedSecret extends _ExternBase___default {
       return CreateExternDerivesharedSecretError(maybeEccAlgorithm.error());
     }
 
-    if (!maybeEccAlgorithm.value().curve.equals("SM2PKE")) {
+    if (!maybeEccAlgorithm.value().curve.equals(SM2_KA)) {
       try {
         KeyAgreement keyAgreement = KeyAgreement.getInstance("ECDH", "BC");
         keyAgreement.init(
