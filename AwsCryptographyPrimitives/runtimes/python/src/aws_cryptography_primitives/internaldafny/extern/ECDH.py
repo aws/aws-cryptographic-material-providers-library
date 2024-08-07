@@ -1,72 +1,47 @@
-import standard_library.internaldafny.generated.Wrappers as Wrappers
 from enum import Enum
 
-from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.errors import AwsCryptographicPrimitivesError
-from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.errors import _smithy_error_to_dafny_error
+import standard_library.internaldafny.generated.Wrappers as Wrappers
 from aws_cryptography_primitives.internaldafny.generated.ECDH import default__
+from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.errors import (
+    AwsCryptographicPrimitivesError,
+    _smithy_error_to_dafny_error
+)
+
+import _dafny
+import cryptography.hazmat.primitives.asymmetric.ec
+from aws_cryptography_primitives.internaldafny.extern.Signature import (
+    _ecc_decode_compressed_point,
+    _ecc_encode_compressed_point_public_key,
+)
+
+from aws_cryptography_primitives.internaldafny.generated.ECDH import \
+    EccKeyPair_EccKeyPair
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives.asymmetric.ec import EllipticCurvePublicKey
+from cryptography.hazmat.primitives.serialization import (Encoding,
+                                                          NoEncryption,
+                                                          PrivateFormat,
+                                                          PublicFormat,
+                                                          load_der_public_key,
+                                                          load_pem_private_key)
+
+from aws_cryptography_primitives.internaldafny.extern.Signature import \
+    _ECC_CURVE_PARAMETERS
+
 CreateExternDerivesharedSecretSuccess = default__.CreateExternDerivesharedSecretSuccess
 CreateExternDerivesharedSecretError = default__.CreateExternDerivesharedSecretError
 CreateExternEccKeyGenFailure = default__.CreateExternEccKeyGenFailure
 CreateExternEccKeyGenSuccess = default__.CreateExternEccKeyGenSuccess
 CreateExternParsePublicKeySuccess = default__.CreateExternParsePublicKeySuccess
+CreateExternParsePublicKeyError = default__.CreateExternParsePublicKeyError
 CreateExternGetPublicKeyFromPrivateError = default__.CreateExternGetPublicKeyFromPrivateError
 CreateExternValidatePublicKeyError = default__.CreateExternValidatePublicKeyError
 CreateExternValidatePublicKeySuccess = default__.CreateExternValidatePublicKeySuccess
 CreateExternCompressPublicKeySuccess = default__.CreateExternCompressPublicKeySuccess
+CreateExternCompressPublicKeyError = default__.CreateExternCompressPublicKeyError
 CreateExternDecompressPublicKeyError = default__.CreateExternDecompressPublicKeyError
 CreateExternDecompressPublicKeySuccess = default__.CreateExternDecompressPublicKeySuccess
-CreateGetInfinityPublicKeyError = default__.CreateGetInfinityPublicKeyError
-CreateGetInfinityPublicKeySuccess = default__.CreateGetInfinityPublicKeySuccess
-
-import cryptography.hazmat.primitives.asymmetric.ec
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives.serialization import (
-  NoEncryption,
-  Encoding,
-  PrivateFormat,
-  PublicFormat,
-  load_pem_private_key,
-  load_der_public_key,
-)
-from cryptography.hazmat.primitives.asymmetric import ec
-import _dafny
-
-from cryptography.hazmat.primitives.asymmetric.ec import (
-  SECP256R1,
-  SECP384R1,
-  EllipticCurvePublicNumbers,
-)
-
-from aws_cryptography_primitives.internaldafny.extern.Signature import (
-    _ecc_encode_compressed_point,
-    _ecc_decode_compressed_point,
-    _int_to_bytes,
-)
-
-
-from aws_cryptography_primitives.internaldafny.generated.ECDH import (
-    EccKeyPair_EccKeyPair,
-)
-
-from cryptography.hazmat.primitives.serialization import PublicFormat
-
-from cryptography.hazmat.primitives.asymmetric.ec import EllipticCurvePublicKey
-
-CURVE_TO_ECC_SECRET_LENGTH_MAP = {
-    "secp256r1": int(256 / 8),
-    "secp384r1": int(384 / 8),
-    "secp521r1": int(521 / 8 + 1)
-}
-
-
-
-INF_PUBLIC_KEY_DER =  b"-----BEGIN PUBLIC KEY-----\n" \
-                   b"MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n" \
-                   b"AAAAAAAAAAAAAAAAAAAAAAAAAA==\n" \
-                   b"-----END PUBLIC KEY-----\n" 
-
-from aws_cryptography_primitives.internaldafny.extern.Signature import _ECC_CURVE_PARAMETERS
-
 
 curve_mapping = {
     "secp256r1": _ECC_CURVE_PARAMETERS["secp256r1"],
@@ -74,30 +49,26 @@ curve_mapping = {
     "secp521r1": _ECC_CURVE_PARAMETERS["secp521r1"],
 }
 
-def _ecc_encode_compressed_point_public_key(public_key: EllipticCurvePublicKey):
-  """Encodes a compressed elliptic curve point
-      as described in SEC-1 v2 section 2.3.3
-      http://www.secg.org/sec1-v2.pdf
+def _validate_point(curve, x, y):
+    """
+    Validate that the coordinates x, y:
+    - lie within the elliptic curve field
+    - satisfy the elliptic curve equation
+    """
+    # Get curve parameters
+    a = curve.a
+    b = curve.b
+    p = curve.p
 
-  :param private_key: Private key from which to extract point data
-  :type private_key: cryptography.hazmat.primitives.asymmetric.ec.EllipticCurvePrivateKey
-  :returns: Encoded compressed elliptic curve point
-  :rtype: bytes
-  :raises NotImplementedError: for non-prime curves
-  """
-  # key_size is in bits. Convert to bytes and round up
-#   byte_length = (private_key.curve.key_size + 7) // 8
-#   public_numbers = private_key.public_key().public_numbers()
-  public_numbers = public_key.public_numbers()
-  byte_length = (public_key.curve.key_size + 7) // 8
-  y_map = [b"\x02", b"\x03"]
-  # If curve in prime field.
-  if public_key.curve.name.startswith("secp"):
-    y_order = public_numbers.y % 2
-    y = y_map[y_order]
-  else:
-    raise NotImplementedError("Non-prime curves are not supported at this time")
-  return y + _int_to_bytes(public_numbers.x, byte_length)
+    # Check if point is within the field range
+    if not (0 <= x < p and 0 <= y < p):
+        return False
+
+    # Check if the point satisfies the elliptic curve equation
+    left = (y * y) % p
+    right = (x * x * x + a * x + b) % p
+    return left == right
+
 
 class DeriveSharedSecret:
     def CalculateSharedSecret(
@@ -114,29 +85,31 @@ class DeriveSharedSecret:
                 maybe_ecc_algorithm.error
             )
         
-        if maybe_ecc_algorithm.value.name != "SM2PKE": # ?? magic string? what?
-            #try:
-            private_key = load_pem_private_key(private_key_pem_bytes, None)
-            public_key = load_der_public_key(public_key_der_bytes)
+        curve = maybe_ecc_algorithm.value
+        
+        if curve.name != "SM2PKE": # magic string
+            try:
+                private_key = load_pem_private_key(private_key_pem_bytes, None)
+                public_key = load_der_public_key(public_key_der_bytes)
 
-            shared_key = private_key.exchange(
-                ec.ECDH(),
-                public_key
-            )
-
-            return CreateExternDerivesharedSecretSuccess(
-                _dafny.Seq(
-                    shared_key
+                shared_key = private_key.exchange(
+                    ec.ECDH(),
+                    public_key
                 )
-            )
-            # except Exception as e:
-            #     return CreateExternDerivesharedSecretError(
-            #         _smithy_error_to_dafny_error(
-            #             AwsCryptographicPrimitivesError(
-            #                 e
-            #             )
-            #         )
-            #     )
+
+                return CreateExternDerivesharedSecretSuccess(
+                    _dafny.Seq(
+                        shared_key
+                    )
+                )
+            except Exception as e:
+                return CreateExternDerivesharedSecretError(
+                    _smithy_error_to_dafny_error(
+                        AwsCryptographicPrimitivesError(
+                            message=str(e)
+                        )
+                    )
+                )
         else:
             return CreateExternDerivesharedSecretError(
                 _smithy_error_to_dafny_error(
@@ -145,22 +118,6 @@ class DeriveSharedSecret:
                     )
                 )
             )
-        
-def validate_point(curve, x, y):
-    # Get curve parameters
-    a = curve.a
-    b = curve.b
-    p = curve.p
-
-    # Check if point is within the field range
-    if not (0 <= x < p and 0 <= y < p):
-        return False
-
-    # Check if the point satisfies the elliptic curve equation
-    left = (y * y) % p
-    right = (x * x * x + a * x + b) % p
-    return left == right
-
 
 class KeyGeneration:
     ELLIPTIC_CURVE_ALGORITHM = "EC"
@@ -172,48 +129,72 @@ class KeyGeneration:
 
     @staticmethod
     def GenerateKeyPair(dafny_eccAlgorithm) -> Wrappers.Result:
-        # TODO: any crypto provider checking? ala java `checkBCProvider`
         maybe_ecc_algorithm = ECCAlgorithms.eccAlgorithm(dafny_eccAlgorithm)
         if maybe_ecc_algorithm.is_Failure:
             return CreateExternEccKeyGenFailure(
                 maybe_ecc_algorithm.error
             )
         
-        try:
-            private_key = ec.generate_private_key(
-                maybe_ecc_algorithm.value.value
-            )
+        curve = maybe_ecc_algorithm.value
 
-            private_key_pem_bytes = private_key.private_bytes(Encoding.PEM, PrivateFormat.PKCS8, NoEncryption())
-            public_key_der_bytes = private_key.public_key().public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
+        if curve.name != "SM2PKE":
+            try:
+                private_key = ec.generate_private_key(
+                    maybe_ecc_algorithm.value.value
+                )
 
-            return CreateExternEccKeyGenSuccess(EccKeyPair_EccKeyPair(
-                publicKey=_dafny.Seq(public_key_der_bytes),
-                privateKey=_dafny.Seq(private_key_pem_bytes)
-            ))
-        except Exception as e:
-            return CreateExternEccKeyGenFailure(
-                _smithy_error_to_dafny_error(
-                    AwsCryptographicPrimitivesError(
-                        e
+                private_key_pem_bytes = private_key.private_bytes(Encoding.PEM, PrivateFormat.PKCS8, NoEncryption())
+                public_key_der_bytes = private_key.public_key().public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
+
+                return CreateExternEccKeyGenSuccess(EccKeyPair_EccKeyPair(
+                    publicKey=_dafny.Seq(public_key_der_bytes),
+                    privateKey=_dafny.Seq(private_key_pem_bytes)
+                ))
+            except Exception as e:
+                return CreateExternEccKeyGenFailure(
+                    _smithy_error_to_dafny_error(
+                        AwsCryptographicPrimitivesError(
+                            message=str(e)
+                        )
                     )
                 )
-            )
+        else:
+            return CreateExternEccKeyGenFailure(
+                    _smithy_error_to_dafny_error(
+                        ValueError(
+                            "SM2 not supported."
+                        )
+                    )
+                )
 
 
 class ECCUtils:
+
+    CURVE_TO_ECC_SECRET_LENGTH_MAP = {
+        "secp256r1": int(256 / 8),
+        "secp384r1": int(384 / 8),
+        "secp521r1": int(521 / 8 + 1)
+    }
     
     def ParsePublicKey(dafny_publicKey: _dafny.Seq) -> Wrappers.Result:
-        # TODO: check crypto provider?
-        public_key_bytes = bytes(dafny_publicKey)
-        public_key = load_der_public_key(public_key_bytes)
-        public_bytes = public_key.public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
+        try:
+            public_key_bytes = bytes(dafny_publicKey)
+            public_key = load_der_public_key(public_key_bytes)
+            public_bytes = public_key.public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
 
-        return CreateExternParsePublicKeySuccess(
-            _dafny.Seq(
-                public_bytes
+            return CreateExternParsePublicKeySuccess(
+                _dafny.Seq(
+                    public_bytes
+                )
             )
-        )
+        except Exception as e:
+            return CreateExternParsePublicKeyError(
+                _smithy_error_to_dafny_error(
+                    AwsCryptographicPrimitivesError(
+                        message=str(e)
+                    )
+                )
+            )
     
     def GetPublicKey(dafny_eccAlgorithm, dafny_privateKey):
         maybe_ecc_algorithm = ECCAlgorithms.eccAlgorithm(dafny_eccAlgorithm)
@@ -257,13 +238,12 @@ class ECCUtils:
                 return CreateExternGetPublicKeyFromPrivateError(
                     _smithy_error_to_dafny_error(
                         AwsCryptographicPrimitivesError(
-                            e
+                            message=str(e)
                         )
                     )
                 )
         
     def ValidatePublicKey(dafny_eccAlgorithm, dafny_publicKey):
-        # TODO: check crypto provider?
         public_key_bytes = bytes(dafny_publicKey)
 
         maybe_ecc_algorithm = ECCAlgorithms.eccAlgorithm(dafny_eccAlgorithm)
@@ -276,18 +256,6 @@ class ECCUtils:
         
         if curve.name != "SM2": # ?? magic string? what?
             try:
-                # print(f"{public_key_bytes=}")
-                if not ECCUtils.ValidatePublicKeyIsNotInfinityDER(public_key_bytes):
-                # if not ECCUtils.ValidatePublicKeyIsNotInfinity(public_key.public_numbers()):
-                    return CreateExternValidatePublicKeyError(
-                        _smithy_error_to_dafny_error(
-                            AwsCryptographicPrimitivesError(
-                                message="Provided public key is the point at infinity."
-                            )
-                        )
-                    )
-        
-                # print("loading public key")
                 public_key = load_der_public_key(public_key_bytes)
                 public_key_curve_name = public_key.curve.name
                 if not (public_key_curve_name == curve.name):
@@ -305,8 +273,6 @@ class ECCUtils:
                     valid_public_key
                 )
             except Exception as e:
-                # print(e)
-                # print(type(e))
                 return CreateExternValidatePublicKeyError(
                     _smithy_error_to_dafny_error(
                         AwsCryptographicPrimitivesError(
@@ -314,12 +280,22 @@ class ECCUtils:
                         )
                     )
                 )
+        else:
+            return CreateExternValidatePublicKeyError(
+                _smithy_error_to_dafny_error(
+                    ValueError(
+                        "SM2 Not yet Supported."
+                    )
+                )
+            )
         
     def NistPublicKeyValidationCriteria(public_key):
         public_numbers = public_key.public_numbers()
         pyca_curve_name = public_key.curve.name
         ecdsa_curve = curve_mapping[pyca_curve_name]
-        validate_point(ecdsa_curve, public_numbers.x, public_numbers.y)
+
+        _validate_point(ecdsa_curve, public_numbers.x, public_numbers.y)
+        
         return (
             ECCUtils.ValidatePublicKeyIsNotInfinity(public_numbers) and
             ECCUtils.CoordinateBetween0AndP(public_numbers.x, ecdsa_curve) and
@@ -329,9 +305,6 @@ class ECCUtils:
     def ValidatePublicKeyIsNotInfinity(point):
         return not (point.x == 0 and point.y == 0)
     
-    def ValidatePublicKeyIsNotInfinityDER(key):
-        return key != INF_PUBLIC_KEY_DER
-    
     def CoordinateBetween0AndP(coordinate, curve):
         return (
             coordinate > 0 and
@@ -339,118 +312,60 @@ class ECCUtils:
         )
     
     def CompressPublicKey(dafny_publicKeyDerBytes, dafny_eccAlgorithm):
-        public_key_bytes = bytes(dafny_publicKeyDerBytes)
-        public_key = load_der_public_key(public_key_bytes)
-        compressed_public_key = _ecc_encode_compressed_point_public_key(public_key)
-        return CreateExternCompressPublicKeySuccess(
-            _dafny.Seq(
-                compressed_public_key
+        try:
+            public_key_bytes = bytes(dafny_publicKeyDerBytes)
+            public_key = load_der_public_key(public_key_bytes)
+            compressed_public_key = _ecc_encode_compressed_point_public_key(public_key)
+            return CreateExternCompressPublicKeySuccess(
+                _dafny.Seq(
+                    compressed_public_key
+                )
             )
-        )
-        
+        except Exception as e:
+            return CreateExternCompressPublicKeyError(
+                _smithy_error_to_dafny_error(
+                    AwsCryptographicPrimitivesError(
+                        message=str(e)
+                    )
+                )
+            )
 
     def DecompressPublicKey(dafny_compressedPublicKey, dafny_eccAlgorithm):
-        # todo: check crypto provider
+        try:
+            maybe_ecc_algorithm = ECCAlgorithms.eccAlgorithm(dafny_eccAlgorithm)
+            if maybe_ecc_algorithm.is_Failure:
+                return CreateExternDecompressPublicKeyError(
+                    maybe_ecc_algorithm.error
+                )
 
-        maybe_ecc_algorithm = ECCAlgorithms.eccAlgorithm(dafny_eccAlgorithm)
-        if maybe_ecc_algorithm.is_Failure:
+            compressed_public_key_bytes = bytes(dafny_compressedPublicKey)
+            curve = maybe_ecc_algorithm.value
+
+            x, y = _ecc_decode_compressed_point(curve, compressed_public_key_bytes)
+            public_numbers = ec.EllipticCurvePublicNumbers(x=x, y=y, curve=curve.value)
+            public_key = public_numbers.public_key(backend=default_backend())
+
+            return CreateExternDecompressPublicKeySuccess(
+                _dafny.Seq(
+                    public_key.public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
+                )
+            )
+        except Exception as e:
             return CreateExternDecompressPublicKeyError(
-                maybe_ecc_algorithm.error
+                _smithy_error_to_dafny_error(
+                    AwsCryptographicPrimitivesError(
+                        message=str(e)
+                    )
+                )
             )
-        compressed_public_key_bytes = bytes(dafny_compressedPublicKey)
-        curve = maybe_ecc_algorithm.value
 
-        x, y = _ecc_decode_compressed_point(curve, compressed_public_key_bytes)
-        public_numbers = ec.EllipticCurvePublicNumbers(x=x, y=y, curve=curve.value)
-        public_key = public_numbers.public_key(backend=default_backend())
-        # public_key = EllipticCurvePublicKey.from_encoded_point(curve, compressed_public_key_bytes)
-
-        return CreateExternDecompressPublicKeySuccess(
-            _dafny.Seq(
-                public_key.public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
-            )
-        )
-    
-    # We should've made this a test-only extern
-    def GetInfinityPublicKey(dafny_eccAlgorithm):
-        maybe_ecc_algorithm = ECCAlgorithms.eccAlgorithm(dafny_eccAlgorithm)
-        if maybe_ecc_algorithm.is_Failure:
-            return CreateGetInfinityPublicKeyError(
-                maybe_ecc_algorithm.error
-            )
-        
-        # Manually create the ASN.1 encoded public key
-        from pyasn1.type.univ import Sequence, BitString, ObjectIdentifier
-        from pyasn1.codec.der.encoder import encode as der_encode
-        from pyasn1.codec.der.decoder import decode as der_decode
-
-        # generate a random public/private key to get valid alg_info
-        private_key = ec.generate_private_key(
-            maybe_ecc_algorithm.value.value
-        )
-        public_key_der = private_key.public_key().public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
-
-        alg_info_seq, _ = der_decode(public_key_der, asn1Spec=Sequence())
-        alg_info = alg_info_seq.getComponentByPosition(0)
-        
-        # inf point defined as 1 byte of 0s
-        point_at_infinity = BitString.fromOctetString(b'\x00')
-
-        seq = Sequence()
-        seq.setComponentByPosition(0, alg_info)
-        seq.setComponentByPosition(1, point_at_infinity)
-
-        return CreateGetInfinityPublicKeySuccess(
-            _dafny.Seq(
-                der_encode(seq)
-            )
-        )
-    
-    def GetOutOfBoundsPublicKey(dafny_eccAlgorithm):
-        maybe_ecc_algorithm = ECCAlgorithms.eccAlgorithm(dafny_eccAlgorithm)
-        if maybe_ecc_algorithm.is_Failure:
-            return CreateGetInfinityPublicKeyError(
-                maybe_ecc_algorithm.error
-            )
-        
-        curve = maybe_ecc_algorithm.value
-        
-        # Manually create the ASN.1 encoded public key
-        from pyasn1.type.univ import Sequence, BitString, ObjectIdentifier
-        from pyasn1.codec.der.encoder import encode as der_encode
-        from pyasn1.codec.der.decoder import decode as der_decode
-
-        # generate a random public/private key to get valid alg_info
-        private_key = ec.generate_private_key(
-            maybe_ecc_algorithm.value.value
-        )
-        public_key_der = private_key.public_key().public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
-
-        alg_info_seq, _ = der_decode(public_key_der, asn1Spec=Sequence())
-        alg_info = alg_info_seq.getComponentByPosition(0)
-        # print(f"{alg_info_seq.getComponentByPosition(1)=}")
-
-        length = CURVE_TO_ECC_SECRET_LENGTH_MAP[curve.name]
-
-        out_of_bounds_point = b'\x04' + (b'\xFF' * (2 * length))
-        
-        # inf point defined as 1 byte of 0s
-        point_at_infinity = BitString.fromOctetString(out_of_bounds_point)
-
-        seq = Sequence()
-        seq.setComponentByPosition(0, alg_info)
-        seq.setComponentByPosition(1, point_at_infinity)
-
-        # print(f"{len(point_at_infinity)=}")
-
-        return CreateGetInfinityPublicKeySuccess(
-            _dafny.Seq(
-                der_encode(seq)
-            )
-        )
-
-
-class CustomECCAlgorithm(cryptography.hazmat.primitives.asymmetric.ec.EllipticCurve):
+class UnimplementedECCAlgorithm(cryptography.hazmat.primitives.asymmetric.ec.EllipticCurve):
+    """
+    Concrete class for placeholder algorithms that will be implemented later.
+    This class implements the required pyca interface for EC algorithms.
+    Currently, this class is only used to define an SM2 placeholder.
+    (pyca does not define an SM2 implementation of this interface.)
+    """
     def __init__(self, name, key_size):
         self.name = name
         self.key_size = key_size
@@ -462,16 +377,10 @@ class CustomECCAlgorithm(cryptography.hazmat.primitives.asymmetric.ec.EllipticCu
         return self.key_size
         
 class ECCAlgorithms(Enum):
-    import cryptography.hazmat.primitives.asymmetric.ec
     secp256r1 = cryptography.hazmat.primitives.asymmetric.ec.SECP256R1()
     secp384r1 = cryptography.hazmat.primitives.asymmetric.ec.SECP384R1()
     secp521r1 = cryptography.hazmat.primitives.asymmetric.ec.SECP521R1()
-
-    # secp256r1 = ECCAlgorithm(KeyGeneration.SEC_PRIME_FIELD_PREFIX + KeyGeneration.SEC_P256)
-    # secp384r1 = ECCAlgorithm(KeyGeneration.SEC_PRIME_FIELD_PREFIX + KeyGeneration.SEC_P384)
-    # secp521r1 = ECCAlgorithm(KeyGeneration.SEC_PRIME_FIELD_PREFIX + KeyGeneration.SEC_P521)
-    SM2 = CustomECCAlgorithm(name=KeyGeneration.SM2_KA, key_size=-1)
-
+    SM2 = UnimplementedECCAlgorithm(name=KeyGeneration.SM2_KA, key_size=-1)
 
     @staticmethod
     def eccAlgorithm(dafny_eccAlgorithm) -> Wrappers.Result:
@@ -493,11 +402,11 @@ class ECCAlgorithms(Enum):
             )
         return Wrappers.Result_Success(named_curve_algorithm)
 
-import aws_cryptography_primitives.internaldafny.generated.ECDH
 
 class dummyclass:
     pass
 
+import aws_cryptography_primitives.internaldafny.generated.ECDH
 aws_cryptography_primitives.internaldafny.generated.ECDH.ECDH = dummyclass
 # TODO; extern name bad
 aws_cryptography_primitives.internaldafny.generated.ECDH.ECDH.DeriveSharedSecret = DeriveSharedSecret

@@ -4,6 +4,7 @@ from cryptography.exceptions import (
   InvalidSignature,
   UnsupportedAlgorithm
 )
+from cryptography.hazmat.primitives.asymmetric.ec import EllipticCurvePublicKey
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.serialization import (
   NoEncryption,
@@ -256,6 +257,29 @@ def _ecc_static_length_signature(key, algorithm, digest):
       signature = encode_dss_signature(r, s)
   return signature
 
+def _ecc_encode_compressed_point_public_key(public_key: EllipticCurvePublicKey):
+  """Encodes a compressed elliptic curve point
+      as described in SEC-1 v2 section 2.3.3
+      http://www.secg.org/sec1-v2.pdf
+
+  :param private_key: Private key from which to extract point data
+  :type private_key: cryptography.hazmat.primitives.asymmetric.ec.EllipticCurvePrivateKey
+  :returns: Encoded compressed elliptic curve point
+  :rtype: bytes
+  :raises NotImplementedError: for non-prime curves
+  """
+  public_numbers = public_key.public_numbers()
+  # key_size is in bits. Convert to bytes and round up
+  byte_length = (public_key.curve.key_size + 7) // 8
+  y_map = [b"\x02", b"\x03"]
+  # If curve in prime field.
+  if public_key.curve.name.startswith("secp"):
+    y_order = public_numbers.y % 2
+    y = y_map[y_order]
+  else:
+    raise NotImplementedError("Non-prime curves are not supported at this time")
+  return y + _int_to_bytes(public_numbers.x, byte_length)
+
 def _ecc_encode_compressed_point(private_key):
   """Encodes a compressed elliptic curve point
       as described in SEC-1 v2 section 2.3.3
@@ -267,17 +291,8 @@ def _ecc_encode_compressed_point(private_key):
   :rtype: bytes
   :raises NotImplementedError: for non-prime curves
   """
-  # key_size is in bits. Convert to bytes and round up
-  byte_length = (private_key.curve.key_size + 7) // 8
-  public_numbers = private_key.public_key().public_numbers()
-  y_map = [b"\x02", b"\x03"]
-  # If curve in prime field.
-  if private_key.curve.name.startswith("secp"):
-    y_order = public_numbers.y % 2
-    y = y_map[y_order]
-  else:
-    raise NotImplementedError("Non-prime curves are not supported at this time")
-  return y + _int_to_bytes(public_numbers.x, byte_length)
+  public_key = private_key.public_key()
+  return _ecc_encode_compressed_point_public_key(public_key)
 
 def _ecc_decode_compressed_point(curve, compressed_point):
   """Decodes a compressed elliptic curve point
