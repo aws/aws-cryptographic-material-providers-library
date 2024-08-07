@@ -106,7 +106,7 @@ def test_GIVEN_canonical_infinity_key_WHEN_load_der_public_key_THEN_special_exce
     # Given: Valid DER-encoded ASN.1 sequence representing the canonical "infinity" invalid public key
     valid_alg_info, _ = get_valid_der_components()
     # Canonical invalid point is 1 byte of 0s
-    invalid_point = BitString.fromOctetString("\x00")
+    invalid_point = BitString.fromOctetString(b"\x00")
     seq = Sequence()
     seq.setComponentByPosition(0, valid_alg_info)
     seq.setComponentByPosition(1, invalid_point)
@@ -139,7 +139,7 @@ def test_GIVEN_noncanonical_infinity_key_WHEN_load_der_public_key_THEN_generic_e
     valid_alg_info, _ = get_valid_der_components()
     # Noncanonical, but still invalid points are >=2 bytes of 0s
     for i in range(2, 10):
-        invalid_point = BitString.fromOctetString("\x00" * i)
+        invalid_point = BitString.fromOctetString(b"\x00" * i)
         seq = Sequence()
         seq.setComponentByPosition(0, valid_alg_info)
         seq.setComponentByPosition(1, invalid_point)
