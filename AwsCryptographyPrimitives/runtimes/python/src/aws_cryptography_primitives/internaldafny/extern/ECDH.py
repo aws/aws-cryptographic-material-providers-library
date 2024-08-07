@@ -355,32 +355,11 @@ class ECCUtils:
                 )
             )
 
-class UnimplementedECCAlgorithm(cryptography.hazmat.primitives.asymmetric.ec.EllipticCurve):
-    """
-    Concrete class for placeholder algorithms that will be implemented later.
-    This class implements the required pyca interface for EC algorithms.
-    Currently, this class is only used to define an SM2 placeholder.
-    (pyca does not define an SM2 implementation of this interface.)
-    """
-    def __init__(self, name, key_size):
-        self.name = name
-        self.key_size = key_size
-
-    def name(self):
-        return self.name
-    
-    def key_size(self):
-        return self.key_size
-        
 class ECCAlgorithms(Enum):
     """Enum for supported ECC algorithms."""
     secp256r1 = cryptography.hazmat.primitives.asymmetric.ec.SECP256R1()
     secp384r1 = cryptography.hazmat.primitives.asymmetric.ec.SECP384R1()
     secp521r1 = cryptography.hazmat.primitives.asymmetric.ec.SECP521R1()
-
-    # SM2 is supported as a valid ECC algorithm value, but is not implemented.
-    SM2_KA_NAME = "SM2KA"
-    SM2 = UnimplementedECCAlgorithm(name=SM2_KA_NAME, key_size=-1)
 
     @staticmethod
     def eccAlgorithm(dafny_eccAlgorithm) -> Wrappers.Result:
@@ -390,8 +369,6 @@ class ECCAlgorithms(Enum):
             named_curve_algorithm = ECCAlgorithms.secp384r1
         elif dafny_eccAlgorithm.is_ECC__NIST__P521:
             named_curve_algorithm = ECCAlgorithms.secp521r1
-        elif dafny_eccAlgorithm.is_SM2:
-            named_curve_algorithm = ECCAlgorithms.SM2
         else:
             return Wrappers.Result_Failure(
                 _smithy_error_to_dafny_error(
@@ -403,14 +380,15 @@ class ECCAlgorithms(Enum):
         return Wrappers.Result_Success(named_curve_algorithm)
 
 
-class dummyclass:
+# Empty class to hold extern functions.
+# This is exported to the generated class
+# in a way that the generated code
+# expects to access extern methods.
+class ECDH_externs:
     pass
 
 import aws_cryptography_primitives.internaldafny.generated.ECDH
-aws_cryptography_primitives.internaldafny.generated.ECDH.ECDH = dummyclass
-# TODO; extern name bad
-aws_cryptography_primitives.internaldafny.generated.ECDH.ECDH.DeriveSharedSecret = DeriveSharedSecret
+aws_cryptography_primitives.internaldafny.generated.ECDH.ECDH = ECDH_externs
 aws_cryptography_primitives.internaldafny.generated.ECDH.ECDH.DeriveSharedSecret = DeriveSharedSecret
 aws_cryptography_primitives.internaldafny.generated.ECDH.ECDH.KeyGeneration = KeyGeneration
 aws_cryptography_primitives.internaldafny.generated.ECDH.ECDH.ECCUtils = ECCUtils
-aws_cryptography_primitives.internaldafny.generated.ECDH.ECCUtils = ECCUtils
