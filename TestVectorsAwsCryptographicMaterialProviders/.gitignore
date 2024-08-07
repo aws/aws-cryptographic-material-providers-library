@@ -1,4 +1,6 @@
 TestResults
 ImplementationFromDafny.cs
 TestsFromDafny.cs
+ImplementationFromDafny-cs.dtr
+TestsFromDafny-cs.dtr
 /runtimes/java/dafny

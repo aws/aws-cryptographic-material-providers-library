@@ -8175,8 +8175,6 @@ public class ToNative {
     } else if (dafnyValue.dtor_obj() instanceof Exception) {
       return (RuntimeException) dafnyValue.dtor_obj();
     }
-    // BEGIN MANUAL EDIT
-    // END MANUAL EDIT
     return new IllegalStateException(
       String.format(
         "Unknown error thrown while calling Amazon DynamoDB. %s",

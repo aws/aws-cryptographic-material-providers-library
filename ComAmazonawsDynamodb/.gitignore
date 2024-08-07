@@ -2,6 +2,9 @@ TestResults
 ImplementationFromDafny.cs
 TestsFromDafny.cs
 Folder.DotSettings.user
+ImplementationFromDafny-cs.dtr
+TestsFromDafny-cs.dtr
+
 **/bin
 **/obj
 
