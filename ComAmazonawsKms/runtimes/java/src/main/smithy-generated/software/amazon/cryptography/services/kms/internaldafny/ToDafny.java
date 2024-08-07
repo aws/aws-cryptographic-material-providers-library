@@ -10,6 +10,7 @@ import dafny.TypeDescriptor;
 import java.lang.Boolean;
 import java.lang.Byte;
 import java.lang.Character;
+import java.lang.Exception;
 import java.lang.Integer;
 import java.lang.RuntimeException;
 import java.lang.String;
@@ -23,12 +24,14 @@ import software.amazon.awssdk.services.kms.model.CloudHsmClusterInvalidConfigura
 import software.amazon.awssdk.services.kms.model.CloudHsmClusterNotActiveException;
 import software.amazon.awssdk.services.kms.model.CloudHsmClusterNotFoundException;
 import software.amazon.awssdk.services.kms.model.CloudHsmClusterNotRelatedException;
+import software.amazon.awssdk.services.kms.model.ConflictException;
 import software.amazon.awssdk.services.kms.model.CustomKeyStoreHasCmKsException;
 import software.amazon.awssdk.services.kms.model.CustomKeyStoreInvalidStateException;
 import software.amazon.awssdk.services.kms.model.CustomKeyStoreNameInUseException;
 import software.amazon.awssdk.services.kms.model.CustomKeyStoreNotFoundException;
 import software.amazon.awssdk.services.kms.model.DependencyTimeoutException;
 import software.amazon.awssdk.services.kms.model.DisabledException;
+import software.amazon.awssdk.services.kms.model.DryRunOperationException;
 import software.amazon.awssdk.services.kms.model.ExpiredImportTokenException;
 import software.amazon.awssdk.services.kms.model.IncorrectKeyException;
 import software.amazon.awssdk.services.kms.model.IncorrectKeyMaterialException;
@@ -44,6 +47,7 @@ import software.amazon.awssdk.services.kms.model.InvalidMarkerException;
 import software.amazon.awssdk.services.kms.model.KeyUnavailableException;
 import software.amazon.awssdk.services.kms.model.KmsException;
 import software.amazon.awssdk.services.kms.model.KmsInternalException;
+import software.amazon.awssdk.services.kms.model.KmsInvalidMacException;
 import software.amazon.awssdk.services.kms.model.KmsInvalidSignatureException;
 import software.amazon.awssdk.services.kms.model.KmsInvalidStateException;
 import software.amazon.awssdk.services.kms.model.LimitExceededException;
@@ -51,6 +55,18 @@ import software.amazon.awssdk.services.kms.model.MalformedPolicyDocumentExceptio
 import software.amazon.awssdk.services.kms.model.NotFoundException;
 import software.amazon.awssdk.services.kms.model.TagException;
 import software.amazon.awssdk.services.kms.model.UnsupportedOperationException;
+import software.amazon.awssdk.services.kms.model.XksKeyAlreadyInUseException;
+import software.amazon.awssdk.services.kms.model.XksKeyInvalidConfigurationException;
+import software.amazon.awssdk.services.kms.model.XksKeyNotFoundException;
+import software.amazon.awssdk.services.kms.model.XksProxyIncorrectAuthenticationCredentialException;
+import software.amazon.awssdk.services.kms.model.XksProxyInvalidConfigurationException;
+import software.amazon.awssdk.services.kms.model.XksProxyInvalidResponseException;
+import software.amazon.awssdk.services.kms.model.XksProxyUriEndpointInUseException;
+import software.amazon.awssdk.services.kms.model.XksProxyUriInUseException;
+import software.amazon.awssdk.services.kms.model.XksProxyUriUnreachableException;
+import software.amazon.awssdk.services.kms.model.XksProxyVpcEndpointServiceInUseException;
+import software.amazon.awssdk.services.kms.model.XksProxyVpcEndpointServiceInvalidConfigurationException;
+import software.amazon.awssdk.services.kms.model.XksProxyVpcEndpointServiceNotFoundException;
 import software.amazon.cryptography.services.kms.internaldafny.types.AlgorithmSpec;
 import software.amazon.cryptography.services.kms.internaldafny.types.AliasListEntry;
 import software.amazon.cryptography.services.kms.internaldafny.types.CancelKeyDeletionRequest;
@@ -66,6 +82,7 @@ import software.amazon.cryptography.services.kms.internaldafny.types.CreateGrant
 import software.amazon.cryptography.services.kms.internaldafny.types.CreateGrantResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.CreateKeyRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.CreateKeyResponse;
+import software.amazon.cryptography.services.kms.internaldafny.types.CustomKeyStoreType;
 import software.amazon.cryptography.services.kms.internaldafny.types.CustomKeyStoresListEntry;
 import software.amazon.cryptography.services.kms.internaldafny.types.CustomerMasterKeySpec;
 import software.amazon.cryptography.services.kms.internaldafny.types.DataKeyPairSpec;
@@ -76,6 +93,8 @@ import software.amazon.cryptography.services.kms.internaldafny.types.DeleteAlias
 import software.amazon.cryptography.services.kms.internaldafny.types.DeleteCustomKeyStoreRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.DeleteCustomKeyStoreResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.DeleteImportedKeyMaterialRequest;
+import software.amazon.cryptography.services.kms.internaldafny.types.DeriveSharedSecretRequest;
+import software.amazon.cryptography.services.kms.internaldafny.types.DeriveSharedSecretResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.DescribeCustomKeyStoresRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.DescribeCustomKeyStoresResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.DescribeKeyRequest;
@@ -96,12 +115,14 @@ import software.amazon.cryptography.services.kms.internaldafny.types.Error_Cloud
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterNotActiveException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterNotFoundException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_CloudHsmClusterNotRelatedException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_ConflictException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_CustomKeyStoreHasCMKsException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_CustomKeyStoreInvalidStateException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_CustomKeyStoreNameInUseException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_CustomKeyStoreNotFoundException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_DependencyTimeoutException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_DisabledException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_DryRunOperationException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_ExpiredImportTokenException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_IncorrectKeyException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_IncorrectKeyMaterialException;
@@ -115,15 +136,27 @@ import software.amazon.cryptography.services.kms.internaldafny.types.Error_Inval
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidKeyUsageException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_InvalidMarkerException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_KMSInternalException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_KMSInvalidMacException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_KMSInvalidSignatureException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_KMSInvalidStateException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_KeyUnavailableException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_LimitExceededException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_MalformedPolicyDocumentException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_NotFoundException;
-import software.amazon.cryptography.services.kms.internaldafny.types.Error_Opaque;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_TagException;
 import software.amazon.cryptography.services.kms.internaldafny.types.Error_UnsupportedOperationException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksKeyAlreadyInUseException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksKeyInvalidConfigurationException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksKeyNotFoundException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyIncorrectAuthenticationCredentialException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyInvalidConfigurationException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyInvalidResponseException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyUriEndpointInUseException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyUriInUseException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyUriUnreachableException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceInUseException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceInvalidConfigurationException;
+import software.amazon.cryptography.services.kms.internaldafny.types.Error_XksProxyVpcEndpointServiceNotFoundException;
 import software.amazon.cryptography.services.kms.internaldafny.types.ExpirationModelType;
 import software.amazon.cryptography.services.kms.internaldafny.types.GenerateDataKeyPairRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.GenerateDataKeyPairResponse;
@@ -133,6 +166,8 @@ import software.amazon.cryptography.services.kms.internaldafny.types.GenerateDat
 import software.amazon.cryptography.services.kms.internaldafny.types.GenerateDataKeyResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.GenerateDataKeyWithoutPlaintextRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.GenerateDataKeyWithoutPlaintextResponse;
+import software.amazon.cryptography.services.kms.internaldafny.types.GenerateMacRequest;
+import software.amazon.cryptography.services.kms.internaldafny.types.GenerateMacResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.GenerateRandomRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.GenerateRandomResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.GetKeyPolicyRequest;
@@ -149,6 +184,9 @@ import software.amazon.cryptography.services.kms.internaldafny.types.GrantOperat
 import software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient;
 import software.amazon.cryptography.services.kms.internaldafny.types.ImportKeyMaterialRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.ImportKeyMaterialResponse;
+import software.amazon.cryptography.services.kms.internaldafny.types.KeyAgreementAlgorithmSpec;
+import software.amazon.cryptography.services.kms.internaldafny.types.KeyEncryptionMechanism;
+import software.amazon.cryptography.services.kms.internaldafny.types.KeyListEntry;
 import software.amazon.cryptography.services.kms.internaldafny.types.KeyManagerType;
 import software.amazon.cryptography.services.kms.internaldafny.types.KeyMetadata;
 import software.amazon.cryptography.services.kms.internaldafny.types.KeySpec;
@@ -160,8 +198,13 @@ import software.amazon.cryptography.services.kms.internaldafny.types.ListGrantsR
 import software.amazon.cryptography.services.kms.internaldafny.types.ListGrantsResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.ListKeyPoliciesRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.ListKeyPoliciesResponse;
+import software.amazon.cryptography.services.kms.internaldafny.types.ListKeyRotationsRequest;
+import software.amazon.cryptography.services.kms.internaldafny.types.ListKeyRotationsResponse;
+import software.amazon.cryptography.services.kms.internaldafny.types.ListKeysRequest;
+import software.amazon.cryptography.services.kms.internaldafny.types.ListKeysResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.ListResourceTagsRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.ListResourceTagsResponse;
+import software.amazon.cryptography.services.kms.internaldafny.types.MacAlgorithmSpec;
 import software.amazon.cryptography.services.kms.internaldafny.types.MessageType;
 import software.amazon.cryptography.services.kms.internaldafny.types.MultiRegionConfiguration;
 import software.amazon.cryptography.services.kms.internaldafny.types.MultiRegionKey;
@@ -170,10 +213,15 @@ import software.amazon.cryptography.services.kms.internaldafny.types.OriginType;
 import software.amazon.cryptography.services.kms.internaldafny.types.PutKeyPolicyRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.ReEncryptRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.ReEncryptResponse;
+import software.amazon.cryptography.services.kms.internaldafny.types.RecipientInfo;
 import software.amazon.cryptography.services.kms.internaldafny.types.ReplicateKeyRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.ReplicateKeyResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.RetireGrantRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.RevokeGrantRequest;
+import software.amazon.cryptography.services.kms.internaldafny.types.RotateKeyOnDemandRequest;
+import software.amazon.cryptography.services.kms.internaldafny.types.RotateKeyOnDemandResponse;
+import software.amazon.cryptography.services.kms.internaldafny.types.RotationType;
+import software.amazon.cryptography.services.kms.internaldafny.types.RotationsListEntry;
 import software.amazon.cryptography.services.kms.internaldafny.types.ScheduleKeyDeletionRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.ScheduleKeyDeletionResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.SignRequest;
@@ -187,9 +235,15 @@ import software.amazon.cryptography.services.kms.internaldafny.types.UpdateCusto
 import software.amazon.cryptography.services.kms.internaldafny.types.UpdateCustomKeyStoreResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.UpdateKeyDescriptionRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.UpdatePrimaryRegionRequest;
+import software.amazon.cryptography.services.kms.internaldafny.types.VerifyMacRequest;
+import software.amazon.cryptography.services.kms.internaldafny.types.VerifyMacResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.VerifyRequest;
 import software.amazon.cryptography.services.kms.internaldafny.types.VerifyResponse;
 import software.amazon.cryptography.services.kms.internaldafny.types.WrappingKeySpec;
+import software.amazon.cryptography.services.kms.internaldafny.types.XksKeyConfigurationType;
+import software.amazon.cryptography.services.kms.internaldafny.types.XksProxyAuthenticationCredentialType;
+import software.amazon.cryptography.services.kms.internaldafny.types.XksProxyConfigurationType;
+import software.amazon.cryptography.services.kms.internaldafny.types.XksProxyConnectivityType;
 
 public class ToDafny {
 
@@ -327,26 +381,96 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
         nativeValue.customKeyStoreName()
       );
-    DafnySequence<? extends Character> cloudHsmClusterId;
+    Option<DafnySequence<? extends Character>> cloudHsmClusterId;
     cloudHsmClusterId =
-      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.cloudHsmClusterId()
-      );
-    DafnySequence<? extends Character> trustAnchorCertificate;
+      Objects.nonNull(nativeValue.cloudHsmClusterId())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.cloudHsmClusterId()
+          )
+        )
+        : Option.create_None();
+    Option<DafnySequence<? extends Character>> trustAnchorCertificate;
     trustAnchorCertificate =
-      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.trustAnchorCertificate()
-      );
-    DafnySequence<? extends Character> keyStorePassword;
+      Objects.nonNull(nativeValue.trustAnchorCertificate())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.trustAnchorCertificate()
+          )
+        )
+        : Option.create_None();
+    Option<DafnySequence<? extends Character>> keyStorePassword;
     keyStorePassword =
-      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.keyStorePassword()
-      );
+      Objects.nonNull(nativeValue.keyStorePassword())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.keyStorePassword()
+          )
+        )
+        : Option.create_None();
+    Option<CustomKeyStoreType> customKeyStoreType;
+    customKeyStoreType =
+      Objects.nonNull(nativeValue.customKeyStoreType())
+        ? Option.create_Some(
+          ToDafny.CustomKeyStoreType(nativeValue.customKeyStoreType())
+        )
+        : Option.create_None();
+    Option<DafnySequence<? extends Character>> xksProxyUriEndpoint;
+    xksProxyUriEndpoint =
+      Objects.nonNull(nativeValue.xksProxyUriEndpoint())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.xksProxyUriEndpoint()
+          )
+        )
+        : Option.create_None();
+    Option<DafnySequence<? extends Character>> xksProxyUriPath;
+    xksProxyUriPath =
+      Objects.nonNull(nativeValue.xksProxyUriPath())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.xksProxyUriPath()
+          )
+        )
+        : Option.create_None();
+    Option<DafnySequence<? extends Character>> xksProxyVpcEndpointServiceName;
+    xksProxyVpcEndpointServiceName =
+      Objects.nonNull(nativeValue.xksProxyVpcEndpointServiceName())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.xksProxyVpcEndpointServiceName()
+          )
+        )
+        : Option.create_None();
+    Option<
+      XksProxyAuthenticationCredentialType
+    > xksProxyAuthenticationCredential;
+    xksProxyAuthenticationCredential =
+      Objects.nonNull(nativeValue.xksProxyAuthenticationCredential())
+        ? Option.create_Some(
+          ToDafny.XksProxyAuthenticationCredentialType(
+            nativeValue.xksProxyAuthenticationCredential()
+          )
+        )
+        : Option.create_None();
+    Option<XksProxyConnectivityType> xksProxyConnectivity;
+    xksProxyConnectivity =
+      Objects.nonNull(nativeValue.xksProxyConnectivity())
+        ? Option.create_Some(
+          ToDafny.XksProxyConnectivityType(nativeValue.xksProxyConnectivity())
+        )
+        : Option.create_None();
     return new CreateCustomKeyStoreRequest(
       customKeyStoreName,
       cloudHsmClusterId,
       trustAnchorCertificate,
-      keyStorePassword
+      keyStorePassword,
+      customKeyStoreType,
+      xksProxyUriEndpoint,
+      xksProxyUriPath,
+      xksProxyVpcEndpointServiceName,
+      xksProxyAuthenticationCredential,
+      xksProxyConnectivity
     );
   }
 
@@ -413,6 +537,11 @@ public class ToDafny {
           )
         )
         : Option.create_None();
+    Option<Boolean> dryRun;
+    dryRun =
+      Objects.nonNull(nativeValue.dryRun())
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new CreateGrantRequest(
       keyId,
       granteePrincipal,
@@ -420,7 +549,8 @@ public class ToDafny {
       operations,
       constraints,
       grantTokens,
-      name
+      name,
+      dryRun
     );
   }
 
@@ -515,6 +645,15 @@ public class ToDafny {
       Objects.nonNull(nativeValue.multiRegion())
         ? Option.create_Some((nativeValue.multiRegion()))
         : Option.create_None();
+    Option<DafnySequence<? extends Character>> xksKeyId;
+    xksKeyId =
+      Objects.nonNull(nativeValue.xksKeyId())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.xksKeyId()
+          )
+        )
+        : Option.create_None();
     return new CreateKeyRequest(
       policy,
       description,
@@ -525,7 +664,8 @@ public class ToDafny {
       customKeyStoreId,
       bypassPolicyLockoutSafetyCheck,
       tags,
-      multiRegion
+      multiRegion,
+      xksKeyId
     );
   }
 
@@ -616,6 +756,20 @@ public class ToDafny {
           )
         )
         : Option.create_None();
+    Option<CustomKeyStoreType> customKeyStoreType;
+    customKeyStoreType =
+      Objects.nonNull(nativeValue.customKeyStoreType())
+        ? Option.create_Some(
+          ToDafny.CustomKeyStoreType(nativeValue.customKeyStoreType())
+        )
+        : Option.create_None();
+    Option<XksProxyConfigurationType> xksProxyConfiguration;
+    xksProxyConfiguration =
+      Objects.nonNull(nativeValue.xksProxyConfiguration())
+        ? Option.create_Some(
+          ToDafny.XksProxyConfigurationType(nativeValue.xksProxyConfiguration())
+        )
+        : Option.create_None();
     return new CustomKeyStoresListEntry(
       customKeyStoreId,
       customKeyStoreName,
@@ -623,7 +777,9 @@ public class ToDafny {
       trustAnchorCertificate,
       connectionState,
       connectionErrorCode,
-      creationDate
+      creationDate,
+      customKeyStoreType,
+      xksProxyConfiguration
     );
   }
 
@@ -672,12 +828,24 @@ public class ToDafny {
           ToDafny.EncryptionAlgorithmSpec(nativeValue.encryptionAlgorithm())
         )
         : Option.create_None();
+    Option<RecipientInfo> recipient;
+    recipient =
+      Objects.nonNull(nativeValue.recipient())
+        ? Option.create_Some(ToDafny.RecipientInfo(nativeValue.recipient()))
+        : Option.create_None();
+    Option<Boolean> dryRun;
+    dryRun =
+      Objects.nonNull(nativeValue.dryRun())
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new DecryptRequest(
       ciphertextBlob,
       encryptionContext,
       grantTokens,
       keyId,
-      encryptionAlgorithm
+      encryptionAlgorithm,
+      recipient,
+      dryRun
     );
   }
 
@@ -709,7 +877,21 @@ public class ToDafny {
           ToDafny.EncryptionAlgorithmSpec(nativeValue.encryptionAlgorithm())
         )
         : Option.create_None();
-    return new DecryptResponse(keyId, plaintext, encryptionAlgorithm);
+    Option<DafnySequence<? extends Byte>> ciphertextForRecipient;
+    ciphertextForRecipient =
+      Objects.nonNull(nativeValue.ciphertextForRecipient())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+            nativeValue.ciphertextForRecipient().asByteArray()
+          )
+        )
+        : Option.create_None();
+    return new DecryptResponse(
+      keyId,
+      plaintext,
+      encryptionAlgorithm,
+      ciphertextForRecipient
+    );
   }
 
   public static DeleteAliasRequest DeleteAliasRequest(
@@ -749,6 +931,101 @@ public class ToDafny {
         nativeValue.keyId()
       );
     return new DeleteImportedKeyMaterialRequest(keyId);
+  }
+
+  public static DeriveSharedSecretRequest DeriveSharedSecretRequest(
+    software.amazon.awssdk.services.kms.model.DeriveSharedSecretRequest nativeValue
+  ) {
+    DafnySequence<? extends Character> keyId;
+    keyId =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.keyId()
+      );
+    KeyAgreementAlgorithmSpec keyAgreementAlgorithm;
+    keyAgreementAlgorithm =
+      ToDafny.KeyAgreementAlgorithmSpec(nativeValue.keyAgreementAlgorithm());
+    DafnySequence<? extends Byte> publicKey;
+    publicKey =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.publicKey().asByteArray()
+      );
+    Option<
+      DafnySequence<? extends DafnySequence<? extends Character>>
+    > grantTokens;
+    grantTokens =
+      (Objects.nonNull(nativeValue.grantTokens()) &&
+          nativeValue.grantTokens().size() > 0)
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
+    Option<Boolean> dryRun;
+    dryRun =
+      Objects.nonNull(nativeValue.dryRun())
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
+    Option<RecipientInfo> recipient;
+    recipient =
+      Objects.nonNull(nativeValue.recipient())
+        ? Option.create_Some(ToDafny.RecipientInfo(nativeValue.recipient()))
+        : Option.create_None();
+    return new DeriveSharedSecretRequest(
+      keyId,
+      keyAgreementAlgorithm,
+      publicKey,
+      grantTokens,
+      dryRun,
+      recipient
+    );
+  }
+
+  public static DeriveSharedSecretResponse DeriveSharedSecretResponse(
+    software.amazon.awssdk.services.kms.model.DeriveSharedSecretResponse nativeValue
+  ) {
+    Option<DafnySequence<? extends Character>> keyId;
+    keyId =
+      Objects.nonNull(nativeValue.keyId())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.keyId()
+          )
+        )
+        : Option.create_None();
+    Option<DafnySequence<? extends Byte>> sharedSecret;
+    sharedSecret =
+      Objects.nonNull(nativeValue.sharedSecret())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+            nativeValue.sharedSecret().asByteArray()
+          )
+        )
+        : Option.create_None();
+    Option<DafnySequence<? extends Byte>> ciphertextForRecipient;
+    ciphertextForRecipient =
+      Objects.nonNull(nativeValue.ciphertextForRecipient())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+            nativeValue.ciphertextForRecipient().asByteArray()
+          )
+        )
+        : Option.create_None();
+    Option<KeyAgreementAlgorithmSpec> keyAgreementAlgorithm;
+    keyAgreementAlgorithm =
+      Objects.nonNull(nativeValue.keyAgreementAlgorithm())
+        ? Option.create_Some(
+          ToDafny.KeyAgreementAlgorithmSpec(nativeValue.keyAgreementAlgorithm())
+        )
+        : Option.create_None();
+    Option<OriginType> keyOrigin;
+    keyOrigin =
+      Objects.nonNull(nativeValue.keyOrigin())
+        ? Option.create_Some(ToDafny.OriginType(nativeValue.keyOrigin()))
+        : Option.create_None();
+    return new DeriveSharedSecretResponse(
+      keyId,
+      sharedSecret,
+      ciphertextForRecipient,
+      keyAgreementAlgorithm,
+      keyOrigin
+    );
   }
 
   public static DescribeCustomKeyStoresRequest DescribeCustomKeyStoresRequest(
@@ -914,7 +1191,12 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
         nativeValue.keyId()
       );
-    return new EnableKeyRotationRequest(keyId);
+    Option<Integer> rotationPeriodInDays;
+    rotationPeriodInDays =
+      Objects.nonNull(nativeValue.rotationPeriodInDays())
+        ? Option.create_Some((nativeValue.rotationPeriodInDays()))
+        : Option.create_None();
+    return new EnableKeyRotationRequest(keyId, rotationPeriodInDays);
   }
 
   public static DafnySequence<
@@ -983,12 +1265,18 @@ public class ToDafny {
           ToDafny.EncryptionAlgorithmSpec(nativeValue.encryptionAlgorithm())
         )
         : Option.create_None();
+    Option<Boolean> dryRun;
+    dryRun =
+      Objects.nonNull(nativeValue.dryRun())
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new EncryptRequest(
       keyId,
       plaintext,
       encryptionContext,
       grantTokens,
-      encryptionAlgorithm
+      encryptionAlgorithm,
+      dryRun
     );
   }
 
@@ -1054,11 +1342,23 @@ public class ToDafny {
           nativeValue.grantTokens().size() > 0)
         ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
         : Option.create_None();
+    Option<RecipientInfo> recipient;
+    recipient =
+      Objects.nonNull(nativeValue.recipient())
+        ? Option.create_Some(ToDafny.RecipientInfo(nativeValue.recipient()))
+        : Option.create_None();
+    Option<Boolean> dryRun;
+    dryRun =
+      Objects.nonNull(nativeValue.dryRun())
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new GenerateDataKeyPairRequest(
       encryptionContext,
       keyId,
       keyPairSpec,
-      grantTokens
+      grantTokens,
+      recipient,
+      dryRun
     );
   }
 
@@ -1106,12 +1406,22 @@ public class ToDafny {
       Objects.nonNull(nativeValue.keyPairSpec())
         ? Option.create_Some(ToDafny.DataKeyPairSpec(nativeValue.keyPairSpec()))
         : Option.create_None();
+    Option<DafnySequence<? extends Byte>> ciphertextForRecipient;
+    ciphertextForRecipient =
+      Objects.nonNull(nativeValue.ciphertextForRecipient())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+            nativeValue.ciphertextForRecipient().asByteArray()
+          )
+        )
+        : Option.create_None();
     return new GenerateDataKeyPairResponse(
       privateKeyCiphertextBlob,
       privateKeyPlaintext,
       publicKey,
       keyId,
-      keyPairSpec
+      keyPairSpec,
+      ciphertextForRecipient
     );
   }
 
@@ -1146,11 +1456,17 @@ public class ToDafny {
           nativeValue.grantTokens().size() > 0)
         ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
         : Option.create_None();
+    Option<Boolean> dryRun;
+    dryRun =
+      Objects.nonNull(nativeValue.dryRun())
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new GenerateDataKeyPairWithoutPlaintextRequest(
       encryptionContext,
       keyId,
       keyPairSpec,
-      grantTokens
+      grantTokens,
+      dryRun
     );
   }
 
@@ -1236,12 +1552,24 @@ public class ToDafny {
           nativeValue.grantTokens().size() > 0)
         ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
         : Option.create_None();
+    Option<RecipientInfo> recipient;
+    recipient =
+      Objects.nonNull(nativeValue.recipient())
+        ? Option.create_Some(ToDafny.RecipientInfo(nativeValue.recipient()))
+        : Option.create_None();
+    Option<Boolean> dryRun;
+    dryRun =
+      Objects.nonNull(nativeValue.dryRun())
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new GenerateDataKeyRequest(
       keyId,
       encryptionContext,
       numberOfBytes,
       keySpec,
-      grantTokens
+      grantTokens,
+      recipient,
+      dryRun
     );
   }
 
@@ -1275,7 +1603,21 @@ public class ToDafny {
           )
         )
         : Option.create_None();
-    return new GenerateDataKeyResponse(ciphertextBlob, plaintext, keyId);
+    Option<DafnySequence<? extends Byte>> ciphertextForRecipient;
+    ciphertextForRecipient =
+      Objects.nonNull(nativeValue.ciphertextForRecipient())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+            nativeValue.ciphertextForRecipient().asByteArray()
+          )
+        )
+        : Option.create_None();
+    return new GenerateDataKeyResponse(
+      ciphertextBlob,
+      plaintext,
+      keyId,
+      ciphertextForRecipient
+    );
   }
 
   public static GenerateDataKeyWithoutPlaintextRequest GenerateDataKeyWithoutPlaintextRequest(
@@ -1317,12 +1659,18 @@ public class ToDafny {
           nativeValue.grantTokens().size() > 0)
         ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
         : Option.create_None();
+    Option<Boolean> dryRun;
+    dryRun =
+      Objects.nonNull(nativeValue.dryRun())
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new GenerateDataKeyWithoutPlaintextRequest(
       keyId,
       encryptionContext,
       keySpec,
       numberOfBytes,
-      grantTokens
+      grantTokens,
+      dryRun
     );
   }
 
@@ -1350,6 +1698,74 @@ public class ToDafny {
     return new GenerateDataKeyWithoutPlaintextResponse(ciphertextBlob, keyId);
   }
 
+  public static GenerateMacRequest GenerateMacRequest(
+    software.amazon.awssdk.services.kms.model.GenerateMacRequest nativeValue
+  ) {
+    DafnySequence<? extends Byte> message;
+    message =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.message().asByteArray()
+      );
+    DafnySequence<? extends Character> keyId;
+    keyId =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.keyId()
+      );
+    MacAlgorithmSpec macAlgorithm;
+    macAlgorithm = ToDafny.MacAlgorithmSpec(nativeValue.macAlgorithm());
+    Option<
+      DafnySequence<? extends DafnySequence<? extends Character>>
+    > grantTokens;
+    grantTokens =
+      (Objects.nonNull(nativeValue.grantTokens()) &&
+          nativeValue.grantTokens().size() > 0)
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
+    Option<Boolean> dryRun;
+    dryRun =
+      Objects.nonNull(nativeValue.dryRun())
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
+    return new GenerateMacRequest(
+      message,
+      keyId,
+      macAlgorithm,
+      grantTokens,
+      dryRun
+    );
+  }
+
+  public static GenerateMacResponse GenerateMacResponse(
+    software.amazon.awssdk.services.kms.model.GenerateMacResponse nativeValue
+  ) {
+    Option<DafnySequence<? extends Byte>> mac;
+    mac =
+      Objects.nonNull(nativeValue.mac())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+            nativeValue.mac().asByteArray()
+          )
+        )
+        : Option.create_None();
+    Option<MacAlgorithmSpec> macAlgorithm;
+    macAlgorithm =
+      Objects.nonNull(nativeValue.macAlgorithm())
+        ? Option.create_Some(
+          ToDafny.MacAlgorithmSpec(nativeValue.macAlgorithm())
+        )
+        : Option.create_None();
+    Option<DafnySequence<? extends Character>> keyId;
+    keyId =
+      Objects.nonNull(nativeValue.keyId())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.keyId()
+          )
+        )
+        : Option.create_None();
+    return new GenerateMacResponse(mac, macAlgorithm, keyId);
+  }
+
   public static GenerateRandomRequest GenerateRandomRequest(
     software.amazon.awssdk.services.kms.model.GenerateRandomRequest nativeValue
   ) {
@@ -1367,7 +1783,16 @@ public class ToDafny {
           )
         )
         : Option.create_None();
-    return new GenerateRandomRequest(numberOfBytes, customKeyStoreId);
+    Option<RecipientInfo> recipient;
+    recipient =
+      Objects.nonNull(nativeValue.recipient())
+        ? Option.create_Some(ToDafny.RecipientInfo(nativeValue.recipient()))
+        : Option.create_None();
+    return new GenerateRandomRequest(
+      numberOfBytes,
+      customKeyStoreId,
+      recipient
+    );
   }
 
   public static GenerateRandomResponse GenerateRandomResponse(
@@ -1382,7 +1807,16 @@ public class ToDafny {
           )
         )
         : Option.create_None();
-    return new GenerateRandomResponse(plaintext);
+    Option<DafnySequence<? extends Byte>> ciphertextForRecipient;
+    ciphertextForRecipient =
+      Objects.nonNull(nativeValue.ciphertextForRecipient())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+            nativeValue.ciphertextForRecipient().asByteArray()
+          )
+        )
+        : Option.create_None();
+    return new GenerateRandomResponse(plaintext, ciphertextForRecipient);
   }
 
   public static GetKeyPolicyRequest GetKeyPolicyRequest(
@@ -1393,11 +1827,15 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
         nativeValue.keyId()
       );
-    DafnySequence<? extends Character> policyName;
+    Option<DafnySequence<? extends Character>> policyName;
     policyName =
-      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.policyName()
-      );
+      Objects.nonNull(nativeValue.policyName())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.policyName()
+          )
+        )
+        : Option.create_None();
     return new GetKeyPolicyRequest(keyId, policyName);
   }
 
@@ -1413,7 +1851,16 @@ public class ToDafny {
           )
         )
         : Option.create_None();
-    return new GetKeyPolicyResponse(policy);
+    Option<DafnySequence<? extends Character>> policyName;
+    policyName =
+      Objects.nonNull(nativeValue.policyName())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.policyName()
+          )
+        )
+        : Option.create_None();
+    return new GetKeyPolicyResponse(policy, policyName);
   }
 
   public static GetKeyRotationStatusRequest GetKeyRotationStatusRequest(
@@ -1435,7 +1882,45 @@ public class ToDafny {
       Objects.nonNull(nativeValue.keyRotationEnabled())
         ? Option.create_Some((nativeValue.keyRotationEnabled()))
         : Option.create_None();
-    return new GetKeyRotationStatusResponse(keyRotationEnabled);
+    Option<DafnySequence<? extends Character>> keyId;
+    keyId =
+      Objects.nonNull(nativeValue.keyId())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.keyId()
+          )
+        )
+        : Option.create_None();
+    Option<Integer> rotationPeriodInDays;
+    rotationPeriodInDays =
+      Objects.nonNull(nativeValue.rotationPeriodInDays())
+        ? Option.create_Some((nativeValue.rotationPeriodInDays()))
+        : Option.create_None();
+    Option<DafnySequence<? extends Character>> nextRotationDate;
+    nextRotationDate =
+      Objects.nonNull(nativeValue.nextRotationDate())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.nextRotationDate()
+          )
+        )
+        : Option.create_None();
+    Option<DafnySequence<? extends Character>> onDemandRotationStartDate;
+    onDemandRotationStartDate =
+      Objects.nonNull(nativeValue.onDemandRotationStartDate())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.onDemandRotationStartDate()
+          )
+        )
+        : Option.create_None();
+    return new GetKeyRotationStatusResponse(
+      keyRotationEnabled,
+      keyId,
+      rotationPeriodInDays,
+      nextRotationDate,
+      onDemandRotationStartDate
+    );
   }
 
   public static GetParametersForImportRequest GetParametersForImportRequest(
@@ -1581,6 +2066,18 @@ public class ToDafny {
           ToDafny.SigningAlgorithmSpecList(nativeValue.signingAlgorithms())
         )
         : Option.create_None();
+    Option<
+      DafnySequence<? extends KeyAgreementAlgorithmSpec>
+    > keyAgreementAlgorithms;
+    keyAgreementAlgorithms =
+      (Objects.nonNull(nativeValue.keyAgreementAlgorithms()) &&
+          nativeValue.keyAgreementAlgorithms().size() > 0)
+        ? Option.create_Some(
+          ToDafny.KeyAgreementAlgorithmSpecList(
+            nativeValue.keyAgreementAlgorithms()
+          )
+        )
+        : Option.create_None();
     return new GetPublicKeyResponse(
       keyId,
       publicKey,
@@ -1588,7 +2085,8 @@ public class ToDafny {
       keySpec,
       keyUsage,
       encryptionAlgorithms,
-      signingAlgorithms
+      signingAlgorithms,
+      keyAgreementAlgorithms
     );
   }
 
@@ -1800,6 +2298,56 @@ public class ToDafny {
     return new ImportKeyMaterialResponse();
   }
 
+  public static DafnySequence<
+    ? extends KeyAgreementAlgorithmSpec
+    // BEGIN MANUAL EDIT
+  > KeyAgreementAlgorithmSpecList(
+    List<
+      software.amazon.awssdk.services.kms.model.KeyAgreementAlgorithmSpec
+    > nativeValue
+  ) {
+    // END MANUAL EDIT
+    return software.amazon.smithy.dafny.conversion.ToDafny.Aggregate.GenericToSequence(
+      nativeValue,
+      software.amazon.cryptography.services.kms.internaldafny.ToDafny::KeyAgreementAlgorithmSpec,
+      KeyAgreementAlgorithmSpec._typeDescriptor()
+    );
+  }
+
+  public static DafnySequence<? extends KeyListEntry> KeyList(
+    List<software.amazon.awssdk.services.kms.model.KeyListEntry> nativeValue
+  ) {
+    return software.amazon.smithy.dafny.conversion.ToDafny.Aggregate.GenericToSequence(
+      nativeValue,
+      software.amazon.cryptography.services.kms.internaldafny.ToDafny::KeyListEntry,
+      KeyListEntry._typeDescriptor()
+    );
+  }
+
+  public static KeyListEntry KeyListEntry(
+    software.amazon.awssdk.services.kms.model.KeyListEntry nativeValue
+  ) {
+    Option<DafnySequence<? extends Character>> keyId;
+    keyId =
+      Objects.nonNull(nativeValue.keyId())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.keyId()
+          )
+        )
+        : Option.create_None();
+    Option<DafnySequence<? extends Character>> keyArn;
+    keyArn =
+      Objects.nonNull(nativeValue.keyArn())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.keyArn()
+          )
+        )
+        : Option.create_None();
+    return new KeyListEntry(keyId, keyArn);
+  }
+
   public static KeyMetadata KeyMetadata(
     software.amazon.awssdk.services.kms.model.KeyMetadata nativeValue
   ) {
@@ -1944,6 +2492,18 @@ public class ToDafny {
           ToDafny.SigningAlgorithmSpecList(nativeValue.signingAlgorithms())
         )
         : Option.create_None();
+    Option<
+      DafnySequence<? extends KeyAgreementAlgorithmSpec>
+    > keyAgreementAlgorithms;
+    keyAgreementAlgorithms =
+      (Objects.nonNull(nativeValue.keyAgreementAlgorithms()) &&
+          nativeValue.keyAgreementAlgorithms().size() > 0)
+        ? Option.create_Some(
+          ToDafny.KeyAgreementAlgorithmSpecList(
+            nativeValue.keyAgreementAlgorithms()
+          )
+        )
+        : Option.create_None();
     Option<Boolean> multiRegion;
     multiRegion =
       Objects.nonNull(nativeValue.multiRegion())
@@ -1962,6 +2522,21 @@ public class ToDafny {
     pendingDeletionWindowInDays =
       Objects.nonNull(nativeValue.pendingDeletionWindowInDays())
         ? Option.create_Some((nativeValue.pendingDeletionWindowInDays()))
+        : Option.create_None();
+    Option<DafnySequence<? extends MacAlgorithmSpec>> macAlgorithms;
+    macAlgorithms =
+      (Objects.nonNull(nativeValue.macAlgorithms()) &&
+          nativeValue.macAlgorithms().size() > 0)
+        ? Option.create_Some(
+          ToDafny.MacAlgorithmSpecList(nativeValue.macAlgorithms())
+        )
+        : Option.create_None();
+    Option<XksKeyConfigurationType> xksKeyConfiguration;
+    xksKeyConfiguration =
+      Objects.nonNull(nativeValue.xksKeyConfiguration())
+        ? Option.create_Some(
+          ToDafny.XksKeyConfigurationType(nativeValue.xksKeyConfiguration())
+        )
         : Option.create_None();
     return new KeyMetadata(
       aWSAccountId,
@@ -1983,9 +2558,12 @@ public class ToDafny {
       keySpec,
       encryptionAlgorithms,
       signingAlgorithms,
+      keyAgreementAlgorithms,
       multiRegion,
       multiRegionConfiguration,
-      pendingDeletionWindowInDays
+      pendingDeletionWindowInDays,
+      macAlgorithms,
+      xksKeyConfiguration
     );
   }
 
@@ -2171,6 +2749,102 @@ public class ToDafny {
     return new ListKeyPoliciesResponse(policyNames, nextMarker, truncated);
   }
 
+  public static ListKeyRotationsRequest ListKeyRotationsRequest(
+    software.amazon.awssdk.services.kms.model.ListKeyRotationsRequest nativeValue
+  ) {
+    DafnySequence<? extends Character> keyId;
+    keyId =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.keyId()
+      );
+    Option<Integer> limit;
+    limit =
+      Objects.nonNull(nativeValue.limit())
+        ? Option.create_Some((nativeValue.limit()))
+        : Option.create_None();
+    Option<DafnySequence<? extends Character>> marker;
+    marker =
+      Objects.nonNull(nativeValue.marker())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.marker()
+          )
+        )
+        : Option.create_None();
+    return new ListKeyRotationsRequest(keyId, limit, marker);
+  }
+
+  public static ListKeyRotationsResponse ListKeyRotationsResponse(
+    software.amazon.awssdk.services.kms.model.ListKeyRotationsResponse nativeValue
+  ) {
+    Option<DafnySequence<? extends RotationsListEntry>> rotations;
+    rotations =
+      (Objects.nonNull(nativeValue.rotations()) &&
+          nativeValue.rotations().size() > 0)
+        ? Option.create_Some(ToDafny.RotationsList(nativeValue.rotations()))
+        : Option.create_None();
+    Option<DafnySequence<? extends Character>> nextMarker;
+    nextMarker =
+      Objects.nonNull(nativeValue.nextMarker())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.nextMarker()
+          )
+        )
+        : Option.create_None();
+    Option<Boolean> truncated;
+    truncated =
+      Objects.nonNull(nativeValue.truncated())
+        ? Option.create_Some((nativeValue.truncated()))
+        : Option.create_None();
+    return new ListKeyRotationsResponse(rotations, nextMarker, truncated);
+  }
+
+  public static ListKeysRequest ListKeysRequest(
+    software.amazon.awssdk.services.kms.model.ListKeysRequest nativeValue
+  ) {
+    Option<Integer> limit;
+    limit =
+      Objects.nonNull(nativeValue.limit())
+        ? Option.create_Some((nativeValue.limit()))
+        : Option.create_None();
+    Option<DafnySequence<? extends Character>> marker;
+    marker =
+      Objects.nonNull(nativeValue.marker())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.marker()
+          )
+        )
+        : Option.create_None();
+    return new ListKeysRequest(limit, marker);
+  }
+
+  public static ListKeysResponse ListKeysResponse(
+    software.amazon.awssdk.services.kms.model.ListKeysResponse nativeValue
+  ) {
+    Option<DafnySequence<? extends KeyListEntry>> keys;
+    keys =
+      (Objects.nonNull(nativeValue.keys()) && nativeValue.keys().size() > 0)
+        ? Option.create_Some(ToDafny.KeyList(nativeValue.keys()))
+        : Option.create_None();
+    Option<DafnySequence<? extends Character>> nextMarker;
+    nextMarker =
+      Objects.nonNull(nativeValue.nextMarker())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.nextMarker()
+          )
+        )
+        : Option.create_None();
+    Option<Boolean> truncated;
+    truncated =
+      Objects.nonNull(nativeValue.truncated())
+        ? Option.create_Some((nativeValue.truncated()))
+        : Option.create_None();
+    return new ListKeysResponse(keys, nextMarker, truncated);
+  }
+
   public static ListResourceTagsRequest ListResourceTagsRequest(
     software.amazon.awssdk.services.kms.model.ListResourceTagsRequest nativeValue
   ) {
@@ -2219,6 +2893,18 @@ public class ToDafny {
         ? Option.create_Some((nativeValue.truncated()))
         : Option.create_None();
     return new ListResourceTagsResponse(tags, nextMarker, truncated);
+  }
+
+  public static DafnySequence<? extends MacAlgorithmSpec> MacAlgorithmSpecList(
+    // BEGIN MANUAL EDIT
+    List<software.amazon.awssdk.services.kms.model.MacAlgorithmSpec> nativeValue
+    // END MANUAL EDIT
+  ) {
+    return software.amazon.smithy.dafny.conversion.ToDafny.Aggregate.GenericToSequence(
+      nativeValue,
+      software.amazon.cryptography.services.kms.internaldafny.ToDafny::MacAlgorithmSpec,
+      MacAlgorithmSpec._typeDescriptor()
+    );
   }
 
   public static MultiRegionConfiguration MultiRegionConfiguration(
@@ -2303,11 +2989,15 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
         nativeValue.keyId()
       );
-    DafnySequence<? extends Character> policyName;
+    Option<DafnySequence<? extends Character>> policyName;
     policyName =
-      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.policyName()
-      );
+      Objects.nonNull(nativeValue.policyName())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.policyName()
+          )
+        )
+        : Option.create_None();
     DafnySequence<? extends Character> policy;
     policy =
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
@@ -2324,6 +3014,28 @@ public class ToDafny {
       policy,
       bypassPolicyLockoutSafetyCheck
     );
+  }
+
+  public static RecipientInfo RecipientInfo(
+    software.amazon.awssdk.services.kms.model.RecipientInfo nativeValue
+  ) {
+    Option<KeyEncryptionMechanism> keyEncryptionAlgorithm;
+    keyEncryptionAlgorithm =
+      Objects.nonNull(nativeValue.keyEncryptionAlgorithm())
+        ? Option.create_Some(
+          ToDafny.KeyEncryptionMechanism(nativeValue.keyEncryptionAlgorithm())
+        )
+        : Option.create_None();
+    Option<DafnySequence<? extends Byte>> attestationDocument;
+    attestationDocument =
+      Objects.nonNull(nativeValue.attestationDocument())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+            nativeValue.attestationDocument().asByteArray()
+          )
+        )
+        : Option.create_None();
+    return new RecipientInfo(keyEncryptionAlgorithm, attestationDocument);
   }
 
   public static ReEncryptRequest ReEncryptRequest(
@@ -2402,6 +3114,11 @@ public class ToDafny {
           nativeValue.grantTokens().size() > 0)
         ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
         : Option.create_None();
+    Option<Boolean> dryRun;
+    dryRun =
+      Objects.nonNull(nativeValue.dryRun())
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new ReEncryptRequest(
       ciphertextBlob,
       sourceEncryptionContext,
@@ -2410,7 +3127,8 @@ public class ToDafny {
       destinationEncryptionContext,
       sourceEncryptionAlgorithm,
       destinationEncryptionAlgorithm,
-      grantTokens
+      grantTokens,
+      dryRun
     );
   }
 
@@ -2584,7 +3302,12 @@ public class ToDafny {
           )
         )
         : Option.create_None();
-    return new RetireGrantRequest(grantToken, keyId, grantId);
+    Option<Boolean> dryRun;
+    dryRun =
+      Objects.nonNull(nativeValue.dryRun())
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
+    return new RetireGrantRequest(grantToken, keyId, grantId, dryRun);
   }
 
   public static RevokeGrantRequest RevokeGrantRequest(
@@ -2600,7 +3323,79 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
         nativeValue.grantId()
       );
-    return new RevokeGrantRequest(keyId, grantId);
+    Option<Boolean> dryRun;
+    dryRun =
+      Objects.nonNull(nativeValue.dryRun())
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
+    return new RevokeGrantRequest(keyId, grantId, dryRun);
+  }
+
+  public static RotateKeyOnDemandRequest RotateKeyOnDemandRequest(
+    software.amazon.awssdk.services.kms.model.RotateKeyOnDemandRequest nativeValue
+  ) {
+    DafnySequence<? extends Character> keyId;
+    keyId =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.keyId()
+      );
+    return new RotateKeyOnDemandRequest(keyId);
+  }
+
+  public static RotateKeyOnDemandResponse RotateKeyOnDemandResponse(
+    software.amazon.awssdk.services.kms.model.RotateKeyOnDemandResponse nativeValue
+  ) {
+    Option<DafnySequence<? extends Character>> keyId;
+    keyId =
+      Objects.nonNull(nativeValue.keyId())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.keyId()
+          )
+        )
+        : Option.create_None();
+    return new RotateKeyOnDemandResponse(keyId);
+  }
+
+  public static DafnySequence<? extends RotationsListEntry> RotationsList(
+    List<
+      software.amazon.awssdk.services.kms.model.RotationsListEntry
+    > nativeValue
+  ) {
+    return software.amazon.smithy.dafny.conversion.ToDafny.Aggregate.GenericToSequence(
+      nativeValue,
+      software.amazon.cryptography.services.kms.internaldafny.ToDafny::RotationsListEntry,
+      RotationsListEntry._typeDescriptor()
+    );
+  }
+
+  public static RotationsListEntry RotationsListEntry(
+    software.amazon.awssdk.services.kms.model.RotationsListEntry nativeValue
+  ) {
+    Option<DafnySequence<? extends Character>> keyId;
+    keyId =
+      Objects.nonNull(nativeValue.keyId())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.keyId()
+          )
+        )
+        : Option.create_None();
+    Option<DafnySequence<? extends Character>> rotationDate;
+    rotationDate =
+      Objects.nonNull(nativeValue.rotationDate())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.rotationDate()
+          )
+        )
+        : Option.create_None();
+    Option<RotationType> rotationType;
+    rotationType =
+      Objects.nonNull(nativeValue.rotationType())
+        ? Option.create_Some(ToDafny.RotationType(nativeValue.rotationType()))
+        : Option.create_None();
+    return new RotationsListEntry(keyId, rotationDate, rotationType);
   }
 
   public static ScheduleKeyDeletionRequest ScheduleKeyDeletionRequest(
@@ -2701,12 +3496,18 @@ public class ToDafny {
     SigningAlgorithmSpec signingAlgorithm;
     signingAlgorithm =
       ToDafny.SigningAlgorithmSpec(nativeValue.signingAlgorithm());
+    Option<Boolean> dryRun;
+    dryRun =
+      Objects.nonNull(nativeValue.dryRun())
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new SignRequest(
       keyId,
       message,
       messageType,
       grantTokens,
-      signingAlgorithm
+      signingAlgorithm,
+      dryRun
     );
   }
 
@@ -2854,11 +3655,61 @@ public class ToDafny {
           )
         )
         : Option.create_None();
+    Option<DafnySequence<? extends Character>> xksProxyUriEndpoint;
+    xksProxyUriEndpoint =
+      Objects.nonNull(nativeValue.xksProxyUriEndpoint())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.xksProxyUriEndpoint()
+          )
+        )
+        : Option.create_None();
+    Option<DafnySequence<? extends Character>> xksProxyUriPath;
+    xksProxyUriPath =
+      Objects.nonNull(nativeValue.xksProxyUriPath())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.xksProxyUriPath()
+          )
+        )
+        : Option.create_None();
+    Option<DafnySequence<? extends Character>> xksProxyVpcEndpointServiceName;
+    xksProxyVpcEndpointServiceName =
+      Objects.nonNull(nativeValue.xksProxyVpcEndpointServiceName())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.xksProxyVpcEndpointServiceName()
+          )
+        )
+        : Option.create_None();
+    Option<
+      XksProxyAuthenticationCredentialType
+    > xksProxyAuthenticationCredential;
+    xksProxyAuthenticationCredential =
+      Objects.nonNull(nativeValue.xksProxyAuthenticationCredential())
+        ? Option.create_Some(
+          ToDafny.XksProxyAuthenticationCredentialType(
+            nativeValue.xksProxyAuthenticationCredential()
+          )
+        )
+        : Option.create_None();
+    Option<XksProxyConnectivityType> xksProxyConnectivity;
+    xksProxyConnectivity =
+      Objects.nonNull(nativeValue.xksProxyConnectivity())
+        ? Option.create_Some(
+          ToDafny.XksProxyConnectivityType(nativeValue.xksProxyConnectivity())
+        )
+        : Option.create_None();
     return new UpdateCustomKeyStoreRequest(
       customKeyStoreId,
       newCustomKeyStoreName,
       keyStorePassword,
-      cloudHsmClusterId
+      cloudHsmClusterId,
+      xksProxyUriEndpoint,
+      xksProxyUriPath,
+      xksProxyVpcEndpointServiceName,
+      xksProxyAuthenticationCredential,
+      xksProxyConnectivity
     );
   }
 
@@ -2900,6 +3751,76 @@ public class ToDafny {
     return new UpdatePrimaryRegionRequest(keyId, primaryRegion);
   }
 
+  public static VerifyMacRequest VerifyMacRequest(
+    software.amazon.awssdk.services.kms.model.VerifyMacRequest nativeValue
+  ) {
+    DafnySequence<? extends Byte> message;
+    message =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.message().asByteArray()
+      );
+    DafnySequence<? extends Character> keyId;
+    keyId =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.keyId()
+      );
+    MacAlgorithmSpec macAlgorithm;
+    macAlgorithm = ToDafny.MacAlgorithmSpec(nativeValue.macAlgorithm());
+    DafnySequence<? extends Byte> mac;
+    mac =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.mac().asByteArray()
+      );
+    Option<
+      DafnySequence<? extends DafnySequence<? extends Character>>
+    > grantTokens;
+    grantTokens =
+      (Objects.nonNull(nativeValue.grantTokens()) &&
+          nativeValue.grantTokens().size() > 0)
+        ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
+        : Option.create_None();
+    Option<Boolean> dryRun;
+    dryRun =
+      Objects.nonNull(nativeValue.dryRun())
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
+    return new VerifyMacRequest(
+      message,
+      keyId,
+      macAlgorithm,
+      mac,
+      grantTokens,
+      dryRun
+    );
+  }
+
+  public static VerifyMacResponse VerifyMacResponse(
+    software.amazon.awssdk.services.kms.model.VerifyMacResponse nativeValue
+  ) {
+    Option<DafnySequence<? extends Character>> keyId;
+    keyId =
+      Objects.nonNull(nativeValue.keyId())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.keyId()
+          )
+        )
+        : Option.create_None();
+    Option<Boolean> macValid;
+    macValid =
+      Objects.nonNull(nativeValue.macValid())
+        ? Option.create_Some((nativeValue.macValid()))
+        : Option.create_None();
+    Option<MacAlgorithmSpec> macAlgorithm;
+    macAlgorithm =
+      Objects.nonNull(nativeValue.macAlgorithm())
+        ? Option.create_Some(
+          ToDafny.MacAlgorithmSpec(nativeValue.macAlgorithm())
+        )
+        : Option.create_None();
+    return new VerifyMacResponse(keyId, macValid, macAlgorithm);
+  }
+
   public static VerifyRequest VerifyRequest(
     software.amazon.awssdk.services.kms.model.VerifyRequest nativeValue
   ) {
@@ -2934,13 +3855,19 @@ public class ToDafny {
           nativeValue.grantTokens().size() > 0)
         ? Option.create_Some(ToDafny.GrantTokenList(nativeValue.grantTokens()))
         : Option.create_None();
+    Option<Boolean> dryRun;
+    dryRun =
+      Objects.nonNull(nativeValue.dryRun())
+        ? Option.create_Some((nativeValue.dryRun()))
+        : Option.create_None();
     return new VerifyRequest(
       keyId,
       message,
       messageType,
       signature,
       signingAlgorithm,
-      grantTokens
+      grantTokens,
+      dryRun
     );
   }
 
@@ -2969,6 +3896,95 @@ public class ToDafny {
         )
         : Option.create_None();
     return new VerifyResponse(keyId, signatureValid, signingAlgorithm);
+  }
+
+  public static XksKeyConfigurationType XksKeyConfigurationType(
+    software.amazon.awssdk.services.kms.model.XksKeyConfigurationType nativeValue
+  ) {
+    Option<DafnySequence<? extends Character>> id;
+    id =
+      Objects.nonNull(nativeValue.id())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.id()
+          )
+        )
+        : Option.create_None();
+    return new XksKeyConfigurationType(id);
+  }
+
+  public static XksProxyAuthenticationCredentialType XksProxyAuthenticationCredentialType(
+    software.amazon.awssdk.services.kms.model.XksProxyAuthenticationCredentialType nativeValue
+  ) {
+    DafnySequence<? extends Character> accessKeyId;
+    accessKeyId =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.accessKeyId()
+      );
+    DafnySequence<? extends Character> rawSecretAccessKey;
+    rawSecretAccessKey =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.rawSecretAccessKey()
+      );
+    return new XksProxyAuthenticationCredentialType(
+      accessKeyId,
+      rawSecretAccessKey
+    );
+  }
+
+  public static XksProxyConfigurationType XksProxyConfigurationType(
+    software.amazon.awssdk.services.kms.model.XksProxyConfigurationType nativeValue
+  ) {
+    Option<XksProxyConnectivityType> connectivity;
+    connectivity =
+      Objects.nonNull(nativeValue.connectivity())
+        ? Option.create_Some(
+          ToDafny.XksProxyConnectivityType(nativeValue.connectivity())
+        )
+        : Option.create_None();
+    Option<DafnySequence<? extends Character>> accessKeyId;
+    accessKeyId =
+      Objects.nonNull(nativeValue.accessKeyId())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.accessKeyId()
+          )
+        )
+        : Option.create_None();
+    Option<DafnySequence<? extends Character>> uriEndpoint;
+    uriEndpoint =
+      Objects.nonNull(nativeValue.uriEndpoint())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.uriEndpoint()
+          )
+        )
+        : Option.create_None();
+    Option<DafnySequence<? extends Character>> uriPath;
+    uriPath =
+      Objects.nonNull(nativeValue.uriPath())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.uriPath()
+          )
+        )
+        : Option.create_None();
+    Option<DafnySequence<? extends Character>> vpcEndpointServiceName;
+    vpcEndpointServiceName =
+      Objects.nonNull(nativeValue.vpcEndpointServiceName())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.vpcEndpointServiceName()
+          )
+        )
+        : Option.create_None();
+    return new XksProxyConfigurationType(
+      connectivity,
+      accessKeyId,
+      uriEndpoint,
+      uriPath,
+      vpcEndpointServiceName
+    );
   }
 
   public static Error Error(AlreadyExistsException nativeValue) {
@@ -3051,6 +4067,19 @@ public class ToDafny {
     return new Error_CloudHsmClusterNotRelatedException(message);
   }
 
+  public static Error Error(ConflictException nativeValue) {
+    Option<DafnySequence<? extends Character>> message;
+    message =
+      Objects.nonNull(nativeValue.getMessage())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.getMessage()
+          )
+        )
+        : Option.create_None();
+    return new Error_ConflictException(message);
+  }
+
   public static Error Error(CustomKeyStoreHasCmKsException nativeValue) {
     Option<DafnySequence<? extends Character>> message;
     message =
@@ -3127,6 +4156,19 @@ public class ToDafny {
         )
         : Option.create_None();
     return new Error_DisabledException(message);
+  }
+
+  public static Error Error(DryRunOperationException nativeValue) {
+    Option<DafnySequence<? extends Character>> message;
+    message =
+      Objects.nonNull(nativeValue.getMessage())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.getMessage()
+          )
+        )
+        : Option.create_None();
+    return new Error_DryRunOperationException(message);
   }
 
   public static Error Error(ExpiredImportTokenException nativeValue) {
@@ -3311,6 +4353,19 @@ public class ToDafny {
     return new Error_KMSInternalException(message);
   }
 
+  public static Error Error(KmsInvalidMacException nativeValue) {
+    Option<DafnySequence<? extends Character>> message;
+    message =
+      Objects.nonNull(nativeValue.getMessage())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.getMessage()
+          )
+        )
+        : Option.create_None();
+    return new Error_KMSInvalidMacException(message);
+  }
+
   public static Error Error(KmsInvalidSignatureException nativeValue) {
     Option<DafnySequence<? extends Character>> message;
     message =
@@ -3402,6 +4457,174 @@ public class ToDafny {
     return new Error_UnsupportedOperationException(message);
   }
 
+  public static Error Error(XksKeyAlreadyInUseException nativeValue) {
+    Option<DafnySequence<? extends Character>> message;
+    message =
+      Objects.nonNull(nativeValue.getMessage())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.getMessage()
+          )
+        )
+        : Option.create_None();
+    return new Error_XksKeyAlreadyInUseException(message);
+  }
+
+  public static Error Error(XksKeyInvalidConfigurationException nativeValue) {
+    Option<DafnySequence<? extends Character>> message;
+    message =
+      Objects.nonNull(nativeValue.getMessage())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.getMessage()
+          )
+        )
+        : Option.create_None();
+    return new Error_XksKeyInvalidConfigurationException(message);
+  }
+
+  public static Error Error(XksKeyNotFoundException nativeValue) {
+    Option<DafnySequence<? extends Character>> message;
+    message =
+      Objects.nonNull(nativeValue.getMessage())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.getMessage()
+          )
+        )
+        : Option.create_None();
+    return new Error_XksKeyNotFoundException(message);
+  }
+
+  public static Error Error(
+    XksProxyIncorrectAuthenticationCredentialException nativeValue
+  ) {
+    Option<DafnySequence<? extends Character>> message;
+    message =
+      Objects.nonNull(nativeValue.getMessage())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.getMessage()
+          )
+        )
+        : Option.create_None();
+    return new Error_XksProxyIncorrectAuthenticationCredentialException(
+      message
+    );
+  }
+
+  public static Error Error(XksProxyInvalidConfigurationException nativeValue) {
+    Option<DafnySequence<? extends Character>> message;
+    message =
+      Objects.nonNull(nativeValue.getMessage())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.getMessage()
+          )
+        )
+        : Option.create_None();
+    return new Error_XksProxyInvalidConfigurationException(message);
+  }
+
+  public static Error Error(XksProxyInvalidResponseException nativeValue) {
+    Option<DafnySequence<? extends Character>> message;
+    message =
+      Objects.nonNull(nativeValue.getMessage())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.getMessage()
+          )
+        )
+        : Option.create_None();
+    return new Error_XksProxyInvalidResponseException(message);
+  }
+
+  public static Error Error(XksProxyUriEndpointInUseException nativeValue) {
+    Option<DafnySequence<? extends Character>> message;
+    message =
+      Objects.nonNull(nativeValue.getMessage())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.getMessage()
+          )
+        )
+        : Option.create_None();
+    return new Error_XksProxyUriEndpointInUseException(message);
+  }
+
+  public static Error Error(XksProxyUriInUseException nativeValue) {
+    Option<DafnySequence<? extends Character>> message;
+    message =
+      Objects.nonNull(nativeValue.getMessage())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.getMessage()
+          )
+        )
+        : Option.create_None();
+    return new Error_XksProxyUriInUseException(message);
+  }
+
+  public static Error Error(XksProxyUriUnreachableException nativeValue) {
+    Option<DafnySequence<? extends Character>> message;
+    message =
+      Objects.nonNull(nativeValue.getMessage())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.getMessage()
+          )
+        )
+        : Option.create_None();
+    return new Error_XksProxyUriUnreachableException(message);
+  }
+
+  public static Error Error(
+    XksProxyVpcEndpointServiceInUseException nativeValue
+  ) {
+    Option<DafnySequence<? extends Character>> message;
+    message =
+      Objects.nonNull(nativeValue.getMessage())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.getMessage()
+          )
+        )
+        : Option.create_None();
+    return new Error_XksProxyVpcEndpointServiceInUseException(message);
+  }
+
+  public static Error Error(
+    XksProxyVpcEndpointServiceInvalidConfigurationException nativeValue
+  ) {
+    Option<DafnySequence<? extends Character>> message;
+    message =
+      Objects.nonNull(nativeValue.getMessage())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.getMessage()
+          )
+        )
+        : Option.create_None();
+    return new Error_XksProxyVpcEndpointServiceInvalidConfigurationException(
+      message
+    );
+  }
+
+  public static Error Error(
+    XksProxyVpcEndpointServiceNotFoundException nativeValue
+  ) {
+    Option<DafnySequence<? extends Character>> message;
+    message =
+      Objects.nonNull(nativeValue.getMessage())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.getMessage()
+          )
+        )
+        : Option.create_None();
+    return new Error_XksProxyVpcEndpointServiceNotFoundException(message);
+  }
+
   public static AlgorithmSpec AlgorithmSpec(
     software.amazon.awssdk.services.kms.model.AlgorithmSpec nativeValue
   ) {
@@ -3417,6 +4640,20 @@ public class ToDafny {
       case RSAES_OAEP_SHA_256:
         {
           return AlgorithmSpec.create_RSAES__OAEP__SHA__256();
+        }
+      case RSA_AES_KEY_WRAP_SHA_1:
+        {
+          return AlgorithmSpec.create_RSA__AES__KEY__WRAP__SHA__1();
+        }
+      case RSA_AES_KEY_WRAP_SHA_256:
+        {
+          return AlgorithmSpec.create_RSA__AES__KEY__WRAP__SHA__256();
+        }
+      // BEGIN MANUAL EDIT
+      case SM2_PKE:
+        // END MANUAL EDIT
+        {
+          return AlgorithmSpec.create_SM2PKE();
         }
       default:
         {
@@ -3468,6 +4705,42 @@ public class ToDafny {
       case SUBNET_NOT_FOUND:
         {
           return ConnectionErrorCodeType.create_SUBNET__NOT__FOUND();
+        }
+      case INSUFFICIENT_FREE_ADDRESSES_IN_SUBNET:
+        {
+          return ConnectionErrorCodeType.create_INSUFFICIENT__FREE__ADDRESSES__IN__SUBNET();
+        }
+      case XKS_PROXY_ACCESS_DENIED:
+        {
+          return ConnectionErrorCodeType.create_XKS__PROXY__ACCESS__DENIED();
+        }
+      case XKS_PROXY_NOT_REACHABLE:
+        {
+          return ConnectionErrorCodeType.create_XKS__PROXY__NOT__REACHABLE();
+        }
+      case XKS_VPC_ENDPOINT_SERVICE_NOT_FOUND:
+        {
+          return ConnectionErrorCodeType.create_XKS__VPC__ENDPOINT__SERVICE__NOT__FOUND();
+        }
+      case XKS_PROXY_INVALID_RESPONSE:
+        {
+          return ConnectionErrorCodeType.create_XKS__PROXY__INVALID__RESPONSE();
+        }
+      case XKS_PROXY_INVALID_CONFIGURATION:
+        {
+          return ConnectionErrorCodeType.create_XKS__PROXY__INVALID__CONFIGURATION();
+        }
+      case XKS_VPC_ENDPOINT_SERVICE_INVALID_CONFIGURATION:
+        {
+          return ConnectionErrorCodeType.create_XKS__VPC__ENDPOINT__SERVICE__INVALID__CONFIGURATION();
+        }
+      case XKS_PROXY_TIMED_OUT:
+        {
+          return ConnectionErrorCodeType.create_XKS__PROXY__TIMED__OUT();
+        }
+      case XKS_PROXY_INVALID_TLS_CONFIGURATION:
+        {
+          return ConnectionErrorCodeType.create_XKS__PROXY__INVALID__TLS__CONFIGURATION();
         }
       default:
         {
@@ -3551,12 +4824,55 @@ public class ToDafny {
         {
           return CustomerMasterKeySpec.create_SYMMETRIC__DEFAULT();
         }
+      case HMAC_224:
+        {
+          return CustomerMasterKeySpec.create_HMAC__224();
+        }
+      case HMAC_256:
+        {
+          return CustomerMasterKeySpec.create_HMAC__256();
+        }
+      case HMAC_384:
+        {
+          return CustomerMasterKeySpec.create_HMAC__384();
+        }
+      case HMAC_512:
+        {
+          return CustomerMasterKeySpec.create_HMAC__512();
+        }
+      case SM2:
+        {
+          return CustomerMasterKeySpec.create_SM2();
+        }
       default:
         {
           throw new RuntimeException(
             "Cannot convert " +
             nativeValue +
             " to software.amazon.cryptography.services.kms.internaldafny.types.CustomerMasterKeySpec."
+          );
+        }
+    }
+  }
+
+  public static CustomKeyStoreType CustomKeyStoreType(
+    software.amazon.awssdk.services.kms.model.CustomKeyStoreType nativeValue
+  ) {
+    switch (nativeValue) {
+      case AWS_CLOUDHSM:
+        {
+          return CustomKeyStoreType.create_AWS__CLOUDHSM();
+        }
+      case EXTERNAL_KEY_STORE:
+        {
+          return CustomKeyStoreType.create_EXTERNAL__KEY__STORE();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.services.kms.internaldafny.types.CustomKeyStoreType."
           );
         }
     }
@@ -3593,6 +4909,10 @@ public class ToDafny {
       case ECC_SECG_P256_K1:
         {
           return DataKeyPairSpec.create_ECC__SECG__P256K1();
+        }
+      case SM2:
+        {
+          return DataKeyPairSpec.create_SM2();
         }
       default:
         {
@@ -3738,12 +5058,62 @@ public class ToDafny {
         {
           return GrantOperation.create_GenerateDataKeyPairWithoutPlaintext();
         }
+      case GENERATE_MAC:
+        {
+          return GrantOperation.create_GenerateMac();
+        }
+      case VERIFY_MAC:
+        {
+          return GrantOperation.create_VerifyMac();
+        }
+      case DERIVE_SHARED_SECRET:
+        {
+          return GrantOperation.create_DeriveSharedSecret();
+        }
       default:
         {
           throw new RuntimeException(
             "Cannot convert " +
             nativeValue +
             " to software.amazon.cryptography.services.kms.internaldafny.types.GrantOperation."
+          );
+        }
+    }
+  }
+
+  public static KeyAgreementAlgorithmSpec KeyAgreementAlgorithmSpec(
+    software.amazon.awssdk.services.kms.model.KeyAgreementAlgorithmSpec nativeValue
+  ) {
+    switch (nativeValue) {
+      case ECDH:
+        {
+          return KeyAgreementAlgorithmSpec.create();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.services.kms.internaldafny.types.KeyAgreementAlgorithmSpec."
+          );
+        }
+    }
+  }
+
+  public static KeyEncryptionMechanism KeyEncryptionMechanism(
+    software.amazon.awssdk.services.kms.model.KeyEncryptionMechanism nativeValue
+  ) {
+    switch (nativeValue) {
+      case RSAES_OAEP_SHA_256:
+        {
+          return KeyEncryptionMechanism.create();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.services.kms.internaldafny.types.KeyEncryptionMechanism."
           );
         }
     }
@@ -3807,6 +5177,26 @@ public class ToDafny {
       case SYMMETRIC_DEFAULT:
         {
           return KeySpec.create_SYMMETRIC__DEFAULT();
+        }
+      case HMAC_224:
+        {
+          return KeySpec.create_HMAC__224();
+        }
+      case HMAC_256:
+        {
+          return KeySpec.create_HMAC__256();
+        }
+      case HMAC_384:
+        {
+          return KeySpec.create_HMAC__384();
+        }
+      case HMAC_512:
+        {
+          return KeySpec.create_HMAC__512();
+        }
+      case SM2:
+        {
+          return KeySpec.create_SM2();
         }
       default:
         {
@@ -3878,12 +5268,51 @@ public class ToDafny {
         {
           return KeyUsageType.create_ENCRYPT__DECRYPT();
         }
+      case GENERATE_VERIFY_MAC:
+        {
+          return KeyUsageType.create_GENERATE__VERIFY__MAC();
+        }
+      case KEY_AGREEMENT:
+        {
+          return KeyUsageType.create_KEY__AGREEMENT();
+        }
       default:
         {
           throw new RuntimeException(
             "Cannot convert " +
             nativeValue +
             " to software.amazon.cryptography.services.kms.internaldafny.types.KeyUsageType."
+          );
+        }
+    }
+  }
+
+  public static MacAlgorithmSpec MacAlgorithmSpec(
+    software.amazon.awssdk.services.kms.model.MacAlgorithmSpec nativeValue
+  ) {
+    switch (nativeValue) {
+      case HMAC_SHA_224:
+        {
+          return MacAlgorithmSpec.create_HMAC__SHA__224();
+        }
+      case HMAC_SHA_256:
+        {
+          return MacAlgorithmSpec.create_HMAC__SHA__256();
+        }
+      case HMAC_SHA_384:
+        {
+          return MacAlgorithmSpec.create_HMAC__SHA__384();
+        }
+      case HMAC_SHA_512:
+        {
+          return MacAlgorithmSpec.create_HMAC__SHA__512();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.services.kms.internaldafny.types.MacAlgorithmSpec."
           );
         }
     }
@@ -3951,12 +5380,39 @@ public class ToDafny {
         {
           return OriginType.create_AWS__CLOUDHSM();
         }
+      case EXTERNAL_KEY_STORE:
+        {
+          return OriginType.create_EXTERNAL__KEY__STORE();
+        }
       default:
         {
           throw new RuntimeException(
             "Cannot convert " +
             nativeValue +
             " to software.amazon.cryptography.services.kms.internaldafny.types.OriginType."
+          );
+        }
+    }
+  }
+
+  public static RotationType RotationType(
+    software.amazon.awssdk.services.kms.model.RotationType nativeValue
+  ) {
+    switch (nativeValue) {
+      case AUTOMATIC:
+        {
+          return RotationType.create_AUTOMATIC();
+        }
+      case ON_DEMAND:
+        {
+          return RotationType.create_ON__DEMAND();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.services.kms.internaldafny.types.RotationType."
           );
         }
     }
@@ -4002,6 +5458,12 @@ public class ToDafny {
         {
           return SigningAlgorithmSpec.create_ECDSA__SHA__512();
         }
+      // BEGIN MANUAL EDIT
+      case SM2_DSA:
+        // END MANUAL EDIT
+        {
+          return SigningAlgorithmSpec.create_SM2DSA();
+        }
       default:
         {
           throw new RuntimeException(
@@ -4019,7 +5481,19 @@ public class ToDafny {
     switch (nativeValue) {
       case RSA_2048:
         {
-          return WrappingKeySpec.create();
+          return WrappingKeySpec.create_RSA__2048();
+        }
+      case RSA_3072:
+        {
+          return WrappingKeySpec.create_RSA__3072();
+        }
+      case RSA_4096:
+        {
+          return WrappingKeySpec.create_RSA__4096();
+        }
+      case SM2:
+        {
+          return WrappingKeySpec.create_SM2();
         }
       default:
         {
@@ -4027,6 +5501,29 @@ public class ToDafny {
             "Cannot convert " +
             nativeValue +
             " to software.amazon.cryptography.services.kms.internaldafny.types.WrappingKeySpec."
+          );
+        }
+    }
+  }
+
+  public static XksProxyConnectivityType XksProxyConnectivityType(
+    software.amazon.awssdk.services.kms.model.XksProxyConnectivityType nativeValue
+  ) {
+    switch (nativeValue) {
+      case PUBLIC_ENDPOINT:
+        {
+          return XksProxyConnectivityType.create_PUBLIC__ENDPOINT();
+        }
+      case VPC_ENDPOINT_SERVICE:
+        {
+          return XksProxyConnectivityType.create_VPC__ENDPOINT__SERVICE();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.services.kms.internaldafny.types.XksProxyConnectivityType."
           );
         }
     }
@@ -4063,6 +5560,14 @@ public class ToDafny {
   ) {
     return CustomerMasterKeySpec(
       software.amazon.awssdk.services.kms.model.CustomerMasterKeySpec.fromValue(
+        nativeValue
+      )
+    );
+  }
+
+  public static CustomKeyStoreType CustomKeyStoreType(String nativeValue) {
+    return CustomKeyStoreType(
+      software.amazon.awssdk.services.kms.model.CustomKeyStoreType.fromValue(
         nativeValue
       )
     );
@@ -4110,6 +5615,26 @@ public class ToDafny {
     );
   }
 
+  public static KeyAgreementAlgorithmSpec KeyAgreementAlgorithmSpec(
+    String nativeValue
+  ) {
+    return KeyAgreementAlgorithmSpec(
+      software.amazon.awssdk.services.kms.model.KeyAgreementAlgorithmSpec.fromValue(
+        nativeValue
+      )
+    );
+  }
+
+  public static KeyEncryptionMechanism KeyEncryptionMechanism(
+    String nativeValue
+  ) {
+    return KeyEncryptionMechanism(
+      software.amazon.awssdk.services.kms.model.KeyEncryptionMechanism.fromValue(
+        nativeValue
+      )
+    );
+  }
+
   public static KeyManagerType KeyManagerType(String nativeValue) {
     return KeyManagerType(
       software.amazon.awssdk.services.kms.model.KeyManagerType.fromValue(
@@ -4133,6 +5658,14 @@ public class ToDafny {
   public static KeyUsageType KeyUsageType(String nativeValue) {
     return KeyUsageType(
       software.amazon.awssdk.services.kms.model.KeyUsageType.fromValue(
+        nativeValue
+      )
+    );
+  }
+
+  public static MacAlgorithmSpec MacAlgorithmSpec(String nativeValue) {
+    return MacAlgorithmSpec(
+      software.amazon.awssdk.services.kms.model.MacAlgorithmSpec.fromValue(
         nativeValue
       )
     );
@@ -4162,6 +5695,14 @@ public class ToDafny {
     );
   }
 
+  public static RotationType RotationType(String nativeValue) {
+    return RotationType(
+      software.amazon.awssdk.services.kms.model.RotationType.fromValue(
+        nativeValue
+      )
+    );
+  }
+
   public static SigningAlgorithmSpec SigningAlgorithmSpec(String nativeValue) {
     return SigningAlgorithmSpec(
       software.amazon.awssdk.services.kms.model.SigningAlgorithmSpec.fromValue(
@@ -4178,10 +5719,32 @@ public class ToDafny {
     );
   }
 
+  public static XksProxyConnectivityType XksProxyConnectivityType(
+    String nativeValue
+  ) {
+    return XksProxyConnectivityType(
+      software.amazon.awssdk.services.kms.model.XksProxyConnectivityType.fromValue(
+        nativeValue
+      )
+    );
+  }
+
   public static Error Error(KmsException nativeValue) {
-    // BEGIN MANUAL EDIT
-    return new Error_Opaque(nativeValue);
-    // END MANUAL EDIT
+    // While this is logically identical to the other Opaque Error case,
+    // it is semantically distinct.
+    // An un-modeled Service Error is different from a Java Heap Exhaustion error.
+    // In the future, Smithy-Dafny MAY allow for this distinction.
+    // Which would allow Dafny developers to treat the two differently.
+    return Error.create_Opaque(nativeValue);
+  }
+
+  public static Error Error(Exception nativeValue) {
+    // While this is logically identical to the other Opaque Error case,
+    // it is semantically distinct.
+    // An un-modeled Service Error is different from a Java Heap Exhaustion error.
+    // In the future, Smithy-Dafny MAY allow for this distinction.
+    // Which would allow Dafny developers to treat the two differently.
+    return Error.create_Opaque(nativeValue);
   }
 
   public static IKMSClient TrentService(KmsClient nativeValue) {

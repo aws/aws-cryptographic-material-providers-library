@@ -3,50 +3,50 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
-import System_
-import Wrappers
-import Relations
-import Seq_MergeSort
-import Math
-import Seq
-import BoundedInts
-import Unicode
-import Functions
-import Utf8EncodingForm
-import Utf16EncodingForm
-import UnicodeStrings
-import FileIO
-import GeneralInternals
-import MulInternalsNonlinear
-import MulInternals
-import Mul
-import ModInternalsNonlinear
-import DivInternalsNonlinear
-import ModInternals
-import DivInternals
-import DivMod
-import Power
-import Logarithm
-import StandardLibraryInterop
-import StandardLibrary_UInt
-import StandardLibrary_String
-import StandardLibrary
-import UUID
-import UTF8
-import Time
-import Streams
-import Sorting
-import SortedSets
-import HexStrings
-import GetOpt
-import FloatCompare
-import ConcurrentCall
-import Base64
-import Base64Lemmas
-import Actions
-import DafnyLibraries
+import standard_library.internaldafny.generated.module_ as module_
+import _dafny as _dafny
+import System_ as System_
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import standard_library.internaldafny.generated.Relations as Relations
+import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
+import standard_library.internaldafny.generated.Math as Math
+import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.BoundedInts as BoundedInts
+import standard_library.internaldafny.generated.Unicode as Unicode
+import standard_library.internaldafny.generated.Functions as Functions
+import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
+import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16EncodingForm
+import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
+import standard_library.internaldafny.generated.FileIO as FileIO
+import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
+import standard_library.internaldafny.generated.MulInternalsNonlinear as MulInternalsNonlinear
+import standard_library.internaldafny.generated.MulInternals as MulInternals
+import standard_library.internaldafny.generated.Mul as Mul
+import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
+import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInternalsNonlinear
+import standard_library.internaldafny.generated.ModInternals as ModInternals
+import standard_library.internaldafny.generated.DivInternals as DivInternals
+import standard_library.internaldafny.generated.DivMod as DivMod
+import standard_library.internaldafny.generated.Power as Power
+import standard_library.internaldafny.generated.Logarithm as Logarithm
+import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
+import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
+import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
+import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
+import standard_library.internaldafny.generated.UUID as UUID
+import standard_library.internaldafny.generated.UTF8 as UTF8
+import standard_library.internaldafny.generated.Time as Time
+import standard_library.internaldafny.generated.Streams as Streams
+import standard_library.internaldafny.generated.Sorting as Sorting
+import standard_library.internaldafny.generated.SortedSets as SortedSets
+import standard_library.internaldafny.generated.HexStrings as HexStrings
+import standard_library.internaldafny.generated.GetOpt as GetOpt
+import standard_library.internaldafny.generated.FloatCompare as FloatCompare
+import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
+import standard_library.internaldafny.generated.Base64 as Base64
+import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
+import standard_library.internaldafny.generated.Actions as Actions
+import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
 
 # Module: JSON_Utils_Views_Core
 
@@ -60,9 +60,9 @@ class default__:
 
     @staticmethod
     def Merge(lv, rv):
-        d_436_dt__update__tmp_h0_ = lv
-        d_437_dt__update_hend_h0_ = (rv).end
-        return View___View((d_436_dt__update__tmp_h0_).s, (d_436_dt__update__tmp_h0_).beg, d_437_dt__update_hend_h0_)
+        d_427_dt__update__tmp_h0_ = lv
+        d_428_dt__update_hend_h0_ = (rv).end
+        return View___View((d_427_dt__update__tmp_h0_).s, (d_427_dt__update__tmp_h0_).beg, d_428_dt__update_hend_h0_)
 
 
 class View:
@@ -94,7 +94,7 @@ class View__:
 
     @staticmethod
     def OfString(s):
-        return _dafny.Seq([ord((s)[d_438_i_]) for d_438_i_ in range(len(s))])
+        return _dafny.Seq([ord((s)[d_429_i_]) for d_429_i_ in range(len(s))])
 
     def Byte_q(self, c):
         hresult_: bool = False
@@ -116,9 +116,9 @@ class View__:
 
     def CopyTo(self, dest, start):
         hi7_ = (self).Length()
-        for d_439_idx_ in range(0, hi7_):
-            index0_ = (start) + (d_439_idx_)
-            (dest)[index0_] = ((self).s)[((self).beg) + (d_439_idx_)]
+        for d_430_idx_ in range(0, hi7_):
+            index0_ = (start) + (d_430_idx_)
+            (dest)[index0_] = ((self).s)[((self).beg) + (d_430_idx_)]
 
     @_dafny.classproperty
     def Empty(instance):

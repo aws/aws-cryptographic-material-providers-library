@@ -181,7 +181,7 @@ module {:extern "UTF8"} UTF8 {
     ValidUTF8Range(s, 0, |s|)
   }
 
-  lemma ValidUTF8Concat(s: seq<uint8>, t: seq<uint8>)
+  lemma {:vcs_split_on_every_assert} ValidUTF8Concat(s: seq<uint8>, t: seq<uint8>)
     requires ValidUTF8Seq(s) && ValidUTF8Seq(t)
     ensures ValidUTF8Seq(s + t)
   {
@@ -189,7 +189,8 @@ module {:extern "UTF8"} UTF8 {
     while lo < |s|
       invariant lo <= |s|
       invariant ValidUTF8Range(s, lo, |s|)
-      invariant ValidUTF8Range(s + t, 0, |s + t|) == ValidUTF8Range(s + t, lo, |s + t|)
+      invariant ValidUTF8Range(s + t, 0, |s + t|) ==> ValidUTF8Range(s + t, lo, |s + t|)
+      invariant ValidUTF8Range(s + t, lo, |s + t|) ==> ValidUTF8Range(s + t, 0, |s + t|)
     {
       var r := (s + t)[lo..];
       if Uses1Byte(r) {

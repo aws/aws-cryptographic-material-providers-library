@@ -4,6 +4,6 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
+import com_amazonaws_dynamodb.internaldafny.generated.module_ as module_
+import _dafny as _dafny
 

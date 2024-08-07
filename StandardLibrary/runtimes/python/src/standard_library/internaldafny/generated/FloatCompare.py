@@ -3,44 +3,44 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
-import System_
-import Wrappers
-import Relations
-import Seq_MergeSort
-import Math
-import Seq
-import BoundedInts
-import Unicode
-import Functions
-import Utf8EncodingForm
-import Utf16EncodingForm
-import UnicodeStrings
-import FileIO
-import GeneralInternals
-import MulInternalsNonlinear
-import MulInternals
-import Mul
-import ModInternalsNonlinear
-import DivInternalsNonlinear
-import ModInternals
-import DivInternals
-import DivMod
-import Power
-import Logarithm
-import StandardLibraryInterop
-import StandardLibrary_UInt
-import StandardLibrary_String
-import StandardLibrary
-import UUID
-import UTF8
-import Time
-import Streams
-import Sorting
-import SortedSets
-import HexStrings
-import GetOpt
+import standard_library.internaldafny.generated.module_ as module_
+import _dafny as _dafny
+import System_ as System_
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import standard_library.internaldafny.generated.Relations as Relations
+import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
+import standard_library.internaldafny.generated.Math as Math
+import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.BoundedInts as BoundedInts
+import standard_library.internaldafny.generated.Unicode as Unicode
+import standard_library.internaldafny.generated.Functions as Functions
+import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
+import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16EncodingForm
+import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
+import standard_library.internaldafny.generated.FileIO as FileIO
+import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
+import standard_library.internaldafny.generated.MulInternalsNonlinear as MulInternalsNonlinear
+import standard_library.internaldafny.generated.MulInternals as MulInternals
+import standard_library.internaldafny.generated.Mul as Mul
+import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
+import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInternalsNonlinear
+import standard_library.internaldafny.generated.ModInternals as ModInternals
+import standard_library.internaldafny.generated.DivInternals as DivInternals
+import standard_library.internaldafny.generated.DivMod as DivMod
+import standard_library.internaldafny.generated.Power as Power
+import standard_library.internaldafny.generated.Logarithm as Logarithm
+import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
+import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
+import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
+import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
+import standard_library.internaldafny.generated.UUID as UUID
+import standard_library.internaldafny.generated.UTF8 as UTF8
+import standard_library.internaldafny.generated.Time as Time
+import standard_library.internaldafny.generated.Streams as Streams
+import standard_library.internaldafny.generated.Sorting as Sorting
+import standard_library.internaldafny.generated.SortedSets as SortedSets
+import standard_library.internaldafny.generated.HexStrings as HexStrings
+import standard_library.internaldafny.generated.GetOpt as GetOpt
 
 # Module: FloatCompare
 
@@ -82,27 +82,27 @@ class default__:
 
     @staticmethod
     def StrToInt(s, acc):
-        d_362_tmp_ = default__.SkipLeadingSpace(s)
-        if (len(d_362_tmp_)) == (0):
+        d_353_tmp_ = default__.SkipLeadingSpace(s)
+        if (len(d_353_tmp_)) == (0):
             return 0
-        elif ((d_362_tmp_)[0]) == ('-'):
+        elif ((d_353_tmp_)[0]) == ('-'):
             return (0) - (default__.StrToIntInner(s, 0))
         elif True:
             return default__.StrToIntInner(s, 0)
 
     @staticmethod
     def SplitE(x):
-        d_363_parts_ = StandardLibrary.default__.SplitOnce_q(x, 'e')
-        if (d_363_parts_).is_Some:
-            return d_363_parts_
+        d_354_parts_ = StandardLibrary.default__.SplitOnce_q(x, 'e')
+        if (d_354_parts_).is_Some:
+            return d_354_parts_
         elif True:
             return StandardLibrary.default__.SplitOnce_q(x, 'E')
 
     @staticmethod
     def SplitExp(x):
-        d_364_parts_ = default__.SplitE(x)
-        if (d_364_parts_).is_Some:
-            return (((d_364_parts_).value)[0], default__.StrToInt(((d_364_parts_).value)[1], 0))
+        d_355_parts_ = default__.SplitE(x)
+        if (d_355_parts_).is_Some:
+            return (((d_355_parts_).value)[0], default__.StrToInt(((d_355_parts_).value)[1], 0))
         elif True:
             return (x, 0)
 
@@ -132,9 +132,9 @@ class default__:
 
     @staticmethod
     def SplitDot(x):
-        d_365_parts_ = StandardLibrary.default__.SplitOnce_q(x, '.')
-        if (d_365_parts_).is_Some:
-            return (default__.SkipLeadingZeros(((d_365_parts_).value)[0]), default__.SkipTrailingZeros(((d_365_parts_).value)[1]))
+        d_356_parts_ = StandardLibrary.default__.SplitOnce_q(x, '.')
+        if (d_356_parts_).is_Some:
+            return (default__.SkipLeadingZeros(((d_356_parts_).value)[0]), default__.SkipTrailingZeros(((d_356_parts_).value)[1]))
         elif True:
             return (default__.SkipLeadingZeros(x), _dafny.Seq(""))
 
@@ -162,30 +162,30 @@ class default__:
 
     @staticmethod
     def AppendZeros(x, newLength):
-        return (x) + (_dafny.Seq(['0' for d_366_i_ in range((newLength) - (len(x)))]))
+        return (x) + (_dafny.Seq(['0' for d_357_i_ in range((newLength) - (len(x)))]))
 
     @staticmethod
     def CompareFloatInner(x, y):
-        d_367_xParts_ = default__.SplitExp(x)
-        d_368_yParts_ = default__.SplitExp(y)
-        d_369_xNum_ = default__.SplitDot((d_367_xParts_)[0])
-        d_370_yNum_ = default__.SplitDot((d_368_yParts_)[0])
-        d_371_xDigits_ = default__.SkipLeadingZeros(((d_369_xNum_)[0]) + ((d_369_xNum_)[1]))
-        d_372_yDigits_ = default__.SkipLeadingZeros(((d_370_yNum_)[0]) + ((d_370_yNum_)[1]))
-        d_373_xExp_ = ((d_367_xParts_)[1]) - (len((d_369_xNum_)[1]))
-        d_374_yExp_ = ((d_368_yParts_)[1]) - (len((d_370_yNum_)[1]))
-        d_375_logX_ = (d_373_xExp_) + (len(d_371_xDigits_))
-        d_376_logY_ = (d_374_yExp_) + (len(d_372_yDigits_))
-        if (d_375_logX_) > (d_376_logY_):
+        d_358_xParts_ = default__.SplitExp(x)
+        d_359_yParts_ = default__.SplitExp(y)
+        d_360_xNum_ = default__.SplitDot((d_358_xParts_)[0])
+        d_361_yNum_ = default__.SplitDot((d_359_yParts_)[0])
+        d_362_xDigits_ = default__.SkipLeadingZeros(((d_360_xNum_)[0]) + ((d_360_xNum_)[1]))
+        d_363_yDigits_ = default__.SkipLeadingZeros(((d_361_yNum_)[0]) + ((d_361_yNum_)[1]))
+        d_364_xExp_ = ((d_358_xParts_)[1]) - (len((d_360_xNum_)[1]))
+        d_365_yExp_ = ((d_359_yParts_)[1]) - (len((d_361_yNum_)[1]))
+        d_366_logX_ = (d_364_xExp_) + (len(d_362_xDigits_))
+        d_367_logY_ = (d_365_yExp_) + (len(d_363_yDigits_))
+        if (d_366_logX_) > (d_367_logY_):
             return 1
-        elif (d_376_logY_) > (d_375_logX_):
+        elif (d_367_logY_) > (d_366_logX_):
             return -1
-        elif (len(d_371_xDigits_)) < (len(d_372_yDigits_)):
-            return default__.StrCmp(default__.AppendZeros(d_371_xDigits_, len(d_372_yDigits_)), d_372_yDigits_)
-        elif (len(d_372_yDigits_)) < (len(d_371_xDigits_)):
-            return default__.StrCmp(d_371_xDigits_, default__.AppendZeros(d_372_yDigits_, len(d_371_xDigits_)))
+        elif (len(d_362_xDigits_)) < (len(d_363_yDigits_)):
+            return default__.StrCmp(default__.AppendZeros(d_362_xDigits_, len(d_363_yDigits_)), d_363_yDigits_)
+        elif (len(d_363_yDigits_)) < (len(d_362_xDigits_)):
+            return default__.StrCmp(d_362_xDigits_, default__.AppendZeros(d_363_yDigits_, len(d_362_xDigits_)))
         elif True:
-            return default__.StrCmp(d_371_xDigits_, d_372_yDigits_)
+            return default__.StrCmp(d_362_xDigits_, d_363_yDigits_)
 
     @staticmethod
     def IsNegative(x):
@@ -232,16 +232,16 @@ class default__:
 
     @staticmethod
     def CompareFloat(x, y):
-        d_377_x_ = default__.CleanNumber(x)
-        d_378_y_ = default__.CleanNumber(y)
-        if (default__.IsNegative(d_377_x_)) and (default__.IsNegative(d_378_y_)):
-            return default__.CompareFloatInner(_dafny.Seq((d_378_y_)[1::]), _dafny.Seq((d_377_x_)[1::]))
-        elif default__.IsNegative(d_377_x_):
+        d_368_x_ = default__.CleanNumber(x)
+        d_369_y_ = default__.CleanNumber(y)
+        if (default__.IsNegative(d_368_x_)) and (default__.IsNegative(d_369_y_)):
+            return default__.CompareFloatInner(_dafny.Seq((d_369_y_)[1::]), _dafny.Seq((d_368_x_)[1::]))
+        elif default__.IsNegative(d_368_x_):
             return -1
-        elif default__.IsNegative(d_378_y_):
+        elif default__.IsNegative(d_369_y_):
             return 1
         elif True:
-            return default__.CompareFloatInner(d_377_x_, d_378_y_)
+            return default__.CompareFloatInner(d_368_x_, d_369_y_)
 
     @_dafny.classproperty
     def Less(instance):
@@ -261,5 +261,5 @@ class CompareType:
     def default():
         return int(0)
     def _Is(source__):
-        d_379_x_: int = source__
-        return ((-1) <= (d_379_x_)) and ((d_379_x_) <= (1))
+        d_370_x_: int = source__
+        return ((-1) <= (d_370_x_)) and ((d_370_x_) <= (1))

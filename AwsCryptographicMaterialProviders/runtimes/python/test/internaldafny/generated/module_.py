@@ -3,181 +3,185 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
-import System_
-import Wrappers
-import BoundedInts
-import StandardLibrary_UInt
-import StandardLibrary_String
-import StandardLibrary
-import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_keystore_internaldafny_types
-import Relations
-import Seq_MergeSort
-import Math
-import Seq
-import software_amazon_cryptography_primitives_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
-import AwsArnParsing
-import Actions
-import AwsKmsMrkMatchForDecrypt
-import AwsKmsUtils
-import Structure
-import KMSKeystoreOperations
-import DDBKeystoreOperations
-import CreateKeys
-import CreateKeyStoreTable
-import GetKeys
-import UUID
-import Time
-import AwsCryptographyKeyStoreOperations
-import software_amazon_cryptography_services_kms_internaldafny
-import software_amazon_cryptography_services_dynamodb_internaldafny
-import Com_Amazonaws
-import Com
-import software_amazon_cryptography_keystore_internaldafny
-import Base64
-import AlgorithmSuites
-import Materials
-import Keyring
-import MultiKeyring
-import AwsKmsMrkAreUnique
-import Constants
-import ExternRandom
-import Random
-import AESEncryption
-import ExternDigest
-import Digest
-import HMAC
-import WrappedHMAC
-import HKDF
-import WrappedHKDF
-import Signature
-import KdfCtr
-import RSAEncryption
-import AwsCryptographyPrimitivesOperations
-import software_amazon_cryptography_primitives_internaldafny
-import Aws_Cryptography
-import Aws
-import MaterialWrapping
-import CanonicalEncryptionContext
-import IntermediateKeyWrapping
-import EdkWrapping
-import AwsKmsKeyring
-import StrictMultiKeyring
-import AwsKmsDiscoveryKeyring
-import DiscoveryMultiKeyring
-import AwsKmsMrkDiscoveryKeyring
-import MrkAwareDiscoveryMultiKeyring
-import AwsKmsMrkKeyring
-import MrkAwareStrictMultiKeyring
-import DafnyLibraries
-import LocalCMC
-import software_amazon_cryptography_internaldafny_SynchronizedLocalCMC
-import SortedSets
-import StormTracker
-import software_amazon_cryptography_internaldafny_StormTrackingCMC
-import AwsKmsHierarchicalKeyring
-import AwsKmsRsaKeyring
-import RawAESKeyring
-import RawRSAKeyring
-import CMM
-import Defaults
-import Commitment
-import DefaultCMM
-import DefaultClientSupplier
-import RequiredEncryptionContextCMM
-import AwsCryptographyMaterialProvidersOperations
-import software_amazon_cryptography_materialproviders_internaldafny
-import AesKdfCtr
-import Unicode
-import Functions
-import Utf8EncodingForm
-import Utf16EncodingForm
-import UnicodeStrings
-import FileIO
-import GeneralInternals
-import MulInternalsNonlinear
-import MulInternals
-import Mul
-import ModInternalsNonlinear
-import DivInternalsNonlinear
-import ModInternals
-import DivInternals
-import DivMod
-import Power
-import Logarithm
-import StandardLibraryInterop
-import Streams
-import Sorting
-import HexStrings
-import GetOpt
-import FloatCompare
-import ConcurrentCall
-import Base64Lemmas
-import Fixtures
-import TestCreateKeyStore
-import TestConfig
-import TestGetKeys
-import CleanupItems
-import TestCreateKeys
-import TestVersionKey
-import TestUtils
-import TestIntermediateKeyWrapping
-import TestDefaultClientProvider
-import TestRawAESKeyring
-import TestMultiKeyring
-import TestRawRSAKeying
-import TestAwsKmsRsaKeyring
-import TestAwsKmsHierarchicalKeyring
-import TestAwsKmsEncryptedDataKeyFilter
-import TestLocalCMC
-import TestStormTracker
-import JSON_Utils_Views_Core
-import JSON_Utils_Views_Writers
-import JSON_Utils_Views
-import JSON_Utils_Lexers_Core
-import JSON_Utils_Lexers_Strings
-import JSON_Utils_Lexers
-import JSON_Utils_Cursors
-import JSON_Utils_Parsers
-import JSON_Utils_Str_CharStrConversion
-import JSON_Utils_Str_CharStrEscaping
-import JSON_Utils_Str
-import JSON_Utils_Seq
-import JSON_Utils_Vectors
-import JSON_Utils
-import JSON_Errors
-import JSON_Values
-import JSON_Spec
-import JSON_Grammar
-import JSON_Serializer_ByteStrConversion
-import JSON_Serializer
-import JSON_Deserializer_Uint16StrConversion
-import JSON_Deserializer_ByteStrConversion
-import JSON_Deserializer
-import JSON_ConcreteSyntax_Spec
-import JSON_ConcreteSyntax_SpecProperties
-import JSON_ConcreteSyntax
-import JSON_ZeroCopy_Serializer
-import JSON_ZeroCopy_Deserializer_Core
-import JSON_ZeroCopy_Deserializer_Strings
-import JSON_ZeroCopy_Deserializer_Numbers
-import JSON_ZeroCopy_Deserializer_ObjectParams
-import JSON_ZeroCopy_Deserializer_Objects
-import JSON_ZeroCopy_Deserializer_ArrayParams
-import JSON_ZeroCopy_Deserializer_Arrays
-import JSON_ZeroCopy_Deserializer_Constants
-import JSON_ZeroCopy_Deserializer_Values
-import JSON_ZeroCopy_Deserializer_API
-import JSON_ZeroCopy_Deserializer
-import JSON_ZeroCopy_API
-import JSON_ZeroCopy
-import JSON_API
-import JSON
+import module_ as module_
+import _dafny as _dafny
+import System_ as System_
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import standard_library.internaldafny.generated.BoundedInts as BoundedInts
+import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
+import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
+import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
+import standard_library.internaldafny.generated.UTF8 as UTF8
+import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
+import com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes as ComAmazonawsKmsTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes as AwsCryptographyKeyStoreTypes
+import standard_library.internaldafny.generated.Relations as Relations
+import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
+import standard_library.internaldafny.generated.Math as Math
+import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.Actions as Actions
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes as AwsCryptographyMaterialProvidersTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStoreErrorMessages as KeyStoreErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.KmsArn as KmsArn
+import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
+import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.CreateKeys as CreateKeys
+import aws_cryptographic_materialproviders.internaldafny.generated.CreateKeyStoreTable as CreateKeyStoreTable
+import aws_cryptographic_materialproviders.internaldafny.generated.GetKeys as GetKeys
+import standard_library.internaldafny.generated.UUID as UUID
+import standard_library.internaldafny.generated.Time as Time
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreOperations as AwsCryptographyKeyStoreOperations
+import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
+import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStore as KeyStore
+import standard_library.internaldafny.generated.Base64 as Base64
+import aws_cryptographic_materialproviders.internaldafny.generated.AlgorithmSuites as AlgorithmSuites
+import aws_cryptographic_materialproviders.internaldafny.generated.Materials as Materials
+import aws_cryptographic_materialproviders.internaldafny.generated.Keyring as Keyring
+import aws_cryptographic_materialproviders.internaldafny.generated.MultiKeyring as MultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkAreUnique as AwsKmsMrkAreUnique
+import aws_cryptographic_materialproviders.internaldafny.generated.Constants as Constants
+import aws_cryptography_primitives.internaldafny.generated.ExternRandom as ExternRandom
+import aws_cryptography_primitives.internaldafny.generated.Random as Random
+import aws_cryptography_primitives.internaldafny.generated.AESEncryption as AESEncryption
+import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
+import aws_cryptography_primitives.internaldafny.generated.Digest as Digest
+import aws_cryptography_primitives.internaldafny.generated.HMAC as HMAC
+import aws_cryptography_primitives.internaldafny.generated.WrappedHMAC as WrappedHMAC
+import aws_cryptography_primitives.internaldafny.generated.HKDF as HKDF
+import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as WrappedHKDF
+import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
+import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
+import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
+import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
+import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapping as MaterialWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
+import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.EdkWrapping as EdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.ErrorMessages as ErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsKeyring as AwsKmsKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.StrictMultiKeyring as StrictMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsDiscoveryKeyring as AwsKmsDiscoveryKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.DiscoveryMultiKeyring as DiscoveryMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkDiscoveryKeyring as AwsKmsMrkDiscoveryKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.MrkAwareDiscoveryMultiKeyring as MrkAwareDiscoveryMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkKeyring as AwsKmsMrkKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.MrkAwareStrictMultiKeyring as MrkAwareStrictMultiKeyring
+import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
+import aws_cryptographic_materialproviders.internaldafny.generated.LocalCMC as LocalCMC
+import aws_cryptographic_materialproviders.internaldafny.generated.SynchronizedLocalCMC as SynchronizedLocalCMC
+import standard_library.internaldafny.generated.SortedSets as SortedSets
+import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker as StormTracker
+import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.EcdhEdkWrapping as EcdhEdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.RawECDHKeyring as RawECDHKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsEcdhKeyring as AwsKmsEcdhKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.RawRSAKeyring as RawRSAKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.CMM as CMM
+import aws_cryptographic_materialproviders.internaldafny.generated.Defaults as Defaults
+import aws_cryptographic_materialproviders.internaldafny.generated.Commitment as Commitment
+import aws_cryptographic_materialproviders.internaldafny.generated.DefaultCMM as DefaultCMM
+import aws_cryptographic_materialproviders.internaldafny.generated.DefaultClientSupplier as DefaultClientSupplier
+import aws_cryptographic_materialproviders.internaldafny.generated.Utils as Utils
+import aws_cryptographic_materialproviders.internaldafny.generated.RequiredEncryptionContextCMM as RequiredEncryptionContextCMM
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersOperations as AwsCryptographyMaterialProvidersOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.MaterialProviders as MaterialProviders
+import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
+import standard_library.internaldafny.generated.Unicode as Unicode
+import standard_library.internaldafny.generated.Functions as Functions
+import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
+import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16EncodingForm
+import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
+import standard_library.internaldafny.generated.FileIO as FileIO
+import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
+import standard_library.internaldafny.generated.MulInternalsNonlinear as MulInternalsNonlinear
+import standard_library.internaldafny.generated.MulInternals as MulInternals
+import standard_library.internaldafny.generated.Mul as Mul
+import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
+import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInternalsNonlinear
+import standard_library.internaldafny.generated.ModInternals as ModInternals
+import standard_library.internaldafny.generated.DivInternals as DivInternals
+import standard_library.internaldafny.generated.DivMod as DivMod
+import standard_library.internaldafny.generated.Power as Power
+import standard_library.internaldafny.generated.Logarithm as Logarithm
+import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
+import standard_library.internaldafny.generated.Streams as Streams
+import standard_library.internaldafny.generated.Sorting as Sorting
+import standard_library.internaldafny.generated.HexStrings as HexStrings
+import standard_library.internaldafny.generated.GetOpt as GetOpt
+import standard_library.internaldafny.generated.FloatCompare as FloatCompare
+import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
+import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
+import Fixtures as Fixtures
+import TestCreateKeyStore as TestCreateKeyStore
+import TestLyingBranchKey as TestLyingBranchKey
+import TestDiscoveryGetKeys as TestDiscoveryGetKeys
+import TestConfig as TestConfig
+import TestGetKeys as TestGetKeys
+import CleanupItems as CleanupItems
+import TestCreateKeys as TestCreateKeys
+import TestVersionKey as TestVersionKey
+import TestUtils as TestUtils
+import TestIntermediateKeyWrapping as TestIntermediateKeyWrapping
+import TestErrorMessages as TestErrorMessages
+import TestDefaultClientProvider as TestDefaultClientProvider
+import TestRawECDHKeyring as TestRawECDHKeyring
+import TestRawAESKeyring as TestRawAESKeyring
+import TestMultiKeyring as TestMultiKeyring
+import TestRawRSAKeying as TestRawRSAKeying
+import TestAwsKmsRsaKeyring as TestAwsKmsRsaKeyring
+import TestAwsKmsHierarchicalKeyring as TestAwsKmsHierarchicalKeyring
+import TestAwsKmsEcdhKeyring as TestAwsKmsEcdhKeyring
+import TestAwsKmsEncryptedDataKeyFilter as TestAwsKmsEncryptedDataKeyFilter
+import TestLocalCMC as TestLocalCMC
+import TestStormTracker as TestStormTracker
+import TestEcdhCalculation as TestEcdhCalculation
+import standard_library.internaldafny.generated.JSON_Utils_Views_Core as JSON_Utils_Views_Core
+import standard_library.internaldafny.generated.JSON_Utils_Views_Writers as JSON_Utils_Views_Writers
+import standard_library.internaldafny.generated.JSON_Utils_Lexers_Core as JSON_Utils_Lexers_Core
+import standard_library.internaldafny.generated.JSON_Utils_Lexers_Strings as JSON_Utils_Lexers_Strings
+import standard_library.internaldafny.generated.JSON_Utils_Cursors as JSON_Utils_Cursors
+import standard_library.internaldafny.generated.JSON_Utils_Parsers as JSON_Utils_Parsers
+import standard_library.internaldafny.generated.JSON_Utils_Str_CharStrConversion as JSON_Utils_Str_CharStrConversion
+import standard_library.internaldafny.generated.JSON_Utils_Str_CharStrEscaping as JSON_Utils_Str_CharStrEscaping
+import standard_library.internaldafny.generated.JSON_Utils_Str as JSON_Utils_Str
+import standard_library.internaldafny.generated.JSON_Utils_Seq as JSON_Utils_Seq
+import standard_library.internaldafny.generated.JSON_Utils_Vectors as JSON_Utils_Vectors
+import standard_library.internaldafny.generated.JSON_Errors as JSON_Errors
+import standard_library.internaldafny.generated.JSON_Values as JSON_Values
+import standard_library.internaldafny.generated.JSON_Spec as JSON_Spec
+import standard_library.internaldafny.generated.JSON_Grammar as JSON_Grammar
+import standard_library.internaldafny.generated.JSON_Serializer_ByteStrConversion as JSON_Serializer_ByteStrConversion
+import standard_library.internaldafny.generated.JSON_Serializer as JSON_Serializer
+import standard_library.internaldafny.generated.JSON_Deserializer_Uint16StrConversion as JSON_Deserializer_Uint16StrConversion
+import standard_library.internaldafny.generated.JSON_Deserializer_ByteStrConversion as JSON_Deserializer_ByteStrConversion
+import standard_library.internaldafny.generated.JSON_Deserializer as JSON_Deserializer
+import standard_library.internaldafny.generated.JSON_ConcreteSyntax_Spec as JSON_ConcreteSyntax_Spec
+import standard_library.internaldafny.generated.JSON_ConcreteSyntax_SpecProperties as JSON_ConcreteSyntax_SpecProperties
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Serializer as JSON_ZeroCopy_Serializer
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Core as JSON_ZeroCopy_Deserializer_Core
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Strings as JSON_ZeroCopy_Deserializer_Strings
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Numbers as JSON_ZeroCopy_Deserializer_Numbers
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_ObjectParams as JSON_ZeroCopy_Deserializer_ObjectParams
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Objects as JSON_ZeroCopy_Deserializer_Objects
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_ArrayParams as JSON_ZeroCopy_Deserializer_ArrayParams
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Arrays as JSON_ZeroCopy_Deserializer_Arrays
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Constants as JSON_ZeroCopy_Deserializer_Constants
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Values as JSON_ZeroCopy_Deserializer_Values
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_API as JSON_ZeroCopy_Deserializer_API
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer as JSON_ZeroCopy_Deserializer
+import standard_library.internaldafny.generated.JSON_ZeroCopy_API as JSON_ZeroCopy_API
+import standard_library.internaldafny.generated.JSON_API as JSON_API
 
 # Module: module_
 
@@ -187,8 +191,8 @@ class default__:
 
     @staticmethod
     def Test____Main____(noArgsParameter__):
-        d_781_success_: bool
-        d_781_success_ = True
+        d_1576_success_: bool
+        d_1576_success_ = True
         _dafny.print(_dafny.string_of(_dafny.Seq("TestCreateKeyStore.TestCreateKeyStore: ")))
         try:
             if True:
@@ -196,12 +200,116 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_782_haltMessage_ = e.message
+            d_1577_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_782_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1577_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestLyingBranchKey.TestGetActiveKeyForLyingBranchKey: ")))
+        try:
+            if True:
+                TestLyingBranchKey.default__.TestGetActiveKeyForLyingBranchKey()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1578_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1578_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestLyingBranchKey.TestGetBranchKeyVersionForLyingBranchKey: ")))
+        try:
+            if True:
+                TestLyingBranchKey.default__.TestGetBranchKeyVersionForLyingBranchKey()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1579_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1579_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestLyingBranchKey.TestGetBeaconKeyForLyingBranchKey: ")))
+        try:
+            if True:
+                TestLyingBranchKey.default__.TestGetBeaconKeyForLyingBranchKey()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1580_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1580_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestLyingBranchKey.TestVersionKeyForLyingBranchKey: ")))
+        try:
+            if True:
+                TestLyingBranchKey.default__.TestVersionKeyForLyingBranchKey()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1581_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1581_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestDiscoveryGetKeys.TestGetBeaconKeyForTwoKmsArnsSuccess: ")))
+        try:
+            if True:
+                TestDiscoveryGetKeys.default__.TestGetBeaconKeyForTwoKmsArnsSuccess()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1582_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1582_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestDiscoveryGetKeys.TestGetActiveKeyForTwoKmsArnsSuccess: ")))
+        try:
+            if True:
+                TestDiscoveryGetKeys.default__.TestGetActiveKeyForTwoKmsArnsSuccess()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1583_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1583_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestDiscoveryGetKeys.TestGetBranchKeyVersionForTwoKmsArnsSuccess: ")))
+        try:
+            if True:
+                TestDiscoveryGetKeys.default__.TestGetBranchKeyVersionForTwoKmsArnsSuccess()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1584_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1584_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestDiscoveryGetKeys.TestGetKeysForMrk: ")))
+        try:
+            if True:
+                TestDiscoveryGetKeys.default__.TestGetKeysForMrk()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1585_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1585_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestConfig.TestInvalidKmsKeyArnConfig: ")))
         try:
             if True:
@@ -209,12 +317,25 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_783_haltMessage_ = e.message
+            d_1586_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_783_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1586_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestConfig.TestInvalidKmsKeyArnAliasConfig: ")))
+        try:
+            if True:
+                TestConfig.default__.TestInvalidKmsKeyArnAliasConfig()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1587_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1587_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestConfig.TestValidConfig: ")))
         try:
             if True:
@@ -222,12 +343,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_784_haltMessage_ = e.message
+            d_1588_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_784_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1588_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestConfig.TestValidConfigNoClients: ")))
         try:
             if True:
@@ -235,12 +356,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_785_haltMessage_ = e.message
+            d_1589_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_785_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1589_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestGetKeys.TestGetBeaconKey: ")))
         try:
             if True:
@@ -248,12 +369,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_786_haltMessage_ = e.message
+            d_1590_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_786_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1590_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestGetKeys.TestGetActiveKey: ")))
         try:
             if True:
@@ -261,12 +382,25 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_787_haltMessage_ = e.message
+            d_1591_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_787_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1591_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestGetKeys.TestGetActiveMrkKey: ")))
+        try:
+            if True:
+                TestGetKeys.default__.TestGetActiveMrkKey()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1592_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1592_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestGetKeys.TestGetBranchKeyVersion: ")))
         try:
             if True:
@@ -274,12 +408,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_788_haltMessage_ = e.message
+            d_1593_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_788_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1593_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestGetKeys.TestGetActiveKeyWithIncorrectKmsKeyArn: ")))
         try:
             if True:
@@ -287,12 +421,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_789_haltMessage_ = e.message
+            d_1594_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_789_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1594_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestGetKeys.TestGetActiveKeyWrongLogicalKeyStoreName: ")))
         try:
             if True:
@@ -300,12 +434,25 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_790_haltMessage_ = e.message
+            d_1595_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_790_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1595_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestGetKeys.TestGetActiveKeyDoesNotExistFails: ")))
+        try:
+            if True:
+                TestGetKeys.default__.TestGetActiveKeyDoesNotExistFails()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1596_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1596_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestGetKeys.TestGetActiveKeyWithNoClients: ")))
         try:
             if True:
@@ -313,12 +460,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_791_haltMessage_ = e.message
+            d_1597_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_791_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1597_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestCreateKeys.TestCreateBranchAndBeaconKeys: ")))
         try:
             if True:
@@ -326,12 +473,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_792_haltMessage_ = e.message
+            d_1598_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_792_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1598_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestCreateKeys.TestCreateOptions: ")))
         try:
             if True:
@@ -339,12 +486,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_793_haltMessage_ = e.message
+            d_1599_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_793_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1599_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestCreateKeys.TestCreateDuplicate: ")))
         try:
             if True:
@@ -352,12 +499,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_794_haltMessage_ = e.message
+            d_1600_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_794_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1600_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestCreateKeys.InsertingADuplicateWillFail: ")))
         try:
             if True:
@@ -365,12 +512,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_795_haltMessage_ = e.message
+            d_1601_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_795_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1601_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestCreateKeys.InsertingADuplicateWillWithADifferentVersionFail: ")))
         try:
             if True:
@@ -378,12 +525,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_796_haltMessage_ = e.message
+            d_1602_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_796_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1602_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestVersionKey.TestVersionKey: ")))
         try:
             if True:
@@ -391,12 +538,38 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_797_haltMessage_ = e.message
+            d_1603_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_797_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1603_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestVersionKey.TestVersionKeyWithEC: ")))
+        try:
+            if True:
+                TestVersionKey.default__.TestVersionKeyWithEC()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1604_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1604_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestVersionKey.TestMrkVersionKey: ")))
+        try:
+            if True:
+                TestVersionKey.default__.TestMrkVersionKey()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1605_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1605_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestVersionKey.InsertingADuplicateVersionWillFail: ")))
         try:
             if True:
@@ -404,12 +577,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_798_haltMessage_ = e.message
+            d_1606_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_798_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1606_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestVersionKey.VersioningANonexistentBranchKeyWillFail: ")))
         try:
             if True:
@@ -417,12 +590,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_799_haltMessage_ = e.message
+            d_1607_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_799_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1607_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestIntermediateKeyWrapping.IntermediateWrapUnwrapTest: ")))
         try:
             if True:
@@ -430,12 +603,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_800_haltMessage_ = e.message
+            d_1608_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_800_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1608_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestIntermediateKeyWrapping.IntermediateGenerateAndWrapUnwrapTest: ")))
         try:
             if True:
@@ -443,12 +616,38 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_801_haltMessage_ = e.message
+            d_1609_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_801_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1609_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestErrorMessages.TestIncorrectRawDataKeys: ")))
+        try:
+            if True:
+                TestErrorMessages.default__.TestIncorrectRawDataKeys()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1610_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1610_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestErrorMessages.TestIncorrectDataKeys: ")))
+        try:
+            if True:
+                TestErrorMessages.default__.TestIncorrectDataKeys()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1611_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1611_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestDefaultClientProvider.GetUsWestTwo: ")))
         try:
             if True:
@@ -456,12 +655,129 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_802_haltMessage_ = e.message
+            d_1612_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_802_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1612_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawECDHKeyring.TestRawEcdhDiscoveryOnEncryptFailure: ")))
+        try:
+            if True:
+                TestRawECDHKeyring.default__.TestRawEcdhDiscoveryOnEncryptFailure()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1613_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1613_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawECDHKeyring.TestRawEcdhEphemeralOnDecryptFailure: ")))
+        try:
+            if True:
+                TestRawECDHKeyring.default__.TestRawEcdhEphemeralOnDecryptFailure()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1614_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1614_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawECDHKeyring.TestRawEcdhKeyringEphemeralDecryptOwnMessageFailure: ")))
+        try:
+            if True:
+                TestRawECDHKeyring.default__.TestRawEcdhKeyringEphemeralDecryptOwnMessageFailure()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1615_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1615_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawECDHKeyring.TestRawEcdhKeyringStaticSuccess: ")))
+        try:
+            if True:
+                TestRawECDHKeyring.default__.TestRawEcdhKeyringStaticSuccess()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1616_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1616_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawECDHKeyring.TestTwoRawEcdhKeyringStaticSuccess: ")))
+        try:
+            if True:
+                TestRawECDHKeyring.default__.TestTwoRawEcdhKeyringStaticSuccess()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1617_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1617_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawECDHKeyring.TestTwoEcdhKeyringStaticSuccess: ")))
+        try:
+            if True:
+                TestRawECDHKeyring.default__.TestTwoEcdhKeyringStaticSuccess()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1618_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1618_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawECDHKeyring.TestRawEcdhKeyringEncryptDecryptSuccessDBESDKSuite: ")))
+        try:
+            if True:
+                TestRawECDHKeyring.default__.TestRawEcdhKeyringEncryptDecryptSuccessDBESDKSuite()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1619_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1619_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawECDHKeyring.TestPrivateKeyandPublicKeySameCurveDiffCurveDefinitionConstructionFailure: ")))
+        try:
+            if True:
+                TestRawECDHKeyring.default__.TestPrivateKeyandPublicKeySameCurveDiffCurveDefinitionConstructionFailure()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1620_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1620_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestRawECDHKeyring.TestPrivateKeyandPublicKeySameCurveDiffCurveDefinitionConstructionCombinationsFailure: ")))
+        try:
+            if True:
+                TestRawECDHKeyring.default__.TestPrivateKeyandPublicKeySameCurveDiffCurveDefinitionConstructionCombinationsFailure()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1621_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1621_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnEncryptOnDecryptGenerateDataKey: ")))
         try:
             if True:
@@ -469,12 +785,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_803_haltMessage_ = e.message
+            d_1622_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_803_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1622_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnEncryptOnDecryptSuppliedDataKey: ")))
         try:
             if True:
@@ -482,12 +798,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_804_haltMessage_ = e.message
+            d_1623_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_804_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1623_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnDecryptKeyNameMismatch: ")))
         try:
             if True:
@@ -495,12 +811,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_805_haltMessage_ = e.message
+            d_1624_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_805_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1624_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnDecryptBadAndGoodEdkSucceeds: ")))
         try:
             if True:
@@ -508,12 +824,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_806_haltMessage_ = e.message
+            d_1625_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_806_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1625_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnDecryptNoEDKs: ")))
         try:
             if True:
@@ -521,12 +837,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_807_haltMessage_ = e.message
+            d_1626_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_807_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1626_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnEncryptUnserializableEC: ")))
         try:
             if True:
@@ -534,12 +850,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_808_haltMessage_ = e.message
+            d_1627_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_808_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1627_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestRawAESKeyring.TestOnDecryptUnserializableEC: ")))
         try:
             if True:
@@ -547,12 +863,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_809_haltMessage_ = e.message
+            d_1628_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_809_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1628_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestHappyCase: ")))
         try:
             if True:
@@ -560,12 +876,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_810_haltMessage_ = e.message
+            d_1629_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_810_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1629_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestChildKeyringFailureEncrypt: ")))
         try:
             if True:
@@ -573,12 +889,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_811_haltMessage_ = e.message
+            d_1630_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_811_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1630_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestGeneratorKeyringFails: ")))
         try:
             if True:
@@ -586,12 +902,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_812_haltMessage_ = e.message
+            d_1631_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_812_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1631_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestGeneratorKeyringDoesNotReturnPlaintextDataKey: ")))
         try:
             if True:
@@ -599,12 +915,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_813_haltMessage_ = e.message
+            d_1632_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_813_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1632_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestGeneratorAbleToDecrypt: ")))
         try:
             if True:
@@ -612,12 +928,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_814_haltMessage_ = e.message
+            d_1633_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_814_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1633_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestGeneratorUnableToDecrypt: ")))
         try:
             if True:
@@ -625,12 +941,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_815_haltMessage_ = e.message
+            d_1634_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_815_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1634_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestMultiKeyring.TestCollectFailuresDecrypt: ")))
         try:
             if True:
@@ -638,12 +954,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_816_haltMessage_ = e.message
+            d_1635_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_816_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1635_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestRawRSAKeying.TestOnEncryptOnDecryptSuppliedDataKey: ")))
         try:
             if True:
@@ -651,12 +967,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_817_haltMessage_ = e.message
+            d_1636_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_817_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1636_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestRawRSAKeying.TestOnDecryptKeyNameMismatch: ")))
         try:
             if True:
@@ -664,12 +980,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_818_haltMessage_ = e.message
+            d_1637_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_818_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1637_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestRawRSAKeying.TestOnDecryptFailure: ")))
         try:
             if True:
@@ -677,12 +993,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_819_haltMessage_ = e.message
+            d_1638_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_819_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1638_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestRawRSAKeying.TestOnDecryptBadAndGoodEdkSucceeds: ")))
         try:
             if True:
@@ -690,12 +1006,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_820_haltMessage_ = e.message
+            d_1639_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_820_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1639_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsRsaKeyring.TestKmsRsaRoundtrip: ")))
         try:
             if True:
@@ -703,12 +1019,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_821_haltMessage_ = e.message
+            d_1640_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_821_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1640_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsRsaKeyring.TestKmsRsaWithAsymmetricSignatureFails: ")))
         try:
             if True:
@@ -716,12 +1032,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_822_haltMessage_ = e.message
+            d_1641_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_822_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1641_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsHierarchicalKeyring.TestHierarchyClientESDKSuite: ")))
         try:
             if True:
@@ -729,12 +1045,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_823_haltMessage_ = e.message
+            d_1642_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_823_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1642_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsHierarchicalKeyring.TestHierarchyClientDBESuite: ")))
         try:
             if True:
@@ -742,12 +1058,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_824_haltMessage_ = e.message
+            d_1643_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_824_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1643_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsHierarchicalKeyring.TestBranchKeyIdSupplier: ")))
         try:
             if True:
@@ -755,12 +1071,155 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_825_haltMessage_ = e.message
+            d_1644_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_825_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1644_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsHierarchicalKeyring.TestInvalidDataKeyError: ")))
+        try:
+            if True:
+                TestAwsKmsHierarchicalKeyring.default__.TestInvalidDataKeyError()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1645_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1645_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsEcdhKeyring.TestKmsEcdhConfigurationFailure: ")))
+        try:
+            if True:
+                TestAwsKmsEcdhKeyring.default__.TestKmsEcdhConfigurationFailure()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1646_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1646_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsEcdhKeyring.TestKmsEcdhKeyringRecipientKmsKeyEncryptDecryptSuccess: ")))
+        try:
+            if True:
+                TestAwsKmsEcdhKeyring.default__.TestKmsEcdhKeyringRecipientKmsKeyEncryptDecryptSuccess()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1647_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1647_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsEcdhKeyring.TestKmsEcdhKeyringRecipientKmsKeyEncryptDecryptSuccessDBESDKSuite: ")))
+        try:
+            if True:
+                TestAwsKmsEcdhKeyring.default__.TestKmsEcdhKeyringRecipientKmsKeyEncryptDecryptSuccessDBESDKSuite()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1648_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1648_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsEcdhKeyring.TestKmsEcdhKeyringDiscoverySuccess: ")))
+        try:
+            if True:
+                TestAwsKmsEcdhKeyring.default__.TestKmsEcdhKeyringDiscoverySuccess()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1649_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1649_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsEcdhKeyring.TestKmsEcdhKeyringRecipientRawKeyEncryptDecryptSuccessSetSenderPublicKey: ")))
+        try:
+            if True:
+                TestAwsKmsEcdhKeyring.default__.TestKmsEcdhKeyringRecipientRawKeyEncryptDecryptSuccessSetSenderPublicKey()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1650_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1650_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsEcdhKeyring.TestKmsEcdhKeyringWithDerPublicKeys: ")))
+        try:
+            if True:
+                TestAwsKmsEcdhKeyring.default__.TestKmsEcdhKeyringWithDerPublicKeys()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1651_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1651_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsEcdhKeyring.TestKmsEcdhRawEcdhKeyringWithDerPublicKeys: ")))
+        try:
+            if True:
+                TestAwsKmsEcdhKeyring.default__.TestKmsEcdhRawEcdhKeyringWithDerPublicKeys()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1652_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1652_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsEcdhKeyring.TestKmsEcdhKeyringWithIncorrectCurveConfigurationFailure: ")))
+        try:
+            if True:
+                TestAwsKmsEcdhKeyring.default__.TestKmsEcdhKeyringWithIncorrectCurveConfigurationFailure()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1653_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1653_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsEcdhKeyring.TestKmsEcdhKeyringWithIncorrectCurveConfigurationCombinationsFailure: ")))
+        try:
+            if True:
+                TestAwsKmsEcdhKeyring.default__.TestKmsEcdhKeyringWithIncorrectCurveConfigurationCombinationsFailure()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1654_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1654_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsEcdhKeyring.TestLyingKmsKey: ")))
+        try:
+            if True:
+                TestAwsKmsEcdhKeyring.default__.TestLyingKmsKey()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1655_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1655_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsEncryptedDataKeyFilter.TestFailsNonKeyResource: ")))
         try:
             if True:
@@ -768,12 +1227,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_826_haltMessage_ = e.message
+            d_1656_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_826_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1656_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestAwsKmsEncryptedDataKeyFilter.TestMatchesKeyringsConfiguration: ")))
         try:
             if True:
@@ -781,12 +1240,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_827_haltMessage_ = e.message
+            d_1657_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_827_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1657_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestLocalCMC.LocalCMCBasics: ")))
         try:
             if True:
@@ -794,12 +1253,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_828_haltMessage_ = e.message
+            d_1658_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_828_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1658_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestStormTracker.StormTrackerBasics: ")))
         try:
             if True:
@@ -807,12 +1266,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_829_haltMessage_ = e.message
+            d_1659_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_829_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1659_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestStormTracker.StormTrackerFanOut: ")))
         try:
             if True:
@@ -820,12 +1279,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_830_haltMessage_ = e.message
+            d_1660_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_830_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1660_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestStormTracker.StormTrackerTTL: ")))
         try:
             if True:
@@ -833,12 +1292,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_831_haltMessage_ = e.message
+            d_1661_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_831_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1661_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestStormTracker.StormTrackerGraceInterval: ")))
         try:
             if True:
@@ -846,12 +1305,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_832_haltMessage_ = e.message
+            d_1662_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_832_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1662_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
+                d_1576_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestStormTracker.StormTrackerGracePeriod: ")))
         try:
             if True:
@@ -859,12 +1318,51 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_833_haltMessage_ = e.message
+            d_1663_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_833_haltMessage_))
+                _dafny.print(_dafny.string_of(d_1663_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_781_success_ = False
-        if not(d_781_success_):
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestEcdhCalculation.TestKmsDeriveSharedSecretOfflineCalculation: ")))
+        try:
+            if True:
+                TestEcdhCalculation.default__.TestKmsDeriveSharedSecretOfflineCalculation()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1664_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1664_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestEcdhCalculation.TestKmsDeriveSharedSecretOfflineCalculationCurves: ")))
+        try:
+            if True:
+                TestEcdhCalculation.default__.TestKmsDeriveSharedSecretOfflineCalculationCurves()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1665_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1665_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestEcdhCalculation.TestOfflineDeriveSharedSecretStaticKeys: ")))
+        try:
+            if True:
+                TestEcdhCalculation.default__.TestOfflineDeriveSharedSecretStaticKeys()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_1666_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_1666_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_1576_success_ = False
+        if not(d_1576_success_):
             raise _dafny.HaltException("<stdin>(1,0): " + _dafny.string_of(_dafny.Seq("Test failures occurred: see above.\n")))
 

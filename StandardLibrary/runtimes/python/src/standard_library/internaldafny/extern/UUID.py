@@ -1,7 +1,7 @@
+import _dafny
 import uuid
 
-import Wrappers
-import _dafny
+import standard_library.internaldafny.generated.Wrappers as Wrappers
 from standard_library.internaldafny.generated.UUID import *
 import standard_library.internaldafny.generated.UUID
 
@@ -35,4 +35,5 @@ class default__:
         except Exception as e:
             return Wrappers.Result_Failure(_dafny.Seq("Could not generate a UUID: " + str(e)))
 
+# Export externs
 standard_library.internaldafny.generated.UUID.default__ = default__

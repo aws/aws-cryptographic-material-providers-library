@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class HkdfExtractOutput {
+
   private final ByteBuffer prk;
 
   protected HkdfExtractOutput(BuilderImpl builder) {
@@ -34,10 +35,10 @@ public class HkdfExtractOutput {
   }
 
   static class BuilderImpl implements Builder {
+
     protected ByteBuffer prk;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(HkdfExtractOutput model) {
       this.prk = model.prk();
@@ -53,8 +54,10 @@ public class HkdfExtractOutput {
     }
 
     public HkdfExtractOutput build() {
-      if (Objects.isNull(this.prk()))  {
-        throw new IllegalArgumentException("Missing value for required field `prk`");
+      if (Objects.isNull(this.prk())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `prk`"
+        );
       }
       return new HkdfExtractOutput(this);
     }

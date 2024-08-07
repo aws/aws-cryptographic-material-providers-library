@@ -1,10 +1,4 @@
-# TODO-Python-PYTHONPATH: Extend generated class.
-# This copy-paste of generated code resolves a circular import,
-# but should be able to be removed as part of PYTHONPATH system removal.
-class Callee:
-    pass
-    def call(self, serialPos, concurrentPos):
-        pass
+import standard_library.internaldafny.generated.ConcurrentCall
 
 from threading import Thread
 
@@ -27,3 +21,5 @@ class default__:
     def _executor_call(callee, serial_iters, local_num):
         for j in range(0, serial_iters):
             callee.call(j, local_num)
+
+standard_library.internaldafny.generated.ConcurrentCall.default__ = default__

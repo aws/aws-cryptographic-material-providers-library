@@ -1,5 +1,54 @@
 # Changelog
 
+## [1.5.1](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.5.0...v1.5.1) (2024-07-08)
+
+### Fixes
+
+- **SDK-Java:** Generic SDK Error to Opaque & Back ([#466](https://github.com/aws/aws-cryptographic-material-providers-library/issues/466)) ([f832ad1](https://github.com/aws/aws-cryptographic-material-providers-library/commit/f832ad106cea3a86c536197dae15a335b4676d42))
+
+# [1.5.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.4.0...v1.5.0) (2024-06-17)
+
+### Features
+
+- **MPL:** Add Raw ECDH and AWS KMS ECDH Keyrings ([#419](https://github.com/aws/aws-cryptographic-material-providers-library/issues/419)) ([0946a7e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/0946a7ed801a6269565651cfe2ef17831d89d99c))
+
+# [1.4.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.3.0...v1.4.0) (2024-05-20)
+
+### Features
+
+- **Keystore:** Introduce additional KMSConfiguration options ([#316](https://github.com/aws/aws-cryptographic-material-providers-library/issues/316)) ([f3a0a52](https://github.com/aws/aws-cryptographic-material-providers-library/commit/f3a0a5269e611afd254425226d32eaaed1f3d99b))
+
+The Hierarchical Keyring's Keystore now supports four (4) `KMSConfigurations`:
+
+- kmsKeyArn
+- kmsMRKeyArn
+- discovery
+- mrDiscovery
+
+See our [JavaDocs](https://aws.github.io/aws-cryptographic-material-providers-library/index.html?software/amazon/cryptography/keystore/model/KMSConfiguration.html) for details
+on how these options effect the relationship between
+a Keystore and KMS.
+
+### Maintenance
+
+- .NET : Bump dependency [BouncyCastle.Cryptography](https://github.com/bcgit/bc-csharp) from 2.2.1 to 2.3.1. ([#329](https://github.com/aws/aws-cryptographic-material-providers-library/pull/329))
+- .NET : Bump dependency [AWSSDK.Core](https://github.com/aws/aws-sdk-net) from 3.7.300.2 to 3.7.304.2. ([#329](https://github.com/aws/aws-cryptographic-material-providers-library/pull/329))
+- Java : Move InternalResult into StandardLibrary(Internal) ([#325](https://github.com/aws/aws-cryptographic-material-providers-library/pull/325))
+
+# [1.3.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.2.0...v1.3.0) (2024-04-24)
+
+### Bug Fixes
+
+- **dafny:** Local Service Constructors MUST return concrete ([64f72c1](https://github.com/aws/aws-cryptographic-material-providers-library/commit/64f72c121fef31a83bcf3a5346d7efc1e84ab25f))
+- Improvements to the Java Release process ([#162](https://github.com/aws/aws-cryptographic-material-providers-library/issues/162)) ([d92c06a](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d92c06a2fd355290f27df669c866157e14da9793))
+- Increase try-block scope when calling MPL components ([#267](https://github.com/aws/aws-cryptographic-material-providers-library/issues/267)) ([7661bf4](https://github.com/aws/aws-cryptographic-material-providers-library/commit/7661bf4b0f23e810f825fd884ecdc036b5e472d5))
+
+### Features
+
+- Multi-Region Key Logic in the Keystore ([#285](https://github.com/aws/aws-cryptographic-material-providers-library/issues/285)) ([d924395](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d924395e7895187aee59279f7ba1f4dcdf1f893e))
+- .NET : Enforce User input Constraints at Type Conversion ([#281](https://github.com/aws/aws-cryptographic-material-providers-library/issues/281)) ([04102d7](https://github.com/aws/aws-cryptographic-material-providers-library/commit/04102d7e30c04167df9fb76de86d2aeb0508536e))
+- Update error message to include expected values when no Encrypted Data Keys found to match ([#275](https://github.com/aws/aws-cryptographic-material-providers-library/issues/275)) ([da95f9a](https://github.com/aws/aws-cryptographic-material-providers-library/commit/da95f9a66f863016f8172df9aa19d1086b9bdd78))
+
 ## 1.2.0 (2024-01-08)
 
 ### Features

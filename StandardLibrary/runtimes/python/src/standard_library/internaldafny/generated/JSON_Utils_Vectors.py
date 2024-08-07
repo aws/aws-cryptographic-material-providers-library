@@ -3,62 +3,62 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
-import System_
-import Wrappers
-import Relations
-import Seq_MergeSort
-import Math
-import Seq
-import BoundedInts
-import Unicode
-import Functions
-import Utf8EncodingForm
-import Utf16EncodingForm
-import UnicodeStrings
-import FileIO
-import GeneralInternals
-import MulInternalsNonlinear
-import MulInternals
-import Mul
-import ModInternalsNonlinear
-import DivInternalsNonlinear
-import ModInternals
-import DivInternals
-import DivMod
-import Power
-import Logarithm
-import StandardLibraryInterop
-import StandardLibrary_UInt
-import StandardLibrary_String
-import StandardLibrary
-import UUID
-import UTF8
-import Time
-import Streams
-import Sorting
-import SortedSets
-import HexStrings
-import GetOpt
-import FloatCompare
-import ConcurrentCall
-import Base64
-import Base64Lemmas
-import Actions
-import DafnyLibraries
-import JSON_Utils_Views_Core
-import JSON_Utils_Views_Writers
-import JSON_Utils_Views
-import JSON_Utils_Lexers_Core
-import JSON_Utils_Lexers_Strings
-import JSON_Utils_Lexers
-import JSON_Utils_Cursors
-import JSON_Utils_Parsers
-import JSON_Utils_Str_CharStrConversion
-import JSON_Utils_Str_CharStrEscaping
-import JSON_Utils_Str
-import JSON_Utils_Seq
+import standard_library.internaldafny.generated.module_ as module_
+import _dafny as _dafny
+import System_ as System_
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import standard_library.internaldafny.generated.Relations as Relations
+import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
+import standard_library.internaldafny.generated.Math as Math
+import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.BoundedInts as BoundedInts
+import standard_library.internaldafny.generated.Unicode as Unicode
+import standard_library.internaldafny.generated.Functions as Functions
+import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
+import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16EncodingForm
+import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
+import standard_library.internaldafny.generated.FileIO as FileIO
+import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
+import standard_library.internaldafny.generated.MulInternalsNonlinear as MulInternalsNonlinear
+import standard_library.internaldafny.generated.MulInternals as MulInternals
+import standard_library.internaldafny.generated.Mul as Mul
+import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
+import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInternalsNonlinear
+import standard_library.internaldafny.generated.ModInternals as ModInternals
+import standard_library.internaldafny.generated.DivInternals as DivInternals
+import standard_library.internaldafny.generated.DivMod as DivMod
+import standard_library.internaldafny.generated.Power as Power
+import standard_library.internaldafny.generated.Logarithm as Logarithm
+import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
+import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
+import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
+import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
+import standard_library.internaldafny.generated.UUID as UUID
+import standard_library.internaldafny.generated.UTF8 as UTF8
+import standard_library.internaldafny.generated.Time as Time
+import standard_library.internaldafny.generated.Streams as Streams
+import standard_library.internaldafny.generated.Sorting as Sorting
+import standard_library.internaldafny.generated.SortedSets as SortedSets
+import standard_library.internaldafny.generated.HexStrings as HexStrings
+import standard_library.internaldafny.generated.GetOpt as GetOpt
+import standard_library.internaldafny.generated.FloatCompare as FloatCompare
+import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
+import standard_library.internaldafny.generated.Base64 as Base64
+import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
+import standard_library.internaldafny.generated.Actions as Actions
+import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
+import standard_library.internaldafny.generated.JSON_Utils_Views_Core as JSON_Utils_Views_Core
+import standard_library.internaldafny.generated.JSON_Utils_Views_Writers as JSON_Utils_Views_Writers
+import standard_library.internaldafny.generated.JSON_Utils_Views as JSON_Utils_Views
+import standard_library.internaldafny.generated.JSON_Utils_Lexers_Core as JSON_Utils_Lexers_Core
+import standard_library.internaldafny.generated.JSON_Utils_Lexers_Strings as JSON_Utils_Lexers_Strings
+import standard_library.internaldafny.generated.JSON_Utils_Lexers as JSON_Utils_Lexers
+import standard_library.internaldafny.generated.JSON_Utils_Cursors as JSON_Utils_Cursors
+import standard_library.internaldafny.generated.JSON_Utils_Parsers as JSON_Utils_Parsers
+import standard_library.internaldafny.generated.JSON_Utils_Str_CharStrConversion as JSON_Utils_Str_CharStrConversion
+import standard_library.internaldafny.generated.JSON_Utils_Str_CharStrEscaping as JSON_Utils_Str_CharStrEscaping
+import standard_library.internaldafny.generated.JSON_Utils_Str as JSON_Utils_Str
+import standard_library.internaldafny.generated.JSON_Utils_Seq as JSON_Utils_Seq
 
 # Module: JSON_Utils_Vectors
 
@@ -106,9 +106,9 @@ class Vector:
         (self)._a = a0
         (self).size = 0
         (self).capacity = initial__capacity
-        def lambda30_(d_495_a0_):
-            def lambda31_(d_496___v0_):
-                return d_495_a0_
+        def lambda30_(d_478_a0_):
+            def lambda31_(d_479___v0_):
+                return d_478_a0_
 
             return lambda31_
 
@@ -130,18 +130,18 @@ class Vector:
 
     def CopyFrom(self, new__data, count):
         hi8_ = count
-        for d_497_idx_ in range(0, hi8_):
+        for d_480_idx_ in range(0, hi8_):
             arr1_ = self.data
-            arr1_[(d_497_idx_)] = (new__data)[d_497_idx_]
+            arr1_[(d_480_idx_)] = (new__data)[d_480_idx_]
 
     def Realloc(self, new__capacity):
-        d_498_old__data_: _dafny.Array
-        d_499_old__capacity_: int
+        d_481_old__data_: _dafny.Array
+        d_482_old__capacity_: int
         rhs6_ = self.data
         rhs7_ = self.capacity
-        d_498_old__data_ = rhs6_
-        d_499_old__capacity_ = rhs7_
-        def lambda32_(d_500___v1_):
+        d_481_old__data_ = rhs6_
+        d_482_old__capacity_ = rhs7_
+        def lambda32_(d_483___v1_):
             return (self).a
 
         init3_ = lambda32_
@@ -154,7 +154,7 @@ class Vector:
         lhs5_ = self
         lhs4_.data = rhs8_
         lhs5_.capacity = rhs9_
-        (self).CopyFrom(d_498_old__data_, d_499_old__capacity_)
+        (self).CopyFrom(d_481_old__data_, d_482_old__capacity_)
 
     def DefaultNewCapacity(self, capacity):
         if (capacity) < ((self).MAX__CAPACITY__BEFORE__DOUBLING):
@@ -180,11 +180,11 @@ class Vector:
         if (reserved) <= ((self.capacity) - (self.size)):
             o = Wrappers.Outcome_Pass()
             return o
-        d_501_new__capacity_: int
-        d_501_new__capacity_ = self.capacity
-        while (reserved) > ((d_501_new__capacity_) - (self.size)):
-            d_501_new__capacity_ = (self).DefaultNewCapacity(d_501_new__capacity_)
-        (self).Realloc(d_501_new__capacity_)
+        d_484_new__capacity_: int
+        d_484_new__capacity_ = self.capacity
+        while (reserved) > ((d_484_new__capacity_) - (self.size)):
+            d_484_new__capacity_ = (self).DefaultNewCapacity(d_484_new__capacity_)
+        (self).Realloc(d_484_new__capacity_)
         o = Wrappers.Outcome_Pass()
         return o
         return o
@@ -201,12 +201,12 @@ class Vector:
     def Push(self, a):
         o: Wrappers.Outcome = Wrappers.Outcome.default()()
         if (self.size) == (self.capacity):
-            d_502_d_: Wrappers.Outcome
+            d_485_d_: Wrappers.Outcome
             out23_: Wrappers.Outcome
             out23_ = (self).ReallocDefault()
-            d_502_d_ = out23_
-            if (d_502_d_).is_Fail:
-                o = d_502_d_
+            d_485_d_ = out23_
+            if (d_485_d_).is_Fail:
+                o = d_485_d_
                 return o
         (self).PushFast(a)
         o = Wrappers.Outcome_Pass()

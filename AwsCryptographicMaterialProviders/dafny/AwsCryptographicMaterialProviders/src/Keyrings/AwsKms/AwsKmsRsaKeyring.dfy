@@ -10,6 +10,7 @@ include "Constants.dfy"
 include "AwsKmsUtils.dfy"
 include "../../KeyWrapping/MaterialWrapping.dfy"
 include "../../KeyWrapping/EdkWrapping.dfy"
+include "../../ErrorMessages.dfy"
 
 include "../../../Model/AwsCryptographyMaterialProvidersTypes.dfy"
 
@@ -19,7 +20,8 @@ module AwsKmsRsaKeyring {
   import opened UInt = StandardLibrary.UInt
   import opened Actions
   import UTF8
-  import Aws.Cryptography.Primitives
+  import UUID
+  import AtomicPrimitives
   import Crypto = AwsCryptographyPrimitivesTypes
   import Keyring
   import Materials
@@ -33,6 +35,7 @@ module AwsKmsRsaKeyring {
   import MaterialWrapping
   import EdkWrapping
   import AwsKmsUtils
+  import ErrorMessages
 
   const MIN_KMS_RSA_KEY_LEN: Crypto.RSAModulusLengthBits := 2048
 
@@ -229,9 +232,13 @@ module AwsKmsRsaKeyring {
       var filter := new AwsKmsUtils.OnDecryptMrkAwareEncryptedDataKeyFilter(awsKmsArn, RSA_PROVIDER_ID);
       var edksToAttempt :- FilterWithResult(filter, input.encryptedDataKeys);
 
-      :- Need(0 < |edksToAttempt|,
-              Types.AwsCryptographicMaterialProvidersException(
-                message := "Unable to decrypt data key: No Encrypted Data Keys found to match."));
+      if (0 == |edksToAttempt|) {
+        var errorMessage :- ErrorMessages.IncorrectDataKeys(input.encryptedDataKeys, input.materials.algorithmSuite);
+        return Failure(
+            Types.AwsCryptographicMaterialProvidersException(
+              message := errorMessage
+            ));
+      }
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-rsa-keyring.md#onencrypt
       //# OnEncrypt MUST calculate a Encryption Context Digest by:

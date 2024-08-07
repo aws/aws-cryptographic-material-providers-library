@@ -3,107 +3,107 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
-import System_
-import Wrappers
-import BoundedInts
-import StandardLibrary_UInt
-import StandardLibrary_String
-import StandardLibrary
-import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_primitives_internaldafny_types
-import ExternRandom
-import Random
-import AESEncryption
-import ExternDigest
-import Digest
-import HMAC
-import WrappedHMAC
-import HKDF
-import WrappedHKDF
-import Signature
-import KdfCtr
-import RSAEncryption
-import AwsCryptographyPrimitivesOperations
-import AesKdfCtr
-import Relations
-import Seq_MergeSort
-import Math
-import Seq
-import Unicode
-import Functions
-import Utf8EncodingForm
-import Utf16EncodingForm
-import UnicodeStrings
-import FileIO
-import GeneralInternals
-import MulInternalsNonlinear
-import MulInternals
-import Mul
-import ModInternalsNonlinear
-import DivInternalsNonlinear
-import ModInternals
-import DivInternals
-import DivMod
-import Power
-import Logarithm
-import StandardLibraryInterop
-import UUID
-import Time
-import Streams
-import Sorting
-import SortedSets
-import HexStrings
-import GetOpt
-import FloatCompare
-import ConcurrentCall
-import Base64
-import Base64Lemmas
-import Actions
-import DafnyLibraries
-import software_amazon_cryptography_keystore_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
-import AwsArnParsing
-import AwsKmsMrkMatchForDecrypt
-import AwsKmsUtils
-import Structure
-import KMSKeystoreOperations
-import DDBKeystoreOperations
-import CreateKeys
-import CreateKeyStoreTable
-import GetKeys
-import AwsCryptographyKeyStoreOperations
-import software_amazon_cryptography_services_kms_internaldafny
-import software_amazon_cryptography_services_dynamodb_internaldafny
-import Com_Amazonaws
-import Com
-import software_amazon_cryptography_keystore_internaldafny
-import AlgorithmSuites
-import Materials
-import Keyring
-import MultiKeyring
-import AwsKmsMrkAreUnique
-import Constants
-import software_amazon_cryptography_primitives_internaldafny
-import Aws_Cryptography
-import Aws
-import MaterialWrapping
-import CanonicalEncryptionContext
-import IntermediateKeyWrapping
-import EdkWrapping
-import AwsKmsKeyring
-import StrictMultiKeyring
-import AwsKmsDiscoveryKeyring
-import DiscoveryMultiKeyring
-import AwsKmsMrkDiscoveryKeyring
-import MrkAwareDiscoveryMultiKeyring
-import AwsKmsMrkKeyring
-import MrkAwareStrictMultiKeyring
-import LocalCMC
-import software_amazon_cryptography_internaldafny_SynchronizedLocalCMC
+import aws_cryptographic_materialproviders.internaldafny.generated.module_ as module_
+import _dafny as _dafny
+import System_ as System_
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import standard_library.internaldafny.generated.BoundedInts as BoundedInts
+import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
+import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
+import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
+import standard_library.internaldafny.generated.UTF8 as UTF8
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
+import aws_cryptography_primitives.internaldafny.generated.ExternRandom as ExternRandom
+import aws_cryptography_primitives.internaldafny.generated.Random as Random
+import aws_cryptography_primitives.internaldafny.generated.AESEncryption as AESEncryption
+import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
+import aws_cryptography_primitives.internaldafny.generated.Digest as Digest
+import aws_cryptography_primitives.internaldafny.generated.HMAC as HMAC
+import aws_cryptography_primitives.internaldafny.generated.WrappedHMAC as WrappedHMAC
+import aws_cryptography_primitives.internaldafny.generated.HKDF as HKDF
+import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as WrappedHKDF
+import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
+import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
+import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
+import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
+import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
+import com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes as ComAmazonawsKmsTypes
+import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
+import standard_library.internaldafny.generated.Relations as Relations
+import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
+import standard_library.internaldafny.generated.Math as Math
+import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.Unicode as Unicode
+import standard_library.internaldafny.generated.Functions as Functions
+import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
+import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16EncodingForm
+import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
+import standard_library.internaldafny.generated.FileIO as FileIO
+import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
+import standard_library.internaldafny.generated.MulInternalsNonlinear as MulInternalsNonlinear
+import standard_library.internaldafny.generated.MulInternals as MulInternals
+import standard_library.internaldafny.generated.Mul as Mul
+import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
+import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInternalsNonlinear
+import standard_library.internaldafny.generated.ModInternals as ModInternals
+import standard_library.internaldafny.generated.DivInternals as DivInternals
+import standard_library.internaldafny.generated.DivMod as DivMod
+import standard_library.internaldafny.generated.Power as Power
+import standard_library.internaldafny.generated.Logarithm as Logarithm
+import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
+import standard_library.internaldafny.generated.UUID as UUID
+import standard_library.internaldafny.generated.Time as Time
+import standard_library.internaldafny.generated.Streams as Streams
+import standard_library.internaldafny.generated.Sorting as Sorting
+import standard_library.internaldafny.generated.SortedSets as SortedSets
+import standard_library.internaldafny.generated.HexStrings as HexStrings
+import standard_library.internaldafny.generated.GetOpt as GetOpt
+import standard_library.internaldafny.generated.FloatCompare as FloatCompare
+import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
+import standard_library.internaldafny.generated.Base64 as Base64
+import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
+import standard_library.internaldafny.generated.Actions as Actions
+import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes as AwsCryptographyKeyStoreTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes as AwsCryptographyMaterialProvidersTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStoreErrorMessages as KeyStoreErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.KmsArn as KmsArn
+import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
+import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.CreateKeys as CreateKeys
+import aws_cryptographic_materialproviders.internaldafny.generated.CreateKeyStoreTable as CreateKeyStoreTable
+import aws_cryptographic_materialproviders.internaldafny.generated.GetKeys as GetKeys
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreOperations as AwsCryptographyKeyStoreOperations
+import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
+import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStore as KeyStore
+import aws_cryptographic_materialproviders.internaldafny.generated.AlgorithmSuites as AlgorithmSuites
+import aws_cryptographic_materialproviders.internaldafny.generated.Materials as Materials
+import aws_cryptographic_materialproviders.internaldafny.generated.Keyring as Keyring
+import aws_cryptographic_materialproviders.internaldafny.generated.MultiKeyring as MultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkAreUnique as AwsKmsMrkAreUnique
+import aws_cryptographic_materialproviders.internaldafny.generated.Constants as Constants
+import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapping as MaterialWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
+import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.EdkWrapping as EdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.ErrorMessages as ErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsKeyring as AwsKmsKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.StrictMultiKeyring as StrictMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsDiscoveryKeyring as AwsKmsDiscoveryKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.DiscoveryMultiKeyring as DiscoveryMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkDiscoveryKeyring as AwsKmsMrkDiscoveryKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.MrkAwareDiscoveryMultiKeyring as MrkAwareDiscoveryMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkKeyring as AwsKmsMrkKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.MrkAwareStrictMultiKeyring as MrkAwareStrictMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.LocalCMC as LocalCMC
+import aws_cryptographic_materialproviders.internaldafny.generated.SynchronizedLocalCMC as SynchronizedLocalCMC
 
 # Module: StormTracker
 
@@ -113,7 +113,7 @@ class default__:
 
     @staticmethod
     def DefaultStorm():
-        return software_amazon_cryptography_materialproviders_internaldafny_types.StormTrackingCache_StormTrackingCache(1000, Wrappers.Option_Some(1), 10, 1, 20, 20, 20)
+        return AwsCryptographyMaterialProvidersTypes.StormTrackingCache_StormTrackingCache(1000, Wrappers.Option_Some(1), 10, 1, 20, 20, 20)
 
 
 class CacheState:
@@ -185,9 +185,9 @@ class StormTracker:
         (self).lastPrune = 0
 
     def InFlightSize(self):
-        d_798_x_ = (self.inFlight).Size()
-        if (d_798_x_) <= (StandardLibrary_UInt.default__.INT64__MAX__LIMIT):
-            return d_798_x_
+        d_827_x_ = (self.inFlight).Size()
+        if (d_827_x_) <= (StandardLibrary_UInt.default__.INT64__MAX__LIMIT):
+            return d_827_x_
         elif True:
             return StandardLibrary_UInt.default__.INT64__MAX__LIMIT
 
@@ -206,25 +206,25 @@ class StormTracker:
 
     def CheckInFlight(self, identifier, result, now):
         output: CacheState = CacheState.default()()
-        d_799_fanOutReached_: bool
-        out129_: bool
-        out129_ = (self).FanOutReached(now)
-        d_799_fanOutReached_ = out129_
-        if d_799_fanOutReached_:
+        d_828_fanOutReached_: bool
+        out132_: bool
+        out132_ = (self).FanOutReached(now)
+        d_828_fanOutReached_ = out132_
+        if d_828_fanOutReached_:
             output = CacheState_Full(result)
             return output
         elif ((result).expiryTime) <= (now):
-            out130_: CacheState
-            out130_ = (self).CheckNewEntry(identifier, now)
-            output = out130_
+            out133_: CacheState
+            out133_ = (self).CheckNewEntry(identifier, now)
+            output = out133_
         elif (now) < (((result).expiryTime) - (self.gracePeriod)):
             output = CacheState_Full(result)
             return output
         elif True:
             if (self.inFlight).HasKey(identifier):
-                d_800_entry_: int
-                d_800_entry_ = (self.inFlight).Select(identifier)
-                if ((self).AddLong(d_800_entry_, self.graceInterval)) > (now):
+                d_829_entry_: int
+                d_829_entry_ = (self.inFlight).Select(identifier)
+                if ((self).AddLong(d_829_entry_, self.graceInterval)) > (now):
                     output = CacheState_Full(result)
                     return output
             (self.inFlight).Put(identifier, now)
@@ -238,30 +238,30 @@ class StormTracker:
         if (self.lastPrune) == (now):
             return
         (self).lastPrune = now
-        d_801_keySet_: _dafny.Set
-        d_801_keySet_ = (self.inFlight).Keys()
-        d_802_keys_: _dafny.Seq
-        d_802_keys_ = SortedSets.default__.SetToSequence(d_801_keySet_)
-        hi7_ = len(d_802_keys_)
-        for d_803_i_ in range(0, hi7_):
-            d_804_v_: int
-            d_804_v_ = (self.inFlight).Select((d_802_keys_)[d_803_i_])
-            if (now) >= ((self).AddLong(d_804_v_, self.inFlightTTL)):
-                (self.inFlight).Remove((d_802_keys_)[d_803_i_])
+        d_830_keySet_: _dafny.Set
+        d_830_keySet_ = (self.inFlight).Keys()
+        d_831_keys_: _dafny.Seq
+        d_831_keys_ = SortedSets.default__.SetToSequence(d_830_keySet_)
+        hi7_ = len(d_831_keys_)
+        for d_832_i_ in range(0, hi7_):
+            d_833_v_: int
+            d_833_v_ = (self.inFlight).Select((d_831_keys_)[d_832_i_])
+            if (now) >= ((self).AddLong(d_833_v_, self.inFlightTTL)):
+                (self.inFlight).Remove((d_831_keys_)[d_832_i_])
 
     def CheckNewEntry(self, identifier, now):
         output: CacheState = CacheState.default()()
-        d_805_fanOutReached_: bool
-        out131_: bool
-        out131_ = (self).FanOutReached(now)
-        d_805_fanOutReached_ = out131_
-        if d_805_fanOutReached_:
+        d_834_fanOutReached_: bool
+        out134_: bool
+        out134_ = (self).FanOutReached(now)
+        d_834_fanOutReached_ = out134_
+        if d_834_fanOutReached_:
             output = CacheState_EmptyWait()
             return output
         elif (self.inFlight).HasKey(identifier):
-            d_806_entry_: int
-            d_806_entry_ = (self.inFlight).Select(identifier)
-            if ((self).AddLong(d_806_entry_, self.graceInterval)) > (now):
+            d_835_entry_: int
+            d_835_entry_ = (self.inFlight).Select(identifier)
+            if ((self).AddLong(d_835_entry_, self.graceInterval)) > (now):
                 output = CacheState_EmptyWait()
                 return output
         (self.inFlight).Put(identifier, now)
@@ -271,77 +271,77 @@ class StormTracker:
 
     def GetFromCacheWithTime(self, input, now):
         output: Wrappers.Result = Wrappers.Result.default(CacheState.default())()
-        d_807_result_: Wrappers.Result
-        out132_: Wrappers.Result
-        out132_ = (self.wrapped).GetCacheEntryWithTime(input, now)
-        d_807_result_ = out132_
-        if (d_807_result_).is_Success:
-            d_808_newResult_: CacheState
-            out133_: CacheState
-            out133_ = (self).CheckInFlight((input).identifier, (d_807_result_).value, now)
-            d_808_newResult_ = out133_
-            output = Wrappers.Result_Success(d_808_newResult_)
+        d_836_result_: Wrappers.Result
+        out135_: Wrappers.Result
+        out135_ = (self.wrapped).GetCacheEntryWithTime(input, now)
+        d_836_result_ = out135_
+        if (d_836_result_).is_Success:
+            d_837_newResult_: CacheState
+            out136_: CacheState
+            out136_ = (self).CheckInFlight((input).identifier, (d_836_result_).value, now)
+            d_837_newResult_ = out136_
+            output = Wrappers.Result_Success(d_837_newResult_)
             return output
-        elif ((d_807_result_).error).is_EntryDoesNotExist:
-            d_809_newResult_: CacheState
-            out134_: CacheState
-            out134_ = (self).CheckNewEntry((input).identifier, now)
-            d_809_newResult_ = out134_
-            output = Wrappers.Result_Success(d_809_newResult_)
+        elif ((d_836_result_).error).is_EntryDoesNotExist:
+            d_838_newResult_: CacheState
+            out137_: CacheState
+            out137_ = (self).CheckNewEntry((input).identifier, now)
+            d_838_newResult_ = out137_
+            output = Wrappers.Result_Success(d_838_newResult_)
             return output
         elif True:
-            output = Wrappers.Result_Failure((d_807_result_).error)
+            output = Wrappers.Result_Failure((d_836_result_).error)
             return output
         return output
 
     def GetFromCache(self, input):
         output: Wrappers.Result = Wrappers.Result.default(CacheState.default())()
-        d_810_now_: int
-        out135_: int
-        out135_ = Time.default__.CurrentRelativeTime()
-        d_810_now_ = out135_
-        out136_: Wrappers.Result
-        out136_ = (self).GetFromCacheWithTime(input, d_810_now_)
-        output = out136_
+        d_839_now_: int
+        out138_: int
+        out138_ = Time.default__.CurrentRelativeTime()
+        d_839_now_ = out138_
+        out139_: Wrappers.Result
+        out139_ = (self).GetFromCacheWithTime(input, d_839_now_)
+        output = out139_
         return output
 
     def GetCacheEntry(self, input):
         output: Wrappers.Result = None
-        d_811_result_: Wrappers.Result
-        out137_: Wrappers.Result
-        out137_ = (self).GetFromCache(input)
-        d_811_result_ = out137_
-        if (d_811_result_).is_Failure:
-            output = Wrappers.Result_Failure((d_811_result_).error)
+        d_840_result_: Wrappers.Result
+        out140_: Wrappers.Result
+        out140_ = (self).GetFromCache(input)
+        d_840_result_ = out140_
+        if (d_840_result_).is_Failure:
+            output = Wrappers.Result_Failure((d_840_result_).error)
             return output
-        elif ((d_811_result_).value).is_Full:
-            output = Wrappers.Result_Success(((d_811_result_).value).data)
+        elif ((d_840_result_).value).is_Full:
+            output = Wrappers.Result_Success(((d_840_result_).value).data)
             return output
         elif True:
-            output = Wrappers.Result_Failure(software_amazon_cryptography_materialproviders_internaldafny_types.Error_EntryDoesNotExist(_dafny.Seq("Entry does not exist")))
+            output = Wrappers.Result_Failure(AwsCryptographyMaterialProvidersTypes.Error_EntryDoesNotExist(_dafny.Seq("Entry does not exist")))
             return output
         return output
 
     def PutCacheEntry(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
         (self.inFlight).Remove((input).identifier)
-        out138_: Wrappers.Result
-        out138_ = (self.wrapped).PutCacheEntry_k(input)
-        output = out138_
+        out141_: Wrappers.Result
+        out141_ = (self.wrapped).PutCacheEntry_k(input)
+        output = out141_
         return output
 
     def DeleteCacheEntry(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
         (self.inFlight).Remove((input).identifier)
-        out139_: Wrappers.Result
-        out139_ = (self.wrapped).DeleteCacheEntry_k(input)
-        output = out139_
+        out142_: Wrappers.Result
+        out142_ = (self.wrapped).DeleteCacheEntry_k(input)
+        output = out142_
         return output
 
     def UpdateUsageMetadata(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
-        out140_: Wrappers.Result
-        out140_ = (self.wrapped).UpdateUsageMetadata_k(input)
-        output = out140_
+        out143_: Wrappers.Result
+        out143_ = (self.wrapped).UpdateUsageMetadata_k(input)
+        output = out143_
         return output
 

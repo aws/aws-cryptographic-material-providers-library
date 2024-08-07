@@ -1,9 +1,13 @@
-from aws_cryptography_primitives.internaldafny.generated.ExternRandom import *
-import aws_cryptography_primitives.internaldafny.generated.ExternRandom
+# Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
 import secrets
-import Wrappers
+
 import _dafny
+
 import aws_cryptography_primitives.internaldafny.generated.ExternRandom
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import aws_cryptography_primitives.internaldafny.generated.ExternRandom
+from aws_cryptography_primitives.internaldafny.generated.ExternRandom import *
 
 # Extend generated class
 class default__(aws_cryptography_primitives.internaldafny.generated.ExternRandom.default__):

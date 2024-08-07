@@ -5,8 +5,6 @@ CORES=2
 
 include ../SharedMakefileV2.mk
 
-PYTHON_MODULE_NAME=aws_cryptography_primitives
-
 PROJECT_SERVICES := \
 	AwsCryptographyPrimitives
 
@@ -15,3 +13,10 @@ MAX_RESOURCE_COUNT=10000000
 
 STD_LIBRARY=StandardLibrary
 SMITHY_DEPS=model
+
+# Python
+
+PYTHON_MODULE_NAME=aws_cryptography_primitives
+
+TRANSLATION_RECORD_PYTHON := \
+    --translation-record ../StandardLibrary/runtimes/python/src/standard_library/internaldafny/generated/dafny_src-py.dtr

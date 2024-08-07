@@ -3,176 +3,174 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
-import System_
-import Wrappers
-import BoundedInts
-import StandardLibrary_UInt
-import StandardLibrary_String
-import StandardLibrary
-import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_keystore_internaldafny_types
-import software_amazon_cryptography_primitives_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
-import Base64
-import AlgorithmSuites
-import Materials
-import Keyring
-import Relations
-import Seq_MergeSort
-import Math
-import Seq
-import MultiKeyring
-import AwsArnParsing
-import AwsKmsMrkAreUnique
-import Actions
-import AwsKmsMrkMatchForDecrypt
-import AwsKmsUtils
-import Constants
-import ExternRandom
-import Random
-import AESEncryption
-import ExternDigest
-import Digest
-import HMAC
-import WrappedHMAC
-import HKDF
-import WrappedHKDF
-import Signature
-import KdfCtr
-import RSAEncryption
-import AwsCryptographyPrimitivesOperations
-import software_amazon_cryptography_primitives_internaldafny
-import Aws_Cryptography
-import Aws
-import MaterialWrapping
-import CanonicalEncryptionContext
-import IntermediateKeyWrapping
-import EdkWrapping
-import AwsKmsKeyring
-import StrictMultiKeyring
-import AwsKmsDiscoveryKeyring
-import software_amazon_cryptography_services_kms_internaldafny
-import software_amazon_cryptography_services_dynamodb_internaldafny
-import Com_Amazonaws
-import Com
-import DiscoveryMultiKeyring
-import AwsKmsMrkDiscoveryKeyring
-import MrkAwareDiscoveryMultiKeyring
-import AwsKmsMrkKeyring
-import MrkAwareStrictMultiKeyring
-import DafnyLibraries
-import Time
-import LocalCMC
-import software_amazon_cryptography_internaldafny_SynchronizedLocalCMC
-import SortedSets
-import StormTracker
-import software_amazon_cryptography_internaldafny_StormTrackingCMC
-import UUID
-import AwsKmsHierarchicalKeyring
-import AwsKmsRsaKeyring
-import RawAESKeyring
-import RawRSAKeyring
-import CMM
-import Defaults
-import Commitment
-import DefaultCMM
-import DefaultClientSupplier
-import RequiredEncryptionContextCMM
-import AwsCryptographyMaterialProvidersOperations
-import software_amazon_cryptography_materialproviders_internaldafny
-import Structure
-import KMSKeystoreOperations
-import DDBKeystoreOperations
-import CreateKeys
-import CreateKeyStoreTable
-import GetKeys
-import AwsCryptographyKeyStoreOperations
-import software_amazon_cryptography_keystore_internaldafny
-import AesKdfCtr
-import Unicode
-import Functions
-import Utf8EncodingForm
-import Utf16EncodingForm
-import UnicodeStrings
-import FileIO
-import GeneralInternals
-import MulInternalsNonlinear
-import MulInternals
-import Mul
-import ModInternalsNonlinear
-import DivInternalsNonlinear
-import ModInternals
-import DivInternals
-import DivMod
-import Power
-import Logarithm
-import StandardLibraryInterop
-import Streams
-import Sorting
-import HexStrings
-import GetOpt
-import FloatCompare
-import ConcurrentCall
-import Base64Lemmas
-import MplManifestOptions
-import AllAlgorithmSuites
-import software_amazon_cryptography_materialproviders_internaldafny_wrapped
-import software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types
-import JSON_Utils_Views_Core
-import JSON_Utils_Views_Writers
-import JSON_Utils_Views
-import JSON_Utils_Lexers_Core
-import JSON_Utils_Lexers_Strings
-import JSON_Utils_Lexers
-import JSON_Utils_Cursors
-import JSON_Utils_Parsers
-import JSON_Utils_Str_CharStrConversion
-import JSON_Utils_Str_CharStrEscaping
-import JSON_Utils_Str
-import JSON_Utils_Seq
-import JSON_Utils_Vectors
-import JSON_Utils
-import JSON_Errors
-import JSON_Values
-import JSON_Spec
-import JSON_Grammar
-import JSON_Serializer_ByteStrConversion
-import JSON_Serializer
-import JSON_Deserializer_Uint16StrConversion
-import JSON_Deserializer_ByteStrConversion
-import JSON_Deserializer
-import JSON_ConcreteSyntax_Spec
-import JSON_ConcreteSyntax_SpecProperties
-import JSON_ConcreteSyntax
-import JSON_ZeroCopy_Serializer
-import JSON_ZeroCopy_Deserializer_Core
-import JSON_ZeroCopy_Deserializer_Strings
-import JSON_ZeroCopy_Deserializer_Numbers
-import JSON_ZeroCopy_Deserializer_ObjectParams
-import JSON_ZeroCopy_Deserializer_Objects
-import JSON_ZeroCopy_Deserializer_ArrayParams
-import JSON_ZeroCopy_Deserializer_Arrays
-import JSON_ZeroCopy_Deserializer_Constants
-import JSON_ZeroCopy_Deserializer_Values
-import JSON_ZeroCopy_Deserializer_API
-import JSON_ZeroCopy_Deserializer
-import JSON_ZeroCopy_API
-import JSON_ZeroCopy
-import JSON_API
-import JSON
-import JSONHelpers
-import KeyDescription
-import KeyMaterial
-import CreateStaticKeyrings
-import CreateStaticKeyStores
-import KeyringFromKeyDescription
-import CmmFromKeyDescription
-import KeysVectorOperations
-import software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.module_ as module_
+import _dafny as _dafny
+import System_ as System_
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import standard_library.internaldafny.generated.BoundedInts as BoundedInts
+import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
+import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
+import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
+import standard_library.internaldafny.generated.UTF8 as UTF8
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
+import aws_cryptography_primitives.internaldafny.generated.ExternRandom as ExternRandom
+import aws_cryptography_primitives.internaldafny.generated.Random as Random
+import aws_cryptography_primitives.internaldafny.generated.AESEncryption as AESEncryption
+import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
+import aws_cryptography_primitives.internaldafny.generated.Digest as Digest
+import aws_cryptography_primitives.internaldafny.generated.HMAC as HMAC
+import aws_cryptography_primitives.internaldafny.generated.WrappedHMAC as WrappedHMAC
+import aws_cryptography_primitives.internaldafny.generated.HKDF as HKDF
+import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as WrappedHKDF
+import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
+import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
+import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
+import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
+import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
+import com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes as ComAmazonawsKmsTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes as AwsCryptographyKeyStoreTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes as AwsCryptographyMaterialProvidersTypes
+import standard_library.internaldafny.generated.Base64 as Base64
+import aws_cryptographic_materialproviders.internaldafny.generated.AlgorithmSuites as AlgorithmSuites
+import aws_cryptographic_materialproviders.internaldafny.generated.Materials as Materials
+import aws_cryptographic_materialproviders.internaldafny.generated.Keyring as Keyring
+import standard_library.internaldafny.generated.Relations as Relations
+import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
+import standard_library.internaldafny.generated.Math as Math
+import standard_library.internaldafny.generated.Seq as Seq
+import aws_cryptographic_materialproviders.internaldafny.generated.MultiKeyring as MultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkAreUnique as AwsKmsMrkAreUnique
+import standard_library.internaldafny.generated.Actions as Actions
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.Constants as Constants
+import standard_library.internaldafny.generated.UUID as UUID
+import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapping as MaterialWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
+import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.EdkWrapping as EdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.ErrorMessages as ErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsKeyring as AwsKmsKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.StrictMultiKeyring as StrictMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsDiscoveryKeyring as AwsKmsDiscoveryKeyring
+import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
+import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
+import aws_cryptographic_materialproviders.internaldafny.generated.DiscoveryMultiKeyring as DiscoveryMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkDiscoveryKeyring as AwsKmsMrkDiscoveryKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.MrkAwareDiscoveryMultiKeyring as MrkAwareDiscoveryMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkKeyring as AwsKmsMrkKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.MrkAwareStrictMultiKeyring as MrkAwareStrictMultiKeyring
+import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
+import standard_library.internaldafny.generated.Time as Time
+import aws_cryptographic_materialproviders.internaldafny.generated.LocalCMC as LocalCMC
+import aws_cryptographic_materialproviders.internaldafny.generated.SynchronizedLocalCMC as SynchronizedLocalCMC
+import standard_library.internaldafny.generated.SortedSets as SortedSets
+import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker as StormTracker
+import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.EcdhEdkWrapping as EcdhEdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.RawECDHKeyring as RawECDHKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsEcdhKeyring as AwsKmsEcdhKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.RawRSAKeyring as RawRSAKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.CMM as CMM
+import aws_cryptographic_materialproviders.internaldafny.generated.Defaults as Defaults
+import aws_cryptographic_materialproviders.internaldafny.generated.Commitment as Commitment
+import aws_cryptographic_materialproviders.internaldafny.generated.DefaultCMM as DefaultCMM
+import aws_cryptographic_materialproviders.internaldafny.generated.DefaultClientSupplier as DefaultClientSupplier
+import aws_cryptographic_materialproviders.internaldafny.generated.Utils as Utils
+import aws_cryptographic_materialproviders.internaldafny.generated.RequiredEncryptionContextCMM as RequiredEncryptionContextCMM
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersOperations as AwsCryptographyMaterialProvidersOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.MaterialProviders as MaterialProviders
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStoreErrorMessages as KeyStoreErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.KmsArn as KmsArn
+import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
+import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.CreateKeys as CreateKeys
+import aws_cryptographic_materialproviders.internaldafny.generated.CreateKeyStoreTable as CreateKeyStoreTable
+import aws_cryptographic_materialproviders.internaldafny.generated.GetKeys as GetKeys
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreOperations as AwsCryptographyKeyStoreOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStore as KeyStore
+import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
+import standard_library.internaldafny.generated.Unicode as Unicode
+import standard_library.internaldafny.generated.Functions as Functions
+import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
+import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16EncodingForm
+import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
+import standard_library.internaldafny.generated.FileIO as FileIO
+import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
+import standard_library.internaldafny.generated.MulInternalsNonlinear as MulInternalsNonlinear
+import standard_library.internaldafny.generated.MulInternals as MulInternals
+import standard_library.internaldafny.generated.Mul as Mul
+import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
+import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInternalsNonlinear
+import standard_library.internaldafny.generated.ModInternals as ModInternals
+import standard_library.internaldafny.generated.DivInternals as DivInternals
+import standard_library.internaldafny.generated.DivMod as DivMod
+import standard_library.internaldafny.generated.Power as Power
+import standard_library.internaldafny.generated.Logarithm as Logarithm
+import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
+import standard_library.internaldafny.generated.Streams as Streams
+import standard_library.internaldafny.generated.Sorting as Sorting
+import standard_library.internaldafny.generated.HexStrings as HexStrings
+import standard_library.internaldafny.generated.GetOpt as GetOpt
+import standard_library.internaldafny.generated.FloatCompare as FloatCompare
+import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
+import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.MplManifestOptions as MplManifestOptions
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllAlgorithmSuites as AllAlgorithmSuites
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.WrappedMaterialProviders as WrappedMaterialProviders
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes as AwsCryptographyMaterialProvidersTestVectorKeysTypes
+import standard_library.internaldafny.generated.JSON_Utils_Views_Core as JSON_Utils_Views_Core
+import standard_library.internaldafny.generated.JSON_Utils_Views_Writers as JSON_Utils_Views_Writers
+import standard_library.internaldafny.generated.JSON_Utils_Lexers_Core as JSON_Utils_Lexers_Core
+import standard_library.internaldafny.generated.JSON_Utils_Lexers_Strings as JSON_Utils_Lexers_Strings
+import standard_library.internaldafny.generated.JSON_Utils_Cursors as JSON_Utils_Cursors
+import standard_library.internaldafny.generated.JSON_Utils_Parsers as JSON_Utils_Parsers
+import standard_library.internaldafny.generated.JSON_Utils_Str_CharStrConversion as JSON_Utils_Str_CharStrConversion
+import standard_library.internaldafny.generated.JSON_Utils_Str_CharStrEscaping as JSON_Utils_Str_CharStrEscaping
+import standard_library.internaldafny.generated.JSON_Utils_Str as JSON_Utils_Str
+import standard_library.internaldafny.generated.JSON_Utils_Seq as JSON_Utils_Seq
+import standard_library.internaldafny.generated.JSON_Utils_Vectors as JSON_Utils_Vectors
+import standard_library.internaldafny.generated.JSON_Errors as JSON_Errors
+import standard_library.internaldafny.generated.JSON_Values as JSON_Values
+import standard_library.internaldafny.generated.JSON_Spec as JSON_Spec
+import standard_library.internaldafny.generated.JSON_Grammar as JSON_Grammar
+import standard_library.internaldafny.generated.JSON_Serializer_ByteStrConversion as JSON_Serializer_ByteStrConversion
+import standard_library.internaldafny.generated.JSON_Serializer as JSON_Serializer
+import standard_library.internaldafny.generated.JSON_Deserializer_Uint16StrConversion as JSON_Deserializer_Uint16StrConversion
+import standard_library.internaldafny.generated.JSON_Deserializer_ByteStrConversion as JSON_Deserializer_ByteStrConversion
+import standard_library.internaldafny.generated.JSON_Deserializer as JSON_Deserializer
+import standard_library.internaldafny.generated.JSON_ConcreteSyntax_Spec as JSON_ConcreteSyntax_Spec
+import standard_library.internaldafny.generated.JSON_ConcreteSyntax_SpecProperties as JSON_ConcreteSyntax_SpecProperties
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Serializer as JSON_ZeroCopy_Serializer
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Core as JSON_ZeroCopy_Deserializer_Core
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Strings as JSON_ZeroCopy_Deserializer_Strings
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Numbers as JSON_ZeroCopy_Deserializer_Numbers
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_ObjectParams as JSON_ZeroCopy_Deserializer_ObjectParams
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Objects as JSON_ZeroCopy_Deserializer_Objects
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_ArrayParams as JSON_ZeroCopy_Deserializer_ArrayParams
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Arrays as JSON_ZeroCopy_Deserializer_Arrays
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Constants as JSON_ZeroCopy_Deserializer_Constants
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Values as JSON_ZeroCopy_Deserializer_Values
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_API as JSON_ZeroCopy_Deserializer_API
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer as JSON_ZeroCopy_Deserializer
+import standard_library.internaldafny.generated.JSON_ZeroCopy_API as JSON_ZeroCopy_API
+import standard_library.internaldafny.generated.JSON_API as JSON_API
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.JSONHelpers as JSONHelpers
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.KeyDescription as KeyDescription
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.KeyMaterial as KeyMaterial
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.CreateStaticKeyrings as CreateStaticKeyrings
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.CreateStaticKeyStores as CreateStaticKeyStores
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.KeyringFromKeyDescription as KeyringFromKeyDescription
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.CmmFromKeyDescription as CmmFromKeyDescription
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.KeysVectorOperations as KeysVectorOperations
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.KeyVectors as KeyVectors
 
 # Module: TestVectors
 
@@ -189,56 +187,34 @@ class default__:
         _dafny.print(_dafny.string_of(((_dafny.Seq("\n")) + ((((test).vector).description).value) if (((test).vector).description).is_Some else _dafny.Seq(""))))
         _dafny.print(_dafny.string_of(((_dafny.Seq("\n")) + (((test).vector).errorDescription) if ((test).vector).is_NegativeEncryptKeyringVector else _dafny.Seq(""))))
         _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-        d_532_result_: Wrappers.Result
-        out51_: Wrappers.Result
-        out51_ = ((test).cmm).GetEncryptionMaterials((test).input)
-        d_532_result_ = out51_
-        pat_let_tv0_ = d_532_result_
-        pat_let_tv1_ = d_532_result_
-        pat_let_tv2_ = d_532_result_
-        def lambda52_(source16_):
-            if source16_.is_PositiveEncryptKeyringVector:
-                d_533___mcc_h0_ = source16_.name
-                d_534___mcc_h1_ = source16_.description
-                d_535___mcc_h2_ = source16_.encryptionContext
-                d_536___mcc_h3_ = source16_.commitmentPolicy
-                d_537___mcc_h4_ = source16_.algorithmSuite
-                d_538___mcc_h5_ = source16_.maxPlaintextLength
-                d_539___mcc_h6_ = source16_.requiredEncryptionContextKeys
-                d_540___mcc_h7_ = source16_.encryptDescription
-                d_541___mcc_h8_ = source16_.decryptDescription
-                d_542___mcc_h9_ = source16_.reproducedEncryptionContext
-                return (pat_let_tv0_).is_Success
-            elif source16_.is_PositiveEncryptNegativeDecryptKeyringVector:
-                d_543___mcc_h10_ = source16_.name
-                d_544___mcc_h11_ = source16_.description
-                d_545___mcc_h12_ = source16_.encryptionContext
-                d_546___mcc_h13_ = source16_.commitmentPolicy
-                d_547___mcc_h14_ = source16_.algorithmSuite
-                d_548___mcc_h15_ = source16_.maxPlaintextLength
-                d_549___mcc_h16_ = source16_.requiredEncryptionContextKeys
-                d_550___mcc_h17_ = source16_.decryptErrorDescription
-                d_551___mcc_h18_ = source16_.encryptDescription
-                d_552___mcc_h19_ = source16_.decryptDescription
-                d_553___mcc_h20_ = source16_.reproducedEncryptionContext
-                return (pat_let_tv1_).is_Success
-            elif True:
-                d_554___mcc_h21_ = source16_.name
-                d_555___mcc_h22_ = source16_.description
-                d_556___mcc_h23_ = source16_.encryptionContext
-                d_557___mcc_h24_ = source16_.commitmentPolicy
-                d_558___mcc_h25_ = source16_.algorithmSuite
-                d_559___mcc_h26_ = source16_.maxPlaintextLength
-                d_560___mcc_h27_ = source16_.requiredEncryptionContextKeys
-                d_561___mcc_h28_ = source16_.errorDescription
-                d_562___mcc_h29_ = source16_.keyDescription
-                return not((pat_let_tv2_).is_Success)
+        d_572_result_: Wrappers.Result
+        out44_: Wrappers.Result
+        out44_ = ((test).cmm).GetEncryptionMaterials((test).input)
+        d_572_result_ = out44_
+        pat_let_tv18_ = d_572_result_
+        pat_let_tv19_ = d_572_result_
+        pat_let_tv20_ = d_572_result_
+        def lambda60_():
+            source19_ = (test).vector
+            unmatched19 = True
+            if unmatched19:
+                if source19_.is_PositiveEncryptKeyringVector:
+                    unmatched19 = False
+                    return (pat_let_tv18_).is_Success
+            if unmatched19:
+                if source19_.is_PositiveEncryptNegativeDecryptKeyringVector:
+                    unmatched19 = False
+                    return (pat_let_tv19_).is_Success
+            if unmatched19:
+                unmatched19 = False
+                return not((pat_let_tv20_).is_Success)
+            raise Exception("unexpected control point")
 
-        testResult = lambda52_((test).vector)
-        materials = (Wrappers.Option_Some(((d_532_result_).value).encryptionMaterials) if (testResult) and ((d_532_result_).is_Success) else Wrappers.Option_None())
+        testResult = lambda60_()
+        materials = (Wrappers.Option_Some(((d_572_result_).value).encryptionMaterials) if (testResult) and ((d_572_result_).is_Success) else Wrappers.Option_None())
         if not(testResult):
             if (((test).vector).is_PositiveEncryptKeyringVector) or (((test).vector).is_PositiveEncryptNegativeDecryptKeyringVector):
-                _dafny.print(_dafny.string_of((d_532_result_).error))
+                _dafny.print(_dafny.string_of((d_572_result_).error))
             _dafny.print(_dafny.string_of(_dafny.Seq("\nFAILED! <-----------\n")))
         return testResult, materials
 
@@ -249,270 +225,197 @@ class default__:
         _dafny.print(_dafny.string_of(((test).vector).name))
         _dafny.print(_dafny.string_of(((_dafny.Seq("\n")) + ((((test).vector).description).value) if (((test).vector).description).is_Some else _dafny.Seq(""))))
         _dafny.print(_dafny.string_of(((_dafny.Seq("\n")) + (((test).vector).errorDescription) if ((test).vector).is_NegativeDecryptKeyringTest else _dafny.Seq("\n"))))
-        d_563_result_: Wrappers.Result
-        out52_: Wrappers.Result
-        out52_ = ((test).cmm).DecryptMaterials((test).input)
-        d_563_result_ = out52_
-        pat_let_tv3_ = d_563_result_
-        pat_let_tv4_ = d_563_result_
-        pat_let_tv5_ = test
-        pat_let_tv6_ = d_563_result_
-        pat_let_tv7_ = test
-        pat_let_tv8_ = d_563_result_
-        pat_let_tv9_ = test
-        pat_let_tv10_ = d_563_result_
-        def lambda53_(source17_):
-            if source17_.is_PositiveDecryptKeyringTest:
-                d_564___mcc_h0_ = source17_.name
-                d_565___mcc_h1_ = source17_.algorithmSuite
-                d_566___mcc_h2_ = source17_.commitmentPolicy
-                d_567___mcc_h3_ = source17_.encryptedDataKeys
-                d_568___mcc_h4_ = source17_.encryptionContext
-                d_569___mcc_h5_ = source17_.keyDescription
-                d_570___mcc_h6_ = source17_.expectedResult
-                d_571___mcc_h7_ = source17_.description
-                d_572___mcc_h8_ = source17_.reproducedEncryptionContext
-                return ((((pat_let_tv3_).is_Success) and (((((pat_let_tv4_).value).decryptionMaterials).plaintextDataKey) == ((((pat_let_tv5_).vector).expectedResult).plaintextDataKey))) and (((((pat_let_tv6_).value).decryptionMaterials).symmetricSigningKey) == ((((pat_let_tv7_).vector).expectedResult).symmetricSigningKey))) and (((((pat_let_tv8_).value).decryptionMaterials).requiredEncryptionContextKeys) == ((((pat_let_tv9_).vector).expectedResult).requiredEncryptionContextKeys))
-            elif True:
-                d_573___mcc_h9_ = source17_.name
-                d_574___mcc_h10_ = source17_.algorithmSuite
-                d_575___mcc_h11_ = source17_.commitmentPolicy
-                d_576___mcc_h12_ = source17_.encryptedDataKeys
-                d_577___mcc_h13_ = source17_.encryptionContext
-                d_578___mcc_h14_ = source17_.errorDescription
-                d_579___mcc_h15_ = source17_.keyDescription
-                d_580___mcc_h16_ = source17_.reproducedEncryptionContext
-                d_581___mcc_h17_ = source17_.description
-                return not((pat_let_tv10_).is_Success)
+        d_573_result_: Wrappers.Result
+        out45_: Wrappers.Result
+        out45_ = ((test).cmm).DecryptMaterials((test).input)
+        d_573_result_ = out45_
+        pat_let_tv21_ = d_573_result_
+        pat_let_tv22_ = d_573_result_
+        pat_let_tv23_ = test
+        pat_let_tv24_ = d_573_result_
+        pat_let_tv25_ = test
+        pat_let_tv26_ = d_573_result_
+        pat_let_tv27_ = test
+        pat_let_tv28_ = d_573_result_
+        def lambda61_():
+            source20_ = (test).vector
+            unmatched20 = True
+            if unmatched20:
+                if source20_.is_PositiveDecryptKeyringTest:
+                    unmatched20 = False
+                    return ((((pat_let_tv21_).is_Success) and (((((pat_let_tv22_).value).decryptionMaterials).plaintextDataKey) == ((((pat_let_tv23_).vector).expectedResult).plaintextDataKey))) and (((((pat_let_tv24_).value).decryptionMaterials).symmetricSigningKey) == ((((pat_let_tv25_).vector).expectedResult).symmetricSigningKey))) and (((((pat_let_tv26_).value).decryptionMaterials).requiredEncryptionContextKeys) == ((((pat_let_tv27_).vector).expectedResult).requiredEncryptionContextKeys))
+            if unmatched20:
+                unmatched20 = False
+                return not((pat_let_tv28_).is_Success)
+            raise Exception("unexpected control point")
 
-        output = lambda53_((test).vector)
+        output = lambda61_()
         if not(output):
-            if (((test).vector).is_PositiveDecryptKeyringTest) and ((d_563_result_).is_Failure):
-                _dafny.print(_dafny.string_of((d_563_result_).error))
+            if (((test).vector).is_PositiveDecryptKeyringTest) and ((d_573_result_).is_Failure):
+                _dafny.print(_dafny.string_of((d_573_result_).error))
             _dafny.print(_dafny.string_of(_dafny.Seq("\nFAILED! <-----------\n")))
         return output
 
     @staticmethod
     def ToEncryptTest(keys, vector):
         output: Wrappers.Result = None
-        pat_let_tv11_ = vector
-        pat_let_tv12_ = vector
-        pat_let_tv13_ = vector
-        pat_let_tv14_ = vector
-        pat_let_tv15_ = vector
-        pat_let_tv16_ = vector
-        pat_let_tv17_ = vector
-        pat_let_tv18_ = vector
-        pat_let_tv19_ = vector
-        pat_let_tv20_ = vector
-        pat_let_tv21_ = vector
-        pat_let_tv22_ = vector
-        pat_let_tv23_ = vector
-        pat_let_tv24_ = vector
-        pat_let_tv25_ = vector
-        d_582_input_: software_amazon_cryptography_materialproviders_internaldafny_types.GetEncryptionMaterialsInput
-        def lambda54_(source18_):
-            if source18_.is_PositiveEncryptKeyringVector:
-                d_583___mcc_h0_ = source18_.name
-                d_584___mcc_h1_ = source18_.description
-                d_585___mcc_h2_ = source18_.encryptionContext
-                d_586___mcc_h3_ = source18_.commitmentPolicy
-                d_587___mcc_h4_ = source18_.algorithmSuite
-                d_588___mcc_h5_ = source18_.maxPlaintextLength
-                d_589___mcc_h6_ = source18_.requiredEncryptionContextKeys
-                d_590___mcc_h7_ = source18_.encryptDescription
-                d_591___mcc_h8_ = source18_.decryptDescription
-                d_592___mcc_h9_ = source18_.reproducedEncryptionContext
-                return software_amazon_cryptography_materialproviders_internaldafny_types.GetEncryptionMaterialsInput_GetEncryptionMaterialsInput((pat_let_tv11_).encryptionContext, (pat_let_tv12_).commitmentPolicy, Wrappers.Option_Some(((pat_let_tv13_).algorithmSuite).id), (pat_let_tv14_).maxPlaintextLength, (pat_let_tv15_).requiredEncryptionContextKeys)
-            elif source18_.is_PositiveEncryptNegativeDecryptKeyringVector:
-                d_593___mcc_h10_ = source18_.name
-                d_594___mcc_h11_ = source18_.description
-                d_595___mcc_h12_ = source18_.encryptionContext
-                d_596___mcc_h13_ = source18_.commitmentPolicy
-                d_597___mcc_h14_ = source18_.algorithmSuite
-                d_598___mcc_h15_ = source18_.maxPlaintextLength
-                d_599___mcc_h16_ = source18_.requiredEncryptionContextKeys
-                d_600___mcc_h17_ = source18_.decryptErrorDescription
-                d_601___mcc_h18_ = source18_.encryptDescription
-                d_602___mcc_h19_ = source18_.decryptDescription
-                d_603___mcc_h20_ = source18_.reproducedEncryptionContext
-                return software_amazon_cryptography_materialproviders_internaldafny_types.GetEncryptionMaterialsInput_GetEncryptionMaterialsInput((pat_let_tv16_).encryptionContext, (pat_let_tv17_).commitmentPolicy, Wrappers.Option_Some(((pat_let_tv18_).algorithmSuite).id), (pat_let_tv19_).maxPlaintextLength, (pat_let_tv20_).requiredEncryptionContextKeys)
-            elif True:
-                d_604___mcc_h21_ = source18_.name
-                d_605___mcc_h22_ = source18_.description
-                d_606___mcc_h23_ = source18_.encryptionContext
-                d_607___mcc_h24_ = source18_.commitmentPolicy
-                d_608___mcc_h25_ = source18_.algorithmSuite
-                d_609___mcc_h26_ = source18_.maxPlaintextLength
-                d_610___mcc_h27_ = source18_.requiredEncryptionContextKeys
-                d_611___mcc_h28_ = source18_.errorDescription
-                d_612___mcc_h29_ = source18_.keyDescription
-                return software_amazon_cryptography_materialproviders_internaldafny_types.GetEncryptionMaterialsInput_GetEncryptionMaterialsInput((pat_let_tv21_).encryptionContext, (pat_let_tv22_).commitmentPolicy, Wrappers.Option_Some(((pat_let_tv23_).algorithmSuite).id), (pat_let_tv24_).maxPlaintextLength, (pat_let_tv25_).requiredEncryptionContextKeys)
+        pat_let_tv29_ = vector
+        pat_let_tv30_ = vector
+        pat_let_tv31_ = vector
+        pat_let_tv32_ = vector
+        pat_let_tv33_ = vector
+        pat_let_tv34_ = vector
+        pat_let_tv35_ = vector
+        pat_let_tv36_ = vector
+        pat_let_tv37_ = vector
+        pat_let_tv38_ = vector
+        pat_let_tv39_ = vector
+        pat_let_tv40_ = vector
+        pat_let_tv41_ = vector
+        pat_let_tv42_ = vector
+        pat_let_tv43_ = vector
+        d_574_input_: AwsCryptographyMaterialProvidersTypes.GetEncryptionMaterialsInput
+        def lambda62_():
+            source21_ = vector
+            unmatched21 = True
+            if unmatched21:
+                if source21_.is_PositiveEncryptKeyringVector:
+                    unmatched21 = False
+                    return AwsCryptographyMaterialProvidersTypes.GetEncryptionMaterialsInput_GetEncryptionMaterialsInput((pat_let_tv29_).encryptionContext, (pat_let_tv30_).commitmentPolicy, Wrappers.Option_Some(((pat_let_tv31_).algorithmSuite).id), (pat_let_tv32_).maxPlaintextLength, (pat_let_tv33_).requiredEncryptionContextKeys)
+            if unmatched21:
+                if source21_.is_NegativeEncryptKeyringVector:
+                    unmatched21 = False
+                    return AwsCryptographyMaterialProvidersTypes.GetEncryptionMaterialsInput_GetEncryptionMaterialsInput((pat_let_tv34_).encryptionContext, (pat_let_tv35_).commitmentPolicy, Wrappers.Option_Some(((pat_let_tv36_).algorithmSuite).id), (pat_let_tv37_).maxPlaintextLength, (pat_let_tv38_).requiredEncryptionContextKeys)
+            if unmatched21:
+                unmatched21 = False
+                return AwsCryptographyMaterialProvidersTypes.GetEncryptionMaterialsInput_GetEncryptionMaterialsInput((pat_let_tv39_).encryptionContext, (pat_let_tv40_).commitmentPolicy, Wrappers.Option_Some(((pat_let_tv41_).algorithmSuite).id), (pat_let_tv42_).maxPlaintextLength, (pat_let_tv43_).requiredEncryptionContextKeys)
+            raise Exception("unexpected control point")
 
-        d_582_input_ = lambda54_(vector)
-        d_613_mpl_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
-        d_614_valueOrError0_: Wrappers.Result = None
-        out53_: Wrappers.Result
-        out53_ = software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__.WrappedMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__.WrappedDefaultMaterialProvidersConfig())
-        d_614_valueOrError0_ = out53_
-        if not(not((d_614_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestVectors.dfy(133,15): " + _dafny.string_of(d_614_valueOrError0_))
-        d_613_mpl_ = (d_614_valueOrError0_).Extract()
-        d_615_cmm_k_: Wrappers.Result
-        out54_: Wrappers.Result
-        print(f"{keys=}")
-        print(f"{keys.__dict__=}")
-        out54_ = (keys).CreateWrappedTestVectorCmm(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.TestVectorCmmInput_TestVectorCmmInput(((vector).encryptDescription if (vector).is_PositiveEncryptKeyringVector else ((vector).encryptDescription if (vector).is_PositiveEncryptNegativeDecryptKeyringVector else (vector).keyDescription)), software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.CmmOperation_ENCRYPT()))
-        d_615_cmm_k_ = out54_
-        print(f"{d_615_cmm_k_=}")
-        print(f"{d_615_cmm_k_.__dict__=}")
-        d_616_cmm_: software_amazon_cryptography_materialproviders_internaldafny_types.ICryptographicMaterialsManager
-        d_617_valueOrError1_: Wrappers.Result = None
-        def lambda55_(d_618_e_):
+        d_574_input_ = lambda62_()
+        d_575_mpl_: AwsCryptographyMaterialProvidersTypes.IAwsCryptographicMaterialProvidersClient
+        d_576_valueOrError0_: Wrappers.Result = None
+        out46_: Wrappers.Result
+        out46_ = WrappedMaterialProviders.default__.WrappedMaterialProviders(WrappedMaterialProviders.default__.WrappedDefaultMaterialProvidersConfig())
+        d_576_valueOrError0_ = out46_
+        if not(not((d_576_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestVectors.dfy(133,15): " + _dafny.string_of(d_576_valueOrError0_))
+        d_575_mpl_ = (d_576_valueOrError0_).Extract()
+        d_577_cmm_k_: Wrappers.Result
+        out47_: Wrappers.Result
+        out47_ = (keys).CreateWrappedTestVectorCmm(AwsCryptographyMaterialProvidersTestVectorKeysTypes.TestVectorCmmInput_TestVectorCmmInput(((vector).encryptDescription if (vector).is_PositiveEncryptKeyringVector else ((vector).encryptDescription if (vector).is_PositiveEncryptNegativeDecryptKeyringVector else (vector).keyDescription)), AwsCryptographyMaterialProvidersTestVectorKeysTypes.CmmOperation_ENCRYPT()))
+        d_577_cmm_k_ = out47_
+        d_578_cmm_: AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager
+        d_579_valueOrError1_: Wrappers.Result = None
+        def lambda63_(d_580_e_):
             def iife20_(_pat_let7_0):
-                def iife21_(d_619___v78_):
+                def iife21_(d_581___v78_):
                     return _dafny.Seq("Cmm failure")
                 return iife21_(_pat_let7_0)
-            return iife20_(default__.printErr(d_618_e_))
+            return iife20_(default__.printErr(d_580_e_))
 
-        d_617_valueOrError1_ = (d_615_cmm_k_).MapFailure(lambda55_)
-        if (d_617_valueOrError1_).IsFailure():
-            output = (d_617_valueOrError1_).PropagateFailure()
+        d_579_valueOrError1_ = (d_577_cmm_k_).MapFailure(lambda63_)
+        if (d_579_valueOrError1_).IsFailure():
+            output = (d_579_valueOrError1_).PropagateFailure()
             return output
-        d_616_cmm_ = (d_617_valueOrError1_).Extract()
-        output = Wrappers.Result_Success(EncryptTest_EncryptTest(d_582_input_, d_616_cmm_, vector))
+        d_578_cmm_ = (d_579_valueOrError1_).Extract()
+        output = Wrappers.Result_Success(EncryptTest_EncryptTest(d_574_input_, d_578_cmm_, vector))
         return output
         return output
 
     @staticmethod
     def EncryptTestToDecryptVector(test, materials):
-        d_620_keysToRemove_ = Seq.default__.ToSet((((test).vector).requiredEncryptionContextKeys).UnwrapOr(_dafny.Seq([])))
-        source19_ = (test).vector
-        if source19_.is_PositiveEncryptKeyringVector:
-            d_621___mcc_h0_ = source19_.name
-            d_622___mcc_h1_ = source19_.description
-            d_623___mcc_h2_ = source19_.encryptionContext
-            d_624___mcc_h3_ = source19_.commitmentPolicy
-            d_625___mcc_h4_ = source19_.algorithmSuite
-            d_626___mcc_h5_ = source19_.maxPlaintextLength
-            d_627___mcc_h6_ = source19_.requiredEncryptionContextKeys
-            d_628___mcc_h7_ = source19_.encryptDescription
-            d_629___mcc_h8_ = source19_.decryptDescription
-            d_630___mcc_h9_ = source19_.reproducedEncryptionContext
-            return DecryptTestVector_PositiveDecryptKeyringTest((((test).vector).name) + (_dafny.Seq("->Decryption")), ((test).vector).algorithmSuite, ((test).vector).commitmentPolicy, (materials).encryptedDataKeys, ((materials).encryptionContext) - (d_620_keysToRemove_), ((test).vector).decryptDescription, DecryptResult_DecryptResult((materials).plaintextDataKey, (Wrappers.Option_Some((((materials).symmetricSigningKeys).value)[0]) if (((materials).symmetricSigningKeys).is_Some) and ((0) < (len(((materials).symmetricSigningKeys).value))) else Wrappers.Option_None()), (((test).vector).requiredEncryptionContextKeys).UnwrapOr(_dafny.Seq([]))), (Wrappers.Option_Some((_dafny.Seq("Decryption for ")) + ((((test).vector).description).value)) if (((test).vector).description).is_Some else Wrappers.Option_None()), ((test).vector).reproducedEncryptionContext)
-        elif True:
-            d_631___mcc_h10_ = source19_.name
-            d_632___mcc_h11_ = source19_.description
-            d_633___mcc_h12_ = source19_.encryptionContext
-            d_634___mcc_h13_ = source19_.commitmentPolicy
-            d_635___mcc_h14_ = source19_.algorithmSuite
-            d_636___mcc_h15_ = source19_.maxPlaintextLength
-            d_637___mcc_h16_ = source19_.requiredEncryptionContextKeys
-            d_638___mcc_h17_ = source19_.decryptErrorDescription
-            d_639___mcc_h18_ = source19_.encryptDescription
-            d_640___mcc_h19_ = source19_.decryptDescription
-            d_641___mcc_h20_ = source19_.reproducedEncryptionContext
-            return DecryptTestVector_NegativeDecryptKeyringTest((((test).vector).name) + (_dafny.Seq("->Decryption")), ((test).vector).algorithmSuite, ((test).vector).commitmentPolicy, (materials).encryptedDataKeys, (((test).vector).encryptionContext) - (d_620_keysToRemove_), ((test).vector).decryptErrorDescription, ((test).vector).decryptDescription, ((test).vector).reproducedEncryptionContext, (Wrappers.Option_Some((_dafny.Seq("Decryption for ")) + ((((test).vector).description).value)) if (((test).vector).description).is_Some else Wrappers.Option_None()))
+        pat_let_tv44_ = test
+        pat_let_tv45_ = test
+        pat_let_tv46_ = test
+        pat_let_tv47_ = materials
+        pat_let_tv48_ = materials
+        pat_let_tv49_ = test
+        pat_let_tv50_ = materials
+        pat_let_tv51_ = materials
+        pat_let_tv52_ = materials
+        pat_let_tv53_ = materials
+        pat_let_tv54_ = test
+        pat_let_tv55_ = test
+        pat_let_tv56_ = test
+        pat_let_tv57_ = test
+        pat_let_tv58_ = test
+        pat_let_tv59_ = test
+        pat_let_tv60_ = test
+        pat_let_tv61_ = materials
+        pat_let_tv62_ = test
+        pat_let_tv63_ = test
+        pat_let_tv64_ = test
+        pat_let_tv65_ = test
+        pat_let_tv66_ = test
+        pat_let_tv67_ = test
+        d_582_keysToRemove_ = Seq.default__.ToSet((((test).vector).requiredEncryptionContextKeys).UnwrapOr(_dafny.Seq([])))
+        source22_ = (test).vector
+        unmatched22 = True
+        if unmatched22:
+            if source22_.is_PositiveEncryptKeyringVector:
+                unmatched22 = False
+                return DecryptTestVector_PositiveDecryptKeyringTest((((pat_let_tv44_).vector).name) + (_dafny.Seq("->Decryption")), ((pat_let_tv45_).vector).algorithmSuite, ((pat_let_tv46_).vector).commitmentPolicy, (pat_let_tv47_).encryptedDataKeys, ((pat_let_tv48_).encryptionContext) - (d_582_keysToRemove_), ((pat_let_tv49_).vector).decryptDescription, DecryptResult_DecryptResult((pat_let_tv50_).plaintextDataKey, (Wrappers.Option_Some((((pat_let_tv51_).symmetricSigningKeys).value)[0]) if (((pat_let_tv52_).symmetricSigningKeys).is_Some) and ((0) < (len(((pat_let_tv53_).symmetricSigningKeys).value))) else Wrappers.Option_None()), (((pat_let_tv54_).vector).requiredEncryptionContextKeys).UnwrapOr(_dafny.Seq([]))), (Wrappers.Option_Some((_dafny.Seq("Decryption for ")) + ((((pat_let_tv55_).vector).description).value)) if (((pat_let_tv56_).vector).description).is_Some else Wrappers.Option_None()), ((pat_let_tv57_).vector).reproducedEncryptionContext)
+        if unmatched22:
+            unmatched22 = False
+            return DecryptTestVector_NegativeDecryptKeyringTest((((pat_let_tv58_).vector).name) + (_dafny.Seq("->Decryption")), ((pat_let_tv59_).vector).algorithmSuite, ((pat_let_tv60_).vector).commitmentPolicy, (pat_let_tv61_).encryptedDataKeys, (((pat_let_tv62_).vector).encryptionContext) - (d_582_keysToRemove_), ((pat_let_tv63_).vector).decryptErrorDescription, ((pat_let_tv64_).vector).decryptDescription, ((pat_let_tv65_).vector).reproducedEncryptionContext, (Wrappers.Option_Some((_dafny.Seq("Decryption for ")) + ((((pat_let_tv66_).vector).description).value)) if (((pat_let_tv67_).vector).description).is_Some else Wrappers.Option_None()))
+        raise Exception("unexpected control point")
 
     @staticmethod
     def DecryptVectorToDecryptTest(keys, vector):
         output: Wrappers.Result = None
-        d_642_input_: software_amazon_cryptography_materialproviders_internaldafny_types.DecryptMaterialsInput
-        d_642_input_ = software_amazon_cryptography_materialproviders_internaldafny_types.DecryptMaterialsInput_DecryptMaterialsInput(((vector).algorithmSuite).id, (vector).commitmentPolicy, (vector).encryptedDataKeys, (vector).encryptionContext, (vector).reproducedEncryptionContext)
-        d_643_mpl_: software_amazon_cryptography_materialproviders_internaldafny_types.IAwsCryptographicMaterialProvidersClient
-        d_644_valueOrError0_: Wrappers.Result = None
-        out55_: Wrappers.Result
-        out55_ = software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__.WrappedMaterialProviders(software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__.WrappedDefaultMaterialProvidersConfig())
-        d_644_valueOrError0_ = out55_
-        if not(not((d_644_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestVectors.dfy(218,15): " + _dafny.string_of(d_644_valueOrError0_))
-        d_643_mpl_ = (d_644_valueOrError0_).Extract()
-        d_645_cmm_k_: Wrappers.Result
-        out56_: Wrappers.Result
-        out56_ = (keys).CreateWrappedTestVectorCmm(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.TestVectorCmmInput_TestVectorCmmInput((vector).keyDescription, software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.CmmOperation_DECRYPT()))
-        d_645_cmm_k_ = out56_
-        d_646_cmm_: software_amazon_cryptography_materialproviders_internaldafny_types.ICryptographicMaterialsManager
-        d_647_valueOrError1_: Wrappers.Result = None
-        d_647_valueOrError1_ = (d_645_cmm_k_).MapFailure(default__.ErrorToString)
-        if (d_647_valueOrError1_).IsFailure():
-            output = (d_647_valueOrError1_).PropagateFailure()
+        d_583_input_: AwsCryptographyMaterialProvidersTypes.DecryptMaterialsInput
+        d_583_input_ = AwsCryptographyMaterialProvidersTypes.DecryptMaterialsInput_DecryptMaterialsInput(((vector).algorithmSuite).id, (vector).commitmentPolicy, (vector).encryptedDataKeys, (vector).encryptionContext, (vector).reproducedEncryptionContext)
+        d_584_mpl_: AwsCryptographyMaterialProvidersTypes.IAwsCryptographicMaterialProvidersClient
+        d_585_valueOrError0_: Wrappers.Result = None
+        out48_: Wrappers.Result
+        out48_ = WrappedMaterialProviders.default__.WrappedMaterialProviders(WrappedMaterialProviders.default__.WrappedDefaultMaterialProvidersConfig())
+        d_585_valueOrError0_ = out48_
+        if not(not((d_585_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/TestVectorsAwsCryptographicMaterialProviders/src/TestVectors.dfy(218,15): " + _dafny.string_of(d_585_valueOrError0_))
+        d_584_mpl_ = (d_585_valueOrError0_).Extract()
+        d_586_cmm_k_: Wrappers.Result
+        out49_: Wrappers.Result
+        out49_ = (keys).CreateWrappedTestVectorCmm(AwsCryptographyMaterialProvidersTestVectorKeysTypes.TestVectorCmmInput_TestVectorCmmInput((vector).keyDescription, AwsCryptographyMaterialProvidersTestVectorKeysTypes.CmmOperation_DECRYPT()))
+        d_586_cmm_k_ = out49_
+        d_587_cmm_: AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager
+        d_588_valueOrError1_: Wrappers.Result = None
+        d_588_valueOrError1_ = (d_586_cmm_k_).MapFailure(default__.ErrorToString)
+        if (d_588_valueOrError1_).IsFailure():
+            output = (d_588_valueOrError1_).PropagateFailure()
             return output
-        d_646_cmm_ = (d_647_valueOrError1_).Extract()
-        output = Wrappers.Result_Success(DecryptTest_DecryptTest(d_642_input_, d_646_cmm_, vector))
+        d_587_cmm_ = (d_588_valueOrError1_).Extract()
+        output = Wrappers.Result_Success(DecryptTest_DecryptTest(d_583_input_, d_587_cmm_, vector))
         return output
         return output
 
     @staticmethod
     def ErrorToString(e):
-        source20_ = e
-        if source20_.is_KeyVectorException:
-            d_648___mcc_h0_ = source20_.message
-            d_649_message_ = d_648___mcc_h0_
-            return d_649_message_
-        elif source20_.is_AwsCryptographyMaterialProviders:
-            d_650___mcc_h2_ = source20_.AwsCryptographyMaterialProviders
-            d_651_mplError_ = d_650___mcc_h2_
-            source21_ = d_651_mplError_
-            if source21_.is_AwsCryptographicMaterialProvidersException:
-                d_652___mcc_h12_ = source21_.message
-                d_653_message_ = d_652___mcc_h12_
-                return d_653_message_
-            elif source21_.is_EntryAlreadyExists:
-                d_654___mcc_h14_ = source21_.message
-                return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
-            elif source21_.is_EntryDoesNotExist:
-                d_655___mcc_h16_ = source21_.message
-                return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
-            elif source21_.is_InvalidAlgorithmSuiteInfo:
-                d_656___mcc_h18_ = source21_.message
-                return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
-            elif source21_.is_InvalidAlgorithmSuiteInfoOnDecrypt:
-                d_657___mcc_h20_ = source21_.message
-                return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
-            elif source21_.is_InvalidAlgorithmSuiteInfoOnEncrypt:
-                d_658___mcc_h22_ = source21_.message
-                return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
-            elif source21_.is_InvalidDecryptionMaterials:
-                d_659___mcc_h24_ = source21_.message
-                return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
-            elif source21_.is_InvalidDecryptionMaterialsTransition:
-                d_660___mcc_h26_ = source21_.message
-                return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
-            elif source21_.is_InvalidEncryptionMaterials:
-                d_661___mcc_h28_ = source21_.message
-                return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
-            elif source21_.is_InvalidEncryptionMaterialsTransition:
-                d_662___mcc_h30_ = source21_.message
-                return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
-            elif source21_.is_AwsCryptographyKeyStore:
-                d_663___mcc_h32_ = source21_.AwsCryptographyKeyStore
-                return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
-            elif source21_.is_AwsCryptographyPrimitives:
-                d_664___mcc_h34_ = source21_.AwsCryptographyPrimitives
-                return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
-            elif source21_.is_ComAmazonawsDynamodb:
-                d_665___mcc_h36_ = source21_.ComAmazonawsDynamodb
-                return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
-            elif source21_.is_ComAmazonawsKms:
-                d_666___mcc_h38_ = source21_.ComAmazonawsKms
-                return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
-            elif source21_.is_CollectionOfErrors:
-                d_667___mcc_h40_ = source21_.list
-                d_668___mcc_h41_ = source21_.message
-                return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
-            elif True:
-                d_669___mcc_h44_ = source21_.obj
-                return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
-        elif source20_.is_ComAmazonawsKms:
-            d_670___mcc_h4_ = source20_.ComAmazonawsKms
+        source23_ = e
+        unmatched23 = True
+        if unmatched23:
+            if source23_.is_KeyVectorException:
+                d_589_message_ = source23_.message
+                unmatched23 = False
+                return d_589_message_
+        if unmatched23:
+            if source23_.is_AwsCryptographyMaterialProviders:
+                d_590_mplError_ = source23_.AwsCryptographyMaterialProviders
+                unmatched23 = False
+                source24_ = d_590_mplError_
+                unmatched24 = True
+                if unmatched24:
+                    if source24_.is_AwsCryptographicMaterialProvidersException:
+                        d_591_message_ = source24_.message
+                        unmatched24 = False
+                        return d_591_message_
+                if unmatched24:
+                    unmatched24 = False
+                    return _dafny.Seq("Unmapped AwsCryptographyMaterialProviders")
+                raise Exception("unexpected control point")
+        if unmatched23:
+            unmatched23 = False
             return _dafny.Seq("Unmapped KeyVectorException")
-        elif source20_.is_CollectionOfErrors:
-            d_671___mcc_h6_ = source20_.list
-            d_672___mcc_h7_ = source20_.message
-            return _dafny.Seq("Unmapped KeyVectorException")
-        elif True:
-            d_673___mcc_h10_ = source20_.obj
-            return _dafny.Seq("Unmapped KeyVectorException")
+        raise Exception("unexpected control point")
 
     @staticmethod
     def printErr(e):
@@ -528,7 +431,7 @@ class default__:
 class EncryptTest:
     @classmethod
     def default(cls, ):
-        return lambda: EncryptTest_EncryptTest(software_amazon_cryptography_materialproviders_internaldafny_types.GetEncryptionMaterialsInput.default()(), None, EncryptTestVector.default()())
+        return lambda: EncryptTest_EncryptTest(AwsCryptographyMaterialProvidersTypes.GetEncryptionMaterialsInput.default()(), None, EncryptTestVector.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -547,7 +450,7 @@ class EncryptTest_EncryptTest(EncryptTest, NamedTuple('EncryptTest', [('input', 
 class DecryptTest:
     @classmethod
     def default(cls, ):
-        return lambda: DecryptTest_DecryptTest(software_amazon_cryptography_materialproviders_internaldafny_types.DecryptMaterialsInput.default()(), None, DecryptTestVector.default()())
+        return lambda: DecryptTest_DecryptTest(AwsCryptographyMaterialProvidersTypes.DecryptMaterialsInput.default()(), None, DecryptTestVector.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -566,7 +469,7 @@ class DecryptTest_DecryptTest(DecryptTest, NamedTuple('DecryptTest', [('input', 
 class EncryptTestVector:
     @classmethod
     def default(cls, ):
-        return lambda: EncryptTestVector_PositiveEncryptKeyringVector(_dafny.Seq(""), Wrappers.Option.default()(), _dafny.Map({}), software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy.default()(), software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription.default()(), software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription.default()(), Wrappers.Option.default()())
+        return lambda: EncryptTestVector_PositiveEncryptKeyringVector(_dafny.Seq(""), Wrappers.Option.default()(), _dafny.Map({}), AwsCryptographyMaterialProvidersTypes.CommitmentPolicy.default()(), AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo.default()(), Wrappers.Option.default()(), Wrappers.Option.default()(), AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription.default()(), AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property
@@ -607,7 +510,7 @@ class EncryptTestVector_NegativeEncryptKeyringVector(EncryptTestVector, NamedTup
 class DecryptTestVector:
     @classmethod
     def default(cls, ):
-        return lambda: DecryptTestVector_PositiveDecryptKeyringTest(_dafny.Seq(""), software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo.default()(), software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy.default()(), _dafny.Seq({}), _dafny.Map({}), software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription.default()(), DecryptResult.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
+        return lambda: DecryptTestVector_PositiveDecryptKeyringTest(_dafny.Seq(""), AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo.default()(), AwsCryptographyMaterialProvidersTypes.CommitmentPolicy.default()(), _dafny.Seq({}), _dafny.Map({}), AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription.default()(), DecryptResult.default()(), Wrappers.Option.default()(), Wrappers.Option.default()())
     def __ne__(self, __o: object) -> bool:
         return not self.__eq__(__o)
     @property

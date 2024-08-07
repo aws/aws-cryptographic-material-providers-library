@@ -3,77 +3,81 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
-import System_
-import Wrappers
-import BoundedInts
-import StandardLibrary_UInt
-import StandardLibrary_String
-import StandardLibrary
-import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_primitives_internaldafny_types
-import ExternRandom
-import Random
-import AESEncryption
-import ExternDigest
-import Digest
-import HMAC
-import WrappedHMAC
-import HKDF
-import WrappedHKDF
-import Signature
-import KdfCtr
-import RSAEncryption
-import AwsCryptographyPrimitivesOperations
-import AesKdfCtr
-import Relations
-import Seq_MergeSort
-import Math
-import Seq
-import Unicode
-import Functions
-import Utf8EncodingForm
-import Utf16EncodingForm
-import UnicodeStrings
-import FileIO
-import GeneralInternals
-import MulInternalsNonlinear
-import MulInternals
-import Mul
-import ModInternalsNonlinear
-import DivInternalsNonlinear
-import ModInternals
-import DivInternals
-import DivMod
-import Power
-import Logarithm
-import StandardLibraryInterop
-import UUID
-import Time
-import Streams
-import Sorting
-import SortedSets
-import HexStrings
-import GetOpt
-import FloatCompare
-import ConcurrentCall
-import Base64
-import Base64Lemmas
-import Actions
-import DafnyLibraries
-import software_amazon_cryptography_keystore_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
-import AwsArnParsing
-import AwsKmsMrkMatchForDecrypt
-import AwsKmsUtils
-import Structure
-import KMSKeystoreOperations
-import DDBKeystoreOperations
-import CreateKeys
-import CreateKeyStoreTable
+import aws_cryptographic_materialproviders.internaldafny.generated.module_ as module_
+import _dafny as _dafny
+import System_ as System_
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import standard_library.internaldafny.generated.BoundedInts as BoundedInts
+import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
+import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
+import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
+import standard_library.internaldafny.generated.UTF8 as UTF8
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
+import aws_cryptography_primitives.internaldafny.generated.ExternRandom as ExternRandom
+import aws_cryptography_primitives.internaldafny.generated.Random as Random
+import aws_cryptography_primitives.internaldafny.generated.AESEncryption as AESEncryption
+import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
+import aws_cryptography_primitives.internaldafny.generated.Digest as Digest
+import aws_cryptography_primitives.internaldafny.generated.HMAC as HMAC
+import aws_cryptography_primitives.internaldafny.generated.WrappedHMAC as WrappedHMAC
+import aws_cryptography_primitives.internaldafny.generated.HKDF as HKDF
+import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as WrappedHKDF
+import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
+import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
+import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
+import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
+import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
+import com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes as ComAmazonawsKmsTypes
+import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
+import standard_library.internaldafny.generated.Relations as Relations
+import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
+import standard_library.internaldafny.generated.Math as Math
+import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.Unicode as Unicode
+import standard_library.internaldafny.generated.Functions as Functions
+import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
+import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16EncodingForm
+import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
+import standard_library.internaldafny.generated.FileIO as FileIO
+import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
+import standard_library.internaldafny.generated.MulInternalsNonlinear as MulInternalsNonlinear
+import standard_library.internaldafny.generated.MulInternals as MulInternals
+import standard_library.internaldafny.generated.Mul as Mul
+import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
+import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInternalsNonlinear
+import standard_library.internaldafny.generated.ModInternals as ModInternals
+import standard_library.internaldafny.generated.DivInternals as DivInternals
+import standard_library.internaldafny.generated.DivMod as DivMod
+import standard_library.internaldafny.generated.Power as Power
+import standard_library.internaldafny.generated.Logarithm as Logarithm
+import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
+import standard_library.internaldafny.generated.UUID as UUID
+import standard_library.internaldafny.generated.Time as Time
+import standard_library.internaldafny.generated.Streams as Streams
+import standard_library.internaldafny.generated.Sorting as Sorting
+import standard_library.internaldafny.generated.SortedSets as SortedSets
+import standard_library.internaldafny.generated.HexStrings as HexStrings
+import standard_library.internaldafny.generated.GetOpt as GetOpt
+import standard_library.internaldafny.generated.FloatCompare as FloatCompare
+import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
+import standard_library.internaldafny.generated.Base64 as Base64
+import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
+import standard_library.internaldafny.generated.Actions as Actions
+import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes as AwsCryptographyKeyStoreTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes as AwsCryptographyMaterialProvidersTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStoreErrorMessages as KeyStoreErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.KmsArn as KmsArn
+import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
+import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.CreateKeys as CreateKeys
+import aws_cryptographic_materialproviders.internaldafny.generated.CreateKeyStoreTable as CreateKeyStoreTable
 
 # Module: GetKeys
 
@@ -83,118 +87,133 @@ class default__:
 
     @staticmethod
     def GetActiveKeyAndUnwrap(input, tableName, logicalKeyStoreName, kmsConfiguration, grantTokens, kmsClient, ddbClient):
-        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.GetActiveBranchKeyOutput.default())()
-        d_226_branchKeyItem_: _dafny.Map
-        d_227_valueOrError0_: Wrappers.Result = None
-        out29_: Wrappers.Result
-        out29_ = DDBKeystoreOperations.default__.GetActiveBranchKeyItem((input).branchKeyIdentifier, tableName, ddbClient)
-        d_227_valueOrError0_ = out29_
-        if (d_227_valueOrError0_).IsFailure():
-            output = (d_227_valueOrError0_).PropagateFailure()
-            return output
-        d_226_branchKeyItem_ = (d_227_valueOrError0_).Extract()
-        d_228_encryptionContext_: _dafny.Map
-        d_228_encryptionContext_ = Structure.default__.ToBranchKeyContext(d_226_branchKeyItem_, logicalKeyStoreName)
-        d_229_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_229_valueOrError1_ = Wrappers.default__.Need(KMSKeystoreOperations.default__.AttemptKmsOperation_q(kmsConfiguration, d_228_encryptionContext_), software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("AWS KMS Key ARN does not match configured value")))
-        if (d_229_valueOrError1_).IsFailure():
-            output = (d_229_valueOrError1_).PropagateFailure()
-            return output
-        d_230_branchKey_: software_amazon_cryptography_services_kms_internaldafny_types.DecryptResponse
-        d_231_valueOrError2_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_services_kms_internaldafny_types.DecryptResponse.default())()
+        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.GetActiveBranchKeyOutput.default())()
+        d_243_branchKeyItem_: _dafny.Map
+        d_244_valueOrError0_: Wrappers.Result = None
         out30_: Wrappers.Result
-        out30_ = KMSKeystoreOperations.default__.DecryptKey(d_228_encryptionContext_, d_226_branchKeyItem_, kmsConfiguration, grantTokens, kmsClient)
-        d_231_valueOrError2_ = out30_
-        if (d_231_valueOrError2_).IsFailure():
-            output = (d_231_valueOrError2_).PropagateFailure()
+        out30_ = DDBKeystoreOperations.default__.GetActiveBranchKeyItem((input).branchKeyIdentifier, tableName, ddbClient)
+        d_244_valueOrError0_ = out30_
+        if (d_244_valueOrError0_).IsFailure():
+            output = (d_244_valueOrError0_).PropagateFailure()
             return output
-        d_230_branchKey_ = (d_231_valueOrError2_).Extract()
-        d_232_branchKeyMaterials_: software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials
-        d_233_valueOrError3_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials.default())()
-        d_233_valueOrError3_ = Structure.default__.ToBranchKeyMaterials(d_228_encryptionContext_, ((d_230_branchKey_).Plaintext).value)
-        if (d_233_valueOrError3_).IsFailure():
-            output = (d_233_valueOrError3_).PropagateFailure()
+        d_243_branchKeyItem_ = (d_244_valueOrError0_).Extract()
+        d_245_encryptionContext_: _dafny.Map
+        d_245_encryptionContext_ = Structure.default__.ToBranchKeyContext(d_243_branchKeyItem_, logicalKeyStoreName)
+        d_246_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_246_valueOrError1_ = Wrappers.default__.Need(KmsArn.default__.ValidKmsArn_q((d_245_encryptionContext_)[Structure.default__.KMS__FIELD]), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.RETRIEVED__KEYSTORE__ITEM__INVALID__KMS__ARN))
+        if (d_246_valueOrError1_).IsFailure():
+            output = (d_246_valueOrError1_).PropagateFailure()
             return output
-        d_232_branchKeyMaterials_ = (d_233_valueOrError3_).Extract()
-        output = Wrappers.Result_Success(software_amazon_cryptography_keystore_internaldafny_types.GetActiveBranchKeyOutput_GetActiveBranchKeyOutput(d_232_branchKeyMaterials_))
+        d_247_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_247_valueOrError2_ = Wrappers.default__.Need(KMSKeystoreOperations.default__.AttemptKmsOperation_q(kmsConfiguration, d_245_encryptionContext_), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.GET__KEY__ARN__DISAGREEMENT))
+        if (d_247_valueOrError2_).IsFailure():
+            output = (d_247_valueOrError2_).PropagateFailure()
+            return output
+        d_248_branchKey_: ComAmazonawsKmsTypes.DecryptResponse
+        d_249_valueOrError3_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsKmsTypes.DecryptResponse.default())()
+        out31_: Wrappers.Result
+        out31_ = KMSKeystoreOperations.default__.DecryptKey(d_245_encryptionContext_, d_243_branchKeyItem_, kmsConfiguration, grantTokens, kmsClient)
+        d_249_valueOrError3_ = out31_
+        if (d_249_valueOrError3_).IsFailure():
+            output = (d_249_valueOrError3_).PropagateFailure()
+            return output
+        d_248_branchKey_ = (d_249_valueOrError3_).Extract()
+        d_250_branchKeyMaterials_: AwsCryptographyKeyStoreTypes.BranchKeyMaterials
+        d_251_valueOrError4_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.BranchKeyMaterials.default())()
+        d_251_valueOrError4_ = Structure.default__.ToBranchKeyMaterials(d_245_encryptionContext_, ((d_248_branchKey_).Plaintext).value)
+        if (d_251_valueOrError4_).IsFailure():
+            output = (d_251_valueOrError4_).PropagateFailure()
+            return output
+        d_250_branchKeyMaterials_ = (d_251_valueOrError4_).Extract()
+        output = Wrappers.Result_Success(AwsCryptographyKeyStoreTypes.GetActiveBranchKeyOutput_GetActiveBranchKeyOutput(d_250_branchKeyMaterials_))
         return output
         return output
 
     @staticmethod
     def GetBranchKeyVersion(input, tableName, logicalKeyStoreName, kmsConfiguration, grantTokens, kmsClient, ddbClient):
-        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.GetBranchKeyVersionOutput.default())()
-        d_234_branchKeyItem_: _dafny.Map
-        d_235_valueOrError0_: Wrappers.Result = None
-        out31_: Wrappers.Result
-        out31_ = DDBKeystoreOperations.default__.GetVersionBranchKeyItem((input).branchKeyIdentifier, (input).branchKeyVersion, tableName, ddbClient)
-        d_235_valueOrError0_ = out31_
-        if (d_235_valueOrError0_).IsFailure():
-            output = (d_235_valueOrError0_).PropagateFailure()
-            return output
-        d_234_branchKeyItem_ = (d_235_valueOrError0_).Extract()
-        d_236_encryptionContext_: _dafny.Map
-        d_236_encryptionContext_ = Structure.default__.ToBranchKeyContext(d_234_branchKeyItem_, logicalKeyStoreName)
-        d_237_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_237_valueOrError1_ = Wrappers.default__.Need(KMSKeystoreOperations.default__.AttemptKmsOperation_q(kmsConfiguration, d_236_encryptionContext_), software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("AWS KMS Key ARN does not match configured value")))
-        if (d_237_valueOrError1_).IsFailure():
-            output = (d_237_valueOrError1_).PropagateFailure()
-            return output
-        d_238_branchKey_: software_amazon_cryptography_services_kms_internaldafny_types.DecryptResponse
-        d_239_valueOrError2_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_services_kms_internaldafny_types.DecryptResponse.default())()
+        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.GetBranchKeyVersionOutput.default())()
+        d_252_branchKeyItem_: _dafny.Map
+        d_253_valueOrError0_: Wrappers.Result = None
         out32_: Wrappers.Result
-        out32_ = KMSKeystoreOperations.default__.DecryptKey(d_236_encryptionContext_, d_234_branchKeyItem_, kmsConfiguration, grantTokens, kmsClient)
-        d_239_valueOrError2_ = out32_
-        if (d_239_valueOrError2_).IsFailure():
-            output = (d_239_valueOrError2_).PropagateFailure()
+        out32_ = DDBKeystoreOperations.default__.GetVersionBranchKeyItem((input).branchKeyIdentifier, (input).branchKeyVersion, tableName, ddbClient)
+        d_253_valueOrError0_ = out32_
+        if (d_253_valueOrError0_).IsFailure():
+            output = (d_253_valueOrError0_).PropagateFailure()
             return output
-        d_238_branchKey_ = (d_239_valueOrError2_).Extract()
-        d_240_branchKeyMaterials_: software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials
-        d_241_valueOrError3_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.BranchKeyMaterials.default())()
-        d_241_valueOrError3_ = Structure.default__.ToBranchKeyMaterials(d_236_encryptionContext_, ((d_238_branchKey_).Plaintext).value)
-        if (d_241_valueOrError3_).IsFailure():
-            output = (d_241_valueOrError3_).PropagateFailure()
+        d_252_branchKeyItem_ = (d_253_valueOrError0_).Extract()
+        d_254_encryptionContext_: _dafny.Map
+        d_254_encryptionContext_ = Structure.default__.ToBranchKeyContext(d_252_branchKeyItem_, logicalKeyStoreName)
+        d_255_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_255_valueOrError1_ = Wrappers.default__.Need(KmsArn.default__.ValidKmsArn_q((d_254_encryptionContext_)[Structure.default__.KMS__FIELD]), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.RETRIEVED__KEYSTORE__ITEM__INVALID__KMS__ARN))
+        if (d_255_valueOrError1_).IsFailure():
+            output = (d_255_valueOrError1_).PropagateFailure()
             return output
-        d_240_branchKeyMaterials_ = (d_241_valueOrError3_).Extract()
-        output = Wrappers.Result_Success(software_amazon_cryptography_keystore_internaldafny_types.GetBranchKeyVersionOutput_GetBranchKeyVersionOutput(d_240_branchKeyMaterials_))
+        d_256_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_256_valueOrError2_ = Wrappers.default__.Need(KMSKeystoreOperations.default__.AttemptKmsOperation_q(kmsConfiguration, d_254_encryptionContext_), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("AWS KMS Key ARN does not match configured value")))
+        if (d_256_valueOrError2_).IsFailure():
+            output = (d_256_valueOrError2_).PropagateFailure()
+            return output
+        d_257_branchKey_: ComAmazonawsKmsTypes.DecryptResponse
+        d_258_valueOrError3_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsKmsTypes.DecryptResponse.default())()
+        out33_: Wrappers.Result
+        out33_ = KMSKeystoreOperations.default__.DecryptKey(d_254_encryptionContext_, d_252_branchKeyItem_, kmsConfiguration, grantTokens, kmsClient)
+        d_258_valueOrError3_ = out33_
+        if (d_258_valueOrError3_).IsFailure():
+            output = (d_258_valueOrError3_).PropagateFailure()
+            return output
+        d_257_branchKey_ = (d_258_valueOrError3_).Extract()
+        d_259_branchKeyMaterials_: AwsCryptographyKeyStoreTypes.BranchKeyMaterials
+        d_260_valueOrError4_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.BranchKeyMaterials.default())()
+        d_260_valueOrError4_ = Structure.default__.ToBranchKeyMaterials(d_254_encryptionContext_, ((d_257_branchKey_).Plaintext).value)
+        if (d_260_valueOrError4_).IsFailure():
+            output = (d_260_valueOrError4_).PropagateFailure()
+            return output
+        d_259_branchKeyMaterials_ = (d_260_valueOrError4_).Extract()
+        output = Wrappers.Result_Success(AwsCryptographyKeyStoreTypes.GetBranchKeyVersionOutput_GetBranchKeyVersionOutput(d_259_branchKeyMaterials_))
         return output
         return output
 
     @staticmethod
     def GetBeaconKeyAndUnwrap(input, tableName, logicalKeyStoreName, kmsConfiguration, grantTokens, kmsClient, ddbClient):
-        output: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.GetBeaconKeyOutput.default())()
-        d_242_branchKeyItem_: _dafny.Map
-        d_243_valueOrError0_: Wrappers.Result = None
-        out33_: Wrappers.Result
-        out33_ = DDBKeystoreOperations.default__.GetBeaconKeyItem((input).branchKeyIdentifier, tableName, ddbClient)
-        d_243_valueOrError0_ = out33_
-        if (d_243_valueOrError0_).IsFailure():
-            output = (d_243_valueOrError0_).PropagateFailure()
-            return output
-        d_242_branchKeyItem_ = (d_243_valueOrError0_).Extract()
-        d_244_encryptionContext_: _dafny.Map
-        d_244_encryptionContext_ = Structure.default__.ToBranchKeyContext(d_242_branchKeyItem_, logicalKeyStoreName)
-        d_245_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_245_valueOrError1_ = Wrappers.default__.Need(KMSKeystoreOperations.default__.AttemptKmsOperation_q(kmsConfiguration, d_244_encryptionContext_), software_amazon_cryptography_keystore_internaldafny_types.Error_KeyStoreException(_dafny.Seq("AWS KMS Key ARN does not match configured value")))
-        if (d_245_valueOrError1_).IsFailure():
-            output = (d_245_valueOrError1_).PropagateFailure()
-            return output
-        d_246_branchKey_: software_amazon_cryptography_services_kms_internaldafny_types.DecryptResponse
-        d_247_valueOrError2_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_services_kms_internaldafny_types.DecryptResponse.default())()
+        output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.GetBeaconKeyOutput.default())()
+        d_261_branchKeyItem_: _dafny.Map
+        d_262_valueOrError0_: Wrappers.Result = None
         out34_: Wrappers.Result
-        out34_ = KMSKeystoreOperations.default__.DecryptKey(d_244_encryptionContext_, d_242_branchKeyItem_, kmsConfiguration, grantTokens, kmsClient)
-        d_247_valueOrError2_ = out34_
-        if (d_247_valueOrError2_).IsFailure():
-            output = (d_247_valueOrError2_).PropagateFailure()
+        out34_ = DDBKeystoreOperations.default__.GetBeaconKeyItem((input).branchKeyIdentifier, tableName, ddbClient)
+        d_262_valueOrError0_ = out34_
+        if (d_262_valueOrError0_).IsFailure():
+            output = (d_262_valueOrError0_).PropagateFailure()
             return output
-        d_246_branchKey_ = (d_247_valueOrError2_).Extract()
-        d_248_branchKeyMaterials_: software_amazon_cryptography_keystore_internaldafny_types.BeaconKeyMaterials
-        d_249_valueOrError3_: Wrappers.Result = Wrappers.Result.default(software_amazon_cryptography_keystore_internaldafny_types.BeaconKeyMaterials.default())()
-        d_249_valueOrError3_ = Structure.default__.ToBeaconKeyMaterials(d_244_encryptionContext_, ((d_246_branchKey_).Plaintext).value)
-        if (d_249_valueOrError3_).IsFailure():
-            output = (d_249_valueOrError3_).PropagateFailure()
+        d_261_branchKeyItem_ = (d_262_valueOrError0_).Extract()
+        d_263_encryptionContext_: _dafny.Map
+        d_263_encryptionContext_ = Structure.default__.ToBranchKeyContext(d_261_branchKeyItem_, logicalKeyStoreName)
+        d_264_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_264_valueOrError1_ = Wrappers.default__.Need(KmsArn.default__.ValidKmsArn_q((d_263_encryptionContext_)[Structure.default__.KMS__FIELD]), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(KeyStoreErrorMessages.default__.RETRIEVED__KEYSTORE__ITEM__INVALID__KMS__ARN))
+        if (d_264_valueOrError1_).IsFailure():
+            output = (d_264_valueOrError1_).PropagateFailure()
             return output
-        d_248_branchKeyMaterials_ = (d_249_valueOrError3_).Extract()
-        output = Wrappers.Result_Success(software_amazon_cryptography_keystore_internaldafny_types.GetBeaconKeyOutput_GetBeaconKeyOutput(d_248_branchKeyMaterials_))
+        d_265_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_265_valueOrError2_ = Wrappers.default__.Need(KMSKeystoreOperations.default__.AttemptKmsOperation_q(kmsConfiguration, d_263_encryptionContext_), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("AWS KMS Key ARN does not match configured value")))
+        if (d_265_valueOrError2_).IsFailure():
+            output = (d_265_valueOrError2_).PropagateFailure()
+            return output
+        d_266_branchKey_: ComAmazonawsKmsTypes.DecryptResponse
+        d_267_valueOrError3_: Wrappers.Result = Wrappers.Result.default(ComAmazonawsKmsTypes.DecryptResponse.default())()
+        out35_: Wrappers.Result
+        out35_ = KMSKeystoreOperations.default__.DecryptKey(d_263_encryptionContext_, d_261_branchKeyItem_, kmsConfiguration, grantTokens, kmsClient)
+        d_267_valueOrError3_ = out35_
+        if (d_267_valueOrError3_).IsFailure():
+            output = (d_267_valueOrError3_).PropagateFailure()
+            return output
+        d_266_branchKey_ = (d_267_valueOrError3_).Extract()
+        d_268_branchKeyMaterials_: AwsCryptographyKeyStoreTypes.BeaconKeyMaterials
+        d_269_valueOrError4_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials.default())()
+        d_269_valueOrError4_ = Structure.default__.ToBeaconKeyMaterials(d_263_encryptionContext_, ((d_266_branchKey_).Plaintext).value)
+        if (d_269_valueOrError4_).IsFailure():
+            output = (d_269_valueOrError4_).PropagateFailure()
+            return output
+        d_268_branchKeyMaterials_ = (d_269_valueOrError4_).Extract()
+        output = Wrappers.Result_Success(AwsCryptographyKeyStoreTypes.GetBeaconKeyOutput_GetBeaconKeyOutput(d_268_branchKeyMaterials_))
         return output
         return output
 

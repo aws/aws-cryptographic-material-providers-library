@@ -12,10 +12,15 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
   import opened Types = AwsCryptographyMaterialProvidersTestVectorKeysTypes
   import MPL = AwsCryptographyMaterialProvidersTypes
   import opened Wrappers
+  import AwsCryptographyPrimitivesTypes
+  import Primitives = AtomicPrimitives
+  import Com.Amazonaws.Kms
+  import ComAmazonawsKmsTypes
   import KeyMaterial
   import CreateStaticKeyrings
   import CreateStaticKeyStores
   import Seq
+  import Base64
   import KeyDescription
 
   // This is a HACK.
@@ -37,6 +42,8 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
     case KmsMrkDiscovery(i) => i.keyId
     case RSA(i) => i.keyId
     case AES(i) => i.keyId
+    case ECDH(i) => i.senderKeyId
+    case KmsECDH(i) => i.senderKeyId
     case Static(i) => i.keyId
     case Hierarchy(i) => i.keyId
     case KmsRsa(i) => i.keyId
@@ -44,6 +51,23 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
     // The multi keyring does not have a keyId
     case Multi(_) => ""
   }
+
+  function GetSenderKeyId(input: Types.KeyDescription)
+    : string
+  {
+    match input
+    case ECDH(i) => i.senderKeyId
+    case _ => ""
+  }
+  function GetRecipientKeyId(input: Types.KeyDescription)
+    : string
+  {
+    match input
+    case ECDH(i) => i.recipientKeyId
+    case KmsECDH(i) => i.recipientKeyId
+    case _ => ""
+  }
+
 
   function GetKeyMaterial(
     keys: map<string, KeyMaterial.KeyMaterial>,
@@ -58,6 +82,36 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
     else
       None
   }
+
+  function GetSenderKeyMaterial(
+    keys: map<string, KeyMaterial.KeyMaterial>,
+    keyDescription: Types.KeyDescription
+  )
+    : Option<KeyMaterial.KeyMaterial>
+  {
+    var keyId := GetSenderKeyId(keyDescription);
+
+    if keyId in keys then
+      Some(keys[keyId])
+    else
+      None
+  }
+
+  function GetRecipientKeyMaterial(
+    keys: map<string, KeyMaterial.KeyMaterial>,
+    keyDescription: Types.KeyDescription
+  )
+    : Option<KeyMaterial.KeyMaterial>
+  {
+    var keyId := GetRecipientKeyId(keyDescription);
+
+    if keyId in keys then
+      Some(keys[keyId])
+    else
+      None
+  }
+
+
 
   method ToKeyring(
     mpl: MPL.IAwsCryptographicMaterialProvidersClient,
@@ -224,6 +278,146 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
         return keyring.MapFailure(e => AwsCryptographyMaterialProviders(e));
       }
     }
+    case ECDH(RawEcdh(senderKeyId: string, recipientKeyId: string, senderPublicKey: string, recipientPublicKey: string, providerId: string, curveSpec: string, keyAgreementScheme: string)) => {
+      :- Need(curveSpec in KeyDescription.Curve2EccAlgorithmSpec, KeyVectorException(message := "Unknown curve spec"));
+      var curveType :=  KeyDescription.Curve2EccAlgorithmSpec[curveSpec];
+      var primitives? := Primitives.AtomicPrimitives();
+      var primitives :- primitives?.MapFailure(e => KeyVectorException( message := "Unable to create primitives client"));
+      match keyAgreementScheme
+      case "static" => {
+        :- Need(
+          && material.Some?
+          && (material.value.PrivateECDH?),
+          KeyVectorException( message := "Not type: PrivateECDH" ));
+        var senderMaterial :- UTF8.Encode(material.value.senderMaterial).MapFailure(e => KeyVectorException( message := e ));
+        var recipientMaterial :- UTF8.Encode(material.value.recipientMaterial).MapFailure(e => KeyVectorException( message := e ));
+        var recipientPublicKey :- Base64.Decode(material.value.recipientPublicKey).MapFailure(e => KeyVectorException(message := e));
+
+        var schema := MPL.RawPrivateKeyToStaticPublicKey(
+          MPL.RawPrivateKeyToStaticPublicKeyInput(
+            senderStaticPrivateKey := senderMaterial,
+            recipientPublicKey := recipientPublicKey
+          )
+        );
+
+        var input := MPL.CreateRawEcdhKeyringInput(
+          curveSpec := curveType,
+          KeyAgreementScheme := schema
+        );
+
+        var keyring := mpl.CreateRawEcdhKeyring(input);
+        return keyring.MapFailure(e => AwsCryptographyMaterialProviders(e));
+      }
+      case "ephemeral" => {
+        var recipientMaterial? := GetRecipientKeyMaterial(keys, description);
+        :- Need(
+          && recipientMaterial?.Some?
+          && (recipientMaterial?.value.PrivateECDH?),
+          KeyVectorException( message := "Not type: PrivateECDH" ));
+        var recipientMaterial :- UTF8.Encode(recipientMaterial?.value.recipientMaterial).MapFailure(e => KeyVectorException( message := e ));
+        var recipientPublicKey :- Base64.Decode(recipientMaterial?.value.recipientPublicKey).MapFailure(e => KeyVectorException( message := e ));
+
+        var schema := MPL.EphemeralPrivateKeyToStaticPublicKey(
+          MPL.EphemeralPrivateKeyToStaticPublicKeyInput(
+            recipientPublicKey := recipientPublicKey
+          )
+        );
+        var input := MPL.CreateRawEcdhKeyringInput(
+          curveSpec := curveType,
+          KeyAgreementScheme := schema
+        );
+
+        var keyring := mpl.CreateRawEcdhKeyring(input);
+        return keyring.MapFailure(e => AwsCryptographyMaterialProviders(e));
+      }
+      case "discovery" => {
+        var recipientMaterial? := GetRecipientKeyMaterial(keys, description);
+        :- Need(
+          && recipientMaterial?.Some?
+          && (recipientMaterial?.value.PrivateECDH?),
+          KeyVectorException( message := "Not type: PrivateECDH" ));
+        var recipientMaterial :- UTF8.Encode(recipientMaterial?.value.recipientMaterial).MapFailure(e => KeyVectorException( message := e ));
+        var schema := MPL.PublicKeyDiscovery(
+          MPL.PublicKeyDiscoveryInput(
+            recipientStaticPrivateKey := recipientMaterial
+          )
+        );
+        var input := MPL.CreateRawEcdhKeyringInput(
+          curveSpec := curveType,
+          KeyAgreementScheme := schema
+        );
+        var keyring := mpl.CreateRawEcdhKeyring(input);
+        return keyring.MapFailure(e => AwsCryptographyMaterialProviders(e));
+      }
+      case _ => {
+        return Failure(KeyVectorException( message := "key agreement schema not recognized" ));
+      }
+    }
+    case KmsECDH(KmsEcdhKeyring(senderKeyId: string, recipientKeyId: string, senderPublicKey: string, recipientPublicKey: string, curveSpec: string, keyAgreementScheme: string)) => {
+      :- Need(curveSpec in KeyDescription.KmsKey2EccAlgorithmSpec, KeyVectorException(message := "Unknown curve spec"));
+      var curveType :=  KeyDescription.KmsKey2EccAlgorithmSpec[curveSpec];
+
+      match keyAgreementScheme
+      case "static" => {
+        :- Need(
+          && material.Some?
+          && (material.value.KMSEcdh?),
+          KeyVectorException( message := "Not type: KmsEcdh" ));
+        var senderKmsKey := material.value.senderMaterial;
+        var recipientKmsKey := material.value.recipientMaterial;
+        :- Need(
+          ComAmazonawsKmsTypes.IsValid_KeyIdType(senderKmsKey) &&
+          ComAmazonawsKmsTypes.IsValid_KeyIdType(recipientKmsKey),
+          KeyVectorException(message := "Not a valid Kms Key Id"));
+        var kmsClient :- getKmsClient(mpl, senderKmsKey);
+
+        var senderPublicKey :- Base64.Decode(material.value.senderPublicKey).MapFailure(e => KeyVectorException(message := e));
+        var recipientPublicKey :- Base64.Decode(material.value.recipientPublicKey).MapFailure(e => KeyVectorException(message := e));
+
+        var schema := MPL.KmsPrivateKeyToStaticPublicKey(
+          MPL.KmsPrivateKeyToStaticPublicKeyInput(
+            senderKmsIdentifier := senderKmsKey,
+            senderPublicKey := Some(senderPublicKey),
+            recipientPublicKey := recipientPublicKey
+          )
+        );
+        var input := MPL.CreateAwsKmsEcdhKeyringInput(
+          curveSpec := curveType,
+          KeyAgreementScheme := schema,
+          kmsClient := kmsClient
+        );
+
+        var keyring := mpl.CreateAwsKmsEcdhKeyring(input);
+        return keyring.MapFailure(e => AwsCryptographyMaterialProviders(e));
+      }
+      case "discovery" => {
+        var recipientMaterial? := GetRecipientKeyMaterial(keys, description);
+        :- Need(
+          && recipientMaterial?.Some?
+          && (recipientMaterial?.value.KMSEcdh?),
+          KeyVectorException( message := "Not type: KmsEcdh" ));
+
+        var recipientKmsKey := recipientMaterial?.value.recipientMaterial;
+        var kmsClient :- getKmsClient(mpl, recipientKmsKey);
+
+        var schema := MPL.KmsPublicKeyDiscovery(
+          MPL.KmsPublicKeyDiscoveryInput(
+            recipientKmsIdentifier := recipientKmsKey
+          )
+        );
+        var input := MPL.CreateAwsKmsEcdhKeyringInput(
+          curveSpec := curveType,
+          KeyAgreementScheme := schema,
+          kmsClient := kmsClient
+        );
+
+        var keyring := mpl.CreateAwsKmsEcdhKeyring(input);
+        return keyring.MapFailure(e => AwsCryptographyMaterialProviders(e));
+      }
+      case _ => {
+        return Failure(KeyVectorException( message := "key agreement schema not recognized" ));
+      }
+    }
     case Multi(MultiKeyring) => {
       var generator := None;
       if MultiKeyring.generator.Some? {
@@ -281,6 +475,39 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
                                           region := region.UnwrapOr("")
                                         ));
     output := tmp.MapFailure(e => AwsCryptographyMaterialProviders(e));
+  }
+
+  method GetEcdhPublicKey(
+    client: ComAmazonawsKmsTypes.IKMSClient,
+    awsKmsKey: ComAmazonawsKmsTypes.KeyIdType
+  ) returns (res :Result<ComAmazonawsKmsTypes.PublicKeyType, Types.Error>)
+    requires client.ValidState()
+    modifies client.Modifies
+    ensures client.ValidState()
+  {
+    var getPublicKeyRequest := ComAmazonawsKmsTypes.GetPublicKeyRequest(
+      KeyId := awsKmsKey,
+      GrantTokens := None
+    );
+
+    var maybePublicKeyResponse := client.GetPublicKey(
+      getPublicKeyRequest
+    );
+
+    var getPublicKeyResponse :- maybePublicKeyResponse
+    .MapFailure(e => Types.ComAmazonawsKms( ComAmazonawsKms := e ));
+
+    :- Need(
+      && getPublicKeyResponse.KeyId.Some?
+      && getPublicKeyResponse.KeyId.value == awsKmsKey
+      && getPublicKeyResponse.KeyUsage.Some?
+      && getPublicKeyResponse.KeyUsage.value == ComAmazonawsKmsTypes.KeyUsageType.KEY_AGREEMENT
+      && getPublicKeyResponse.PublicKey.Some?,
+      KeyVectorException(
+        message := "Invalid response from KMS GetPublicKey")
+    );
+
+    return Success(getPublicKeyResponse.PublicKey.value);
   }
 
 }

@@ -3,64 +3,64 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
-import System_
-import Wrappers
-import Relations
-import Seq_MergeSort
-import Math
-import Seq
-import BoundedInts
-import Unicode
-import Functions
-import Utf8EncodingForm
-import Utf16EncodingForm
-import UnicodeStrings
-import FileIO
-import GeneralInternals
-import MulInternalsNonlinear
-import MulInternals
-import Mul
-import ModInternalsNonlinear
-import DivInternalsNonlinear
-import ModInternals
-import DivInternals
-import DivMod
-import Power
-import Logarithm
-import StandardLibraryInterop
-import StandardLibrary_UInt
-import StandardLibrary_String
-import StandardLibrary
-import UUID
-import UTF8
-import Time
-import Streams
-import Sorting
-import SortedSets
-import HexStrings
-import GetOpt
-import FloatCompare
-import ConcurrentCall
-import Base64
-import Base64Lemmas
-import Actions
-import DafnyLibraries
-import JSON_Utils_Views_Core
-import JSON_Utils_Views_Writers
-import JSON_Utils_Views
-import JSON_Utils_Lexers_Core
-import JSON_Utils_Lexers_Strings
-import JSON_Utils_Lexers
-import JSON_Utils_Cursors
-import JSON_Utils_Parsers
-import JSON_Utils_Str_CharStrConversion
-import JSON_Utils_Str_CharStrEscaping
-import JSON_Utils_Str
-import JSON_Utils_Seq
-import JSON_Utils_Vectors
-import JSON_Utils
+import standard_library.internaldafny.generated.module_ as module_
+import _dafny as _dafny
+import System_ as System_
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import standard_library.internaldafny.generated.Relations as Relations
+import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
+import standard_library.internaldafny.generated.Math as Math
+import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.BoundedInts as BoundedInts
+import standard_library.internaldafny.generated.Unicode as Unicode
+import standard_library.internaldafny.generated.Functions as Functions
+import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
+import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16EncodingForm
+import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
+import standard_library.internaldafny.generated.FileIO as FileIO
+import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
+import standard_library.internaldafny.generated.MulInternalsNonlinear as MulInternalsNonlinear
+import standard_library.internaldafny.generated.MulInternals as MulInternals
+import standard_library.internaldafny.generated.Mul as Mul
+import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
+import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInternalsNonlinear
+import standard_library.internaldafny.generated.ModInternals as ModInternals
+import standard_library.internaldafny.generated.DivInternals as DivInternals
+import standard_library.internaldafny.generated.DivMod as DivMod
+import standard_library.internaldafny.generated.Power as Power
+import standard_library.internaldafny.generated.Logarithm as Logarithm
+import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
+import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
+import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
+import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
+import standard_library.internaldafny.generated.UUID as UUID
+import standard_library.internaldafny.generated.UTF8 as UTF8
+import standard_library.internaldafny.generated.Time as Time
+import standard_library.internaldafny.generated.Streams as Streams
+import standard_library.internaldafny.generated.Sorting as Sorting
+import standard_library.internaldafny.generated.SortedSets as SortedSets
+import standard_library.internaldafny.generated.HexStrings as HexStrings
+import standard_library.internaldafny.generated.GetOpt as GetOpt
+import standard_library.internaldafny.generated.FloatCompare as FloatCompare
+import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
+import standard_library.internaldafny.generated.Base64 as Base64
+import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
+import standard_library.internaldafny.generated.Actions as Actions
+import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
+import standard_library.internaldafny.generated.JSON_Utils_Views_Core as JSON_Utils_Views_Core
+import standard_library.internaldafny.generated.JSON_Utils_Views_Writers as JSON_Utils_Views_Writers
+import standard_library.internaldafny.generated.JSON_Utils_Views as JSON_Utils_Views
+import standard_library.internaldafny.generated.JSON_Utils_Lexers_Core as JSON_Utils_Lexers_Core
+import standard_library.internaldafny.generated.JSON_Utils_Lexers_Strings as JSON_Utils_Lexers_Strings
+import standard_library.internaldafny.generated.JSON_Utils_Lexers as JSON_Utils_Lexers
+import standard_library.internaldafny.generated.JSON_Utils_Cursors as JSON_Utils_Cursors
+import standard_library.internaldafny.generated.JSON_Utils_Parsers as JSON_Utils_Parsers
+import standard_library.internaldafny.generated.JSON_Utils_Str_CharStrConversion as JSON_Utils_Str_CharStrConversion
+import standard_library.internaldafny.generated.JSON_Utils_Str_CharStrEscaping as JSON_Utils_Str_CharStrEscaping
+import standard_library.internaldafny.generated.JSON_Utils_Str as JSON_Utils_Str
+import standard_library.internaldafny.generated.JSON_Utils_Seq as JSON_Utils_Seq
+import standard_library.internaldafny.generated.JSON_Utils_Vectors as JSON_Utils_Vectors
+import standard_library.internaldafny.generated.JSON_Utils as JSON_Utils
 
 # Module: JSON_Errors
 
@@ -103,39 +103,55 @@ class DeserializationError:
         return isinstance(self, DeserializationError_InvalidUnicode)
     def ToString(self):
         source9_ = self
-        if source9_.is_UnterminatedSequence:
-            return _dafny.Seq("Unterminated sequence")
-        elif source9_.is_UnsupportedEscape:
-            d_503___mcc_h0_ = source9_.str
-            d_504_str_ = d_503___mcc_h0_
-            return (_dafny.Seq("Unsupported escape sequence: ")) + (d_504_str_)
-        elif source9_.is_EscapeAtEOS:
-            return _dafny.Seq("Escape character at end of string")
-        elif source9_.is_EmptyNumber:
-            return _dafny.Seq("Number must contain at least one digit")
-        elif source9_.is_ExpectingEOF:
-            return _dafny.Seq("Expecting EOF")
-        elif source9_.is_IntOverflow:
-            return _dafny.Seq("Input length does not fit in a 32-bit counter")
-        elif source9_.is_ReachedEOF:
-            return _dafny.Seq("Reached EOF")
-        elif source9_.is_ExpectingByte:
-            d_505___mcc_h1_ = source9_.expected
-            d_506___mcc_h2_ = source9_.b
-            d_507_b_ = d_506___mcc_h2_
-            d_508_b0_ = d_505___mcc_h1_
-            d_509_c_ = (((_dafny.Seq("'")) + (_dafny.Seq([chr(d_507_b_)]))) + (_dafny.Seq("'")) if (d_507_b_) > (0) else _dafny.Seq("EOF"))
-            return (((_dafny.Seq("Expecting '")) + (_dafny.Seq([chr(d_508_b0_)]))) + (_dafny.Seq("', read "))) + (d_509_c_)
-        elif source9_.is_ExpectingAnyByte:
-            d_510___mcc_h3_ = source9_.expected__sq
-            d_511___mcc_h4_ = source9_.b
-            d_512_b_ = d_511___mcc_h4_
-            d_513_bs0_ = d_510___mcc_h3_
-            d_514_c_ = (((_dafny.Seq("'")) + (_dafny.Seq([chr(d_512_b_)]))) + (_dafny.Seq("'")) if (d_512_b_) > (0) else _dafny.Seq("EOF"))
-            d_515_c0s_ = _dafny.Seq([chr((d_513_bs0_)[d_516_idx_]) for d_516_idx_ in range(len(d_513_bs0_))])
-            return (((_dafny.Seq("Expecting one of '")) + (d_515_c0s_)) + (_dafny.Seq("', read "))) + (d_514_c_)
-        elif True:
+        unmatched9 = True
+        if unmatched9:
+            if source9_.is_UnterminatedSequence:
+                unmatched9 = False
+                return _dafny.Seq("Unterminated sequence")
+        if unmatched9:
+            if source9_.is_UnsupportedEscape:
+                d_486_str_ = source9_.str
+                unmatched9 = False
+                return (_dafny.Seq("Unsupported escape sequence: ")) + (d_486_str_)
+        if unmatched9:
+            if source9_.is_EscapeAtEOS:
+                unmatched9 = False
+                return _dafny.Seq("Escape character at end of string")
+        if unmatched9:
+            if source9_.is_EmptyNumber:
+                unmatched9 = False
+                return _dafny.Seq("Number must contain at least one digit")
+        if unmatched9:
+            if source9_.is_ExpectingEOF:
+                unmatched9 = False
+                return _dafny.Seq("Expecting EOF")
+        if unmatched9:
+            if source9_.is_IntOverflow:
+                unmatched9 = False
+                return _dafny.Seq("Input length does not fit in a 32-bit counter")
+        if unmatched9:
+            if source9_.is_ReachedEOF:
+                unmatched9 = False
+                return _dafny.Seq("Reached EOF")
+        if unmatched9:
+            if source9_.is_ExpectingByte:
+                d_487_b0_ = source9_.expected
+                d_488_b_ = source9_.b
+                unmatched9 = False
+                d_489_c_ = (((_dafny.Seq("'")) + (_dafny.Seq([chr(d_488_b_)]))) + (_dafny.Seq("'")) if (d_488_b_) > (0) else _dafny.Seq("EOF"))
+                return (((_dafny.Seq("Expecting '")) + (_dafny.Seq([chr(d_487_b0_)]))) + (_dafny.Seq("', read "))) + (d_489_c_)
+        if unmatched9:
+            if source9_.is_ExpectingAnyByte:
+                d_490_bs0_ = source9_.expected__sq
+                d_491_b_ = source9_.b
+                unmatched9 = False
+                d_492_c_ = (((_dafny.Seq("'")) + (_dafny.Seq([chr(d_491_b_)]))) + (_dafny.Seq("'")) if (d_491_b_) > (0) else _dafny.Seq("EOF"))
+                d_493_c0s_ = _dafny.Seq([chr((d_490_bs0_)[d_494_idx_]) for d_494_idx_ in range(len(d_490_bs0_))])
+                return (((_dafny.Seq("Expecting one of '")) + (d_493_c0s_)) + (_dafny.Seq("', read "))) + (d_492_c_)
+        if unmatched9:
+            unmatched9 = False
             return _dafny.Seq("Invalid Unicode sequence")
+        raise Exception("unexpected control point")
 
 
 class DeserializationError_UnterminatedSequence(DeserializationError, NamedTuple('UnterminatedSequence', [])):
@@ -239,18 +255,25 @@ class SerializationError:
         return isinstance(self, SerializationError_InvalidUnicode)
     def ToString(self):
         source10_ = self
-        if source10_.is_OutOfMemory:
-            return _dafny.Seq("Out of memory")
-        elif source10_.is_IntTooLarge:
-            d_517___mcc_h0_ = source10_.i
-            d_518_i_ = d_517___mcc_h0_
-            return (_dafny.Seq("Integer too large: ")) + (JSON_Utils_Str.default__.OfInt(d_518_i_, 10))
-        elif source10_.is_StringTooLong:
-            d_519___mcc_h1_ = source10_.s
-            d_520_s_ = d_519___mcc_h1_
-            return (_dafny.Seq("String too long: ")) + (d_520_s_)
-        elif True:
+        unmatched10 = True
+        if unmatched10:
+            if source10_.is_OutOfMemory:
+                unmatched10 = False
+                return _dafny.Seq("Out of memory")
+        if unmatched10:
+            if source10_.is_IntTooLarge:
+                d_495_i_ = source10_.i
+                unmatched10 = False
+                return (_dafny.Seq("Integer too large: ")) + (JSON_Utils_Str.default__.OfInt(d_495_i_, 10))
+        if unmatched10:
+            if source10_.is_StringTooLong:
+                d_496_s_ = source10_.s
+                unmatched10 = False
+                return (_dafny.Seq("String too long: ")) + (d_496_s_)
+        if unmatched10:
+            unmatched10 = False
             return _dafny.Seq("Invalid Unicode sequence")
+        raise Exception("unexpected control point")
 
 
 class SerializationError_OutOfMemory(SerializationError, NamedTuple('OutOfMemory', [])):

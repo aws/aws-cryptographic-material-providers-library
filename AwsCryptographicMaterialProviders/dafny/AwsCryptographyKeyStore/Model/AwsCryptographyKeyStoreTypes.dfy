@@ -4,7 +4,7 @@
 include "../../../../StandardLibrary/src/Index.dfy"
 include "../../../../ComAmazonawsDynamodb/src/Index.dfy"
 include "../../../../ComAmazonawsKms/src/Index.dfy"
-module {:extern "software_amazon_cryptography_keystore_internaldafny_types" } AwsCryptographyKeyStoreTypes
+module AwsCryptographyKeyStoreTypes
 {
   import opened Wrappers
   import opened StandardLibrary.UInt
@@ -41,6 +41,9 @@ module {:extern "software_amazon_cryptography_keystore_internaldafny_types" } Aw
   datatype CreateKeyStoreOutput = | CreateKeyStoreOutput (
     nameonly tableArn: ComAmazonawsDynamodbTypes.TableArn
   )
+  datatype Discovery = | Discovery (
+
+                       )
   type EncryptionContext = map<Utf8Bytes, Utf8Bytes>
   datatype GetActiveBranchKeyInput = | GetActiveBranchKeyInput (
     nameonly branchKeyIdentifier: string
@@ -232,6 +235,12 @@ module {:extern "software_amazon_cryptography_keystore_internaldafny_types" } Aw
   )
   datatype KMSConfiguration =
     | kmsKeyArn(kmsKeyArn: ComAmazonawsKmsTypes.KeyIdType)
+    | kmsMRKeyArn(kmsMRKeyArn: ComAmazonawsKmsTypes.KeyIdType)
+    | discovery(discovery: Discovery)
+    | mrDiscovery(mrDiscovery: MRDiscovery)
+  datatype MRDiscovery = | MRDiscovery (
+    nameonly region: ComAmazonawsKmsTypes.RegionType
+  )
   type Secret = seq<uint8>
   type Utf8Bytes = ValidUTF8Bytes
   datatype VersionKeyInput = | VersionKeyInput (
@@ -285,9 +294,7 @@ abstract module AbstractAwsCryptographyKeyStoreService
   import Operations : AbstractAwsCryptographyKeyStoreOperations
   function method DefaultKeyStoreConfig(): KeyStoreConfig
   method KeyStore(config: KeyStoreConfig := DefaultKeyStoreConfig())
-    // BEGIN MANUAL FIX
     returns (res: Result<KeyStoreClient, Error>)
-    // END MANUAL FIX
     requires config.ddbClient.Some? ==>
                config.ddbClient.value.ValidState()
     requires config.kmsClient.Some? ==>
@@ -315,15 +322,11 @@ abstract module AbstractAwsCryptographyKeyStoreService
     ensures config.kmsClient.Some? ==>
               config.kmsClient.value.ValidState()
 
-  // Helper function for the benefit of native code to create a Success(client) without referring to Dafny internals
-  // BEGIN MANUAL FIX
-  function method CreateSuccessOfClient(client: KeyStoreClient): Result<KeyStoreClient, Error> {
-    // END MANUAL FIX
+  // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
+  function method CreateSuccessOfClient(client: IKeyStoreClient): Result<IKeyStoreClient, Error> {
     Success(client)
-  } // Helper function for the benefit of native code to create a Failure(error) without referring to Dafny internals
-  // BEGIN MANUAL FIX
-  function method CreateFailureOfError(error: Error): Result<KeyStoreClient, Error> {
-    // END MANUAL FIX
+  }
+  function method CreateFailureOfError(error: Error): Result<IKeyStoreClient, Error> {
     Failure(error)
   }
   class KeyStoreClient extends IKeyStoreClient

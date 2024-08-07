@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public class ECDSASignInput {
+
   private final ECDSASignatureAlgorithm signatureAlgorithm;
 
   private final ByteBuffer signingKey;
@@ -56,14 +57,14 @@ public class ECDSASignInput {
   }
 
   static class BuilderImpl implements Builder {
+
     protected ECDSASignatureAlgorithm signatureAlgorithm;
 
     protected ByteBuffer signingKey;
 
     protected ByteBuffer message;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(ECDSASignInput model) {
       this.signatureAlgorithm = model.signatureAlgorithm();
@@ -71,7 +72,9 @@ public class ECDSASignInput {
       this.message = model.message();
     }
 
-    public Builder signatureAlgorithm(ECDSASignatureAlgorithm signatureAlgorithm) {
+    public Builder signatureAlgorithm(
+      ECDSASignatureAlgorithm signatureAlgorithm
+    ) {
       this.signatureAlgorithm = signatureAlgorithm;
       return this;
     }
@@ -99,14 +102,20 @@ public class ECDSASignInput {
     }
 
     public ECDSASignInput build() {
-      if (Objects.isNull(this.signatureAlgorithm()))  {
-        throw new IllegalArgumentException("Missing value for required field `signatureAlgorithm`");
+      if (Objects.isNull(this.signatureAlgorithm())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `signatureAlgorithm`"
+        );
       }
-      if (Objects.isNull(this.signingKey()))  {
-        throw new IllegalArgumentException("Missing value for required field `signingKey`");
+      if (Objects.isNull(this.signingKey())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `signingKey`"
+        );
       }
-      if (Objects.isNull(this.message()))  {
-        throw new IllegalArgumentException("Missing value for required field `message`");
+      if (Objects.isNull(this.message())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `message`"
+        );
       }
       return new ECDSASignInput(this);
     }

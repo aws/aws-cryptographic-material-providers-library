@@ -1,12 +1,9 @@
 [submodule "libraries"]
 	path = libraries
 	url = https://github.com/dafny-lang/libraries.git 
-[submodule "aws-encryption-sdk-specification"]
-	path = aws-encryption-sdk-specification
-	url = https://github.com/awslabs/aws-encryption-sdk-specification.git
-[submodule "submodules/smithy-python"]
-	path = submodules/smithy-python
-	url = https://github.com/lucasmcdonald3/smithy-python
 [submodule "smithy-dafny"]
 	path = smithy-dafny
 	url = https://robin-aws@github.com/smithy-lang/smithy-dafny.git
+[submodule "aws-encryption-sdk-specification"]
+	path = aws-encryption-sdk-specification
+	url = https://github.com/awslabs/aws-encryption-sdk-specification.git 

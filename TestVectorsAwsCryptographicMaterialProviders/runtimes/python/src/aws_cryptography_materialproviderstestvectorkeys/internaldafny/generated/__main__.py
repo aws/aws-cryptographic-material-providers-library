@@ -4,8 +4,8 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.module_ as module_
+import _dafny as _dafny
 
 import WrappedMaterialProvidersMain
 try:

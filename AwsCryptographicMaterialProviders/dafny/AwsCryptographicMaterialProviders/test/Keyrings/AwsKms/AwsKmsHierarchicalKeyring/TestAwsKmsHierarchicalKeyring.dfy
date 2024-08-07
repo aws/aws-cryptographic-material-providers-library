@@ -5,6 +5,7 @@ include "../../../../src/Index.dfy"
 include "../../../TestUtils.dfy"
 include "../../../../src/AlgorithmSuites.dfy"
 include "../../../../src/Materials.dfy"
+include "../../../../src/ErrorMessages.dfy"
 
 // This file depends on resources that exist for the Keystore
 include "../../../../../AwsCryptographyKeyStore/test/Fixtures.dfy"
@@ -18,7 +19,7 @@ module TestAwsKmsHierarchicalKeyring {
   import KeyStore = KeyStore
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
   import Crypto = AwsCryptographyPrimitivesTypes
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import MaterialProviders
   import StormTracker
   import StormTrackingCMC
@@ -27,6 +28,7 @@ module TestAwsKmsHierarchicalKeyring {
   import opened Materials
   import opened UInt = StandardLibrary.UInt
   import opened Wrappers
+  import ErrorMessages
 
   import Fixtures
 
@@ -192,6 +194,82 @@ module TestAwsKmsHierarchicalKeyring {
     var contextCaseB := materials.encryptionContext[BRANCH_KEY := CASE_B];
     materials := materials.(encryptionContext := contextCaseB);
     TestRoundtrip(hierarchyKeyring, materials, TEST_DBE_ALG_SUITE_ID, BRANCH_KEY_ID_B);
+  }
+
+  method {:test} TestInvalidDataKeyError()
+  {
+    var branchKeyIdSupplier: Types.IBranchKeyIdSupplier := new DummyBranchKeyIdSupplier();
+    var ttl : int64 := (1 * 60000) * 10;
+    var mpl :- expect MaterialProviders.MaterialProviders();
+    var kmsClient :- expect KMS.KMSClient();
+    var ddbClient :- expect DDB.DynamoDBClient();
+    var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(keyArn);
+    var keyStoreConfig := KeyStoreTypes.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient),
+      kmsClient := Some(kmsClient)
+    );
+    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+    var hierarchyKeyring :- expect mpl.CreateAwsKmsHierarchicalKeyring(
+      Types.CreateAwsKmsHierarchicalKeyringInput(
+        branchKeyId := None,
+        branchKeyIdSupplier := Some(branchKeyIdSupplier),
+        keyStore := keyStore,
+        ttlSeconds := ttl,
+        cache := None
+      )
+    );
+    var materials := GetTestMaterials(TEST_DBE_ALG_SUITE_ID);
+    var contextCaseA := materials.encryptionContext[BRANCH_KEY := CASE_A];
+    var contextCaseB := materials.encryptionContext[BRANCH_KEY := CASE_B];
+    var materialsA := materials.(encryptionContext := contextCaseA);
+    var materialsB := materials.(encryptionContext := contextCaseB);
+
+    TestInvalidDataKeyFailureCase(hierarchyKeyring, materialsA, materialsB, TEST_DBE_ALG_SUITE_ID);
+  }
+
+  method TestInvalidDataKeyFailureCase(
+    hierarchyKeyring: Types.IKeyring,
+    encryptionMaterialsInEncrypt: Types.EncryptionMaterials,
+    encryptionMaterialsInDecrypt: Types.EncryptionMaterials,
+    algorithmSuiteId: Types.AlgorithmSuiteId
+  )
+    requires hierarchyKeyring.ValidState()
+    modifies hierarchyKeyring.Modifies
+    ensures hierarchyKeyring.ValidState()
+  {
+    var encryptionMaterialsOut :- expect hierarchyKeyring.OnEncrypt(
+      Types.OnEncryptInput(materials:=encryptionMaterialsInEncrypt)
+    );
+
+    var mpl :- expect MaterialProviders.MaterialProviders();
+    var _ :- expect mpl.EncryptionMaterialsHasPlaintextDataKey(encryptionMaterialsOut.materials);
+
+    expect |encryptionMaterialsOut.materials.encryptedDataKeys| == 1;
+
+    var edk := encryptionMaterialsOut.materials.encryptedDataKeys[0];
+
+    var decryptionMaterialsIn :- expect mpl.InitializeDecryptionMaterials(
+      Types.InitializeDecryptionMaterialsInput(
+        algorithmSuiteId := algorithmSuiteId,
+        encryptionContext := encryptionMaterialsInDecrypt.encryptionContext,
+        requiredEncryptionContextKeys := []
+      )
+    );
+    var decryptionMaterialsOut := hierarchyKeyring.OnDecrypt(
+      Types.OnDecryptInput(
+        materials:=decryptionMaterialsIn,
+        encryptedDataKeys:=[edk]
+      )
+    );
+    expect decryptionMaterialsOut.IsFailure();
+    expect decryptionMaterialsOut.error.AwsCryptographicMaterialProvidersException?;
+    var expectedErrorMessage :- expect ErrorMessages.IncorrectDataKeys([edk],decryptionMaterialsIn.algorithmSuite);
+    expect decryptionMaterialsOut.error.message == expectedErrorMessage;
   }
 
   method TestRoundtrip(

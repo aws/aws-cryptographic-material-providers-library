@@ -1,18 +1,18 @@
-import software_amazon_cryptography_materialproviders_internaldafny_wrapped
-import Wrappers
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.WrappedMaterialProviders as WrappedMaterialProviders
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.client
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.config
+import aws_cryptographic_materialproviders.internaldafny.generated.MaterialProviders as MaterialProviders
+import aws_cryptography_materialproviderstestvectorkeys.smithygenerated.aws_cryptography_materialproviders.shim as shim
 
-class default__(software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__):
+class default__(WrappedMaterialProviders.default__):
 
   @staticmethod
   def WrappedMaterialProviders(config):  
-    import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.client
-    import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.config
-    import software_amazon_cryptography_materialproviders_internaldafny
-    c = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.client.AwsCryptographicMaterialProviders(
-      dafny_client=software_amazon_cryptography_materialproviders_internaldafny.default__.MaterialProviders(config).value
+    smithy_client = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.client.AwsCryptographicMaterialProviders(
+      dafny_client=MaterialProviders.default__.MaterialProviders(config).value
     )
-    import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.shim
-    wrapped_client = aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders.shim.MaterialProvidersShim(c)
+    wrapped_client = shim.MaterialProvidersShim(smithy_client)
     return Wrappers.Result_Success(wrapped_client)
 
-software_amazon_cryptography_materialproviders_internaldafny_wrapped.default__ = default__
+WrappedMaterialProviders.default__ = default__

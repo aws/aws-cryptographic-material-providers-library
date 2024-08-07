@@ -1,0 +1,168 @@
+file_format_version = "1.0"
+dafny_version = "4.7.0.0"
+[options_by_module.Wrappers]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.Relations]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."Seq.MergeSort"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.Math]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.Seq]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.BoundedInts]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.AbstractUnicodeStrings]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.Unicode]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.Functions]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.UnicodeEncodingForm]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.Utf8EncodingForm]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.Utf16EncodingForm]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.UnicodeStrings]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.FileIO]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.GeneralInternals]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.MulInternalsNonlinear]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.MulInternals]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.Mul]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.ModInternalsNonlinear]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.DivInternalsNonlinear]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.ModInternals]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.DivInternals]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.DivMod]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.Power]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.Logarithm]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.StandardLibraryInterop]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."StandardLibrary.UInt"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."StandardLibrary.String"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.StandardLibrary]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.UUID]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.UTF8]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.Time]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.Streams]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.Sorting]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.SortedSets]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.HexStrings]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.GetOpt]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.FloatCompare]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.ConcurrentCall]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.Base64]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.Base64Lemmas]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.Actions]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module.DafnyLibraries]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Views.Core"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Views.Writers"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Lexers.Core"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Lexers.Strings"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Cursors"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Parsers"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Str.ParametricConversion"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Str.ParametricEscaping"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Str.CharStrConversion"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Str.CharStrEscaping"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Str"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Seq"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Utils.Vectors"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Errors"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Values"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Spec"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Grammar"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Serializer.ByteStrConversion"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Serializer"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Deserializer.Uint16StrConversion"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Deserializer.ByteStrConversion"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.Deserializer"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.ConcreteSyntax.Spec"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.ConcreteSyntax.SpecProperties"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Serializer"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.Core"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.SequenceParams"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.Sequences"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.Strings"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.Numbers"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.ObjectParams"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.Objects"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.ArrayParams"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.Arrays"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.Constants"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.Values"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer.API"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.Deserializer"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.ZeroCopy.API"]
+python-module-name = "standard_library.internaldafny.generated"
+[options_by_module."JSON.API"]
+python-module-name = "standard_library.internaldafny.generated"

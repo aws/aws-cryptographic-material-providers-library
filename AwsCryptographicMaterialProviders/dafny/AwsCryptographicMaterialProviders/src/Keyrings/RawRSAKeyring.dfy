@@ -8,6 +8,7 @@ include "../Materials.dfy"
 include "../KeyWrapping/MaterialWrapping.dfy"
 include "../KeyWrapping/EdkWrapping.dfy"
 include "../../Model/AwsCryptographyMaterialProvidersTypes.dfy"
+include "../ErrorMessages.dfy"
 
 module RawRSAKeyring {
   import opened StandardLibrary
@@ -17,7 +18,7 @@ module RawRSAKeyring {
   import opened Wrappers
   import Types = AwsCryptographyMaterialProvidersTypes
   import Crypto = AwsCryptographyPrimitivesTypes
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import Keyring
   import Materials
   import opened AlgorithmSuites
@@ -27,6 +28,7 @@ module RawRSAKeyring {
   import opened Seq
   import MaterialWrapping
   import EdkWrapping
+  import ErrorMessages
 
 
   //= aws-encryption-sdk-specification/framework/raw-rsa-keyring.md#public-key
@@ -353,10 +355,13 @@ module RawRSAKeyring {
             errors := errors + [unwrapOutput.error];
           }
         } else {
-          errors := errors + [Types.AwsCryptographicMaterialProvidersException( message :=
-                                                                                  "EncryptedDataKey "
-                                                                                  + Base10Int2String(i)
-                                                                                  + " did not match RSAKeyring. ")
+          var extractedKeyProviderId :- UTF8.Decode(input.encryptedDataKeys[i].keyProviderId).MapFailure(e => Types.AwsCryptographicMaterialProvidersException( message := e ));
+          errors := errors + [
+            Types.AwsCryptographicMaterialProvidersException(
+              message := ErrorMessages.IncorrectRawDataKeys(Base10Int2String(i),
+                                                            "RSAKeyring",
+                                                            extractedKeyProviderId
+              ))
           ];
         }
       }

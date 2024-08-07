@@ -10,15 +10,14 @@ import java.lang.Byte;
 import java.lang.IllegalArgumentException;
 import java.nio.ByteBuffer;
 import java.util.Objects;
-//BEGIN MANUAL FIX
 import software.amazon.cryptography.materialproviders.internaldafny.MaterialProvidersClient;
-//END MANUAL FIX
 import software.amazon.cryptography.materialproviders.internaldafny.__default;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error;
 import software.amazon.cryptography.materialproviders.internaldafny.types.IAwsCryptographicMaterialProvidersClient;
 import software.amazon.cryptography.materialproviders.model.AlgorithmSuiteInfo;
 import software.amazon.cryptography.materialproviders.model.CreateAwsKmsDiscoveryKeyringInput;
 import software.amazon.cryptography.materialproviders.model.CreateAwsKmsDiscoveryMultiKeyringInput;
+import software.amazon.cryptography.materialproviders.model.CreateAwsKmsEcdhKeyringInput;
 import software.amazon.cryptography.materialproviders.model.CreateAwsKmsHierarchicalKeyringInput;
 import software.amazon.cryptography.materialproviders.model.CreateAwsKmsKeyringInput;
 import software.amazon.cryptography.materialproviders.model.CreateAwsKmsMrkDiscoveryKeyringInput;
@@ -32,6 +31,7 @@ import software.amazon.cryptography.materialproviders.model.CreateDefaultClientS
 import software.amazon.cryptography.materialproviders.model.CreateDefaultCryptographicMaterialsManagerInput;
 import software.amazon.cryptography.materialproviders.model.CreateMultiKeyringInput;
 import software.amazon.cryptography.materialproviders.model.CreateRawAesKeyringInput;
+import software.amazon.cryptography.materialproviders.model.CreateRawEcdhKeyringInput;
 import software.amazon.cryptography.materialproviders.model.CreateRawRsaKeyringInput;
 import software.amazon.cryptography.materialproviders.model.CreateRequiredEncryptionContextCMMInput;
 import software.amazon.cryptography.materialproviders.model.DecryptionMaterials;
@@ -52,14 +52,9 @@ public class MaterialProviders {
     MaterialProvidersConfig input = builder.MaterialProvidersConfig();
     software.amazon.cryptography.materialproviders.internaldafny.types.MaterialProvidersConfig dafnyValue =
       ToDafny.MaterialProvidersConfig(input);
-<<<<<<< HEAD
-    Result<IAwsCryptographicMaterialProvidersClient, Error> result =
-=======
-    //BEGIN MANUAL FIX
-    Result<MaterialProvidersClient, Error> result =
-      //END MANUAL FIX
->>>>>>> main
-      __default.MaterialProviders(dafnyValue);
+    Result<MaterialProvidersClient, Error> result = __default.MaterialProviders(
+      dafnyValue
+    );
     if (result.is_Failure()) {
       throw ToNative.Error(result.dtor_error());
     }
@@ -110,6 +105,25 @@ public class MaterialProviders {
       software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring,
       Error
     > result = this._impl.CreateAwsKmsDiscoveryMultiKeyring(dafnyValue);
+    if (result.is_Failure()) {
+      throw ToNative.Error(result.dtor_error());
+    }
+    return Keyring.wrap(result.dtor_value());
+  }
+
+  /**
+   * Creates an AWS KMS ECDH Keyring, which wraps and unwraps data keys by deriving a shared data key from the established shared secret between parties through the ECDH protocol.
+   *
+   * @param input Inputs for creating an AWS KMS ECDH Keyring.
+   * @return Outputs for creating a Keyring.
+   */
+  public IKeyring CreateAwsKmsEcdhKeyring(CreateAwsKmsEcdhKeyringInput input) {
+    software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsEcdhKeyringInput dafnyValue =
+      ToDafny.CreateAwsKmsEcdhKeyringInput(input);
+    Result<
+      software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring,
+      Error
+    > result = this._impl.CreateAwsKmsEcdhKeyring(dafnyValue);
     if (result.is_Failure()) {
       throw ToNative.Error(result.dtor_error());
     }
@@ -362,6 +376,25 @@ public class MaterialProviders {
       software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring,
       Error
     > result = this._impl.CreateRawAesKeyring(dafnyValue);
+    if (result.is_Failure()) {
+      throw ToNative.Error(result.dtor_error());
+    }
+    return Keyring.wrap(result.dtor_value());
+  }
+
+  /**
+   * Creates a Raw ECDH Keyring, which wraps and unwraps data keys by deriving a shared data key from the established shared secret between parties through the ECDH protocol.
+   *
+   * @param input Inputs for creating a raw ECDH Keyring.
+   * @return Outputs for creating a Keyring.
+   */
+  public IKeyring CreateRawEcdhKeyring(CreateRawEcdhKeyringInput input) {
+    software.amazon.cryptography.materialproviders.internaldafny.types.CreateRawEcdhKeyringInput dafnyValue =
+      ToDafny.CreateRawEcdhKeyringInput(input);
+    Result<
+      software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring,
+      Error
+    > result = this._impl.CreateRawEcdhKeyring(dafnyValue);
     if (result.is_Failure()) {
       throw ToNative.Error(result.dtor_error());
     }

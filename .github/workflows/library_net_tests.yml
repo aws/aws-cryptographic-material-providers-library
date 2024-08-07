@@ -29,7 +29,7 @@ jobs:
             TestVectorsAwsCryptographicMaterialProviders,
           ]
         dotnet-version: ["6.0.x"]
-        os: [windows-latest, ubuntu-latest, macos-latest]
+        os: [windows-latest, ubuntu-latest, macos-12]
     runs-on: ${{ matrix.os }}
     defaults:
       run:
@@ -95,6 +95,8 @@ jobs:
         working-directory: ./${{ matrix.library }}
         shell: bash
         run: |
+          nuget locals all -clear
+          dotnet restore runtimes/net
           make test_net FRAMEWORK=net48
 
       - name: Test ${{ matrix.library }} .NET net6.0

@@ -3,69 +3,71 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
-import System_
-import Wrappers
-import BoundedInts
-import StandardLibrary_UInt
-import StandardLibrary_String
-import StandardLibrary
-import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_primitives_internaldafny_types
-import ExternRandom
-import Random
-import AESEncryption
-import ExternDigest
-import Digest
-import HMAC
-import WrappedHMAC
-import HKDF
-import WrappedHKDF
-import Signature
-import KdfCtr
-import RSAEncryption
-import AwsCryptographyPrimitivesOperations
-import AesKdfCtr
-import Relations
-import Seq_MergeSort
-import Math
-import Seq
-import Unicode
-import Functions
-import Utf8EncodingForm
-import Utf16EncodingForm
-import UnicodeStrings
-import FileIO
-import GeneralInternals
-import MulInternalsNonlinear
-import MulInternals
-import Mul
-import ModInternalsNonlinear
-import DivInternalsNonlinear
-import ModInternals
-import DivInternals
-import DivMod
-import Power
-import Logarithm
-import StandardLibraryInterop
-import UUID
-import Time
-import Streams
-import Sorting
-import SortedSets
-import HexStrings
-import GetOpt
-import FloatCompare
-import ConcurrentCall
-import Base64
-import Base64Lemmas
-import Actions
-import DafnyLibraries
-import software_amazon_cryptography_keystore_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
+import aws_cryptographic_materialproviders.internaldafny.generated.module_ as module_
+import _dafny as _dafny
+import System_ as System_
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import standard_library.internaldafny.generated.BoundedInts as BoundedInts
+import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
+import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
+import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
+import standard_library.internaldafny.generated.UTF8 as UTF8
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
+import aws_cryptography_primitives.internaldafny.generated.ExternRandom as ExternRandom
+import aws_cryptography_primitives.internaldafny.generated.Random as Random
+import aws_cryptography_primitives.internaldafny.generated.AESEncryption as AESEncryption
+import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
+import aws_cryptography_primitives.internaldafny.generated.Digest as Digest
+import aws_cryptography_primitives.internaldafny.generated.HMAC as HMAC
+import aws_cryptography_primitives.internaldafny.generated.WrappedHMAC as WrappedHMAC
+import aws_cryptography_primitives.internaldafny.generated.HKDF as HKDF
+import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as WrappedHKDF
+import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
+import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
+import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
+import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
+import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
+import com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes as ComAmazonawsKmsTypes
+import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
+import standard_library.internaldafny.generated.Relations as Relations
+import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
+import standard_library.internaldafny.generated.Math as Math
+import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.Unicode as Unicode
+import standard_library.internaldafny.generated.Functions as Functions
+import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
+import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16EncodingForm
+import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
+import standard_library.internaldafny.generated.FileIO as FileIO
+import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
+import standard_library.internaldafny.generated.MulInternalsNonlinear as MulInternalsNonlinear
+import standard_library.internaldafny.generated.MulInternals as MulInternals
+import standard_library.internaldafny.generated.Mul as Mul
+import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
+import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInternalsNonlinear
+import standard_library.internaldafny.generated.ModInternals as ModInternals
+import standard_library.internaldafny.generated.DivInternals as DivInternals
+import standard_library.internaldafny.generated.DivMod as DivMod
+import standard_library.internaldafny.generated.Power as Power
+import standard_library.internaldafny.generated.Logarithm as Logarithm
+import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
+import standard_library.internaldafny.generated.UUID as UUID
+import standard_library.internaldafny.generated.Time as Time
+import standard_library.internaldafny.generated.Streams as Streams
+import standard_library.internaldafny.generated.Sorting as Sorting
+import standard_library.internaldafny.generated.SortedSets as SortedSets
+import standard_library.internaldafny.generated.HexStrings as HexStrings
+import standard_library.internaldafny.generated.GetOpt as GetOpt
+import standard_library.internaldafny.generated.FloatCompare as FloatCompare
+import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
+import standard_library.internaldafny.generated.Base64 as Base64
+import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
+import standard_library.internaldafny.generated.Actions as Actions
+import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes as AwsCryptographyKeyStoreTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes as AwsCryptographyMaterialProvidersTypes
 
 # Module: AwsArnParsing
 
@@ -125,7 +127,7 @@ class default__:
         elif True:
             d_15_resourceType_ = ((d_13_info_).value)[0]
             d_16_value_ = ((d_13_info_).value)[1]
-            d_17_valueOrError1_ = Wrappers.default__.Need(software_amazon_cryptography_services_dynamodb_internaldafny_types.default__.IsValid__TableName(d_16_value_), (_dafny.Seq("Table Name invalid: ")) + (identifier))
+            d_17_valueOrError1_ = Wrappers.default__.Need(ComAmazonawsDynamodbTypes.default__.IsValid__TableName(d_16_value_), (_dafny.Seq("Table Name invalid: ")) + (identifier))
             if (d_17_valueOrError1_).IsFailure():
                 return (d_17_valueOrError1_).PropagateFailure()
             elif True:
@@ -209,14 +211,17 @@ class default__:
     @staticmethod
     def IsMultiRegionAwsKmsIdentifier(identifier):
         source0_ = identifier
-        if source0_.is_AwsKmsArnIdentifier:
-            d_40___mcc_h0_ = source0_.a
-            d_41_arn_ = d_40___mcc_h0_
-            return default__.IsMultiRegionAwsKmsArn(d_41_arn_)
-        elif True:
-            d_42___mcc_h1_ = source0_.r
-            d_43_r_ = d_42___mcc_h1_
-            return default__.IsMultiRegionAwsKmsResource(d_43_r_)
+        unmatched0 = True
+        if unmatched0:
+            if source0_.is_AwsKmsArnIdentifier:
+                d_40_arn_ = source0_.a
+                unmatched0 = False
+                return default__.IsMultiRegionAwsKmsArn(d_40_arn_)
+        if unmatched0:
+            d_41_r_ = source0_.r
+            unmatched0 = False
+            return default__.IsMultiRegionAwsKmsResource(d_41_r_)
+        raise Exception("unexpected control point")
 
     @staticmethod
     def IsMultiRegionAwsKmsResource(resource):
@@ -225,44 +230,47 @@ class default__:
     @staticmethod
     def GetRegion(identifier):
         source1_ = identifier
-        if source1_.is_AwsKmsArnIdentifier:
-            d_44___mcc_h0_ = source1_.a
-            d_45_a_ = d_44___mcc_h0_
-            return Wrappers.Option_Some((d_45_a_).region)
-        elif True:
-            d_46___mcc_h1_ = source1_.r
+        unmatched1 = True
+        if unmatched1:
+            if source1_.is_AwsKmsArnIdentifier:
+                d_42_a_ = source1_.a
+                unmatched1 = False
+                return Wrappers.Option_Some((d_42_a_).region)
+        if unmatched1:
+            unmatched1 = False
             return Wrappers.Option_None()
+        raise Exception("unexpected control point")
 
     @staticmethod
     def IsAwsKmsIdentifierString(s):
-        d_47_valueOrError0_ = Wrappers.default__.Need(UTF8.default__.IsASCIIString(s), _dafny.Seq("Not a valid ASCII string."))
-        if (d_47_valueOrError0_).IsFailure():
-            return (d_47_valueOrError0_).PropagateFailure()
+        d_43_valueOrError0_ = Wrappers.default__.Need(UTF8.default__.IsASCIIString(s), _dafny.Seq("Not a valid ASCII string."))
+        if (d_43_valueOrError0_).IsFailure():
+            return (d_43_valueOrError0_).PropagateFailure()
         elif True:
-            d_48_valueOrError1_ = Wrappers.default__.Need(((0) < (len(s))) and ((len(s)) <= (default__.MAX__AWS__KMS__IDENTIFIER__LENGTH)), _dafny.Seq("Identifier exceeds maximum length."))
-            if (d_48_valueOrError1_).IsFailure():
-                return (d_48_valueOrError1_).PropagateFailure()
+            d_44_valueOrError1_ = Wrappers.default__.Need(((0) < (len(s))) and ((len(s)) <= (default__.MAX__AWS__KMS__IDENTIFIER__LENGTH)), _dafny.Seq("Identifier exceeds maximum length."))
+            if (d_44_valueOrError1_).IsFailure():
+                return (d_44_valueOrError1_).PropagateFailure()
             elif True:
                 return default__.ParseAwsKmsIdentifier(s)
 
     @staticmethod
     def Error(s):
-        return software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(s)
+        return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(s)
 
     @staticmethod
     def ValidateDdbTableArn(tableArn):
-        d_49_valueOrError0_ = (default__.ParseAmazonDynamodbTableName(tableArn)).MapFailure(default__.Error)
-        if (d_49_valueOrError0_).IsFailure():
-            return (d_49_valueOrError0_).PropagateFailure()
+        d_45_valueOrError0_ = (default__.ParseAmazonDynamodbTableName(tableArn)).MapFailure(default__.Error)
+        if (d_45_valueOrError0_).IsFailure():
+            return (d_45_valueOrError0_).PropagateFailure()
         elif True:
-            d_50___v1_ = (d_49_valueOrError0_).Extract()
-            d_51_valueOrError1_ = Wrappers.default__.Need(UTF8.default__.IsASCIIString(tableArn), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Table Arn is not ASCII")))
-            if (d_51_valueOrError1_).IsFailure():
-                return (d_51_valueOrError1_).PropagateFailure()
+            d_46___v1_ = (d_45_valueOrError0_).Extract()
+            d_47_valueOrError1_ = Wrappers.default__.Need(UTF8.default__.IsASCIIString(tableArn), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Table Arn is not ASCII")))
+            if (d_47_valueOrError1_).IsFailure():
+                return (d_47_valueOrError1_).PropagateFailure()
             elif True:
-                d_52_valueOrError2_ = Wrappers.default__.Need(software_amazon_cryptography_services_dynamodb_internaldafny_types.default__.IsValid__TableName((default__.ParseAmazonDynamodbTableName(tableArn)).value), software_amazon_cryptography_materialproviders_internaldafny_types.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Table Name is too long")))
-                if (d_52_valueOrError2_).IsFailure():
-                    return (d_52_valueOrError2_).PropagateFailure()
+                d_48_valueOrError2_ = Wrappers.default__.Need(ComAmazonawsDynamodbTypes.default__.IsValid__TableName((default__.ParseAmazonDynamodbTableName(tableArn)).value), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Table Name is too long")))
+                if (d_48_valueOrError2_).IsFailure():
+                    return (d_48_valueOrError2_).PropagateFailure()
                 elif True:
                     return Wrappers.Result_Success(())
 
@@ -315,17 +323,21 @@ class AwsArn:
         while True:
             with _dafny.label():
                 source2_ = customRegion
-                if source2_.is_None:
-                    in0_ = _this
-                    in1_ = Wrappers.Option_Some((_this).region)
-                    _this = in0_
-                    
-                    customRegion = in1_
-                    raise _dafny.TailCall()
-                elif True:
-                    d_53___mcc_h0_ = source2_.value
-                    d_54_customRegion_ = d_53___mcc_h0_
-                    return StandardLibrary.default__.Join(_dafny.Seq([(_this).arnLiteral, (_this).partition, (_this).service, d_54_customRegion_, (_this).account, ((_this).resource).ToString()]), _dafny.Seq(":"))
+                unmatched2 = True
+                if unmatched2:
+                    if source2_.is_None:
+                        unmatched2 = False
+                        in0_ = _this
+                        in1_ = Wrappers.Option_Some((_this).region)
+                        _this = in0_
+                        
+                        customRegion = in1_
+                        raise _dafny.TailCall()
+                if unmatched2:
+                    d_49_customRegion_ = source2_.value
+                    unmatched2 = False
+                    return StandardLibrary.default__.Join(_dafny.Seq([(_this).arnLiteral, (_this).partition, (_this).service, d_49_customRegion_, (_this).account, ((_this).resource).ToString()]), _dafny.Seq(":"))
+                raise Exception("unexpected control point")
                 break
 
 
@@ -346,8 +358,8 @@ class AwsKmsArn:
     def default():
         return AwsArn.default()()
     def _Is(source__):
-        d_55_a_: AwsArn = source__
-        return default__.ValidAwsKmsArn(d_55_a_)
+        d_50_a_: AwsArn = source__
+        return default__.ValidAwsKmsArn(d_50_a_)
 
 class AwsKmsResource:
     def  __init__(self):
@@ -357,8 +369,8 @@ class AwsKmsResource:
     def default():
         return AwsResource.default()()
     def _Is(source__):
-        d_56_r_: AwsResource = source__
-        return default__.ValidAwsKmsResource(d_56_r_)
+        d_51_r_: AwsResource = source__
+        return default__.ValidAwsKmsResource(d_51_r_)
 
 class AwsKmsIdentifier:
     @classmethod
@@ -374,14 +386,17 @@ class AwsKmsIdentifier:
         return isinstance(self, AwsKmsIdentifier_AwsKmsRawResourceIdentifier)
     def ToString(self):
         source3_ = self
-        if source3_.is_AwsKmsArnIdentifier:
-            d_57___mcc_h0_ = source3_.a
-            d_58_a_ = d_57___mcc_h0_
-            return (d_58_a_).ToString()
-        elif True:
-            d_59___mcc_h1_ = source3_.r
-            d_60_r_ = d_59___mcc_h1_
-            return (d_60_r_).ToString()
+        unmatched3 = True
+        if unmatched3:
+            if source3_.is_AwsKmsArnIdentifier:
+                d_52_a_ = source3_.a
+                unmatched3 = False
+                return (d_52_a_).ToString()
+        if unmatched3:
+            d_53_r_ = source3_.r
+            unmatched3 = False
+            return (d_53_r_).ToString()
+        raise Exception("unexpected control point")
 
 
 class AwsKmsIdentifier_AwsKmsArnIdentifier(AwsKmsIdentifier, NamedTuple('AwsKmsArnIdentifier', [('a', Any)])):
@@ -409,8 +424,8 @@ class AmazonDynamodbTableArn:
     def default():
         return AwsArn.default()()
     def _Is(source__):
-        d_61_a_: AwsArn = source__
-        return default__.ValidAmazonDynamodbArn(d_61_a_)
+        d_54_a_: AwsArn = source__
+        return default__.ValidAmazonDynamodbArn(d_54_a_)
 
 class AmazonDynamodbResource:
     def  __init__(self):
@@ -420,8 +435,8 @@ class AmazonDynamodbResource:
     def default():
         return AwsResource.default()()
     def _Is(source__):
-        d_62_r_: AwsResource = source__
-        return default__.ValidAmazonDynamodbResource(d_62_r_)
+        d_55_r_: AwsResource = source__
+        return default__.ValidAmazonDynamodbResource(d_55_r_)
 
 class AmazonDynamodbTableName:
     @classmethod
@@ -434,9 +449,12 @@ class AmazonDynamodbTableName:
         return isinstance(self, AmazonDynamodbTableName_AmazonDynamodbTableArn)
     def GetTableName(self):
         source4_ = self
-        d_63___mcc_h0_ = source4_.a
-        d_64_a_ = d_63___mcc_h0_
-        return ((d_64_a_).resource).value
+        unmatched4 = True
+        if unmatched4:
+            d_56_a_ = source4_.a
+            unmatched4 = False
+            return ((d_56_a_).resource).value
+        raise Exception("unexpected control point")
 
 
 class AmazonDynamodbTableName_AmazonDynamodbTableArn(AmazonDynamodbTableName, NamedTuple('AmazonDynamodbTableArn', [('a', Any)])):
@@ -456,5 +474,5 @@ class AwsKmsIdentifierString:
     def default():
         return _dafny.Seq("")
     def _Is(source__):
-        d_65_s_: _dafny.Seq = source__
-        return (default__.IsAwsKmsIdentifierString(d_65_s_)).is_Success
+        d_57_s_: _dafny.Seq = source__
+        return (default__.IsAwsKmsIdentifierString(d_57_s_)).is_Success

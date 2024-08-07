@@ -3,186 +3,186 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_
-import _dafny
-import System_
-import Wrappers
-import BoundedInts
-import StandardLibrary_UInt
-import StandardLibrary_String
-import StandardLibrary
-import UTF8
-import software_amazon_cryptography_services_dynamodb_internaldafny_types
-import software_amazon_cryptography_services_kms_internaldafny_types
-import software_amazon_cryptography_keystore_internaldafny_types
-import software_amazon_cryptography_primitives_internaldafny_types
-import software_amazon_cryptography_materialproviders_internaldafny_types
-import Base64
-import AlgorithmSuites
-import Materials
-import Keyring
-import Relations
-import Seq_MergeSort
-import Math
-import Seq
-import MultiKeyring
-import AwsArnParsing
-import AwsKmsMrkAreUnique
-import Actions
-import AwsKmsMrkMatchForDecrypt
-import AwsKmsUtils
-import Constants
-import ExternRandom
-import Random
-import AESEncryption
-import ExternDigest
-import Digest
-import HMAC
-import WrappedHMAC
-import HKDF
-import WrappedHKDF
-import Signature
-import KdfCtr
-import RSAEncryption
-import AwsCryptographyPrimitivesOperations
-import software_amazon_cryptography_primitives_internaldafny
-import Aws_Cryptography
-import Aws
-import MaterialWrapping
-import CanonicalEncryptionContext
-import IntermediateKeyWrapping
-import EdkWrapping
-import AwsKmsKeyring
-import StrictMultiKeyring
-import AwsKmsDiscoveryKeyring
-import software_amazon_cryptography_services_kms_internaldafny
-import software_amazon_cryptography_services_dynamodb_internaldafny
-import Com_Amazonaws
-import Com
-import DiscoveryMultiKeyring
-import AwsKmsMrkDiscoveryKeyring
-import MrkAwareDiscoveryMultiKeyring
-import AwsKmsMrkKeyring
-import MrkAwareStrictMultiKeyring
-import DafnyLibraries
-import Time
-import LocalCMC
-import software_amazon_cryptography_internaldafny_SynchronizedLocalCMC
-import SortedSets
-import StormTracker
-import software_amazon_cryptography_internaldafny_StormTrackingCMC
-import UUID
-import AwsKmsHierarchicalKeyring
-import AwsKmsRsaKeyring
-import RawAESKeyring
-import RawRSAKeyring
-import CMM
-import Defaults
-import Commitment
-import DefaultCMM
-import DefaultClientSupplier
-import RequiredEncryptionContextCMM
-import AwsCryptographyMaterialProvidersOperations
-import software_amazon_cryptography_materialproviders_internaldafny
-import Structure
-import KMSKeystoreOperations
-import DDBKeystoreOperations
-import CreateKeys
-import CreateKeyStoreTable
-import GetKeys
-import AwsCryptographyKeyStoreOperations
-import software_amazon_cryptography_keystore_internaldafny
-import AesKdfCtr
-import Unicode
-import Functions
-import Utf8EncodingForm
-import Utf16EncodingForm
-import UnicodeStrings
-import FileIO
-import GeneralInternals
-import MulInternalsNonlinear
-import MulInternals
-import Mul
-import ModInternalsNonlinear
-import DivInternalsNonlinear
-import ModInternals
-import DivInternals
-import DivMod
-import Power
-import Logarithm
-import StandardLibraryInterop
-import Streams
-import Sorting
-import HexStrings
-import GetOpt
-import FloatCompare
-import ConcurrentCall
-import Base64Lemmas
-import MplManifestOptions
-import AllAlgorithmSuites
-import software_amazon_cryptography_materialproviders_internaldafny_wrapped
-import software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types
-import JSON_Utils_Views_Core
-import JSON_Utils_Views_Writers
-import JSON_Utils_Views
-import JSON_Utils_Lexers_Core
-import JSON_Utils_Lexers_Strings
-import JSON_Utils_Lexers
-import JSON_Utils_Cursors
-import JSON_Utils_Parsers
-import JSON_Utils_Str_CharStrConversion
-import JSON_Utils_Str_CharStrEscaping
-import JSON_Utils_Str
-import JSON_Utils_Seq
-import JSON_Utils_Vectors
-import JSON_Utils
-import JSON_Errors
-import JSON_Values
-import JSON_Spec
-import JSON_Grammar
-import JSON_Serializer_ByteStrConversion
-import JSON_Serializer
-import JSON_Deserializer_Uint16StrConversion
-import JSON_Deserializer_ByteStrConversion
-import JSON_Deserializer
-import JSON_ConcreteSyntax_Spec
-import JSON_ConcreteSyntax_SpecProperties
-import JSON_ConcreteSyntax
-import JSON_ZeroCopy_Serializer
-import JSON_ZeroCopy_Deserializer_Core
-import JSON_ZeroCopy_Deserializer_Strings
-import JSON_ZeroCopy_Deserializer_Numbers
-import JSON_ZeroCopy_Deserializer_ObjectParams
-import JSON_ZeroCopy_Deserializer_Objects
-import JSON_ZeroCopy_Deserializer_ArrayParams
-import JSON_ZeroCopy_Deserializer_Arrays
-import JSON_ZeroCopy_Deserializer_Constants
-import JSON_ZeroCopy_Deserializer_Values
-import JSON_ZeroCopy_Deserializer_API
-import JSON_ZeroCopy_Deserializer
-import JSON_ZeroCopy_API
-import JSON_ZeroCopy
-import JSON_API
-import JSON
-import JSONHelpers
-import KeyDescription
-import KeyMaterial
-import CreateStaticKeyrings
-import CreateStaticKeyStores
-import KeyringFromKeyDescription
-import CmmFromKeyDescription
-import KeysVectorOperations
-import software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny
-import TestVectors
-import AllHierarchy
-import AllKms
-import AllKmsMrkAware
-import AllKmsMrkAwareDiscovery
-import AllKmsRsa
-import AllRawAES
-import AllRawRSA
-import AllDefaultCmm
-import AllRequiredEncryptionContextCmm
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.module_ as module_
+import _dafny as _dafny
+import System_ as System_
+import standard_library.internaldafny.generated.Wrappers as Wrappers
+import standard_library.internaldafny.generated.BoundedInts as BoundedInts
+import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
+import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
+import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
+import standard_library.internaldafny.generated.UTF8 as UTF8
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
+import aws_cryptography_primitives.internaldafny.generated.ExternRandom as ExternRandom
+import aws_cryptography_primitives.internaldafny.generated.Random as Random
+import aws_cryptography_primitives.internaldafny.generated.AESEncryption as AESEncryption
+import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
+import aws_cryptography_primitives.internaldafny.generated.Digest as Digest
+import aws_cryptography_primitives.internaldafny.generated.HMAC as HMAC
+import aws_cryptography_primitives.internaldafny.generated.WrappedHMAC as WrappedHMAC
+import aws_cryptography_primitives.internaldafny.generated.HKDF as HKDF
+import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as WrappedHKDF
+import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
+import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
+import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
+import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
+import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
+import com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes as ComAmazonawsKmsTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreTypes as AwsCryptographyKeyStoreTypes
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersTypes as AwsCryptographyMaterialProvidersTypes
+import standard_library.internaldafny.generated.Base64 as Base64
+import aws_cryptographic_materialproviders.internaldafny.generated.AlgorithmSuites as AlgorithmSuites
+import aws_cryptographic_materialproviders.internaldafny.generated.Materials as Materials
+import aws_cryptographic_materialproviders.internaldafny.generated.Keyring as Keyring
+import standard_library.internaldafny.generated.Relations as Relations
+import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
+import standard_library.internaldafny.generated.Math as Math
+import standard_library.internaldafny.generated.Seq as Seq
+import aws_cryptographic_materialproviders.internaldafny.generated.MultiKeyring as MultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsArnParsing as AwsArnParsing
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkAreUnique as AwsKmsMrkAreUnique
+import standard_library.internaldafny.generated.Actions as Actions
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkMatchForDecrypt as AwsKmsMrkMatchForDecrypt
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsUtils as AwsKmsUtils
+import aws_cryptographic_materialproviders.internaldafny.generated.Constants as Constants
+import standard_library.internaldafny.generated.UUID as UUID
+import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapping as MaterialWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
+import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.EdkWrapping as EdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.ErrorMessages as ErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsKeyring as AwsKmsKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.StrictMultiKeyring as StrictMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsDiscoveryKeyring as AwsKmsDiscoveryKeyring
+import com_amazonaws_kms.internaldafny.generated.Com_Amazonaws_Kms as Com_Amazonaws_Kms
+import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
+import aws_cryptographic_materialproviders.internaldafny.generated.DiscoveryMultiKeyring as DiscoveryMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkDiscoveryKeyring as AwsKmsMrkDiscoveryKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.MrkAwareDiscoveryMultiKeyring as MrkAwareDiscoveryMultiKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkKeyring as AwsKmsMrkKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.MrkAwareStrictMultiKeyring as MrkAwareStrictMultiKeyring
+import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
+import standard_library.internaldafny.generated.Time as Time
+import aws_cryptographic_materialproviders.internaldafny.generated.LocalCMC as LocalCMC
+import aws_cryptographic_materialproviders.internaldafny.generated.SynchronizedLocalCMC as SynchronizedLocalCMC
+import standard_library.internaldafny.generated.SortedSets as SortedSets
+import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker as StormTracker
+import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.EcdhEdkWrapping as EcdhEdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.RawECDHKeyring as RawECDHKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsEcdhKeyring as AwsKmsEcdhKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.RawRSAKeyring as RawRSAKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.CMM as CMM
+import aws_cryptographic_materialproviders.internaldafny.generated.Defaults as Defaults
+import aws_cryptographic_materialproviders.internaldafny.generated.Commitment as Commitment
+import aws_cryptographic_materialproviders.internaldafny.generated.DefaultCMM as DefaultCMM
+import aws_cryptographic_materialproviders.internaldafny.generated.DefaultClientSupplier as DefaultClientSupplier
+import aws_cryptographic_materialproviders.internaldafny.generated.Utils as Utils
+import aws_cryptographic_materialproviders.internaldafny.generated.RequiredEncryptionContextCMM as RequiredEncryptionContextCMM
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersOperations as AwsCryptographyMaterialProvidersOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.MaterialProviders as MaterialProviders
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStoreErrorMessages as KeyStoreErrorMessages
+import aws_cryptographic_materialproviders.internaldafny.generated.KmsArn as KmsArn
+import aws_cryptographic_materialproviders.internaldafny.generated.Structure as Structure
+import aws_cryptographic_materialproviders.internaldafny.generated.KMSKeystoreOperations as KMSKeystoreOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.DDBKeystoreOperations as DDBKeystoreOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.CreateKeys as CreateKeys
+import aws_cryptographic_materialproviders.internaldafny.generated.CreateKeyStoreTable as CreateKeyStoreTable
+import aws_cryptographic_materialproviders.internaldafny.generated.GetKeys as GetKeys
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyKeyStoreOperations as AwsCryptographyKeyStoreOperations
+import aws_cryptographic_materialproviders.internaldafny.generated.KeyStore as KeyStore
+import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
+import standard_library.internaldafny.generated.Unicode as Unicode
+import standard_library.internaldafny.generated.Functions as Functions
+import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
+import standard_library.internaldafny.generated.Utf16EncodingForm as Utf16EncodingForm
+import standard_library.internaldafny.generated.UnicodeStrings as UnicodeStrings
+import standard_library.internaldafny.generated.FileIO as FileIO
+import standard_library.internaldafny.generated.GeneralInternals as GeneralInternals
+import standard_library.internaldafny.generated.MulInternalsNonlinear as MulInternalsNonlinear
+import standard_library.internaldafny.generated.MulInternals as MulInternals
+import standard_library.internaldafny.generated.Mul as Mul
+import standard_library.internaldafny.generated.ModInternalsNonlinear as ModInternalsNonlinear
+import standard_library.internaldafny.generated.DivInternalsNonlinear as DivInternalsNonlinear
+import standard_library.internaldafny.generated.ModInternals as ModInternals
+import standard_library.internaldafny.generated.DivInternals as DivInternals
+import standard_library.internaldafny.generated.DivMod as DivMod
+import standard_library.internaldafny.generated.Power as Power
+import standard_library.internaldafny.generated.Logarithm as Logarithm
+import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
+import standard_library.internaldafny.generated.Streams as Streams
+import standard_library.internaldafny.generated.Sorting as Sorting
+import standard_library.internaldafny.generated.HexStrings as HexStrings
+import standard_library.internaldafny.generated.GetOpt as GetOpt
+import standard_library.internaldafny.generated.FloatCompare as FloatCompare
+import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
+import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.MplManifestOptions as MplManifestOptions
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllAlgorithmSuites as AllAlgorithmSuites
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.WrappedMaterialProviders as WrappedMaterialProviders
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AwsCryptographyMaterialProvidersTestVectorKeysTypes as AwsCryptographyMaterialProvidersTestVectorKeysTypes
+import standard_library.internaldafny.generated.JSON_Utils_Views_Core as JSON_Utils_Views_Core
+import standard_library.internaldafny.generated.JSON_Utils_Views_Writers as JSON_Utils_Views_Writers
+import standard_library.internaldafny.generated.JSON_Utils_Lexers_Core as JSON_Utils_Lexers_Core
+import standard_library.internaldafny.generated.JSON_Utils_Lexers_Strings as JSON_Utils_Lexers_Strings
+import standard_library.internaldafny.generated.JSON_Utils_Cursors as JSON_Utils_Cursors
+import standard_library.internaldafny.generated.JSON_Utils_Parsers as JSON_Utils_Parsers
+import standard_library.internaldafny.generated.JSON_Utils_Str_CharStrConversion as JSON_Utils_Str_CharStrConversion
+import standard_library.internaldafny.generated.JSON_Utils_Str_CharStrEscaping as JSON_Utils_Str_CharStrEscaping
+import standard_library.internaldafny.generated.JSON_Utils_Str as JSON_Utils_Str
+import standard_library.internaldafny.generated.JSON_Utils_Seq as JSON_Utils_Seq
+import standard_library.internaldafny.generated.JSON_Utils_Vectors as JSON_Utils_Vectors
+import standard_library.internaldafny.generated.JSON_Errors as JSON_Errors
+import standard_library.internaldafny.generated.JSON_Values as JSON_Values
+import standard_library.internaldafny.generated.JSON_Spec as JSON_Spec
+import standard_library.internaldafny.generated.JSON_Grammar as JSON_Grammar
+import standard_library.internaldafny.generated.JSON_Serializer_ByteStrConversion as JSON_Serializer_ByteStrConversion
+import standard_library.internaldafny.generated.JSON_Serializer as JSON_Serializer
+import standard_library.internaldafny.generated.JSON_Deserializer_Uint16StrConversion as JSON_Deserializer_Uint16StrConversion
+import standard_library.internaldafny.generated.JSON_Deserializer_ByteStrConversion as JSON_Deserializer_ByteStrConversion
+import standard_library.internaldafny.generated.JSON_Deserializer as JSON_Deserializer
+import standard_library.internaldafny.generated.JSON_ConcreteSyntax_Spec as JSON_ConcreteSyntax_Spec
+import standard_library.internaldafny.generated.JSON_ConcreteSyntax_SpecProperties as JSON_ConcreteSyntax_SpecProperties
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Serializer as JSON_ZeroCopy_Serializer
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Core as JSON_ZeroCopy_Deserializer_Core
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Strings as JSON_ZeroCopy_Deserializer_Strings
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Numbers as JSON_ZeroCopy_Deserializer_Numbers
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_ObjectParams as JSON_ZeroCopy_Deserializer_ObjectParams
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Objects as JSON_ZeroCopy_Deserializer_Objects
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_ArrayParams as JSON_ZeroCopy_Deserializer_ArrayParams
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Arrays as JSON_ZeroCopy_Deserializer_Arrays
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Constants as JSON_ZeroCopy_Deserializer_Constants
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_Values as JSON_ZeroCopy_Deserializer_Values
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_API as JSON_ZeroCopy_Deserializer_API
+import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer as JSON_ZeroCopy_Deserializer
+import standard_library.internaldafny.generated.JSON_ZeroCopy_API as JSON_ZeroCopy_API
+import standard_library.internaldafny.generated.JSON_API as JSON_API
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.JSONHelpers as JSONHelpers
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.KeyDescription as KeyDescription
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.KeyMaterial as KeyMaterial
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.CreateStaticKeyrings as CreateStaticKeyrings
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.CreateStaticKeyStores as CreateStaticKeyStores
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.KeyringFromKeyDescription as KeyringFromKeyDescription
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.CmmFromKeyDescription as CmmFromKeyDescription
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.KeysVectorOperations as KeysVectorOperations
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.KeyVectors as KeyVectors
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.TestVectors as TestVectors
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllHierarchy as AllHierarchy
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKms as AllKms
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKmsMrkAware as AllKmsMrkAware
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKmsMrkAwareDiscovery as AllKmsMrkAwareDiscovery
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKmsRsa as AllKmsRsa
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllKmsEcdh as AllKmsEcdh
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllRawAES as AllRawAES
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllRawRSA as AllRawRSA
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllRawECDH as AllRawECDH
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllDefaultCmm as AllDefaultCmm
+import aws_cryptography_materialproviderstestvectorkeys.internaldafny.generated.AllRequiredEncryptionContextCmm as AllRequiredEncryptionContextCmm
 
 # Module: AllMulti
 
@@ -192,11 +192,11 @@ class default__:
 
     @staticmethod
     def getChildKeyrings(keys, key, i):
-        d_773___accumulator_ = _dafny.Seq([])
+        d_717___accumulator_ = _dafny.Seq([])
         while True:
             with _dafny.label():
                 if (i) == (len(keys)):
-                    return (d_773___accumulator_) + (_dafny.Seq([]))
+                    return (d_717___accumulator_) + (_dafny.Seq([]))
                 elif ((keys)[i]) == (key):
                     in3_ = keys
                     in4_ = key
@@ -206,7 +206,7 @@ class default__:
                     i = in5_
                     raise _dafny.TailCall()
                 elif True:
-                    d_773___accumulator_ = (d_773___accumulator_) + (_dafny.Seq([software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_AES(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawAES_RawAES((keys)[i], (_dafny.Seq("aws-raw-vectors-persistent-")) + ((keys)[i])))]))
+                    d_717___accumulator_ = (d_717___accumulator_) + (_dafny.Seq([AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_AES(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawAES_RawAES((keys)[i], (_dafny.Seq("aws-raw-vectors-persistent-")) + ((keys)[i])))]))
                     in6_ = keys
                     in7_ = key
                     in8_ = (i) + (1)
@@ -218,46 +218,48 @@ class default__:
 
     @_dafny.classproperty
     def KeyDescriptionsGeneratorAndChildren(instance):
-        def iife80_():
-            coll48_ = _dafny.Set()
-            compr_76_: _dafny.Seq
-            for compr_76_ in (AllRawAES.default__.aesPersistentKeyNames).Elements:
-                d_774_key_: _dafny.Seq = compr_76_
-                if (d_774_key_) in (AllRawAES.default__.aesPersistentKeyNames):
-                    coll48_ = coll48_.union(_dafny.Set([software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Multi(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.MultiKeyring_MultiKeyring(Wrappers.Option_Some(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_AES(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawAES_RawAES(d_774_key_, (_dafny.Seq("aws-raw-vectors-persistent-")) + (d_774_key_)))), default__.getChildKeyrings(AllRawAES.default__.aesPersistentKeyNames, d_774_key_, 0)))]))
-            return _dafny.Set(coll48_)
-        return iife80_()
+        def iife91_():
+            coll59_ = _dafny.Set()
+            compr_102_: _dafny.Seq
+            for compr_102_ in (AllRawAES.default__.aesPersistentKeyNames).Elements:
+                d_718_key_: _dafny.Seq = compr_102_
+                if (d_718_key_) in (AllRawAES.default__.aesPersistentKeyNames):
+                    coll59_ = coll59_.union(_dafny.Set([AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_Multi(AwsCryptographyMaterialProvidersTestVectorKeysTypes.MultiKeyring_MultiKeyring(Wrappers.Option_Some(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_AES(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawAES_RawAES(d_718_key_, (_dafny.Seq("aws-raw-vectors-persistent-")) + (d_718_key_)))), default__.getChildKeyrings(AllRawAES.default__.aesPersistentKeyNames, d_718_key_, 0)))]))
+            return _dafny.Set(coll59_)
+        return iife91_()
         
     @_dafny.classproperty
     def OnlyGeneratorKeyDescriptions(instance):
-        def iife81_():
-            coll49_ = _dafny.Set()
-            compr_77_: _dafny.Seq
-            for compr_77_ in (AllRawAES.default__.aesPersistentKeyNames).Elements:
-                d_775_key_: _dafny.Seq = compr_77_
-                if (d_775_key_) in (AllRawAES.default__.aesPersistentKeyNames):
-                    coll49_ = coll49_.union(_dafny.Set([software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_Multi(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.MultiKeyring_MultiKeyring(Wrappers.Option_Some(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription_AES(software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.RawAES_RawAES(d_775_key_, (_dafny.Seq("aws-raw-vectors-persistent-")) + (d_775_key_)))), _dafny.Seq([])))]))
-            return _dafny.Set(coll49_)
-        return iife81_()
+        def iife92_():
+            coll60_ = _dafny.Set()
+            compr_103_: _dafny.Seq
+            for compr_103_ in (AllRawAES.default__.aesPersistentKeyNames).Elements:
+                d_719_key_: _dafny.Seq = compr_103_
+                if (d_719_key_) in (AllRawAES.default__.aesPersistentKeyNames):
+                    coll60_ = coll60_.union(_dafny.Set([AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_Multi(AwsCryptographyMaterialProvidersTestVectorKeysTypes.MultiKeyring_MultiKeyring(Wrappers.Option_Some(AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription_AES(AwsCryptographyMaterialProvidersTestVectorKeysTypes.RawAES_RawAES(d_719_key_, (_dafny.Seq("aws-raw-vectors-persistent-")) + (d_719_key_)))), _dafny.Seq([])))]))
+            return _dafny.Set(coll60_)
+        return iife92_()
         
     @_dafny.classproperty
     def KeyDescriptions(instance):
         return (default__.OnlyGeneratorKeyDescriptions) | (default__.KeyDescriptionsGeneratorAndChildren)
     @_dafny.classproperty
     def Tests(instance):
-        def iife82_():
-            coll50_ = _dafny.Set()
-            compr_78_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription
-            for compr_78_ in (default__.KeyDescriptions).Elements:
-                d_776_keyDescription_: software_amazon_cryptography_materialproviderstestvectorkeys_internaldafny_types.KeyDescription = compr_78_
-                compr_79_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo
-                for compr_79_ in (AllAlgorithmSuites.default__.AllAlgorithmSuites).Elements:
-                    d_777_algorithmSuite_: software_amazon_cryptography_materialproviders_internaldafny_types.AlgorithmSuiteInfo = compr_79_
-                    compr_80_: software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy
-                    for compr_80_ in [AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_777_algorithmSuite_)]:
-                        d_778_commitmentPolicy_: software_amazon_cryptography_materialproviders_internaldafny_types.CommitmentPolicy = compr_80_
-                        if (((d_776_keyDescription_) in (default__.KeyDescriptions)) and ((d_777_algorithmSuite_) in (AllAlgorithmSuites.default__.AllAlgorithmSuites))) and ((d_778_commitmentPolicy_) == (AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_777_algorithmSuite_))):
-                            coll50_ = coll50_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptKeyringVector((_dafny.Seq("MultiKeyring ")) + ((((((d_776_keyDescription_).Multi).generator).value).AES).keyId), Wrappers.Option_None(), _dafny.Map({}), d_778_commitmentPolicy_, d_777_algorithmSuite_, Wrappers.Option_None(), Wrappers.Option_None(), d_776_keyDescription_, d_776_keyDescription_, Wrappers.Option_None())]))
-            return _dafny.Set(coll50_)
-        return iife82_()
+        def iife93_():
+            coll61_ = _dafny.Set()
+            compr_104_: AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription
+            for compr_104_ in (default__.KeyDescriptions).Elements:
+                d_720_keyDescription_: AwsCryptographyMaterialProvidersTestVectorKeysTypes.KeyDescription = compr_104_
+                if (d_720_keyDescription_) in (default__.KeyDescriptions):
+                    compr_105_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
+                    for compr_105_ in (AllAlgorithmSuites.default__.AllAlgorithmSuites).Elements:
+                        d_721_algorithmSuite_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo = compr_105_
+                        if (d_721_algorithmSuite_) in (AllAlgorithmSuites.default__.AllAlgorithmSuites):
+                            compr_106_: AwsCryptographyMaterialProvidersTypes.CommitmentPolicy
+                            for compr_106_ in [AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_721_algorithmSuite_)]:
+                                d_722_commitmentPolicy_: AwsCryptographyMaterialProvidersTypes.CommitmentPolicy = compr_106_
+                                if (d_722_commitmentPolicy_) == (AllAlgorithmSuites.default__.GetCompatibleCommitmentPolicy(d_721_algorithmSuite_)):
+                                    coll61_ = coll61_.union(_dafny.Set([TestVectors.EncryptTestVector_PositiveEncryptKeyringVector((_dafny.Seq("MultiKeyring ")) + ((((((d_720_keyDescription_).Multi).generator).value).AES).keyId), Wrappers.Option_None(), _dafny.Map({}), d_722_commitmentPolicy_, d_721_algorithmSuite_, Wrappers.Option_None(), Wrappers.Option_None(), d_720_keyDescription_, d_720_keyDescription_, Wrappers.Option_None())]))
+            return _dafny.Set(coll61_)
+        return iife93_()
         

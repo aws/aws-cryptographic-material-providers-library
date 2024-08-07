@@ -3,14 +3,16 @@
 
 include "../../src/Index.dfy"
 include "../TestUtils.dfy"
+include "../../src/ErrorMessages.dfy"
 
 module TestRawRSAKeying {
   import opened Wrappers
   import TestUtils
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import AwsCryptographyPrimitivesTypes
   import MaterialProviders
   import Types = AwsCryptographyMaterialProvidersTypes
+  import ErrorMessages
 
   method {:test} TestOnEncryptOnDecryptSuppliedDataKey()
   {
@@ -131,6 +133,10 @@ module TestRawRSAKeying {
     );
 
     expect decryptionMaterialsOut.IsFailure();
+    expect decryptionMaterialsOut.error.CollectionOfErrors?;
+    expect |decryptionMaterialsOut.error.list| == 1;
+    expect decryptionMaterialsOut.error.list[0].AwsCryptographicMaterialProvidersException?;
+    expect decryptionMaterialsOut.error.list[0].message == ErrorMessages.IncorrectRawDataKeys("0", "RSAKeyring", namespace);
   }
 
   method {:test} TestOnDecryptFailure()
@@ -277,7 +283,7 @@ module TestRawRSAKeying {
   method GenerateKeyPair( keyModulusLength: AwsCryptographyPrimitivesTypes.RSAModulusLengthBitsToGenerate )
     returns (keys: AwsCryptographyPrimitivesTypes.GenerateRSAKeyPairOutput)
   {
-    var crypto :- expect Primitives.AtomicPrimitives();
+    var crypto :- expect AtomicPrimitives.AtomicPrimitives();
 
     keys :- expect crypto.GenerateRSAKeyPair(
       AwsCryptographyPrimitivesTypes.GenerateRSAKeyPairInput(

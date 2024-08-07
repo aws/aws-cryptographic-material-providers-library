@@ -9,6 +9,7 @@ include "Constants.dfy"
 include "AwsKmsMrkMatchForDecrypt.dfy"
 include "../../AwsArnParsing.dfy"
 include "AwsKmsUtils.dfy"
+include "../../ErrorMessages.dfy"
 
 include "../../../Model/AwsCryptographyMaterialProvidersTypes.dfy"
 
@@ -28,8 +29,10 @@ module AwsKmsKeyring {
   import Types = AwsCryptographyMaterialProvidersTypes
   import KMS = ComAmazonawsKmsTypes
   import UTF8
+  import UUID
   import EdkWrapping
   import MaterialWrapping
+  import ErrorMessages
 
   //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#interface
   //= type=implication
@@ -504,9 +507,13 @@ module AwsKmsKeyring {
       var filter := new OnDecryptEncryptedDataKeyFilter(awsKmsKey);
       var edksToAttempt :- FilterWithResult(filter, input.encryptedDataKeys);
 
-      :- Need(0 < |edksToAttempt|,
-              Types.AwsCryptographicMaterialProvidersException(
-                message := "Unable to decrypt data key: No Encrypted Data Keys found to match."));
+      if (0 == |edksToAttempt|) {
+        var errorMessage :- ErrorMessages.IncorrectDataKeys(input.encryptedDataKeys, input.materials.algorithmSuite);
+        return Failure(
+            Types.AwsCryptographicMaterialProvidersException(
+              message := errorMessage
+            ));
+      }
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
       //# For each encrypted data key in the filtered set, one at a time, the
@@ -910,6 +917,8 @@ module AwsKmsKeyring {
 
       var maybeGenerateResponse := client.GenerateDataKey(generatorRequest);
 
+
+
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#onencrypt
       //# If the call to [AWS KMS GenerateDataKey]
       //# (https://docs.aws.amazon.com/kms/latest/APIReference/API_GenerateDataKey.html)
@@ -940,6 +949,13 @@ module AwsKmsKeyring {
         && KMS.IsValid_CiphertextType(generateResponse.CiphertextBlob.value),
         Types.AwsCryptographicMaterialProvidersException(
           message := "Invalid response from AWS KMS GeneratedDataKey: Invalid ciphertext")
+      );
+
+      :- Need(
+        && generateResponse.CiphertextForRecipient.None?,
+        Types.AwsCryptographicMaterialProvidersException(
+          message := "Invalid response from AWS KMS GeneratedDataKey: Invalid CiphertextForRecipient")
+
       );
 
       var output := MaterialWrapping.GenerateAndWrapOutput(

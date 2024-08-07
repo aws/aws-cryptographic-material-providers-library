@@ -6,6 +6,7 @@ package software.amazon.cryptography.primitives.model;
 import java.util.Objects;
 
 public class AwsCryptographicPrimitivesError extends RuntimeException {
+
   protected AwsCryptographicPrimitivesError(BuilderImpl builder) {
     super(messageFromBuilder(builder), builder.cause());
   }
@@ -67,12 +68,12 @@ public class AwsCryptographicPrimitivesError extends RuntimeException {
   }
 
   static class BuilderImpl implements Builder {
+
     protected String message;
 
     protected Throwable cause;
 
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(AwsCryptographicPrimitivesError model) {
       this.message = model.message();
@@ -98,8 +99,10 @@ public class AwsCryptographicPrimitivesError extends RuntimeException {
     }
 
     public AwsCryptographicPrimitivesError build() {
-      if (Objects.isNull(this.message()))  {
-        throw new IllegalArgumentException("Missing value for required field `message`");
+      if (Objects.isNull(this.message())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `message`"
+        );
       }
       return new AwsCryptographicPrimitivesError(this);
     }
