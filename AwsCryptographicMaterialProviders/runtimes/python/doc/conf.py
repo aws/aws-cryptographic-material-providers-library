@@ -25,10 +25,7 @@ def get_version():
         return ".".join(split_version[:2])
     return release
 
-# include_patterns = ['AwsCryptographicMaterialProviders/runtimes/python/', '']
-
-
-project = u"aws_cryptographic_materialproviders"
+project = u"aws-cryptographic-material-providers"
 version = get_version()
 release = get_release()
 
