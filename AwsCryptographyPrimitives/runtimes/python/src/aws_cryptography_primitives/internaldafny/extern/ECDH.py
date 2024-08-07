@@ -120,13 +120,7 @@ class DeriveSharedSecret:
             )
 
 class KeyGeneration:
-    ELLIPTIC_CURVE_ALGORITHM = "EC"
-    SEC_PRIME_FIELD_PREFIX = "secp"
-    SEC_P256 = "256r1"
-    SEC_P384 = "384r1"
-    SEC_P521 = "521r1"
-    SM2_KA = "SM2"
-
+    
     @staticmethod
     def GenerateKeyPair(dafny_eccAlgorithm) -> Wrappers.Result:
         maybe_ecc_algorithm = ECCAlgorithms.eccAlgorithm(dafny_eccAlgorithm)
@@ -377,10 +371,14 @@ class UnimplementedECCAlgorithm(cryptography.hazmat.primitives.asymmetric.ec.Ell
         return self.key_size
         
 class ECCAlgorithms(Enum):
+    """Enum for supported ECC algorithms."""
     secp256r1 = cryptography.hazmat.primitives.asymmetric.ec.SECP256R1()
     secp384r1 = cryptography.hazmat.primitives.asymmetric.ec.SECP384R1()
     secp521r1 = cryptography.hazmat.primitives.asymmetric.ec.SECP521R1()
-    SM2 = UnimplementedECCAlgorithm(name=KeyGeneration.SM2_KA, key_size=-1)
+
+    # SM2 is supported as a valid ECC algorithm value, but is not implemented.
+    SM2_KA_NAME = "SM2KA"
+    SM2 = UnimplementedECCAlgorithm(name=SM2_KA_NAME, key_size=-1)
 
     @staticmethod
     def eccAlgorithm(dafny_eccAlgorithm) -> Wrappers.Result:
