@@ -180,7 +180,7 @@ class SignatureAlgorithms(Enum):
 
 # Export extern class
 aws_cryptography_primitives.internaldafny.generated.Signature.ECDSA = default__.ECDSA
-# We need to rename this extern...
+# Weirdness with how we've named the extern in Dafny...
 aws_cryptography_primitives.internaldafny.generated.Signature.Signature = aws_cryptography_primitives.internaldafny.generated.Signature
 aws_cryptography_primitives.internaldafny.generated.Signature.Signature.ECDSA = default__.ECDSA
 # Remove after https://github.com/dafny-lang/dafny/issues/4853
