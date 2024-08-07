@@ -20,6 +20,7 @@ from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.err
     _smithy_error_to_dafny_error
 )
 
+# Extend src extern with test utilities
 class ECCUtils(src_ECCUtils):
 
     def GetInfinityPublicKey(dafny_eccAlgorithm):
@@ -115,6 +116,8 @@ class ECCUtils(src_ECCUtils):
             )
     
 import aws_cryptography_primitives
+# Export extended extern to the src extern.
+# This will ONLY be exported if the test is loaded,
+# which does not happen as part of regular operation.
 aws_cryptography_primitives.internaldafny.extern.ECDH.ECCUtils = ECCUtils
-aws_cryptography_primitives.internaldafny.generated.ECDH.ECDH.ECCUtils = ECCUtils
 aws_cryptography_primitives.internaldafny.generated.ECDH.ECCUtils = ECCUtils
