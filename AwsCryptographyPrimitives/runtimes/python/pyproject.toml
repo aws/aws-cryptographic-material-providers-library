@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "aws-cryptography-primitives"
+version = "0.1.0"
+description = ""
+authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
+packages = [
+    { include = "aws_cryptography_primitives", from = "src" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.11.0"
+# TODO: Depend on PyPi once Smithy-Python publishes their Python package there
+smithy-python = { path = "../../../smithy-dafny/codegen/smithy-dafny-codegen-modules/smithy-python/python-packages/smithy-python", develop = false}
+DafnyRuntimePython = "^4.7.0"
+standard-library = {path = "../../../StandardLibrary/runtimes/python", develop = false}
+cryptography = "^41.0.3"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.0"
+pyasn1 = "^0.6.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
