@@ -28,8 +28,7 @@ jobs:
             AwsCryptographicMaterialProviders,
             StandardLibrary,
           ]
-        os: [macos-latest-large]
-    runs-on: ${{ matrix.os }}
+    runs-on: codebuild-AWS-MPL-Verification-${{ github.run_id }}-${{ github.run_attempt }}
     defaults:
       run:
         shell: bash
@@ -48,7 +47,7 @@ jobs:
       - run: git submodule update --init smithy-dafny
 
       - name: Setup Dafny
-        uses: dafny-lang/setup-dafny-action@v1.7.0
+        uses: dafny-lang/setup-dafny-action@v1.8.0
         with:
           dafny-version: ${{ inputs.dafny }}
 
