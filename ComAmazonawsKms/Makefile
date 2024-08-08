@@ -14,9 +14,6 @@ AWS_SDK_CMD := --aws-sdk
 STD_LIBRARY=StandardLibrary
 SMITHY_DEPS=model
 
-format_net:
-	pushd runtimes/net && dotnet format && popd
-
 # Python
 
 PYTHON_MODULE_NAME=com_amazonaws_kms
