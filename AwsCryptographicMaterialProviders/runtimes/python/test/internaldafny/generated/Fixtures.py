@@ -58,6 +58,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapping as MaterialWrapping
@@ -81,6 +82,9 @@ import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker 
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.EcdhEdkWrapping as EcdhEdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.RawECDHKeyring as RawECDHKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsEcdhKeyring as AwsKmsEcdhKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawRSAKeyring as RawRSAKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.CMM as CMM
@@ -88,6 +92,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.Defaults as D
 import aws_cryptographic_materialproviders.internaldafny.generated.Commitment as Commitment
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultCMM as DefaultCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultClientSupplier as DefaultClientSupplier
+import aws_cryptographic_materialproviders.internaldafny.generated.Utils as Utils
 import aws_cryptographic_materialproviders.internaldafny.generated.RequiredEncryptionContextCMM as RequiredEncryptionContextCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersOperations as AwsCryptographyMaterialProvidersOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialProviders as MaterialProviders
@@ -227,6 +232,12 @@ class default__:
     def KmsMrkConfigWest(instance):
         return AwsCryptographyKeyStoreTypes.KMSConfiguration_kmsMRKeyArn(default__.MrkArnWest)
     @_dafny.classproperty
+    def KmsSrkConfigEast(instance):
+        return AwsCryptographyKeyStoreTypes.KMSConfiguration_kmsKeyArn(default__.MrkArnEast)
+    @_dafny.classproperty
+    def KmsSrkConfigWest(instance):
+        return AwsCryptographyKeyStoreTypes.KMSConfiguration_kmsKeyArn(default__.MrkArnWest)
+    @_dafny.classproperty
     def MrkArnAP(instance):
         return _dafny.Seq("arn:aws:kms:ap-south-2:658956600833:key/mrk-80bd8ecdcd4342aebd84b7dc9da498a7")
     @_dafny.classproperty
@@ -277,3 +288,9 @@ class default__:
     @_dafny.classproperty
     def postalHornBranchKeyActiveVersion(instance):
         return _dafny.Seq("6b7a8ef4-8c1c-4f63-b196-a6ef7e496e50")
+    @_dafny.classproperty
+    def lyingBranchKeyId(instance):
+        return _dafny.Seq("kms-arn-attribute-is-lying")
+    @_dafny.classproperty
+    def lyingBranchKeyDecryptOnlyVersion(instance):
+        return _dafny.Seq("129c5c87-308a-41c9-8b9d-a27f66e915f4")

@@ -9,7 +9,7 @@ module TestRawAESKeyring {
   import opened Wrappers
   import TestUtils
   import UTF8
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import AwsCryptographyPrimitivesTypes
   import MaterialProviders
   import Types = AwsCryptographyMaterialProvidersTypes

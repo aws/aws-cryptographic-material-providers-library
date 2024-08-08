@@ -1006,7 +1006,7 @@ class KeyDescriptionHierarchy:
 
 
 class KeyDescriptionMulti:
-    def __init__(self, value: MultiKeyring):
+    def __init__(self, value: "MultiKeyring"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:
@@ -1029,7 +1029,7 @@ class KeyDescriptionMulti:
 
 
 class KeyDescriptionRequiredEncryptionContext:
-    def __init__(self, value: RequiredEncryptionContextCMM):
+    def __init__(self, value: "RequiredEncryptionContextCMM"):
         self.value = value
 
     def as_dict(self) -> Dict[str, Any]:

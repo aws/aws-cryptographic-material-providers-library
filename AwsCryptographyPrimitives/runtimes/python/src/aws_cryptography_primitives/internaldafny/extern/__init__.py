@@ -3,6 +3,7 @@
 from . import (
     AESEncryption,
     AesKdfCtr,
+    ECDH,
     ExternDigest,
     ExternRandom,
     HMAC,

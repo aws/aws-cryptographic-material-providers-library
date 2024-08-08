@@ -5,9 +5,9 @@ include "../src/Index.dfy"
 include "../src/ECDH.dfy"
 
 module TestECDH {
-  import Aws.Cryptography.Primitives
+  import Primitives = AtomicPrimitives
   import opened StandardLibrary.UInt
-  import Types = Aws.Cryptography.Primitives.Types
+  import Types = AwsCryptographyPrimitivesTypes
   import UTF8
   import HexStrings
   import Base64
@@ -119,10 +119,12 @@ module TestECDH {
   const INFINITY_POINT_ERR_MSG_JAVA := "encoded key spec not recognized: Point at infinity"
   const INFINITY_POINT_ERR_MSG_NET6 := "Point at infinity (Parameter 'q')"
   const INFINITY_POINT_ERR_MSG_NET48 := "Point at infinity\r\nParameter name: q"
+  const INFINITY_POINT_ERR_MSG_PYTHON := "Unable to load EC key"
 
   const OUT_OF_BOUNDS_ERR_MSG_JAVA := "encoded key spec not recognized: x value invalid for"
   const OUT_OF_BOUNDS_ERR_MSG_NET6 := "value invalid for Fp field element (Parameter 'x')"
   const OUT_OF_BOUNDS_ERR_MSG_NE48 := "value invalid for Fp field element\r\nParameter name: x"
+  const OUT_OF_BOUNDS_ERR_MSG_PYTHON := "Could not deserialize key data. The data may be in an incorrect format"
 
   method {:test} TestKeyGen()
   {
@@ -287,7 +289,8 @@ module TestECDH {
       expect (
           errMsg == INFINITY_POINT_ERR_MSG_JAVA ||
           errMsg == INFINITY_POINT_ERR_MSG_NET6 ||
-          errMsg == INFINITY_POINT_ERR_MSG_NET48
+          errMsg == INFINITY_POINT_ERR_MSG_NET48 ||
+          seq_contains(errMsg, INFINITY_POINT_ERR_MSG_PYTHON)
         );
     }
   }
@@ -308,6 +311,37 @@ module TestECDH {
         )
       );
       expect validPublicKey.Failure?;
+      print(validPublicKey.error);
+    }
+  }
+
+  method {:test} TestValidatePublicKeyFailurePointGreaterThanPFailOnLoad()
+  {
+    var publicKeysWithPointsGreaterThanP := [
+      ECC_P256_PUBLIC_GP_FAIL_ON_LOAD, ECC_P384_PUBLIC_GP_FAIL_ON_LOAD, ECC_P521_PUBLIC_GP_FAIL_ON_LOAD
+    ];
+    var supportedCurves := [P256, P384, P521];
+    for i := 0 to |supportedCurves|
+    {
+      var looseHexPublicKey := expectLooseHexString(publicKeysWithPointsGreaterThanP[i]);
+      var publicKeyBytes := HexStrings.FromHexString(looseHexPublicKey);
+
+      var validPublicKey:= ECDH.ValidatePublicKey(
+        Types.ValidatePublicKeyInput(
+          eccCurve := supportedCurves[i],
+          publicKey := publicKeyBytes
+        )
+      );
+      expect validPublicKey.Failure?;
+
+      expect validPublicKey.error.AwsCryptographicPrimitivesError?;
+      var errMsg := validPublicKey.error.message;
+      expect (
+          seq_contains(errMsg, OUT_OF_BOUNDS_ERR_MSG_JAVA) ||
+          errMsg == OUT_OF_BOUNDS_ERR_MSG_NET6 ||
+          errMsg == OUT_OF_BOUNDS_ERR_MSG_NE48 ||
+          seq_contains(errMsg, OUT_OF_BOUNDS_ERR_MSG_PYTHON)
+        );
     }
   }
 
@@ -356,6 +390,7 @@ module TestECDH {
         )
       );
       expect validPublicKey.Failure?;
+      print(validPublicKey.error);
     }
   }
 
@@ -498,7 +533,8 @@ module TestECDH {
       expect (
           errMsg == INFINITY_POINT_ERR_MSG_JAVA ||
           errMsg == INFINITY_POINT_ERR_MSG_NET6 ||
-          errMsg == INFINITY_POINT_ERR_MSG_NET48
+          errMsg == INFINITY_POINT_ERR_MSG_NET48 ||
+          seq_contains(errMsg, INFINITY_POINT_ERR_MSG_PYTHON)
         );
     }
   }
@@ -524,7 +560,8 @@ module TestECDH {
       expect (
           seq_contains(errMsg, OUT_OF_BOUNDS_ERR_MSG_JAVA) ||
           errMsg == OUT_OF_BOUNDS_ERR_MSG_NET6 ||
-          errMsg == OUT_OF_BOUNDS_ERR_MSG_NE48
+          errMsg == OUT_OF_BOUNDS_ERR_MSG_NE48 ||
+          seq_contains(errMsg, OUT_OF_BOUNDS_ERR_MSG_PYTHON)
         );
     }
 

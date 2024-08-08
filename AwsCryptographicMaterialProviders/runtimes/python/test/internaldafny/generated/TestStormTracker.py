@@ -58,6 +58,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapping as MaterialWrapping
@@ -81,6 +82,9 @@ import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker 
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.EcdhEdkWrapping as EcdhEdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.RawECDHKeyring as RawECDHKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsEcdhKeyring as AwsKmsEcdhKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawRSAKeyring as RawRSAKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.CMM as CMM
@@ -88,6 +92,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.Defaults as D
 import aws_cryptographic_materialproviders.internaldafny.generated.Commitment as Commitment
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultCMM as DefaultCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultClientSupplier as DefaultClientSupplier
+import aws_cryptographic_materialproviders.internaldafny.generated.Utils as Utils
 import aws_cryptographic_materialproviders.internaldafny.generated.RequiredEncryptionContextCMM as RequiredEncryptionContextCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersOperations as AwsCryptographyMaterialProvidersOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialProviders as MaterialProviders
@@ -119,6 +124,7 @@ import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
 import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import Fixtures as Fixtures
 import TestCreateKeyStore as TestCreateKeyStore
+import TestLyingBranchKey as TestLyingBranchKey
 import TestDiscoveryGetKeys as TestDiscoveryGetKeys
 import TestConfig as TestConfig
 import TestGetKeys as TestGetKeys
@@ -129,11 +135,13 @@ import TestUtils as TestUtils
 import TestIntermediateKeyWrapping as TestIntermediateKeyWrapping
 import TestErrorMessages as TestErrorMessages
 import TestDefaultClientProvider as TestDefaultClientProvider
+import TestRawECDHKeyring as TestRawECDHKeyring
 import TestRawAESKeyring as TestRawAESKeyring
 import TestMultiKeyring as TestMultiKeyring
 import TestRawRSAKeying as TestRawRSAKeying
 import TestAwsKmsRsaKeyring as TestAwsKmsRsaKeyring
 import TestAwsKmsHierarchicalKeyring as TestAwsKmsHierarchicalKeyring
+import TestAwsKmsEcdhKeyring as TestAwsKmsEcdhKeyring
 import TestAwsKmsEncryptedDataKeyFilter as TestAwsKmsEncryptedDataKeyFilter
 import TestLocalCMC as TestLocalCMC
 
@@ -161,344 +169,344 @@ class default__:
 
     @staticmethod
     def StormTrackerBasics():
-        d_952_st_: StormTracker.StormTracker
+        d_1463_st_: StormTracker.StormTracker
         nw11_ = StormTracker.StormTracker()
         nw11_.ctor__(StormTracker.default__.DefaultStorm())
-        d_952_st_ = nw11_
-        d_953_abc_: _dafny.Seq
-        d_953_abc_ = UTF8.default__.EncodeAscii(_dafny.Seq("abc"))
-        d_954_cde_: _dafny.Seq
-        d_954_cde_ = UTF8.default__.EncodeAscii(_dafny.Seq("cde"))
-        d_955_res_: StormTracker.CacheState
-        d_956_valueOrError0_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out367_: Wrappers.Result
-        out367_ = (d_952_st_).GetFromCacheWithTime(default__.MakeGet(d_953_abc_), 10000)
-        d_956_valueOrError0_ = out367_
-        if not(not((d_956_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(55,15): " + _dafny.string_of(d_956_valueOrError0_))
-        d_955_res_ = (d_956_valueOrError0_).Extract()
-        if not((d_955_res_).is_EmptyFetch):
+        d_1463_st_ = nw11_
+        d_1464_abc_: _dafny.Seq
+        d_1464_abc_ = UTF8.default__.EncodeAscii(_dafny.Seq("abc"))
+        d_1465_cde_: _dafny.Seq
+        d_1465_cde_ = UTF8.default__.EncodeAscii(_dafny.Seq("cde"))
+        d_1466_res_: StormTracker.CacheState
+        d_1467_valueOrError0_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out558_: Wrappers.Result
+        out558_ = (d_1463_st_).GetFromCacheWithTime(default__.MakeGet(d_1464_abc_), 10000)
+        d_1467_valueOrError0_ = out558_
+        if not(not((d_1467_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(55,15): " + _dafny.string_of(d_1467_valueOrError0_))
+        d_1466_res_ = (d_1467_valueOrError0_).Extract()
+        if not((d_1466_res_).is_EmptyFetch):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(56,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_957_valueOrError1_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out368_: Wrappers.Result
-        out368_ = (d_952_st_).GetFromCacheWithTime(default__.MakeGet(d_953_abc_), 10000)
-        d_957_valueOrError1_ = out368_
-        if not(not((d_957_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(57,11): " + _dafny.string_of(d_957_valueOrError1_))
-        d_955_res_ = (d_957_valueOrError1_).Extract()
-        if not((d_955_res_).is_EmptyWait):
+        d_1468_valueOrError1_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out559_: Wrappers.Result
+        out559_ = (d_1463_st_).GetFromCacheWithTime(default__.MakeGet(d_1464_abc_), 10000)
+        d_1468_valueOrError1_ = out559_
+        if not(not((d_1468_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(57,11): " + _dafny.string_of(d_1468_valueOrError1_))
+        d_1466_res_ = (d_1468_valueOrError1_).Extract()
+        if not((d_1466_res_).is_EmptyWait):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(58,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_958_res2_: tuple
-        d_959_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
-        out369_: Wrappers.Result
-        out369_ = (d_952_st_).PutCacheEntry(default__.MakePut(d_953_abc_, 10000))
-        d_959_valueOrError2_ = out369_
-        if not(not((d_959_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(59,16): " + _dafny.string_of(d_959_valueOrError2_))
-        d_958_res2_ = (d_959_valueOrError2_).Extract()
-        d_960_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
-        out370_: Wrappers.Result
-        out370_ = (d_952_st_).PutCacheEntry(default__.MakePut(d_954_cde_, 10000))
-        d_960_valueOrError3_ = out370_
-        if not(not((d_960_valueOrError3_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(60,12): " + _dafny.string_of(d_960_valueOrError3_))
-        d_958_res2_ = (d_960_valueOrError3_).Extract()
-        d_961_valueOrError4_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out371_: Wrappers.Result
-        out371_ = (d_952_st_).GetFromCacheWithTime(default__.MakeGet(d_953_abc_), 10001)
-        d_961_valueOrError4_ = out371_
-        if not(not((d_961_valueOrError4_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(61,11): " + _dafny.string_of(d_961_valueOrError4_))
-        d_955_res_ = (d_961_valueOrError4_).Extract()
-        if not((d_955_res_).is_EmptyFetch):
+        d_1469_res2_: tuple
+        d_1470_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+        out560_: Wrappers.Result
+        out560_ = (d_1463_st_).PutCacheEntry(default__.MakePut(d_1464_abc_, 10000))
+        d_1470_valueOrError2_ = out560_
+        if not(not((d_1470_valueOrError2_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(59,16): " + _dafny.string_of(d_1470_valueOrError2_))
+        d_1469_res2_ = (d_1470_valueOrError2_).Extract()
+        d_1471_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+        out561_: Wrappers.Result
+        out561_ = (d_1463_st_).PutCacheEntry(default__.MakePut(d_1465_cde_, 10000))
+        d_1471_valueOrError3_ = out561_
+        if not(not((d_1471_valueOrError3_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(60,12): " + _dafny.string_of(d_1471_valueOrError3_))
+        d_1469_res2_ = (d_1471_valueOrError3_).Extract()
+        d_1472_valueOrError4_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out562_: Wrappers.Result
+        out562_ = (d_1463_st_).GetFromCacheWithTime(default__.MakeGet(d_1464_abc_), 10001)
+        d_1472_valueOrError4_ = out562_
+        if not(not((d_1472_valueOrError4_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(61,11): " + _dafny.string_of(d_1472_valueOrError4_))
+        d_1466_res_ = (d_1472_valueOrError4_).Extract()
+        if not((d_1466_res_).is_EmptyFetch):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(62,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_962_valueOrError5_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out372_: Wrappers.Result
-        out372_ = (d_952_st_).GetFromCacheWithTime(default__.MakeGet(d_953_abc_), 10001)
-        d_962_valueOrError5_ = out372_
-        if not(not((d_962_valueOrError5_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(63,11): " + _dafny.string_of(d_962_valueOrError5_))
-        d_955_res_ = (d_962_valueOrError5_).Extract()
-        if not((d_955_res_).is_EmptyWait):
+        d_1473_valueOrError5_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out563_: Wrappers.Result
+        out563_ = (d_1463_st_).GetFromCacheWithTime(default__.MakeGet(d_1464_abc_), 10001)
+        d_1473_valueOrError5_ = out563_
+        if not(not((d_1473_valueOrError5_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(63,11): " + _dafny.string_of(d_1473_valueOrError5_))
+        d_1466_res_ = (d_1473_valueOrError5_).Extract()
+        if not((d_1466_res_).is_EmptyWait):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(64,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_963_res3_: Wrappers.Result
-        out373_: Wrappers.Result
-        out373_ = (d_952_st_).GetCacheEntry(default__.MakeGet(d_953_abc_))
-        d_963_res3_ = out373_
-        out374_: Wrappers.Result
-        out374_ = (d_952_st_).GetCacheEntry(default__.MakeGet(d_953_abc_))
-        d_963_res3_ = out374_
-        d_964_res4_: Wrappers.Result
-        out375_: Wrappers.Result
-        out375_ = (d_952_st_).GetFromCache(default__.MakeGet(d_953_abc_))
-        d_964_res4_ = out375_
-        out376_: Wrappers.Result
-        out376_ = (d_952_st_).GetFromCache(default__.MakeGet(d_953_abc_))
-        d_964_res4_ = out376_
-        d_965_res5_: Wrappers.Result
-        out377_: Wrappers.Result
-        out377_ = (d_952_st_).DeleteCacheEntry(default__.MakeDel(d_953_abc_))
-        d_965_res5_ = out377_
-        out378_: Wrappers.Result
-        out378_ = (d_952_st_).DeleteCacheEntry(default__.MakeDel(d_953_abc_))
-        d_965_res5_ = out378_
+        d_1474_res3_: Wrappers.Result
+        out564_: Wrappers.Result
+        out564_ = (d_1463_st_).GetCacheEntry(default__.MakeGet(d_1464_abc_))
+        d_1474_res3_ = out564_
+        out565_: Wrappers.Result
+        out565_ = (d_1463_st_).GetCacheEntry(default__.MakeGet(d_1464_abc_))
+        d_1474_res3_ = out565_
+        d_1475_res4_: Wrappers.Result
+        out566_: Wrappers.Result
+        out566_ = (d_1463_st_).GetFromCache(default__.MakeGet(d_1464_abc_))
+        d_1475_res4_ = out566_
+        out567_: Wrappers.Result
+        out567_ = (d_1463_st_).GetFromCache(default__.MakeGet(d_1464_abc_))
+        d_1475_res4_ = out567_
+        d_1476_res5_: Wrappers.Result
+        out568_: Wrappers.Result
+        out568_ = (d_1463_st_).DeleteCacheEntry(default__.MakeDel(d_1464_abc_))
+        d_1476_res5_ = out568_
+        out569_: Wrappers.Result
+        out569_ = (d_1463_st_).DeleteCacheEntry(default__.MakeDel(d_1464_abc_))
+        d_1476_res5_ = out569_
 
     @staticmethod
     def StormTrackerFanOut():
-        d_966_st_: StormTracker.StormTracker
+        d_1477_st_: StormTracker.StormTracker
         nw12_ = StormTracker.StormTracker()
-        def iife40_(_pat_let18_0):
-            def iife41_(d_967_dt__update__tmp_h0_):
-                def iife42_(_pat_let19_0):
-                    def iife43_(d_968_dt__update_hfanOut_h0_):
-                        return AwsCryptographyMaterialProvidersTypes.StormTrackingCache_StormTrackingCache((d_967_dt__update__tmp_h0_).entryCapacity, (d_967_dt__update__tmp_h0_).entryPruningTailSize, (d_967_dt__update__tmp_h0_).gracePeriod, (d_967_dt__update__tmp_h0_).graceInterval, d_968_dt__update_hfanOut_h0_, (d_967_dt__update__tmp_h0_).inFlightTTL, (d_967_dt__update__tmp_h0_).sleepMilli)
-                    return iife43_(_pat_let19_0)
-                return iife42_(3)
-            return iife41_(_pat_let18_0)
-        nw12_.ctor__(iife40_(StormTracker.default__.DefaultStorm()))
-        d_966_st_ = nw12_
-        d_969_one_: _dafny.Seq
-        d_969_one_ = UTF8.default__.EncodeAscii(_dafny.Seq("one"))
-        d_970_two_: _dafny.Seq
-        d_970_two_ = UTF8.default__.EncodeAscii(_dafny.Seq("two"))
-        d_971_three_: _dafny.Seq
-        d_971_three_ = UTF8.default__.EncodeAscii(_dafny.Seq("three"))
-        d_972_four_: _dafny.Seq
-        d_972_four_ = UTF8.default__.EncodeAscii(_dafny.Seq("four"))
-        d_973_res_: StormTracker.CacheState
-        d_974_valueOrError0_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out379_: Wrappers.Result
-        out379_ = (d_966_st_).GetFromCacheWithTime(default__.MakeGet(d_969_one_), 10000)
-        d_974_valueOrError0_ = out379_
-        if not(not((d_974_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(84,15): " + _dafny.string_of(d_974_valueOrError0_))
-        d_973_res_ = (d_974_valueOrError0_).Extract()
-        if not((d_973_res_).is_EmptyFetch):
+        def iife52_(_pat_let24_0):
+            def iife53_(d_1478_dt__update__tmp_h0_):
+                def iife54_(_pat_let25_0):
+                    def iife55_(d_1479_dt__update_hfanOut_h0_):
+                        return AwsCryptographyMaterialProvidersTypes.StormTrackingCache_StormTrackingCache((d_1478_dt__update__tmp_h0_).entryCapacity, (d_1478_dt__update__tmp_h0_).entryPruningTailSize, (d_1478_dt__update__tmp_h0_).gracePeriod, (d_1478_dt__update__tmp_h0_).graceInterval, d_1479_dt__update_hfanOut_h0_, (d_1478_dt__update__tmp_h0_).inFlightTTL, (d_1478_dt__update__tmp_h0_).sleepMilli)
+                    return iife55_(_pat_let25_0)
+                return iife54_(3)
+            return iife53_(_pat_let24_0)
+        nw12_.ctor__(iife52_(StormTracker.default__.DefaultStorm()))
+        d_1477_st_ = nw12_
+        d_1480_one_: _dafny.Seq
+        d_1480_one_ = UTF8.default__.EncodeAscii(_dafny.Seq("one"))
+        d_1481_two_: _dafny.Seq
+        d_1481_two_ = UTF8.default__.EncodeAscii(_dafny.Seq("two"))
+        d_1482_three_: _dafny.Seq
+        d_1482_three_ = UTF8.default__.EncodeAscii(_dafny.Seq("three"))
+        d_1483_four_: _dafny.Seq
+        d_1483_four_ = UTF8.default__.EncodeAscii(_dafny.Seq("four"))
+        d_1484_res_: StormTracker.CacheState
+        d_1485_valueOrError0_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out570_: Wrappers.Result
+        out570_ = (d_1477_st_).GetFromCacheWithTime(default__.MakeGet(d_1480_one_), 10000)
+        d_1485_valueOrError0_ = out570_
+        if not(not((d_1485_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(84,15): " + _dafny.string_of(d_1485_valueOrError0_))
+        d_1484_res_ = (d_1485_valueOrError0_).Extract()
+        if not((d_1484_res_).is_EmptyFetch):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(85,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_975_valueOrError1_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out380_: Wrappers.Result
-        out380_ = (d_966_st_).GetFromCacheWithTime(default__.MakeGet(d_970_two_), 10000)
-        d_975_valueOrError1_ = out380_
-        if not(not((d_975_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(86,11): " + _dafny.string_of(d_975_valueOrError1_))
-        d_973_res_ = (d_975_valueOrError1_).Extract()
-        if not((d_973_res_).is_EmptyFetch):
+        d_1486_valueOrError1_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out571_: Wrappers.Result
+        out571_ = (d_1477_st_).GetFromCacheWithTime(default__.MakeGet(d_1481_two_), 10000)
+        d_1486_valueOrError1_ = out571_
+        if not(not((d_1486_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(86,11): " + _dafny.string_of(d_1486_valueOrError1_))
+        d_1484_res_ = (d_1486_valueOrError1_).Extract()
+        if not((d_1484_res_).is_EmptyFetch):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(87,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_976_valueOrError2_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out381_: Wrappers.Result
-        out381_ = (d_966_st_).GetFromCacheWithTime(default__.MakeGet(d_971_three_), 10000)
-        d_976_valueOrError2_ = out381_
-        if not(not((d_976_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(88,11): " + _dafny.string_of(d_976_valueOrError2_))
-        d_973_res_ = (d_976_valueOrError2_).Extract()
-        if not((d_973_res_).is_EmptyFetch):
+        d_1487_valueOrError2_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out572_: Wrappers.Result
+        out572_ = (d_1477_st_).GetFromCacheWithTime(default__.MakeGet(d_1482_three_), 10000)
+        d_1487_valueOrError2_ = out572_
+        if not(not((d_1487_valueOrError2_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(88,11): " + _dafny.string_of(d_1487_valueOrError2_))
+        d_1484_res_ = (d_1487_valueOrError2_).Extract()
+        if not((d_1484_res_).is_EmptyFetch):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(89,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_977_valueOrError3_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out382_: Wrappers.Result
-        out382_ = (d_966_st_).GetFromCacheWithTime(default__.MakeGet(d_972_four_), 10000)
-        d_977_valueOrError3_ = out382_
-        if not(not((d_977_valueOrError3_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(90,11): " + _dafny.string_of(d_977_valueOrError3_))
-        d_973_res_ = (d_977_valueOrError3_).Extract()
-        if not((d_973_res_).is_EmptyWait):
+        d_1488_valueOrError3_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out573_: Wrappers.Result
+        out573_ = (d_1477_st_).GetFromCacheWithTime(default__.MakeGet(d_1483_four_), 10000)
+        d_1488_valueOrError3_ = out573_
+        if not(not((d_1488_valueOrError3_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(90,11): " + _dafny.string_of(d_1488_valueOrError3_))
+        d_1484_res_ = (d_1488_valueOrError3_).Extract()
+        if not((d_1484_res_).is_EmptyWait):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(91,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def StormTrackerTTL():
-        d_978_st_: StormTracker.StormTracker
+        d_1489_st_: StormTracker.StormTracker
         nw13_ = StormTracker.StormTracker()
-        def iife44_(_pat_let20_0):
-            def iife45_(d_979_dt__update__tmp_h0_):
-                def iife46_(_pat_let21_0):
-                    def iife47_(d_980_dt__update_hinFlightTTL_h0_):
-                        def iife48_(_pat_let22_0):
-                            def iife49_(d_981_dt__update_hfanOut_h0_):
-                                return AwsCryptographyMaterialProvidersTypes.StormTrackingCache_StormTrackingCache((d_979_dt__update__tmp_h0_).entryCapacity, (d_979_dt__update__tmp_h0_).entryPruningTailSize, (d_979_dt__update__tmp_h0_).gracePeriod, (d_979_dt__update__tmp_h0_).graceInterval, d_981_dt__update_hfanOut_h0_, d_980_dt__update_hinFlightTTL_h0_, (d_979_dt__update__tmp_h0_).sleepMilli)
-                            return iife49_(_pat_let22_0)
-                        return iife48_(3)
-                    return iife47_(_pat_let21_0)
-                return iife46_(5)
-            return iife45_(_pat_let20_0)
-        nw13_.ctor__(iife44_(StormTracker.default__.DefaultStorm()))
-        d_978_st_ = nw13_
-        d_982_one_: _dafny.Seq
-        d_982_one_ = UTF8.default__.EncodeAscii(_dafny.Seq("one"))
-        d_983_two_: _dafny.Seq
-        d_983_two_ = UTF8.default__.EncodeAscii(_dafny.Seq("two"))
-        d_984_three_: _dafny.Seq
-        d_984_three_ = UTF8.default__.EncodeAscii(_dafny.Seq("three"))
-        d_985_four_: _dafny.Seq
-        d_985_four_ = UTF8.default__.EncodeAscii(_dafny.Seq("four"))
-        d_986_res_: StormTracker.CacheState
-        d_987_valueOrError0_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out383_: Wrappers.Result
-        out383_ = (d_978_st_).GetFromCacheWithTime(default__.MakeGet(d_982_one_), 10000)
-        d_987_valueOrError0_ = out383_
-        if not(not((d_987_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(103,15): " + _dafny.string_of(d_987_valueOrError0_))
-        d_986_res_ = (d_987_valueOrError0_).Extract()
-        if not((d_986_res_).is_EmptyFetch):
+        def iife56_(_pat_let26_0):
+            def iife57_(d_1490_dt__update__tmp_h0_):
+                def iife58_(_pat_let27_0):
+                    def iife59_(d_1491_dt__update_hinFlightTTL_h0_):
+                        def iife60_(_pat_let28_0):
+                            def iife61_(d_1492_dt__update_hfanOut_h0_):
+                                return AwsCryptographyMaterialProvidersTypes.StormTrackingCache_StormTrackingCache((d_1490_dt__update__tmp_h0_).entryCapacity, (d_1490_dt__update__tmp_h0_).entryPruningTailSize, (d_1490_dt__update__tmp_h0_).gracePeriod, (d_1490_dt__update__tmp_h0_).graceInterval, d_1492_dt__update_hfanOut_h0_, d_1491_dt__update_hinFlightTTL_h0_, (d_1490_dt__update__tmp_h0_).sleepMilli)
+                            return iife61_(_pat_let28_0)
+                        return iife60_(3)
+                    return iife59_(_pat_let27_0)
+                return iife58_(5)
+            return iife57_(_pat_let26_0)
+        nw13_.ctor__(iife56_(StormTracker.default__.DefaultStorm()))
+        d_1489_st_ = nw13_
+        d_1493_one_: _dafny.Seq
+        d_1493_one_ = UTF8.default__.EncodeAscii(_dafny.Seq("one"))
+        d_1494_two_: _dafny.Seq
+        d_1494_two_ = UTF8.default__.EncodeAscii(_dafny.Seq("two"))
+        d_1495_three_: _dafny.Seq
+        d_1495_three_ = UTF8.default__.EncodeAscii(_dafny.Seq("three"))
+        d_1496_four_: _dafny.Seq
+        d_1496_four_ = UTF8.default__.EncodeAscii(_dafny.Seq("four"))
+        d_1497_res_: StormTracker.CacheState
+        d_1498_valueOrError0_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out574_: Wrappers.Result
+        out574_ = (d_1489_st_).GetFromCacheWithTime(default__.MakeGet(d_1493_one_), 10000)
+        d_1498_valueOrError0_ = out574_
+        if not(not((d_1498_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(103,15): " + _dafny.string_of(d_1498_valueOrError0_))
+        d_1497_res_ = (d_1498_valueOrError0_).Extract()
+        if not((d_1497_res_).is_EmptyFetch):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(104,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_988_valueOrError1_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out384_: Wrappers.Result
-        out384_ = (d_978_st_).GetFromCacheWithTime(default__.MakeGet(d_983_two_), 10000)
-        d_988_valueOrError1_ = out384_
-        if not(not((d_988_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(105,11): " + _dafny.string_of(d_988_valueOrError1_))
-        d_986_res_ = (d_988_valueOrError1_).Extract()
-        if not((d_986_res_).is_EmptyFetch):
+        d_1499_valueOrError1_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out575_: Wrappers.Result
+        out575_ = (d_1489_st_).GetFromCacheWithTime(default__.MakeGet(d_1494_two_), 10000)
+        d_1499_valueOrError1_ = out575_
+        if not(not((d_1499_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(105,11): " + _dafny.string_of(d_1499_valueOrError1_))
+        d_1497_res_ = (d_1499_valueOrError1_).Extract()
+        if not((d_1497_res_).is_EmptyFetch):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(106,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_989_valueOrError2_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out385_: Wrappers.Result
-        out385_ = (d_978_st_).GetFromCacheWithTime(default__.MakeGet(d_984_three_), 10000)
-        d_989_valueOrError2_ = out385_
-        if not(not((d_989_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(107,11): " + _dafny.string_of(d_989_valueOrError2_))
-        d_986_res_ = (d_989_valueOrError2_).Extract()
-        if not((d_986_res_).is_EmptyFetch):
+        d_1500_valueOrError2_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out576_: Wrappers.Result
+        out576_ = (d_1489_st_).GetFromCacheWithTime(default__.MakeGet(d_1495_three_), 10000)
+        d_1500_valueOrError2_ = out576_
+        if not(not((d_1500_valueOrError2_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(107,11): " + _dafny.string_of(d_1500_valueOrError2_))
+        d_1497_res_ = (d_1500_valueOrError2_).Extract()
+        if not((d_1497_res_).is_EmptyFetch):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(108,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_990_valueOrError3_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out386_: Wrappers.Result
-        out386_ = (d_978_st_).GetFromCacheWithTime(default__.MakeGet(d_985_four_), 10000)
-        d_990_valueOrError3_ = out386_
-        if not(not((d_990_valueOrError3_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(109,11): " + _dafny.string_of(d_990_valueOrError3_))
-        d_986_res_ = (d_990_valueOrError3_).Extract()
-        if not((d_986_res_).is_EmptyWait):
+        d_1501_valueOrError3_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out577_: Wrappers.Result
+        out577_ = (d_1489_st_).GetFromCacheWithTime(default__.MakeGet(d_1496_four_), 10000)
+        d_1501_valueOrError3_ = out577_
+        if not(not((d_1501_valueOrError3_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(109,11): " + _dafny.string_of(d_1501_valueOrError3_))
+        d_1497_res_ = (d_1501_valueOrError3_).Extract()
+        if not((d_1497_res_).is_EmptyWait):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(110,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_991_valueOrError4_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out387_: Wrappers.Result
-        out387_ = (d_978_st_).GetFromCacheWithTime(default__.MakeGet(d_985_four_), 10001)
-        d_991_valueOrError4_ = out387_
-        if not(not((d_991_valueOrError4_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(111,11): " + _dafny.string_of(d_991_valueOrError4_))
-        d_986_res_ = (d_991_valueOrError4_).Extract()
-        if not((d_986_res_).is_EmptyWait):
+        d_1502_valueOrError4_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out578_: Wrappers.Result
+        out578_ = (d_1489_st_).GetFromCacheWithTime(default__.MakeGet(d_1496_four_), 10001)
+        d_1502_valueOrError4_ = out578_
+        if not(not((d_1502_valueOrError4_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(111,11): " + _dafny.string_of(d_1502_valueOrError4_))
+        d_1497_res_ = (d_1502_valueOrError4_).Extract()
+        if not((d_1497_res_).is_EmptyWait):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(112,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_992_valueOrError5_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out388_: Wrappers.Result
-        out388_ = (d_978_st_).GetFromCacheWithTime(default__.MakeGet(d_985_four_), 10003)
-        d_992_valueOrError5_ = out388_
-        if not(not((d_992_valueOrError5_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(113,11): " + _dafny.string_of(d_992_valueOrError5_))
-        d_986_res_ = (d_992_valueOrError5_).Extract()
-        if not((d_986_res_).is_EmptyWait):
+        d_1503_valueOrError5_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out579_: Wrappers.Result
+        out579_ = (d_1489_st_).GetFromCacheWithTime(default__.MakeGet(d_1496_four_), 10003)
+        d_1503_valueOrError5_ = out579_
+        if not(not((d_1503_valueOrError5_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(113,11): " + _dafny.string_of(d_1503_valueOrError5_))
+        d_1497_res_ = (d_1503_valueOrError5_).Extract()
+        if not((d_1497_res_).is_EmptyWait):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(114,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_993_valueOrError6_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out389_: Wrappers.Result
-        out389_ = (d_978_st_).GetFromCacheWithTime(default__.MakeGet(d_985_four_), 10005)
-        d_993_valueOrError6_ = out389_
-        if not(not((d_993_valueOrError6_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(115,11): " + _dafny.string_of(d_993_valueOrError6_))
-        d_986_res_ = (d_993_valueOrError6_).Extract()
-        if not((d_986_res_).is_EmptyFetch):
+        d_1504_valueOrError6_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out580_: Wrappers.Result
+        out580_ = (d_1489_st_).GetFromCacheWithTime(default__.MakeGet(d_1496_four_), 10005)
+        d_1504_valueOrError6_ = out580_
+        if not(not((d_1504_valueOrError6_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(115,11): " + _dafny.string_of(d_1504_valueOrError6_))
+        d_1497_res_ = (d_1504_valueOrError6_).Extract()
+        if not((d_1497_res_).is_EmptyFetch):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(116,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def StormTrackerGraceInterval():
-        d_994_st_: StormTracker.StormTracker
+        d_1505_st_: StormTracker.StormTracker
         nw14_ = StormTracker.StormTracker()
-        def iife50_(_pat_let23_0):
-            def iife51_(d_995_dt__update__tmp_h0_):
-                def iife52_(_pat_let24_0):
-                    def iife53_(d_996_dt__update_hgraceInterval_h0_):
-                        return AwsCryptographyMaterialProvidersTypes.StormTrackingCache_StormTrackingCache((d_995_dt__update__tmp_h0_).entryCapacity, (d_995_dt__update__tmp_h0_).entryPruningTailSize, (d_995_dt__update__tmp_h0_).gracePeriod, d_996_dt__update_hgraceInterval_h0_, (d_995_dt__update__tmp_h0_).fanOut, (d_995_dt__update__tmp_h0_).inFlightTTL, (d_995_dt__update__tmp_h0_).sleepMilli)
-                    return iife53_(_pat_let24_0)
-                return iife52_(3)
-            return iife51_(_pat_let23_0)
-        nw14_.ctor__(iife50_(StormTracker.default__.DefaultStorm()))
-        d_994_st_ = nw14_
-        d_997_one_: _dafny.Seq
-        d_997_one_ = UTF8.default__.EncodeAscii(_dafny.Seq("one"))
-        d_998_res_: StormTracker.CacheState
-        d_999_valueOrError0_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out390_: Wrappers.Result
-        out390_ = (d_994_st_).GetFromCacheWithTime(default__.MakeGet(d_997_one_), 10000)
-        d_999_valueOrError0_ = out390_
-        if not(not((d_999_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(125,15): " + _dafny.string_of(d_999_valueOrError0_))
-        d_998_res_ = (d_999_valueOrError0_).Extract()
-        if not((d_998_res_).is_EmptyFetch):
+        def iife62_(_pat_let29_0):
+            def iife63_(d_1506_dt__update__tmp_h0_):
+                def iife64_(_pat_let30_0):
+                    def iife65_(d_1507_dt__update_hgraceInterval_h0_):
+                        return AwsCryptographyMaterialProvidersTypes.StormTrackingCache_StormTrackingCache((d_1506_dt__update__tmp_h0_).entryCapacity, (d_1506_dt__update__tmp_h0_).entryPruningTailSize, (d_1506_dt__update__tmp_h0_).gracePeriod, d_1507_dt__update_hgraceInterval_h0_, (d_1506_dt__update__tmp_h0_).fanOut, (d_1506_dt__update__tmp_h0_).inFlightTTL, (d_1506_dt__update__tmp_h0_).sleepMilli)
+                    return iife65_(_pat_let30_0)
+                return iife64_(3)
+            return iife63_(_pat_let29_0)
+        nw14_.ctor__(iife62_(StormTracker.default__.DefaultStorm()))
+        d_1505_st_ = nw14_
+        d_1508_one_: _dafny.Seq
+        d_1508_one_ = UTF8.default__.EncodeAscii(_dafny.Seq("one"))
+        d_1509_res_: StormTracker.CacheState
+        d_1510_valueOrError0_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out581_: Wrappers.Result
+        out581_ = (d_1505_st_).GetFromCacheWithTime(default__.MakeGet(d_1508_one_), 10000)
+        d_1510_valueOrError0_ = out581_
+        if not(not((d_1510_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(125,15): " + _dafny.string_of(d_1510_valueOrError0_))
+        d_1509_res_ = (d_1510_valueOrError0_).Extract()
+        if not((d_1509_res_).is_EmptyFetch):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(126,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_1000_valueOrError1_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out391_: Wrappers.Result
-        out391_ = (d_994_st_).GetFromCacheWithTime(default__.MakeGet(d_997_one_), 10000)
-        d_1000_valueOrError1_ = out391_
-        if not(not((d_1000_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(127,11): " + _dafny.string_of(d_1000_valueOrError1_))
-        d_998_res_ = (d_1000_valueOrError1_).Extract()
-        if not((d_998_res_).is_EmptyWait):
+        d_1511_valueOrError1_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out582_: Wrappers.Result
+        out582_ = (d_1505_st_).GetFromCacheWithTime(default__.MakeGet(d_1508_one_), 10000)
+        d_1511_valueOrError1_ = out582_
+        if not(not((d_1511_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(127,11): " + _dafny.string_of(d_1511_valueOrError1_))
+        d_1509_res_ = (d_1511_valueOrError1_).Extract()
+        if not((d_1509_res_).is_EmptyWait):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(128,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_1001_valueOrError2_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out392_: Wrappers.Result
-        out392_ = (d_994_st_).GetFromCacheWithTime(default__.MakeGet(d_997_one_), 10001)
-        d_1001_valueOrError2_ = out392_
-        if not(not((d_1001_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(129,11): " + _dafny.string_of(d_1001_valueOrError2_))
-        d_998_res_ = (d_1001_valueOrError2_).Extract()
-        if not((d_998_res_).is_EmptyWait):
+        d_1512_valueOrError2_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out583_: Wrappers.Result
+        out583_ = (d_1505_st_).GetFromCacheWithTime(default__.MakeGet(d_1508_one_), 10001)
+        d_1512_valueOrError2_ = out583_
+        if not(not((d_1512_valueOrError2_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(129,11): " + _dafny.string_of(d_1512_valueOrError2_))
+        d_1509_res_ = (d_1512_valueOrError2_).Extract()
+        if not((d_1509_res_).is_EmptyWait):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(130,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_1002_valueOrError3_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out393_: Wrappers.Result
-        out393_ = (d_994_st_).GetFromCacheWithTime(default__.MakeGet(d_997_one_), 10002)
-        d_1002_valueOrError3_ = out393_
-        if not(not((d_1002_valueOrError3_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(131,11): " + _dafny.string_of(d_1002_valueOrError3_))
-        d_998_res_ = (d_1002_valueOrError3_).Extract()
-        if not((d_998_res_).is_EmptyWait):
+        d_1513_valueOrError3_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out584_: Wrappers.Result
+        out584_ = (d_1505_st_).GetFromCacheWithTime(default__.MakeGet(d_1508_one_), 10002)
+        d_1513_valueOrError3_ = out584_
+        if not(not((d_1513_valueOrError3_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(131,11): " + _dafny.string_of(d_1513_valueOrError3_))
+        d_1509_res_ = (d_1513_valueOrError3_).Extract()
+        if not((d_1509_res_).is_EmptyWait):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(132,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_1003_valueOrError4_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out394_: Wrappers.Result
-        out394_ = (d_994_st_).GetFromCacheWithTime(default__.MakeGet(d_997_one_), 10003)
-        d_1003_valueOrError4_ = out394_
-        if not(not((d_1003_valueOrError4_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(133,11): " + _dafny.string_of(d_1003_valueOrError4_))
-        d_998_res_ = (d_1003_valueOrError4_).Extract()
-        if not((d_998_res_).is_EmptyFetch):
+        d_1514_valueOrError4_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out585_: Wrappers.Result
+        out585_ = (d_1505_st_).GetFromCacheWithTime(default__.MakeGet(d_1508_one_), 10003)
+        d_1514_valueOrError4_ = out585_
+        if not(not((d_1514_valueOrError4_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(133,11): " + _dafny.string_of(d_1514_valueOrError4_))
+        d_1509_res_ = (d_1514_valueOrError4_).Extract()
+        if not((d_1509_res_).is_EmptyFetch):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(134,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def StormTrackerGracePeriod():
-        d_1004_st_: StormTracker.StormTracker
+        d_1515_st_: StormTracker.StormTracker
         nw15_ = StormTracker.StormTracker()
         nw15_.ctor__(StormTracker.default__.DefaultStorm())
-        d_1004_st_ = nw15_
-        d_1005_one_: _dafny.Seq
-        d_1005_one_ = UTF8.default__.EncodeAscii(_dafny.Seq("one"))
-        d_1006_res2_: tuple
-        d_1007_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
-        out395_: Wrappers.Result
-        out395_ = (d_1004_st_).PutCacheEntry(default__.MakePut(d_1005_one_, 10010))
-        d_1007_valueOrError0_ = out395_
-        if not(not((d_1007_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(143,16): " + _dafny.string_of(d_1007_valueOrError0_))
-        d_1006_res2_ = (d_1007_valueOrError0_).Extract()
-        d_1008_res_: StormTracker.CacheState
-        d_1009_valueOrError1_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out396_: Wrappers.Result
-        out396_ = (d_1004_st_).GetFromCacheWithTime(default__.MakeGet(d_1005_one_), 9999)
-        d_1009_valueOrError1_ = out396_
-        if not(not((d_1009_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(145,15): " + _dafny.string_of(d_1009_valueOrError1_))
-        d_1008_res_ = (d_1009_valueOrError1_).Extract()
-        if not((d_1008_res_).is_Full):
+        d_1515_st_ = nw15_
+        d_1516_one_: _dafny.Seq
+        d_1516_one_ = UTF8.default__.EncodeAscii(_dafny.Seq("one"))
+        d_1517_res2_: tuple
+        d_1518_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+        out586_: Wrappers.Result
+        out586_ = (d_1515_st_).PutCacheEntry(default__.MakePut(d_1516_one_, 10010))
+        d_1518_valueOrError0_ = out586_
+        if not(not((d_1518_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(143,16): " + _dafny.string_of(d_1518_valueOrError0_))
+        d_1517_res2_ = (d_1518_valueOrError0_).Extract()
+        d_1519_res_: StormTracker.CacheState
+        d_1520_valueOrError1_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out587_: Wrappers.Result
+        out587_ = (d_1515_st_).GetFromCacheWithTime(default__.MakeGet(d_1516_one_), 9999)
+        d_1520_valueOrError1_ = out587_
+        if not(not((d_1520_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(145,15): " + _dafny.string_of(d_1520_valueOrError1_))
+        d_1519_res_ = (d_1520_valueOrError1_).Extract()
+        if not((d_1519_res_).is_Full):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(146,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_1010_valueOrError2_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out397_: Wrappers.Result
-        out397_ = (d_1004_st_).GetFromCacheWithTime(default__.MakeGet(d_1005_one_), 10000)
-        d_1010_valueOrError2_ = out397_
-        if not(not((d_1010_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(147,11): " + _dafny.string_of(d_1010_valueOrError2_))
-        d_1008_res_ = (d_1010_valueOrError2_).Extract()
-        if not((d_1008_res_).is_EmptyFetch):
+        d_1521_valueOrError2_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out588_: Wrappers.Result
+        out588_ = (d_1515_st_).GetFromCacheWithTime(default__.MakeGet(d_1516_one_), 10000)
+        d_1521_valueOrError2_ = out588_
+        if not(not((d_1521_valueOrError2_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(147,11): " + _dafny.string_of(d_1521_valueOrError2_))
+        d_1519_res_ = (d_1521_valueOrError2_).Extract()
+        if not((d_1519_res_).is_EmptyFetch):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(148,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        d_1011_valueOrError3_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
-        out398_: Wrappers.Result
-        out398_ = (d_1004_st_).GetFromCacheWithTime(default__.MakeGet(d_1005_one_), 10000)
-        d_1011_valueOrError3_ = out398_
-        if not(not((d_1011_valueOrError3_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(149,11): " + _dafny.string_of(d_1011_valueOrError3_))
-        d_1008_res_ = (d_1011_valueOrError3_).Extract()
-        if not((d_1008_res_).is_Full):
+        d_1522_valueOrError3_: Wrappers.Result = Wrappers.Result.default(StormTracker.CacheState.default())()
+        out589_: Wrappers.Result
+        out589_ = (d_1515_st_).GetFromCacheWithTime(default__.MakeGet(d_1516_one_), 10000)
+        d_1522_valueOrError3_ = out589_
+        if not(not((d_1522_valueOrError3_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(149,11): " + _dafny.string_of(d_1522_valueOrError3_))
+        d_1519_res_ = (d_1522_valueOrError3_).Extract()
+        if not((d_1519_res_).is_Full):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/CMCs/StormTracker.dfy(150,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 

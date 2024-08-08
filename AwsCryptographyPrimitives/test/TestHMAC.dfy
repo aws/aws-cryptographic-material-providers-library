@@ -4,14 +4,14 @@
 include "../src/Index.dfy"
 
 module TestAwsCryptographyPrimitivesHMacDigest {
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import opened StandardLibrary.UInt
   import Types = AwsCryptographyPrimitivesTypes
   import Digest
   import opened Wrappers
 
   method {:test} DigestTests() {
-    var client :- expect Primitives.AtomicPrimitives();
+    var client :- expect AtomicPrimitives.AtomicPrimitives();
 
     HmacSHA_256(client);
     HmacSHA_384(client);

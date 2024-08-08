@@ -58,6 +58,7 @@ import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as Wrappe
 import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
 import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
 import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapping as MaterialWrapping
@@ -81,6 +82,9 @@ import aws_cryptographic_materialproviders.internaldafny.generated.StormTracker 
 import aws_cryptographic_materialproviders.internaldafny.generated.StormTrackingCMC as StormTrackingCMC
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsHierarchicalKeyring as AwsKmsHierarchicalKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsRsaKeyring as AwsKmsRsaKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.EcdhEdkWrapping as EcdhEdkWrapping
+import aws_cryptographic_materialproviders.internaldafny.generated.RawECDHKeyring as RawECDHKeyring
+import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsEcdhKeyring as AwsKmsEcdhKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring as RawAESKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.RawRSAKeyring as RawRSAKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.CMM as CMM
@@ -88,6 +92,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.Defaults as D
 import aws_cryptographic_materialproviders.internaldafny.generated.Commitment as Commitment
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultCMM as DefaultCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.DefaultClientSupplier as DefaultClientSupplier
+import aws_cryptographic_materialproviders.internaldafny.generated.Utils as Utils
 import aws_cryptographic_materialproviders.internaldafny.generated.RequiredEncryptionContextCMM as RequiredEncryptionContextCMM
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptographyMaterialProvidersOperations as AwsCryptographyMaterialProvidersOperations
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialProviders as MaterialProviders
@@ -119,6 +124,7 @@ import standard_library.internaldafny.generated.ConcurrentCall as ConcurrentCall
 import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import Fixtures as Fixtures
 import TestCreateKeyStore as TestCreateKeyStore
+import TestLyingBranchKey as TestLyingBranchKey
 import TestDiscoveryGetKeys as TestDiscoveryGetKeys
 import TestConfig as TestConfig
 import TestGetKeys as TestGetKeys
@@ -136,32 +142,32 @@ class default__:
 
     @staticmethod
     def TestIncorrectRawDataKeys():
-        d_431_datakey_: _dafny.Seq
-        d_431_datakey_ = _dafny.Seq("0")
-        d_432_keyringName_: _dafny.Seq
-        d_432_keyringName_ = _dafny.Seq("RSAKeyring")
-        d_433_keyProviderId_: _dafny.Seq
-        d_433_keyProviderId_ = _dafny.Seq("TestProvider")
-        d_434_actualErrorMessage_: _dafny.Seq
-        d_434_actualErrorMessage_ = ErrorMessages.default__.IncorrectRawDataKeys(d_431_datakey_, d_432_keyringName_, d_433_keyProviderId_)
-        d_435_ExpectErrorMessage_: _dafny.Seq
-        d_435_ExpectErrorMessage_ = _dafny.Seq("EncryptedDataKey 0 did not match RSAKeyring. Expected: keyProviderId: TestProvider.\n")
-        if not((d_434_actualErrorMessage_) == (d_435_ExpectErrorMessage_)):
+        d_481_datakey_: _dafny.Seq
+        d_481_datakey_ = _dafny.Seq("0")
+        d_482_keyringName_: _dafny.Seq
+        d_482_keyringName_ = _dafny.Seq("RSAKeyring")
+        d_483_keyProviderId_: _dafny.Seq
+        d_483_keyProviderId_ = _dafny.Seq("TestProvider")
+        d_484_actualErrorMessage_: _dafny.Seq
+        d_484_actualErrorMessage_ = ErrorMessages.default__.IncorrectRawDataKeys(d_481_datakey_, d_482_keyringName_, d_483_keyProviderId_)
+        d_485_ExpectErrorMessage_: _dafny.Seq
+        d_485_ExpectErrorMessage_ = _dafny.Seq("EncryptedDataKey 0 did not match RSAKeyring. Expected: keyProviderId: TestProvider.\n")
+        if not((d_484_actualErrorMessage_) == (d_485_ExpectErrorMessage_)):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestErrorMessages.dfy(22,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def TestIncorrectDataKeys():
-        d_436_dummyKey_: _dafny.Seq
-        d_436_dummyKey_ = _dafny.Seq([AwsCryptographyMaterialProvidersTypes.EncryptedDataKey_EncryptedDataKey(UTF8.default__.EncodeAscii(_dafny.Seq("aws-kms")), UTF8.default__.EncodeAscii(_dafny.Seq("keyproviderInfoA")), _dafny.Seq([1, 2, 3, 4, 5])), AwsCryptographyMaterialProvidersTypes.EncryptedDataKey_EncryptedDataKey(UTF8.default__.EncodeAscii(_dafny.Seq("aws-kms-rsa")), UTF8.default__.EncodeAscii(_dafny.Seq("keyproviderInfoB")), _dafny.Seq([1, 2, 3, 4, 5])), AwsCryptographyMaterialProvidersTypes.EncryptedDataKey_EncryptedDataKey(UTF8.default__.EncodeAscii(_dafny.Seq("aws-kms-hierarchy")), UTF8.default__.EncodeAscii(_dafny.Seq("keyproviderInfoC")), _dafny.Seq([64, 92, 115, 7, 85, 121, 112, 79, 69, 12, 82, 25, 67, 34, 11, 66, 93, 45, 40, 23, 90, 61, 16, 28, 59, 114, 52, 122, 50, 23, 11, 101, 48, 53, 30, 120, 51, 74, 77, 53, 57, 99, 53, 13, 30, 21, 109, 85, 15, 86, 47, 84, 91, 85, 87, 60, 4, 56, 67, 74, 29, 87, 85, 106, 8, 82, 63, 114, 100, 110, 68, 58, 83, 24, 111, 41, 21, 91, 122, 61, 118, 37, 72, 38, 67, 2, 17, 61, 17, 121, 7, 90, 117, 49, 30, 20, 89, 68, 33, 111, 107, 5, 120, 20, 95, 78, 70, 2, 49, 84, 39, 50, 40, 40, 115, 114, 76, 18, 103, 84, 34, 123, 1, 125, 61, 33, 13, 18, 81, 24, 53, 53, 26, 60, 52, 85, 81, 96, 85, 72]))])
-        d_437_actualErrorMessage_: _dafny.Seq
-        d_438_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        d_438_valueOrError0_ = ErrorMessages.default__.IncorrectDataKeys(d_436_dummyKey_, AlgorithmSuites.default__.GetSuite(default__.TEST__DBE__ALG__SUITE__ID), _dafny.Seq(""))
-        if not(not((d_438_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestErrorMessages.dfy(51,30): " + _dafny.string_of(d_438_valueOrError0_))
-        d_437_actualErrorMessage_ = (d_438_valueOrError0_).Extract()
-        d_439_ExpectErrorMessage_: _dafny.Seq
-        d_439_ExpectErrorMessage_ = (((_dafny.Seq("Unable to decrypt data key: No Encrypted Data Keys found to match. \n Expected: \n")) + (_dafny.Seq("KeyProviderId: aws-kms, KeyProviderInfo: keyproviderInfoA\n"))) + (_dafny.Seq("KeyProviderId: aws-kms-rsa, KeyProviderInfo: keyproviderInfoB\n"))) + (_dafny.Seq("KeyProviderId: aws-kms-hierarchy, KeyProviderInfo: keyproviderInfoC, BranchKeyVersion: 155b7a3d-7625-4826-4302-113d1179075a\n"))
-        if not((d_437_actualErrorMessage_) == (d_439_ExpectErrorMessage_)):
+        d_486_dummyKey_: _dafny.Seq
+        d_486_dummyKey_ = _dafny.Seq([AwsCryptographyMaterialProvidersTypes.EncryptedDataKey_EncryptedDataKey(UTF8.default__.EncodeAscii(_dafny.Seq("aws-kms")), UTF8.default__.EncodeAscii(_dafny.Seq("keyproviderInfoA")), _dafny.Seq([1, 2, 3, 4, 5])), AwsCryptographyMaterialProvidersTypes.EncryptedDataKey_EncryptedDataKey(UTF8.default__.EncodeAscii(_dafny.Seq("aws-kms-rsa")), UTF8.default__.EncodeAscii(_dafny.Seq("keyproviderInfoB")), _dafny.Seq([1, 2, 3, 4, 5])), AwsCryptographyMaterialProvidersTypes.EncryptedDataKey_EncryptedDataKey(UTF8.default__.EncodeAscii(_dafny.Seq("aws-kms-hierarchy")), UTF8.default__.EncodeAscii(_dafny.Seq("keyproviderInfoC")), _dafny.Seq([64, 92, 115, 7, 85, 121, 112, 79, 69, 12, 82, 25, 67, 34, 11, 66, 93, 45, 40, 23, 90, 61, 16, 28, 59, 114, 52, 122, 50, 23, 11, 101, 48, 53, 30, 120, 51, 74, 77, 53, 57, 99, 53, 13, 30, 21, 109, 85, 15, 86, 47, 84, 91, 85, 87, 60, 4, 56, 67, 74, 29, 87, 85, 106, 8, 82, 63, 114, 100, 110, 68, 58, 83, 24, 111, 41, 21, 91, 122, 61, 118, 37, 72, 38, 67, 2, 17, 61, 17, 121, 7, 90, 117, 49, 30, 20, 89, 68, 33, 111, 107, 5, 120, 20, 95, 78, 70, 2, 49, 84, 39, 50, 40, 40, 115, 114, 76, 18, 103, 84, 34, 123, 1, 125, 61, 33, 13, 18, 81, 24, 53, 53, 26, 60, 52, 85, 81, 96, 85, 72]))])
+        d_487_actualErrorMessage_: _dafny.Seq
+        d_488_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_488_valueOrError0_ = ErrorMessages.default__.IncorrectDataKeys(d_486_dummyKey_, AlgorithmSuites.default__.GetSuite(default__.TEST__DBE__ALG__SUITE__ID), _dafny.Seq(""))
+        if not(not((d_488_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestErrorMessages.dfy(51,30): " + _dafny.string_of(d_488_valueOrError0_))
+        d_487_actualErrorMessage_ = (d_488_valueOrError0_).Extract()
+        d_489_ExpectErrorMessage_: _dafny.Seq
+        d_489_ExpectErrorMessage_ = (((_dafny.Seq("Unable to decrypt data key: No Encrypted Data Keys found to match. \n Expected: \n")) + (_dafny.Seq("KeyProviderId: aws-kms, KeyProviderInfo: keyproviderInfoA\n"))) + (_dafny.Seq("KeyProviderId: aws-kms-rsa, KeyProviderInfo: keyproviderInfoB\n"))) + (_dafny.Seq("KeyProviderId: aws-kms-hierarchy, KeyProviderInfo: keyproviderInfoC, BranchKeyVersion: 155b7a3d-7625-4826-4302-113d1179075a\n"))
+        if not((d_487_actualErrorMessage_) == (d_489_ExpectErrorMessage_)):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestErrorMessages.dfy(56,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @_dafny.classproperty

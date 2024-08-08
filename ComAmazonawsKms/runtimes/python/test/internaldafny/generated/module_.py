@@ -95,8 +95,8 @@ class default__:
 
     @staticmethod
     def Test____Main____(noArgsParameter__):
-        d_26_success_: bool
-        d_26_success_ = True
+        d_65_success_: bool
+        d_65_success_ = True
         _dafny.print(_dafny.string_of(_dafny.Seq("TestComAmazonawsKms.BasicDecryptTests: ")))
         try:
             if True:
@@ -104,12 +104,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_27_haltMessage_ = e.message
+            d_66_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_27_haltMessage_))
+                _dafny.print(_dafny.string_of(d_66_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_26_success_ = False
+                d_65_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestComAmazonawsKms.BasicGenerateTests: ")))
         try:
             if True:
@@ -117,12 +117,25 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_28_haltMessage_ = e.message
+            d_67_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_28_haltMessage_))
+                _dafny.print(_dafny.string_of(d_67_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_26_success_ = False
+                d_65_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestComAmazonawsKms.BasicGenerateWithoutPlaintextTests: ")))
+        try:
+            if True:
+                TestComAmazonawsKms.default__.BasicGenerateWithoutPlaintextTests()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_68_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_68_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_65_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestComAmazonawsKms.BasicEncryptTests: ")))
         try:
             if True:
@@ -130,12 +143,25 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_29_haltMessage_ = e.message
+            d_69_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_29_haltMessage_))
+                _dafny.print(_dafny.string_of(d_69_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_26_success_ = False
+                d_65_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestComAmazonawsKms.BasicFailTests: ")))
+        try:
+            if True:
+                TestComAmazonawsKms.default__.BasicFailTests()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_70_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_70_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_65_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestComAmazonawsKms.RegionMatchTest: ")))
         try:
             if True:
@@ -143,12 +169,12 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_30_haltMessage_ = e.message
+            d_71_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_30_haltMessage_))
+                _dafny.print(_dafny.string_of(d_71_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_26_success_ = False
+                d_65_success_ = False
         _dafny.print(_dafny.string_of(_dafny.Seq("TestComAmazonawsKms.EmptyStringIsDefaultRegion: ")))
         try:
             if True:
@@ -156,12 +182,38 @@ class default__:
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
-            d_31_haltMessage_ = e.message
+            d_72_haltMessage_ = e.message
             if True:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_31_haltMessage_))
+                _dafny.print(_dafny.string_of(d_72_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_26_success_ = False
-        if not(d_26_success_):
+                d_65_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestComAmazonawsKms.DeriveSharedSecretTestSuccess: ")))
+        try:
+            if True:
+                TestComAmazonawsKms.default__.DeriveSharedSecretTestSuccess()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_73_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_73_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_65_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestComAmazonawsKms.DeriveSharedSecretTestFailure: ")))
+        try:
+            if True:
+                TestComAmazonawsKms.default__.DeriveSharedSecretTestFailure()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_74_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_74_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_65_success_ = False
+        if not(d_65_success_):
             raise _dafny.HaltException("<stdin>(1,0): " + _dafny.string_of(_dafny.Seq("Test failures occurred: see above.\n")))
 
