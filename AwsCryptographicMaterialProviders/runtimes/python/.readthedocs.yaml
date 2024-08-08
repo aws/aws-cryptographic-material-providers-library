@@ -18,3 +18,9 @@ sphinx:
 submodules:
   include: all
   recursive: true
+
+python:
+  install:
+    - requirements: AwsCryptographicMaterialProviders/runtimes/python --with docs
+    - method: pip
+      path: AwsCryptographicMaterialProviders/runtimes/python/
