@@ -35,8 +35,27 @@ Required Prerequisites
 ======================
 
 * Python 3.11+
-* toml
-* myst-parser
+* cryptography >= 41.0.0
+* boto3 >= 1.28.0
+
+Installation
+============
+
+.. note::
+
+   If you have not already installed `cryptography`_, you might need to install additional prerequisites as
+   detailed in the `cryptography installation guide`_ for your operating system.
+
+   .. code::
+
+       $ pip install aws-cryptographic-material-providers
+
+
+Concepts
+========
+The AWS Cryptographic Materials Providers Library (MPL) is available in multiple languages.
+The concepts in the Python implementation of the MPL are the same as in other languages.
+For more information on concepts in the MPL, see the `README`_ for all languages.
 
 *************
 Thread safety
@@ -56,3 +75,4 @@ there is currently no thread-safe keyring implementation that supports using a c
 .. _GitHub: https://github.com/aws/aws-cryptographic-material-providers-library
 .. _vulnerability reporting page : http://aws.amazon.com/security/vulnerability-reporting/
 .. _the boto3 docs: https://boto3.amazonaws.com/v1/documentation/api/latest/guide/resources.html#multithreading-or-multiprocessing-with-resources
+.. _README: https://github.com/aws/aws-cryptographic-material-providers-library/blob/main/README.md
