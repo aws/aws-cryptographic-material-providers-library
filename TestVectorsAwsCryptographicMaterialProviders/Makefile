@@ -56,6 +56,39 @@ SERVICE_DEPS_KeyVectors := \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographicMaterialProviders \
 
+# Python
+
+# smithy.api namespace is a workaround for having a wrapped localService shim in a different Python package,
+# as the aws_cryptography_materialproviders namespace is spread across this package (shim only)
+# and the aws_cryptographic_material_providers package (all other files).
+# This prevents Polymorph from generating invalid references to files in this package, which is incomplete.
+# This is a workaround, but is OK because
+# 1) this is only for wrapped localService shims, which are only for testing
+# 2) this is a test package
+PYTHON_DEPENDENCY_MODULE_NAMES := \
+	--dependency-library-name=aws.cryptography.primitives=aws_cryptography_primitives \
+	--dependency-library-name=com.amazonaws.kms=com_amazonaws_kms \
+	--dependency-library-name=com.amazonaws.dynamodb=com_amazonaws_dynamodb \
+	--dependency-library-name=aws.cryptography.materialProviders=aws_cryptographic_materialproviders \
+	--dependency-library-name=aws.cryptography.keyStore=aws_cryptographic_materialproviders \
+	--dependency-library-name=smithy.api=aws_cryptographic_materialproviders
+
+PYTHON_MODULE_NAME=aws_cryptography_materialproviderstestvectorkeys
+
+TRANSLATION_RECORD_PYTHON := \
+    --translation-record ../StandardLibrary/runtimes/python/src/standard_library/internaldafny/generated/dafny_src-py.dtr \
+    --translation-record ../ComAmazonawsKms/runtimes/python/src/com_amazonaws_kms/internaldafny/generated/dafny_src-py.dtr \
+    --translation-record ../ComAmazonawsDynamodb/runtimes/python/src/com_amazonaws_dynamodb/internaldafny/generated/dafny_src-py.dtr \
+    --translation-record ../AwsCryptographyPrimitives/runtimes/python/src/aws_cryptography_primitives/internaldafny/generated/dafny_src-py.dtr \
+	--translation-record ../AwsCryptographicMaterialProviders/runtimes/python/src/aws_cryptographic_materialproviders/internaldafny/generated/dafny_src-py.dtr
+
+# Python
+
+# Override default test_python to run tox environment for Dafny tests
+test_python:
+	rm -rf runtimes/python/.tox
+	python3 -m tox -c runtimes/python -e dafnytests --verbose
+
 # Commands to generate and test test vectors
 test_generate_vectors_java:
 	gradle -p runtimes/java run --args="encrypt-manifest --encrypt-manifest-output ."
@@ -68,6 +101,11 @@ test_generate_vectors_net:
 	dotnet run --project runtimes/net --framework $(FRAMEWORK) encrypt-manifest --encrypt-manifest-output runtimes/net
 	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/net
 
+test_generate_vectors_python:
+	rm -rf runtimes/python/.tox
+	python3 -m tox -c runtimes/python --verbose -e cli -- encrypt-manifest --encrypt-manifest-output runtimes/python
+	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/python
+
 test_encrypt_vectors_java:
 	gradle -p runtimes/java run --args="encrypt --manifest-path . --decrypt-manifest-path ."
 
@@ -77,6 +115,10 @@ test_encrypt_vectors_net:
 	dotnet build runtimes/net
 	dotnet run --project runtimes/net --framework $(FRAMEWORK) encrypt --manifest-path runtimes/net --decrypt-manifest-path runtimes/net
 
+test_encrypt_vectors_python:
+	rm -rf runtimes/python/.tox
+	python3 -m tox -c runtimes/python --verbose -e cli -- encrypt --manifest-path runtimes/python --decrypt-manifest-path runtimes/python
+
 test_decrypt_encrypt_vectors_java:
 	gradle -p runtimes/java run --args="decrypt --manifest-path ."
 
@@ -85,3 +127,7 @@ test_decrypt_encrypt_vectors_net:
 	dotnet restore runtimes/net
 	dotnet build runtimes/net
 	dotnet run --project runtimes/net --framework $(FRAMEWORK) decrypt --manifest-path runtimes/net
+
+test_decrypt_encrypt_vectors_python:
+	rm -rf runtimes/python/.tox
+	python3 -m tox -c runtimes/python --verbose -e cli -- decrypt --manifest-path runtimes/python

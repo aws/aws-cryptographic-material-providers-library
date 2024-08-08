@@ -1,0 +1,17 @@
+file_format_version = "1.0"
+dafny_version = "4.7.0.0"
+[options_by_module.TestSignature]
+[options_by_module.TestAwsCryptographyPrimitivesHKDF]
+[options_by_module.TestAwsCryptographyPrimitivesGenerateRandomBytes]
+[options_by_module.ConstantTime]
+[options_by_module.ConstantTimeTest]
+[options_by_module.TestHKDF_Rfc5869TestVectors]
+[options_by_module.TestKDF]
+[options_by_module.TestKDFK_TestVectors]
+[options_by_module.TestAwsCryptographyPrimitivesRSA]
+[options_by_module.TestAwsCryptographyPrimitivesAES]
+[options_by_module.TestAwsCryptographyPrimitivesHMAC]
+[options_by_module.TestAwsCryptographyPrimitivesDigest]
+[options_by_module.TestAwsCryptographyPrimitivesHMacDigest]
+[options_by_module.TestECDH]
+[options_by_module.TestAwsCryptographyPrimitivesAesKdfCtr]
