@@ -32,6 +32,9 @@ module TestECDH {
                            + "4f227dcc7197dcddc108b3cf9715fec9be172e575c1610b199f008eec272a313489"
                            + "e944c126391d8cd6085efbdc5bc96961981981a149b6bc"
 
+  const ECC_P256_PUBLIC_COMPRESSED :=
+    "02a7520c7b4ab94784f227dcc7197dcddc108b3cf9715fec9be172e575c1610b19"
+
   const ECC_P384_PRIVATE := "-----BEGIN PRIVATE KEY-----\n"
                             + "MIG2AgEAMBAGByqGSM49AgEGBSuBBAAiBIGeMIGbAgEBBDAE/GcrZaGaZKKnWsbi\n"
                             + "6OiMB8HlhoyF1CQeaZHFdp1VFu7mSM2mUrSolCfpYRB50aahZANiAAQayPW6B3aV\n"
@@ -42,6 +45,9 @@ module TestECDH {
                           + "b0c7dd27ae321898d8620f1beb4110798c677414686eaa3674315d2f90a51f79216c"
                           + "905998c89f20e4daea5e6f54e2bcfd1461acbe7484bc32b04533ba0b06c248ab11a2"
                           + "450d443c522904bbf89a6b5e3a66b9aadf"
+
+  const ECC_384_PUBLIC_COMPRESSED :=
+    "031ac8f5ba07769518a58505b0c7dd27ae321898d8620f1beb4110798c677414686eaa3674315d2f90a51f79216c905998"
 
   const ECC_P521_PRIVATE := "-----BEGIN PRIVATE KEY-----\n"
                             + "MIHuAgEAMBAGByqGSM49AgEGBSuBBAAjBIHWMIHTAgEBBEIB3azBoPIuF7SY3Z7g\n"
@@ -56,6 +62,9 @@ module TestECDH {
                            + "1d1810bd9ff1a470d216c7a47dd7373700877d6bb56b39017df878ad9db941c8bd6e"
                            + "dcdea45a151f0b7babcb5d53f1d90d5be2db564997f01dfeb3a55a11058a6be49805"
                            + "e98f574e5a261534c5a685fcc86c2c6c0a2e93e942"
+
+  const ECC_P521_PUBLIC_COMPRESSED :=
+    "0201de32732469d8769e47ad513703bca13858271d4dd20529a0eac2d3086eaff2e4de0423becec58c0a3fb21d1810bd9ff1a470d216c7a47dd7373700877d6bb56b39"
 
   // Known value infinity public keys.
   // These MUST fail with a known error message when loaded by the crypto provider.
@@ -451,12 +460,16 @@ module TestECDH {
 
   method {:test} TestCompressDecompressConstantPublicKeys() {
     var derX509PublicKeys := [ECC_P256_PUBLIC, ECC_384_PUBLIC, ECC_P521_PUBLIC];
+    var compressedKeys := [ECC_P256_PUBLIC_COMPRESSED, ECC_384_PUBLIC_COMPRESSED, ECC_P521_PUBLIC_COMPRESSED];
     var curves := [P256, P384, P521];
+
     for i := 0 to |curves|
     {
       var curve := curves[i];
       var originalPublicKey := derX509PublicKeys[i];
       var publicKeyBytes := HexStrings.FromHexString(originalPublicKey);
+      var compressedKey := expectLooseHexString(compressedKeys[i]);
+      var compressedKeyBytes := HexStrings.FromHexString(compressedKey);
 
       var compressedPublicKeyResult :- expect ECDH.CompressPublicKey(
         Types.CompressPublicKeyInput(
@@ -465,7 +478,7 @@ module TestECDH {
         )
       );
 
-      expect compressedPublicKeyResult.compressedPublicKey != publicKeyBytes;
+      expect compressedPublicKeyResult.compressedPublicKey == compressedKeyBytes;
 
       var compressedPublicKey := compressedPublicKeyResult.compressedPublicKey;
 
@@ -502,6 +515,7 @@ module TestECDH {
 
       expect (
           errMsg == INFINITY_POINT_ERR_MSG_JAVA ||
+          errMsg == BAD_X509_KEY_ERR_MSG_RUST ||
           errMsg == INFINITY_POINT_ERR_MSG_NET6 ||
           errMsg == INFINITY_POINT_ERR_MSG_NET48
         );
@@ -528,6 +542,7 @@ module TestECDH {
 
       expect (
           seq_contains(errMsg, OUT_OF_BOUNDS_ERR_MSG_JAVA) ||
+          errMsg == BAD_X509_KEY_ERR_MSG_RUST ||
           errMsg == OUT_OF_BOUNDS_ERR_MSG_NET6 ||
           errMsg == OUT_OF_BOUNDS_ERR_MSG_NE48
         );
