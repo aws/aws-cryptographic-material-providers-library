@@ -9,7 +9,7 @@ from .internaldafny import extern
 
 # Export user-friendly access paths
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders as mpl
-import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_materialproviders as keystore
+import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore as keystore
 
 __all__ = [
     mpl,
