@@ -7,7 +7,7 @@
         <LangVersion>10</LangVersion>
         <TargetFrameworks>net6.0;net48</TargetFrameworks>
         <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-        <OutputType>Exe</OutputType>
+        <OutputType>Library</OutputType>
     </PropertyGroup>
 
   <PropertyGroup>

@@ -3,7 +3,7 @@
 
 include "StormTracker.dfy"
 
-module {:options "/functionSyntax:4" } {:extern "software.amazon.cryptography.internaldafny.StormTrackingCMC" } StormTrackingCMC {
+module {:options "/functionSyntax:4" } StormTrackingCMC {
   import opened Wrappers
   import Types = AwsCryptographyMaterialProvidersTypes
   import StormTracker
