@@ -1,7 +1,15 @@
 package String_Compile;
 
 /**
+ * This is a thunk for the actual Dafny-generated StandardLibrary_mString_Compile.__default class.
  * 
+ * The module names generated for Java changed between Dafny 4.2 and 4.7,
+ * and although `--legacy-module-names` mostly retains the old names,
+ * StandardLibrary.String was previously compiled to String_Compile instead of the expected
+ * StandardLibrary_mString_Compile because of a bug,
+ * and it would have been very difficult to reproduce the exact bug behavior with `--legacy-module-names`.
+ * 
+ * Instead we just create an "alias" for this case.
  */
 public class __default {
   public __default() {
