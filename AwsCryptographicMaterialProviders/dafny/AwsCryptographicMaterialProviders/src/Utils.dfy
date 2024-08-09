@@ -4,7 +4,7 @@ include "../Model/AwsCryptographyMaterialProvidersTypes.dfy"
 
 module {:options "/functionSyntax:4" } Utils {
   import Crypto = AwsCryptographyPrimitivesTypes
-  import Primitives = AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import Types = AwsCryptographyMaterialProvidersTypes
   import opened StandardLibrary
   import opened UInt = StandardLibrary.UInt

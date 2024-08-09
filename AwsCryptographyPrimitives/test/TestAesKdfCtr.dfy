@@ -5,7 +5,7 @@ include "../src/Index.dfy"
 include "../src/AesKdfCtr.dfy"
 
 module TestAwsCryptographyPrimitivesAesKdfCtr {
-  import AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import opened Wrappers
   import opened StandardLibrary.UInt
   import opened AesKdfCtr

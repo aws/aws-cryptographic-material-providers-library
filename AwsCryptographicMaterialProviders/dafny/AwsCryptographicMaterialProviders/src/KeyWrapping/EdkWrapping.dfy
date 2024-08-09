@@ -20,7 +20,7 @@ module EdkWrapping {
   import opened IntermediateKeyWrapping
   import Crypto = AwsCryptographyPrimitivesTypes
   import Types = AwsCryptographyMaterialProvidersTypes
-  import AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import Materials
   import AlgorithmSuites
 

@@ -50,7 +50,7 @@ module AwsKmsHierarchicalKeyring {
   import HKDF
   import HMAC
   import opened AESEncryption
-  import AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import ErrorMessages
 
   const BRANCH_KEY_STORE_GSI := "Active-Keys"
@@ -127,7 +127,7 @@ module AwsKmsHierarchicalKeyring {
     const branchKeyIdSupplier: Option<Types.IBranchKeyIdSupplier>
     const keyStore: KeyStore.IKeyStoreClient
     const ttlSeconds: Types.PositiveLong
-    const cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
     const cache: Types.ICryptographicMaterialsCache
 
     predicate ValidState()
@@ -163,7 +163,7 @@ module AwsKmsHierarchicalKeyring {
       ttlSeconds: Types.PositiveLong,
 
       cmc: Types.ICryptographicMaterialsCache,
-      cryptoPrimitives : Crypto.IAwsCryptographicPrimitivesClient
+      cryptoPrimitives : Primitives.AtomicPrimitivesClient
     )
       requires ttlSeconds >= 0
       requires keyStore.ValidState() && cryptoPrimitives.ValidState()
@@ -384,7 +384,7 @@ module AwsKmsHierarchicalKeyring {
     method GetActiveCacheId(
       branchKeyId: string,
       branchKeyIdUtf8: seq<uint8>,
-      cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+      cryptoPrimitives: Primitives.AtomicPrimitivesClient
     )
       returns (cacheId: Result<seq<uint8>, Types.Error>)
 
@@ -490,7 +490,7 @@ module AwsKmsHierarchicalKeyring {
     branchKey: seq<uint8>,
     salt: seq<uint8>,
     purpose: Option<seq<uint8>>,
-    cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+    cryptoPrimitives: Primitives.AtomicPrimitivesClient
   )
     returns (output: Result<seq<uint8>, Types.Error>)
 
@@ -605,7 +605,7 @@ module AwsKmsHierarchicalKeyring {
   {
     const materials: Materials.DecryptionMaterialsPendingPlaintextDataKey
     const keyStore: KeyStore.IKeyStoreClient
-    const cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
     const branchKeyId: string
     const ttlSeconds: Types.PositiveLong
     const cache: Types.ICryptographicMaterialsCache
@@ -613,7 +613,7 @@ module AwsKmsHierarchicalKeyring {
     constructor(
       materials: Materials.DecryptionMaterialsPendingPlaintextDataKey,
       keyStore: KeyStore.IKeyStoreClient,
-      cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient,
+      cryptoPrimitives: Primitives.AtomicPrimitivesClient,
       branchKeyId: string,
       ttlSeconds: Types.PositiveLong,
       cache: Types.ICryptographicMaterialsCache
@@ -697,11 +697,11 @@ module AwsKmsHierarchicalKeyring {
 
       // We need to create a new client here so that we can reason about the state of the client
       // down the line. This is ok because the only state tracked is the client's history.
-      var maybeCrypto := AtomicPrimitives.AtomicPrimitives();
+      var maybeCrypto := Primitives.AtomicPrimitives();
       var cryptoPrimitivesX : Crypto.IAwsCryptographicPrimitivesClient :- maybeCrypto
       .MapFailure(e => Types.AwsCryptographyPrimitives(e));
-      assert cryptoPrimitivesX is AtomicPrimitives.AtomicPrimitivesClient;
-      var cryptoPrimitives := cryptoPrimitivesX as AtomicPrimitives.AtomicPrimitivesClient;
+      assert cryptoPrimitivesX is Primitives.AtomicPrimitivesClient;
+      var cryptoPrimitives := cryptoPrimitivesX as Primitives.AtomicPrimitivesClient;
 
       var kmsHierarchyUnwrap := new KmsHierarchyUnwrapKeyMaterial(
         branchKey,
@@ -725,7 +725,7 @@ module AwsKmsHierarchicalKeyring {
     method GetVersionCacheId(
       branchKeyIdUtf8: seq<uint8>, // The branch key as Bytes
       branchKeyVersion: string,
-      cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+      cryptoPrimitives: Primitives.AtomicPrimitivesClient
     )
       returns (cacheId: Result<seq<uint8>, Types.Error>)
       ensures cacheId.Success? ==> |cacheId.value| == 32
@@ -824,13 +824,13 @@ module AwsKmsHierarchicalKeyring {
     const branchKey: seq<uint8>
     const branchKeyIdUtf8 : UTF8.ValidUTF8Bytes
     const branchKeyVersionAsBytes: seq<uint8>
-    const crypto: Crypto.IAwsCryptographicPrimitivesClient
+    const crypto: Primitives.AtomicPrimitivesClient
 
     constructor(
       branchKey: seq<uint8>,
       branchKeyIdUtf8: UTF8.ValidUTF8Bytes,
       branchKeyVersionAsBytes: seq<uint8>,
-      crypto: Crypto.IAwsCryptographicPrimitivesClient
+      crypto: Primitives.AtomicPrimitivesClient
     )
       requires crypto.ValidState()
       ensures
@@ -963,13 +963,13 @@ module AwsKmsHierarchicalKeyring {
     const branchKey: seq<uint8>
     const branchKeyIdUtf8 : UTF8.ValidUTF8Bytes
     const branchKeyVersionAsBytes: seq<uint8>
-    const crypto: Crypto.IAwsCryptographicPrimitivesClient
+    const crypto: Primitives.AtomicPrimitivesClient
 
     constructor(
       branchKey: seq<uint8>,
       branchKeyIdUtf8 : UTF8.ValidUTF8Bytes,
       branchKeyVersionAsBytes: seq<uint8>,
-      crypto: Crypto.IAwsCryptographicPrimitivesClient
+      crypto: Primitives.AtomicPrimitivesClient
     )
       requires crypto.ValidState()
       ensures
@@ -1053,13 +1053,13 @@ module AwsKmsHierarchicalKeyring {
     const branchKey: seq<uint8>
     const branchKeyIdUtf8 : UTF8.ValidUTF8Bytes
     const branchKeyVersionAsBytes: seq<uint8>
-    const crypto: Crypto.IAwsCryptographicPrimitivesClient
+    const crypto: Primitives.AtomicPrimitivesClient
 
     constructor(
       branchKey: seq<uint8>,
       branchKeyIdUtf8 : UTF8.ValidUTF8Bytes,
       branchKeyVersionAsBytes: seq<uint8>,
-      crypto: Crypto.IAwsCryptographicPrimitivesClient
+      crypto: Primitives.AtomicPrimitivesClient
     )
       requires crypto.ValidState()
       ensures

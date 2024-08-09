@@ -19,7 +19,7 @@ module DefaultCMM {
   import UTF8
   import Types = AwsCryptographyMaterialProvidersTypes
   import Crypto = AwsCryptographyPrimitivesTypes
-  import AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import Defaults
   import Commitment
   import Seq
@@ -27,7 +27,7 @@ module DefaultCMM {
   class DefaultCMM
     extends CMM.VerifiableInterface
   {
-    const cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
 
     predicate ValidState()
       ensures ValidState() ==> History in Modifies
@@ -50,7 +50,7 @@ module DefaultCMM {
       //# the caller MUST provide the following value:
       //# - [Keyring](#keyring)
       k: Types.IKeyring,
-      c: Crypto.IAwsCryptographicPrimitivesClient
+      c: Primitives.AtomicPrimitivesClient
     )
       requires k.ValidState() && c.ValidState()
       ensures keyring == k && cryptoPrimitives == c

@@ -13,7 +13,7 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
   import MPL = AwsCryptographyMaterialProvidersTypes
   import opened Wrappers
   import AwsCryptographyPrimitivesTypes
-  import Primitives = AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import Com.Amazonaws.Kms
   import ComAmazonawsKmsTypes
   import KeyMaterial

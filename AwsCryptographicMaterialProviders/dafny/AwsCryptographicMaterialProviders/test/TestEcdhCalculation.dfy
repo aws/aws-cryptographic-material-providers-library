@@ -11,7 +11,7 @@ module TestEcdhCalculation {
   import opened UInt = StandardLibrary.UInt
   import MaterialProviders
   import Types = AwsCryptographyMaterialProvidersTypes
-  import Primitives = AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import Com.Amazonaws.Kms
   import TestUtils
   import PrimitiveTypes = AwsCryptographyPrimitivesTypes

@@ -11,7 +11,7 @@ module {:options "/functionSyntax:4" } TestRawECDHKeyring {
   import UTF8
   import ComAmazonawsKmsTypes
   import Com.Amazonaws.Kms
-  import Primitives = AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import AwsCryptographyPrimitivesTypes
   import MaterialProviders
   import Types = AwsCryptographyMaterialProvidersTypes

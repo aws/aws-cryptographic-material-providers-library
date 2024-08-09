@@ -29,7 +29,7 @@ module RawAESKeyring {
   import EdkWrapping
   import ErrorMessages
 
-  import AtomicPrimitives
+  import Aws.Cryptography.Primitives
 
   const AUTH_TAG_LEN_LEN := 4
   const IV_LEN_LEN       := 4
@@ -39,7 +39,7 @@ module RawAESKeyring {
       Keyring.VerifiableInterface,
       Types.IKeyring
   {
-    const cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
 
     predicate ValidState()
       ensures ValidState() ==> History in Modifies
@@ -81,7 +81,7 @@ module RawAESKeyring {
       name: UTF8.ValidUTF8Bytes,
       key: seq<uint8>,
       wrappingAlgorithm: Crypto.AES_GCM,
-      cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+      cryptoPrimitives: Primitives.AtomicPrimitivesClient
     )
       requires |namespace| < UINT16_LIMIT
       requires |name| < UINT16_LIMIT
@@ -531,12 +531,12 @@ module RawAESKeyring {
   {
     const wrappingKey: seq<uint8>
     const wrappingAlgorithm: Crypto.AES_GCM
-    const cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
 
     constructor(
       wrappingKey: seq<uint8>,
       wrappingAlgorithm: Crypto.AES_GCM,
-      cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+      cryptoPrimitives: Primitives.AtomicPrimitivesClient
     )
       requires cryptoPrimitives.ValidState()
       ensures
@@ -632,13 +632,13 @@ module RawAESKeyring {
     const wrappingKey: seq<uint8>
     const wrappingAlgorithm: Crypto.AES_GCM
     const iv: seq<uint8>
-    const cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
 
     constructor(
       wrappingKey: seq<uint8>,
       wrappingAlgorithm: Crypto.AES_GCM,
       iv: seq<uint8>,
-      cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+      cryptoPrimitives: Primitives.AtomicPrimitivesClient
     )
       requires cryptoPrimitives.ValidState()
       requires |iv| == wrappingAlgorithm.ivLength as nat

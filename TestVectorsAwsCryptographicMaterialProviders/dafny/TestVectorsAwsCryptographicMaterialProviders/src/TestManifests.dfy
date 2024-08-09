@@ -10,7 +10,7 @@ include "../../KeyVectors/src/Index.dfy"
 module {:options "-functionSyntax:4"} TestManifests {
   import Types = AwsCryptographyMaterialProvidersTypes
   import opened Wrappers
-  import AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import TestVectors
   import FileIO
   import JSON.API
@@ -113,7 +113,7 @@ module {:options "-functionSyntax:4"} TestManifests {
     expect !hasFailure;
   }
 
-  method ToEncryptTests(keys: KeyVectorsTypes.IKeyVectorsClient, encryptVectors: seq<TestVectors.EncryptTestVector>)
+  method ToEncryptTests(keys: KeyVectors.KeyVectorsClient, encryptVectors: seq<TestVectors.EncryptTestVector>)
     returns (output: Result<seq<TestVectors.EncryptTest>, string>)
     requires keys.ValidState()
     modifies keys.Modifies

@@ -38,7 +38,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
   import MaterialWrapping
   import EcdhEdkWrapping
   import ErrorMessages
-  import Primitives = AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import CanonicalEncryptionContext
 
   const AWS_KMS_ECDH_KEYRING_VERSION := RawECDHKeyring.RAW_ECDH_KEYRING_VERSION

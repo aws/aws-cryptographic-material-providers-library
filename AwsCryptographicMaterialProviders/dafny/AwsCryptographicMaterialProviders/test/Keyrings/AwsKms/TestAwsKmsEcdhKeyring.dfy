@@ -11,7 +11,7 @@ module {:options "/functionSyntax:4" } TestAwsKmsEcdhKeyring {
   import opened UInt = StandardLibrary.UInt
   import MaterialProviders
   import Types = AwsCryptographyMaterialProvidersTypes
-  import Primitives = AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import PrimitiveTypes = AwsCryptographyPrimitivesTypes
   import Com.Amazonaws.Kms
   import AwsKmsRsaKeyring
