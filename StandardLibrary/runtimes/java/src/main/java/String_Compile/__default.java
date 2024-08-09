@@ -1,4 +1,4 @@
-package StandardLibrary_Compile.String_Compile;
+package String_Compile;
 
 /**
  * 
