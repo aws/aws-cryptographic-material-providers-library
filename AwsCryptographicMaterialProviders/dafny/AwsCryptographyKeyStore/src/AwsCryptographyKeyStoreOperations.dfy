@@ -155,7 +155,8 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
     //# - `timestamp`: a timestamp for the current time.
     //# This timestamp MUST be in ISO8601 format in UTC, to microsecond precision (e.g. “YYYY-MM-DDTHH:mm:ss.ssssssZ“)
-    var timestamp :- Time.GetCurrentTimeStamp()
+    var timestamp? := Time.GetCurrentTimeStamp();
+    var timestamp :- timestamp?
     .MapFailure(e => Types.KeyStoreException(message := e));
 
     var maybeBranchKeyVersion := UUID.GenerateUUID();
@@ -225,7 +226,8 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
 
     :- Need(0 < |input.branchKeyIdentifier|, Types.KeyStoreException(message := ErrorMessages.BRANCH_KEY_ID_NEEDED));
 
-    var timestamp :- Time.GetCurrentTimeStamp()
+    var timestamp? := Time.GetCurrentTimeStamp();
+    var timestamp :- timestamp?
     .MapFailure(e => Types.KeyStoreException(message := e));
 
     var maybeBranchKeyVersion := UUID.GenerateUUID();
