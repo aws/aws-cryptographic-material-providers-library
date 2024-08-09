@@ -19,7 +19,7 @@ public class __default extends Time._ExternBase___default {
   > GetCurrentTimeStamp() {
     try {
       TimeZone tz = TimeZone.getTimeZone("UTC");
-      DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss:SSSSSS'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
+      DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
       df.setTimeZone(tz);
       return CreateGetCurrentTimeStampSuccess(
         software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
