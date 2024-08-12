@@ -21,7 +21,7 @@ module AwsKmsRsaKeyring {
   import opened Actions
   import UTF8
   import UUID
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import Crypto = AwsCryptographyPrimitivesTypes
   import Keyring
   import Materials
@@ -48,7 +48,7 @@ module AwsKmsRsaKeyring {
     const awsKmsArn: AwsArnParsing.AwsKmsIdentifier
     const paddingScheme: KMS.EncryptionAlgorithmSpec
     const publicKey: Option<seq<uint8>>
-    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
+    const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
 
     predicate ValidState()
       ensures ValidState() ==> History in Modifies
@@ -78,7 +78,7 @@ module AwsKmsRsaKeyring {
       awsKmsKey: AwsArnParsing.AwsKmsIdentifierString,
       paddingScheme: KMS.EncryptionAlgorithmSpec,
       client: Option<KMS.IKMSClient>,
-      cryptoPrimitives: Primitives.AtomicPrimitivesClient,
+      cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient,
       grantTokens: KMS.GrantTokenList
     )
       requires cryptoPrimitives.ValidState()
@@ -272,7 +272,7 @@ module AwsKmsRsaKeyring {
     }
   }
 
-  method EncryptionContextDigest(cryptoPrimitives: Primitives.AtomicPrimitivesClient, encryptionContext: Types.EncryptionContext)
+  method EncryptionContextDigest(cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient, encryptionContext: Types.EncryptionContext)
     returns (output: Result<seq<uint8>, Types.Error>)
     requires cryptoPrimitives.ValidState()
     modifies cryptoPrimitives.Modifies
@@ -417,12 +417,12 @@ module AwsKmsRsaKeyring {
   {
     const publicKey: seq<uint8>
     const paddingScheme: KMS.EncryptionAlgorithmSpec
-    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
+    const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
 
     constructor(
       publicKey: seq<uint8>,
       paddingScheme: KMS.EncryptionAlgorithmSpec,
-      cryptoPrimitives: Primitives.AtomicPrimitivesClient
+      cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
     )
       requires cryptoPrimitives.ValidState()
       requires (paddingScheme.RSAES_OAEP_SHA_1? || paddingScheme.RSAES_OAEP_SHA_256?)
@@ -498,12 +498,12 @@ module AwsKmsRsaKeyring {
   {
     const publicKey: seq<uint8>
     const paddingScheme: KMS.EncryptionAlgorithmSpec
-    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
+    const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
 
     constructor(
       publicKey: seq<uint8>,
       paddingScheme: KMS.EncryptionAlgorithmSpec,
-      cryptoPrimitives: Primitives.AtomicPrimitivesClient
+      cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
     )
       requires cryptoPrimitives.ValidState()
       requires (paddingScheme.RSAES_OAEP_SHA_1? || paddingScheme.RSAES_OAEP_SHA_256?)
