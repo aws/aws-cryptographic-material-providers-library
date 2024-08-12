@@ -1568,6 +1568,20 @@ def com_amazonaws_kms_CustomKeyStoresListEntry(dafny_input):
             )
         )
 
+    if dafny_input.CustomKeyStoreType.is_Some:
+        output["CustomKeyStoreType"] = (
+            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_CustomKeyStoreType(
+                dafny_input.CustomKeyStoreType.value
+            )
+        )
+
+    if dafny_input.XksProxyConfiguration.is_Some:
+        output["XksProxyConfiguration"] = (
+            com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk.com_amazonaws_kms_XksProxyConfigurationType(
+                dafny_input.XksProxyConfiguration.value
+            )
+        )
+
     return output
 
 
