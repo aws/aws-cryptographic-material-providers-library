@@ -4,8 +4,6 @@
 include "../Model/AwsCryptographyPrimitivesTypes.dfy"
 include "AwsCryptographyPrimitivesOperations.dfy"
 
-// Note: This module name SHOULD be `AtomicPrimitives`
-// to align with this project's Smithy-Model localService's `sdkId` trait.
 module {:extern "software.amazon.cryptography.primitives.internaldafny" } AtomicPrimitives refines AbstractAwsCryptographyPrimitivesService {
   import Operations = AwsCryptographyPrimitivesOperations
 
