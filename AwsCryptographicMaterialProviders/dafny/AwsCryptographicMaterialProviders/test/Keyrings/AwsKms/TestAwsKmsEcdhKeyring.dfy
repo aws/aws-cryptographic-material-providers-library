@@ -343,7 +343,7 @@ module {:options "/functionSyntax:4" } TestAwsKmsEcdhKeyring {
     var mpl :- expect MaterialProviders.MaterialProviders();
     var primitives :- expect AtomicPrimitives.AtomicPrimitives();
 
-    var recipientKeypair :- expect AtomicPrimitives.GenerateECCKeyPair(
+    var recipientKeypair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(
         eccCurve := P256
       )

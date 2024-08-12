@@ -32,7 +32,7 @@ module TestEcdhCalculation {
     var kmsClient :- expect Kms.KMSClient();
     var primitives :- expect AtomicPrimitives.AtomicPrimitives();
 
-    var keyPair :- expect AtomicPrimitives.GenerateECCKeyPair(
+    var keyPair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(
         eccCurve := PrimitiveTypes.ECDHCurveSpec.ECC_NIST_P256
       )
@@ -61,7 +61,7 @@ module TestEcdhCalculation {
     var GetPublicKeyResponse(_,PublicKey,_,_,_,_,_,_) := publicKeyResponse.value;
     expect PublicKey.Some?;
 
-    var offlineSharedSecret :- expect AtomicPrimitives.DeriveSharedSecret(
+    var offlineSharedSecret :- expect primitives.DeriveSharedSecret(
       PrimitiveTypes.DeriveSharedSecretInput(
         eccCurve := PrimitiveTypes.ECDHCurveSpec.ECC_NIST_P256,
         privateKey := keyPair.privateKey,
@@ -79,7 +79,7 @@ module TestEcdhCalculation {
 
     for i := 0 to |senderArns|
     {
-      var keyPair :- expect AtomicPrimitives.GenerateECCKeyPair(
+      var keyPair :- expect primitives.GenerateECCKeyPair(
         PrimitiveTypes.GenerateECCKeyPairInput(
           eccCurve := curveSpecs[i]
         )
@@ -107,7 +107,7 @@ module TestEcdhCalculation {
       var GetPublicKeyResponse(_,PublicKey,_,_,_,_,_,_) := publicKeyResponse.value;
       expect PublicKey.Some?;
 
-      var offlineSharedSecret :- expect AtomicPrimitives.DeriveSharedSecret(
+      var offlineSharedSecret :- expect primitives.DeriveSharedSecret(
         PrimitiveTypes.DeriveSharedSecretInput(
           eccCurve := curveSpecs[i],
           privateKey := keyPair.privateKey,
@@ -143,7 +143,7 @@ module TestEcdhCalculation {
       expect kmsSharedSecret.Success?;
       expect kmsSharedSecret.value.SharedSecret.Some?;
 
-      var offlineSharedSecret :- expect AtomicPrimitives.DeriveSharedSecret(
+      var offlineSharedSecret :- expect primitives.DeriveSharedSecret(
         PrimitiveTypes.DeriveSharedSecretInput(
           eccCurve := curveSpecs[i],
           privateKey := PrimitiveTypes.ECCPrivateKey(pem := recipientPrivateKey),

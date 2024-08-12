@@ -60,7 +60,7 @@ import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
 import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
-import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives as Aws_Cryptography_Primitives
+import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapping as MaterialWrapping
 import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
 import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
@@ -162,10 +162,10 @@ class default__:
         if not(not((d_1524_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestEcdhCalculation.dfy(32,21): " + _dafny.string_of(d_1524_valueOrError0_))
         d_1523_kmsClient_ = (d_1524_valueOrError0_).Extract()
-        d_1525_primitives_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
+        d_1525_primitives_: AtomicPrimitives.AtomicPrimitivesClient
         d_1526_valueOrError1_: Wrappers.Result = None
         out591_: Wrappers.Result
-        out591_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
+        out591_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_1526_valueOrError1_ = out591_
         if not(not((d_1526_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestEcdhCalculation.dfy(33,22): " + _dafny.string_of(d_1526_valueOrError1_))
@@ -226,10 +226,10 @@ class default__:
         if not(not((d_1542_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestEcdhCalculation.dfy(77,21): " + _dafny.string_of(d_1542_valueOrError0_))
         d_1541_kmsClient_ = (d_1542_valueOrError0_).Extract()
-        d_1543_primitives_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
+        d_1543_primitives_: AtomicPrimitives.AtomicPrimitivesClient
         d_1544_valueOrError1_: Wrappers.Result = None
         out597_: Wrappers.Result
-        out597_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
+        out597_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_1544_valueOrError1_ = out597_
         if not(not((d_1544_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestEcdhCalculation.dfy(78,22): " + _dafny.string_of(d_1544_valueOrError1_))
@@ -292,10 +292,10 @@ class default__:
         if not(not((d_1561_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestEcdhCalculation.dfy(125,21): " + _dafny.string_of(d_1561_valueOrError0_))
         d_1560_kmsClient_ = (d_1561_valueOrError0_).Extract()
-        d_1562_primitives_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
+        d_1562_primitives_: AtomicPrimitives.AtomicPrimitivesClient
         d_1563_valueOrError1_: Wrappers.Result = None
         out603_: Wrappers.Result
-        out603_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
+        out603_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_1563_valueOrError1_ = out603_
         if not(not((d_1563_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/TestEcdhCalculation.dfy(126,22): " + _dafny.string_of(d_1563_valueOrError1_))

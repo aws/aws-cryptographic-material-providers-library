@@ -30,7 +30,7 @@ module {:options "/functionSyntax:4" } TestRawECDHKeyring {
     var mpl :- expect MaterialProviders.MaterialProviders();
     var primitives :- expect AtomicPrimitives.AtomicPrimitives();
 
-    var keypair :- expect AtomicPrimitives.GenerateECCKeyPair(
+    var keypair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(
         eccCurve := P256
       )
@@ -73,7 +73,7 @@ module {:options "/functionSyntax:4" } TestRawECDHKeyring {
     var mpl :- expect MaterialProviders.MaterialProviders();
     var primitives :- expect AtomicPrimitives.AtomicPrimitives();
 
-    var keypair :- expect AtomicPrimitives.GenerateECCKeyPair(
+    var keypair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(
         eccCurve := P256
       )
@@ -117,7 +117,7 @@ module {:options "/functionSyntax:4" } TestRawECDHKeyring {
     var mpl :- expect MaterialProviders.MaterialProviders();
     var primitives :- expect AtomicPrimitives.AtomicPrimitives();
 
-    var keypair :- expect AtomicPrimitives.GenerateECCKeyPair(
+    var keypair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(
         eccCurve := P256
       )
@@ -181,13 +181,13 @@ module {:options "/functionSyntax:4" } TestRawECDHKeyring {
     var mpl :- expect MaterialProviders.MaterialProviders();
     var primitives :- expect AtomicPrimitives.AtomicPrimitives();
 
-    var senderKeypair :- expect AtomicPrimitives.GenerateECCKeyPair(
+    var senderKeypair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(
         eccCurve := P256
       )
     );
 
-    var recipientKeypair :- expect AtomicPrimitives.GenerateECCKeyPair(
+    var recipientKeypair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(
         eccCurve := P256
       )
@@ -250,13 +250,13 @@ module {:options "/functionSyntax:4" } TestRawECDHKeyring {
     var mpl :- expect MaterialProviders.MaterialProviders();
     var primitives :- expect AtomicPrimitives.AtomicPrimitives();
 
-    var senderKeypair :- expect AtomicPrimitives.GenerateECCKeyPair(
+    var senderKeypair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(
         eccCurve := P256
       )
     );
 
-    var recipientKeypair :- expect AtomicPrimitives.GenerateECCKeyPair(
+    var recipientKeypair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(
         eccCurve := P256
       )
@@ -331,7 +331,7 @@ module {:options "/functionSyntax:4" } TestRawECDHKeyring {
     var mpl :- expect MaterialProviders.MaterialProviders();
     var primitives :- expect AtomicPrimitives.AtomicPrimitives();
 
-    var senderKeypair :- expect AtomicPrimitives.GenerateECCKeyPair(
+    var senderKeypair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(
         eccCurve := P256
       )
@@ -420,13 +420,13 @@ module {:options "/functionSyntax:4" } TestRawECDHKeyring {
     var mpl :- expect MaterialProviders.MaterialProviders();
     var primitives :- expect AtomicPrimitives.AtomicPrimitives();
 
-    var senderKeypair :- expect AtomicPrimitives.GenerateECCKeyPair(
+    var senderKeypair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(
         eccCurve := P256
       )
     );
 
-    var recipientKeypair :- expect AtomicPrimitives.GenerateECCKeyPair(
+    var recipientKeypair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(
         eccCurve := P256
       )

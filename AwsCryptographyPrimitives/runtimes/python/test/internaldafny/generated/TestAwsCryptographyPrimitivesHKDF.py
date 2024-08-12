@@ -27,6 +27,7 @@ import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
 import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
+import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
 import standard_library.internaldafny.generated.Relations as Relations
 import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
@@ -63,7 +64,6 @@ import standard_library.internaldafny.generated.Base64 as Base64
 import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import standard_library.internaldafny.generated.Actions as Actions
 import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
-import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives as Aws_Cryptography_Primitives
 import TestSignature as TestSignature
 
 # Module: TestAwsCryptographyPrimitivesHKDF
@@ -94,10 +94,10 @@ class default__:
 
     @staticmethod
     def BasicExtractTest(input, expectedPRK):
-        d_22_client_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
+        d_22_client_: AtomicPrimitives.AtomicPrimitivesClient
         d_23_valueOrError0_: Wrappers.Result = None
         out3_: Wrappers.Result
-        out3_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
+        out3_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_23_valueOrError0_ = out3_
         if not(not((d_23_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHKDF.dfy(86,18): " + _dafny.string_of(d_23_valueOrError0_))
@@ -117,10 +117,10 @@ class default__:
 
     @staticmethod
     def BasicExpandTest(input, expectedOKM):
-        d_26_client_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
+        d_26_client_: AtomicPrimitives.AtomicPrimitivesClient
         d_27_valueOrError0_: Wrappers.Result = None
         out5_: Wrappers.Result
-        out5_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
+        out5_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_27_valueOrError0_ = out5_
         if not(not((d_27_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHKDF.dfy(98,18): " + _dafny.string_of(d_27_valueOrError0_))
@@ -140,10 +140,10 @@ class default__:
 
     @staticmethod
     def BasicHkdfTest(input, expectedOKM):
-        d_30_client_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
+        d_30_client_: AtomicPrimitives.AtomicPrimitivesClient
         d_31_valueOrError0_: Wrappers.Result = None
         out7_: Wrappers.Result
-        out7_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
+        out7_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_31_valueOrError0_ = out7_
         if not(not((d_31_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHKDF.dfy(110,18): " + _dafny.string_of(d_31_valueOrError0_))

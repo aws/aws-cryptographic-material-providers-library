@@ -27,6 +27,7 @@ import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
 import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
+import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
 import standard_library.internaldafny.generated.Relations as Relations
 import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
@@ -63,7 +64,6 @@ import standard_library.internaldafny.generated.Base64 as Base64
 import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import standard_library.internaldafny.generated.Actions as Actions
 import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
-import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives as Aws_Cryptography_Primitives
 import TestSignature as TestSignature
 import TestAwsCryptographyPrimitivesHKDF as TestAwsCryptographyPrimitivesHKDF
 import TestAwsCryptographyPrimitivesGenerateRandomBytes as TestAwsCryptographyPrimitivesGenerateRandomBytes
@@ -85,10 +85,10 @@ class default__:
 
     @staticmethod
     def DigestTests():
-        d_132_client_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
+        d_132_client_: AtomicPrimitives.AtomicPrimitivesClient
         d_133_valueOrError0_: Wrappers.Result = None
         out28_: Wrappers.Result
-        out28_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
+        out28_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_133_valueOrError0_ = out28_
         if not(not((d_133_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("test/TestHMAC.dfy(14,18): " + _dafny.string_of(d_133_valueOrError0_))
