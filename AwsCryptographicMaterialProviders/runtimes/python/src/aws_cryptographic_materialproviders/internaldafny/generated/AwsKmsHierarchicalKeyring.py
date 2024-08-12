@@ -12,6 +12,8 @@ import standard_library.internaldafny.generated.StandardLibrary_UInt as Standard
 import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
 import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
 import standard_library.internaldafny.generated.UTF8 as UTF8
+import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
+import com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes as ComAmazonawsKmsTypes
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
 import aws_cryptography_primitives.internaldafny.generated.ExternRandom as ExternRandom
 import aws_cryptography_primitives.internaldafny.generated.Random as Random
@@ -27,9 +29,6 @@ import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
 import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
-import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
-import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
-import com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes as ComAmazonawsKmsTypes
 import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
 import standard_library.internaldafny.generated.Relations as Relations
 import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
@@ -89,6 +88,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.Keyring as Ke
 import aws_cryptographic_materialproviders.internaldafny.generated.MultiKeyring as MultiKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkAreUnique as AwsKmsMrkAreUnique
 import aws_cryptographic_materialproviders.internaldafny.generated.Constants as Constants
+import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives as Aws_Cryptography_Primitives
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapping as MaterialWrapping
 import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
 import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
@@ -225,7 +225,7 @@ class default__:
 class AwsKmsHierarchicalKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.IKeyring):
     def  __init__(self):
         self._keyStore: AwsCryptographyKeyStoreTypes.IKeyStoreClient = None
-        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._cryptoPrimitives: Aws_Cryptography_Primitives.AtomicPrimitivesClient = None
         self._branchKeyIdSupplier: Wrappers.Option = Wrappers.Option.default()()
         self._branchKeyId: Wrappers.Option = Wrappers.Option.default()()
         self._ttlSeconds: int = None
@@ -617,7 +617,7 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
         self._materials: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials = None
         self._keyStore: AwsCryptographyKeyStoreTypes.IKeyStoreClient = None
-        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._cryptoPrimitives: Aws_Cryptography_Primitives.AtomicPrimitivesClient = None
         self._branchKeyId: _dafny.Seq = _dafny.Seq("")
         self._ttlSeconds: int = None
         self._cache: AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsCache = None
@@ -707,7 +707,7 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
         d_941_branchKeyVersionAsBytes_ = (d_942_valueOrError7_).Extract()
         d_943_maybeCrypto_: Wrappers.Result
         out169_: Wrappers.Result
-        out169_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
+        out169_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
         d_943_maybeCrypto_ = out169_
         d_944_cryptoPrimitivesX_: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient
         d_945_valueOrError8_: Wrappers.Result = None
@@ -719,7 +719,7 @@ class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
             res = (d_945_valueOrError8_).PropagateFailure()
             return res
         d_944_cryptoPrimitivesX_ = (d_945_valueOrError8_).Extract()
-        d_947_cryptoPrimitives_: AtomicPrimitives.AtomicPrimitivesClient
+        d_947_cryptoPrimitives_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
         d_947_cryptoPrimitives_ = d_944_cryptoPrimitivesX_
         d_948_kmsHierarchyUnwrap_: KmsHierarchyUnwrapKeyMaterial
         nw37_ = KmsHierarchyUnwrapKeyMaterial()
@@ -913,7 +913,7 @@ class HierarchyWrapInfo_HierarchyWrapInfo(HierarchyWrapInfo, NamedTuple('Hierarc
 
 class KmsHierarchyUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
-        self._crypto: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._crypto: Aws_Cryptography_Primitives.AtomicPrimitivesClient = None
         self._branchKeyIdUtf8: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
         self._branchKeyVersionAsBytes: _dafny.Seq = _dafny.Seq({})
         self._branchKey: _dafny.Seq = _dafny.Seq({})
@@ -1013,7 +1013,7 @@ class KmsHierarchyGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMat
         self._branchKey: _dafny.Seq = _dafny.Seq({})
         self._branchKeyIdUtf8: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
         self._branchKeyVersionAsBytes: _dafny.Seq = _dafny.Seq({})
-        self._crypto: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._crypto: Aws_Cryptography_Primitives.AtomicPrimitivesClient = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -1079,7 +1079,7 @@ class KmsHierarchyWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionW
         self._branchKey: _dafny.Seq = _dafny.Seq({})
         self._branchKeyIdUtf8: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
         self._branchKeyVersionAsBytes: _dafny.Seq = _dafny.Seq({})
-        self._crypto: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._crypto: Aws_Cryptography_Primitives.AtomicPrimitivesClient = None
         pass
 
     def __dafnystr__(self) -> str:

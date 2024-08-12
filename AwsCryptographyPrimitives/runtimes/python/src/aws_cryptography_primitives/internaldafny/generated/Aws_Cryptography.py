@@ -3,20 +3,15 @@ from typing import Callable, Any, TypeVar, NamedTuple
 from math import floor
 from itertools import count
 
-import module_ as module_
+import aws_cryptography_primitives.internaldafny.generated.module_ as module_
 import _dafny as _dafny
 import System_ as System_
 import standard_library.internaldafny.generated.Wrappers as Wrappers
-import standard_library.internaldafny.generated.BoundedInts as BoundedInts
-import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
-import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
-import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
-import standard_library.internaldafny.generated.UTF8 as UTF8
-import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
 import standard_library.internaldafny.generated.Relations as Relations
 import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
 import standard_library.internaldafny.generated.Math as Math
 import standard_library.internaldafny.generated.Seq as Seq
+import standard_library.internaldafny.generated.BoundedInts as BoundedInts
 import standard_library.internaldafny.generated.Unicode as Unicode
 import standard_library.internaldafny.generated.Functions as Functions
 import standard_library.internaldafny.generated.Utf8EncodingForm as Utf8EncodingForm
@@ -35,7 +30,11 @@ import standard_library.internaldafny.generated.DivMod as DivMod
 import standard_library.internaldafny.generated.Power as Power
 import standard_library.internaldafny.generated.Logarithm as Logarithm
 import standard_library.internaldafny.generated.StandardLibraryInterop as StandardLibraryInterop
+import standard_library.internaldafny.generated.StandardLibrary_UInt as StandardLibrary_UInt
+import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
+import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
 import standard_library.internaldafny.generated.UUID as UUID
+import standard_library.internaldafny.generated.UTF8 as UTF8
 import standard_library.internaldafny.generated.Time as Time
 import standard_library.internaldafny.generated.Streams as Streams
 import standard_library.internaldafny.generated.Sorting as Sorting
@@ -48,8 +47,22 @@ import standard_library.internaldafny.generated.Base64 as Base64
 import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import standard_library.internaldafny.generated.Actions as Actions
 import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
-import com_amazonaws_dynamodb.internaldafny.generated.Com_Amazonaws_Dynamodb as Com_Amazonaws_Dynamodb
-import TestComAmazonawsDynamoDB as TestComAmazonawsDynamoDB
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
+import aws_cryptography_primitives.internaldafny.generated.ExternRandom as ExternRandom
+import aws_cryptography_primitives.internaldafny.generated.Random as Random
+import aws_cryptography_primitives.internaldafny.generated.AESEncryption as AESEncryption
+import aws_cryptography_primitives.internaldafny.generated.ExternDigest as ExternDigest
+import aws_cryptography_primitives.internaldafny.generated.Digest as Digest
+import aws_cryptography_primitives.internaldafny.generated.HMAC as HMAC
+import aws_cryptography_primitives.internaldafny.generated.WrappedHMAC as WrappedHMAC
+import aws_cryptography_primitives.internaldafny.generated.HKDF as HKDF
+import aws_cryptography_primitives.internaldafny.generated.WrappedHKDF as WrappedHKDF
+import aws_cryptography_primitives.internaldafny.generated.Signature as Signature
+import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
+import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
+import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
+import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
+import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
 import standard_library.internaldafny.generated.JSON_Utils_Views_Core as JSON_Utils_Views_Core
 import standard_library.internaldafny.generated.JSON_Utils_Views_Writers as JSON_Utils_Views_Writers
 import standard_library.internaldafny.generated.JSON_Utils_Lexers_Core as JSON_Utils_Lexers_Core
@@ -86,30 +99,7 @@ import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer_API a
 import standard_library.internaldafny.generated.JSON_ZeroCopy_Deserializer as JSON_ZeroCopy_Deserializer
 import standard_library.internaldafny.generated.JSON_ZeroCopy_API as JSON_ZeroCopy_API
 import standard_library.internaldafny.generated.JSON_API as JSON_API
+import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives as Aws_Cryptography_Primitives
 
-# Module: module_
-
-class default__:
-    def  __init__(self):
-        pass
-
-    @staticmethod
-    def Test____Main____(noArgsParameter__):
-        d_17_success_: bool
-        d_17_success_ = True
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestComAmazonawsDynamoDB.BasicPutGetQuery: ")))
-        try:
-            if True:
-                TestComAmazonawsDynamoDB.default__.BasicPutGetQuery()
-                if True:
-                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
-        except _dafny.HaltException as e:
-            d_18_haltMessage_ = e.message
-            if True:
-                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_18_haltMessage_))
-                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_17_success_ = False
-        if not(d_17_success_):
-            raise _dafny.HaltException("<stdin>(1,0): " + _dafny.string_of(_dafny.Seq("Test failures occurred: see above.\n")))
+# Module: Aws_Cryptography
 

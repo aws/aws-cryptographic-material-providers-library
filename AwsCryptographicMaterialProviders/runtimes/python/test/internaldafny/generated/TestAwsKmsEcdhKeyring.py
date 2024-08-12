@@ -60,7 +60,7 @@ import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
 import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
-import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
+import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives as Aws_Cryptography_Primitives
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapping as MaterialWrapping
 import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
 import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
@@ -541,10 +541,10 @@ class default__:
         if not(not((d_1284_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/AwsKms/TestAwsKmsEcdhKeyring.dfy(343,15): " + _dafny.string_of(d_1284_valueOrError0_))
         d_1283_mpl_ = (d_1284_valueOrError0_).Extract()
-        d_1285_primitives_: AtomicPrimitives.AtomicPrimitivesClient
+        d_1285_primitives_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
         d_1286_valueOrError1_: Wrappers.Result = None
         out477_: Wrappers.Result
-        out477_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
+        out477_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
         d_1286_valueOrError1_ = out477_
         if not(not((d_1286_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/AwsKms/TestAwsKmsEcdhKeyring.dfy(344,22): " + _dafny.string_of(d_1286_valueOrError1_))

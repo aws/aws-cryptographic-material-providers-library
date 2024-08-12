@@ -12,6 +12,8 @@ import standard_library.internaldafny.generated.StandardLibrary_UInt as Standard
 import standard_library.internaldafny.generated.StandardLibrary_String as StandardLibrary_String
 import standard_library.internaldafny.generated.StandardLibrary as StandardLibrary
 import standard_library.internaldafny.generated.UTF8 as UTF8
+import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
+import com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes as ComAmazonawsKmsTypes
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesTypes as AwsCryptographyPrimitivesTypes
 import aws_cryptography_primitives.internaldafny.generated.ExternRandom as ExternRandom
 import aws_cryptography_primitives.internaldafny.generated.Random as Random
@@ -27,9 +29,6 @@ import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
 import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
-import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
-import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes as ComAmazonawsDynamodbTypes
-import com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes as ComAmazonawsKmsTypes
 import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
 import standard_library.internaldafny.generated.Relations as Relations
 import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
@@ -89,6 +88,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.Keyring as Ke
 import aws_cryptographic_materialproviders.internaldafny.generated.MultiKeyring as MultiKeyring
 import aws_cryptographic_materialproviders.internaldafny.generated.AwsKmsMrkAreUnique as AwsKmsMrkAreUnique
 import aws_cryptographic_materialproviders.internaldafny.generated.Constants as Constants
+import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives as Aws_Cryptography_Primitives
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapping as MaterialWrapping
 import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
 import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
@@ -156,7 +156,7 @@ class default__:
 class AwsKmsEcdhKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.IKeyring):
     def  __init__(self):
         self._client: ComAmazonawsKmsTypes.IKMSClient = None
-        self._cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient = None
+        self._cryptoPrimitives: Aws_Cryptography_Primitives.AtomicPrimitivesClient = None
         self._keyAgreementScheme: AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations = AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations.default()()
         self._curveSpec: AwsCryptographyPrimitivesTypes.ECDHCurveSpec = AwsCryptographyPrimitivesTypes.ECDHCurveSpec.default()()
         self._grantTokens: _dafny.Seq = None
@@ -386,7 +386,7 @@ class AwsKmsEcdhKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProv
 class DecryptSingleEncryptedDataKey(Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
         self._materials: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials = None
-        self._cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient = None
+        self._cryptoPrimitives: Aws_Cryptography_Primitives.AtomicPrimitivesClient = None
         self._recipientPublicKey: _dafny.Seq = _dafny.Seq({})
         self._keyAgreementScheme: AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations = AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations.default()()
         self._client: ComAmazonawsKmsTypes.IKMSClient = None

@@ -60,7 +60,7 @@ import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
 import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
-import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
+import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives as Aws_Cryptography_Primitives
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapping as MaterialWrapping
 import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
 import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
@@ -466,10 +466,10 @@ class default__:
     @staticmethod
     def GenerateKeyPair(keyModulusLength):
         keys: AwsCryptographyPrimitivesTypes.GenerateRSAKeyPairOutput = None
-        d_1006_crypto_: AtomicPrimitives.AtomicPrimitivesClient
+        d_1006_crypto_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
         d_1007_valueOrError0_: Wrappers.Result = None
         out398_: Wrappers.Result
-        out398_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
+        out398_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
         d_1007_valueOrError0_ = out398_
         if not(not((d_1007_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TestRawRSAKeyring.dfy(286,18): " + _dafny.string_of(d_1007_valueOrError0_))

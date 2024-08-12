@@ -60,7 +60,7 @@ import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
 import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
-import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
+import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives as Aws_Cryptography_Primitives
 import aws_cryptographic_materialproviders.internaldafny.generated.MaterialWrapping as MaterialWrapping
 import aws_cryptographic_materialproviders.internaldafny.generated.CanonicalEncryptionContext as CanonicalEncryptionContext
 import aws_cryptographic_materialproviders.internaldafny.generated.IntermediateKeyWrapping as IntermediateKeyWrapping
@@ -152,10 +152,10 @@ class default__:
         if not(not((d_500_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TesRawECDHKeyring.dfy(30,15): " + _dafny.string_of(d_500_valueOrError0_))
         d_499_mpl_ = (d_500_valueOrError0_).Extract()
-        d_501_primitives_: AtomicPrimitives.AtomicPrimitivesClient
+        d_501_primitives_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
         d_502_valueOrError1_: Wrappers.Result = None
         out174_: Wrappers.Result
-        out174_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
+        out174_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
         d_502_valueOrError1_ = out174_
         if not(not((d_502_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TesRawECDHKeyring.dfy(31,22): " + _dafny.string_of(d_502_valueOrError1_))
@@ -211,10 +211,10 @@ class default__:
         if not(not((d_514_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TesRawECDHKeyring.dfy(73,15): " + _dafny.string_of(d_514_valueOrError0_))
         d_513_mpl_ = (d_514_valueOrError0_).Extract()
-        d_515_primitives_: AtomicPrimitives.AtomicPrimitivesClient
+        d_515_primitives_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
         d_516_valueOrError1_: Wrappers.Result = None
         out180_: Wrappers.Result
-        out180_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
+        out180_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
         d_516_valueOrError1_ = out180_
         if not(not((d_516_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TesRawECDHKeyring.dfy(74,22): " + _dafny.string_of(d_516_valueOrError1_))
@@ -268,10 +268,10 @@ class default__:
         if not(not((d_527_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TesRawECDHKeyring.dfy(117,15): " + _dafny.string_of(d_527_valueOrError0_))
         d_526_mpl_ = (d_527_valueOrError0_).Extract()
-        d_528_primitives_: AtomicPrimitives.AtomicPrimitivesClient
+        d_528_primitives_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
         d_529_valueOrError1_: Wrappers.Result = None
         out186_: Wrappers.Result
-        out186_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
+        out186_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
         d_529_valueOrError1_ = out186_
         if not(not((d_529_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TesRawECDHKeyring.dfy(118,22): " + _dafny.string_of(d_529_valueOrError1_))
@@ -351,10 +351,10 @@ class default__:
         if not(not((d_548_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TesRawECDHKeyring.dfy(181,15): " + _dafny.string_of(d_548_valueOrError0_))
         d_547_mpl_ = (d_548_valueOrError0_).Extract()
-        d_549_primitives_: AtomicPrimitives.AtomicPrimitivesClient
+        d_549_primitives_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
         d_550_valueOrError1_: Wrappers.Result = None
         out193_: Wrappers.Result
-        out193_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
+        out193_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
         d_550_valueOrError1_ = out193_
         if not(not((d_550_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TesRawECDHKeyring.dfy(182,22): " + _dafny.string_of(d_550_valueOrError1_))
@@ -440,10 +440,10 @@ class default__:
         if not(not((d_571_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TesRawECDHKeyring.dfy(250,15): " + _dafny.string_of(d_571_valueOrError0_))
         d_570_mpl_ = (d_571_valueOrError0_).Extract()
-        d_572_primitives_: AtomicPrimitives.AtomicPrimitivesClient
+        d_572_primitives_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
         d_573_valueOrError1_: Wrappers.Result = None
         out201_: Wrappers.Result
-        out201_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
+        out201_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
         d_573_valueOrError1_ = out201_
         if not(not((d_573_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TesRawECDHKeyring.dfy(251,22): " + _dafny.string_of(d_573_valueOrError1_))
@@ -537,10 +537,10 @@ class default__:
         if not(not((d_596_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TesRawECDHKeyring.dfy(331,15): " + _dafny.string_of(d_596_valueOrError0_))
         d_595_mpl_ = (d_596_valueOrError0_).Extract()
-        d_597_primitives_: AtomicPrimitives.AtomicPrimitivesClient
+        d_597_primitives_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
         d_598_valueOrError1_: Wrappers.Result = None
         out210_: Wrappers.Result
-        out210_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
+        out210_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
         d_598_valueOrError1_ = out210_
         if not(not((d_598_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TesRawECDHKeyring.dfy(332,22): " + _dafny.string_of(d_598_valueOrError1_))
@@ -651,10 +651,10 @@ class default__:
         if not(not((d_630_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TesRawECDHKeyring.dfy(420,15): " + _dafny.string_of(d_630_valueOrError0_))
         d_629_mpl_ = (d_630_valueOrError0_).Extract()
-        d_631_primitives_: AtomicPrimitives.AtomicPrimitivesClient
+        d_631_primitives_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
         d_632_valueOrError1_: Wrappers.Result = None
         out220_: Wrappers.Result
-        out220_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
+        out220_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
         d_632_valueOrError1_ = out220_
         if not(not((d_632_valueOrError1_).IsFailure())):
             raise _dafny.HaltException("dafny/AwsCryptographicMaterialProviders/test/Keyrings/TesRawECDHKeyring.dfy(421,22): " + _dafny.string_of(d_632_valueOrError1_))
