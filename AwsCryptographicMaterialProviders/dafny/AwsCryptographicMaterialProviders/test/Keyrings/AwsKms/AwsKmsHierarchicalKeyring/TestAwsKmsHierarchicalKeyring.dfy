@@ -19,7 +19,7 @@ module TestAwsKmsHierarchicalKeyring {
   import KeyStore = KeyStore
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
   import Crypto = AwsCryptographyPrimitivesTypes
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import MaterialProviders
   import StormTracker
   import StormTrackingCMC

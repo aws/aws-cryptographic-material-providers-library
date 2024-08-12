@@ -21,8 +21,10 @@ TYPES_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.pr
 TYPES_FILE_WITHOUT_EXTERN_STRING="module AwsCryptographyPrimitivesTypes"
 
 INDEX_FILE_PATH=src/Index.dfy
-INDEX_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.primitives.internaldafny\" } Aws.Cryptography.Primitives refines AbstractAwsCryptographyPrimitivesService {"
-INDEX_FILE_WITHOUT_EXTERN_STRING="module Aws.Cryptography.Primitives refines AbstractAwsCryptographyPrimitivesService {"
+INDEX_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.primitives.internaldafny\" } AtomicPrimitives refines AbstractAwsCryptographyPrimitivesService {"
+# Note: This module name SHOULD be `AtomicPrimitives`
+# to align with this project's Smithy-Model localService's `sdkId` trait.
+INDEX_FILE_WITHOUT_EXTERN_STRING="module AtomicPrimitives refines AbstractAwsCryptographyPrimitivesService {"
 
 # Python
 

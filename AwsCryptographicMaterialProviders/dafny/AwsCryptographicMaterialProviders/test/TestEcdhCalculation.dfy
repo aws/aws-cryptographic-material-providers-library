@@ -11,7 +11,7 @@ module TestEcdhCalculation {
   import opened UInt = StandardLibrary.UInt
   import MaterialProviders
   import Types = AwsCryptographyMaterialProvidersTypes
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import Com.Amazonaws.Kms
   import TestUtils
   import PrimitiveTypes = AwsCryptographyPrimitivesTypes
@@ -30,9 +30,9 @@ module TestEcdhCalculation {
 
   method {:test} TestKmsDeriveSharedSecretOfflineCalculation() {
     var kmsClient :- expect Kms.KMSClient();
-    var primitives :- expect Primitives.AtomicPrimitives();
+    var primitives :- expect AtomicPrimitives.AtomicPrimitives();
 
-    var keyPair :- expect primitives.GenerateECCKeyPair(
+    var keyPair :- expect AtomicPrimitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(
         eccCurve := PrimitiveTypes.ECDHCurveSpec.ECC_NIST_P256
       )
@@ -61,7 +61,7 @@ module TestEcdhCalculation {
     var GetPublicKeyResponse(_,PublicKey,_,_,_,_,_,_) := publicKeyResponse.value;
     expect PublicKey.Some?;
 
-    var offlineSharedSecret :- expect primitives.DeriveSharedSecret(
+    var offlineSharedSecret :- expect AtomicPrimitives.DeriveSharedSecret(
       PrimitiveTypes.DeriveSharedSecretInput(
         eccCurve := PrimitiveTypes.ECDHCurveSpec.ECC_NIST_P256,
         privateKey := keyPair.privateKey,
@@ -75,11 +75,11 @@ module TestEcdhCalculation {
 
   method {:test} TestKmsDeriveSharedSecretOfflineCalculationCurves() {
     var kmsClient :- expect Kms.KMSClient();
-    var primitives :- expect Primitives.AtomicPrimitives();
+    var primitives :- expect AtomicPrimitives.AtomicPrimitives();
 
     for i := 0 to |senderArns|
     {
-      var keyPair :- expect primitives.GenerateECCKeyPair(
+      var keyPair :- expect AtomicPrimitives.GenerateECCKeyPair(
         PrimitiveTypes.GenerateECCKeyPairInput(
           eccCurve := curveSpecs[i]
         )
@@ -107,7 +107,7 @@ module TestEcdhCalculation {
       var GetPublicKeyResponse(_,PublicKey,_,_,_,_,_,_) := publicKeyResponse.value;
       expect PublicKey.Some?;
 
-      var offlineSharedSecret :- expect primitives.DeriveSharedSecret(
+      var offlineSharedSecret :- expect AtomicPrimitives.DeriveSharedSecret(
         PrimitiveTypes.DeriveSharedSecretInput(
           eccCurve := curveSpecs[i],
           privateKey := keyPair.privateKey,
@@ -123,7 +123,7 @@ module TestEcdhCalculation {
   method {:test} TestOfflineDeriveSharedSecretStaticKeys()
   {
     var kmsClient :- expect Kms.KMSClient();
-    var primitives :- expect Primitives.AtomicPrimitives();
+    var primitives :- expect AtomicPrimitives.AtomicPrimitives();
 
     for i := 0 to |curveSpecs|
     {
@@ -143,7 +143,7 @@ module TestEcdhCalculation {
       expect kmsSharedSecret.Success?;
       expect kmsSharedSecret.value.SharedSecret.Some?;
 
-      var offlineSharedSecret :- expect primitives.DeriveSharedSecret(
+      var offlineSharedSecret :- expect AtomicPrimitives.DeriveSharedSecret(
         PrimitiveTypes.DeriveSharedSecretInput(
           eccCurve := curveSpecs[i],
           privateKey := PrimitiveTypes.ECCPrivateKey(pem := recipientPrivateKey),

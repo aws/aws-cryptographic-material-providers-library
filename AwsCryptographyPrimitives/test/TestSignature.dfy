@@ -5,9 +5,9 @@ include "../src/Index.dfy"
 include "../src/Signature.dfy"
 
 module TestSignature {
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import opened StandardLibrary.UInt
-  import Types = Aws.Cryptography.Primitives.Types
+  import Types = Aws.Cryptography.AtomicPrimitives.Types
   import UTF8
   import opened Wrappers
   import Signature
