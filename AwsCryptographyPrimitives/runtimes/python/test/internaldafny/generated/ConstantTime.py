@@ -27,7 +27,6 @@ import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
 import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
-import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
 import standard_library.internaldafny.generated.Relations as Relations
 import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
@@ -64,6 +63,7 @@ import standard_library.internaldafny.generated.Base64 as Base64
 import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import standard_library.internaldafny.generated.Actions as Actions
 import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
+import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives as Aws_Cryptography_Primitives
 import TestSignature as TestSignature
 import TestAwsCryptographyPrimitivesHKDF as TestAwsCryptographyPrimitivesHKDF
 import TestAwsCryptographyPrimitivesGenerateRandomBytes as TestAwsCryptographyPrimitivesGenerateRandomBytes

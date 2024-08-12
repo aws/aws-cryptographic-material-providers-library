@@ -988,8 +988,8 @@ def com_amazonaws_kms_KeyMetadata(dafny_input):
         output["Arn"] = dafny_input.Arn.value.VerbatimString(False)
 
     if dafny_input.CreationDate.is_Some:
-        output["CreationDate"] = datetime.strptime(
-            dafny_input.CreationDate.value.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+        output["CreationDate"] = datetime.fromisoformat(
+            dafny_input.CreationDate.value.VerbatimString(False)
         )
 
     if dafny_input.Enabled.is_Some:
@@ -1013,13 +1013,13 @@ def com_amazonaws_kms_KeyMetadata(dafny_input):
         )
 
     if dafny_input.DeletionDate.is_Some:
-        output["DeletionDate"] = datetime.strptime(
-            dafny_input.DeletionDate.value.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+        output["DeletionDate"] = datetime.fromisoformat(
+            dafny_input.DeletionDate.value.VerbatimString(False)
         )
 
     if dafny_input.ValidTo.is_Some:
-        output["ValidTo"] = datetime.strptime(
-            dafny_input.ValidTo.value.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+        output["ValidTo"] = datetime.fromisoformat(
+            dafny_input.ValidTo.value.VerbatimString(False)
         )
 
     if dafny_input.Origin.is_Some:
@@ -1550,8 +1550,8 @@ def com_amazonaws_kms_CustomKeyStoresListEntry(dafny_input):
         )
 
     if dafny_input.CreationDate.is_Some:
-        output["CreationDate"] = datetime.strptime(
-            dafny_input.CreationDate.value.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+        output["CreationDate"] = datetime.fromisoformat(
+            dafny_input.CreationDate.value.VerbatimString(False)
         )
 
     if dafny_input.CustomKeyStoreType.is_Some:
@@ -2181,15 +2181,13 @@ def com_amazonaws_kms_GetKeyRotationStatusResponse(dafny_input):
         output["RotationPeriodInDays"] = dafny_input.RotationPeriodInDays.value
 
     if dafny_input.NextRotationDate.is_Some:
-        output["NextRotationDate"] = datetime.strptime(
-            dafny_input.NextRotationDate.value.VerbatimString(False),
-            "%Y-%m-%dT%H:%M:%S",
+        output["NextRotationDate"] = datetime.fromisoformat(
+            dafny_input.NextRotationDate.value.VerbatimString(False)
         )
 
     if dafny_input.OnDemandRotationStartDate.is_Some:
-        output["OnDemandRotationStartDate"] = datetime.strptime(
-            dafny_input.OnDemandRotationStartDate.value.VerbatimString(False),
-            "%Y-%m-%dT%H:%M:%S",
+        output["OnDemandRotationStartDate"] = datetime.fromisoformat(
+            dafny_input.OnDemandRotationStartDate.value.VerbatimString(False)
         )
 
     return output
@@ -2265,9 +2263,8 @@ def com_amazonaws_kms_GetParametersForImportResponse(dafny_input):
         output["PublicKey"] = bytes(dafny_input.PublicKey.value)
 
     if dafny_input.ParametersValidTo.is_Some:
-        output["ParametersValidTo"] = datetime.strptime(
-            dafny_input.ParametersValidTo.value.VerbatimString(False),
-            "%Y-%m-%dT%H:%M:%S",
+        output["ParametersValidTo"] = datetime.fromisoformat(
+            dafny_input.ParametersValidTo.value.VerbatimString(False)
         )
 
     return output
@@ -2347,8 +2344,8 @@ def com_amazonaws_kms_ImportKeyMaterialRequest(dafny_input):
     output["ImportToken"] = bytes(dafny_input.ImportToken)
     output["EncryptedKeyMaterial"] = bytes(dafny_input.EncryptedKeyMaterial)
     if dafny_input.ValidTo.is_Some:
-        output["ValidTo"] = datetime.strptime(
-            dafny_input.ValidTo.value.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+        output["ValidTo"] = datetime.fromisoformat(
+            dafny_input.ValidTo.value.VerbatimString(False)
         )
 
     if dafny_input.ExpirationModel.is_Some:
@@ -2392,13 +2389,13 @@ def com_amazonaws_kms_AliasListEntry(dafny_input):
         output["TargetKeyId"] = dafny_input.TargetKeyId.value.VerbatimString(False)
 
     if dafny_input.CreationDate.is_Some:
-        output["CreationDate"] = datetime.strptime(
-            dafny_input.CreationDate.value.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+        output["CreationDate"] = datetime.fromisoformat(
+            dafny_input.CreationDate.value.VerbatimString(False)
         )
 
     if dafny_input.LastUpdatedDate.is_Some:
-        output["LastUpdatedDate"] = datetime.strptime(
-            dafny_input.LastUpdatedDate.value.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+        output["LastUpdatedDate"] = datetime.fromisoformat(
+            dafny_input.LastUpdatedDate.value.VerbatimString(False)
         )
 
     return output
@@ -2455,8 +2452,8 @@ def com_amazonaws_kms_GrantListEntry(dafny_input):
         output["Name"] = dafny_input.Name.value.VerbatimString(False)
 
     if dafny_input.CreationDate.is_Some:
-        output["CreationDate"] = datetime.strptime(
-            dafny_input.CreationDate.value.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+        output["CreationDate"] = datetime.fromisoformat(
+            dafny_input.CreationDate.value.VerbatimString(False)
         )
 
     if dafny_input.GranteePrincipal.is_Some:
@@ -2558,8 +2555,8 @@ def com_amazonaws_kms_RotationsListEntry(dafny_input):
         output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
 
     if dafny_input.RotationDate.is_Some:
-        output["RotationDate"] = datetime.strptime(
-            dafny_input.RotationDate.value.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+        output["RotationDate"] = datetime.fromisoformat(
+            dafny_input.RotationDate.value.VerbatimString(False)
         )
 
     if dafny_input.RotationType.is_Some:
@@ -2868,8 +2865,8 @@ def com_amazonaws_kms_ScheduleKeyDeletionResponse(dafny_input):
         output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
 
     if dafny_input.DeletionDate.is_Some:
-        output["DeletionDate"] = datetime.strptime(
-            dafny_input.DeletionDate.value.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+        output["DeletionDate"] = datetime.fromisoformat(
+            dafny_input.DeletionDate.value.VerbatimString(False)
         )
 
     if dafny_input.KeyState.is_Some:

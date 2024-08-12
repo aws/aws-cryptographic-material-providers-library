@@ -27,7 +27,6 @@ import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
 import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
-import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
 import standard_library.internaldafny.generated.Relations as Relations
 import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
@@ -64,6 +63,7 @@ import standard_library.internaldafny.generated.Base64 as Base64
 import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import standard_library.internaldafny.generated.Actions as Actions
 import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
+import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives as Aws_Cryptography_Primitives
 import TestSignature as TestSignature
 import TestAwsCryptographyPrimitivesHKDF as TestAwsCryptographyPrimitivesHKDF
 import TestAwsCryptographyPrimitivesGenerateRandomBytes as TestAwsCryptographyPrimitivesGenerateRandomBytes
@@ -98,7 +98,7 @@ class default__:
             out29_ = ECDH.default__.GenerateEccKeyPair(AwsCryptographyPrimitivesTypes.GenerateECCKeyPairInput_GenerateECCKeyPairInput(d_146_curve_))
             d_148_valueOrError0_ = out29_
             if not(not((d_148_valueOrError0_).IsFailure())):
-                raise _dafny.HaltException("test/TestECDH.dfy(135,21): " + _dafny.string_of(d_148_valueOrError0_))
+                raise _dafny.HaltException("test/TestECDH.dfy(133,21): " + _dafny.string_of(d_148_valueOrError0_))
             d_147_keypair_ = (d_148_valueOrError0_).Extract()
 
     @staticmethod
@@ -117,7 +117,7 @@ class default__:
             d_155_valueOrError0_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
             d_155_valueOrError0_ = UTF8.default__.Encode((d_149_pemPrivateKeys_)[d_152_i_])
             if not(not((d_155_valueOrError0_).IsFailure())):
-                raise _dafny.HaltException("test/TestECDH.dfy(152,24): " + _dafny.string_of(d_155_valueOrError0_))
+                raise _dafny.HaltException("test/TestECDH.dfy(150,24): " + _dafny.string_of(d_155_valueOrError0_))
             d_154_privateKey_ = (d_155_valueOrError0_).Extract()
             d_156_looseHexPublicKey_: _dafny.Seq
             out30_: _dafny.Seq
@@ -131,7 +131,7 @@ class default__:
             out31_ = ECDH.default__.ParsePublicKey(AwsCryptographyPrimitivesTypes.ParsePublicKeyInput_ParsePublicKeyInput(d_157_publicKeyBytes_))
             d_159_valueOrError1_ = out31_
             if not(not((d_159_valueOrError1_).IsFailure())):
-                raise _dafny.HaltException("test/TestECDH.dfy(156,31): " + _dafny.string_of(d_159_valueOrError1_))
+                raise _dafny.HaltException("test/TestECDH.dfy(154,31): " + _dafny.string_of(d_159_valueOrError1_))
             d_158_expectedPublicKey_ = (d_159_valueOrError1_).Extract()
             d_160_publicKey_: AwsCryptographyPrimitivesTypes.GetPublicKeyFromPrivateKeyOutput
             d_161_valueOrError2_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.GetPublicKeyFromPrivateKeyOutput.default())()
@@ -139,10 +139,10 @@ class default__:
             out32_ = ECDH.default__.GetPublicKeyFromPrivate(AwsCryptographyPrimitivesTypes.GetPublicKeyFromPrivateKeyInput_GetPublicKeyFromPrivateKeyInput(d_153_curve_, AwsCryptographyPrimitivesTypes.ECCPrivateKey_ECCPrivateKey(d_154_privateKey_)))
             d_161_valueOrError2_ = out32_
             if not(not((d_161_valueOrError2_).IsFailure())):
-                raise _dafny.HaltException("test/TestECDH.dfy(161,23): " + _dafny.string_of(d_161_valueOrError2_))
+                raise _dafny.HaltException("test/TestECDH.dfy(159,23): " + _dafny.string_of(d_161_valueOrError2_))
             d_160_publicKey_ = (d_161_valueOrError2_).Extract()
             if not(((d_160_publicKey_).publicKey) == (((d_158_expectedPublicKey_).publicKey).der)):
-                raise _dafny.HaltException("test/TestECDH.dfy(168,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                raise _dafny.HaltException("test/TestECDH.dfy(166,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def TestGetPublicKeyFromPrivateIncorrectCruve():
@@ -152,7 +152,7 @@ class default__:
         d_164_valueOrError0_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
         d_164_valueOrError0_ = UTF8.default__.Encode(default__.ECC__P256__PRIVATE)
         if not(not((d_164_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestECDH.dfy(175,22): " + _dafny.string_of(d_164_valueOrError0_))
+            raise _dafny.HaltException("test/TestECDH.dfy(173,22): " + _dafny.string_of(d_164_valueOrError0_))
         d_163_privateKey_ = (d_164_valueOrError0_).Extract()
         d_165_looseHexPublicKey_: _dafny.Seq
         out33_: _dafny.Seq
@@ -166,20 +166,20 @@ class default__:
         out34_ = ECDH.default__.ParsePublicKey(AwsCryptographyPrimitivesTypes.ParsePublicKeyInput_ParsePublicKeyInput(d_166_publicKeyBytes_))
         d_168_valueOrError1_ = out34_
         if not(not((d_168_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/TestECDH.dfy(179,29): " + _dafny.string_of(d_168_valueOrError1_))
+            raise _dafny.HaltException("test/TestECDH.dfy(177,29): " + _dafny.string_of(d_168_valueOrError1_))
         d_167_expectedPublicKey_ = (d_168_valueOrError1_).Extract()
         d_169_publicKey_: Wrappers.Result
         out35_: Wrappers.Result
         out35_ = ECDH.default__.GetPublicKeyFromPrivate(AwsCryptographyPrimitivesTypes.GetPublicKeyFromPrivateKeyInput_GetPublicKeyFromPrivateKeyInput(d_162_curve_, AwsCryptographyPrimitivesTypes.ECCPrivateKey_ECCPrivateKey(d_163_privateKey_)))
         d_169_publicKey_ = out35_
         if not((d_169_publicKey_).is_Failure):
-            raise _dafny.HaltException("test/TestECDH.dfy(191,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("test/TestECDH.dfy(189,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def expectLooseHexString(s):
         s2: _dafny.Seq = _dafny.Seq("")
         if not(HexStrings.default__.IsLooseHexString(s)):
-            raise _dafny.HaltException("test/TestECDH.dfy(197,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("test/TestECDH.dfy(195,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         s2 = s
         return s2
         return s2
@@ -198,7 +198,7 @@ class default__:
             out36_ = ECDH.default__.GenerateEccKeyPair(AwsCryptographyPrimitivesTypes.GenerateECCKeyPairInput_GenerateECCKeyPairInput(d_172_curve_))
             d_174_valueOrError0_ = out36_
             if not(not((d_174_valueOrError0_).IsFailure())):
-                raise _dafny.HaltException("test/TestECDH.dfy(208,22): " + _dafny.string_of(d_174_valueOrError0_))
+                raise _dafny.HaltException("test/TestECDH.dfy(206,22): " + _dafny.string_of(d_174_valueOrError0_))
             d_173_keypairA_ = (d_174_valueOrError0_).Extract()
             d_175_keypairB_: AwsCryptographyPrimitivesTypes.GenerateECCKeyPairOutput
             d_176_valueOrError1_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.GenerateECCKeyPairOutput.default())()
@@ -206,7 +206,7 @@ class default__:
             out37_ = ECDH.default__.GenerateEccKeyPair(AwsCryptographyPrimitivesTypes.GenerateECCKeyPairInput_GenerateECCKeyPairInput(d_172_curve_))
             d_176_valueOrError1_ = out37_
             if not(not((d_176_valueOrError1_).IsFailure())):
-                raise _dafny.HaltException("test/TestECDH.dfy(213,22): " + _dafny.string_of(d_176_valueOrError1_))
+                raise _dafny.HaltException("test/TestECDH.dfy(211,22): " + _dafny.string_of(d_176_valueOrError1_))
             d_175_keypairB_ = (d_176_valueOrError1_).Extract()
             d_177_validPublicKeyB_: AwsCryptographyPrimitivesTypes.ValidatePublicKeyOutput
             d_178_valueOrError2_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.ValidatePublicKeyOutput.default())()
@@ -214,7 +214,7 @@ class default__:
             out38_ = ECDH.default__.ValidatePublicKey(AwsCryptographyPrimitivesTypes.ValidatePublicKeyInput_ValidatePublicKeyInput(d_172_curve_, ((d_175_keypairB_).publicKey).der))
             d_178_valueOrError2_ = out38_
             if not(not((d_178_valueOrError2_).IsFailure())):
-                raise _dafny.HaltException("test/TestECDH.dfy(219,29): " + _dafny.string_of(d_178_valueOrError2_))
+                raise _dafny.HaltException("test/TestECDH.dfy(217,29): " + _dafny.string_of(d_178_valueOrError2_))
             d_177_validPublicKeyB_ = (d_178_valueOrError2_).Extract()
 
     @staticmethod
@@ -235,7 +235,7 @@ class default__:
                 out39_ = ECDH.default__.GenerateEccKeyPair(AwsCryptographyPrimitivesTypes.GenerateECCKeyPairInput_GenerateECCKeyPairInput(d_182_curve__i_))
                 d_185_valueOrError0_ = out39_
                 if not(not((d_185_valueOrError0_).IsFailure())):
-                    raise _dafny.HaltException("test/TestECDH.dfy(239,24): " + _dafny.string_of(d_185_valueOrError0_))
+                    raise _dafny.HaltException("test/TestECDH.dfy(237,24): " + _dafny.string_of(d_185_valueOrError0_))
                 d_184_keypairA_ = (d_185_valueOrError0_).Extract()
                 d_186_keypairB_: AwsCryptographyPrimitivesTypes.GenerateECCKeyPairOutput
                 d_187_valueOrError1_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.GenerateECCKeyPairOutput.default())()
@@ -243,7 +243,7 @@ class default__:
                 out40_ = ECDH.default__.GenerateEccKeyPair(AwsCryptographyPrimitivesTypes.GenerateECCKeyPairInput_GenerateECCKeyPairInput(d_183_curve__j_))
                 d_187_valueOrError1_ = out40_
                 if not(not((d_187_valueOrError1_).IsFailure())):
-                    raise _dafny.HaltException("test/TestECDH.dfy(244,24): " + _dafny.string_of(d_187_valueOrError1_))
+                    raise _dafny.HaltException("test/TestECDH.dfy(242,24): " + _dafny.string_of(d_187_valueOrError1_))
                 d_186_keypairB_ = (d_187_valueOrError1_).Extract()
                 d_188_validPublicKeyB_: Wrappers.Result
                 out41_: Wrappers.Result
@@ -251,10 +251,10 @@ class default__:
                 d_188_validPublicKeyB_ = out41_
                 if (d_182_curve__i_) != (d_183_curve__j_):
                     if not((d_188_validPublicKeyB_).is_Failure):
-                        raise _dafny.HaltException("test/TestECDH.dfy(258,10): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                        raise _dafny.HaltException("test/TestECDH.dfy(256,10): " + _dafny.string_of(_dafny.Seq("expectation violation")))
                 elif True:
                     if not((d_188_validPublicKeyB_).is_Success):
-                        raise _dafny.HaltException("test/TestECDH.dfy(260,10): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                        raise _dafny.HaltException("test/TestECDH.dfy(258,10): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def TestValidatePublicKeyFailurePointAtINFFailOnLoad():
@@ -275,13 +275,13 @@ class default__:
             out43_ = ECDH.default__.ValidatePublicKey(AwsCryptographyPrimitivesTypes.ValidatePublicKeyInput_ValidatePublicKeyInput((d_190_supportedCurves_)[d_191_i_], d_193_publicKeyBytes_))
             d_194_validPublicKey_ = out43_
             if not((d_194_validPublicKey_).is_Failure):
-                raise _dafny.HaltException("test/TestECDH.dfy(284,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                raise _dafny.HaltException("test/TestECDH.dfy(282,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
             if not(((d_194_validPublicKey_).error).is_AwsCryptographicPrimitivesError):
-                raise _dafny.HaltException("test/TestECDH.dfy(286,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                raise _dafny.HaltException("test/TestECDH.dfy(284,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
             d_195_errMsg_: _dafny.Seq
             d_195_errMsg_ = ((d_194_validPublicKey_).error).message
-            if not(((((d_195_errMsg_) == (default__.INFINITY__POINT__ERR__MSG__JAVA)) or ((d_195_errMsg_) == (default__.INFINITY__POINT__ERR__MSG__NET6))) or ((d_195_errMsg_) == (default__.INFINITY__POINT__ERR__MSG__NET48))) or (default__.seq__contains(d_195_errMsg_, default__.INFINITY__POINT__ERR__MSG__PYTHON))):
-                raise _dafny.HaltException("test/TestECDH.dfy(289,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            if not((((d_195_errMsg_) == (default__.INFINITY__POINT__ERR__MSG__JAVA)) or ((d_195_errMsg_) == (default__.INFINITY__POINT__ERR__MSG__NET6))) or ((d_195_errMsg_) == (default__.INFINITY__POINT__ERR__MSG__NET48))):
+                raise _dafny.HaltException("test/TestECDH.dfy(287,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def TestValidatePublicKeyFailurePointAtINF():
@@ -302,8 +302,7 @@ class default__:
             out45_ = ECDH.default__.ValidatePublicKey(AwsCryptographyPrimitivesTypes.ValidatePublicKeyInput_ValidatePublicKeyInput((d_197_supportedCurves_)[d_198_i_], d_200_publicKeyBytes_))
             d_201_validPublicKey_ = out45_
             if not((d_201_validPublicKey_).is_Failure):
-                raise _dafny.HaltException("test/TestECDH.dfy(313,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-            _dafny.print(_dafny.string_of((d_201_validPublicKey_).error))
+                raise _dafny.HaltException("test/TestECDH.dfy(310,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def TestValidatePublicKeyFailurePointGreaterThanPFailOnLoad():
@@ -324,13 +323,13 @@ class default__:
             out47_ = ECDH.default__.ValidatePublicKey(AwsCryptographyPrimitivesTypes.ValidatePublicKeyInput_ValidatePublicKeyInput((d_203_supportedCurves_)[d_204_i_], d_206_publicKeyBytes_))
             d_207_validPublicKey_ = out47_
             if not((d_207_validPublicKey_).is_Failure):
-                raise _dafny.HaltException("test/TestECDH.dfy(335,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                raise _dafny.HaltException("test/TestECDH.dfy(331,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
             if not(((d_207_validPublicKey_).error).is_AwsCryptographicPrimitivesError):
-                raise _dafny.HaltException("test/TestECDH.dfy(337,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                raise _dafny.HaltException("test/TestECDH.dfy(333,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
             d_208_errMsg_: _dafny.Seq
             d_208_errMsg_ = ((d_207_validPublicKey_).error).message
-            if not((((default__.seq__contains(d_208_errMsg_, default__.OUT__OF__BOUNDS__ERR__MSG__JAVA)) or ((d_208_errMsg_) == (default__.OUT__OF__BOUNDS__ERR__MSG__NET6))) or ((d_208_errMsg_) == (default__.OUT__OF__BOUNDS__ERR__MSG__NE48))) or (default__.seq__contains(d_208_errMsg_, default__.OUT__OF__BOUNDS__ERR__MSG__PYTHON))):
-                raise _dafny.HaltException("test/TestECDH.dfy(339,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            if not(((default__.seq__contains(d_208_errMsg_, default__.OUT__OF__BOUNDS__ERR__MSG__JAVA)) or ((d_208_errMsg_) == (default__.OUT__OF__BOUNDS__ERR__MSG__NET6))) or ((d_208_errMsg_) == (default__.OUT__OF__BOUNDS__ERR__MSG__NE48))):
+                raise _dafny.HaltException("test/TestECDH.dfy(335,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def TestValidatePublicKeyFailurePointGreaterThanP():
@@ -351,8 +350,7 @@ class default__:
             out49_ = ECDH.default__.ValidatePublicKey(AwsCryptographyPrimitivesTypes.ValidatePublicKeyInput_ValidatePublicKeyInput((d_210_supportedCurves_)[d_211_i_], d_213_publicKeyBytes_))
             d_214_validPublicKey_ = out49_
             if not((d_214_validPublicKey_).is_Failure):
-                raise _dafny.HaltException("test/TestECDH.dfy(363,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-            _dafny.print(_dafny.string_of((d_214_validPublicKey_).error))
+                raise _dafny.HaltException("test/TestECDH.dfy(358,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def TestGenerateSharedSecret():
@@ -368,7 +366,7 @@ class default__:
             out50_ = ECDH.default__.GenerateEccKeyPair(AwsCryptographyPrimitivesTypes.GenerateECCKeyPairInput_GenerateECCKeyPairInput(d_217_curve_))
             d_219_valueOrError0_ = out50_
             if not(not((d_219_valueOrError0_).IsFailure())):
-                raise _dafny.HaltException("test/TestECDH.dfy(374,22): " + _dafny.string_of(d_219_valueOrError0_))
+                raise _dafny.HaltException("test/TestECDH.dfy(368,22): " + _dafny.string_of(d_219_valueOrError0_))
             d_218_keypairA_ = (d_219_valueOrError0_).Extract()
             d_220_keypairB_: AwsCryptographyPrimitivesTypes.GenerateECCKeyPairOutput
             d_221_valueOrError1_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.GenerateECCKeyPairOutput.default())()
@@ -376,17 +374,17 @@ class default__:
             out51_ = ECDH.default__.GenerateEccKeyPair(AwsCryptographyPrimitivesTypes.GenerateECCKeyPairInput_GenerateECCKeyPairInput(d_217_curve_))
             d_221_valueOrError1_ = out51_
             if not(not((d_221_valueOrError1_).IsFailure())):
-                raise _dafny.HaltException("test/TestECDH.dfy(379,22): " + _dafny.string_of(d_221_valueOrError1_))
+                raise _dafny.HaltException("test/TestECDH.dfy(373,22): " + _dafny.string_of(d_221_valueOrError1_))
             d_220_keypairB_ = (d_221_valueOrError1_).Extract()
             if not((((d_218_keypairA_).privateKey) != ((d_220_keypairB_).privateKey)) and (((d_218_keypairA_).publicKey) != ((d_220_keypairB_).publicKey))):
-                raise _dafny.HaltException("test/TestECDH.dfy(385,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                raise _dafny.HaltException("test/TestECDH.dfy(379,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
             d_222_validPublicKeyB_: AwsCryptographyPrimitivesTypes.ValidatePublicKeyOutput
             d_223_valueOrError2_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.ValidatePublicKeyOutput.default())()
             out52_: Wrappers.Result
             out52_ = ECDH.default__.ValidatePublicKey(AwsCryptographyPrimitivesTypes.ValidatePublicKeyInput_ValidatePublicKeyInput(d_217_curve_, ((d_220_keypairB_).publicKey).der))
             d_223_valueOrError2_ = out52_
             if not(not((d_223_valueOrError2_).IsFailure())):
-                raise _dafny.HaltException("test/TestECDH.dfy(390,29): " + _dafny.string_of(d_223_valueOrError2_))
+                raise _dafny.HaltException("test/TestECDH.dfy(384,29): " + _dafny.string_of(d_223_valueOrError2_))
             d_222_validPublicKeyB_ = (d_223_valueOrError2_).Extract()
             d_224_sharedSecretA_: AwsCryptographyPrimitivesTypes.DeriveSharedSecretOutput
             d_225_valueOrError3_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.DeriveSharedSecretOutput.default())()
@@ -394,7 +392,7 @@ class default__:
             out53_ = ECDH.default__.DeriveSharedSecret(AwsCryptographyPrimitivesTypes.DeriveSharedSecretInput_DeriveSharedSecretInput(d_217_curve_, (d_218_keypairA_).privateKey, (d_220_keypairB_).publicKey))
             d_225_valueOrError3_ = out53_
             if not(not((d_225_valueOrError3_).IsFailure())):
-                raise _dafny.HaltException("test/TestECDH.dfy(397,27): " + _dafny.string_of(d_225_valueOrError3_))
+                raise _dafny.HaltException("test/TestECDH.dfy(391,27): " + _dafny.string_of(d_225_valueOrError3_))
             d_224_sharedSecretA_ = (d_225_valueOrError3_).Extract()
             d_226_sharedSecretB_: AwsCryptographyPrimitivesTypes.DeriveSharedSecretOutput
             d_227_valueOrError4_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.DeriveSharedSecretOutput.default())()
@@ -402,10 +400,10 @@ class default__:
             out54_ = ECDH.default__.DeriveSharedSecret(AwsCryptographyPrimitivesTypes.DeriveSharedSecretInput_DeriveSharedSecretInput(d_217_curve_, (d_220_keypairB_).privateKey, (d_218_keypairA_).publicKey))
             d_227_valueOrError4_ = out54_
             if not(not((d_227_valueOrError4_).IsFailure())):
-                raise _dafny.HaltException("test/TestECDH.dfy(405,27): " + _dafny.string_of(d_227_valueOrError4_))
+                raise _dafny.HaltException("test/TestECDH.dfy(399,27): " + _dafny.string_of(d_227_valueOrError4_))
             d_226_sharedSecretB_ = (d_227_valueOrError4_).Extract()
             if not((d_224_sharedSecretA_) == (d_226_sharedSecretB_)):
-                raise _dafny.HaltException("test/TestECDH.dfy(413,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                raise _dafny.HaltException("test/TestECDH.dfy(407,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def TestCompressDecompressPublicKey():
@@ -421,7 +419,7 @@ class default__:
             out55_ = ECDH.default__.GenerateEccKeyPair(AwsCryptographyPrimitivesTypes.GenerateECCKeyPairInput_GenerateECCKeyPairInput(d_230_curve_))
             d_232_valueOrError0_ = out55_
             if not(not((d_232_valueOrError0_).IsFailure())):
-                raise _dafny.HaltException("test/TestECDH.dfy(422,21): " + _dafny.string_of(d_232_valueOrError0_))
+                raise _dafny.HaltException("test/TestECDH.dfy(416,21): " + _dafny.string_of(d_232_valueOrError0_))
             d_231_keypair_ = (d_232_valueOrError0_).Extract()
             d_233_originalPublicKey_: AwsCryptographyPrimitivesTypes.ECCPublicKey
             d_233_originalPublicKey_ = (d_231_keypair_).publicKey
@@ -431,10 +429,10 @@ class default__:
             out56_ = ECDH.default__.CompressPublicKey(AwsCryptographyPrimitivesTypes.CompressPublicKeyInput_CompressPublicKeyInput(d_233_originalPublicKey_, d_230_curve_))
             d_235_valueOrError1_ = out56_
             if not(not((d_235_valueOrError1_).IsFailure())):
-                raise _dafny.HaltException("test/TestECDH.dfy(429,39): " + _dafny.string_of(d_235_valueOrError1_))
+                raise _dafny.HaltException("test/TestECDH.dfy(423,39): " + _dafny.string_of(d_235_valueOrError1_))
             d_234_compressedPublicKeyResult_ = (d_235_valueOrError1_).Extract()
             if not(((d_234_compressedPublicKeyResult_).compressedPublicKey) != ((d_233_originalPublicKey_).der)):
-                raise _dafny.HaltException("test/TestECDH.dfy(436,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                raise _dafny.HaltException("test/TestECDH.dfy(430,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
             d_236_compressedPublicKey_: _dafny.Seq
             d_236_compressedPublicKey_ = (d_234_compressedPublicKeyResult_).compressedPublicKey
             d_237_decompressedPublicKeyResult_: AwsCryptographyPrimitivesTypes.DecompressPublicKeyOutput
@@ -443,12 +441,12 @@ class default__:
             out57_ = ECDH.default__.DecompressPublicKey(AwsCryptographyPrimitivesTypes.DecompressPublicKeyInput_DecompressPublicKeyInput(d_236_compressedPublicKey_, d_230_curve_))
             d_238_valueOrError2_ = out57_
             if not(not((d_238_valueOrError2_).IsFailure())):
-                raise _dafny.HaltException("test/TestECDH.dfy(440,41): " + _dafny.string_of(d_238_valueOrError2_))
+                raise _dafny.HaltException("test/TestECDH.dfy(434,41): " + _dafny.string_of(d_238_valueOrError2_))
             d_237_decompressedPublicKeyResult_ = (d_238_valueOrError2_).Extract()
             d_239_decompressedPublicKey_: AwsCryptographyPrimitivesTypes.ECCPublicKey
             d_239_decompressedPublicKey_ = (d_237_decompressedPublicKeyResult_).publicKey
             if not(((d_233_originalPublicKey_).der) == ((d_239_decompressedPublicKey_).der)):
-                raise _dafny.HaltException("test/TestECDH.dfy(449,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                raise _dafny.HaltException("test/TestECDH.dfy(443,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def TestCompressDecompressConstantPublicKeys():
@@ -470,10 +468,10 @@ class default__:
             out58_ = ECDH.default__.CompressPublicKey(AwsCryptographyPrimitivesTypes.CompressPublicKeyInput_CompressPublicKeyInput(AwsCryptographyPrimitivesTypes.ECCPublicKey_ECCPublicKey(d_245_publicKeyBytes_), d_243_curve_))
             d_247_valueOrError0_ = out58_
             if not(not((d_247_valueOrError0_).IsFailure())):
-                raise _dafny.HaltException("test/TestECDH.dfy(462,39): " + _dafny.string_of(d_247_valueOrError0_))
+                raise _dafny.HaltException("test/TestECDH.dfy(456,39): " + _dafny.string_of(d_247_valueOrError0_))
             d_246_compressedPublicKeyResult_ = (d_247_valueOrError0_).Extract()
             if not(((d_246_compressedPublicKeyResult_).compressedPublicKey) != (d_245_publicKeyBytes_)):
-                raise _dafny.HaltException("test/TestECDH.dfy(469,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                raise _dafny.HaltException("test/TestECDH.dfy(463,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
             d_248_compressedPublicKey_: _dafny.Seq
             d_248_compressedPublicKey_ = (d_246_compressedPublicKeyResult_).compressedPublicKey
             d_249_decompressedPublicKeyResult_: AwsCryptographyPrimitivesTypes.DecompressPublicKeyOutput
@@ -482,12 +480,12 @@ class default__:
             out59_ = ECDH.default__.DecompressPublicKey(AwsCryptographyPrimitivesTypes.DecompressPublicKeyInput_DecompressPublicKeyInput(d_248_compressedPublicKey_, d_243_curve_))
             d_250_valueOrError1_ = out59_
             if not(not((d_250_valueOrError1_).IsFailure())):
-                raise _dafny.HaltException("test/TestECDH.dfy(473,41): " + _dafny.string_of(d_250_valueOrError1_))
+                raise _dafny.HaltException("test/TestECDH.dfy(467,41): " + _dafny.string_of(d_250_valueOrError1_))
             d_249_decompressedPublicKeyResult_ = (d_250_valueOrError1_).Extract()
             d_251_decompressedPublicKey_: AwsCryptographyPrimitivesTypes.ECCPublicKey
             d_251_decompressedPublicKey_ = (d_249_decompressedPublicKeyResult_).publicKey
             if not((d_245_publicKeyBytes_) == ((d_251_decompressedPublicKey_).der)):
-                raise _dafny.HaltException("test/TestECDH.dfy(482,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                raise _dafny.HaltException("test/TestECDH.dfy(476,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def TestPublicKeyValidationTestVectorsInfinity():
@@ -501,20 +499,20 @@ class default__:
             out60_ = ECDH.ECCUtils.GetInfinityPublicKey((d_252_curves_)[d_253_i_])
             d_255_valueOrError0_ = out60_
             if not(not((d_255_valueOrError0_).IsFailure())):
-                raise _dafny.HaltException("test/TestECDH.dfy(492,25): " + _dafny.string_of(d_255_valueOrError0_))
+                raise _dafny.HaltException("test/TestECDH.dfy(486,25): " + _dafny.string_of(d_255_valueOrError0_))
             d_254_der__ecc__inf_ = (d_255_valueOrError0_).Extract()
             d_256_validPublicKeyB_: Wrappers.Result
             out61_: Wrappers.Result
             out61_ = ECDH.default__.ValidatePublicKey(AwsCryptographyPrimitivesTypes.ValidatePublicKeyInput_ValidatePublicKeyInput((d_252_curves_)[d_253_i_], d_254_der__ecc__inf_))
             d_256_validPublicKeyB_ = out61_
             if not((d_256_validPublicKeyB_).is_Failure):
-                raise _dafny.HaltException("test/TestECDH.dfy(500,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                raise _dafny.HaltException("test/TestECDH.dfy(494,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
             if not(((d_256_validPublicKeyB_).error).is_AwsCryptographicPrimitivesError):
-                raise _dafny.HaltException("test/TestECDH.dfy(501,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                raise _dafny.HaltException("test/TestECDH.dfy(495,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
             d_257_errMsg_: _dafny.Seq
             d_257_errMsg_ = ((d_256_validPublicKeyB_).error).message
-            if not(((((d_257_errMsg_) == (default__.INFINITY__POINT__ERR__MSG__JAVA)) or ((d_257_errMsg_) == (default__.INFINITY__POINT__ERR__MSG__NET6))) or ((d_257_errMsg_) == (default__.INFINITY__POINT__ERR__MSG__NET48))) or (default__.seq__contains(d_257_errMsg_, default__.INFINITY__POINT__ERR__MSG__PYTHON))):
-                raise _dafny.HaltException("test/TestECDH.dfy(504,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            if not((((d_257_errMsg_) == (default__.INFINITY__POINT__ERR__MSG__JAVA)) or ((d_257_errMsg_) == (default__.INFINITY__POINT__ERR__MSG__NET6))) or ((d_257_errMsg_) == (default__.INFINITY__POINT__ERR__MSG__NET48))):
+                raise _dafny.HaltException("test/TestECDH.dfy(498,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def TestPublicKeyValidationTestVectorsOutOfBounds():
@@ -528,20 +526,20 @@ class default__:
             out62_ = ECDH.ECCUtils.GetOutOfBoundsPublicKey((d_258_curves_)[d_259_i_])
             d_261_valueOrError0_ = out62_
             if not(not((d_261_valueOrError0_).IsFailure())):
-                raise _dafny.HaltException("test/TestECDH.dfy(519,25): " + _dafny.string_of(d_261_valueOrError0_))
+                raise _dafny.HaltException("test/TestECDH.dfy(512,25): " + _dafny.string_of(d_261_valueOrError0_))
             d_260_der__ecc__inf_ = (d_261_valueOrError0_).Extract()
             d_262_validPublicKeyB_: Wrappers.Result
             out63_: Wrappers.Result
             out63_ = ECDH.default__.ValidatePublicKey(AwsCryptographyPrimitivesTypes.ValidatePublicKeyInput_ValidatePublicKeyInput((d_258_curves_)[d_259_i_], d_260_der__ecc__inf_))
             d_262_validPublicKeyB_ = out63_
             if not((d_262_validPublicKeyB_).is_Failure):
-                raise _dafny.HaltException("test/TestECDH.dfy(527,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                raise _dafny.HaltException("test/TestECDH.dfy(520,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
             if not(((d_262_validPublicKeyB_).error).is_AwsCryptographicPrimitivesError):
-                raise _dafny.HaltException("test/TestECDH.dfy(528,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                raise _dafny.HaltException("test/TestECDH.dfy(521,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
             d_263_errMsg_: _dafny.Seq
             d_263_errMsg_ = ((d_262_validPublicKeyB_).error).message
-            if not((((default__.seq__contains(d_263_errMsg_, default__.OUT__OF__BOUNDS__ERR__MSG__JAVA)) or ((d_263_errMsg_) == (default__.OUT__OF__BOUNDS__ERR__MSG__NET6))) or ((d_263_errMsg_) == (default__.OUT__OF__BOUNDS__ERR__MSG__NE48))) or (default__.seq__contains(d_263_errMsg_, default__.OUT__OF__BOUNDS__ERR__MSG__PYTHON))):
-                raise _dafny.HaltException("test/TestECDH.dfy(531,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            if not(((default__.seq__contains(d_263_errMsg_, default__.OUT__OF__BOUNDS__ERR__MSG__JAVA)) or ((d_263_errMsg_) == (default__.OUT__OF__BOUNDS__ERR__MSG__NET6))) or ((d_263_errMsg_) == (default__.OUT__OF__BOUNDS__ERR__MSG__NE48))):
+                raise _dafny.HaltException("test/TestECDH.dfy(524,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def seq__contains(haystack, needle):
@@ -609,9 +607,6 @@ class default__:
     def INFINITY__POINT__ERR__MSG__NET48(instance):
         return _dafny.Seq("Point at infinity\r\nParameter name: q")
     @_dafny.classproperty
-    def INFINITY__POINT__ERR__MSG__PYTHON(instance):
-        return _dafny.Seq("Unable to load EC key")
-    @_dafny.classproperty
     def ECC__256__PUBLIC__INF(instance):
         return ((_dafny.Seq("3059301306072a864886f70d0106082a864886f70d03010703420004000000000000")) + (_dafny.Seq("00000000000000000000000000000000000000000000000000000000000000000000"))) + (_dafny.Seq("00000000000000000000000000000000000000000000000000000000"))
     @_dafny.classproperty
@@ -638,9 +633,6 @@ class default__:
     @_dafny.classproperty
     def OUT__OF__BOUNDS__ERR__MSG__NE48(instance):
         return _dafny.Seq("value invalid for Fp field element\r\nParameter name: x")
-    @_dafny.classproperty
-    def OUT__OF__BOUNDS__ERR__MSG__PYTHON(instance):
-        return _dafny.Seq("Could not deserialize key data. The data may be in an incorrect format")
     @_dafny.classproperty
     def ECC__P256__PUBLIC__GP(instance):
         return (((_dafny.Seq("3059301306072a864886f70d0106082a864886f70d03010703420004000000000000000")) + (_dafny.Seq("00000000000000000000000000000000000000000000000000000000000000000000000"))) + (_dafny.Seq("00000000000000000000000000000000000000000000000000000000000000000000000"))) + (_dafny.Seq("000000001"))

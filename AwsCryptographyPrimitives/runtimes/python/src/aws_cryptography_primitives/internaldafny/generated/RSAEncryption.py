@@ -74,7 +74,7 @@ class default__:
         d_100_pemPrivate_: _dafny.Seq
         out18_: _dafny.Seq
         out19_: _dafny.Seq
-        out18_, out19_ = RSA.GenerateKeyPairExtern(lengthBits)
+        out18_, out19_ = RSAEncryption.RSA.GenerateKeyPairExtern(lengthBits)
         d_99_pemPublic_ = out18_
         d_100_pemPrivate_ = out19_
         privateKey = AwsCryptographyPrimitivesTypes.RSAPrivateKey_RSAPrivateKey(lengthBits, d_100_pemPrivate_)
@@ -83,7 +83,7 @@ class default__:
 
     @staticmethod
     def GetRSAKeyModulusLength(publicKey):
-        d_101_valueOrError0_ = RSA_GetRSAKeyModulusLengthExtern(publicKey)
+        d_101_valueOrError0_ = RSAEncryption.RSA_GetRSAKeyModulusLengthExtern(publicKey)
         if (d_101_valueOrError0_).IsFailure():
             return (d_101_valueOrError0_).PropagateFailure()
         elif True:
@@ -103,7 +103,7 @@ class default__:
             output = (d_104_valueOrError0_).PropagateFailure()
             return output
         out20_: Wrappers.Result
-        out20_ = RSA.DecryptExtern((input).padding, (input).privateKey, (input).cipherText)
+        out20_ = RSAEncryption.RSA.DecryptExtern((input).padding, (input).privateKey, (input).cipherText)
         output = out20_
         return output
 
@@ -116,7 +116,7 @@ class default__:
             output = (d_105_valueOrError0_).PropagateFailure()
             return output
         out21_: Wrappers.Result
-        out21_ = RSA.EncryptExtern((input).padding, (input).publicKey, (input).plaintext)
+        out21_ = RSAEncryption.RSA.EncryptExtern((input).padding, (input).publicKey, (input).plaintext)
         output = out21_
         return output
 

@@ -27,7 +27,6 @@ import aws_cryptography_primitives.internaldafny.generated.KdfCtr as KdfCtr
 import aws_cryptography_primitives.internaldafny.generated.RSAEncryption as RSAEncryption
 import aws_cryptography_primitives.internaldafny.generated.ECDH as ECDH
 import aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitivesOperations as AwsCryptographyPrimitivesOperations
-import aws_cryptography_primitives.internaldafny.generated.AtomicPrimitives as AtomicPrimitives
 import aws_cryptography_primitives.internaldafny.generated.AesKdfCtr as AesKdfCtr
 import standard_library.internaldafny.generated.Relations as Relations
 import standard_library.internaldafny.generated.Seq_MergeSort as Seq_MergeSort
@@ -64,6 +63,7 @@ import standard_library.internaldafny.generated.Base64 as Base64
 import standard_library.internaldafny.generated.Base64Lemmas as Base64Lemmas
 import standard_library.internaldafny.generated.Actions as Actions
 import standard_library.internaldafny.generated.DafnyLibraries as DafnyLibraries
+import aws_cryptography_primitives.internaldafny.generated.Aws_Cryptography_Primitives as Aws_Cryptography_Primitives
 import TestSignature as TestSignature
 import TestAwsCryptographyPrimitivesHKDF as TestAwsCryptographyPrimitivesHKDF
 import TestAwsCryptographyPrimitivesGenerateRandomBytes as TestAwsCryptographyPrimitivesGenerateRandomBytes
@@ -90,10 +90,10 @@ class default__:
 
     @staticmethod
     def BasicDigestTest(digestAlgorithm, message, expectedDigest):
-        d_127_client_: AtomicPrimitives.AtomicPrimitivesClient
+        d_127_client_: Aws_Cryptography_Primitives.AtomicPrimitivesClient
         d_128_valueOrError0_: Wrappers.Result = None
         out26_: Wrappers.Result
-        out26_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
+        out26_ = Aws_Cryptography_Primitives.default__.AtomicPrimitives(Aws_Cryptography_Primitives.default__.DefaultCryptoConfig())
         d_128_valueOrError0_ = out26_
         if not(not((d_128_valueOrError0_).IsFailure())):
             raise _dafny.HaltException("test/TestDigest.dfy(61,18): " + _dafny.string_of(d_128_valueOrError0_))

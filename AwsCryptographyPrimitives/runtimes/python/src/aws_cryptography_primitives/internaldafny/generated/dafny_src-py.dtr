@@ -4,8 +4,6 @@ dafny_version = "4.7.0.0"
 python-module-name = "aws_cryptography_primitives.internaldafny.generated"
 [options_by_module.AbstractAwsCryptographyPrimitivesOperations]
 python-module-name = "aws_cryptography_primitives.internaldafny.generated"
-[options_by_module.AbstractAwsCryptographyPrimitivesService]
-python-module-name = "aws_cryptography_primitives.internaldafny.generated"
 [options_by_module.ExternRandom]
 python-module-name = "aws_cryptography_primitives.internaldafny.generated"
 [options_by_module.Random]
@@ -34,7 +32,9 @@ python-module-name = "aws_cryptography_primitives.internaldafny.generated"
 python-module-name = "aws_cryptography_primitives.internaldafny.generated"
 [options_by_module.AwsCryptographyPrimitivesOperations]
 python-module-name = "aws_cryptography_primitives.internaldafny.generated"
-[options_by_module.AtomicPrimitives]
+[options_by_module.AbstractAwsCryptographyPrimitivesService]
 python-module-name = "aws_cryptography_primitives.internaldafny.generated"
 [options_by_module.AesKdfCtr]
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module."Aws.Cryptography.Primitives"]
 python-module-name = "aws_cryptography_primitives.internaldafny.generated"
