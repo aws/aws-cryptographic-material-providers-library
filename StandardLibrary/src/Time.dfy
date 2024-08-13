@@ -9,6 +9,15 @@ module {:extern "Time"} Time {
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
 
+  // Time is non-deterministic.
+  // In this way it is similar to random number.
+  // As such it MUST NOT be a Dafny function.
+  // Dafny functions MUST be deterministic.
+  // var t1 :- GetCurrentTimeStamp();
+  // wait
+  // var t2 :- GetCurrentTimeStamp();
+  // assert t1 == t2; // this will be true if GetCurrentTimeStamp is a function.
+
   // Returns the number of seconds since some fixed-as-long-as-this-program-is-running moment in the past
   // Time is represented as signed over unsigned because java does not do unsigned
   // values - net can do both so we are able to change the representation to signed.
@@ -19,7 +28,7 @@ module {:extern "Time"} Time {
 
   // Returns a timestamp for the current time in ISO8601 format in UTC
   // to microsecond precision (e.g. “YYYY-MM-DDTHH:mm:ss.ssssssZ“)
-  function method {:extern "GetCurrentTimeStamp"} GetCurrentTimeStamp(): (res: Result<string, string>)
+  method {:extern "GetCurrentTimeStamp"} GetCurrentTimeStamp() returns (res: Result<string, string>)
 
   // The next two functions are for the benefit of the extern implementation to call,
   // avoiding direct references to generic datatype constructors
