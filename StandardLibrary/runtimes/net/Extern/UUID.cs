@@ -51,6 +51,7 @@ namespace UUID
         // https://learn.microsoft.com/en-us/dotnet/api/system.guid.tobytearray?redirectedfrom=MSDN&view=net-7.0#remarks
         private static byte[] ReOrderUuidBytes(byte[] uuid)
         {
+            // The input UUID is expected to be represented as little-endian
             if (!BitConverter.IsLittleEndian) {
                 throw new PlatformNotSupportedException("Big-endian systems not supported"); 
             }
