@@ -32,6 +32,9 @@ module TestECDH {
                            + "4f227dcc7197dcddc108b3cf9715fec9be172e575c1610b199f008eec272a313489"
                            + "e944c126391d8cd6085efbdc5bc96961981981a149b6bc"
 
+  const ECC_P256_PUBLIC_COMPRESSED :=
+    "02a7520c7b4ab94784f227dcc7197dcddc108b3cf9715fec9be172e575c1610b19"
+
   const ECC_P384_PRIVATE := "-----BEGIN PRIVATE KEY-----\n"
                             + "MIG2AgEAMBAGByqGSM49AgEGBSuBBAAiBIGeMIGbAgEBBDAE/GcrZaGaZKKnWsbi\n"
                             + "6OiMB8HlhoyF1CQeaZHFdp1VFu7mSM2mUrSolCfpYRB50aahZANiAAQayPW6B3aV\n"
@@ -42,6 +45,9 @@ module TestECDH {
                           + "b0c7dd27ae321898d8620f1beb4110798c677414686eaa3674315d2f90a51f79216c"
                           + "905998c89f20e4daea5e6f54e2bcfd1461acbe7484bc32b04533ba0b06c248ab11a2"
                           + "450d443c522904bbf89a6b5e3a66b9aadf"
+
+  const ECC_384_PUBLIC_COMPRESSED :=
+    "031ac8f5ba07769518a58505b0c7dd27ae321898d8620f1beb4110798c677414686eaa3674315d2f90a51f79216c905998"
 
   const ECC_P521_PRIVATE := "-----BEGIN PRIVATE KEY-----\n"
                             + "MIHuAgEAMBAGByqGSM49AgEGBSuBBAAjBIHWMIHTAgEBBEIB3azBoPIuF7SY3Z7g\n"
@@ -57,6 +63,35 @@ module TestECDH {
                            + "dcdea45a151f0b7babcb5d53f1d90d5be2db564997f01dfeb3a55a11058a6be49805"
                            + "e98f574e5a261534c5a685fcc86c2c6c0a2e93e942"
 
+  const ECC_P521_PUBLIC_COMPRESSED :=
+    "0201de32732469d8769e47ad513703bca13858271d4dd20529a0eac2d3086eaff2e4de0423becec58c0a3fb21d1810bd9ff1a470d216c7a47dd7373700877d6bb56b39"
+
+  // Known value infinity public keys.
+  // These MUST fail with a known error message when loaded by the crypto provider.
+  const ECC_256_PUBLIC_INF_FAIL_ON_LOAD := "3019301306072a8648ce3d020106082a8648ce3d03010703020000"
+  const ECC_384_PUBLIC_INF_FAIL_ON_LOAD := "3016301006072a8648ce3d020106052b8104002203020000"
+  const ECC_521_PUBLIC_INF_FAIL_ON_LOAD := "3016301006072a8648ce3d020106052b8104002303020000"
+
+  // Known value out of bounds public keys.
+  // These MUST fail with a known error message when loaded by the crypto provider.
+  const ECC_P256_PUBLIC_GP_FAIL_ON_LOAD :=
+    "3059301306072a8648ce3d020106082a8648ce3d03010703420004fffffffffffffffff"
+    + "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    + "ffffffffffffffffffffffffffffffffffffffffff"
+  const ECC_P384_PUBLIC_GP_FAIL_ON_LOAD :=
+    "3076301006072a8648ce3d020106052b8104002203620004fffffffffffffffffffffff"
+    + "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    + "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    + "fffffffffffffffffffffffffffff"
+  const ECC_P521_PUBLIC_GP_FAIL_ON_LOAD :=
+    "30819b301006072a8648ce3d020106052b810400230381860004ffffffffffffffffffff"
+    + "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    + "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    + "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    + "ffffffffffffffffffffffffffffffffff"
+
+  // Known value infinity public keys.
+  // These MUST fail when loaded by the crypto provider or when running extern NIST validation.
   const ECC_256_PUBLIC_INF := "3059301306072a864886f70d0106082a864886f70d03010703420004000000000000"
                               + "00000000000000000000000000000000000000000000000000000000000000000000"
                               + "00000000000000000000000000000000000000000000000000000000"
@@ -71,6 +106,8 @@ module TestECDH {
                               + "0000000000000000000000000000000000000000000000000000000000000000000000"
                               + "00000000000000000000000000000000000000000000"
 
+  // Known value out of bounds public keys.
+  // These MUST fail when loaded by the crypto provider or when running extern NIST validation.
   const ECC_P256_PUBLIC_GP := "3059301306072a864886f70d0106082a864886f70d03010703420004000000000000000"
                               + "00000000000000000000000000000000000000000000000000000000000000000000000"
                               + "00000000000000000000000000000000000000000000000000000000000000000000000"
@@ -95,6 +132,9 @@ module TestECDH {
   const OUT_OF_BOUNDS_ERR_MSG_JAVA := "encoded key spec not recognized: x value invalid for"
   const OUT_OF_BOUNDS_ERR_MSG_NET6 := "value invalid for Fp field element (Parameter 'x')"
   const OUT_OF_BOUNDS_ERR_MSG_NE48 := "value invalid for Fp field element\r\nParameter name: x"
+
+  // Rust does not provide a separate error message for infinity or out of bounds
+  const BAD_X509_KEY_ERR_MSG_RUST := "Invalid X509 Public Key."
 
   method {:test} TestKeyGen()
   {
@@ -234,6 +274,37 @@ module TestECDH {
     }
   }
 
+  method {:test} TestValidatePublicKeyFailurePointAtINFFailOnLoad()
+  {
+    var publicKeysWithPointsAtINF := [
+      ECC_256_PUBLIC_INF_FAIL_ON_LOAD, ECC_384_PUBLIC_INF_FAIL_ON_LOAD, ECC_521_PUBLIC_INF_FAIL_ON_LOAD
+    ];
+    var supportedCurves := [P256, P384, P521];
+    for i := 0 to |supportedCurves|
+    {
+      var looseHexPublicKey := expectLooseHexString(publicKeysWithPointsAtINF[i]);
+      var publicKeyBytes := HexStrings.FromHexString(looseHexPublicKey);
+
+      var validPublicKey:= ECDH.ValidatePublicKey(
+        Types.ValidatePublicKeyInput(
+          eccCurve := supportedCurves[i],
+          publicKey := publicKeyBytes
+        )
+      );
+      expect validPublicKey.Failure?;
+
+      expect validPublicKey.error.AwsCryptographicPrimitivesError?;
+      var errMsg := validPublicKey.error.message;
+
+      expect (
+          errMsg == BAD_X509_KEY_ERR_MSG_RUST ||
+          errMsg == INFINITY_POINT_ERR_MSG_JAVA ||
+          errMsg == INFINITY_POINT_ERR_MSG_NET6 ||
+          errMsg == INFINITY_POINT_ERR_MSG_NET48
+        );
+    }
+  }
+
   method {:test} TestValidatePublicKeyFailurePointAtINF()
   {
     var publicKeysWithPointsAtINF := [ECC_256_PUBLIC_INF, ECC_384_PUBLIC_INF, ECC_521_PUBLIC_INF];
@@ -250,6 +321,36 @@ module TestECDH {
         )
       );
       expect validPublicKey.Failure?;
+    }
+  }
+
+  method {:test} TestValidatePublicKeyFailurePointGreaterThanPFailOnLoad()
+  {
+    var publicKeysWithPointsGreaterThanP := [
+      ECC_P256_PUBLIC_GP_FAIL_ON_LOAD, ECC_P384_PUBLIC_GP_FAIL_ON_LOAD, ECC_P521_PUBLIC_GP_FAIL_ON_LOAD
+    ];
+    var supportedCurves := [P256, P384, P521];
+    for i := 0 to |supportedCurves|
+    {
+      var looseHexPublicKey := expectLooseHexString(publicKeysWithPointsGreaterThanP[i]);
+      var publicKeyBytes := HexStrings.FromHexString(looseHexPublicKey);
+
+      var validPublicKey:= ECDH.ValidatePublicKey(
+        Types.ValidatePublicKeyInput(
+          eccCurve := supportedCurves[i],
+          publicKey := publicKeyBytes
+        )
+      );
+      expect validPublicKey.Failure?;
+
+      expect validPublicKey.error.AwsCryptographicPrimitivesError?;
+      var errMsg := validPublicKey.error.message;
+      expect (
+          seq_contains(errMsg, OUT_OF_BOUNDS_ERR_MSG_JAVA) ||
+          errMsg == BAD_X509_KEY_ERR_MSG_RUST ||
+          errMsg == OUT_OF_BOUNDS_ERR_MSG_NET6 ||
+          errMsg == OUT_OF_BOUNDS_ERR_MSG_NE48
+        );
     }
   }
 
@@ -359,12 +460,16 @@ module TestECDH {
 
   method {:test} TestCompressDecompressConstantPublicKeys() {
     var derX509PublicKeys := [ECC_P256_PUBLIC, ECC_384_PUBLIC, ECC_P521_PUBLIC];
+    var compressedKeys := [ECC_P256_PUBLIC_COMPRESSED, ECC_384_PUBLIC_COMPRESSED, ECC_P521_PUBLIC_COMPRESSED];
     var curves := [P256, P384, P521];
+
     for i := 0 to |curves|
     {
       var curve := curves[i];
       var originalPublicKey := derX509PublicKeys[i];
       var publicKeyBytes := HexStrings.FromHexString(originalPublicKey);
+      var compressedKey := expectLooseHexString(compressedKeys[i]);
+      var compressedKeyBytes := HexStrings.FromHexString(compressedKey);
 
       var compressedPublicKeyResult :- expect ECDH.CompressPublicKey(
         Types.CompressPublicKeyInput(
@@ -373,7 +478,7 @@ module TestECDH {
         )
       );
 
-      expect compressedPublicKeyResult.compressedPublicKey != publicKeyBytes;
+      expect compressedPublicKeyResult.compressedPublicKey == compressedKeyBytes;
 
       var compressedPublicKey := compressedPublicKeyResult.compressedPublicKey;
 
@@ -410,6 +515,7 @@ module TestECDH {
 
       expect (
           errMsg == INFINITY_POINT_ERR_MSG_JAVA ||
+          errMsg == BAD_X509_KEY_ERR_MSG_RUST ||
           errMsg == INFINITY_POINT_ERR_MSG_NET6 ||
           errMsg == INFINITY_POINT_ERR_MSG_NET48
         );
@@ -436,6 +542,7 @@ module TestECDH {
 
       expect (
           seq_contains(errMsg, OUT_OF_BOUNDS_ERR_MSG_JAVA) ||
+          errMsg == BAD_X509_KEY_ERR_MSG_RUST ||
           errMsg == OUT_OF_BOUNDS_ERR_MSG_NET6 ||
           errMsg == OUT_OF_BOUNDS_ERR_MSG_NE48
         );

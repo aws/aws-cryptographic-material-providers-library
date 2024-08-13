@@ -55,11 +55,16 @@ module {:extern "Signature"} Signature {
                    ));
   }
 
+  // Generate an ECDSA key pair
+  // Verification key, a.k.a public key, is in X9.62 compressed format
+  // Signing Key, a.k.a private key, is in DER-encoded
   method {:extern "Signature.ECDSA", "ExternKeyGen"} ExternKeyGen(
     s: Types.ECDSASignatureAlgorithm
   ) returns (res: Result<SignatureKeyPair, Types.Error>)
     ensures res.Success? ==> IsValidSignatureKeyPair(res.value)
 
+  // sign the message with the private key
+  // private signing key is DER-encoded
   method {:extern "Signature.ECDSA", "Sign"} Sign(
     s: Types.ECDSASignatureAlgorithm,
     key: seq<uint8>,
@@ -67,6 +72,9 @@ module {:extern "Signature"} Signature {
   ) returns (sig: Result<seq<uint8>, Types.Error>)
     ensures sig.Success? ==> IsSigned(key, msg, sig.value)
 
+  // Verify that these bytes created this signature
+  // Public verification key is DER-encoded X9.62 format
+  // If signature does not match Success(false) is returned
   // This is a valid function
   // because the same inputs will result in the same outputs.
   function method {:extern "Signature.ECDSA", "Verify"} Verify(
