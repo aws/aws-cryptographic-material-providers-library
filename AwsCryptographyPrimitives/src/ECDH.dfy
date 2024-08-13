@@ -107,37 +107,56 @@ module {:extern "ECDH"} ECDH {
                    ));
   }
 
+  // Generate an ECDH key pair
+  // Return the private key as UTF8 of PEM of Rfc5915 Der format
+  // Return the public key as UTF8 of PEM of X.509 SubjectPublicKeyInfo DER format
   method {:extern "ECDH.KeyGeneration", "GenerateKeyPair"} ExternEccKeyGen(
     s: Types.ECDHCurveSpec
   ) returns (res: Result<EccKeyPair, Types.Error>)
     ensures res.Success? ==> 1 < |res.value.publicKey| <= 8192
 
+  // Given a private key, return the associated public key
+  // Input private key is in PEM format
+  // Output public key is X.509 SubjectPublicKeyInfo DER format, but not PEM formatted
   method {:extern "ECDH.ECCUtils", "GetPublicKey"} ExternGetPublicKeyFromPrivate(
     curveAlgorithm: Types.ECDHCurveSpec,
     privateKey: Types.ECCPrivateKey
   ) returns (res: Result<seq<uint8>, Types.Error>)
 
+  // Ensure that this public key follows 5.6.2.3.3 ECC Full Public-Key Validation Routine from
+  // https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar3.pdf#page=55
+  // Input public key is X.509 SubjectPublicKeyInfo DER format, but not PEM formatted
+  // Result is never Success(false), it's either Success(true) or Failure()
   method {:extern "ECDH.ECCUtils", "ValidatePublicKey"} ExternValidatePublicKey(
     curveAlgorithm: Types.ECDHCurveSpec,
     publicKey: seq<uint8>
   ) returns (res: Result<bool, Types.Error>)
 
+  // Calculate a shared secret from the keys
+  // Private key is PEM formatted UTF8
+  // Input public key is X.509 SubjectPublicKeyInfo DER format, but not PEM formatted
   method {:extern "ECDH.DeriveSharedSecret", "CalculateSharedSecret"} ExternDeriveSharedSecret(
     curveAlgorithm: Types.ECDHCurveSpec,
     privateKey: Types.ECCPrivateKey,
     publicKey: Types.ECCPublicKey
   ) returns (res: Result<seq<uint8>, Types.Error>)
 
+  // Convert X.509 encoded public key to compressed X9.62 format
+  // input is not pem formatted
   method {:extern "ECDH.ECCUtils", "CompressPublicKey"} ExternCompressPublicKey(
     publicKey: seq<uint8>,
     curveAlgorithm: Types.ECDHCurveSpec
   ) returns (res: Result<seq<uint8>, Types.Error>)
 
+  // Convert X9.62 encoded public key to X.509 format
+  // input is not pem formatted
   method {:extern "ECDH.ECCUtils", "DecompressPublicKey"} ExternDecompressPublicKey(
     publicKey: seq<uint8>,
     curveAlgorithm: Types.ECDHCurveSpec
   ) returns (res: Result<seq<uint8>, Types.Error>)
 
+  // Ensure that this public key is in X.509 SubjectPublicKeyInfo DER format
+  // input is not pem formatted
   method {:extern "ECDH.ECCUtils", "ParsePublicKey"} ExternParsePublicKey(
     publicKey: seq<uint8>
   ) returns (res: Result<seq<uint8>, Types.Error>)
