@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 
+using System;
 using Wrappers_Compile;
 using ibyteseq = Dafny.ISequence<byte>;
 using byteseq = Dafny.Sequence<byte>;
@@ -50,6 +51,9 @@ namespace UUID
         // https://learn.microsoft.com/en-us/dotnet/api/system.guid.tobytearray?redirectedfrom=MSDN&view=net-7.0#remarks
         private static byte[] ReOrderUuidBytes(byte[] uuid)
         {
+            if (!BitConverter.IsLittleEndian) {
+                throw new PlatformNotSupportedException("Big-endian systems not supported"); 
+            }
             // When using the .ToByteArray() method the byte 
             // representation is different than that of the 
             // string representation. 
