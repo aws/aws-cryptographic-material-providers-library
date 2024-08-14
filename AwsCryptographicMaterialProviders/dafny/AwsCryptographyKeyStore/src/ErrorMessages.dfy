@@ -49,7 +49,7 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
   const ENCRYPTION_CONTEXT_EXCEEDS_DDB_LIMIT :=
     "Encryption context attribute name exceeds DDB limit."
 
-    const CREATE_KEY_STORE_DEPRECATED :=
+  const CREATE_KEY_STORE_DEPRECATED :=
     "Create key store is only supported with legacy configurations. \n" +
     "For details on how to create a DDB table manually see:\n" +
     "https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/use-hierarchical-keyring.html#hierarchical-keyring-prereqs"

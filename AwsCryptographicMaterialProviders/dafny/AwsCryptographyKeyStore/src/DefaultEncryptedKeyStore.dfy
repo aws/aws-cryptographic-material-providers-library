@@ -34,7 +34,7 @@ module DefaultEncryptedKeyStore {
     //= type=implication
     //# The Default Encrypted Key Store MUST implement the [encrypted key store interface](./encrypted-key-store.md#interface)..
     extends Types.IEncryptedKeyStore
-    {
+  {
 
     const ddbTableName: ComAmazonawsDynamodbTypes.TableName
     const ddbTableNameUtf8: UTF8.ValidUTF8Bytes

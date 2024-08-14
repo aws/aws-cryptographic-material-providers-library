@@ -89,8 +89,8 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
               && output.value.logicalKeyStoreName == config.logicalKeyStoreName
               && output.value.grantTokens == config.grantTokens
               && output.value.kmsConfiguration == config.kmsConfiguration
-              // See the following below:
-              // && output.value.keyStoreName == UTF8.Decode(Seq.Last(config.storage.History.GetTableName).output.value.Name).value
+    // See the following below:
+    // && output.value.keyStoreName == UTF8.Decode(Seq.Last(config.storage.History.GetTableName).output.value.Name).value
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#getkeystoreinfo
     //= type=implication

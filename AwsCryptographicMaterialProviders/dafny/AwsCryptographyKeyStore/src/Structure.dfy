@@ -132,12 +132,12 @@ module {:options "/functionSyntax:4" } Structure {
               && ToEncryptedHierarchicalKey(output, key.EncryptionContext[TABLE_FIELD]) == key
   {
     var output := map k <- key.EncryptionContext.Keys + {BRANCH_KEY_FIELD} - {TABLE_FIELD}
-      ::  k := match k
-      case HIERARCHY_VERSION => DDB.AttributeValue.N(key.EncryptionContext[HIERARCHY_VERSION])
-      case BRANCH_KEY_FIELD => DDB.AttributeValue.B(key.CiphertextBlob)
-      case _ => DDB.AttributeValue.S(key.EncryptionContext[k]);
+                    ::  k := match k
+                    case HIERARCHY_VERSION => DDB.AttributeValue.N(key.EncryptionContext[HIERARCHY_VERSION])
+                    case BRANCH_KEY_FIELD => DDB.AttributeValue.B(key.CiphertextBlob)
+                    case _ => DDB.AttributeValue.S(key.EncryptionContext[k]);
 
-      output
+    output
   }
 
   function ToEncryptedHierarchicalKey(

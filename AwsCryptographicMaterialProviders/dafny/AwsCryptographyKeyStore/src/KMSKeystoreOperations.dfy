@@ -290,10 +290,10 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   {
     :- Need(
       && KmsArn.ValidKmsArn?(encryptedKey.KmsArn)
-      // This check is overloaded.
-      // It is incredibly unlikely that the the stored ciphertext
-      // has dropped to 0 or exceeds the KMS limit.
-      // So the error message is left unchanged.
+         // This check is overloaded.
+         // It is incredibly unlikely that the the stored ciphertext
+         // has dropped to 0 or exceeds the KMS limit.
+         // So the error message is left unchanged.
       && KMS.IsValid_CiphertextType(encryptedKey.CiphertextBlob),
       Types.KeyStoreException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
     );
