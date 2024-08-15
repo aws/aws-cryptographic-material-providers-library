@@ -71,6 +71,7 @@
     <Compile Include="Extern/**/*.cs" />
     <Compile Include="Generated/**/*.cs" />
     <Compile Include="ImplementationFromDafny.cs" />
+    <Compile Include="Dafny47-Patch.cs" />
   </ItemGroup>
 
   <ItemGroup>
