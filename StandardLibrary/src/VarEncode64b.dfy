@@ -32,6 +32,7 @@ module {:options "-functionSyntax:4"} VarEncode64b {
     // import opened Wrappers
 
   const HighBit : uint8 := 0x80
+  const HighNat : nat := 0x80
 
   function FindLength(s : seq<uint8>, pos : nat := 0) : (ret : int)
     requires 0 < |s|
@@ -92,36 +93,116 @@ module {:options "-functionSyntax:4"} VarEncode64b {
 //   }
 // }
 
-  function Decode(s : seq<uint8>, acc : nat := 0) : nat
-    requires ValidSequence(s)
+  function Decode2(s : seq<uint8>) : (ret : nat)
+    requires (forall i | 0 <= i < |s| :: s[i] >= HighBit)
+    // ensures |s| == EncodeLength(ret)
   {
-    if |s| == 1 then
-      (acc * 128) + (s[0] as nat)
+    if |s| == 0 then
+      0
     else
-      var newVal := (acc * 128) + (s[0] - HighBit) as nat;
-      Decode(s[1..], newVal)
+      Decode2(s[..|s|-1]) * 128 + (s[|s|-1] - HighBit) as nat
   }
 
-  function Encode(val : nat, acc : seq<uint8> := []) : (ret : seq<uint8>)
-    requires |acc| == 0 || ValidSequence(acc)
-    ensures ValidSequence(ret)
+  function Decode(s : seq<uint8>) : (ret : nat)
+    requires ValidFullSequence(s)
+    // ensures |s| == EncodeLength(ret)
   {
-    if val == 0 then
-      if |acc| == 0 then
-        [0]
-      else
-        acc
+    if |s| == 1 then
+      s[0] as nat
     else
-      var val1 := (val % 0x80) as uint8;
-      var val2 := (val / 0x80);
-      assert 0 < val1 || 0 < val2;
-      if |acc| == 0 then
-        Encode(val2, [val1])
-      else
-        var val1a := val1 + HighBit;
-        assert HighBit <= val1a <= 0xff;
-        Encode(val2, [val1a] + acc)
+      Decode2(s[..|s|-1]) * 128 + s[|s|-1] as nat
   }
+
+  function Encode2(val : nat) : (ret : seq<uint8>)
+    requires 0 < val
+    ensures 0 < |ret|
+    ensures (forall i | 0 <= i < |ret| :: ret[i] >= HighBit)
+    ensures |ret| == EncodeLength(val)
+    ensures ret[0] != HighBit
+  {
+      var val1 := (val % HighNat) as uint8;
+      var val2 := (val / HighNat);
+      assert 0 < val1 || 0 < val2;
+      var val1a := val1 + HighBit;
+      if val2 == 0 then
+        [val1a]
+      else
+        Encode2(val2) + [val1a]
+  }
+
+  function Encode(val : nat) : (ret : seq<uint8>)
+    ensures ValidFullSequence(ret)
+    ensures |ret| == EncodeLength(val)
+  {
+    CheckLength(val);
+    if val == 0 then
+        [0]
+    else
+      var val1 := (val % HighNat) as uint8;
+      var val2 := (val / HighNat);
+      assert 0 < val1 || 0 < val2;
+      if val2 == 0 then
+        [val1]
+      else
+        Encode2(val2) + [val1]
+  }
+
+  const Max1 := 0x80
+  const Max2 := 0x4000
+  const Max3 := 0x200000
+  const Max4 := 0x10000000
+  const Max5 := 0x800000000
+  const Max6 := 0x40000000000
+  const Max7 := 0x2000000000000
+  const Max8 := 0x100000000000000
+  const Max9 := 0x8000000000000000
+
+  function EncodeLength(x : nat) : nat
+  {
+    if x < Max1 then
+      1
+    else
+      1 + EncodeLength(x / HighNat)
+  }
+
+  lemma CheckLength(x : nat)
+    ensures x < Max1 ==> EncodeLength(x) == 1
+    ensures Max1 <= x < Max2 ==> EncodeLength(x) == 2
+    ensures Max2 <= x < Max3 ==> EncodeLength(x) == 3
+    ensures Max3 <= x < Max4 ==> EncodeLength(x) == 4
+    ensures Max4 <= x < Max5 ==> EncodeLength(x) == 5
+    ensures Max5 <= x < Max6 ==> EncodeLength(x) == 6
+    ensures Max6 <= x < Max7 ==> EncodeLength(x) == 7
+    ensures Max7 <= x < Max8 ==> EncodeLength(x) == 8
+    ensures Max8 <= x < Max9 ==> EncodeLength(x) == 9
+  {}
+
+  lemma EncodeDecode1(val: nat, enc : seq<uint8>)
+    requires val < Max1
+    requires Encode(val) == enc
+    ensures |Encode(val)| == 1
+    ensures ValidFullSequence(enc)
+    ensures Decode(enc) == val
+  {}
+  lemma DecodeEncode1(val: nat, enc : seq<uint8>)
+    requires val < Max1
+    requires ValidFullSequence(enc)
+    requires Decode(enc) == val
+    ensures Encode(val) == enc
+  {}
+
+  lemma EncodeDecode2(val: nat, enc : seq<uint8>)
+    requires Max1 <= val < Max2
+    requires Encode(val) == enc
+    ensures |Encode(val)| == 2
+    ensures ValidFullSequence(enc)
+    ensures Decode(enc) == val
+  {}
+  lemma EncodeDecode(val: nat, enc : seq<uint8>)
+    requires Encode(val) == enc
+    ensures ValidFullSequence(enc)
+    ensures Decode(enc) == val
+  {}
 
   // lemma XXX(val: uint64, enc : seq<uint8>, encLen : int)
   //   requires Encode(val) == enc

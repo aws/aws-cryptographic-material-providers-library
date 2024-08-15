@@ -11,14 +11,15 @@ module {:options "-functionSyntax:4"} VarEncode64bTest {
   {
     var enc := Encode(val);
     expect ValidSequence(enc);
-    if Decode(enc) != val {
-      print "Decode : ", val, " ", |enc|, " ", enc, "\n";
+    if Decode3(enc) != val {
+      print "Decode : ", val, " ", Decode3(enc), " ", |enc|, " ", enc, "\n";
     }
-    expect Decode(enc) == val;
+    expect Decode3(enc) == val;
     if FindLength(enc) != |enc| {
       print "Length ", val, " ", FindLength(enc), " ", |enc|, " ", enc, "\n";
     }
     expect FindLength(enc) == |enc|;
+    expect EncodeLength(val) == |enc|;
     // if !ValidEncoding(enc, encLen) {
     //   print "ValidEncoding : ", val, " ", |enc|, " ", enc, "\n";
     // }
@@ -35,7 +36,7 @@ module {:options "-functionSyntax:4"} VarEncode64bTest {
 
   method {:test} TestEncodePowersOfTwo() {
     var currPo2 := 1024;
-    for p := 10 to 64
+    for p := 10 to 80
       invariant currPo2 >= 1024
     {
       for i : int := -100 to 100 {
@@ -45,5 +46,6 @@ module {:options "-functionSyntax:4"} VarEncode64bTest {
       }
       currPo2 := currPo2 * 2;
     }
+    print "Longest : ", EncodeLength(currPo2 + 100), "\n";
   }
 }
