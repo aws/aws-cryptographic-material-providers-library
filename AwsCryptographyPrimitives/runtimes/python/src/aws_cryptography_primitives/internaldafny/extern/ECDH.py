@@ -89,7 +89,7 @@ class DeriveSharedSecret:
         
         curve = maybe_ecc_algorithm.value
         
-        if curve.name != "SM2PKE": # magic string
+        if curve.name != "SM2":
             try:
                 private_key = load_pem_private_key(private_key_pem_bytes, None)
                 public_key = load_der_public_key(public_key_der_bytes)
@@ -133,7 +133,7 @@ class KeyGeneration:
         
         curve = maybe_ecc_algorithm.value
 
-        if curve.name != "SM2PKE":
+        if curve.name != "SM2":
             try:
                 private_key = ec.generate_private_key(
                     maybe_ecc_algorithm.value.value
@@ -169,7 +169,7 @@ class ECCUtils:
     CURVE_TO_ECC_SECRET_LENGTH_MAP = {
         "secp256r1": int(256 / 8),
         "secp384r1": int(384 / 8),
-        "secp521r1": int(521 / 8 + 1)
+        "secp521r1": int(521 / 8 + 1) # 521/8 is not a whole number
     }
     
     def ParsePublicKey(dafny_publicKey: _dafny.Seq) -> Wrappers.Result:
@@ -201,7 +201,7 @@ class ECCUtils:
         
         curve = maybe_ecc_algorithm.value
 
-        if curve.name != "SM2PKE": # magic string?
+        if curve.name != "SM2": 
             try:
                 # get order for parsed private key
                 private_key_pem = bytes(dafny_privateKey.pem)
@@ -210,8 +210,8 @@ class ECCUtils:
                 private_key_order = private_key_curve.order
 
                 # get expected curve order
-                ecdsa_curve = curve_mapping[curve.name]
-                curve_order = ecdsa_curve.order
+                ecdh_curve = curve_mapping[curve.name]
+                curve_order = ecdh_curve.order
 
                 if private_key_order != curve_order:
                     return CreateExternGetPublicKeyFromPrivateError(
@@ -250,7 +250,7 @@ class ECCUtils:
         
         curve = maybe_ecc_algorithm.value
         
-        if curve.name != "SM2": # ?? magic string? what?
+        if curve.name != "SM2":
             try:
                 public_key = load_der_public_key(public_key_bytes)
                 public_key_curve_name = public_key.curve.name
