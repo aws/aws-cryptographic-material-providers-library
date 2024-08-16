@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "standard-library"
+version = "0.1.0"
+description = ""
+authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
+packages = [
+    { include = "standard_library", from = "src" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.11.0"
+pytz = "^2023.3.post1"
+DafnyRuntimePython = "^4.7.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

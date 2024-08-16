@@ -16,3 +16,7 @@ LIBRARIES :=
 transpile_implementation: STD_LIBRARY=
 transpile_test: STD_LIBRARY=
 transpile_dependencies: STD_LIBRARY=
+
+# Python
+
+PYTHON_MODULE_NAME=standard_library
