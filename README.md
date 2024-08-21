@@ -60,6 +60,7 @@ If you are using the AWS Cryptographic Material Providers Library for Python you
 
 - Java
 - .NET
+- Python
 - Dafny
 
 ## FAQ
