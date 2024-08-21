@@ -340,7 +340,10 @@ structure CreateAwsKmsHierarchicalKeyringInput {
     ttlSeconds: PositiveLong,
 
     @javadoc("Which type of local cache to use.")
-    cache : CacheType
+    cache : CacheType,
+
+    @javadoc("Shared cache.")
+    sharedCache : CacheType
 }
 
 // Raw
