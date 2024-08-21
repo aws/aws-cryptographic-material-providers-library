@@ -2,7 +2,7 @@
 aws-cryptographic-materials-providers-library-python
 ####################################################
 
-.. image:: https://github.com/aws/aws-cryptographic-material-providers-library/actions/workflows/library_python_tests.yml/badge.svg
+.. image:: https://github.com/aws/aws-cryptographic-material-providers-library/actions/workflows/push.yml/badge.svg
    :target: https://github.com/aws/aws-cryptographic-material-providers-library/actions/workflows/push.yml
    :alt: MPL-python-tests
 
