@@ -23,6 +23,7 @@ module DefaultCMM {
   import Defaults
   import Commitment
   import Seq
+  import SortedSets
 
   class DefaultCMM
     extends CMM.VerifiableInterface
@@ -478,9 +479,12 @@ module DefaultCMM {
       var requiredEncryptionContextKeys := [];
       if input.reproducedEncryptionContext.Some? {
         var keysSet := input.reproducedEncryptionContext.value.Keys;
-        while keysSet != {}
+        var keysSeq := SortedSets.ComputeSetToSequence(keysSet);
+        var i := 0;
+        while i < |keysSeq|
           invariant forall key
                       |
+                      && multiset(keysSeq) == multiset(keysSet)
                       && key in input.reproducedEncryptionContext.value
                       && key in input.encryptionContext
                       && key !in keysSet
@@ -488,7 +492,7 @@ module DefaultCMM {
           invariant forall key <- requiredEncryptionContextKeys
                       :: key !in input.encryptionContext
         {
-          var key :| key in keysSet;
+          var key := keysSeq[i];
           if key in input.encryptionContext {
             :- Need(input.reproducedEncryptionContext.value[key] == input.encryptionContext[key],
                     Types.AwsCryptographicMaterialProvidersException(
@@ -496,7 +500,7 @@ module DefaultCMM {
           } else {
             requiredEncryptionContextKeys :=  requiredEncryptionContextKeys + [key];
           }
-          keysSet := keysSet - {key};
+          i := i + 1;
         }
       }
 

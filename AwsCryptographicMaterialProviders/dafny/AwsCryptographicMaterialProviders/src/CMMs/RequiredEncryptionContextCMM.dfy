@@ -16,6 +16,7 @@ module RequiredEncryptionContextCMM {
   import UTF8
   import Types = AwsCryptographyMaterialProvidersTypes
   import Seq
+  import SortedSets
 
   class RequiredEncryptionContextCMM
     extends CMM.VerifiableInterface
@@ -52,16 +53,7 @@ module RequiredEncryptionContextCMM {
       ensures Modifies == { History } + underlyingCMM.Modifies
     {
       var keySet := inputKeys;
-      var keySeq := [];
-      while keySet != {}
-        invariant |keySeq| + |keySet| == |inputKeys|
-        invariant forall k <- keySeq
-                    :: k in inputKeys
-      {
-        var key :| key in keySet;
-        keySeq := keySeq + [key];
-        keySet := keySet - {key};
-      }
+      var keySeq := SortedSets.ComputeSetToSequence(keySet);
 
       underlyingCMM := inputCMM;
       requiredEncryptionContextKeys := keySeq;
