@@ -342,7 +342,7 @@ structure CreateAwsKmsHierarchicalKeyringInput {
     @javadoc("Which type of local cache to use.")
     cache : CacheType,
 
-    @javadoc("Shared cache.")
+    @documentation("Shared cache across multiple Hierarchical Keyrings. For every Hierarchical Keyring, one out the `cache` or `sharedCache` parameter MUST be set, not both. If both parameters are set, an exception will be thrown. If neither of the two parameters are set, a DefaultCache is initialized to be used with the Hierarchical Keyring with entryCapacity = 1000.")
     sharedCache : CacheType
 }
 

@@ -266,6 +266,10 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     //= type=implication
     //# If no max cache size is provided, the crypotgraphic materials cache MUST be configured to a
     //# max cache size of 1000.
+    :- Need(!(input.sharedCache.Some? && input.cache.Some?),
+            Types.AwsCryptographicMaterialProvidersException(
+              message := "Must provide only one parameter out of cache and sharedCache."));
+
     var cache := if input.sharedCache.Some? then
       input.sharedCache.value
     else if input.cache.Some? then
