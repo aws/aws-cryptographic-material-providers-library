@@ -14,6 +14,16 @@ AWS_SDK_CMD := --aws-sdk
 STD_LIBRARY=StandardLibrary
 SMITHY_DEPS=model
 
+# Constants for languages that drop extern names (Python, Go)
+
+TYPES_FILE_PATH=Model/ComAmazonawsDynamodbTypes.dfy
+TYPES_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.services.dynamodb.internaldafny.types\" } ComAmazonawsDynamodbTypes"
+TYPES_FILE_WITHOUT_EXTERN_STRING="module ComAmazonawsDynamodbTypes"
+
+INDEX_FILE_PATH=src/Index.dfy
+INDEX_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.services.dynamodb.internaldafny\"} Com.Amazonaws.Dynamodb refines AbstractComAmazonawsDynamodbService {"
+INDEX_FILE_WITHOUT_EXTERN_STRING="module Com.Amazonaws.Dynamodb refines AbstractComAmazonawsDynamodbService {"
+
 # Python
 
 PYTHON_MODULE_NAME=com_amazonaws_dynamodb

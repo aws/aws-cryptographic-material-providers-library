@@ -123,7 +123,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.Commitment as
 class DefaultCMM(CMM.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.ICryptographicMaterialsManager):
     def  __init__(self):
         self._keyring: AwsCryptographyMaterialProvidersTypes.IKeyring = None
-        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient = None
         pass
 
     def __dafnystr__(self) -> str:

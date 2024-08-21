@@ -14,8 +14,15 @@ AWS_SDK_CMD := --aws-sdk
 STD_LIBRARY=StandardLibrary
 SMITHY_DEPS=model
 
-format_net:
-	pushd runtimes/net && dotnet format && popd
+# Constants for languages that drop extern names (Python, Go)
+
+TYPES_FILE_PATH=Model/ComAmazonawsKmsTypes.dfy
+TYPES_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.services.kms.internaldafny.types\" } ComAmazonawsKmsTypes"
+TYPES_FILE_WITHOUT_EXTERN_STRING="module ComAmazonawsKmsTypes"
+
+INDEX_FILE_PATH=src/Index.dfy
+INDEX_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.services.kms.internaldafny\"} Com.Amazonaws.Kms refines AbstractComAmazonawsKmsService {"
+INDEX_FILE_WITHOUT_EXTERN_STRING="module Com.Amazonaws.Kms refines AbstractComAmazonawsKmsService {"
 
 # Python
 

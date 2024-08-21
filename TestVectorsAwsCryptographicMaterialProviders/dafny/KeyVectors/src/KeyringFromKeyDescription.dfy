@@ -13,7 +13,7 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
   import MPL = AwsCryptographyMaterialProvidersTypes
   import opened Wrappers
   import AwsCryptographyPrimitivesTypes
-  import Primitives = AtomicPrimitives
+  import AtomicPrimitives
   import Com.Amazonaws.Kms
   import ComAmazonawsKmsTypes
   import KeyMaterial
@@ -281,7 +281,7 @@ module {:options "-functionSyntax:4"} KeyringFromKeyDescription {
     case ECDH(RawEcdh(senderKeyId: string, recipientKeyId: string, senderPublicKey: string, recipientPublicKey: string, providerId: string, curveSpec: string, keyAgreementScheme: string)) => {
       :- Need(curveSpec in KeyDescription.Curve2EccAlgorithmSpec, KeyVectorException(message := "Unknown curve spec"));
       var curveType :=  KeyDescription.Curve2EccAlgorithmSpec[curveSpec];
-      var primitives? := Primitives.AtomicPrimitives();
+      var primitives? := AtomicPrimitives.AtomicPrimitives();
       var primitives :- primitives?.MapFailure(e => KeyVectorException( message := "Unable to create primitives client"));
       match keyAgreementScheme
       case "static" => {

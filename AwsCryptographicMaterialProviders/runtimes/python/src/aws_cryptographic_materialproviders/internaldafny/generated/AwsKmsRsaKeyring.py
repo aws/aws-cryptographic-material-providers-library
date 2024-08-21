@@ -150,7 +150,7 @@ class default__:
 
 class AwsKmsRsaKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.IKeyring):
     def  __init__(self):
-        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient = None
         self._client: Wrappers.Option = Wrappers.Option.default()()
         self._paddingScheme: ComAmazonawsKmsTypes.EncryptionAlgorithmSpec = ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.default()()
         self._awsKmsKey: _dafny.Seq = None
@@ -441,7 +441,7 @@ class KmsRsaWrapInfo_KmsRsaWrapInfo(KmsRsaWrapInfo, NamedTuple('KmsRsaWrapInfo',
 class KmsRsaGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMaterial, Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
         self._publicKey: _dafny.Seq = _dafny.Seq({})
-        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient = None
         self._paddingScheme: ComAmazonawsKmsTypes.EncryptionAlgorithmSpec = ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.default()()
         pass
 
@@ -500,7 +500,7 @@ class KmsRsaGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMaterial,
 class KmsRsaWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionWithResult, Actions.Action):
     def  __init__(self):
         self._publicKey: _dafny.Seq = _dafny.Seq({})
-        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient = None
         self._paddingScheme: ComAmazonawsKmsTypes.EncryptionAlgorithmSpec = ComAmazonawsKmsTypes.EncryptionAlgorithmSpec.default()()
         pass
 

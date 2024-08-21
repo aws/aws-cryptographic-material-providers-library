@@ -118,8 +118,13 @@ class RSA:
         )
       )
 
+class EmptyClass:
+  pass
 # Export extern class into the generated module
 aws_cryptography_primitives.internaldafny.generated.RSAEncryption.RSA = RSA
+aws_cryptography_primitives.internaldafny.generated.RSAEncryption.RSAEncryption = EmptyClass
+aws_cryptography_primitives.internaldafny.generated.RSAEncryption.RSAEncryption.RSA = RSA
 # Remove following lines after https://github.com/dafny-lang/dafny/issues/4853 is resolved
 aws_cryptography_primitives.internaldafny.generated.RSAEncryption.RSA_GetRSAKeyModulusLengthExtern = RSA.GetRSAKeyModulusLengthExtern
+aws_cryptography_primitives.internaldafny.generated.RSAEncryption.RSAEncryption.RSA_GetRSAKeyModulusLengthExtern = RSA.GetRSAKeyModulusLengthExtern
 RSA_GetRSAKeyModulusLengthExtern = RSA.GetRSAKeyModulusLengthExtern

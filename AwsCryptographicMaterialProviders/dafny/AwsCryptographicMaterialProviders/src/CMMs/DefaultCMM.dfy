@@ -27,7 +27,7 @@ module DefaultCMM {
   class DefaultCMM
     extends CMM.VerifiableInterface
   {
-    const cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+    const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
 
     predicate ValidState()
       ensures ValidState() ==> History in Modifies
@@ -50,7 +50,7 @@ module DefaultCMM {
       //# the caller MUST provide the following value:
       //# - [Keyring](#keyring)
       k: Types.IKeyring,
-      c: Crypto.IAwsCryptographicPrimitivesClient
+      c: AtomicPrimitives.AtomicPrimitivesClient
     )
       requires k.ValidState() && c.ValidState()
       ensures keyring == k && cryptoPrimitives == c

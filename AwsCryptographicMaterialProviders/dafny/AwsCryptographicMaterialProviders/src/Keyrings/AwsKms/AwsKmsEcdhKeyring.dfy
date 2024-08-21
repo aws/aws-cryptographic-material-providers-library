@@ -38,7 +38,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
   import MaterialWrapping
   import EcdhEdkWrapping
   import ErrorMessages
-  import Primitives = AtomicPrimitives
+  import AtomicPrimitives
   import CanonicalEncryptionContext
 
   const AWS_KMS_ECDH_KEYRING_VERSION := RawECDHKeyring.RAW_ECDH_KEYRING_VERSION
@@ -58,7 +58,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
     const keyAgreementScheme: Types.KmsEcdhStaticConfigurations
     const curveSpec: PrimitiveTypes.ECDHCurveSpec
     const grantTokens: KMS.GrantTokenList
-    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
+    const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
 
     ghost predicate ValidState()
       ensures ValidState() ==> History in Modifies
@@ -95,7 +95,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
       recipientPublicKey: KMS.PublicKeyType,
       compressedSenderPublicKey: Option<seq<uint8>>,
       compressedRecipientPublicKey: seq<uint8>,
-      cryptoPrimitives : Primitives.AtomicPrimitivesClient
+      cryptoPrimitives : AtomicPrimitives.AtomicPrimitivesClient
     )
       requires client.ValidState()
       requires cryptoPrimitives.ValidState()
@@ -438,7 +438,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
       Types.Error>
   {
     const materials: Materials.DecryptionMaterialsPendingPlaintextDataKey
-    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
+    const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
     const recipientPublicKey: seq<uint8>
     const client: KMS.IKMSClient
     const grantTokens: KMS.GrantTokenList
@@ -447,7 +447,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
 
     constructor(
       materials: Materials.DecryptionMaterialsPendingPlaintextDataKey,
-      cryptoPrimitives: Primitives.AtomicPrimitivesClient,
+      cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient,
       recipientPublicKey: seq<uint8>,
       client: KMS.IKMSClient,
       grantTokens: KMS.GrantTokenList,

@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
+import _dafny
 from _dafny import Map, Seq
 from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
     AlgorithmSpec_RSAES__OAEP__SHA__1,
@@ -1065,7 +1066,7 @@ def com_amazonaws_kms_KeyMetadata(native_input):
             else Option_None()
         ),
         CreationDate=(
-            Option_Some(TypeError("TimestampShape not supported"))
+            Option_Some(_dafny.Seq(native_input["CreationDate"].isoformat()))
             if "CreationDate" in native_input.keys()
             else Option_None()
         ),
@@ -1098,12 +1099,12 @@ def com_amazonaws_kms_KeyMetadata(native_input):
             else Option_None()
         ),
         DeletionDate=(
-            Option_Some(TypeError("TimestampShape not supported"))
+            Option_Some(_dafny.Seq(native_input["DeletionDate"].isoformat()))
             if "DeletionDate" in native_input.keys()
             else Option_None()
         ),
         ValidTo=(
-            Option_Some(TypeError("TimestampShape not supported"))
+            Option_Some(_dafny.Seq(native_input["ValidTo"].isoformat()))
             if "ValidTo" in native_input.keys()
             else Option_None()
         ),
@@ -1718,7 +1719,7 @@ def com_amazonaws_kms_CustomKeyStoresListEntry(native_input):
             else Option_None()
         ),
         CreationDate=(
-            Option_Some(TypeError("TimestampShape not supported"))
+            Option_Some(_dafny.Seq(native_input["CreationDate"].isoformat()))
             if "CreationDate" in native_input.keys()
             else Option_None()
         ),
@@ -2414,12 +2415,14 @@ def com_amazonaws_kms_GetKeyRotationStatusResponse(native_input):
             else Option_None()
         ),
         NextRotationDate=(
-            Option_Some(TypeError("TimestampShape not supported"))
+            Option_Some(_dafny.Seq(native_input["NextRotationDate"].isoformat()))
             if "NextRotationDate" in native_input.keys()
             else Option_None()
         ),
         OnDemandRotationStartDate=(
-            Option_Some(TypeError("TimestampShape not supported"))
+            Option_Some(
+                _dafny.Seq(native_input["OnDemandRotationStartDate"].isoformat())
+            )
             if "OnDemandRotationStartDate" in native_input.keys()
             else Option_None()
         ),
@@ -2488,7 +2491,7 @@ def com_amazonaws_kms_GetParametersForImportResponse(native_input):
             else Option_None()
         ),
         ParametersValidTo=(
-            Option_Some(TypeError("TimestampShape not supported"))
+            Option_Some(_dafny.Seq(native_input["ParametersValidTo"].isoformat()))
             if "ParametersValidTo" in native_input.keys()
             else Option_None()
         ),
@@ -2598,7 +2601,7 @@ def com_amazonaws_kms_ImportKeyMaterialRequest(native_input):
         ImportToken=Seq(native_input["ImportToken"]),
         EncryptedKeyMaterial=Seq(native_input["EncryptedKeyMaterial"]),
         ValidTo=(
-            Option_Some(TypeError("TimestampShape not supported"))
+            Option_Some(_dafny.Seq(native_input["ValidTo"].isoformat()))
             if "ValidTo" in native_input.keys()
             else Option_None()
         ),
@@ -2685,12 +2688,12 @@ def com_amazonaws_kms_AliasListEntry(native_input):
             else Option_None()
         ),
         CreationDate=(
-            Option_Some(TypeError("TimestampShape not supported"))
+            Option_Some(_dafny.Seq(native_input["CreationDate"].isoformat()))
             if "CreationDate" in native_input.keys()
             else Option_None()
         ),
         LastUpdatedDate=(
-            Option_Some(TypeError("TimestampShape not supported"))
+            Option_Some(_dafny.Seq(native_input["LastUpdatedDate"].isoformat()))
             if "LastUpdatedDate" in native_input.keys()
             else Option_None()
         ),
@@ -2770,7 +2773,7 @@ def com_amazonaws_kms_GrantListEntry(native_input):
             else Option_None()
         ),
         CreationDate=(
-            Option_Some(TypeError("TimestampShape not supported"))
+            Option_Some(_dafny.Seq(native_input["CreationDate"].isoformat()))
             if "CreationDate" in native_input.keys()
             else Option_None()
         ),
@@ -2906,7 +2909,7 @@ def com_amazonaws_kms_RotationsListEntry(native_input):
             else Option_None()
         ),
         RotationDate=(
-            Option_Some(TypeError("TimestampShape not supported"))
+            Option_Some(_dafny.Seq(native_input["RotationDate"].isoformat()))
             if "RotationDate" in native_input.keys()
             else Option_None()
         ),
@@ -3302,7 +3305,7 @@ def com_amazonaws_kms_ScheduleKeyDeletionResponse(native_input):
             else Option_None()
         ),
         DeletionDate=(
-            Option_Some(TypeError("TimestampShape not supported"))
+            Option_Some(_dafny.Seq(native_input["DeletionDate"].isoformat()))
             if "DeletionDate" in native_input.keys()
             else Option_None()
         ),

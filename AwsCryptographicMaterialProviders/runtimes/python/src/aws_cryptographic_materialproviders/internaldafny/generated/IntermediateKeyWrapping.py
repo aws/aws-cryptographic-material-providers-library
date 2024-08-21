@@ -115,7 +115,7 @@ class default__:
             res = (d_441_valueOrError0_).PropagateFailure()
             return res
         d_440_cryptoPrimitivesX_ = (d_441_valueOrError0_).Extract()
-        d_443_cryptoPrimitives_: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient
+        d_443_cryptoPrimitives_: AtomicPrimitives.AtomicPrimitivesClient
         d_443_cryptoPrimitives_ = d_440_cryptoPrimitivesX_
         d_444_deserializedWrapped_: DeserializedIntermediateWrappedMaterial
         d_445_valueOrError1_: Wrappers.Result = Wrappers.Result.default(DeserializedIntermediateWrappedMaterial.default())()
@@ -204,7 +204,7 @@ class default__:
             res = (d_469_valueOrError0_).PropagateFailure()
             return res
         d_468_cryptoPrimitivesX_ = (d_469_valueOrError0_).Extract()
-        d_471_cryptoPrimitives_: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient
+        d_471_cryptoPrimitives_: AtomicPrimitives.AtomicPrimitivesClient
         d_471_cryptoPrimitives_ = d_468_cryptoPrimitivesX_
         d_472_generateAndWrapOutput_: MaterialWrapping.GenerateAndWrapOutput
         d_473_valueOrError1_: Wrappers.Result = None

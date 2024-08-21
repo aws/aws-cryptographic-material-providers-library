@@ -94,7 +94,7 @@ module {:options "-functionSyntax:4"} TestVectors {
     }
   }
 
-  method ToEncryptTest(keys: KeyVectorsTypes.IKeyVectorsClient, vector: EncryptTestVector)
+  method ToEncryptTest(keys: KeyVectors.KeyVectorsClient, vector: EncryptTestVector)
     returns (output: Result<EncryptTest, string>)
     requires keys.ValidState()
     modifies keys.Modifies

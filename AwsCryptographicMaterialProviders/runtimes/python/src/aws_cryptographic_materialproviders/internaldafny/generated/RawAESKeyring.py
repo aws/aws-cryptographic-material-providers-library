@@ -136,7 +136,7 @@ class default__:
 
 class RawAESKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.IKeyring):
     def  __init__(self):
-        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient = None
         self._wrappingKey: _dafny.Seq = _dafny.Seq({})
         self._wrappingAlgorithm: AwsCryptographyPrimitivesTypes.AES__GCM = None
         self._keyNamespace: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
@@ -394,7 +394,7 @@ class AesWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionWithResult
     def  __init__(self):
         self._wrappingKey: _dafny.Seq = _dafny.Seq({})
         self._wrappingAlgorithm: AwsCryptographyPrimitivesTypes.AES__GCM = None
-        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -462,7 +462,7 @@ class AesUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWithRe
         self._wrappingKey: _dafny.Seq = _dafny.Seq({})
         self._iv: _dafny.Seq = _dafny.Seq({})
         self._wrappingAlgorithm: AwsCryptographyPrimitivesTypes.AES__GCM = None
-        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient = None
         pass
 
     def __dafnystr__(self) -> str:

@@ -86,6 +86,6 @@ module  AwsKmsMrkMatchForDecrypt {
           && m.value.service   == c.value.service
           && m.value.account   == c.value.account
           && m.value.resource  == c.value.resource
-        )
+             )
   {}
 }

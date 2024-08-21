@@ -40,7 +40,7 @@ module RawRSAKeyring {
   class RawRSAKeyring
     extends Keyring.VerifiableInterface, Types.IKeyring
   {
-    const cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+    const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
 
     predicate ValidState()
       ensures ValidState() ==> History in Modifies
@@ -98,7 +98,7 @@ module RawRSAKeyring {
       //# This value MUST correspond with one of the [supported padding schemes]
       //# (#supported-padding-schemes).
       paddingScheme: Crypto.RSAPaddingMode,
-      cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+      cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
     )
       requires |namespace| < UINT16_LIMIT
       requires |name| < UINT16_LIMIT
@@ -413,12 +413,12 @@ module RawRSAKeyring {
   {
     const publicKey: seq<uint8>
     const paddingScheme: Crypto.RSAPaddingMode
-    const cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+    const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
 
     constructor(
       publicKey: seq<uint8>,
       paddingScheme: Crypto.RSAPaddingMode,
-      cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+      cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
     )
       requires cryptoPrimitives.ValidState()
       ensures
@@ -507,12 +507,12 @@ module RawRSAKeyring {
   {
     const publicKey: seq<uint8>
     const paddingScheme: Crypto.RSAPaddingMode
-    const cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+    const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
 
     constructor(
       publicKey: seq<uint8>,
       paddingScheme: Crypto.RSAPaddingMode,
-      cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+      cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
     )
       requires cryptoPrimitives.ValidState()
       ensures
@@ -603,12 +603,12 @@ module RawRSAKeyring {
   {
     const privateKey: seq<uint8>
     const paddingScheme: Crypto.RSAPaddingMode
-    const cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+    const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
 
     constructor(
       privateKey: seq<uint8>,
       paddingScheme: Crypto.RSAPaddingMode,
-      cryptoPrimitives: Crypto.IAwsCryptographicPrimitivesClient
+      cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
     )
       requires cryptoPrimitives.ValidState()
       ensures

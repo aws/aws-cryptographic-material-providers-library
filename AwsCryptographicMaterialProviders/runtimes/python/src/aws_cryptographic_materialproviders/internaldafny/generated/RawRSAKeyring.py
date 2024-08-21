@@ -118,7 +118,7 @@ import aws_cryptographic_materialproviders.internaldafny.generated.RawAESKeyring
 
 class RawRSAKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvidersTypes.IKeyring):
     def  __init__(self):
-        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient = None
         self._keyNamespace: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
         self._keyName: _dafny.Seq = UTF8.ValidUTF8Bytes.default()
         self._paddingScheme: AwsCryptographyPrimitivesTypes.RSAPaddingMode = AwsCryptographyPrimitivesTypes.RSAPaddingMode.default()()
@@ -327,7 +327,7 @@ class RsaGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMaterial, Ac
     def  __init__(self):
         self._publicKey: _dafny.Seq = _dafny.Seq({})
         self._paddingScheme: AwsCryptographyPrimitivesTypes.RSAPaddingMode = AwsCryptographyPrimitivesTypes.RSAPaddingMode.default()()
-        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -386,7 +386,7 @@ class RsaWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionWithResult
     def  __init__(self):
         self._publicKey: _dafny.Seq = _dafny.Seq({})
         self._paddingScheme: AwsCryptographyPrimitivesTypes.RSAPaddingMode = AwsCryptographyPrimitivesTypes.RSAPaddingMode.default()()
-        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient = None
         pass
 
     def __dafnystr__(self) -> str:
@@ -432,7 +432,7 @@ class RsaUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWithRe
     def  __init__(self):
         self._privateKey: _dafny.Seq = _dafny.Seq({})
         self._paddingScheme: AwsCryptographyPrimitivesTypes.RSAPaddingMode = AwsCryptographyPrimitivesTypes.RSAPaddingMode.default()()
-        self._cryptoPrimitives: AwsCryptographyPrimitivesTypes.IAwsCryptographicPrimitivesClient = None
+        self._cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient = None
         pass
 
     def __dafnystr__(self) -> str:
