@@ -364,12 +364,18 @@ public class ToDafny {
       Objects.nonNull(nativeValue.cache())
         ? Option.create_Some(ToDafny.CacheType(nativeValue.cache()))
         : Option.create_None();
+    Option<CacheType> sharedCache;
+    sharedCache =
+      Objects.nonNull(nativeValue.sharedCache())
+        ? Option.create_Some(ToDafny.CacheType(nativeValue.sharedCache()))
+        : Option.create_None();
     return new CreateAwsKmsHierarchicalKeyringInput(
       branchKeyId,
       branchKeyIdSupplier,
       keyStore,
       ttlSeconds,
-      cache
+      cache,
+      sharedCache
     );
   }
 

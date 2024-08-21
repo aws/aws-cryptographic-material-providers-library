@@ -38,12 +38,18 @@ public class CreateAwsKmsHierarchicalKeyringInput {
    */
   private final CacheType cache;
 
+  /**
+   * Shared cache across multiple Hierarchical Keyrings. For every Hierarchical Keyring, one out the `cache` or `sharedCache` parameter MUST be set, not both. If both parameters are set, an exception will be thrown. If neither of the two parameters are set, a DefaultCache is initialized to be used with the Hierarchical Keyring with entryCapacity = 1000.
+   */
+  private final CacheType sharedCache;
+
   protected CreateAwsKmsHierarchicalKeyringInput(BuilderImpl builder) {
     this.branchKeyId = builder.branchKeyId();
     this.branchKeyIdSupplier = builder.branchKeyIdSupplier();
     this.keyStore = builder.keyStore();
     this.ttlSeconds = builder.ttlSeconds();
     this.cache = builder.cache();
+    this.sharedCache = builder.sharedCache();
   }
 
   /**
@@ -79,6 +85,13 @@ public class CreateAwsKmsHierarchicalKeyringInput {
    */
   public CacheType cache() {
     return this.cache;
+  }
+
+  /**
+   * @return Shared cache across multiple Hierarchical Keyrings. For every Hierarchical Keyring, one out the `cache` or `sharedCache` parameter MUST be set, not both. If both parameters are set, an exception will be thrown. If neither of the two parameters are set, a DefaultCache is initialized to be used with the Hierarchical Keyring with entryCapacity = 1000.
+   */
+  public CacheType sharedCache() {
+    return this.sharedCache;
   }
 
   public Builder toBuilder() {
@@ -140,6 +153,16 @@ public class CreateAwsKmsHierarchicalKeyringInput {
      */
     CacheType cache();
 
+    /**
+     * @param sharedCache Shared cache across multiple Hierarchical Keyrings. For every Hierarchical Keyring, one out the `cache` or `sharedCache` parameter MUST be set, not both. If both parameters are set, an exception will be thrown. If neither of the two parameters are set, a DefaultCache is initialized to be used with the Hierarchical Keyring with entryCapacity = 1000.
+     */
+    Builder sharedCache(CacheType sharedCache);
+
+    /**
+     * @return Shared cache across multiple Hierarchical Keyrings. For every Hierarchical Keyring, one out the `cache` or `sharedCache` parameter MUST be set, not both. If both parameters are set, an exception will be thrown. If neither of the two parameters are set, a DefaultCache is initialized to be used with the Hierarchical Keyring with entryCapacity = 1000.
+     */
+    CacheType sharedCache();
+
     CreateAwsKmsHierarchicalKeyringInput build();
   }
 
@@ -157,6 +180,8 @@ public class CreateAwsKmsHierarchicalKeyringInput {
 
     protected CacheType cache;
 
+    protected CacheType sharedCache;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(CreateAwsKmsHierarchicalKeyringInput model) {
@@ -166,6 +191,7 @@ public class CreateAwsKmsHierarchicalKeyringInput {
       this.ttlSeconds = model.ttlSeconds();
       this._ttlSecondsSet = true;
       this.cache = model.cache();
+      this.sharedCache = model.sharedCache();
     }
 
     public Builder branchKeyId(String branchKeyId) {
@@ -214,6 +240,15 @@ public class CreateAwsKmsHierarchicalKeyringInput {
 
     public CacheType cache() {
       return this.cache;
+    }
+
+    public Builder sharedCache(CacheType sharedCache) {
+      this.sharedCache = sharedCache;
+      return this;
+    }
+
+    public CacheType sharedCache() {
+      return this.sharedCache;
     }
 
     public CreateAwsKmsHierarchicalKeyringInput build() {

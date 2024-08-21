@@ -474,6 +474,11 @@ public class ToNative {
         ToNative.CacheType(dafnyValue.dtor_cache().dtor_value())
       );
     }
+    if (dafnyValue.dtor_sharedCache().is_Some()) {
+      nativeBuilder.sharedCache(
+        ToNative.CacheType(dafnyValue.dtor_sharedCache().dtor_value())
+      );
+    }
     return nativeBuilder.build();
   }
 
