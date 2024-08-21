@@ -12,6 +12,7 @@ namespace AWS.Cryptography.MaterialProviders
     private AWS.Cryptography.KeyStore.KeyStore _keyStore;
     private long? _ttlSeconds;
     private AWS.Cryptography.MaterialProviders.CacheType _cache;
+    private AWS.Cryptography.MaterialProviders.CacheType _sharedCache;
     public string BranchKeyId
     {
       get { return this._branchKeyId; }
@@ -56,6 +57,15 @@ namespace AWS.Cryptography.MaterialProviders
     public bool IsSetCache()
     {
       return this._cache != null;
+    }
+    public AWS.Cryptography.MaterialProviders.CacheType SharedCache
+    {
+      get { return this._sharedCache; }
+      set { this._sharedCache = value; }
+    }
+    public bool IsSetSharedCache()
+    {
+      return this._sharedCache != null;
     }
     public void Validate()
     {
