@@ -6,6 +6,10 @@ aws-cryptographic-materials-providers-library-python
    :target: https://github.com/aws/aws-cryptographic-material-providers-library/actions/workflows/push.yml
    :alt: MPL-python-tests
 
+.. image:: https://img.shields.io/badge/code_style-black-000000.svg
+   :target: https://github.com/ambv/black
+   :alt: Code style: black
+
 .. image:: https://readthedocs.org/projects/aws-cryptographic-material-providers-library/badge/
    :target: https://aws-cryptographic-material-providers-library.readthedocs.io/en/latest/
    :alt: Documentation Status
