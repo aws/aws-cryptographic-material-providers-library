@@ -6,6 +6,7 @@ include "../src/Index.dfy"
 module TestComAmazonawsKms {
   import Com.Amazonaws.Kms
   import opened StandardLibrary.UInt
+  import opened Wrappers
 
   // Does not have GenerateDataKeyWithoutPlaintext permission
   const keyId :=  "arn:aws:kms:us-west-2:658956600833:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"
@@ -337,4 +338,21 @@ module TestComAmazonawsKms {
     );
   }
 
+  // Methods for the benefit of Java tests that need to call Dafny-generated code.
+
+  function method CreateNoneForEncryptionContext(): Option<Kms.Types.EncryptionContextType> {
+    None
+  }
+  function method CreateNoneForKeySpec(): Option<Kms.Types.DataKeySpec> {
+    None
+  }
+  function method CreateNoneForNumberOfBytes(): Option<Kms.Types.NumberOfBytesType> {
+    None
+  }
+  function method CreateNoneForGrantTokens(): Option<Kms.Types.GrantTokenList> {
+    None
+  }
+  function method CreateNoneForDryRun(): Option<bool> {
+    None
+  }
 }
