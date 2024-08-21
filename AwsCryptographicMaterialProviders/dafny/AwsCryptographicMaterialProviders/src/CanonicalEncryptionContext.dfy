@@ -26,7 +26,7 @@ module CanonicalEncryptionContext {
   {
     :- Need(|encryptionContext| < UINT16_LIMIT,
             Types.AwsCryptographicMaterialProvidersException( message := "Encryption Context is too large" ));
-    var keys := SortedSets.ComputeSetToOrderedSequence(encryptionContext.Keys, UInt.UInt8Less);
+    var keys := SortedSets.ComputeSetToOrderedSequence2(encryptionContext.Keys, UInt.UInt8Less);
 
     if |keys| == 0 then
       Success([])
