@@ -270,13 +270,6 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
             Types.AwsCryptographicMaterialProvidersException(
               message := "Must provide only one parameter out of cache and sharedCache."));
 
-    var cache := if input.sharedCache.Some? then
-      input.sharedCache.value
-    else if input.cache.Some? then
-      input.cache.value
-    else
-      Types.Default(Types.DefaultCache(entryCapacity := 1000));
-
     :- Need(input.branchKeyId.None? || input.branchKeyIdSupplier.None?,
             Types.AwsCryptographicMaterialProvidersException(
               message := "Cannot initialize keyring with both a branchKeyId and BranchKeyIdSupplier."));
@@ -285,7 +278,25 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
             Types.AwsCryptographicMaterialProvidersException(
               message := "Must initialize keyring with either branchKeyId or BranchKeyIdSupplier."));
 
-    var cmc :- CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := cache));
+    var cmcOutput;
+
+    if input.sharedCache.Some? {
+      cmcOutput := Success(input.sharedCache.value);
+    }
+    else if input.cache.Some? {
+      cmcOutput := CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := input.cache.value));
+    }
+    else {
+      cmcOutput := CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := Types.Default(Types.DefaultCache(entryCapacity := 1000))));
+    }
+
+    :- Need(cmcOutput.Success?,
+            Types.AwsCryptographicMaterialProvidersException(
+              message := "CreateCryptographicMaterialsCache method failed."));
+
+    var cmc := cmcOutput.value;
+
+    // var cmc :- CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := cache));
     var keyring := new AwsKmsHierarchicalKeyring.AwsKmsHierarchicalKeyring(
       keyStore := input.keyStore,
       branchKeyId := input.branchKeyId,
@@ -740,7 +751,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   }
 
   // Smithy-Dafny currently uses `int` in Java to represent
-  // a `integer` in Smithy.
+  // an `integer` in Smithy.
   // This is problematic because in Java `int` can not be `null`.
   // This means that an unset `int` will be `0`.
   // When crossing back and forth between Dafny and Java then
