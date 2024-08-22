@@ -23,6 +23,7 @@ module DefaultCMM {
   import Defaults
   import Commitment
   import Seq
+  import SortedSets
 
   class DefaultCMM
     extends CMM.VerifiableInterface
@@ -329,7 +330,7 @@ module DefaultCMM {
     //# - The operations made on the encryption context on the Get Encryption Materials call
     //# SHOULD be inverted on the Decrypt Materials call.
 
-    method DecryptMaterials'(
+    method {:vcs_split_on_every_assert} DecryptMaterials'(
       input: Types.DecryptMaterialsInput
     )
       returns (output: Result<Types.DecryptMaterialsOutput, Types.Error>)
@@ -478,17 +479,24 @@ module DefaultCMM {
       var requiredEncryptionContextKeys := [];
       if input.reproducedEncryptionContext.Some? {
         var keysSet := input.reproducedEncryptionContext.value.Keys;
-        while keysSet != {}
+        ghost var keysSet' := keysSet;
+        var keysSeq := SortedSets.ComputeSetToSequence(keysSet);
+        var i := 0;
+        while i < |keysSeq|
+          invariant Seq.HasNoDuplicates(keysSeq)
+          invariant forall j | 0 <= j < i && i < |keysSeq| :: keysSeq[j] !in keysSet'
+          invariant forall j | i <= j < |keysSeq| :: keysSeq[j] in keysSet'
+          invariant |keysSet'| == |keysSeq| - i
           invariant forall key
                       |
                       && key in input.reproducedEncryptionContext.value
                       && key in input.encryptionContext
-                      && key !in keysSet
+                      && key !in keysSet'
                       :: input.reproducedEncryptionContext.value[key] == input.encryptionContext[key]
           invariant forall key <- requiredEncryptionContextKeys
                       :: key !in input.encryptionContext
         {
-          var key :| key in keysSet;
+          var key := keysSeq[i];
           if key in input.encryptionContext {
             :- Need(input.reproducedEncryptionContext.value[key] == input.encryptionContext[key],
                     Types.AwsCryptographicMaterialProvidersException(
@@ -496,7 +504,11 @@ module DefaultCMM {
           } else {
             requiredEncryptionContextKeys :=  requiredEncryptionContextKeys + [key];
           }
-          keysSet := keysSet - {key};
+          keysSet' := keysSet' - {key};
+          i := i + 1;
+          assert forall j | i <= j < |keysSeq| :: keysSeq[j] in keysSet' by {
+            reveal Seq.HasNoDuplicates();
+          }
         }
       }
 
