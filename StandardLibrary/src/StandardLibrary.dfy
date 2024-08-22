@@ -335,7 +335,7 @@ module StandardLibrary {
    * The function is compilable, but will not exhibit enviable performance.
    */
 
-  function SetToOrderedSequence<T(!new,==)>(s: set<seq<T>>, less: (T, T) -> bool): (q: seq<seq<T>>)
+  function method {:tailrecursion} SetToOrderedSequence<T(!new,==)>(s: set<seq<T>>, less: (T, T) -> bool): (q: seq<seq<T>>)
     requires Trichotomous(less) && Transitive(less)
     ensures |s| == |q|
     ensures forall i :: 0 <= i < |q| ==> q[i] in s
