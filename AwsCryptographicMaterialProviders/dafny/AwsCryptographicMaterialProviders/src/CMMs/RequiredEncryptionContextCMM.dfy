@@ -54,7 +54,9 @@ module RequiredEncryptionContextCMM {
     {
       var keySet := inputKeys;
       var keySeq := SortedSets.ComputeSetToSequence(keySet);
-
+      assert |keySeq| == |keySet| == |inputKeys|;
+      assert forall k <- keySeq
+               :: k in inputKeys;
       underlyingCMM := inputCMM;
       requiredEncryptionContextKeys := keySeq;
 

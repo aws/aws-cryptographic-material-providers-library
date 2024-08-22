@@ -373,7 +373,6 @@ module DefaultCMM {
       //# the values MUST be equal or the operation MUST fail.
       ensures
         && (output.Success? ==> CMM.ReproducedEncryptionContext?(input))
-      ensures
         && (!CMM.ReproducedEncryptionContext?(input) ==> output.Failure?)
       //= aws-encryption-sdk-specification/framework/cmm-interface.md#decrypt-materials
       //= type=implication
@@ -490,10 +489,10 @@ module DefaultCMM {
           invariant |keysSet'| == |keysSeq| - i
           invariant forall key
                       |
-                      && key in input.reproducedEncryptionContext.value.Keys
+                      && key in input.reproducedEncryptionContext.value
                       && key in input.encryptionContext
                       && key !in keysSet'
-                      :: input.encryptionContext[key] == input.reproducedEncryptionContext.value[key]
+                      :: input.reproducedEncryptionContext.value[key] == input.encryptionContext[key]
           invariant forall key <- requiredEncryptionContextKeys
                       :: key !in input.encryptionContext
         {
