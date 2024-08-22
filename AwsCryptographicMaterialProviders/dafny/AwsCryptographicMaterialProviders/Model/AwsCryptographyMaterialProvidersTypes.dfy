@@ -335,22 +335,27 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
                                && input.branchKeyIdSupplier.value.Modifies !! {History}
            )
         && input.keyStore.ValidState()
-        && input.keyStore.Modifies !! {History}
+        && input.keyStore.Modifies !! {History} && ( input.sharedCache.Some? ==>
+                                                       && input.sharedCache.value.ValidState()
+                                                       && input.sharedCache.value.Modifies !! {History}
+           )
       modifies Modifies - {History} ,
                (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) ,
                input.keyStore.Modifies ,
+               (if input.sharedCache.Some? then input.sharedCache.value.Modifies else {}) ,
                History`CreateAwsKmsHierarchicalKeyring
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History} ,
                 (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) ,
-                input.keyStore.Modifies
+                input.keyStore.Modifies ,
+                (if input.sharedCache.Some? then input.sharedCache.value.Modifies else {})
       ensures
         && ValidState()
         && ( output.Success? ==>
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) - input.keyStore.Modifies ) )
+               && fresh ( output.value.Modifies - Modifies - {History} - (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) - input.keyStore.Modifies - (if input.sharedCache.Some? then input.sharedCache.value.Modifies else {}) ) )
       ensures CreateAwsKmsHierarchicalKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsHierarchicalKeyring == old(History.CreateAwsKmsHierarchicalKeyring) + [DafnyCallEvent(input, output)]
 
@@ -824,7 +829,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly keyStore: AwsCryptographyKeyStoreTypes.IKeyStoreClient ,
     nameonly ttlSeconds: PositiveLong ,
     nameonly cache: Option<CacheType> := Option.None ,
-    nameonly sharedCache: Option<CacheType> := Option.None
+    nameonly sharedCache: Option<ICryptographicMaterialsCache> := Option.None
   )
   datatype CreateAwsKmsKeyringInput = | CreateAwsKmsKeyringInput (
     nameonly kmsKeyId: KmsKeyId ,
@@ -1893,22 +1898,27 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
                                && input.branchKeyIdSupplier.value.Modifies !! {History}
            )
         && input.keyStore.ValidState()
-        && input.keyStore.Modifies !! {History}
+        && input.keyStore.Modifies !! {History} && ( input.sharedCache.Some? ==>
+                                                       && input.sharedCache.value.ValidState()
+                                                       && input.sharedCache.value.Modifies !! {History}
+           )
       modifies Modifies - {History} ,
                (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) ,
                input.keyStore.Modifies ,
+               (if input.sharedCache.Some? then input.sharedCache.value.Modifies else {}) ,
                History`CreateAwsKmsHierarchicalKeyring
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History} ,
                 (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) ,
-                input.keyStore.Modifies
+                input.keyStore.Modifies ,
+                (if input.sharedCache.Some? then input.sharedCache.value.Modifies else {})
       ensures
         && ValidState()
         && ( output.Success? ==>
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} - (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) - input.keyStore.Modifies ) )
+               && fresh ( output.value.Modifies - Modifies - {History} - (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) - input.keyStore.Modifies - (if input.sharedCache.Some? then input.sharedCache.value.Modifies else {}) ) )
       ensures CreateAwsKmsHierarchicalKeyringEnsuresPublicly(input, output)
       ensures History.CreateAwsKmsHierarchicalKeyring == old(History.CreateAwsKmsHierarchicalKeyring) + [DafnyCallEvent(input, output)]
     {
@@ -2497,20 +2507,24 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
       && ValidInternalConfig?(config) && ( input.branchKeyIdSupplier.Some? ==>
                                              && input.branchKeyIdSupplier.value.ValidState()
          )
-      && input.keyStore.ValidState()
+      && input.keyStore.ValidState() && ( input.sharedCache.Some? ==>
+                                            && input.sharedCache.value.ValidState()
+         )
     modifies ModifiesInternalConfig(config) ,
              (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) ,
-             input.keyStore.Modifies
+             input.keyStore.Modifies ,
+             (if input.sharedCache.Some? then input.sharedCache.value.Modifies else {})
     // Dafny will skip type parameters when generating a default decreases clause.
     decreases ModifiesInternalConfig(config) ,
               (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) ,
-              input.keyStore.Modifies
+              input.keyStore.Modifies ,
+              (if input.sharedCache.Some? then input.sharedCache.value.Modifies else {})
     ensures
       && ValidInternalConfig?(config)
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) - input.keyStore.Modifies ) )
+             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) - (if input.branchKeyIdSupplier.Some? then input.branchKeyIdSupplier.value.Modifies else {}) - input.keyStore.Modifies - (if input.sharedCache.Some? then input.sharedCache.value.Modifies else {}) ) )
     ensures CreateAwsKmsHierarchicalKeyringEnsuresPublicly(input, output)
 
 

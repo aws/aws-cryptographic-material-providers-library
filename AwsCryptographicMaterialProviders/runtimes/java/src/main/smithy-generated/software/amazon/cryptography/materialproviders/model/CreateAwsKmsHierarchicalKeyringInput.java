@@ -6,7 +6,9 @@ package software.amazon.cryptography.materialproviders.model;
 import java.util.Objects;
 import software.amazon.cryptography.keystore.KeyStore;
 import software.amazon.cryptography.materialproviders.BranchKeyIdSupplier;
+import software.amazon.cryptography.materialproviders.CryptographicMaterialsCache;
 import software.amazon.cryptography.materialproviders.IBranchKeyIdSupplier;
+import software.amazon.cryptography.materialproviders.ICryptographicMaterialsCache;
 
 /**
  * Inputs for creating a Hierarchical Keyring.
@@ -41,7 +43,7 @@ public class CreateAwsKmsHierarchicalKeyringInput {
   /**
    * Shared cache across multiple Hierarchical Keyrings. For every Hierarchical Keyring, one out the `cache` or `sharedCache` parameter MUST be set, not both. If both parameters are set, an exception will be thrown. If neither of the two parameters are set, a DefaultCache is initialized to be used with the Hierarchical Keyring with entryCapacity = 1000.
    */
-  private final CacheType sharedCache;
+  private final ICryptographicMaterialsCache sharedCache;
 
   protected CreateAwsKmsHierarchicalKeyringInput(BuilderImpl builder) {
     this.branchKeyId = builder.branchKeyId();
@@ -90,7 +92,7 @@ public class CreateAwsKmsHierarchicalKeyringInput {
   /**
    * @return Shared cache across multiple Hierarchical Keyrings. For every Hierarchical Keyring, one out the `cache` or `sharedCache` parameter MUST be set, not both. If both parameters are set, an exception will be thrown. If neither of the two parameters are set, a DefaultCache is initialized to be used with the Hierarchical Keyring with entryCapacity = 1000.
    */
-  public CacheType sharedCache() {
+  public ICryptographicMaterialsCache sharedCache() {
     return this.sharedCache;
   }
 
@@ -156,12 +158,12 @@ public class CreateAwsKmsHierarchicalKeyringInput {
     /**
      * @param sharedCache Shared cache across multiple Hierarchical Keyrings. For every Hierarchical Keyring, one out the `cache` or `sharedCache` parameter MUST be set, not both. If both parameters are set, an exception will be thrown. If neither of the two parameters are set, a DefaultCache is initialized to be used with the Hierarchical Keyring with entryCapacity = 1000.
      */
-    Builder sharedCache(CacheType sharedCache);
+    Builder sharedCache(ICryptographicMaterialsCache sharedCache);
 
     /**
      * @return Shared cache across multiple Hierarchical Keyrings. For every Hierarchical Keyring, one out the `cache` or `sharedCache` parameter MUST be set, not both. If both parameters are set, an exception will be thrown. If neither of the two parameters are set, a DefaultCache is initialized to be used with the Hierarchical Keyring with entryCapacity = 1000.
      */
-    CacheType sharedCache();
+    ICryptographicMaterialsCache sharedCache();
 
     CreateAwsKmsHierarchicalKeyringInput build();
   }
@@ -180,7 +182,7 @@ public class CreateAwsKmsHierarchicalKeyringInput {
 
     protected CacheType cache;
 
-    protected CacheType sharedCache;
+    protected ICryptographicMaterialsCache sharedCache;
 
     protected BuilderImpl() {}
 
@@ -242,12 +244,12 @@ public class CreateAwsKmsHierarchicalKeyringInput {
       return this.cache;
     }
 
-    public Builder sharedCache(CacheType sharedCache) {
-      this.sharedCache = sharedCache;
+    public Builder sharedCache(ICryptographicMaterialsCache sharedCache) {
+      this.sharedCache = CryptographicMaterialsCache.wrap(sharedCache);
       return this;
     }
 
-    public CacheType sharedCache() {
+    public ICryptographicMaterialsCache sharedCache() {
       return this.sharedCache;
     }
 

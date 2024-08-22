@@ -476,7 +476,9 @@ public class ToNative {
     }
     if (dafnyValue.dtor_sharedCache().is_Some()) {
       nativeBuilder.sharedCache(
-        ToNative.CacheType(dafnyValue.dtor_sharedCache().dtor_value())
+        ToNative.CryptographicMaterialsCache(
+          dafnyValue.dtor_sharedCache().dtor_value()
+        )
       );
     }
     return nativeBuilder.build();

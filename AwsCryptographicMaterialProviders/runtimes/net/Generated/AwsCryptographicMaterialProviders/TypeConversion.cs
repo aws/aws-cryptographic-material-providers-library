@@ -208,7 +208,7 @@ namespace AWS.Cryptography.MaterialProviders
       converted.KeyStore = (AWS.Cryptography.KeyStore.KeyStore)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M8_keyStore(concrete._keyStore);
       converted.TtlSeconds = (long)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M10_ttlSeconds(concrete._ttlSeconds);
       if (concrete._cache.is_Some) converted.Cache = (AWS.Cryptography.MaterialProviders.CacheType)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M5_cache(concrete._cache);
-      if (concrete._sharedCache.is_Some) converted.SharedCache = (AWS.Cryptography.MaterialProviders.CacheType)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M11_sharedCache(concrete._sharedCache); return converted;
+      if (concrete._sharedCache.is_Some) converted.SharedCache = (AWS.Cryptography.MaterialProviders.ICryptographicMaterialsCache)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M11_sharedCache(concrete._sharedCache); return converted;
     }
     public static software.amazon.cryptography.materialproviders.internaldafny.types._ICreateAwsKmsHierarchicalKeyringInput ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput(AWS.Cryptography.MaterialProviders.CreateAwsKmsHierarchicalKeyringInput value)
     {
@@ -216,7 +216,7 @@ namespace AWS.Cryptography.MaterialProviders
       string var_branchKeyId = value.IsSetBranchKeyId() ? value.BranchKeyId : (string)null;
       AWS.Cryptography.MaterialProviders.IBranchKeyIdSupplier var_branchKeyIdSupplier = value.IsSetBranchKeyIdSupplier() ? value.BranchKeyIdSupplier : (AWS.Cryptography.MaterialProviders.IBranchKeyIdSupplier)null;
       AWS.Cryptography.MaterialProviders.CacheType var_cache = value.IsSetCache() ? value.Cache : (AWS.Cryptography.MaterialProviders.CacheType)null;
-      AWS.Cryptography.MaterialProviders.CacheType var_sharedCache = value.IsSetSharedCache() ? value.SharedCache : (AWS.Cryptography.MaterialProviders.CacheType)null;
+      AWS.Cryptography.MaterialProviders.ICryptographicMaterialsCache var_sharedCache = value.IsSetSharedCache() ? value.SharedCache : (AWS.Cryptography.MaterialProviders.ICryptographicMaterialsCache)null;
       return new software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsHierarchicalKeyringInput(ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M11_branchKeyId(var_branchKeyId), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M19_branchKeyIdSupplier(var_branchKeyIdSupplier), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M8_keyStore(value.KeyStore), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M10_ttlSeconds(value.TtlSeconds), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M5_cache(var_cache), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M11_sharedCache(var_sharedCache));
     }
     public static AWS.Cryptography.MaterialProviders.CreateAwsKmsKeyringInput FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S24_CreateAwsKmsKeyringInput(software.amazon.cryptography.materialproviders.internaldafny.types._ICreateAwsKmsKeyringInput value)
@@ -1537,13 +1537,13 @@ namespace AWS.Cryptography.MaterialProviders
     {
       return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.materialproviders.internaldafny.types._ICacheType>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.materialproviders.internaldafny.types._ICacheType>.create_Some(ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_CacheType((AWS.Cryptography.MaterialProviders.CacheType)value));
     }
-    public static AWS.Cryptography.MaterialProviders.CacheType FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M11_sharedCache(Wrappers_Compile._IOption<software.amazon.cryptography.materialproviders.internaldafny.types._ICacheType> value)
+    public static AWS.Cryptography.MaterialProviders.ICryptographicMaterialsCache FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M11_sharedCache(Wrappers_Compile._IOption<software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsCache> value)
     {
-      return value.is_None ? (AWS.Cryptography.MaterialProviders.CacheType)null : FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_CacheType(value.Extract());
+      return value.is_None ? (AWS.Cryptography.MaterialProviders.ICryptographicMaterialsCache)null : FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CryptographicMaterialsCacheReference(value.Extract());
     }
-    public static Wrappers_Compile._IOption<software.amazon.cryptography.materialproviders.internaldafny.types._ICacheType> ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M11_sharedCache(AWS.Cryptography.MaterialProviders.CacheType value)
+    public static Wrappers_Compile._IOption<software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsCache> ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M11_sharedCache(AWS.Cryptography.MaterialProviders.ICryptographicMaterialsCache value)
     {
-      return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.materialproviders.internaldafny.types._ICacheType>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.materialproviders.internaldafny.types._ICacheType>.create_Some(ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_CacheType((AWS.Cryptography.MaterialProviders.CacheType)value));
+      return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsCache>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsCache>.create_Some(ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CryptographicMaterialsCacheReference((AWS.Cryptography.MaterialProviders.ICryptographicMaterialsCache)value));
     }
     public static string FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S24_CreateAwsKmsKeyringInput__M8_kmsKeyId(Dafny.ISequence<char> value)
     {
@@ -2931,6 +2931,25 @@ namespace AWS.Cryptography.MaterialProviders
     {
       return value;
     }
+    public static AWS.Cryptography.MaterialProviders.ICryptographicMaterialsCache FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CryptographicMaterialsCacheReference(software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsCache value)
+    {
+      if (value is NativeWrapper_CryptographicMaterialsCache nativeWrapper) return nativeWrapper._impl;
+      return new CryptographicMaterialsCache(value);
+
+    }
+    public static software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsCache ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CryptographicMaterialsCacheReference(AWS.Cryptography.MaterialProviders.ICryptographicMaterialsCache value)
+    {
+      switch (value)
+      {
+        case CryptographicMaterialsCache valueWithImpl:
+          return valueWithImpl._impl;
+        case CryptographicMaterialsCacheBase nativeImpl:
+          return new NativeWrapper_CryptographicMaterialsCache(nativeImpl);
+        default:
+          throw new System.ArgumentException(
+              "Custom implementations of CryptographicMaterialsCache must extend CryptographicMaterialsCacheBase.");
+      }
+    }
     public static string FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S8_KmsKeyId(Dafny.ISequence<char> value)
     {
       return new string(value.Elements);
@@ -2981,25 +3000,6 @@ namespace AWS.Cryptography.MaterialProviders
       if (Amazon.KeyManagementService.EncryptionAlgorithmSpec.RSAES_OAEP_SHA_1.Equals(value)) return software.amazon.cryptography.services.kms.internaldafny.types.EncryptionAlgorithmSpec.create_RSAES__OAEP__SHA__1();
       if (Amazon.KeyManagementService.EncryptionAlgorithmSpec.RSAES_OAEP_SHA_256.Equals(value)) return software.amazon.cryptography.services.kms.internaldafny.types.EncryptionAlgorithmSpec.create_RSAES__OAEP__SHA__256();
       throw new System.ArgumentException("Invalid Amazon.KeyManagementService.EncryptionAlgorithmSpec value");
-    }
-    public static AWS.Cryptography.MaterialProviders.ICryptographicMaterialsCache FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CryptographicMaterialsCacheReference(software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsCache value)
-    {
-      if (value is NativeWrapper_CryptographicMaterialsCache nativeWrapper) return nativeWrapper._impl;
-      return new CryptographicMaterialsCache(value);
-
-    }
-    public static software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsCache ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CryptographicMaterialsCacheReference(AWS.Cryptography.MaterialProviders.ICryptographicMaterialsCache value)
-    {
-      switch (value)
-      {
-        case CryptographicMaterialsCache valueWithImpl:
-          return valueWithImpl._impl;
-        case CryptographicMaterialsCacheBase nativeImpl:
-          return new NativeWrapper_CryptographicMaterialsCache(nativeImpl);
-        default:
-          throw new System.ArgumentException(
-              "Custom implementations of CryptographicMaterialsCache must extend CryptographicMaterialsCacheBase.");
-      }
     }
     public static AWS.Cryptography.MaterialProviders.ICryptographicMaterialsManager FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S38_CryptographicMaterialsManagerReference(software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsManager value)
     {

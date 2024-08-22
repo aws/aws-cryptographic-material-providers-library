@@ -364,10 +364,14 @@ public class ToDafny {
       Objects.nonNull(nativeValue.cache())
         ? Option.create_Some(ToDafny.CacheType(nativeValue.cache()))
         : Option.create_None();
-    Option<CacheType> sharedCache;
+    Option<
+      software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsCache
+    > sharedCache;
     sharedCache =
       Objects.nonNull(nativeValue.sharedCache())
-        ? Option.create_Some(ToDafny.CacheType(nativeValue.sharedCache()))
+        ? Option.create_Some(
+          ToDafny.CryptographicMaterialsCache(nativeValue.sharedCache())
+        )
         : Option.create_None();
     return new CreateAwsKmsHierarchicalKeyringInput(
       branchKeyId,
