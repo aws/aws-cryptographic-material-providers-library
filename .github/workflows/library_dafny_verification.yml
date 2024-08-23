@@ -52,7 +52,6 @@ jobs:
       # As a workaround we remove the install.
       - name: Clear and redownload dafny-reportgenerator
         run: |
-          sudo /var/root/.dotnet/dotnet tool install install -g dafny-reportgenerator --version 1.x
           sudo rm -rf $HOME/.dotnet/tools
 
       - name: Setup Dafny
