@@ -70,112 +70,112 @@ class default__:
     @staticmethod
     def GenerateEccKeyPair(input):
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.GenerateECCKeyPairOutput.default())()
-        d_106_keyPair_: EccKeyPair
-        d_107_valueOrError0_: Wrappers.Result = Wrappers.Result.default(EccKeyPair.default())()
+        d_105_keyPair_: EccKeyPair
+        d_106_valueOrError0_: Wrappers.Result = Wrappers.Result.default(EccKeyPair.default())()
         out22_: Wrappers.Result
         out22_ = ECDH.KeyGeneration.GenerateKeyPair((input).eccCurve)
-        d_107_valueOrError0_ = out22_
-        if (d_107_valueOrError0_).IsFailure():
-            output = (d_107_valueOrError0_).PropagateFailure()
+        d_106_valueOrError0_ = out22_
+        if (d_106_valueOrError0_).IsFailure():
+            output = (d_106_valueOrError0_).PropagateFailure()
             return output
-        d_106_keyPair_ = (d_107_valueOrError0_).Extract()
-        output = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.GenerateECCKeyPairOutput_GenerateECCKeyPairOutput((input).eccCurve, AwsCryptographyPrimitivesTypes.ECCPrivateKey_ECCPrivateKey((d_106_keyPair_).privateKey), AwsCryptographyPrimitivesTypes.ECCPublicKey_ECCPublicKey((d_106_keyPair_).publicKey)))
+        d_105_keyPair_ = (d_106_valueOrError0_).Extract()
+        output = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.GenerateECCKeyPairOutput_GenerateECCKeyPairOutput((input).eccCurve, AwsCryptographyPrimitivesTypes.ECCPrivateKey_ECCPrivateKey((d_105_keyPair_).privateKey), AwsCryptographyPrimitivesTypes.ECCPublicKey_ECCPublicKey((d_105_keyPair_).publicKey)))
         return output
         return output
 
     @staticmethod
     def GetPublicKeyFromPrivate(input):
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.GetPublicKeyFromPrivateKeyOutput.default())()
-        d_108_publicKey_: _dafny.Seq
-        d_109_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_107_publicKey_: _dafny.Seq
+        d_108_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out23_: Wrappers.Result
         out23_ = ECDH.ECCUtils.GetPublicKey((input).eccCurve, (input).privateKey)
-        d_109_valueOrError0_ = out23_
-        if (d_109_valueOrError0_).IsFailure():
-            output = (d_109_valueOrError0_).PropagateFailure()
+        d_108_valueOrError0_ = out23_
+        if (d_108_valueOrError0_).IsFailure():
+            output = (d_108_valueOrError0_).PropagateFailure()
             return output
-        d_108_publicKey_ = (d_109_valueOrError0_).Extract()
-        output = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.GetPublicKeyFromPrivateKeyOutput_GetPublicKeyFromPrivateKeyOutput((input).eccCurve, (input).privateKey, d_108_publicKey_))
+        d_107_publicKey_ = (d_108_valueOrError0_).Extract()
+        output = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.GetPublicKeyFromPrivateKeyOutput_GetPublicKeyFromPrivateKeyOutput((input).eccCurve, (input).privateKey, d_107_publicKey_))
         return output
         return output
 
     @staticmethod
     def ValidatePublicKey(input):
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.ValidatePublicKeyOutput.default())()
-        d_110_result_: bool
-        d_111_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.bool)()
+        d_109_result_: bool
+        d_110_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.bool)()
         out24_: Wrappers.Result
         out24_ = ECDH.ECCUtils.ValidatePublicKey((input).eccCurve, (input).publicKey)
-        d_111_valueOrError0_ = out24_
-        if (d_111_valueOrError0_).IsFailure():
-            output = (d_111_valueOrError0_).PropagateFailure()
+        d_110_valueOrError0_ = out24_
+        if (d_110_valueOrError0_).IsFailure():
+            output = (d_110_valueOrError0_).PropagateFailure()
             return output
-        d_110_result_ = (d_111_valueOrError0_).Extract()
-        output = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.ValidatePublicKeyOutput_ValidatePublicKeyOutput(d_110_result_))
+        d_109_result_ = (d_110_valueOrError0_).Extract()
+        output = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.ValidatePublicKeyOutput_ValidatePublicKeyOutput(d_109_result_))
         return output
         return output
 
     @staticmethod
     def DeriveSharedSecret(input):
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.DeriveSharedSecretOutput.default())()
-        d_112_derivedSharedSecret_: _dafny.Seq
-        d_113_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_111_derivedSharedSecret_: _dafny.Seq
+        d_112_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out25_: Wrappers.Result
         out25_ = ECDH.DeriveSharedSecret.CalculateSharedSecret((input).eccCurve, (input).privateKey, (input).publicKey)
-        d_113_valueOrError0_ = out25_
-        if (d_113_valueOrError0_).IsFailure():
-            output = (d_113_valueOrError0_).PropagateFailure()
+        d_112_valueOrError0_ = out25_
+        if (d_112_valueOrError0_).IsFailure():
+            output = (d_112_valueOrError0_).PropagateFailure()
             return output
-        d_112_derivedSharedSecret_ = (d_113_valueOrError0_).Extract()
-        output = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.DeriveSharedSecretOutput_DeriveSharedSecretOutput(d_112_derivedSharedSecret_))
+        d_111_derivedSharedSecret_ = (d_112_valueOrError0_).Extract()
+        output = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.DeriveSharedSecretOutput_DeriveSharedSecretOutput(d_111_derivedSharedSecret_))
         return output
         return output
 
     @staticmethod
     def CompressPublicKey(input):
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.CompressPublicKeyOutput.default())()
-        d_114_compressedPublicKey_: _dafny.Seq
-        d_115_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_113_compressedPublicKey_: _dafny.Seq
+        d_114_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out26_: Wrappers.Result
         out26_ = ECDH.ECCUtils.CompressPublicKey(((input).publicKey).der, (input).eccCurve)
-        d_115_valueOrError0_ = out26_
-        if (d_115_valueOrError0_).IsFailure():
-            output = (d_115_valueOrError0_).PropagateFailure()
+        d_114_valueOrError0_ = out26_
+        if (d_114_valueOrError0_).IsFailure():
+            output = (d_114_valueOrError0_).PropagateFailure()
             return output
-        d_114_compressedPublicKey_ = (d_115_valueOrError0_).Extract()
-        output = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.CompressPublicKeyOutput_CompressPublicKeyOutput(d_114_compressedPublicKey_))
+        d_113_compressedPublicKey_ = (d_114_valueOrError0_).Extract()
+        output = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.CompressPublicKeyOutput_CompressPublicKeyOutput(d_113_compressedPublicKey_))
         return output
         return output
 
     @staticmethod
     def DecompressPublicKey(input):
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.DecompressPublicKeyOutput.default())()
-        d_116_decompressedPublicKey_: _dafny.Seq
-        d_117_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_115_decompressedPublicKey_: _dafny.Seq
+        d_116_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out27_: Wrappers.Result
         out27_ = ECDH.ECCUtils.DecompressPublicKey((input).compressedPublicKey, (input).eccCurve)
-        d_117_valueOrError0_ = out27_
-        if (d_117_valueOrError0_).IsFailure():
-            output = (d_117_valueOrError0_).PropagateFailure()
+        d_116_valueOrError0_ = out27_
+        if (d_116_valueOrError0_).IsFailure():
+            output = (d_116_valueOrError0_).PropagateFailure()
             return output
-        d_116_decompressedPublicKey_ = (d_117_valueOrError0_).Extract()
-        output = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.DecompressPublicKeyOutput_DecompressPublicKeyOutput(AwsCryptographyPrimitivesTypes.ECCPublicKey_ECCPublicKey(d_116_decompressedPublicKey_)))
+        d_115_decompressedPublicKey_ = (d_116_valueOrError0_).Extract()
+        output = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.DecompressPublicKeyOutput_DecompressPublicKeyOutput(AwsCryptographyPrimitivesTypes.ECCPublicKey_ECCPublicKey(d_115_decompressedPublicKey_)))
         return output
         return output
 
     @staticmethod
     def ParsePublicKey(input):
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.ParsePublicKeyOutput.default())()
-        d_118_derPublicKey_: _dafny.Seq
-        d_119_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_117_derPublicKey_: _dafny.Seq
+        d_118_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out28_: Wrappers.Result
         out28_ = ECDH.ECCUtils.ParsePublicKey((input).publicKey)
-        d_119_valueOrError0_ = out28_
-        if (d_119_valueOrError0_).IsFailure():
-            output = (d_119_valueOrError0_).PropagateFailure()
+        d_118_valueOrError0_ = out28_
+        if (d_118_valueOrError0_).IsFailure():
+            output = (d_118_valueOrError0_).PropagateFailure()
             return output
-        d_118_derPublicKey_ = (d_119_valueOrError0_).Extract()
-        output = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.ParsePublicKeyOutput_ParsePublicKeyOutput(AwsCryptographyPrimitivesTypes.ECCPublicKey_ECCPublicKey(d_118_derPublicKey_)))
+        d_117_derPublicKey_ = (d_118_valueOrError0_).Extract()
+        output = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.ParsePublicKeyOutput_ParsePublicKeyOutput(AwsCryptographyPrimitivesTypes.ECCPublicKey_ECCPublicKey(d_117_derPublicKey_)))
         return output
         return output
 

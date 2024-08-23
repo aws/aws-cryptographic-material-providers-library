@@ -342,13 +342,13 @@ class default__:
         unmatched14 = True
         if unmatched14:
             if source14_.is_ESDK:
-                d_330_e_ = source14_.ESDK
+                d_332_e_ = source14_.ESDK
                 unmatched14 = False
-                return default__.GetESDKSuite(d_330_e_)
+                return default__.GetESDKSuite(d_332_e_)
         if unmatched14:
-            d_331_e_ = source14_.DBE
+            d_333_e_ = source14_.DBE
             unmatched14 = False
-            return default__.GetDBESuite(d_331_e_)
+            return default__.GetDBESuite(d_333_e_)
         raise Exception("unexpected control point")
 
     @staticmethod
@@ -364,9 +364,9 @@ class default__:
         source15_ = (a).encrypt
         unmatched15 = True
         if unmatched15:
-            d_332_e_ = source15_.AES__GCM
+            d_334_e_ = source15_.AES__GCM
             unmatched15 = False
-            return (d_332_e_).keyLength
+            return (d_334_e_).keyLength
         raise Exception("unexpected control point")
 
     @staticmethod
@@ -374,9 +374,9 @@ class default__:
         source16_ = (a).encrypt
         unmatched16 = True
         if unmatched16:
-            d_333_e_ = source16_.AES__GCM
+            d_335_e_ = source16_.AES__GCM
             unmatched16 = False
-            return (d_333_e_).tagLength
+            return (d_335_e_).tagLength
         raise Exception("unexpected control point")
 
     @staticmethod
@@ -384,16 +384,16 @@ class default__:
         source17_ = (a).encrypt
         unmatched17 = True
         if unmatched17:
-            d_334_e_ = source17_.AES__GCM
+            d_336_e_ = source17_.AES__GCM
             unmatched17 = False
-            return (d_334_e_).ivLength
+            return (d_336_e_).ivLength
         raise Exception("unexpected control point")
 
     @staticmethod
     def GetAlgorithmSuiteInfo(binaryId_q):
-        d_335_valueOrError0_ = Wrappers.default__.Need((binaryId_q) in (default__.AlgorithmSuiteInfoByBinaryId), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid BinaryId")))
-        if (d_335_valueOrError0_).IsFailure():
-            return (d_335_valueOrError0_).PropagateFailure()
+        d_337_valueOrError0_ = Wrappers.default__.Need((binaryId_q) in (default__.AlgorithmSuiteInfoByBinaryId), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid BinaryId")))
+        if (d_337_valueOrError0_).IsFailure():
+            return (d_337_valueOrError0_).PropagateFailure()
         elif True:
             return Wrappers.Result_Success((default__.AlgorithmSuiteInfoByBinaryId)[binaryId_q])
 
@@ -481,5 +481,5 @@ class AlgorithmSuite:
     def default():
         return AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo.default()()
     def _Is(source__):
-        d_336_a_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo = source__
-        return default__.AlgorithmSuite_q(d_336_a_)
+        d_338_a_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo = source__
+        return default__.AlgorithmSuite_q(d_338_a_)

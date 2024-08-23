@@ -185,9 +185,9 @@ class StormTracker:
         (self).lastPrune = 0
 
     def InFlightSize(self):
-        d_827_x_ = (self.inFlight).Size()
-        if (d_827_x_) <= (StandardLibrary_UInt.default__.INT64__MAX__LIMIT):
-            return d_827_x_
+        d_829_x_ = (self.inFlight).Size()
+        if (d_829_x_) <= (StandardLibrary_UInt.default__.INT64__MAX__LIMIT):
+            return d_829_x_
         elif True:
             return StandardLibrary_UInt.default__.INT64__MAX__LIMIT
 
@@ -206,25 +206,25 @@ class StormTracker:
 
     def CheckInFlight(self, identifier, result, now):
         output: CacheState = CacheState.default()()
-        d_828_fanOutReached_: bool
-        out132_: bool
-        out132_ = (self).FanOutReached(now)
-        d_828_fanOutReached_ = out132_
-        if d_828_fanOutReached_:
+        d_830_fanOutReached_: bool
+        out134_: bool
+        out134_ = (self).FanOutReached(now)
+        d_830_fanOutReached_ = out134_
+        if d_830_fanOutReached_:
             output = CacheState_Full(result)
             return output
         elif ((result).expiryTime) <= (now):
-            out133_: CacheState
-            out133_ = (self).CheckNewEntry(identifier, now)
-            output = out133_
+            out135_: CacheState
+            out135_ = (self).CheckNewEntry(identifier, now)
+            output = out135_
         elif (now) < (((result).expiryTime) - (self.gracePeriod)):
             output = CacheState_Full(result)
             return output
         elif True:
             if (self.inFlight).HasKey(identifier):
-                d_829_entry_: int
-                d_829_entry_ = (self.inFlight).Select(identifier)
-                if ((self).AddLong(d_829_entry_, self.graceInterval)) > (now):
+                d_831_entry_: int
+                d_831_entry_ = (self.inFlight).Select(identifier)
+                if ((self).AddLong(d_831_entry_, self.graceInterval)) > (now):
                     output = CacheState_Full(result)
                     return output
             (self.inFlight).Put(identifier, now)
@@ -238,30 +238,30 @@ class StormTracker:
         if (self.lastPrune) == (now):
             return
         (self).lastPrune = now
-        d_830_keySet_: _dafny.Set
-        d_830_keySet_ = (self.inFlight).Keys()
-        d_831_keys_: _dafny.Seq
-        d_831_keys_ = SortedSets.default__.SetToSequence(d_830_keySet_)
-        hi7_ = len(d_831_keys_)
-        for d_832_i_ in range(0, hi7_):
-            d_833_v_: int
-            d_833_v_ = (self.inFlight).Select((d_831_keys_)[d_832_i_])
-            if (now) >= ((self).AddLong(d_833_v_, self.inFlightTTL)):
-                (self.inFlight).Remove((d_831_keys_)[d_832_i_])
+        d_832_keySet_: _dafny.Set
+        d_832_keySet_ = (self.inFlight).Keys()
+        d_833_keys_: _dafny.Seq
+        d_833_keys_ = SortedSets.default__.SetToSequence(d_832_keySet_)
+        hi7_ = len(d_833_keys_)
+        for d_834_i_ in range(0, hi7_):
+            d_835_v_: int
+            d_835_v_ = (self.inFlight).Select((d_833_keys_)[d_834_i_])
+            if (now) >= ((self).AddLong(d_835_v_, self.inFlightTTL)):
+                (self.inFlight).Remove((d_833_keys_)[d_834_i_])
 
     def CheckNewEntry(self, identifier, now):
         output: CacheState = CacheState.default()()
-        d_834_fanOutReached_: bool
-        out134_: bool
-        out134_ = (self).FanOutReached(now)
-        d_834_fanOutReached_ = out134_
-        if d_834_fanOutReached_:
+        d_836_fanOutReached_: bool
+        out136_: bool
+        out136_ = (self).FanOutReached(now)
+        d_836_fanOutReached_ = out136_
+        if d_836_fanOutReached_:
             output = CacheState_EmptyWait()
             return output
         elif (self.inFlight).HasKey(identifier):
-            d_835_entry_: int
-            d_835_entry_ = (self.inFlight).Select(identifier)
-            if ((self).AddLong(d_835_entry_, self.graceInterval)) > (now):
+            d_837_entry_: int
+            d_837_entry_ = (self.inFlight).Select(identifier)
+            if ((self).AddLong(d_837_entry_, self.graceInterval)) > (now):
                 output = CacheState_EmptyWait()
                 return output
         (self.inFlight).Put(identifier, now)
@@ -271,51 +271,51 @@ class StormTracker:
 
     def GetFromCacheWithTime(self, input, now):
         output: Wrappers.Result = Wrappers.Result.default(CacheState.default())()
-        d_836_result_: Wrappers.Result
-        out135_: Wrappers.Result
-        out135_ = (self.wrapped).GetCacheEntryWithTime(input, now)
-        d_836_result_ = out135_
-        if (d_836_result_).is_Success:
-            d_837_newResult_: CacheState
-            out136_: CacheState
-            out136_ = (self).CheckInFlight((input).identifier, (d_836_result_).value, now)
-            d_837_newResult_ = out136_
-            output = Wrappers.Result_Success(d_837_newResult_)
+        d_838_result_: Wrappers.Result
+        out137_: Wrappers.Result
+        out137_ = (self.wrapped).GetCacheEntryWithTime(input, now)
+        d_838_result_ = out137_
+        if (d_838_result_).is_Success:
+            d_839_newResult_: CacheState
+            out138_: CacheState
+            out138_ = (self).CheckInFlight((input).identifier, (d_838_result_).value, now)
+            d_839_newResult_ = out138_
+            output = Wrappers.Result_Success(d_839_newResult_)
             return output
-        elif ((d_836_result_).error).is_EntryDoesNotExist:
-            d_838_newResult_: CacheState
-            out137_: CacheState
-            out137_ = (self).CheckNewEntry((input).identifier, now)
-            d_838_newResult_ = out137_
-            output = Wrappers.Result_Success(d_838_newResult_)
+        elif ((d_838_result_).error).is_EntryDoesNotExist:
+            d_840_newResult_: CacheState
+            out139_: CacheState
+            out139_ = (self).CheckNewEntry((input).identifier, now)
+            d_840_newResult_ = out139_
+            output = Wrappers.Result_Success(d_840_newResult_)
             return output
         elif True:
-            output = Wrappers.Result_Failure((d_836_result_).error)
+            output = Wrappers.Result_Failure((d_838_result_).error)
             return output
         return output
 
     def GetFromCache(self, input):
         output: Wrappers.Result = Wrappers.Result.default(CacheState.default())()
-        d_839_now_: int
-        out138_: int
-        out138_ = Time.default__.CurrentRelativeTime()
-        d_839_now_ = out138_
-        out139_: Wrappers.Result
-        out139_ = (self).GetFromCacheWithTime(input, d_839_now_)
-        output = out139_
+        d_841_now_: int
+        out140_: int
+        out140_ = Time.default__.CurrentRelativeTime()
+        d_841_now_ = out140_
+        out141_: Wrappers.Result
+        out141_ = (self).GetFromCacheWithTime(input, d_841_now_)
+        output = out141_
         return output
 
     def GetCacheEntry(self, input):
         output: Wrappers.Result = None
-        d_840_result_: Wrappers.Result
-        out140_: Wrappers.Result
-        out140_ = (self).GetFromCache(input)
-        d_840_result_ = out140_
-        if (d_840_result_).is_Failure:
-            output = Wrappers.Result_Failure((d_840_result_).error)
+        d_842_result_: Wrappers.Result
+        out142_: Wrappers.Result
+        out142_ = (self).GetFromCache(input)
+        d_842_result_ = out142_
+        if (d_842_result_).is_Failure:
+            output = Wrappers.Result_Failure((d_842_result_).error)
             return output
-        elif ((d_840_result_).value).is_Full:
-            output = Wrappers.Result_Success(((d_840_result_).value).data)
+        elif ((d_842_result_).value).is_Full:
+            output = Wrappers.Result_Success(((d_842_result_).value).data)
             return output
         elif True:
             output = Wrappers.Result_Failure(AwsCryptographyMaterialProvidersTypes.Error_EntryDoesNotExist(_dafny.Seq("Entry does not exist")))
@@ -325,23 +325,23 @@ class StormTracker:
     def PutCacheEntry(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
         (self.inFlight).Remove((input).identifier)
-        out141_: Wrappers.Result
-        out141_ = (self.wrapped).PutCacheEntry_k(input)
-        output = out141_
+        out143_: Wrappers.Result
+        out143_ = (self.wrapped).PutCacheEntry_k(input)
+        output = out143_
         return output
 
     def DeleteCacheEntry(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
         (self.inFlight).Remove((input).identifier)
-        out142_: Wrappers.Result
-        out142_ = (self.wrapped).DeleteCacheEntry_k(input)
-        output = out142_
+        out144_: Wrappers.Result
+        out144_ = (self.wrapped).DeleteCacheEntry_k(input)
+        output = out144_
         return output
 
     def UpdateUsageMetadata(self, input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
-        out143_: Wrappers.Result
-        out143_ = (self.wrapped).UpdateUsageMetadata_k(input)
-        output = out143_
+        out145_: Wrappers.Result
+        out145_ = (self.wrapped).UpdateUsageMetadata_k(input)
+        output = out145_
         return output
 

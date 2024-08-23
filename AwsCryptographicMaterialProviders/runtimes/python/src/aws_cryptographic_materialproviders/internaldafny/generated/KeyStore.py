@@ -96,117 +96,117 @@ class default__:
     @staticmethod
     def KeyStore(config):
         res: Wrappers.Result = None
-        d_304_kmsClient_: ComAmazonawsKmsTypes.IKMSClient = None
-        d_305_ddbClient_: ComAmazonawsDynamodbTypes.IDynamoDBClient = None
-        d_306_inferredRegion_: Wrappers.Option
-        d_306_inferredRegion_ = Wrappers.Option_None()
+        d_306_kmsClient_: ComAmazonawsKmsTypes.IKMSClient = None
+        d_307_ddbClient_: ComAmazonawsDynamodbTypes.IDynamoDBClient = None
+        d_308_inferredRegion_: Wrappers.Option
+        d_308_inferredRegion_ = Wrappers.Option_None()
         if KMSKeystoreOperations.default__.HasKeyId((config).kmsConfiguration):
-            d_307_parsedArn_: AwsArnParsing.AwsArn
-            d_308_valueOrError0_: Wrappers.Result = None
-            d_308_valueOrError0_ = KmsArn.default__.IsValidKeyArn(KMSKeystoreOperations.default__.GetKeyId((config).kmsConfiguration))
-            if (d_308_valueOrError0_).IsFailure():
-                res = (d_308_valueOrError0_).PropagateFailure()
+            d_309_parsedArn_: AwsArnParsing.AwsArn
+            d_310_valueOrError0_: Wrappers.Result = None
+            d_310_valueOrError0_ = KmsArn.default__.IsValidKeyArn(KMSKeystoreOperations.default__.GetKeyId((config).kmsConfiguration))
+            if (d_310_valueOrError0_).IsFailure():
+                res = (d_310_valueOrError0_).PropagateFailure()
                 return res
-            d_307_parsedArn_ = (d_308_valueOrError0_).Extract()
-            d_306_inferredRegion_ = Wrappers.Option_Some((d_307_parsedArn_).region)
+            d_309_parsedArn_ = (d_310_valueOrError0_).Extract()
+            d_308_inferredRegion_ = Wrappers.Option_Some((d_309_parsedArn_).region)
         elif ((config).kmsConfiguration).is_mrDiscovery:
-            d_306_inferredRegion_ = Wrappers.Option_Some((((config).kmsConfiguration).mrDiscovery).region)
-        d_309_grantTokens_: Wrappers.Result
-        d_309_grantTokens_ = AwsKmsUtils.default__.GetValidGrantTokens((config).grantTokens)
-        d_310_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_310_valueOrError1_ = Wrappers.default__.Need((True) and ((d_309_grantTokens_).is_Success), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Grant Tokens passed to Key Store configuration are invalid.")))
-        if (d_310_valueOrError1_).IsFailure():
-            res = (d_310_valueOrError1_).PropagateFailure()
+            d_308_inferredRegion_ = Wrappers.Option_Some((((config).kmsConfiguration).mrDiscovery).region)
+        d_311_grantTokens_: Wrappers.Result
+        d_311_grantTokens_ = AwsKmsUtils.default__.GetValidGrantTokens((config).grantTokens)
+        d_312_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_312_valueOrError1_ = Wrappers.default__.Need((True) and ((d_311_grantTokens_).is_Success), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Grant Tokens passed to Key Store configuration are invalid.")))
+        if (d_312_valueOrError1_).IsFailure():
+            res = (d_312_valueOrError1_).PropagateFailure()
             return res
-        d_311_keyStoreId_: _dafny.Seq = _dafny.Seq("")
+        d_313_keyStoreId_: _dafny.Seq = _dafny.Seq("")
         if ((config).id).is_Some:
-            d_311_keyStoreId_ = ((config).id).value
+            d_313_keyStoreId_ = ((config).id).value
         elif True:
-            d_312_maybeUuid_: Wrappers.Result
-            out45_: Wrappers.Result
-            out45_ = UUID.default__.GenerateUUID()
-            d_312_maybeUuid_ = out45_
-            d_313_uuid_: _dafny.Seq
-            d_314_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-            def lambda28_(d_315_e_):
-                return AwsCryptographyKeyStoreTypes.Error_KeyStoreException(d_315_e_)
-
-            d_314_valueOrError2_ = (d_312_maybeUuid_).MapFailure(lambda28_)
-            if (d_314_valueOrError2_).IsFailure():
-                res = (d_314_valueOrError2_).PropagateFailure()
-                return res
-            d_313_uuid_ = (d_314_valueOrError2_).Extract()
-            d_311_keyStoreId_ = d_313_uuid_
-        if ((config).kmsClient).is_Some:
-            d_304_kmsClient_ = ((config).kmsClient).value
-        elif (((config).kmsClient).is_None) and ((d_306_inferredRegion_).is_Some):
-            d_316_maybeKmsClient_: Wrappers.Result
-            out46_: Wrappers.Result
-            out46_ = Com_Amazonaws_Kms.default__.KMSClientForRegion((d_306_inferredRegion_).value)
-            d_316_maybeKmsClient_ = out46_
-            d_317_valueOrError3_: Wrappers.Result = None
-            def lambda29_(d_318_e_):
-                return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsKms(d_318_e_)
-
-            d_317_valueOrError3_ = (d_316_maybeKmsClient_).MapFailure(lambda29_)
-            if (d_317_valueOrError3_).IsFailure():
-                res = (d_317_valueOrError3_).PropagateFailure()
-                return res
-            d_304_kmsClient_ = (d_317_valueOrError3_).Extract()
-        elif True:
-            d_319_maybeKmsClient_: Wrappers.Result
+            d_314_maybeUuid_: Wrappers.Result
             out47_: Wrappers.Result
-            out47_ = Com_Amazonaws_Kms.default__.KMSClient()
-            d_319_maybeKmsClient_ = out47_
-            d_320_valueOrError4_: Wrappers.Result = None
-            def lambda30_(d_321_e_):
-                return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsKms(d_321_e_)
+            out47_ = UUID.default__.GenerateUUID()
+            d_314_maybeUuid_ = out47_
+            d_315_uuid_: _dafny.Seq
+            d_316_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+            def lambda28_(d_317_e_):
+                return AwsCryptographyKeyStoreTypes.Error_KeyStoreException(d_317_e_)
 
-            d_320_valueOrError4_ = (d_319_maybeKmsClient_).MapFailure(lambda30_)
-            if (d_320_valueOrError4_).IsFailure():
-                res = (d_320_valueOrError4_).PropagateFailure()
+            d_316_valueOrError2_ = (d_314_maybeUuid_).MapFailure(lambda28_)
+            if (d_316_valueOrError2_).IsFailure():
+                res = (d_316_valueOrError2_).PropagateFailure()
                 return res
-            d_304_kmsClient_ = (d_320_valueOrError4_).Extract()
-        if ((config).ddbClient).is_Some:
-            d_305_ddbClient_ = ((config).ddbClient).value
-        elif (((config).ddbClient).is_None) and ((d_306_inferredRegion_).is_Some):
-            d_322_maybeDdbClient_: Wrappers.Result
+            d_315_uuid_ = (d_316_valueOrError2_).Extract()
+            d_313_keyStoreId_ = d_315_uuid_
+        if ((config).kmsClient).is_Some:
+            d_306_kmsClient_ = ((config).kmsClient).value
+        elif (((config).kmsClient).is_None) and ((d_308_inferredRegion_).is_Some):
+            d_318_maybeKmsClient_: Wrappers.Result
             out48_: Wrappers.Result
-            out48_ = Com_Amazonaws_Dynamodb.default__.DDBClientForRegion((d_306_inferredRegion_).value)
-            d_322_maybeDdbClient_ = out48_
-            d_323_valueOrError5_: Wrappers.Result = None
-            def lambda31_(d_324_e_):
-                return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb(d_324_e_)
+            out48_ = Com_Amazonaws_Kms.default__.KMSClientForRegion((d_308_inferredRegion_).value)
+            d_318_maybeKmsClient_ = out48_
+            d_319_valueOrError3_: Wrappers.Result = None
+            def lambda29_(d_320_e_):
+                return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsKms(d_320_e_)
 
-            d_323_valueOrError5_ = (d_322_maybeDdbClient_).MapFailure(lambda31_)
-            if (d_323_valueOrError5_).IsFailure():
-                res = (d_323_valueOrError5_).PropagateFailure()
+            d_319_valueOrError3_ = (d_318_maybeKmsClient_).MapFailure(lambda29_)
+            if (d_319_valueOrError3_).IsFailure():
+                res = (d_319_valueOrError3_).PropagateFailure()
                 return res
-            d_305_ddbClient_ = (d_323_valueOrError5_).Extract()
+            d_306_kmsClient_ = (d_319_valueOrError3_).Extract()
         elif True:
-            d_325_maybeDdbClient_: Wrappers.Result
+            d_321_maybeKmsClient_: Wrappers.Result
             out49_: Wrappers.Result
-            out49_ = Com_Amazonaws_Dynamodb.default__.DynamoDBClient()
-            d_325_maybeDdbClient_ = out49_
-            d_326_valueOrError6_: Wrappers.Result = None
-            def lambda32_(d_327_e_):
-                return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb(d_327_e_)
+            out49_ = Com_Amazonaws_Kms.default__.KMSClient()
+            d_321_maybeKmsClient_ = out49_
+            d_322_valueOrError4_: Wrappers.Result = None
+            def lambda30_(d_323_e_):
+                return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsKms(d_323_e_)
 
-            d_326_valueOrError6_ = (d_325_maybeDdbClient_).MapFailure(lambda32_)
-            if (d_326_valueOrError6_).IsFailure():
-                res = (d_326_valueOrError6_).PropagateFailure()
+            d_322_valueOrError4_ = (d_321_maybeKmsClient_).MapFailure(lambda30_)
+            if (d_322_valueOrError4_).IsFailure():
+                res = (d_322_valueOrError4_).PropagateFailure()
                 return res
-            d_305_ddbClient_ = (d_326_valueOrError6_).Extract()
-        d_328_valueOrError7_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_328_valueOrError7_ = Wrappers.default__.Need(ComAmazonawsDynamodbTypes.default__.IsValid__TableName((config).ddbTableName), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Invalid Amazon DynamoDB Table Name")))
-        if (d_328_valueOrError7_).IsFailure():
-            res = (d_328_valueOrError7_).PropagateFailure()
+            d_306_kmsClient_ = (d_322_valueOrError4_).Extract()
+        if ((config).ddbClient).is_Some:
+            d_307_ddbClient_ = ((config).ddbClient).value
+        elif (((config).ddbClient).is_None) and ((d_308_inferredRegion_).is_Some):
+            d_324_maybeDdbClient_: Wrappers.Result
+            out50_: Wrappers.Result
+            out50_ = Com_Amazonaws_Dynamodb.default__.DDBClientForRegion((d_308_inferredRegion_).value)
+            d_324_maybeDdbClient_ = out50_
+            d_325_valueOrError5_: Wrappers.Result = None
+            def lambda31_(d_326_e_):
+                return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb(d_326_e_)
+
+            d_325_valueOrError5_ = (d_324_maybeDdbClient_).MapFailure(lambda31_)
+            if (d_325_valueOrError5_).IsFailure():
+                res = (d_325_valueOrError5_).PropagateFailure()
+                return res
+            d_307_ddbClient_ = (d_325_valueOrError5_).Extract()
+        elif True:
+            d_327_maybeDdbClient_: Wrappers.Result
+            out51_: Wrappers.Result
+            out51_ = Com_Amazonaws_Dynamodb.default__.DynamoDBClient()
+            d_327_maybeDdbClient_ = out51_
+            d_328_valueOrError6_: Wrappers.Result = None
+            def lambda32_(d_329_e_):
+                return AwsCryptographyKeyStoreTypes.Error_ComAmazonawsDynamodb(d_329_e_)
+
+            d_328_valueOrError6_ = (d_327_maybeDdbClient_).MapFailure(lambda32_)
+            if (d_328_valueOrError6_).IsFailure():
+                res = (d_328_valueOrError6_).PropagateFailure()
+                return res
+            d_307_ddbClient_ = (d_328_valueOrError6_).Extract()
+        d_330_valueOrError7_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_330_valueOrError7_ = Wrappers.default__.Need(ComAmazonawsDynamodbTypes.default__.IsValid__TableName((config).ddbTableName), AwsCryptographyKeyStoreTypes.Error_KeyStoreException(_dafny.Seq("Invalid Amazon DynamoDB Table Name")))
+        if (d_330_valueOrError7_).IsFailure():
+            res = (d_330_valueOrError7_).PropagateFailure()
             return res
-        d_329_client_: KeyStoreClient
+        d_331_client_: KeyStoreClient
         nw0_ = KeyStoreClient()
-        nw0_.ctor__(AwsCryptographyKeyStoreOperations.Config_Config(d_311_keyStoreId_, (config).ddbTableName, (config).logicalKeyStoreName, (config).kmsConfiguration, (d_309_grantTokens_).value, d_304_kmsClient_, d_305_ddbClient_))
-        d_329_client_ = nw0_
-        res = Wrappers.Result_Success(d_329_client_)
+        nw0_.ctor__(AwsCryptographyKeyStoreOperations.Config_Config(d_313_keyStoreId_, (config).ddbTableName, (config).logicalKeyStoreName, (config).kmsConfiguration, (d_311_grantTokens_).value, d_306_kmsClient_, d_307_ddbClient_))
+        d_331_client_ = nw0_
+        res = Wrappers.Result_Success(d_331_client_)
         return res
         return res
 
@@ -231,51 +231,51 @@ class KeyStoreClient(AwsCryptographyKeyStoreTypes.IKeyStoreClient):
 
     def GetKeyStoreInfo(self):
         output: Wrappers.Result = None
-        out50_: Wrappers.Result
-        out50_ = AwsCryptographyKeyStoreOperations.default__.GetKeyStoreInfo((self).config)
-        output = out50_
+        out52_: Wrappers.Result
+        out52_ = AwsCryptographyKeyStoreOperations.default__.GetKeyStoreInfo((self).config)
+        output = out52_
         return output
 
     def CreateKeyStore(self, input):
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.CreateKeyStoreOutput.default())()
-        out51_: Wrappers.Result
-        out51_ = AwsCryptographyKeyStoreOperations.default__.CreateKeyStore((self).config, input)
-        output = out51_
+        out53_: Wrappers.Result
+        out53_ = AwsCryptographyKeyStoreOperations.default__.CreateKeyStore((self).config, input)
+        output = out53_
         return output
 
     def CreateKey(self, input):
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.CreateKeyOutput.default())()
-        out52_: Wrappers.Result
-        out52_ = AwsCryptographyKeyStoreOperations.default__.CreateKey((self).config, input)
-        output = out52_
+        out54_: Wrappers.Result
+        out54_ = AwsCryptographyKeyStoreOperations.default__.CreateKey((self).config, input)
+        output = out54_
         return output
 
     def VersionKey(self, input):
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.VersionKeyOutput.default())()
-        out53_: Wrappers.Result
-        out53_ = AwsCryptographyKeyStoreOperations.default__.VersionKey((self).config, input)
-        output = out53_
+        out55_: Wrappers.Result
+        out55_ = AwsCryptographyKeyStoreOperations.default__.VersionKey((self).config, input)
+        output = out55_
         return output
 
     def GetActiveBranchKey(self, input):
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.GetActiveBranchKeyOutput.default())()
-        out54_: Wrappers.Result
-        out54_ = AwsCryptographyKeyStoreOperations.default__.GetActiveBranchKey((self).config, input)
-        output = out54_
+        out56_: Wrappers.Result
+        out56_ = AwsCryptographyKeyStoreOperations.default__.GetActiveBranchKey((self).config, input)
+        output = out56_
         return output
 
     def GetBranchKeyVersion(self, input):
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.GetBranchKeyVersionOutput.default())()
-        out55_: Wrappers.Result
-        out55_ = AwsCryptographyKeyStoreOperations.default__.GetBranchKeyVersion((self).config, input)
-        output = out55_
+        out57_: Wrappers.Result
+        out57_ = AwsCryptographyKeyStoreOperations.default__.GetBranchKeyVersion((self).config, input)
+        output = out57_
         return output
 
     def GetBeaconKey(self, input):
         output: Wrappers.Result = Wrappers.Result.default(AwsCryptographyKeyStoreTypes.GetBeaconKeyOutput.default())()
-        out56_: Wrappers.Result
-        out56_ = AwsCryptographyKeyStoreOperations.default__.GetBeaconKey((self).config, input)
-        output = out56_
+        out58_: Wrappers.Result
+        out58_ = AwsCryptographyKeyStoreOperations.default__.GetBeaconKey((self).config, input)
+        output = out58_
         return output
 
     @property

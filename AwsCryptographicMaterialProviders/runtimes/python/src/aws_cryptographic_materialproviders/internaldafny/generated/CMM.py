@@ -123,9 +123,9 @@ class default__:
     @staticmethod
     def RequiredEncryptionContextKeys_q(requiredEncryptionContextKeys, encryptionMaterials):
         def lambda113_(forall_var_12_):
-            d_1463_k_: _dafny.Seq = forall_var_12_
-            if UTF8.ValidUTF8Bytes._Is(d_1463_k_):
-                return not ((d_1463_k_) in ((requiredEncryptionContextKeys).UnwrapOr(_dafny.Seq([])))) or ((d_1463_k_) in ((encryptionMaterials).requiredEncryptionContextKeys))
+            d_1465_k_: _dafny.Seq = forall_var_12_
+            if UTF8.ValidUTF8Bytes._Is(d_1465_k_):
+                return not ((d_1465_k_) in ((requiredEncryptionContextKeys).UnwrapOr(_dafny.Seq([])))) or ((d_1465_k_) in ((encryptionMaterials).requiredEncryptionContextKeys))
             elif True:
                 return True
 
@@ -133,21 +133,21 @@ class default__:
 
     @staticmethod
     def EncryptionContextComplete(input, decryptionMaterials):
-        d_1464_reproducedEncryptionContext_ = ((input).reproducedEncryptionContext).UnwrapOr(_dafny.Map({}))
+        d_1466_reproducedEncryptionContext_ = ((input).reproducedEncryptionContext).UnwrapOr(_dafny.Map({}))
         def lambda114_(forall_var_13_):
-            d_1465_k_: _dafny.Seq = forall_var_13_
-            return not ((d_1465_k_) in ((d_1464_reproducedEncryptionContext_).keys)) or (((d_1465_k_) in ((decryptionMaterials).encryptionContext)) and ((((decryptionMaterials).encryptionContext)[d_1465_k_]) == ((d_1464_reproducedEncryptionContext_)[d_1465_k_])))
+            d_1467_k_: _dafny.Seq = forall_var_13_
+            return not ((d_1467_k_) in ((d_1466_reproducedEncryptionContext_).keys)) or (((d_1467_k_) in ((decryptionMaterials).encryptionContext)) and ((((decryptionMaterials).encryptionContext)[d_1467_k_]) == ((d_1466_reproducedEncryptionContext_)[d_1467_k_])))
 
-        return _dafny.quantifier(((d_1464_reproducedEncryptionContext_).keys).Elements, True, lambda114_)
+        return _dafny.quantifier(((d_1466_reproducedEncryptionContext_).keys).Elements, True, lambda114_)
 
     @staticmethod
     def ReproducedEncryptionContext_q(input):
-        d_1466_reproducedEncryptionContext_ = ((input).reproducedEncryptionContext).UnwrapOr(_dafny.Map({}))
+        d_1468_reproducedEncryptionContext_ = ((input).reproducedEncryptionContext).UnwrapOr(_dafny.Map({}))
         def lambda115_(forall_var_14_):
-            d_1467_k_: _dafny.Seq = forall_var_14_
-            return not (((d_1467_k_) in ((d_1466_reproducedEncryptionContext_).keys)) and ((d_1467_k_) in ((input).encryptionContext))) or ((((input).encryptionContext)[d_1467_k_]) == ((d_1466_reproducedEncryptionContext_)[d_1467_k_]))
+            d_1469_k_: _dafny.Seq = forall_var_14_
+            return not (((d_1469_k_) in ((d_1468_reproducedEncryptionContext_).keys)) and ((d_1469_k_) in ((input).encryptionContext))) or ((((input).encryptionContext)[d_1469_k_]) == ((d_1468_reproducedEncryptionContext_)[d_1469_k_]))
 
-        return _dafny.quantifier(((d_1466_reproducedEncryptionContext_).keys).Elements, True, lambda115_)
+        return _dafny.quantifier(((d_1468_reproducedEncryptionContext_).keys).Elements, True, lambda115_)
 
 
 class VerifiableInterface:

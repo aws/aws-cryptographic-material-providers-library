@@ -102,38 +102,12 @@ class default__:
 
     @staticmethod
     def Test____Main____(noArgsParameter__):
-        d_232_success_: bool
-        d_232_success_ = True
+        d_234_success_: bool
+        d_234_success_ = True
         _dafny.print(_dafny.string_of(_dafny.Seq("TestUTF8.TestEncodeHappyCase: ")))
         try:
             if True:
                 TestUTF8.default__.TestEncodeHappyCase()
-                if True:
-                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
-        except _dafny.HaltException as e:
-            d_233_haltMessage_ = e.message
-            if True:
-                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_233_haltMessage_))
-                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestUTF8.TestEncodeInvalidUnicode: ")))
-        try:
-            if True:
-                TestUTF8.default__.TestEncodeInvalidUnicode()
-                if True:
-                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
-        except _dafny.HaltException as e:
-            d_234_haltMessage_ = e.message
-            if True:
-                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
-                _dafny.print(_dafny.string_of(d_234_haltMessage_))
-                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestUTF8.TestDecodeHappyCase: ")))
-        try:
-            if True:
-                TestUTF8.default__.TestDecodeHappyCase()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -142,11 +116,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_235_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestUTF8.TestDecodeInvalidUnicode: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestUTF8.TestEncodeInvalidUnicode: ")))
         try:
             if True:
-                TestUTF8.default__.TestDecodeInvalidUnicode()
+                TestUTF8.default__.TestEncodeInvalidUnicode()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -155,11 +129,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_236_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestUTF8.Test1Byte: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestUTF8.TestDecodeHappyCase: ")))
         try:
             if True:
-                TestUTF8.default__.Test1Byte()
+                TestUTF8.default__.TestDecodeHappyCase()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -168,11 +142,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_237_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestUTF8.Test2Bytes: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestUTF8.TestDecodeInvalidUnicode: ")))
         try:
             if True:
-                TestUTF8.default__.Test2Bytes()
+                TestUTF8.default__.TestDecodeInvalidUnicode()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -181,11 +155,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_238_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestUTF8.Test3Bytes: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestUTF8.Test1Byte: ")))
         try:
             if True:
-                TestUTF8.default__.Test3Bytes()
+                TestUTF8.default__.Test1Byte()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -194,11 +168,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_239_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestUTF8.Test4Bytes: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestUTF8.Test2Bytes: ")))
         try:
             if True:
-                TestUTF8.default__.Test4Bytes()
+                TestUTF8.default__.Test2Bytes()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -207,11 +181,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_240_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestTime.TestNonDecreasing: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestUTF8.Test3Bytes: ")))
         try:
             if True:
-                TestTime.default__.TestNonDecreasing()
+                TestUTF8.default__.Test3Bytes()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -220,11 +194,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_241_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestTime.TestPositiveValues: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestUTF8.Test4Bytes: ")))
         try:
             if True:
-                TestTime.default__.TestPositiveValues()
+                TestUTF8.default__.Test4Bytes()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -233,11 +207,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_242_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceCharLess.TestSetToOrderedSequenceEmpty: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestTime.TestNonDecreasing: ")))
         try:
             if True:
-                TestComputeSetToOrderedSequenceCharLess.default__.TestSetToOrderedSequenceEmpty()
+                TestTime.default__.TestNonDecreasing()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -246,11 +220,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_243_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceCharLess.TestSetToOrderedSequenceOneItem: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestTime.TestPositiveValues: ")))
         try:
             if True:
-                TestComputeSetToOrderedSequenceCharLess.default__.TestSetToOrderedSequenceOneItem()
+                TestTime.default__.TestPositiveValues()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -259,11 +233,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_244_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceCharLess.TestSetToOrderedSequenceSimple: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestTime.TestGetCurrentTimeStamp: ")))
         try:
             if True:
-                TestComputeSetToOrderedSequenceCharLess.default__.TestSetToOrderedSequenceSimple()
+                TestTime.default__.TestGetCurrentTimeStamp()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -272,11 +246,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_245_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceCharLess.TestSetToOrderedSequencePrefix: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceCharLess.TestSetToOrderedSequenceEmpty: ")))
         try:
             if True:
-                TestComputeSetToOrderedSequenceCharLess.default__.TestSetToOrderedSequencePrefix()
+                TestComputeSetToOrderedSequenceCharLess.default__.TestSetToOrderedSequenceEmpty()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -285,11 +259,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_246_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceCharLess.TestSetToOrderedSequenceComplex: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceCharLess.TestSetToOrderedSequenceOneItem: ")))
         try:
             if True:
-                TestComputeSetToOrderedSequenceCharLess.default__.TestSetToOrderedSequenceComplex()
+                TestComputeSetToOrderedSequenceCharLess.default__.TestSetToOrderedSequenceOneItem()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -298,11 +272,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_247_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceCharLess.TestSetToOrderedSequenceComplexReverse: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceCharLess.TestSetToOrderedSequenceSimple: ")))
         try:
             if True:
-                TestComputeSetToOrderedSequenceCharLess.default__.TestSetToOrderedSequenceComplexReverse()
+                TestComputeSetToOrderedSequenceCharLess.default__.TestSetToOrderedSequenceSimple()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -311,11 +285,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_248_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceCharLess.TestSetSequence: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceCharLess.TestSetToOrderedSequencePrefix: ")))
         try:
             if True:
-                TestComputeSetToOrderedSequenceCharLess.default__.TestSetSequence()
+                TestComputeSetToOrderedSequenceCharLess.default__.TestSetToOrderedSequencePrefix()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -324,11 +298,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_249_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceCharLess.TestSetToOrderedComplexUnicode: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceCharLess.TestSetToOrderedSequenceComplex: ")))
         try:
             if True:
-                TestComputeSetToOrderedSequenceCharLess.default__.TestSetToOrderedComplexUnicode()
+                TestComputeSetToOrderedSequenceCharLess.default__.TestSetToOrderedSequenceComplex()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -337,11 +311,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_250_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestHexStrings.BasicTests: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceCharLess.TestSetToOrderedSequenceComplexReverse: ")))
         try:
             if True:
-                TestHexStrings.default__.BasicTests()
+                TestComputeSetToOrderedSequenceCharLess.default__.TestSetToOrderedSequenceComplexReverse()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -350,11 +324,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_251_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("FloatCompareTest.TestOneTwoZeroMatrix: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceCharLess.TestSetSequence: ")))
         try:
             if True:
-                FloatCompareTest.default__.TestOneTwoZeroMatrix()
+                TestComputeSetToOrderedSequenceCharLess.default__.TestSetSequence()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -363,11 +337,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_252_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("FloatCompareTest.SimpleTests: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceCharLess.TestSetToOrderedComplexUnicode: ")))
         try:
             if True:
-                FloatCompareTest.default__.SimpleTests()
+                TestComputeSetToOrderedSequenceCharLess.default__.TestSetToOrderedComplexUnicode()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -376,11 +350,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_253_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("FloatCompareTest.SignTests: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestHexStrings.BasicTests: ")))
         try:
             if True:
-                FloatCompareTest.default__.SignTests()
+                TestHexStrings.default__.BasicTests()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -389,11 +363,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_254_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("FloatCompareTest.ExponentTests: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("FloatCompareTest.TestOneTwoZeroMatrix: ")))
         try:
             if True:
-                FloatCompareTest.default__.ExponentTests()
+                FloatCompareTest.default__.TestOneTwoZeroMatrix()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -402,11 +376,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_255_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("FloatCompareTest.ZeroTests: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("FloatCompareTest.SimpleTests: ")))
         try:
             if True:
-                FloatCompareTest.default__.ZeroTests()
+                FloatCompareTest.default__.SimpleTests()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -415,11 +389,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_256_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("FloatCompareTest.ExtremeNumTest: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("FloatCompareTest.SignTests: ")))
         try:
             if True:
-                FloatCompareTest.default__.ExtremeNumTest()
+                FloatCompareTest.default__.SignTests()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -428,11 +402,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_257_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("FloatCompareTest.InvalidTests: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("FloatCompareTest.ExponentTests: ")))
         try:
             if True:
-                FloatCompareTest.default__.InvalidTests()
+                FloatCompareTest.default__.ExponentTests()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -441,11 +415,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_258_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestCallMany.TestBasic: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("FloatCompareTest.ZeroTests: ")))
         try:
             if True:
-                TestCallMany.default__.TestBasic()
+                FloatCompareTest.default__.ZeroTests()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -454,11 +428,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_259_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestEmpty: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("FloatCompareTest.ExtremeNumTest: ")))
         try:
             if True:
-                GetOptTest.default__.TestEmpty()
+                FloatCompareTest.default__.ExtremeNumTest()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -467,11 +441,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_260_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestShort: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("FloatCompareTest.InvalidTests: ")))
         try:
             if True:
-                GetOptTest.default__.TestShort()
+                FloatCompareTest.default__.InvalidTests()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -480,11 +454,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_261_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestLong: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestCallMany.TestBasic: ")))
         try:
             if True:
-                GetOptTest.default__.TestLong()
+                TestCallMany.default__.TestBasic()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -493,11 +467,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_262_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestRequired: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestEmpty: ")))
         try:
             if True:
-                GetOptTest.default__.TestRequired()
+                GetOptTest.default__.TestEmpty()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -506,11 +480,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_263_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestDeprecated: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestShort: ")))
         try:
             if True:
-                GetOptTest.default__.TestDeprecated()
+                GetOptTest.default__.TestShort()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -519,11 +493,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_264_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestAlias: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestLong: ")))
         try:
             if True:
-                GetOptTest.default__.TestAlias()
+                GetOptTest.default__.TestLong()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -532,11 +506,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_265_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestPositionalFail: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestRequired: ")))
         try:
             if True:
-                GetOptTest.default__.TestPositionalFail()
+                GetOptTest.default__.TestRequired()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -545,11 +519,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_266_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestPositional: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestDeprecated: ")))
         try:
             if True:
-                GetOptTest.default__.TestPositional()
+                GetOptTest.default__.TestDeprecated()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -558,11 +532,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_267_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestHelp: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestAlias: ")))
         try:
             if True:
-                GetOptTest.default__.TestHelp()
+                GetOptTest.default__.TestAlias()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -571,11 +545,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_268_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestHelpFail: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestPositionalFail: ")))
         try:
             if True:
-                GetOptTest.default__.TestHelpFail()
+                GetOptTest.default__.TestPositionalFail()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -584,11 +558,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_269_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestNested: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestPositional: ")))
         try:
             if True:
-                GetOptTest.default__.TestNested()
+                GetOptTest.default__.TestPositional()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -597,11 +571,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_270_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestDefault: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestHelp: ")))
         try:
             if True:
-                GetOptTest.default__.TestDefault()
+                GetOptTest.default__.TestHelp()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -610,11 +584,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_271_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestDdbec: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestHelpFail: ")))
         try:
             if True:
-                GetOptTest.default__.TestDdbec()
+                GetOptTest.default__.TestHelpFail()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -623,11 +597,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_272_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestUUID.TestFromBytesSuccess: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestNested: ")))
         try:
             if True:
-                TestUUID.default__.TestFromBytesSuccess()
+                GetOptTest.default__.TestNested()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -636,11 +610,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_273_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestUUID.TestFromBytesFailure: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestDefault: ")))
         try:
             if True:
-                TestUUID.default__.TestFromBytesFailure()
+                GetOptTest.default__.TestDefault()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -649,11 +623,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_274_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestUUID.TestToBytesSuccess: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("GetOptTest.TestDdbec: ")))
         try:
             if True:
-                TestUUID.default__.TestToBytesSuccess()
+                GetOptTest.default__.TestDdbec()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -662,11 +636,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_275_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestUUID.TestToBytesFailure: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestUUID.TestFromBytesSuccess: ")))
         try:
             if True:
-                TestUUID.default__.TestToBytesFailure()
+                TestUUID.default__.TestFromBytesSuccess()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -675,11 +649,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_276_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestUUID.TestRoundTripStringConversion: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestUUID.TestFromBytesFailure: ")))
         try:
             if True:
-                TestUUID.default__.TestRoundTripStringConversion()
+                TestUUID.default__.TestFromBytesFailure()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -688,11 +662,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_277_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestUUID.TestRoundTripByteConversion: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestUUID.TestToBytesSuccess: ")))
         try:
             if True:
-                TestUUID.default__.TestRoundTripByteConversion()
+                TestUUID.default__.TestToBytesSuccess()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -701,11 +675,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_278_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestUUID.TestGenerateAndConversion: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestUUID.TestToBytesFailure: ")))
         try:
             if True:
-                TestUUID.default__.TestGenerateAndConversion()
+                TestUUID.default__.TestToBytesFailure()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -714,11 +688,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_279_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceUInt8Less.TestSetToOrderedSequenceEmpty: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestUUID.TestRoundTripStringConversion: ")))
         try:
             if True:
-                TestComputeSetToOrderedSequenceUInt8Less.default__.TestSetToOrderedSequenceEmpty()
+                TestUUID.default__.TestRoundTripStringConversion()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -727,11 +701,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_280_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceUInt8Less.TestSetToOrderedSequenceOneItem: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestUUID.TestRoundTripByteConversion: ")))
         try:
             if True:
-                TestComputeSetToOrderedSequenceUInt8Less.default__.TestSetToOrderedSequenceOneItem()
+                TestUUID.default__.TestRoundTripByteConversion()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -740,11 +714,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_281_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceUInt8Less.TestSetToOrderedSequenceSimple: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestUUID.TestGenerateAndConversion: ")))
         try:
             if True:
-                TestComputeSetToOrderedSequenceUInt8Less.default__.TestSetToOrderedSequenceSimple()
+                TestUUID.default__.TestGenerateAndConversion()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -753,11 +727,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_282_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceUInt8Less.TestSetToOrderedSequencePrefix: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceUInt8Less.TestSetToOrderedSequenceEmpty: ")))
         try:
             if True:
-                TestComputeSetToOrderedSequenceUInt8Less.default__.TestSetToOrderedSequencePrefix()
+                TestComputeSetToOrderedSequenceUInt8Less.default__.TestSetToOrderedSequenceEmpty()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -766,11 +740,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_283_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceUInt8Less.TestSetToOrderedSequenceComplex: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceUInt8Less.TestSetToOrderedSequenceOneItem: ")))
         try:
             if True:
-                TestComputeSetToOrderedSequenceUInt8Less.default__.TestSetToOrderedSequenceComplex()
+                TestComputeSetToOrderedSequenceUInt8Less.default__.TestSetToOrderedSequenceOneItem()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -779,11 +753,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_284_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceUInt8Less.TestSetToOrderedSequenceComplexReverse: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceUInt8Less.TestSetToOrderedSequenceSimple: ")))
         try:
             if True:
-                TestComputeSetToOrderedSequenceUInt8Less.default__.TestSetToOrderedSequenceComplexReverse()
+                TestComputeSetToOrderedSequenceUInt8Less.default__.TestSetToOrderedSequenceSimple()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -792,11 +766,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_285_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceUInt8Less.TestSetSequence: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceUInt8Less.TestSetToOrderedSequencePrefix: ")))
         try:
             if True:
-                TestComputeSetToOrderedSequenceUInt8Less.default__.TestSetSequence()
+                TestComputeSetToOrderedSequenceUInt8Less.default__.TestSetToOrderedSequencePrefix()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -805,11 +779,11 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_286_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceUInt8Less.TestSetToOrderedSequenceManyItems: ")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceUInt8Less.TestSetToOrderedSequenceComplex: ")))
         try:
             if True:
-                TestComputeSetToOrderedSequenceUInt8Less.default__.TestSetToOrderedSequenceManyItems()
+                TestComputeSetToOrderedSequenceUInt8Less.default__.TestSetToOrderedSequenceComplex()
                 if True:
                     _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
         except _dafny.HaltException as e:
@@ -818,7 +792,46 @@ class default__:
                 _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
                 _dafny.print(_dafny.string_of(d_287_haltMessage_))
                 _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
-                d_232_success_ = False
-        if not(d_232_success_):
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceUInt8Less.TestSetToOrderedSequenceComplexReverse: ")))
+        try:
+            if True:
+                TestComputeSetToOrderedSequenceUInt8Less.default__.TestSetToOrderedSequenceComplexReverse()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_288_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_288_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceUInt8Less.TestSetSequence: ")))
+        try:
+            if True:
+                TestComputeSetToOrderedSequenceUInt8Less.default__.TestSetSequence()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_289_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_289_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_234_success_ = False
+        _dafny.print(_dafny.string_of(_dafny.Seq("TestComputeSetToOrderedSequenceUInt8Less.TestSetToOrderedSequenceManyItems: ")))
+        try:
+            if True:
+                TestComputeSetToOrderedSequenceUInt8Less.default__.TestSetToOrderedSequenceManyItems()
+                if True:
+                    _dafny.print(_dafny.string_of(_dafny.Seq("PASSED\n")))
+        except _dafny.HaltException as e:
+            d_290_haltMessage_ = e.message
+            if True:
+                _dafny.print(_dafny.string_of(_dafny.Seq("FAILED\n	")))
+                _dafny.print(_dafny.string_of(d_290_haltMessage_))
+                _dafny.print(_dafny.string_of(_dafny.Seq("\n")))
+                d_234_success_ = False
+        if not(d_234_success_):
             raise _dafny.HaltException("<stdin>(1,0): " + _dafny.string_of(_dafny.Seq("Test failures occurred: see above.\n")))
 

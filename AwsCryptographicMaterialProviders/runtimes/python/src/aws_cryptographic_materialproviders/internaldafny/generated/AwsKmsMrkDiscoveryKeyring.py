@@ -121,9 +121,9 @@ class default__:
             unmatched25 = True
             if unmatched25:
                 if source25_.is_Some:
-                    d_705_filter_ = source25_.value
+                    d_707_filter_ = source25_.value
                     unmatched25 = False
-                    return (((d_705_filter_).partition) == ((pat_let_tv167_).partition)) and (((pat_let_tv168_).account) in ((d_705_filter_).accountIds))
+                    return (((d_707_filter_).partition) == ((pat_let_tv167_).partition)) and (((pat_let_tv168_).account) in ((d_707_filter_).accountIds))
             if unmatched25:
                 unmatched25 = False
                 return True
@@ -143,14 +143,14 @@ class AwsKmsMrkDiscoveryKeyring(Keyring.VerifiableInterface, AwsCryptographyMate
     def __dafnystr__(self) -> str:
         return "AwsKmsMrkDiscoveryKeyring.AwsKmsMrkDiscoveryKeyring"
     def OnDecrypt(self, input):
-        out102_: Wrappers.Result
-        out102_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnDecrypt(self, input)
-        return out102_
+        out104_: Wrappers.Result
+        out104_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnDecrypt(self, input)
+        return out104_
 
     def OnEncrypt(self, input):
-        out103_: Wrappers.Result
-        out103_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnEncrypt(self, input)
-        return out103_
+        out105_: Wrappers.Result
+        out105_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnEncrypt(self, input)
+        return out105_
 
     def ctor__(self, client, region, discoveryFilter, grantTokens):
         (self)._client = client
@@ -166,60 +166,60 @@ class AwsKmsMrkDiscoveryKeyring(Keyring.VerifiableInterface, AwsCryptographyMate
 
     def OnDecrypt_k(self, input):
         output: Wrappers.Result = None
-        d_706_materials_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
-        d_706_materials_ = (input).materials
-        d_707_encryptedDataKeys_: _dafny.Seq
-        d_707_encryptedDataKeys_ = (input).encryptedDataKeys
-        d_708_suite_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
-        d_708_suite_ = ((input).materials).algorithmSuite
-        d_709_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_709_valueOrError0_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsWithoutPlaintextDataKey(d_706_materials_), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Keyring received decryption materials that already contain a plaintext data key.")))
-        if (d_709_valueOrError0_).IsFailure():
-            output = (d_709_valueOrError0_).PropagateFailure()
+        d_708_materials_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
+        d_708_materials_ = (input).materials
+        d_709_encryptedDataKeys_: _dafny.Seq
+        d_709_encryptedDataKeys_ = (input).encryptedDataKeys
+        d_710_suite_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
+        d_710_suite_ = ((input).materials).algorithmSuite
+        d_711_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_711_valueOrError0_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsWithoutPlaintextDataKey(d_708_materials_), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Keyring received decryption materials that already contain a plaintext data key.")))
+        if (d_711_valueOrError0_).IsFailure():
+            output = (d_711_valueOrError0_).PropagateFailure()
             return output
-        d_710_edkFilterTransform_: AwsKmsEncryptedDataKeyFilterTransform
+        d_712_edkFilterTransform_: AwsKmsEncryptedDataKeyFilterTransform
         nw15_ = AwsKmsEncryptedDataKeyFilterTransform()
         nw15_.ctor__((self).region, (self).discoveryFilter)
-        d_710_edkFilterTransform_ = nw15_
-        d_711_edksToAttempt_: _dafny.Seq
-        d_712_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        out104_: Wrappers.Result
-        out104_ = Actions.default__.DeterministicFlatMapWithResult(d_710_edkFilterTransform_, d_707_encryptedDataKeys_)
-        d_712_valueOrError1_ = out104_
-        if (d_712_valueOrError1_).IsFailure():
-            output = (d_712_valueOrError1_).PropagateFailure()
+        d_712_edkFilterTransform_ = nw15_
+        d_713_edksToAttempt_: _dafny.Seq
+        d_714_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        out106_: Wrappers.Result
+        out106_ = Actions.default__.DeterministicFlatMapWithResult(d_712_edkFilterTransform_, d_709_encryptedDataKeys_)
+        d_714_valueOrError1_ = out106_
+        if (d_714_valueOrError1_).IsFailure():
+            output = (d_714_valueOrError1_).PropagateFailure()
             return output
-        d_711_edksToAttempt_ = (d_712_valueOrError1_).Extract()
-        if (0) == (len(d_711_edksToAttempt_)):
-            d_713_errorMessage_: _dafny.Seq
-            d_714_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-            d_714_valueOrError2_ = ErrorMessages.default__.IncorrectDataKeys((input).encryptedDataKeys, ((input).materials).algorithmSuite, _dafny.Seq(""))
-            if (d_714_valueOrError2_).IsFailure():
-                output = (d_714_valueOrError2_).PropagateFailure()
+        d_713_edksToAttempt_ = (d_714_valueOrError1_).Extract()
+        if (0) == (len(d_713_edksToAttempt_)):
+            d_715_errorMessage_: _dafny.Seq
+            d_716_valueOrError2_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+            d_716_valueOrError2_ = ErrorMessages.default__.IncorrectDataKeys((input).encryptedDataKeys, ((input).materials).algorithmSuite, _dafny.Seq(""))
+            if (d_716_valueOrError2_).IsFailure():
+                output = (d_716_valueOrError2_).PropagateFailure()
                 return output
-            d_713_errorMessage_ = (d_714_valueOrError2_).Extract()
-            output = Wrappers.Result_Failure(AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_713_errorMessage_))
+            d_715_errorMessage_ = (d_716_valueOrError2_).Extract()
+            output = Wrappers.Result_Failure(AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_715_errorMessage_))
             return output
-        d_715_decryptAction_: AwsKmsEncryptedDataKeyDecryptor
+        d_717_decryptAction_: AwsKmsEncryptedDataKeyDecryptor
         nw16_ = AwsKmsEncryptedDataKeyDecryptor()
-        nw16_.ctor__(d_706_materials_, (self).client, (self).region, (self).grantTokens)
-        d_715_decryptAction_ = nw16_
-        d_716_outcome_: Wrappers.Result
-        out105_: Wrappers.Result
-        out105_ = Actions.default__.ReduceToSuccess(d_715_decryptAction_, d_711_edksToAttempt_)
-        d_716_outcome_ = out105_
+        nw16_.ctor__(d_708_materials_, (self).client, (self).region, (self).grantTokens)
+        d_717_decryptAction_ = nw16_
+        d_718_outcome_: Wrappers.Result
+        out107_: Wrappers.Result
+        out107_ = Actions.default__.ReduceToSuccess(d_717_decryptAction_, d_713_edksToAttempt_)
+        d_718_outcome_ = out107_
         def lambda68_():
-            source26_ = d_716_outcome_
+            source26_ = d_718_outcome_
             unmatched26 = True
             if unmatched26:
                 if source26_.is_Success:
-                    d_717_mat_ = source26_.value
+                    d_719_mat_ = source26_.value
                     unmatched26 = False
-                    return Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.OnDecryptOutput_OnDecryptOutput(d_717_mat_))
+                    return Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.OnDecryptOutput_OnDecryptOutput(d_719_mat_))
             if unmatched26:
-                d_718_errors_ = source26_.error
+                d_720_errors_ = source26_.error
                 unmatched26 = False
-                return Wrappers.Result_Failure(AwsCryptographyMaterialProvidersTypes.Error_CollectionOfErrors(d_718_errors_, _dafny.Seq("No Configured KMS Key was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`.")))
+                return Wrappers.Result_Failure(AwsCryptographyMaterialProvidersTypes.Error_CollectionOfErrors(d_720_errors_, _dafny.Seq("No Configured KMS Key was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`.")))
             raise Exception("unexpected control point")
 
         output = lambda68_()
@@ -256,40 +256,40 @@ class AwsKmsEncryptedDataKeyFilterTransform(Actions.DeterministicActionWithResul
         if ((edk).keyProviderId) != (Constants.default__.PROVIDER__ID):
             res = Wrappers.Result_Success(_dafny.Seq([]))
             return res
-        d_719_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_719_valueOrError0_ = Wrappers.default__.Need(UTF8.default__.ValidUTF8Seq((edk).keyProviderInfo), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid AWS KMS encoding, provider info is not UTF8.")))
-        if (d_719_valueOrError0_).IsFailure():
-            res = (d_719_valueOrError0_).PropagateFailure()
+        d_721_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_721_valueOrError0_ = Wrappers.default__.Need(UTF8.default__.ValidUTF8Seq((edk).keyProviderInfo), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid AWS KMS encoding, provider info is not UTF8.")))
+        if (d_721_valueOrError0_).IsFailure():
+            res = (d_721_valueOrError0_).PropagateFailure()
             return res
-        d_720_keyId_: _dafny.Seq
-        d_721_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        def lambda69_(d_722_e_):
-            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_722_e_)
+        d_722_keyId_: _dafny.Seq
+        d_723_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        def lambda69_(d_724_e_):
+            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_724_e_)
 
-        d_721_valueOrError1_ = (UTF8.default__.Decode((edk).keyProviderInfo)).MapFailure(lambda69_)
-        if (d_721_valueOrError1_).IsFailure():
-            res = (d_721_valueOrError1_).PropagateFailure()
+        d_723_valueOrError1_ = (UTF8.default__.Decode((edk).keyProviderInfo)).MapFailure(lambda69_)
+        if (d_723_valueOrError1_).IsFailure():
+            res = (d_723_valueOrError1_).PropagateFailure()
             return res
-        d_720_keyId_ = (d_721_valueOrError1_).Extract()
-        d_723_arn_: AwsArnParsing.AwsArn
-        d_724_valueOrError2_: Wrappers.Result = None
-        def lambda70_(d_725_e_):
-            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_725_e_)
+        d_722_keyId_ = (d_723_valueOrError1_).Extract()
+        d_725_arn_: AwsArnParsing.AwsArn
+        d_726_valueOrError2_: Wrappers.Result = None
+        def lambda70_(d_727_e_):
+            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_727_e_)
 
-        d_724_valueOrError2_ = (AwsArnParsing.default__.ParseAwsKmsArn(d_720_keyId_)).MapFailure(lambda70_)
-        if (d_724_valueOrError2_).IsFailure():
-            res = (d_724_valueOrError2_).PropagateFailure()
+        d_726_valueOrError2_ = (AwsArnParsing.default__.ParseAwsKmsArn(d_722_keyId_)).MapFailure(lambda70_)
+        if (d_726_valueOrError2_).IsFailure():
+            res = (d_726_valueOrError2_).PropagateFailure()
             return res
-        d_723_arn_ = (d_724_valueOrError2_).Extract()
-        d_726_valueOrError3_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_726_valueOrError3_ = Wrappers.default__.Need((((d_723_arn_).resource).resourceType) == (_dafny.Seq("key")), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Only AWS KMS Keys supported")))
-        if (d_726_valueOrError3_).IsFailure():
-            res = (d_726_valueOrError3_).PropagateFailure()
+        d_725_arn_ = (d_726_valueOrError2_).Extract()
+        d_728_valueOrError3_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_728_valueOrError3_ = Wrappers.default__.Need((((d_725_arn_).resource).resourceType) == (_dafny.Seq("key")), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Only AWS KMS Keys supported")))
+        if (d_728_valueOrError3_).IsFailure():
+            res = (d_728_valueOrError3_).PropagateFailure()
             return res
-        if not(default__.DiscoveryMatch(d_723_arn_, (self).discoveryFilter, (self).region)):
+        if not(default__.DiscoveryMatch(d_725_arn_, (self).discoveryFilter, (self).region)):
             res = Wrappers.Result_Success(_dafny.Seq([]))
             return res
-        res = Wrappers.Result_Success(_dafny.Seq([Constants.AwsKmsEdkHelper_AwsKmsEdkHelper(edk, d_723_arn_)]))
+        res = Wrappers.Result_Success(_dafny.Seq([Constants.AwsKmsEdkHelper_AwsKmsEdkHelper(edk, d_725_arn_)]))
         return res
         return res
 
@@ -318,31 +318,31 @@ class AwsKmsEncryptedDataKeyDecryptor(Actions.ActionWithResult, Actions.Action):
 
     def Invoke(self, helper):
         res: Wrappers.Result = None
-        d_727_awsKmsKey_: _dafny.Seq
-        d_727_awsKmsKey_ = default__.ToStringForRegion((helper).arn, (self).region)
-        d_728___v0_: tuple
-        d_729_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
-        d_729_valueOrError0_ = AwsKmsUtils.default__.ValidateKmsKeyId(d_727_awsKmsKey_)
-        if (d_729_valueOrError0_).IsFailure():
-            res = (d_729_valueOrError0_).PropagateFailure()
+        d_729_awsKmsKey_: _dafny.Seq
+        d_729_awsKmsKey_ = default__.ToStringForRegion((helper).arn, (self).region)
+        d_730___v0_: tuple
+        d_731_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.defaults.tuple())()
+        d_731_valueOrError0_ = AwsKmsUtils.default__.ValidateKmsKeyId(d_729_awsKmsKey_)
+        if (d_731_valueOrError0_).IsFailure():
+            res = (d_731_valueOrError0_).PropagateFailure()
             return res
-        d_728___v0_ = (d_729_valueOrError0_).Extract()
-        d_730_kmsUnwrap_: AwsKmsKeyring.KmsUnwrapKeyMaterial
+        d_730___v0_ = (d_731_valueOrError0_).Extract()
+        d_732_kmsUnwrap_: AwsKmsKeyring.KmsUnwrapKeyMaterial
         nw17_ = AwsKmsKeyring.KmsUnwrapKeyMaterial()
-        nw17_.ctor__((self).client, d_727_awsKmsKey_, (self).grantTokens)
-        d_730_kmsUnwrap_ = nw17_
-        d_731_unwrapOutputRes_: Wrappers.Result
-        out106_: Wrappers.Result
-        out106_ = EdkWrapping.default__.UnwrapEdkMaterial(((helper).edk).ciphertext, (self).materials, d_730_kmsUnwrap_)
-        d_731_unwrapOutputRes_ = out106_
-        d_732_unwrapOutput_: EdkWrapping.UnwrapEdkMaterialOutput
-        d_733_valueOrError1_: Wrappers.Result = Wrappers.Result.default(EdkWrapping.UnwrapEdkMaterialOutput.default(AwsKmsKeyring.KmsUnwrapInfo.default()))()
-        d_733_valueOrError1_ = d_731_unwrapOutputRes_
-        if (d_733_valueOrError1_).IsFailure():
-            res = (d_733_valueOrError1_).PropagateFailure()
+        nw17_.ctor__((self).client, d_729_awsKmsKey_, (self).grantTokens)
+        d_732_kmsUnwrap_ = nw17_
+        d_733_unwrapOutputRes_: Wrappers.Result
+        out108_: Wrappers.Result
+        out108_ = EdkWrapping.default__.UnwrapEdkMaterial(((helper).edk).ciphertext, (self).materials, d_732_kmsUnwrap_)
+        d_733_unwrapOutputRes_ = out108_
+        d_734_unwrapOutput_: EdkWrapping.UnwrapEdkMaterialOutput
+        d_735_valueOrError1_: Wrappers.Result = Wrappers.Result.default(EdkWrapping.UnwrapEdkMaterialOutput.default(AwsKmsKeyring.KmsUnwrapInfo.default()))()
+        d_735_valueOrError1_ = d_733_unwrapOutputRes_
+        if (d_735_valueOrError1_).IsFailure():
+            res = (d_735_valueOrError1_).PropagateFailure()
             return res
-        d_732_unwrapOutput_ = (d_733_valueOrError1_).Extract()
-        res = Materials.default__.DecryptionMaterialsAddDataKey((self).materials, (d_732_unwrapOutput_).plaintextDataKey, (d_732_unwrapOutput_).symmetricSigningKey)
+        d_734_unwrapOutput_ = (d_735_valueOrError1_).Extract()
+        res = Materials.default__.DecryptionMaterialsAddDataKey((self).materials, (d_734_unwrapOutput_).plaintextDataKey, (d_734_unwrapOutput_).symmetricSigningKey)
         return res
 
     @property

@@ -60,16 +60,16 @@ class default__:
     @staticmethod
     def ExtractFromSingleton(s):
         def iife0_(_let_dummy_0):
-            d_90_x_: TypeVar('T__') = None
+            d_92_x_: TypeVar('T__') = None
             with _dafny.label("_ASSIGN_SUCH_THAT_d_0"):
                 assign_such_that_0_: TypeVar('T__')
                 for assign_such_that_0_ in (s).Elements:
-                    d_90_x_ = assign_such_that_0_
-                    if (d_90_x_) in (s):
+                    d_92_x_ = assign_such_that_0_
+                    if (d_92_x_) in (s):
                         raise _dafny.Break("_ASSIGN_SUCH_THAT_d_0")
                 raise Exception("assign-such-that search produced no value (line 120)")
                 pass
-            return d_90_x_
+            return d_92_x_
         return iife0_(0)
         
 
@@ -79,13 +79,13 @@ class default__:
             coll0_ = _dafny.Set()
             compr_0_: TypeVar('X__')
             for compr_0_ in (xs).Elements:
-                d_92_x_: TypeVar('X__') = compr_0_
-                if (d_92_x_) in (xs):
-                    coll0_ = coll0_.union(_dafny.Set([f(d_92_x_)]))
+                d_94_x_: TypeVar('X__') = compr_0_
+                if (d_94_x_) in (xs):
+                    coll0_ = coll0_.union(_dafny.Set([f(d_94_x_)]))
             return _dafny.Set(coll0_)
-        d_91_ys_ = iife1_()
+        d_93_ys_ = iife1_()
 
-        return d_91_ys_
+        return d_93_ys_
 
     @staticmethod
     def Filter(xs, f):
@@ -93,23 +93,23 @@ class default__:
             coll1_ = _dafny.Set()
             compr_1_: TypeVar('X__')
             for compr_1_ in (xs).Elements:
-                d_94_x_: TypeVar('X__') = compr_1_
-                if ((d_94_x_) in (xs)) and (f(d_94_x_)):
-                    coll1_ = coll1_.union(_dafny.Set([d_94_x_]))
+                d_96_x_: TypeVar('X__') = compr_1_
+                if ((d_96_x_) in (xs)) and (f(d_96_x_)):
+                    coll1_ = coll1_.union(_dafny.Set([d_96_x_]))
             return _dafny.Set(coll1_)
-        d_93_ys_ = iife2_()
+        d_95_ys_ = iife2_()
 
-        return d_93_ys_
+        return d_95_ys_
 
     @staticmethod
     def SetRange(a, b):
-        d_95___accumulator_ = _dafny.Set({})
+        d_97___accumulator_ = _dafny.Set({})
         while True:
             with _dafny.label():
                 if (a) == (b):
-                    return (_dafny.Set({})) | (d_95___accumulator_)
+                    return (_dafny.Set({})) | (d_97___accumulator_)
                 elif True:
-                    d_95___accumulator_ = (d_95___accumulator_) | (_dafny.Set({a}))
+                    d_97___accumulator_ = (d_97___accumulator_) | (_dafny.Set({a}))
                     in0_ = (a) + (1)
                     in1_ = b
                     a = in0_

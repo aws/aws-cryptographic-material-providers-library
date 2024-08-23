@@ -86,18 +86,18 @@ class default__:
         out0_ = Com_Amazonaws_Kms.default__.KMSClientForRegion(default__.TEST__REGION)
         d_2_valueOrError0_ = out0_
         if not(not((d_2_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(116,18): " + _dafny.string_of(d_2_valueOrError0_))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(117,18): " + _dafny.string_of(d_2_valueOrError0_))
         d_1_client_ = (d_2_valueOrError0_).Extract()
         d_3_ret_: Wrappers.Result
         out1_: Wrappers.Result
         out1_ = (d_1_client_).GenerateDataKeyWithoutPlaintext(default__.failingInput)
         d_3_ret_ = out1_
         if not((d_3_ret_).is_Failure):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(118,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(119,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         d_4_err_: ComAmazonawsKmsTypes.Error
         d_4_err_ = (d_3_ret_).error
         if not((d_4_err_).is_Opaque):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(120,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(121,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         source0_ = d_4_err_
         unmatched0 = True
         if unmatched0:
@@ -105,11 +105,11 @@ class default__:
                 d_5_obj_ = source0_.obj
                 unmatched0 = False
                 if not(True):
-                    raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(122,26): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                    raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(123,26): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         if unmatched0:
             unmatched0 = False
             if not(False):
-                raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(123,16): " + _dafny.string_of(_dafny.Seq("Failing KMS Key MUST cause an OpaqueError that can later be unwrapped to a proper but generic KMS Exception.")))
+                raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(124,16): " + _dafny.string_of(_dafny.Seq("Failing KMS Key MUST cause an OpaqueError that can later be unwrapped to a proper but generic KMS Exception.")))
 
     @staticmethod
     def BasicDecryptTest(input, expectedPlaintext, expectedKeyId):
@@ -119,27 +119,27 @@ class default__:
         out2_ = Com_Amazonaws_Kms.default__.KMSClientForRegion(default__.TEST__REGION)
         d_7_valueOrError0_ = out2_
         if not(not((d_7_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(133,18): " + _dafny.string_of(d_7_valueOrError0_))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(134,18): " + _dafny.string_of(d_7_valueOrError0_))
         d_6_client_ = (d_7_valueOrError0_).Extract()
         d_8_ret_: Wrappers.Result
         out3_: Wrappers.Result
         out3_ = (d_6_client_).Decrypt(input)
         d_8_ret_ = out3_
         if not((d_8_ret_).is_Success):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(139,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(140,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         let_tmp_rhs0_ = (d_8_ret_).value
         d_9_KeyId_ = let_tmp_rhs0_.KeyId
         d_10_Plaintext_ = let_tmp_rhs0_.Plaintext
         d_11_EncryptionAlgorithm_ = let_tmp_rhs0_.EncryptionAlgorithm
         d_12_CiphertextBlob_ = let_tmp_rhs0_.CiphertextForRecipient
         if not((d_10_Plaintext_).is_Some):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(143,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((d_9_KeyId_).is_Some):
             raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(144,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not(((d_10_Plaintext_).value) == (expectedPlaintext)):
+        if not((d_9_KeyId_).is_Some):
             raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(145,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not(((d_9_KeyId_).value) == (expectedKeyId)):
+        if not(((d_10_Plaintext_).value) == (expectedPlaintext)):
             raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(146,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+        if not(((d_9_KeyId_).value) == (expectedKeyId)):
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(147,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def BasicGenerateTest(input):
@@ -149,27 +149,27 @@ class default__:
         out4_ = Com_Amazonaws_Kms.default__.KMSClientForRegion(default__.TEST__REGION)
         d_14_valueOrError0_ = out4_
         if not(not((d_14_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(154,18): " + _dafny.string_of(d_14_valueOrError0_))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(155,18): " + _dafny.string_of(d_14_valueOrError0_))
         d_13_client_ = (d_14_valueOrError0_).Extract()
         d_15_ret_: Wrappers.Result
         out5_: Wrappers.Result
         out5_ = (d_13_client_).GenerateDataKey(input)
         d_15_ret_ = out5_
         if not((d_15_ret_).is_Success):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(158,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(159,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         let_tmp_rhs1_ = (d_15_ret_).value
         d_16_CiphertextBlob_ = let_tmp_rhs1_.CiphertextBlob
         d_17_Plaintext_ = let_tmp_rhs1_.Plaintext
         d_18_KeyId_ = let_tmp_rhs1_.KeyId
         d_19_CiphertextForRecipient_ = let_tmp_rhs1_.CiphertextForRecipient
         if not((d_16_CiphertextBlob_).is_Some):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(162,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((d_17_Plaintext_).is_Some):
             raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(163,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((d_18_KeyId_).is_Some):
+        if not((d_17_Plaintext_).is_Some):
             raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(164,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((len((d_17_Plaintext_).value)) == (((input).NumberOfBytes).value)):
+        if not((d_18_KeyId_).is_Some):
             raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(165,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+        if not((len((d_17_Plaintext_).value)) == (((input).NumberOfBytes).value)):
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(166,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         d_20_decryptInput_: ComAmazonawsKmsTypes.DecryptRequest
         d_20_decryptInput_ = ComAmazonawsKmsTypes.DecryptRequest_DecryptRequest((d_16_CiphertextBlob_).value, (input).EncryptionContext, (input).GrantTokens, Wrappers.Option_Some((d_18_KeyId_).value), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
         default__.BasicDecryptTest(d_20_decryptInput_, (d_17_Plaintext_).value, (input).KeyId)
@@ -182,21 +182,21 @@ class default__:
         out6_ = Com_Amazonaws_Kms.default__.KMSClientForRegion(default__.TEST__REGION)
         d_22_valueOrError0_ = out6_
         if not(not((d_22_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(187,18): " + _dafny.string_of(d_22_valueOrError0_))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(188,18): " + _dafny.string_of(d_22_valueOrError0_))
         d_21_client_ = (d_22_valueOrError0_).Extract()
         d_23_retGenerate_: Wrappers.Result
         out7_: Wrappers.Result
         out7_ = (d_21_client_).GenerateDataKeyWithoutPlaintext(input)
         d_23_retGenerate_ = out7_
         if not((d_23_retGenerate_).is_Success):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(191,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(192,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         let_tmp_rhs2_ = (d_23_retGenerate_).value
         d_24_CiphertextBlob_ = let_tmp_rhs2_.CiphertextBlob
         d_25_KeyId_ = let_tmp_rhs2_.KeyId
         if not((d_24_CiphertextBlob_).is_Some):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(195,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((d_25_KeyId_).is_Some):
             raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(196,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+        if not((d_25_KeyId_).is_Some):
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(197,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         d_26_decryptInput_: ComAmazonawsKmsTypes.DecryptRequest
         d_26_decryptInput_ = ComAmazonawsKmsTypes.DecryptRequest_DecryptRequest((d_24_CiphertextBlob_).value, (input).EncryptionContext, (input).GrantTokens, Wrappers.Option_Some((d_25_KeyId_).value), Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None())
         d_27_ret_: Wrappers.Result
@@ -204,16 +204,16 @@ class default__:
         out8_ = (d_21_client_).Decrypt(d_26_decryptInput_)
         d_27_ret_ = out8_
         if not((d_27_ret_).is_Success):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(207,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(208,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         let_tmp_rhs3_ = (d_27_ret_).value
         d_28_KeyIdTwo_ = let_tmp_rhs3_.KeyId
         d_29_Plaintext_ = let_tmp_rhs3_.Plaintext
         d_30_EncryptionAlgorithm_ = let_tmp_rhs3_.EncryptionAlgorithm
         d_31_CiphertextBlobTwo_ = let_tmp_rhs3_.CiphertextForRecipient
         if not((d_28_KeyIdTwo_).is_Some):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(210,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not(((d_28_KeyIdTwo_).value) == ((d_25_KeyId_).value)):
             raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(211,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+        if not(((d_28_KeyIdTwo_).value) == ((d_25_KeyId_).value)):
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(212,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def BasicEncryptTest(input):
@@ -223,22 +223,22 @@ class default__:
         out9_ = Com_Amazonaws_Kms.default__.KMSClientForRegion(default__.TEST__REGION)
         d_33_valueOrError0_ = out9_
         if not(not((d_33_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(218,18): " + _dafny.string_of(d_33_valueOrError0_))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(219,18): " + _dafny.string_of(d_33_valueOrError0_))
         d_32_client_ = (d_33_valueOrError0_).Extract()
         d_34_ret_: Wrappers.Result
         out10_: Wrappers.Result
         out10_ = (d_32_client_).Encrypt(input)
         d_34_ret_ = out10_
         if not((d_34_ret_).is_Success):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(222,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(223,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         let_tmp_rhs4_ = (d_34_ret_).value
         d_35_CiphertextBlob_ = let_tmp_rhs4_.CiphertextBlob
         d_36_KeyId_ = let_tmp_rhs4_.KeyId
         d_37_EncryptionAlgorithm_ = let_tmp_rhs4_.EncryptionAlgorithm
         if not((d_35_CiphertextBlob_).is_Some):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(226,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((d_36_KeyId_).is_Some):
             raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(227,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+        if not((d_36_KeyId_).is_Some):
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(228,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         d_38_decryptInput_: ComAmazonawsKmsTypes.DecryptRequest
         d_38_decryptInput_ = ComAmazonawsKmsTypes.DecryptRequest_DecryptRequest((d_35_CiphertextBlob_).value, (input).EncryptionContext, (input).GrantTokens, Wrappers.Option_Some((d_36_KeyId_).value), (input).EncryptionAlgorithm, Wrappers.Option_None(), Wrappers.Option_None())
         default__.BasicDecryptTest(d_38_decryptInput_, (input).Plaintext, (input).KeyId)
@@ -251,12 +251,12 @@ class default__:
         out11_ = Com_Amazonaws_Kms.default__.KMSClientForRegion(default__.TEST__REGION)
         d_40_valueOrError0_ = out11_
         if not(not((d_40_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(247,18): " + _dafny.string_of(d_40_valueOrError0_))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(248,18): " + _dafny.string_of(d_40_valueOrError0_))
         d_39_client_ = (d_40_valueOrError0_).Extract()
         d_41_region_: Wrappers.Option
         d_41_region_ = Com_Amazonaws_Kms.default__.RegionMatch(d_39_client_, default__.TEST__REGION)
         if not(((d_41_region_).is_None) or ((d_41_region_).value)):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(249,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(250,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def EmptyStringIsDefaultRegion():
@@ -266,7 +266,7 @@ class default__:
         out12_ = Com_Amazonaws_Kms.default__.KMSClientForRegion(_dafny.Seq(""))
         d_43_valueOrError0_ = out12_
         if not(not((d_43_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(254,18): " + _dafny.string_of(d_43_valueOrError0_))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(255,18): " + _dafny.string_of(d_43_valueOrError0_))
         d_42_client_ = (d_43_valueOrError0_).Extract()
 
     @staticmethod
@@ -277,7 +277,7 @@ class default__:
         out13_ = Com_Amazonaws_Kms.default__.KMSClientForRegion(default__.TEST__REGION)
         d_45_valueOrError0_ = out13_
         if not(not((d_45_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(261,18): " + _dafny.string_of(d_45_valueOrError0_))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(262,18): " + _dafny.string_of(d_45_valueOrError0_))
         d_44_client_ = (d_45_valueOrError0_).Extract()
         d_46_ret_: Wrappers.Result
         out14_: Wrappers.Result
@@ -291,14 +291,14 @@ class default__:
             d_50_KeyAgreementAlgorithm_ = let_tmp_rhs5_.KeyAgreementAlgorithm
             d_51_KeyOrigin_ = let_tmp_rhs5_.KeyOrigin
             if not((d_48_SharedSecret_).is_Some):
-                raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(274,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-            if not((d_47_KeyId_).is_Some):
                 raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(275,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            if not((d_47_KeyId_).is_Some):
+                raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(276,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
             if not(((d_47_KeyId_).value) == ((input).KeyId)):
-                raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(277,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(278,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         elif True:
             if not((d_46_ret_).is_Failure):
-                raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(280,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+                raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(281,6): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def GetPublicKeyHelper(input):
@@ -309,14 +309,14 @@ class default__:
         out15_ = Com_Amazonaws_Kms.default__.KMSClientForRegion(default__.TEST__REGION)
         d_53_valueOrError0_ = out15_
         if not(not((d_53_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(291,18): " + _dafny.string_of(d_53_valueOrError0_))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(292,18): " + _dafny.string_of(d_53_valueOrError0_))
         d_52_client_ = (d_53_valueOrError0_).Extract()
         d_54_ret_: Wrappers.Result
         out16_: Wrappers.Result
         out16_ = (d_52_client_).GetPublicKey(ComAmazonawsKmsTypes.GetPublicKeyRequest_GetPublicKeyRequest((input).KeyId, (input).GrantTokens))
         d_54_ret_ = out16_
         if not((d_54_ret_).is_Success):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(298,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(299,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         let_tmp_rhs6_ = (d_54_ret_).value
         d_55___v1_ = let_tmp_rhs6_.KeyId
         d_56_PublicKey_ = let_tmp_rhs6_.PublicKey
@@ -327,7 +327,7 @@ class default__:
         d_61___v6_ = let_tmp_rhs6_.SigningAlgorithms
         d_62___v7_ = let_tmp_rhs6_.KeyAgreementAlgorithms
         if not((d_56_PublicKey_).is_Some):
-            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(301,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("test/TestComAmazonawsKms.dfy(302,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         publicKey = (d_56_PublicKey_).value
         return publicKey
         return publicKey
@@ -347,6 +347,26 @@ class default__:
         out18_ = default__.GetPublicKeyHelper(ComAmazonawsKmsTypes.GetPublicKeyRequest_GetPublicKeyRequest(default__.incorrectEccCurveKey, Wrappers.Option_None()))
         d_64_recipientPublicKeyOnWrongCurve_ = out18_
         default__.BasicDeriveSharedSecretTests(ComAmazonawsKmsTypes.DeriveSharedSecretRequest_DeriveSharedSecretRequest(default__.senderKmsKey, ComAmazonawsKmsTypes.KeyAgreementAlgorithmSpec_ECDH(), d_64_recipientPublicKeyOnWrongCurve_, Wrappers.Option_None(), Wrappers.Option_None(), Wrappers.Option_None()))
+
+    @staticmethod
+    def CreateNoneForEncryptionContext():
+        return Wrappers.Option_None()
+
+    @staticmethod
+    def CreateNoneForKeySpec():
+        return Wrappers.Option_None()
+
+    @staticmethod
+    def CreateNoneForNumberOfBytes():
+        return Wrappers.Option_None()
+
+    @staticmethod
+    def CreateNoneForGrantTokens():
+        return Wrappers.Option_None()
+
+    @staticmethod
+    def CreateNoneForDryRun():
+        return Wrappers.Option_None()
 
     @_dafny.classproperty
     def TEST__REGION(instance):

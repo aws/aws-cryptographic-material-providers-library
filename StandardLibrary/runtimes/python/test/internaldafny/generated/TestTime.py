@@ -81,3 +81,20 @@ class default__:
         if not(((d_60_t2_) - (d_59_t1_)) >= (0)):
             raise _dafny.HaltException("test/Time.dfy(19,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
+    @staticmethod
+    def TestGetCurrentTimeStamp():
+        d_61_CurrentTime_: _dafny.Seq
+        d_62_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        out4_: Wrappers.Result
+        out4_ = Time.default__.GetCurrentTimeStamp()
+        d_62_valueOrError0_ = out4_
+        if not(not((d_62_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("test/Time.dfy(24,23): " + _dafny.string_of(d_62_valueOrError0_))
+        d_61_CurrentTime_ = (d_62_valueOrError0_).Extract()
+        if not(default__.ISO8601_q(d_61_CurrentTime_)):
+            raise _dafny.HaltException("test/Time.dfy(25,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+
+    @staticmethod
+    def ISO8601_q(CreateTime):
+        return ((((((((len(CreateTime)) == (27)) and (((CreateTime)[4]) == ('-'))) and (((CreateTime)[7]) == ('-'))) and (((CreateTime)[10]) == ('T'))) and (((CreateTime)[13]) == (':'))) and (((CreateTime)[16]) == (':'))) and (((CreateTime)[19]) == ('.'))) and (((CreateTime)[26]) == ('Z'))
+

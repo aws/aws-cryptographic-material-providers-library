@@ -93,21 +93,21 @@ class default__:
     @staticmethod
     def KeyGen(input):
         res: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.GenerateECDSASignatureKeyOutput.default())()
-        d_75_sigKeyPair_: SignatureKeyPair
-        d_76_valueOrError0_: Wrappers.Result = Wrappers.Result.default(SignatureKeyPair.default())()
+        d_74_sigKeyPair_: SignatureKeyPair
+        d_75_valueOrError0_: Wrappers.Result = Wrappers.Result.default(SignatureKeyPair.default())()
         out14_: Wrappers.Result
         out14_ = Signature.ECDSA.ExternKeyGen((input).signatureAlgorithm)
-        d_76_valueOrError0_ = out14_
-        if (d_76_valueOrError0_).IsFailure():
-            res = (d_76_valueOrError0_).PropagateFailure()
+        d_75_valueOrError0_ = out14_
+        if (d_75_valueOrError0_).IsFailure():
+            res = (d_75_valueOrError0_).PropagateFailure()
             return res
-        d_75_sigKeyPair_ = (d_76_valueOrError0_).Extract()
-        d_77_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_77_valueOrError1_ = Wrappers.default__.Need((len((d_75_sigKeyPair_).verificationKey)) == (default__.FieldSize((input).signatureAlgorithm)), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect verification-key length from ExternKeyGen.")))
-        if (d_77_valueOrError1_).IsFailure():
-            res = (d_77_valueOrError1_).PropagateFailure()
+        d_74_sigKeyPair_ = (d_75_valueOrError0_).Extract()
+        d_76_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_76_valueOrError1_ = Wrappers.default__.Need((len((d_74_sigKeyPair_).verificationKey)) == (default__.FieldSize((input).signatureAlgorithm)), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Incorrect verification-key length from ExternKeyGen.")))
+        if (d_76_valueOrError1_).IsFailure():
+            res = (d_76_valueOrError1_).PropagateFailure()
             return res
-        res = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.GenerateECDSASignatureKeyOutput_GenerateECDSASignatureKeyOutput((input).signatureAlgorithm, (d_75_sigKeyPair_).verificationKey, (d_75_sigKeyPair_).signingKey))
+        res = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.GenerateECDSASignatureKeyOutput_GenerateECDSASignatureKeyOutput((input).signatureAlgorithm, (d_74_sigKeyPair_).verificationKey, (d_74_sigKeyPair_).signingKey))
         return res
         return res
 

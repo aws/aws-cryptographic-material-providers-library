@@ -76,11 +76,11 @@ class default__:
     @staticmethod
     def AtomicPrimitives(config):
         res: Wrappers.Result = None
-        d_124_client_: AtomicPrimitivesClient
+        d_123_client_: AtomicPrimitivesClient
         nw0_ = AtomicPrimitivesClient()
         nw0_.ctor__(AwsCryptographyPrimitivesOperations.Config_Config())
-        d_124_client_ = nw0_
-        res = Wrappers.Result_Success(d_124_client_)
+        d_123_client_ = nw0_
+        res = Wrappers.Result_Success(d_123_client_)
         return res
         return res
 

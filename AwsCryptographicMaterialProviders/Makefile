@@ -3,6 +3,8 @@
 
 CORES=2
 
+ENABLE_EXTERN_PROCESSING=1
+
 include ../SharedMakefileV2.mk
 
 PROJECT_SERVICES := \

@@ -128,9 +128,9 @@ class DefaultClientSupplier(AwsCryptographyMaterialProvidersTypes.IClientSupplie
     def __dafnystr__(self) -> str:
         return "DefaultClientSupplier.DefaultClientSupplier"
     def GetClient(self, input):
-        out260_: Wrappers.Result
-        out260_ = AwsCryptographyMaterialProvidersTypes.IClientSupplier.GetClient(self, input)
-        return out260_
+        out262_: Wrappers.Result
+        out262_ = AwsCryptographyMaterialProvidersTypes.IClientSupplier.GetClient(self, input)
+        return out262_
 
     def ctor__(self):
         pass
@@ -138,14 +138,14 @@ class DefaultClientSupplier(AwsCryptographyMaterialProvidersTypes.IClientSupplie
 
     def GetClient_k(self, input):
         output: Wrappers.Result = None
-        d_1498_maybeClient_: Wrappers.Result
-        out261_: Wrappers.Result
-        out261_ = Com_Amazonaws_Kms.default__.KMSClientForRegion((input).region)
-        d_1498_maybeClient_ = out261_
-        def lambda117_(d_1499_e_):
-            return AwsCryptographyMaterialProvidersTypes.Error_ComAmazonawsKms(d_1499_e_)
+        d_1500_maybeClient_: Wrappers.Result
+        out263_: Wrappers.Result
+        out263_ = Com_Amazonaws_Kms.default__.KMSClientForRegion((input).region)
+        d_1500_maybeClient_ = out263_
+        def lambda117_(d_1501_e_):
+            return AwsCryptographyMaterialProvidersTypes.Error_ComAmazonawsKms(d_1501_e_)
 
-        output = (d_1498_maybeClient_).MapFailure(lambda117_)
+        output = (d_1500_maybeClient_).MapFailure(lambda117_)
         return output
         return output
 

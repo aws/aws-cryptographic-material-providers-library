@@ -89,70 +89,70 @@ class default__:
     @staticmethod
     def TestOneTwoZeroMatrix():
         hi0_ = len(default__.NEGATIVE__TWO)
-        for d_96_i_ in range(0, hi0_):
-            d_97_negativeTwo_: _dafny.Seq
-            d_97_negativeTwo_ = (default__.NEGATIVE__TWO)[d_96_i_]
+        for d_98_i_ in range(0, hi0_):
+            d_99_negativeTwo_: _dafny.Seq
+            d_99_negativeTwo_ = (default__.NEGATIVE__TWO)[d_98_i_]
             hi1_ = len(default__.NEGATIVE__TWO)
-            for d_98_j_ in range(d_96_i_, hi1_):
-                default__.TestCompareFloat((default__.NEGATIVE__TWO)[d_98_j_], d_97_negativeTwo_, FloatCompare.default__.Equal)
+            for d_100_j_ in range(d_98_i_, hi1_):
+                default__.TestCompareFloat((default__.NEGATIVE__TWO)[d_100_j_], d_99_negativeTwo_, FloatCompare.default__.Equal)
             hi2_ = len(default__.NEGATIVE__ONE)
-            for d_99_j_ in range(0, hi2_):
-                default__.TestCompareFloat((default__.NEGATIVE__ONE)[d_99_j_], d_97_negativeTwo_, FloatCompare.default__.Greater)
+            for d_101_j_ in range(0, hi2_):
+                default__.TestCompareFloat((default__.NEGATIVE__ONE)[d_101_j_], d_99_negativeTwo_, FloatCompare.default__.Greater)
             hi3_ = len(default__.ZERO)
-            for d_100_j_ in range(0, hi3_):
-                default__.TestCompareFloat((default__.ZERO)[d_100_j_], d_97_negativeTwo_, FloatCompare.default__.Greater)
+            for d_102_j_ in range(0, hi3_):
+                default__.TestCompareFloat((default__.ZERO)[d_102_j_], d_99_negativeTwo_, FloatCompare.default__.Greater)
             hi4_ = len(default__.ONE)
-            for d_101_j_ in range(0, hi4_):
-                default__.TestCompareFloat((default__.ONE)[d_101_j_], d_97_negativeTwo_, FloatCompare.default__.Greater)
+            for d_103_j_ in range(0, hi4_):
+                default__.TestCompareFloat((default__.ONE)[d_103_j_], d_99_negativeTwo_, FloatCompare.default__.Greater)
             hi5_ = len(default__.TWO)
-            for d_102_j_ in range(0, hi5_):
-                default__.TestCompareFloat((default__.TWO)[d_102_j_], d_97_negativeTwo_, FloatCompare.default__.Greater)
+            for d_104_j_ in range(0, hi5_):
+                default__.TestCompareFloat((default__.TWO)[d_104_j_], d_99_negativeTwo_, FloatCompare.default__.Greater)
         hi6_ = len(default__.NEGATIVE__ONE)
-        for d_103_i_ in range(0, hi6_):
-            d_104_negativeOne_: _dafny.Seq
-            d_104_negativeOne_ = (default__.NEGATIVE__ONE)[d_103_i_]
+        for d_105_i_ in range(0, hi6_):
+            d_106_negativeOne_: _dafny.Seq
+            d_106_negativeOne_ = (default__.NEGATIVE__ONE)[d_105_i_]
             hi7_ = len(default__.NEGATIVE__ONE)
-            for d_105_j_ in range(d_103_i_, hi7_):
-                default__.TestCompareFloat((default__.NEGATIVE__ONE)[d_105_j_], d_104_negativeOne_, FloatCompare.default__.Equal)
+            for d_107_j_ in range(d_105_i_, hi7_):
+                default__.TestCompareFloat((default__.NEGATIVE__ONE)[d_107_j_], d_106_negativeOne_, FloatCompare.default__.Equal)
             hi8_ = len(default__.ZERO)
-            for d_106_j_ in range(0, hi8_):
-                default__.TestCompareFloat((default__.ZERO)[d_106_j_], d_104_negativeOne_, FloatCompare.default__.Greater)
+            for d_108_j_ in range(0, hi8_):
+                default__.TestCompareFloat((default__.ZERO)[d_108_j_], d_106_negativeOne_, FloatCompare.default__.Greater)
             hi9_ = len(default__.ONE)
-            for d_107_j_ in range(0, hi9_):
-                default__.TestCompareFloat((default__.ONE)[d_107_j_], d_104_negativeOne_, FloatCompare.default__.Greater)
+            for d_109_j_ in range(0, hi9_):
+                default__.TestCompareFloat((default__.ONE)[d_109_j_], d_106_negativeOne_, FloatCompare.default__.Greater)
             hi10_ = len(default__.TWO)
-            for d_108_j_ in range(0, hi10_):
-                default__.TestCompareFloat((default__.TWO)[d_108_j_], d_104_negativeOne_, FloatCompare.default__.Greater)
+            for d_110_j_ in range(0, hi10_):
+                default__.TestCompareFloat((default__.TWO)[d_110_j_], d_106_negativeOne_, FloatCompare.default__.Greater)
         hi11_ = len(default__.ZERO)
-        for d_109_i_ in range(0, hi11_):
-            d_110_zero_: _dafny.Seq
-            d_110_zero_ = (default__.ZERO)[d_109_i_]
+        for d_111_i_ in range(0, hi11_):
+            d_112_zero_: _dafny.Seq
+            d_112_zero_ = (default__.ZERO)[d_111_i_]
             hi12_ = len(default__.ZERO)
-            for d_111_j_ in range(d_109_i_, hi12_):
-                default__.TestCompareFloat((default__.ZERO)[d_111_j_], d_110_zero_, FloatCompare.default__.Equal)
+            for d_113_j_ in range(d_111_i_, hi12_):
+                default__.TestCompareFloat((default__.ZERO)[d_113_j_], d_112_zero_, FloatCompare.default__.Equal)
             hi13_ = len(default__.ONE)
-            for d_112_j_ in range(0, hi13_):
-                default__.TestCompareFloat((default__.ONE)[d_112_j_], d_110_zero_, FloatCompare.default__.Greater)
+            for d_114_j_ in range(0, hi13_):
+                default__.TestCompareFloat((default__.ONE)[d_114_j_], d_112_zero_, FloatCompare.default__.Greater)
             hi14_ = len(default__.TWO)
-            for d_113_j_ in range(0, hi14_):
-                default__.TestCompareFloat((default__.TWO)[d_113_j_], d_110_zero_, FloatCompare.default__.Greater)
+            for d_115_j_ in range(0, hi14_):
+                default__.TestCompareFloat((default__.TWO)[d_115_j_], d_112_zero_, FloatCompare.default__.Greater)
         hi15_ = len(default__.ONE)
-        for d_114_i_ in range(0, hi15_):
-            d_115_one_: _dafny.Seq
-            d_115_one_ = (default__.ONE)[d_114_i_]
+        for d_116_i_ in range(0, hi15_):
+            d_117_one_: _dafny.Seq
+            d_117_one_ = (default__.ONE)[d_116_i_]
             hi16_ = len(default__.ONE)
-            for d_116_j_ in range(d_114_i_, hi16_):
-                default__.TestCompareFloat((default__.ONE)[d_116_j_], d_115_one_, FloatCompare.default__.Equal)
+            for d_118_j_ in range(d_116_i_, hi16_):
+                default__.TestCompareFloat((default__.ONE)[d_118_j_], d_117_one_, FloatCompare.default__.Equal)
             hi17_ = len(default__.TWO)
-            for d_117_j_ in range(0, hi17_):
-                default__.TestCompareFloat((default__.TWO)[d_117_j_], d_115_one_, FloatCompare.default__.Greater)
+            for d_119_j_ in range(0, hi17_):
+                default__.TestCompareFloat((default__.TWO)[d_119_j_], d_117_one_, FloatCompare.default__.Greater)
         hi18_ = len(default__.TWO)
-        for d_118_i_ in range(0, hi18_):
-            d_119_two_: _dafny.Seq
-            d_119_two_ = (default__.TWO)[d_118_i_]
+        for d_120_i_ in range(0, hi18_):
+            d_121_two_: _dafny.Seq
+            d_121_two_ = (default__.TWO)[d_120_i_]
             hi19_ = len(default__.TWO)
-            for d_120_j_ in range(d_118_i_, hi19_):
-                default__.TestCompareFloat((default__.TWO)[d_120_j_], d_119_two_, FloatCompare.default__.Equal)
+            for d_122_j_ in range(d_120_i_, hi19_):
+                default__.TestCompareFloat((default__.TWO)[d_122_j_], d_121_two_, FloatCompare.default__.Equal)
 
     @staticmethod
     def SimpleTests():

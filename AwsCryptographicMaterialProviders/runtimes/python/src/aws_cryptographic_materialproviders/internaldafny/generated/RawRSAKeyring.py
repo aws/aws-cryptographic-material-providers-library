@@ -129,14 +129,14 @@ class RawRSAKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvider
     def __dafnystr__(self) -> str:
         return "RawRSAKeyring.RawRSAKeyring"
     def OnDecrypt(self, input):
-        out247_: Wrappers.Result
-        out247_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnDecrypt(self, input)
-        return out247_
+        out249_: Wrappers.Result
+        out249_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnDecrypt(self, input)
+        return out249_
 
     def OnEncrypt(self, input):
-        out248_: Wrappers.Result
-        out248_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnEncrypt(self, input)
-        return out248_
+        out250_: Wrappers.Result
+        out250_ = AwsCryptographyMaterialProvidersTypes.IKeyring.OnEncrypt(self, input)
+        return out250_
 
     def ctor__(self, namespace, name, publicKey, privateKey, paddingScheme, cryptoPrimitives):
         (self)._keyNamespace = namespace
@@ -148,112 +148,112 @@ class RawRSAKeyring(Keyring.VerifiableInterface, AwsCryptographyMaterialProvider
 
     def OnEncrypt_k(self, input):
         output: Wrappers.Result = None
-        d_1415_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1415_valueOrError0_ = Wrappers.default__.Need((((self).publicKey).is_Some) and ((len(((self).publicKey).Extract())) > (0)), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("A RawRSAKeyring without a public key cannot provide OnEncrypt")))
-        if (d_1415_valueOrError0_).IsFailure():
-            output = (d_1415_valueOrError0_).PropagateFailure()
+        d_1417_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_1417_valueOrError0_ = Wrappers.default__.Need((((self).publicKey).is_Some) and ((len(((self).publicKey).Extract())) > (0)), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("A RawRSAKeyring without a public key cannot provide OnEncrypt")))
+        if (d_1417_valueOrError0_).IsFailure():
+            output = (d_1417_valueOrError0_).PropagateFailure()
             return output
-        d_1416_materials_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
-        d_1416_materials_ = (input).materials
-        d_1417_suite_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
-        d_1417_suite_ = (d_1416_materials_).algorithmSuite
-        d_1418_wrap_: RsaWrapKeyMaterial
+        d_1418_materials_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
+        d_1418_materials_ = (input).materials
+        d_1419_suite_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
+        d_1419_suite_ = (d_1418_materials_).algorithmSuite
+        d_1420_wrap_: RsaWrapKeyMaterial
         nw59_ = RsaWrapKeyMaterial()
         nw59_.ctor__(((self).publicKey).value, (self).paddingScheme, (self).cryptoPrimitives)
-        d_1418_wrap_ = nw59_
-        d_1419_generateAndWrap_: RsaGenerateAndWrapKeyMaterial
+        d_1420_wrap_ = nw59_
+        d_1421_generateAndWrap_: RsaGenerateAndWrapKeyMaterial
         nw60_ = RsaGenerateAndWrapKeyMaterial()
         nw60_.ctor__(((self).publicKey).value, (self).paddingScheme, (self).cryptoPrimitives)
-        d_1419_generateAndWrap_ = nw60_
-        d_1420_wrapOutput_: EdkWrapping.WrapEdkMaterialOutput
-        d_1421_valueOrError1_: Wrappers.Result = Wrappers.Result.default(EdkWrapping.WrapEdkMaterialOutput.default(RsaWrapInfo.default()))()
-        out249_: Wrappers.Result
-        out249_ = EdkWrapping.default__.WrapEdkMaterial(d_1416_materials_, d_1418_wrap_, d_1419_generateAndWrap_)
-        d_1421_valueOrError1_ = out249_
-        if (d_1421_valueOrError1_).IsFailure():
-            output = (d_1421_valueOrError1_).PropagateFailure()
+        d_1421_generateAndWrap_ = nw60_
+        d_1422_wrapOutput_: EdkWrapping.WrapEdkMaterialOutput
+        d_1423_valueOrError1_: Wrappers.Result = Wrappers.Result.default(EdkWrapping.WrapEdkMaterialOutput.default(RsaWrapInfo.default()))()
+        out251_: Wrappers.Result
+        out251_ = EdkWrapping.default__.WrapEdkMaterial(d_1418_materials_, d_1420_wrap_, d_1421_generateAndWrap_)
+        d_1423_valueOrError1_ = out251_
+        if (d_1423_valueOrError1_).IsFailure():
+            output = (d_1423_valueOrError1_).PropagateFailure()
             return output
-        d_1420_wrapOutput_ = (d_1421_valueOrError1_).Extract()
-        d_1422_symmetricSigningKeyList_: Wrappers.Option
-        d_1422_symmetricSigningKeyList_ = (Wrappers.Option_Some(_dafny.Seq([((d_1420_wrapOutput_).symmetricSigningKey).value])) if ((d_1420_wrapOutput_).symmetricSigningKey).is_Some else Wrappers.Option_None())
-        d_1423_edk_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
-        d_1423_edk_ = AwsCryptographyMaterialProvidersTypes.EncryptedDataKey_EncryptedDataKey((self).keyNamespace, (self).keyName, (d_1420_wrapOutput_).wrappedMaterial)
-        if (d_1420_wrapOutput_).is_GenerateAndWrapEdkMaterialOutput:
-            d_1424_result_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
-            d_1425_valueOrError2_: Wrappers.Result = None
-            d_1425_valueOrError2_ = Materials.default__.EncryptionMaterialAddDataKey(d_1416_materials_, (d_1420_wrapOutput_).plaintextDataKey, _dafny.Seq([d_1423_edk_]), d_1422_symmetricSigningKeyList_)
-            if (d_1425_valueOrError2_).IsFailure():
-                output = (d_1425_valueOrError2_).PropagateFailure()
-                return output
-            d_1424_result_ = (d_1425_valueOrError2_).Extract()
-            output = Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.OnEncryptOutput_OnEncryptOutput(d_1424_result_))
-            return output
-        elif (d_1420_wrapOutput_).is_WrapOnlyEdkMaterialOutput:
+        d_1422_wrapOutput_ = (d_1423_valueOrError1_).Extract()
+        d_1424_symmetricSigningKeyList_: Wrappers.Option
+        d_1424_symmetricSigningKeyList_ = (Wrappers.Option_Some(_dafny.Seq([((d_1422_wrapOutput_).symmetricSigningKey).value])) if ((d_1422_wrapOutput_).symmetricSigningKey).is_Some else Wrappers.Option_None())
+        d_1425_edk_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
+        d_1425_edk_ = AwsCryptographyMaterialProvidersTypes.EncryptedDataKey_EncryptedDataKey((self).keyNamespace, (self).keyName, (d_1422_wrapOutput_).wrappedMaterial)
+        if (d_1422_wrapOutput_).is_GenerateAndWrapEdkMaterialOutput:
             d_1426_result_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
-            d_1427_valueOrError3_: Wrappers.Result = None
-            d_1427_valueOrError3_ = Materials.default__.EncryptionMaterialAddEncryptedDataKeys(d_1416_materials_, _dafny.Seq([d_1423_edk_]), d_1422_symmetricSigningKeyList_)
-            if (d_1427_valueOrError3_).IsFailure():
-                output = (d_1427_valueOrError3_).PropagateFailure()
+            d_1427_valueOrError2_: Wrappers.Result = None
+            d_1427_valueOrError2_ = Materials.default__.EncryptionMaterialAddDataKey(d_1418_materials_, (d_1422_wrapOutput_).plaintextDataKey, _dafny.Seq([d_1425_edk_]), d_1424_symmetricSigningKeyList_)
+            if (d_1427_valueOrError2_).IsFailure():
+                output = (d_1427_valueOrError2_).PropagateFailure()
                 return output
-            d_1426_result_ = (d_1427_valueOrError3_).Extract()
+            d_1426_result_ = (d_1427_valueOrError2_).Extract()
             output = Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.OnEncryptOutput_OnEncryptOutput(d_1426_result_))
+            return output
+        elif (d_1422_wrapOutput_).is_WrapOnlyEdkMaterialOutput:
+            d_1428_result_: AwsCryptographyMaterialProvidersTypes.EncryptionMaterials
+            d_1429_valueOrError3_: Wrappers.Result = None
+            d_1429_valueOrError3_ = Materials.default__.EncryptionMaterialAddEncryptedDataKeys(d_1418_materials_, _dafny.Seq([d_1425_edk_]), d_1424_symmetricSigningKeyList_)
+            if (d_1429_valueOrError3_).IsFailure():
+                output = (d_1429_valueOrError3_).PropagateFailure()
+                return output
+            d_1428_result_ = (d_1429_valueOrError3_).Extract()
+            output = Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.OnEncryptOutput_OnEncryptOutput(d_1428_result_))
             return output
         return output
 
     def OnDecrypt_k(self, input):
         output: Wrappers.Result = None
-        d_1428_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1428_valueOrError0_ = Wrappers.default__.Need((((self).privateKey).is_Some) and ((len(((self).privateKey).Extract())) > (0)), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("A RawRSAKeyring without a private key cannot provide OnEncrypt")))
-        if (d_1428_valueOrError0_).IsFailure():
-            output = (d_1428_valueOrError0_).PropagateFailure()
+        d_1430_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_1430_valueOrError0_ = Wrappers.default__.Need((((self).privateKey).is_Some) and ((len(((self).privateKey).Extract())) > (0)), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("A RawRSAKeyring without a private key cannot provide OnEncrypt")))
+        if (d_1430_valueOrError0_).IsFailure():
+            output = (d_1430_valueOrError0_).PropagateFailure()
             return output
-        d_1429_materials_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
-        d_1429_materials_ = (input).materials
-        d_1430_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1430_valueOrError1_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsWithoutPlaintextDataKey(d_1429_materials_), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Keyring received decryption materials that already contain a plaintext data key.")))
-        if (d_1430_valueOrError1_).IsFailure():
-            output = (d_1430_valueOrError1_).PropagateFailure()
+        d_1431_materials_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
+        d_1431_materials_ = (input).materials
+        d_1432_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_1432_valueOrError1_ = Wrappers.default__.Need(Materials.default__.DecryptionMaterialsWithoutPlaintextDataKey(d_1431_materials_), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Keyring received decryption materials that already contain a plaintext data key.")))
+        if (d_1432_valueOrError1_).IsFailure():
+            output = (d_1432_valueOrError1_).PropagateFailure()
             return output
-        d_1431_errors_: _dafny.Seq
-        d_1431_errors_ = _dafny.Seq([])
+        d_1433_errors_: _dafny.Seq
+        d_1433_errors_ = _dafny.Seq([])
         hi10_ = len((input).encryptedDataKeys)
-        for d_1432_i_ in range(0, hi10_):
-            if (self).ShouldDecryptEDK(((input).encryptedDataKeys)[d_1432_i_]):
-                d_1433_edk_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
-                d_1433_edk_ = ((input).encryptedDataKeys)[d_1432_i_]
-                d_1434_unwrap_: RsaUnwrapKeyMaterial
+        for d_1434_i_ in range(0, hi10_):
+            if (self).ShouldDecryptEDK(((input).encryptedDataKeys)[d_1434_i_]):
+                d_1435_edk_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
+                d_1435_edk_ = ((input).encryptedDataKeys)[d_1434_i_]
+                d_1436_unwrap_: RsaUnwrapKeyMaterial
                 nw61_ = RsaUnwrapKeyMaterial()
                 nw61_.ctor__(((self).privateKey).Extract(), (self).paddingScheme, (self).cryptoPrimitives)
-                d_1434_unwrap_ = nw61_
-                d_1435_unwrapOutput_: Wrappers.Result
-                out250_: Wrappers.Result
-                out250_ = EdkWrapping.default__.UnwrapEdkMaterial((d_1433_edk_).ciphertext, d_1429_materials_, d_1434_unwrap_)
-                d_1435_unwrapOutput_ = out250_
-                if (d_1435_unwrapOutput_).is_Success:
-                    d_1436_returnMaterials_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
-                    d_1437_valueOrError2_: Wrappers.Result = None
-                    d_1437_valueOrError2_ = Materials.default__.DecryptionMaterialsAddDataKey(d_1429_materials_, ((d_1435_unwrapOutput_).value).plaintextDataKey, ((d_1435_unwrapOutput_).value).symmetricSigningKey)
-                    if (d_1437_valueOrError2_).IsFailure():
-                        output = (d_1437_valueOrError2_).PropagateFailure()
+                d_1436_unwrap_ = nw61_
+                d_1437_unwrapOutput_: Wrappers.Result
+                out252_: Wrappers.Result
+                out252_ = EdkWrapping.default__.UnwrapEdkMaterial((d_1435_edk_).ciphertext, d_1431_materials_, d_1436_unwrap_)
+                d_1437_unwrapOutput_ = out252_
+                if (d_1437_unwrapOutput_).is_Success:
+                    d_1438_returnMaterials_: AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
+                    d_1439_valueOrError2_: Wrappers.Result = None
+                    d_1439_valueOrError2_ = Materials.default__.DecryptionMaterialsAddDataKey(d_1431_materials_, ((d_1437_unwrapOutput_).value).plaintextDataKey, ((d_1437_unwrapOutput_).value).symmetricSigningKey)
+                    if (d_1439_valueOrError2_).IsFailure():
+                        output = (d_1439_valueOrError2_).PropagateFailure()
                         return output
-                    d_1436_returnMaterials_ = (d_1437_valueOrError2_).Extract()
-                    output = Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.OnDecryptOutput_OnDecryptOutput(d_1436_returnMaterials_))
+                    d_1438_returnMaterials_ = (d_1439_valueOrError2_).Extract()
+                    output = Wrappers.Result_Success(AwsCryptographyMaterialProvidersTypes.OnDecryptOutput_OnDecryptOutput(d_1438_returnMaterials_))
                     return output
                 elif True:
-                    d_1431_errors_ = (d_1431_errors_) + (_dafny.Seq([(d_1435_unwrapOutput_).error]))
+                    d_1433_errors_ = (d_1433_errors_) + (_dafny.Seq([(d_1437_unwrapOutput_).error]))
             elif True:
-                d_1438_extractedKeyProviderId_: _dafny.Seq
-                d_1439_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-                def lambda109_(d_1440_e_):
-                    return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_1440_e_)
+                d_1440_extractedKeyProviderId_: _dafny.Seq
+                d_1441_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+                def lambda109_(d_1442_e_):
+                    return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(d_1442_e_)
 
-                d_1439_valueOrError3_ = (UTF8.default__.Decode((((input).encryptedDataKeys)[d_1432_i_]).keyProviderId)).MapFailure(lambda109_)
-                if (d_1439_valueOrError3_).IsFailure():
-                    output = (d_1439_valueOrError3_).PropagateFailure()
+                d_1441_valueOrError3_ = (UTF8.default__.Decode((((input).encryptedDataKeys)[d_1434_i_]).keyProviderId)).MapFailure(lambda109_)
+                if (d_1441_valueOrError3_).IsFailure():
+                    output = (d_1441_valueOrError3_).PropagateFailure()
                     return output
-                d_1438_extractedKeyProviderId_ = (d_1439_valueOrError3_).Extract()
-                d_1431_errors_ = (d_1431_errors_) + (_dafny.Seq([AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(ErrorMessages.default__.IncorrectRawDataKeys(StandardLibrary_String.default__.Base10Int2String(d_1432_i_), _dafny.Seq("RSAKeyring"), d_1438_extractedKeyProviderId_))]))
-        output = Wrappers.Result_Failure(AwsCryptographyMaterialProvidersTypes.Error_CollectionOfErrors(d_1431_errors_, _dafny.Seq("Raw RSA Key was unable to decrypt any encrypted data key. The list of encountered Exceptions is avaible via `list`.")))
+                d_1440_extractedKeyProviderId_ = (d_1441_valueOrError3_).Extract()
+                d_1433_errors_ = (d_1433_errors_) + (_dafny.Seq([AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(ErrorMessages.default__.IncorrectRawDataKeys(StandardLibrary_String.default__.Base10Int2String(d_1434_i_), _dafny.Seq("RSAKeyring"), d_1440_extractedKeyProviderId_))]))
+        output = Wrappers.Result_Failure(AwsCryptographyMaterialProvidersTypes.Error_CollectionOfErrors(d_1433_errors_, _dafny.Seq("Raw RSA Key was unable to decrypt any encrypted data key. The list of encountered Exceptions is avaible via `list`.")))
         return output
         return output
 
@@ -339,36 +339,36 @@ class RsaGenerateAndWrapKeyMaterial(MaterialWrapping.GenerateAndWrapMaterial, Ac
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.GenerateAndWrapOutput.default(RsaWrapInfo.default()))()
-        d_1441_generateBytesResult_: Wrappers.Result
-        out251_: Wrappers.Result
-        out251_ = ((self).cryptoPrimitives).GenerateRandomBytes(AwsCryptographyPrimitivesTypes.GenerateRandomBytesInput_GenerateRandomBytesInput(AlgorithmSuites.default__.GetEncryptKeyLength((input).algorithmSuite)))
-        d_1441_generateBytesResult_ = out251_
-        d_1442_plaintextMaterial_: _dafny.Seq
-        d_1443_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        def lambda110_(d_1444_e_):
-            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_1444_e_)
+        d_1443_generateBytesResult_: Wrappers.Result
+        out253_: Wrappers.Result
+        out253_ = ((self).cryptoPrimitives).GenerateRandomBytes(AwsCryptographyPrimitivesTypes.GenerateRandomBytesInput_GenerateRandomBytesInput(AlgorithmSuites.default__.GetEncryptKeyLength((input).algorithmSuite)))
+        d_1443_generateBytesResult_ = out253_
+        d_1444_plaintextMaterial_: _dafny.Seq
+        d_1445_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        def lambda110_(d_1446_e_):
+            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_1446_e_)
 
-        d_1443_valueOrError0_ = (d_1441_generateBytesResult_).MapFailure(lambda110_)
-        if (d_1443_valueOrError0_).IsFailure():
-            res = (d_1443_valueOrError0_).PropagateFailure()
+        d_1445_valueOrError0_ = (d_1443_generateBytesResult_).MapFailure(lambda110_)
+        if (d_1445_valueOrError0_).IsFailure():
+            res = (d_1445_valueOrError0_).PropagateFailure()
             return res
-        d_1442_plaintextMaterial_ = (d_1443_valueOrError0_).Extract()
-        d_1445_wrap_: RsaWrapKeyMaterial
+        d_1444_plaintextMaterial_ = (d_1445_valueOrError0_).Extract()
+        d_1447_wrap_: RsaWrapKeyMaterial
         nw62_ = RsaWrapKeyMaterial()
         nw62_.ctor__((self).publicKey, (self).paddingScheme, (self).cryptoPrimitives)
-        d_1445_wrap_ = nw62_
-        d_1446_wrapOutput_: MaterialWrapping.WrapOutput
-        d_1447_valueOrError1_: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.WrapOutput.default(RsaWrapInfo.default()))()
-        out252_: Wrappers.Result
-        out252_ = (d_1445_wrap_).Invoke(MaterialWrapping.WrapInput_WrapInput(d_1442_plaintextMaterial_, (input).algorithmSuite, (input).encryptionContext))
-        d_1447_valueOrError1_ = out252_
-        if (d_1447_valueOrError1_).IsFailure():
-            res = (d_1447_valueOrError1_).PropagateFailure()
+        d_1447_wrap_ = nw62_
+        d_1448_wrapOutput_: MaterialWrapping.WrapOutput
+        d_1449_valueOrError1_: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.WrapOutput.default(RsaWrapInfo.default()))()
+        out254_: Wrappers.Result
+        out254_ = (d_1447_wrap_).Invoke(MaterialWrapping.WrapInput_WrapInput(d_1444_plaintextMaterial_, (input).algorithmSuite, (input).encryptionContext))
+        d_1449_valueOrError1_ = out254_
+        if (d_1449_valueOrError1_).IsFailure():
+            res = (d_1449_valueOrError1_).PropagateFailure()
             return res
-        d_1446_wrapOutput_ = (d_1447_valueOrError1_).Extract()
-        d_1448_output_: MaterialWrapping.GenerateAndWrapOutput
-        d_1448_output_ = MaterialWrapping.GenerateAndWrapOutput_GenerateAndWrapOutput(d_1442_plaintextMaterial_, (d_1446_wrapOutput_).wrappedMaterial, RsaWrapInfo_RsaWrapInfo())
-        res = Wrappers.Result_Success(d_1448_output_)
+        d_1448_wrapOutput_ = (d_1449_valueOrError1_).Extract()
+        d_1450_output_: MaterialWrapping.GenerateAndWrapOutput
+        d_1450_output_ = MaterialWrapping.GenerateAndWrapOutput_GenerateAndWrapOutput(d_1444_plaintextMaterial_, (d_1448_wrapOutput_).wrappedMaterial, RsaWrapInfo_RsaWrapInfo())
+        res = Wrappers.Result_Success(d_1450_output_)
         return res
         return res
 
@@ -398,23 +398,23 @@ class RsaWrapKeyMaterial(MaterialWrapping.WrapMaterial, Actions.ActionWithResult
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.WrapOutput.default(RsaWrapInfo.default()))()
-        d_1449_RSAEncryptOutput_: Wrappers.Result
-        out253_: Wrappers.Result
-        out253_ = ((self).cryptoPrimitives).RSAEncrypt(AwsCryptographyPrimitivesTypes.RSAEncryptInput_RSAEncryptInput((self).paddingScheme, (self).publicKey, (input).plaintextMaterial))
-        d_1449_RSAEncryptOutput_ = out253_
-        d_1450_ciphertext_: _dafny.Seq
-        d_1451_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        def lambda111_(d_1452_e_):
-            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_1452_e_)
+        d_1451_RSAEncryptOutput_: Wrappers.Result
+        out255_: Wrappers.Result
+        out255_ = ((self).cryptoPrimitives).RSAEncrypt(AwsCryptographyPrimitivesTypes.RSAEncryptInput_RSAEncryptInput((self).paddingScheme, (self).publicKey, (input).plaintextMaterial))
+        d_1451_RSAEncryptOutput_ = out255_
+        d_1452_ciphertext_: _dafny.Seq
+        d_1453_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        def lambda111_(d_1454_e_):
+            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_1454_e_)
 
-        d_1451_valueOrError0_ = (d_1449_RSAEncryptOutput_).MapFailure(lambda111_)
-        if (d_1451_valueOrError0_).IsFailure():
-            res = (d_1451_valueOrError0_).PropagateFailure()
+        d_1453_valueOrError0_ = (d_1451_RSAEncryptOutput_).MapFailure(lambda111_)
+        if (d_1453_valueOrError0_).IsFailure():
+            res = (d_1453_valueOrError0_).PropagateFailure()
             return res
-        d_1450_ciphertext_ = (d_1451_valueOrError0_).Extract()
-        d_1453_output_: MaterialWrapping.WrapOutput
-        d_1453_output_ = MaterialWrapping.WrapOutput_WrapOutput(d_1450_ciphertext_, RsaWrapInfo_RsaWrapInfo())
-        res = Wrappers.Result_Success(d_1453_output_)
+        d_1452_ciphertext_ = (d_1453_valueOrError0_).Extract()
+        d_1455_output_: MaterialWrapping.WrapOutput
+        d_1455_output_ = MaterialWrapping.WrapOutput_WrapOutput(d_1452_ciphertext_, RsaWrapInfo_RsaWrapInfo())
+        res = Wrappers.Result_Success(d_1455_output_)
         return res
         return res
 
@@ -444,34 +444,34 @@ class RsaUnwrapKeyMaterial(MaterialWrapping.UnwrapMaterial, Actions.ActionWithRe
 
     def Invoke(self, input):
         res: Wrappers.Result = Wrappers.Result.default(MaterialWrapping.UnwrapOutput.default(RsaUnwrapInfo.default()))()
-        d_1454_suite_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
-        d_1454_suite_ = (input).algorithmSuite
-        d_1455_wrappedMaterial_: _dafny.Seq
-        d_1455_wrappedMaterial_ = (input).wrappedMaterial
-        d_1456_aad_: _dafny.Map
-        d_1456_aad_ = (input).encryptionContext
-        d_1457_maybeDecryptResult_: Wrappers.Result
-        out254_: Wrappers.Result
-        out254_ = ((self).cryptoPrimitives).RSADecrypt(AwsCryptographyPrimitivesTypes.RSADecryptInput_RSADecryptInput((self).paddingScheme, (self).privateKey, d_1455_wrappedMaterial_))
-        d_1457_maybeDecryptResult_ = out254_
-        d_1458_decryptResult_: _dafny.Seq
-        d_1459_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        def lambda112_(d_1460_e_):
-            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_1460_e_)
+        d_1456_suite_: AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
+        d_1456_suite_ = (input).algorithmSuite
+        d_1457_wrappedMaterial_: _dafny.Seq
+        d_1457_wrappedMaterial_ = (input).wrappedMaterial
+        d_1458_aad_: _dafny.Map
+        d_1458_aad_ = (input).encryptionContext
+        d_1459_maybeDecryptResult_: Wrappers.Result
+        out256_: Wrappers.Result
+        out256_ = ((self).cryptoPrimitives).RSADecrypt(AwsCryptographyPrimitivesTypes.RSADecryptInput_RSADecryptInput((self).paddingScheme, (self).privateKey, d_1457_wrappedMaterial_))
+        d_1459_maybeDecryptResult_ = out256_
+        d_1460_decryptResult_: _dafny.Seq
+        d_1461_valueOrError0_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        def lambda112_(d_1462_e_):
+            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_1462_e_)
 
-        d_1459_valueOrError0_ = (d_1457_maybeDecryptResult_).MapFailure(lambda112_)
-        if (d_1459_valueOrError0_).IsFailure():
-            res = (d_1459_valueOrError0_).PropagateFailure()
+        d_1461_valueOrError0_ = (d_1459_maybeDecryptResult_).MapFailure(lambda112_)
+        if (d_1461_valueOrError0_).IsFailure():
+            res = (d_1461_valueOrError0_).PropagateFailure()
             return res
-        d_1458_decryptResult_ = (d_1459_valueOrError0_).Extract()
-        d_1461_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_1461_valueOrError1_ = Wrappers.default__.Need((len(d_1458_decryptResult_)) == (AlgorithmSuites.default__.GetEncryptKeyLength(d_1454_suite_)), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid plaintext length.")))
-        if (d_1461_valueOrError1_).IsFailure():
-            res = (d_1461_valueOrError1_).PropagateFailure()
+        d_1460_decryptResult_ = (d_1461_valueOrError0_).Extract()
+        d_1463_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_1463_valueOrError1_ = Wrappers.default__.Need((len(d_1460_decryptResult_)) == (AlgorithmSuites.default__.GetEncryptKeyLength(d_1456_suite_)), AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographicMaterialProvidersException(_dafny.Seq("Invalid plaintext length.")))
+        if (d_1463_valueOrError1_).IsFailure():
+            res = (d_1463_valueOrError1_).PropagateFailure()
             return res
-        d_1462_output_: MaterialWrapping.UnwrapOutput
-        d_1462_output_ = MaterialWrapping.UnwrapOutput_UnwrapOutput(d_1458_decryptResult_, RsaUnwrapInfo_RsaUnwrapInfo())
-        res = Wrappers.Result_Success(d_1462_output_)
+        d_1464_output_: MaterialWrapping.UnwrapOutput
+        d_1464_output_ = MaterialWrapping.UnwrapOutput_UnwrapOutput(d_1460_decryptResult_, RsaUnwrapInfo_RsaUnwrapInfo())
+        res = Wrappers.Result_Success(d_1464_output_)
         return res
         return res
 

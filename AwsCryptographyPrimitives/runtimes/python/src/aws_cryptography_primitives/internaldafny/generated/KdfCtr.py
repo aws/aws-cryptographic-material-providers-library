@@ -68,89 +68,89 @@ class default__:
     @staticmethod
     def KdfCounterMode(input):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        d_78_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_78_valueOrError0_ = Wrappers.default__.Need(((((((((input).digestAlgorithm) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__256())) or (((input).digestAlgorithm) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__384()))) and ((((len((input).ikm)) == (32)) or ((len((input).ikm)) == (48))) or ((len((input).ikm)) == (66)))) and (((input).nonce).is_Some)) and (((len(((input).nonce).value)) == (16)) or ((len(((input).nonce).value)) == (32)))) and ((((input).expectedLength) == (32)) or (((input).expectedLength) == (64)))) and (((0) < (((input).expectedLength) * (8))) and ((((input).expectedLength) * (8)) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT))), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Kdf in Counter Mode input is invalid.")))
-        if (d_78_valueOrError0_).IsFailure():
-            output = (d_78_valueOrError0_).PropagateFailure()
+        d_77_valueOrError0_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_77_valueOrError0_ = Wrappers.default__.Need(((((((((input).digestAlgorithm) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__256())) or (((input).digestAlgorithm) == (AwsCryptographyPrimitivesTypes.DigestAlgorithm_SHA__384()))) and ((((len((input).ikm)) == (32)) or ((len((input).ikm)) == (48))) or ((len((input).ikm)) == (66)))) and (((input).nonce).is_Some)) and (((len(((input).nonce).value)) == (16)) or ((len(((input).nonce).value)) == (32)))) and ((((input).expectedLength) == (32)) or (((input).expectedLength) == (64)))) and (((0) < (((input).expectedLength) * (8))) and ((((input).expectedLength) * (8)) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT))), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Kdf in Counter Mode input is invalid.")))
+        if (d_77_valueOrError0_).IsFailure():
+            output = (d_77_valueOrError0_).PropagateFailure()
             return output
-        d_79_ikm_: _dafny.Seq
-        d_79_ikm_ = (input).ikm
-        d_80_label___: _dafny.Seq
-        d_80_label___ = ((input).purpose).UnwrapOr(_dafny.Seq([]))
-        d_81_info_: _dafny.Seq
-        d_81_info_ = ((input).nonce).UnwrapOr(_dafny.Seq([]))
-        d_82_okm_: _dafny.Seq
-        d_82_okm_ = _dafny.Seq([])
-        d_83_internalLength_: int
-        d_83_internalLength_ = ((4) + (len(default__.SEPARATION__INDICATOR))) + (4)
-        d_84_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_84_valueOrError1_ = Wrappers.default__.Need((True) and ((((d_83_internalLength_) + (len(d_80_label___))) + (len(d_81_info_))) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT)), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Input Length exceeds INT32_MAX_LIMIT")))
-        if (d_84_valueOrError1_).IsFailure():
-            output = (d_84_valueOrError1_).PropagateFailure()
+        d_78_ikm_: _dafny.Seq
+        d_78_ikm_ = (input).ikm
+        d_79_label___: _dafny.Seq
+        d_79_label___ = ((input).purpose).UnwrapOr(_dafny.Seq([]))
+        d_80_info_: _dafny.Seq
+        d_80_info_ = ((input).nonce).UnwrapOr(_dafny.Seq([]))
+        d_81_okm_: _dafny.Seq
+        d_81_okm_ = _dafny.Seq([])
+        d_82_internalLength_: int
+        d_82_internalLength_ = ((4) + (len(default__.SEPARATION__INDICATOR))) + (4)
+        d_83_valueOrError1_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_83_valueOrError1_ = Wrappers.default__.Need((True) and ((((d_82_internalLength_) + (len(d_79_label___))) + (len(d_80_info_))) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT)), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Input Length exceeds INT32_MAX_LIMIT")))
+        if (d_83_valueOrError1_).IsFailure():
+            output = (d_83_valueOrError1_).PropagateFailure()
             return output
-        d_85_lengthBits_: _dafny.Seq
-        d_85_lengthBits_ = StandardLibrary_UInt.default__.UInt32ToSeq(((input).expectedLength) * (8))
-        d_86_explicitInfo_: _dafny.Seq
-        d_86_explicitInfo_ = (((d_80_label___) + (default__.SEPARATION__INDICATOR)) + (d_81_info_)) + (d_85_lengthBits_)
-        d_87_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_87_valueOrError2_ = Wrappers.default__.Need(((4) + (len(d_86_explicitInfo_))) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("PRF input length exceeds INT32_MAX_LIMIT.")))
-        if (d_87_valueOrError2_).IsFailure():
-            output = (d_87_valueOrError2_).PropagateFailure()
+        d_84_lengthBits_: _dafny.Seq
+        d_84_lengthBits_ = StandardLibrary_UInt.default__.UInt32ToSeq(((input).expectedLength) * (8))
+        d_85_explicitInfo_: _dafny.Seq
+        d_85_explicitInfo_ = (((d_79_label___) + (default__.SEPARATION__INDICATOR)) + (d_80_info_)) + (d_84_lengthBits_)
+        d_86_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_86_valueOrError2_ = Wrappers.default__.Need(((4) + (len(d_85_explicitInfo_))) < (StandardLibrary_UInt.default__.INT32__MAX__LIMIT), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("PRF input length exceeds INT32_MAX_LIMIT.")))
+        if (d_86_valueOrError2_).IsFailure():
+            output = (d_86_valueOrError2_).PropagateFailure()
             return output
-        d_88_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_87_valueOrError3_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out15_: Wrappers.Result
-        out15_ = default__.RawDerive(d_79_ikm_, d_86_explicitInfo_, (input).expectedLength, 0, (input).digestAlgorithm)
-        d_88_valueOrError3_ = out15_
-        if (d_88_valueOrError3_).IsFailure():
-            output = (d_88_valueOrError3_).PropagateFailure()
+        out15_ = default__.RawDerive(d_78_ikm_, d_85_explicitInfo_, (input).expectedLength, 0, (input).digestAlgorithm)
+        d_87_valueOrError3_ = out15_
+        if (d_87_valueOrError3_).IsFailure():
+            output = (d_87_valueOrError3_).PropagateFailure()
             return output
-        d_82_okm_ = (d_88_valueOrError3_).Extract()
-        output = Wrappers.Result_Success(d_82_okm_)
+        d_81_okm_ = (d_87_valueOrError3_).Extract()
+        output = Wrappers.Result_Success(d_81_okm_)
         return output
         return output
 
     @staticmethod
     def RawDerive(ikm, explicitInfo, length, offset, digestAlgorithm):
         output: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        d_89_hmac_: HMAC.HMac
-        d_90_valueOrError0_: Wrappers.Result = None
+        d_88_hmac_: HMAC.HMac
+        d_89_valueOrError0_: Wrappers.Result = None
         out16_: Wrappers.Result
         out16_ = HMAC.HMac.Build(digestAlgorithm)
-        d_90_valueOrError0_ = out16_
-        if (d_90_valueOrError0_).IsFailure():
-            output = (d_90_valueOrError0_).PropagateFailure()
+        d_89_valueOrError0_ = out16_
+        if (d_89_valueOrError0_).IsFailure():
+            output = (d_89_valueOrError0_).PropagateFailure()
             return output
-        d_89_hmac_ = (d_90_valueOrError0_).Extract()
-        (d_89_hmac_).Init(ikm)
-        d_91_macLengthBytes_: int
-        d_91_macLengthBytes_ = Digest.default__.Length(digestAlgorithm)
-        d_92_iterations_: int
-        d_92_iterations_ = _dafny.euclidian_division(((length) + (d_91_macLengthBytes_)) - (1), d_91_macLengthBytes_)
-        d_93_buffer_: _dafny.Seq
-        d_93_buffer_ = _dafny.Seq([])
-        d_94_i_: _dafny.Seq
-        d_94_i_ = StandardLibrary_UInt.default__.UInt32ToSeq(default__.COUNTER__START__VALUE)
-        hi0_ = (d_92_iterations_) + (1)
-        for d_95_iteration_ in range(1, hi0_):
-            (d_89_hmac_).BlockUpdate(d_94_i_)
-            (d_89_hmac_).BlockUpdate(explicitInfo)
-            d_96_tmp_: _dafny.Seq
+        d_88_hmac_ = (d_89_valueOrError0_).Extract()
+        (d_88_hmac_).Init(ikm)
+        d_90_macLengthBytes_: int
+        d_90_macLengthBytes_ = Digest.default__.Length(digestAlgorithm)
+        d_91_iterations_: int
+        d_91_iterations_ = _dafny.euclidian_division(((length) + (d_90_macLengthBytes_)) - (1), d_90_macLengthBytes_)
+        d_92_buffer_: _dafny.Seq
+        d_92_buffer_ = _dafny.Seq([])
+        d_93_i_: _dafny.Seq
+        d_93_i_ = StandardLibrary_UInt.default__.UInt32ToSeq(default__.COUNTER__START__VALUE)
+        hi0_ = (d_91_iterations_) + (1)
+        for d_94_iteration_ in range(1, hi0_):
+            (d_88_hmac_).BlockUpdate(d_93_i_)
+            (d_88_hmac_).BlockUpdate(explicitInfo)
+            d_95_tmp_: _dafny.Seq
             out17_: _dafny.Seq
-            out17_ = (d_89_hmac_).GetResult()
-            d_96_tmp_ = out17_
-            d_93_buffer_ = (d_93_buffer_) + (d_96_tmp_)
-            d_97_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-            d_97_valueOrError1_ = default__.Increment(d_94_i_)
-            if (d_97_valueOrError1_).IsFailure():
-                output = (d_97_valueOrError1_).PropagateFailure()
+            out17_ = (d_88_hmac_).GetResult()
+            d_95_tmp_ = out17_
+            d_92_buffer_ = (d_92_buffer_) + (d_95_tmp_)
+            d_96_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+            d_96_valueOrError1_ = default__.Increment(d_93_i_)
+            if (d_96_valueOrError1_).IsFailure():
+                output = (d_96_valueOrError1_).PropagateFailure()
                 return output
-            d_94_i_ = (d_97_valueOrError1_).Extract()
-        d_98_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
-        d_98_valueOrError2_ = Wrappers.default__.Need((len(d_93_buffer_)) >= (length), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Failed to derive key of requested length")))
-        if (d_98_valueOrError2_).IsFailure():
-            output = (d_98_valueOrError2_).PropagateFailure()
+            d_93_i_ = (d_96_valueOrError1_).Extract()
+        d_97_valueOrError2_: Wrappers.Outcome = Wrappers.Outcome.default()()
+        d_97_valueOrError2_ = Wrappers.default__.Need((len(d_92_buffer_)) >= (length), AwsCryptographyPrimitivesTypes.Error_AwsCryptographicPrimitivesError(_dafny.Seq("Failed to derive key of requested length")))
+        if (d_97_valueOrError2_).IsFailure():
+            output = (d_97_valueOrError2_).PropagateFailure()
             return output
-        output = Wrappers.Result_Success(_dafny.Seq((d_93_buffer_)[:length:]))
+        output = Wrappers.Result_Success(_dafny.Seq((d_92_buffer_)[:length:]))
         return output
         return output
 

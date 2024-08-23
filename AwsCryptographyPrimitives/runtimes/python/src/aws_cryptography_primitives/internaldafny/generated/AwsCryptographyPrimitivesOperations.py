@@ -145,24 +145,24 @@ class default__:
     @staticmethod
     def GenerateRSAKeyPair(config, input):
         output: Wrappers.Result = None
-        d_120_publicKey_: AwsCryptographyPrimitivesTypes.RSAPublicKey
-        d_121_privateKey_: AwsCryptographyPrimitivesTypes.RSAPrivateKey
+        d_119_publicKey_: AwsCryptographyPrimitivesTypes.RSAPublicKey
+        d_120_privateKey_: AwsCryptographyPrimitivesTypes.RSAPrivateKey
         out37_: AwsCryptographyPrimitivesTypes.RSAPublicKey
         out38_: AwsCryptographyPrimitivesTypes.RSAPrivateKey
         out37_, out38_ = RSAEncryption.default__.GenerateKeyPair((input).lengthBits)
-        d_120_publicKey_ = out37_
-        d_121_privateKey_ = out38_
-        output = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput(d_120_publicKey_, d_121_privateKey_))
+        d_119_publicKey_ = out37_
+        d_120_privateKey_ = out38_
+        output = Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput(d_119_publicKey_, d_120_privateKey_))
         return output
 
     @staticmethod
     def GetRSAKeyModulusLength(config, input):
-        d_122_valueOrError0_ = RSAEncryption.default__.GetRSAKeyModulusLength((input).publicKey)
-        if (d_122_valueOrError0_).IsFailure():
-            return (d_122_valueOrError0_).PropagateFailure()
+        d_121_valueOrError0_ = RSAEncryption.default__.GetRSAKeyModulusLength((input).publicKey)
+        if (d_121_valueOrError0_).IsFailure():
+            return (d_121_valueOrError0_).PropagateFailure()
         elif True:
-            d_123_length_ = (d_122_valueOrError0_).Extract()
-            return Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.GetRSAKeyModulusLengthOutput_GetRSAKeyModulusLengthOutput(d_123_length_))
+            d_122_length_ = (d_121_valueOrError0_).Extract()
+            return Wrappers.Result_Success(AwsCryptographyPrimitivesTypes.GetRSAKeyModulusLengthOutput_GetRSAKeyModulusLengthOutput(d_122_length_))
 
     @staticmethod
     def RSADecrypt(config, input):

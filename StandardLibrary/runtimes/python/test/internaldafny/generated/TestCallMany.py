@@ -62,12 +62,12 @@ class default__:
 
     @staticmethod
     def TestBasic():
-        d_121_c_: MyCallee
+        d_123_c_: MyCallee
         nw0_ = MyCallee()
         nw0_.ctor__()
-        d_121_c_ = nw0_
-        ConcurrentCall.default__.ConcurrentCall(d_121_c_, 2, 3)
-        if not(((2) <= (d_121_c_.count)) and ((d_121_c_.count) <= (6))):
+        d_123_c_ = nw0_
+        ConcurrentCall.default__.ConcurrentCall(d_123_c_, 2, 3)
+        if not(((2) <= (d_123_c_.count)) and ((d_123_c_.count) <= (6))):
             raise _dafny.HaltException("test/ConcurrentCall.dfy(45,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
 

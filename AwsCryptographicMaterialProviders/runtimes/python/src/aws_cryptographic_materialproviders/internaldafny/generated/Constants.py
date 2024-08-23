@@ -118,8 +118,8 @@ class default__:
         return AwsCryptographyPrimitivesTypes.AES__GCM_AES__GCM(default__.ECDH__AES__256__ENC__KEY__LENGTH, default__.ECDH__AES__256__ENC__TAG__LENGTH, default__.ECDH__AES__256__ENC__IV__LENGTH)
     @_dafny.classproperty
     def PROVIDER__ID(instance):
-        d_425_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115])
-        return d_425_s_
+        d_427_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115])
+        return d_427_s_
     @_dafny.classproperty
     def UINT32__TO__SEQ__LEN(instance):
         return 4
@@ -179,12 +179,12 @@ class default__:
         return 68
     @_dafny.classproperty
     def PROVIDER__ID__HIERARCHY(instance):
-        d_426_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115, 45, 104, 105, 101, 114, 97, 114, 99, 104, 121])
-        return d_426_s_
+        d_428_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115, 45, 104, 105, 101, 114, 97, 114, 99, 104, 121])
+        return d_428_s_
     @_dafny.classproperty
     def RSA__PROVIDER__ID(instance):
-        d_427_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115, 45, 114, 115, 97])
-        return d_427_s_
+        d_429_s_ = _dafny.Seq([97, 119, 115, 45, 107, 109, 115, 45, 114, 115, 97])
+        return d_429_s_
     @_dafny.classproperty
     def KMS__ECDH__PROVIDER__ID(instance):
         return UTF8.default__.EncodeAscii(_dafny.Seq("aws-kms-ecdh"))
@@ -206,8 +206,8 @@ class AwsKmsEncryptedDataKey:
     def default():
         return AwsCryptographyMaterialProvidersTypes.EncryptedDataKey.default()()
     def _Is(source__):
-        d_428_edk_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey = source__
-        return (((d_428_edk_).keyProviderId) == (default__.PROVIDER__ID)) and (UTF8.default__.ValidUTF8Seq((d_428_edk_).keyProviderInfo))
+        d_430_edk_: AwsCryptographyMaterialProvidersTypes.EncryptedDataKey = source__
+        return (((d_430_edk_).keyProviderId) == (default__.PROVIDER__ID)) and (UTF8.default__.ValidUTF8Seq((d_430_edk_).keyProviderInfo))
 
 class AwsKmsEdkHelper:
     @classmethod

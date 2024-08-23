@@ -128,20 +128,20 @@ class default__:
     @staticmethod
     def GetPublicKey(curveSpec, privateKey, crypto):
         res: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        d_1500_maybePublicKey_: Wrappers.Result
-        out262_: Wrappers.Result
-        out262_ = (crypto).GetPublicKeyFromPrivateKey(AwsCryptographyPrimitivesTypes.GetPublicKeyFromPrivateKeyInput_GetPublicKeyFromPrivateKeyInput(curveSpec, privateKey))
-        d_1500_maybePublicKey_ = out262_
-        d_1501_keyPairOutput_: AwsCryptographyPrimitivesTypes.GetPublicKeyFromPrivateKeyOutput
-        d_1502_valueOrError0_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.GetPublicKeyFromPrivateKeyOutput.default())()
-        def lambda118_(d_1503_e_):
-            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_1503_e_)
+        d_1502_maybePublicKey_: Wrappers.Result
+        out264_: Wrappers.Result
+        out264_ = (crypto).GetPublicKeyFromPrivateKey(AwsCryptographyPrimitivesTypes.GetPublicKeyFromPrivateKeyInput_GetPublicKeyFromPrivateKeyInput(curveSpec, privateKey))
+        d_1502_maybePublicKey_ = out264_
+        d_1503_keyPairOutput_: AwsCryptographyPrimitivesTypes.GetPublicKeyFromPrivateKeyOutput
+        d_1504_valueOrError0_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.GetPublicKeyFromPrivateKeyOutput.default())()
+        def lambda118_(d_1505_e_):
+            return AwsCryptographyMaterialProvidersTypes.Error_AwsCryptographyPrimitives(d_1505_e_)
 
-        d_1502_valueOrError0_ = (d_1500_maybePublicKey_).MapFailure(lambda118_)
-        if (d_1502_valueOrError0_).IsFailure():
-            res = (d_1502_valueOrError0_).PropagateFailure()
+        d_1504_valueOrError0_ = (d_1502_maybePublicKey_).MapFailure(lambda118_)
+        if (d_1504_valueOrError0_).IsFailure():
+            res = (d_1504_valueOrError0_).PropagateFailure()
             return res
-        d_1501_keyPairOutput_ = (d_1502_valueOrError0_).Extract()
-        res = Wrappers.Result_Success((d_1501_keyPairOutput_).publicKey)
+        d_1503_keyPairOutput_ = (d_1504_valueOrError0_).Extract()
+        res = Wrappers.Result_Success((d_1503_keyPairOutput_).publicKey)
         return res
 
