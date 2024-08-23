@@ -278,25 +278,18 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
             Types.AwsCryptographicMaterialProvidersException(
               message := "Must initialize keyring with either branchKeyId or BranchKeyIdSupplier."));
 
-    var cmcOutput;
+    var cmc;
 
     if input.sharedCache.Some? {
-      cmcOutput := Success(input.sharedCache.value);
+      cmc := input.sharedCache.value;
     }
     else if input.cache.Some? {
-      cmcOutput := CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := input.cache.value));
+      cmc :- CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := input.cache.value));
     }
     else {
-      cmcOutput := CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := Types.Default(Types.DefaultCache(entryCapacity := 1000))));
+      cmc :- CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := Types.Default(Types.DefaultCache(entryCapacity := 1000))));
     }
 
-    :- Need(cmcOutput.Success?,
-            Types.AwsCryptographicMaterialProvidersException(
-              message := "CreateCryptographicMaterialsCache method failed."));
-
-    var cmc := cmcOutput.value;
-
-    // var cmc :- CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := cache));
     var keyring := new AwsKmsHierarchicalKeyring.AwsKmsHierarchicalKeyring(
       keyStore := input.keyStore,
       branchKeyId := input.branchKeyId,
