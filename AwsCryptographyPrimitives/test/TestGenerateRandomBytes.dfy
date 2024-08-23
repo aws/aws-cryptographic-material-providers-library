@@ -4,14 +4,14 @@
 include "../src/Index.dfy"
 
 module TestAwsCryptographyPrimitivesGenerateRandomBytes {
-  import AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import opened StandardLibrary.UInt
 
   method {:test} BasicGenerateRandomBytes() {
-    var client :- expect AtomicPrimitives.AtomicPrimitives();
+    var client :- expect Primitives.AtomicPrimitives();
     var length := 5 as int32;
 
-    var input := AtomicPrimitives.Types.GenerateRandomBytesInput(
+    var input := Primitives.Types.GenerateRandomBytesInput(
       length := length
     );
 

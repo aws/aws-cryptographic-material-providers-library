@@ -11,7 +11,7 @@ module TestEcdhCalculation {
   import opened UInt = StandardLibrary.UInt
   import MaterialProviders
   import Types = AwsCryptographyMaterialProvidersTypes
-  import AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import Com.Amazonaws.Kms
   import TestUtils
   import PrimitiveTypes = AwsCryptographyPrimitivesTypes
@@ -30,7 +30,7 @@ module TestEcdhCalculation {
 
   method {:test} TestKmsDeriveSharedSecretOfflineCalculation() {
     var kmsClient :- expect Kms.KMSClient();
-    var primitives :- expect AtomicPrimitives.AtomicPrimitives();
+    var primitives :- expect Primitives.AtomicPrimitives();
 
     var keyPair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(
@@ -75,7 +75,7 @@ module TestEcdhCalculation {
 
   method {:test} TestKmsDeriveSharedSecretOfflineCalculationCurves() {
     var kmsClient :- expect Kms.KMSClient();
-    var primitives :- expect AtomicPrimitives.AtomicPrimitives();
+    var primitives :- expect Primitives.AtomicPrimitives();
 
     for i := 0 to |senderArns|
     {
@@ -123,7 +123,7 @@ module TestEcdhCalculation {
   method {:test} TestOfflineDeriveSharedSecretStaticKeys()
   {
     var kmsClient :- expect Kms.KMSClient();
-    var primitives :- expect AtomicPrimitives.AtomicPrimitives();
+    var primitives :- expect Primitives.AtomicPrimitives();
 
     for i := 0 to |curveSpecs|
     {

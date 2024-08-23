@@ -8,7 +8,7 @@ include "../../src/ErrorMessages.dfy"
 module TestRawRSAKeying {
   import opened Wrappers
   import TestUtils
-  import AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import AwsCryptographyPrimitivesTypes
   import MaterialProviders
   import Types = AwsCryptographyMaterialProvidersTypes
@@ -283,7 +283,7 @@ module TestRawRSAKeying {
   method GenerateKeyPair( keyModulusLength: AwsCryptographyPrimitivesTypes.RSAModulusLengthBitsToGenerate )
     returns (keys: AwsCryptographyPrimitivesTypes.GenerateRSAKeyPairOutput)
   {
-    var crypto :- expect AtomicPrimitives.AtomicPrimitives();
+    var crypto :- expect Primitives.AtomicPrimitives();
 
     keys :- expect crypto.GenerateRSAKeyPair(
       AwsCryptographyPrimitivesTypes.GenerateRSAKeyPairInput(

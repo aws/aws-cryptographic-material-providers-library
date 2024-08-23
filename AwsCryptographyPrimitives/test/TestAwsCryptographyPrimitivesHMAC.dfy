@@ -5,14 +5,14 @@ include "../src/Index.dfy"
 include "../src/Digest.dfy"
 
 module TestAwsCryptographyPrimitivesHMAC {
-  import AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import opened StandardLibrary.UInt
   import Digest
 
   method {:test} HMACTests() {
 
     BasicHMACTest(
-      digestAlgorithm := AtomicPrimitives.Types.SHA_256,
+      digestAlgorithm := Primitives.Types.SHA_256,
       key := [1,2,3,4],
       // The string "asdf" as bytes
       message := [ 97, 115, 100, 102 ],
@@ -26,7 +26,7 @@ module TestAwsCryptographyPrimitivesHMAC {
     );
 
     BasicHMACTest(
-      digestAlgorithm := AtomicPrimitives.Types.SHA_384,
+      digestAlgorithm := Primitives.Types.SHA_384,
       key := [1,2,3,4],
       // The string "asdf" as bytes
       message := [ 97, 115, 100, 102 ],
@@ -40,7 +40,7 @@ module TestAwsCryptographyPrimitivesHMAC {
     );
 
     BasicHMACTest(
-      digestAlgorithm := AtomicPrimitives.Types.SHA_512,
+      digestAlgorithm := Primitives.Types.SHA_512,
       key := [1,2,3,4],
       // The string "asdf" as bytes
       message := [ 97, 115, 100, 102 ],
@@ -57,15 +57,15 @@ module TestAwsCryptographyPrimitivesHMAC {
   }
 
   method BasicHMACTest(
-    nameonly digestAlgorithm: AtomicPrimitives.Types.DigestAlgorithm,
+    nameonly digestAlgorithm: Primitives.Types.DigestAlgorithm,
     nameonly key: seq<uint8>,
     nameonly message: seq<uint8>,
     nameonly expectedDigest: seq<uint8>
   )
   {
-    var client :- expect AtomicPrimitives.AtomicPrimitives();
+    var client :- expect Primitives.AtomicPrimitives();
 
-    var input := AtomicPrimitives.Types.HMacInput(
+    var input := Primitives.Types.HMacInput(
       digestAlgorithm := digestAlgorithm,
       key := key,
       message := message

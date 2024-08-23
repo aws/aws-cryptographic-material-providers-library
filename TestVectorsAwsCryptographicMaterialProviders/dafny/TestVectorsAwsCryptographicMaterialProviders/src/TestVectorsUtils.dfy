@@ -14,7 +14,7 @@ module TestVectorsUtils {
   // This is cheating,
   // I know that this MUST be here
   // because this is required for MPL
-  import AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import Crypto = AwsCryptographyPrimitivesTypes
 
 
@@ -136,7 +136,7 @@ module TestVectorsUtils {
   {
 
     // This is copied from the Default CMM
-    var crypto :- expect AtomicPrimitives.AtomicPrimitives();
+    var crypto :- expect Primitives.AtomicPrimitives();
     var suite := AlgorithmSuites.GetSuite(algorithmSuiteId);
     var signingKey: Option<seq<uint8>>;
     var verificationKey: Option<seq<uint8>>;

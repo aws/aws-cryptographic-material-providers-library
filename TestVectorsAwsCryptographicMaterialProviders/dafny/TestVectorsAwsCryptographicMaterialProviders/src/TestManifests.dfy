@@ -10,7 +10,7 @@ include "../../KeyVectors/src/Index.dfy"
 module {:options "-functionSyntax:4"} TestManifests {
   import Types = AwsCryptographyMaterialProvidersTypes
   import opened Wrappers
-  import AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import TestVectors
   import FileIO
   import JSON.API

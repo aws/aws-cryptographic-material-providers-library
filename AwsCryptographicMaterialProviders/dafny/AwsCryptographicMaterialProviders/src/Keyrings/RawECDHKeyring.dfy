@@ -22,7 +22,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
   import opened Constants
   import Types = AwsCryptographyMaterialProvidersTypes
   import PrimitiveTypes = AwsCryptographyPrimitivesTypes
-  import AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import Keyring
   import Materials
   import opened AlgorithmSuites
@@ -73,7 +73,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
     const compressedRecipientPublicKey: seq<uint8>
     const keyAgreementScheme: Types.RawEcdhStaticConfigurations
     const curveSpec: PrimitiveTypes.ECDHCurveSpec
-    const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
+    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
 
     ghost predicate ValidState()
       ensures ValidState() ==> History in Modifies
@@ -99,7 +99,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
       recipientPublicKey: seq<uint8>,
       compressedSenderPublicKey: Option<seq<uint8>>,
       compressedRecipientPublicKey: seq<uint8>,
-      cryptoPrimitives : AtomicPrimitives.AtomicPrimitivesClient
+      cryptoPrimitives : Primitives.AtomicPrimitivesClient
     )
       requires cryptoPrimitives.ValidState()
       requires senderPublicKey.Some? ==> ValidPublicKeyLength(senderPublicKey.value)
@@ -482,7 +482,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
       Types.Error>
   {
     const materials: Materials.DecryptionMaterialsPendingPlaintextDataKey
-    const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
+    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
     const senderPublicKey: seq<uint8>
     const recipientPublicKey: seq<uint8>
     const keyAgreementScheme: Types.RawEcdhStaticConfigurations
@@ -490,7 +490,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
 
     constructor(
       materials: Materials.DecryptionMaterialsPendingPlaintextDataKey,
-      cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient,
+      cryptoPrimitives: Primitives.AtomicPrimitivesClient,
       senderPublicKey: seq<uint8>,
       recipientPublicKey: seq<uint8>,
       keyAgreementScheme: Types.RawEcdhStaticConfigurations,
@@ -672,7 +672,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
     senderPrivateKey: PrimitiveTypes.ECCPrivateKey,
     recipientPublicKey: PrimitiveTypes.ECCPublicKey,
     curveSpec: PrimitiveTypes.ECDHCurveSpec,
-    crypto: AtomicPrimitives.AtomicPrimitivesClient
+    crypto: Primitives.AtomicPrimitivesClient
   ) returns (res: Result<seq<uint8>, Types.Error>)
     requires crypto.ValidState()
     modifies crypto.Modifies
@@ -705,7 +705,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
   method {:vcs_split_on_every_assert} CompressPublicKey(
     publicKey: PrimitiveTypes.ECCPublicKey,
     curveSpec: PrimitiveTypes.ECDHCurveSpec,
-    crypto: AtomicPrimitives.AtomicPrimitivesClient
+    crypto: Primitives.AtomicPrimitivesClient
   ) returns (res: Result<seq<uint8>, Types.Error>)
     requires crypto.ValidState()
     modifies crypto.Modifies
@@ -736,7 +736,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
   method {:vcs_split_on_every_assert} DecompressPublicKey(
     publicKey: seq<uint8>,
     curveSpec: PrimitiveTypes.ECDHCurveSpec,
-    crypto: AtomicPrimitives.AtomicPrimitivesClient
+    crypto: Primitives.AtomicPrimitivesClient
   ) returns (res: Result<seq<uint8>, Types.Error>)
     requires crypto.ValidState()
     modifies crypto.Modifies
@@ -786,7 +786,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
 
   method {:vcs_split_on_every_assert} GenerateEphemeralEccKeyPair(
     curveSpec: PrimitiveTypes.ECDHCurveSpec,
-    crypto: AtomicPrimitives.AtomicPrimitivesClient
+    crypto: Primitives.AtomicPrimitivesClient
   ) returns (res: Result<PrimitiveTypes.GenerateECCKeyPairOutput, Types.Error>)
     requires crypto.ValidState()
     modifies crypto.Modifies
@@ -810,7 +810,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
   }
 
   method ValidatePublicKey(
-    crypto: AtomicPrimitives.AtomicPrimitivesClient,
+    crypto: Primitives.AtomicPrimitivesClient,
     curveSpec: PrimitiveTypes.ECDHCurveSpec,
     publicKey: seq<uint8>
   ) returns (res: Result<bool, Types.Error>)

@@ -20,7 +20,7 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
   import opened AlgorithmSuites
   import PrimitiveTypes = AwsCryptographyPrimitivesTypes
   import Types = AwsCryptographyMaterialProvidersTypes
-  import AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import Materials
 
   datatype EcdhUnwrapInfo = EcdhUnwrapInfo()
@@ -34,7 +34,7 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
     const sharedSecret: seq<uint8>
     const keyringVersion: seq<uint8>
     const curveSpec: PrimitiveTypes.ECDHCurveSpec
-    const crypto: AtomicPrimitives.AtomicPrimitivesClient
+    const crypto: Primitives.AtomicPrimitivesClient
 
     constructor(
       senderPublicKey: seq<uint8>,
@@ -42,7 +42,7 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
       sharedSecret: seq<uint8>,
       keyringVersion: seq<uint8>,
       curveSpec: PrimitiveTypes.ECDHCurveSpec,
-      crypto: AtomicPrimitives.AtomicPrimitivesClient
+      crypto: Primitives.AtomicPrimitivesClient
     )
       requires crypto.ValidState()
       ensures
@@ -228,12 +228,12 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
   {
     const sharedSecret: seq<uint8>
     const fixedInfo: seq<uint8>
-    const crypto: AtomicPrimitives.AtomicPrimitivesClient
+    const crypto: Primitives.AtomicPrimitivesClient
 
     constructor(
       sharedSecret: seq<uint8>,
       fixedInfo: seq<uint8>,
-      crypto: AtomicPrimitives.AtomicPrimitivesClient
+      crypto: Primitives.AtomicPrimitivesClient
     )
       requires crypto.ValidState()
       ensures
@@ -316,12 +316,12 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
   {
     const sharedSecret: seq<uint8>
     const fixedInfo: seq<uint8>
-    const crypto: AtomicPrimitives.AtomicPrimitivesClient
+    const crypto: Primitives.AtomicPrimitivesClient
 
     constructor(
       sharedSecret: seq<uint8>,
       fixedInfo: seq<uint8>,
-      crypto: AtomicPrimitives.AtomicPrimitivesClient
+      crypto: Primitives.AtomicPrimitivesClient
     )
       requires crypto.ValidState()
       ensures
@@ -461,7 +461,7 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
     sharedSecret: seq<uint8>,
     fixedInfo: seq<uint8>,
     salt: seq<uint8>,
-    crypto: AtomicPrimitives.AtomicPrimitivesClient
+    crypto: Primitives.AtomicPrimitivesClient
   ) returns (res :Result<seq<uint8>, Types.Error>)
     requires crypto.ValidState()
     modifies crypto.Modifies

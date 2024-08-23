@@ -8,7 +8,7 @@ module TestMultiKeyring {
   import opened Wrappers
   import TestUtils
   import UTF8
-  import AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import AwsCryptographyPrimitivesTypes
   import MaterialProviders
   import Types = AwsCryptographyMaterialProvidersTypes

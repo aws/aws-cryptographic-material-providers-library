@@ -13,7 +13,7 @@ module MaterialWrapping {
   import opened Actions
   import opened Wrappers
   import Types = AwsCryptographyMaterialProvidersTypes
-  import AtomicPrimitives
+  import Aws.Cryptography.Primitives
   import Materials
   import AlgorithmSuites
 
