@@ -8,27 +8,36 @@ on:
         description: "The Dafny version to run"
         required: true
         type: string
+      regenerate-code:
+        description: "Regenerate code using smithy-dafny"
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   testPython:
     strategy:
+      fail-fast: false
       matrix:
         library:
           [
+            StandardLibrary,
             AwsCryptographyPrimitives,
             ComAmazonawsKms,
             ComAmazonawsDynamodb,
             AwsCryptographicMaterialProviders,
             TestVectorsAwsCryptographicMaterialProviders,
-            StandardLibrary,
           ]
+        python-version: ["3.11", "3.12"]
         os: [
-            # TODO just test on mac for now
-            # windows-latest,
+            windows-latest,
             ubuntu-latest,
             macos-latest,
           ]
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
     permissions:
       id-token: write
       contents: read
@@ -36,31 +45,29 @@ jobs:
       - name: Support longpaths on Git checkout
         run: |
           git config --global core.longpaths true
-      # KMS and MPL tests need to use credentials which can call KMS
-      - name: Configure AWS Credentials for Tests
-        uses: aws-actions/configure-aws-credentials@v2
-        if: matrix.library == 'ComAmazonawsKms' || matrix.library == 'ComAmazonawsDynamodb' || matrix.library == 'AwsCryptographicMaterialProviders' || matrix.library == 'TestVectorsAwsCryptographicMaterialProviders'
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
           role-session-name: PythonTests
 
-      - uses: actions/checkout@v3
-        with:
-          submodules: recursive
+      - uses: actions/checkout@v4
       # The specification submodule is private so we don't have access, but we don't need
-      # it to verify the Dafny code. Instead we manually pull the submodule we DO need.
+      # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
       - run: git submodule update --init libraries
+      - run: git submodule update --init smithy-dafny
 
       - name: Setup Dafny
-        uses: dafny-lang/setup-dafny-action@v1.6.1
+        uses: dafny-lang/setup-dafny-action@v1.7.0
         with:
           dafny-version: ${{ inputs.dafny }}
 
-      - name: Setup Python for running tests
+      - name: Setup Python ${{ matrix.python-version }} for running tests
         uses: actions/setup-python@v4
         with:
-          python-version: 3.11
+          python-version: ${{ matrix.python-version }}
           architecture: x64
       - run: |
           python -m pip install --upgrade pip
