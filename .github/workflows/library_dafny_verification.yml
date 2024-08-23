@@ -46,6 +46,15 @@ jobs:
       - run: git submodule update --init libraries
       - run: git submodule update --init smithy-dafny
 
+      # When using CB MacOS runners state is kept between jobs when it comes to downloading dependencies
+      # Our runner has the dafny-reportgenerator already installed but dotnet returns exit
+      # code 1 if something is installed which cuases the job to fail.
+      # As a workaround we remove the install.
+      - name: Clear and redownload dafny-reportgenerator
+        run: |
+          sudo /var/root/.dotnet/dotnet tool install install -g dafny-reportgenerator --version 1.x
+          sudo rm -rf $HOME/.dotnet/tools
+
       - name: Setup Dafny
         uses: dafny-lang/setup-dafny-action@v1.8.0
         with:
