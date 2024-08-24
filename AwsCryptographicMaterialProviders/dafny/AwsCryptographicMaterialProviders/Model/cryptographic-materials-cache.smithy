@@ -210,12 +210,20 @@ structure StormTrackingCache {
   sleepMilli: CountingNumber,
 }
 
+@documentation("Shared cache across multiple Hierarchical Keyrings.")
+structure SharedCache {
+  @required
+  @documentation("Shared cache across multiple Hierarchical Keyrings.")
+  cache: CryptographicMaterialsCacheReference,
+}
+
 union CacheType {
   Default : DefaultCache,
   No: NoCache,
   SingleThreaded: SingleThreadedCache,
   MultiThreaded: MultiThreadedCache,
-  StormTracking: StormTrackingCache
+  StormTracking: StormTrackingCache,
+  Shared: SharedCache
 }
 
 structure CreateCryptographicMaterialsCacheInput {

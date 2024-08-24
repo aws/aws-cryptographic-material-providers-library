@@ -266,10 +266,19 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     //= type=implication
     //# If no max cache size is provided, the crypotgraphic materials cache MUST be configured to a
     //# max cache size of 1000.
-    var cache := if input.cache.Some? then
-      input.cache.value
-    else
-      Types.Default(Types.DefaultCache(entryCapacity := 1000));
+    var cmc;
+
+    if input.cache.Some? {
+      match input.cache.value {
+        case Shared(c) =>
+          cmc := c.cache;
+        case _ =>
+          cmc :- CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := input.cache.value));
+      }
+    }
+    else {
+      cmc :- CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := Types.Default(Types.DefaultCache(entryCapacity := 1000))));
+    }
 
     :- Need(input.branchKeyId.None? || input.branchKeyIdSupplier.None?,
             Types.AwsCryptographicMaterialProvidersException(
@@ -279,7 +288,6 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
             Types.AwsCryptographicMaterialProvidersException(
               message := "Must initialize keyring with either branchKeyId or BranchKeyIdSupplier."));
 
-    var cmc :- CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := cache));
     var keyring := new AwsKmsHierarchicalKeyring.AwsKmsHierarchicalKeyring(
       keyStore := input.keyStore,
       branchKeyId := input.branchKeyId,
@@ -730,6 +738,10 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
         );
         var synCmc := new StormTrackingCMC.StormTrackingCMC(cmc);
         return Success(synCmc);
+      case Shared(c) =>
+        var exception := Types.AwsCryptographicMaterialProvidersException(
+                          message := "CreateCryptographicMaterialsCache should never be called with Shared CacheType.");
+        return Failure(exception);
     }
   }
 
