@@ -33,12 +33,18 @@ public class CacheType {
    */
   private final StormTrackingCache StormTracking;
 
+  /**
+   * Shared cache across multiple Hierarchical Keyrings.
+   */
+  private final SharedCache Shared;
+
   protected CacheType(BuilderImpl builder) {
     this.Default = builder.Default();
     this.No = builder.No();
     this.SingleThreaded = builder.SingleThreaded();
     this.MultiThreaded = builder.MultiThreaded();
     this.StormTracking = builder.StormTracking();
+    this.Shared = builder.Shared();
   }
 
   /**
@@ -75,6 +81,13 @@ public class CacheType {
    */
   public StormTrackingCache StormTracking() {
     return this.StormTracking;
+  }
+
+  /**
+   * @return Shared cache across multiple Hierarchical Keyrings.
+   */
+  public SharedCache Shared() {
+    return this.Shared;
   }
 
   public Builder toBuilder() {
@@ -138,6 +151,16 @@ public class CacheType {
      */
     StormTrackingCache StormTracking();
 
+    /**
+     * @param Shared Shared cache across multiple Hierarchical Keyrings.
+     */
+    Builder Shared(SharedCache Shared);
+
+    /**
+     * @return Shared cache across multiple Hierarchical Keyrings.
+     */
+    SharedCache Shared();
+
     CacheType build();
   }
 
@@ -153,6 +176,8 @@ public class CacheType {
 
     protected StormTrackingCache StormTracking;
 
+    protected SharedCache Shared;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(CacheType model) {
@@ -161,6 +186,7 @@ public class CacheType {
       this.SingleThreaded = model.SingleThreaded();
       this.MultiThreaded = model.MultiThreaded();
       this.StormTracking = model.StormTracking();
+      this.Shared = model.Shared();
     }
 
     public Builder Default(DefaultCache Default) {
@@ -208,6 +234,15 @@ public class CacheType {
       return this.StormTracking;
     }
 
+    public Builder Shared(SharedCache Shared) {
+      this.Shared = Shared;
+      return this;
+    }
+
+    public SharedCache Shared() {
+      return this.Shared;
+    }
+
     public CacheType build() {
       if (!onlyOneNonNull()) {
         throw new IllegalArgumentException(
@@ -224,6 +259,7 @@ public class CacheType {
         this.SingleThreaded,
         this.MultiThreaded,
         this.StormTracking,
+        this.Shared,
       };
       boolean haveOneNonNull = false;
       for (Object o : allValues) {

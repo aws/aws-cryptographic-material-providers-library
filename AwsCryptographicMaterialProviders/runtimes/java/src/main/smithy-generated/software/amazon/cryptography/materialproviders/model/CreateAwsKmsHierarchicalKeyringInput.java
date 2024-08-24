@@ -34,7 +34,7 @@ public class CreateAwsKmsHierarchicalKeyringInput {
   private final long ttlSeconds;
 
   /**
-   * Which type of local cache to use.
+   * Determines what type of cache will be constructed and bound to the Hierarchical Keyring. If the customer provides an already initialized Shared CacheType, it can be shared across multiple Hierarchical Keyrings. If any other type in CacheType is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If nothing is provided here, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
    */
   private final CacheType cache;
 
@@ -75,7 +75,7 @@ public class CreateAwsKmsHierarchicalKeyringInput {
   }
 
   /**
-   * @return Which type of local cache to use.
+   * @return Determines what type of cache will be constructed and bound to the Hierarchical Keyring. If the customer provides an already initialized Shared CacheType, it can be shared across multiple Hierarchical Keyrings. If any other type in CacheType is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If nothing is provided here, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
    */
   public CacheType cache() {
     return this.cache;
@@ -131,12 +131,12 @@ public class CreateAwsKmsHierarchicalKeyringInput {
     long ttlSeconds();
 
     /**
-     * @param cache Which type of local cache to use.
+     * @param cache Determines what type of cache will be constructed and bound to the Hierarchical Keyring. If the customer provides an already initialized Shared CacheType, it can be shared across multiple Hierarchical Keyrings. If any other type in CacheType is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If nothing is provided here, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
      */
     Builder cache(CacheType cache);
 
     /**
-     * @return Which type of local cache to use.
+     * @return Determines what type of cache will be constructed and bound to the Hierarchical Keyring. If the customer provides an already initialized Shared CacheType, it can be shared across multiple Hierarchical Keyrings. If any other type in CacheType is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If nothing is provided here, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
      */
     CacheType cache();
 

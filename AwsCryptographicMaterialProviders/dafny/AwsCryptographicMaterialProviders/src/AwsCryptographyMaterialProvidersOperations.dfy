@@ -740,7 +740,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
         return Success(synCmc);
       case Shared(c) =>
         var exception := Types.AwsCryptographicMaterialProvidersException(
-                          message := "CreateCryptographicMaterialsCache should never be called with Shared CacheType.");
+          message := "CreateCryptographicMaterialsCache should never be called with Shared CacheType.");
         return Failure(exception);
     }
   }

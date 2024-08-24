@@ -112,6 +112,7 @@ import software.amazon.cryptography.materialproviders.model.PublicKeyDiscoveryIn
 import software.amazon.cryptography.materialproviders.model.PutCacheEntryInput;
 import software.amazon.cryptography.materialproviders.model.RawEcdhStaticConfigurations;
 import software.amazon.cryptography.materialproviders.model.RawPrivateKeyToStaticPublicKeyInput;
+import software.amazon.cryptography.materialproviders.model.SharedCache;
 import software.amazon.cryptography.materialproviders.model.SignatureAlgorithm;
 import software.amazon.cryptography.materialproviders.model.SingleThreadedCache;
 import software.amazon.cryptography.materialproviders.model.StaticConfigurations;
@@ -1397,6 +1398,16 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static SharedCache SharedCache(
+    software.amazon.cryptography.materialproviders.internaldafny.types.SharedCache dafnyValue
+  ) {
+    SharedCache.Builder nativeBuilder = SharedCache.builder();
+    nativeBuilder.cache(
+      ToNative.CryptographicMaterialsCache(dafnyValue.dtor_cache())
+    );
+    return nativeBuilder.build();
+  }
+
   public static SingleThreadedCache SingleThreadedCache(
     software.amazon.cryptography.materialproviders.internaldafny.types.SingleThreadedCache dafnyValue
   ) {
@@ -1668,6 +1679,9 @@ public class ToNative {
       nativeBuilder.StormTracking(
         ToNative.StormTrackingCache(dafnyValue.dtor_StormTracking())
       );
+    }
+    if (dafnyValue.is_Shared()) {
+      nativeBuilder.Shared(ToNative.SharedCache(dafnyValue.dtor_Shared()));
     }
     return nativeBuilder.build();
   }
