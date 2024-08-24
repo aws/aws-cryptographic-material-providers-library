@@ -107,6 +107,11 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
         converted.StormTracking = FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_CacheType__M13_StormTracking(concrete.dtor_StormTracking);
         return converted;
       }
+      if (value.is_Shared)
+      {
+        converted.Shared = FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_CacheType__M6_Shared(concrete.dtor_Shared);
+        return converted;
+      }
       throw new System.ArgumentException("Invalid AWS.Cryptography.MaterialProviders.CacheType state");
     }
     public static software.amazon.cryptography.materialproviders.internaldafny.types._ICacheType ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_CacheType(AWS.Cryptography.MaterialProviders.CacheType value)
@@ -130,6 +135,10 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
       if (value.IsSetStormTracking())
       {
         return software.amazon.cryptography.materialproviders.internaldafny.types.CacheType.create_StormTracking(ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_CacheType__M13_StormTracking(value.StormTracking));
+      }
+      if (value.IsSetShared())
+      {
+        return software.amazon.cryptography.materialproviders.internaldafny.types.CacheType.create_Shared(ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_CacheType__M6_Shared(value.Shared));
       }
       throw new System.ArgumentException("Invalid AWS.Cryptography.MaterialProviders.CacheType state");
     }
@@ -1390,6 +1399,14 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
     public static software.amazon.cryptography.materialproviders.internaldafny.types._IStormTrackingCache ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_CacheType__M13_StormTracking(AWS.Cryptography.MaterialProviders.StormTrackingCache value)
     {
       return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache(value);
+    }
+    public static AWS.Cryptography.MaterialProviders.SharedCache FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_CacheType__M6_Shared(software.amazon.cryptography.materialproviders.internaldafny.types._ISharedCache value)
+    {
+      return FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S11_SharedCache(value);
+    }
+    public static software.amazon.cryptography.materialproviders.internaldafny.types._ISharedCache ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_CacheType__M6_Shared(AWS.Cryptography.MaterialProviders.SharedCache value)
+    {
+      return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S11_SharedCache(value);
     }
     public static AWS.Cryptography.MaterialProviders.ESDKCommitmentPolicy FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S16_CommitmentPolicy__M4_ESDK(software.amazon.cryptography.materialproviders.internaldafny.types._IESDKCommitmentPolicy value)
     {
@@ -2806,6 +2823,16 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
       int? var_entryPruningTailSize = value.IsSetEntryPruningTailSize() ? value.EntryPruningTailSize : (int?)null;
       return new software.amazon.cryptography.materialproviders.internaldafny.types.StormTrackingCache(ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M13_entryCapacity(value.EntryCapacity), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M20_entryPruningTailSize(var_entryPruningTailSize), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M11_gracePeriod(value.GracePeriod), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M13_graceInterval(value.GraceInterval), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M6_fanOut(value.FanOut), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M11_inFlightTTL(value.InFlightTTL), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M10_sleepMilli(value.SleepMilli));
     }
+    public static AWS.Cryptography.MaterialProviders.SharedCache FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S11_SharedCache(software.amazon.cryptography.materialproviders.internaldafny.types._ISharedCache value)
+    {
+      software.amazon.cryptography.materialproviders.internaldafny.types.SharedCache concrete = (software.amazon.cryptography.materialproviders.internaldafny.types.SharedCache)value; AWS.Cryptography.MaterialProviders.SharedCache converted = new AWS.Cryptography.MaterialProviders.SharedCache(); converted.Cache = (AWS.Cryptography.MaterialProviders.ICryptographicMaterialsCache)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S11_SharedCache__M5_cache(concrete._cache); return converted;
+    }
+    public static software.amazon.cryptography.materialproviders.internaldafny.types._ISharedCache ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S11_SharedCache(AWS.Cryptography.MaterialProviders.SharedCache value)
+    {
+      value.Validate();
+
+      return new software.amazon.cryptography.materialproviders.internaldafny.types.SharedCache(ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S11_SharedCache__M5_cache(value.Cache));
+    }
     public static Amazon.KeyManagementService.IAmazonKeyManagementService FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_KmsClientReference(software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient value)
     {
       // This is converting a reference type in a dependant module.
@@ -3316,6 +3343,14 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
     public static int ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_StormTrackingCache__M10_sleepMilli(int value)
     {
       return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S14_CountingNumber(value);
+    }
+    public static AWS.Cryptography.MaterialProviders.ICryptographicMaterialsCache FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S11_SharedCache__M5_cache(software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsCache value)
+    {
+      return FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CryptographicMaterialsCacheReference(value);
+    }
+    public static software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsCache ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S11_SharedCache__M5_cache(AWS.Cryptography.MaterialProviders.ICryptographicMaterialsCache value)
+    {
+      return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CryptographicMaterialsCacheReference(value);
     }
     public static System.Collections.Generic.List<string> FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S15_DiscoveryFilter__M10_accountIds(Dafny.ISequence<Dafny.ISequence<char>> value)
     {
