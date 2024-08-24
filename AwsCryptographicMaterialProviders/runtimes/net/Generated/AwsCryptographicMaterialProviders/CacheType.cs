@@ -12,7 +12,7 @@ namespace AWS.Cryptography.MaterialProviders
     private AWS.Cryptography.MaterialProviders.SingleThreadedCache _singleThreaded;
     private AWS.Cryptography.MaterialProviders.MultiThreadedCache _multiThreaded;
     private AWS.Cryptography.MaterialProviders.StormTrackingCache _stormTracking;
-    private AWS.Cryptography.MaterialProviders.SharedCache _shared;
+    private AWS.Cryptography.MaterialProviders.ICryptographicMaterialsCache _shared;
     public AWS.Cryptography.MaterialProviders.DefaultCache Default
     {
       get { return this._default; }
@@ -58,7 +58,7 @@ namespace AWS.Cryptography.MaterialProviders
     {
       return this._stormTracking != null;
     }
-    public AWS.Cryptography.MaterialProviders.SharedCache Shared
+    public AWS.Cryptography.MaterialProviders.ICryptographicMaterialsCache Shared
     {
       get { return this._shared; }
       set { this._shared = value; }

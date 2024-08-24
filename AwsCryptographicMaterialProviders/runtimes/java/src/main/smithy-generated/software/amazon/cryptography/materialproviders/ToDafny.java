@@ -103,7 +103,6 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.Public
 import software.amazon.cryptography.materialproviders.internaldafny.types.PutCacheEntryInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.RawEcdhStaticConfigurations;
 import software.amazon.cryptography.materialproviders.internaldafny.types.RawPrivateKeyToStaticPublicKeyInput;
-import software.amazon.cryptography.materialproviders.internaldafny.types.SharedCache;
 import software.amazon.cryptography.materialproviders.internaldafny.types.SignatureAlgorithm;
 import software.amazon.cryptography.materialproviders.internaldafny.types.SingleThreadedCache;
 import software.amazon.cryptography.materialproviders.internaldafny.types.StaticConfigurations;
@@ -1448,14 +1447,6 @@ public class ToDafny {
     );
   }
 
-  public static SharedCache SharedCache(
-    software.amazon.cryptography.materialproviders.model.SharedCache nativeValue
-  ) {
-    software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsCache cache;
-    cache = ToDafny.CryptographicMaterialsCache(nativeValue.cache());
-    return new SharedCache(cache);
-  }
-
   public static SingleThreadedCache SingleThreadedCache(
     software.amazon.cryptography.materialproviders.model.SingleThreadedCache nativeValue
   ) {
@@ -1888,7 +1879,9 @@ public class ToDafny {
       );
     }
     if (Objects.nonNull(nativeValue.Shared())) {
-      return CacheType.create_Shared(ToDafny.SharedCache(nativeValue.Shared()));
+      return CacheType.create_Shared(
+        ToDafny.CryptographicMaterialsCache(nativeValue.Shared())
+      );
     }
     throw new IllegalArgumentException(
       "Cannot convert " +

@@ -4,6 +4,8 @@
 package software.amazon.cryptography.materialproviders.model;
 
 import java.util.Objects;
+import software.amazon.cryptography.materialproviders.CryptographicMaterialsCache;
+import software.amazon.cryptography.materialproviders.ICryptographicMaterialsCache;
 
 public class CacheType {
 
@@ -33,10 +35,7 @@ public class CacheType {
    */
   private final StormTrackingCache StormTracking;
 
-  /**
-   * Shared cache across multiple Hierarchical Keyrings.
-   */
-  private final SharedCache Shared;
+  private final ICryptographicMaterialsCache Shared;
 
   protected CacheType(BuilderImpl builder) {
     this.Default = builder.Default();
@@ -83,10 +82,7 @@ public class CacheType {
     return this.StormTracking;
   }
 
-  /**
-   * @return Shared cache across multiple Hierarchical Keyrings.
-   */
-  public SharedCache Shared() {
+  public ICryptographicMaterialsCache Shared() {
     return this.Shared;
   }
 
@@ -151,15 +147,9 @@ public class CacheType {
      */
     StormTrackingCache StormTracking();
 
-    /**
-     * @param Shared Shared cache across multiple Hierarchical Keyrings.
-     */
-    Builder Shared(SharedCache Shared);
+    Builder Shared(ICryptographicMaterialsCache Shared);
 
-    /**
-     * @return Shared cache across multiple Hierarchical Keyrings.
-     */
-    SharedCache Shared();
+    ICryptographicMaterialsCache Shared();
 
     CacheType build();
   }
@@ -176,7 +166,7 @@ public class CacheType {
 
     protected StormTrackingCache StormTracking;
 
-    protected SharedCache Shared;
+    protected ICryptographicMaterialsCache Shared;
 
     protected BuilderImpl() {}
 
@@ -234,12 +224,12 @@ public class CacheType {
       return this.StormTracking;
     }
 
-    public Builder Shared(SharedCache Shared) {
-      this.Shared = Shared;
+    public Builder Shared(ICryptographicMaterialsCache Shared) {
+      this.Shared = CryptographicMaterialsCache.wrap(Shared);
       return this;
     }
 
-    public SharedCache Shared() {
+    public ICryptographicMaterialsCache Shared() {
       return this.Shared;
     }
 

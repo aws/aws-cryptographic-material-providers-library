@@ -719,7 +719,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     | SingleThreaded(SingleThreaded: SingleThreadedCache)
     | MultiThreaded(MultiThreaded: MultiThreadedCache)
     | StormTracking(StormTracking: StormTrackingCache)
-    | Shared(Shared: SharedCache)
+    | Shared(Shared: ICryptographicMaterialsCache)
   class IClientSupplierCallHistory {
     ghost constructor() {
       GetClient := [];
@@ -1500,9 +1500,6 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
   type Region = string
   type RegionList = seq<Region>
   type Secret = seq<uint8>
-  datatype SharedCache = | SharedCache (
-    nameonly cache: ICryptographicMaterialsCache
-  )
   datatype SignatureAlgorithm =
     | ECDSA(ECDSA: ECDSA)
     | None(None: None)

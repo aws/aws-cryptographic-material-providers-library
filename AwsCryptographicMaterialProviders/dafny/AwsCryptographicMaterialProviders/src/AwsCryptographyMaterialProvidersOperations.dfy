@@ -271,7 +271,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     if input.cache.Some? {
       match input.cache.value {
         case Shared(c) =>
-          cmc := c.cache;
+          cmc := c;
         case _ =>
           cmc :- CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := input.cache.value));
       }
