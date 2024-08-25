@@ -106,8 +106,6 @@ structure CreateKeyInput {
   @required
   @documentation("The KMS client this Key Store uses to call AWS KMS.")
   kms: KMSRelationship
-
-  ReEncrypt: KmsClientReference
 }
 
 @javadoc("Outputs for Branch Key creation.")

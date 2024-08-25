@@ -86,7 +86,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     case ReEncrypt(kmsClient) =>
 
       assume {:axiom} config.storage.Modifies !! kmsClient.Modifies;
-      assume kmsClient.ValidState();
+      // assume kmsClient.ValidState();
 
       var legacyConfig := KeyStoreOperations.Config(
         id := "",
