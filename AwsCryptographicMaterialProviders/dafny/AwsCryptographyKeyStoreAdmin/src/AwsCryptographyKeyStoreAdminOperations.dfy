@@ -81,44 +81,40 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
         message := ErrorMessages.CREATE_KEY_STORE_DEPRECATED
       )
     );
+    assume {:axiom} config.storage.Modifies !! input.kmsClient.Modifies;
+    // assume kmsClient.ValidState();
+    var legacyConfig := KeyStoreOperations.Config(
+      id := "",
+      ddbTableName := None,
+      logicalKeyStoreName := config.logicalKeyStoreName,
+      kmsConfiguration := match input.kmsArn
+      case kmsKeyArn(kmsKeyArn) => KeyStoreOperations.Types.kmsKeyArn(kmsKeyArn)
+      case kmsMRKeyArn(kmsMRKeyArn) => KeyStoreOperations.Types.kmsMRKeyArn(kmsMRKeyArn),
+      // TODO: Validate Input Grant Tokens and Pass to Legacy Config
+      grantTokens := [],
+      kmsClient := input.kmsClient,
+      ddbClient := None,
+      storage := config.storage,
+      kmsConstructedRegion := None,
+      ddbConstructedRegion := None
+    );
 
-    match input.kms
-    case ReEncrypt(kmsClient) =>
+    assert KeyStoreOperations.ValidInternalConfig?(legacyConfig);
 
-      assume {:axiom} config.storage.Modifies !! kmsClient.Modifies;
-      // assume kmsClient.ValidState();
+    var output? := KeyStoreOperations.CreateKey(
+      config := legacyConfig,
+      input := KeyStoreOperations.Types.CreateKeyInput(
+        branchKeyIdentifier := input.branchKeyIdentifier,
+        encryptionContext := input.encryptionContext
+      )
+    );
 
-      var legacyConfig := KeyStoreOperations.Config(
-        id := "",
-        ddbTableName := None,
-        logicalKeyStoreName := config.logicalKeyStoreName,
-        kmsConfiguration := match input.kmsArn
-        case kmsKeyArn(kmsKeyArn) => KeyStoreOperations.Types.kmsKeyArn(kmsKeyArn)
-        case kmsMRKeyArn(kmsMRKeyArn) => KeyStoreOperations.Types.kmsMRKeyArn(kmsMRKeyArn),
-        grantTokens := [],
-        kmsClient := kmsClient,
-        ddbClient := None,
-        storage := config.storage,
-        kmsConstructedRegion := None,
-        ddbConstructedRegion := None
-      );
+    var value :- output?
+    .MapFailure(e => Types.AwsCryptographyKeyStore(e));
 
-      assert KeyStoreOperations.ValidInternalConfig?(legacyConfig);
-
-      var output? := KeyStoreOperations.CreateKey(
-        config := legacyConfig,
-        input := KeyStoreOperations.Types.CreateKeyInput(
-          branchKeyIdentifier := input.branchKeyIdentifier,
-          encryptionContext := input.encryptionContext
-        )
-      );
-
-      var value :- output?
-      .MapFailure(e => Types.AwsCryptographyKeyStore(e));
-
-      output := Success(Types.CreateKeyOutput(
-                          branchKeyIdentifier := value.branchKeyIdentifier
-                        ));
+    output := Success(Types.CreateKeyOutput(
+                        branchKeyIdentifier := value.branchKeyIdentifier
+                      ));
   }
 
 
