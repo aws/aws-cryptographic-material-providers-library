@@ -106,6 +106,11 @@ public class KeyStoreAdminConfig {
           "Missing value for required field `logicalKeyStoreName`"
         );
       }
+      if (Objects.isNull(this.storage())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `storage`"
+        );
+      }
       return new KeyStoreAdminConfig(this);
     }
   }

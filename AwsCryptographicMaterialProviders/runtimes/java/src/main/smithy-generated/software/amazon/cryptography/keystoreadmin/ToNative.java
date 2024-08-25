@@ -13,11 +13,11 @@ import software.amazon.cryptography.keystoreadmin.internaldafny.types.IKeyStoreA
 import software.amazon.cryptography.keystoreadmin.model.CollectionOfErrors;
 import software.amazon.cryptography.keystoreadmin.model.CreateKeyInput;
 import software.amazon.cryptography.keystoreadmin.model.CreateKeyOutput;
+import software.amazon.cryptography.keystoreadmin.model.KMSIdentifier;
+import software.amazon.cryptography.keystoreadmin.model.KMSRelationship;
 import software.amazon.cryptography.keystoreadmin.model.KeyStoreAdminConfig;
 import software.amazon.cryptography.keystoreadmin.model.KeyStoreAdminException;
 import software.amazon.cryptography.keystoreadmin.model.OpaqueError;
-import software.amazon.cryptography.keystoreadmin.model.VersionKeyInput;
-import software.amazon.cryptography.keystoreadmin.model.VersionKeyOutput;
 import software.amazon.cryptography.keystoreadmin.model.VersionRaceException;
 
 public class ToNative {
@@ -115,16 +115,19 @@ public class ToNative {
         )
       );
     }
-    nativeBuilder.kmsArn(
-      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-        dafnyValue.dtor_kmsArn()
-      )
-    );
+    nativeBuilder.kmsArn(ToNative.KMSIdentifier(dafnyValue.dtor_kmsArn()));
     nativeBuilder.kmsClient(
       software.amazon.cryptography.services.kms.internaldafny.ToNative.TrentService(
         dafnyValue.dtor_kmsClient()
       )
     );
+    if (dafnyValue.dtor_grantTokens().is_Some()) {
+      nativeBuilder.grantTokens(
+        software.amazon.cryptography.keystore.ToNative.GrantTokenList(
+          dafnyValue.dtor_grantTokens().dtor_value()
+        )
+      );
+    }
     return nativeBuilder.build();
   }
 
@@ -149,42 +152,46 @@ public class ToNative {
         dafnyValue.dtor_logicalKeyStoreName()
       )
     );
-    if (dafnyValue.dtor_storage().is_Some()) {
-      nativeBuilder.storage(
-        software.amazon.cryptography.keystore.ToNative.Storage(
-          dafnyValue.dtor_storage().dtor_value()
+    nativeBuilder.storage(
+      software.amazon.cryptography.keystore.ToNative.Storage(
+        dafnyValue.dtor_storage()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
+  public static KMSIdentifier KMSIdentifier(
+    software.amazon.cryptography.keystoreadmin.internaldafny.types.KMSIdentifier dafnyValue
+  ) {
+    KMSIdentifier.Builder nativeBuilder = KMSIdentifier.builder();
+    if (dafnyValue.is_kmsKeyArn()) {
+      nativeBuilder.kmsKeyArn(
+        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+          dafnyValue.dtor_kmsKeyArn()
+        )
+      );
+    }
+    if (dafnyValue.is_kmsMRKeyArn()) {
+      nativeBuilder.kmsMRKeyArn(
+        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+          dafnyValue.dtor_kmsMRKeyArn()
         )
       );
     }
     return nativeBuilder.build();
   }
 
-  public static VersionKeyInput VersionKeyInput(
-    software.amazon.cryptography.keystoreadmin.internaldafny.types.VersionKeyInput dafnyValue
+  public static KMSRelationship KMSRelationship(
+    software.amazon.cryptography.keystoreadmin.internaldafny.types.KMSRelationship dafnyValue
   ) {
-    VersionKeyInput.Builder nativeBuilder = VersionKeyInput.builder();
-    nativeBuilder.branchKeyIdentifier(
-      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-        dafnyValue.dtor_branchKeyIdentifier()
-      )
-    );
-    nativeBuilder.kmsArn(
-      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
-        dafnyValue.dtor_kmsArn()
-      )
-    );
-    nativeBuilder.kmsClient(
-      software.amazon.cryptography.services.kms.internaldafny.ToNative.TrentService(
-        dafnyValue.dtor_kmsClient()
-      )
-    );
-    return nativeBuilder.build();
-  }
-
-  public static VersionKeyOutput VersionKeyOutput(
-    software.amazon.cryptography.keystoreadmin.internaldafny.types.VersionKeyOutput dafnyValue
-  ) {
-    VersionKeyOutput.Builder nativeBuilder = VersionKeyOutput.builder();
+    KMSRelationship.Builder nativeBuilder = KMSRelationship.builder();
+    if (dafnyValue.is_ReEncrypt()) {
+      nativeBuilder.ReEncrypt(
+        software.amazon.cryptography.services.kms.internaldafny.ToNative.TrentService(
+          dafnyValue.dtor_ReEncrypt()
+        )
+      );
+    }
     return nativeBuilder.build();
   }
 

@@ -8,6 +8,7 @@ import dafny.DafnyMap;
 import dafny.DafnySequence;
 import java.lang.Byte;
 import java.lang.Character;
+import java.lang.IllegalArgumentException;
 import java.lang.RuntimeException;
 import java.util.Objects;
 import software.amazon.cryptography.keystore.internaldafny.types.Storage;
@@ -17,9 +18,9 @@ import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_KeyStoreAdminException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_VersionRaceException;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.IKeyStoreAdminClient;
+import software.amazon.cryptography.keystoreadmin.internaldafny.types.KMSIdentifier;
+import software.amazon.cryptography.keystoreadmin.internaldafny.types.KMSRelationship;
 import software.amazon.cryptography.keystoreadmin.internaldafny.types.KeyStoreAdminConfig;
-import software.amazon.cryptography.keystoreadmin.internaldafny.types.VersionKeyInput;
-import software.amazon.cryptography.keystoreadmin.internaldafny.types.VersionKeyOutput;
 import software.amazon.cryptography.keystoreadmin.model.CollectionOfErrors;
 import software.amazon.cryptography.keystoreadmin.model.KeyStoreAdminException;
 import software.amazon.cryptography.keystoreadmin.model.OpaqueError;
@@ -89,21 +90,31 @@ public class ToDafny {
           )
         )
         : Option.create_None();
-    DafnySequence<? extends Character> kmsArn;
-    kmsArn =
-      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.kmsArn()
-      );
+    KMSIdentifier kmsArn;
+    kmsArn = ToDafny.KMSIdentifier(nativeValue.kmsArn());
     IKMSClient kmsClient;
     kmsClient =
       software.amazon.cryptography.services.kms.internaldafny.ToDafny.TrentService(
         nativeValue.kmsClient()
       );
+    Option<
+      DafnySequence<? extends DafnySequence<? extends Character>>
+    > grantTokens;
+    grantTokens =
+      (Objects.nonNull(nativeValue.grantTokens()) &&
+          nativeValue.grantTokens().size() > 0)
+        ? Option.create_Some(
+          software.amazon.cryptography.keystore.ToDafny.GrantTokenList(
+            nativeValue.grantTokens()
+          )
+        )
+        : Option.create_None();
     return new CreateKeyInput(
       branchKeyIdentifier,
       encryptionContext,
       kmsArn,
-      kmsClient
+      kmsClient,
+      grantTokens
     );
   }
 
@@ -126,43 +137,12 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
         nativeValue.logicalKeyStoreName()
       );
-    Option<Storage> storage;
+    Storage storage;
     storage =
-      Objects.nonNull(nativeValue.storage())
-        ? Option.create_Some(
-          software.amazon.cryptography.keystore.ToDafny.Storage(
-            nativeValue.storage()
-          )
-        )
-        : Option.create_None();
+      software.amazon.cryptography.keystore.ToDafny.Storage(
+        nativeValue.storage()
+      );
     return new KeyStoreAdminConfig(logicalKeyStoreName, storage);
-  }
-
-  public static VersionKeyInput VersionKeyInput(
-    software.amazon.cryptography.keystoreadmin.model.VersionKeyInput nativeValue
-  ) {
-    DafnySequence<? extends Character> branchKeyIdentifier;
-    branchKeyIdentifier =
-      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.branchKeyIdentifier()
-      );
-    DafnySequence<? extends Character> kmsArn;
-    kmsArn =
-      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
-        nativeValue.kmsArn()
-      );
-    IKMSClient kmsClient;
-    kmsClient =
-      software.amazon.cryptography.services.kms.internaldafny.ToDafny.TrentService(
-        nativeValue.kmsClient()
-      );
-    return new VersionKeyInput(branchKeyIdentifier, kmsArn, kmsClient);
-  }
-
-  public static VersionKeyOutput VersionKeyOutput(
-    software.amazon.cryptography.keystoreadmin.model.VersionKeyOutput nativeValue
-  ) {
-    return new VersionKeyOutput();
   }
 
   public static Error Error(KeyStoreAdminException nativeValue) {
@@ -181,6 +161,47 @@ public class ToDafny {
         nativeValue.message()
       );
     return new Error_VersionRaceException(message);
+  }
+
+  public static KMSIdentifier KMSIdentifier(
+    software.amazon.cryptography.keystoreadmin.model.KMSIdentifier nativeValue
+  ) {
+    if (Objects.nonNull(nativeValue.kmsKeyArn())) {
+      return KMSIdentifier.create_kmsKeyArn(
+        software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+          nativeValue.kmsKeyArn()
+        )
+      );
+    }
+    if (Objects.nonNull(nativeValue.kmsMRKeyArn())) {
+      return KMSIdentifier.create_kmsMRKeyArn(
+        software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+          nativeValue.kmsMRKeyArn()
+        )
+      );
+    }
+    throw new IllegalArgumentException(
+      "Cannot convert " +
+      nativeValue +
+      " to software.amazon.cryptography.keystoreadmin.internaldafny.types.KMSIdentifier."
+    );
+  }
+
+  public static KMSRelationship KMSRelationship(
+    software.amazon.cryptography.keystoreadmin.model.KMSRelationship nativeValue
+  ) {
+    if (Objects.nonNull(nativeValue.ReEncrypt())) {
+      return KMSRelationship.create(
+        software.amazon.cryptography.services.kms.internaldafny.ToDafny.TrentService(
+          nativeValue.ReEncrypt()
+        )
+      );
+    }
+    throw new IllegalArgumentException(
+      "Cannot convert " +
+      nativeValue +
+      " to software.amazon.cryptography.keystoreadmin.internaldafny.types.KMSRelationship."
+    );
   }
 
   public static IKeyStoreAdminClient KeyStoreAdmin(KeyStoreAdmin nativeValue) {

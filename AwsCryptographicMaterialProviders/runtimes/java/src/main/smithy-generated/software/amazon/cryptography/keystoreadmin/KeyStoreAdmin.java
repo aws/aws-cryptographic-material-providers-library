@@ -13,8 +13,6 @@ import software.amazon.cryptography.keystoreadmin.internaldafny.types.IKeyStoreA
 import software.amazon.cryptography.keystoreadmin.model.CreateKeyInput;
 import software.amazon.cryptography.keystoreadmin.model.CreateKeyOutput;
 import software.amazon.cryptography.keystoreadmin.model.KeyStoreAdminConfig;
-import software.amazon.cryptography.keystoreadmin.model.VersionKeyInput;
-import software.amazon.cryptography.keystoreadmin.model.VersionKeyOutput;
 
 public class KeyStoreAdmin {
 
@@ -56,25 +54,6 @@ public class KeyStoreAdmin {
       throw ToNative.Error(result.dtor_error());
     }
     return ToNative.CreateKeyOutput(result.dtor_value());
-  }
-
-  /**
-   * Create a new ACTIVE version of an existing Branch Key in the Key Store, and set the previously ACTIVE version to DECRYPT_ONLY.
-   *
-   * @param input Inputs for versioning a Branch Key.
-   * @return Outputs for versioning a Branch Key.
-   */
-  public VersionKeyOutput VersionKey(VersionKeyInput input) {
-    software.amazon.cryptography.keystoreadmin.internaldafny.types.VersionKeyInput dafnyValue =
-      ToDafny.VersionKeyInput(input);
-    Result<
-      software.amazon.cryptography.keystoreadmin.internaldafny.types.VersionKeyOutput,
-      Error
-    > result = this._impl.VersionKey(dafnyValue);
-    if (result.is_Failure()) {
-      throw ToNative.Error(result.dtor_error());
-    }
-    return ToNative.VersionKeyOutput(result.dtor_value());
   }
 
   protected IKeyStoreAdminClient impl() {

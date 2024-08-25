@@ -3,6 +3,7 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.keystoreadmin.model;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import software.amazon.awssdk.services.kms.KmsClient;
@@ -22,18 +23,24 @@ public class CreateKeyInput {
   /**
    * Multi-Region or Single Region AWS KMS Key used to protect the Branch Key, but not aliases!
    */
-  private final String kmsArn;
+  private final KMSIdentifier kmsArn;
 
   /**
    * The KMS client this Key Store uses to call AWS KMS.
    */
   private final KmsClient kmsClient;
 
+  /**
+   * The AWS KMS grant tokens that are used when this Key Store calls to AWS KMS.
+   */
+  private final List<String> grantTokens;
+
   protected CreateKeyInput(BuilderImpl builder) {
     this.branchKeyIdentifier = builder.branchKeyIdentifier();
     this.encryptionContext = builder.encryptionContext();
     this.kmsArn = builder.kmsArn();
     this.kmsClient = builder.kmsClient();
+    this.grantTokens = builder.grantTokens();
   }
 
   /**
@@ -53,7 +60,7 @@ public class CreateKeyInput {
   /**
    * @return Multi-Region or Single Region AWS KMS Key used to protect the Branch Key, but not aliases!
    */
-  public String kmsArn() {
+  public KMSIdentifier kmsArn() {
     return this.kmsArn;
   }
 
@@ -62,6 +69,13 @@ public class CreateKeyInput {
    */
   public KmsClient kmsClient() {
     return this.kmsClient;
+  }
+
+  /**
+   * @return The AWS KMS grant tokens that are used when this Key Store calls to AWS KMS.
+   */
+  public List<String> grantTokens() {
+    return this.grantTokens;
   }
 
   public Builder toBuilder() {
@@ -96,12 +110,12 @@ public class CreateKeyInput {
     /**
      * @param kmsArn Multi-Region or Single Region AWS KMS Key used to protect the Branch Key, but not aliases!
      */
-    Builder kmsArn(String kmsArn);
+    Builder kmsArn(KMSIdentifier kmsArn);
 
     /**
      * @return Multi-Region or Single Region AWS KMS Key used to protect the Branch Key, but not aliases!
      */
-    String kmsArn();
+    KMSIdentifier kmsArn();
 
     /**
      * @param kmsClient The KMS client this Key Store uses to call AWS KMS.
@@ -113,6 +127,16 @@ public class CreateKeyInput {
      */
     KmsClient kmsClient();
 
+    /**
+     * @param grantTokens The AWS KMS grant tokens that are used when this Key Store calls to AWS KMS.
+     */
+    Builder grantTokens(List<String> grantTokens);
+
+    /**
+     * @return The AWS KMS grant tokens that are used when this Key Store calls to AWS KMS.
+     */
+    List<String> grantTokens();
+
     CreateKeyInput build();
   }
 
@@ -122,9 +146,11 @@ public class CreateKeyInput {
 
     protected Map<String, String> encryptionContext;
 
-    protected String kmsArn;
+    protected KMSIdentifier kmsArn;
 
     protected KmsClient kmsClient;
+
+    protected List<String> grantTokens;
 
     protected BuilderImpl() {}
 
@@ -133,6 +159,7 @@ public class CreateKeyInput {
       this.encryptionContext = model.encryptionContext();
       this.kmsArn = model.kmsArn();
       this.kmsClient = model.kmsClient();
+      this.grantTokens = model.grantTokens();
     }
 
     public Builder branchKeyIdentifier(String branchKeyIdentifier) {
@@ -153,12 +180,12 @@ public class CreateKeyInput {
       return this.encryptionContext;
     }
 
-    public Builder kmsArn(String kmsArn) {
+    public Builder kmsArn(KMSIdentifier kmsArn) {
       this.kmsArn = kmsArn;
       return this;
     }
 
-    public String kmsArn() {
+    public KMSIdentifier kmsArn() {
       return this.kmsArn;
     }
 
@@ -169,6 +196,15 @@ public class CreateKeyInput {
 
     public KmsClient kmsClient() {
       return this.kmsClient;
+    }
+
+    public Builder grantTokens(List<String> grantTokens) {
+      this.grantTokens = grantTokens;
+      return this;
+    }
+
+    public List<String> grantTokens() {
+      return this.grantTokens;
     }
 
     public CreateKeyInput build() {
