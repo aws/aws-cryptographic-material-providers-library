@@ -31,10 +31,10 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   class IKeyStoreAdminClientCallHistory {
     ghost constructor() {
       CreateKey := [];
-      VersionKey := [];
+      // VersionKey := [];
     }
     ghost var CreateKey: seq<DafnyCallEvent<CreateKeyInput, Result<CreateKeyOutput, Error>>>
-    ghost var VersionKey: seq<DafnyCallEvent<VersionKeyInput, Result<VersionKeyOutput, Error>>>
+    // ghost var VersionKey: seq<DafnyCallEvent<VersionKeyInput, Result<VersionKeyOutput, Error>>>
   }
   trait {:termination false} IKeyStoreAdminClient
   {
@@ -83,20 +83,20 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
       ensures CreateKeyEnsuresPublicly(input, output)
       ensures History.CreateKey == old(History.CreateKey) + [DafnyCallEvent(input, output)]
 
-    predicate VersionKeyEnsuresPublicly(input: VersionKeyInput , output: Result<VersionKeyOutput, Error>)
-    // The public method to be called by library consumers
-    method VersionKey ( input: VersionKeyInput )
-      returns (output: Result<VersionKeyOutput, Error>)
-      requires
-        && ValidState()
-      modifies Modifies - {History} ,
-               History`VersionKey
-      // Dafny will skip type parameters when generating a default decreases clause.
-      decreases Modifies - {History}
-      ensures
-        && ValidState()
-      ensures VersionKeyEnsuresPublicly(input, output)
-      ensures History.VersionKey == old(History.VersionKey) + [DafnyCallEvent(input, output)]
+    // predicate VersionKeyEnsuresPublicly(input: VersionKeyInput , output: Result<VersionKeyOutput, Error>)
+    // // The public method to be called by library consumers
+    // method VersionKey ( input: VersionKeyInput )
+    //   returns (output: Result<VersionKeyOutput, Error>)
+    //   requires
+    //     && ValidState()
+    //   modifies Modifies - {History} ,
+    //            History`VersionKey
+    //   // Dafny will skip type parameters when generating a default decreases clause.
+    //   decreases Modifies - {History}
+    //   ensures
+    //     && ValidState()
+    //   ensures VersionKeyEnsuresPublicly(input, output)
+    //   ensures History.VersionKey == old(History.VersionKey) + [DafnyCallEvent(input, output)]
   }
   datatype KeyStoreAdminConfig = | KeyStoreAdminConfig (
     nameonly logicalKeyStoreName: string ,
@@ -108,14 +108,14 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   datatype KMSRelationship =
     | ReEncrypt(ReEncrypt: ComAmazonawsKmsTypes.IKMSClient)
   type Utf8Bytes = ValidUTF8Bytes
-  datatype VersionKeyInput = | VersionKeyInput (
-    nameonly branchKeyIdentifier: string ,
-    nameonly kmsArn: string ,
-    nameonly kms: KMSRelationship
-  )
-  datatype VersionKeyOutput = | VersionKeyOutput (
+  // datatype VersionKeyInput = | VersionKeyInput (
+  //   nameonly branchKeyIdentifier: string ,
+  //   nameonly kmsArn: string ,
+  //   nameonly kms: KMSRelationship
+  // )
+  // datatype VersionKeyOutput = | VersionKeyOutput (
 
-                              )
+  //                             )
   datatype Error =
       // Local Error structures are listed here
     | KeyStoreAdminException (
@@ -245,25 +245,25 @@ abstract module AbstractAwsCryptographyKeyStoreAdminService
       History.CreateKey := History.CreateKey + [DafnyCallEvent(input, output)];
     }
 
-    predicate VersionKeyEnsuresPublicly(input: VersionKeyInput , output: Result<VersionKeyOutput, Error>)
-    {Operations.VersionKeyEnsuresPublicly(input, output)}
-    // The public method to be called by library consumers
-    method VersionKey ( input: VersionKeyInput )
-      returns (output: Result<VersionKeyOutput, Error>)
-      requires
-        && ValidState()
-      modifies Modifies - {History} ,
-               History`VersionKey
-      // Dafny will skip type parameters when generating a default decreases clause.
-      decreases Modifies - {History}
-      ensures
-        && ValidState()
-      ensures VersionKeyEnsuresPublicly(input, output)
-      ensures History.VersionKey == old(History.VersionKey) + [DafnyCallEvent(input, output)]
-    {
-      output := Operations.VersionKey(config, input);
-      History.VersionKey := History.VersionKey + [DafnyCallEvent(input, output)];
-    }
+    // predicate VersionKeyEnsuresPublicly(input: VersionKeyInput , output: Result<VersionKeyOutput, Error>)
+    // {Operations.VersionKeyEnsuresPublicly(input, output)}
+    // // The public method to be called by library consumers
+    // method VersionKey ( input: VersionKeyInput )
+    //   returns (output: Result<VersionKeyOutput, Error>)
+    //   requires
+    //     && ValidState()
+    //   modifies Modifies - {History} ,
+    //            History`VersionKey
+    //   // Dafny will skip type parameters when generating a default decreases clause.
+    //   decreases Modifies - {History}
+    //   ensures
+    //     && ValidState()
+    //   ensures VersionKeyEnsuresPublicly(input, output)
+    //   ensures History.VersionKey == old(History.VersionKey) + [DafnyCallEvent(input, output)]
+    // {
+    //   output := Operations.VersionKey(config, input);
+    //   History.VersionKey := History.VersionKey + [DafnyCallEvent(input, output)];
+    // }
   }
 }
 abstract module AbstractAwsCryptographyKeyStoreAdminOperations {
@@ -296,18 +296,18 @@ abstract module AbstractAwsCryptographyKeyStoreAdminOperations {
     ensures CreateKeyEnsuresPublicly(input, output)
 
 
-  predicate VersionKeyEnsuresPublicly(input: VersionKeyInput , output: Result<VersionKeyOutput, Error>)
-  // The private method to be refined by the library developer
+  // predicate VersionKeyEnsuresPublicly(input: VersionKeyInput , output: Result<VersionKeyOutput, Error>)
+  // // The private method to be refined by the library developer
 
 
-  method VersionKey ( config: InternalConfig , input: VersionKeyInput )
-    returns (output: Result<VersionKeyOutput, Error>)
-    requires
-      && ValidInternalConfig?(config)
-    modifies ModifiesInternalConfig(config)
-    // Dafny will skip type parameters when generating a default decreases clause.
-    decreases ModifiesInternalConfig(config)
-    ensures
-      && ValidInternalConfig?(config)
-    ensures VersionKeyEnsuresPublicly(input, output)
+  // method VersionKey ( config: InternalConfig , input: VersionKeyInput )
+  //   returns (output: Result<VersionKeyOutput, Error>)
+  //   requires
+  //     && ValidInternalConfig?(config)
+  //   modifies ModifiesInternalConfig(config)
+  //   // Dafny will skip type parameters when generating a default decreases clause.
+  //   decreases ModifiesInternalConfig(config)
+  //   ensures
+  //     && ValidInternalConfig?(config)
+  //   ensures VersionKeyEnsuresPublicly(input, output)
 }

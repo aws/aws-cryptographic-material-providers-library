@@ -41,7 +41,7 @@ service KeyStoreAdmin {
 
   operations: [
     CreateKey,
-    VersionKey
+    // VersionKey
   ],
   errors: [
     VersionRaceException,
@@ -122,35 +122,35 @@ structure CreateKeyOutput {
 // provided branchKeyIdentifier and rotate the "older" material 
 // on the key store under the branchKeyIdentifier. This operation MUST NOT
 // rotate the beacon key under the branchKeyIdentifier.
-@javadoc("Create a new ACTIVE version of an existing Branch Key in the Key Store, and set the previously ACTIVE version to DECRYPT_ONLY.")
-operation VersionKey {
-  input: VersionKeyInput,
-  output: VersionKeyOutput,
-  errors: [ VersionRaceException ]
-}
+// @javadoc("Create a new ACTIVE version of an existing Branch Key in the Key Store, and set the previously ACTIVE version to DECRYPT_ONLY.")
+// operation VersionKey {
+//   input: VersionKeyInput,
+//   output: VersionKeyOutput,
+//   errors: [ VersionRaceException ]
+// }
 
-@javadoc("Inputs for versioning a Branch Key.")
-structure VersionKeyInput {
+// @javadoc("Inputs for versioning a Branch Key.")
+// structure VersionKeyInput {
 
-  //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
-  //= type=implication
-  //# - MUST supply a `branch-key-id`
-  @required
-  @javadoc("The identifier for the Branch Key to be versioned.")
-  branchKeyIdentifier: String
+//   //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
+//   //= type=implication
+//   //# - MUST supply a `branch-key-id`
+//   @required
+//   @javadoc("The identifier for the Branch Key to be versioned.")
+//   branchKeyIdentifier: String
 
-  @required
-  @documentation("Multi-Region or Single Region AWS KMS Key used to protect the Branch Key, but not aliases!")
-  kmsArn: String // KMS Arn validation MUST occur in Dafny
+//   @required
+//   @documentation("Multi-Region or Single Region AWS KMS Key used to protect the Branch Key, but not aliases!")
+//   kmsArn: String // KMS Arn validation MUST occur in Dafny
 
-  @required
-  @documentation("The KMS client this Key Store uses to call AWS KMS.")
-  kms: KMSRelationship
-}
+//   @required
+//   @documentation("The KMS client this Key Store uses to call AWS KMS.")
+//   kms: KMSRelationship
+// }
 
-@javadoc("Outputs for versioning a Branch Key.")
-structure VersionKeyOutput {
-}
+// @javadoc("Outputs for versioning a Branch Key.")
+// structure VersionKeyOutput {
+// }
 
 // Errors
 

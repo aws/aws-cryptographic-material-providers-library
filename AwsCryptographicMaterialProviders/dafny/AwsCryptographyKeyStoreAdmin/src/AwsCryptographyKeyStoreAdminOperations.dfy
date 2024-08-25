@@ -1,8 +1,8 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
-// include "../../AwsCryptographyKeyStore/src/AwsCryptographyKeyStoreOperations.dfy"
-// include "../../AwsCryptographicMaterialProviders/src/Keyrings/AwsKms/AwsKmsUtils.dfy"
+  // include "../../AwsCryptographyKeyStore/src/AwsCryptographyKeyStoreOperations.dfy"
+  // include "../../AwsCryptographicMaterialProviders/src/Keyrings/AwsKms/AwsKmsUtils.dfy"
 
 // include "GetKeys.dfy"
 // include "CreateKeyStoreTable.dfy"
@@ -23,7 +23,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   import GetKeys
   import UUID
   import Time
-  import Structure2
+    // import Structure2
   import ErrorMessages = KeyStoreErrorMessages
   import KmsArn
   import DefaultEncryptedKeyStore
@@ -117,15 +117,15 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       .MapFailure(e => Types.AwsCryptographyKeyStore(e));
 
       output := Success(Types.CreateKeyOutput(
-        branchKeyIdentifier := value.branchKeyIdentifier
-      ));
+                          branchKeyIdentifier := value.branchKeyIdentifier
+                        ));
   }
 
 
-  predicate VersionKeyEnsuresPublicly(input: VersionKeyInput, output: Result<VersionKeyOutput, Error>)
-  {true}
+  // predicate VersionKeyEnsuresPublicly(input: VersionKeyInput, output: Result<VersionKeyOutput, Error>)
+  // {true}
 
-  method VersionKey(config: InternalConfig, input: VersionKeyInput)
-    returns (output: Result<VersionKeyOutput, Error>)
+  // method VersionKey(config: InternalConfig, input: VersionKeyInput)
+  //   returns (output: Result<VersionKeyOutput, Error>)
 
 }
