@@ -30,6 +30,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
     public void Validate()
     {
       if (!IsSetLogicalKeyStoreName()) throw new System.ArgumentException("Missing value for required property 'LogicalKeyStoreName'");
+      if (!IsSetStorage()) throw new System.ArgumentException("Missing value for required property 'Storage'");
 
     }
   }

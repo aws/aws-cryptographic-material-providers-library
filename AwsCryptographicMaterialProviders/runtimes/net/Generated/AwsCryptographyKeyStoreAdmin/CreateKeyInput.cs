@@ -9,8 +9,9 @@ namespace AWS.Cryptography.KeyStoreAdmin
   {
     private string _branchKeyIdentifier;
     private System.Collections.Generic.Dictionary<string, string> _encryptionContext;
-    private string _kmsArn;
+    private AWS.Cryptography.KeyStoreAdmin.KMSIdentifier _kmsArn;
     private Amazon.KeyManagementService.IAmazonKeyManagementService _kmsClient;
+    private System.Collections.Generic.List<string> _grantTokens;
     public string BranchKeyIdentifier
     {
       get { return this._branchKeyIdentifier; }
@@ -29,7 +30,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return this._encryptionContext != null;
     }
-    public string KmsArn
+    public AWS.Cryptography.KeyStoreAdmin.KMSIdentifier KmsArn
     {
       get { return this._kmsArn; }
       set { this._kmsArn = value; }
@@ -46,6 +47,15 @@ namespace AWS.Cryptography.KeyStoreAdmin
     public bool IsSetKmsClient()
     {
       return this._kmsClient != null;
+    }
+    public System.Collections.Generic.List<string> GrantTokens
+    {
+      get { return this._grantTokens; }
+      set { this._grantTokens = value; }
+    }
+    public bool IsSetGrantTokens()
+    {
+      return this._grantTokens != null;
     }
     public void Validate()
     {

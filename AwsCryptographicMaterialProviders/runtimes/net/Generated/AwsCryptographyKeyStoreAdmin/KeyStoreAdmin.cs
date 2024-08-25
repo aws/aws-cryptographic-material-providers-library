@@ -33,12 +33,5 @@ namespace AWS.Cryptography.KeyStoreAdmin
       if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
       return TypeConversion.FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_CreateKeyOutput(result.dtor_value);
     }
-    public AWS.Cryptography.KeyStoreAdmin.VersionKeyOutput VersionKey(AWS.Cryptography.KeyStoreAdmin.VersionKeyInput input)
-    {
-      software.amazon.cryptography.keystoreadmin.internaldafny.types._IVersionKeyInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S15_VersionKeyInput(input);
-      Wrappers_Compile._IResult<software.amazon.cryptography.keystoreadmin.internaldafny.types._IVersionKeyOutput, software.amazon.cryptography.keystoreadmin.internaldafny.types._IError> result = _impl.VersionKey(internalInput);
-      if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
-      return TypeConversion.FromDafny_N3_aws__N12_cryptography__N13_keyStoreAdmin__S16_VersionKeyOutput(result.dtor_value);
-    }
   }
 }
