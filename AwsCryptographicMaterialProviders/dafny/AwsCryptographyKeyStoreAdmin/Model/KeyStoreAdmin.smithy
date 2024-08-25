@@ -50,15 +50,22 @@ service KeyStoreAdmin {
 }
 
 structure KeyStoreAdminConfig {
-
   @required
   @javadoc("The logical name for this Key Store, which is cryptographically bound to the keys it holds. This appears in the Encryption Context of KMS requests as `tablename`.")
   logicalKeyStoreName: String,
 
+  @required
   @javadoc("The storage configuration for this Key Store.")
   storage: aws.cryptography.keyStore#Storage,
 
 }
+
+//TODO: Bikeshed on name
+union KMSRelationship {
+  //TODO: Bikeshed on name
+  ReEncrypt: KmsClientReference
+}
+
 
 // CreateKey will create two keys to add to the key store
 // One is the branch key, which is used in the hierarchical keyring
@@ -68,6 +75,16 @@ structure KeyStoreAdminConfig {
 operation CreateKey {
   input: CreateKeyInput,
   output: CreateKeyOutput
+}
+
+// KMS Arn validation MUST occur in Dafny
+union KMSIdentifier {
+  @javadoc("")
+  kmsKeyArn: String,
+
+  @javadoc("")
+  kmsMRKeyArn: String,
+
 }
 
 //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
@@ -80,15 +97,17 @@ structure CreateKeyInput {
   branchKeyIdentifier: String,
 
   @javadoc("Custom encryption context for the Branch Key. Required if branchKeyIdentifier is set.")
-  encryptionContext: EncryptionContext
+  encryptionContext: aws.cryptography.keyStore#EncryptionContext
 
   @required
   @documentation("Multi-Region or Single Region AWS KMS Key used to protect the Branch Key, but not aliases!")
-  kmsArn: String // KMS Arn validation MUST occur in Dafny
-
+  kmsArn: KMSIdentifier
+  
   @required
   @documentation("The KMS client this Key Store uses to call AWS KMS.")
-  kmsClient: KmsClientReference
+  kms: KMSRelationship
+
+  ReEncrypt: KmsClientReference
 }
 
 @javadoc("Outputs for Branch Key creation.")
@@ -126,13 +145,12 @@ structure VersionKeyInput {
 
   @required
   @documentation("The KMS client this Key Store uses to call AWS KMS.")
-  kmsClient: KmsClientReference
+  kms: KMSRelationship
 }
 
 @javadoc("Outputs for versioning a Branch Key.")
 structure VersionKeyOutput {
 }
-
 
 // Errors
 

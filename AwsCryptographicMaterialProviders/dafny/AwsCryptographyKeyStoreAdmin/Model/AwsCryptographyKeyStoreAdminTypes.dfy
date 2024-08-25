@@ -18,12 +18,12 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   datatype DafnyCallEvent<I, O> = DafnyCallEvent(input: I, output: O)
 
   // Begin Generated Types
-
   datatype CreateKeyInput = | CreateKeyInput (
     nameonly branchKeyIdentifier: Option<string> := Option.None ,
     nameonly encryptionContext: Option<AwsCryptographyKeyStoreTypes.EncryptionContext> := Option.None ,
-    nameonly kmsArn: string ,
-    nameonly kmsClient: ComAmazonawsKmsTypes.IKMSClient
+    nameonly kmsArn: KMSIdentifier ,
+    nameonly kms: KMSRelationship ,
+    nameonly ReEncrypt: Option<ComAmazonawsKmsTypes.IKMSClient> := Option.None
   )
   datatype CreateKeyOutput = | CreateKeyOutput (
     nameonly branchKeyIdentifier: string
@@ -68,15 +68,16 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
     method CreateKey ( input: CreateKeyInput )
       returns (output: Result<CreateKeyOutput, Error>)
       requires
-        && ValidState()
-        && input.kmsClient.ValidState()
-        && input.kmsClient.Modifies !! {History}
+        && ValidState() && ( input.ReEncrypt.Some? ==>
+                               && input.ReEncrypt.value.ValidState()
+                               && input.ReEncrypt.value.Modifies !! {History}
+           )
       modifies Modifies - {History} ,
-               input.kmsClient.Modifies ,
+               (if input.ReEncrypt.Some? then input.ReEncrypt.value.Modifies else {}) ,
                History`CreateKey
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History} ,
-                input.kmsClient.Modifies
+                (if input.ReEncrypt.Some? then input.ReEncrypt.value.Modifies else {})
       ensures
         && ValidState()
       ensures CreateKeyEnsuresPublicly(input, output)
@@ -88,29 +89,29 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
       returns (output: Result<VersionKeyOutput, Error>)
       requires
         && ValidState()
-        && input.kmsClient.ValidState()
-        && input.kmsClient.Modifies !! {History}
       modifies Modifies - {History} ,
-               input.kmsClient.Modifies ,
                History`VersionKey
       // Dafny will skip type parameters when generating a default decreases clause.
-      decreases Modifies - {History} ,
-                input.kmsClient.Modifies
+      decreases Modifies - {History}
       ensures
         && ValidState()
       ensures VersionKeyEnsuresPublicly(input, output)
       ensures History.VersionKey == old(History.VersionKey) + [DafnyCallEvent(input, output)]
-
   }
   datatype KeyStoreAdminConfig = | KeyStoreAdminConfig (
     nameonly logicalKeyStoreName: string ,
-    nameonly storage: Option<AwsCryptographyKeyStoreTypes.Storage> := Option.None
+    nameonly storage: AwsCryptographyKeyStoreTypes.Storage
   )
+  datatype KMSIdentifier =
+    | kmsKeyArn(kmsKeyArn: string)
+    | kmsMRKeyArn(kmsMRKeyArn: string)
+  datatype KMSRelationship =
+    | ReEncrypt(ReEncrypt: ComAmazonawsKmsTypes.IKMSClient)
   type Utf8Bytes = ValidUTF8Bytes
   datatype VersionKeyInput = | VersionKeyInput (
     nameonly branchKeyIdentifier: string ,
     nameonly kmsArn: string ,
-    nameonly kmsClient: ComAmazonawsKmsTypes.IKMSClient
+    nameonly kms: KMSRelationship
   )
   datatype VersionKeyOutput = | VersionKeyOutput (
 
@@ -165,50 +166,38 @@ abstract module AbstractAwsCryptographyKeyStoreAdminService
   function method DefaultKeyStoreAdminConfig(): KeyStoreAdminConfig
   method KeyStoreAdmin(config: KeyStoreAdminConfig := DefaultKeyStoreAdminConfig())
     returns (res: Result<KeyStoreAdminClient, Error>)
-    requires config.storage.Some? ==>
-               config.storage.value.custom? ==>
-                 config.storage.value.custom.ValidState()
-    requires config.storage.Some? ==>
-               config.storage.value.ddb? ==>
-                 config.storage.value.ddb.ddbClient.Some? ==>
-                   config.storage.value.ddb.ddbClient.value.ValidState()
-    modifies if config.storage.Some? then
-               if config.storage.value.custom? then
-                 config.storage.value.custom.Modifies
-               else {}
+    requires config.storage.custom? ==>
+               config.storage.custom.ValidState()
+    requires config.storage.ddb? ==>
+               config.storage.ddb.ddbClient.Some? ==>
+                 config.storage.ddb.ddbClient.value.ValidState()
+    modifies if config.storage.custom? then
+               config.storage.custom.Modifies
              else {}
-    modifies if config.storage.Some? then
-               if config.storage.value.ddb? then
-                 if config.storage.value.ddb.ddbClient.Some? then
-                   config.storage.value.ddb.ddbClient.value.Modifies
-                 else {}
+    modifies if config.storage.ddb? then
+               if config.storage.ddb.ddbClient.Some? then
+                 config.storage.ddb.ddbClient.value.Modifies
                else {}
              else {}
     ensures res.Success? ==>
               && fresh(res.value)
               && fresh(res.value.Modifies
-                       - ( if config.storage.Some? then
-                             if config.storage.value.custom? then
-                               config.storage.value.custom.Modifies
-                             else {}
+                       - ( if config.storage.custom? then
+                             config.storage.custom.Modifies
                            else {}
-                       ) - ( if config.storage.Some? then
-                               if config.storage.value.ddb? then
-                                 if config.storage.value.ddb.ddbClient.Some? then
-                                   config.storage.value.ddb.ddbClient.value.Modifies
-                                 else {}
+                       ) - ( if config.storage.ddb? then
+                               if config.storage.ddb.ddbClient.Some? then
+                                 config.storage.ddb.ddbClient.value.Modifies
                                else {}
                              else {}
                        ) )
               && fresh(res.value.History)
               && res.value.ValidState()
-    ensures config.storage.Some? ==>
-              config.storage.value.custom? ==>
-                config.storage.value.custom.ValidState()
-    ensures config.storage.Some? ==>
-              config.storage.value.ddb? ==>
-                config.storage.value.ddb.ddbClient.Some? ==>
-                  config.storage.value.ddb.ddbClient.value.ValidState()
+    ensures config.storage.custom? ==>
+              config.storage.custom.ValidState()
+    ensures config.storage.ddb? ==>
+              config.storage.ddb.ddbClient.Some? ==>
+                config.storage.ddb.ddbClient.value.ValidState()
 
   // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
   function method CreateSuccessOfClient(client: IKeyStoreAdminClient): Result<IKeyStoreAdminClient, Error> {
@@ -237,15 +226,16 @@ abstract module AbstractAwsCryptographyKeyStoreAdminService
     method CreateKey ( input: CreateKeyInput )
       returns (output: Result<CreateKeyOutput, Error>)
       requires
-        && ValidState()
-        && input.kmsClient.ValidState()
-        && input.kmsClient.Modifies !! {History}
+        && ValidState() && ( input.ReEncrypt.Some? ==>
+                               && input.ReEncrypt.value.ValidState()
+                               && input.ReEncrypt.value.Modifies !! {History}
+           )
       modifies Modifies - {History} ,
-               input.kmsClient.Modifies ,
+               (if input.ReEncrypt.Some? then input.ReEncrypt.value.Modifies else {}) ,
                History`CreateKey
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History} ,
-                input.kmsClient.Modifies
+                (if input.ReEncrypt.Some? then input.ReEncrypt.value.Modifies else {})
       ensures
         && ValidState()
       ensures CreateKeyEnsuresPublicly(input, output)
@@ -262,14 +252,10 @@ abstract module AbstractAwsCryptographyKeyStoreAdminService
       returns (output: Result<VersionKeyOutput, Error>)
       requires
         && ValidState()
-        && input.kmsClient.ValidState()
-        && input.kmsClient.Modifies !! {History}
       modifies Modifies - {History} ,
-               input.kmsClient.Modifies ,
                History`VersionKey
       // Dafny will skip type parameters when generating a default decreases clause.
-      decreases Modifies - {History} ,
-                input.kmsClient.Modifies
+      decreases Modifies - {History}
       ensures
         && ValidState()
       ensures VersionKeyEnsuresPublicly(input, output)
@@ -278,7 +264,6 @@ abstract module AbstractAwsCryptographyKeyStoreAdminService
       output := Operations.VersionKey(config, input);
       History.VersionKey := History.VersionKey + [DafnyCallEvent(input, output)];
     }
-
   }
 }
 abstract module AbstractAwsCryptographyKeyStoreAdminOperations {
@@ -296,13 +281,16 @@ abstract module AbstractAwsCryptographyKeyStoreAdminOperations {
   method CreateKey ( config: InternalConfig , input: CreateKeyInput )
     returns (output: Result<CreateKeyOutput, Error>)
     requires
-      && ValidInternalConfig?(config)
-      && input.kmsClient.ValidState()
+      && ValidInternalConfig?(config) && ( input.ReEncrypt.Some? ==>
+                                             && input.ReEncrypt.value.ValidState()
+         )
     modifies ModifiesInternalConfig(config) ,
-             input.kmsClient.Modifies
+             (if input.ReEncrypt.Some? then input.ReEncrypt.value.Modifies else {}),
+              match input.kms
+    case ReEncrypt(kmsClient) => kmsClient.Modifies
     // Dafny will skip type parameters when generating a default decreases clause.
     decreases ModifiesInternalConfig(config) ,
-              input.kmsClient.Modifies
+              (if input.ReEncrypt.Some? then input.ReEncrypt.value.Modifies else {})
     ensures
       && ValidInternalConfig?(config)
     ensures CreateKeyEnsuresPublicly(input, output)
@@ -316,12 +304,9 @@ abstract module AbstractAwsCryptographyKeyStoreAdminOperations {
     returns (output: Result<VersionKeyOutput, Error>)
     requires
       && ValidInternalConfig?(config)
-      && input.kmsClient.ValidState()
-    modifies ModifiesInternalConfig(config) ,
-             input.kmsClient.Modifies
+    modifies ModifiesInternalConfig(config)
     // Dafny will skip type parameters when generating a default decreases clause.
-    decreases ModifiesInternalConfig(config) ,
-              input.kmsClient.Modifies
+    decreases ModifiesInternalConfig(config)
     ensures
       && ValidInternalConfig?(config)
     ensures VersionKeyEnsuresPublicly(input, output)
