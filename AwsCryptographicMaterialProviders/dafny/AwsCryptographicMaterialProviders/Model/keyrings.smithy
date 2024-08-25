@@ -339,7 +339,7 @@ structure CreateAwsKmsHierarchicalKeyringInput {
     @javadoc("How many seconds the Branch Key material is allowed to be reused within the local cache before it is re-retrieved from Amazon DynamoDB and re-authenticated with AWS KMS.")
     ttlSeconds: PositiveLong,
 
-    @documentation("Determines what type of cache will be constructed and bound to the Hierarchical Keyring. If the customer provides an already initialized Shared CacheType, it can be shared across multiple Hierarchical Keyrings. If any other type in CacheType is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If nothing is provided here, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.")
+    @documentation("Determines what type of cache will be constructed and bound to the Hierarchical Keyring. If the customer provides an already initialized 'Initialized' CacheType, it can be shared across multiple Hierarchical Keyrings. If any other type in CacheType is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If nothing is provided here, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.")
     cache : CacheType
 }
 
