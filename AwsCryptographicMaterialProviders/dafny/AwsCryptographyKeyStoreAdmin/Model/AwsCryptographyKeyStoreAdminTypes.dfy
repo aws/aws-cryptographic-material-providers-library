@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 include "../../../../StandardLibrary/src/Index.dfy"
+include "../../AwsCryptographyKeyStore/src/Index.dfy"
 include "../../../../ComAmazonawsDynamodb/src/Index.dfy"
 include "../../../../ComAmazonawsKms/src/Index.dfy"
-include "../../../../AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore/src/Index.dfy"
-
 module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types" } AwsCryptographyKeyStoreAdminTypes
 {
   import opened Wrappers
@@ -18,11 +17,13 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   datatype DafnyCallEvent<I, O> = DafnyCallEvent(input: I, output: O)
 
   // Begin Generated Types
+
   datatype CreateKeyInput = | CreateKeyInput (
     nameonly branchKeyIdentifier: Option<string> := Option.None ,
     nameonly encryptionContext: Option<AwsCryptographyKeyStoreTypes.EncryptionContext> := Option.None ,
     nameonly kmsArn: KMSIdentifier ,
-    nameonly kms: KMSRelationship
+    nameonly kmsClient: ComAmazonawsKmsTypes.IKMSClient ,
+    nameonly grantTokens: Option<AwsCryptographyKeyStoreTypes.GrantTokenList> := Option.None
   )
   datatype CreateKeyOutput = | CreateKeyOutput (
     nameonly branchKeyIdentifier: string
@@ -30,10 +31,8 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   class IKeyStoreAdminClientCallHistory {
     ghost constructor() {
       CreateKey := [];
-      // VersionKey := [];
     }
     ghost var CreateKey: seq<DafnyCallEvent<CreateKeyInput, Result<CreateKeyOutput, Error>>>
-    // ghost var VersionKey: seq<DafnyCallEvent<VersionKeyInput, Result<VersionKeyOutput, Error>>>
   }
   trait {:termination false} IKeyStoreAdminClient
   {
@@ -68,47 +67,19 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
       returns (output: Result<CreateKeyOutput, Error>)
       requires
         && ValidState()
-        && (match input.kms
-            case ReEncrypt(o) => o.ValidState()
-            case _ => true)
+        && input.kmsClient.ValidState()
+        && input.kmsClient.Modifies !! {History}
       modifies Modifies - {History} ,
-               (match input.kms
-                case ReEncrypt(o) => o.Modifies
-                case _ => {}) ,
+               input.kmsClient.Modifies ,
                History`CreateKey
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History} ,
-                (match input.kms
-                 case ReEncrypt(o) => o.Modifies
-                 case _ => {})
+                input.kmsClient.Modifies
       ensures
         && ValidState()
       ensures CreateKeyEnsuresPublicly(input, output)
       ensures History.CreateKey == old(History.CreateKey) + [DafnyCallEvent(input, output)]
 
-    // predicate VersionKeyEnsuresPublicly(input: VersionKeyInput , output: Result<VersionKeyOutput, Error>)
-    // // The public method to be called by library consumers
-    // method VersionKey ( input: VersionKeyInput )
-    //   returns (output: Result<VersionKeyOutput, Error>)
-    //   requires
-    //     && ValidState()
-    //     && (match input.kms
-    //         case ReEncrypt(o) => o.ValidState()
-    //         case _ => true)
-    //   modifies Modifies - {History} ,
-    //            (match input.kms
-    //             case ReEncrypt(o) => o.Modifies
-    //             case _ => {}) ,
-    //            History`VersionKey
-    //   // Dafny will skip type parameters when generating a default decreases clause.
-    //   decreases Modifies - {History} ,
-    //             (match input.kms
-    //              case ReEncrypt(o) => o.Modifies
-    //              case _ => {})
-    //   ensures
-    //     && ValidState()
-    //   ensures VersionKeyEnsuresPublicly(input, output)
-    //   ensures History.VersionKey == old(History.VersionKey) + [DafnyCallEvent(input, output)]
   }
   datatype KeyStoreAdminConfig = | KeyStoreAdminConfig (
     nameonly logicalKeyStoreName: string ,
@@ -120,14 +91,6 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny.types"
   datatype KMSRelationship =
     | ReEncrypt(ReEncrypt: ComAmazonawsKmsTypes.IKMSClient)
   type Utf8Bytes = ValidUTF8Bytes
-  // datatype VersionKeyInput = | VersionKeyInput (
-  //   nameonly branchKeyIdentifier: string ,
-  //   nameonly kmsArn: string ,
-  //   nameonly kms: KMSRelationship
-  // )
-  // datatype VersionKeyOutput = | VersionKeyOutput (
-
-  //                             )
   datatype Error =
       // Local Error structures are listed here
     | KeyStoreAdminException (
@@ -239,19 +202,14 @@ abstract module AbstractAwsCryptographyKeyStoreAdminService
       returns (output: Result<CreateKeyOutput, Error>)
       requires
         && ValidState()
-        && (match input.kms
-            case ReEncrypt(o) => o.ValidState()
-            case _ => true)
+        && input.kmsClient.ValidState()
+        && input.kmsClient.Modifies !! {History}
       modifies Modifies - {History} ,
-               (match input.kms
-                case ReEncrypt(o) => o.Modifies
-                case _ => {}) ,
+               input.kmsClient.Modifies ,
                History`CreateKey
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History} ,
-                (match input.kms
-                 case ReEncrypt(o) => o.Modifies
-                 case _ => {})
+                input.kmsClient.Modifies
       ensures
         && ValidState()
       ensures CreateKeyEnsuresPublicly(input, output)
@@ -261,34 +219,6 @@ abstract module AbstractAwsCryptographyKeyStoreAdminService
       History.CreateKey := History.CreateKey + [DafnyCallEvent(input, output)];
     }
 
-    // predicate VersionKeyEnsuresPublicly(input: VersionKeyInput , output: Result<VersionKeyOutput, Error>)
-    // {Operations.VersionKeyEnsuresPublicly(input, output)}
-    // // The public method to be called by library consumers
-    // method VersionKey ( input: VersionKeyInput )
-    //   returns (output: Result<VersionKeyOutput, Error>)
-    //   requires
-    //     && ValidState()
-    //     && (match input.kms
-    //         case ReEncrypt(o) => o.ValidState()
-    //         case _ => true)
-    //   modifies Modifies - {History} ,
-    //            (match input.kms
-    //             case ReEncrypt(o) => o.Modifies
-    //             case _ => {}) ,
-    //            History`VersionKey
-    //   // Dafny will skip type parameters when generating a default decreases clause.
-    //   decreases Modifies - {History} ,
-    //             (match input.kms
-    //              case ReEncrypt(o) => o.Modifies
-    //              case _ => {})
-    //   ensures
-    //     && ValidState()
-    //   ensures VersionKeyEnsuresPublicly(input, output)
-    //   ensures History.VersionKey == old(History.VersionKey) + [DafnyCallEvent(input, output)]
-    // {
-    //   output := Operations.VersionKey(config, input);
-    //   History.VersionKey := History.VersionKey + [DafnyCallEvent(input, output)];
-    // }
   }
 }
 abstract module AbstractAwsCryptographyKeyStoreAdminOperations {
@@ -307,42 +237,13 @@ abstract module AbstractAwsCryptographyKeyStoreAdminOperations {
     returns (output: Result<CreateKeyOutput, Error>)
     requires
       && ValidInternalConfig?(config)
-      && (match input.kms
-          case ReEncrypt(o) => o.ValidState()
-          case _ => true)
+      && input.kmsClient.ValidState()
     modifies ModifiesInternalConfig(config) ,
-             (match input.kms
-              case ReEncrypt(o) => o.Modifies
-              case _ => {})
+             input.kmsClient.Modifies
     // Dafny will skip type parameters when generating a default decreases clause.
     decreases ModifiesInternalConfig(config) ,
-              (match input.kms
-               case ReEncrypt(o) => o.Modifies
-               case _ => {})
+              input.kmsClient.Modifies
     ensures
       && ValidInternalConfig?(config)
     ensures CreateKeyEnsuresPublicly(input, output)
-
-
-  // predicate VersionKeyEnsuresPublicly(input: VersionKeyInput , output: Result<VersionKeyOutput, Error>)
-  // // The private method to be refined by the library developer
-  // method VersionKey ( config: InternalConfig , input: VersionKeyInput )
-  //   returns (output: Result<VersionKeyOutput, Error>)
-  //   requires
-  //     && ValidInternalConfig?(config)
-  //     && (match input.kms
-  //         case ReEncrypt(o) => o.ValidState()
-  //         case _ => true)
-  //   modifies ModifiesInternalConfig(config) ,
-  //            (match input.kms
-  //             case ReEncrypt(o) => o.Modifies
-  //             case _ => {})
-  //   // Dafny will skip type parameters when generating a default decreases clause.
-  //   decreases ModifiesInternalConfig(config) ,
-  //             (match input.kms
-  //              case ReEncrypt(o) => o.Modifies
-  //              case _ => {})
-  //   ensures
-  //     && ValidInternalConfig?(config)
-  //   ensures VersionKeyEnsuresPublicly(input, output)
 }
