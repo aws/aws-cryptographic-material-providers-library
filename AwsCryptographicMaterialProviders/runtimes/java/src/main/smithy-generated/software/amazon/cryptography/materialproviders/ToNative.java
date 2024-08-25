@@ -1669,9 +1669,9 @@ public class ToNative {
         ToNative.StormTrackingCache(dafnyValue.dtor_StormTracking())
       );
     }
-    if (dafnyValue.is_Shared()) {
-      nativeBuilder.Shared(
-        ToNative.CryptographicMaterialsCache(dafnyValue.dtor_Shared())
+    if (dafnyValue.is_Initialized()) {
+      nativeBuilder.Initialized(
+        ToNative.CryptographicMaterialsCache(dafnyValue.dtor_Initialized())
       );
     }
     return nativeBuilder.build();

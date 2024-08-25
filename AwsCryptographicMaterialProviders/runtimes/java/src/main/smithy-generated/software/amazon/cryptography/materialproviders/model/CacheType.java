@@ -35,7 +35,7 @@ public class CacheType {
    */
   private final StormTrackingCache StormTracking;
 
-  private final ICryptographicMaterialsCache Shared;
+  private final ICryptographicMaterialsCache Initialized;
 
   protected CacheType(BuilderImpl builder) {
     this.Default = builder.Default();
@@ -43,7 +43,7 @@ public class CacheType {
     this.SingleThreaded = builder.SingleThreaded();
     this.MultiThreaded = builder.MultiThreaded();
     this.StormTracking = builder.StormTracking();
-    this.Shared = builder.Shared();
+    this.Initialized = builder.Initialized();
   }
 
   /**
@@ -82,8 +82,8 @@ public class CacheType {
     return this.StormTracking;
   }
 
-  public ICryptographicMaterialsCache Shared() {
-    return this.Shared;
+  public ICryptographicMaterialsCache Initialized() {
+    return this.Initialized;
   }
 
   public Builder toBuilder() {
@@ -147,9 +147,9 @@ public class CacheType {
      */
     StormTrackingCache StormTracking();
 
-    Builder Shared(ICryptographicMaterialsCache Shared);
+    Builder Initialized(ICryptographicMaterialsCache Initialized);
 
-    ICryptographicMaterialsCache Shared();
+    ICryptographicMaterialsCache Initialized();
 
     CacheType build();
   }
@@ -166,7 +166,7 @@ public class CacheType {
 
     protected StormTrackingCache StormTracking;
 
-    protected ICryptographicMaterialsCache Shared;
+    protected ICryptographicMaterialsCache Initialized;
 
     protected BuilderImpl() {}
 
@@ -176,7 +176,7 @@ public class CacheType {
       this.SingleThreaded = model.SingleThreaded();
       this.MultiThreaded = model.MultiThreaded();
       this.StormTracking = model.StormTracking();
-      this.Shared = model.Shared();
+      this.Initialized = model.Initialized();
     }
 
     public Builder Default(DefaultCache Default) {
@@ -224,13 +224,13 @@ public class CacheType {
       return this.StormTracking;
     }
 
-    public Builder Shared(ICryptographicMaterialsCache Shared) {
-      this.Shared = CryptographicMaterialsCache.wrap(Shared);
+    public Builder Initialized(ICryptographicMaterialsCache Initialized) {
+      this.Initialized = CryptographicMaterialsCache.wrap(Initialized);
       return this;
     }
 
-    public ICryptographicMaterialsCache Shared() {
-      return this.Shared;
+    public ICryptographicMaterialsCache Initialized() {
+      return this.Initialized;
     }
 
     public CacheType build() {
@@ -249,7 +249,7 @@ public class CacheType {
         this.SingleThreaded,
         this.MultiThreaded,
         this.StormTracking,
-        this.Shared,
+        this.Initialized,
       };
       boolean haveOneNonNull = false;
       for (Object o : allValues) {

@@ -216,7 +216,7 @@ union CacheType {
   SingleThreaded: SingleThreadedCache,
   MultiThreaded: MultiThreadedCache,
   StormTracking: StormTrackingCache,
-  Shared: CryptographicMaterialsCacheReference
+  Initialized: CryptographicMaterialsCacheReference
 }
 
 structure CreateCryptographicMaterialsCacheInput {

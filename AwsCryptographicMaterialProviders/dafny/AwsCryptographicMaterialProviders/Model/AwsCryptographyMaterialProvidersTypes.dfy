@@ -719,7 +719,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     | SingleThreaded(SingleThreaded: SingleThreadedCache)
     | MultiThreaded(MultiThreaded: MultiThreadedCache)
     | StormTracking(StormTracking: StormTrackingCache)
-    | Shared(Shared: ICryptographicMaterialsCache)
+    | Initialized(Initialized: ICryptographicMaterialsCache)
   class IClientSupplierCallHistory {
     ghost constructor() {
       GetClient := [];
