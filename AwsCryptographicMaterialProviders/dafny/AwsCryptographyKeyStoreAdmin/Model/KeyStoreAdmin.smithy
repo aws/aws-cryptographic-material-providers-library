@@ -18,6 +18,7 @@ use com.amazonaws.dynamodb#DynamoDB_20120810
 
 use com.amazonaws.kms#TrentService
 use aws.cryptography.keyStore#EncryptionContext
+use aws.cryptography.keyStore#GrantTokenList
 
 @dafnyUtf8Bytes
 string Utf8Bytes
@@ -105,7 +106,10 @@ structure CreateKeyInput {
   
   @required
   @documentation("The KMS client this Key Store uses to call AWS KMS.")
-  kms: KMSRelationship
+  kmsClient: KmsClientReference
+
+  @documentation("The AWS KMS grant tokens that are used when this Key Store calls to AWS KMS.")
+  grantTokens: aws.cryptography.keyStore#GrantTokenList
 }
 
 @javadoc("Outputs for Branch Key creation.")
