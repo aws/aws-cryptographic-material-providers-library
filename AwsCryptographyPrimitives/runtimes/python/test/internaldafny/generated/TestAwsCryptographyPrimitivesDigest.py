@@ -90,26 +90,26 @@ class default__:
 
     @staticmethod
     def BasicDigestTest(digestAlgorithm, message, expectedDigest):
-        d_127_client_: AtomicPrimitives.AtomicPrimitivesClient
-        d_128_valueOrError0_: Wrappers.Result = None
+        d_131_client_: AtomicPrimitives.AtomicPrimitivesClient
+        d_132_valueOrError0_: Wrappers.Result = None
         out26_: Wrappers.Result
         out26_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
-        d_128_valueOrError0_ = out26_
-        if not(not((d_128_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestDigest.dfy(61,18): " + _dafny.string_of(d_128_valueOrError0_))
-        d_127_client_ = (d_128_valueOrError0_).Extract()
-        d_129_input_: AwsCryptographyPrimitivesTypes.DigestInput
-        d_129_input_ = AwsCryptographyPrimitivesTypes.DigestInput_DigestInput(digestAlgorithm, message)
-        d_130_output_: _dafny.Seq
-        d_131_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_132_valueOrError0_ = out26_
+        if not(not((d_132_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("test/TestDigest.dfy(61,18): " + _dafny.string_of(d_132_valueOrError0_))
+        d_131_client_ = (d_132_valueOrError0_).Extract()
+        d_133_input_: AwsCryptographyPrimitivesTypes.DigestInput
+        d_133_input_ = AwsCryptographyPrimitivesTypes.DigestInput_DigestInput(digestAlgorithm, message)
+        d_134_output_: _dafny.Seq
+        d_135_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out27_: Wrappers.Result
-        out27_ = (d_127_client_).Digest(d_129_input_)
-        d_131_valueOrError1_ = out27_
-        if not(not((d_131_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/TestDigest.dfy(68,18): " + _dafny.string_of(d_131_valueOrError1_))
-        d_130_output_ = (d_131_valueOrError1_).Extract()
-        if not((len(d_130_output_)) == (Digest.default__.Length(digestAlgorithm))):
+        out27_ = (d_131_client_).Digest(d_133_input_)
+        d_135_valueOrError1_ = out27_
+        if not(not((d_135_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("test/TestDigest.dfy(68,18): " + _dafny.string_of(d_135_valueOrError1_))
+        d_134_output_ = (d_135_valueOrError1_).Extract()
+        if not((len(d_134_output_)) == (Digest.default__.Length(digestAlgorithm))):
             raise _dafny.HaltException("test/TestDigest.dfy(69,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((d_130_output_) == (expectedDigest)):
+        if not((d_134_output_) == (expectedDigest)):
             raise _dafny.HaltException("test/TestDigest.dfy(70,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 

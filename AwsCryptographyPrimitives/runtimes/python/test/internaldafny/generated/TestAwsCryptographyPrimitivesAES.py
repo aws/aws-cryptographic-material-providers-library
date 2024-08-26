@@ -90,44 +90,44 @@ class default__:
 
     @staticmethod
     def BasicAESDecryptTest(input, expectedOutput):
-        d_113_client_: AtomicPrimitives.AtomicPrimitivesClient
-        d_114_valueOrError0_: Wrappers.Result = None
+        d_117_client_: AtomicPrimitives.AtomicPrimitivesClient
+        d_118_valueOrError0_: Wrappers.Result = None
         out21_: Wrappers.Result
         out21_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
-        d_114_valueOrError0_ = out21_
-        if not(not((d_114_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestAES.dfy(99,18): " + _dafny.string_of(d_114_valueOrError0_))
-        d_113_client_ = (d_114_valueOrError0_).Extract()
-        d_115_output_: _dafny.Seq
-        d_116_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_118_valueOrError0_ = out21_
+        if not(not((d_118_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("test/TestAES.dfy(99,18): " + _dafny.string_of(d_118_valueOrError0_))
+        d_117_client_ = (d_118_valueOrError0_).Extract()
+        d_119_output_: _dafny.Seq
+        d_120_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
         out22_: Wrappers.Result
-        out22_ = (d_113_client_).AESDecrypt(input)
-        d_116_valueOrError1_ = out22_
-        if not(not((d_116_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/TestAES.dfy(100,18): " + _dafny.string_of(d_116_valueOrError1_))
-        d_115_output_ = (d_116_valueOrError1_).Extract()
-        if not((d_115_output_) == (expectedOutput)):
+        out22_ = (d_117_client_).AESDecrypt(input)
+        d_120_valueOrError1_ = out22_
+        if not(not((d_120_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("test/TestAES.dfy(100,18): " + _dafny.string_of(d_120_valueOrError1_))
+        d_119_output_ = (d_120_valueOrError1_).Extract()
+        if not((d_119_output_) == (expectedOutput)):
             raise _dafny.HaltException("test/TestAES.dfy(101,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def BasicAESEncryptTest(input):
-        d_117_client_: AtomicPrimitives.AtomicPrimitivesClient
-        d_118_valueOrError0_: Wrappers.Result = None
+        d_121_client_: AtomicPrimitives.AtomicPrimitivesClient
+        d_122_valueOrError0_: Wrappers.Result = None
         out23_: Wrappers.Result
         out23_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
-        d_118_valueOrError0_ = out23_
-        if not(not((d_118_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestAES.dfy(108,18): " + _dafny.string_of(d_118_valueOrError0_))
-        d_117_client_ = (d_118_valueOrError0_).Extract()
-        d_119_output_: AwsCryptographyPrimitivesTypes.AESEncryptOutput
-        d_120_valueOrError1_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.AESEncryptOutput.default())()
+        d_122_valueOrError0_ = out23_
+        if not(not((d_122_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("test/TestAES.dfy(108,18): " + _dafny.string_of(d_122_valueOrError0_))
+        d_121_client_ = (d_122_valueOrError0_).Extract()
+        d_123_output_: AwsCryptographyPrimitivesTypes.AESEncryptOutput
+        d_124_valueOrError1_: Wrappers.Result = Wrappers.Result.default(AwsCryptographyPrimitivesTypes.AESEncryptOutput.default())()
         out24_: Wrappers.Result
-        out24_ = (d_117_client_).AESEncrypt(input)
-        d_120_valueOrError1_ = out24_
-        if not(not((d_120_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/TestAES.dfy(109,18): " + _dafny.string_of(d_120_valueOrError1_))
-        d_119_output_ = (d_120_valueOrError1_).Extract()
-        d_121_decryptInput_: AwsCryptographyPrimitivesTypes.AESDecryptInput
-        d_121_decryptInput_ = AwsCryptographyPrimitivesTypes.AESDecryptInput_AESDecryptInput((input).encAlg, (input).key, (d_119_output_).cipherText, (d_119_output_).authTag, (input).iv, (input).aad)
-        default__.BasicAESDecryptTest(d_121_decryptInput_, (input).msg)
+        out24_ = (d_121_client_).AESEncrypt(input)
+        d_124_valueOrError1_ = out24_
+        if not(not((d_124_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("test/TestAES.dfy(109,18): " + _dafny.string_of(d_124_valueOrError1_))
+        d_123_output_ = (d_124_valueOrError1_).Extract()
+        d_125_decryptInput_: AwsCryptographyPrimitivesTypes.AESDecryptInput
+        d_125_decryptInput_ = AwsCryptographyPrimitivesTypes.AESDecryptInput_AESDecryptInput((input).encAlg, (input).key, (d_123_output_).cipherText, (d_123_output_).authTag, (input).iv, (input).aad)
+        default__.BasicAESDecryptTest(d_125_decryptInput_, (input).msg)
 

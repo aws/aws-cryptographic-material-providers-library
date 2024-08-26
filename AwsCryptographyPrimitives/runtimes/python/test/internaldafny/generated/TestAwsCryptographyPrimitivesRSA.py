@@ -87,14 +87,14 @@ class default__:
         out14_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_72_valueOrError0_ = out14_
         if not(not((d_72_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestRSA.dfy(51,18): " + _dafny.string_of(d_72_valueOrError0_))
+            raise _dafny.HaltException("test/TestRSA.dfy(52,18): " + _dafny.string_of(d_72_valueOrError0_))
         d_71_client_ = (d_72_valueOrError0_).Extract()
         d_73_keys_: Wrappers.Result
         out15_: Wrappers.Result
         out15_ = (d_71_client_).GenerateRSAKeyPair(AwsCryptographyPrimitivesTypes.GenerateRSAKeyPairInput_GenerateRSAKeyPairInput(2048))
         d_73_keys_ = out15_
         if not((d_73_keys_).is_Success):
-            raise _dafny.HaltException("test/TestRSA.dfy(53,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("test/TestRSA.dfy(54,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         default__.BasicRSAEncryptTest(AwsCryptographyPrimitivesTypes.RSAEncryptInput_RSAEncryptInput(AwsCryptographyPrimitivesTypes.RSAPaddingMode_OAEP__SHA256(), (((d_73_keys_).value).publicKey).pem, _dafny.Seq([97, 115, 100, 102])), (d_73_keys_).value)
 
     @staticmethod
@@ -105,50 +105,50 @@ class default__:
         out16_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_75_valueOrError0_ = out16_
         if not(not((d_75_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestRSA.dfy(67,18): " + _dafny.string_of(d_75_valueOrError0_))
+            raise _dafny.HaltException("test/TestRSA.dfy(68,18): " + _dafny.string_of(d_75_valueOrError0_))
         d_74_client_ = (d_75_valueOrError0_).Extract()
         d_76_publicKey2048_: _dafny.Seq
         d_77_valueOrError1_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
         d_77_valueOrError1_ = UTF8.default__.Encode(default__.RSA__PUBLIC__2048)
         if not(not((d_77_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/TestRSA.dfy(71,25): " + _dafny.string_of(d_77_valueOrError1_))
+            raise _dafny.HaltException("test/TestRSA.dfy(72,25): " + _dafny.string_of(d_77_valueOrError1_))
         d_76_publicKey2048_ = (d_77_valueOrError1_).Extract()
         d_78_length2048_: AwsCryptographyPrimitivesTypes.GetRSAKeyModulusLengthOutput
         d_79_valueOrError2_: Wrappers.Result = None
         d_79_valueOrError2_ = (d_74_client_).GetRSAKeyModulusLength(AwsCryptographyPrimitivesTypes.GetRSAKeyModulusLengthInput_GetRSAKeyModulusLengthInput(d_76_publicKey2048_))
         if not(not((d_79_valueOrError2_).IsFailure())):
-            raise _dafny.HaltException("test/TestRSA.dfy(72,22): " + _dafny.string_of(d_79_valueOrError2_))
+            raise _dafny.HaltException("test/TestRSA.dfy(73,22): " + _dafny.string_of(d_79_valueOrError2_))
         d_78_length2048_ = (d_79_valueOrError2_).Extract()
         if not(((d_78_length2048_).length) == (2048)):
-            raise _dafny.HaltException("test/TestRSA.dfy(74,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("test/TestRSA.dfy(75,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         d_80_publicKey3072_: _dafny.Seq
         d_81_valueOrError3_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
         d_81_valueOrError3_ = UTF8.default__.Encode(default__.RSA__PUBLIC__3072)
         if not(not((d_81_valueOrError3_).IsFailure())):
-            raise _dafny.HaltException("test/TestRSA.dfy(77,25): " + _dafny.string_of(d_81_valueOrError3_))
+            raise _dafny.HaltException("test/TestRSA.dfy(78,25): " + _dafny.string_of(d_81_valueOrError3_))
         d_80_publicKey3072_ = (d_81_valueOrError3_).Extract()
         d_82_length3072_: AwsCryptographyPrimitivesTypes.GetRSAKeyModulusLengthOutput
         d_83_valueOrError4_: Wrappers.Result = None
         d_83_valueOrError4_ = (d_74_client_).GetRSAKeyModulusLength(AwsCryptographyPrimitivesTypes.GetRSAKeyModulusLengthInput_GetRSAKeyModulusLengthInput(d_80_publicKey3072_))
         if not(not((d_83_valueOrError4_).IsFailure())):
-            raise _dafny.HaltException("test/TestRSA.dfy(78,22): " + _dafny.string_of(d_83_valueOrError4_))
+            raise _dafny.HaltException("test/TestRSA.dfy(79,22): " + _dafny.string_of(d_83_valueOrError4_))
         d_82_length3072_ = (d_83_valueOrError4_).Extract()
         if not(((d_82_length3072_).length) == (3072)):
-            raise _dafny.HaltException("test/TestRSA.dfy(80,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("test/TestRSA.dfy(81,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
         d_84_publicKey4096_: _dafny.Seq
         d_85_valueOrError5_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
         d_85_valueOrError5_ = UTF8.default__.Encode(default__.RSA__PUBLIC__4096)
         if not(not((d_85_valueOrError5_).IsFailure())):
-            raise _dafny.HaltException("test/TestRSA.dfy(83,25): " + _dafny.string_of(d_85_valueOrError5_))
+            raise _dafny.HaltException("test/TestRSA.dfy(84,25): " + _dafny.string_of(d_85_valueOrError5_))
         d_84_publicKey4096_ = (d_85_valueOrError5_).Extract()
         d_86_length4096_: AwsCryptographyPrimitivesTypes.GetRSAKeyModulusLengthOutput
         d_87_valueOrError6_: Wrappers.Result = None
         d_87_valueOrError6_ = (d_74_client_).GetRSAKeyModulusLength(AwsCryptographyPrimitivesTypes.GetRSAKeyModulusLengthInput_GetRSAKeyModulusLengthInput(d_84_publicKey4096_))
         if not(not((d_87_valueOrError6_).IsFailure())):
-            raise _dafny.HaltException("test/TestRSA.dfy(84,22): " + _dafny.string_of(d_87_valueOrError6_))
+            raise _dafny.HaltException("test/TestRSA.dfy(85,22): " + _dafny.string_of(d_87_valueOrError6_))
         d_86_length4096_ = (d_87_valueOrError6_).Extract()
         if not(((d_86_length4096_).length) == (4096)):
-            raise _dafny.HaltException("test/TestRSA.dfy(86,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("test/TestRSA.dfy(87,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def BasicRSADecryptTests(input, expectedOutput):
@@ -158,7 +158,7 @@ class default__:
         out17_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_89_valueOrError0_ = out17_
         if not(not((d_89_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestRSA.dfy(94,18): " + _dafny.string_of(d_89_valueOrError0_))
+            raise _dafny.HaltException("test/TestRSA.dfy(95,18): " + _dafny.string_of(d_89_valueOrError0_))
         d_88_client_ = (d_89_valueOrError0_).Extract()
         d_90_output_: _dafny.Seq
         d_91_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
@@ -166,10 +166,10 @@ class default__:
         out18_ = (d_88_client_).RSADecrypt(input)
         d_91_valueOrError1_ = out18_
         if not(not((d_91_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/TestRSA.dfy(95,18): " + _dafny.string_of(d_91_valueOrError1_))
+            raise _dafny.HaltException("test/TestRSA.dfy(96,18): " + _dafny.string_of(d_91_valueOrError1_))
         d_90_output_ = (d_91_valueOrError1_).Extract()
         if not((d_90_output_) == (expectedOutput)):
-            raise _dafny.HaltException("test/TestRSA.dfy(97,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
+            raise _dafny.HaltException("test/TestRSA.dfy(98,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
     @staticmethod
     def BasicRSAEncryptTest(input, keypair):
@@ -179,7 +179,7 @@ class default__:
         out19_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
         d_93_valueOrError0_ = out19_
         if not(not((d_93_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestRSA.dfy(106,18): " + _dafny.string_of(d_93_valueOrError0_))
+            raise _dafny.HaltException("test/TestRSA.dfy(107,18): " + _dafny.string_of(d_93_valueOrError0_))
         d_92_client_ = (d_93_valueOrError0_).Extract()
         d_94_output_: _dafny.Seq
         d_95_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
@@ -187,7 +187,7 @@ class default__:
         out20_ = (d_92_client_).RSAEncrypt(input)
         d_95_valueOrError1_ = out20_
         if not(not((d_95_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/TestRSA.dfy(107,18): " + _dafny.string_of(d_95_valueOrError1_))
+            raise _dafny.HaltException("test/TestRSA.dfy(108,18): " + _dafny.string_of(d_95_valueOrError1_))
         d_94_output_ = (d_95_valueOrError1_).Extract()
         d_96_decryptInput_: AwsCryptographyPrimitivesTypes.RSADecryptInput
         d_96_decryptInput_ = AwsCryptographyPrimitivesTypes.RSADecryptInput_RSADecryptInput((input).padding, ((keypair).privateKey).pem, d_94_output_)
@@ -209,67 +209,57 @@ class default__:
         d_100_valueOrError0_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
         d_100_valueOrError0_ = UTF8.default__.Encode(default__.StaticPublicKeyFromGenerateRSAKeyPair())
         if not(not((d_100_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestRSA.dfy(121,51): " + _dafny.string_of(d_100_valueOrError0_))
+            raise _dafny.HaltException("test/TestRSA.dfy(122,51): " + _dafny.string_of(d_100_valueOrError0_))
         d_99_PublicKeyFromGenerateRSAKeyPairPemBytes_ = (d_100_valueOrError0_).Extract()
         d_101_PrivateKeyFromGenerateRSAKeyPairPemBytes_: _dafny.Seq
         d_102_valueOrError1_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
         d_102_valueOrError1_ = UTF8.default__.Encode(default__.StaticPrivateKeyFromGenerateRSAKeyPair())
         if not(not((d_102_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/TestRSA.dfy(122,52): " + _dafny.string_of(d_102_valueOrError1_))
+            raise _dafny.HaltException("test/TestRSA.dfy(123,52): " + _dafny.string_of(d_102_valueOrError1_))
         d_101_PrivateKeyFromGenerateRSAKeyPairPemBytes_ = (d_102_valueOrError1_).Extract()
         d_103_KeyFromGenerateRSAKeyPair_: AwsCryptographyPrimitivesTypes.GenerateRSAKeyPairOutput
         d_103_KeyFromGenerateRSAKeyPair_ = AwsCryptographyPrimitivesTypes.GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput(AwsCryptographyPrimitivesTypes.RSAPublicKey_RSAPublicKey(2048, d_99_PublicKeyFromGenerateRSAKeyPairPemBytes_), AwsCryptographyPrimitivesTypes.RSAPrivateKey_RSAPrivateKey(2048, d_101_PrivateKeyFromGenerateRSAKeyPairPemBytes_))
-        while (d_97_allPadding_) != (_dafny.Set({})):
-            d_104_padding_: AwsCryptographyPrimitivesTypes.RSAPaddingMode
-            with _dafny.label("_ASSIGN_SUCH_THAT_d_0"):
-                assign_such_that_0_: AwsCryptographyPrimitivesTypes.RSAPaddingMode
-                for assign_such_that_0_ in (d_97_allPadding_).Elements:
-                    d_104_padding_ = assign_such_that_0_
-                    if (d_104_padding_) in (d_97_allPadding_):
-                        raise _dafny.Break("_ASSIGN_SUCH_THAT_d_0")
-                raise Exception("assign-such-that search produced no value (line 136)")
-                pass
-            default__.BasicRSAEncryptTest(AwsCryptographyPrimitivesTypes.RSAEncryptInput_RSAEncryptInput(d_104_padding_, ((d_103_KeyFromGenerateRSAKeyPair_).publicKey).pem, _dafny.Seq([97, 115, 100, 102])), d_103_KeyFromGenerateRSAKeyPair_)
-            d_97_allPadding_ = (d_97_allPadding_) - (_dafny.Set({d_104_padding_}))
+        d_104_paddingSeq_: _dafny.Seq
+        d_104_paddingSeq_ = SortedSets.default__.SetToSequence(d_97_allPadding_)
+        hi3_ = len(d_104_paddingSeq_)
+        for d_105_paddingIdx_ in range(0, hi3_):
+            d_106_padding_: AwsCryptographyPrimitivesTypes.RSAPaddingMode
+            d_106_padding_ = (d_104_paddingSeq_)[d_105_paddingIdx_]
+            default__.BasicRSAEncryptTest(AwsCryptographyPrimitivesTypes.RSAEncryptInput_RSAEncryptInput(d_106_padding_, ((d_103_KeyFromGenerateRSAKeyPair_).publicKey).pem, _dafny.Seq([97, 115, 100, 102])), d_103_KeyFromGenerateRSAKeyPair_)
 
     @staticmethod
     def TestingPemParsingInRSAEncryptionForOnlyRSAPrivateKeyStoredInPEM():
-        d_105_allPadding_: _dafny.Set
+        d_107_allPadding_: _dafny.Set
         def iife1_():
             coll1_ = _dafny.Set()
             compr_1_: AwsCryptographyPrimitivesTypes.RSAPaddingMode
             for compr_1_ in AwsCryptographyPrimitivesTypes.RSAPaddingMode.AllSingletonConstructors:
-                d_106_p_: AwsCryptographyPrimitivesTypes.RSAPaddingMode = compr_1_
-                coll1_ = coll1_.union(_dafny.Set([d_106_p_]))
+                d_108_p_: AwsCryptographyPrimitivesTypes.RSAPaddingMode = compr_1_
+                coll1_ = coll1_.union(_dafny.Set([d_108_p_]))
             return _dafny.Set(coll1_)
-        d_105_allPadding_ = iife1_()
+        d_107_allPadding_ = iife1_()
         
-        d_107_PublicKeyFromTestVectorsPemBytes_: _dafny.Seq
-        d_108_valueOrError0_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
-        d_108_valueOrError0_ = UTF8.default__.Encode(default__.StaticPublicKeyFromTestVectors())
-        if not(not((d_108_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestRSA.dfy(154,44): " + _dafny.string_of(d_108_valueOrError0_))
-        d_107_PublicKeyFromTestVectorsPemBytes_ = (d_108_valueOrError0_).Extract()
-        d_109_PrivateKeyFromTestVectorsPemBytes_: _dafny.Seq
-        d_110_valueOrError1_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
-        d_110_valueOrError1_ = UTF8.default__.Encode(default__.StaticPrivateKeyFromTestVectors())
-        if not(not((d_110_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/TestRSA.dfy(155,45): " + _dafny.string_of(d_110_valueOrError1_))
-        d_109_PrivateKeyFromTestVectorsPemBytes_ = (d_110_valueOrError1_).Extract()
-        d_111_KeyFromTestVectorsPair_: AwsCryptographyPrimitivesTypes.GenerateRSAKeyPairOutput
-        d_111_KeyFromTestVectorsPair_ = AwsCryptographyPrimitivesTypes.GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput(AwsCryptographyPrimitivesTypes.RSAPublicKey_RSAPublicKey(4096, d_107_PublicKeyFromTestVectorsPemBytes_), AwsCryptographyPrimitivesTypes.RSAPrivateKey_RSAPrivateKey(4096, d_109_PrivateKeyFromTestVectorsPemBytes_))
-        while (d_105_allPadding_) != (_dafny.Set({})):
-            d_112_padding_: AwsCryptographyPrimitivesTypes.RSAPaddingMode
-            with _dafny.label("_ASSIGN_SUCH_THAT_d_1"):
-                assign_such_that_1_: AwsCryptographyPrimitivesTypes.RSAPaddingMode
-                for assign_such_that_1_ in (d_105_allPadding_).Elements:
-                    d_112_padding_ = assign_such_that_1_
-                    if (d_112_padding_) in (d_105_allPadding_):
-                        raise _dafny.Break("_ASSIGN_SUCH_THAT_d_1")
-                raise Exception("assign-such-that search produced no value (line 169)")
-                pass
-            default__.BasicRSAEncryptTest(AwsCryptographyPrimitivesTypes.RSAEncryptInput_RSAEncryptInput(d_112_padding_, ((d_111_KeyFromTestVectorsPair_).publicKey).pem, _dafny.Seq([97, 115, 100, 102])), d_111_KeyFromTestVectorsPair_)
-            d_105_allPadding_ = (d_105_allPadding_) - (_dafny.Set({d_112_padding_}))
+        d_109_PublicKeyFromTestVectorsPemBytes_: _dafny.Seq
+        d_110_valueOrError0_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
+        d_110_valueOrError0_ = UTF8.default__.Encode(default__.StaticPublicKeyFromTestVectors())
+        if not(not((d_110_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("test/TestRSA.dfy(155,44): " + _dafny.string_of(d_110_valueOrError0_))
+        d_109_PublicKeyFromTestVectorsPemBytes_ = (d_110_valueOrError0_).Extract()
+        d_111_PrivateKeyFromTestVectorsPemBytes_: _dafny.Seq
+        d_112_valueOrError1_: Wrappers.Result = Wrappers.Result.default(UTF8.ValidUTF8Bytes.default)()
+        d_112_valueOrError1_ = UTF8.default__.Encode(default__.StaticPrivateKeyFromTestVectors())
+        if not(not((d_112_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("test/TestRSA.dfy(156,45): " + _dafny.string_of(d_112_valueOrError1_))
+        d_111_PrivateKeyFromTestVectorsPemBytes_ = (d_112_valueOrError1_).Extract()
+        d_113_KeyFromTestVectorsPair_: AwsCryptographyPrimitivesTypes.GenerateRSAKeyPairOutput
+        d_113_KeyFromTestVectorsPair_ = AwsCryptographyPrimitivesTypes.GenerateRSAKeyPairOutput_GenerateRSAKeyPairOutput(AwsCryptographyPrimitivesTypes.RSAPublicKey_RSAPublicKey(4096, d_109_PublicKeyFromTestVectorsPemBytes_), AwsCryptographyPrimitivesTypes.RSAPrivateKey_RSAPrivateKey(4096, d_111_PrivateKeyFromTestVectorsPemBytes_))
+        d_114_paddingSeq_: _dafny.Seq
+        d_114_paddingSeq_ = SortedSets.default__.SetToSequence(d_107_allPadding_)
+        hi4_ = len(d_114_paddingSeq_)
+        for d_115_paddingIdx_ in range(0, hi4_):
+            d_116_padding_: AwsCryptographyPrimitivesTypes.RSAPaddingMode
+            d_116_padding_ = (d_114_paddingSeq_)[d_115_paddingIdx_]
+            default__.BasicRSAEncryptTest(AwsCryptographyPrimitivesTypes.RSAEncryptInput_RSAEncryptInput(d_116_padding_, ((d_113_KeyFromTestVectorsPair_).publicKey).pem, _dafny.Seq([97, 115, 100, 102])), d_113_KeyFromTestVectorsPair_)
 
     @staticmethod
     def StaticPublicKeyFromGenerateRSAKeyPair():

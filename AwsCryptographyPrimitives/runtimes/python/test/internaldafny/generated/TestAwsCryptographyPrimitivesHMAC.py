@@ -89,24 +89,24 @@ class default__:
 
     @staticmethod
     def BasicHMACTest(digestAlgorithm, key, message, expectedDigest):
-        d_122_client_: AtomicPrimitives.AtomicPrimitivesClient
-        d_123_valueOrError0_: Wrappers.Result = None
+        d_126_client_: AtomicPrimitives.AtomicPrimitivesClient
+        d_127_valueOrError0_: Wrappers.Result = None
         out25_: Wrappers.Result
         out25_ = AtomicPrimitives.default__.AtomicPrimitives(AtomicPrimitives.default__.DefaultCryptoConfig())
-        d_123_valueOrError0_ = out25_
-        if not(not((d_123_valueOrError0_).IsFailure())):
-            raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHMAC.dfy(66,18): " + _dafny.string_of(d_123_valueOrError0_))
-        d_122_client_ = (d_123_valueOrError0_).Extract()
-        d_124_input_: AwsCryptographyPrimitivesTypes.HMacInput
-        d_124_input_ = AwsCryptographyPrimitivesTypes.HMacInput_HMacInput(digestAlgorithm, key, message)
-        d_125_output_: _dafny.Seq
-        d_126_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
-        d_126_valueOrError1_ = (d_122_client_).HMac(d_124_input_)
-        if not(not((d_126_valueOrError1_).IsFailure())):
-            raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHMAC.dfy(74,18): " + _dafny.string_of(d_126_valueOrError1_))
-        d_125_output_ = (d_126_valueOrError1_).Extract()
-        if not((len(d_125_output_)) == (Digest.default__.Length(digestAlgorithm))):
+        d_127_valueOrError0_ = out25_
+        if not(not((d_127_valueOrError0_).IsFailure())):
+            raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHMAC.dfy(66,18): " + _dafny.string_of(d_127_valueOrError0_))
+        d_126_client_ = (d_127_valueOrError0_).Extract()
+        d_128_input_: AwsCryptographyPrimitivesTypes.HMacInput
+        d_128_input_ = AwsCryptographyPrimitivesTypes.HMacInput_HMacInput(digestAlgorithm, key, message)
+        d_129_output_: _dafny.Seq
+        d_130_valueOrError1_: Wrappers.Result = Wrappers.Result.default(_dafny.Seq)()
+        d_130_valueOrError1_ = (d_126_client_).HMac(d_128_input_)
+        if not(not((d_130_valueOrError1_).IsFailure())):
+            raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHMAC.dfy(74,18): " + _dafny.string_of(d_130_valueOrError1_))
+        d_129_output_ = (d_130_valueOrError1_).Extract()
+        if not((len(d_129_output_)) == (Digest.default__.Length(digestAlgorithm))):
             raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHMAC.dfy(75,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
-        if not((d_125_output_) == (expectedDigest)):
+        if not((d_129_output_) == (expectedDigest)):
             raise _dafny.HaltException("test/TestAwsCryptographyPrimitivesHMAC.dfy(76,4): " + _dafny.string_of(_dafny.Seq("expectation violation")))
 
