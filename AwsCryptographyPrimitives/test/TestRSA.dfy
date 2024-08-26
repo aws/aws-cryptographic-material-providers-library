@@ -9,6 +9,7 @@ module {:options "-functionSyntax:4"} TestAwsCryptographyPrimitivesRSA {
   import opened Wrappers
   import opened StandardLibrary.UInt
   import UTF8
+  import SortedSets
 
   const RSA_PUBLIC_2048 := "-----BEGIN PUBLIC KEY-----\n"
                            + "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqBvECLsPdF1J5DOkaA1n\n"
@@ -130,10 +131,11 @@ module {:options "-functionSyntax:4"} TestAwsCryptographyPrimitivesRSA {
         lengthBits := 2048,
         pem := PrivateKeyFromGenerateRSAKeyPairPemBytes
       ));
-
-    while allPadding != {}
+    var paddingSeq := SortedSets.ComputeSetToSequence(allPadding);
+    for paddingIdx := 0 to |paddingSeq|
     {
-      var padding :| padding in allPadding;
+      var padding := paddingSeq[paddingIdx];
+
       BasicRSAEncryptTest(
         Primitives.Types.RSAEncryptInput(
           padding := padding,
@@ -144,7 +146,6 @@ module {:options "-functionSyntax:4"} TestAwsCryptographyPrimitivesRSA {
         KeyFromGenerateRSAKeyPair
       );
 
-      allPadding := allPadding - {padding};
     }
   }
 
@@ -164,9 +165,10 @@ module {:options "-functionSyntax:4"} TestAwsCryptographyPrimitivesRSA {
         pem := PrivateKeyFromTestVectorsPemBytes
       ));
 
-    while allPadding != {}
+    var paddingSeq := SortedSets.ComputeSetToSequence(allPadding);
+    for paddingIdx := 0 to |paddingSeq|
     {
-      var padding :| padding in allPadding;
+      var padding := paddingSeq[paddingIdx];
 
       BasicRSAEncryptTest(
         Primitives.Types.RSAEncryptInput(
@@ -178,7 +180,6 @@ module {:options "-functionSyntax:4"} TestAwsCryptographyPrimitivesRSA {
         KeyFromTestVectorsPair
       );
 
-      allPadding := allPadding - {padding};
     }
   }
 
