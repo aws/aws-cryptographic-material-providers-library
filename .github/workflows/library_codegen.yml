@@ -58,7 +58,7 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
       
       - name: Install Smithy-Dafny codegen dependencies
-        uses: ./smithy-dafny/.github/actions/install_smithy_dafny_codegen_dependencies
+        uses: .github/actions/install_smithy_dafny_codegen_dependencies
 
       - uses: ./.github/actions/polymorph_codegen
         with:
