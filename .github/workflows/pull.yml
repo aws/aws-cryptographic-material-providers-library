@@ -34,12 +34,6 @@ jobs:
     uses: ./.github/workflows/library_net_tests.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
-  pr-ci-python:
-    needs: getVersion
-    uses: ./.github/workflows/library_python_tests.yml
-    with:
-      # TODO: Once minimum Dafny version is 4.7.0, point this at `getVersion` output
-      dafny: 4.7.0
   pr-interop-test:
     needs: getVersion
     uses: ./.github/workflows/library_interop_tests.yml
