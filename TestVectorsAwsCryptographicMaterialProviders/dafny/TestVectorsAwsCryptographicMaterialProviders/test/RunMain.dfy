@@ -17,8 +17,13 @@ module {:extern} TestWrappedMaterialProvidersMain {
   // Runtime should define an extern to return the expected test execution directory.
   method {:extern} GetTestVectorExecutionDirectory() returns (res: string)
 
-  // This MUST go before TestEncryptManifest
-  method {:test} TestGenerateEncryptManifest() {
+  method RunManifestTests() {
+    TestGenerateEncryptManifest();
+    TestEncryptManifest();
+    TestDecryptManifest();
+  }
+
+  method TestGenerateEncryptManifest() {
     var directory := GetTestVectorExecutionDirectory();
     var result := CompleteVectors.WriteStuff(
       EncryptManifest(
@@ -30,8 +35,7 @@ module {:extern} TestWrappedMaterialProvidersMain {
     expect result.Success?;
   }
 
-  // This MUST go before TestDecryptManifest
-  method {:test} TestEncryptManifest() {
+  method TestEncryptManifest() {
     var directory := GetTestVectorExecutionDirectory();
     var result := TestManifests.StartEncrypt(
       Encrypt(
@@ -45,7 +49,7 @@ module {:extern} TestWrappedMaterialProvidersMain {
     expect result.Success?;
   }
 
-  method {:test} TestDecryptManifest() {
+  method TestDecryptManifest() {
     var directory := GetTestVectorExecutionDirectory();
     var result := TestManifests.StartDecrypt(
       Decrypt(
