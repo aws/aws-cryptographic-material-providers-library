@@ -39,11 +39,13 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny"}
     //var inferredRegion: Option<string>;
     //var ddbConstructedRegion: Option<string>;
 
-      // TODO: allow for None DDB Client
-    :- Need(&& config.storage.ddb? && config.storage.ddb.ddbClient.Some?,
-            KeyStoreAdminException(message := "Key Store Admin Client requires a constructed DDB Client.")
-    );
-    assert && config.storage.ddb? && config.storage.ddb.ddbClient.Some?;
+    // TODO: allow for None DDB Client
+    if (config.storage.ddb?) {
+      :- Need(&& config.storage.ddb? && config.storage.ddb.ddbClient.Some?,
+              KeyStoreAdminException(message := "Key Store Admin Client requires a constructed DDB Client.")
+      );
+    }
+    assert config.storage.ddb? ==> config.storage.ddb.ddbClient.Some?;
 
     var storage: KeyStoreTypes.IEncryptedKeyStore;
     if config.storage.custom? {
