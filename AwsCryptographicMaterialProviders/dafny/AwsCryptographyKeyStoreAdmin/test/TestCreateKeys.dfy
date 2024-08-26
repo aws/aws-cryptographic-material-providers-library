@@ -6,7 +6,9 @@ include "../../AwsCryptographyKeyStore/test/CleanupItems.dfy"
 include "../../AwsCryptographyKeyStore/test/Fixtures.dfy"
 include "../../AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy"
 
-module {:options "/functionSyntax:4" } TestCreateKeys {
+module {:options "/functionSyntax:4" }
+{:extern "software.amazon.cryptography.keystoreadmin.internaldafny.testCreateKeys"}
+TestCreateKeys {
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreAdmin
   import KeyStore
