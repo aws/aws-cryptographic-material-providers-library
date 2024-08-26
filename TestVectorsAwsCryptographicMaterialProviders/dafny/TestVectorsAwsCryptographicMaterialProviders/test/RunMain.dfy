@@ -17,7 +17,7 @@ module {:extern} TestWrappedMaterialProvidersMain {
   // Runtime should define an extern to return the expected test execution directory.
   method {:extern} GetTestVectorExecutionDirectory() returns (res: string)
 
-  method RunManifestTests() {
+  method {:test} RunManifestTests() {
     TestGenerateEncryptManifest();
     TestEncryptManifest();
     TestDecryptManifest();
