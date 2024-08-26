@@ -404,7 +404,8 @@ namespace AWS.Cryptography.KeyStoreAdmin
             dafnyVal._ComAmazonawsDynamodb
           );
         case software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_ComAmazonawsKms dafnyVal:
-          return Com.Amazonaws.KMS.TypeConversion.FromDafny_CommonError(
+        // MANUAL EDIT KMS -> Kms
+          return Com.Amazonaws.Kms.TypeConversion.FromDafny_CommonError(
             dafnyVal._ComAmazonawsKms
           );
         case software.amazon.cryptography.keystoreadmin.internaldafny.types.Error_KeyStoreAdminException dafnyVal:
