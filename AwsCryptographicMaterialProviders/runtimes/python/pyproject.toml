@@ -11,7 +11,7 @@ packages = [
 python = "^3.11.0"
 # TODO: Depend on PyPi once Smithy-Python publishes their Python package there
 smithy-python = { path = "../../../smithy-dafny/codegen/smithy-dafny-codegen-modules/smithy-python/python-packages/smithy-python", develop = false}
-DafnyRuntimePython = "^4.7.0"
+DafnyRuntimePython = "~4.7.0"
 standard-library = { path = "../../../StandardLibrary/runtimes/python", develop = false}
 amazon-cryptography-internal-dafny-shim-kms = {path = "../../../ComAmazonawsKms/runtimes/python", develop = false}
 amazon-cryptography-internal-dafny-shim-ddb = {path = "../../../ComAmazonawsDynamodb/runtimes/python", develop = false}

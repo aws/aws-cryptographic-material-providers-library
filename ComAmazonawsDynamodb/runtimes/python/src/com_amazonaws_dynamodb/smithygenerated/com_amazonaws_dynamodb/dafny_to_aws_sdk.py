@@ -967,13 +967,12 @@ def com_amazonaws_dynamodb_BackupDetails(dafny_input):
             dafny_input.BackupType
         )
     )
-    output["BackupCreationDateTime"] = datetime.strptime(
-        dafny_input.BackupCreationDateTime.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+    output["BackupCreationDateTime"] = datetime.fromisoformat(
+        dafny_input.BackupCreationDateTime.VerbatimString(False)
     )
     if dafny_input.BackupExpiryDateTime.is_Some:
-        output["BackupExpiryDateTime"] = datetime.strptime(
-            dafny_input.BackupExpiryDateTime.value.VerbatimString(False),
-            "%Y-%m-%dT%H:%M:%S",
+        output["BackupExpiryDateTime"] = datetime.fromisoformat(
+            dafny_input.BackupExpiryDateTime.value.VerbatimString(False)
         )
 
     return output
@@ -1057,9 +1056,8 @@ def com_amazonaws_dynamodb_GlobalTableDescription(dafny_input):
         )
 
     if dafny_input.CreationDateTime.is_Some:
-        output["CreationDateTime"] = datetime.strptime(
-            dafny_input.CreationDateTime.value.VerbatimString(False),
-            "%Y-%m-%dT%H:%M:%S",
+        output["CreationDateTime"] = datetime.fromisoformat(
+            dafny_input.CreationDateTime.value.VerbatimString(False)
         )
 
     if dafny_input.GlobalTableStatus.is_Some:
@@ -1120,9 +1118,8 @@ def com_amazonaws_dynamodb_ReplicaDescription(dafny_input):
         ]
 
     if dafny_input.ReplicaInaccessibleDateTime.is_Some:
-        output["ReplicaInaccessibleDateTime"] = datetime.strptime(
-            dafny_input.ReplicaInaccessibleDateTime.value.VerbatimString(False),
-            "%Y-%m-%dT%H:%M:%S",
+        output["ReplicaInaccessibleDateTime"] = datetime.fromisoformat(
+            dafny_input.ReplicaInaccessibleDateTime.value.VerbatimString(False)
         )
 
     if dafny_input.ReplicaTableClassSummary.is_Some:
@@ -1213,9 +1210,8 @@ def com_amazonaws_dynamodb_TableClassSummary(dafny_input):
         )
 
     if dafny_input.LastUpdateDateTime.is_Some:
-        output["LastUpdateDateTime"] = datetime.strptime(
-            dafny_input.LastUpdateDateTime.value.VerbatimString(False),
-            "%Y-%m-%dT%H:%M:%S",
+        output["LastUpdateDateTime"] = datetime.fromisoformat(
+            dafny_input.LastUpdateDateTime.value.VerbatimString(False)
         )
 
     return output
@@ -1563,9 +1559,8 @@ def com_amazonaws_dynamodb_TableDescription(dafny_input):
         )
 
     if dafny_input.CreationDateTime.is_Some:
-        output["CreationDateTime"] = datetime.strptime(
-            dafny_input.CreationDateTime.value.VerbatimString(False),
-            "%Y-%m-%dT%H:%M:%S",
+        output["CreationDateTime"] = datetime.fromisoformat(
+            dafny_input.CreationDateTime.value.VerbatimString(False)
         )
 
     if dafny_input.ProvisionedThroughput.is_Some:
@@ -1701,15 +1696,13 @@ def com_amazonaws_dynamodb_TableStatus(dafny_input):
 def com_amazonaws_dynamodb_ProvisionedThroughputDescription(dafny_input):
     output = {}
     if dafny_input.LastIncreaseDateTime.is_Some:
-        output["LastIncreaseDateTime"] = datetime.strptime(
-            dafny_input.LastIncreaseDateTime.value.VerbatimString(False),
-            "%Y-%m-%dT%H:%M:%S",
+        output["LastIncreaseDateTime"] = datetime.fromisoformat(
+            dafny_input.LastIncreaseDateTime.value.VerbatimString(False)
         )
 
     if dafny_input.LastDecreaseDateTime.is_Some:
-        output["LastDecreaseDateTime"] = datetime.strptime(
-            dafny_input.LastDecreaseDateTime.value.VerbatimString(False),
-            "%Y-%m-%dT%H:%M:%S",
+        output["LastDecreaseDateTime"] = datetime.fromisoformat(
+            dafny_input.LastDecreaseDateTime.value.VerbatimString(False)
         )
 
     if dafny_input.NumberOfDecreasesToday.is_Some:
@@ -1734,9 +1727,8 @@ def com_amazonaws_dynamodb_BillingModeSummary(dafny_input):
         )
 
     if dafny_input.LastUpdateToPayPerRequestDateTime.is_Some:
-        output["LastUpdateToPayPerRequestDateTime"] = datetime.strptime(
-            dafny_input.LastUpdateToPayPerRequestDateTime.value.VerbatimString(False),
-            "%Y-%m-%dT%H:%M:%S",
+        output["LastUpdateToPayPerRequestDateTime"] = datetime.fromisoformat(
+            dafny_input.LastUpdateToPayPerRequestDateTime.value.VerbatimString(False)
         )
 
     return output
@@ -1835,8 +1827,8 @@ def com_amazonaws_dynamodb_RestoreSummary(dafny_input):
             False
         )
 
-    output["RestoreDateTime"] = datetime.strptime(
-        dafny_input.RestoreDateTime.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+    output["RestoreDateTime"] = datetime.fromisoformat(
+        dafny_input.RestoreDateTime.VerbatimString(False)
     )
     output["RestoreInProgress"] = dafny_input.RestoreInProgress
     return output
@@ -1864,9 +1856,8 @@ def com_amazonaws_dynamodb_SSEDescription(dafny_input):
         )
 
     if dafny_input.InaccessibleEncryptionDateTime.is_Some:
-        output["InaccessibleEncryptionDateTime"] = datetime.strptime(
-            dafny_input.InaccessibleEncryptionDateTime.value.VerbatimString(False),
-            "%Y-%m-%dT%H:%M:%S",
+        output["InaccessibleEncryptionDateTime"] = datetime.fromisoformat(
+            dafny_input.InaccessibleEncryptionDateTime.value.VerbatimString(False)
         )
 
     return output
@@ -1875,9 +1866,8 @@ def com_amazonaws_dynamodb_SSEDescription(dafny_input):
 def com_amazonaws_dynamodb_ArchivalSummary(dafny_input):
     output = {}
     if dafny_input.ArchivalDateTime.is_Some:
-        output["ArchivalDateTime"] = datetime.strptime(
-            dafny_input.ArchivalDateTime.value.VerbatimString(False),
-            "%Y-%m-%dT%H:%M:%S",
+        output["ArchivalDateTime"] = datetime.fromisoformat(
+            dafny_input.ArchivalDateTime.value.VerbatimString(False)
         )
 
     if dafny_input.ArchivalReason.is_Some:
@@ -1992,8 +1982,8 @@ def com_amazonaws_dynamodb_SourceTableDetails(dafny_input):
         )
         for list_element in dafny_input.KeySchema
     ]
-    output["TableCreationDateTime"] = datetime.strptime(
-        dafny_input.TableCreationDateTime.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+    output["TableCreationDateTime"] = datetime.fromisoformat(
+        dafny_input.TableCreationDateTime.VerbatimString(False)
     )
     output["ProvisionedThroughput"] = (
         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ProvisionedThroughput(
@@ -2444,15 +2434,13 @@ def com_amazonaws_dynamodb_PointInTimeRecoveryDescription(dafny_input):
         )
 
     if dafny_input.EarliestRestorableDateTime.is_Some:
-        output["EarliestRestorableDateTime"] = datetime.strptime(
-            dafny_input.EarliestRestorableDateTime.value.VerbatimString(False),
-            "%Y-%m-%dT%H:%M:%S",
+        output["EarliestRestorableDateTime"] = datetime.fromisoformat(
+            dafny_input.EarliestRestorableDateTime.value.VerbatimString(False)
         )
 
     if dafny_input.LatestRestorableDateTime.is_Some:
-        output["LatestRestorableDateTime"] = datetime.strptime(
-            dafny_input.LatestRestorableDateTime.value.VerbatimString(False),
-            "%Y-%m-%dT%H:%M:%S",
+        output["LatestRestorableDateTime"] = datetime.fromisoformat(
+            dafny_input.LatestRestorableDateTime.value.VerbatimString(False)
         )
 
     return output
@@ -2547,9 +2535,8 @@ def com_amazonaws_dynamodb_DescribeContributorInsightsOutput(dafny_input):
         )
 
     if dafny_input.LastUpdateDateTime.is_Some:
-        output["LastUpdateDateTime"] = datetime.strptime(
-            dafny_input.LastUpdateDateTime.value.VerbatimString(False),
-            "%Y-%m-%dT%H:%M:%S",
+        output["LastUpdateDateTime"] = datetime.fromisoformat(
+            dafny_input.LastUpdateDateTime.value.VerbatimString(False)
         )
 
     if dafny_input.FailureException.is_Some:
@@ -2604,13 +2591,13 @@ def com_amazonaws_dynamodb_ExportDescription(dafny_input):
         )
 
     if dafny_input.StartTime.is_Some:
-        output["StartTime"] = datetime.strptime(
-            dafny_input.StartTime.value.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+        output["StartTime"] = datetime.fromisoformat(
+            dafny_input.StartTime.value.VerbatimString(False)
         )
 
     if dafny_input.EndTime.is_Some:
-        output["EndTime"] = datetime.strptime(
-            dafny_input.EndTime.value.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+        output["EndTime"] = datetime.fromisoformat(
+            dafny_input.EndTime.value.VerbatimString(False)
         )
 
     if dafny_input.ExportManifest.is_Some:
@@ -2625,8 +2612,8 @@ def com_amazonaws_dynamodb_ExportDescription(dafny_input):
         output["TableId"] = dafny_input.TableId.value.VerbatimString(False)
 
     if dafny_input.ExportTime.is_Some:
-        output["ExportTime"] = datetime.strptime(
-            dafny_input.ExportTime.value.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+        output["ExportTime"] = datetime.fromisoformat(
+            dafny_input.ExportTime.value.VerbatimString(False)
         )
 
     if dafny_input.ClientToken.is_Some:
@@ -2994,13 +2981,13 @@ def com_amazonaws_dynamodb_ImportTableDescription(dafny_input):
         )
 
     if dafny_input.StartTime.is_Some:
-        output["StartTime"] = datetime.strptime(
-            dafny_input.StartTime.value.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+        output["StartTime"] = datetime.fromisoformat(
+            dafny_input.StartTime.value.VerbatimString(False)
         )
 
     if dafny_input.EndTime.is_Some:
-        output["EndTime"] = datetime.strptime(
-            dafny_input.EndTime.value.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+        output["EndTime"] = datetime.fromisoformat(
+            dafny_input.EndTime.value.VerbatimString(False)
         )
 
     if dafny_input.ProcessedSizeBytes.is_Some:
@@ -3602,8 +3589,8 @@ def com_amazonaws_dynamodb_ExportTableToPointInTimeInput(dafny_input):
     output = {}
     output["TableArn"] = dafny_input.TableArn.VerbatimString(False)
     if dafny_input.ExportTime.is_Some:
-        output["ExportTime"] = datetime.strptime(
-            dafny_input.ExportTime.value.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+        output["ExportTime"] = datetime.fromisoformat(
+            dafny_input.ExportTime.value.VerbatimString(False)
         )
 
     if dafny_input.ClientToken.is_Some:
@@ -3785,15 +3772,13 @@ def com_amazonaws_dynamodb_ListBackupsInput(dafny_input):
         output["Limit"] = dafny_input.Limit.value
 
     if dafny_input.TimeRangeLowerBound.is_Some:
-        output["TimeRangeLowerBound"] = datetime.strptime(
-            dafny_input.TimeRangeLowerBound.value.VerbatimString(False),
-            "%Y-%m-%dT%H:%M:%S",
+        output["TimeRangeLowerBound"] = datetime.fromisoformat(
+            dafny_input.TimeRangeLowerBound.value.VerbatimString(False)
         )
 
     if dafny_input.TimeRangeUpperBound.is_Some:
-        output["TimeRangeUpperBound"] = datetime.strptime(
-            dafny_input.TimeRangeUpperBound.value.VerbatimString(False),
-            "%Y-%m-%dT%H:%M:%S",
+        output["TimeRangeUpperBound"] = datetime.fromisoformat(
+            dafny_input.TimeRangeUpperBound.value.VerbatimString(False)
         )
 
     if dafny_input.ExclusiveStartBackupArn.is_Some:
@@ -3829,15 +3814,13 @@ def com_amazonaws_dynamodb_BackupSummary(dafny_input):
         output["BackupName"] = dafny_input.BackupName.value.VerbatimString(False)
 
     if dafny_input.BackupCreationDateTime.is_Some:
-        output["BackupCreationDateTime"] = datetime.strptime(
-            dafny_input.BackupCreationDateTime.value.VerbatimString(False),
-            "%Y-%m-%dT%H:%M:%S",
+        output["BackupCreationDateTime"] = datetime.fromisoformat(
+            dafny_input.BackupCreationDateTime.value.VerbatimString(False)
         )
 
     if dafny_input.BackupExpiryDateTime.is_Some:
-        output["BackupExpiryDateTime"] = datetime.strptime(
-            dafny_input.BackupExpiryDateTime.value.VerbatimString(False),
-            "%Y-%m-%dT%H:%M:%S",
+        output["BackupExpiryDateTime"] = datetime.fromisoformat(
+            dafny_input.BackupExpiryDateTime.value.VerbatimString(False)
         )
 
     if dafny_input.BackupStatus.is_Some:
@@ -4072,13 +4055,13 @@ def com_amazonaws_dynamodb_ImportSummary(dafny_input):
         )
 
     if dafny_input.StartTime.is_Some:
-        output["StartTime"] = datetime.strptime(
-            dafny_input.StartTime.value.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+        output["StartTime"] = datetime.fromisoformat(
+            dafny_input.StartTime.value.VerbatimString(False)
         )
 
     if dafny_input.EndTime.is_Some:
-        output["EndTime"] = datetime.strptime(
-            dafny_input.EndTime.value.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+        output["EndTime"] = datetime.fromisoformat(
+            dafny_input.EndTime.value.VerbatimString(False)
         )
 
     return output
@@ -4512,8 +4495,8 @@ def com_amazonaws_dynamodb_RestoreTableToPointInTimeInput(dafny_input):
         output["UseLatestRestorableTime"] = dafny_input.UseLatestRestorableTime.value
 
     if dafny_input.RestoreDateTime.is_Some:
-        output["RestoreDateTime"] = datetime.strptime(
-            dafny_input.RestoreDateTime.value.VerbatimString(False), "%Y-%m-%dT%H:%M:%S"
+        output["RestoreDateTime"] = datetime.fromisoformat(
+            dafny_input.RestoreDateTime.value.VerbatimString(False)
         )
 
     if dafny_input.BillingModeOverride.is_Some:

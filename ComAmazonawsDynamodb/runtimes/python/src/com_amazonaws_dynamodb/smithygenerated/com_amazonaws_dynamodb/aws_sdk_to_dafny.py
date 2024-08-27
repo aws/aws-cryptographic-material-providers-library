@@ -1314,14 +1314,10 @@ def com_amazonaws_dynamodb_BackupDetails(native_input):
             native_input["BackupType"]
         ),
         BackupCreationDateTime=_dafny.Seq(
-            native_input["BackupCreationDateTime"].strftime("%Y-%m-%dT%H:%M:%S")
+            native_input["BackupCreationDateTime"].isoformat()
         ),
         BackupExpiryDateTime=(
-            Option_Some(
-                _dafny.Seq(
-                    native_input["BackupExpiryDateTime"].strftime("%Y-%m-%dT%H:%M:%S")
-                )
-            )
+            Option_Some(_dafny.Seq(native_input["BackupExpiryDateTime"].isoformat()))
             if "BackupExpiryDateTime" in native_input.keys()
             else Option_None()
         ),
@@ -1412,11 +1408,7 @@ def com_amazonaws_dynamodb_GlobalTableDescription(native_input):
             else Option_None()
         ),
         CreationDateTime=(
-            Option_Some(
-                _dafny.Seq(
-                    native_input["CreationDateTime"].strftime("%Y-%m-%dT%H:%M:%S")
-                )
-            )
+            Option_Some(_dafny.Seq(native_input["CreationDateTime"].isoformat()))
             if "CreationDateTime" in native_input.keys()
             else Option_None()
         ),
@@ -1493,11 +1485,7 @@ def com_amazonaws_dynamodb_ReplicaDescription(native_input):
         ),
         ReplicaInaccessibleDateTime=(
             Option_Some(
-                _dafny.Seq(
-                    native_input["ReplicaInaccessibleDateTime"].strftime(
-                        "%Y-%m-%dT%H:%M:%S"
-                    )
-                )
+                _dafny.Seq(native_input["ReplicaInaccessibleDateTime"].isoformat())
             )
             if "ReplicaInaccessibleDateTime" in native_input.keys()
             else Option_None()
@@ -1589,11 +1577,7 @@ def com_amazonaws_dynamodb_TableClassSummary(native_input):
             else Option_None()
         ),
         LastUpdateDateTime=(
-            Option_Some(
-                _dafny.Seq(
-                    native_input["LastUpdateDateTime"].strftime("%Y-%m-%dT%H:%M:%S")
-                )
-            )
+            Option_Some(_dafny.Seq(native_input["LastUpdateDateTime"].isoformat()))
             if "LastUpdateDateTime" in native_input.keys()
             else Option_None()
         ),
@@ -1986,11 +1970,7 @@ def com_amazonaws_dynamodb_TableDescription(native_input):
             else Option_None()
         ),
         CreationDateTime=(
-            Option_Some(
-                _dafny.Seq(
-                    native_input["CreationDateTime"].strftime("%Y-%m-%dT%H:%M:%S")
-                )
-            )
+            Option_Some(_dafny.Seq(native_input["CreationDateTime"].isoformat()))
             if "CreationDateTime" in native_input.keys()
             else Option_None()
         ),
@@ -2160,20 +2140,12 @@ def com_amazonaws_dynamodb_TableStatus(native_input):
 def com_amazonaws_dynamodb_ProvisionedThroughputDescription(native_input):
     return DafnyProvisionedThroughputDescription(
         LastIncreaseDateTime=(
-            Option_Some(
-                _dafny.Seq(
-                    native_input["LastIncreaseDateTime"].strftime("%Y-%m-%dT%H:%M:%S")
-                )
-            )
+            Option_Some(_dafny.Seq(native_input["LastIncreaseDateTime"].isoformat()))
             if "LastIncreaseDateTime" in native_input.keys()
             else Option_None()
         ),
         LastDecreaseDateTime=(
-            Option_Some(
-                _dafny.Seq(
-                    native_input["LastDecreaseDateTime"].strftime("%Y-%m-%dT%H:%M:%S")
-                )
-            )
+            Option_Some(_dafny.Seq(native_input["LastDecreaseDateTime"].isoformat()))
             if "LastDecreaseDateTime" in native_input.keys()
             else Option_None()
         ),
@@ -2209,9 +2181,7 @@ def com_amazonaws_dynamodb_BillingModeSummary(native_input):
         LastUpdateToPayPerRequestDateTime=(
             Option_Some(
                 _dafny.Seq(
-                    native_input["LastUpdateToPayPerRequestDateTime"].strftime(
-                        "%Y-%m-%dT%H:%M:%S"
-                    )
+                    native_input["LastUpdateToPayPerRequestDateTime"].isoformat()
                 )
             )
             if "LastUpdateToPayPerRequestDateTime" in native_input.keys()
@@ -2351,9 +2321,7 @@ def com_amazonaws_dynamodb_RestoreSummary(native_input):
             if "SourceTableArn" in native_input.keys()
             else Option_None()
         ),
-        RestoreDateTime=_dafny.Seq(
-            native_input["RestoreDateTime"].strftime("%Y-%m-%dT%H:%M:%S")
-        ),
+        RestoreDateTime=_dafny.Seq(native_input["RestoreDateTime"].isoformat()),
         RestoreInProgress=native_input["RestoreInProgress"],
     )
 
@@ -2385,11 +2353,7 @@ def com_amazonaws_dynamodb_SSEDescription(native_input):
         ),
         InaccessibleEncryptionDateTime=(
             Option_Some(
-                _dafny.Seq(
-                    native_input["InaccessibleEncryptionDateTime"].strftime(
-                        "%Y-%m-%dT%H:%M:%S"
-                    )
-                )
+                _dafny.Seq(native_input["InaccessibleEncryptionDateTime"].isoformat())
             )
             if "InaccessibleEncryptionDateTime" in native_input.keys()
             else Option_None()
@@ -2400,11 +2364,7 @@ def com_amazonaws_dynamodb_SSEDescription(native_input):
 def com_amazonaws_dynamodb_ArchivalSummary(native_input):
     return DafnyArchivalSummary(
         ArchivalDateTime=(
-            Option_Some(
-                _dafny.Seq(
-                    native_input["ArchivalDateTime"].strftime("%Y-%m-%dT%H:%M:%S")
-                )
-            )
+            Option_Some(_dafny.Seq(native_input["ArchivalDateTime"].isoformat()))
             if "ArchivalDateTime" in native_input.keys()
             else Option_None()
         ),
@@ -2526,7 +2486,7 @@ def com_amazonaws_dynamodb_SourceTableDetails(native_input):
             ]
         ),
         TableCreationDateTime=_dafny.Seq(
-            native_input["TableCreationDateTime"].strftime("%Y-%m-%dT%H:%M:%S")
+            native_input["TableCreationDateTime"].isoformat()
         ),
         ProvisionedThroughput=com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_ProvisionedThroughput(
             native_input["ProvisionedThroughput"]
@@ -3060,22 +3020,14 @@ def com_amazonaws_dynamodb_PointInTimeRecoveryDescription(native_input):
         ),
         EarliestRestorableDateTime=(
             Option_Some(
-                _dafny.Seq(
-                    native_input["EarliestRestorableDateTime"].strftime(
-                        "%Y-%m-%dT%H:%M:%S"
-                    )
-                )
+                _dafny.Seq(native_input["EarliestRestorableDateTime"].isoformat())
             )
             if "EarliestRestorableDateTime" in native_input.keys()
             else Option_None()
         ),
         LatestRestorableDateTime=(
             Option_Some(
-                _dafny.Seq(
-                    native_input["LatestRestorableDateTime"].strftime(
-                        "%Y-%m-%dT%H:%M:%S"
-                    )
-                )
+                _dafny.Seq(native_input["LatestRestorableDateTime"].isoformat())
             )
             if "LatestRestorableDateTime" in native_input.keys()
             else Option_None()
@@ -3138,11 +3090,7 @@ def com_amazonaws_dynamodb_DescribeContributorInsightsOutput(native_input):
             else Option_None()
         ),
         LastUpdateDateTime=(
-            Option_Some(
-                _dafny.Seq(
-                    native_input["LastUpdateDateTime"].strftime("%Y-%m-%dT%H:%M:%S")
-                )
-            )
+            Option_Some(_dafny.Seq(native_input["LastUpdateDateTime"].isoformat()))
             if "LastUpdateDateTime" in native_input.keys()
             else Option_None()
         ),
@@ -3250,16 +3198,12 @@ def com_amazonaws_dynamodb_ExportDescription(native_input):
             else Option_None()
         ),
         StartTime=(
-            Option_Some(
-                _dafny.Seq(native_input["StartTime"].strftime("%Y-%m-%dT%H:%M:%S"))
-            )
+            Option_Some(_dafny.Seq(native_input["StartTime"].isoformat()))
             if "StartTime" in native_input.keys()
             else Option_None()
         ),
         EndTime=(
-            Option_Some(
-                _dafny.Seq(native_input["EndTime"].strftime("%Y-%m-%dT%H:%M:%S"))
-            )
+            Option_Some(_dafny.Seq(native_input["EndTime"].isoformat()))
             if "EndTime" in native_input.keys()
             else Option_None()
         ),
@@ -3279,9 +3223,7 @@ def com_amazonaws_dynamodb_ExportDescription(native_input):
             else Option_None()
         ),
         ExportTime=(
-            Option_Some(
-                _dafny.Seq(native_input["ExportTime"].strftime("%Y-%m-%dT%H:%M:%S"))
-            )
+            Option_Some(_dafny.Seq(native_input["ExportTime"].isoformat()))
             if "ExportTime" in native_input.keys()
             else Option_None()
         ),
@@ -3737,16 +3679,12 @@ def com_amazonaws_dynamodb_ImportTableDescription(native_input):
             else Option_None()
         ),
         StartTime=(
-            Option_Some(
-                _dafny.Seq(native_input["StartTime"].strftime("%Y-%m-%dT%H:%M:%S"))
-            )
+            Option_Some(_dafny.Seq(native_input["StartTime"].isoformat()))
             if "StartTime" in native_input.keys()
             else Option_None()
         ),
         EndTime=(
-            Option_Some(
-                _dafny.Seq(native_input["EndTime"].strftime("%Y-%m-%dT%H:%M:%S"))
-            )
+            Option_Some(_dafny.Seq(native_input["EndTime"].isoformat()))
             if "EndTime" in native_input.keys()
             else Option_None()
         ),
@@ -4481,9 +4419,7 @@ def com_amazonaws_dynamodb_ExportTableToPointInTimeInput(native_input):
     return DafnyExportTableToPointInTimeInput(
         TableArn=Seq(native_input["TableArn"]),
         ExportTime=(
-            Option_Some(
-                _dafny.Seq(native_input["ExportTime"].strftime("%Y-%m-%dT%H:%M:%S"))
-            )
+            Option_Some(_dafny.Seq(native_input["ExportTime"].isoformat()))
             if "ExportTime" in native_input.keys()
             else Option_None()
         ),
@@ -4692,20 +4628,12 @@ def com_amazonaws_dynamodb_ListBackupsInput(native_input):
             else Option_None()
         ),
         TimeRangeLowerBound=(
-            Option_Some(
-                _dafny.Seq(
-                    native_input["TimeRangeLowerBound"].strftime("%Y-%m-%dT%H:%M:%S")
-                )
-            )
+            Option_Some(_dafny.Seq(native_input["TimeRangeLowerBound"].isoformat()))
             if "TimeRangeLowerBound" in native_input.keys()
             else Option_None()
         ),
         TimeRangeUpperBound=(
-            Option_Some(
-                _dafny.Seq(
-                    native_input["TimeRangeUpperBound"].strftime("%Y-%m-%dT%H:%M:%S")
-                )
-            )
+            Option_Some(_dafny.Seq(native_input["TimeRangeUpperBound"].isoformat()))
             if "TimeRangeUpperBound" in native_input.keys()
             else Option_None()
         ),
@@ -4792,20 +4720,12 @@ def com_amazonaws_dynamodb_BackupSummary(native_input):
             else Option_None()
         ),
         BackupCreationDateTime=(
-            Option_Some(
-                _dafny.Seq(
-                    native_input["BackupCreationDateTime"].strftime("%Y-%m-%dT%H:%M:%S")
-                )
-            )
+            Option_Some(_dafny.Seq(native_input["BackupCreationDateTime"].isoformat()))
             if "BackupCreationDateTime" in native_input.keys()
             else Option_None()
         ),
         BackupExpiryDateTime=(
-            Option_Some(
-                _dafny.Seq(
-                    native_input["BackupExpiryDateTime"].strftime("%Y-%m-%dT%H:%M:%S")
-                )
-            )
+            Option_Some(_dafny.Seq(native_input["BackupExpiryDateTime"].isoformat()))
             if "BackupExpiryDateTime" in native_input.keys()
             else Option_None()
         ),
@@ -5123,16 +5043,12 @@ def com_amazonaws_dynamodb_ImportSummary(native_input):
             else Option_None()
         ),
         StartTime=(
-            Option_Some(
-                _dafny.Seq(native_input["StartTime"].strftime("%Y-%m-%dT%H:%M:%S"))
-            )
+            Option_Some(_dafny.Seq(native_input["StartTime"].isoformat()))
             if "StartTime" in native_input.keys()
             else Option_None()
         ),
         EndTime=(
-            Option_Some(
-                _dafny.Seq(native_input["EndTime"].strftime("%Y-%m-%dT%H:%M:%S"))
-            )
+            Option_Some(_dafny.Seq(native_input["EndTime"].isoformat()))
             if "EndTime" in native_input.keys()
             else Option_None()
         ),
@@ -5702,11 +5618,7 @@ def com_amazonaws_dynamodb_RestoreTableToPointInTimeInput(native_input):
             else Option_None()
         ),
         RestoreDateTime=(
-            Option_Some(
-                _dafny.Seq(
-                    native_input["RestoreDateTime"].strftime("%Y-%m-%dT%H:%M:%S")
-                )
-            )
+            Option_Some(_dafny.Seq(native_input["RestoreDateTime"].isoformat()))
             if "RestoreDateTime" in native_input.keys()
             else Option_None()
         ),

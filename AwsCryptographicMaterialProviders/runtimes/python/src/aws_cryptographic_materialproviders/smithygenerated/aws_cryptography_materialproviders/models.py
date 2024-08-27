@@ -130,7 +130,7 @@ class AlgorithmSuiteIdDBE:
         return self.value == other.value
 
 
-class AlgorithmSuiteId:
+class AlgorithmSuiteIdUnknown:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -146,16 +146,18 @@ class AlgorithmSuiteId:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "AlgorithmSuiteId":
+    def from_dict(d: Dict[str, Any]) -> "AlgorithmSuiteIdUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return AlgorithmSuiteId(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return AlgorithmSuiteIdUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"AlgorithmSuiteId(tag={self.tag})"
+        return f"AlgorithmSuiteIdUnknown(tag={self.tag})"
 
 
-AlgorithmSuiteId = Union[AlgorithmSuiteIdESDK, AlgorithmSuiteIdDBE, AlgorithmSuiteId]
+AlgorithmSuiteId = Union[
+    AlgorithmSuiteIdESDK, AlgorithmSuiteIdDBE, AlgorithmSuiteIdUnknown
+]
 
 
 def _algorithm_suite_id_from_dict(d: Dict[str, Any]) -> AlgorithmSuiteId:
@@ -213,13 +215,13 @@ class HKDF:
         }
 
         if self.salt_length is not None:
-            d["saltLength"] = self.salt_length
+            d["salt_length"] = self.salt_length
 
         if self.input_key_length is not None:
-            d["inputKeyLength"] = self.input_key_length
+            d["input_key_length"] = self.input_key_length
 
         if self.output_key_length is not None:
-            d["outputKeyLength"] = self.output_key_length
+            d["output_key_length"] = self.output_key_length
 
         return d
 
@@ -234,14 +236,14 @@ class HKDF:
             "hmac": d["hmac"],
         }
 
-        if "saltLength" in d:
-            kwargs["salt_length"] = d["saltLength"]
+        if "salt_length" in d:
+            kwargs["salt_length"] = d["salt_length"]
 
-        if "inputKeyLength" in d:
-            kwargs["input_key_length"] = d["inputKeyLength"]
+        if "input_key_length" in d:
+            kwargs["input_key_length"] = d["input_key_length"]
 
-        if "outputKeyLength" in d:
-            kwargs["output_key_length"] = d["outputKeyLength"]
+        if "output_key_length" in d:
+            kwargs["output_key_length"] = d["output_key_length"]
 
         return HKDF(**kwargs)
 
@@ -396,7 +398,7 @@ class DerivationAlgorithmNone:
         return self.value == other.value
 
 
-class DerivationAlgorithm:
+class DerivationAlgorithmUnknown:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -412,20 +414,20 @@ class DerivationAlgorithm:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "DerivationAlgorithm":
+    def from_dict(d: Dict[str, Any]) -> "DerivationAlgorithmUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return DerivationAlgorithm(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return DerivationAlgorithmUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"DerivationAlgorithm(tag={self.tag})"
+        return f"DerivationAlgorithmUnknown(tag={self.tag})"
 
 
 DerivationAlgorithm = Union[
     DerivationAlgorithmHKDF,
     DerivationAlgorithmIDENTITY,
     DerivationAlgorithmNone,
-    DerivationAlgorithm,
+    DerivationAlgorithmUnknown,
 ]
 
 
@@ -492,7 +494,7 @@ class EncryptAES_GCM:
         return self.value == other.value
 
 
-class Encrypt:
+class EncryptUnknown:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -508,16 +510,16 @@ class Encrypt:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "Encrypt":
+    def from_dict(d: Dict[str, Any]) -> "EncryptUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return Encrypt(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return EncryptUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"Encrypt(tag={self.tag})"
+        return f"EncryptUnknown(tag={self.tag})"
 
 
-Encrypt = Union[EncryptAES_GCM, Encrypt]
+Encrypt = Union[EncryptAES_GCM, EncryptUnknown]
 
 
 def _encrypt_from_dict(d: Dict[str, Any]) -> Encrypt:
@@ -550,9 +552,9 @@ class IntermediateKeyWrapping:
         keys to be mostly compatible with boto3.
         """
         return {
-            "keyEncryptionKeyKdf": self.key_encryption_key_kdf.as_dict(),
-            "macKeyKdf": self.mac_key_kdf.as_dict(),
-            "pdkEncryptAlgorithm": self.pdk_encrypt_algorithm.as_dict(),
+            "key_encryption_key_kdf": self.key_encryption_key_kdf.as_dict(),
+            "mac_key_kdf": self.mac_key_kdf.as_dict(),
+            "pdk_encrypt_algorithm": self.pdk_encrypt_algorithm.as_dict(),
         }
 
     @staticmethod
@@ -564,10 +566,10 @@ class IntermediateKeyWrapping:
         """
         kwargs: Dict[str, Any] = {
             "key_encryption_key_kdf": _derivation_algorithm_from_dict(
-                d["keyEncryptionKeyKdf"]
+                d["key_encryption_key_kdf"]
             ),
-            "mac_key_kdf": _derivation_algorithm_from_dict(d["macKeyKdf"]),
-            "pdk_encrypt_algorithm": _encrypt_from_dict(d["pdkEncryptAlgorithm"]),
+            "mac_key_kdf": _derivation_algorithm_from_dict(d["mac_key_kdf"]),
+            "pdk_encrypt_algorithm": _encrypt_from_dict(d["pdk_encrypt_algorithm"]),
         }
 
         return IntermediateKeyWrapping(**kwargs)
@@ -646,7 +648,7 @@ class EdkWrappingAlgorithmIntermediateKeyWrapping:
         return self.value == other.value
 
 
-class EdkWrappingAlgorithm:
+class EdkWrappingAlgorithmUnknown:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -662,19 +664,19 @@ class EdkWrappingAlgorithm:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "EdkWrappingAlgorithm":
+    def from_dict(d: Dict[str, Any]) -> "EdkWrappingAlgorithmUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return EdkWrappingAlgorithm(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return EdkWrappingAlgorithmUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"EdkWrappingAlgorithm(tag={self.tag})"
+        return f"EdkWrappingAlgorithmUnknown(tag={self.tag})"
 
 
 EdkWrappingAlgorithm = Union[
     EdkWrappingAlgorithmDIRECT_KEY_WRAPPING,
     EdkWrappingAlgorithmIntermediateKeyWrapping,
-    EdkWrappingAlgorithm,
+    EdkWrappingAlgorithmUnknown,
 ]
 
 
@@ -783,7 +785,7 @@ class SignatureAlgorithmNone:
         return self.value == other.value
 
 
-class SignatureAlgorithm:
+class SignatureAlgorithmUnknown:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -799,17 +801,17 @@ class SignatureAlgorithm:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "SignatureAlgorithm":
+    def from_dict(d: Dict[str, Any]) -> "SignatureAlgorithmUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return SignatureAlgorithm(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return SignatureAlgorithmUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"SignatureAlgorithm(tag={self.tag})"
+        return f"SignatureAlgorithmUnknown(tag={self.tag})"
 
 
 SignatureAlgorithm = Union[
-    SignatureAlgorithmECDSA, SignatureAlgorithmNone, SignatureAlgorithm
+    SignatureAlgorithmECDSA, SignatureAlgorithmNone, SignatureAlgorithmUnknown
 ]
 
 
@@ -869,7 +871,7 @@ class SymmetricSignatureAlgorithmNone:
         return self.value == other.value
 
 
-class SymmetricSignatureAlgorithm:
+class SymmetricSignatureAlgorithmUnknown:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -885,19 +887,19 @@ class SymmetricSignatureAlgorithm:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "SymmetricSignatureAlgorithm":
+    def from_dict(d: Dict[str, Any]) -> "SymmetricSignatureAlgorithmUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return SymmetricSignatureAlgorithm(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return SymmetricSignatureAlgorithmUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"SymmetricSignatureAlgorithm(tag={self.tag})"
+        return f"SymmetricSignatureAlgorithmUnknown(tag={self.tag})"
 
 
 SymmetricSignatureAlgorithm = Union[
     SymmetricSignatureAlgorithmHMAC,
     SymmetricSignatureAlgorithmNone,
-    SymmetricSignatureAlgorithm,
+    SymmetricSignatureAlgorithmUnknown,
 ]
 
 
@@ -955,14 +957,14 @@ class AlgorithmSuiteInfo:
         """
         return {
             "id": self.id.as_dict(),
-            "binaryId": self.binary_id,
-            "messageVersion": self.message_version,
+            "binary_id": self.binary_id,
+            "message_version": self.message_version,
             "encrypt": self.encrypt.as_dict(),
             "kdf": self.kdf.as_dict(),
             "commitment": self.commitment.as_dict(),
             "signature": self.signature.as_dict(),
-            "symmetricSignature": self.symmetric_signature.as_dict(),
-            "edkWrapping": self.edk_wrapping.as_dict(),
+            "symmetric_signature": self.symmetric_signature.as_dict(),
+            "edk_wrapping": self.edk_wrapping.as_dict(),
         }
 
     @staticmethod
@@ -974,16 +976,16 @@ class AlgorithmSuiteInfo:
         """
         kwargs: Dict[str, Any] = {
             "id": _algorithm_suite_id_from_dict(d["id"]),
-            "binary_id": d["binaryId"],
-            "message_version": d["messageVersion"],
+            "binary_id": d["binary_id"],
+            "message_version": d["message_version"],
             "encrypt": _encrypt_from_dict(d["encrypt"]),
             "kdf": _derivation_algorithm_from_dict(d["kdf"]),
             "commitment": _derivation_algorithm_from_dict(d["commitment"]),
             "signature": _signature_algorithm_from_dict(d["signature"]),
             "symmetric_signature": _symmetric_signature_algorithm_from_dict(
-                d["symmetricSignature"]
+                d["symmetric_signature"]
             ),
-            "edk_wrapping": _edk_wrapping_algorithm_from_dict(d["edkWrapping"]),
+            "edk_wrapping": _edk_wrapping_algorithm_from_dict(d["edk_wrapping"]),
         }
 
         return AlgorithmSuiteInfo(**kwargs)
@@ -1059,7 +1061,7 @@ class GetBranchKeyIdInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "encryptionContext": self.encryption_context,
+            "encryption_context": self.encryption_context,
         }
 
     @staticmethod
@@ -1070,7 +1072,7 @@ class GetBranchKeyIdInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "encryption_context": d["encryptionContext"],
+            "encryption_context": d["encryption_context"],
         }
 
         return GetBranchKeyIdInput(**kwargs)
@@ -1115,7 +1117,7 @@ class GetBranchKeyIdOutput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "branchKeyId": self.branch_key_id,
+            "branch_key_id": self.branch_key_id,
         }
 
     @staticmethod
@@ -1126,7 +1128,7 @@ class GetBranchKeyIdOutput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "branch_key_id": d["branchKeyId"],
+            "branch_key_id": d["branch_key_id"],
         }
 
         return GetBranchKeyIdOutput(**kwargs)
@@ -1226,7 +1228,7 @@ class DiscoveryFilter:
         keys to be mostly compatible with boto3.
         """
         return {
-            "accountIds": self.account_ids,
+            "account_ids": self.account_ids,
             "partition": self.partition,
         }
 
@@ -1238,7 +1240,7 @@ class DiscoveryFilter:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "account_ids": d["accountIds"],
+            "account_ids": d["account_ids"],
             "partition": d["partition"],
         }
 
@@ -1294,14 +1296,14 @@ class CreateAwsKmsDiscoveryKeyringInput:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "kmsClient": self.kms_client.as_dict(),
+            "kms_client": self.kms_client,
         }
 
         if self.discovery_filter is not None:
-            d["discoveryFilter"] = self.discovery_filter.as_dict()
+            d["discovery_filter"] = self.discovery_filter.as_dict()
 
         if self.grant_tokens is not None:
-            d["grantTokens"] = self.grant_tokens
+            d["grant_tokens"] = self.grant_tokens
 
         return d
 
@@ -1315,14 +1317,16 @@ class CreateAwsKmsDiscoveryKeyringInput:
         from botocore.client import BaseClient
 
         kwargs: Dict[str, Any] = {
-            "kms_client": BaseClient.from_dict(d["kmsClient"]),
+            "kms_client": d["kms_client"],
         }
 
-        if "discoveryFilter" in d:
-            kwargs["discovery_filter"] = DiscoveryFilter.from_dict(d["discoveryFilter"])
+        if "discovery_filter" in d:
+            kwargs["discovery_filter"] = DiscoveryFilter.from_dict(
+                d["discovery_filter"]
+            )
 
-        if "grantTokens" in d:
-            kwargs["grant_tokens"] = d["grantTokens"]
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
 
         return CreateAwsKmsDiscoveryKeyringInput(**kwargs)
 
@@ -1395,13 +1399,13 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
         }
 
         if self.discovery_filter is not None:
-            d["discoveryFilter"] = self.discovery_filter.as_dict()
+            d["discovery_filter"] = self.discovery_filter.as_dict()
 
         if self.client_supplier is not None:
-            d["clientSupplier"] = self.client_supplier.as_dict()
+            d["client_supplier"] = self.client_supplier.as_dict()
 
         if self.grant_tokens is not None:
-            d["grantTokens"] = self.grant_tokens
+            d["grant_tokens"] = self.grant_tokens
 
         return d
 
@@ -1420,14 +1424,16 @@ class CreateAwsKmsDiscoveryMultiKeyringInput:
             "regions": d["regions"],
         }
 
-        if "discoveryFilter" in d:
-            kwargs["discovery_filter"] = DiscoveryFilter.from_dict(d["discoveryFilter"])
+        if "discovery_filter" in d:
+            kwargs["discovery_filter"] = DiscoveryFilter.from_dict(
+                d["discovery_filter"]
+            )
 
-        if "clientSupplier" in d:
-            kwargs["client_supplier"] = ClientSupplier.from_dict(d["clientSupplier"])
+        if "client_supplier" in d:
+            kwargs["client_supplier"] = ClientSupplier.from_dict(d["client_supplier"])
 
-        if "grantTokens" in d:
-            kwargs["grant_tokens"] = d["grantTokens"]
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
 
         return CreateAwsKmsDiscoveryMultiKeyringInput(**kwargs)
 
@@ -1490,12 +1496,12 @@ class KmsPrivateKeyToStaticPublicKeyInput:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "senderKmsIdentifier": self.sender_kms_identifier,
-            "recipientPublicKey": self.recipient_public_key,
+            "sender_kms_identifier": self.sender_kms_identifier,
+            "recipient_public_key": self.recipient_public_key,
         }
 
         if self.sender_public_key is not None:
-            d["senderPublicKey"] = self.sender_public_key
+            d["sender_public_key"] = self.sender_public_key
 
         return d
 
@@ -1507,12 +1513,12 @@ class KmsPrivateKeyToStaticPublicKeyInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "sender_kms_identifier": d["senderKmsIdentifier"],
-            "recipient_public_key": d["recipientPublicKey"],
+            "sender_kms_identifier": d["sender_kms_identifier"],
+            "recipient_public_key": d["recipient_public_key"],
         }
 
-        if "senderPublicKey" in d:
-            kwargs["sender_public_key"] = d["senderPublicKey"]
+        if "sender_public_key" in d:
+            kwargs["sender_public_key"] = d["sender_public_key"]
 
         return KmsPrivateKeyToStaticPublicKeyInput(**kwargs)
 
@@ -1563,7 +1569,7 @@ class KmsPublicKeyDiscoveryInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "recipientKmsIdentifier": self.recipient_kms_identifier,
+            "recipient_kms_identifier": self.recipient_kms_identifier,
         }
 
     @staticmethod
@@ -1574,7 +1580,7 @@ class KmsPublicKeyDiscoveryInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "recipient_kms_identifier": d["recipientKmsIdentifier"],
+            "recipient_kms_identifier": d["recipient_kms_identifier"],
         }
 
         return KmsPublicKeyDiscoveryInput(**kwargs)
@@ -1661,7 +1667,7 @@ class KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey:
         return self.value == other.value
 
 
-class KmsEcdhStaticConfigurations:
+class KmsEcdhStaticConfigurationsUnknown:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -1677,20 +1683,20 @@ class KmsEcdhStaticConfigurations:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KmsEcdhStaticConfigurations":
+    def from_dict(d: Dict[str, Any]) -> "KmsEcdhStaticConfigurationsUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return KmsEcdhStaticConfigurations(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return KmsEcdhStaticConfigurationsUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"KmsEcdhStaticConfigurations(tag={self.tag})"
+        return f"KmsEcdhStaticConfigurationsUnknown(tag={self.tag})"
 
 
 # Allowed configurations when using KmsEcdhStaticConfigurations.
 KmsEcdhStaticConfigurations = Union[
     KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery,
     KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey,
-    KmsEcdhStaticConfigurations,
+    KmsEcdhStaticConfigurationsUnknown,
 ]
 
 
@@ -1741,13 +1747,13 @@ class CreateAwsKmsEcdhKeyringInput:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "KeyAgreementScheme": self.key_agreement_scheme.as_dict(),
-            "curveSpec": self.curve_spec,
-            "kmsClient": self.kms_client.as_dict(),
+            "key_agreement_scheme": self.key_agreement_scheme.as_dict(),
+            "curve_spec": self.curve_spec,
+            "kms_client": self.kms_client,
         }
 
         if self.grant_tokens is not None:
-            d["grantTokens"] = self.grant_tokens
+            d["grant_tokens"] = self.grant_tokens
 
         return d
 
@@ -1762,14 +1768,14 @@ class CreateAwsKmsEcdhKeyringInput:
 
         kwargs: Dict[str, Any] = {
             "key_agreement_scheme": _kms_ecdh_static_configurations_from_dict(
-                d["KeyAgreementScheme"]
+                d["key_agreement_scheme"]
             ),
-            "curve_spec": d["curveSpec"],
-            "kms_client": BaseClient.from_dict(d["kmsClient"]),
+            "curve_spec": d["curve_spec"],
+            "kms_client": d["kms_client"],
         }
 
-        if "grantTokens" in d:
-            kwargs["grant_tokens"] = d["grantTokens"]
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
 
         return CreateAwsKmsEcdhKeyringInput(**kwargs)
 
@@ -1827,7 +1833,7 @@ class DefaultCache:
         d: Dict[str, Any] = {}
 
         if self.entry_capacity is not None:
-            d["entryCapacity"] = self.entry_capacity
+            d["entry_capacity"] = self.entry_capacity
 
         return d
 
@@ -1840,8 +1846,8 @@ class DefaultCache:
         """
         kwargs: Dict[str, Any] = {}
 
-        if "entryCapacity" in d:
-            kwargs["entry_capacity"] = d["entryCapacity"]
+        if "entry_capacity" in d:
+            kwargs["entry_capacity"] = d["entry_capacity"]
 
         return DefaultCache(**kwargs)
 
@@ -1897,10 +1903,10 @@ class MultiThreadedCache:
         d: Dict[str, Any] = {}
 
         if self.entry_capacity is not None:
-            d["entryCapacity"] = self.entry_capacity
+            d["entry_capacity"] = self.entry_capacity
 
         if self.entry_pruning_tail_size is not None:
-            d["entryPruningTailSize"] = self.entry_pruning_tail_size
+            d["entry_pruning_tail_size"] = self.entry_pruning_tail_size
 
         return d
 
@@ -1913,11 +1919,11 @@ class MultiThreadedCache:
         """
         kwargs: Dict[str, Any] = {}
 
-        if "entryCapacity" in d:
-            kwargs["entry_capacity"] = d["entryCapacity"]
+        if "entry_capacity" in d:
+            kwargs["entry_capacity"] = d["entry_capacity"]
 
-        if "entryPruningTailSize" in d:
-            kwargs["entry_pruning_tail_size"] = d["entryPruningTailSize"]
+        if "entry_pruning_tail_size" in d:
+            kwargs["entry_pruning_tail_size"] = d["entry_pruning_tail_size"]
 
         return MultiThreadedCache(**kwargs)
 
@@ -2005,10 +2011,10 @@ class SingleThreadedCache:
         d: Dict[str, Any] = {}
 
         if self.entry_capacity is not None:
-            d["entryCapacity"] = self.entry_capacity
+            d["entry_capacity"] = self.entry_capacity
 
         if self.entry_pruning_tail_size is not None:
-            d["entryPruningTailSize"] = self.entry_pruning_tail_size
+            d["entry_pruning_tail_size"] = self.entry_pruning_tail_size
 
         return d
 
@@ -2021,11 +2027,11 @@ class SingleThreadedCache:
         """
         kwargs: Dict[str, Any] = {}
 
-        if "entryCapacity" in d:
-            kwargs["entry_capacity"] = d["entryCapacity"]
+        if "entry_capacity" in d:
+            kwargs["entry_capacity"] = d["entry_capacity"]
 
-        if "entryPruningTailSize" in d:
-            kwargs["entry_pruning_tail_size"] = d["entryPruningTailSize"]
+        if "entry_pruning_tail_size" in d:
+            kwargs["entry_pruning_tail_size"] = d["entry_pruning_tail_size"]
 
         return SingleThreadedCache(**kwargs)
 
@@ -2127,25 +2133,25 @@ class StormTrackingCache:
         d: Dict[str, Any] = {}
 
         if self.entry_capacity is not None:
-            d["entryCapacity"] = self.entry_capacity
+            d["entry_capacity"] = self.entry_capacity
 
         if self.entry_pruning_tail_size is not None:
-            d["entryPruningTailSize"] = self.entry_pruning_tail_size
+            d["entry_pruning_tail_size"] = self.entry_pruning_tail_size
 
         if self.grace_period is not None:
-            d["gracePeriod"] = self.grace_period
+            d["grace_period"] = self.grace_period
 
         if self.grace_interval is not None:
-            d["graceInterval"] = self.grace_interval
+            d["grace_interval"] = self.grace_interval
 
         if self.fan_out is not None:
-            d["fanOut"] = self.fan_out
+            d["fan_out"] = self.fan_out
 
         if self.in_flight_ttl is not None:
-            d["inFlightTTL"] = self.in_flight_ttl
+            d["in_flight_ttl"] = self.in_flight_ttl
 
         if self.sleep_milli is not None:
-            d["sleepMilli"] = self.sleep_milli
+            d["sleep_milli"] = self.sleep_milli
 
         return d
 
@@ -2158,26 +2164,26 @@ class StormTrackingCache:
         """
         kwargs: Dict[str, Any] = {}
 
-        if "entryCapacity" in d:
-            kwargs["entry_capacity"] = d["entryCapacity"]
+        if "entry_capacity" in d:
+            kwargs["entry_capacity"] = d["entry_capacity"]
 
-        if "entryPruningTailSize" in d:
-            kwargs["entry_pruning_tail_size"] = d["entryPruningTailSize"]
+        if "entry_pruning_tail_size" in d:
+            kwargs["entry_pruning_tail_size"] = d["entry_pruning_tail_size"]
 
-        if "gracePeriod" in d:
-            kwargs["grace_period"] = d["gracePeriod"]
+        if "grace_period" in d:
+            kwargs["grace_period"] = d["grace_period"]
 
-        if "graceInterval" in d:
-            kwargs["grace_interval"] = d["graceInterval"]
+        if "grace_interval" in d:
+            kwargs["grace_interval"] = d["grace_interval"]
 
-        if "fanOut" in d:
-            kwargs["fan_out"] = d["fanOut"]
+        if "fan_out" in d:
+            kwargs["fan_out"] = d["fan_out"]
 
-        if "inFlightTTL" in d:
-            kwargs["in_flight_ttl"] = d["inFlightTTL"]
+        if "in_flight_ttl" in d:
+            kwargs["in_flight_ttl"] = d["in_flight_ttl"]
 
-        if "sleepMilli" in d:
-            kwargs["sleep_milli"] = d["sleepMilli"]
+        if "sleep_milli" in d:
+            kwargs["sleep_milli"] = d["sleep_milli"]
 
         return StormTrackingCache(**kwargs)
 
@@ -2353,7 +2359,7 @@ class CacheTypeStormTracking:
         return self.value == other.value
 
 
-class CacheType:
+class CacheTypeUnknown:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -2369,13 +2375,13 @@ class CacheType:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CacheType":
+    def from_dict(d: Dict[str, Any]) -> "CacheTypeUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return CacheType(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return CacheTypeUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"CacheType(tag={self.tag})"
+        return f"CacheTypeUnknown(tag={self.tag})"
 
 
 CacheType = Union[
@@ -2384,7 +2390,7 @@ CacheType = Union[
     CacheTypeSingleThreaded,
     CacheTypeMultiThreaded,
     CacheTypeStormTracking,
-    CacheType,
+    CacheTypeUnknown,
 ]
 
 
@@ -2458,17 +2464,17 @@ class CreateAwsKmsHierarchicalKeyringInput:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "keyStore": self.key_store.as_dict(),
+            "key_store": self.key_store.as_dict(),
         }
 
         if self.branch_key_id is not None:
-            d["branchKeyId"] = self.branch_key_id
+            d["branch_key_id"] = self.branch_key_id
 
         if self.branch_key_id_supplier is not None:
-            d["branchKeyIdSupplier"] = self.branch_key_id_supplier.as_dict()
+            d["branch_key_id_supplier"] = self.branch_key_id_supplier.as_dict()
 
         if self.ttl_seconds is not None:
-            d["ttlSeconds"] = self.ttl_seconds
+            d["ttl_seconds"] = self.ttl_seconds
 
         if self.cache is not None:
             d["cache"] = self.cache.as_dict()
@@ -2490,19 +2496,19 @@ class CreateAwsKmsHierarchicalKeyringInput:
         )
 
         kwargs: Dict[str, Any] = {
-            "key_store": KeyStore.from_dict(d["keyStore"]),
+            "key_store": KeyStore.from_dict(d["key_store"]),
         }
 
-        if "branchKeyId" in d:
-            kwargs["branch_key_id"] = d["branchKeyId"]
+        if "branch_key_id" in d:
+            kwargs["branch_key_id"] = d["branch_key_id"]
 
-        if "branchKeyIdSupplier" in d:
+        if "branch_key_id_supplier" in d:
             kwargs["branch_key_id_supplier"] = BranchKeyIdSupplier.from_dict(
-                d["branchKeyIdSupplier"]
+                d["branch_key_id_supplier"]
             )
 
-        if "ttlSeconds" in d:
-            kwargs["ttl_seconds"] = d["ttlSeconds"]
+        if "ttl_seconds" in d:
+            kwargs["ttl_seconds"] = d["ttl_seconds"]
 
         if "cache" in d:
             kwargs["cache"] = (_cache_type_from_dict(d["cache"]),)
@@ -2572,12 +2578,12 @@ class CreateAwsKmsKeyringInput:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "kmsKeyId": self.kms_key_id,
-            "kmsClient": self.kms_client.as_dict(),
+            "kms_key_id": self.kms_key_id,
+            "kms_client": self.kms_client,
         }
 
         if self.grant_tokens is not None:
-            d["grantTokens"] = self.grant_tokens
+            d["grant_tokens"] = self.grant_tokens
 
         return d
 
@@ -2591,12 +2597,12 @@ class CreateAwsKmsKeyringInput:
         from botocore.client import BaseClient
 
         kwargs: Dict[str, Any] = {
-            "kms_key_id": d["kmsKeyId"],
-            "kms_client": BaseClient.from_dict(d["kmsClient"]),
+            "kms_key_id": d["kms_key_id"],
+            "kms_client": d["kms_client"],
         }
 
-        if "grantTokens" in d:
-            kwargs["grant_tokens"] = d["grantTokens"]
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
 
         return CreateAwsKmsKeyringInput(**kwargs)
 
@@ -2658,15 +2664,15 @@ class CreateAwsKmsMrkDiscoveryKeyringInput:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "kmsClient": self.kms_client.as_dict(),
+            "kms_client": self.kms_client,
             "region": self.region,
         }
 
         if self.discovery_filter is not None:
-            d["discoveryFilter"] = self.discovery_filter.as_dict()
+            d["discovery_filter"] = self.discovery_filter.as_dict()
 
         if self.grant_tokens is not None:
-            d["grantTokens"] = self.grant_tokens
+            d["grant_tokens"] = self.grant_tokens
 
         return d
 
@@ -2680,15 +2686,17 @@ class CreateAwsKmsMrkDiscoveryKeyringInput:
         from botocore.client import BaseClient
 
         kwargs: Dict[str, Any] = {
-            "kms_client": BaseClient.from_dict(d["kmsClient"]),
+            "kms_client": d["kms_client"],
             "region": d["region"],
         }
 
-        if "discoveryFilter" in d:
-            kwargs["discovery_filter"] = DiscoveryFilter.from_dict(d["discoveryFilter"])
+        if "discovery_filter" in d:
+            kwargs["discovery_filter"] = DiscoveryFilter.from_dict(
+                d["discovery_filter"]
+            )
 
-        if "grantTokens" in d:
-            kwargs["grant_tokens"] = d["grantTokens"]
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
 
         return CreateAwsKmsMrkDiscoveryKeyringInput(**kwargs)
 
@@ -2765,13 +2773,13 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
         }
 
         if self.discovery_filter is not None:
-            d["discoveryFilter"] = self.discovery_filter.as_dict()
+            d["discovery_filter"] = self.discovery_filter.as_dict()
 
         if self.client_supplier is not None:
-            d["clientSupplier"] = self.client_supplier.as_dict()
+            d["client_supplier"] = self.client_supplier.as_dict()
 
         if self.grant_tokens is not None:
-            d["grantTokens"] = self.grant_tokens
+            d["grant_tokens"] = self.grant_tokens
 
         return d
 
@@ -2790,14 +2798,16 @@ class CreateAwsKmsMrkDiscoveryMultiKeyringInput:
             "regions": d["regions"],
         }
 
-        if "discoveryFilter" in d:
-            kwargs["discovery_filter"] = DiscoveryFilter.from_dict(d["discoveryFilter"])
+        if "discovery_filter" in d:
+            kwargs["discovery_filter"] = DiscoveryFilter.from_dict(
+                d["discovery_filter"]
+            )
 
-        if "clientSupplier" in d:
-            kwargs["client_supplier"] = ClientSupplier.from_dict(d["clientSupplier"])
+        if "client_supplier" in d:
+            kwargs["client_supplier"] = ClientSupplier.from_dict(d["client_supplier"])
 
-        if "grantTokens" in d:
-            kwargs["grant_tokens"] = d["grantTokens"]
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
 
         return CreateAwsKmsMrkDiscoveryMultiKeyringInput(**kwargs)
 
@@ -2859,12 +2869,12 @@ class CreateAwsKmsMrkKeyringInput:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "kmsKeyId": self.kms_key_id,
-            "kmsClient": self.kms_client.as_dict(),
+            "kms_key_id": self.kms_key_id,
+            "kms_client": self.kms_client,
         }
 
         if self.grant_tokens is not None:
-            d["grantTokens"] = self.grant_tokens
+            d["grant_tokens"] = self.grant_tokens
 
         return d
 
@@ -2878,12 +2888,12 @@ class CreateAwsKmsMrkKeyringInput:
         from botocore.client import BaseClient
 
         kwargs: Dict[str, Any] = {
-            "kms_key_id": d["kmsKeyId"],
-            "kms_client": BaseClient.from_dict(d["kmsClient"]),
+            "kms_key_id": d["kms_key_id"],
+            "kms_client": d["kms_client"],
         }
 
-        if "grantTokens" in d:
-            kwargs["grant_tokens"] = d["grantTokens"]
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
 
         return CreateAwsKmsMrkKeyringInput(**kwargs)
 
@@ -2961,13 +2971,13 @@ class CreateAwsKmsMrkMultiKeyringInput:
             d["generator"] = self.generator
 
         if self.kms_key_ids is not None:
-            d["kmsKeyIds"] = self.kms_key_ids
+            d["kms_key_ids"] = self.kms_key_ids
 
         if self.client_supplier is not None:
-            d["clientSupplier"] = self.client_supplier.as_dict()
+            d["client_supplier"] = self.client_supplier.as_dict()
 
         if self.grant_tokens is not None:
-            d["grantTokens"] = self.grant_tokens
+            d["grant_tokens"] = self.grant_tokens
 
         return d
 
@@ -2987,14 +2997,14 @@ class CreateAwsKmsMrkMultiKeyringInput:
         if "generator" in d:
             kwargs["generator"] = d["generator"]
 
-        if "kmsKeyIds" in d:
-            kwargs["kms_key_ids"] = d["kmsKeyIds"]
+        if "kms_key_ids" in d:
+            kwargs["kms_key_ids"] = d["kms_key_ids"]
 
-        if "clientSupplier" in d:
-            kwargs["client_supplier"] = ClientSupplier.from_dict(d["clientSupplier"])
+        if "client_supplier" in d:
+            kwargs["client_supplier"] = ClientSupplier.from_dict(d["client_supplier"])
 
-        if "grantTokens" in d:
-            kwargs["grant_tokens"] = d["grantTokens"]
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
 
         return CreateAwsKmsMrkMultiKeyringInput(**kwargs)
 
@@ -3076,13 +3086,13 @@ class CreateAwsKmsMultiKeyringInput:
             d["generator"] = self.generator
 
         if self.kms_key_ids is not None:
-            d["kmsKeyIds"] = self.kms_key_ids
+            d["kms_key_ids"] = self.kms_key_ids
 
         if self.client_supplier is not None:
-            d["clientSupplier"] = self.client_supplier.as_dict()
+            d["client_supplier"] = self.client_supplier.as_dict()
 
         if self.grant_tokens is not None:
-            d["grantTokens"] = self.grant_tokens
+            d["grant_tokens"] = self.grant_tokens
 
         return d
 
@@ -3102,14 +3112,14 @@ class CreateAwsKmsMultiKeyringInput:
         if "generator" in d:
             kwargs["generator"] = d["generator"]
 
-        if "kmsKeyIds" in d:
-            kwargs["kms_key_ids"] = d["kmsKeyIds"]
+        if "kms_key_ids" in d:
+            kwargs["kms_key_ids"] = d["kms_key_ids"]
 
-        if "clientSupplier" in d:
-            kwargs["client_supplier"] = ClientSupplier.from_dict(d["clientSupplier"])
+        if "client_supplier" in d:
+            kwargs["client_supplier"] = ClientSupplier.from_dict(d["client_supplier"])
 
-        if "grantTokens" in d:
-            kwargs["grant_tokens"] = d["grantTokens"]
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
 
         return CreateAwsKmsMultiKeyringInput(**kwargs)
 
@@ -3183,18 +3193,18 @@ class CreateAwsKmsRsaKeyringInput:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "kmsKeyId": self.kms_key_id,
-            "encryptionAlgorithm": self.encryption_algorithm,
+            "kms_key_id": self.kms_key_id,
+            "encryption_algorithm": self.encryption_algorithm,
         }
 
         if self.public_key is not None:
-            d["publicKey"] = self.public_key
+            d["public_key"] = self.public_key
 
         if self.kms_client is not None:
-            d["kmsClient"] = self.kms_client.as_dict()
+            d["kms_client"] = self.kms_client
 
         if self.grant_tokens is not None:
-            d["grantTokens"] = self.grant_tokens
+            d["grant_tokens"] = self.grant_tokens
 
         return d
 
@@ -3208,18 +3218,18 @@ class CreateAwsKmsRsaKeyringInput:
         from botocore.client import BaseClient
 
         kwargs: Dict[str, Any] = {
-            "kms_key_id": d["kmsKeyId"],
-            "encryption_algorithm": d["encryptionAlgorithm"],
+            "kms_key_id": d["kms_key_id"],
+            "encryption_algorithm": d["encryption_algorithm"],
         }
 
-        if "publicKey" in d:
-            kwargs["public_key"] = d["publicKey"]
+        if "public_key" in d:
+            kwargs["public_key"] = d["public_key"]
 
-        if "kmsClient" in d:
-            kwargs["kms_client"] = BaseClient.from_dict(d["kmsClient"])
+        if "kms_client" in d:
+            kwargs["kms_client"] = d["kms_client"]
 
-        if "grantTokens" in d:
-            kwargs["grant_tokens"] = d["grantTokens"]
+        if "grant_tokens" in d:
+            kwargs["grant_tokens"] = d["grant_tokens"]
 
         return CreateAwsKmsRsaKeyringInput(**kwargs)
 
@@ -3430,7 +3440,7 @@ class CreateMultiKeyringInput:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "childKeyrings": self.child_keyrings,
+            "child_keyrings": self.child_keyrings,
         }
 
         if self.generator is not None:
@@ -3450,7 +3460,7 @@ class CreateMultiKeyringInput:
         )
 
         kwargs: Dict[str, Any] = {
-            "child_keyrings": d["childKeyrings"],
+            "child_keyrings": d["child_keyrings"],
         }
 
         if "generator" in d:
@@ -3512,10 +3522,10 @@ class CreateRawAesKeyringInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "keyNamespace": self.key_namespace,
-            "keyName": self.key_name,
-            "wrappingKey": self.wrapping_key,
-            "wrappingAlg": self.wrapping_alg,
+            "key_namespace": self.key_namespace,
+            "key_name": self.key_name,
+            "wrapping_key": self.wrapping_key,
+            "wrapping_alg": self.wrapping_alg,
         }
 
     @staticmethod
@@ -3526,10 +3536,10 @@ class CreateRawAesKeyringInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "key_namespace": d["keyNamespace"],
-            "key_name": d["keyName"],
-            "wrapping_key": d["wrappingKey"],
-            "wrapping_alg": d["wrappingAlg"],
+            "key_namespace": d["key_namespace"],
+            "key_name": d["key_name"],
+            "wrapping_key": d["wrapping_key"],
+            "wrapping_alg": d["wrapping_alg"],
         }
 
         return CreateRawAesKeyringInput(**kwargs)
@@ -3583,7 +3593,7 @@ class EphemeralPrivateKeyToStaticPublicKeyInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "recipientPublicKey": self.recipient_public_key,
+            "recipient_public_key": self.recipient_public_key,
         }
 
     @staticmethod
@@ -3594,7 +3604,7 @@ class EphemeralPrivateKeyToStaticPublicKeyInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "recipient_public_key": d["recipientPublicKey"],
+            "recipient_public_key": d["recipient_public_key"],
         }
 
         return EphemeralPrivateKeyToStaticPublicKeyInput(**kwargs)
@@ -3637,7 +3647,7 @@ class PublicKeyDiscoveryInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "recipientStaticPrivateKey": self.recipient_static_private_key,
+            "recipient_static_private_key": self.recipient_static_private_key,
         }
 
     @staticmethod
@@ -3648,7 +3658,7 @@ class PublicKeyDiscoveryInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "recipient_static_private_key": d["recipientStaticPrivateKey"],
+            "recipient_static_private_key": d["recipient_static_private_key"],
         }
 
         return PublicKeyDiscoveryInput(**kwargs)
@@ -3694,8 +3704,8 @@ class RawPrivateKeyToStaticPublicKeyInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "senderStaticPrivateKey": self.sender_static_private_key,
-            "recipientPublicKey": self.recipient_public_key,
+            "sender_static_private_key": self.sender_static_private_key,
+            "recipient_public_key": self.recipient_public_key,
         }
 
     @staticmethod
@@ -3706,8 +3716,8 @@ class RawPrivateKeyToStaticPublicKeyInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "sender_static_private_key": d["senderStaticPrivateKey"],
-            "recipient_public_key": d["recipientPublicKey"],
+            "sender_static_private_key": d["sender_static_private_key"],
+            "recipient_public_key": d["recipient_public_key"],
         }
 
         return RawPrivateKeyToStaticPublicKeyInput(**kwargs)
@@ -3827,7 +3837,7 @@ class RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey:
         return self.value == other.value
 
 
-class RawEcdhStaticConfigurations:
+class RawEcdhStaticConfigurationsUnknown:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -3843,13 +3853,13 @@ class RawEcdhStaticConfigurations:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "RawEcdhStaticConfigurations":
+    def from_dict(d: Dict[str, Any]) -> "RawEcdhStaticConfigurationsUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return RawEcdhStaticConfigurations(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return RawEcdhStaticConfigurationsUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"RawEcdhStaticConfigurations(tag={self.tag})"
+        return f"RawEcdhStaticConfigurationsUnknown(tag={self.tag})"
 
 
 # List of configurations when using RawEcdhStaticConfigurations.
@@ -3857,7 +3867,7 @@ RawEcdhStaticConfigurations = Union[
     RawEcdhStaticConfigurationsPublicKeyDiscovery,
     RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey,
     RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey,
-    RawEcdhStaticConfigurations,
+    RawEcdhStaticConfigurationsUnknown,
 ]
 
 
@@ -3905,8 +3915,8 @@ class CreateRawEcdhKeyringInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "KeyAgreementScheme": self.key_agreement_scheme.as_dict(),
-            "curveSpec": self.curve_spec,
+            "key_agreement_scheme": self.key_agreement_scheme.as_dict(),
+            "curve_spec": self.curve_spec,
         }
 
     @staticmethod
@@ -3918,9 +3928,9 @@ class CreateRawEcdhKeyringInput:
         """
         kwargs: Dict[str, Any] = {
             "key_agreement_scheme": _raw_ecdh_static_configurations_from_dict(
-                d["KeyAgreementScheme"]
+                d["key_agreement_scheme"]
             ),
-            "curve_spec": d["curveSpec"],
+            "curve_spec": d["curve_spec"],
         }
 
         return CreateRawEcdhKeyringInput(**kwargs)
@@ -4012,16 +4022,16 @@ class CreateRawRsaKeyringInput:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "keyNamespace": self.key_namespace,
-            "keyName": self.key_name,
-            "paddingScheme": self.padding_scheme,
+            "key_namespace": self.key_namespace,
+            "key_name": self.key_name,
+            "padding_scheme": self.padding_scheme,
         }
 
         if self.public_key is not None:
-            d["publicKey"] = self.public_key
+            d["public_key"] = self.public_key
 
         if self.private_key is not None:
-            d["privateKey"] = self.private_key
+            d["private_key"] = self.private_key
 
         return d
 
@@ -4033,16 +4043,16 @@ class CreateRawRsaKeyringInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "key_namespace": d["keyNamespace"],
-            "key_name": d["keyName"],
-            "padding_scheme": d["paddingScheme"],
+            "key_namespace": d["key_namespace"],
+            "key_name": d["key_name"],
+            "padding_scheme": d["padding_scheme"],
         }
 
-        if "publicKey" in d:
-            kwargs["public_key"] = d["publicKey"]
+        if "public_key" in d:
+            kwargs["public_key"] = d["public_key"]
 
-        if "privateKey" in d:
-            kwargs["private_key"] = d["privateKey"]
+        if "private_key" in d:
+            kwargs["private_key"] = d["private_key"]
 
         return CreateRawRsaKeyringInput(**kwargs)
 
@@ -4126,11 +4136,11 @@ class CreateRequiredEncryptionContextCMMInput:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "requiredEncryptionContextKeys": self.required_encryption_context_keys,
+            "required_encryption_context_keys": self.required_encryption_context_keys,
         }
 
         if self.underlying_cmm is not None:
-            d["underlyingCMM"] = self.underlying_cmm.as_dict()
+            d["underlying_cmm"] = self.underlying_cmm.as_dict()
 
         if self.keyring is not None:
             d["keyring"] = self.keyring.as_dict()
@@ -4152,12 +4162,12 @@ class CreateRequiredEncryptionContextCMMInput:
         )
 
         kwargs: Dict[str, Any] = {
-            "required_encryption_context_keys": d["requiredEncryptionContextKeys"],
+            "required_encryption_context_keys": d["required_encryption_context_keys"],
         }
 
-        if "underlyingCMM" in d:
+        if "underlying_cmm" in d:
             kwargs["underlying_cmm"] = CryptographicMaterialsManager.from_dict(
-                d["underlyingCMM"]
+                d["underlying_cmm"]
             )
 
         if "keyring" in d:
@@ -4262,7 +4272,7 @@ class GetCacheEntryInput:
         }
 
         if self.bytes_used is not None:
-            d["bytesUsed"] = self.bytes_used
+            d["bytes_used"] = self.bytes_used
 
         return d
 
@@ -4277,8 +4287,8 @@ class GetCacheEntryInput:
             "identifier": d["identifier"],
         }
 
-        if "bytesUsed" in d:
-            kwargs["bytes_used"] = d["bytesUsed"]
+        if "bytes_used" in d:
+            kwargs["bytes_used"] = d["bytes_used"]
 
         return GetCacheEntryInput(**kwargs)
 
@@ -4334,19 +4344,19 @@ class DecryptionMaterials:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "algorithmSuite": self.algorithm_suite.as_dict(),
-            "encryptionContext": self.encryption_context,
-            "requiredEncryptionContextKeys": self.required_encryption_context_keys,
+            "algorithm_suite": self.algorithm_suite.as_dict(),
+            "encryption_context": self.encryption_context,
+            "required_encryption_context_keys": self.required_encryption_context_keys,
         }
 
         if self.plaintext_data_key is not None:
-            d["plaintextDataKey"] = self.plaintext_data_key
+            d["plaintext_data_key"] = self.plaintext_data_key
 
         if self.verification_key is not None:
-            d["verificationKey"] = self.verification_key
+            d["verification_key"] = self.verification_key
 
         if self.symmetric_signing_key is not None:
-            d["symmetricSigningKey"] = self.symmetric_signing_key
+            d["symmetric_signing_key"] = self.symmetric_signing_key
 
         return d
 
@@ -4358,19 +4368,19 @@ class DecryptionMaterials:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "algorithm_suite": AlgorithmSuiteInfo.from_dict(d["algorithmSuite"]),
-            "encryption_context": d["encryptionContext"],
-            "required_encryption_context_keys": d["requiredEncryptionContextKeys"],
+            "algorithm_suite": AlgorithmSuiteInfo.from_dict(d["algorithm_suite"]),
+            "encryption_context": d["encryption_context"],
+            "required_encryption_context_keys": d["required_encryption_context_keys"],
         }
 
-        if "plaintextDataKey" in d:
-            kwargs["plaintext_data_key"] = d["plaintextDataKey"]
+        if "plaintext_data_key" in d:
+            kwargs["plaintext_data_key"] = d["plaintext_data_key"]
 
-        if "verificationKey" in d:
-            kwargs["verification_key"] = d["verificationKey"]
+        if "verification_key" in d:
+            kwargs["verification_key"] = d["verification_key"]
 
-        if "symmetricSigningKey" in d:
-            kwargs["symmetric_signing_key"] = d["symmetricSigningKey"]
+        if "symmetric_signing_key" in d:
+            kwargs["symmetric_signing_key"] = d["symmetric_signing_key"]
 
         return DecryptionMaterials(**kwargs)
 
@@ -4433,8 +4443,8 @@ class EncryptedDataKey:
         keys to be mostly compatible with boto3.
         """
         return {
-            "keyProviderId": self.key_provider_id,
-            "keyProviderInfo": self.key_provider_info,
+            "key_provider_id": self.key_provider_id,
+            "key_provider_info": self.key_provider_info,
             "ciphertext": self.ciphertext,
         }
 
@@ -4446,8 +4456,8 @@ class EncryptedDataKey:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "key_provider_id": d["keyProviderId"],
-            "key_provider_info": d["keyProviderInfo"],
+            "key_provider_id": d["key_provider_id"],
+            "key_provider_info": d["key_provider_info"],
             "ciphertext": d["ciphertext"],
         }
 
@@ -4512,22 +4522,22 @@ class EncryptionMaterials:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "algorithmSuite": self.algorithm_suite.as_dict(),
-            "encryptionContext": self.encryption_context,
-            "encryptedDataKeys": _encrypted_data_key_list_as_dict(
+            "algorithm_suite": self.algorithm_suite.as_dict(),
+            "encryption_context": self.encryption_context,
+            "encrypted_data_keys": _encrypted_data_key_list_as_dict(
                 self.encrypted_data_keys
             ),
-            "requiredEncryptionContextKeys": self.required_encryption_context_keys,
+            "required_encryption_context_keys": self.required_encryption_context_keys,
         }
 
         if self.plaintext_data_key is not None:
-            d["plaintextDataKey"] = self.plaintext_data_key
+            d["plaintext_data_key"] = self.plaintext_data_key
 
         if self.signing_key is not None:
-            d["signingKey"] = self.signing_key
+            d["signing_key"] = self.signing_key
 
         if self.symmetric_signing_keys is not None:
-            d["symmetricSigningKeys"] = self.symmetric_signing_keys
+            d["symmetric_signing_keys"] = self.symmetric_signing_keys
 
         return d
 
@@ -4539,22 +4549,22 @@ class EncryptionMaterials:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "algorithm_suite": AlgorithmSuiteInfo.from_dict(d["algorithmSuite"]),
-            "encryption_context": d["encryptionContext"],
+            "algorithm_suite": AlgorithmSuiteInfo.from_dict(d["algorithm_suite"]),
+            "encryption_context": d["encryption_context"],
             "encrypted_data_keys": _encrypted_data_key_list_from_dict(
-                d["encryptedDataKeys"]
+                d["encrypted_data_keys"]
             ),
-            "required_encryption_context_keys": d["requiredEncryptionContextKeys"],
+            "required_encryption_context_keys": d["required_encryption_context_keys"],
         }
 
-        if "plaintextDataKey" in d:
-            kwargs["plaintext_data_key"] = d["plaintextDataKey"]
+        if "plaintext_data_key" in d:
+            kwargs["plaintext_data_key"] = d["plaintext_data_key"]
 
-        if "signingKey" in d:
-            kwargs["signing_key"] = d["signingKey"]
+        if "signing_key" in d:
+            kwargs["signing_key"] = d["signing_key"]
 
-        if "symmetricSigningKeys" in d:
-            kwargs["symmetric_signing_keys"] = d["symmetricSigningKeys"]
+        if "symmetric_signing_keys" in d:
+            kwargs["symmetric_signing_keys"] = d["symmetric_signing_keys"]
 
         return EncryptionMaterials(**kwargs)
 
@@ -4690,7 +4700,7 @@ class MaterialsBeaconKey:
         return self.value == other.value
 
 
-class Materials:
+class MaterialsUnknown:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -4706,13 +4716,13 @@ class Materials:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "Materials":
+    def from_dict(d: Dict[str, Any]) -> "MaterialsUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return Materials(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return MaterialsUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"Materials(tag={self.tag})"
+        return f"MaterialsUnknown(tag={self.tag})"
 
 
 Materials = Union[
@@ -4720,7 +4730,7 @@ Materials = Union[
     MaterialsDecryption,
     MaterialsBranchKey,
     MaterialsBeaconKey,
-    Materials,
+    MaterialsUnknown,
 ]
 
 
@@ -4785,16 +4795,16 @@ class GetCacheEntryOutput:
         }
 
         if self.creation_time is not None:
-            d["creationTime"] = self.creation_time
+            d["creation_time"] = self.creation_time
 
         if self.expiry_time is not None:
-            d["expiryTime"] = self.expiry_time
+            d["expiry_time"] = self.expiry_time
 
         if self.messages_used is not None:
-            d["messagesUsed"] = self.messages_used
+            d["messages_used"] = self.messages_used
 
         if self.bytes_used is not None:
-            d["bytesUsed"] = self.bytes_used
+            d["bytes_used"] = self.bytes_used
 
         return d
 
@@ -4809,17 +4819,17 @@ class GetCacheEntryOutput:
             "materials": _materials_from_dict(d["materials"]),
         }
 
-        if "creationTime" in d:
-            kwargs["creation_time"] = d["creationTime"]
+        if "creation_time" in d:
+            kwargs["creation_time"] = d["creation_time"]
 
-        if "expiryTime" in d:
-            kwargs["expiry_time"] = d["expiryTime"]
+        if "expiry_time" in d:
+            kwargs["expiry_time"] = d["expiry_time"]
 
-        if "messagesUsed" in d:
-            kwargs["messages_used"] = d["messagesUsed"]
+        if "messages_used" in d:
+            kwargs["messages_used"] = d["messages_used"]
 
-        if "bytesUsed" in d:
-            kwargs["bytes_used"] = d["bytesUsed"]
+        if "bytes_used" in d:
+            kwargs["bytes_used"] = d["bytes_used"]
 
         return GetCacheEntryOutput(**kwargs)
 
@@ -4904,16 +4914,16 @@ class PutCacheEntryInput:
         }
 
         if self.creation_time is not None:
-            d["creationTime"] = self.creation_time
+            d["creation_time"] = self.creation_time
 
         if self.expiry_time is not None:
-            d["expiryTime"] = self.expiry_time
+            d["expiry_time"] = self.expiry_time
 
         if self.messages_used is not None:
-            d["messagesUsed"] = self.messages_used
+            d["messages_used"] = self.messages_used
 
         if self.bytes_used is not None:
-            d["bytesUsed"] = self.bytes_used
+            d["bytes_used"] = self.bytes_used
 
         return d
 
@@ -4929,17 +4939,17 @@ class PutCacheEntryInput:
             "materials": _materials_from_dict(d["materials"]),
         }
 
-        if "creationTime" in d:
-            kwargs["creation_time"] = d["creationTime"]
+        if "creation_time" in d:
+            kwargs["creation_time"] = d["creation_time"]
 
-        if "expiryTime" in d:
-            kwargs["expiry_time"] = d["expiryTime"]
+        if "expiry_time" in d:
+            kwargs["expiry_time"] = d["expiry_time"]
 
-        if "messagesUsed" in d:
-            kwargs["messages_used"] = d["messagesUsed"]
+        if "messages_used" in d:
+            kwargs["messages_used"] = d["messages_used"]
 
-        if "bytesUsed" in d:
-            kwargs["bytes_used"] = d["bytesUsed"]
+        if "bytes_used" in d:
+            kwargs["bytes_used"] = d["bytes_used"]
 
         return PutCacheEntryInput(**kwargs)
 
@@ -5006,7 +5016,7 @@ class UpdateUsageMetadataInput:
         }
 
         if self.bytes_used is not None:
-            d["bytesUsed"] = self.bytes_used
+            d["bytes_used"] = self.bytes_used
 
         return d
 
@@ -5021,8 +5031,8 @@ class UpdateUsageMetadataInput:
             "identifier": d["identifier"],
         }
 
-        if "bytesUsed" in d:
-            kwargs["bytes_used"] = d["bytesUsed"]
+        if "bytes_used" in d:
+            kwargs["bytes_used"] = d["bytes_used"]
 
         return UpdateUsageMetadataInput(**kwargs)
 
@@ -5118,7 +5128,7 @@ class CommitmentPolicyDBE:
         return self.value == other.value
 
 
-class CommitmentPolicy:
+class CommitmentPolicyUnknown:
     """Represents an unknown variant.
 
     If you receive this value, you will need to update your library to receive the
@@ -5134,16 +5144,18 @@ class CommitmentPolicy:
         return {"SDK_UNKNOWN_MEMBER": {"name": self.tag}}
 
     @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "CommitmentPolicy":
+    def from_dict(d: Dict[str, Any]) -> "CommitmentPolicyUnknown":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-        return CommitmentPolicy(d["SDK_UNKNOWN_MEMBER"]["name"])
+        return CommitmentPolicyUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
-        return f"CommitmentPolicy(tag={self.tag})"
+        return f"CommitmentPolicyUnknown(tag={self.tag})"
 
 
-CommitmentPolicy = Union[CommitmentPolicyESDK, CommitmentPolicyDBE, CommitmentPolicy]
+CommitmentPolicy = Union[
+    CommitmentPolicyESDK, CommitmentPolicyDBE, CommitmentPolicyUnknown
+]
 
 
 def _commitment_policy_from_dict(d: Dict[str, Any]) -> CommitmentPolicy:
@@ -5185,16 +5197,16 @@ class DecryptMaterialsInput:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "algorithmSuiteId": self.algorithm_suite_id.as_dict(),
-            "commitmentPolicy": self.commitment_policy.as_dict(),
-            "encryptedDataKeys": _encrypted_data_key_list_as_dict(
+            "algorithm_suite_id": self.algorithm_suite_id.as_dict(),
+            "commitment_policy": self.commitment_policy.as_dict(),
+            "encrypted_data_keys": _encrypted_data_key_list_as_dict(
                 self.encrypted_data_keys
             ),
-            "encryptionContext": self.encryption_context,
+            "encryption_context": self.encryption_context,
         }
 
         if self.reproduced_encryption_context is not None:
-            d["reproducedEncryptionContext"] = self.reproduced_encryption_context
+            d["reproduced_encryption_context"] = self.reproduced_encryption_context
 
         return d
 
@@ -5206,16 +5218,18 @@ class DecryptMaterialsInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "algorithm_suite_id": _algorithm_suite_id_from_dict(d["algorithmSuiteId"]),
-            "commitment_policy": _commitment_policy_from_dict(d["commitmentPolicy"]),
-            "encrypted_data_keys": _encrypted_data_key_list_from_dict(
-                d["encryptedDataKeys"]
+            "algorithm_suite_id": _algorithm_suite_id_from_dict(
+                d["algorithm_suite_id"]
             ),
-            "encryption_context": d["encryptionContext"],
+            "commitment_policy": _commitment_policy_from_dict(d["commitment_policy"]),
+            "encrypted_data_keys": _encrypted_data_key_list_from_dict(
+                d["encrypted_data_keys"]
+            ),
+            "encryption_context": d["encryption_context"],
         }
 
-        if "reproducedEncryptionContext" in d:
-            kwargs["reproduced_encryption_context"] = d["reproducedEncryptionContext"]
+        if "reproduced_encryption_context" in d:
+            kwargs["reproduced_encryption_context"] = d["reproduced_encryption_context"]
 
         return DecryptMaterialsInput(**kwargs)
 
@@ -5268,7 +5282,7 @@ class DecryptMaterialsOutput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "decryptionMaterials": self.decryption_materials.as_dict(),
+            "decryption_materials": self.decryption_materials.as_dict(),
         }
 
     @staticmethod
@@ -5280,7 +5294,7 @@ class DecryptMaterialsOutput:
         """
         kwargs: Dict[str, Any] = {
             "decryption_materials": DecryptionMaterials.from_dict(
-                d["decryptionMaterials"]
+                d["decryption_materials"]
             ),
         }
 
@@ -5331,18 +5345,20 @@ class GetEncryptionMaterialsInput:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "encryptionContext": self.encryption_context,
-            "commitmentPolicy": self.commitment_policy.as_dict(),
+            "encryption_context": self.encryption_context,
+            "commitment_policy": self.commitment_policy.as_dict(),
         }
 
         if self.algorithm_suite_id is not None:
-            d["algorithmSuiteId"] = self.algorithm_suite_id.as_dict()
+            d["algorithm_suite_id"] = self.algorithm_suite_id.as_dict()
 
         if self.max_plaintext_length is not None:
-            d["maxPlaintextLength"] = self.max_plaintext_length
+            d["max_plaintext_length"] = self.max_plaintext_length
 
         if self.required_encryption_context_keys is not None:
-            d["requiredEncryptionContextKeys"] = self.required_encryption_context_keys
+            d["required_encryption_context_keys"] = (
+                self.required_encryption_context_keys
+            )
 
         return d
 
@@ -5354,21 +5370,21 @@ class GetEncryptionMaterialsInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "encryption_context": d["encryptionContext"],
-            "commitment_policy": _commitment_policy_from_dict(d["commitmentPolicy"]),
+            "encryption_context": d["encryption_context"],
+            "commitment_policy": _commitment_policy_from_dict(d["commitment_policy"]),
         }
 
-        if "algorithmSuiteId" in d:
+        if "algorithm_suite_id" in d:
             kwargs["algorithm_suite_id"] = (
-                _algorithm_suite_id_from_dict(d["algorithmSuiteId"]),
+                _algorithm_suite_id_from_dict(d["algorithm_suite_id"]),
             )
 
-        if "maxPlaintextLength" in d:
-            kwargs["max_plaintext_length"] = d["maxPlaintextLength"]
+        if "max_plaintext_length" in d:
+            kwargs["max_plaintext_length"] = d["max_plaintext_length"]
 
-        if "requiredEncryptionContextKeys" in d:
+        if "required_encryption_context_keys" in d:
             kwargs["required_encryption_context_keys"] = d[
-                "requiredEncryptionContextKeys"
+                "required_encryption_context_keys"
             ]
 
         return GetEncryptionMaterialsInput(**kwargs)
@@ -5422,7 +5438,7 @@ class GetEncryptionMaterialsOutput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "encryptionMaterials": self.encryption_materials.as_dict(),
+            "encryption_materials": self.encryption_materials.as_dict(),
         }
 
     @staticmethod
@@ -5434,7 +5450,7 @@ class GetEncryptionMaterialsOutput:
         """
         kwargs: Dict[str, Any] = {
             "encryption_materials": EncryptionMaterials.from_dict(
-                d["encryptionMaterials"]
+                d["encryption_materials"]
             ),
         }
 
@@ -5479,9 +5495,9 @@ class InitializeDecryptionMaterialsInput:
         keys to be mostly compatible with boto3.
         """
         return {
-            "algorithmSuiteId": self.algorithm_suite_id.as_dict(),
-            "encryptionContext": self.encryption_context,
-            "requiredEncryptionContextKeys": self.required_encryption_context_keys,
+            "algorithm_suite_id": self.algorithm_suite_id.as_dict(),
+            "encryption_context": self.encryption_context,
+            "required_encryption_context_keys": self.required_encryption_context_keys,
         }
 
     @staticmethod
@@ -5492,9 +5508,11 @@ class InitializeDecryptionMaterialsInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "algorithm_suite_id": _algorithm_suite_id_from_dict(d["algorithmSuiteId"]),
-            "encryption_context": d["encryptionContext"],
-            "required_encryption_context_keys": d["requiredEncryptionContextKeys"],
+            "algorithm_suite_id": _algorithm_suite_id_from_dict(
+                d["algorithm_suite_id"]
+            ),
+            "encryption_context": d["encryption_context"],
+            "required_encryption_context_keys": d["required_encryption_context_keys"],
         }
 
         return InitializeDecryptionMaterialsInput(**kwargs)
@@ -5552,16 +5570,16 @@ class InitializeEncryptionMaterialsInput:
         keys to be mostly compatible with boto3.
         """
         d: Dict[str, Any] = {
-            "algorithmSuiteId": self.algorithm_suite_id.as_dict(),
-            "encryptionContext": self.encryption_context,
-            "requiredEncryptionContextKeys": self.required_encryption_context_keys,
+            "algorithm_suite_id": self.algorithm_suite_id.as_dict(),
+            "encryption_context": self.encryption_context,
+            "required_encryption_context_keys": self.required_encryption_context_keys,
         }
 
         if self.signing_key is not None:
-            d["signingKey"] = self.signing_key
+            d["signing_key"] = self.signing_key
 
         if self.verification_key is not None:
-            d["verificationKey"] = self.verification_key
+            d["verification_key"] = self.verification_key
 
         return d
 
@@ -5573,16 +5591,18 @@ class InitializeEncryptionMaterialsInput:
         parameter names as keys to be mostly compatible with boto3.
         """
         kwargs: Dict[str, Any] = {
-            "algorithm_suite_id": _algorithm_suite_id_from_dict(d["algorithmSuiteId"]),
-            "encryption_context": d["encryptionContext"],
-            "required_encryption_context_keys": d["requiredEncryptionContextKeys"],
+            "algorithm_suite_id": _algorithm_suite_id_from_dict(
+                d["algorithm_suite_id"]
+            ),
+            "encryption_context": d["encryption_context"],
+            "required_encryption_context_keys": d["required_encryption_context_keys"],
         }
 
-        if "signingKey" in d:
-            kwargs["signing_key"] = d["signingKey"]
+        if "signing_key" in d:
+            kwargs["signing_key"] = d["signing_key"]
 
-        if "verificationKey" in d:
-            kwargs["verification_key"] = d["verificationKey"]
+        if "verification_key" in d:
+            kwargs["verification_key"] = d["verification_key"]
 
         return InitializeEncryptionMaterialsInput(**kwargs)
 
@@ -5639,7 +5659,7 @@ class OnDecryptInput:
         """
         return {
             "materials": self.materials.as_dict(),
-            "encryptedDataKeys": _encrypted_data_key_list_as_dict(
+            "encrypted_data_keys": _encrypted_data_key_list_as_dict(
                 self.encrypted_data_keys
             ),
         }
@@ -5654,7 +5674,7 @@ class OnDecryptInput:
         kwargs: Dict[str, Any] = {
             "materials": DecryptionMaterials.from_dict(d["materials"]),
             "encrypted_data_keys": _encrypted_data_key_list_from_dict(
-                d["encryptedDataKeys"]
+                d["encrypted_data_keys"]
             ),
         }
 
@@ -5848,7 +5868,7 @@ class ValidateCommitmentPolicyOnDecryptInput:
         """
         return {
             "algorithm": self.algorithm.as_dict(),
-            "commitmentPolicy": self.commitment_policy.as_dict(),
+            "commitment_policy": self.commitment_policy.as_dict(),
         }
 
     @staticmethod
@@ -5860,7 +5880,7 @@ class ValidateCommitmentPolicyOnDecryptInput:
         """
         kwargs: Dict[str, Any] = {
             "algorithm": _algorithm_suite_id_from_dict(d["algorithm"]),
-            "commitment_policy": _commitment_policy_from_dict(d["commitmentPolicy"]),
+            "commitment_policy": _commitment_policy_from_dict(d["commitment_policy"]),
         }
 
         return ValidateCommitmentPolicyOnDecryptInput(**kwargs)
@@ -5906,7 +5926,7 @@ class ValidateCommitmentPolicyOnEncryptInput:
         """
         return {
             "algorithm": self.algorithm.as_dict(),
-            "commitmentPolicy": self.commitment_policy.as_dict(),
+            "commitment_policy": self.commitment_policy.as_dict(),
         }
 
     @staticmethod
@@ -5918,7 +5938,7 @@ class ValidateCommitmentPolicyOnEncryptInput:
         """
         kwargs: Dict[str, Any] = {
             "algorithm": _algorithm_suite_id_from_dict(d["algorithm"]),
-            "commitment_policy": _commitment_policy_from_dict(d["commitmentPolicy"]),
+            "commitment_policy": _commitment_policy_from_dict(d["commitment_policy"]),
         }
 
         return ValidateCommitmentPolicyOnEncryptInput(**kwargs)

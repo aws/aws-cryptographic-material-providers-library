@@ -37,7 +37,7 @@ jobs:
     with:
       dafny: "nightly-latest"
       regenerate-code: true
-    pr-ci-python:
+  dafny-nightly-python:
     needs: getVersion
     uses: ./.github/workflows/library_python_tests.yml
     with:

@@ -10,7 +10,7 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.11.0"
 pytz = "^2023.3.post1"
-DafnyRuntimePython = "^4.7.0"
+DafnyRuntimePython = "~4.7.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.0"
