@@ -43,6 +43,13 @@ jobs:
     uses: ./.github/workflows/library_net_tests.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
+  daily-ci-python:
+    needs: getVersion
+    if: github.event_name != 'schedule' || github.repository_owner == 'aws'
+    uses: ./.github/workflows/library_python_tests.yml
+    with:
+      # TODO: Once minimum Dafny version is 4.7.0, point this at `getVersion` output
+      dafny: 4.7.0
   daily-interop-test:
     needs: getVersion
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
