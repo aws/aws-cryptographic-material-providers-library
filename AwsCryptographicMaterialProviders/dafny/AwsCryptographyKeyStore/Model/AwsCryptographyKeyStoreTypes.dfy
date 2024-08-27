@@ -66,6 +66,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   )
   datatype GetKeyStoreInfoOutput = | GetKeyStoreInfoOutput (
     nameonly keyStoreId: string ,
+    nameonly keyStoreCacheId: string ,
     nameonly keyStoreName: ComAmazonawsDynamodbTypes.TableName ,
     nameonly logicalKeyStoreName: string ,
     nameonly grantTokens: GrantTokenList ,

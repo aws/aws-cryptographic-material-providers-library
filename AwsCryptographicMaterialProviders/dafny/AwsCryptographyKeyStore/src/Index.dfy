@@ -16,6 +16,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
   import KMS = ComAmazonawsKmsTypes
   import DDB = ComAmazonawsDynamodbTypes
   import UUID
+  import UTF8
   import ErrorMessages = KeyStoreErrorMessages
   import KmsArn
   import KMSKeystoreOperations
@@ -104,6 +105,14 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
       keyStoreId := uuid;
     }
 
+    var keyStoreCacheId;
+
+    if config.id.Some? {
+      keyStoreCacheId := UTF8.Encode(config.id.value);
+    } else {
+      keyStoreCacheId := KeyStoreId;
+    }
+
     if config.kmsClient.Some? {
       kmsClient := config.kmsClient.value;
     } else if config.kmsClient.None? && inferredRegion.Some? {
@@ -174,6 +183,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
     var client := new KeyStoreClient(
       Operations.Config(
       id := keyStoreId,
+      cacheId := keyStoreCacheId,
       ddbTableName := config.ddbTableName,
       logicalKeyStoreName := config.logicalKeyStoreName,
       kmsConfiguration := config.kmsConfiguration,

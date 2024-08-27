@@ -73,6 +73,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
     output := Success(
       Types.GetKeyStoreInfoOutput(
         keyStoreId := config.id,
+        keyStoreCacheId := config.cacheId,
         keyStoreName := config.ddbTableName,
         logicalKeyStoreName := config.logicalKeyStoreName,
         grantTokens := config.grantTokens,

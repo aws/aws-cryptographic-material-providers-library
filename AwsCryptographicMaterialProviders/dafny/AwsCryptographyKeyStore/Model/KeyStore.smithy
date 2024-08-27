@@ -146,6 +146,9 @@ structure GetKeyStoreInfoOutput {
   @javadoc("An identifier for this Key Store.")
   keyStoreId: String,
   @required
+  @javadoc("An identifier to be used in the cache for this Key Store.")
+  keyStoreCacheId: String,
+  @required
   @javadoc("The DynamoDB table name that backs this Key Store.")
   keyStoreName: TableName,
   @required
