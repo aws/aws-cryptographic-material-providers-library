@@ -56,11 +56,11 @@ MPL_CORE_INDEX_FILE_PATH=dafny/AwsCryptographicMaterialProviders/src/Index.dfy
 MPL_CORE_INDEX_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.materialproviders.internaldafny\" } MaterialProviders refines AbstractAwsCryptographyMaterialProvidersService"
 MPL_CORE_INDEX_FILE_WITHOUT_EXTERN_STRING="module MaterialProviders refines AbstractAwsCryptographyMaterialProvidersService"
 
-KEYSTORE_TYPES_FILE_PATH=dafny/AwsCryptographyKeystore/Model/AwsCryptographyKeyStoreTypes.dfy
+KEYSTORE_TYPES_FILE_PATH=dafny/AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy
 KEYSTORE_TYPES_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.keystore.internaldafny.types\" } AwsCryptographyKeyStoreTypes"
 KEYSTORE_TYPES_FILE_WITHOUT_EXTERN_STRING="module AwsCryptographyKeyStoreTypes"
 
-KEYSTORE_INDEX_FILE_PATH=dafny/AwsCryptographyKeystore/src/Index.dfy
+KEYSTORE_INDEX_FILE_PATH=dafny/AwsCryptographyKeyStore/src/Index.dfy
 KEYSTORE_INDEX_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.keystore.internaldafny\"} KeyStore refines AbstractAwsCryptographyKeyStoreService"
 KEYSTORE_INDEX_FILE_WITHOUT_EXTERN_STRING="module KeyStore refines AbstractAwsCryptographyKeyStoreService"
 
