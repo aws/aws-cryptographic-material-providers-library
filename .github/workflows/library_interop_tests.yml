@@ -178,7 +178,7 @@ jobs:
         with:
           distribution: "corretto"
           java-version: 17
-      
+
       - name: Setup Python for running tests
         uses: actions/setup-python@v4
         with:
