@@ -27,6 +27,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
 
   datatype Config = Config(
     nameonly id: string,
+    nameonly cacheId: string,
     nameonly ddbTableName: DDB.TableName,
     nameonly logicalKeyStoreName: string,
     nameonly kmsConfiguration: KMSConfiguration,
@@ -65,6 +66,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
               //= type=implication
               //# This MUST include:
               && output.value.keyStoreId == config.id
+              && output.value.keyStoreCacheId == config.cacheId
               && output.value.keyStoreName == config.ddbTableName
               && output.value.logicalKeyStoreName == config.logicalKeyStoreName
               && output.value.grantTokens == config.grantTokens

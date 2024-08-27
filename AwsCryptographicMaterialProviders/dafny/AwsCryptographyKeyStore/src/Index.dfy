@@ -16,7 +16,6 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
   import KMS = ComAmazonawsKmsTypes
   import DDB = ComAmazonawsDynamodbTypes
   import UUID
-  import UTF8
   import ErrorMessages = KeyStoreErrorMessages
   import KmsArn
   import KMSKeystoreOperations
@@ -110,7 +109,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
     if config.id.Some? {
       keyStoreCacheId := UTF8.Encode(config.id.value);
     } else {
-      keyStoreCacheId := KeyStoreId;
+      keyStoreCacheId := keyStoreId;
     }
 
     if config.kmsClient.Some? {
