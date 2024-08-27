@@ -53,6 +53,7 @@ jobs:
       - name: Clear and redownload dafny-reportgenerator
         run: |
           sudo rm -rf $HOME/.dotnet/tools
+          which dafny
 
       - name: Setup Dafny
         uses: dafny-lang/setup-dafny-action@v1.8.0
