@@ -28,11 +28,11 @@ public class UnwrapGenericKmsTests {
       ikmsClient.GenerateDataKeyWithoutPlaintext(
         GenerateDataKeyWithoutPlaintextRequest.create_GenerateDataKeyWithoutPlaintextRequest(
           ToDafny.Simple.CharacterSequence(failingKeyId),
-          Option.create_None(),
-          Option.create_None(),
-          Option.create_None(),
-          Option.create_None(),
-          Option.create_None()
+          TestComAmazonawsKms_Compile.__default.CreateNoneForEncryptionContext(),
+          TestComAmazonawsKms_Compile.__default.CreateNoneForKeySpec(),
+          TestComAmazonawsKms_Compile.__default.CreateNoneForNumberOfBytes(),
+          TestComAmazonawsKms_Compile.__default.CreateNoneForGrantTokens(),
+          TestComAmazonawsKms_Compile.__default.CreateNoneForDryRun()
         )
       );
     Assert.assertTrue(response.is_Failure());
