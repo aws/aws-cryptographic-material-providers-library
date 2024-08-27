@@ -311,41 +311,42 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     var senderPublicKey: Option<KMS.PublicKeyType>;
     var compressedSenderPublicKey: Option<seq<uint8>>;
 
-    if {
-      case input.KeyAgreementScheme.KmsPublicKeyDiscovery? =>
+    match input.KeyAgreementScheme {
+      case KmsPublicKeyDiscovery(kmsPublicKeyDiscovery) => {
         //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#kmspublickeydiscovery
         //# - MUST provide the recipient's AWS KMS key identifier
-        var _ :- ValidateKmsKeyId(input.KeyAgreementScheme.KmsPublicKeyDiscovery.recipientKmsIdentifier);
+        var _ :- ValidateKmsKeyId(kmsPublicKeyDiscovery.recipientKmsIdentifier);
         //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#kmspublickeydiscovery
         //# the keyring MUST call
         //# `kms:GetPublicKey` on the recipient's configured KMS key ID.
         // (blank line for duvet)
         //# If the keyring fails to retrieve the public key, the keyring MUST fail.
-        recipientPublicKey :- GetEcdhPublicKey(input.kmsClient, input.KeyAgreementScheme.KmsPublicKeyDiscovery.recipientKmsIdentifier);
+        recipientPublicKey :- GetEcdhPublicKey(input.kmsClient, kmsPublicKeyDiscovery.recipientKmsIdentifier);
         senderPublicKey := Option.None();
         compressedSenderPublicKey := Option.None();
-      case input.KeyAgreementScheme.KmsPrivateKeyToStaticPublicKey? =>
-        if input.KeyAgreementScheme.KmsPrivateKeyToStaticPublicKey.senderPublicKey.Some? {
+      }
+      case KmsPrivateKeyToStaticPublicKey(kmsPrivateKeyToStaticPublicKey) => {
+        if kmsPrivateKeyToStaticPublicKey.senderPublicKey.Some? {
           :- Need(
             KMS.IsValid_PublicKeyType(
-              input.KeyAgreementScheme.KmsPrivateKeyToStaticPublicKey.senderPublicKey.value
+              kmsPrivateKeyToStaticPublicKey.senderPublicKey.value
             ),
             Types.AwsCryptographicMaterialProvidersException(message := "Invalid SenderPublicKey length."));
           //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#kmsprivatekeytostaticpublickey
           //# - MAY provide the sender's public key
           //#   - Public key MUST be DER-encoded [X.509 SubjectPublicKeyInfo](https://datatracker.ietf.org/doc/html/rfc5280#section-4.1)
-          senderPublicKey := Some(input.KeyAgreementScheme.KmsPrivateKeyToStaticPublicKey.senderPublicKey.value);
+          senderPublicKey := Some(kmsPrivateKeyToStaticPublicKey.senderPublicKey.value);
           var compressedPKU :- RawECDHKeyring.CompressPublicKey(Crypto.ECCPublicKey(der := senderPublicKey.value), input.curveSpec, config.crypto);
           compressedSenderPublicKey := Some(compressedPKU);
         } else {
-          var _ :- ValidateKmsKeyId(input.KeyAgreementScheme.KmsPrivateKeyToStaticPublicKey.senderKmsIdentifier);
+          var _ :- ValidateKmsKeyId(kmsPrivateKeyToStaticPublicKey.senderKmsIdentifier);
           //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#kmsprivatekeytostaticpublickey
           //# On initialization, if the keyring is not configured with
           //# a sender public key, the keyring MUST call
           //# `kms:GetPublicKey` on the sender's configured KMS key ID.
           // (blank line for duvet)
           //# If the keyring fails to retrieve the public key, the keyring MUST fail.
-          var senderPublicKeyResponse :- GetEcdhPublicKey(input.kmsClient, input.KeyAgreementScheme.KmsPrivateKeyToStaticPublicKey.senderKmsIdentifier);
+          var senderPublicKeyResponse :- GetEcdhPublicKey(input.kmsClient, kmsPrivateKeyToStaticPublicKey.senderKmsIdentifier);
           var compressedPKU :- RawECDHKeyring.CompressPublicKey(Crypto.ECCPublicKey(der := senderPublicKeyResponse), input.curveSpec, config.crypto);
           senderPublicKey := Some(senderPublicKeyResponse);
           compressedSenderPublicKey := Some(compressedPKU);
@@ -353,10 +354,11 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
 
         :- Need(
           KMS.IsValid_PublicKeyType(
-            input.KeyAgreementScheme.KmsPrivateKeyToStaticPublicKey.recipientPublicKey
+            kmsPrivateKeyToStaticPublicKey.recipientPublicKey
           ),
           Types.AwsCryptographicMaterialProvidersException(message := "Invalid RecipientPublicKey length."));
-        recipientPublicKey := input.KeyAgreementScheme.KmsPrivateKeyToStaticPublicKey.recipientPublicKey;
+        recipientPublicKey := kmsPrivateKeyToStaticPublicKey.recipientPublicKey;
+      }
     }
 
     var _ :- RawECDHKeyring.ValidatePublicKey(
@@ -529,14 +531,14 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     var senderPublicKey: Option<seq<uint8>>;
     var compressedSenderPublicKey: Option<seq<uint8>>;
 
-    if {
-      case input.KeyAgreementScheme.RawPrivateKeyToStaticPublicKey? =>
+    match input.KeyAgreementScheme {
+      case RawPrivateKeyToStaticPublicKey(rawPrivateKeyToStaticPublicKey) => {
         //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#rawprivatekeytostaticpublickey
         //# - MUST provide the recipient's public key
-        recipientPublicKey := input.KeyAgreementScheme.RawPrivateKeyToStaticPublicKey.recipientPublicKey;
+        recipientPublicKey := rawPrivateKeyToStaticPublicKey.recipientPublicKey;
         //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#rawprivatekeytostaticpublickey
         //# - MUST provide the sender's static private key
-        senderPrivateKey := Option.Some(input.KeyAgreementScheme.RawPrivateKeyToStaticPublicKey.senderStaticPrivateKey);
+        senderPrivateKey := Option.Some(rawPrivateKeyToStaticPublicKey.senderStaticPrivateKey);
         var reproducedPublicKey :- GetPublicKey(input.curveSpec, Crypto.ECCPrivateKey(pem := senderPrivateKey.value), config.crypto);
         var _ :- RawECDHKeyring.ValidatePublicKey(
           config.crypto,
@@ -550,21 +552,24 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
           config.crypto
         );
         compressedSenderPublicKey := Some(compressedSenderPublicKey?);
-      case input.KeyAgreementScheme.EphemeralPrivateKeyToStaticPublicKey? =>
+      }
+      case EphemeralPrivateKeyToStaticPublicKey(ephemeralPrivateKeyToStaticPublicKey) => {
         //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#ephemeralprivatekeytostaticpublickey
         //# - MUST provide the recipient's public key
-        recipientPublicKey := input.KeyAgreementScheme.EphemeralPrivateKeyToStaticPublicKey.recipientPublicKey;
+        recipientPublicKey := ephemeralPrivateKeyToStaticPublicKey.recipientPublicKey;
         senderPrivateKey := Option.None();
         senderPublicKey := Option.None();
         compressedSenderPublicKey := Option.None();
-      case input.KeyAgreementScheme.PublicKeyDiscovery? =>
+      }
+      case PublicKeyDiscovery(publicKeyDiscovery) => {
         //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#publickeydiscovery
         //# - MUST provide the recipient's static private key
-        var reproducedPublicKey :- GetPublicKey(input.curveSpec, Crypto.ECCPrivateKey(pem := input.KeyAgreementScheme.PublicKeyDiscovery.recipientStaticPrivateKey), config.crypto);
+        var reproducedPublicKey :- GetPublicKey(input.curveSpec, Crypto.ECCPrivateKey(pem := publicKeyDiscovery.recipientStaticPrivateKey), config.crypto);
         recipientPublicKey := reproducedPublicKey;
         senderPrivateKey := Option.None();
         senderPublicKey := Option.None();
         compressedSenderPublicKey := Option.None();
+      }
     }
 
     var compressedRecipientPublicKey :- RawECDHKeyring.CompressPublicKey(
