@@ -11,7 +11,7 @@ class default__:
 
     def GetCurrentTimeStamp():
         try:
-            d = datetime.datetime.now(tz = pytz.UTC).strftime("%Y-%m-%dT%H:%M:%S:%fZ")
+            d = datetime.datetime.now(tz = pytz.UTC).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
             return Wrappers.Result_Success(_dafny.Seq(_dafny.string_of(d)))
         except Exception as e:
             return Wrappers.Result_Failure(_dafny.string_of("Could not generate a timestamp in ISO8601: " + e))
