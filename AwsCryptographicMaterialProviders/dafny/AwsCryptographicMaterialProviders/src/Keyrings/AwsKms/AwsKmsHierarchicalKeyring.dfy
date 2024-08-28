@@ -391,7 +391,7 @@ module AwsKmsHierarchicalKeyring {
       requires cryptoPrimitives.ValidState()
       modifies cryptoPrimitives.Modifies
       ensures cryptoPrimitives.ValidState()
-      ensures cacheId.Success? ==> |cacheId.value| == 32
+      ensures cacheId.Success? ==> |cacheId.value| == 48
     {
       :- Need(
         && UTF8.Decode(branchKeyIdUtf8).MapFailure(WrapStringToError).Success?
@@ -728,7 +728,7 @@ module AwsKmsHierarchicalKeyring {
       cryptoPrimitives: Primitives.AtomicPrimitivesClient
     )
       returns (cacheId: Result<seq<uint8>, Types.Error>)
-      ensures cacheId.Success? ==> |cacheId.value| == 32
+      ensures cacheId.Success? ==> |cacheId.value| == 64
     {
       :- Need(
         && UTF8.Decode(branchKeyIdUtf8).MapFailure(WrapStringToError).Success?
