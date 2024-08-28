@@ -43,21 +43,6 @@ import struct
 import standard_library.internaldafny.generated.UTF8
 from standard_library.internaldafny.generated.UTF8 import *
 
-def _convert_char_outside_bmp_to_unicode_escaped_string(char_outside_bmp):
-  # Re-encode the character to UTF-16. This is necessary to get the surrogate pairs.
-  utf16_encoded_char = char_outside_bmp.encode('utf-16')
-  # Define the size of the Byte Order Mark (BOM). UTF-16 encoding includes a BOM at the start.
-  bom_size = 2
-  # Extract and decode the high surrogate pair. The high surrogate is the first 2 bytes after the BOM.
-  high_surrogate = utf16_encoded_char[bom_size:bom_size+2].decode('utf-16', 'surrogatepass')
-  # Extract and decode the low surrogate pair. The low surrogate is the next 2 bytes after the high surrogate.
-  low_surrogate = utf16_encoded_char[bom_size+2:bom_size+4].decode('utf-16', 'surrogatepass')
-  # Return the high and low surrogate pairs as a tuple so they can be appended individually.
-  return (high_surrogate, low_surrogate)
-
-def _is_outside_bmp(native_char):
-  # Any char greater than 0xFFFF is outside the BMP.
-  return ord(native_char) > 0xFFFF
 
 # Extend the Dafny-generated class with our extern methods
 class default__(standard_library.internaldafny.generated.UTF8.default__):
@@ -78,22 +63,9 @@ class default__(standard_library.internaldafny.generated.UTF8.default__):
   @staticmethod
   def Decode(s):
     try:
-      first_pass_decoded = bytes(s).decode('utf-8')
-      # decoded = []
-      # for i in range(len(first_pass_decoded)):
-      #   char = first_pass_decoded[i]
-      #   # Dafny-generated code expects any characters outside the BMP
-      #   # to be rendered as unicode-escaped strings.
-      #   if _is_outside_bmp(char):
-      #     # Any char outside the BMP needs to be re-encoded,
-      #     # then decoded as separate bytes.
-      #     high_surrogate, low_surrogate = _convert_char_outside_bmp_to_unicode_escaped_string(char)
-      #     decoded.append(high_surrogate)
-      #     decoded.append(low_surrogate)
-      #   else:
-      #     decoded.append(char)
+      decoded = bytes(s).decode('utf-8')
       return Wrappers.Result_Success(_dafny.Seq(
-        first_pass_decoded
+        decoded
       ))
     except (UnicodeDecodeError, UnicodeEncodeError, ValueError, TypeError, struct.error):
       return Wrappers.Result_Failure(_dafny.Seq("Could not decode input from Dafny Bytes."))
