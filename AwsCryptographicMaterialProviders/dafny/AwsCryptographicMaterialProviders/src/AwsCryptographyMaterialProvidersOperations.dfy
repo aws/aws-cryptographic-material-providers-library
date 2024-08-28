@@ -66,6 +66,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   import Kms = Com.Amazonaws.Kms
   import Ddb = ComAmazonawsDynamodbTypes
   import RequiredEncryptionContextCMM
+  import UUID
 
   datatype Config = Config(
     nameonly crypto: Primitives.AtomicPrimitivesClient
@@ -280,9 +281,12 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       cmc :- CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := Types.Default(Types.DefaultCache(entryCapacity := 1000))));
     }
 
-    var keyStoreInfo :- expect input.keyStore.GetKeyStoreInfo();
-    var KeyStoreIdBytes :- UUID.ToByteArray(keyStoreInfo.keyStoreId)
-      .MapFailure(e => Types.KeyStoreException(message := e));
+    var maybeGetKeyStoreInfoOutput := input.keyStore.GetKeyStoreInfo();
+    var getKeyStoreInfoOutput :- maybeGetKeyStoreInfoOutput
+    .MapFailure(e => Types.AwsCryptographyKeyStore(AwsCryptographyKeyStore := e));
+
+    var keyStoreIdBytes :- UUID.ToByteArray(maybeGetKeyStoreInfoOutput.value.keyStoreId)
+    .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
 
     :- Need(input.branchKeyId.None? || input.branchKeyIdSupplier.None?,
             Types.AwsCryptographicMaterialProvidersException(
