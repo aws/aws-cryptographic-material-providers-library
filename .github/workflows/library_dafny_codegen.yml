@@ -1,0 +1,60 @@
+# This workflow regenerates Dafny code and checks that the output matches what's checked in.
+# This should only be run for languages where the generated Dafny is committed.
+name: Library Dafny Code Generation
+on:
+  workflow_call:
+    inputs:
+      dafny:
+        description: "The Dafny version to run"
+        required: true
+        type: string
+
+jobs:
+  dafny-code-generation:
+    strategy:
+      fail-fast: false
+      matrix:
+        library:
+          [
+            TestVectorsAwsCryptographicMaterialProviders,
+            AwsCryptographyPrimitives,
+            ComAmazonawsKms,
+            ComAmazonawsDynamodb,
+            AwsCryptographicMaterialProviders,
+            StandardLibrary,
+          ]
+        languages: ["python"]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      DOTNET_NOLOGO: 1
+    steps:
+      - name: Support longpaths
+        run: |
+          git config --global core.longpaths true
+
+      - uses: actions/checkout@v4
+      # The specification submodule is private so we don't have access, but we don't need
+      # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
+      - run: git submodule update --init libraries
+      - run: git submodule update --init --recursive smithy-dafny
+
+      # Only used to format generated code
+      # and to translate version strings such as "nightly-latest"
+      # to an actual DAFNY_VERSION.
+      - name: Setup Dafny
+        uses: dafny-lang/setup-dafny-action@v1.7.0
+        with:
+          dafny-version: ${{ inputs.dafny }}
+
+      - name: Regenerate Dafny and check against committed code
+        uses: ./.github/actions/dafny_codegen
+        with:
+          dafny: ${{ env.DAFNY_VERSION }}
+          library: ${{ matrix.library }}
+          language: ${{ matrix.language }}
+          diff-generated-code: true
