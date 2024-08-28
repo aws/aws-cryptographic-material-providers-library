@@ -23,7 +23,7 @@ jobs:
             AwsCryptographicMaterialProviders,
             StandardLibrary,
           ]
-        languages: ["python"]
+        language: ["python"]
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     defaults:
