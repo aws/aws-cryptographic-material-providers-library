@@ -79,21 +79,21 @@ class default__(standard_library.internaldafny.generated.UTF8.default__):
   def Decode(s):
     try:
       first_pass_decoded = bytes(s).decode('utf-8')
-      decoded = []
-      for i in range(len(first_pass_decoded)):
-        char = first_pass_decoded[i]
-        # Dafny-generated code expects any characters outside the BMP
-        # to be rendered as unicode-escaped strings.
-        if _is_outside_bmp(char):
-          # Any char outside the BMP needs to be re-encoded,
-          # then decoded as separate bytes.
-          high_surrogate, low_surrogate = _convert_char_outside_bmp_to_unicode_escaped_string(char)
-          decoded.append(high_surrogate)
-          decoded.append(low_surrogate)
-        else:
-          decoded.append(char)
+      # decoded = []
+      # for i in range(len(first_pass_decoded)):
+      #   char = first_pass_decoded[i]
+      #   # Dafny-generated code expects any characters outside the BMP
+      #   # to be rendered as unicode-escaped strings.
+      #   if _is_outside_bmp(char):
+      #     # Any char outside the BMP needs to be re-encoded,
+      #     # then decoded as separate bytes.
+      #     high_surrogate, low_surrogate = _convert_char_outside_bmp_to_unicode_escaped_string(char)
+      #     decoded.append(high_surrogate)
+      #     decoded.append(low_surrogate)
+      #   else:
+      #     decoded.append(char)
       return Wrappers.Result_Success(_dafny.Seq(
-        decoded
+        first_pass_decoded
       ))
     except (UnicodeDecodeError, UnicodeEncodeError, ValueError, TypeError, struct.error):
       return Wrappers.Result_Failure(_dafny.Seq("Could not decode input from Dafny Bytes."))
