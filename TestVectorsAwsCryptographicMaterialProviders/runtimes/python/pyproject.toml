@@ -6,6 +6,9 @@ authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
 packages = [
     { include = "aws_cryptography_materialproviderstestvectorkeys", from = "src" }
 ]
+# Include all of the following .gitignored files in package distributions,
+# even though it is not included in version control
+include = [""**/internaldafny/generated/*.py"]
 
 [tool.poetry.dependencies]
 python = "^3.11.0"
