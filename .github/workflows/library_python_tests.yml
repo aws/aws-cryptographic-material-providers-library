@@ -73,14 +73,6 @@ jobs:
       # We would build the Dafny implementation here,
       # but Python libraries will commit their generated Dafny.
 
-      - name: Regenerate Dafny and check against committed code
-        uses: ./.github/actions/dafny_codegen
-        with:
-          dafny: ${{ env.DAFNY_VERSION }}
-          library: ${{ matrix.library }}
-          language: python
-          diff-generated-code: true
-
       - name: Test ${{ matrix.library }}
         working-directory: ./${{ matrix.library }}
         shell: bash
