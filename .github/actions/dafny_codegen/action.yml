@@ -1,58 +1,56 @@
-#
-# This local action serves two purposes:
-#
-# 1. For core workflows like pull.yml and push.yml,
-#    it is uses to check that the checked in copy of Dafny-generated code
-#    matches what the current project.properties version of Dafny generates.
-#    This is important to ensure whenever someone regenerates Dafny code
-#    they don't have to deal with unpleasant surprises.
-#
-# This action assumes that the given version of Dafny and .NET 6.0.x
-# have already been set up, since they are used to format generated code.
+# #
+# # This action checks that the checked in copy of Dafny-generated code
+# # matches what the current project.properties version of Dafny generates.
+# # This is important to ensure whenever someone modifies Dafny code
+# # they don't have to deal with unpleasant surprises with languages
+# # that commit their generated Dafny code.
+# #
+# # This action assumes that the given version of Dafny and .NET 6.0.x
+# # have already been set up, since they are used to format generated code.
 
-name: "Dafny code generation"
-description: "Regenerates code using Dafny, and optionally checks that the result matches the checked in state"
-inputs:
-  dafny:
-    description: "The Dafny version to run"
-    required: true
-    type: string
-  library:
-    description: "Name of the library to regenerate code for"
-    required: true
-    type: string
-  language:
-    description: "Language to regenerate code for"
-    required: true
-    type: string
-  diff-generated-code:
-    description: "Diff regenerated code against committed state"
-    required: true
-    type: boolean
-runs:
-  using: "composite"
-  steps:
-    # Replace the project.properties file so that we pick up the right runtimes etc.,
-    # in cases where inputs.dafny is different from the current value in that file.
-    - name: Update top-level project.properties file
-      env:
-        DAFNY_VERSION: ${{ inputs.dafny }}
-      shell: bash
-      run: |
-        make generate_properties_file
+# name: "Dafny code generation"
+# description: "Regenerates code using Dafny, and optionally checks that the result matches the checked in state"
+# inputs:
+#   dafny:
+#     description: "The Dafny version to run"
+#     required: true
+#     type: string
+#   library:
+#     description: "Name of the library to regenerate code for"
+#     required: true
+#     type: string
+#   language:
+#     description: "Language to regenerate code for"
+#     required: true
+#     type: string
+#   diff-generated-code:
+#     description: "Diff regenerated code against committed state"
+#     required: true
+#     type: boolean
+# runs:
+#   using: "composite"
+#   steps:
+#     # Replace the project.properties file so that we pick up the right runtimes etc.,
+#     # in cases where inputs.dafny is different from the current value in that file.
+#     - name: Update top-level project.properties file
+#       env:
+#         DAFNY_VERSION: ${{ inputs.dafny }}
+#       shell: bash
+#       run: |
+#         make generate_properties_file
 
-    - name: Regenerate Dafny code
-      # npx seems to be unavailable on Windows GHA runners,
-      # so we don't regenerate Java code on them either.
-      working-directory: ./${{ inputs.library }}
-      shell: bash
-      run: |
-        make transpile_${{ inputs.language }}
+#     - name: Regenerate Dafny code
+#       # npx seems to be unavailable on Windows GHA runners,
+#       # so we don't regenerate Java code on them either.
+#       working-directory: ./${{ inputs.library }}
+#       shell: bash
+#       run: |
+#         make transpile_${{ inputs.language }}
 
-    - name: Check regenerated code against commited code
-      # Composite action inputs seem to not actually support booleans properly for some reason
-      if: inputs.diff-generated-code == 'true'
-      working-directory: ./${{ inputs.library }}
-      shell: bash
-      run: |
-        make check_polymorph_diff
+#     - name: Check regenerated code against commited code
+#       # Composite action inputs seem to not actually support booleans properly for some reason
+#       if: inputs.diff-generated-code == 'true'
+#       working-directory: ./${{ inputs.library }}
+#       shell: bash
+#       run: |
+#         make check_polymorph_diff
