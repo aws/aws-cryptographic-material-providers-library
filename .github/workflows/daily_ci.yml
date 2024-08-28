@@ -25,12 +25,6 @@ jobs:
     uses: ./.github/workflows/library_codegen.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
-  daily-ci-dafny-codegen:
-    needs: getVersion
-    if: github.event_name != 'schedule' || github.repository_owner == 'aws'
-    uses: ./.github/workflows/library_dafny_codegen.yml
-    with:
-      dafny: ${{needs.getVersion.outputs.version}}
   daily-ci-verification:
     needs: getVerifyVersion
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'

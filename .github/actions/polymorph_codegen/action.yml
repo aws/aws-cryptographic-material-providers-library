@@ -82,7 +82,7 @@ runs:
       run: |
         make polymorph_dotnet
     
-     - name: Regenerate Python code using smithy-dafny
+    - name: Regenerate Python code using smithy-dafny
       working-directory: ./${{ inputs.library }}
       shell: bash
       run: |

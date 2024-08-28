@@ -19,11 +19,6 @@ jobs:
     uses: ./.github/workflows/library_codegen.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
-  pr-ci-dafny-codegen:
-    needs: getVersion
-    uses: ./.github/workflows/library_dafny_codegen.yml
-    with:
-      dafny: ${{needs.getVersion.outputs.version}}
   pr-ci-verification:
     needs: getVerifyVersion
     uses: ./.github/workflows/library_dafny_verification.yml
