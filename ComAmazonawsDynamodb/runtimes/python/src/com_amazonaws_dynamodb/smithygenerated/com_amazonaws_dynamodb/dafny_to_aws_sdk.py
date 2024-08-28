@@ -154,6 +154,7 @@ from com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes im
 )
 import com_amazonaws_dynamodb.internaldafny.generated.module_
 import com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk
+from datetime import datetime
 
 
 def com_amazonaws_dynamodb_BackupInUseException(dafny_input):
@@ -966,9 +967,13 @@ def com_amazonaws_dynamodb_BackupDetails(dafny_input):
             dafny_input.BackupType
         )
     )
-    output["BackupCreationDateTime"] = TypeError("TimestampShape not supported")
+    output["BackupCreationDateTime"] = datetime.fromisoformat(
+        dafny_input.BackupCreationDateTime.VerbatimString(False)
+    )
     if dafny_input.BackupExpiryDateTime.is_Some:
-        output["BackupExpiryDateTime"] = TypeError("TimestampShape not supported")
+        output["BackupExpiryDateTime"] = datetime.fromisoformat(
+            dafny_input.BackupExpiryDateTime.value.VerbatimString(False)
+        )
 
     return output
 
@@ -1051,7 +1056,9 @@ def com_amazonaws_dynamodb_GlobalTableDescription(dafny_input):
         )
 
     if dafny_input.CreationDateTime.is_Some:
-        output["CreationDateTime"] = TypeError("TimestampShape not supported")
+        output["CreationDateTime"] = datetime.fromisoformat(
+            dafny_input.CreationDateTime.value.VerbatimString(False)
+        )
 
     if dafny_input.GlobalTableStatus.is_Some:
         output["GlobalTableStatus"] = (
@@ -1111,8 +1118,8 @@ def com_amazonaws_dynamodb_ReplicaDescription(dafny_input):
         ]
 
     if dafny_input.ReplicaInaccessibleDateTime.is_Some:
-        output["ReplicaInaccessibleDateTime"] = TypeError(
-            "TimestampShape not supported"
+        output["ReplicaInaccessibleDateTime"] = datetime.fromisoformat(
+            dafny_input.ReplicaInaccessibleDateTime.value.VerbatimString(False)
         )
 
     if dafny_input.ReplicaTableClassSummary.is_Some:
@@ -1203,7 +1210,9 @@ def com_amazonaws_dynamodb_TableClassSummary(dafny_input):
         )
 
     if dafny_input.LastUpdateDateTime.is_Some:
-        output["LastUpdateDateTime"] = TypeError("TimestampShape not supported")
+        output["LastUpdateDateTime"] = datetime.fromisoformat(
+            dafny_input.LastUpdateDateTime.value.VerbatimString(False)
+        )
 
     return output
 
@@ -1550,7 +1559,9 @@ def com_amazonaws_dynamodb_TableDescription(dafny_input):
         )
 
     if dafny_input.CreationDateTime.is_Some:
-        output["CreationDateTime"] = TypeError("TimestampShape not supported")
+        output["CreationDateTime"] = datetime.fromisoformat(
+            dafny_input.CreationDateTime.value.VerbatimString(False)
+        )
 
     if dafny_input.ProvisionedThroughput.is_Some:
         output["ProvisionedThroughput"] = (
@@ -1685,10 +1696,14 @@ def com_amazonaws_dynamodb_TableStatus(dafny_input):
 def com_amazonaws_dynamodb_ProvisionedThroughputDescription(dafny_input):
     output = {}
     if dafny_input.LastIncreaseDateTime.is_Some:
-        output["LastIncreaseDateTime"] = TypeError("TimestampShape not supported")
+        output["LastIncreaseDateTime"] = datetime.fromisoformat(
+            dafny_input.LastIncreaseDateTime.value.VerbatimString(False)
+        )
 
     if dafny_input.LastDecreaseDateTime.is_Some:
-        output["LastDecreaseDateTime"] = TypeError("TimestampShape not supported")
+        output["LastDecreaseDateTime"] = datetime.fromisoformat(
+            dafny_input.LastDecreaseDateTime.value.VerbatimString(False)
+        )
 
     if dafny_input.NumberOfDecreasesToday.is_Some:
         output["NumberOfDecreasesToday"] = dafny_input.NumberOfDecreasesToday.value
@@ -1712,8 +1727,8 @@ def com_amazonaws_dynamodb_BillingModeSummary(dafny_input):
         )
 
     if dafny_input.LastUpdateToPayPerRequestDateTime.is_Some:
-        output["LastUpdateToPayPerRequestDateTime"] = TypeError(
-            "TimestampShape not supported"
+        output["LastUpdateToPayPerRequestDateTime"] = datetime.fromisoformat(
+            dafny_input.LastUpdateToPayPerRequestDateTime.value.VerbatimString(False)
         )
 
     return output
@@ -1812,7 +1827,9 @@ def com_amazonaws_dynamodb_RestoreSummary(dafny_input):
             False
         )
 
-    output["RestoreDateTime"] = TypeError("TimestampShape not supported")
+    output["RestoreDateTime"] = datetime.fromisoformat(
+        dafny_input.RestoreDateTime.VerbatimString(False)
+    )
     output["RestoreInProgress"] = dafny_input.RestoreInProgress
     return output
 
@@ -1839,8 +1856,8 @@ def com_amazonaws_dynamodb_SSEDescription(dafny_input):
         )
 
     if dafny_input.InaccessibleEncryptionDateTime.is_Some:
-        output["InaccessibleEncryptionDateTime"] = TypeError(
-            "TimestampShape not supported"
+        output["InaccessibleEncryptionDateTime"] = datetime.fromisoformat(
+            dafny_input.InaccessibleEncryptionDateTime.value.VerbatimString(False)
         )
 
     return output
@@ -1849,7 +1866,9 @@ def com_amazonaws_dynamodb_SSEDescription(dafny_input):
 def com_amazonaws_dynamodb_ArchivalSummary(dafny_input):
     output = {}
     if dafny_input.ArchivalDateTime.is_Some:
-        output["ArchivalDateTime"] = TypeError("TimestampShape not supported")
+        output["ArchivalDateTime"] = datetime.fromisoformat(
+            dafny_input.ArchivalDateTime.value.VerbatimString(False)
+        )
 
     if dafny_input.ArchivalReason.is_Some:
         output["ArchivalReason"] = dafny_input.ArchivalReason.value.VerbatimString(
@@ -1963,7 +1982,9 @@ def com_amazonaws_dynamodb_SourceTableDetails(dafny_input):
         )
         for list_element in dafny_input.KeySchema
     ]
-    output["TableCreationDateTime"] = TypeError("TimestampShape not supported")
+    output["TableCreationDateTime"] = datetime.fromisoformat(
+        dafny_input.TableCreationDateTime.VerbatimString(False)
+    )
     output["ProvisionedThroughput"] = (
         com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aws_sdk.com_amazonaws_dynamodb_ProvisionedThroughput(
             dafny_input.ProvisionedThroughput
@@ -2413,10 +2434,14 @@ def com_amazonaws_dynamodb_PointInTimeRecoveryDescription(dafny_input):
         )
 
     if dafny_input.EarliestRestorableDateTime.is_Some:
-        output["EarliestRestorableDateTime"] = TypeError("TimestampShape not supported")
+        output["EarliestRestorableDateTime"] = datetime.fromisoformat(
+            dafny_input.EarliestRestorableDateTime.value.VerbatimString(False)
+        )
 
     if dafny_input.LatestRestorableDateTime.is_Some:
-        output["LatestRestorableDateTime"] = TypeError("TimestampShape not supported")
+        output["LatestRestorableDateTime"] = datetime.fromisoformat(
+            dafny_input.LatestRestorableDateTime.value.VerbatimString(False)
+        )
 
     return output
 
@@ -2510,7 +2535,9 @@ def com_amazonaws_dynamodb_DescribeContributorInsightsOutput(dafny_input):
         )
 
     if dafny_input.LastUpdateDateTime.is_Some:
-        output["LastUpdateDateTime"] = TypeError("TimestampShape not supported")
+        output["LastUpdateDateTime"] = datetime.fromisoformat(
+            dafny_input.LastUpdateDateTime.value.VerbatimString(False)
+        )
 
     if dafny_input.FailureException.is_Some:
         output["FailureException"] = (
@@ -2564,10 +2591,14 @@ def com_amazonaws_dynamodb_ExportDescription(dafny_input):
         )
 
     if dafny_input.StartTime.is_Some:
-        output["StartTime"] = TypeError("TimestampShape not supported")
+        output["StartTime"] = datetime.fromisoformat(
+            dafny_input.StartTime.value.VerbatimString(False)
+        )
 
     if dafny_input.EndTime.is_Some:
-        output["EndTime"] = TypeError("TimestampShape not supported")
+        output["EndTime"] = datetime.fromisoformat(
+            dafny_input.EndTime.value.VerbatimString(False)
+        )
 
     if dafny_input.ExportManifest.is_Some:
         output["ExportManifest"] = dafny_input.ExportManifest.value.VerbatimString(
@@ -2581,7 +2612,9 @@ def com_amazonaws_dynamodb_ExportDescription(dafny_input):
         output["TableId"] = dafny_input.TableId.value.VerbatimString(False)
 
     if dafny_input.ExportTime.is_Some:
-        output["ExportTime"] = TypeError("TimestampShape not supported")
+        output["ExportTime"] = datetime.fromisoformat(
+            dafny_input.ExportTime.value.VerbatimString(False)
+        )
 
     if dafny_input.ClientToken.is_Some:
         output["ClientToken"] = dafny_input.ClientToken.value.VerbatimString(False)
@@ -2948,10 +2981,14 @@ def com_amazonaws_dynamodb_ImportTableDescription(dafny_input):
         )
 
     if dafny_input.StartTime.is_Some:
-        output["StartTime"] = TypeError("TimestampShape not supported")
+        output["StartTime"] = datetime.fromisoformat(
+            dafny_input.StartTime.value.VerbatimString(False)
+        )
 
     if dafny_input.EndTime.is_Some:
-        output["EndTime"] = TypeError("TimestampShape not supported")
+        output["EndTime"] = datetime.fromisoformat(
+            dafny_input.EndTime.value.VerbatimString(False)
+        )
 
     if dafny_input.ProcessedSizeBytes.is_Some:
         output["ProcessedSizeBytes"] = dafny_input.ProcessedSizeBytes.value
@@ -3552,7 +3589,9 @@ def com_amazonaws_dynamodb_ExportTableToPointInTimeInput(dafny_input):
     output = {}
     output["TableArn"] = dafny_input.TableArn.VerbatimString(False)
     if dafny_input.ExportTime.is_Some:
-        output["ExportTime"] = TypeError("TimestampShape not supported")
+        output["ExportTime"] = datetime.fromisoformat(
+            dafny_input.ExportTime.value.VerbatimString(False)
+        )
 
     if dafny_input.ClientToken.is_Some:
         output["ClientToken"] = dafny_input.ClientToken.value.VerbatimString(False)
@@ -3733,10 +3772,14 @@ def com_amazonaws_dynamodb_ListBackupsInput(dafny_input):
         output["Limit"] = dafny_input.Limit.value
 
     if dafny_input.TimeRangeLowerBound.is_Some:
-        output["TimeRangeLowerBound"] = TypeError("TimestampShape not supported")
+        output["TimeRangeLowerBound"] = datetime.fromisoformat(
+            dafny_input.TimeRangeLowerBound.value.VerbatimString(False)
+        )
 
     if dafny_input.TimeRangeUpperBound.is_Some:
-        output["TimeRangeUpperBound"] = TypeError("TimestampShape not supported")
+        output["TimeRangeUpperBound"] = datetime.fromisoformat(
+            dafny_input.TimeRangeUpperBound.value.VerbatimString(False)
+        )
 
     if dafny_input.ExclusiveStartBackupArn.is_Some:
         output["ExclusiveStartBackupArn"] = (
@@ -3771,10 +3814,14 @@ def com_amazonaws_dynamodb_BackupSummary(dafny_input):
         output["BackupName"] = dafny_input.BackupName.value.VerbatimString(False)
 
     if dafny_input.BackupCreationDateTime.is_Some:
-        output["BackupCreationDateTime"] = TypeError("TimestampShape not supported")
+        output["BackupCreationDateTime"] = datetime.fromisoformat(
+            dafny_input.BackupCreationDateTime.value.VerbatimString(False)
+        )
 
     if dafny_input.BackupExpiryDateTime.is_Some:
-        output["BackupExpiryDateTime"] = TypeError("TimestampShape not supported")
+        output["BackupExpiryDateTime"] = datetime.fromisoformat(
+            dafny_input.BackupExpiryDateTime.value.VerbatimString(False)
+        )
 
     if dafny_input.BackupStatus.is_Some:
         output["BackupStatus"] = (
@@ -4008,10 +4055,14 @@ def com_amazonaws_dynamodb_ImportSummary(dafny_input):
         )
 
     if dafny_input.StartTime.is_Some:
-        output["StartTime"] = TypeError("TimestampShape not supported")
+        output["StartTime"] = datetime.fromisoformat(
+            dafny_input.StartTime.value.VerbatimString(False)
+        )
 
     if dafny_input.EndTime.is_Some:
-        output["EndTime"] = TypeError("TimestampShape not supported")
+        output["EndTime"] = datetime.fromisoformat(
+            dafny_input.EndTime.value.VerbatimString(False)
+        )
 
     return output
 
@@ -4444,7 +4495,9 @@ def com_amazonaws_dynamodb_RestoreTableToPointInTimeInput(dafny_input):
         output["UseLatestRestorableTime"] = dafny_input.UseLatestRestorableTime.value
 
     if dafny_input.RestoreDateTime.is_Some:
-        output["RestoreDateTime"] = TypeError("TimestampShape not supported")
+        output["RestoreDateTime"] = datetime.fromisoformat(
+            dafny_input.RestoreDateTime.value.VerbatimString(False)
+        )
 
     if dafny_input.BillingModeOverride.is_Some:
         output["BillingModeOverride"] = (

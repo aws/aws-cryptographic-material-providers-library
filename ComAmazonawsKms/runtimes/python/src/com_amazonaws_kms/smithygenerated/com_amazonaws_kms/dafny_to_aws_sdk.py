@@ -141,6 +141,7 @@ from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
 )
 import com_amazonaws_kms.internaldafny.generated.module_
 import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk
+from datetime import datetime
 
 
 def com_amazonaws_kms_AlreadyExistsException(dafny_input):
@@ -987,7 +988,9 @@ def com_amazonaws_kms_KeyMetadata(dafny_input):
         output["Arn"] = dafny_input.Arn.value.VerbatimString(False)
 
     if dafny_input.CreationDate.is_Some:
-        output["CreationDate"] = TypeError("TimestampShape not supported")
+        output["CreationDate"] = datetime.fromisoformat(
+            dafny_input.CreationDate.value.VerbatimString(False)
+        )
 
     if dafny_input.Enabled.is_Some:
         output["Enabled"] = dafny_input.Enabled.value
@@ -1010,10 +1013,14 @@ def com_amazonaws_kms_KeyMetadata(dafny_input):
         )
 
     if dafny_input.DeletionDate.is_Some:
-        output["DeletionDate"] = TypeError("TimestampShape not supported")
+        output["DeletionDate"] = datetime.fromisoformat(
+            dafny_input.DeletionDate.value.VerbatimString(False)
+        )
 
     if dafny_input.ValidTo.is_Some:
-        output["ValidTo"] = TypeError("TimestampShape not supported")
+        output["ValidTo"] = datetime.fromisoformat(
+            dafny_input.ValidTo.value.VerbatimString(False)
+        )
 
     if dafny_input.Origin.is_Some:
         output["Origin"] = (
@@ -1543,7 +1550,9 @@ def com_amazonaws_kms_CustomKeyStoresListEntry(dafny_input):
         )
 
     if dafny_input.CreationDate.is_Some:
-        output["CreationDate"] = TypeError("TimestampShape not supported")
+        output["CreationDate"] = datetime.fromisoformat(
+            dafny_input.CreationDate.value.VerbatimString(False)
+        )
 
     if dafny_input.CustomKeyStoreType.is_Some:
         output["CustomKeyStoreType"] = (
@@ -2172,10 +2181,14 @@ def com_amazonaws_kms_GetKeyRotationStatusResponse(dafny_input):
         output["RotationPeriodInDays"] = dafny_input.RotationPeriodInDays.value
 
     if dafny_input.NextRotationDate.is_Some:
-        output["NextRotationDate"] = TypeError("TimestampShape not supported")
+        output["NextRotationDate"] = datetime.fromisoformat(
+            dafny_input.NextRotationDate.value.VerbatimString(False)
+        )
 
     if dafny_input.OnDemandRotationStartDate.is_Some:
-        output["OnDemandRotationStartDate"] = TypeError("TimestampShape not supported")
+        output["OnDemandRotationStartDate"] = datetime.fromisoformat(
+            dafny_input.OnDemandRotationStartDate.value.VerbatimString(False)
+        )
 
     return output
 
@@ -2250,7 +2263,9 @@ def com_amazonaws_kms_GetParametersForImportResponse(dafny_input):
         output["PublicKey"] = bytes(dafny_input.PublicKey.value)
 
     if dafny_input.ParametersValidTo.is_Some:
-        output["ParametersValidTo"] = TypeError("TimestampShape not supported")
+        output["ParametersValidTo"] = datetime.fromisoformat(
+            dafny_input.ParametersValidTo.value.VerbatimString(False)
+        )
 
     return output
 
@@ -2329,7 +2344,9 @@ def com_amazonaws_kms_ImportKeyMaterialRequest(dafny_input):
     output["ImportToken"] = bytes(dafny_input.ImportToken)
     output["EncryptedKeyMaterial"] = bytes(dafny_input.EncryptedKeyMaterial)
     if dafny_input.ValidTo.is_Some:
-        output["ValidTo"] = TypeError("TimestampShape not supported")
+        output["ValidTo"] = datetime.fromisoformat(
+            dafny_input.ValidTo.value.VerbatimString(False)
+        )
 
     if dafny_input.ExpirationModel.is_Some:
         output["ExpirationModel"] = (
@@ -2372,10 +2389,14 @@ def com_amazonaws_kms_AliasListEntry(dafny_input):
         output["TargetKeyId"] = dafny_input.TargetKeyId.value.VerbatimString(False)
 
     if dafny_input.CreationDate.is_Some:
-        output["CreationDate"] = TypeError("TimestampShape not supported")
+        output["CreationDate"] = datetime.fromisoformat(
+            dafny_input.CreationDate.value.VerbatimString(False)
+        )
 
     if dafny_input.LastUpdatedDate.is_Some:
-        output["LastUpdatedDate"] = TypeError("TimestampShape not supported")
+        output["LastUpdatedDate"] = datetime.fromisoformat(
+            dafny_input.LastUpdatedDate.value.VerbatimString(False)
+        )
 
     return output
 
@@ -2431,7 +2452,9 @@ def com_amazonaws_kms_GrantListEntry(dafny_input):
         output["Name"] = dafny_input.Name.value.VerbatimString(False)
 
     if dafny_input.CreationDate.is_Some:
-        output["CreationDate"] = TypeError("TimestampShape not supported")
+        output["CreationDate"] = datetime.fromisoformat(
+            dafny_input.CreationDate.value.VerbatimString(False)
+        )
 
     if dafny_input.GranteePrincipal.is_Some:
         output["GranteePrincipal"] = dafny_input.GranteePrincipal.value.VerbatimString(
@@ -2532,7 +2555,9 @@ def com_amazonaws_kms_RotationsListEntry(dafny_input):
         output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
 
     if dafny_input.RotationDate.is_Some:
-        output["RotationDate"] = TypeError("TimestampShape not supported")
+        output["RotationDate"] = datetime.fromisoformat(
+            dafny_input.RotationDate.value.VerbatimString(False)
+        )
 
     if dafny_input.RotationType.is_Some:
         output["RotationType"] = (
@@ -2840,7 +2865,9 @@ def com_amazonaws_kms_ScheduleKeyDeletionResponse(dafny_input):
         output["KeyId"] = dafny_input.KeyId.value.VerbatimString(False)
 
     if dafny_input.DeletionDate.is_Some:
-        output["DeletionDate"] = TypeError("TimestampShape not supported")
+        output["DeletionDate"] = datetime.fromisoformat(
+            dafny_input.DeletionDate.value.VerbatimString(False)
+        )
 
     if dafny_input.KeyState.is_Some:
         output["KeyState"] = (
