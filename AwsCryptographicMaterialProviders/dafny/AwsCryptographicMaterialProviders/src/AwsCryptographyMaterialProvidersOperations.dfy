@@ -280,6 +280,10 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       cmc :- CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := Types.Default(Types.DefaultCache(entryCapacity := 1000))));
     }
 
+    var keyStoreInfo :- expect input.keyStore.GetKeyStoreInfo();
+    var KeyStoreIdBytes :- UUID.ToByteArray(keyStoreInfo.keyStoreId)
+      .MapFailure(e => Types.KeyStoreException(message := e));
+
     :- Need(input.branchKeyId.None? || input.branchKeyIdSupplier.None?,
             Types.AwsCryptographicMaterialProvidersException(
               message := "Cannot initialize keyring with both a branchKeyId and BranchKeyIdSupplier."));
@@ -295,6 +299,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       ttlSeconds := input.ttlSeconds,
       // maxCacheSize := maxCacheSize,
       cmc := cmc,
+      keyStoreIdBytes := keyStoreIdBytes,
       cryptoPrimitives := config.crypto
     );
     return Success(keyring);

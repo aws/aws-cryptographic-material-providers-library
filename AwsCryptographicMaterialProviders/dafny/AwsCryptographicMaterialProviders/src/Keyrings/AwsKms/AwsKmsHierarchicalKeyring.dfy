@@ -129,6 +129,7 @@ module AwsKmsHierarchicalKeyring {
     const ttlSeconds: Types.PositiveLong
     const cryptoPrimitives: Primitives.AtomicPrimitivesClient
     const cache: Types.ICryptographicMaterialsCache
+    const keyStoreIdBytes: seq<uint8>
 
     predicate ValidState()
       ensures ValidState() ==> History in Modifies
@@ -163,6 +164,7 @@ module AwsKmsHierarchicalKeyring {
       ttlSeconds: Types.PositiveLong,
 
       cmc: Types.ICryptographicMaterialsCache,
+      keyStoreIdBytes: seq<uint8>,
       cryptoPrimitives : Primitives.AtomicPrimitivesClient
     )
       requires ttlSeconds >= 0
@@ -174,6 +176,7 @@ module AwsKmsHierarchicalKeyring {
         && this.keyStore     == keyStore
         && this.branchKeyIdSupplier  == branchKeyIdSupplier
         && this.ttlSeconds   == ttlSeconds
+        && this.keyStoreIdBytes   == keyStoreIdBytes
       ensures
         && ValidState()
         && fresh(this)
@@ -187,6 +190,7 @@ module AwsKmsHierarchicalKeyring {
       this.ttlSeconds          := ttlSeconds;
       this.cryptoPrimitives    := cryptoPrimitives;
       this.cache               := cmc;
+      this.keyStoreIdBytes          := keyStoreIdBytes;
 
       History := new Types.IKeyringCallHistory();
       var maybeSupplierModifies := if branchKeyIdSupplier.Some? then branchKeyIdSupplier.value.Modifies else {};
@@ -356,7 +360,8 @@ module AwsKmsHierarchicalKeyring {
         cryptoPrimitives,
         branchKeyIdForDecrypt,
         ttlSeconds,
-        cache
+        cache,
+        keyStoreIdBytes
       );
 
       var outcome, attempts := ReduceToSuccess(
@@ -399,20 +404,18 @@ module AwsKmsHierarchicalKeyring {
         && 0 <= |branchKeyId| < UINT32_LIMIT,
         E("Invalid Branch Key ID Length")
       );
+      var hashAlgorithm := Crypto.DigestAlgorithm.SHA_384;
 
-      var branchKeyId := UTF8.Decode(branchKeyIdUtf8).value;
-      var lenBranchKey := UInt.UInt32ToSeq(|branchKeyId| as uint32);
+      // Resource: Hierarchy Keyring [0x01]
+      var resourceId := [0x01];
 
-      var hashAlgorithm := Crypto.DigestAlgorithm.SHA_512;
-
-      var maybeBranchKeyDigest := cryptoPrimitives
-      .Digest(Crypto.DigestInput(digestAlgorithm := hashAlgorithm, message := branchKeyIdUtf8));
-      var branchKeyDigest :- maybeBranchKeyDigest
-      .MapFailure(e => Types.AwsCryptographyPrimitives(AwsCryptographyPrimitives := e));
+      // Scope: Encryption [0x01]
+      var scopeId := [0x01];
 
       var activeUtf8 :- UTF8.Encode(EXPRESSION_ATTRIBUTE_VALUE_STATUS_VALUE)
       .MapFailure(WrapStringToError);
-      var identifier := lenBranchKey + branchKeyDigest + [0x00] + activeUtf8;
+
+      var identifier := resourceId + [0x00] + scopeId + [0x00] + keyStoreIdBytes + [0x00] + branchKeyIdUtf8 + [0x00] + activeUtf8;
 
       var maybeCacheIdDigest := cryptoPrimitives
       .Digest(Crypto.DigestInput(digestAlgorithm := hashAlgorithm, message := identifier));
@@ -425,7 +428,7 @@ module AwsKmsHierarchicalKeyring {
           message := "Digest generated a message not equal to the expected length.")
       );
 
-      return Success(cacheDigest[0..32]);
+      return Success(cacheDigest);
     }
 
     method GetActiveHierarchicalMaterials(
@@ -609,6 +612,7 @@ module AwsKmsHierarchicalKeyring {
     const branchKeyId: string
     const ttlSeconds: Types.PositiveLong
     const cache: Types.ICryptographicMaterialsCache
+    const keyStoreIdBytes: seq<uint8>
 
     constructor(
       materials: Materials.DecryptionMaterialsPendingPlaintextDataKey,
@@ -616,7 +620,8 @@ module AwsKmsHierarchicalKeyring {
       cryptoPrimitives: Primitives.AtomicPrimitivesClient,
       branchKeyId: string,
       ttlSeconds: Types.PositiveLong,
-      cache: Types.ICryptographicMaterialsCache
+      cache: Types.ICryptographicMaterialsCache,
+      keyStoreIdBytes: seq<uint8>
     )
       requires keyStore.ValidState() && cryptoPrimitives.ValidState()
       ensures
@@ -626,6 +631,7 @@ module AwsKmsHierarchicalKeyring {
         && this.branchKeyId == branchKeyId
         && this.ttlSeconds == ttlSeconds
         && this.cache == cache
+        && this.keyStoreIdBytes == keyStoreIdBytes
       ensures Invariant()
     {
       this.materials := materials;
@@ -634,6 +640,7 @@ module AwsKmsHierarchicalKeyring {
       this.branchKeyId := branchKeyId;
       this.ttlSeconds := ttlSeconds;
       this.cache := cache;
+      this.keyStoreIdBytes := keyStoreIdBytes;
       Modifies := keyStore.Modifies + cryptoPrimitives.Modifies;
     }
 
@@ -728,7 +735,7 @@ module AwsKmsHierarchicalKeyring {
       cryptoPrimitives: Primitives.AtomicPrimitivesClient
     )
       returns (cacheId: Result<seq<uint8>, Types.Error>)
-      ensures cacheId.Success? ==> |cacheId.value| == 64
+      ensures cacheId.Success? ==> |cacheId.value| == 48
     {
       :- Need(
         && UTF8.Decode(branchKeyIdUtf8).MapFailure(WrapStringToError).Success?
@@ -736,23 +743,35 @@ module AwsKmsHierarchicalKeyring {
         && 0 <= |branchKeyId| < UINT32_LIMIT,
         E("Invalid Branch Key ID Length")
       );
+      var hashAlgorithm := Crypto.DigestAlgorithm.SHA_384;
 
-      var branchKeyId := UTF8.Decode(branchKeyIdUtf8).value;
-      var lenBranchKey := UInt.UInt32ToSeq(|branchKeyId| as uint32);
+      // Resource: Hierarchy Keyring [0x01]
+      var resourceId := [0x01];
+
+      // Scope: Decryption [0x02]
+      var scopeId := [0x02];
+
       :- Need(
         UTF8.IsASCIIString(branchKeyVersion),
         E("Unable to represent as an ASCII string.")
       );
       var versionBytes := UTF8.EncodeAscii(branchKeyVersion);
 
-      var identifier := lenBranchKey + branchKeyIdUtf8 + [0x00 as uint8] + versionBytes;
+      var identifier := resourceId + [0x00] + scopeId + [0x00] + keyStoreIdBytes + [0x00] + branchKeyIdUtf8 + [0x00] + versionBytes;
+
       var identifierDigestInput := Crypto.DigestInput(
-        digestAlgorithm := Crypto.DigestAlgorithm.SHA_512, message := identifier
+        digestAlgorithm := hashAlgorithm, message := identifier
       );
       var maybeCacheDigest := Digest.Digest(identifierDigestInput);
       var cacheDigest :- maybeCacheDigest.MapFailure(e => Types.AwsCryptographyPrimitives(e));
 
-      return Success(cacheDigest[0..32]);
+      :- Need(
+        |cacheDigest| == Digest.Length(hashAlgorithm),
+        Types.AwsCryptographicMaterialProvidersException(
+          message := "Digest generated a message not equal to the expected length.")
+      );
+
+      return Success(cacheDigest);
     }
 
     method GetHierarchicalMaterialsVersion(

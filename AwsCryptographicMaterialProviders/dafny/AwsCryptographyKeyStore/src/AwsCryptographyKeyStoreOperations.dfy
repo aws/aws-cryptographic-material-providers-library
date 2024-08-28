@@ -27,7 +27,6 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
 
   datatype Config = Config(
     nameonly id: string,
-    nameonly binaryId: seq<uint8>,
     nameonly ddbTableName: DDB.TableName,
     nameonly logicalKeyStoreName: string,
     nameonly kmsConfiguration: KMSConfiguration,

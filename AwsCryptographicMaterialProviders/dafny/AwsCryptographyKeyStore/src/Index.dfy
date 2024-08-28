@@ -104,16 +104,6 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
       keyStoreId := uuid;
     }
 
-    var keyStoreCacheId : seq<uint8>;
-
-    if config.id.Some? {
-      keyStoreCacheId :- UTF8.Encode(config.id.value)
-      .MapFailure(e => Types.KeyStoreException(message := e));
-    } else {
-      keyStoreCacheId :- UUID.ToByteArray(keyStoreId)
-      .MapFailure(e => Types.KeyStoreException(message := e));
-    }
-
     if config.kmsClient.Some? {
       kmsClient := config.kmsClient.value;
     } else if config.kmsClient.None? && inferredRegion.Some? {
@@ -184,7 +174,6 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"}
     var client := new KeyStoreClient(
       Operations.Config(
       id := keyStoreId,
-      binaryId := keyStoreCacheId,
       ddbTableName := config.ddbTableName,
       logicalKeyStoreName := config.logicalKeyStoreName,
       kmsConfiguration := config.kmsConfiguration,
