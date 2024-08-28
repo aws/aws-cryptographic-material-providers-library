@@ -65,7 +65,7 @@ jobs:
       - name: Install Smithy-Dafny codegen dependencies
         uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
 
-      - name: Regenerate Dafny and check against committed code
+      - name: Regenerate Dafny-${{ matrix.language }} and check against committed code
         uses: ./.github/actions/dafny_codegen
         with:
           dafny: ${{ env.DAFNY_VERSION }}
