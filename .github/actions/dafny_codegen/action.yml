@@ -29,10 +29,6 @@ inputs:
     description: "Diff regenerated code against committed state"
     required: true
     type: boolean
-outputs:
-  random-number:
-    description: "Random number"
-    value: ${{ steps.random-number-generator.outputs.random-number }}
 runs:
   using: "composite"
   steps:
