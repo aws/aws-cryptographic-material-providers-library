@@ -87,8 +87,26 @@ module {:options "-functionSyntax:4"} TestVectors {
         => !result.Success?;
 
     if !output {
-      if test.vector.PositiveDecryptKeyringTest? && result.Failure? {
-        print result.error;
+      if test.vector.PositiveDecryptKeyringTest? {
+        if result.Failure? {
+          print "Error : ", result.error, "\n";
+        } else {
+          if (result.value.decryptionMaterials.plaintextDataKey != test.vector.expectedResult.plaintextDataKey) {
+            print "Error : plaintextDataKey does not match.\n",
+                  test.vector.expectedResult.plaintextDataKey, "\n",
+                  result.value.decryptionMaterials.plaintextDataKey, "\n";
+          }
+          if (result.value.decryptionMaterials.symmetricSigningKey != test.vector.expectedResult.symmetricSigningKey) {
+            print "Error : symmetricSigningKey does not match.\n",
+                  test.vector.expectedResult.symmetricSigningKey, "\n",
+                  result.value.decryptionMaterials.symmetricSigningKey, "\n";
+          }
+          if (result.value.decryptionMaterials.requiredEncryptionContextKeys != test.vector.expectedResult.requiredEncryptionContextKeys) {
+            print "Error : requiredEncryptionContextKeys does not match.\n", |result.value.decryptionMaterials.requiredEncryptionContextKeys|,
+                  " ", |test.vector.expectedResult.requiredEncryptionContextKeys|, "\n", test.vector.expectedResult.requiredEncryptionContextKeys,
+                  "\n", result.value.decryptionMaterials.requiredEncryptionContextKeys, "\n";
+          }
+        }
       }
       print "\nFAILED! <-----------\n";
     }
