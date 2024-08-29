@@ -474,6 +474,18 @@ public class ToNative {
         ToNative.CacheType(dafnyValue.dtor_cache().dtor_value())
       );
     }
+    if (dafnyValue.dtor_partitionId().is_Some()) {
+      nativeBuilder.partitionId(
+        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+          dafnyValue.dtor_partitionId().dtor_value()
+        )
+      );
+    }
+    if (dafnyValue.dtor_limitMessages().is_Some()) {
+      nativeBuilder.limitMessages(
+        (dafnyValue.dtor_limitMessages().dtor_value())
+      );
+    }
     return nativeBuilder.build();
   }
 

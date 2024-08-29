@@ -364,12 +364,28 @@ public class ToDafny {
       Objects.nonNull(nativeValue.cache())
         ? Option.create_Some(ToDafny.CacheType(nativeValue.cache()))
         : Option.create_None();
+    Option<DafnySequence<? extends Character>> partitionId;
+    partitionId =
+      Objects.nonNull(nativeValue.partitionId())
+        ? Option.create_Some(
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.partitionId()
+          )
+        )
+        : Option.create_None();
+    Option<Integer> limitMessages;
+    limitMessages =
+      Objects.nonNull(nativeValue.limitMessages())
+        ? Option.create_Some((nativeValue.limitMessages()))
+        : Option.create_None();
     return new CreateAwsKmsHierarchicalKeyringInput(
       branchKeyId,
       branchKeyIdSupplier,
       keyStore,
       ttlSeconds,
-      cache
+      cache,
+      partitionId,
+      limitMessages
     );
   }
 

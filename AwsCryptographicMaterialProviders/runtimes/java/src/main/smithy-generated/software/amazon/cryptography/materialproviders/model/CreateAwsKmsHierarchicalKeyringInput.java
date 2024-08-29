@@ -38,12 +38,24 @@ public class CreateAwsKmsHierarchicalKeyringInput {
    */
   private final CacheType cache;
 
+  /**
+   * Partition ID to distinguish between Hierarchical Keyrings writing to a shared cache. If the Partition ID is the same for two Hierarchical Keyrings, they can share the same cache entry in the shared cache.
+   */
+  private final String partitionId;
+
+  /**
+   * The cache entry's messages used MUST be less than or equal to the configured Limit Messages
+   */
+  private final int limitMessages;
+
   protected CreateAwsKmsHierarchicalKeyringInput(BuilderImpl builder) {
     this.branchKeyId = builder.branchKeyId();
     this.branchKeyIdSupplier = builder.branchKeyIdSupplier();
     this.keyStore = builder.keyStore();
     this.ttlSeconds = builder.ttlSeconds();
     this.cache = builder.cache();
+    this.partitionId = builder.partitionId();
+    this.limitMessages = builder.limitMessages();
   }
 
   /**
@@ -79,6 +91,20 @@ public class CreateAwsKmsHierarchicalKeyringInput {
    */
   public CacheType cache() {
     return this.cache;
+  }
+
+  /**
+   * @return Partition ID to distinguish between Hierarchical Keyrings writing to a shared cache. If the Partition ID is the same for two Hierarchical Keyrings, they can share the same cache entry in the shared cache.
+   */
+  public String partitionId() {
+    return this.partitionId;
+  }
+
+  /**
+   * @return The cache entry's messages used MUST be less than or equal to the configured Limit Messages
+   */
+  public int limitMessages() {
+    return this.limitMessages;
   }
 
   public Builder toBuilder() {
@@ -140,6 +166,26 @@ public class CreateAwsKmsHierarchicalKeyringInput {
      */
     CacheType cache();
 
+    /**
+     * @param partitionId Partition ID to distinguish between Hierarchical Keyrings writing to a shared cache. If the Partition ID is the same for two Hierarchical Keyrings, they can share the same cache entry in the shared cache.
+     */
+    Builder partitionId(String partitionId);
+
+    /**
+     * @return Partition ID to distinguish between Hierarchical Keyrings writing to a shared cache. If the Partition ID is the same for two Hierarchical Keyrings, they can share the same cache entry in the shared cache.
+     */
+    String partitionId();
+
+    /**
+     * @param limitMessages The cache entry's messages used MUST be less than or equal to the configured Limit Messages
+     */
+    Builder limitMessages(int limitMessages);
+
+    /**
+     * @return The cache entry's messages used MUST be less than or equal to the configured Limit Messages
+     */
+    int limitMessages();
+
     CreateAwsKmsHierarchicalKeyringInput build();
   }
 
@@ -157,6 +203,12 @@ public class CreateAwsKmsHierarchicalKeyringInput {
 
     protected CacheType cache;
 
+    protected String partitionId;
+
+    protected int limitMessages;
+
+    private boolean _limitMessagesSet = false;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(CreateAwsKmsHierarchicalKeyringInput model) {
@@ -166,6 +218,9 @@ public class CreateAwsKmsHierarchicalKeyringInput {
       this.ttlSeconds = model.ttlSeconds();
       this._ttlSecondsSet = true;
       this.cache = model.cache();
+      this.partitionId = model.partitionId();
+      this.limitMessages = model.limitMessages();
+      this._limitMessagesSet = true;
     }
 
     public Builder branchKeyId(String branchKeyId) {
@@ -216,6 +271,25 @@ public class CreateAwsKmsHierarchicalKeyringInput {
       return this.cache;
     }
 
+    public Builder partitionId(String partitionId) {
+      this.partitionId = partitionId;
+      return this;
+    }
+
+    public String partitionId() {
+      return this.partitionId;
+    }
+
+    public Builder limitMessages(int limitMessages) {
+      this.limitMessages = limitMessages;
+      this._limitMessagesSet = true;
+      return this;
+    }
+
+    public int limitMessages() {
+      return this.limitMessages;
+    }
+
     public CreateAwsKmsHierarchicalKeyringInput build() {
       if (Objects.isNull(this.keyStore())) {
         throw new IllegalArgumentException(
@@ -230,6 +304,11 @@ public class CreateAwsKmsHierarchicalKeyringInput {
       if (this._ttlSecondsSet && this.ttlSeconds() < 0) {
         throw new IllegalArgumentException(
           "`ttlSeconds` must be greater than or equal to 0"
+        );
+      }
+      if (this._limitMessagesSet && this.limitMessages() < 0) {
+        throw new IllegalArgumentException(
+          "`limitMessages` must be greater than or equal to 0"
         );
       }
       return new CreateAwsKmsHierarchicalKeyringInput(this);

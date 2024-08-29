@@ -129,7 +129,8 @@ module AwsKmsHierarchicalKeyring {
     const ttlSeconds: Types.PositiveLong
     const cryptoPrimitives: Primitives.AtomicPrimitivesClient
     const cache: Types.ICryptographicMaterialsCache
-    const keyStoreIdBytes: seq<uint8>
+    const partitionIdBytes: seq<uint8>
+    const limitMessages: Types.PositiveInteger
 
     predicate ValidState()
       ensures ValidState() ==> History in Modifies
@@ -164,7 +165,8 @@ module AwsKmsHierarchicalKeyring {
       ttlSeconds: Types.PositiveLong,
 
       cmc: Types.ICryptographicMaterialsCache,
-      keyStoreIdBytes: seq<uint8>,
+      partitionIdBytes: seq<uint8>,
+      limitMessages: Types.PositiveInteger,
       cryptoPrimitives : Primitives.AtomicPrimitivesClient
     )
       requires ttlSeconds >= 0
@@ -176,7 +178,8 @@ module AwsKmsHierarchicalKeyring {
         && this.keyStore     == keyStore
         && this.branchKeyIdSupplier  == branchKeyIdSupplier
         && this.ttlSeconds   == ttlSeconds
-        && this.keyStoreIdBytes   == keyStoreIdBytes
+        && this.partitionIdBytes   == partitionIdBytes
+        && this.limitMessages == limitMessages
       ensures
         && ValidState()
         && fresh(this)
@@ -190,7 +193,8 @@ module AwsKmsHierarchicalKeyring {
       this.ttlSeconds          := ttlSeconds;
       this.cryptoPrimitives    := cryptoPrimitives;
       this.cache               := cmc;
-      this.keyStoreIdBytes          := keyStoreIdBytes;
+      this.partitionIdBytes         := partitionIdBytes;
+      this.limitMessages       := limitMessages;
 
       History := new Types.IKeyringCallHistory();
       var maybeSupplierModifies := if branchKeyIdSupplier.Some? then branchKeyIdSupplier.value.Modifies else {};
@@ -361,7 +365,8 @@ module AwsKmsHierarchicalKeyring {
         branchKeyIdForDecrypt,
         ttlSeconds,
         cache,
-        keyStoreIdBytes
+        partitionIdBytes,
+        limitMessages
       );
 
       var outcome, attempts := ReduceToSuccess(
@@ -415,7 +420,7 @@ module AwsKmsHierarchicalKeyring {
       var activeUtf8 :- UTF8.Encode(EXPRESSION_ATTRIBUTE_VALUE_STATUS_VALUE)
       .MapFailure(WrapStringToError);
 
-      var identifier := resourceId + [0x00] + scopeId + [0x00] + keyStoreIdBytes + [0x00] + branchKeyIdUtf8 + [0x00] + activeUtf8;
+      var identifier := resourceId + [0x00] + scopeId + [0x00] + partitionIdBytes + [0x00] + branchKeyIdUtf8 + [0x00] + activeUtf8;
 
       var maybeCacheIdDigest := cryptoPrimitives
       .Digest(Crypto.DigestInput(digestAlgorithm := hashAlgorithm, message := identifier));
@@ -612,7 +617,8 @@ module AwsKmsHierarchicalKeyring {
     const branchKeyId: string
     const ttlSeconds: Types.PositiveLong
     const cache: Types.ICryptographicMaterialsCache
-    const keyStoreIdBytes: seq<uint8>
+    const partitionIdBytes: seq<uint8>
+    const limitMessages: Types.PositiveInteger
 
     constructor(
       materials: Materials.DecryptionMaterialsPendingPlaintextDataKey,
@@ -621,7 +627,8 @@ module AwsKmsHierarchicalKeyring {
       branchKeyId: string,
       ttlSeconds: Types.PositiveLong,
       cache: Types.ICryptographicMaterialsCache,
-      keyStoreIdBytes: seq<uint8>
+      partitionIdBytes: seq<uint8>,
+      limitMessages: Types.PositiveInteger
     )
       requires keyStore.ValidState() && cryptoPrimitives.ValidState()
       ensures
@@ -631,7 +638,8 @@ module AwsKmsHierarchicalKeyring {
         && this.branchKeyId == branchKeyId
         && this.ttlSeconds == ttlSeconds
         && this.cache == cache
-        && this.keyStoreIdBytes == keyStoreIdBytes
+        && this.partitionIdBytes == partitionIdBytes
+        && this.limitMessages == limitMessages
       ensures Invariant()
     {
       this.materials := materials;
@@ -640,7 +648,8 @@ module AwsKmsHierarchicalKeyring {
       this.branchKeyId := branchKeyId;
       this.ttlSeconds := ttlSeconds;
       this.cache := cache;
-      this.keyStoreIdBytes := keyStoreIdBytes;
+      this.partitionIdBytes := partitionIdBytes;
+      this.limitMessages := limitMessages;
       Modifies := keyStore.Modifies + cryptoPrimitives.Modifies;
     }
 
@@ -757,7 +766,7 @@ module AwsKmsHierarchicalKeyring {
       );
       var versionBytes := UTF8.EncodeAscii(branchKeyVersion);
 
-      var identifier := resourceId + [0x00] + scopeId + [0x00] + keyStoreIdBytes + [0x00] + branchKeyIdUtf8 + [0x00] + versionBytes;
+      var identifier := resourceId + [0x00] + scopeId + [0x00] + partitionIdBytes + [0x00] + branchKeyIdUtf8 + [0x00] + versionBytes;
 
       var identifierDigestInput := Crypto.DigestInput(
         digestAlgorithm := hashAlgorithm, message := identifier

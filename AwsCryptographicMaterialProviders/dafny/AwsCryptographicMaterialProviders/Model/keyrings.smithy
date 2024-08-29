@@ -341,6 +341,12 @@ structure CreateAwsKmsHierarchicalKeyringInput {
 
     @documentation("Determines what type of cache will be constructed and bound to the Hierarchical Keyring. If the customer provides an already initialized 'Initialized' CacheType, it can be shared across multiple Hierarchical Keyrings. If any other type in CacheType is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If nothing is provided here, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.")
     cache : CacheType
+
+    @documentation("Partition ID to distinguish between Hierarchical Keyrings writing to a shared cache. If the Partition ID is the same for two Hierarchical Keyrings, they can share the same cache entry in the shared cache.")
+    partitionId : String
+
+    @documentation("The cache entry's messages used MUST be less than or equal to the configured Limit Messages")
+    limitMessages : PositiveInteger
 }
 
 // Raw
