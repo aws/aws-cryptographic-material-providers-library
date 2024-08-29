@@ -61,8 +61,6 @@ module TestUTF8 {
     encoded :- expect UTF8.Encode(decoded);
     expect [0x20] == encoded;
     expect Uses1Byte(encoded);
-    expect Uses1Byte(encoded);
-
     redecoded :- expect UTF8.Decode(encoded);
     expect decoded == redecoded;
 
