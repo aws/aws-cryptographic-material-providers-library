@@ -89,94 +89,105 @@ module TestUTF8 {
   method {:test} Test2Bytes() {
     // British pound
     var decoded := "\u00A3";
+    var expected_redecoded := "£";
     var encoded :- expect UTF8.Encode(decoded);
     expect [0xC2, 0xA3] == encoded;
     expect Uses2Bytes(encoded);
     var redecoded :- expect UTF8.Decode(encoded);
-    expect decoded == redecoded;
+    expect expected_redecoded == redecoded;
 
     // Copyright
     decoded := "\u00A9";
+    expected_redecoded := "©";
     encoded :- expect UTF8.Encode(decoded);
     expect [0xC2, 0xA9] == encoded;
     expect Uses2Bytes(encoded);
     redecoded :- expect UTF8.Decode(encoded);
-    expect decoded == redecoded;
+    expect expected_redecoded == redecoded;
 
     // Registered
     decoded := "\u00AE";
+    expected_redecoded := "®";
     encoded :- expect UTF8.Encode(decoded);
     expect [0xC2, 0xAE] == encoded;
     expect Uses2Bytes(encoded);
     redecoded :- expect UTF8.Decode(encoded);
-    expect decoded == redecoded;
+    expect expected_redecoded == redecoded;
 
     // Greek Pi
     decoded := "\u03C0";
+    expected_redecoded := "π";
     encoded :- expect UTF8.Encode(decoded);
     expect [0xCF, 0x80] == encoded;
     expect Uses2Bytes(encoded);
     redecoded :- expect UTF8.Decode(encoded);
-    expect decoded == redecoded;
+    expect expected_redecoded == redecoded;
   }
 
   method {:test} Test3Bytes() {
     // Enter symbol
     var decoded := "\u2386";
+    var expected_redecoded := "⎆";
     var encoded :- expect UTF8.Encode(decoded);
     expect [0xE2, 0x8E, 0x86] == encoded;
     expect Uses3Bytes(encoded);
     var redecoded :- expect UTF8.Decode(encoded);
-    expect decoded == redecoded;
+    expect expected_redecoded == redecoded;
 
     // Alternative key
     decoded := "\u2387";
+    expected_redecoded := "⎇";
     encoded :- expect UTF8.Encode(decoded);
     expect [0xE2, 0x8E, 0x87] == encoded;
     expect Uses3Bytes(encoded);
     redecoded :- expect UTF8.Decode(encoded);
-    expect decoded == redecoded;
+    expect expected_redecoded == redecoded;
 
     // Hourglass emoji
     decoded := "\u231B";
+    expected_redecoded := "⌛";
     encoded :- expect UTF8.Encode(decoded);
     expect [0xE2, 0x8C, 0x9B] == encoded;
     expect Uses3Bytes(encoded);
     redecoded :- expect UTF8.Decode(encoded);
-    expect decoded == redecoded;
+    expect expected_redecoded == redecoded;
 
     // Modifier letter cyrillic EN
     decoded := "\u1D78";
+    expected_redecoded := "ᵸ";
     encoded :- expect UTF8.Encode(decoded);
     expect [0xE1, 0xB5, 0xB8] == encoded;
     expect Uses3Bytes(encoded);
     redecoded :- expect UTF8.Decode(encoded);
-    expect decoded == redecoded;
+    expect expected_redecoded == redecoded;
 
     // Chinese cat (mao)
     decoded := "\u732B";
+    expected_redecoded := "猫";
     encoded :- expect UTF8.Encode(decoded);
     expect [0xE7, 0x8C, 0xAB] == encoded;
     expect Uses3Bytes(encoded);
     redecoded :- expect UTF8.Decode(encoded);
-    expect decoded == redecoded;
+    expect expected_redecoded == redecoded;
   }
 
   method {:test} Test4Bytes() {
     // Cuneiform Sign A - represented as a surrogate of U+12000
     var decoded := "\uD808\uDC00";
+    var expected_redecoded := "𒀀";
     var encoded :- expect UTF8.Encode(decoded);
     expect [0xF0, 0x92, 0x80, 0x80] == encoded;
     expect Uses4Bytes(encoded);
     var redecoded :- expect UTF8.Decode(encoded);
-    expect decoded == redecoded;
+    expect expected_redecoded == redecoded;
 
     // Mathematical Sans-Serif Bold Italic Small Psi - represented as a surrogate of U+1D7C1
     decoded := "\uD835\uDFC1";
+    expected_redecoded := "𝟁";
     encoded :- expect UTF8.Encode(decoded);
     expect [0xF0, 0x9D, 0x9F, 0x81] == encoded;
     expect Uses4Bytes(encoded);
     redecoded :- expect UTF8.Decode(encoded);
-    expect decoded == redecoded;
+    expect expected_redecoded == redecoded;
   }
 }
