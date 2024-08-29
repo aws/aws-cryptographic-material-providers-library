@@ -4,6 +4,13 @@
 include "../src/StandardLibrary.dfy"
 include "../src/UTF8.dfy"
 
+// UTF8 tests to assert that encoding and decoding matches expected values.
+// The original decoded representation can be either a Unicode escape sequence
+// or a Unicode character.
+// The encoded representation is expected to be the same byte array.
+// The redecoded representation is always expected to be a Unicode character,
+// and NOT the corresponding Unicode escape sequence.
+
 module TestUTF8 {
   import opened UInt = StandardLibrary.UInt
   import opened UTF8
@@ -54,6 +61,8 @@ module TestUTF8 {
     encoded :- expect UTF8.Encode(decoded);
     expect [0x20] == encoded;
     expect Uses1Byte(encoded);
+    expect Uses1Byte(encoded);
+
     redecoded :- expect UTF8.Decode(encoded);
     expect decoded == redecoded;
 
