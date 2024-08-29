@@ -285,8 +285,8 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     var getKeyStoreInfoOutput :- maybeGetKeyStoreInfoOutput
     .MapFailure(e => Types.AwsCryptographyKeyStore(AwsCryptographyKeyStore := e));
 
-    var keyStoreIdBytes :- UUID.ToByteArray(getKeyStoreInfoOutput.keyStoreId)
-    .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
+    var keyStoreIdBytes : seq<uint8> :- UTF8.Encode(getKeyStoreInfoOutput.keyStoreId)
+      .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
 
     :- Need(input.branchKeyId.None? || input.branchKeyIdSupplier.None?,
             Types.AwsCryptographicMaterialProvidersException(
