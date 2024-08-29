@@ -82,7 +82,7 @@ module {:options "-functionSyntax:4"} TestVectors {
         && result.Success?
         && result.value.decryptionMaterials.plaintextDataKey == test.vector.expectedResult.plaintextDataKey
         && result.value.decryptionMaterials.symmetricSigningKey == test.vector.expectedResult.symmetricSigningKey
-        && result.value.decryptionMaterials.requiredEncryptionContextKeys == test.vector.expectedResult.requiredEncryptionContextKeys
+        && multiset(result.value.decryptionMaterials.requiredEncryptionContextKeys) == multiset(test.vector.expectedResult.requiredEncryptionContextKeys)
       case NegativeDecryptKeyringTest(_,_,_,_,_,_,_,_,_)
         => !result.Success?;
 
@@ -101,7 +101,7 @@ module {:options "-functionSyntax:4"} TestVectors {
                   test.vector.expectedResult.symmetricSigningKey, "\n",
                   result.value.decryptionMaterials.symmetricSigningKey, "\n";
           }
-          if (result.value.decryptionMaterials.requiredEncryptionContextKeys != test.vector.expectedResult.requiredEncryptionContextKeys) {
+          if (multiset(result.value.decryptionMaterials.requiredEncryptionContextKeys) != multiset(test.vector.expectedResult.requiredEncryptionContextKeys)) {
             print "Error : requiredEncryptionContextKeys does not match.\n", |result.value.decryptionMaterials.requiredEncryptionContextKeys|,
                   " ", |test.vector.expectedResult.requiredEncryptionContextKeys|, "\n", test.vector.expectedResult.requiredEncryptionContextKeys,
                   "\n", result.value.decryptionMaterials.requiredEncryptionContextKeys, "\n";
