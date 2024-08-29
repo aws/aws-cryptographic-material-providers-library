@@ -281,9 +281,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       cmc :- CreateCryptographicMaterialsCache(config, CreateCryptographicMaterialsCacheInput(cache := Types.Default(Types.DefaultCache(entryCapacity := 1000))));
     }
 
-    var maybeGetKeyStoreInfoOutput := input.keyStore.GetKeyStoreInfo();
-    var getKeyStoreInfoOutput :- maybeGetKeyStoreInfoOutput
-    .MapFailure(e => Types.AwsCryptographyKeyStore(AwsCryptographyKeyStore := e));
+    var getKeyStoreInfoOutput :- expect input.keyStore.GetKeyStoreInfo();
 
     var keyStoreIdBytes :- UUID.ToByteArray(getKeyStoreInfoOutput.keyStoreId)
     .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
