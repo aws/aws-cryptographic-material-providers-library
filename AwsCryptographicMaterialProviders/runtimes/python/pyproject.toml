@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "aws-cryptographic-material-providers"
+name = "aws-cryptographic-materialproviders"
 version = "0.1.0"
 description = ""
 authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]

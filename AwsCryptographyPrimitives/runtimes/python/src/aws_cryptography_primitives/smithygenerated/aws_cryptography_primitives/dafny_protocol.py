@@ -31,7 +31,7 @@ from aws_cryptography_primitives.internaldafny.generated.AwsCryptographyPrimitiv
 import aws_cryptography_primitives.internaldafny.generated.module_
 
 
-import standard_library.internaldafny.generated.Wrappers as Wrappers
+import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 from typing import Union
 
 

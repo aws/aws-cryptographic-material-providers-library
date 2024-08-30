@@ -100,7 +100,7 @@ import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.dafny_to_aws_sdk
 from . import dafny_to_aws_sdk
 
 
-import standard_library.internaldafny.generated.Wrappers as Wrappers
+import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 from botocore.exceptions import ClientError
 import com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes
 

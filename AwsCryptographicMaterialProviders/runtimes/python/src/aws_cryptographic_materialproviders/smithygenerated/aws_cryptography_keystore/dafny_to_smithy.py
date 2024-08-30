@@ -10,7 +10,7 @@ from aws_cryptographic_materialproviders.internaldafny.generated.AwsCryptography
 )
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
 import aws_cryptographic_materialproviders.smithygenerated.aws_cryptography_keystore.models
-from standard_library.internaldafny.generated import UTF8
+from smithy_dafny_standard_library.internaldafny.generated import UTF8
 
 
 def smithy_api_Unit():

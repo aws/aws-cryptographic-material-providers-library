@@ -129,8 +129,11 @@ import aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.s
 from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import IKMSClient
 import com_amazonaws_kms.internaldafny.generated.module_
 import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny
-from standard_library.internaldafny.generated import UTF8
-from standard_library.internaldafny.generated.Wrappers import Option_None, Option_Some
+from smithy_dafny_smithy_dafny_standard_library.internaldafny.generated.Wrappers import (
+    Option_None,
+    Option_Some,
+)
+from smithy_dafny_standard_library.internaldafny.generated import UTF8
 
 
 def aws_cryptography_materialproviders_GetBranchKeyIdInput(native_input):

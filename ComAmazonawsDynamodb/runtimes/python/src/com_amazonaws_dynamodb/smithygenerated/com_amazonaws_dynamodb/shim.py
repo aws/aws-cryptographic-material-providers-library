@@ -115,7 +115,7 @@ import com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.dafny_to_aw
 from . import dafny_to_aws_sdk
 
 
-import standard_library.internaldafny.generated.Wrappers as Wrappers
+import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 from botocore.exceptions import ClientError
 import com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes
 

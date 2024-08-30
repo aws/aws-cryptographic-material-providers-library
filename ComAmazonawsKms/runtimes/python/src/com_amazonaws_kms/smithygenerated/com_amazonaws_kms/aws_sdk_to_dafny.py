@@ -294,7 +294,10 @@ from com_amazonaws_kms.internaldafny.generated.ComAmazonawsKmsTypes import (
 )
 import com_amazonaws_kms.internaldafny.generated.module_
 import com_amazonaws_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny
-from standard_library.internaldafny.generated.Wrappers import Option_None, Option_Some
+from smithy_dafny_standard_library.internaldafny.generated.Wrappers import (
+    Option_None,
+    Option_Some,
+)
 
 
 def com_amazonaws_kms_AlreadyExistsException(native_input):

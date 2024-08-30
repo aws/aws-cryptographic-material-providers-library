@@ -392,7 +392,10 @@ from com_amazonaws_dynamodb.internaldafny.generated.ComAmazonawsDynamodbTypes im
 )
 import com_amazonaws_dynamodb.internaldafny.generated.module_
 import com_amazonaws_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny
-from standard_library.internaldafny.generated.Wrappers import Option_None, Option_Some
+from smithy_dafny_standard_library.internaldafny.generated.Wrappers import (
+    Option_None,
+    Option_Some,
+)
 
 
 def com_amazonaws_dynamodb_BackupInUseException(native_input):

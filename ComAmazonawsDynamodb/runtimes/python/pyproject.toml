@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "amazon-cryptography-internal-dafny-shim-ddb"
+name = "aws-cryptography-internal-dynamodb"
 version = "0.1.0"
 description = ""
 authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
 packages = [
-    { include = "com_amazonaws_dynamodb", from = "src" }
+    { include = "aws_cryptography_internal_dynamodb", from = "src" }
 ]
 # Include generated internaldafny files in package distributions,
 # even though they are not included in version control
