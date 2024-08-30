@@ -117,6 +117,15 @@ module AwsKmsHierarchicalKeyring {
     res := cmc.PutCacheEntry(input);
   }
 
+  function method cacheEntryWithinLimits(
+    creationTime: Types.PositiveLong,
+    now: Types.PositiveLong,
+    ttlSeconds: Types.PositiveLong
+  ): (output: bool)
+  {
+    now - creationTime <= ttlSeconds as Types.PositiveLong
+  }
+
   //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#interface
   //= type=implication
   //# MUST implement the [AWS Encryption SDK Keyring interface](../keyring-interface.md#interface)
@@ -447,8 +456,15 @@ module AwsKmsHierarchicalKeyring {
       var getCacheInput := Types.GetCacheEntryInput(identifier := cacheId, bytesUsed := None);
       verifyValidStateCache(cache);
       var getCacheOutput := getEntry(cache, getCacheInput);
+      
+      var now := Time.GetCurrent();
 
-      if getCacheOutput.Failure? {
+      if getCacheOutput.Failure? || !cacheEntryWithinLimits(
+            creationTime := getCacheOutput.value.creationTime,
+            now := now,
+            ttlSeconds := ttlSeconds
+          )
+        {
         var maybeGetActiveBranchKeyOutput := keyStore.GetActiveBranchKey(
           KeyStore.GetActiveBranchKeyInput(
             branchKeyIdentifier := branchKeyId
