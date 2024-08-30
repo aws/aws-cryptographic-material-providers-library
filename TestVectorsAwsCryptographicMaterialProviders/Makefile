@@ -89,7 +89,7 @@ PYTHON_DEPENDENCY_MODULE_NAMES := \
 	--dependency-library-name=aws.cryptography.keyStore=aws_cryptographic_materialproviders \
 	--dependency-library-name=smithy.api=aws_cryptographic_materialproviders
 
-PYTHON_MODULE_NAME=aws_cryptography_materialproviderstestvectorkeys
+PYTHON_MODULE_NAME=aws_cryptography_materialproviders_test_vectors
 
 TRANSLATION_RECORD_PYTHON := \
     --translation-record ../StandardLibrary/runtimes/python/src/standard_library/internaldafny/generated/dafny_src-py.dtr \

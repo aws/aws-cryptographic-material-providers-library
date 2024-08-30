@@ -1,13 +1,13 @@
 [tool.poetry]
-name = "amazon-cryptographic-material-providers-test-vectors"
+name = "amazon-cryptography-internal-mpl-testvectors"
 version = "0.1.0"
 description = ""
 authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
 packages = [
-    { include = "aws_cryptography_materialproviderstestvectorkeys", from = "src" }
+    { include = "aws_cryptography_materialproviders_test_vectors", from = "src" }
 ]
-# Include all of the following .gitignored files in package distributions,
-# even though it is not included in version control
+# Include generated internaldafny files in package distributions,
+# even though they are not included in version control
 include = ["**/internaldafny/generated/*.py"]
 
 [tool.poetry.dependencies]
@@ -15,7 +15,7 @@ python = "^3.11.0"
 boto3 = "^1.28.38"
 aws-cryptographic-material-providers = { path = "../../../AwsCryptographicMaterialProviders/runtimes/python", develop = false}
 # TODO: Depend on PyPi once Smithy-Python publishes their Python package there
-smithy-python = { path = "../../../smithy-dafny/codegen/smithy-dafny-codegen-modules/smithy-python/python-packages/smithy-python", develop = false}
+smithy-python = { path = "../../../StandardLibrary/runtimes/python/libs/smithy-python", develop = false}
 standard-library = { path = "../../../StandardLibrary/runtimes/python", develop = false}
 
 [tool.poetry.group.test.dependencies]

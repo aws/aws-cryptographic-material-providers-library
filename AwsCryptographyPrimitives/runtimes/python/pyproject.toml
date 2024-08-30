@@ -6,14 +6,14 @@ authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
 packages = [
     { include = "aws_cryptography_primitives", from = "src" }
 ]
-# Include all of the following .gitignored files in package distributions,
-# even though it is not included in version control
+# Include generated internaldafny files in package distributions,
+# even though they are not included in version control
 include = ["**/internaldafny/generated/*.py"]
 
 [tool.poetry.dependencies]
 python = "^3.11.0"
 # TODO: Depend on PyPi once Smithy-Python publishes their Python package there
-smithy-python = { path = "../../../smithy-dafny/codegen/smithy-dafny-codegen-modules/smithy-python/python-packages/smithy-python", develop = false}
+smithy-python = { path = "../../../StandardLibrary/runtimes/python/libs/smithy-python", develop = false}
 DafnyRuntimePython = "~4.7.0"
 standard-library = {path = "../../../StandardLibrary/runtimes/python", develop = false}
 cryptography = "^41.0.3"

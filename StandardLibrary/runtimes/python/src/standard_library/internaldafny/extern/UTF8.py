@@ -48,10 +48,11 @@ from standard_library.internaldafny.generated.UTF8 import *
 class default__(standard_library.internaldafny.generated.UTF8.default__):
 
   @staticmethod
-  def Encode(s):
+  def Encode(dafny_string):
     try:
+      utf16_bytes = b''.join([ord(unit).to_bytes(2, byteorder='big') for unit in dafny_string.VerbatimString(False)])
       return Wrappers.Result_Success(_dafny.Seq(
-          s.VerbatimString(False).encode('utf-16', 'surrogatepass').decode('utf-16').encode('utf-8')
+        utf16_bytes.decode('utf-16-be').encode('utf-8')
       ))
     # Catch both UnicodeEncodeError and UnicodeDecodeError.
     # The `try` block involves both encoding and decoding.
@@ -61,11 +62,13 @@ class default__(standard_library.internaldafny.generated.UTF8.default__):
       return Wrappers.Result_Failure(_dafny.Seq("Could not encode input to Dafny Bytes."))
     
   @staticmethod
-  def Decode(s):
+  def Decode(dafny_utf8):
+    print(f"{dafny_utf8.Elements=}")
     try:
-      decoded = bytes(s).decode('utf-8')
+      utf16_bytes = bytes(dafny_utf8).decode('utf-8').encode('utf-16-be')
+      # decoded = bytes(s).decode('utf-8').encode('utf-16')
       return Wrappers.Result_Success(_dafny.Seq(
-        decoded
+        [chr(int.from_bytes(utf16_bytes[i:i+2])) for i in range(0, len(utf16_bytes), 2)]
       ))
     except (UnicodeDecodeError, UnicodeEncodeError, ValueError, TypeError, struct.error):
       return Wrappers.Result_Failure(_dafny.Seq("Could not decode input from Dafny Bytes."))
