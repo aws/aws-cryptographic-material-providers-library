@@ -825,8 +825,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly keyStore: AwsCryptographyKeyStoreTypes.IKeyStoreClient ,
     nameonly ttlSeconds: PositiveLong ,
     nameonly cache: Option<CacheType> := Option.None ,
-    nameonly partitionId: Option<string> := Option.None ,
-    nameonly limitMessages: Option<PositiveInteger> := Option.None
+    nameonly partitionId: Option<string> := Option.None
   )
   datatype CreateAwsKmsKeyringInput = | CreateAwsKmsKeyringInput (
     nameonly kmsKeyId: KmsKeyId ,

@@ -312,7 +312,6 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       // maxCacheSize := maxCacheSize,
       cmc := cmc,
       partitionIdBytes := partitionIdBytes,
-      limitMessages := input.limitMessages.UnwrapOr(INT32_MAX_LIMIT as PositiveInteger),
       cryptoPrimitives := config.crypto
     );
     return Success(keyring);

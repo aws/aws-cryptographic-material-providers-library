@@ -344,9 +344,6 @@ structure CreateAwsKmsHierarchicalKeyringInput {
 
     @documentation("Partition ID to distinguish between Hierarchical Keyrings writing to a shared cache. If the Partition ID is the same for two Hierarchical Keyrings, they can share the same cache entry in the shared cache.")
     partitionId : String
-
-    @documentation("The cache entry's messages used MUST be less than or equal to the configured Limit Messages")
-    limitMessages : PositiveInteger
 }
 
 // Raw

@@ -130,7 +130,6 @@ module AwsKmsHierarchicalKeyring {
     const cryptoPrimitives: Primitives.AtomicPrimitivesClient
     const cache: Types.ICryptographicMaterialsCache
     const partitionIdBytes: seq<uint8>
-    const limitMessages: Types.PositiveInteger
 
     predicate ValidState()
       ensures ValidState() ==> History in Modifies
@@ -166,7 +165,6 @@ module AwsKmsHierarchicalKeyring {
 
       cmc: Types.ICryptographicMaterialsCache,
       partitionIdBytes: seq<uint8>,
-      limitMessages: Types.PositiveInteger,
       cryptoPrimitives : Primitives.AtomicPrimitivesClient
     )
       requires ttlSeconds >= 0
@@ -179,7 +177,6 @@ module AwsKmsHierarchicalKeyring {
         && this.branchKeyIdSupplier  == branchKeyIdSupplier
         && this.ttlSeconds   == ttlSeconds
         && this.partitionIdBytes   == partitionIdBytes
-        && this.limitMessages == limitMessages
       ensures
         && ValidState()
         && fresh(this)
@@ -193,8 +190,7 @@ module AwsKmsHierarchicalKeyring {
       this.ttlSeconds          := ttlSeconds;
       this.cryptoPrimitives    := cryptoPrimitives;
       this.cache               := cmc;
-      this.partitionIdBytes         := partitionIdBytes;
-      this.limitMessages       := limitMessages;
+      this.partitionIdBytes    := partitionIdBytes;
 
       History := new Types.IKeyringCallHistory();
       var maybeSupplierModifies := if branchKeyIdSupplier.Some? then branchKeyIdSupplier.value.Modifies else {};
@@ -365,8 +361,7 @@ module AwsKmsHierarchicalKeyring {
         branchKeyIdForDecrypt,
         ttlSeconds,
         cache,
-        partitionIdBytes,
-        limitMessages
+        partitionIdBytes
       );
 
       var outcome, attempts := ReduceToSuccess(
@@ -618,7 +613,6 @@ module AwsKmsHierarchicalKeyring {
     const ttlSeconds: Types.PositiveLong
     const cache: Types.ICryptographicMaterialsCache
     const partitionIdBytes: seq<uint8>
-    const limitMessages: Types.PositiveInteger
 
     constructor(
       materials: Materials.DecryptionMaterialsPendingPlaintextDataKey,
@@ -627,8 +621,7 @@ module AwsKmsHierarchicalKeyring {
       branchKeyId: string,
       ttlSeconds: Types.PositiveLong,
       cache: Types.ICryptographicMaterialsCache,
-      partitionIdBytes: seq<uint8>,
-      limitMessages: Types.PositiveInteger
+      partitionIdBytes: seq<uint8>
     )
       requires keyStore.ValidState() && cryptoPrimitives.ValidState()
       ensures
@@ -639,7 +632,6 @@ module AwsKmsHierarchicalKeyring {
         && this.ttlSeconds == ttlSeconds
         && this.cache == cache
         && this.partitionIdBytes == partitionIdBytes
-        && this.limitMessages == limitMessages
       ensures Invariant()
     {
       this.materials := materials;
@@ -649,7 +641,6 @@ module AwsKmsHierarchicalKeyring {
       this.ttlSeconds := ttlSeconds;
       this.cache := cache;
       this.partitionIdBytes := partitionIdBytes;
-      this.limitMessages := limitMessages;
       Modifies := keyStore.Modifies + cryptoPrimitives.Modifies;
     }
 

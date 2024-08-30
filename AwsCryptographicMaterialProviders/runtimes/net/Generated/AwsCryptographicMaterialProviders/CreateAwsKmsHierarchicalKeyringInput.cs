@@ -13,7 +13,6 @@ namespace AWS.Cryptography.MaterialProviders
     private long? _ttlSeconds;
     private AWS.Cryptography.MaterialProviders.CacheType _cache;
     private string _partitionId;
-    private int? _limitMessages;
     public string BranchKeyId
     {
       get { return this._branchKeyId; }
@@ -68,27 +67,11 @@ namespace AWS.Cryptography.MaterialProviders
     {
       return this._partitionId != null;
     }
-    public int LimitMessages
-    {
-      get { return this._limitMessages.GetValueOrDefault(); }
-      set { this._limitMessages = value; }
-    }
-    public bool IsSetLimitMessages()
-    {
-      return this._limitMessages.HasValue;
-    }
     public void Validate()
     {
       if (!IsSetKeyStore()) throw new System.ArgumentException("Missing value for required property 'KeyStore'");
       if (!IsSetTtlSeconds()) throw new System.ArgumentException("Missing value for required property 'TtlSeconds'");
-      if (IsSetLimitMessages())
-      {
-        if (LimitMessages < 0)
-        {
-          throw new System.ArgumentException(
-              String.Format("Member LimitMessages of structure CreateAwsKmsHierarchicalKeyringInput has type PositiveInteger which has a minimum of 0 but was given the value {0}.", LimitMessages));
-        }
-      }
+
     }
   }
 }

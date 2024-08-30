@@ -373,19 +373,13 @@ public class ToDafny {
           )
         )
         : Option.create_None();
-    Option<Integer> limitMessages;
-    limitMessages =
-      Objects.nonNull(nativeValue.limitMessages())
-        ? Option.create_Some((nativeValue.limitMessages()))
-        : Option.create_None();
     return new CreateAwsKmsHierarchicalKeyringInput(
       branchKeyId,
       branchKeyIdSupplier,
       keyStore,
       ttlSeconds,
       cache,
-      partitionId,
-      limitMessages
+      partitionId
     );
   }
 

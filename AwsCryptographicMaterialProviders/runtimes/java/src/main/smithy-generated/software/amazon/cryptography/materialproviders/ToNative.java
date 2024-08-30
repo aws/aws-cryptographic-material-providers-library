@@ -481,11 +481,6 @@ public class ToNative {
         )
       );
     }
-    if (dafnyValue.dtor_limitMessages().is_Some()) {
-      nativeBuilder.limitMessages(
-        (dafnyValue.dtor_limitMessages().dtor_value())
-      );
-    }
     return nativeBuilder.build();
   }
 

@@ -217,8 +217,7 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
       converted.KeyStore = (AWS.Cryptography.KeyStore.KeyStore)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M8_keyStore(concrete._keyStore);
       converted.TtlSeconds = (long)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M10_ttlSeconds(concrete._ttlSeconds);
       if (concrete._cache.is_Some) converted.Cache = (AWS.Cryptography.MaterialProviders.CacheType)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M5_cache(concrete._cache);
-      if (concrete._partitionId.is_Some) converted.PartitionId = (string)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M11_partitionId(concrete._partitionId);
-      if (concrete._limitMessages.is_Some) converted.LimitMessages = (int)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M13_limitMessages(concrete._limitMessages); return converted;
+      if (concrete._partitionId.is_Some) converted.PartitionId = (string)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M11_partitionId(concrete._partitionId); return converted;
     }
     public static software.amazon.cryptography.materialproviders.internaldafny.types._ICreateAwsKmsHierarchicalKeyringInput ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput(AWS.Cryptography.MaterialProviders.CreateAwsKmsHierarchicalKeyringInput value)
     {
@@ -227,8 +226,7 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
       AWS.Cryptography.MaterialProviders.IBranchKeyIdSupplier var_branchKeyIdSupplier = value.IsSetBranchKeyIdSupplier() ? value.BranchKeyIdSupplier : (AWS.Cryptography.MaterialProviders.IBranchKeyIdSupplier)null;
       AWS.Cryptography.MaterialProviders.CacheType var_cache = value.IsSetCache() ? value.Cache : (AWS.Cryptography.MaterialProviders.CacheType)null;
       string var_partitionId = value.IsSetPartitionId() ? value.PartitionId : (string)null;
-      int? var_limitMessages = value.IsSetLimitMessages() ? value.LimitMessages : (int?)null;
-      return new software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsHierarchicalKeyringInput(ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M11_branchKeyId(var_branchKeyId), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M19_branchKeyIdSupplier(var_branchKeyIdSupplier), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M8_keyStore(value.KeyStore), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M10_ttlSeconds(value.TtlSeconds), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M5_cache(var_cache), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M11_partitionId(var_partitionId), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M13_limitMessages(var_limitMessages));
+      return new software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsHierarchicalKeyringInput(ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M11_branchKeyId(var_branchKeyId), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M19_branchKeyIdSupplier(var_branchKeyIdSupplier), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M8_keyStore(value.KeyStore), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M10_ttlSeconds(value.TtlSeconds), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M5_cache(var_cache), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M11_partitionId(var_partitionId));
     }
     public static AWS.Cryptography.MaterialProviders.CreateAwsKmsKeyringInput FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S24_CreateAwsKmsKeyringInput(software.amazon.cryptography.materialproviders.internaldafny.types._ICreateAwsKmsKeyringInput value)
     {
@@ -1563,14 +1561,6 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
     public static Wrappers_Compile._IOption<Dafny.ISequence<char>> ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M11_partitionId(string value)
     {
       return value == null ? Wrappers_Compile.Option<Dafny.ISequence<char>>.create_None() : Wrappers_Compile.Option<Dafny.ISequence<char>>.create_Some(ToDafny_N6_smithy__N3_api__S6_String((string)value));
-    }
-    public static int? FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M13_limitMessages(Wrappers_Compile._IOption<int> value)
-    {
-      return value.is_None ? (int?)null : FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S15_PositiveInteger(value.Extract());
-    }
-    public static Wrappers_Compile._IOption<int> ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S36_CreateAwsKmsHierarchicalKeyringInput__M13_limitMessages(int? value)
-    {
-      return value == null ? Wrappers_Compile.Option<int>.create_None() : Wrappers_Compile.Option<int>.create_Some(ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S15_PositiveInteger((int)value));
     }
     public static string FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S24_CreateAwsKmsKeyringInput__M8_kmsKeyId(Dafny.ISequence<char> value)
     {
@@ -2954,14 +2944,6 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
     {
       return value;
     }
-    public static int FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S15_PositiveInteger(int value)
-    {
-      return value;
-    }
-    public static int ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S15_PositiveInteger(int value)
-    {
-      return value;
-    }
     public static string FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S8_KmsKeyId(Dafny.ISequence<char> value)
     {
       return new string(value.Elements);
@@ -3151,6 +3133,14 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
       return value;
     }
     public static long ToDafny_N6_smithy__N3_api__S4_Long(long value)
+    {
+      return value;
+    }
+    public static int FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S15_PositiveInteger(int value)
+    {
+      return value;
+    }
+    public static int ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S15_PositiveInteger(int value)
     {
       return value;
     }
